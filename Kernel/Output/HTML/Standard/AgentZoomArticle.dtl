@@ -1,9 +1,9 @@
 # --
-# AgentZoomAnswer.dtl - provides HTML TicketZoom for AgentZoom.pm
+# AgentZoomArticle.dtl - provides HTML TicketZoom for AgentZoom.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomArticle.dtl,v 1.2 2003-07-07 22:05:26 martin Exp $
+# $Id: AgentZoomArticle.dtl,v 1.3 2003-10-13 20:35:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
