@@ -1,9 +1,9 @@
-#! /usr/bin/perl -w
+#!/usr/bin/perl -w
 # --
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.39 2002-10-20 15:29:52 martin Exp $
+# $Id: index.pl,v 1.40 2002-10-20 20:01:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -71,7 +71,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug', 
-        MSG => 'Global handle started...',
+        Message => 'Global handle started...',
     );
 }
 # --
@@ -513,7 +513,7 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         if ($Debug) {
             $CommonObject{LogObject}->Log(
                 Priority => 'debug',
-                MSG => 'Kernel::Modules::' . $Param{Action} .'->new',
+                Message => 'Kernel::Modules::' . $Param{Action} .'->new',
             );
         }
         # --
@@ -529,7 +529,7 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         if ($Debug) {
             $CommonObject{LogObject}->Log(
                 Priority => 'debug',
-                MSG => ''. 'Kernel::Modules::' . $Param{Action} .'->run',
+                Message => ''. 'Kernel::Modules::' . $Param{Action} .'->run',
             );
         }
         # --
@@ -566,11 +566,12 @@ else {
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => 'Global handle stopped.',
+        Message => 'Global handle stopped.',
     );
 }
 # --
-# undef %CommonObject
+# db disconnect && undef %CommonObject
 # --
+$CommonObject{DBObject}->Disconnect();
 undef %CommonObject;
 

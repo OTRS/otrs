@@ -1,9 +1,9 @@
-#! /usr/bin/perl -w
+#!/usr/bin/perl -w
 # --
 # pic.pl - the global pic handle for OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.7 2002-10-15 09:15:41 martin Exp $
+# $Id: pic.pl,v 1.8 2002-10-20 20:01:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,12 +21,13 @@
 # --
 
 # use ../ as lib location
-use lib '../..';
+use FindBin qw($Bin);
+use lib "$Bin/../..";
 
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -57,7 +58,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug', 
-        MSG => 'Global OTRS-PIC handle started...',
+        Message => 'Global OTRS-PIC handle started...',
     );
 }
 # ... common objects ...
@@ -151,12 +152,16 @@ EOF
   }
 }
 # --
+# db disconnect
+# --
+$CommonObject{DBObject}->Disconnect();
+# --
 # debug info
 # --
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => 'Global OTRS-PIC handle stopped.',
+        Message => 'Global OTRS-PIC handle stopped.',
     );
 }
 
@@ -183,7 +188,7 @@ sub GetImage {
     if ($Debug) {
       $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => "Open image $HtdocsPath/$File.",
+        Message => "Open image $HtdocsPath/$File.",
       );
     }
     open (DATA, "< $HtdocsPath/$File") or print STDERR "$! \n";

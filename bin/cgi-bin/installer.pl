@@ -1,9 +1,9 @@
-#! /usr/bin/perl -w
+#!/usr/bin/perl -w
 # --
 # instaler.pl - the OTRS Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.5 2002-09-01 13:06:15 martin Exp $
+# $Id: installer.pl,v 1.6 2002-10-20 20:01:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,12 +21,13 @@
 # --
 
 # OTRS root directory
-#use lib '/opt/OpenTRS/';
-use lib '../../';
+use FindBin qw($Bin);
+use lib "$Bin/../..";
+
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 1;
@@ -55,7 +56,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug', 
-        MSG => 'OTRS installer handle started...',
+        Message => 'OTRS installer handle started...',
     );
 }
 # ... common objects ...
@@ -85,7 +86,10 @@ if ($CommonObject{ConfigObject}->Get('SecureMode')) {
 # run modules if exists a version value
 # --
 elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
-    $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject, %Param);
+    $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+        %CommonObject, 
+        %Param,
+    );
     GenericModules(%CommonObject, %Param);
 }
 # --
@@ -100,13 +104,17 @@ else {
        );
     print $CommonObject{LayoutObject}->Footer();
 }
-
-
+# --
+# db disconnect
+# --
+$CommonObject{DBObject}->Disconnect();
+# --
 # debug info
+# --
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => 'OTRS installer handle stopped.',
+        Message => 'OTRS installer handle stopped.',
     );
 }
 
@@ -120,7 +128,7 @@ sub GenericModules {
     if ($Debug) {
         $Data{LogObject}->Log(
             Priority => 'debug',
-            MSG => 'Kernel::Modules::' . $Data{Action} .'->new',
+            Message => 'Kernel::Modules::' . $Data{Action} .'->new',
         );
     }
 
@@ -138,7 +146,7 @@ sub GenericModules {
     if ($Debug) {
         $Data{LogObject}->Log(
             Priority => 'debug', 
-            MSG => ''. 'Kernel::Modules::' . $Data{Action} .'->run',
+            Message => ''. 'Kernel::Modules::' . $Data{Action} .'->run',
         );
     }
 
