@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.57 2002-10-25 13:30:22 martin Exp $
+# $Id: Generic.pm,v 1.58 2002-10-30 01:05:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -326,7 +326,7 @@ sub Output {
             my $AHref = $1;
             my $Target = $2;
             my $End = $3;
-            if ($Target =~ /^(http:|https:|#|ftp:)/i) {
+            if ($Target =~ /^(http:|https:|#|ftp:)/i || $Target !~ /(\.pl|\.php|\.cgi)(\?|$)/) {
                 "$AHref$Target$End"; 
             } 
             else {
@@ -341,7 +341,8 @@ sub Output {
             my $AHref = $1;
             my $Target = $2;
             my $End = $3;
-            if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID}) {
+            if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID} || 
+                 $Target !~ /(\.pl|\.php|\.cgi)(\?|$)/) {
                 "$AHref$Target$End"; 
             } 
             else {
