@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.1 2003-02-08 11:54:29 martin Exp $
+-- $Id: initial_insert.sql,v 1.2 2003-02-08 21:13:29 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.1  2003/02/08 11:54:29  martin
+-- moved from install/database to scripts/database
+--
 -- Revision 1.35  2003/01/06 21:40:51  martin
 -- removed language table, not longer used
 --
@@ -129,23 +132,23 @@ INSERT INTO valid
 INSERT INTO ticket_priority
         (name, create_by, create_time, change_by, change_time)
         VALUES
-        ('very low', 1, current_timestamp, 1, current_timestamp);
+        ('1 very low', 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_priority
         (name, create_by, create_time, change_by, change_time)
         VALUES
-        ('low', 1, current_timestamp, 1, current_timestamp);
+        ('2 low', 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_priority
         (name, create_by, create_time, change_by, change_time)
         VALUES
-        ('normal', 1, current_timestamp, 1, current_timestamp);
+        ('3 normal', 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_priority
         (name, create_by, create_time, change_by, change_time)
         VALUES
-        ('high', 1, current_timestamp, 1, current_timestamp);
+        ('4 high', 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_priority
         (name, create_by, create_time, change_by, change_time)
         VALUES
-        ('very high', 1, current_timestamp, 1, current_timestamp);
+        ('5 very high', 1, current_timestamp, 1, current_timestamp);
 
 -- ticket_lock_type
 INSERT INTO ticket_lock_type
