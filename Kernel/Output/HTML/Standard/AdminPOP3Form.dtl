@@ -2,7 +2,7 @@
 # AdminPOP3Form.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3Form.dtl,v 1.16 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminPOP3Form.dtl,v 1.17 2004-11-04 11:19:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@
   </td>
 </tr>
 <tr>
-  <td width="40%" class="mainbody">
+  <td width="30%" class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -40,7 +40,7 @@
   </form>
 
   </td>
-  <td width="60%" class="mainbody">
+  <td width="70%" class="mainbody">
 
 # --
 # check subaction
