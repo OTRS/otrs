@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.36 2004-08-02 06:50:43 martin Exp $
+# $Id: AgentNote.pm,v 1.37 2004-08-19 15:39:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::WebUploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,12 +57,10 @@ sub Run {
     # check needed stuff
     if (!$Self->{TicketID}) {
         # error page
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => "Can't add note, no TicketID is given!",
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need TicketID is given!",
             Comment => 'Please contact the admin.',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
     # check permissions
@@ -86,79 +84,52 @@ sub Run {
         AttachmentDelete9 AttachmentDelete10 )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
-    # attachment delete
-    foreach (1..10) {
-        if ($GetParam{"AttachmentDelete$_"}) {
-            $Error{AttachmentDelete} = 1;
-            $Self->{UploadCachObject}->FormIDRemoveFile(
+
+    if ($Self->{Subaction} eq 'Store') {
+        # store action
+        my %Error = ();
+        # attachment delete
+        foreach (1..10) {
+            if ($GetParam{"AttachmentDelete$_"}) {
+                $Error{AttachmentDelete} = 1;
+                $Self->{UploadCachObject}->FormIDRemoveFile(
+                    FormID => $Self->{FormID},
+                    FileID => $_,
+                );
+            }
+        }
+        # attachment upload
+        if ($GetParam{AttachmentUpload}) {
+            $Error{AttachmentUpload} = 1;
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param => "file_upload",
+                Source => 'string',
+            );
+            $Self->{UploadCachObject}->FormIDAddFile(
                 FormID => $Self->{FormID},
-                FileID => $_,
+                %UploadStuff,
             );
         }
-    }
-    # attachment upload
-    if ($GetParam{AttachmentUpload}) {
-        $Error{AttachmentUpload} = 1;
-        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param => "file_upload",
-            Source => 'string',
-        );
-        $Self->{UploadCachObject}->FormIDAddFile(
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
-            %UploadStuff,
         );
-    }
-    # get all attachments meta data
-    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-        FormID => $Self->{FormID},
-    );
-    if ($Self->{Subaction} ne 'Store' || %Error) {
-        if ($Self->{Subaction} ne 'Store' && !%Error) {
-            if ($Self->{ConfigObject}->Get('DefaultNoteSubject')) {
-                $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultNoteSubject'));
-            }
-            if ($Self->{ConfigObject}->Get('DefaultNoteText')) {
-                $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultNoteText'));
-            }
+        # check errors
+        if (%Error) {
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Add Note');
+            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+            $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+            $Output .= $Self->_Mask(
+                TicketID => $Self->{TicketID},
+                QueueID => $Self->{QueueID},
+                TicketNumber => $Tn,
+                Attachments => \@Attachments,
+                %GetParam,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
-        # print form ...
-        $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Add Note');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        # get possible notes
-        my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
-        my %NoteTypes = $Self->{DBObject}->GetTableData(
-            Table => 'article_type',
-            Valid => 1,
-            What => 'id, name'
-        );
-        foreach (keys %NoteTypes) {
-            if (!$DefaultNoteTypes{$NoteTypes{$_}}) {
-                delete $NoteTypes{$_};
-            }
-        }
-        # get next states
-        my %NextStates = $Self->{TicketObject}->StateList(
-            Type => 'DefaultNextNote',
-            Action => $Self->{Action},
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID},
-        );
-        $NextStates{''} = '-';
-        $Output .= $Self->_Mask(
-            TicketID => $Self->{TicketID},
-            QueueID => $Self->{QueueID},
-            TicketNumber => $Tn,
-            NoteTypes => \%NoteTypes,
-            NextStates => \%NextStates,
-            Attachments => \@Attachments,
-            %GetParam,
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-
-    }
-    else {
+        # add note
         if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $Self->{TicketID},
             SenderType => 'agent',
@@ -169,57 +140,75 @@ sub Run {
             HistoryComment => '%%Note',
             %GetParam,
         )) {
-          # time accounting
-          if ($GetParam{TimeUnits}) {
-            $Self->{TicketObject}->TicketAccountTime(
-              TicketID => $Self->{TicketID},
-              ArticleID => $ArticleID,
-              TimeUnit => $GetParam{TimeUnits},
-              UserID => $Self->{UserID},
+            # time accounting
+            if ($GetParam{TimeUnits}) {
+                $Self->{TicketObject}->TicketAccountTime(
+                    TicketID => $Self->{TicketID},
+                    ArticleID => $ArticleID,
+                    TimeUnit => $GetParam{TimeUnits},
+                    UserID => $Self->{UserID},
+                );
+            }
+            # get pre loaded attachment
+            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
             );
-          }
-          # get pre loaded attachment
-          my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-              FormID => $Self->{FormID},
-          );
-          foreach my $Ref (@AttachmentData) {
-              $Self->{TicketObject}->ArticleWriteAttachment(
-                  %{$Ref},
-                  ArticleID => $ArticleID,
-                  UserID => $Self->{UserID},
-              );
-          }
-          # get submit attachment
-          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-              Param => 'file_upload',
-              Source => 'String',
-          );
-          if (%UploadStuff) {
-              $Self->{TicketObject}->ArticleWriteAttachment(
-                  %UploadStuff,
-                  ArticleID => $ArticleID,
-                  UserID => $Self->{UserID},
-              );
-          }
-          # set state
-          if ($Self->{ConfigObject}->Get('NoteSetState') && $GetParam{NewStateID}) {
-              $Self->{TicketObject}->StateSet(
-                  TicketID => $Self->{TicketID},
-                  StateID => $GetParam{NewStateID},
-                  UserID => $Self->{UserID},
-              );
-          }
-          # remove pre submited attachments
-          $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
-          # redirect
-          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+            foreach my $Ref (@AttachmentData) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %{$Ref},
+                    ArticleID => $ArticleID,
+                    UserID => $Self->{UserID},
+                );
+            }
+            # get submit attachment
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param => 'file_upload',
+                Source => 'String',
+            );
+            if (%UploadStuff) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %UploadStuff,
+                    ArticleID => $ArticleID,
+                    UserID => $Self->{UserID},
+                );
+            }
+            # set state
+            if ($Self->{ConfigObject}->Get('NoteSetState') && $GetParam{NewStateID}) {
+                $Self->{TicketObject}->StateSet(
+                    TicketID => $Self->{TicketID},
+                    StateID => $GetParam{NewStateID},
+                    UserID => $Self->{UserID},
+                );
+            }
+            # remove pre submited attachments
+            $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
+            # redirect
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
         }
         else {
-          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-          $Output .= $Self->{LayoutObject}->Error();
-          $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
+    }
+    else {
+        # fillup vars
+        if (!defined($GetParam{Body}) && $Self->{ConfigObject}->Get('DefaultNoteText')) {
+            $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultNoteText'));
+        }
+        if (!defined($GetParam{Subject}) && $Self->{ConfigObject}->Get('DefaultNoteSubject')) {
+            $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultNoteSubject'));
+        }
+        # print form ...
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Add Note');
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->_Mask(
+            TicketID => $Self->{TicketID},
+            QueueID => $Self->{QueueID},
+            TicketNumber => $Tn,
+            %GetParam,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 }
 # --
@@ -235,14 +224,34 @@ sub _Mask {
     else {
         $ArticleType{SelectedID} = $Param{ArticleTypeID};
     }
+    # get possible notes
+    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
+    my %NoteTypes = $Self->{DBObject}->GetTableData(
+        Table => 'article_type',
+        Valid => 1,
+        What => 'id, name'
+    );
+    foreach (keys %NoteTypes) {
+        if (!$DefaultNoteTypes{$NoteTypes{$_}}) {
+            delete $NoteTypes{$_};
+        }
+    }
     $Param{'NoteStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{NoteTypes},
+        Data => \%NoteTypes,
         Name => 'ArticleTypeID',
         %ArticleType,
     );
+    # get next states
+    my %NextStates = $Self->{TicketObject}->StateList(
+        Type => 'DefaultNextNote',
+        Action => $Self->{Action},
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID},
+    );
+    $NextStates{''} = '-';
     # build next states string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{NextStates},
+        Data => \%NextStates,
         Name => 'NewStateID',
         SelectedID => $Param{NewStateID},
     );
