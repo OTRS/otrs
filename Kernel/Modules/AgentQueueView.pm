@@ -1,8 +1,8 @@
 # --
-# AgentQueueView.pm - the queue view of all tickets
+# Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.15 2002-07-02 08:49:16 martin Exp $
+# $Id: AgentQueueView.pm,v 1.16 2002-07-17 22:34:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -71,7 +71,7 @@ sub new {
            || die 'No Config entry "ViewableStats"!';
 
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes') 
-           || die 'No Config entry "ViewableSenderTypes"!';;
+           || die 'No Config entry "ViewableSenderTypes"!';
 
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
 
@@ -215,7 +215,6 @@ sub ShowTicket {
     # get atrticles
     # --
     my @ShownViewableTicket = ();
-    my @ViewableSenderTypes = @{$Self->{ViewableSenderTypes}};
     my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, " .
         " sa.a_body, st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, " .
         " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, " .
@@ -237,7 +236,7 @@ sub ShowTicket {
         " AND " .
         " sa.ticket_id = $TicketID " .
         " AND " .
-        " sdt.name in ( ${\(join ', ', @ViewableSenderTypes)} ) " .
+        " sdt.name in ( ${\(join ', ', @{$Self->{ViewableSenderTypes}})} ) " .
         " ORDER BY sa.create_time DESC ";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
