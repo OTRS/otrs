@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.165 2004-12-04 10:53:01 martin Exp $
+# $Id: Generic.pm,v 1.166 2004-12-28 01:06:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,16 +16,14 @@ use lib "../../";
 use strict;
 use Kernel::Language;
 use Kernel::Output::HTML::Agent;
-use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.165 $';
+$VERSION = '$Revision: 1.166 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
     'Kernel::Output::HTML::Agent',
-    'Kernel::Output::HTML::Admin',
     'Kernel::Output::HTML::Customer',
 );
 
