@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.50 2003-03-08 14:00:39 martin Exp $
+# $Id: Defaults.pm,v 1.51 2003-03-10 15:03:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -307,8 +307,10 @@ sub LoadDefaults {
     $Self->{ArticleDir} = '<OTRS_CONFIG_Home>/var/article';
     # stats dir
     $Self->{StatsPicDir} = '<OTRS_CONFIG_Home>/var/pics/stats';
-    # html template die
+    # html template dir
     $Self->{TemplateDir} = '<OTRS_CONFIG_Home>/Kernel/Output';
+    # tmp dir
+    $Self->{TempDir} = '<OTRS_CONFIG_Home>/var/tmp';
 
     # --------------------------------------------------- #
     # Ticket stuff                                        #
@@ -823,9 +825,12 @@ $Data{"Signature"}
         Type => 'Generic',
         Data => {
             # installed dict catalog (check your insalled catalogues, e. g. deutsch -=> german!)
-            # dict => frontend
+            # dict => frontend (ispell)
             'english' => 'English',
             'deutsch' => 'Deutsch',
+            # dict => frontend (aspell)
+#            'english' => 'English',
+#            'german' => 'Deutsch',
         },
         PrefKey => 'UserSpellDict',
         Activ => 1,
@@ -1114,6 +1119,10 @@ Your OTRS Notification Master
     # CustomerDefaultPriority
     # (default priority of new customer tickets)
     $Self->{CustomerDefaultPriority} = '3 normal';
+
+    # CustomerNextScreenAfterNewTicket
+#    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerZoom';
+    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketOverView';
 
     # --------------------------------------------------- #
     # customer message settings                           #
