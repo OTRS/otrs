@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.22 2002-10-01 13:47:56 martin Exp $
+# $Id: Ticket.pm,v 1.23 2002-10-03 17:47:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,6 +12,7 @@
 package Kernel::System::Ticket;
 
 use strict;
+use Kernel::System::Ticket::Article;
 use Kernel::System::Ticket::State;
 use Kernel::System::Ticket::History;
 use Kernel::System::Ticket::Lock;
@@ -20,13 +21,17 @@ use Kernel::System::Ticket::Owner;
 use Kernel::System::Ticket::TimeAccounting;
 use Kernel::System::Queue;
 use Kernel::System::User;
-use Kernel::System::EmailSend;
+use Kernel::System::AutoResponse;
+use Kernel::System::SendAutoResponse;
+use Kernel::System::SendNotification;
+use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Ticket::State',
     'Kernel::System::Ticket::History',
     'Kernel::System::Ticket::Lock',
@@ -46,20 +51,22 @@ sub new {
 
     # 0=off; 1=on;
     $Self->{Debug} = 0;
-
-    # --
-    # get needed opbjects
-    # --
-    foreach (qw(ConfigObject LogObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     # --
     # create common needed module objects
     # --
-    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
-    $Self->{UserObject} = Kernel::System::User->new(%Param);
-
+    $Param{QueueObject} = Kernel::System::Queue->new(%Param);
+    $Param{UserObject} = Kernel::System::User->new(%Param);
+    $Param{SendAutoResponse} = Kernel::System::SendAutoResponse->new(%Param, TicketObject => $Self);
+    $Param{SendNotification} = Kernel::System::SendNotification->new(%Param, TicketObject => $Self);
+    $Param{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
+    $Param{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
+    # --
+    # get needed objects
+    # --
+    foreach (qw(ConfigObject LogObject DBObject UserObject QueueObject SendAutoResponse 
+      SendNotification AutoResponse LoopProtectionObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
     # --
     # load ticket number generator 
     # --
@@ -67,7 +74,6 @@ sub new {
       || 'Kernel::System::Ticket::Number::AutoIncrement';
     eval "require $GeneratorModule";
     push(@ISA, $GeneratorModule); 
-
     # --
     # load ticket index generator 
     # --
@@ -75,6 +81,20 @@ sub new {
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
     eval "require $GeneratorIndexModule";
     push(@ISA, $GeneratorIndexModule);
+    # --
+    # ArticleDataDir
+    # --
+    $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
+       || die "Got no ArticleDir!";
+    # --
+    # get time
+    # --
+    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
+    $Self->{Year} = $Year+1900;
+    $Self->{Month} = $Month+1;
+    $Self->{Month}  = "0$Self->{Month}" if ($Self->{Month} <10);
+    $Self->{Day} = $Day;
+    $Self->{ArticleContentPath} = $Self->{Year}.'/'.$Self->{Month}.'/'. $Self->{Day};
 
     return $Self;
 }
@@ -93,10 +113,11 @@ sub CheckTicketNr {
     # --
     # db query
     # --
-    my $SQL = "SELECT id FROM ticket " .
-    " WHERE " .
-    " tn = '$Param{Tn}' ";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT id FROM ticket " .
+          " WHERE " .
+          " tn = '$Param{Tn}' ",
+    );
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Id = $RowTmp[0];
     }
@@ -106,55 +127,46 @@ sub CheckTicketNr {
 sub CreateTicketDB {
     my $Self = shift;
     my %Param = @_;
-    my $TN = $Param{TN};
-    my $QueueID = $Param{QueueID};
-    my $LockID = $Param{LockID};
-    my $Lock = $Param{Lock};
-    my $UserID = $Param{UserID};
     my $GroupID = $Param{GroupID};
-    my $PriorityID = $Param{PriorityID};
-    my $Priority = $Param{Priority};
-    my $StateID = $Param{StateID};
-    my $State = $Param{State};
     my $Answered = $Param{Answered} || 0;
     my $ValidID = $Param{ValidID} || 1;
-    my $CreateUserID = $Param{CreateUserID};
     my $Age = time();
-
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TN QueueID UserID CreateUserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
     # --
     # StateID lookup!
     # --
-    if (!$StateID) {
-        $StateID = $Self->StateLookup(State => $State);
-        if ($Self->{Debug} > 0) {
-           $Self->{LogObject}->Log(
-              Priority => 'debug',
-              Message => "DB->CreateTicketDB-> (!\$StateID) ->StateLookup($State=$StateID)",
-           );
-        }
+    if (!$Param{StateID}) {
+        $Param{StateID} = $Self->StateLookup(State => $Param{State});
     }
-    if (!$StateID) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No \$StateID!!!");
+    if (!$Param{StateID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No StateID!!!");
         return;
     }
-
     # --
     # LockID lookup!
     # --
-    if ((!$LockID) && ($Lock)) {
-        $LockID = $Self->LockLookup(Type => $Lock);
+    if ((!$Param{LockID}) && ($Param{Lock})) {
+        $Param{LockID} = $Self->LockLookup(Type => $Param{Lock});
     }
-    if ((!$LockID) && (!$Lock)) {
+    if ((!$Param{LockID}) && (!$Param{Lock})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No LockID and no LockType!!!");
         return;
     }
     # --
     # PriorityID lookup!
     # --
-    if ((!$PriorityID) && ($Priority)) {
-        $PriorityID = $Self->PriorityLookup(Type => $Priority);
+    if ((!$Param{PriorityID}) && ($Param{Priority})) {
+        $Param{PriorityID} = $Self->PriorityLookup(Type => $Param{Priority});
     }
-    if ((!$PriorityID) && (!$Priority)) {
+    if ((!$Param{PriorityID}) && (!$Param{Priority})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No PriorityID and no PriorityType!!!");
         return;
     }
@@ -165,20 +177,21 @@ sub CreateTicketDB {
     my $SQL = "INSERT INTO ticket (tn, create_time_unix, queue_id, ticket_lock_id, ".
     " user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
     " valid_id, create_time, create_by, change_time, change_by) " .
-    " VALUES ('$TN', $Age, $QueueID, $LockID, $UserID, $GroupID, $PriorityID, $StateID, ".
+    " VALUES ('$Param{TN}', $Age, $Param{QueueID}, $Param{LockID}, $Param{UserID}, ".
+    " $GroupID, $Param{PriorityID}, $Param{StateID}, ".
     " $Answered, $ValidID, " .
-    " current_timestamp, $CreateUserID, current_timestamp, $CreateUserID)";
+    " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # --
         # get ticket id
         # --
-        my $TicketID = $Self->GetIdOfTN(TN => $TN, Age => $Age);
+        my $TicketID = $Self->GetIdOfTN(TN => $Param{TN}, Age => $Age);
         # --
         # update ticket viewi index
         # --
         $Self->TicketAcceleratorAdd(TicketID => $TicketID);
-        # --
+        # -- 
         # return ticket id
         # --
         return $TicketID;
@@ -354,7 +367,25 @@ sub MoveByTicketID {
         # --
         # send move notify to queue subscriber 
         # --
-#FIXME
+        my $To = '';
+        foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Param{QueueID})) {
+            my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
+            if ($UserData{UserEmail} && $UserData{UserSendNewTicketNotification}) {
+                $To .= "$UserData{UserEmail}, ";
+            }
+        }
+        # --
+        # send notification
+        # --
+        $Self->{SendNotification}->Send(
+            Type => 'Move',
+            To => $To,
+            CustomerMessageParams => { Queue => $Queue },
+            TicketNumber => $Self->GetTNOfId(ID => $Param{TicketID}),
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+        );
+
         return 1;
     }
     else {
@@ -418,7 +449,7 @@ sub GetCustomerNo {
     return $Param{CustomerID};
 }
 # --
-sub SetFreeText {
+sub SetTicketFreeText {
     my $Self = shift;
     my %Param = @_;
     my $Value = $Param{Value} || '';
