@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.10.2.1 2003-05-18 20:22:12 martin Exp $
+# $Id: LDAP.pm,v 1.10.2.2 2003-05-20 20:08:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10.2.1 $';
+$VERSION = '$Revision: 1.10.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,10 +33,6 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject PreferencesObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    # --
-    # Debug 0=off 1=on
-    # --
-    $Self->{Debug} = 0;
     # --
     # max shown user a search list
     # --
@@ -69,7 +65,6 @@ sub new {
         );
         return;
     }
-
     return $Self;
 }
 # --
@@ -91,7 +86,7 @@ sub CustomerName {
     # --
     # perform user search
     # --
-    my $Result = $Self->{LDAP}->search (
+    my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
         filter => $Filter, 
@@ -150,15 +145,19 @@ sub CustomerSearch {
     }
     # --
     # perform user search
-    # FIXME: check for valid customers
     # --
-    my $Result = $Self->{LDAP}->search (
+    my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
         filter => $Filter, 
         sizelimit => $Self->{UserSearchListLimit},
     );
-#    $Result->code && die $Result->error;
+    # --
+    # log ldap errors 
+    # --
+    if ($Result->code()) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
+    }
     my %Users = ();
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
@@ -177,19 +176,24 @@ sub CustomerUserList {
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
     # --
     # perform user search
-    # FIXME: check for valid customers
     # --
     my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
         filter => "($Self->{CustomerKey}=*)",
+        sizelimit => $Self->{UserSearchListLimit},
     );
-    $Result->code && die $Result->error;
+    # --
+    # log ldap errors 
+    # --
+    if ($Result->code()) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
+    }
     my %Users = ();
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
-        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFields}}) {
-            $CustomerString .= $entry->get_value($_).' ';
+        foreach (qw(CustomerKey CustomerID)) {
+            $CustomerString .= $entry->get_value($Self->{ConfigObject}->Get('CustomerUser')->{$_}).' ';
         }
         $Users{$entry->get_value($Self->{CustomerKey})} = $CustomerString;
     }
@@ -209,7 +213,6 @@ sub CustomerUserDataGet {
     }
     # --
     # perform user search
-    # FIXME: check for valid customers
     # --
     my $attrs = '';
     foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
@@ -229,7 +232,10 @@ sub CustomerUserDataGet {
         filter => $Filter, 
         attrs => $attrs,
     );
-    if ($Result->code) {
+    # --
+    # log ldap errors 
+    # --
+    if ($Result->code()) {
         $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
         return;
     }
@@ -332,5 +338,4 @@ sub Destroy {
     return 1;
 }
 # --
-
 1;
