@@ -2,7 +2,7 @@
 # README - readme file of OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.1 2001-12-30 00:33:14 martin Exp $
+# $Id: README,v 1.2 2002-01-10 15:49:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -35,7 +35,13 @@ What is OpenTRS?
   - Creation of standard responses
   - Signature and Salutation configuration
   - Multi language support.
-
+  - Email-notification of administrators.
+  - Email-notification sent to problem reporter (by create, locked, deleted, 
+     moved and closed)
+  - Submitting update-info (via email or webinterface).
+  - Deadlines for trouble tickets.
+  - Different levels of permissions/access-rights. 
+  
 License:
 ========
   It is distributed under the GNU General Public License - see the
