@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.20 2002-02-21 22:14:09 martin Exp $
+# $Id: Config.pm,v 1.21 2002-04-08 13:40:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,6 +54,12 @@ sub Load {
     # remote ip address is mostly different. In this case,
     # turn of the CheckRemoteID. ) [1|0] 
     $Self->{CheckRemoteID} = 1;
+
+    # SessionDriver
+    # (How should be the session-data stored? [sql|fs]
+    # Advantage of sql ist that you can split the 
+    # Frontendserver from the DB-Server.)
+    $Self->{SessionDriver} = 'sql';
 
     # SystemID
     # (The identify oh the system. Each ticket number and
@@ -107,6 +113,14 @@ sub Load {
     $Self->{DatabaseDSN} = 'DBI:mysql:database='.
         $Self->{Database}.';host='.$Self->{DatabaseHost}.';';
 
+    # SessionTable 
+    $Self->{DatabaseSessionTable} = 'session';
+    # SessionTable ID rqw
+    $Self->{DatabaseSessionTableID} = 'session_id';
+    # SessionTable value row
+    $Self->{DatabaseSessionTableValue} = 'value';
+    # UserTable
+    $Self->{DatabaseUserTable} = 'user';
 
     # ----------------------------------------------------
     # default agent settings
@@ -162,7 +176,8 @@ sub Load {
     # ----------------------------------------------------
     # root directory
     $Self->{Home} = '/opt/OpenTRS';
-    # directory for all sessen id informations
+    # directory for all sessen id informations (just needed if 
+    # $Self->{SessionDriver}='fs')
     $Self->{SessionDir} = $Self->{Home} . '/var/sessions';
     # counter log
     $Self->{CounterLog} = $Self->{Home} . '/var/log/TicketCounter.log';
