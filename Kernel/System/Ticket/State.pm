@@ -2,7 +2,7 @@
 # State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: State.pm,v 1.2 2001-12-26 20:11:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -27,7 +27,7 @@ sub GetState {
     " FROM " .
     " ticket st, ticket_state ts " .
     " WHERE " .
-    " ts.id = st.state_id " .
+    " ts.id = st.ticket_state_id " .
     " AND " .
     " st.id = $TicketID ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -66,6 +66,35 @@ sub StateLookup {
     return $Self->{"Ticket::State::StateLookup::$State"};
 }
 # --
+sub StateIDLookup {
+    my $Self = shift;
+    my %Param = @_;
+    my $StateID = $Param{StateID} || '???';
+
+    # check if we ask the same request?
+    if (exists $Self->{"Ticket::State::StateLookupID::$StateID"}) {
+        return $Self->{"Ticket::State::StateLookupID::$StateID"};
+    }
+    # get data
+    my $SQL = "SELECT name " .
+    " FROM " .
+    " ticket_state " .
+    " WHERE " .
+    " id = $StateID";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        $Self->{"Ticket::State::StateLookupID::$StateID"} = $RowTmp[0];
+    }
+    # check if data exists
+    if (!exists $Self->{"Ticket::State::StateLookupID::$StateID"}) {
+        print STDERR "Ticket->StateIDLookup(!\$State|$StateID)\n";
+        return;
+    }
+
+    return $Self->{"Ticket::State::StateLookupID::$StateID"};
+}
+# --
 sub SetState {
     my $Self = shift;
     my %Param = @_;
@@ -77,7 +106,7 @@ sub SetState {
 
     if ((!$StateID) && ($State)) {
         $StateID = $Self->StateLookup(State => $State);
-        if ($Self->{DEBUG} > 0) {
+        if ($Self->{Debug} > 0) {
             print STDERR "Ticket->SetState(!StateID) ->StateLookup($State=$StateID)\n";
         }
     }
