@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.1 2004-12-04 11:54:30 martin Exp $
+# $Id: opm.pl,v 1.2 2004-12-04 12:10:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -52,18 +52,29 @@ $CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
 
 # get options
 my %Opts = ();
-getopt('hapof', \%Opts);
-if ($Opts{'h'} || !$Opts{'a'} || !$Opts{'p'}) {
-    print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
-    print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: opm.pl -a list|install|uninstall|build -p package.opm [-o OUTPUTDIR] [-f FORCE]\n";
-    exit 1;
-}
+getopt('hapofd', \%Opts);
+# set defaults
 if (!$Opts{'o'}) {
     $Opts{'o'} = '/tmp/';
 }
 if (!$Opts{'f'}) {
     $Opts{'f'} = 0;
+}
+if (!$Opts{'a'}) {
+    $Opts{'h'} = 1;
+}
+if ($Opts{'a'} && !$Opts{'p'}) {
+    $Opts{'h'} = 1;
+}
+if ($Opts{'a'} && $Opts{'a'} =~ /index/) {
+    $Opts{'h'} = 0;
+}
+# check needed params
+if ($Opts{'h'}) {
+    print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
+    print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
+    print "usage: opm.pl -a list|install|uninstall|build|index -p package.opm [-o OUTPUTDIR] [-f FORCE]\n";
+    exit 1;
 }
 my $FileString = '';
 if ($Opts{'p'}) {
@@ -175,8 +186,56 @@ elsif ($Opts{'a'} eq 'parse') {
     }
     exit;
 }
+elsif ($Opts{'a'} eq 'index') {
+    if (! $Opts{'d'}) {
+        die "ERROR: invalid package root location -d is needed!";
+    }
+    elsif (! -d $Opts{'d'}) {
+        die "ERROR: invalid package root location '$Opts{'d'}'";
+    }
+    my @Dirs = ();
+    print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
+    print "<otrs_package_list version=\"1.0\">\n";
+    BuildPackageIndex($Opts{'d'});
+    print "</otrs_package_list>\n";
+}
 else {
     print STDERR "ERROR: Invalid -a '$Opts{'a'}' action\n";
     exit (1);
+}
+
+
+sub BuildPackageIndex {
+    my $In = shift;
+    my @List = glob("$In/*");
+    foreach my $File (@List) {
+        $File =~ s/\/\//\//g;
+        if (-d $File && $File !~ /CVS/) {
+            BuildPackageIndex($File);
+            $File =~ s/$Opts{'d'}//;
+#            print "Directory: $File\n";
+        }
+        else {
+            my $OrigFile = $File;
+            $File =~ s/$Opts{'d'}//;
+#               print "File: $File\n";
+#               my $Dir =~ s/^(.*)\//$1/;
+            if ($File !~ /Entries|Repository|Root|CVS/ && $File =~ /\.opm$/) {
+#               print "F: $File\n";
+                my $Content = '';
+                open (IN, "< $OrigFile") || die "Can't open $OrigFile: $!";
+                while (<IN>) {
+                    $Content .= $_;
+                }
+                close (IN);
+                my %Structur = $CommonObject{PackageObject}->PackageParse(String => $Content);
+                my $XML = $CommonObject{PackageObject}->PackageBuild(%Structur, Type => 'Index');
+                print "<Package>\n";
+                print $XML;
+                print "  <File>$File</File>\n";
+                print "</Package>\n";
+            }
+        }
+    }
 }
 
