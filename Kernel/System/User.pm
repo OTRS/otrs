@@ -2,7 +2,7 @@
 # User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.5 2002-05-12 22:05:10 martin Exp $
+# $Id: User.pm,v 1.6 2002-06-04 00:16:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -252,7 +252,7 @@ sub UserAdd {
        " valid_id, create_time, create_by, change_time, change_by)" .
        " VALUES " .
        " ('$Param{Salutation}', " .
-       " '$Param{Fristname}', " .
+       " '$Param{Firstname}', " .
        " '$Param{Lastname}', " .
        " '$Param{Login}', " .
        " '$Param{Pw}', " .
@@ -315,7 +315,7 @@ sub UserUpdate {
         # --
         my $SQL = "UPDATE $Self->{UserTable} SET " .
         " salutation = '$Param{Salutation}', " .
-        " first_name = '$Param{Fristname}'," .
+        " first_name = '$Param{Firstname}'," .
         " last_name = '$Param{Lastname}', " .
         " $Self->{UserTableUser} = '$Param{Login}', " .
         " valid_id = $Param{ValidID}, " .
