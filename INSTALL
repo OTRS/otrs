@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.13 2002-08-25 01:07:47 martin Exp $
+# $Id: INSTALL,v 1.14 2002-10-01 08:38:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ Software requirements?
     * Webpserver (mod_perl isn't required but very nice to have)
     * some CPAN-Module (CGI, MIME::Words, Mail::Internet, MIME::Parser, DBI,
       DBD::mysql, Digest::MD5) and for stats (GD, GD::Text, GD::Graph, 
-      GD::Graph::lines, Date::Calc)
+      GD::Graph::lines, GD::Text::Align, Date::Calc)
 
 Installation:
 =============
@@ -42,38 +42,50 @@ Installation:
       install GD::Text
       install GD::Graph
       install GD::Graph::lines
+      install GD::Text::Align
       install Date::Calc
       ...
 
-2. Create user and install tar.gz: 
-   -------------------------------
-   $shell: useradd -d /opt/OpenTRS/ otrs
+2. Create user: 
+   ------------
+    Add user:
+    ---------
+    $shell: useradd -d /opt/OpenTRS/ -c 'OTRS User' otrs
+
+    Add user to webserver group (if the webserver is not running with otrs user):
+    -----------------------------------------------------------------------------
+    $shell: usermod -G nogroup otrs
+
+    (SuSE=nogroup, Red Hat=apache)
+
+3. Install tar.gz:
+   ---------------
    $shell: cd /opt/
    $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
    $shell: chown -r /opt/OpenTRS/* otrs
    
-3. Database setup:
+4. Database setup:
    ---------------
    [follow README.database --> "DB - Setup Example"]
 
-4. Webserver:
+5. Webserver:
    ----------
    [follow README.webserver] 
 
-5. Config file ($HOME/Kernel/Config.pm):
+6. Config file ($HOME/Kernel/Config.pm):
    -------------------------------------
    Set some Kernel::Config Options (FQDN, SystemID, TicketHook, ...)
 
-6. File Permissions:
+7. File Permissions:
    -----------------
    Set the file permissions with 
    "$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
    e. g. 
      Webserver with otrs user: "SetPermissions.sh /opt/OpenTRS otrs otrs" 
      Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/OpenTRS otrs wwwrun" 
-     Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/OpenTRS otrs apache"
+     Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/OpenTRS otrs apache users apache"
 
-7. First Login:
+8. First Login:
    ------------
    http://yourhost/otrs/index.pl
    User: root@localhost
@@ -83,7 +95,7 @@ Installation:
 
    Finished.
 
-8. First Email:
+9. First Email:
    ------------
    use the procmailrc of the OTRS-User --> /opt/OpenTRS/.procmailrc
 
@@ -91,6 +103,12 @@ Installation:
 
    or pipe an email directly into $OpenTRS_HOME/bin/Postmaster.pl
     (e. g. 'cat /opt/OpenTRS/doc/test-email-1.box | /opt/OpenTRS/bin/PostMaster.pl').
+
+10. Cronjobs for the OTRS-User:
+    ---------------------------
+    There are several OTRS cronjobs in $OTRS_HOME/var/cron/*. Use  
+    $OTRS_HOME/bin/Cron.sh {start|stop|restart} to start or stop this cronjobs. 
+
 
 Remark: For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
