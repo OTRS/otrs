@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQArticle.pm - to add/update/delete faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticle.pm,v 1.6 2004-03-13 17:04:24 martin Exp $
+# $Id: FAQArticle.pm,v 1.7 2004-04-01 11:32:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -130,14 +130,16 @@ sub _Mask {
         Name => 'CategoryID',
         SelectedID => $Param{CategoryID},
         Selected => $Param{Category},
-        HTMLQuote => 0,
+        HTMLQuote => 1,
+        LanguageTranslation => 0,
     );
     $Param{StateOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->StateList(UserID => $Self->{UserID}) },
         Name => 'StateID',
         SelectedID => $Param{StateID},
         Selected => $Param{State},
-        HTMLQuote => 0,
+        HTMLQuote => 1,
+        LanguageTranslation => 1,
     );
     $Param{LanguageOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->LanguageList(UserID => $Self->{UserID}) },
