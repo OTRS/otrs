@@ -2,7 +2,7 @@
 # css.dtl - css file
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: css.dtl,v 1.7 2004-09-30 06:01:31 martin Exp $
+# $Id: css.dtl,v 1.8 2004-10-13 13:15:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,6 +44,9 @@
   a.small { color:#000000;text-decoration:none; }
   a.small:hover { color:#222222;text-decoration:underline; }
 # form
+  .required { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .readonly { color:blue;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .footnote { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   form {margin:0px;}
   input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
   .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Helvetica,Arial,sans-serif;font-weight:normal;}
@@ -56,7 +59,8 @@
 # content
   .contenthead { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
   .contentbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
+  .contentfooter { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
+  .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
   .contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .searchactive { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .searchpasive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
@@ -75,9 +79,9 @@
 # tab window layer 1
   .tablayer1 { background-color:#dedede; }
 # tabs passive
-  .tab0 { background-color:#e5e5e5; border: 0px; }
+  .tabpassive { background-color:#e5e5e5; border: 0px; }
 # tabs active
-  .tab1 { background-color:#dedede; border: 0px; }
+  .tabactive { background-color:#dedede; border: 0px; }
 # message
   .message { color:#000000;font-size:12px;font-family:monospace, fixed; }
 # article type color
@@ -85,10 +89,10 @@
   .agent-note-internal { background-color:#ffcccc; }
   .agent-note-external { background-color:#eeeeee; }
 # priority id color
-  .PriorityID-1 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  .PriorityID-2 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  .PriorityID-3 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  .PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  .PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  .PriorityID-1 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .PriorityID-2 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .PriorityID-3 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 //-->
 </style>
