@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.22 2003-01-03 16:17:30 martin Exp $
+# $Id: AgentQueueView.pm,v 1.23 2003-01-05 13:58:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -114,7 +114,7 @@ sub Run {
     # --
     # check old tickets, show it and return if needed
     # --
-    if (my @ViewableTickets = $Self->CheckOldTickets()) {
+    if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
         # --
         # show ticket's
         # --
@@ -352,74 +352,6 @@ sub BuildQueueView {
     );
 
     return $Output;
-}
-# --
-sub CheckOldTickets {
-    my $Self = shift;
-    my %Param = @_;
-
-    # --
-    # get data (viewable tickets...)
-    # --
-    my @TicketIDsOverTime = ();
-    my %TicketIDs = ();
-    my @ViewableLocks = @{$Self->{ViewableLocks}};
-    my @ViewableStats = @{$Self->{ViewableStats}};
-
-    my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
-    " q.name, q.escalation_time ".
-    " FROM ".
-    " article a, article_sender_type ast, queue q, ticket t, ".
-    " ticket_state tsd, ticket_lock_type slt, group_user as ug ".
-    " WHERE ".
-    " tsd.id = t.ticket_state_id " .
-    " AND " .
-    " slt.id = t.ticket_lock_id " .
-    " AND " .
-    " ast.id = a.article_sender_type_id ".
-    " AND ".
-    " t.id = a.ticket_id ".
-    " AND ".
-    " q.id = t.queue_id ".
-    " AND ".
-    " q.group_id = ug.group_id ".
-    " AND ".
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-    " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
-    " AND " .
-    " ug.user_id = $Self->{UserID} " .
-    " AND ".
-    " ast.name = 'customer' ".
-    " AND " .
-    " t.ticket_answered != 1 ".
-    " AND " .
-    " q.escalation_time != 0 ".
-#    " GROUP BY t.id, t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
-#    " q.name, q.escalation_time, t.ticket_priority_id ".
-    " ORDER BY t.ticket_priority_id, a.incoming_time DESC";
-
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-      if ($RowTmp[6] && !exists($TicketIDs{$RowTmp[1]})) {
-         $TicketIDs{$RowTmp[1]} = 1;
-         my $OverTime = (time() - ($RowTmp[4] + ($RowTmp[6]*60))); 
-         my $Data = {
-              TicketID => $RowTmp[1],
-              TicketQueueID => $RowTmp[0],
-              TicketOverTime => $OverTime,
-              ArticleSenderType => $RowTmp[3],
-              ArticleID => $RowTmp[2],
-          };
-          if ($OverTime >= 0) {
-              push (@TicketIDsOverTime, $Data);
-          }
-      }
-    }
-    # --
-    # return overtime tickets
-    # --
-    return @TicketIDsOverTime;
 }
 # --
 

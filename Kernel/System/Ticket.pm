@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.39 2003-01-04 03:35:06 martin Exp $
+# $Id: Ticket.pm,v 1.40 2003-01-05 13:58:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -427,7 +427,7 @@ sub MoveByTicketID {
         # --
         # send notification
         # --
-        $Self->{SendNotification}->Send(
+        $Self->SendNotification(
             Type => 'Move',
             To => $To,
             CustomerMessageParams => { Queue => $Queue },
@@ -780,6 +780,76 @@ sub SetPendingTime {
     else {
         return;
     }
+}
+# --
+sub GetOverTimeTickets {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # get data (viewable tickets...)
+    # --
+    my @TicketIDsOverTime = ();
+    my %TicketIDs = ();
+    my @ViewableStats = @{$Self->{ConfigObject}->Get('ViewableStats')};
+    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
+    my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
+    " q.name, q.escalation_time, t.tn ".
+    " FROM ".
+    " article a, article_sender_type ast, queue q, ticket t, ".
+    " ticket_state tsd, ticket_lock_type slt, group_user as ug ".
+    " WHERE ".
+    " tsd.id = t.ticket_state_id " .
+    " AND " .
+    " slt.id = t.ticket_lock_id " .
+    " AND " .
+    " ast.id = a.article_sender_type_id ".
+    " AND ".
+    " t.id = a.ticket_id ".
+    " AND ".
+    " q.id = t.queue_id ".
+    " AND ".
+    " q.group_id = ug.group_id ".
+    " AND ".
+    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) ".
+    " AND " .
+    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) ".
+    " AND ";
+    if ($Param{UserID}) {
+        $SQL .= " ug.user_id = $Param{UserID} ".
+          " AND ";
+    }
+    $SQL .= " ast.name = 'customer' ".
+    " AND " .
+    " t.ticket_answered != 1 ".
+    " AND " .
+    " q.escalation_time != 0 ".
+#    " GROUP BY t.id, t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
+#    " q.name, q.escalation_time, t.ticket_priority_id ".
+    " ORDER BY t.ticket_priority_id, a.incoming_time DESC";
+   $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+      if ($RowTmp[6] && !exists($TicketIDs{$RowTmp[1]})) {
+         $TicketIDs{$RowTmp[1]} = 1;
+         my $OverTime = (time() - ($RowTmp[4] + ($RowTmp[6]*60)));
+         my $Data = {
+              TicketID => $RowTmp[1],
+              TicketNumber => $RowTmp[7],
+              TicketQueueID => $RowTmp[0],
+              TicketOverTime => $OverTime,
+              ArticleSenderType => $RowTmp[3],
+              ArticleID => $RowTmp[2],
+              QueueID => $RowTmp[0],
+              Queue => $RowTmp[5],
+          };
+          if ($OverTime >= 0) {
+              push (@TicketIDsOverTime, $Data);
+          }
+      }
+    }
+    # --
+    # return overtime tickets
+    # --
+    return @TicketIDsOverTime;
 }
 # --
 
