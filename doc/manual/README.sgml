@@ -1,261 +1,55 @@
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V3.1//EN">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+<!ENTITY authorgroup SYSTEM "authorgroup.sgml">
+<!ENTITY install SYSTEM "install.sgml">
+<!ENTITY first-steps SYSTEM "first-steps.sgml">
+<!ENTITY first-ticket SYSTEM "first-ticket.sgml">
+<!ENTITY online-resources SYSTEM "online-resources.sgml">
+<!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
+]>
 
-<article>
-<!-- Der Titel -->
-<artheader>
-	<title>OpenTRS</title>
-        <authorgroup>
-        <author>
-                <firstname>Martin</firstname>
-                <surname>Edenhofer</surname>
-        </author>
-	<author>
-		<firstname>Stefan</firstname>
-		<surname>Wintermeyer</surname>
-	</author>
-        </authorgroup>
-	<date>2002-01-27</date>
-</artheader>
+<book id="index">
+<bookinfo>
+        <title>OpenTRS - README</title>
 
-<sect1>
-<title>Basics - What is OpenTRS?</title>
-<para>
-What is a typical scenario for using OpenTRS? Example: Bob is a manufactor of VCRs and his customers often have problems to program the VCRs. So they send Bob an e-mail. Sometimes they send a second e-mail to show Bob how important their request is. They are wondering if Bob is alive and how fast he will answer. Bob is using a normal INBOX and reads his e-mails with pine, mutt or what ever e-mail client. Sometimes his two brothers Tim and Joe help him to answer the e-mails. They all use the same INBOX. Of course they have no clue that one customer wrote two e-mails and maybe Tim give a different answer to the first e-mail for the client that his brother Joe does. So the client gets different informations. Of couse Bob has no client-history and no clue how much support he is offering. For the next VCR he is producing he has no feedback from his support. That is bad! ;-)
-</para>
-<para>
-But Bob is a smart cookie so he installs OpenTRS. The e-mails of his customers are not anymore going to his personal INBOX but be routed to the OpenTRS account (normaly called otrs). The OpenTRS account has some nifty procmail rules which pipe this e-mails to the system. The system answers the client a standard test which says that they recieved the e-mail and gives the client a Trouble Ticket Number (which is very important to trace the ticket). The client is happy because he knows that his valuable e-mail was recieved by Bob and his team. Anybody from Bob's team can open a webbrowser with the URL of the OpenTRS to have a look at the amount of recieved e-mails and to answer them. In case the customer Mr. Smith send a question, Bob can answer it. Maybe Mr. Smith does not understand the question and sends a replay. But Bob is ill. So now Tim can open this ticket and has access to the history of the ticket. He can read Bob's answer and the original e-mail of Mr. Smith. Tim can answer Mr. Smith and Mr. Smith even does not realize that he was handled by two different people.
-</para>
-<para>
-Of course this is just a very rough overview of the benefits of OpenTRS. Probably Bob recieves some 100 e-mails a day which could be handle even with out a Trouble Ticket System. But the time you recieve some 100000 or even just some 500 e-mails a day you will be happy to have a system which handles all the e-mails.
-</para>
-<para>
-Please feel free to browse <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink> for more informations.
-</para>
-</sect1>
+&authorgroup;
 
-<sect1>
-<title>Install - The quick way.</title>
-<para>
-This document is intended for <ulink url="http://www.suse.de/"><citetitle>SuSE Linux</citetitle></ulink> users. For other distributions please have a look at <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>.
-</para>
-<para>
-Install the otrs.rpm with YaST (YaST2) or rpm what ever you prefer. Please be aware of the fact that OpenTRS needs some Perl-Modules which are not installed by default in a typical SuSE installation. In case you use YaST you will not have troubles because YaST will tell you what packages have to be installed.
-</para>
-<para>
-Once you installed the otrs.rpm in your system you have to reload the apache to force him to reload the config file. You can do this by typing rcapache reload in a shell. Than fire up your favorate webbrowser and have a look at <ulink url="http://localhost/cgi-bin/index.pl"><citetitle>http://localhost/cgi-bin/index.pl</citetitle></ulink>
-</para>
-</sect1>
-
-<sect1>
-<title>FAQ</title>
-<qandaset>
-
-<qandaentry>
-<question>
-<para>
-Can I use OpenTRS only with SuSE Linux?
-</para>
-</question>
-<answer>
-<para>
-No, but we developed it on a SuSE Linux and frankly we did not do much testing on a Redhat, Debian, ... 
-</para>
-<para>
-But we will provide additional installation informations on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. And we are more that happy to recieve some feedback from you about how you installed OpenTRS on other platforms.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>How stable is OpenTRS?</para>
-</question>
-<answer>
-<para>
-Please be aware of the fact that you are dealing with a beta-version. New versions are anounced on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. But never the less it is quite a stable system and you shouldn't run in any trouble. But we can not guarentee it!
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>What hardware do I need?</para>
-</question>
-<answer>
-<para>
-We suggest an IBM OS/390. *SCNR* ;-)
-</para>
-<para>
-Some of our test enviroments are Pentium II 300 with 64 MB RAM and they do a pretty good job. Of course the more RAM and the faster the CPU the better. 
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>How does OpenTRS scale?</para>
-</question>
-<answer>
-<para>
-This is depending on the hardware and the enviroment you are using. At the moment OpenTRS is a one box system. With little work you can set up a webserver-cluster and you can split the database to a seperate box. We are planing to support some sort of clustering mechanism. But this is not the highest priority for the development.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>Can I use my nice Oracle or DB2?</para>
-</question>
-<answer>
-<para>
-At the moment we only support MySQL as a database. Frankly we do trust in a MySQL as much as in a DB2 (for this application). Anybody how is willing to send some time to port it to other databases is more than welcome to the OpenTRS team!
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>Can I install OpenTRS on a Windows box?</para>
-</question>
-<answer>
-<para>
-Theoraticly yes, but we are not the big windows gurus and haven't ever tried to set up a Windows box with an Apache, Perl and MySQL.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>
-I did everything the right way, but it does not work. Why?
-</para>
-</question>
-<answer>
-<para>
-Do not panic!
-</para>
-<para>
-We tried our very best to make a simple and smooth installation procedure. But of course as with any old style open source project we know how to install our software and sometimes we forget to update our documentation. Please do not hesitate do send us an e-mail!!!
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>How can I become a part of the OpenTRS developer comunity?</para>
-</question>
-<answer>
-<para>
-Welcome! Anybody who is willing to help us and has the time is more than welcome. Please send us an e-mail.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>I do like the OpenTRS but would feel more comfortable by using a commercial product.</para>
-</question>
-<answer>
-<para>
-We can not help you. Sorry.
-</para>
-</answer>
-</qandaentry>
-
-
-
-</qandaset>
-</sect1>
-
-<bibliography><title>Bibliography</title>
-
-<biblioentry>
-<authorgroup>
-<author><firstname>Kurt</firstname><surname>Fleischmann</surname></author>
-<author><firstname>Roland</firstname><surname>Haidl</surname></author>
-<author><firstname>Carsten</firstname><surname>H&ouml;ger</surname></author>
-<author><firstname>Daniel</firstname><surname>Meier</surname></author>
-<author><firstname>R&uuml;diger</firstname><surname>M&uuml;ller</surname></author>
-<author><firstname>Karine</firstname><surname>Nguyen</surname></author>
-<author><firstname>Rainer</firstname><surname>Obesser</surname></author>
-<author><firstname>Edith</firstname><surname>Parzefall</surname></author>
-</authorgroup>
+<edition>Flying Kangaroo</edition>
+<pubdate>2002</pubdate>
 <copyright>
-<year>2000</year>
-<holder>SuSE GmbH</holder>
+<year>2002</year>
+<holder>Martin Edenhofer and Stefan Wintermeyer</holder>
 </copyright>
-<publisher><publishername>SuSE Press</publishername></publisher>
-<title>SuSE eMail Server II (Installation - Konfiguration - Administration</title>
-</biblioentry>
 
-<biblioentry>
-<authorgroup>
-<author><firstname>Bryan</firstname><surname>Costales</surname></author>
-<author><firstname>Eric</firstname><surname>Allman</surname></author>
-</authorgroup>
-<copyright>
-<year>1997</year>
-<holder>O'Reilly</holder>
-</copyright>
-<publisher><publishername>O'Reilly</publishername></publisher>
-<title>sendmail</title>
-<isbn>1565922220</isbn>
-</biblioentry>
+<legalnotice>
+<para>
+The copyright holders make no representation about the suitability of this
+document for any purpose. It is provided <quote>as is</quote> without expressed
+or implied warranty.
+</para>
 
-<biblioentry>
-<authorgroup>
-<author><firstname>Ben</firstname><surname>Laurie</surname></author>
-<author><firstname>Peter</firstname><surname>Laurie</surname></author>
-</authorgroup>
-<copyright>
-<year>1999</year>
-<holder>O'Reilly</holder>
-</copyright>
-<publisher><publishername>O'Reilly</publishername></publisher>
-<title>Apache. Das umfassende Referenzwerk.</title>
-<isbn>3897211270</isbn>
-</biblioentry>
+</legalnotice>
 
-<biblioentry>
-<authorgroup>
-<author><firstname>Richard</firstname><surname>Blum</surname></author>
-</authorgroup>
-<copyright>
-<year>2001</year>
-<holder>SAMS</holder>
-</copyright>
-<publisher><publishername>SAMS</publishername></publisher>
-<title>Postfix</title>
-<isbn>0672321149</isbn>
-</biblioentry>
+</bookinfo>
 
-<biblioentry>
-<authorgroup>
-<author><firstname>Eric</firstname><surname>Rescorla</surname></author>
-</authorgroup>
-<copyright>
-<year>2000</year>
-<holder>Addison Wesley</holder>
-</copyright>
-<publisher><publishername>Addison Wesley</publishername></publisher>
-<title>SSL and TLS</title>
-<isbn>0201615983</isbn>
-</biblioentry>
+<preface id="foreword">
+<title>Foreword</title>
+<para><emphasis role='bold'>About this README</emphasis></para>
+<para>
+This readme is a short overview and can not substitute a manual. Please have a look at the <ulink url="http://www.otrs.org/docu/">online docu</ulink> or the manual.pdf file which should be located at /usr/share/doc/packages/otrs/
+</para>
+<para>
+Hang loose!
+</para>
+</preface>
 
-<biblioentry>
-<biblioset relation=journal>
-<title>iX</title>
-<publisher><publishername>Heise Verlage</publishername></publisher>
-</biblioset>
-<biblioset relation=article>
-<title>Winnetou und Old SSLeay</title>
-<author><firstname>Holger</firstname><surname>Reif</surname></author>
-<copyright><year>1998</year><holder>Heise Verlag</holder></copyright>
-<pagenums>page 128</pagenums>
-</biblioset>
-</biblioentry>
+&install;
 
-</bibliography>
+&first-steps;
 
-</article>
+&first-ticket;
 
+&basics_about_tt;
+
+&online-resources;
+
+</book>
