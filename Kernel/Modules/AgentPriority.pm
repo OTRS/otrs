@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.20 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentPriority.pm,v 1.21 2004-04-16 08:54:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -82,13 +82,20 @@ sub Run {
 
     if ($Self->{Subaction} eq 'Update') {
         # set id
-        $Self->{TicketObject}->PrioritySet(
+        if ($Self->{TicketObject}->PrioritySet(
             TicketID => $Self->{TicketID},
             PriorityID => $Self->{PriorityID},
             UserID => $Self->{UserID},
-        );
-        # print redirect
-        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+        )) {
+            # print redirect
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Warning');
+            $Output .= $Self->{LayoutObject}->Warning();
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
     }
     else {
         # print form
