@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.59 2004-03-11 14:34:10 martin Exp $
+# $Id: AgentCompose.pm,v 1.60 2004-03-25 10:15:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -210,7 +210,7 @@ sub Form {
     $Data{Subject} =~ s/^..: //;
     $Data{Subject} =~ s/\[$TicketHook: $Ticket{TicketNumber}\] //g;
     $Data{Subject} =~ s/^..: //;
-    $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
+    $Data{Subject} =~ s/^(.{45}).*$/$1 [...]/;
     $Data{Subject} = "[$TicketHook: $Ticket{TicketNumber}] Re: " . $Data{Subject};
 
     # check ReplyTo
@@ -352,11 +352,19 @@ sub SendEmail {
     # get std attachment ids
     # --
     my @StdAttachmentIDs = $Self->{ParamObject}->GetArray(Param => 'StdAttachmentID');
+    # prepare subject
+    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
+    $Self->{Subject} =~ s/^..: //;
+    $Self->{Subject} =~ s/\[$TicketHook: $Tn\] //g;
+    $Self->{Subject} =~ s/^..: //;
+    $Self->{Subject} =~ s/^(.{45}).*$/$1 [...]/;
+    $Self->{Subject} = "[$TicketHook: $Tn] ".$Self->{Subject};
+
     # --
     # check if there is an error
     # --
     if (%Error) {
-        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
         my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
         my $Output = $Self->{LayoutObject}->Header(Title => 'Compose');
         my %Data = ();
@@ -371,7 +379,7 @@ sub SendEmail {
             QueueID => $QueueID,
             NextStates => $Self->_GetNextStates(),
             NextState => $NextState,
-            ResponseFormat => $Self->{Body},
+            ResponseFormat => $Self->{LayoutObject}->Ascii2Html(Text => $Self->{Body}),
             AnsweredID => $Self->{Answered},
             %Data,
             Errors => \%Error,
