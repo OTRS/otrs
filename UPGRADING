@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UPGRADING,v 1.4 2002-10-20 22:32:33 martin Exp $
+# $Id: UPGRADING,v 1.5 2002-10-24 23:59:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -24,7 +24,7 @@ These instructions are for people upgrading OTRS to a newer release.
 
 *) Update the database changes with:
     MySQL: 
-      cat $OTRS_HOME/scripts/DBUpdate.mysql.sql | mysql -f -u root otrs
+      cat $OTRS_HOME/scripts/DBUpdate.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
       cat $OTRS_HOME/scripts/DBUpdate.postgresql.sql | psql otrs
 
