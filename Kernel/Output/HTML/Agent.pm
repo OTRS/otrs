@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.150 2004-10-21 10:09:11 martin Exp $
+# $Id: Agent.pm,v 1.151 2004-11-16 12:22:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.150 $';
+$VERSION = '$Revision: 1.151 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -126,81 +126,6 @@ sub AgentCustomerViewTable {
     return $Self->Output(TemplateFile => 'AgentCustomerTableView', Data => \%Param);
 }
 # --
-sub AgentUtilSearchResult {
-    my $Self = shift;
-    my %Param = @_;
-    my $Highlight = $Param{Highlight} || 0;
-    my $HighlightStart = '<font color="orange"><b><i>';
-    my $HighlightEnd = '</i></b></font>';
-
-    $Self->{UtilSearchResultCounter}++;
-    # --
-    # check if just a only html email
-    # --
-    if (my $MimeTypeText = $Self->CheckMimeType(
-        %Param,
-        Action => 'AgentZoom',
-    )) {
-        $Param{TextNote} = $MimeTypeText;
-        $Param{Body} = '';
-    }
-    else {
-        # charset convert
-        $Param{Body} = $Self->{LanguageObject}->CharsetConvert(
-            Text => $Param{Body},
-            From => $Param{ContentCharset},
-        );
-        # do some strips
-        $Param{Body} =~ s/^\s*\n//mg;
-        # do some text quoting
-        $Param{Body} = $Self->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-            Text => $Param{Body},
-            VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
-            HTMLResultMode => 1,
-        );
-        # --
-        # do charset check
-        # --
-        if (my $CharsetText = $Self->CheckCharset(
-            Action => 'AgentZoom',
-            ContentCharset => $Param{ContentCharset},
-            TicketID => $Param{TicketID},
-            ArticleID => $Param{ArticleID} )) {
-            $Param{TextNote} = $CharsetText;
-        }
-    }
-
-    # do some html quoting
-    foreach (qw(State Priority Lock)) {
-        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
-    }
-    foreach (qw(Priority State Queue Owner Lock CustomerID)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
-    }
-    foreach (qw(From To Cc Subject)) {
-#        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
-    }
-    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
-    $Param{Created} = $Self->{LanguageObject}->FormatTimeString($Param{Created});
-    # do some html highlighting
-    if ($Highlight && $Param{What}) {
-        my @SParts = split('%', $Param{What});
-        foreach (qw(Body From To Subject)) {
-            if ($_) {
-                $Param{$_} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
-            }
-        }
-    }
-    # customer info string
-    $Param{CustomerTable} = $Self->AgentCustomerViewTable(
-        Data => $Param{CustomerData},
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
-    );
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentUtilSearchResult', Data => \%Param);
-}
-# --
 sub AgentPreferencesForm {
     my $Self = shift;
     my %Param = @_;
@@ -279,64 +204,6 @@ sub TicketLocked {
     my $Self = shift;
     my %Param = @_;
     return $Self->Output(TemplateFile => 'AgentTicketLocked', Data => \%Param);
-}
-# --
-sub AgentStatusView {
-    my $Self = shift;
-    my %Param = @_;
-    if ($Param{AllHits} == 1 || $Param{AllHits} == 0) {
-               $Param{Result} = $Param{AllHits};
-    }
-    elsif ($Param{AllHits} >= ($Param{StartHit}+$Param{PageShown})) {
-        $Param{Result} = $Param{StartHit}."-".($Param{StartHit}+$Param{PageShown}-1);
-    }
-    else {
-        $Param{Result} = "$Param{StartHit}-$Param{AllHits}";
-    }
-    my $Pages = int(($Param{AllHits} / $Param{PageShown}) + 0.99999);
-    my $Page = int(($Param{StartHit} / $Param{PageShown}) + 0.99999);
-    for (my $i = 1; $i <= $Pages; $i++) {
-        $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=\$Env{\"Action\"}".
-         "&StartHit=". (($i-1)*$Param{PageShown}+1) .= '&SortBy=$Data{"SortBy"}&'.
-         'Order=$Data{"Order"}&Type=$Data{"Type"}">';
-        if ($Page == $i) {
-            $Param{PageNavBar} .= '<b>'.($i).'</b>';
-        }
-        else {
-            $Param{PageNavBar} .= ($i);
-        }
-        $Param{PageNavBar} .= '</a> ';
-    }
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentStatusView', Data => \%Param);
-}
-# --
-sub AgentStatusViewTable {
-    my $Self = shift;
-    my %Param = @_;
-    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
-    foreach (qw(State Lock)) {
-        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
-    }
-    # do html quoteing
-    foreach (qw(State Queue Owner Lock CustomerID UserFirstname UserLastname CustomerName)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 10) || '';
-    }
-    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
-    foreach (qw(From To Cc Subject)) {
-        $Param{$_} = $Self->{LanguageObject}->CharsetConvert(
-            Text => $Param{$_},
-            From => $Param{ContentCharset},
-        );
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 30) || '';
-    }
-    # create & return output
-    if (!$Param{Answered}) {
-        return $Self->Output(TemplateFile => 'AgentStatusViewTableNotAnswerd', Data => \%Param);
-    }
-    else {
-        return $Self->Output(TemplateFile => 'AgentStatusViewTable', Data => \%Param);
-    }
 }
 # --
 sub AgentQueueListOption {
