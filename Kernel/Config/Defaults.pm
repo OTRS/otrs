@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.150 2004-08-12 08:14:30 martin Exp $
+# $Id: Defaults.pm,v 1.151 2004-08-24 07:45:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.150 $';
+$VERSION = '$Revision: 1.151 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -659,8 +659,8 @@ sub LoadDefaults {
     };
 
     # TicketStorageModule (Don't use it for big emails/attachments!)
-    # (where attachments and co is stored - switch from fs -> db possible
-    # but not from db -> fs - old attachments are not shown) 
+    # (where attachments and co is stored - switch from fs -> db and
+    # db -> fs is possible)
     $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageDB';
     # FS is faster but webserver user should be the otrs user)
 #    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
@@ -845,6 +845,9 @@ sub LoadDefaults {
     # (a agent frontend feature to work on more then one ticket
     # at on time)
     $Self->{FrontendBulkFeature} = 1;
+    # FrontendBulkFeatureJavaScriptAlert
+    # (enable/disable java script popup if a bulk ticket is selected)
+    $Self->{FrontendBulkFeatureJavaScriptAlert} = 1;
     # --------------------------------------------------- #
     # TicketFreeText                                      #
     # (define free text options for frontend)             #
@@ -1774,21 +1777,21 @@ Your OTRS Notification Master
 #        ReadOnly => 1,
         Map => [
             # note: Login, Email and CustomerID needed!
-            # var, frontend, storage, shown, required, storage-type, http-link
-            [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var' ],
-            [ 'UserFirstname', 'Firstname', 'first_name', 1, 1, 'var' ],
-            [ 'UserLastname', 'Lastname', 'last_name', 1, 1, 'var' ],
-            [ 'UserLogin', 'Username', 'login', 1, 1, 'var' ],
-            [ 'UserPassword', 'Password', 'pw', 0, 1, 'var' ],
-            [ 'UserEmail', 'Email', 'email', 0, 1, 'var' ],
-#            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}' ],
-            [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var' ],
-            [ 'UserComment', 'Comment', 'comments', 1, 0, 'var' ],
-            [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int' ],
+            # var, frontend, storage, shown, required, storage-type, http-link, readonly
+            [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var', '', 0 ],
+            [ 'UserFirstname', 'Firstname', 'first_name', 1, 1, 'var', '', 0 ],
+            [ 'UserLastname', 'Lastname', 'last_name', 1, 1, 'var', '', 0 ],
+            [ 'UserLogin', 'Username', 'login', 1, 1, 'var', '', 0 ],
+            [ 'UserPassword', 'Password', 'pw', 0, 1, 'var', '', 0 ],
+            [ 'UserEmail', 'Email', 'email', 0, 1, 'var', '', 0 ],
+#            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}', 0 ],
+            [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
+            [ 'UserComment', 'Comment', 'comments', 1, 0, 'var', '', 0 ],
+            [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int', '', 0 ],
         ],
     };
 
-    # CustomerUser 
+    # CustomerUser
     # (customer user ldap backend and settings)
 #    $Self->{CustomerUser} = {
 #        Name => 'LDAP Backend',
@@ -1801,7 +1804,7 @@ Your OTRS Notification Master
 #            # search scope (one|sub)
 #            SSCOPE => 'sub',
 #            # The following is valid but would only be necessary if the
-#            # anonymous user does NOT have permission to read from the LDAP tree 
+#            # anonymous user does NOT have permission to read from the LDAP tree
 #            UserDN => '',
 #            UserPw => '',
 #            # in case you want to add always one filter to each ldap query, use
@@ -1833,16 +1836,16 @@ Your OTRS Notification Master
 #        AdminSetPreferences => 0,
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
-#            # var, frontend, storage, shown, required, storage-type
-#            [ 'UserSalutation', 'Title', 'title', 1, 0, 'var' ],
-#            [ 'UserFirstname', 'Firstname', 'givenname', 1, 1, 'var' ],
-#            [ 'UserLastname', 'Lastname', 'sn', 1, 1, 'var' ],
-#            [ 'UserLogin', 'Username', 'uid', 1, 1, 'var' ],
-#            [ 'UserEmail', 'Email', 'mail', 1, 1, 'var' ],
-#            [ 'UserCustomerID', 'CustomerID', 'mail', 0, 1, 'var' ],
-#            [ 'UserPhone', 'Phone', 'telephonenumber', 1, 0, 'var' ],
-#            [ 'UserAddress', 'Address', 'postaladdress', 1, 0, 'var' ],
-#            [ 'UserComment', 'Comment', 'description', 1, 0, 'var' ],
+#            # var, frontend, storage, shown, required, storage-type, http-link, readonly
+#            [ 'UserSalutation', 'Title', 'title', 1, 0, 'var', '', 0 ],
+#            [ 'UserFirstname', 'Firstname', 'givenname', 1, 1, 'var', '', 0 ],
+#            [ 'UserLastname', 'Lastname', 'sn', 1, 1, 'var', '', 0 ],
+#            [ 'UserLogin', 'Username', 'uid', 1, 1, 'var', '', 0 ],
+#            [ 'UserEmail', 'Email', 'mail', 1, 1, 'var', '', 0 ],
+#            [ 'UserCustomerID', 'CustomerID', 'mail', 0, 1, 'var', '', 0 ],
+#            [ 'UserPhone', 'Phone', 'telephonenumber', 1, 0, 'var', '', 0 ],
+#            [ 'UserAddress', 'Address', 'postaladdress', 1, 0, 'var', '', 0 ],
+#            [ 'UserComment', 'Comment', 'description', 1, 0, 'var', '', 0 ],
 #        ],
 #    };
 
