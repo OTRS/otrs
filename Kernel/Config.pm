@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.40 2002-06-16 20:45:37 martin Exp $
+# $Id: Config.pm,v 1.41 2002-06-23 09:51:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -312,7 +312,19 @@ sub Load {
     # ----------------------------------------------------#
     # PostMaster stuff                                    #
     # ----------------------------------------------------#
-   
+  
+    # TicketNumberGenerator 
+    # 
+    # Kernel::System::Ticket::Number::AutoIncrement (default) --> auto increment 
+    #   ticket numbers "SystemID.Counter" like 1010138 and 1010139.
+    #
+    # Kernel::System::Ticket::Number::Date --> ticket numbers with date 
+    #   "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
+    #
+    # Kernel::System::Ticket::Number::Random -->
+    #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
+    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
+ 
     # MaxPostMasterEmails
     # (Max post master daemon email to own email-address a day.
     # Loop-Protection!) [default: 20]
