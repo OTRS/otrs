@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.16 2002-09-10 23:20:03 martin Exp $
+# $Id: FollowUp.pm,v 1.17 2002-09-23 18:56:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,11 +12,12 @@
 package Kernel::System::PostMaster::FollowUp;
 
 use strict;
-use Kernel::System::PostMaster::AutoResponse;
+use Kernel::System::AutoResponse;
+use Kernel::System::SendNotification;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,6 +47,9 @@ sub new {
     ) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{SendAutoResponse} = Kernel::System::SendAutoResponse->new(%Param);
+    $Self->{SendNotification} = Kernel::System::SendNotification->new(%Param);
 
     return $Self;
 }
@@ -146,17 +150,19 @@ sub Run {
 
     # write log
     $LogObject->Log(
-        MSG => "FollowUp Article to Ticket [$Tn] created (TicketID=$TicketID, " .
+        Message => "FollowUp Article to Ticket [$Tn] created (TicketID=$TicketID, " .
 			"ArticleID=$ArticleID). $Comment"
     );
 
     # --
     # send auto response?
     # --
-    my $AutoResponse = Kernel::System::PostMaster::AutoResponse->new(
+    my $AutoResponse = Kernel::System::AutoResponse->new(
         DBObject => $DBObject,
+        LogObject => $Self->{LogObject},
+        ConfigObject => $Self->{ConfigObject},
     );
-    my %Data = $AutoResponse->GetResponseData(
+    my %Data = $AutoResponse->AutoResponseGetByTypeQueueID(
         QueueID => $QueueID,
         Type => $AutoResponseType,
     );
@@ -172,73 +178,24 @@ sub Run {
                 Name => "Sent no auto response (LoopProtection)!",
                 CreateUserID => $InmailUserID,
             );
-            return;
         }
-        # write log
-        if (!$Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
-            return;
-        }
-
-        # --
-        # prepare subject (insert old subject)
-        # --
-        my $Subject = $Data{Subject} || 'No Std. Subject found!';
-        my $OldSubject = $GetParam{Subject} || 'Your email!';
-        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-        $OldSubject =~ s/\n//g;
-        if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
-            my $SubjectChar = $1;
-            $OldSubject =~ s/\[$TicketHook: $Tn\] //g;
-            $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-            $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
-        }
-        $Subject = "[$TicketHook: $Tn] $Subject";
-
-        # --
-        # prepare body (insert old email)
-        # --
-        my $Body = $Data{Text} || 'No Std. Body found!'; 
-        my $OldBody = $GetParam{Body} || 'Your Message!';
-        if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
-            my $Line = $1;
-            my @Body = split(/\n/, $OldBody);
-            my $NewOldBody = '';
-            foreach (my $i = 0; $i < $Line; $i++) {
-              $NewOldBody .= "> $Body[$i]\n";
+        else { 
+            # write log
+            if ($Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
+                $Self->{SendAutoResponse}->Send(
+                    %Data,
+                    CustomerMessageParams => \%GetParam,
+                    TicketNumber => $Tn,
+                    TicketID => $TicketID,
+                    UserID => $InmailUserID,
+                    HistoryType => 'SendAutoFollowUp',
+                );
             }
-            $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
         }
-
-        # --
-        # send email
-        # --
-        $EmailObject->Send(
-            ArticleType => 'email-external',
-            SenderType => 'system',
-            TicketID => $TicketID,
-            HistoryType => 'SendAutoFollowUp',
-            HistoryComment => "Sent auto response to '$GetParam{From}'",
-            From => "$Data{Realname} <$Data{Address}>",
-            Email => $Data{Address},
-            To => $GetParam{From},
-            RealName => $Data{Realname},
-            Charset => $Data{Charset},
-            Subject => $Subject, 
-            UserID => $InmailUserID,
-            Body => $Body,
-            InReplyTo => $GetParam{'Message-ID'},
-            Loop => 1,
-        );
-
-        # do log
-        $LogObject->Log(MSG => "Sent auto follow up for Ticket [$Tn] (TicketID=$TicketID, " .
-            "ArticleID=$ArticleID) to '$GetParam{From}' "
-        );
-
     }
     else {
         # do log
-        $LogObject->Log(MSG => "Sent no auto follow up for Ticket [$Tn] " .
+        $LogObject->Log(Message => "Sent no auto follow up for Ticket [$Tn] " .
 			"($GetParam{From})."
        );
     }
@@ -251,78 +208,37 @@ sub Run {
     # debug
     if ($Self->{Debug} > 0) {
        $LogObject->Log(
-            MSG => "OwnerID of ticket $Tn is $OwnerID.",
+            Message => "OwnerID of ticket $Tn is $OwnerID.",
        );
     }
     if ($OwnerID ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
-       my $UserObject = Kernel::System::User->new(
+        my $UserObject = Kernel::System::User->new(
            DBObject => $Self->{DBObject}, 
            ConfigObject => $Self->{ConfigObject}, 
            LogObject => $Self->{LogObject},
-       ); 
-       my %Preferences = $UserObject->GetUserData(UserID => $OwnerID);
+        ); 
+        my %Preferences = $UserObject->GetUserData(UserID => $OwnerID);
 
-       # debug
-       if ($Self->{Debug} > 0) {
-         $LogObject->Log(
-            MSG => "UserSendFollowUpNotification is '$Preferences{UserSendFollowUpNotification}'.",
-         );
-       }
-       # check UserSendFollowUpNotification
-       if ($Preferences{UserSendFollowUpNotification}) {
-         # --
-         # prepare subject (insert old subject)
-         # --
-         my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectFollowUp') 
-              || 'No subject found in Config.pm!';
-         my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-         my $OldSubject = $GetParam{Subject} || 'Your email!';
-         $OldSubject =~ s/(\[$TicketHook: $Tn\]|\n)//g;
-         if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
-            my $SubjectChar = $1;
-            $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-            $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
-         }
-         $Subject = "[". $Self->{ConfigObject}->Get('TicketHook') .": $Tn] $Subject";
-
-         # --
-         # prepare body (insert old email)
-         # --
-         my $From = $GetParam{From};
-         my $Body = $Self->{ConfigObject}->Get('NotificationBodyFollowUp') 
-          || 'No body found in Config.pm!';
-         $Body =~ s/<OTRS_CUSTOMER_FROM>/$From/g;
-         $Body =~ s/<OTRS_TICKET_ID>/$TicketID/g;
-         $Body =~ s/<OTRS_USER_FIRSTNAME>/$Preferences{UserFirstname}/g; 
-         my $OldBody = $GetParam{Body} || 'Your Message!';
-         if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
-            my $Line = $1;
-            my @Body = split(/\n/, $OldBody);
-            my $NewOldBody = '';
-            foreach (my $i = 0; $i < $Line; $i++) {
-              $NewOldBody .= "> $Body[$i]\n";
-            }
-            $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
-         }
-
-         # --
-         # send notification
-         # --
-         $EmailObject->Send(
-            ArticleType => 'email-notification-int',
-            SenderType => 'system',
-            TicketID => $TicketID,
-            HistoryType => 'SendAgentNotification',
-            HistoryComment => "Sent notification to '$Preferences{UserEmail}'.",
-            From => $Self->{ConfigObject}->Get('NotificationSenderName').
-              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>', 
-            Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
-            To => $Preferences{UserEmail},
-            Subject => $Subject, 
-            UserID => $Self->{ConfigObject}->Get('PostmasterUserID'),
-            Body => $Body, 
-            Loop => 1,
-         );
+        # debug
+        if ($Self->{Debug} > 0) {
+          $LogObject->Log(
+            Message => "UserSendFollowUpNotification is '$Preferences{UserSendFollowUpNotification}'.",
+          );
+        }
+        # check UserSendFollowUpNotification
+        if ($Preferences{UserSendFollowUpNotification}) {
+            # --
+            # send notification
+            # --
+            $Self->{SendNotification}->Send(
+                %Preferences,
+                Type => 'FollowUp',
+                To => $Preferences{UserEmail},
+                CustomerMessageParams => \%GetParam,
+                TicketNumber => $Tn,
+                TicketID => $TicketID,
+                UserID => $InmailUserID,
+            );
        }
     }
 
@@ -331,7 +247,7 @@ sub Run {
     # --
     if ($Self->{Debug} > 0) {
        $LogObject->Log(
-            MSG => "Debug($Self->{Debug}): AutoResponseType=$AutoResponseType, " .
+            Message => "Debug($Self->{Debug}): AutoResponseType=$AutoResponseType, " .
 			"ResponseFrom=$Data{Address}, QueueID=$QueueID, " .
             "Mailing-List=$GetParam{'Mailing-List'}, " .
             "Precedence=$GetParam{Precedence}, X-Loop=$GetParam{'X-Loop'}, " .

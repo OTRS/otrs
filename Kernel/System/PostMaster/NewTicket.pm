@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.20 2002-09-10 23:20:03 martin Exp $
+# $Id: NewTicket.pm,v 1.21 2002-09-23 18:56:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,14 +12,16 @@
 package Kernel::System::PostMaster::NewTicket;
 
 use strict;
-use Kernel::System::PostMaster::AutoResponse;
+use Kernel::System::AutoResponse;
+use Kernel::System::SendAutoResponse;
+use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::EmailSend;
 use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -50,6 +52,9 @@ sub new {
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(%Param);
 
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+
+    $Self->{SendAutoResponse} = Kernel::System::SendAutoResponse->new(%Param);
+    $Self->{SendNotification} = Kernel::System::SendNotification->new(%Param);
 
     return $Self;
 }
@@ -103,7 +108,7 @@ sub Run {
     my $CounterTmp = 0;
     while ($CounterTmp <= 2) {
         $CounterTmp++;
-        if ($GetParam{"$Values[0]$CounterTmp"} && $GetParam{"$Values[1]$CounterTmp"}) {
+        if ($GetParam{"$Values[0]$CounterTmp"}) {
             $TicketObject->SetFreeText(
                 TicketID => $TicketID,
                 Key => $GetParam{"$Values[0]$CounterTmp"},
@@ -174,10 +179,12 @@ sub Run {
     # --
     # send auto response
     # --
-    my $AutoResponse = Kernel::System::PostMaster::AutoResponse->new(
-        DBObject => $DBObject,
+    my $AutoResponse = Kernel::System::AutoResponse->new(
+        DBObject => $DBObject, 
+        LogObject => $Self->{LogObject},
+        ConfigObject => $Self->{ConfigObject},
     );
-    my %Data = $AutoResponse->GetResponseData(
+    my %Data = $AutoResponse->AutoResponseGetByTypeQueueID(
         QueueID => $QueueID,
         Type => $AutoResponseType,
     );
@@ -204,78 +211,20 @@ sub Run {
             return;
         }
         # write log
-        if (!$Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
-            return;
+        if ($Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
+            $Self->{SendAutoResponse}->Send(
+                %Data,
+                CustomerMessageParams => \%GetParam,
+                TicketNumber => $NewTn,
+                TicketID => $TicketID,
+                UserID => $InmailUserID,        
+                HistoryType => 'SendAutoReply',
+            );
         }
-
-        # --
-        # prepare subject (insert old subject)
-        # --
-        my $Subject = $Data{Subject} || 'No Std. Subject found!'; 
-        my $OldSubject = $GetParam{Subject} || 'Your email!';
-        $OldSubject =~ s/\n//g;
-        if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
-            my $SubjectChar = $1;
-            $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-            $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
-        }
-        $Subject = "[". $Self->{ConfigObject}->Get('TicketHook') .": $NewTn] $Subject";
-
-        # --
-        # prepare body (insert old email)
-        # --
-        my $Body = $Data{Text} || 'No Std. Body found!'; 
-        my $OldBody = $GetParam{Body} || 'Your Message!';
-        if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
-            my $Line = $1;
-            my @Body = split(/\n/, $OldBody);
-            my $NewOldBody = '';
-            foreach (my $i = 0; $i < $Line; $i++) {
-                # 2002-06-14 patch of Pablo Ruiz Garcia
-                # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
-                if ($#Body >= $i) {
-                    $NewOldBody .= "> $Body[$i]\n";
-                }
-            }
-            $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
-        }
-
-        # --
-        # send email
-        # --
-        my $EmailObject = Kernel::System::EmailSend->new(
-            ConfigObject => $Self->{ConfigObject},
-            DBObject => $Self->{DBObject},
-            LogObject => $Self->{LogObject},
-        );
-        my $ArticleID = $EmailObject->Send(
-            ArticleType => 'email-external',
-            SenderType => 'system',
-            TicketID => $TicketID,
-            HistoryType => 'SendAutoReply',
-            HistoryComment => "Sent auto response to '$GetParam{From}'",
-            From => "$Data{Realname} <$Data{Address}>",
-            Email => $Data{Address},
-            To => $GetParam{From},
-            RealName => $Data{Realname},
-            Charset => $Data{Charset},
-            Subject => $Subject,
-            UserID => $InmailUserID,
-            Body => $Body,
-            InReplyTo => $GetParam{'Message-ID'},
-            Loop => 1,
-         );
-
-
-        # do log
-        $LogObject->Log(
-            Message => "Sent auto reply for Ticket [$NewTn] (TicketID=$TicketID, " .
-            "ArticleID=$ArticleID) to '$GetParam{From}' " 
-        );
     }
     else {
         # do log
-        $LogObject->Log(MSG => "Sent no auto reply for Ticket [$NewTn] ($GetParam{From}) "
+        $LogObject->Log(Message => "Sent no auto reply for Ticket [$NewTn] ($GetParam{From}) "
         );
     }
 
@@ -305,66 +254,18 @@ sub Run {
     }
     if ($To) {
         # --
-        # prepare subject (insert old subject)
-        # --
-        my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectNewTicket') 
-          || 'No subject found in Config.pm!';
-        my $OldSubject = $GetParam{Subject} || 'Your email!';
-        $OldSubject =~ s/\n//g;
-        if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
-            my $SubjectChar = $1;
-            $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-            $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
-        }
-        $Subject = "[". $Self->{ConfigObject}->Get('TicketHook') .": $NewTn] $Subject";
-
-        # --
-        # prepare body (insert old email)
-        # --
-        my $From = $GetParam{From} || '';
-        my $Body = $Self->{ConfigObject}->Get('NotificationBodyNewTicket')
-          || 'No body found in Config.pm!';
-        $Body =~ s/<OTRS_TICKET_ID>/$TicketID/g;
-        $Body =~ s/<OTRS_QUEUE>/$Queue/g;
-        $Body =~ s/<OTRS_CUSTOMER_FROM>/$From/g;
-        my $OldBody = $GetParam{Body} || 'Your Message!';
-        if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
-            my $Line = $1;
-            my @Body = split(/\n/, $OldBody);
-            my $NewOldBody = '';
-            foreach (my $i = 0; $i < $Line; $i++) {
-                # 2002-06-14 patch of Pablo Ruiz Garcia
-                # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
-                if($#Body >= $i) {
-                    $NewOldBody .= "> $Body[$i]\n";
-                }
-            }
-            $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
-        }
-
-        # --
         # send notification
         # --
-        my $EmailObject = Kernel::System::EmailSend->new(
-            ConfigObject => $Self->{ConfigObject},
-            DBObject => $Self->{DBObject},
-            LogObject => $Self->{LogObject},
-        );
-        $EmailObject->Send(
-            ArticleType => 'email-notification-int',
-            SenderType => 'system',
+        $Self->{SendNotification}->Send(
+            Type => 'NewTicket',
+            To => $To, 
+            CustomerMessageParams => \%GetParam,
+            TicketNumber => $NewTn,
             TicketID => $TicketID,
-            HistoryType => 'SendAgentNotification',
-            HistoryComment => "Sent notification to '$To'.",
-            From => $Self->{ConfigObject}->Get('NotificationSenderName').
-              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
-            Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
-            To => $To,
-            Subject => $Subject, 
-            UserID => $Self->{ConfigObject}->Get('PostmasterUserID'),
-            Body => $Body, 
-            Loop => 1,
+            Queue => $Queue, 
+            UserID => $InmailUserID,
         );
+
     }
     else {
        if ($Self->{Debug} > 0) {
