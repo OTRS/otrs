@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.9 2005-02-08 17:40:25 martin Exp $
+# $Id: XML.pm,v 1.10 2005-02-10 13:53:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -151,7 +151,7 @@ sub XMLHashGet {
         return;
       }
     }
-    # db quote 
+    # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
@@ -173,7 +173,7 @@ sub XMLHashGet {
     if (!eval $Content) {
         print STDERR "ERROR: $@\n";
     }
-    return @XMLHash; 
+    return @XMLHash;
 }
 
 =item XMLHashDelete()
@@ -198,7 +198,7 @@ sub XMLHashDelete {
       }
     }
     # db quote
-    foreach (keys %Param) { 
+    foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     return $Self->{DBObject}->Do(
@@ -239,7 +239,7 @@ sub XMLHashSearch {
         $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
     }
     # db quote
-    foreach (keys %Param) { 
+    foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     $SQL = 'SELECT xml_key FROM xml_storage WHERE '.$SQL." AND xml_type = '$Param{Type}'";
@@ -251,7 +251,7 @@ sub XMLHashSearch {
 
 =item XMLHash2XML()
 
-generate a xml string from an XMLHash 
+generate a xml string from an XMLHash
 
     my $XMLString = $XMLObject->XMLHash2XML(@XMLHash);
 
@@ -323,7 +323,7 @@ parse a xml file and return a XMLHash structur
 
     my @XMLHash = $XMLObject->XMLParse2XMLHash(String => $FileString);
 
-    XML: 
+    XML:
     ====
     <Contact role="admin" type="organization">
       <Name type="long">Example Inc.</Name>
@@ -335,22 +335,27 @@ parse a xml file and return a XMLHash structur
     ARRAY:
     ======
     $XMLHash = (
+      undef,
       {
         Contact => [
+          undef,
           {
             role => 'admin',
             type => 'organization',
             Name => [
+              undef,
               {
                 Content => 'Example Inc.',
                 type => 'long',
               },
             ]
             Email => [
+              undef,
               {
                 type => 'primary',
                 Content => 'info@exampe.com',
                 Domain => [
+                  undef,
                   {
                     Content => '1234.com',
                   },
@@ -362,6 +367,7 @@ parse a xml file and return a XMLHash structur
               },
             ],
             Telephone => [
+              undef,
               {
                 country => 'germany',
                 Content => '+49-999-99999',
@@ -392,7 +398,7 @@ sub XMLParse2XMLHash {
     my $Self = shift;
     my %Param = @_;
     my @XMLStructur = $Self->XMLParse(%Param);
-    my @XMLHash = $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur);
+    my @XMLHash = (undef, $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur));
 
 #    $XMLHash[1]{'IODEF-Document'} = $XMLHash[1]{'otrs_package'};
 #    $XMLHash[0]{Meta}[0]{Created} = 'admin';
@@ -432,12 +438,12 @@ sub XMLHash2D {
     undef $Self->{XMLLevelCount};
     my $Count = 0;
     foreach my $Item (@{$Param{XMLHash}}) {
-        $Count++;
         if (ref($Item) eq 'HASH') {
             foreach (keys %{$Item}) {
                 $Self->_XMLHash2D(Key => $Item->{Tag}, Item => $Item, Counter => $Count);
             }
         }
+        $Count++;
     }
     $Self->{XMLHashReturn} = 0;
     return %{$Self->{XMLHash}};
@@ -459,10 +465,10 @@ sub _XMLHash2D {
                 undef $S->{XMLLevelCount}->{$_}; #->{$Element} = 0;
             }
         }
-        $S->{XMLLevelCount}->{$S->{XMLLevel}}->{$Param{Key}}++;
+        $S->{XMLLevelCount}->{$S->{XMLLevel}}->{$Param{Key}||''}++;
         # remember old level
         $S->{Tll} = $S->{XMLLevel};
-    
+
         my $Key = "[$Param{Counter}]";
         foreach (2..($S->{XMLLevel})) {
             $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
@@ -476,12 +482,12 @@ sub _XMLHash2D {
             $Self->_XMLHash2D(Key => $_, Item => $Param{Item}->{$_}, Counter => $Param{Counter});
         }
         $S->{XMLLevel} = $S->{XMLLevel} - 1;
-    } 
+    }
     elsif (ref($Param{Item}) eq 'ARRAY') {
         foreach (@{$Param{Item}}) {
             $Self->_XMLHash2D(Key => $Param{Key}, Item => $_, Counter => $Param{Counter});
         }
-    } 
+    }
 }
 
 =item XMLStructur2XMLHash()
@@ -685,6 +691,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2005-02-08 17:40:25 $
+$Revision: 1.10 $ $Date: 2005-02-10 13:53:52 $
 
 =cut
