@@ -1,8 +1,8 @@
 # --
 # AgentPhone.dtl - provides HTML form for phone
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.18 2004-02-09 23:50:40 martin Exp $
+# $Id: AgentPhone.dtl,v 1.19 2004-04-27 12:29:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,7 +55,7 @@ function SpellCheckSubmit()
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post" name="compose">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
@@ -80,7 +80,7 @@ function SpellCheckSubmit()
     <td>$Text{"Options"}:</td>
     <td> 
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
-#      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
@@ -90,6 +90,9 @@ function SpellCheckSubmit()
 $Text{"$Config{"PhoneDefaultNoteText"}"}
 </textarea>
     </td>
+  </tr>
+  <tr>
+    <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<!--<input type="button" class="button" onclick="attach()" value="$Text{"Attach"}">--><a name="attachment"></td>
   </tr>
   <tr>
     <td>$Text{"Next ticket state"}:</td>
