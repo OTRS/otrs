@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.12 2003-03-13 16:49:49 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.13 2003-04-24 19:51:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -99,7 +99,17 @@ sub Run {
     # get data (viewable tickets...)
     # --
     my $AllTickets = 0; 
-    my $SQL = "SELECT count(*) FROM " .
+    my $SQL = "SELECT count(*) FROM ".
+       " ticket st ".
+       " WHERE ".
+       " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $AllTickets = $Row[0];
+    }
+
+    my @ViewableTickets = ();
+    $SQL = "SELECT st.id FROM " .
        " ticket st, ticket_state tsd, queue q, " . 
          $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
        " WHERE " .
@@ -109,29 +119,10 @@ sub Run {
        " AND ".
        " q.id = st.queue_id ".
        " AND ".
-       " st.customer_id = '$Self->{UserCustomerID}' ";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $AllTickets = $Row[0];
-    }
-
-
-   my @ViewableTickets = ();
-   $SQL = "SELECT st.id, st.queue_id FROM " .
-       " ticket st, queue q, " . 
-         $Self->{ConfigObject}->Get('DatabaseUserTable'). " u, ticket_state tsd ".
-       " WHERE " .
-       " st.user_id = u.". $Self->{ConfigObject}->Get('DatabaseUserTableUserID') .
-       " AND ".
-       " q.id = st.queue_id ".
-       " AND ".
-       " st.ticket_state_id = tsd.id ".
-       " AND ".
-       " st.customer_id = '$Self->{UserCustomerID}' ";
+       " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'";
     # check if just open tickets should be shown
-    if ((defined $Self->{UserShowClosedTickets} && !$Self->{UserShowClosedTickets}) || 
-        (!defined $Self->{UserShowClosedTickets} && !$Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
-
+    if (!$Self->{UserShowClosedTickets}|| (!defined $Self->{UserShowClosedTickets} 
+      && $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
             Type => 'Viewable',
             Result => 'ID',
@@ -179,25 +170,17 @@ sub Run {
 
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{StartHit}+$Self->{PageShown});
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        my $Data = {
-            TicketID => $RowTmp[0],
-            TicketQueueID => $RowTmp[1],
-        };
-        push (@ViewableTickets, $Data);
+        push (@ViewableTickets, $RowTmp[0]);
     }
-
     # --
     # show ticket's
     # --
     my $OutputTable = "";
     my $Counter = 0;
-    foreach my $DataTmp (@ViewableTickets) {
+    foreach my $TicketID (@ViewableTickets) {
       $Counter++;
       if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{PageShown}+$Self->{StartHit})) {
-        $OutputTable .= ShowTicketStatus(
-           $Self,
-           %{$DataTmp}, 
-        );
+        $OutputTable .= $Self->ShowTicketStatus(TicketID => $TicketID);
       }
     }
     $Output .= $Self->{LayoutObject}->CustomerStatusView(
@@ -226,79 +209,52 @@ sub ShowTicketStatus {
     # get last customer articles
     # --
     my @ShownViewableTicket = ();
-    my $SQL = "SELECT sa.ticket_id, sa.a_subject, " .
-       " st.create_time_unix, st.user_id, " .
-       " st.customer_id, sq.name as queue, sa.id as article_id, " .
-       " st.id, st.tn, sp.name, sd.name as state, st.queue_id, " .
-       " st.create_time, ".
-       " su.$Self->{ConfigObject}->{DatabaseUserTableUser} " .
-       " FROM " .
-       " article sa, ticket st, ticket_priority sp, ticket_state sd, " .
-       " article_sender_type sdt, queue sq, " .
-       " $Self->{ConfigObject}->{DatabaseUserTable} su " .
-       " WHERE " .
-       " sa.ticket_id = st.id " .
-       " AND " .
-       " sa.article_sender_type_id = sdt.id " .
-       " AND " .
-       " sq.id = st.queue_id" .
-       " AND " .
-       " sp.id = st.ticket_priority_id " .
-       " AND " .
-       " st.ticket_state_id = sd.id " .
-       " AND " .
-       " sa.ticket_id = $TicketID " .
-       " AND " .
-       " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
-       " AND " .
-       " sdt.name in ( ${\(join ', ', @{$Self->{ViewableSenderTypes}})}) " .
-       " ORDER BY sa.create_time DESC ";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
-    while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-        my $Age = time() - $$Data{create_time_unix};
-        # Condense down the subject
-        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-        my $Subject = $$Data{a_subject};
-        $Subject =~ s/^RE://i; 
-        $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
-
-        $Output .= $Self->{LayoutObject}->CustomerStatusViewTable(
-           TicketNumber => $$Data{tn}, 
-           Priority => $$Data{name},
-           State => $$Data{state},   
-           TicketID => $$Data{id},
-           ArticleID => $$Data{article_id},
-           Owner => $$Data{login},
-           Subject => $Subject,
-           Age => $Age,
-           Created => $$Data{create_time},
-           Queue => $$Data{queue},
-           CustomerID => $$Data{customer_id},
-        );
-        push (@ShownViewableTicket, $$Data{id});
-    }
+    my @ArticleIndex = $Self->{TicketObject}->GetArticleIndex(
+        TicketID => $TicketID, 
+        SenderType => 'customer',
+    );
     # --
-    # if there is no customer article avalible! Error!
+    # check article index
     # --
-    my $Hit = 0;
-    foreach (@ShownViewableTicket) {
-       if ($_ == $TicketID) {  
-           $Hit = 1;
-       }
-    }
-    if ($Hit == 0) {
-       $Output .= $Self->{LayoutObject}->Error(
-           Message => "No customer article found!! (TicketID=$TicketID)",
-           Comment => 'Please contact your admin',
-       );
-       $Self->{LogObject}->Log(
+    if (!@ArticleIndex) {
+        $Self->{LogObject}->Log(
            Priority => 'error',
            Message => "No customer article found!! (TicketID=$TicketID)",
            Comment => 'Please contact your admin',
-       );
+        ); 
+        return;
     }
     # --
-    # return page
+    # get last article
+    # --
+    my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleIndex[$#ArticleIndex]);
+    # Condense down the subject
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+    my $Subject = $Article{Subject};
+    $Subject =~ s/^RE://i;
+    $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
+    if (%Article) {
+        $Output .= $Self->{LayoutObject}->CustomerStatusViewTable(
+            %Article,
+            Subject => $Subject,
+        );
+    }
+    else {
+        # --
+        # if there is no customer article avalible! Error!
+        # --
+        $Output .= $Self->{LayoutObject}->Error(
+           Message => "No customer article found!! (TicketID=$TicketID)",
+           Comment => 'Please contact your admin',
+        );
+        $Self->{LogObject}->Log(
+           Priority => 'error',
+           Message => "No customer article found!! (TicketID=$TicketID)",
+           Comment => 'Please contact your admin',
+        );
+    }
+    # --
+    # return ticket
     # --
     return $Output;
 }
