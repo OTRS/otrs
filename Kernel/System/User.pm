@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.11 2002-07-21 19:14:39 martin Exp $
+# $Id: User.pm,v 1.12 2002-07-21 22:55:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -92,7 +92,13 @@ sub GetLockedCount {
 sub GetGroups {
     my $Self = shift;
     my %Param = @_;
-    my $UserID = $Param{UserID} || return;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
+        return;
+    }
     my %Groups = ();
 
     my $SQL = "SELECT g.id, g.name " .
@@ -101,7 +107,7 @@ sub GetGroups {
     " WHERE " .
     " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
     " AND ".
-    " gu.user_id = $UserID".
+    " gu.user_id = $Param{UserID}".
     " AND " .
     " g.id = gu.group_id ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -474,5 +480,16 @@ sub GetUserByID {
     }
 } 
 # --
-
+sub UserList {
+    my $Self = shift;
+    my %Param = @_;
+    my %Users = $Self->{DBObject}->GetTableData(
+        What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+            " $Self->{ConfigObject}->{DatabaseUserTableUser}",
+        Table => $Self->{ConfigObject}->{DatabaseUserTable},
+        Valid => 1,
+    );
+    return %Users;
+}
+# --
 1;
