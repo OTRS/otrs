@@ -2,14 +2,14 @@
 # --
 # otrs.getGroupID - return numeric group id
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.getGroupID,v 1.4 2002-12-18 17:33:03 martin Exp $
+# $Id: otrs.getGroupID,v 1.5 2003-01-16 18:48:05 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
 BEGIN{
-   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../", "$Bin/../Kernel/cpan-lib");
+   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../", "$FindBin::Bin/../Kernel/cpan-lib");
    unless ($ARGV[0]){
       print "Usage: $FindBin::Script groupname";
       print "\n";
