@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.121 2004-06-29 10:42:23 martin Exp $
+# $Id: Ticket.pm,v 1.122 2004-07-05 05:58:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,6 +13,7 @@ package Kernel::System::Ticket;
 
 use strict;
 use Time::Local;
+use File::Path;
 use Kernel::System::Time;
 use Kernel::System::Ticket::Article;
 use Kernel::System::State;
@@ -31,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.121 $';
+$VERSION = '$Revision: 1.122 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -496,7 +497,7 @@ sub TicketGet {
         return %{$Self->{'Cache::GetTicket'.$Param{TicketID}}};
     }
     # db query
-    my $SQL = "SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, slt.id, slt.name, ".
+    my $SQL = "SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, st.ticket_lock_id, ".
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
         " st.customer_id, st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
         " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, st.ticket_answered, st.until_time, ".
@@ -505,11 +506,9 @@ sub TicketGet {
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8 ".
         " FROM ".
-        " ticket st, ticket_lock_type slt, ticket_priority sp, ".
+        " ticket st, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
         " WHERE ".
-        " slt.id = st.ticket_lock_id ".
-        " AND ".
         " sp.id = st.ticket_priority_id ".
         " AND ".
         " sq.id = st.queue_id ".
@@ -524,38 +523,37 @@ sub TicketGet {
         $Ticket{Queue} = $Row[2];
         $Ticket{StateID} = $Row[3];
         $Ticket{LockID} = $Row[4];
-        $Ticket{Lock} = $Row[5];
-        $Ticket{PriorityID} = $Row[6];
-        $Ticket{Priority} = $Row[7];
-        $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
-#        $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Row[8]);
-        $Ticket{CreateTimeUnix} = $Row[8];
-        $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[8]);
-        $Ticket{GroupID} = $Row[10];
-        $Ticket{TicketNumber} = $Row[11];
-        $Ticket{CustomerID} = $Row[12];
-        $Ticket{CustomerUserID} = $Row[18];
-        $Ticket{UserID} = $Row[13];
-        $Ticket{OwnerID} = $Row[14];
-        $Ticket{Owner} = $Row[15];
-        $Ticket{Answered} = $Row[16];
-        $Ticket{RealTillTimeNotUsed} = $Row[17];
-        $Ticket{TicketFreeKey1} = $Row[19] || '';
-        $Ticket{TicketFreeText1} = $Row[20] || '';
-        $Ticket{TicketFreeKey2} = $Row[21] || '';
-        $Ticket{TicketFreeText2} = $Row[22] || '';
-        $Ticket{TicketFreeKey3} = $Row[23] || '';
-        $Ticket{TicketFreeText3} = $Row[24] || '';
-        $Ticket{TicketFreeKey4} = $Row[25] || '';
-        $Ticket{TicketFreeText4} = $Row[26] || '';
-        $Ticket{TicketFreeKey5} = $Row[27] || '';
-        $Ticket{TicketFreeText5} = $Row[28] || '';
-        $Ticket{TicketFreeKey6} = $Row[29] || '';
-        $Ticket{TicketFreeText6} = $Row[30] || '';
-        $Ticket{TicketFreeKey7} = $Row[31] || '';
-        $Ticket{TicketFreeText7} = $Row[32] || '';
-        $Ticket{TicketFreeKey8} = $Row[33] || '';
-        $Ticket{TicketFreeText8} = $Row[34] || '';
+        $Ticket{PriorityID} = $Row[5];
+        $Ticket{Priority} = $Row[6];
+        $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Row[7];
+#        $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Row[7]);
+        $Ticket{CreateTimeUnix} = $Row[7];
+        $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[7]);
+        $Ticket{GroupID} = $Row[9];
+        $Ticket{TicketNumber} = $Row[10];
+        $Ticket{CustomerID} = $Row[11];
+        $Ticket{CustomerUserID} = $Row[17];
+        $Ticket{UserID} = $Row[12];
+        $Ticket{OwnerID} = $Row[13];
+        $Ticket{Owner} = $Row[14];
+        $Ticket{Answered} = $Row[15];
+        $Ticket{RealTillTimeNotUsed} = $Row[16];
+        $Ticket{TicketFreeKey1} = $Row[18] || '';
+        $Ticket{TicketFreeText1} = $Row[19] || '';
+        $Ticket{TicketFreeKey2} = $Row[20] || '';
+        $Ticket{TicketFreeText2} = $Row[21] || '';
+        $Ticket{TicketFreeKey3} = $Row[22] || '';
+        $Ticket{TicketFreeText3} = $Row[23] || '';
+        $Ticket{TicketFreeKey4} = $Row[24] || '';
+        $Ticket{TicketFreeText4} = $Row[25] || '';
+        $Ticket{TicketFreeKey5} = $Row[26] || '';
+        $Ticket{TicketFreeText5} = $Row[27] || '';
+        $Ticket{TicketFreeKey6} = $Row[28] || '';
+        $Ticket{TicketFreeText6} = $Row[29] || '';
+        $Ticket{TicketFreeKey7} = $Row[30] || '';
+        $Ticket{TicketFreeText7} = $Row[31] || '';
+        $Ticket{TicketFreeKey8} = $Row[32] || '';
+        $Ticket{TicketFreeText8} = $Row[33] || '';
     }
     # check ticket
     if (!$Ticket{TicketID}) {
@@ -565,6 +563,8 @@ sub TicketGet {
         );
         return;
     }
+    # get lock
+    $Ticket{Lock} = $Self->{LockObject}->LockLookup(ID => $Ticket{LockID});
     # get state info
     my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
     $Ticket{StateType} = $StateData{TypeName};
@@ -2682,7 +2682,7 @@ sub HistoryTicketGet {
       }
     }
     # check cache
-    my $Path = $Self->{ConfigObject}->Get('TempDir');
+    my $Path = $Self->{ConfigObject}->Get('TempDir')."/TicketHistoryCache/$Param{StopYear}/$Param{StopMonth}";
     my $File = "TicketHistoryCache_$Param{TicketID}_$Param{StopYear}-$Param{StopMonth}-$Param{StopDay}";
     $File =~ s/ //g;
     $File = quotemeta($File);
@@ -2709,7 +2709,7 @@ sub HistoryTicketGet {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    my $SQL = "SELECT th.name, tht.name, th.create_time, th.create_by FROM ".
+    my $SQL = "SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id, th.article_id, th.system_queue_id FROM ".
         "ticket_history th, ticket_history_type tht ".
         "WHERE ".
         "th.history_type_id = tht.id ".
@@ -2721,7 +2721,7 @@ sub HistoryTicketGet {
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 600);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Row[1] eq 'NewTicket') {
-            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/) {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /Ticket=\[(.+?)\],.+?Q\=(.+?);P\=(.+?);S\=(.+?)/) {
                 $Ticket{TicketNumber} = $1;
                 $Ticket{Queue} = $2;
                 $Ticket{CreateQueue} = $2;
@@ -2729,7 +2729,7 @@ sub HistoryTicketGet {
                 $Ticket{CreatePriority} = $3;
                 $Ticket{State} = $4;
                 $Ticket{CreateState} = $4;
-                $Ticket{TicketID} = $5;
+                $Ticket{TicketID} = $Row[4];
                 $Ticket{Owner} = 'root';
                 $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
@@ -2741,7 +2741,7 @@ sub HistoryTicketGet {
             }
         }
         elsif ($Row[1] eq 'StateUpdate') {
-            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/) {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/ || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/) {
                 $Ticket{State} = $2;
                 $Ticket{StateTime} = $Row[2];
             }
@@ -2778,6 +2778,14 @@ sub HistoryTicketGet {
         );
         # if the request is for the last month or older, cache it 
         if ($Year <= $Param{StopYear} && $Month > $Param{StopMonth}) {
+            # create sub directory if needed
+            if (! -e $Path && !File::Path::mkpath([$Path], 0, 0775)) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't create directory: $Path: $!",
+                );
+            }
+            # write cache file
             if (open (DATA, "> $Path/$File")) {
                 foreach (keys %Ticket) {
                     print DATA "$_:$Ticket{$_}\n";
@@ -2791,6 +2799,7 @@ sub HistoryTicketGet {
                 );
             }
         }
+        # return ticket data
         return %Ticket;
     }
 }
@@ -3297,6 +3306,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.121 $ $Date: 2004-06-29 10:42:23 $
+$Revision: 1.122 $ $Date: 2004-07-05 05:58:41 $
 
 =cut
