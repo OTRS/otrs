@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.6 2003-03-13 19:02:02 martin Exp $
+-- $Id: initial_insert.sql,v 1.7 2003-03-28 18:41:31 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.6  2003/03/13 19:02:02  martin
+-- changed docu.otrs.org to doc.otrs.org
+--
 -- Revision 1.5  2003/03/10 21:25:50  martin
 -- added customer email notification on move, state update
 --     or owner update (config option for each queue).
@@ -355,21 +358,21 @@ INSERT INTO follow_up_possible
 
 -- queue
 INSERT INTO queue
-    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 0, 'master queue', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'master queue', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO queue
-    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 'all incoming tickets', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all incoming tickets', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO queue
-    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 'all junk tickets', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all junk tickets', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO queue
-    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 'all misk tickets', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all misk tickets', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ticket_history_type
 INSERT INTO ticket_history_type
