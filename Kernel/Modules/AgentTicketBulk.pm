@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBulk.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -54,15 +56,12 @@ sub Run {
     }
     # check needed stuff
     if (!@TicketIDs) {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => "No TicketID is given!",
             Comment => 'You need min. one selected Ticket!',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
-    $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Bulk Action');
+    $Output = $Self->{LayoutObject}->Header();
     # process tickets
     foreach (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);

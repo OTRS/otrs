@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.18 2005-02-17 07:07:26 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.19 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,9 +33,10 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      QueueObject ConfigObject UserObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # customer user object
@@ -120,7 +121,7 @@ sub Run {
         );
     }
     # genterate output
-    $Output .= $Self->{LayoutObject}->PrintHeader(Area => 'Ticket', Title => $Ticket{TicketNumber});
+    $Output .= $Self->{LayoutObject}->PrintHeader(Value => $Ticket{TicketNumber});
     # do some html quoting
     $Ticket{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Ticket{Age}, Space => ' ');
     if ($Ticket{UntilTime}) {

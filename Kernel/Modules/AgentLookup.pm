@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLookup.pm,v 1.5 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentLookup.pm,v 1.6 2005-03-27 11:52:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLookup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(TicketObject ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     return $Self;

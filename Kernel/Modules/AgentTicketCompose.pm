@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.2 2005-03-18 11:12:41 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,9 +40,10 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject
-      ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # some new objects
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -102,8 +103,6 @@ sub Form {
     my $Output;
     my %Error = ();
     my %GetParam = %{$Self->{GetParam}};
-    # start with page ...
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Compose');
     # check needed stuff
     if (!$Self->{TicketID}) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -113,6 +112,8 @@ sub Form {
     }
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+    # start with page ...
+    $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
     if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
         # redirect
         return $Self->{LayoutObject}->Redirect(
@@ -510,7 +511,7 @@ sub SendEmail {
     # --
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Compose');
+        my $Output = $Self->{LayoutObject}->Header(Value => $Tn);
         $GetParam{StdResponse} = $GetParam{Body};
         $Output .= $Self->_Mask(
             TicketNumber => $Tn,
@@ -626,12 +627,7 @@ sub SendEmail {
     }
     else {
       # error page
-      $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
-      $Output .= $Self->{LayoutObject}->Error(
-          Comment => 'Please contact the admin.',
-      );
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
+      return $Self->{LayoutObject}->ErrorScreen();
     }
 }
 # --

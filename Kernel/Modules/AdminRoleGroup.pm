@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleGroup.pm,v 1.4 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminRoleGroup.pm,v 1.5 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminRoleGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     return $Self;
 }
@@ -45,7 +47,7 @@ sub Run {
 
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'Role') {
-        my $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User <-> Groups');
+        my $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user data
         my %Role = $Self->{GroupObject}->RoleGet(ID => $ID);
@@ -72,7 +74,7 @@ sub Run {
     }
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Group') {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> Groups');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get role data
         my %RoleData = $Self->{GroupObject}->RoleList(Valid => 1);
@@ -160,7 +162,7 @@ sub Run {
     }
     # else ! print form
     else {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> Groups');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user data
         my %RoleData = $Self->{GroupObject}->RoleList(Valid => 1);

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.pm,v 1.2 2005-03-18 11:12:41 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -92,8 +92,6 @@ sub Form {
     my $Output;
     my %Error = ();
     my %GetParam = %{$Self->{GetParam}};
-    # start with page ...
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Forward');
     # check needed stuff
     if (!$Self->{TicketID}) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -328,6 +326,8 @@ sub Form {
         Config => \%TicketFreeText,
     );
     # build view ...
+    # start with page ...
+    $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID => $Self->{TicketID},
@@ -487,7 +487,7 @@ sub SendEmail {
     # --
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Forward');
+        my $Output = $Self->{LayoutObject}->Header(Value => $Tn);
         $Output .= $Self->_Mask(
             TicketNumber => $Tn,
             TicketID => $Self->{TicketID},

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.190 2005-03-08 14:15:11 martin Exp $
+# $Id: Defaults.pm,v 1.191 2005-03-27 11:50:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.190 $';
+$VERSION = '$Revision: 1.191 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1166,6 +1166,17 @@ Your OTRS Notification Master
 #        SomeParam => 'DefaultValue',
     };
     # --------------------------------------------------- #
+    # default core objects and params in public frontend
+    # --------------------------------------------------- #
+    $Self->{'PublicFrontend::CommonObject'} = {
+        # key => module
+#        SomeObject => 'Kernel::System::Some',
+    };
+    $Self->{'PublicFrontend::CommonParam'} = {
+        # param => default value
+#        SomeParam => 'DefaultValue',
+    };
+    # --------------------------------------------------- #
     # Frontend Module Registry (Agent)
     # --------------------------------------------------- #
     # Module (from Kernel/Modules/*.pm) => Group
@@ -1187,38 +1198,38 @@ Your OTRS Notification Master
 
     $Self->{'Frontend::Module'}->{'AgentPreferences'} = {
         Description => 'Agent Preferences',
-#        NavBarName => 'Ticket',
+        Title => 'Preferences',
         NavBar => [
           {
             Description => 'Agent Preferences',
             Name => 'Preferences',
             Image => 'prefer.png',
             Link => 'Action=AgentPreferences',
-#            NavBar => 'Ticket',
-#            Type => 'Menu',
-#            Block => 'Item',
             Prio => 1000,
          },
        ],
     };
     $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
         Description => 'Spell checker',
+        Title => 'Spell Checker',
     };
     $Self->{'Frontend::Module'}->{'AgentBook'} = {
         Description => 'Address book of CustomerUser sources',
+        Title => 'Address Book',
     };
     $Self->{'Frontend::Module'}->{'AgentLinkObject'} = {
         Description => 'Link Object',
-        NavBarName => 'Ticket',
+        Title => 'Link Object',    
     };
     $Self->{'Frontend::Module'}->{'AgentInfo'} = {
-        Description => 'Generic Agent Info module',
-        NavBarName => 'Ticket',
+        Description => 'Generic Info module',
+        Title => 'Info',
     };
     # stats
     $Self->{'Frontend::Module'}->{'SystemStats'} = {
         GroupRo => ['stats', 'admin'],
         Description => 'Stats',
+        Title => 'Stats',
         NavBarName => 'Ticket',
         NavBar => [
           {
@@ -1235,6 +1246,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'Admin'} = {
         Group => ['admin'],
         Description => 'Admin-Area',
+        Title => '',
         NavBarName => 'Admin',
         NavBar => [
           {
@@ -1255,6 +1267,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminUser'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'User',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1266,6 +1279,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Group',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1277,6 +1291,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'User <-> Groups',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1289,6 +1304,7 @@ Your OTRS Notification Master
         GroupRo => '',
         Group => ['admin', 'users'],
         Description => 'Edit Customer Users',
+        Title => 'Customer User',
         NavBarName => '',
         NavBar => [
           {
@@ -1310,6 +1326,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Customer User <-> Group',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1321,6 +1338,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminRole'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Role',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1332,6 +1350,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Role <-> User',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1343,6 +1362,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Role <-> Groups',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1354,6 +1374,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'SMIME Management',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1365,6 +1386,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminPGP'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'PGP Key Management',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1376,6 +1398,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'POP3 Account',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1387,6 +1410,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'PostMaster Filter',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1398,6 +1422,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminEmail'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Admin-Email',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1409,6 +1434,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminSession'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Session Management',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1420,6 +1446,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminLog'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'System Log',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1431,6 +1458,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Select box',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1442,6 +1470,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
         Group => ['admin'],
         Description => 'Software Package Manager',
+        Title => 'Package Manager',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1469,6 +1498,7 @@ Your OTRS Notification Master
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerPreferences'} = {
         Description => 'Customer preferences.',
+        Title => 'Preferences',
         NavBar => [
           {
             Description => 'Preferences',
@@ -1481,6 +1511,7 @@ Your OTRS Notification Master
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerAccept'} = {
         Description => 'To accept login infos',
+        Title => 'Info',
     };
 
     # --------------------------------------------------- #
@@ -1616,6 +1647,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.190 $ $Date: 2005-03-08 14:15:11 $
+$Revision: 1.191 $ $Date: 2005-03-27 11:50:49 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponse.pm,v 1.15 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.16 2005-03-27 11:50:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # lib object
@@ -71,7 +73,7 @@ sub Run {
     if ($Param{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{AutoResponseObject}->AutoResponseGet(ID => $ID);
-        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Auto response change');
+        $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -103,7 +105,7 @@ sub Run {
     }
     # else ! print form
     else {
-        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Auto response add');
+        $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();

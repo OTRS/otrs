@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCustomerFollowUp.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketCustomerFollowUp.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,9 +33,10 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
-       ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -62,7 +63,7 @@ sub Run {
         }
         else {
             # header
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Compose Follow up');
+            $Output .= $Self->{LayoutObject}->Header();
             # get user lock data
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             # build NavigationBar

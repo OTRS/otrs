@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.180 2005-03-03 07:45:57 martin Exp $
+# $Id: Generic.pm,v 1.181 2005-03-27 11:52:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.180 $';
+$VERSION = '$Revision: 1.181 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1084,11 +1084,6 @@ sub Header {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
-    # check area
-    if (!$Param{'Area'} && $Param{'Title'}) {
-        $Param{'Area'} = $Param{'Title'};
-        $Param{'Title'} = '';
-    }
     # fix IE bug if in filename is the word attachment
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
     if ($Self->{BrowserBreakDispositionHeader}) {
@@ -1096,6 +1091,18 @@ sub Header {
     }
     # set file name for "save page as"
     $Param{"ContentDisposition"} = "filename=\"$File.html\"";
+    # area and title
+    if (!$Param{Area}) {
+        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    }
+    if (!$Param{Title}) {
+        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{$Self->{Action}}->{Title} || '';
+    }
+    foreach (qw(Area Title Value)) {
+        if ($Param{$_}) {
+            $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
+        }
+    }
     # create & return output
     $Output .= $Self->Output(TemplateFile => "Header$Type", Data => \%Param);
     return $Output;
@@ -1123,6 +1130,18 @@ sub PrintHeader {
     }
     # set file name for "save page as"
     $Param{"ContentDisposition"} = "filename=\"$File.html\"";
+    # area and title
+    if (!$Param{Area}) {
+        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    }
+    if (!$Param{Title}) {
+        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{$Self->{Action}}->{Title} || '';
+    }
+    foreach (qw(Area Title Value)) {
+        if ($Param{$_}) {
+            $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
+        }
+    }
     # create & return output
     $Output .= $Self->Output(TemplateFile => 'PrintHeader', Data => \%Param);
     return $Output;
@@ -1156,7 +1175,8 @@ sub Ascii2Html {
     if ($NewLine && length($Text) < 8000) {
         $Text =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
         $Text =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
-        my $ForceNewLine = $NewLine+20;
+        my $ForceNewLine = $NewLine+5;
+#        $Text =~ s/([A-z-_#=\.]{$ForceNewLine})/$1\n/g;
         $Text =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
     }
     # strip empty lines
@@ -1634,7 +1654,7 @@ sub Attachment {
     }
     $Output .= "filename=\"$Param{Filename}\"\n".
       "Content-Type: $Param{ContentType}\n\n".
-      "$Param{Content}";
+      $Param{Content};
     return $Output;
 }
 # --
@@ -2132,6 +2152,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.180 $ $Date: 2005-03-03 07:45:57 $
+$Revision: 1.181 $ $Date: 2005-03-27 11:52:21 $
 
 =cut

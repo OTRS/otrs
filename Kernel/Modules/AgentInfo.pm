@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentInfo.pm - to show an agent an login/changes info
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentInfo.pm,v 1.2 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentInfo.pm,v 1.3 2005-03-27 11:52:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentInfo;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{InfoKey} = $Self->{ConfigObject}->Get('InfoKey');
@@ -105,7 +107,7 @@ sub Run {
     }
     else {
         # show info
-        $Output = $Self->{LayoutObject}->Header(Title => 'Info');
+        $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => $Self->{InfoFile}, Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

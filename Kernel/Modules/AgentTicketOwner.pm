@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketOwner.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketOwner.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # get params
@@ -61,7 +63,7 @@ sub Run {
         # check new/old user selection
         if ($Self->{UserSelection} eq 'Old') {
             if (!$Self->{OldUserID}) {
-                $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Owner');
+                $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, you need to select a previous owner!",
                     Comment => 'Please go back and select one.',
@@ -75,7 +77,7 @@ sub Run {
         }
         else {
             if (!$Self->{NewUserID}) {
-                $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Owner');
+                $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, you need to select a new owner!",
                     Comment => 'Please go back and select one.',
@@ -116,17 +118,14 @@ sub Run {
           return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
         }
         else {
-          $Output = $Self->{LayoutObject}->Header(Title => "Error");
-          $Output .= $Self->{LayoutObject}->Error();
-          $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
+          return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     else {
         # print form
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         my $OwnerID = $Self->{TicketObject}->OwnerCheck(TicketID => $Self->{TicketID});
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Set Owner');
+        $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user of own groups
         my %ShownUsers = ();

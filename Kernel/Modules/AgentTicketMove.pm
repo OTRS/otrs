@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMove.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     $Self->{StateObject} = Kernel::System::State->new(%Param);
 
@@ -97,7 +99,7 @@ sub Run {
     }
     # move queue
     if (!$Self->{DestQueueID} || $Self->{ExpandQueueUsers}) {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Move Ticket');
+        $Output .= $Self->{LayoutObject}->Header();
         # get lock state && write (lock) permissions
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             # set owner

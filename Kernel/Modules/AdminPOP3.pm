@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3.pm,v 1.12 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminPOP3.pm,v 1.13 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{POP3Account} = Kernel::System::POP3Account->new(%Param);
@@ -59,7 +61,7 @@ sub Run {
         else {
             my %Data = $Self->{POP3Account}->POP3AccountGet(ID => $ID);
             my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
+            $Output .= $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->_Mask(%Data, POP3AccountList => \%List);
             $Output .= $Self->{LayoutObject}->Footer();
@@ -76,11 +78,9 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Comment => 'Click back and check your selection!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
         }
         return $Output;
     }
@@ -94,19 +94,16 @@ sub Run {
              return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Comment => 'Click back and check your selection!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
         }
         return $Output;
     }
     # else ! print form
     else {
         my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(POP3AccountList => \%List);
         $Output .= $Self->{LayoutObject}->Footer();

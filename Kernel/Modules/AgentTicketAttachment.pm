@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketAttachment.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketAttachment.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # get ArticleID
@@ -51,34 +53,22 @@ sub Run {
     # check params
     # --
     if (!$Self->{FileID} || !$Self->{ArticleID}) {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => 'FileID and ArticleID are needed!',
-            Comment => 'Please contact your admin'
-        );
         $Self->{LogObject}->Log(
             Message => 'FileID and ArticleID are needed!',
             Priority => 'error',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        return $Self->{LayoutObject}->ErrorScreen();
     }
     # --
     # check permissions
     # --
     my %ArticleData = $Self->{TicketObject}->ArticleGet(ArticleID => $Self->{ArticleID});
     if (!$ArticleData{TicketID}) {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => "No TicketID for ArticleID ($Self->{ArticleID})!",
-            Comment => 'Please contact your admin'
-        );
         $Self->{LogObject}->Log(
             Message => "No TicketID for ArticleID ($Self->{ArticleID})!",
             Priority => 'error',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        return $Self->{LayoutObject}->ErrorScreen();
     }
     elsif ($Self->{TicketObject}->Permission(
         Type => 'ro',
@@ -113,10 +103,7 @@ sub Run {
                         Priority => 'error',
                         Message => "Cant write $TmpFile: $!",
                     );
-                    $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-                    $Output .= $Self->{LayoutObject}->Error();
-                    $Output .= $Self->{LayoutObject}->Footer();
-                    return $Output;
+                    return $Self->{LayoutObject}->ErrorScreen();
                 }
                 # use viewer
                 my $Content = '';
@@ -136,17 +123,11 @@ sub Run {
             }
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
-              Message => "No such attacment ($Self->{FileID})!",
-              Comment => 'Please contact your admin'
-            );
             $Self->{LogObject}->Log(
               Message => "No such attacment ($Self->{FileID})! May be an attack!!!",
               Priority => 'error',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     else {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketHistory.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketHistory.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -62,11 +62,6 @@ sub Run {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    # --
-    # build header
-    # --
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'History');
-    $Output .= $Self->{LayoutObject}->NavigationBar();
 
     my @Lines = $Self->{TicketObject}->HistoryGet(
         TicketID => $Self->{TicketID},
@@ -106,6 +101,9 @@ sub Run {
             Data => {%Data},
         );
     }
+    # build header
+    $Output .= $Self->{LayoutObject}->Header(Value => $Tn);
+    $Output .= $Self->{LayoutObject}->NavigationBar();
     # get output
     $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketHistory',

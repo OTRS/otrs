@@ -1045,7 +1045,7 @@ $Data{"Signature"}
     $Self->{CustomerDefaultState} = 'new';
 
     # CustomerNextScreenAfterNewTicket
-#    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerZoom';
+#    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketZoom';
     $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketOverView';
 
     # --------------------------------------------------- #
@@ -1183,6 +1183,7 @@ $Data{"Signature"}
     # --------------------------------------------------- #
     $Self->{'Frontend::Module'}->{'AgentTicketQueue'} = {
         Description => 'Overview of all open Tickets',
+        Title => 'QueueView',
         NavBarName => 'Ticket',
         NavBar => [
           {
@@ -1207,6 +1208,7 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketPhone'} = {
         Description => 'Create new Phone Ticket',
+        Title => 'Phone-Ticket',
         NavBarName => 'Ticket',
         NavBar => [
           {
@@ -1221,6 +1223,7 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketEmail'} = {
         Description => 'Create new Email Ticket',
+        Title => 'Email-Ticket',
         NavBarName => 'Ticket',
         NavBar => [
           {
@@ -1236,6 +1239,7 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketSearch'} = {
         Description => 'Search Tickets',
+        Title => 'Search',
         NavBarName => 'Ticket',
         NavBar => [
           {
@@ -1250,10 +1254,12 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketMailbox'} = {
         Description => 'Agent Mailbox',
+        Title => 'Locked Tickets',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketStatusView'} = {
         Description => 'Overview of all open tickets',
+        Title => 'Status View',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentZoom'} = {
@@ -1262,6 +1268,7 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketZoom'} = {
         Description => 'Ticket Zoom',
+        Title => 'Zoom',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketAttachment'} = {
@@ -1269,18 +1276,22 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketPlain'} = {
         Description => 'Ticket plain view of an email',
+        Title => 'Plain Article',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketNote'} = {
         Description => 'Ticket Note',
+        Title => 'Note',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketPending'} = {
         Description => 'Ticket Pending',
+        Title => 'Pending',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketPriority'} = {
         Description => 'Ticket Priority',
+        Title => 'Priority',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketLock'} = {
@@ -1289,56 +1300,69 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketMove'} = {
         Description => 'Ticket Move',
+        Title => 'Move',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketHistory'} = {
         Description => 'Ticket History',
+        Title => 'History',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketOwner'} = {
         Description => 'Ticket Owner',
+        Title => 'Owner',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketCompose'} = {
         Description => 'Ticket Compose Email Answer',
+        Title => 'Compose',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketCustomerFollowUp'} = {
         Description => 'Used if a agent can also be a customer',
+        Title => 'Compose Follow up',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketBounce'} = {
         Description => 'Ticket Compose Bounce Email',
+        Title => 'Bounce',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketForward'} = {
         Description => 'Ticket Forward Email',
+        Title => 'Forward',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketCustomer'} = {
         Description => 'Ticket Customer',
+        Title => 'Customer',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketClose'} = {
         Description => 'Ticket Close',
+        Title => 'Close',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketFreeText'} = {
         Description => 'Ticket FreeText',
+        Title => 'Free Fields',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketPrint'} = {
         Description => 'Ticket Print',
+        Title => 'Print',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketBulk'} = {
         Description => 'Ticket bulk module',
+        Title => 'Bulk Action',
         NavBarName => 'Ticket',
     };
 
     $Self->{'Frontend::Module'}->{'AdminQueue'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Queue',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1350,6 +1374,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminResponse'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Response',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1361,6 +1386,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Response <-> Queue',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1372,6 +1398,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Auto response change',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1383,6 +1410,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Queue <-> Auto Response',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1394,6 +1422,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Attachment',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1405,6 +1434,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Response <-> Queue',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1416,6 +1446,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Salutation',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1427,6 +1458,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminSignature'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Signature',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1438,6 +1470,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'System address',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1449,6 +1482,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminNotification'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'Notification',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1460,6 +1494,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminState'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'State',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1471,6 +1506,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
         Group => ['admin'],
         Description => 'Admin',
+        Title => 'GenericAgent',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1483,6 +1519,8 @@ $Data{"Signature"}
     # customer panel
     $Self->{'CustomerFrontend::Module'}->{'CustomerTicketOverView'} = {
         Description => 'Overview of customer tickets.',
+        NavBarName => 'Ticket',
+        Title => 'Overview',
         NavBar => [
           {
             Description => 'MyTickets',
@@ -1500,26 +1538,35 @@ $Data{"Signature"}
           },
         ],
     };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerMessage'} = {
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketMessage'} = {
         Description => 'Create and updated tickets.',
+        NavBarName => 'Ticket',
+        Title => 'Message',
         NavBar => [
           {
             Description => 'Create new Ticket',
             Name => 'New Ticket',
             Image => 'new.png',
-            Link => 'Action=CustomerMessage',
+            Link => 'Action=CustomerTicketMessage',
             Prio => 100,
           },
         ],
     };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerZoom'} = {
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketZoom'} = {
         Description => 'Ticket zoom view',
+        NavBarName => 'Ticket',
+        Title => 'Zoom',
     };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerAttachment'} = {
+    $Self->{'CustomerFrontend::Module'}->{'CustomerZoom'} = {
+        Description => 'compat mod',
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketAttachment'} = {
         Description => 'To download attachments',
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerTicketSearch'} = {
         Description => 'Customer ticket search.',
+        NavBarName => 'Ticket',
+        Title => 'Search',
         NavBar => [
           {
             Description => 'Search',

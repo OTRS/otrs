@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.6 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.7 2005-03-27 11:50:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,7 +35,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # needed objects
@@ -55,7 +57,7 @@ sub Run {
 
     # check if feature is activ
     if (!$Self->{ConfigObject}->Get('CustomerGroupSupport')) {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Warning(
             Message => 'Sorry, feature not activ!',
@@ -67,7 +69,7 @@ sub Run {
 
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'User') {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $ID);
@@ -93,7 +95,7 @@ sub Run {
     }
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Group') {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);
@@ -187,7 +189,7 @@ sub Run {
     }
     # else ! print form
     else {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGP.pm,v 1.8 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminPGP.pm,v 1.9 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{CryptObject} = Kernel::System::Crypt->new(%Param, CryptType => 'PGP');
@@ -67,12 +69,9 @@ sub Run {
         my $Key = $Self->{ParamObject}->GetParam(Param => 'Key') || '';
         my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Key) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need param Key to delete!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $Message = '';
         if ($Type eq 'sec') {
@@ -98,7 +97,7 @@ sub Run {
                 },
             );
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PGP Key Management');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         if (!$Message) {
             $Message = "Key $Key deleted!";
@@ -120,12 +119,9 @@ sub Run {
             Source => 'String',
         );
         if (!%UploadStuff) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need Key!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $Message = $Self->{CryptObject}->KeyAdd(Key => $UploadStuff{Content});
         if (!$Message) {
@@ -145,7 +141,7 @@ sub Run {
                 },
             );
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PGP Key Management');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPGPForm', Data => \%Param);
@@ -157,12 +153,9 @@ sub Run {
         my $Key = $Self->{ParamObject}->GetParam(Param => 'Key') || '';
         my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Key) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need param Key to download!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $KeyString = '';
         if ($Type eq 'sec') {
@@ -183,12 +176,9 @@ sub Run {
         my $Key = $Self->{ParamObject}->GetParam(Param => 'Key') || '';
         my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Key) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need param Key to download!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $Download = '';
         if ($Type eq 'sec') {
@@ -223,7 +213,7 @@ sub Run {
                 },
             );
         }
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PGP Key Management');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPGPForm', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();

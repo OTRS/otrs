@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponses.pm,v 1.13 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.14 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     return $Self;
@@ -51,7 +53,7 @@ sub Run {
 
     # user <-> group 1:n
     if ($Subaction eq 'Response') {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
         # get StdResponses data
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
@@ -79,7 +81,7 @@ sub Run {
     }
     # group <-> user n:1
     elsif ($Subaction eq 'Queue') {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
@@ -141,7 +143,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminState.pm - to add/update/delete system states
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminState.pm,v 1.13 2004-12-02 09:29:53 martin Exp $
+# $Id: AdminState.pm,v 1.14 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,10 +31,14 @@ sub new {
     }
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
+
     # state object
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+
     return $Self;
 }
 # --
@@ -46,7 +50,7 @@ sub Run {
     # get data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System state');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         my %Data = $Self->{StateObject}->StateGet(ID => $ID);
         $Output .= $Self->_Mask(%Data);
@@ -65,12 +69,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin');
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # add new state
@@ -89,7 +88,7 @@ sub Run {
     }
     # else ! print form
     else {
-        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System state');
+        $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();

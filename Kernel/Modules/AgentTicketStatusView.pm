@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketStatusView.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,7 +36,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -83,8 +85,6 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->Header(
-       Area => 'Ticket',
-       Title => 'Status View',
        Refresh => $Refresh,
     );
     # build NavigationBar

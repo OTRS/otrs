@@ -92,6 +92,7 @@
         GroupRo => '',
         Group => 'faq',
         Description => 'FAQ-Category',
+        Title => 'Category',
         NavBarName => 'FAQ',
         NavBar => [
           {
@@ -108,6 +109,7 @@
         GroupRo => '',
         Group => 'faq',
         Description => 'FAQ-Language',
+        Title => 'Language',
         NavBarName => 'FAQ',
         NavBar => [
           {
@@ -124,6 +126,25 @@
     # customer panel
     $Self->{'CustomerFrontend::Module'}->{'CustomerFAQ'} = {
         Description => 'Customer faq.',
+        NavBarName => 'FAQ',
+        NavBar => [
+          {
+            Description => 'FAQ-Area',
+            Name => 'FAQ-Area',
+            Image => 'help.png',
+            Link => 'Action=CustomerFAQ',
+            Prio => 400,
+          },
+        ],
+    };
+
+    # param => default value
+    $Self->{'PublicFrontend::CommonParam'}->{Action} = 'PublicFAQ';
+
+    # public panel
+    $Self->{'PublicFrontend::Module'}->{'PublicFAQ'} = {
+        Description => 'Customer faq.',
+        NavBarName => 'FAQ',
         NavBar => [
           {
             Description => 'FAQ-Area',

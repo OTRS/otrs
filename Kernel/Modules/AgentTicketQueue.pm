@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.2 2005-02-23 07:43:53 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,7 +35,9 @@ sub new {
     $Self->{Debug} = 0;
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # --
     # some new objects
@@ -103,8 +105,6 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->Header(
-        Area => 'Ticket',
-        Title => 'QueueView',
         Refresh => $Refresh,
     );
     # build NavigationBar

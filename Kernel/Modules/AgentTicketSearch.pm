@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,7 +36,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
@@ -409,7 +411,7 @@ sub Run {
           }
         }
         # start html page
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Search');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # build search navigation bar
@@ -429,7 +431,7 @@ sub Run {
             );
         }
         elsif ($GetParam{ResultForm} eq 'Print') {
-            $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Ticket', Title => 'Result', Width => 800);
+            $Output = $Self->{LayoutObject}->PrintHeader(Width => 800);
             if (@ViewableIDs == $Self->{SearchLimit}) {
                 $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
             }
@@ -490,7 +492,7 @@ sub Run {
 #            $Self->{Profile} = '';
         }
         # generate search mask
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Search');
+        my $Output = $Self->{LayoutObject}->Header();
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         # get free text config options
         my %TicketFreeText = ();

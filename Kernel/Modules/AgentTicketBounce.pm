@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBounce.pm,v 1.2 2005-03-18 11:12:41 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,13 +56,10 @@ sub Run {
     # --
     foreach (qw(ArticleID TicketID QueueID)) {
         if (! defined $Self->{$_}) {
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Bounce');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
               Message => "$_ is needed!",
               Comment => 'Please contact your admin',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
     }
     # --
@@ -82,7 +79,7 @@ sub Run {
     # prepare salutation
     # --
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Bounce');
+        $Output .= $Self->{LayoutObject}->Header(Value => $Param{TicketNumber});
         # --
         # check if plain article exists
         # --
@@ -247,14 +244,11 @@ sub Run {
                 # --
                 # error page
                 # -- 
-                $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-                $Output .= $Self->{LayoutObject}->Error(
+                return $Self->{LayoutObject}->ErrorScreen(
                     Message => "Can't forward ticket to $Address! It's a local ".
                       "address! You need to move it!",
                     Comment => 'Please contact the admin.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
             }
         }
 
@@ -282,13 +276,10 @@ sub Run {
             HistoryType => 'Bounce',
         )) {
            # error page
-           $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-           $Output .= $Self->{LayoutObject}->Error(
+           return $Self->{LayoutObject}->ErrorScreen(
                Message => "Can't bounce email!",
                Comment => 'Please contact the admin.',
            );
-           $Output .= $Self->{LayoutObject}->Footer();
-           return $Output;
         }
         # --
         # send customer info?
@@ -314,14 +305,11 @@ sub Run {
               ###
             }
             else {
-              # error page
-              $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-              $Output .= $Self->{LayoutObject}->Error(
-                Message => "Can't send email!",
-                Comment => 'Please contact the admin.',
-              );
-              $Output .= $Self->{LayoutObject}->Footer();
-              return $Output;
+                # error page
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "Can't send email!",
+                    Comment => 'Please contact the admin.',
+                );
             }
         }
         # set state
@@ -352,12 +340,10 @@ sub Run {
         }
     }
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => 'Wrong Subaction!!',
             Comment => 'Please contact your admin',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
 }

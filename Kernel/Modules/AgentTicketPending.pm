@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,9 +30,10 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      QueueObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -110,7 +111,7 @@ sub Run {
         # check errors
         if (%Error) {
             # html header
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Pending');
+            my $Output = $Self->{LayoutObject}->Header(Value => $Tn);
             # print form ...
             $Output .= $Self->_Mask(
                 TicketID => $Self->{TicketID},
@@ -165,7 +166,7 @@ sub Run {
     }
     else {
         # html header
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Pending');
+        my $Output = $Self->{LayoutObject}->Header(Value => $Tn);
         # get lock state
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             $Self->{TicketObject}->LockSet(

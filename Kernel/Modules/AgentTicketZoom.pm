@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.2 2005-03-04 11:54:32 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
       QueueObject ConfigObject UserObject SessionObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # set debug
     $Self->{Debug} = 0;
@@ -182,7 +184,7 @@ sub Run {
     # --
     # genterate output
     # --
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Zoom');
+    $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
     $Output .= $Self->{LayoutObject}->NavigationBar();
     # --
     # show ticket

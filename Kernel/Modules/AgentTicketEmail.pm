@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.2 2005-02-23 10:28:20 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,7 +76,7 @@ sub Run {
     }
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Email-Ticket');
+        $Output .= $Self->{LayoutObject}->Header();
         # if there is no ticket id!
         if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
             # navigation bar
@@ -433,7 +433,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Email-Ticket');
+            $Output .= $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             # --
             # html output
@@ -678,20 +678,14 @@ sub Run {
           );
       }
       else {
-          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-          $Output .= $Self->{LayoutObject}->Error();
-          $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
+          return $Self->{LayoutObject}->ErrorScreen();
       }
     }
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No Subaction!!',
             Comment => 'Please contact your admin',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
 }
 # --

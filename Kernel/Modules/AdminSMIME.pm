@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.9 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminSMIME.pm,v 1.10 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{CryptObject} = Kernel::System::Crypt->new(%Param, CryptType => 'SMIME');
@@ -64,12 +66,9 @@ sub Run {
         my $Hash = $Self->{ParamObject}->GetParam(Param => 'Hash') || '';
         my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Hash) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need param Hash to delete!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $Message = '';
         # remove private key
@@ -99,7 +98,7 @@ sub Run {
                 },
             );
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         if ($Message) {
             $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
@@ -120,12 +119,9 @@ sub Run {
             Source => 'String',
         );
         if (!%UploadStuff) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need Certificate!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $Message = $Self->{CryptObject}->CertificateAdd(Certificate => $UploadStuff{Content});
         if (!$Message) {
@@ -145,7 +141,7 @@ sub Run {
                 },
             );
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
@@ -165,12 +161,9 @@ sub Run {
             Source => 'String',
         );
         if (!%UploadStuff) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need Private Key!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $Message = $Self->{CryptObject}->PrivateAdd(
             Private => $UploadStuff{Content},
@@ -193,7 +186,7 @@ sub Run {
                 },
             );
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
@@ -204,12 +197,9 @@ sub Run {
     elsif ($Self->{Subaction} eq 'DownloadFingerprint') {
         my $Hash = $Self->{ParamObject}->GetParam(Param => 'Hash') || '';
         if (!$Hash) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need param Hash to download!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $Certificate = $Self->{CryptObject}->CertificateGet(Hash => $Hash);
         my %Attributes = $Self->{CryptObject}->CertificateAttributes(Certificate => $Certificate);
@@ -225,12 +215,9 @@ sub Run {
         my $Hash = $Self->{ParamObject}->GetParam(Param => 'Hash') || '';
         my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Hash) {
-            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'Need param Hash to download!',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         my $Download = '';
         # download key
@@ -262,7 +249,7 @@ sub Run {
                 },
             );
         }
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPriority.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,9 +31,10 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      QueueObject ConfigObject UserObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # get  PriorityID
@@ -97,7 +98,7 @@ sub Run {
     else {
         # print form
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Priority');
+        $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get and priority priority states
         $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(

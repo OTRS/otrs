@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPlain.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketPlain.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,12 +31,14 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      ConfigObject UserObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject UserObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
+
     return $Self;
 }
 # --
@@ -92,7 +94,7 @@ sub Run {
             $Text =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
             $Text =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
 
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => "Plain Article");
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketPlain',

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.pm,v 1.8 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.9 2005-03-27 11:52:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,9 +32,10 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # load generic backend link object module
@@ -66,7 +67,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     # start application page
-    my $Output .= $Self->{LayoutObject}->Header(Area => 'Link');
+    my $Output .= $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
     # check needed stuff

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.pm,v 1.2 2005-02-23 10:28:20 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -37,9 +37,10 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
-       ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
@@ -66,7 +67,7 @@ sub Run {
 
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Phone-Ticket');
+        $Output .= $Self->{LayoutObject}->Header();
         # if there is no ticket id!
         if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -348,7 +349,7 @@ sub Run {
                 }
             }
             # header
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Phone-Ticket');
+            my $Output = $Self->{LayoutObject}->Header();
             # print form ...
             $Output .= $Self->_MaskPhone(
                 TicketID => $Self->{TicketID},
@@ -680,7 +681,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Phone-Ticket');
+            $Output .= $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             # --
             # html output

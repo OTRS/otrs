@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentBook.pm - spelling module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBook.pm,v 1.6 2004-11-04 11:04:39 martin Exp $
+# $Id: AgentBook.pm,v 1.7 2005-03-27 11:52:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,7 +35,7 @@ sub new {
     # check all needed objects
     foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject
       ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        $Self->{LayoutObject}->FatalError(Message => "Got no $_!") if (!$Self->{$_});
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -75,7 +75,7 @@ sub Run {
         );
     }
     # start with page ...
-    my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Address Book', Type => 'Small');
+    my $Output = $Self->{LayoutObject}->Header(Type => 'Small');
     $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentBook', Data => \%Param);
     $Output .= $Self->{LayoutObject}->Footer(Type => 'Small');
     return $Output;

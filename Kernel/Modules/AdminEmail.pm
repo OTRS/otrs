@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.21 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminEmail.pm,v 1.22 2005-03-27 11:50:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,9 @@ sub new {
     }
     # check needed Opjects
     foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
@@ -115,7 +117,7 @@ sub Run {
                 Name => 'Sent',
                 Data => { %Param },
             );
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmail', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Footer();
@@ -145,7 +147,7 @@ sub Run {
                 Name => 'Form',
                 Data => { %Param },
         );
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmail', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();

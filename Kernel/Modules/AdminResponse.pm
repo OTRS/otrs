@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.15 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminResponse.pm,v 1.16 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,7 +35,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # lib object
@@ -71,7 +73,7 @@ sub Run {
     if ($Param{Subaction} eq 'Change') {
         $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %ResponseData = $Self->{StdResponseObject}->StdResponseGet(ID => $Param{ID});
-        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response');
+        $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
             %ResponseData,
@@ -135,7 +137,7 @@ sub Run {
     }
     # else ! print form
     else {
-        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response');
+        $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
             Subaction => 'Add',

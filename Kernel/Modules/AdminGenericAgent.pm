@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.16 2005-02-23 08:58:08 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.17 2005-03-27 11:50:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,8 +35,11 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
+
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%Param);
@@ -239,7 +242,7 @@ sub Run {
             %GetParam,
         );
         # start page
-        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'GenericAgent');
+        $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         if ($GetParam{NewDelete}) {
             $Param{Message} = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!'.@ViewableIDs.' Tickets affected! You really want to use this job?';
@@ -285,7 +288,7 @@ sub Run {
 #            $Self->{Profile} = '';
         }
         # generate search mask
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'GenericAgent');
+        my $Output = $Self->{LayoutObject}->Header();
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         # get free text config options
         my %TicketFreeText = ();

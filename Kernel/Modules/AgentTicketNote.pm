@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketNote.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,9 +33,10 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-                 QueueObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
@@ -147,7 +148,7 @@ sub Run {
         );
         # check errors
         if (%Error) {
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Note');
+            my $Output = $Self->{LayoutObject}->Header(Value => $Tn);
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->_Mask(
                 TicketID => $Self->{TicketID},
@@ -250,7 +251,7 @@ sub Run {
             $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::NoteSubject'));
         }
         # print form ...
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Add Note');
+        my $Output = $Self->{LayoutObject}->Header(Value => $Tn);
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},

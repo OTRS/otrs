@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.14 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.15 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     return $Self;
@@ -49,7 +51,7 @@ sub Run {
     $Param{NextScreen} = 'AdminQueueAutoResponse';
 
     if ($Self->{Subaction} eq 'Change') {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Queue <-> Auto Response');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get Type Auto Responses data
         my %TypeResponsesData = $Self->{DBObject}->GetTableData(
@@ -112,7 +114,7 @@ sub Run {
     }
     # else ! print form
     else {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Queue <-> Auto Response');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get queue data
         my %QueueData = $Self->{DBObject}->GetTableData(

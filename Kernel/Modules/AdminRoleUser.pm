@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUser.pm,v 1.5 2004-12-06 22:24:44 martin Exp $
+# $Id: AdminRoleUser.pm,v 1.6 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminRoleUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     return $Self;
 }
@@ -45,7 +47,7 @@ sub Run {
 
     # user <-> role 1:n
     if ($Self->{Subaction} eq 'User') {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $ID);
@@ -68,7 +70,7 @@ sub Run {
     }
     # roles <-> user n:1
     elsif ($Self->{Subaction} eq 'Role') {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user data
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);
@@ -142,7 +144,7 @@ sub Run {
     }
     # else ! print form
     else {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user data
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);

@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.39 2004-12-28 01:03:01 martin Exp $
+# $Id: Customer.pm,v 1.40 2005-03-27 11:52:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,6 +22,7 @@ sub CustomerLogin {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+        $Param{TitleArea} = " :: ".$Self->{LanguageObject}->Get('Login');
     # add cookies if exists
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
@@ -66,6 +67,24 @@ sub CustomerHeader {
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+        }
+    }
+    # area and title
+    if (!$Param{Area}) {
+        $Param{Area} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    }
+    if (!$Param{Title}) {
+        $Param{Title} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}->{Title} || '';
+    }
+    if (!$Param{Area}) {
+        $Param{Area} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    }
+    if (!$Param{Title}) {
+        $Param{Title} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}->{Title} || '';
+    }
+    foreach (qw(Area Title Value)) {
+        if ($Param{$_}) {
+            $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
         }
     }
     # create & return output

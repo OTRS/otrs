@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.14 2005-01-14 07:16:03 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.15 2005-03-27 11:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,9 @@ sub new {
     }
     # check needed Opjects
     foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{PackageObject} = Kernel::System::Package->new(%Param);
@@ -80,7 +82,7 @@ sub Run {
                 }
             }
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Package Manager');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -246,7 +248,7 @@ sub Run {
                     Version => $Version,
                 },
             );
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Package Manager');
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Footer();
@@ -318,7 +320,7 @@ sub Run {
             return $Self->{LayoutObject}->Attachment(
                 Content => $File,
                 ContentType => 'plain/xml',
-                Filename => "$Name-$Version.opm",
+                Filename => "$Name-$Version-rebuild.opm",
                 Type => 'attachment',
             );
         }
@@ -422,7 +424,7 @@ sub Run {
                 );
             }
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Package Manager');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
