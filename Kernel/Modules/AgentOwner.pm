@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.16 2003-05-13 22:53:09 martin Exp $
+# $Id: AgentOwner.pm,v 1.17 2003-07-08 00:00:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -145,12 +145,10 @@ sub Run {
         # --
         # print change form
         # --
-	    $Output .= $Self->{LayoutObject}->AgentOwner(
+        $Output .= $Self->MaskOwner(
             OptionStrg => \%ShownUsers,
- 			TicketID => $Self->{TicketID},
+            TicketID => $Self->{TicketID},
             OwnerID => $OwnerID,
-            BackScreen => $Self->{BackScreen},
-            NextScreen => $Self->{NextScreen},
             TicketNumber => $Tn,
             QueueID => $Self->{QueueID},
         );
@@ -159,5 +157,21 @@ sub Run {
     return $Output;
 }
 # --
-
+sub MaskOwner {
+    my $Self = shift;
+    my %Param = @_;
+    # build string 
+    $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{OptionStrg},
+        Selected => $Param{OwnerID},
+        Name => 'NewUserID', 
+        Size => 10,
+    );
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentOwner', 
+        Data => \%Param,
+    );
+}
+# --
 1;

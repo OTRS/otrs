@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.19 2003-04-24 20:13:07 martin Exp $
+# $Id: AgentMailbox.pm,v 1.20 2003-07-08 00:00:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,11 +83,14 @@ sub Run {
     );
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    $Output .= $Self->{LayoutObject}->AgentMailboxNavBar(
-        LockData => \%LockedData,
-        SortBy => $SortBy,
-        OrderBy => $OrderBy,
-        ViewType => $Self->{Subaction},
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentMailboxNavBar',
+        Data => { 
+            %LockedData,
+            SortBy => $SortBy,
+            OrderBy => $OrderBy,
+            ViewType => $Self->{Subaction},
+        }
     );
     # --
     # get locked  viewable tickets...
@@ -161,21 +164,54 @@ sub Run {
             }
         } 
         if ($Shown) {
-            $Output .= $Self->{LayoutObject}->AgentMailboxTicket(
+            $Output .= $Self->MaskMailboxTicket(
               %Article,
-              TicketNumber => $Self->{TicketObject}->GetTNOfId(ID => $TicketID), 
               LastSenderType => $LastSenderType{$Article{TicketID}},
               LastSenderID => $LastSenderID{$Article{TicketID}},
-              UserID => $Self->{UserID},
-              ViewType => $Self->{Subaction},
               Message => $Message,
             );
         }
     }
-
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
 # --
-
+sub MaskMailboxTicket {
+    my $Self = shift;
+    my %Param = @_;
+    $Param{Message} = $Self->{LayoutObject}->{LanguageObject}->Get($Param{Message}).' ';
+    # check if the pending ticket is Over Time
+    if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
+        $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover').' '.
+          $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
+    }
+    # create PendingUntil string if UntilTime is < -1
+    if ($Param{UntilTime}) {
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
+        }
+        $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
+            Age => $Param{UntilTime}, 
+            Space => '<br>',
+        );
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} .= "</font>";
+        }
+    }
+    # do some strips && quoting
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    # do some strips && quoting
+    foreach (qw(From To Cc Subject Body)) {
+        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+            Text => $Param{$_},
+            From => $Param{ContentCharset},
+        );
+    }
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentMailboxTicket', 
+        Data => \%Param,
+    );
+}
+# --
 1;

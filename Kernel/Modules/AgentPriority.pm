@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.13 2003-04-12 22:06:54 martin Exp $
+# $Id: AgentPriority.pm,v 1.14 2003-07-08 00:00:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-
     # --
     # check needed stuff
     # --
@@ -90,17 +89,13 @@ sub Run {
     }
 
     if ($Self->{Subaction} eq 'Update') {
-        # --
-		# set id
-        # --
+        # set id
         $Self->{TicketObject}->SetPriority(
-			TicketID => $Self->{TicketID},
-			PriorityID => $Self->{PriorityID},
-			UserID => $Self->{UserID},
-		);
-        # --
+            TicketID => $Self->{TicketID},
+            PriorityID => $Self->{PriorityID},
+            UserID => $Self->{UserID},
+        );
         # print redirect
-        # --
         return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
@@ -109,18 +104,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Priority');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        # get priority states
-        my %States = $Self->{DBObject}->GetTableData(
-			What => 'id, name',
-			Table => 'ticket_priority',
-		);
         # print change form
-	    $Output .= $Self->{LayoutObject}->AgentPriority(
-			Data => \%States,
-            OptionStrg => \%States,
- 			TicketID => $Self->{TicketID},
-            PriorityID => $Ticket{PriorityID},
-            TicketNumber => $Ticket{TicketNumber},
+	$Output .= $Self->MaskPriority(
+            %Ticket,
             QueueID => $Self->{QueueID},
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -128,5 +114,25 @@ sub Run {
     }
 }
 # --
-
+sub MaskPriority {
+    my $Self = shift;
+    my %Param = @_;
+    # get priority states
+    my %States = $Self->{DBObject}->GetTableData(
+        What => 'id, name',
+        Table => 'ticket_priority',
+    );
+    # build ArticleTypeID string
+    $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%States, 
+        Name => 'PriorityID',
+        SelectedID => $Param{PriorityID},
+    );
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentPriority', 
+        Data => \%Param,
+    );
+}
+# --
 1;

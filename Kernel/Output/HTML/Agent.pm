@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.121 2003-07-07 22:15:46 martin Exp $
+# $Id: Agent.pm,v 1.122 2003-07-08 00:00:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.121 $';
+$VERSION = '$Revision: 1.122 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -603,28 +603,6 @@ sub AgentPhoneNew {
     return $Self->Output(TemplateFile => 'AgentPhoneNew', Data => \%Param);
 }
 # --
-sub AgentFreeText {
-    my $Self = shift;
-    my %Param = @_;
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentFreeText', Data => \%Param);
-}
-# --
-sub AgentPriority {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # build ArticleTypeID string
-    # --
-    $Param{'OptionStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{OptionStrg},
-        Name => 'PriorityID', 
-        SelectedID => $Param{PriorityID},
-    );
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentPriority', Data => \%Param);
-}
-# --
 sub AgentCustomer {
     my $Self = shift;
     my %Param = @_;
@@ -682,22 +660,6 @@ sub AgentCustomerViewTable {
     }
     # create & return output
     return $Param{Table}; 
-}
-# --
-sub AgentOwner {
-    my $Self = shift;
-    my %Param = @_;
-
-    # build string
-    $Param{'OptionStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{OptionStrg},
-        Selected => $Param{OwnerID},
-        Name => 'NewUserID', 
-        Size => 10,
-    );
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentOwner', Data => \%Param);
 }
 # --
 sub AgentPending {
@@ -1023,80 +985,6 @@ sub AgentPreferencesForm {
     }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentPreferencesForm', Data => \%Param);
-}
-# --
-sub AgentMailboxTicket {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # 
-    # --
-    $Param{Message} = $Self->{LanguageObject}->Get($Param{Message}).' ';
-    # --
-    # check if the pending ticket is Over Time
-    # --
-    if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
-        $Param{Message} .= $Self->{LanguageObject}->Get('Timeover').' '.
-          $Self->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
-    }
-    # --
-    # create PendingUntil string if UntilTime is < -1
-    # --
-    if ($Param{UntilTime}) {
-        if ($Param{UntilTime} < -1) {
-            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
-        }
-        $Param{PendingUntil} .= $Self->CustomerAge(Age => $Param{UntilTime}, Space => '<br>');
-        if ($Param{UntilTime} < -1) {
-            $Param{PendingUntil} .= "</font>";
-        }
-    }
-    # --
-    # do some strips && quoting
-    # --
-    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
-    $Param{Created} = $Self->{LanguageObject}->FormatTimeString($Param{Created});
-    foreach (qw(To Cc From Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70);
-    }
-    foreach (qw(State Priority Lock)) {
-        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
-    }
-    # --
-    # create short html customer id
-    # --
-    $Param{CustomerIDHTML} = $Param{CustomerID} || '';
-    foreach (qw(State Priority Queue)) {
-        $Param{$_} = $Self->Ascii2Html(
-            Text => $Param{$_}, 
-            Max => $Self->{ConfigObject}->Get('ViewableTicketStatusMailboxMaxSize'),
-        );
-    }
-    foreach (qw(CustomerIDHTML)) {
-        $Param{$_} = $Self->Ascii2Html(
-            Text => $Param{$_}, 
-            Max => $Self->{ConfigObject}->Get('ViewableTicketStatusMailboxMaxSize')-4,
-        );
-    }
-    # --
-    # create & return output
-    # --
-    return $Self->Output(TemplateFile => 'AgentMailboxTicket', Data => \%Param);
-}
-# --
-sub AgentMailboxNavBar {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # check lock count
-    # --
-    foreach (keys %{$Param{LockData}}) {
-        $Param{$_} = $Param{LockData}->{$_} || 0;
-    }
-    # --
-    # create & return output
-    # --
-    return $Self->Output(TemplateFile => 'AgentMailboxNavBar', Data => \%Param);
 }
 # --
 sub TicketLocked {

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentMailboxTicket.dtl,v 1.14 2003-03-30 18:30:35 martin Exp $
+# $Id: AgentMailboxTicket.dtl,v 1.15 2003-07-08 00:00:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@
   <td align="left" width="65%" class="table0">
     <b>$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</b> <font color="red">$Text{"$Data{"Message"}"}
   </td>
-  <td align="right" width="34%" class="table0">
+  <td align="right" valign="top" width="34%" class="table0">
     <b>$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</b>
   </td>
 </tr>
@@ -33,7 +33,7 @@
   <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Close"}</a>
   </td>
   <td align="right" width="34%" class="table2">
-    <b>$Text{"Created"}:</b> $Data{"Created"}
+    <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}
   </td>
 </tr>
 </table>
@@ -44,21 +44,21 @@
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> $Data{"From"}</td>
+      <td width="85%"> $Quote{"$Data{"From"}","80"}</td>
     </tr>
     <tr>
       <td valign="top"><b>$Text{"To"}:</b></td>
-      <td> $Data{"To"}</td>
+      <td> $Quote{"$Data{"To"}","80"}</td>
     </tr>
 # --
 # show cc?
 # --
-    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top" ><b>$Text{"Cc"}:</b></td><td> $Data{"Cc"}</td></tr>"; }>
+    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top" ><b>$Text{"Cc"}:</b></td><td> $Quote{"$Data{"Cc"}","80"}</td></tr>"; }>
     $Data{"ArticleCcString"}
 
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> $Data{"Subject"}</td>
+      <td> $Quote{"$Data{"Subject"}","80"}</td>
     </tr>
 # --
 # show ArticleFreeKey1-3 and ArticleFreeValue1-3
@@ -76,15 +76,15 @@
     <table border="0">
     <tr valign="top">
       <td><b>$Text{"State"}:</b></td>
-      <td><font color="red">$Data{"State"}</font></td>
+      <td><font color="red">$Quote{"$Text{"$Data{"State"}"}","14"}</font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Priority"}:</b></td>
-      <td><font color="red">$Data{"Priority"}</font></td>
+      <td><font color="red">$Quote{"$Text{"$Data{"Priority"}"}","14"}</font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Queue"}:</b></td>
-      <td><font color="red">$Data{"Queue"}</font></td>
+      <td><font color="red">$Quote{"$Data{"Queue"}","14"}</font></td>
     </tr>
     </table>
   </td>
@@ -92,7 +92,7 @@
     <table border="0">
     <tr valign="top">
       <td><b>$Text{"CustomerID"}:</b></td>
-      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td>
+      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","14"}</a></td>
     </tr>
 # --
 # use ticket is pending 
@@ -100,10 +100,10 @@
 <dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr valign="top"><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
     $Data{"PendingUntilString"}
 # --
-# show TicketFreeKey1-2 and TicketFreeValue1-2
+# show TicketFreeKey1-2 and TicketFreeText1-2
 # --
-<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeText1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeText2"}</td></tr>"; }>
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
 # --
