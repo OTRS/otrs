@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.1 2003-03-04 00:12:52 martin Exp $
+# $Id: State.pm,v 1.2 2003-03-05 19:32:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,8 +85,8 @@ sub StateGet {
     # --
     # check needed stuff
     # --
-    if (!$Param{ID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+    if (!$Param{ID} && !$Param{Name}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID or Name!");
         return;
     }
     # --
@@ -97,8 +97,13 @@ sub StateGet {
         " ticket_state ts, ticket_state_type tst ".
         " WHERE ".
         " ts.type_id = tst.id ".
-        " AND ".
-        " ts.id = $Param{ID}";
+        " AND ";
+    if ($Param{Name}) {
+        $SQL .= " ts.name = '$Param{Name}'";
+    }
+    else {
+        $SQL .= " ts.id = $Param{ID}";
+    }
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         my @Data = $Self->{DBObject}->FetchrowArray();
         my %Data = (
