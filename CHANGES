@@ -2,7 +2,7 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.15 2002-07-21 22:59:51 martin Exp $
+# $Id: CHANGES,v 1.16 2002-07-24 21:19:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,6 +13,9 @@
  - improved Ticket and article lib funktions (Kernel::System::Ticket::* and
     Kernel..System::Article)
  - improved fulltext search 
+ - added "Std. Response on creating a queue" feature
+    (http://lists.otrs.org/pipermail/otrs/2002-July/000114.html)
+ - added module support for auth. LDAP and DB is available (Kernel/Config.pm)
  - added "ChangeOwnerToEveryone" feature fot AgentOwner (useful for ASP)
     Kernel/Config.pm -> $Self->{ChangeOwnerToEveryone} = [0|1]
  - added AgentCustomer module (set a customer id to a ticket and get a customer
