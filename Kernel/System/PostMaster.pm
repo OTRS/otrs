@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: PostMaster.pm,v 1.2 2001-12-26 20:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,12 +16,12 @@ use Kernel::System::EmailParser;
 use Kernel::System::Ticket;
 use Kernel::System::Article;
 use Kernel::System::Queue;
-#use Kernel::System::PostMaster::FollowUp;
+use Kernel::System::PostMaster::FollowUp;
 use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -29,7 +29,8 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # get Log Object
@@ -38,16 +39,17 @@ sub new {
     # get ConfigObject
     $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";
     $Self->{SystemID} = $Param{ConfigObject}->Get('SystemID');
+    $Self->{TicketHook} = $Param{ConfigObject}->Get('TicketHook');
 
     $Self->{DBObject} = Kernel::System::DB->new(%Param);
 
     # get email 
     $Self->{Email} = $Param{Email} || die "Got no EmailBody!";
-    my $Email = $Param{Email} || die "Got no EmailBody!";
-    my $OrigEmail = $Email;
+    my $EmailTmp = $Param{Email} || die "Got no EmailBody!";
+    my @Email = @$EmailTmp;
     $Self->{ParseObject} = Kernel::System::EmailParser->new(
-        Email => $Email,
-        OrigEmail => $OrigEmail,
+        Email => \@Email,
+        OrigEmail => \@Email,
     );
 
     # for debug 0=off;1=on; 2=with GetHeaderParam;
@@ -137,15 +139,92 @@ sub Run {
    # ticket section
    # --
    # check if follow up
-   my ($Tn, $TicketID) = $Self->CheckFollowUp($GetParam{'Subject'}, $TicketObject);
-   
+   my ($Tn, $TicketID) = $Self->CheckFollowUp(Subject => $GetParam{'Subject'}, TicketObject => $TicketObject);
+   # Follow up ...
+if ($Tn && $TicketID) {
+    my $FollowUp = Kernel::System::PostMaster::FollowUp->new(
+            DBObject => $Self->{DBObject},
+            ArticleObject => $ArticleObject,
+            TicketObject => $TicketObject,
+            LogObject => $Self->{LogObject},
+    );
+    # check if it is possible to do the follow up
+    my $QueueID = $TicketObject->GetQueueIDOfTicketID(
+        TicketID => $TicketID,
+    );
+    # get follow up option (possible or not)
+    my $QueueObject = Kernel::System::Queue->new(
+        DBObject => $Self->{DBObject},
+    );
+    my $FollowUpPossible = $QueueObject->GetFollowUpOption(
+        QueueID => $QueueID,
+    );
+    # get lock option (should be the ticket locked after the follow up)
+    my $Lock = $QueueObject->GetFollowUpLockOption(
+        QueueID => $QueueID,
+    );
+    # get ticket state 
+    my $State = $TicketObject->GetState(
+        TicketID => $TicketID,
+    );
+    # create a new ticket
+    if ($FollowUpPossible =~ /new ticket/i && $State =~ /^close/i) {
+        $Self->{LogObject}->Log(
+            MSG=>"Follow up for [$Tn] but follow up not possible($State). Create new ticket."
+        );
+        # send mail && create new article
+        $NewTicket->Run(
+            InmailUserID => $Self->{PostmasterUserID},
+            GetParam => \%GetParam,
+            Email => $Self->{Email},
+            Comment => "Because the old ticket [$Tn] is '$State'",
+            AutoResponseType => 'auto reply/new ticket',
+        );
+        exit (0);
+    }
+    # reject follow up
+    elsif ($FollowUpPossible =~ /reject/i && $State =~ /^close/i) {
+        $Self->{LogObject}->Log(
+            MSG=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
+        );
+        # send reject mail && and add article to ticket
+        $FollowUp->Run(
+            TicketID => $TicketID,
+            InmailUserID => $Self->{PostmasterUserID},
+            GetParam => \%GetParam,
+            Lock => $Lock,
+            Tn => $Tn,
+            Email => $Self->{Email},
+            QueueID => $QueueID,
+            Comment => 'Follow up rejected.',
+            AutoResponseType => 'auto reject',
+        );
+        exit (0);
+    }
+    # create normal follow up
+    else {
+        $FollowUp->Run(
+            TicketID => $TicketID,
+            InmailUserID => $Self->{PostmasterUserID},
+            GetParam => \%GetParam,
+            Lock => $Lock,
+            Tn => $Tn,
+            Email => $Self->{Email},
+            State => 'open',
+            QueueID => $QueueID,
+            AutoResponseType => 'auto follow up',
+        );
+    }
+}
+# create new ticket
+else {
     $NewTicket->Run(
         InmailUserID => $Self->{PostmasterUserID},
         GetParam => \%GetParam,
         Email => $Self->{Email},
         AutoResponseType => 'auto reply',
     );
-
+}
 
 }
 # --
@@ -156,16 +235,29 @@ sub CheckFollowUp {
     my %Param = @_;
     my $Subject = $Param{Subject} || '';
     my $TicketObject = $Param{TicketObject};
-    my $SystemID = $Self->{SystemID};
-    if ($Subject =~ /($SystemID\d{6,8})/) {
+
+    if ($Self->{Debug} > 0) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            MSG => "CheckFollowUp Subject: '$Subject', SystemID: '$Self->{SystemID}', TicketHook: '$Self->{TicketHook}'",
+        );
+    }
+
+    if ($Subject =~ /$Self->{TicketHook}:+.{0,1}($Self->{SystemID}\d{2,10})/i) {
         my $Tn = $1;
         my $TicketID = $TicketObject->CheckTicketNr(Tn => $Tn);
         if ($Self->{Debug} > 0) {
-            print STDERR "CheckFollowUp: Tn: $Tn found!\n";
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                MSG => "CheckFollowUp: Tn: $Tn found!",
+            );
         }
         if ($TicketID) {
             if ($Self->{Debug} > 0) {
-                print STDERR "CheckFollowUp: ja, it's a follow up ($Tn/$TicketID)\n";
+                $Self->{LogObject}->Log(
+                  Priority => 'debug',
+                  MSG => "CheckFollowUp: ja, it's a follow up ($Tn/$TicketID)",
+                );
             }
             return ($Tn, $TicketID);
         }
@@ -184,7 +276,10 @@ sub GetEmailParams {
     my @WantParam = @$WantParamTmp;
     foreach (@WantParam){
         if ($Self->{Debug} > 1) {
-            print STDERR "$_: " . $Self->{ParseObject}->GetParam(WHAT => $_) . " \n";
+          $Self->{LogObject}->Log(
+              Priority => 'debug',
+              MSG => "$_: " . $Self->{ParseObject}->GetParam(WHAT => $_),
+          );
         }
         $GetParam{$_} = $Self->{ParseObject}->GetParam(WHAT => $_);
     }
