@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.55.2.1 2004-02-29 16:27:33 martin Exp $
+# $Id: AgentPhone.pm,v 1.55.2.2 2004-03-25 10:46:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55.2.1 $';
+$VERSION = '$Revision: 1.55.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -446,16 +446,16 @@ sub Run {
               NextState => $NextState,
               Priorities => $Self->_GetPriorities(),
               PriorityID => $PriorityID,
-              CustomerID => $CustomerID,
+              CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
               CustomerUser => $CustomerUser,
               CustomerData => \%CustomerData,
-              TimeUnits => $TimeUnits,
+              TimeUnits => $Self->{LayoutObject}->Ascii2Html(Text => $TimeUnits),
               From => $From,
               FromOptions => $Param{"FromOptions"},
-              Body => $Text,
+              Body => $Self->{LayoutObject}->Ascii2Html(Text => $Text),
               To => $Self->_GetTos(),
               ToSelected => $Dest,
-              Subject => $Subject,
+              Subject => $Self->{LayoutObject}->Ascii2Html(Text => $Subject),
               Errors => \%Error,
               %GetParam,
               %TicketFreeText,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.4.2.1 2004-02-29 16:27:33 martin Exp $
+# $Id: AgentEmail.pm,v 1.4.2.2 2004-03-25 10:46:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4.2.1 $';
+$VERSION = '$Revision: 1.4.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -261,18 +261,18 @@ sub Run {
               NextState => $NextState,
               Priorities => $Self->_GetPriorities(),
               PriorityID => $PriorityID,
-              CustomerID => $CustomerID,
+              CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
               CustomerUser => $CustomerUser,
               CustomerData => \%CustomerData,
-              TimeUnits => $TimeUnits,
+              TimeUnits => $Self->{LayoutObject}->Ascii2Html(Text => $TimeUnits),
               From => $Self->_GetTos(),
               FromSelected => $Dest,
               To => $To,
               ToOptions => $Param{"ToOptions"},
               Cc => $Cc,
               Bcc => $Bcc,
-              Subject => $Subject,
-              Body => $Text,
+              Subject => $Self->{LayoutObject}->Ascii2Html(Text => $Subject),
+              Body => $Self->{LayoutObject}->Ascii2Html(Text => $Text),
               Errors => \%Error,
               %GetParam,
               %TicketFreeText,
