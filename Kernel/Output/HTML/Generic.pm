@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.151 2004-09-17 10:04:10 martin Exp $
+# $Id: Generic.pm,v 1.152 2004-09-17 21:01:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.151 $';
+$VERSION = '$Revision: 1.152 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1591,6 +1591,10 @@ sub NavigationBar {
             my @Items = @{$Hash{NavBar}};
             foreach my $Item (@Items) {
                 if (($Item->{NavBar} && $Item->{NavBar} eq $Type) || (!$Item->{NavBar} && $Item->{NavBarNotShown} && $Type !~ /^$Item->{NavBarNotShown}/) || (!$Item->{NavBar} && !$Item->{NavBarNotShown})) {
+                    # highligt avtive area link
+                    if ($Item->{NavBarHighlightOn} && $Item->{NavBarHighlightOn} eq $Type) {
+                        $Item->{ItemAreaCSSSuffix} = 'active';
+                    }
                     # get permissions from module if no permissions are defined for the icon
                     if (!$Item->{GroupRo} && !$Item->{Group}) {
                         if ($Hash{GroupRo}) {

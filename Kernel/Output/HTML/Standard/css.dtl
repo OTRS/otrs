@@ -2,7 +2,7 @@
 # css.dtl - css file
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: css.dtl,v 1.4 2004-09-17 10:02:11 martin Exp $
+# $Id: css.dtl,v 1.5 2004-09-17 21:01:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,6 +28,9 @@
 # nav bar itemarea
   a.navitemarea { color:#898989;font-size:11px; }
   a.navitemarea:hover { color:#002244;font-size:11px; }
+# nav bar itemareaactive
+  a.navitemareaactive { color:#cd9931;font-size:11px; }
+  a.navitemareaactive:hover { color:#002244;font-size:11px; }
 # menu bar
   .menu { color:#000000;background-color:#ffffff;font-size:10px; }
   a.menuitem { color:#557799;font-size:12px; }
