@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.151 2004-11-16 12:22:04 martin Exp $
+# $Id: Agent.pm,v 1.152 2004-12-06 22:24:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.151 $';
+$VERSION = '$Revision: 1.152 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,7 +113,7 @@ sub AgentCustomerViewTable {
                 $Record{ValueShort} = $Self->Ascii2Html(Text => $Param{Data}->{$Field->[0]}, Max => $Param{Max});
             }
             $Self->Block(
-                    Name => 'Row',
+                    Name => 'CustomerRow',
                     Data => {
                         Key => $Field->[1],
                         Value => $Param{Data}->{$Field->[0]},
