@@ -3,7 +3,7 @@
 # PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.2 2003-01-06 21:37:40 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.3 2003-01-07 21:41:30 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ use lib "$Bin/../";
 use lib "$Bin/../Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-my $Debug = 1;
+my $Debug = 0;
 # MaxEmailSize in KB
 my $MaxEmailSize = 1024 * 8;
 
