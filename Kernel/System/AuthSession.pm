@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.14 2002-07-15 22:16:22 martin Exp $
+# $Id: AuthSession.pm,v 1.15 2002-07-21 19:15:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -212,6 +212,8 @@ sub CreateSessionID {
         # --
         # db driver
         # --
+        # quote params
+        $DataToStore = $Self->{DBObject}->Quote($DataToStore) || '';
         my $SQL = "INSERT INTO $Self->{SQLSessionTable} ".
            " ($Self->{SQLSessionTableID}, $Self->{SQLSessionTableValue}) ".
            " VALUES ".
