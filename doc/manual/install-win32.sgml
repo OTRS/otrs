@@ -224,6 +224,20 @@ Trace User Logins = true</screen></para>
 License = demo
 Licensee = demo</screen></para>
 </note>
+<sect3><title>Securing /otrs/bin</title>
+<para>We *have* to secure the alias /obin/ which points to d:\otrs\bin\, holding all of the code useful for hacking the system. I personally do not want to expose these &quot;tools&quot; to everyone.</para>
+<para>Create the file <emphasis>d:\otrs\bin\1.htaccess</emphasis> using Windows Explorer containing just this one line:</para>
+<para><screen>
+require group root
+</screen></para>
+<para>Open a command box and enter this:</para>
+<para><screen>
+d:
+cd d:\otrs\bin
+ren 1.htaccess .htaccess
+</screen></para>
+<para>Now only users belonging to the group &quot;root&quot; and the system itself (CRON jobs f.e.) will be allowed to access the scripts in &quot;d:\otrs\bin&quot;.</para>
+</sect3>
 </sect2>
 
 <sect2>
