@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.50 2002-09-23 13:53:44 martin Exp $
+# $Id: Agent.pm,v 1.51 2002-10-15 09:37:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -48,7 +48,7 @@ sub QueueView {
            $QueueStrg .= '<b>';
            $Param{SelectedQueue} = $Queue{Queue};
         }
-        $QueueStrg .= "<a href=\"$Self->{Baselink}&Action=AgentQueueView&QueueID=$Queue{QueueID}\">";
+        $QueueStrg .= "<a href=\"$Self->{Baselink}Action=AgentQueueView&QueueID=$Queue{QueueID}\">";
         # should i highlight this queue
         if ($Queue{MaxAge} >= $Self->{HighlightAge2}) {
             $QueueStrg .= "<font color='$Self->{HighlightColor2}'>";
@@ -173,7 +173,6 @@ sub TicketView {
     # --
     if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
         $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">';
-        $Param{StdResponsesStrg} .= '<input type="hidden" name="SessionID" value="'.$Self->{SessionID}.'">';
         $Param{StdResponsesStrg} .= '<input type="hidden" name="Action" value="AgentCompose">';
         $Param{StdResponsesStrg} .= '<input type="hidden" name="TicketID" value="'.$Param{TicketID}.'">';
         $Param{StdResponsesStrg} .= $Self->OptionStrgHashRef(
@@ -184,7 +183,7 @@ sub TicketView {
     }
     else {
        foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-         $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&".
+         $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}Action=AgentCompose&".
            "ResponseID=$_&TicketID=$Param{TicketID}\">$StdResponses{$_}</A></li>\n";
        }
     }
@@ -259,7 +258,7 @@ sub TicketZoom {
     # build article stuff
     # --
     my $SelectedArticleID = $Param{ArticleID} || '';
-    my $BaseLink = $Self->{Baselink} . "&TicketID=$Self->{TicketID}&QueueID=$Self->{QueueID}";
+    my $BaseLink = $Self->{Baselink} . "TicketID=$Self->{TicketID}&QueueID=$Self->{QueueID}&";
     my @ArticleBox = @{$Param{ArticleBox}};
     # --
     # get last customer article
@@ -289,7 +288,6 @@ sub TicketZoom {
     my %StdResponses = %{$Param{StdResponses}};
     if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
         $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">';
-        $Param{StdResponsesStrg} .= '<input type="hidden" name="SessionID" value="'.$Self->{SessionID}.'">';
         $Param{StdResponsesStrg} .= '<input type="hidden" name="Action" value="AgentCompose">';
         $Param{StdResponsesStrg} .= '<input type="hidden" name="ArticleID" value="'.$ArticleID.'">';
         $Param{StdResponsesStrg} .= $Self->OptionStrgHashRef(
@@ -300,7 +298,7 @@ sub TicketZoom {
     }
     else {
         foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-          $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink&Action=AgentCompose&".
+          $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink"."Action=AgentCompose&".
            "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
         }
     }
@@ -331,10 +329,10 @@ sub TicketZoom {
         # --
         # the full part thread string
         # --
-        $ThreadStrg .= "<A HREF=\"$BaseLink&Action=AgentZoom&ArticleID=$Article{ArticleID}\">" .
+        $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=AgentZoom&ArticleID=$Article{ArticleID}\">" .
         "$Article{SenderType} ($Article{ArticleType})</A> ";
         if ($Article{ArticleType} =~ /^email/) {
-            $ThreadStrg .= " (<A HREF=\"$BaseLink&Action=AgentPlain&ArticleID=$Article{ArticleID}\">" .
+            $ThreadStrg .= " (<A HREF=\"$BaseLink"."Action=AgentPlain&ArticleID=$Article{ArticleID}\">" .
             $Self->{LanguageObject}->Get('plain') . "</A>)";
         }
         $ThreadStrg .= " $Article{CreateTime}";
@@ -370,7 +368,7 @@ sub TicketZoom {
     my $ATMStrg = '';
     foreach (@ATMs) {
         my $FileName = $Self->LinkEncode($_) || '???';
-        $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}&Action=AgentAttachment&'.
+        $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
           'ArticleID='.$Article{ArticleID}.'&File='.$FileName.'" target="attachment">'.$_.'</a><br> ';
     }
 
@@ -544,7 +542,7 @@ sub AgentPhone {
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
-        Selected => $Self->{ConfigObject}->Get('DefaultPhoneNextState'),
+        Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
     );
 
     # get output back
@@ -559,13 +557,13 @@ sub AgentPhoneNew {
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
-        Selected => $Self->{ConfigObject}->Get('DefaultPhoneNewNextState'),
+        Selected => $Self->{ConfigObject}->Get('PhoneDefaultNewNextState'),
     );
 
     $Param{'ToStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{To},
         Name => 'NewQueueID',
-#        Selected => $Self->{ConfigObject}->Get('DefaultPhoneNextState'),
+#        Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
     );
 
 
@@ -770,7 +768,7 @@ sub AgentUtilSearchCouter {
 
     my $Pages = $Param{AllHits} / $Param{SearchPageShown};
     for (my $i = 1; $i < ($Pages+1); $i++) {
-        $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}&Action=AgentUtilities&Subaction=".
+        $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}Action=AgentUtilities&Subaction=".
          "$Self->{Subaction}&StartHit=". (($i-1)*$Param{SearchPageShown});
          if ($Param{WhatFields}) {
              foreach (@{$Param{WhatFields}}) {
@@ -869,86 +867,89 @@ sub AgentPreferencesForm {
     my $Self = shift;
     my %Param = @_;
 
-    # build option string
-    $Param{LanguageOption} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'language, language',
-            Valid => 1,
-            Clamp => 0,
-            Table => 'language',
-          )
-        },
-        Name => 'GenericTopic',
-        Selected => $Self->{UserLanguage},
-    );
-
-    $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'charset, charset',
-            Table => 'charset',
-            Valid => 1,
-          )
-        },
-        Name => 'GenericTopic',
-        Selected => $Self->{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
-    );
-
-    $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'theme, theme',
-            Table => 'theme',
-            Valid => 1,
-          )
-        },
-        Name => 'GenericTopic',
-        Selected => $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
-    );
-
-    $Param{'RefreshOption'} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('RefreshOptions'),
-        Name => 'GenericTopic',
-        SelectedID => $Self->{UserRefreshTime},
-    );
-
-    $Param{'SendFollowUpNotificationYesNoOption'} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name => 'GenericTopic',
-        SelectedID => $Self->{UserSendFollowUpNotification},
-    );
-
-    $Param{'SendNewTicketNotificationYesNoOption'} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name => 'GenericTopic',
-        SelectedID => $Self->{UserSendNewTicketNotification},
-    );
-
-    $Param{'SendLockTimeoutNotification'} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name => 'GenericTopic',
-        SelectedID => $Self->{UserSendLockTimeoutNotification},
-    );
-
-    my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
-    # prepar custom selection
-    my $CustomQueueIDs = $Param{CustomQueueIDs};
-    my @CustomQueueIDsTmp = @$CustomQueueIDs;
-    my $QueueData = $Param{QueueData};
-    my %QueueDataTmp = %$QueueData;
-    $Param{QueueDataStrg} = '';
-    foreach my $ID (sort keys %QueueDataTmp) {
-        my $Mach = 0;
-        foreach (@CustomQueueIDsTmp) {
-            if ($_ eq $ID) {
-                $Param{QueueDataStrg} .= "<OPTION selected VALUE=\"$ID\">$QueueDataTmp{$ID}\n";
-                $Mach = 1;
+    foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('PreferencesView')}) { 
+      foreach my $Group (@{$Self->{ConfigObject}->Get('PreferencesView')->{$Pref}}) {
+        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
+          my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
+          my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
+          my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
+          my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
+          if ($Data) {
+            $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+              Data => $Data, 
+              Name => 'GenericTopic',
+              SelectedID => $Self->{$PrefKey}, 
+            );
+          } 
+          elsif ($Type eq 'CustomQueue') {
+            my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
+            # prepar custom selection
+            my @CustomQueueIDsTmp = @{$Param{CustomQueueIDs}};
+            my %QueueDataTmp = %{$Param{QueueData}}; 
+            $PrefItem{'Option'} = '';
+            foreach my $ID (sort keys %QueueDataTmp) {
+              my $Mach = 0;
+              foreach (@CustomQueueIDsTmp) {
+                if ($_ eq $ID) {
+                  $PrefItem{'Option'} .= "<OPTION selected VALUE=\"$ID\">$QueueDataTmp{$ID}\n";
+                  $Mach = 1;
+                }
+              }
+              $PrefItem{'Option'} .= "<OPTION VALUE=\"$ID\">$QueueDataTmp{$ID}\n" if (!$Mach);
             }
-         }
-         $Param{QueueDataStrg} .= "<OPTION VALUE=\"$ID\">$QueueDataTmp{$ID}\n" if (!$Mach);
+          }
+          elsif ($PrefKey eq 'UserLanguage') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'language, language',
+                      Valid => 1,
+                      Clamp => 0,
+                      Table => 'language',
+                    )
+                  },
+                  Name => 'GenericTopic',
+                  Selected => $Self->{UserLanguage},
+              );
+          }
+          elsif ($PrefKey eq 'UserCharset') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'charset, charset',
+                      Table => 'charset',
+                      Valid => 1,
+                    )
+                  },
+                  Name => 'GenericTopic',
+                  Selected => $Self->{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
+              );
+          }
+          elsif ($PrefKey eq 'UserTheme') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'theme, theme',
+                      Table => 'theme',
+                      Valid => 1,
+                    )
+                  },
+                  Name => 'GenericTopic',
+                  Selected => $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
+              );
+          }
+          if ($Type eq 'Password' && $Self->{ConfigObject}->Get('AuthModule') =~ /ldap/i) {
+              # do nothing if the auth module is ldap
+          }
+          else {
+              $Param{$Pref} .= $Self->Output(
+                TemplateFile => 'AgentPreferences'.$Type, 
+                Data => \%PrefItem, 
+              );
+          }
+        }
+      }
     }
-
     # create & return output
     return $Self->Output(TemplateFile => 'AgentPreferencesForm', Data => \%Param);
 }
@@ -1014,6 +1015,29 @@ sub Attachment {
     $Output .= "Content-Type: $Param{Type}\n";
     $Output .= "$Param{Data}";
     return $Output;
+}
+# --
+sub AgentStatusView {
+    my $Self = shift;
+    my %Param = @_;
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentStatusView', Data => \%Param);
+}
+# --  
+sub AgentStatusViewTable {
+    my $Self = shift;
+    my %Param = @_;
+    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
+    # do html quoteing
+    foreach (qw(State Queue Owner Lock)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 16);
+    }
+    foreach (qw(Subject)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 30);
+    }
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentStatusViewTable', Data => \%Param);
 }
 # --
 
