@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.1 2003-01-04 03:41:30 martin Exp $
+# $Id: SendArticle.pm,v 1.2 2003-01-15 18:31:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -171,10 +171,9 @@ sub SendArticle {
         }
     }
     # --
-    # add In-Reply-To header
+    # get header
     # --
     my $head = $Entity->head;
-    $head->add('In-Reply-To', $InReplyTo);
     # --
     # send mail
     # --
