@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.7 2002-05-26 18:21:24 martin Exp $
+# $Id: AgentZoom.pm,v 1.8 2002-05-30 13:39:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -110,7 +110,15 @@ sub Run {
     " sl.id = st.ticket_lock_id " .
     " AND " .
     " tsd.id = st.ticket_state_id " .
-    " GROUP BY sa.id";
+    " GROUP BY sa.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, ".
+    " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ".
+    " sa.create_time, stt.name, at.name, ".
+    " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ".
+    " sl.name, sp.name, tsd.name, sa.content_path, ".
+    " sq.name, st.create_time, ".
+    " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
+    " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
+    " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
         # get escalation_time
