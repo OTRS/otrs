@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.49 2004-09-09 11:19:25 martin Exp $
+# $Id: NewTicket.pm,v 1.50 2004-09-29 09:03:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,9 +27,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-   
+
     $Self->{Debug} = $Param{Debug} || 0;
- 
+
     # get all objects
     foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject QueueObject)) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
@@ -55,11 +55,11 @@ sub Run {
     my %GetParam = %{$Param{GetParam}};
     my $Comment = $Param{Comment} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
-    # -- 
+    # --
     # get queue id and name
     # --
-    my $QueueID = $Param{QueueID} || die "need QueueID!"; 
-    my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $QueueID);    
+    my $QueueID = $Param{QueueID} || die "need QueueID!";
+    my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $QueueID);
     # --
     # get state
     # --
@@ -72,10 +72,10 @@ sub Run {
     # --
     my $Priority = $Self->{ConfigObject}->Get('PostmasterDefaultPriority') || '3 normal';
     if ($GetParam{'X-OTRS-Priority'}) {
-        $Priority = $GetParam{'X-OTRS-Priority'}; 
+        $Priority = $GetParam{'X-OTRS-Priority'};
     }
-    # --    
-    # get sender email 
+    # --
+    # get sender email
     # --
     my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
         Line => $GetParam{From},
@@ -85,13 +85,13 @@ sub Run {
             Email => $_,
         );
     }
-    # --    
+    # --
     # get customer id (sender email) if there is no customer id given
     # --
     if (!$GetParam{'X-OTRS-CustomerNo'} && $GetParam{'X-OTRS-CustomerUser'}) {
         # get customer user data form X-OTRS-CustomerUser
         my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $GetParam{'X-OTRS-CustomerUser'}, 
+            User => $GetParam{'X-OTRS-CustomerUser'},
         );
         if (%CustomerData) {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
@@ -113,7 +113,7 @@ sub Run {
             }
             my %List = $Self->{CustomerUserObject}->CustomerSearch(
                 PostMasterSearch => lc($GetParam{'EmailForm'}),
-            ); 
+            );
             foreach (keys %List) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                   User => $_,
@@ -125,7 +125,7 @@ sub Run {
             $GetParam{'X-OTRS-CustomerUser'} = $CustomerData{UserLogin};
             # notice that UserLogin is form customer source backend
             $Self->{LogObject}->Log(
-                Priority => 'notice', 
+                Priority => 'notice',
                 Message => "Take UserLogin ($CustomerData{UserLogin}) from ".
                    "customer source backend based on ($GetParam{'EmailForm'}).",
             );
@@ -134,7 +134,7 @@ sub Run {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
             # notice that UserCustomerID is form customer source backend
             $Self->{LogObject}->Log(
-                Priority => 'notice', 
+                Priority => 'notice',
                 Message => "Take UserCustomerID ($CustomerData{UserCustomerID})".
                    " from customer source backend based on ($GetParam{'EmailForm'}).",
             );
@@ -143,7 +143,7 @@ sub Run {
     # --
     # if there is no customer id found!
     # --
-    if (!$GetParam{'X-OTRS-CustomerNo'}) { 
+    if (!$GetParam{'X-OTRS-CustomerNo'}) {
         $GetParam{'X-OTRS-CustomerNo'} = $GetParam{'SenderEmailAddress'};
     }
     # --

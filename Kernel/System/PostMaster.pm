@@ -2,10 +2,10 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.43 2004-07-30 09:07:49 martin Exp $
+# $Id: PostMaster.pm,v 1.44 2004-09-29 09:03:56 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 package Kernel::System::PostMaster;
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
     # get common opjects
     foreach (keys %Param) {
@@ -52,7 +52,7 @@ sub new {
     # create common objects
     $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
     $Self->{ParseObject} = Kernel::System::EmailParser->new(
-        Email => $Param{Email}, 
+        Email => $Param{Email},
         %Param,
     );
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
@@ -96,7 +96,7 @@ sub Run {
             # log try of load module
             if ($Self->{Debug} > 1) {
                 $Self->{LogObject}->Log(
-                    Priority => 'debug', 
+                    Priority => 'debug',
                     Message => "Try to load module: $Jobs{$Job}->{Module}!",
                 );
             }
@@ -105,7 +105,7 @@ sub Run {
                     ConfigObject => $Self->{ConfigObject},
                     LogObject => $Self->{LogObject},
                     DBObject => $Self->{DBObject},
-                    ParseObject => $Self->{ParseObject}, 
+                    ParseObject => $Self->{ParseObject},
                     TicketObject => $Self->{TicketObject},
                     Debug => $Self->{Debug},
                 );
