@@ -2,7 +2,7 @@
 # FAQCategoryForm.dtl - provides HTML form for faq categories
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQCategoryForm.dtl,v 1.5 2004-10-13 12:44:42 martin Exp $
+# $Id: FAQCategoryForm.dtl,v 1.6 2004-11-07 15:46:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,13 +32,33 @@ function submit_compose()
   </td>
 </tr>
 <tr>
-  <td class="mainbody">
+  <td width="40%" class="mainbody">
 
-  <br>
-
-  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Change">
+  <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td width="40%" class="contenthead">$Text{"Change"}</td>
+    <td class="contenthead">$Text{"Change"}</td>
+  </tr>
+  <tr>
+    <td width="46%" class="contentbody">$Data{"CategoryOption"}</td>
+  </tr>
+  <tr>
+    <td class="contentfooter"><input class="button" type="submit" value="$Text{"Change"}"></td>
+  </tr>
+  </table>
+  </form>
+  </td>
+
+
+  <td width="60%" class="mainbody">
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+  <input type="hidden" name="ID" value="$Data{"ID"}">
+  <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
+  <tr>
 # --
 # check subaction
 # --
@@ -51,32 +71,10 @@ function submit_compose()
 # --
     <td class="contenthead">$Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a></td>
   </tr>
-  <tr>
-  <td width="46%" class="contentbody">
-
+    <td class="contentbody">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td class="contentvalue">
-        <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Change">
-        $Data{"CategoryOption"}
-        <br>
-        <input class="button" type="submit" value="$Text{"change"}">
-        </form>
-      </td>
-    </tr>
-    </table>
-
-  </td>
-  <td class="contentbody">
-    <table border="0" cellspacing="0" cellpadding="3">
-    <tr>
-      <td class="contentvalue">
-        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-        <input type="hidden" name="ID" value="$Data{"ID"}">
         <table border="0" cellspacing="0" cellpadding="3">
         <tr>
           <td class="contentkey">$Text{"Category"}: </td>
@@ -92,12 +90,14 @@ function submit_compose()
       </td>
     </tr>
     </table>
-
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+      <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
     </td>
   </tr>
   </table>
-
-  <br>
 
   </td>
 </tr>
