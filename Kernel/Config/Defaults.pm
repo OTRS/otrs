@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.76 2003-06-01 17:17:38 martin Exp $
+# $Id: Defaults.pm,v 1.77 2003-07-07 22:07:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.76 $';
+$VERSION = '$Revision: 1.77 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,6 +72,7 @@ sub LoadDefaults {
 
 #    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
 #    $Self->{'SendmailModule::Host'} = 'mail.example.com';
+#    $Self->{'SendmailModule::Port'} = '25';
 #    $Self->{'SendmailModule::AuthUser'} = '';
 #    $Self->{'SendmailModule::AuthPassword'} = '';
 
@@ -209,13 +210,6 @@ sub LoadDefaults {
     # (Max viewable ticket lines in the QueueZoom.)
     $Self->{ViewableTicketLinesZoom} = 6000;
 
-    # ViewableTicketStatusMaxSize
-    # (max size of ticket status view, state, priority, customer id, 
-    # ... in QueueView and ZoomView)
-    $Self->{ViewableTicketStatusQueueMaxSize} = 15;
-    $Self->{ViewableTicketStatusZoomMaxSize} = 15;
-    $Self->{ViewableTicketStatusMailboxMaxSize} = 14;
-
     # MaxLimit
     # (Max viewable tickets a page.)
     $Self->{MaxLimit} = 1200;
@@ -252,7 +246,7 @@ sub LoadDefaults {
 
     # defaut of shown article a page
     # [default: 15]
-    $Self->{SearchPageShown} = 15;
+    $Self->{SearchPageShown} = 40;
 
     # viewable ticket lines by search util
     # [default: 10]
@@ -385,7 +379,7 @@ sub LoadDefaults {
 #    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
  
     # UncountedUnlockTime
-    # (don't count this hours as unlock time)
+    # (don't count this hours as unlock time - weekdays: Mon,Tue,Wed,Thu,Fri,Sat,Sun;)
     $Self->{UncountedUnlockTime} = {
         Fri => [ 16,17,18,19,20,21,22,23 ],
         Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
@@ -1654,6 +1648,9 @@ Your OTRS Notification Master
     $Self->{'Module::Permission'}->{'AdminUserGroup'} = 'admin';
 
     $Self->{'Module::Permission'}->{'SystemStats'} = 'stats';
+
+    $Self->{'Module::Permission'}->{'AgentQueueView'}= ['admin', 'faq-editor'];
+
     # --------------------------------------------------- #
 }
 # --
