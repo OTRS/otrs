@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.66 2003-04-15 20:06:46 martin Exp $
+# $Id: Defaults.pm,v 1.67 2003-04-24 10:41:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -208,7 +208,7 @@ sub LoadDefaults {
 
     # MaxLimit
     # (Max viewable tickets a page.)
-    $Self->{MaxLimit} = 120;
+    $Self->{MaxLimit} = 1200;
 
     # TextAreaEmailWindow
     # (width of compose email windows)
@@ -237,8 +237,8 @@ sub LoadDefaults {
     # AgentUtil                                           #
     # --------------------------------------------------- #
     # default limit for ticket search
-    # [default: 250]
-    $Self->{SearchLimit} = 250;
+    # [default: 1000]
+    $Self->{SearchLimit} = 1000;
 
     # defaut of shown article a page
     # [default: 15]

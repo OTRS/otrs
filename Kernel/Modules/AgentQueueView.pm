@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.33 2003-04-16 21:13:09 martin Exp $
+# $Id: AgentQueueView.pm,v 1.34 2003-04-24 10:41:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,11 +58,10 @@ sub new {
     # viewable tickets a page
     $Self->{Limit} =  $Self->{ViewableTickets} + $Self->{Start};
     # sure is sure!
-    $Self->{MaxLimit} = $Self->{ConfigObject}->Get('MaxLimit') || 300;
+    $Self->{MaxLimit} = $Self->{ConfigObject}->Get('MaxLimit') || 1200;
     if ($Self->{Limit} > $Self->{MaxLimit}) {
         $Self->{Limit} = $Self->{MaxLimit};
     }
-
     # --
     # all static variables
     # --
@@ -109,7 +108,6 @@ sub Run {
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     # build NavigationBar 
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-
     # --
     # check old tickets, show it and return if needed
     # --
@@ -131,7 +129,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-
     # --
     # build queue view ...
     # --
@@ -375,10 +372,10 @@ sub BuildQueueView {
     # --
     # check shown tickets
     # --
-    if ($Self->{Limit} < $Data{TicketsShown}) {
-        $Data{TicketsShown} = $Self->{Limit};
+    if ($Self->{MaxLimit} < $Data{TicketsAvail}) {
+        # set max shown
+        $Data{TicketsAvail} = $Self->{MaxLimit};
     }
-
     # --
     # build output ...
     # --
