@@ -3,7 +3,7 @@
 # instaler.pl - the OpenTRS Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.1 2002-02-03 18:23:35 martin Exp $
+# $Id: installer.pl,v 1.2 2002-04-22 21:59:58 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,11 +21,12 @@
 # --
 
 # OpenTRS root directory
-use lib '/opt/OpenTRS/';
+#use lib '/opt/OpenTRS/';
+use lib '../../';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
