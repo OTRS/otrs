@@ -1,8 +1,8 @@
 # --
 # AdminSMIMEForm.dtl - provides HTML form for AdminSMIME html
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIMEForm.dtl,v 1.8 2004-11-04 11:17:23 martin Exp $
+# $Id: AdminSMIMEForm.dtl,v 1.9 2005-01-10 23:20:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -121,7 +121,7 @@
   <tr>
     <td class="contentbody">
 
-    <table border="0" width="100%">
+    <table border="0" cellspacing="0" cellpadding="3" width="100%">
     <tr>
         <td class="contentkey">$Text{"Type"}</td>
         <td class="contentkey">$Text{"Subject"}</td>
@@ -130,14 +130,17 @@
         <td class="contentkey">$Text{"Delete"}</td>
     </tr>
 <!-- dtl:block:Row -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
     <tr>
-        <td class="contentvalue">$QData{"Type"}</td>
-        <td class="contentvalue">$QData{"Subject"}</td>
-        <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Hash=$QData{"Hash"}">$QData{"Hash","80"}</a><br>
+        <td class="$Env{"Color"}">$QData{"Type"}</td>
+        <td class="$Env{"Color"}">$QData{"Subject"}</td>
+        <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Hash=$QData{"Hash"}">$QData{"Hash","80"}</a><br>
         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$QData{"Type"}&Hash=$QData{"Hash"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","12"}</div></a></td>
-        <td class="contentvalue">$QData{"ShortStartDate"}<br>$QData{"ShortEndDate"}</td>
-        <td align="center" class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Hash=$QData{"Hash"}">x</a></td>
+        <td class="$Env{"Color"}">$QData{"ShortStartDate"}<br>$QData{"ShortEndDate"}</td>
+        <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Hash=$QData{"Hash"}">x</a></td>
     </tr>
+<dtl if ($Env{"Color"} eq "searchpasive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpasive"; }>
 <!-- dtl:block:Row -->
 
     </table>

@@ -1,8 +1,8 @@
 # --
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.9 2004-10-31 18:22:42 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.10 2005-01-10 23:23:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,28 +55,29 @@
   <tr>
     <td class="contentbody">
 
-    <table width="100%" border="0">
+    <table width="100%" border="0" cellspacing="0" cellpadding="3">
     <tr>
-      <td class="contentkey" width="20%">$Text{"Name"}</td>
+      <td class="contentkey" width="35%">$Text{"Name"}</td>
       <td class="contentkey">$Text{"Last run"}</td>
       <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
-      <td align="center" class="contentkey">$Text{"Edit"}</td>
       <td align="center" class="contentkey">$Text{"Delete"}</td>
       <td align="center" class="contentkey">$Text{"Run Now!"}</td>
     </tr>
 <!-- dtl:block:Row -->
 <dtl if ($Data{"Valid"} ne "1") { $Data{"StartFont"} = "<font color="gray">"; }>
 <dtl if ($Data{"Valid"} ne "1") { $Data{"StopFont"} = "</font>"; }>
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
     <tr>
-      <td class="contentvalue">$Data{"StartFont"}$QData{"Name"}$Data{"StartFont"}</td>
-      <td class="contentvalue">$Data{"StartFont"}$TimeLong{"$QData{"ScheduleLastRun"}"}$Data{"StartFont"}</td>
+      <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&Profile=$QData{"Name"}">$Data{"StartFont"}$QData{"Name"}$Data{"StartFont"}</a></td>
+      <td class="$Env{"Color"}">$Data{"StartFont"}$TimeLong{"$QData{"ScheduleLastRun"}"}$Data{"StartFont"}</td>
 <dtl if ($Data{"Valid"} eq "1") { $Data{"ShownValid"} = "valid"; }>
 <dtl if ($Data{"Valid"} ne "1") { $Data{"ShownValid"} = "invalid"; }>
-      <td align="center" class="contentvalue">$Data{"StartFont"}$Text{"$QData{"ShownValid"}"}$Data{"StopFont"}</td>
-      <td align="center" class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&Profile=$QData{"Name"}">$Data{"StartFont"}$Text{"x"}$Data{"StopFont"}</a></td>
-      <td align="center" class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&EraseTemplate=1&Profile=$QData{"Name"}">$Data{"StartFont"}$Text{"x"}$Data{"StopFont"}</a></td>
-      <td align="center" class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RunNow&Profile=$QData{"Name"}">$Data{"StartFont"}$Text{"x"}$Data{"StopFont"}</a></td>
+      <td align="center" class="$Env{"Color"}">$Data{"StartFont"}$Text{"$QData{"ShownValid"}"}$Data{"StopFont"}</td>
+      <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&EraseTemplate=1&Profile=$QData{"Name"}">$Data{"StartFont"}$Text{"x"}$Data{"StopFont"}</a></td>
+      <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RunNow&Profile=$QData{"Name"}">$Data{"StartFont"}$Text{"x"}$Data{"StopFont"}</a></td>
     </tr>
+<dtl if ($Env{"Color"} eq "searchpasive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpasive"; }>
 <!-- dtl:block:Row -->
     </table>
 
