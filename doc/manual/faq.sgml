@@ -324,6 +324,18 @@ for ticket history, ...) but not activ for the application.
 
 <qandaentry>
 <question>
+<para>What browser do I need?</para>
+</question>
+<answer>
+<para>
+OpenTRS is working with the most browser such lynx, w3m, Netscape, Mozilla, IE and Konqueror  
+(You don't need Java Script or Java Applets!).
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
 <para>Do you support the RFC 1297?</para>
 </question>
 <answer>
