@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.25 2005-02-07 14:25:53 martin Exp $
+# $Id: mkStats.pl,v 1.26 2005-02-11 18:15:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -73,7 +73,7 @@ if ($Opts{'h'}) {
 
 # required output param check
 if (!$Opts{'o'} && !$Opts{'r'}) {
-    print STDERR "ERROR: Need -o /tmp/ OR -r email\@example.com -b 'some message'\n";
+    print STDERR "ERROR: Need -o /tmp/ OR -r email\@example.com [-b 'some message']\n";
     exit 1;
 }
 # stats module check
@@ -160,6 +160,42 @@ if (eval "require $Module") {
     my $TitleArrayRef = shift (@Data);
     my $Title = $TitleArrayRef->[0];
     my $HeadArrayRef = shift (@Data);
+    # add sum y
+    if ($ConfigItem{SumRow}) {
+        push (@{$HeadArrayRef}, 'Sum');
+        foreach my $Col (@Data) {
+            my $Sum = 0;
+            foreach (@{$Col}) {
+                if ($_ =~ /[0-9]/ && $_ !~ /[A-z]/i) {
+                    $Sum = $Sum + $_;
+                }
+            }
+            push (@{$Col}, $Sum);
+        }
+    }
+    # add sum x
+    if ($ConfigItem{SumCol}) {
+        my @R1 = ();
+        foreach my $Col (@Data) {
+            my $Count = -1;
+            foreach my $Dig (@{$Col}) {
+                $Count++;
+                if ($Dig =~ /[0-9]/ && $Dig !~ /[A-z]/i) {
+                    if ($R1[$Count]) {
+                        $R1[$Count] = $R1[$Count] + $Dig;
+                    }
+                    else {
+                        $R1[$Count] = $Dig;
+                    }
+                }
+            }
+        }
+        # add sum
+        if (!defined($R1[0])) {
+            $R1[0] = 'Sum';
+        }
+        push (@Data, \@R1);
+    }
 
     my $Output = '';
     my %Attachment = ();
