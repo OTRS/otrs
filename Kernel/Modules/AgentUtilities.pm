@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.50 2004-04-23 07:34:42 martin Exp $
+# $Id: AgentUtilities.pm,v 1.51 2004-05-02 07:53:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -446,33 +446,10 @@ sub MaskForm {
     # --
     # get user of own groups
     # --
-    my %ShownUsers = ();
-    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+    my %ShownUsers = $Self->{UserObject}->UserList(
         Type => 'Long',
         Valid => 1,
     );
-    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
-        %ShownUsers = %AllGroupsMembers;
-    }
-    else {
-        my %Groups = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID},
-            Type => 'rw',
-            Result => 'HASH',
-            Cached => 1,
-        );
-        foreach (keys %Groups) {
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $_,
-                Type => 'rw',
-                Result => 'HASH',
-                Cached => 1,
-            );
-            foreach (keys %MemberList) {
-                $ShownUsers{$_} = $AllGroupsMembers{$_};
-            }
-        }
-    }
     $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%ShownUsers, 
         Name => 'UserIDs',
