@@ -2,7 +2,7 @@
 # DestQueue.pm - sub module of Postmaster.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DestQueue.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: DestQueue.pm,v 1.2 2001-12-30 00:42:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -22,7 +22,8 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     $Self->{Debug} = 0;

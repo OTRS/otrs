@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.1 2001-12-26 20:06:25 martin Exp $
+# $Id: FollowUp.pm,v 1.2 2001-12-30 00:42:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -23,7 +23,8 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     $Self->{Debug} = 0;
@@ -32,9 +33,9 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
-    foreach ('DBObject', 'TicketObject', 'ArticleObject', 'LogObject') {
-        die "Got no $_!" if (!$Self->{$_});
+    # check needed Objects
+    foreach ('DBObject', 'ConfigObject', 'ArticleObject', 'TicketObject', 'LogObject', 'LoopProtectionObject') {
+        $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
 
     return $Self;
@@ -136,14 +137,33 @@ sub Run {
         Type => $AutoResponseType,
     );
     if ($Data{Text} && $Data{Realname} && $Data{Address} && !$GetParam{'X-OTRS-Loop'}) {
+        # --
+        # check / loop protection!
+        # --
+        if (!$Self->{LoopProtectionObject}->Check(To => $GetParam{From})) {
+            # add history row
+            $TicketObject->AddHistoryRow(
+                TicketID => $TicketID,
+                HistoryType => 'LoopProtection',
+                Name => "Sent no auto response (LoopProtection)!",
+                CreateUserID => $InmailUserID,
+            );
+            return;
+        }
+        # write log
+        if (!$Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
+            return;
+        }
+        # --
         # do article db insert
+        # --
         my $ArticleID = $ArticleObject->CreateArticleDB(
             TicketID => $TicketID,
             ArticleType => 'email',
             SenderType => 'system',
             From => "$Data{Realname} <$Data{Address}>",
             To => $GetParam{From},
-            Subject => "[Ticket#$Tn] $Data{Subject}",
+            Subject => "[". $Self->{ConfigObject}->Get('TicketHook') .": $Tn] $Data{Subject}",
             MessageID => time() .".". rand(999999),
             Body => $Data{Text},
             CreateUserID => $InmailUserID,
@@ -155,7 +175,7 @@ sub Run {
             Email => $Data{Address},
             To => $GetParam{From},
             RealName => $Data{Realname},
-            Subject => "[Ticket#$Tn] $Data{Subject}",
+            Subject => "[". $Self->{ConfigObject}->Get('TicketHook') .": $Tn] $Data{Subject}",
             UserID => $InmailUserID,
             TicketID => $TicketID,
             TicketObject => $TicketObject,

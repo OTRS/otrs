@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.2 2001-12-26 20:10:26 martin Exp $
+# $Id: PostMaster.pm,v 1.3 2001-12-30 00:42:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,6 +12,7 @@ package Kernel::System::PostMaster;
 
 use strict;
 use Kernel::System::DB;
+use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::EmailParser;
 use Kernel::System::Ticket;
 use Kernel::System::Article;
@@ -21,7 +22,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -38,10 +39,20 @@ sub new {
 
     # get ConfigObject
     $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";
-    $Self->{SystemID} = $Param{ConfigObject}->Get('SystemID');
-    $Self->{TicketHook} = $Param{ConfigObject}->Get('TicketHook');
+    # check needed objects
+    foreach ('SystemID', 'TicketHook', 'PostmasterUserID', 'DefaultPriority', 'DefaultState', 'X-Header') {
+        $Self->{$_} = $Param{ConfigObject}->Get($_) || die "Found no '$_' option in Config.pm!";
+    }
 
+    # create db object
     $Self->{DBObject} = Kernel::System::DB->new(%Param);
+
+    # create LoopProtectionObject
+    $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(
+        DBObject => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject => $Self->{LogObject},
+    );
 
     # get email 
     $Self->{Email} = $Param{Email} || die "Got no EmailBody!";
@@ -54,43 +65,6 @@ sub new {
 
     # for debug 0=off;1=on; 2=with GetHeaderParam;
     $Self->{Debug} = 0;
-
-    # PostmasterUserID FIXME!!!
-    $Self->{PostmasterUserID} = 1;
-    $Self->{Priority} = 'normal';
-    $Self->{State} = 'new';
-    my @WantParam = (
-    'From',
-    'To',
-    'Cc',
-    'Reply-To',
-    'ReplyTo',
-    'Subject',
-    'Message-ID',
-    'Message-Id',
-    'Precedence',
-    'Mailing-List',
-    'X-Loop',
-    'X-No-Loop',
-    'X-OTRS-Loop',
-    'X-OTRS-Info',
-    'X-OTRS-Priority',
-    'X-OTRS-Queue',
-    'X-OTRS-Ignore',
-    'X-OTRS-State',
-    'X-OTRS-CustomerNo',
-    'X-OTRS-ArticleKey1',
-    'X-OTRS-ArticleKey2',
-    'X-OTRS-ArticleKey3',
-    'X-OTRS-ArticleValue1',
-    'X-OTRS-ArticleValue2',
-    'X-OTRS-ArticleValue3',
-    'X-OTRS-TicketKey1',
-    'X-OTRS-TicketKey2',
-    'X-OTRS-TicketValue1',
-    'X-OTRS-TicketValue2',
-    );
-    $Self->{WantParam} = \@WantParam;
 
     return $Self;
 }
@@ -105,11 +79,13 @@ sub Run {
          DBObject => $Self->{DBObject}, 
          ConfigObject => $Self->{ConfigObject},
          LogObject => $Self->{LogObject},
+         LoopProtectionObject => $Self->{LoopProtectionObject}, 
     );
     my $ArticleObject = Kernel::System::Article->new(
          DBObject => $Self->{DBObject},
          LogObject => $Self->{LogObject},
          ConfigObject => $Self->{ConfigObject},
+         LoopProtectionObject => $Self->{LoopProtectionObject},
     );
     my $NewTicket = Kernel::System::PostMaster::NewTicket->new(
         ParseObject => $Self->{ParseObject},
@@ -118,6 +94,7 @@ sub Run {
         TicketObject => $TicketObject,
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
+        LoopProtectionObject => $Self->{LoopProtectionObject},
     );
 
 
@@ -272,7 +249,7 @@ sub GetEmailParams {
     my %Param = @_;
     my %GetParam;
     # parse section
-    my $WantParamTmp = $Self->{WantParam} || die "Got no \@WantParam ref";
+    my $WantParamTmp = $Self->{"X-Header"} || die "Got no \@WantParam ref";
     my @WantParam = @$WantParamTmp;
     foreach (@WantParam){
         if ($Self->{Debug} > 1) {
@@ -290,10 +267,10 @@ sub GetEmailParams {
         $GetParam{'ReplyTo'} = $GetParam{'Reply-To'};
     }
     if (!$GetParam{'X-OTRS-Priority'}) {
-        $GetParam{'X-OTRS-Priority'} = $Self->{Priority};
+        $GetParam{'X-OTRS-Priority'} = $Self->{DefaultPriority};
     }
     if (!$GetParam{'X-OTRS-State'}) {
-        $GetParam{'X-OTRS-State'} = $Self->{State};
+        $GetParam{'X-OTRS-State'} = $Self->{DefaultState};
     }
     if ($GetParam{'Mailing-List'} || $GetParam{'Precedence'} || $GetParam{'X-Loop'}
              || $GetParam{'X-No-Loop'} || $GetParam{'X-OTRS-Loop'}) {

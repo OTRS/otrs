@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: NewTicket.pm,v 1.2 2001-12-30 00:42:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,32 +17,24 @@ use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-    
-    my $Self = {}; # allocate new hash for object
+   
+    # allocate new hash for object 
+    my $Self = {}; 
     bless ($Self, $Type);
     
     $Self->{Debug} = 1;
     
-    # get db object
-    $Self->{DBObject} = $Param{DBObject} || die 'Got no DBObject!';
-
-    # get config object
-    $Self->{ConfigObject} = $Param{ConfigObject} || die 'Got no ConfigObject!';
-    
-    # get article and ticket object
-    $Self->{ArticleObject} = $Param{ArticleObject} || die 'Got no ArticleObject!'; 
-
-    $Self->{TicketObject} = $Param{TicketObject} || die 'Got no TicketObject!';
-    
-    # get log object
-    $Self->{LogObject} = $Param{LogObject} || die 'Got no LogObject!';
+    # get all objects
+    foreach ('DBObject', 'ConfigObject', 'ArticleObject', 'TicketObject', 'LogObject', 'LoopProtectionObject') {
+        $Self->{$_} = $Param{$_} || die 'Got no $_';
+    }
 
     my $ParseObject = $Param{ParseObject} || die 'Got no ParseObject!';   
  
@@ -160,7 +152,8 @@ sub Run {
     );
     
     # do log
-    $LogObject->Log(MSG => "New Ticket [$NewTn] created (TicketID=$TicketID, " .
+    $LogObject->Log(
+        Message => "New Ticket [$NewTn] created (TicketID=$TicketID, " .
         "ArticleID=$ArticleID). $Comment"
     );
     
@@ -173,6 +166,23 @@ sub Run {
         Type => $AutoResponseType,
     );
     if ($Data{Text} && $Data{Realname} && $Data{Address} && !$GetParam{'X-OTRS-Loop'}) {
+        # --
+        # check / loop protection!
+        # --
+        if (!$Self->{LoopProtectionObject}->Check(To => $GetParam{From})) {
+            # add history row
+            $TicketObject->AddHistoryRow(
+                TicketID => $TicketID,
+                HistoryType => 'LoopProtection',
+                Name => "Sent no auto response (LoopProtection)!",
+                CreateUserID => $InmailUserID,
+            );
+            return;
+        }
+        # write log
+        if (!$Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
+            return;
+        }
         # do article db insert
         my $ArticleID = $ArticleObject->CreateArticleDB(
             TicketID => $TicketID,
@@ -180,19 +190,23 @@ sub Run {
             SenderType => 'system',
             From => "$Data{Realname} <$Data{Address}>",
             To => $GetParam{From},
-            Subject => "[Ticket#$NewTn] $Data{Subject}",
+            Subject => "[". $Self->{ConfigObject}->Get('TicketHook') .": $NewTn] $Data{Subject}",
             MessageID => time() .".". rand(999999),
             Body => $Data{Text},
             CreateUserID => $InmailUserID,
         );
-        my $Email = Kernel::System::Email->new();
-        $Email->SendMail(
+        my $Email = Kernel::System::EmailSend->new(
+            ConfigObject => $Self->{ConfigObject},
+            DBObject => $Self->{DBObject},
+            LogObject => $Self->{LogObject},
+        );
+        $Email->Send(
             DBObject => $DBObject,
             From => "$Data{Realname} <$Data{Address}>",
             Email => $Data{Address},
             To => $GetParam{From},
             RealName => $Data{Realname},
-            Subject => "[Ticket#$NewTn] $Data{Subject}",
+            Subject => "[". $Self->{ConfigObject}->Get('TicketHook') .": $NewTn] $Data{Subject}",
             UserID => $InmailUserID,
             TicketID => $TicketID,
             TicketObject => $TicketObject,
@@ -203,7 +217,8 @@ sub Run {
 			HistoryType => 'SendAutoReply',
         );
         # do log
-        $LogObject->Log(MSG => "Sent auto reply for Ticket [$NewTn] (TicketID=$TicketID, " .
+        $LogObject->Log(
+            Message => "Sent auto reply for Ticket [$NewTn] (TicketID=$TicketID, " .
             "ArticleID=$ArticleID) to '$GetParam{From}' " 
         );
     }
@@ -215,7 +230,7 @@ sub Run {
 
     if ($Self->{Debug} > 0) {
        $LogObject->Log(
-            MSG => "Debug($Self->{Debug}): AutoResponseType=$AutoResponseType, " .
+            Message => "Debug($Self->{Debug}): AutoResponseType=$AutoResponseType, " .
 			"ResponseFrom=$Data{Address}, QueueID=$QueueID, " .
             "Mailing-List=$GetParam{'Mailing-List'}, " .
             "Precedence=$GetParam{Precedence}, X-Loop=$GetParam{'X-Loop'}, " .
