@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.2 2003-02-08 15:40:42 martin Exp $
+# $Id: PrintHeader.dtl,v 1.3 2003-02-26 06:15:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,6 +36,8 @@ Pragma: no-cache
     { font-family:Courier;font-size:12px; }
   a:hover 
     { color: #002244; text-decoration: none; }
+  .item
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11px;color:#ffffff;background-color:#000000 }
   .small
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
 //-->
@@ -44,10 +46,10 @@ Pragma: no-cache
 <a name="top"></a>
 <body onLoad="window.print();" bgcolor="#ffffff" text="#000000" Link="#557799" ALink="#557799" VLink="#557799">
 <!-- end header -->
-<table border="0" width="640" cellpadding="0" cellspacing="1" bgcolor="#000000">
+<table border="0" width="$Data{"Width"}" cellpadding="0" cellspacing="1" bgcolor="#000000">
 <tr>
   <td>
-  <table border="0" width="640" cellpadding="20" cellspacing="1" bgcolor="#ffffff">
+  <table border="0" width="$Data{"Width"}" cellpadding="20" cellspacing="1" bgcolor="#ffffff">
   <tr>
     <td>
 
