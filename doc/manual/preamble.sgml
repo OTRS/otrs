@@ -8,7 +8,7 @@ This manual is dedicated to the nice folks of <ulink url="http://www.cafe-lucas.
 <title>Foreword</title>
 <para><emphasis role='bold'>About this Book</emphasis></para>
 <para>
-This is an alpha edition of this book. This version may contain glaring
+This manual may contain glaring
 inconsistencies, missing sections, and other misfeatures indicative of a work
 in progress. But please do not hesiate to add every found mistake in our bugtracking tool at <ulink url="http://bugs.otrs.org/"><citetitle>http://bugs.otrs.org/</citetitle></ulink>.
 </para>
@@ -22,4 +22,8 @@ Anyhow we are keen on your feedback. Please do not hesitate to send us an e-mail
 <para>
 <link linkend="coreteam">Your OTRS core team</link>
 </para>
+<para>
+PS. In case you are searching for commercial support and consulting for the OTRS, please have a look at the <ulink url="http://www.otrs.de/"><citetitle>((otrs.de)) homepage</citetitle></ulink>.
+</para>
+
 </preface>
