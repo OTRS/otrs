@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.78 2004-04-05 17:19:01 martin Exp $
+# $Id: Ticket.pm,v 1.79 2004-04-05 17:20:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.78 $';
+$VERSION = '$Revision: 1.79 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -571,7 +571,7 @@ get ticket queue id
   my $QueueID = $TicketObject->TicketQueueID(
       TicketID => 123,
   );
-    
+
 =cut
 
 sub TicketQueueID {
@@ -2524,14 +2524,14 @@ sub HistoryTicketAdd {
 # --
 
 =item HistoryTicketDelete()
-    
+
 delete a ticket history (from storage)
 
   $TicketObject->HistoryTicketDelete(
       TicketID => 123,
       UserID => 123,
   );
-    
+
 =cut
 
 sub HistoryTicketDelete {
@@ -2571,6 +2571,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2004-04-05 17:19:01 $
+$Revision: 1.79 $ $Date: 2004-04-05 17:20:18 $
 
 =cut
