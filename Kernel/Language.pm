@@ -1,8 +1,8 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.22 2003-12-08 20:24:01 martin Exp $
+# $Id: Language.pm,v 1.23 2004-01-09 12:43:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,47 @@
 package Kernel::Language;
 
 use strict;
+use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::Language - global language interface
+
+=head1 SYNOPSIS
+
+All language functions. 
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a language object 
+ 
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::Langauge;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+
+  my $LangaugeObject = Kernel::Langauge->new( 
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      UserLanguage => 'de',
+  );
+
+=cut
 
 # --
 sub new {
@@ -27,30 +63,22 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
-    # --
     # get common objects 
-    # --
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-    # --
     # check needed objects
-    # --
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_!" if (!$Self->{$_});
     } 
-    # --
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
-    # --
     $Self->{Debug} = 0;
-    # --
     # user language
-    # --
     $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
 #    $Self->{UserLanguage} = 'english';
-    # --
     # Debug 
-    # --
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'Debug',
@@ -80,13 +108,18 @@ sub new {
     if (!$Self->{ReturnCharset}) {
         $Self->{ReturnCharset} = $Self->GetRecommendedCharset();
     }
-    # check if Perl 5.8.0 encode is available
-    if (eval "require Encode") {
-        $Self->{CharsetEncodeSupported} = 1;
-    }
     return $Self;
 }
 # --
+
+=item Get()
+    
+Translate a words.
+
+  my $Text = $LanguageObject->Get('Hello');
+
+=cut
+
 sub Get {
     my $Self = shift;
     my $What = shift;
@@ -138,9 +171,10 @@ sub Get {
             }
         }
         # charset convert from source translation into shown charset
+        my @TranslationCharset = $Self->GetPossibleCharsets();
         my $Text = $Self->CharsetConvert(
             Text => $Self->{Translation}->{$What}, 
-            From => $Self->GetRecommendedCharset(),
+            From => $TranslationCharset[0],
         );
         return $Text; 
     }
@@ -176,6 +210,15 @@ sub Get {
     }
 }
 # --
+
+=item FormatTimeString()
+
+Get date format in used language formate (based on translation file).
+    
+  my $Date = $LanguageObject->FormatTimeString('2005-12-12 12:12:12');
+
+=cut
+
 sub FormatTimeString {
     my $Self = shift;
     my $String = shift || return;
@@ -197,8 +240,23 @@ sub FormatTimeString {
     }
 }
 # --
+
+=item GetRecommendedCharset()
+
+Returns the recommended charset for frontend (based on translation
+file or from DefaultCharset (from Kernel/Config.pm) is utf-8).
+    
+  my $Charset = $LanguageObject->GetRecommendedCharset().
+
+=cut
+
 sub GetRecommendedCharset {
     my $Self = shift;
+    # should I use default frontend charset (e. g. utf-8)?
+    if ($Self->{EncodeObject}->EncodeFrontendUsed()) {
+        return $Self->{EncodeObject}->EncodeFrontendUsed();
+    }
+    # if not, what charset shoud I use (take it from translation file)?
     if ($Self->{Charset}) {
         my @Chatsets = @{$Self->{Charset}};
         return $Chatsets[$#Chatsets];
@@ -208,6 +266,15 @@ sub GetRecommendedCharset {
     }
 }
 # --
+
+=item GetPossibleCharsets()
+
+Returns an array of possible charsets (based on translation file).
+    
+  my @Charsets = $LanguageObject->GetPossibleCharsets().
+
+=cut
+
 sub GetPossibleCharsets {
     my $Self = shift;
     if ($Self->{Charset}) {
@@ -218,12 +285,37 @@ sub GetPossibleCharsets {
     }
 }
 # --
+
+=item Time()
+
+Returns a time string in language formate (based on translation file).
+   
+    $Time = $LanguageObject->Time(
+        Action => 'GET',
+        Format => 'DateFormat',
+    );
+
+    $TimeLong = $Self->{LanguageObject}->Time(
+        Action => 'GET',
+        Format => 'DateFormatLong',
+    );
+ 
+    $TimeLong = $Self->{LanguageObject}->Time(
+        Action => 'RETURN',
+        Format => 'DateFormatLong',
+        Year => 1977,
+        Month => 10,
+        Day => 27,
+        Hour => 20,
+        Minute => 10,
+    );
+ 
+=cut
+
 sub Time {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Action Format)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -232,9 +324,7 @@ sub Time {
     }
     my $ReturnString = $Self->{$Param{Format}} || 'Need to be translated!';
     my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst);
-    # --
     # set or get time
-    # --
     if ($Param{Action} =~ /^GET$/i) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
@@ -249,9 +339,7 @@ sub Time {
         $M = $Param{Month} || 0;
         $Y = $Param{Year} || 0;
     }
-    # --
     # do replace
-    # --
     if ($Param{Action} =~ /^(GET|RETURN)$/i) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
@@ -278,37 +366,37 @@ sub Time {
         $ReturnString =~ s{(\%B)}{$Self->Get($MONS[$M-1]);}egx;
         return $ReturnString;
     } 
-    # --
     # return
-    # --
     return $ReturnString;
 }
 # --
+
+=item CharsetConvert()
+
+Converts charset from a source string (if no To is given, the the 
+GetRecommendedCharset() will be used).
+    
+  my $Text = $LanguageObject->CharsetConvert(
+      Text => $String,
+      From => 'iso-8859-15',
+      To => 'utf-8',
+  );
+
+=cut
+
 sub CharsetConvert {
     my $Self = shift;
     my %Param = @_;
     my $Text = defined $Param{Text} ? $Param{Text} : return;
     my $From = $Param{From} || return $Text;
     my $To = $Param{To} || $Self->{ReturnCharset} || return $Text;
-    # if there is no charset encode supported (min. Perl 5.8.0)
-    if (!$Self->{CharsetEncodeSupported}) {
-        return $Text;
-    }
     $From =~ s/'|"//g;
-    # if no encode is needed
-    if ($From =~ /^$To$/i) {
-        return $Text;
-    }
-    # encode is needed
-    else { 
-        if ($Text ne '' && !eval{Encode::from_to($Text, $From, $To)}) {
-            $Self->{LogObject}->Log(
-                Priority => 'error', 
-                Message => "Charset encode $From -=> $To ($Text) not supported",
-            );
-        }
-        return $Text;
-    }
+    # encode 
+    return $Self->{EncodeObject}->Convert(
+        From => $From,
+        To => $To,
+        Text => $Text,
+    );
 }
 # --
 sub DESTROY {
@@ -373,5 +461,20 @@ sub DESTROY {
     }
 }
 # --
-
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).  
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.23 $ $Date: 2004-01-09 12:43:14 $
+
+=cut
