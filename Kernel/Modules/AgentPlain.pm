@@ -2,7 +2,7 @@
 # AgentPlain.pm - to get a plain view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.4 2002-05-14 01:38:41 martin Exp $
+# $Id: AgentPlain.pm,v 1.5 2002-06-08 20:34:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -40,7 +40,6 @@ sub new {
       'ConfigObject',
       'UserObject',
       'ArticleObject',
-      'PermissionObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -71,7 +70,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    elsif ($Self->{PermissionObject}->Ticket(
+    elsif ($Self->{TicketObject}->Permission(
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
 

@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.9 2002-05-26 10:13:50 martin Exp $
+# $Id: Ticket.pm,v 1.10 2002-06-08 20:33:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,11 @@ use Kernel::System::Ticket::State;
 use Kernel::System::Ticket::History;
 use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
+use Kernel::System::Queue;
+use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -41,9 +43,16 @@ sub new {
     $Self->{Debug} = 0;
 
     # get needed opbjects
-    foreach ('ConfigObject', 'LogObject', 'DBObject') {
+    foreach (
+      'ConfigObject', 
+      'LogObject', 
+      'DBObject',
+    ) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    $Self->{UserObject} = Kernel::System::User->new(%Param);
 
     $Self->{CounterLog} = $Self->{ConfigObject}->Get('CounterLog');
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
@@ -398,6 +407,22 @@ sub SetAnswered {
     else {
         return;
     }
+}
+# --
+sub Permission {
+    my $Self = shift;
+    my %Param = @_;
+    my $TicketID = $Param{TicketID} || return;
+    my $UserID = $Param{UserID} || return;
+    my $QueueID = $Self->GetQueueIDOfTicketID(TicketID => $TicketID);
+    my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $QueueID);
+    my %Groups = $Self->{UserObject}->GetGroups(UserID => $UserID);
+    foreach (keys %Groups) {
+        if ($_ eq $GID) {
+            return 1;
+        }
+    }
+    return;
 }
 # --
 

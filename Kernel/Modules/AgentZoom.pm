@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.9 2002-06-05 23:50:56 martin Exp $
+# $Id: AgentZoom.pm,v 1.10 2002-06-08 20:34:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -178,7 +178,7 @@ sub Run {
     # --
     # check permissions
     # --
-    if ($Self->{PermissionObject}->Ticket(
+    if ($Self->{TicketObject}->Permission(
         TicketID => $TicketID,
         UserID => $Self->{UserID})) {
         # --

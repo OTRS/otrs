@@ -2,7 +2,7 @@
 # Permission.pm - to control the access permissions 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Permission.pm,v 1.3 2002-04-30 00:15:30 martin Exp $
+# $Id: Permission.pm,v 1.4 2002-06-08 20:33:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Permission;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('DBObject', 'LogObject', 'UserObject', 'QueueObject') {
+    foreach ('DBObject', 'LogObject', 'UserObject') {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -54,22 +54,6 @@ sub Section {
     my %Groups = $Self->{UserObject}->GetGroups(UserID => $UserID);
     foreach (keys %Groups) {
         if ($Groups{$_} eq $Self->{$Section}) {
-            return 1;
-        }
-    }
-    return;
-}
-# --
-sub Ticket {
-    my $Self = shift;
-    my %Param = @_;
-    my $TicketID = $Param{TicketID} || return;
-    my $UserID = $Param{UserID} || return;
-    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
-    my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $QueueID);
-    my %Groups = $Self->{UserObject}->GetGroups(UserID => $UserID);
-    foreach (keys %Groups) {
-        if ($_ eq $GID) {
             return 1;
         }
     }
