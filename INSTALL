@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.27 2003-01-16 21:59:48 martin Exp $
+# $Id: INSTALL,v 1.28 2003-01-16 22:16:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -132,11 +132,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
 10. First Email:
    ------------
-   use the procmailrc of the OTRS user --> ~otrs/.procmailrc or e. g. /opt/otrs/.procmailrc
-
-   --> send emails to the otrs user (e. g. otrs@localhost)
-
-   or pipe an email directly into $OTRS_HOME/bin/Postmaster.pl
+   pipe an email directly into $OTRS_HOME/bin/Postmaster.pl
     (e. g. 'cat /opt/otrs/doc/test-email-1.box | /opt/otrs/bin/PostMaster.pl').
 
 11. Cronjobs for the OTRS user:
