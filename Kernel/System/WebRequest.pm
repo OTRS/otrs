@@ -2,10 +2,10 @@
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.17 2004-01-20 01:09:11 martin Exp $
+# $Id: WebRequest.pm,v 1.18 2004-07-16 22:54:49 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.17 $ ';
+$VERSION = '$Revision: 1.18 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -35,11 +35,11 @@ All cgi param functions.
 
 =item new()
 
-create param object 
+create param object
 
   use Kernel::Config;
   use Kernel::System::WebRequest;
- 
+
   my $ConfigObject = Kernel::Config->new();
   my $ParamObject = Kernel::System::WebRequest->new(
       ConfigObject => $ConfigObject,
@@ -53,7 +53,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
     # check needed objects
     foreach (qw(ConfigObject LogObject)) {
@@ -66,7 +66,7 @@ sub new {
     # to get the errors on screen
     use CGI::Carp qw(fatalsToBrowser);
     # max 5 MB posts
-    $CGI::POST_MAX = $Self->{ConfigObject}->Get('MaxFileUpload') || 1024 * 1024 * 5;  
+    $CGI::POST_MAX = $Self->{ConfigObject}->Get('MaxFileUpload') || 1024 * 1024 * 5;
     # query object
     $Self->{Query} = new CGI;
 
@@ -76,7 +76,7 @@ sub new {
 
 =item Error()
 
-to get the error back 
+to get the error back
 
   if ($ParamObject->Error()) {
       print STDERR $Self->{ParamObject}->Error()."\n";
@@ -99,7 +99,7 @@ sub Error {
 
 to get params
 
-  my $Param = $ParamObject->GetParam(Param => 'ID'); 
+  my $Param = $ParamObject->GetParam(Param => 'ID');
 
 =cut
 
@@ -108,7 +108,7 @@ sub GetParam {
     my %Param = @_;
     my $Value = $Self->{Query}->param($Param{Param});
     $Self->{EncodeObject}->Encode(\$Value);
-    return $Value; 
+    return $Value;
 }
 # --
 
@@ -116,7 +116,7 @@ sub GetParam {
 
 to get array params
 
-  my @Param = $ParamObject->GetArray(Param => 'ID'); 
+  my @Param = $ParamObject->GetArray(Param => 'ID');
 
 =cut
 
@@ -159,9 +159,9 @@ sub GetUploadInfo {
 
 =item GetUploadAll()
 
-to get file upload 
+to get file upload
 
-  my %File = $ParamObject->GetUploadAll(Param => '123.jpg'); 
+  my %File = $ParamObject->GetUploadAll(Param => '123.jpg');
 
   print "Filename: $File{Filename:}\n";
   print "ContentType: $File{ContentType:}\n";
@@ -203,12 +203,12 @@ sub GetUploadAll {
             }
             close (OUTFILE);
         }
-        # check if content is there, IE is always sending file uploades 
+        # check if content is there, IE is always sending file uploades
         # without content
         if (!$Param{UploadFilename}) {
             return;
         }
-        if ($Param{UploadFilename}) { 
+        if ($Param{UploadFilename}) {
           $Param{UploadContentType} = $Self->GetUploadInfo(
             Filename => $Param{UploadFilenameOrig},
             Header => 'Content-Type',
@@ -216,7 +216,7 @@ sub GetUploadAll {
         }
         return (
             Filename => $NewFileName,
-            Content => $Param{UploadFilename}, 
+            Content => $Param{UploadFilename},
             ContentType => $Param{UploadContentType},
         );
     }
@@ -240,7 +240,7 @@ set a cookie
 sub SetCookie {
     my $Self = shift;
     my %Param = @_;
-    return $Self->{Query}->cookie( 
+    return $Self->{Query}->cookie(
         -name=> $Param{Key},
         -value=> $Param{Value},
         -expires=> $Param{Expires},
@@ -268,7 +268,7 @@ sub GetCookie {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -278,6 +278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2004-01-20 01:09:11 $
+$Revision: 1.18 $ $Date: 2004-07-16 22:54:49 $
 
 =cut

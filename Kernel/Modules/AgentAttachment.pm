@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AgentAttachment.pm - to get the attachments 
+# Kernel/Modules/AgentAttachment.pm - to get the attachments
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.15 2004-06-11 06:59:13 martin Exp $
+# $Id: AgentAttachment.pm,v 1.16 2004-07-16 22:56:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object 
+    # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
 
@@ -96,7 +96,7 @@ sub Run {
                 foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
                     if ($Data{ContentType} =~ /^$_/i) {
                         $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
-                    } 
+                    }
                 }
             }
             # show with viewer
@@ -110,7 +110,7 @@ sub Run {
                 else {
                     # log error
                     $Self->{LogObject}->Log(
-                        Priority => 'error', 
+                        Priority => 'error',
                         Message => "Cant write $TmpFile: $!",
                     );
                     $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
@@ -130,9 +130,9 @@ sub Run {
                 # return new page
                 return $Self->{LayoutObject}->Attachment(%Data, ContentType => 'text/html', Content => $Content);
             }
-            # download it 
+            # download it
             else {
-                return $Self->{LayoutObject}->Attachment(%Data, Type => $Self->{ConfigObject}->Get('Agent::DownloadType') || 'attachment');  
+                return $Self->{LayoutObject}->Attachment(%Data, Type => $Self->{ConfigObject}->Get('Agent::DownloadType') || 'attachment');
             }
         }
         else {
