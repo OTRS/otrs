@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.44 2002-08-05 17:28:28 martin Exp $
+# $Id: Agent.pm,v 1.45 2002-08-06 20:08:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -171,9 +171,22 @@ sub TicketView {
     # --
     # get StdResponsesStrg
     # --
-    foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&".
+    if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
+        $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">';
+        $Param{StdResponsesStrg} .= '<input type="hidden" name="SessionID" value="'.$Self->{SessionID}.'">';
+        $Param{StdResponsesStrg} .= '<input type="hidden" name="Action" value="AgentCompose">';
+        $Param{StdResponsesStrg} .= '<input type="hidden" name="TicketID" value="'.$Param{TicketID}.'">';
+        $Param{StdResponsesStrg} .= $Self->OptionStrgHashRef(
+          Name => 'ResponseID',
+          Data => \%StdResponses,
+        );
+        $Param{StdResponsesStrg} .= '<input type="submit" value="$Text{"Compose"}">';
+    }
+    else {
+       foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
+         $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&".
            "ResponseID=$_&TicketID=$Param{TicketID}\">$StdResponses{$_}</A></li>\n";
+       }
     }
 
     # --
@@ -274,9 +287,22 @@ sub TicketZoom {
     # get StdResponsesStrg
     # --
     my %StdResponses = %{$Param{StdResponses}};
-    foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink&Action=AgentCompose&".
-        "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
+    if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
+        $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">';
+        $Param{StdResponsesStrg} .= '<input type="hidden" name="SessionID" value="'.$Self->{SessionID}.'">';
+        $Param{StdResponsesStrg} .= '<input type="hidden" name="Action" value="AgentCompose">';
+        $Param{StdResponsesStrg} .= '<input type="hidden" name="ArticleID" value="'.$ArticleID.'">';
+        $Param{StdResponsesStrg} .= $Self->OptionStrgHashRef(
+          Name => 'ResponseID',
+          Data => \%StdResponses,
+        );
+        $Param{StdResponsesStrg} .= '<input type="submit" value="$Text{"Compose"}">';
+    }
+    else {
+        foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
+          $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink&Action=AgentCompose&".
+           "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
+        }
     }
     # --
     # build thread string
