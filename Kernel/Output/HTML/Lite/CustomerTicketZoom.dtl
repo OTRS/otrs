@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.8 2004-02-18 23:26:13 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.9 2004-04-01 10:38:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,27 +35,27 @@
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> $Quote{"$Data{"Article::From"}","200"}</td>
+      <td width="85%"> $QData{"Article::From","200"}</td>
     </tr>
     <tr>
       <td valign="top"><b>$Text{"To"}:</b></td>
-      <td> $Quote{"$Data{"Article::To"}","200"}</td>
+      <td> $QData{"Article::To","200"}</td>
     </tr>
 # --
 # check if Cc exists
 # -- 
-    <dtl if ($Data{"Article::Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"$Data{"Article::Cc"}"}:</b></td><td> $Quote{"$Data{"Article::Cc"}","200"}</td></tr>"; }>
+    <dtl if ($Data{"Article::Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"$Data{"Article::Cc"}"}:</b></td><td> $QData{"Article::Cc","200"}</td></tr>"; }>
     $Data{"Article::Cc"}
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> $Quote{"$Data{"Article::Subject"}","200"}</td>
+      <td> $QData{"Article::Subject","200"}</td>
     </tr>
 # --
 # show the Article::FreeKey1-3 and Article::FreeValue1-3
 # --
-<dtl if ($Data{"Article::FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey1"}:</b></td><td> $Data{"Article::FreeValue1"}</td></tr>"; }>
-<dtl if ($Data{"Article::FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey2"}:</b></td><td> $Data{"Article::FreeValue2"}</td></tr>"; }>
-<dtl if ($Data{"Article::FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey3"}:</b></td><td> $Data{"Article::FreeValue3"}</td></tr>"; }>
+<dtl if ($Data{"Article::FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"Article::FreeKey1"}:</b></td><td> $QData{"Article::FreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"Article::FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"Article::FreeKey2"}:</b></td><td> $QData{"Article::FreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"Article::FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"Article::FreeKey3"}:</b></td><td> $QData{"Article::FreeValue3"}</td></tr>"; }>
      $Data{"ArticleFreeString1"}
      $Data{"ArticleFreeString2"}
      $Data{"ArticleFreeString3"}
@@ -75,12 +75,12 @@ $Data{"Article::Text"}
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="Action" value="CustomerMessage">
 <input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+<input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+<input type="hidden" name="NextScreen" value="$QData{"NextScreen"}">
   <table border="0" width="100%">
   <tr>
     <td width="15%">$Text{"Subject"}:</td>
-    <td width="85%"><input type="text" name="Subject" value="$Data{"Article::Subject"}" size="60"></td>
+    <td width="85%"><input type="text" name="Subject" value="$QData{"Article::Subject"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td>
@@ -115,11 +115,11 @@ $Data{"Article::Text"}
     </tr>
     <tr>
         <td><b>$Text{"Queue"}:</b></td>
-        <td><font color="red"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","18"}</div></font></td>
+        <td><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
     </tr>
     <tr>
         <td><b>$Text{"CustomerID"}:</b></td>
-        <td><div title="$Quote{"$Data{"CustomerID"}"}">$Quote{"$Data{"CustomerID"}","18"}</div></td>
+        <td><div title="$QData{"CustomerID"}">$QData{"CustomerID","18"}</div></td>
     </tr>
     <tr>
        <td><b>$Text{"Accounted time"}:</b></td>
@@ -127,19 +127,19 @@ $Data{"Article::Text"}
     </tr>
     <tr>
        <td><b>$Text{"Owner"}:</b></td>
-       <td><div title="$Quote{"$Data{"Owner"}"}">$Quote{"$Data{"Owner"}","18"}</div></td>
+       <td><div title="$QData{"Owner"}">$QData{"Owner","18"}</div></td>
     </tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
 # --
-<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeText1"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeText2"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey3"} ne "") { $Data{"TicketFreeString3"} = "<tr><td><b>$Data{"TicketFreeKey3"}:</b></td><td>$Data{"TicketFreeText3"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey4"} ne "") { $Data{"TicketFreeString4"} = "<tr><td><b>$Data{"TicketFreeKey4"}:</b></td><td>$Data{"TicketFreeText4"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey5"} ne "") { $Data{"TicketFreeString5"} = "<tr><td><b>$Data{"TicketFreeKey5"}:</b></td><td>$Data{"TicketFreeText5"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr><td><b>$Data{"TicketFreeKey6"}:</b></td><td>$Data{"TicketFreeText6"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr><td><b>$Data{"TicketFreeKey7"}:</b></td><td>$Data{"TicketFreeText7"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr><td><b>$Data{"TicketFreeKey8"}:</b></td><td>$Data{"TicketFreeText8"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$QData{"TicketFreeKey1","20"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","20"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$QData{"TicketFreeKey2","20"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText2","20"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey3"} ne "") { $Data{"TicketFreeString3"} = "<tr><td><b>$QData{"TicketFreeKey3","20"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText3","20"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey4"} ne "") { $Data{"TicketFreeString4"} = "<tr><td><b>$QData{"TicketFreeKey4","20"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText4","20"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey5"} ne "") { $Data{"TicketFreeString5"} = "<tr><td><b>$QData{"TicketFreeKey5","20"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText5","20"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr><td><b>$QData{"TicketFreeKey6","20"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText6","20"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr><td><b>$QData{"TicketFreeKey7","20"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText7","20"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr><td><b>$QData{"TicketFreeKey8","20"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText8","20"}</div></td></tr>"; }>
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
     $Data{"TicketFreeString3"}
