@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/ModulesCustomerPanel.pm - config file of all used application modules
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ModulesCustomerPanel.pm,v 1.4 2002-12-17 18:04:12 martin Exp $
+# $Id: ModulesCustomerPanel.pm,v 1.5 2003-01-03 16:16:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::ModulesCustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,12 +36,12 @@ use Kernel::System::Queue;
 use Kernel::System::Ticket;
 use Kernel::System::EmailSend;
 
-# web agent middle ware modules
-use Kernel::Modules::CustomerZoom;
-use Kernel::Modules::CustomerTicketOverView;
-use Kernel::Modules::CustomerAttachment;
-use Kernel::Modules::CustomerMessage;
-use Kernel::Modules::CustomerPreferences;
+# --
+# Note: Removed Kernel::Modules::* because pure cgi is faster!
+#       Added/moved Kernel::Modules::* to scripts/apache-perl-startup.pl
+#       for mod_perl applications. (use Perlrequire /path/to startup.pl 
+#       in httpd.conf)
+# --
 
 # --
 # common needed objects

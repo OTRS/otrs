@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/ModulesCustom.pm - config file of all custom used modules
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ModulesCustom.pm,v 1.3 2002-11-15 13:10:49 martin Exp $
+# $Id: ModulesCustom.pm,v 1.4 2003-01-03 16:16:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::ModulesCustom;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -33,7 +33,7 @@ use Kernel::Modules::Test;
 # --
 $Kernel::Config::ModulesCustom::CommonObject = {
     # key => module
-    Test => 'Kernel::Modules::Test',
+#    Test => 'Kernel::Modules::Test',
 };
 # --
 # common needed params
