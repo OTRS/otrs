@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.141 2004-08-30 14:13:45 martin Exp $
+# $Id: Generic.pm,v 1.142 2004-08-31 10:31:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.141 $';
+$VERSION = '$Revision: 1.142 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -389,53 +389,66 @@ sub Output {
         Template => \$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
-    my $C = 0;
+    my $ID = 0;
+    my %LayerHash = ();
+    my $OldLayer = 1;
     foreach my $Block (@BR) {
+        # reset layer counter if we switched on layer lower
+        if ($Block->{Layer} > $OldLayer) {
+            $LayerHash{$Block->{Layer}} = 0;
+        }
+        # count current layer
+        $LayerHash{$Block->{Layer}}++;
+        # create current id (1:2:3)
+        undef $ID;
+        for (my $i = 1; $i <= $Block->{Layer}; $i++) {
+            if (defined($ID)) {
+                $ID .= ":";
+             }
+             $ID .= $LayerHash{$i};
+        }
+
+#        print STDERR "BD($ID): $Block->{Name} - $Block->{Layer} =! $OldLayer\n";
+
         # add block counter to template blocks
         if ($Block->{Layer} == 1) {
             $TemplateString =~ s{
                 (<!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
             }
             {
-#            print STDERR "FR(): $1\n";
-                "$1:".($C+1)."$2";
+#            print STDERR "FR(''->:$LayerHash{$Block->{Layer}}): $Block->{Name} $1:$LayerHash{$Block->{Layer}}$2\n";
+                "$1:".$LayerHash{$Block->{Layer}}.$2;
             }segxm;
         }
-        # count first block layer
-        if ($Block->{Layer} == 1) {
-            $C++;
-        }
-#        print STDERR "BD($C): $Block->{Name}\n";
-        # add block counter to in blocks
+        # add block counter to in block blocks
+        my $Count = 0;
         $Block->{Data} =~ s{
             (<!--\s{0,1}dtl:place_block:.+?)(\s{0,1}-->)
         }
         {
-#            print STDERR "IR($C): $1\n";
-            "$1:".($C).$2;
+            $Count++;
+#            print STDERR "IR($ID): $1:$ID:$Count$2\n";
+            "$1:$ID:".$Count."$2";
         }segxm;
 
-        # replace first block layer from template and add new C++ block name
-        if ($Block->{Layer} == 1) {
-            $TemplateString =~ s{
-                (<!--\s{0,1}dtl:place_block:$Block->{Name}:)($C)(\s{0,1}-->)
-            }
-            {
-#print STDERR "EE($C): $Block->{Name}\n";
-               $Block->{Data}.$1.($C+1).$3;
-            }sexm;
+        # count up place_block counter
+        $TemplateString =~ s{
+            (<!--\s{0,1}dtl:place_block:$Block->{Name}:)($ID)(\s{0,1}-->)
         }
-        # replace second and higer block layer from template, and replace
-        # with the same block name
-        else {
-            $TemplateString =~ s{
-                (<!--\s{0,1}dtl:place_block:$Block->{Name}:)($C)(\s{0,1}-->)
+        {
+            my $Start = $1;
+            my $Stop = $3;
+            my $NewID = '';
+            if ($ID =~ /^(.*:)(\d+)$/) {
+                $NewID = $1.($2+1);
             }
-            {
-#print STDERR "SE($C): $Block->{Name}\n";
-               $Block->{Data}."$1$2$3";
-            }sexm;
-        }
+            elsif ($ID =~ /^(\d+)$/) {
+                $NewID = ($1+1);
+            }
+            #print STDERR "SE($ID->$NewID): $Block->{Name}\n";
+            $Block->{Data}.$Start.$NewID.$Stop;
+        }sexmi;
+        $OldLayer = $Block->{Layer};
     }
 
     # remove empty blocks and block preferences
@@ -1119,8 +1132,8 @@ sub OptionStrgHashRef {
     my $Multiple = $Param{Multiple} ? 'multiple' : '';
     my $HTMLQuote = defined($Param{HTMLQuote}) ? $Param{HTMLQuote} : 1;
     my $LT = defined($Param{LanguageTranslation}) ? $Param{LanguageTranslation} : 1;
-    my $Selected = defined($Param{Selected}) ? $Param{Selected} : '';
-    my $SelectedID = defined($Param{SelectedID}) ? $Param{SelectedID} : '';
+    my $Selected = defined($Param{Selected}) ? $Param{Selected} : '-not-possible-to-use-';
+    my $SelectedID = defined($Param{SelectedID}) ? $Param{SelectedID} : '-not-possible-to-use-';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $PossibleNone = $Param{PossibleNone} || '';
     my $SortBy = $Param{SortBy} || 'Value';
