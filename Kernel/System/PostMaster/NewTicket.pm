@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.8 2002-05-26 10:15:00 martin Exp $
+# $Id: NewTicket.pm,v 1.9 2002-05-26 22:52:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
     
-    $Self->{Debug} = 1;
+    $Self->{Debug} = 0;
     
     # get all objects
     foreach (
