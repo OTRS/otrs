@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.20 2004-04-01 09:13:17 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.21 2004-08-12 08:09:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@
   </tr>
   </table>
 
-  </td> 
+  </td>
   <td width="60%" class="table1">
 
   <table width="100%" cellspacing="2" cellpadding="3">
@@ -47,11 +47,11 @@
 # check subaction
 # --
 <dtl set $Data{"Headline"} = "Add">
-<dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # check add link
-<dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:
     </td>
   </tr>
   <tr>
@@ -59,7 +59,7 @@
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
+    <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
@@ -96,6 +96,8 @@
       <td>$Text{"Systemaddress"}: </td>
       <td> $Data{"SystemAddressOption"}</td>
     </tr>
+<dtl if ($Data{"DefaultSignKeyList"} ne "") { $Data{"DefaultSignKeyLink"} = "<tr><td>$Text{"Default Sign Key"} <i>($QData{"Email","14"})</i>: </td><td> $Data{"DefaultSignKeyOption"}</td></tr>"; }>
+    $Data{"DefaultSignKeyLink"}
     <tr>
       <td>$Text{"Salutation"}: </td>
       <td> $Data{"SalutationOption"}</td>

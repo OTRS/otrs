@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeSign.pm,v 1.4 2004-08-11 07:59:21 martin Exp $
+# $Id: ArticleComposeSign.pm,v 1.5 2004-08-12 08:09:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::Output::HTML::ArticleComposeSign;
 use strict;
 use Mail::Address;
 use Kernel::System::Crypt;
+use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,6 +33,9 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+
     return $Self;
 }
 # --
@@ -70,8 +74,9 @@ sub Run {
     }
     if (%KeyList) {
         $KeyList{''} = '-none-';
-        if (!defined($Param{SignKeyID}) && $Self->{ConfigObject}->Get("DefaultSignKey::".$SearchAddress[0]->address())) {
-            $Param{SignKeyID} = $Self->{ConfigObject}->Get("DefaultSignKey::".$SearchAddress[0]->address());
+        if ((!defined($Param{SignKeyID}) || $Param{ExpandCustomerName} == 3) && $Param{QueueID}) {
+            my %Queue = $Self->{QueueObject}->QueueGet(ID => $Param{QueueID});
+            $Param{SignKeyID} = $Queue{DefaultSignKey} || '';
         }
         my $List = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%KeyList,

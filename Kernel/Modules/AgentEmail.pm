@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.33 2004-07-28 10:11:40 martin Exp $
+# $Id: AgentEmail.pm,v 1.34 2004-08-12 08:09:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,7 +151,7 @@ sub Run {
                         );
                     }
                     # get params
-my %GetParam;
+                    my %GetParam;
                     foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
                         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
                     }
@@ -274,6 +274,8 @@ my %GetParam;
         # get params
         my %GetParam = ();
         $GetParam{From} = $Queue{Email};
+        $GetParam{QueueID} = $NewQueueID;
+        $GetParam{ExpandCustomerName} = $ExpandCustomerName;
         foreach (qw(AttachmentUpload
             Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
             AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
