@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.15 2002-05-20 19:26:39 martin Exp $
+# $Id: German.pm,v 1.16 2002-05-26 18:22:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -125,6 +125,7 @@ sub Data {
     $Self->{'Bug Report'} = 'Fehler berichten';
     $Self->{'Click here to report a bug!'} = 'Klicken Sie hier um einen Fehler zu berichten!';
     $Self->{'AgentFrontend'} = 'AgentOberfläche';
+    $Self->{'Attention'} = 'Achtung';
     $Self->{'Groups'} = 'Gruppen';
     $Self->{'User'} = 'Benutzer';
     $Self->{'none!'} = 'keine Angabe!';
@@ -168,12 +169,19 @@ sub Data {
     $Self->{'Firstname'} = 'Vorname';
     $Self->{'Lastname'} = 'Nachname';
     $Self->{'(Click here to add a user)'} = '(Hier klicken - Benutzer hinzufügen)';
+    $Self->{'User will be needed to handle tickets.'} = 'Benutzer werden benötigt um Tickets zu bearbeietn.';
+    $Self->{'Don\'t forget to add a new user to groups!'} = 'Eine neuer Benutzer muss auch einer Gruppe zugewiesen werden!';
     # group
     $Self->{'Group Management'} = 'Gruppen Verwaltung';
     $Self->{'Change group settings'} = 'Ändern einer Gruppe';
     $Self->{'Add group'} = 'Gruppe hinzufügen';
     $Self->{'Update group'} = 'Gruppe aktualisieren';
     $Self->{'(Click here to add a group)'} = '(Hier klicken - Gruppe hinzufügen)';
+    $Self->{'The admin group is to get in the admin area and the stats group to get stats area.'} =
+     'Die admin Gruppe wird für den Admin-Bereich benötigt, die stats Gruppe für den Statistik-Bereich.';
+    $Self->{'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).'} =
+     'Erstelle neue Gruppen um die Zugriffe für verschieden Agent-Gruppen zu definieren (z. B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung, ...).';
+    $Self->{'It\'s useful for ASP solutions.'} = 'Sehr nützlich für ASP-Lösungen.';
     # user <-> group
     $Self->{'User <-> Group Management'} = 'Benutzer <-> Gruppe Verwaltung';
     $Self->{'Change user <-> group settings'} = 'Ändern der Benutzer <-> Gruppe Beziehung';
@@ -190,7 +198,10 @@ sub Data {
     $Self->{'Add response'} = 'Antwort hinzufügen';
     $Self->{'Change response settings'} = 'Ändern einer Antwort';
     $Self->{'Update response'} = 'Antworten aktualisieren';
-    $Self->{'(Click here to add a response)'} = '(Hier klicken - Antwort hinzufügen)';
+    $Self->{'(Click here to add a response)'} = '(Hier klicken - Antwort hinzufügen)'; 
+    $Self->{'A response is default text to write faster answer (with default text) to customers.'} =
+     'Eine Antwort ist ein vorgegebener Text um schneller Antworten an Kundern schreiben zu können.';
+    $Self->{'Don\'t forget to add a new response a queue!'} = 'Eine neue Antwort muss auch einer Queue zugewiesen werden!';
     # Responses <-> Queue
     $Self->{'Std. Responses <-> Queue Management'} = 'Std. Antworten <-> Queue Verwaltung';
     $Self->{'Standart Responses'} = 'Standard-Antworten';
@@ -274,6 +285,9 @@ sub Data {
     $Self->{'Show all'} = 'Alle gezeigt';
     $Self->{'tickets'} = 'Tickets';
     $Self->{'All tickets'} = 'Alle Tickets';
+    $Self->{'Ticket escalation!'} = 'Ticket Eskalation!';
+    $Self->{'Please answer this ticket(s) to get back to the normal queue view!'} = 
+     'Bitte eskalierte Tickets beantworten um in die normale Queue-Ansicht zurück zu kommen!';
     # locked tickets
     $Self->{'All locked Tickets'} = 'Eigene Tickets';
     $Self->{'New message'} = 'Neue Nachricht';
