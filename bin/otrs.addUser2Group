@@ -1,25 +1,30 @@
 #!/usr/bin/perl -w
 # --
-# otrs.addUser2Group - Add User to a Group
+# bin/otrs.addUser2Group - Add User to a Group
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.addUser2Group,v 1.8 2003-03-06 22:11:59 martin Exp $
+# $Id: otrs.addUser2Group,v 1.9 2005-03-18 13:41:33 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
-
-unless ($ARGV[1]){
-    print "$FindBin::Script username groupname\n";
-    print "\n";
-    exit;
-}
 
 use strict;
 use Kernel::Config;
@@ -28,11 +33,34 @@ use Kernel::System::DB;
 use Kernel::System::User;
 use Kernel::System::Group;
 
-# --
-# create common objects 
-# --
-
+my %Param = ();
 my %CommonObject = ();
+my %opts = ();
+
+use Getopt::Std;
+getopt('guph',  \%opts);
+
+if ($opts{h}) {
+    print STDERR "Usage: bin/otrs.addUser2Group -g groupname -u username -p ro|rw\n";
+    exit;
+}
+
+if (!$opts{g}) {
+    print STDERR "ERROR: Need -g groupname\n";
+    exit 1;
+}
+if (!$opts{u}) {
+    print STDERR "ERROR: Need -u username\n";
+    exit 1;
+}
+if (!$opts{p}) {
+    print STDERR "ERROR: Need -p permission\n";
+    exit 1;
+}
+
+# --
+# create common objects
+# --
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addUser2Group');
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
@@ -40,36 +68,33 @@ $CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
 $CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
 
 
-
-my %Param;
-undef %Param;
-
-#user id of the person adding the record?
-#root@loclhost? right?
+#user id
 $Param{UserID}='1';
-
-
-#Validrecord
+#valid id
 $Param{ValidID}='1';
 
-$Param{User}=$ARGV[0];
+$Param{Permission}->{$opts{p}} = 1;
+$Param{User}=$opts{u};
+$Param{Group}=$opts{g};
+
 unless  ($Param{UID}=$CommonObject{UserObject}->GetUserIdByName(%Param)){
-   print "Failed to get User ID. Perhaps non-existent user..\n";
-   exit;
+   print STDERR "ERROR: Failed to get User ID. Perhaps non-existent user..\n";
+   exit 1;
 }
 
-
-
-$Param{Group}=$ARGV[1];
 unless  ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
-   print "Failed to get Group ID. Perhaps non-existent group..\n";
+   print STDERR "ERROR: Failed to get Group ID. Perhaps non-existent group..\n";
    exit;
 }
 
-print "GID $Param{GID} \n";
-print "UID $Param{UID} \n";
+print "GID: $Param{Group}/$Param{GID} \n";
+print "UID: $Param{User}/$Param{UID} \n";
+print "Perrmission: $opts{p} \n";
 
-$CommonObject{GroupObject}->GroupMemberAdd(%Param);
-
-# --
-exit (0);
+if (!$CommonObject{GroupObject}->GroupMemberAdd(%Param)) {
+    print STDERR "ERROR: Can't add user to group\n";
+    exit 1;
+}
+else {
+    exit (0);
+}

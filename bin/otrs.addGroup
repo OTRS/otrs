@@ -1,28 +1,30 @@
 #!/usr/bin/perl -w
 # --
-# otrs.addGroup - Add Group from CLI
+# bin/otrs.addGroup - add new system groups
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addGroup,v 1.8 2003-01-23 22:50:08 martin Exp $
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-
-package main;
+# $Id: otrs.addGroup,v 1.9 2005-03-18 13:41:33 martin Exp $
+# --
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# --
 
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
-
-use vars qw (%opts);
-use Getopt::Std;
-getopt('c',  \%opts);
-unless ($ARGV[0]){
-    print "$FindBin::Script [-c comment] groupname";
-    print "\n";
-    exit;
-}
 
 use strict;
 
@@ -31,37 +33,43 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Group;
 
-# --
-# create common objects 
-# --
-
+my %Param = ();
 my %CommonObject = ();
+my %opts = ();
+
+use Getopt::Std;
+getopt('cnh',  \%opts);
+
+if ($opts{h}) {
+    print STDERR "Usage: bin/otrs.addGroup [-c comment] -n groupname\n";
+    exit;
+}
+
+if (!$opts{n}) {
+    print STDERR "ERROR: Need -n groupname\n";
+    exit 1;
+}
+
+# --
+# create common objects
+# --
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addGroup');
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
 
-
-
-my %Param;
-undef %Param;
-
 #user id of the person adding the record
 $Param{UserID}='1';
-
-
 #Validrecord
 $Param{ValidID}='1';
+$Param{Comment}=$opts{'c'} || '';
+$Param{Name}=$opts{'n'} || '';
 
-
-$Param{Comment}=$opts{'c'};
-$Param{Name}=$ARGV[0];
-
-
-if ( my $gid=$CommonObject{GroupObject}->GroupAdd(%Param) ){
-   print "Group added. group id is $gid\n";
+if (my $GID = $CommonObject{GroupObject}->GroupAdd(%Param)) {
+    print "Group added. Group id is '$GID'\n";
+}
+else {
+    print STDERR "ERROR: Can't add group\n";
 }
 
-
-# --
 exit (0);
