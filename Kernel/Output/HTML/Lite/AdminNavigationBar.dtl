@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.23 2004-08-06 13:30:35 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.24 2004-09-09 11:18:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,15 +11,21 @@
 # --
 # check if the faq link should be shown
 # --
-<dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=FAQ&Nav=Normal" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';">$Text{"FAQ"}</a>$Env{"Box1"}"; }>
+<dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=FAQ&Nav=Normal" onmouseover="window.status='$Text{"FAQ-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}help.png" alt="$Text{"FAQ-Area"}"><br>$Text{"FAQ-Area"}</a></td>"; }>
 
 <!-- start NavigationBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
 <tr>
   <td valign="top" align="left" width="80%" class="nav">
-        $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"Logout"}</a>$Env{"Box1"}
-        $Data{"FAQLink"}
-        $Env{"Box0"}<a href="$Env{"Baselink"}Action=" onmouseover="window.status='$Text{"AgentFrontend"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"AgentFrontend"}</a>$Env{"Box1"}
+    <table cellspacing="1" cellpadding="3">
+    <tr>
+      <td align="center">
+        <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}exit.png"><br>$Text{"Logout"}</a>
+      </td>
+      <td align="center">
+        <a href="$Env{"Baselink"}Action=" onmouseover="window.status='$Text{"Agent-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}desktop.png"><br>$Text{"Agent-Area"}</a>
+      </td>
+      $Data{"FAQLink"}
     </tr>
     </table>
   </td>
@@ -36,19 +42,19 @@
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0"><b>$Env{"Box0"}Admin Area$Env{"Box1"}</b></td>
+  <td align="left" class="table0"><b>$Env{"Box0"}$Text{"Admin-Area"}$Env{"Box1"}</b></td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="4">
 <tr>
-  <th class="table1">$Text{"User"} & $Text{"Groups"}</th>
+  <th class="table1">$Text{"User"} & $Text{"Groups"} & $Text{"Roles"}</th>
   <th class="table1">$Text{"Queue"} & $Text{"Responses"}</th>
   <th class="table1">$Text{"System"}</th>
   <th class="table1">$Text{"Misc"}</th>
 </tr>
 <tr valign="top" align="left">
   <td class="nav">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUser">$Text{"User"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUser">$Text{"User"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUserGroup">$Text{"User <-> Groups"}</a>$Env{"Box1"}
     <br>
@@ -57,6 +63,12 @@
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCustomerUser">$Text{"Customer User"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCustomerUserGroup">$Text{"Customer User <-> Groups"}</a>$Env{"Box1"}
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminRole">$Text{"Role"}</a>$Env{"Box1"}
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminRoleGroup">$Text{"Role <-> Group"}</a>$Env{"Box1"}
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminRoleUser">$Text{"Role <-> User"}</a>$Env{"Box1"}
   </td>
   <td class="nav">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueue">$Text{"Queue"}</a>$Env{"Box1"}
