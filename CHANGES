@@ -2,13 +2,22 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.134 2005-02-10 11:48:09 martin Exp $
+# $Id: CHANGES,v 1.135 2005-02-17 07:13:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2005/02/17) renamed _all_ ticket frontend modules and templates
+    to AgentTicket* (cleanup)
+ - (2005/02/15) renamed _all_ ticket config options! and moved to
+    own config files:
+      o Kernel/Config/Files/Ticket.pm
+      o Kernel/Config/Files/TicketPostMaster.pm
+    -->> old ticket config setting will not longer work <<--
+ - (2005/02/11) imporved agent ticket search with created options
+    (berated by user, created in queue)
  - (2004/12/04) moved PGP and SMIME stuff to Kernel/System/Email.pm
     to be more generic
  - (2004/11/27) added config option TicketHookDivider
@@ -164,6 +173,7 @@ CVS head
  - (2004/09/09) added ticket title support
 
 1.3.3 (200?-??-??)
+ - (2005/02/15) updated to cpan MIME::Tools 5.417
  - (2005/02/10) fixed generic agent - was not able to set new owner
  - (2005/01/19) fixed bug 666 - INSERTs into 'ticket_history' fail sometimes
  - (2005/01/07) fixed bug 659 - Escalation Notification Sent to Wrong Users
