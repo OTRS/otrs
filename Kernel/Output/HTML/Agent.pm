@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.43 2002-08-04 23:33:33 martin Exp $
+# $Id: Agent.pm,v 1.44 2002-08-05 17:28:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -245,23 +245,16 @@ sub TicketZoom {
     # --
     # build article stuff
     # --
-    my $ArticleID = $Param{ArticleID} || '';
+    my $SelectedArticleID = $Param{ArticleID} || '';
     my $BaseLink = $Self->{Baselink} . "&TicketID=$Self->{TicketID}&QueueID=$Self->{QueueID}";
     my @ArticleBox = @{$Param{ArticleBox}};
-    # --
-    # get StdResponsesStrg
-    # --
-    my %StdResponses = %{$Param{StdResponses}};
-    foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink&Action=AgentCompose&".
-        "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
-    }
     # --
     # get last customer article
     # --
     my $CounterArray = 0;
     my $LastCustomerArticleID;
     my $LastCustomerArticle = $#ArticleBox;
+    my $ArticleID = '';
     foreach my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
         # if it is a customer article
@@ -270,6 +263,20 @@ sub TicketZoom {
             $LastCustomerArticle = $CounterArray;
         }
         $CounterArray++;
+        if ($SelectedArticleID eq $Article{ArticleID}) {
+            $ArticleID = $Article{ArticleID};
+        }
+    }
+    if (!$ArticleID) {
+        $ArticleID = $LastCustomerArticleID;
+    }
+    # --
+    # get StdResponsesStrg
+    # --
+    my %StdResponses = %{$Param{StdResponses}};
+    foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
+       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink&Action=AgentCompose&".
+        "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
     }
     # --
     # build thread string
