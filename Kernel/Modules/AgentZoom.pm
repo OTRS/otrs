@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.65 2004-05-11 08:35:23 martin Exp $
+# $Id: AgentZoom.pm,v 1.66 2004-05-11 08:40:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -396,9 +396,11 @@ sub MaskAgentZoom {
             my %File = %{$AtmIndex{$FileID}};
             # check viewer
             my $Viewer = '';
-            foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
-                if ($File{ContentType} =~ /^$_/i) {
-                    $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
+            if ($Self->{ConfigObject}->Get('MIME-Viewer')) {
+                foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
+                    if ($File{ContentType} =~ /^$_/i) {
+                        $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
+                    }
                 }
             }
             # build link

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentAttachment.pm - to get the attachments 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.13 2004-05-11 08:36:42 martin Exp $
+# $Id: AgentAttachment.pm,v 1.14 2004-05-11 08:40:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -92,10 +92,12 @@ sub Run {
         )) {
             # check viewer
             my $Viewer = '';
-            foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
-                if ($Data{ContentType} =~ /^$_/i) {
-                    $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
-                } 
+            if ($Self->{ConfigObject}->Get('MIME-Viewer')) {
+                foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
+                    if ($Data{ContentType} =~ /^$_/i) {
+                        $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
+                    } 
+                }
             }
             # show with viewer
             if ($Self->{Viewer} && $Viewer) {
