@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.34 2004-10-14 15:33:33 martin Exp $
+-- $Id: initial_insert.sql,v 1.35 2004-11-04 11:12:04 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.34  2004/10/14 15:33:33  martin
+-- fixed customer.pl in customer notifications
+--
 -- Revision 1.33  2004/10/13 12:46:21  martin
 -- added number to faq_item table
 --
@@ -306,52 +309,6 @@ INSERT INTO theme
     (theme, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Lite', 1, 1, current_timestamp, 1, current_timestamp);
-
--- charset
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Latin-1 (iso-8859-1)', 'iso-8859-1', 'Western European languages.', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Latin-2 (iso-8859-2)', 'iso-8859-2', 'Slavic and Central  European  languages.', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Latin-3 (iso-8859-3)', 'iso-8859-3', 'Esperanto, Galician, Maltese, and Turkish.', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Latin-4 (iso-8859-4)', 'iso-8859-4', 'Estonian, Latvian, and Lithuanian.', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Cyrillic (iso-8859-5)', 'iso-8859-5', 'Bulgarian, Byelorussian, Macedonian, Russian, Serbian  and  Ukrainian.', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Greek (iso-8859-7)', 'iso-8859-7', 'Modern monotonic Greek.', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Unicode (UTF-8)', 'UTF-8', 'Unicode UTF-8', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Cyrillic Charset (KOI8-R)', 'KOI8-R', 'Unicode UTF-8', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Cyrillic Charset (Windows-1251)', 'Windows-1251', 'Windows-1251 - cp1251', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Turkish (iso-8859-9)', 'iso-8859-9', 'Turkish.', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO charset
-        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Latin-15 (iso-8859-15)', 'iso-8859-15', 'Western European languages with euro.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ticket_state
 INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
@@ -660,26 +617,6 @@ INSERT INTO queue_standard_response
     (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
     VALUES
     (4, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO queue_standard_response
-    (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
-    VALUES
-    (5, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO queue_standard_response
-    (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
-    VALUES
-    (6, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO queue_standard_response
-    (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
-    VALUES
-    (7, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO queue_standard_response
-    (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
-    VALUES
-    (8, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO queue_standard_response
-    (queue_id, standard_response_id, create_by, create_time, change_by, change_time)
-    VALUES
-    (9, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- auto_response_type
 INSERT INTO auto_response_type
@@ -738,14 +675,14 @@ INSERT INTO article
   1012757943, '2002/02/3', 1, current_timestamp,1,current_timestamp,1);
 
 INSERT INTO ticket
-  (tn, queue_id, ticket_lock_id, ticket_answered, user_id, group_id, ticket_priority_id, ticket_state_id, valid_id, create_time_unix, create_time, create_by, change_time, change_by)
+  (tn, queue_id, ticket_lock_id, ticket_answered, user_id, group_id, ticket_priority_id, ticket_state_id, valid_id, create_time_unix, escalation_start_time, create_time, create_by, change_time, change_by)
   VALUES
-  ('1010001', 2, 1, 0, 1, 1, 3, 1, 1, 1012757943, current_timestamp, 1, current_timestamp, 1);
+  ('1010001', 2, 1, 0, 1, 1, 3, 1, 1, 1012757943, 0, current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO ticket_history
-  (name, history_type_id, ticket_id, article_id, priority_id, owner_id, state_id, valid_id, create_time, create_by, change_time, change_by)
+  (name, history_type_id, ticket_id, article_id, priority_id, owner_id, state_id, queue_id, valid_id, create_time, create_by, change_time, change_by)
   VALUES
-  ('New Ticket [1010001] created.',1,1,1,3,1,1,1, current_timestamp,1,current_timestamp,1);
+  ('New Ticket [1010001] created.',1,1,1,3,1,1,1,1, current_timestamp,1,current_timestamp,1);
 
 INSERT INTO faq_item
   (f_number, f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
