@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.2 2001-12-21 17:52:45 martin Exp $
+# $Id: German.pm,v 1.3 2002-01-02 00:42:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -75,6 +75,7 @@ sub Data {
     $Self->{'update!'} = 'aktualisieren!';
     $Self->{'submit!'} = 'übermitteln!';
     $Self->{'change!'} = 'ändern!';
+    $Self->{'change'} = 'ändern';
     $Self->{'Comment'} = 'Komentar';
     $Self->{'Valid'} = 'Gültig';
     $Self->{'Forward'} = 'Weiterleiten';
@@ -133,7 +134,8 @@ sub Data {
     $Self->{'All tickets'} = 'Alle Tickets';
     # locked tickets
     $Self->{'All locked Tickets'} = 'Eigene Tickets';
-    $Self->{'New messages'} = 'Neue Nachrichten';
+    $Self->{'New message'} = 'Neue Nachricht';
+    $Self->{'New message!'} = 'Neue Nachricht!';
     # util
     $Self->{'Hit'} = 'Treffer';
     $Self->{'Total hits'} = 'Treffer gesamt';
@@ -160,7 +162,7 @@ sub Data {
     # change priority
     $Self->{'Change priority of ticket'} = 'Priorität ändern für Ticket';
     # some other words ...
-#    $Self->{} = '';
+    $Self->{AddLink} = 'Link hinzufügen';
 #    $Self->{} = '';
 #    $Self->{} = '';
 #    $Self->{} = '';
@@ -168,6 +170,12 @@ sub Data {
     # states
     $Self->{'new'} = 'neu';
     $Self->{'open'} = 'offen';
+    $Self->{'closed succsessful'} = 'erfolgreich geschlossen';
+    $Self->{'closed unsuccsessful'} = 'unerfolgreich geschlossen';
+    $Self->{'removed'} = 'zurückgezogen';
+#    $Self->{''} = '';
+#    $Self->{''} = '';
+#    $Self->{''} = '';
 
     # priority
     $Self->{'very low'} = 'sehr niedrig';
@@ -175,7 +183,6 @@ sub Data {
     $Self->{'normal'} = 'normal';
     $Self->{'high'} = 'hoch';
     $Self->{'very high'} = 'sehr hoch';
-
 
     return;
 }
