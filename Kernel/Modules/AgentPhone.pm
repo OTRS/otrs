@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.43 2003-10-24 07:51:56 martin Exp $
+# $Id: AgentPhone.pm,v 1.44 2003-11-05 22:53:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,13 +56,19 @@ sub Run {
     my $NextScreen = $Self->{NextScreen} || 'AgentZoom';
     my $UserLogin = $Self->{UserLogin};
     
-    if (!$Self->{Subaction}) {
+    if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
         $Output .= $Self->{LayoutObject}->Header(Title => 'Phone call');
         # if there is no ticket id!
-        if (!$Self->{TicketID}) {
+        if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
+            # navigation bar
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+            # notify info
+            if ($Self->{TicketID}) {
+                my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+                $Output .= $Self->{LayoutObject}->Notify(Info => '<a href="$Env{"Baselink"}Action=AgentZoom&TicketID='.$Ticket{TicketID}.'">Ticket "%s" created!", "'.$Ticket{TicketNumber}).'</a>';
+            }
             # --
             # get split article if given
             # --
@@ -482,9 +488,7 @@ sub Run {
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
-          # --
           # set lock (get lock type)
-          # --
           my $Lock = $Self->{ConfigObject}->Get('PhoneDefaultNewLock') || 'lock';
           if ($NewUserID) {
               $Lock = 'lock';
@@ -494,9 +498,7 @@ sub Run {
               Lock => $Lock, 
               UserID => $Self->{UserID},
           );
-          # --
           # set owner (if new user id is given)
-          # --
           if ($NewUserID) {
               $Self->{TicketObject}->SetOwner(
                   TicketID => $TicketID, 
@@ -504,9 +506,7 @@ sub Run {
                   UserID => $Self->{UserID},
               );
           }
-          # --
           # time accounting
-          # --
           if ($TimeUnits) {
               $Self->{TicketObject}->AccountTime(
                   TicketID => $TicketID,
@@ -515,9 +515,7 @@ sub Run {
                   UserID => $Self->{UserID},
               );
           }
-          # --
           # set custoemr id
-          # --
           if ($CustomerID || $SelectedCustomerUser) {
               $Self->{TicketObject}->SetCustomerData(
                   TicketID => $TicketID,
@@ -526,9 +524,7 @@ sub Run {
                   UserID => $Self->{UserID},
               );
           }
-          # --
           # should i set an unlock?
-          # --
           my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
           if ($StateData{TypeName} =~ /^close/i) {
               $Self->{TicketObject}->SetLock(
@@ -537,9 +533,7 @@ sub Run {
                   UserID => $Self->{UserID},
               );
           }
-          # --
           # set pending time
-          # --
           elsif ($StateData{TypeName} =~ /^pending/i) {
               $Self->{TicketObject}->SetPendingTime(
                   UserID => $Self->{UserID},
@@ -547,11 +541,11 @@ sub Run {
                   %GetParam,
               );
           }
-          # --
+          # get redirect screen
+          my $NextScreen = $Self->{UserPhoneNextMask} || $Self->{ConfigObject}->Get('PreferencesGroups')->{PhoneNextMask}->{DataSelected};
           # redirect
-          # --
           return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$NextScreen&QueueID=$Self->{QueueID}&TicketID=$TicketID",
+            OP => "Action=$NextScreen&Subaction=Created&TicketID=$TicketID",
           );
       }
       else {

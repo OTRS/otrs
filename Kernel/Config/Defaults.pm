@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.85 2003-11-01 19:53:47 martin Exp $
+# $Id: Defaults.pm,v 1.86 2003-11-05 22:53:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.85 $';
+$VERSION = '$Revision: 1.86 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -745,17 +745,17 @@ $Data{"Signature"}
     ];
 
     # --------------------------------------------------- #
-    # PostMaster Modules                                  #
+    # PostMaster Filter Modules                           #
     # --------------------------------------------------- #
     # PostMaster::PreFilterModule 
     # (filtering and manipulaiting of incoming emails)
 
     # Job Name: 1-Match 
-    # (block/ignore all spam email with From: <noreply@)
+    # (block/ignore all spam email with From: noreply@)
 #    $Self->{'PostMaster::PreFilterModule'}->{'1-Match'} = {
 #        Module => 'Kernel::System::PostMaster::Filter::Match',
 #        Match => {
-#            From => '<noreply@',
+#            From => 'noreply@',
 #        },
 #        Set => {
 #            'X-OTRS-Ignore' => 'yes',
@@ -872,7 +872,7 @@ $Data{"Signature"}
             'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify', 'MoveNotify',
         ],
         Frontend => [
-            'Language', 'Charset', 'Theme', 'RefreshTime', 'QueueView', 
+            'Language', 'Charset', 'Theme', 'RefreshTime', 'QueueView', 'PhoneNextMask', 
         ],
         'Other Options' => [
             'Password', 'CustomQueue', 'SpellDict', 'FreeText', 'Comment',
@@ -1021,6 +1021,21 @@ $Data{"Signature"}
         },
         DataSelected => 'TicketView',
         PrefKey => 'UserQueueView',
+        Activ => 1,
+    };
+
+    $Self->{PreferencesGroups}->{PhoneNextMask} = {
+        Colum => 'Frontend', 
+        Label => 'Screen after new phone ticket',
+        Desc => 'Select your screen after creating a new ticket via PhoneView.', 
+        Type => 'Generic',
+        Data => {
+            AgentPhone => 'PhoneView',
+            AgentZoom => 'TicketZoom', 
+        },
+        DataSelected => 'PhoneView',
+#        DataSelected => 'AgentZoom',
+        PrefKey => 'UserPhoneNextMask',
         Activ => 1,
     };
 
