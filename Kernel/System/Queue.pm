@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.10 2002-07-21 18:01:06 martin Exp $
+# $Id: Queue.pm,v 1.11 2002-07-21 21:09:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -219,10 +219,10 @@ sub QueueLookup {
     # --
     # check if we ask the same request?
     # --
-    if (exists $Self->{"QueueLookup$Param{QueueID}"}) {
+    if ($Param{QueueID} && $Self->{"QueueLookup$Param{QueueID}"}) {
         return $Self->{"QueueLookup$Param{QueueID}"};
     }
-    if (exists $Self->{"QueueLookup$Param{Queue}"}) {
+    if ($Param{Queue} && $Self->{"QueueLookup$Param{Queue}"}) {
         return $Self->{"QueueLookup$Param{Queue}"};
     }
     # --
