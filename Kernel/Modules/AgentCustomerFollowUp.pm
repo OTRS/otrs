@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.8 2004-04-14 15:56:13 martin Exp $
+# $Id: AgentCustomerFollowUp.pm,v 1.9 2004-04-18 13:48:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -100,7 +100,7 @@ sub Run {
             TicketID => $Self->{TicketID},
         );
 
-        if ($FollowUpPossible =~ /(new ticket|reject)/i && $Ticekt{StateType} =~ /^close/i) {
+        if ($FollowUpPossible =~ /(new ticket|reject)/i && $Ticket{StateType} =~ /^close/i) {
             $Output = $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => 'Can\'t reopen ticket, not possible in this queue!',
