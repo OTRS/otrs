@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.35 2002-12-20 02:18:10 martin Exp $
+# $Id: Ticket.pm,v 1.36 2002-12-25 09:29:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,6 +12,7 @@
 package Kernel::System::Ticket;
 
 use strict;
+use Time::Local;
 use Kernel::System::Ticket::Article;
 use Kernel::System::Ticket::State;
 use Kernel::System::Ticket::History;
@@ -27,7 +28,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -300,7 +301,7 @@ sub GetTicket {
     my $SQL = "SELECT st.id, st.queue_id, sq.name, tsd.id, tsd.name, slt.id, slt.name, ".
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
         " st.customer_id, st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
-        " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, st.ticket_answered ".
+        " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, st.ticket_answered, st.until_time ".
         " FROM ".
         " ticket st, ticket_state tsd, ticket_lock_type slt, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -337,6 +338,12 @@ sub GetTicket {
         $Ticket{OwnerID} = $Row[15];
         $Ticket{Owner} = $Row[16];
         $Ticket{Answered} = $Row[17];
+        if (!$Row[18] || $Ticket{State} !~ /^pending/i) {
+            $Ticket{UntilTime} = 0;
+        }
+        else {
+            $Ticket{UntilTime} = $Row[18] - time();
+        }
     }
     return %Ticket;
 }
@@ -578,17 +585,63 @@ sub Permission {
       }
     }
     # --
+    # check article id permissopns
+    # --
+    $Param{ArticlePermissionOK} = 0;
+    if ($Param{ArticleID}) {
+        my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+        foreach (@Index) {
+            if ($Param{ArticleID} == $_) {
+                $Param{ArticlePermissionOK} = 1;
+            }
+        }
+        if (!$Param{ArticlePermissionOK}) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice', 
+                Message => "Permission denied (UserID: $Param{UserID} on ArticleID: $Param{ArticleID}))!",
+            );
+            return;
+        }
+    }
+    # --
     # check if the user is in the same group as the ticket
     # --
+    $Param{TicketPermissionOK} = 0;
     my $QueueID = $Self->GetQueueIDOfTicketID(TicketID => $Param{TicketID});
     my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $QueueID);
     my %Groups = $Self->{UserObject}->GetGroups(UserID => $Param{UserID});
     foreach (keys %Groups) {
         if ($_ eq $GID) {
-            return 1;
+            $Param{TicketPermissionOK} = 1;
         }
     }
-    return;
+    # --
+    # just ticket check
+    # --
+    if (!$Param{ArticleID} && $Param{TicketID}) {
+        if (!$Param{TicketPermissionOK}) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice', 
+                Message => "Permission denied (UserID: $Param{UserID} on TicketID: $Param{TicketID})!",
+            );
+        }
+        return $Param{TicketPermissionOK}; 
+    }
+    # --
+    # ticket amd article check
+    # --
+    else {
+        if ($Param{TicketPermissionOK} && $Param{ArticlePermissionOK}) {
+            return 1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'notice', 
+                Message => "Permission denied (UserID: $Param{UserID} on TicketID: $Param{TicketID})!",
+            );
+            return;
+        }
+    }
 }
 # --
 sub GetLockedTicketIDs {
@@ -632,21 +685,25 @@ sub GetLockedCount {
     }
     my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
     my %Data;
-
+    $Data{'OverTime'} = 0;
     $Self->{DBObject}->Prepare(
-       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix" .
+       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
+              " ti.until_time, ts.name " .
               " FROM " .
-              " ticket ti, article ar, article_sender_type st, ticket_lock_type slt" .
+              " ticket ti, article ar, article_sender_type st, ticket_lock_type slt, " .
+              " ticket_state ts" .
               " WHERE " .
-              " ti.user_id = $Param{UserID} " .
-              " AND " .
               " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) " .
+              " AND " .
+              " ti.user_id = $Param{UserID} " .
               " AND " .
               " slt.id = ti.ticket_lock_id " .
               " AND " .
               " ar.ticket_id = ti.id " .
               " AND " .
               " st.id = ar.article_sender_type_id " .
+              " AND " .
+              " ts.id = ti.ticket_state_id " .
               " ORDER BY ar.create_time DESC",
     );
 
@@ -659,6 +716,9 @@ sub GetLockedCount {
           if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
             $Data{'ToDo'}++;
           }
+          if ($RowTmp[5] && $RowTmp[6] =~ /^pending/i && $RowTmp[6] !~ /^pending auto/i && $RowTmp[5] <= time()) {
+            $Data{'OverTime'}++;
+          }
         }
         $Data{"ID$RowTmp[2]"} = 1;
         $Data{"MaxAge"} = $RowTmp[4];
@@ -666,6 +726,43 @@ sub GetLockedCount {
     return %Data;
 }
 # --
+sub SetPendingTime {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Year Month Day Hour Minute TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    $Param{Month} = $Param{Month}-1;
+    my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},$Param{Month},$Param{Year});
+    # --
+    # db update
+    # --
+    my $SQL = "UPDATE ticket SET until_time = $time, " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID} ";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # --
+        # history insert
+        # --
+        $Self->AddHistoryRow(
+            TicketID => $Param{TicketID},
+            HistoryType => 'SetPendingTime',
+            Name => "Set Pending Time to $Param{Year}/$Param{Month}/$Param{Day} ".
+              "$Param{Hour}:$Param{Minute}.",
+            CreateUserID => $Param{UserID},
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
 
 1;
-
