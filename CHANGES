@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.41 2002-12-25 09:30:49 martin Exp $
+# $Id: CHANGES,v 1.42 2002-12-27 18:41:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 0.5 BETA9 (2002-12-??)
+ - (2002/12/27) added filters (All, Open, New, Pending, Reminder) to 
+    AgentMailbox (locked-ticket-view)
  - (2002/12/24) added pending feature for tickets
  - (2002/12/20) added Kernel::System::Ticket::ArticleStorage* modules
     for attachments in database or fs (needs to update the database 
@@ -21,10 +23,10 @@
         user should be the otrs user)
  - (2002/12/19) attachment support (send and view) for customer panel!
  - (2002/12/18) added config option CheckEmailAddresses and CheckMXRecord.
-    CheckMXRecord is useful for pre checks of valid/invalid senders (reduce
-    Postmaster emails). Disable CheckEmailAddresses if you work with 
-    customers which don't have email addresses or your otrs system is in 
-    your lan! 
+    CheckMXRecord is useful for pre checks of valid/invalid senders (
+    reduce Postmaster emails). Disable CheckEmailAddresses if you work 
+    with customers which don't have email addresses or your otrs system is 
+    in your lan! 
  - (2002/12/18) added more error handling to AgentPhone
  - (2002/12/12) added finnish translation - Thanks to Antti Kämäräinen! 
  - (2002/12/08) added TicketCryptModule feature - crypt plain emails and
