@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.119 2004-06-22 10:49:59 martin Exp $
+# $Id: Ticket.pm,v 1.120 2004-06-25 07:37:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.119 $';
+$VERSION = '$Revision: 1.120 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2413,7 +2413,7 @@ sub OwnerList {
         " WHERE ".
         " sh.ticket_id = $Param{TicketID} ".
         " AND ".
-        " ht.name IN ('OwnerUpdate', 'NewTicket', 'Lock')  ".
+        " ht.name IN ('OwnerUpdate', 'NewTicket')  ".
         " AND ".
         " ht.id = sh.history_type_id".
         " ORDER BY sh.id";
@@ -2425,14 +2425,10 @@ sub OwnerList {
             push (@User, $Row[2]);
         }
         elsif ($Row[1] eq 'OwnerUpdate') {
-            if ($Row[0] =~ /^New Owner is '(.+?)' \(ID=(.+?)\)/ || $Row[0] =~ /^\%\%(.+?)\%\%(.+?)/) {
+            if ($Row[0] =~ /^New Owner is '(.+?)' \(ID=(.+?)\)/ || $Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/) {
                 $LastOwner = $2;
                 push (@User, $2);
             }
-        }
-        if ($Row[1] eq 'Lock' && $Row[2] ne '1' && $LastOwner ne $Row[2]) {
-            $LastOwner = $Row[2];
-            push (@User, $Row[2]);
         }
     }
     my @UserInfo = ();
@@ -3293,6 +3289,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.119 $ $Date: 2004-06-22 10:49:59 $
+$Revision: 1.120 $ $Date: 2004-06-25 07:37:40 $
 
 =cut
