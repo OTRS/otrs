@@ -1,4 +1,6 @@
 <section>
+<title>Install OTRS 1.0 RC1 on Win32</title>
+<section>
 <title>Installations</title>
 <para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0 RC1</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
 <para>You will need four main components on your system, as a webserver <emphasis>Sambar Server</emphasis>, as database <emphasis>MySQL</emphasis>, as an MTA <emphasis>exim</emphasis> from the UN*X emulation <emphasis>Cygwin</emphasis> and as a programming language <emphasis>Perl</emphasis>.</para>
@@ -65,7 +67,7 @@
 </section>
 
 <section>
-<title>CONFIGURATION</title>
+<title>Configuration</title>
 
 <section>
 <title>Configuring Cygwin (exim)</title>
@@ -349,7 +351,7 @@ copy Config.pm.dist Config.pm
 </section>
 
 <section>
-<title>CRON-Job einrichten</title>
+<title>Set Up CRON Job</title>
 <para>At last, we tell Sambar to fetch all POP3-Mail every 10 minutes and pump it into the database. Therefore you enter this in <emphasis>D:\Sambar\config\schedule.ini</emphasis>:</para>
 <para><screen>  [cron]
 */10 * * * * /session/url2file?fname=/docs/otrs/var/log/lastPostMasterPOP3.log&amp;url=/obin/PostMasterPOP3.pl &amp;</screen></para>
@@ -367,4 +369,5 @@ copy Config.pm.dist Config.pm
 <para>I would be more enlighted if you'd send some success stories!</para>
 <para>Surely this chapter will follow the development of <ulink url="http://otrs.org">OTRS</ulink>. OTRS on Win32 can be done with Apache, too, and I will soon include a part on it.</para>
 <para>Have fun using your OUTR on Sambar!</para>
+</section>
 </section>
