@@ -2,7 +2,7 @@
 # EmailParser.pm - the global email parser module
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: EmailParser.pm,v 1.2 2002-07-02 08:46:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Internet;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -42,7 +42,7 @@ sub GetParam {
     my $Header = $Self->GetHeader();
     $Header->combine($What);
     my $Line = $Header->get($What) || '';
-    chop ($Line);
+    chomp ($Line);
     return $Line;
 }
 # --
@@ -87,6 +87,17 @@ sub GetBody {
     return $Self->{Body};
 }
 # --
+sub GetContentType {
+    my $Self = shift;
+    my $ContentType = shift || '';
+    if ($Self->{ContentType}) {
+        return $Self->{ContentType};
+    }
+    else {
+        return $ContentType;
+    }
+}
+# --
 sub GetMessageBody {
     my $Self = shift;
     my %Param = @_;
@@ -100,20 +111,20 @@ sub GetMessageBody {
     my $PartCounter = 0;
 
     if ($Data->parts() == 0) {
-            if ($Self->{Debug} > 0) {
-		print STDERR 'No Mime Email' . "\n";
-            }
-            my $Body = $Self->GetBody();
-            my @BodyTmp = @$Body;
-            my $BodyStrg = join('', @BodyTmp);
-	    return $BodyStrg;
+        if ($Self->{Debug} > 0) {
+            print STDERR 'No Mime Email' . "\n";
+        }
+        my $Body = $Self->GetBody();
+        my @BodyTmp = @$Body;
+        my $BodyStrg = join('', @BodyTmp);
+        return $BodyStrg;
     }
     else {
-            if ($Self->{Debug} > 0) {
-                print STDERR 'Mime Email' . "\n";
-            }
-            $Self->GetTheFirstAtm(Part => $Data);
-            return $Self->{MailBody};
+        if ($Self->{Debug} > 0) {
+            print STDERR 'Mime Email' . "\n";
+        }
+        $Self->GetTheFirstAtm(Part => $Data);
+        return $Self->{MailBody};
     }
     return
 }
@@ -139,7 +150,13 @@ sub GetTheFirstAtm {
 	    if ($Self->{Debug} > 0) {
 		    print STDERR '->GotArticle::Atm->Filename:' . $Filename . "\n";
 	    }
-	    $Self->{MailBody} = $Part->bodyhandle()->as_string() if (!exists $Self->{MailBody});
+        if (!$Self->{ContentType}) {
+            $Self->{ContentType} = $Part->head()->mime_type()."; charset=";
+            $Self->{ContentType} .= $Part->head()->mime_attr('content-type.charset');
+        }
+        if (!exists $Self->{MailBody}) {
+            $Self->{MailBody} = $Part->bodyhandle()->as_string();
+        }
     }
 }
 # --
