@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.17 2004-09-27 13:30:13 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.18 2004-11-11 10:36:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -59,7 +59,22 @@
 <!-- dtl:block:ArticleAttachment -->
     <tr>
       <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
-      <td width="85%"> $Data{"Value"}</div></td>
+      <td width="85%">
+        <table border="0" cellspacing="0" cellpadding="1">
+<!-- dtl:block:ArticleAttachmentRow -->
+        <tr>
+            <td>$QData{"Filename"}</td>
+            <td>
+<!-- dtl:block:ArticleAttachmentRowLink -->
+            <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$Text{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
+<!-- dtl:block:ArticleAttachmentRowLink -->
+            </td>
+            <td align="right">$QData{"Filesize"}</td>
+        </tr>
+#$Data{"Value"}</div>
+<!-- dtl:block:ArticleAttachmentRow -->
+        </table>
+      </td>
     </tr>
 <!-- dtl:block:ArticleAttachment -->
 
