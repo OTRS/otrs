@@ -183,16 +183,16 @@ ticket is accessible via QueueView.</para>
 <para>The article types:</para>
 </glossdef>
 <glossdef>
-<para>email-external: customer email</para>
+<para>email-external: email between customer and agent</para>
 </glossdef>
 <glossdef>
-<para>email-internal: email to other agents e. g. for feedback (not shown in customer interface)</para>
+<para>email-internal: email between agents e. g. for feedback (_not_ shown in customer interface)</para>
 </glossdef>
 <glossdef>
 <para>email-notification-ext: email notification to customer</para>
 </glossdef>
 <glossdef>
-<para>email-notification-int: email notification to agent (not shown in customer interface)</para>
+<para>email-notification-int: email notification to agent (_not_ shown in customer interface)</para>
 </glossdef>
 <glossdef>
 <para>phone: phone note</para>
@@ -201,11 +201,12 @@ ticket is accessible via QueueView.</para>
 <para>webrequest: request from the customer web interface</para>
 </glossdef>
 <glossdef>
-<para>note-internal: note just shown for agents (agent to agent - not shown in customer interface)</para>
+<para>note-internal: note just shown for agents (agent to agent - _not_ shown in customer interface)</para>
 </glossdef>
 <glossdef>
 <para>note-external: note shown for agent and customer (should _not_ be used as communication between customer and agent!)</para>
 </glossdef>
+<glossdef>
 <para>note-report (note used for reporting - should be used by monitoring tools like Nagius (http://www.nagios.org/)</para>
 </glossdef>
 <glossdef>
