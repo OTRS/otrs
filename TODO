@@ -2,7 +2,7 @@
 # TODO - to do list of OpenTRS
 # Copyright (C) 2001 Martin Edenhofer
 # --
-# $Id: TODO,v 1.8 2002-01-02 00:39:46 martin Exp $
+# $Id: TODO,v 1.9 2002-01-10 15:49:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -31,9 +31,21 @@ immediately:
 
 - Article.pm && umask!
 
+- Email-notification of administrators.
+
+- Email-notification sent to problem reporter (by create, locked, deleted,
+     moved and closed)
+
+- Submitting update-info (via email or webinterface).
+
+- Deadlines for trouble tickets.
+
+- Different levels of permissions/access-rights.
+
+
 later:
 - add ticket waiting_states and funktion (AgentPending).
 - rework the db scheme indexes 
 - add foreign-key to the XML db scheme
 - add a screen session management (for back and forward button)
-- rework of loop protrction!
+- rework of loop protection!
