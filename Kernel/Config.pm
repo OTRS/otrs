@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.39 2002-06-09 00:58:49 atif Exp $
+# $Id: Config.pm,v 1.40 2002-06-16 20:45:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -62,7 +62,7 @@ sub Load {
     # Sendmail
     # (Where is sendmail located and some options.
     # See 'man sendmail' for details.) 
-    $Self->{Sendmail} = '/usr/sbin/sendmail -t -f ';
+    $Self->{Sendmail} = '/usr/sbin/sendmail -t -i -f ';
 
     # SendmailBcc
     # (Send all outgoing email via bcc to... 
@@ -466,6 +466,22 @@ Your OpenTRS Notification Master
         'closed succsessful', 
         'closed unsuccsessful',
     ];
+
+    # ----------------------------------------------------#
+    # defaults for bounce                                 #
+    # ----------------------------------------------------#
+    # default bounce next state
+    $Self->{DefaultNextBounceType} = 'closed succsessful';
+    # next possible states for compose message
+    $Self->{DefaultNextBounceTypePossible} = [
+        'open', 
+        'closed succsessful', 
+        'closed unsuccsessful',
+    ];
+    # default note text
+    $Self->{DefaultBounceText} = 'Your email with ticket number "<OTRS_TICKET>" '.
+      'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.';
+
 
     # ----------------------------------------------------#
     # defaults for phone stuff                            #
