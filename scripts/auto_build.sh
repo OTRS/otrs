@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.10 2003-01-05 23:49:53 martin Exp $
+# $Id: auto_build.sh,v 1.11 2003-01-09 20:56:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.10 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.11 $>"
 echo "Copyright (c) 2002-2003 Martin Edenhofer <martin@otrs.org>"
 
 
@@ -43,7 +43,7 @@ if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     echo ""
     echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <VERSION> <RELEASE>"
     echo ""
-    echo "  Try: auto_build.sh /home/ernie/src/otrs 0.5 BETA42"
+    echo "  Try: auto_build.sh /home/ernie/src/otrs 1.0.2 01"
     echo ""
     exit 1;
 else
@@ -115,7 +115,7 @@ cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 # --
 RELEASEFILE=$PACKAGE_BUILD_DIR/$ARCHIVE_DIR/RELEASE
 echo "PRODUCT = $PRODUCT" > $RELEASEFILE 
-echo "VERSION = $VERSION $RELEASE" >> $RELEASEFILE 
+echo "VERSION = $VERSION" >> $RELEASEFILE 
 echo "BUILDDATE = `date`" >> $RELEASEFILE 
 echo "BUILDHOST = `hostname -f`" >> $RELEASEFILE 
 
