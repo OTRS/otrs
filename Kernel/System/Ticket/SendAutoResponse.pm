@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.8 2003-03-13 09:48:20 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.9 2003-03-13 22:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,6 @@ sub SendAutoResponse {
     }
     $Param{Body} = $Param{Text} || 'No Std. Body found!';
     my %GetParam = %{$Param{CustomerMessageParams}};
-   
     # --
     # get old article for quoteing
     # --
@@ -55,11 +54,20 @@ sub SendAutoResponse {
     my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
     if ($GetParam{From} =~ /$NoAutoRegExp/i) {
         # --
+        # add it to ticket history
+        # --
+        $Self->AddHistoryRow(
+            TicketID => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'Misc',
+            Name => "Sent not auto response, SendNoAutoResponseRegExp is matching.",
+        );
+        # --
         # log
         # --
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Sent not auto reply to '$GetParam{From}' because config".
+            Message => "Sent not auto response to '$GetParam{From}' because config".
              " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) is matching!",
         );
         return 1;
@@ -91,7 +99,6 @@ sub SendAutoResponse {
         }
         $Param{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
     }
-
     # --
     # Arnold Ligtvoet - otrs@ligtvoet.org
     # get OTRS_CUSTOMER_SUBJECT from body
@@ -168,7 +175,7 @@ sub SendAutoResponse {
     # --
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message => "Sent auto reply ($Param{HistoryType}) for Ticket [$Param{TicketNumber}]".
+        Message => "Sent auto response ($Param{HistoryType}) for Ticket [$Param{TicketNumber}]".
          " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$GetParam{From}'."
     );
 
