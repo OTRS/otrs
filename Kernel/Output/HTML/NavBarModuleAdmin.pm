@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NavBarModuleAdmin.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NavBarModuleAdmin.pm,v 1.1 2004-12-02 10:23:56 martin Exp $
+# $Id: NavBarModuleAdmin.pm,v 1.2 2005-01-12 20:30:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NavBarModuleAdmin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,6 +38,9 @@ sub Run {
     my %Param = @_;
     my $Output = '';
 
+    if ($Param{Type} ne 'Admin') {
+        return '';
+    }
     $Self->{LayoutObject}->Block(
         Name => 'AdminNavBar',
         Data => { },
