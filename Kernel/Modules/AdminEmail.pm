@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.8 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminEmail.pm,v 1.9 2003-04-09 19:45:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminEmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,12 +45,29 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+    foreach (qw(From Subject Body Bcc GroupPermission)) {
+        $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || $Param{$_} || '';
+    }
     # --
     # send email(s)
     # --
     if ($Self->{Subaction} eq 'Send') {
         # --
-        # get recipients address
+        # check needed stuff
+        # --
+        foreach (qw(From Subject Body GroupPermission)) {
+            if (!$Param{$_}) {
+                $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Need $_!",
+                    Comment => 'Click back and check the needed value.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+        }
+        # --
+        # get user recipients address
         # --
         foreach ($Self->{ParamObject}->GetArray(Param => 'UserIDs')) {
             my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
@@ -59,10 +76,25 @@ sub Run {
             }
         }
         # --
+        # get group recipients address
+        # --
+        foreach ($Self->{ParamObject}->GetArray(Param => 'GroupIDs')) {
+            my @GroupMemberList = $Self->{GroupObject}->GroupMemberList(
+                Result => 'ID',
+                Type => $Param{GroupPermission},
+                GroupID => $_,
+            );
+            foreach (@GroupMemberList) {
+                my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
+                if ($UserData{UserEmail}) {
+                    $Param{Bcc} .= "$UserData{UserEmail}, ";
+                }
+            }
+        }
+        # --
         # check needed stuff
         # --
-        foreach (qw(From Subject Body Bcc)) {
-            $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || $Param{$_} || '';
+        foreach (qw(Bcc)) {
             if (!$Param{$_}) {
                 $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
                 $Output .= $Self->{LayoutObject}->Warning(
@@ -90,7 +122,12 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Admin-Email');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my %Users = $Self->{UserObject}->UserList(Valid => 1);
-        $Output .= $Self->{LayoutObject}->AdminEmail(UserList => \%Users);
+        my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
+        $Output .= $Self->{LayoutObject}->AdminEmail(
+            UserList => \%Users, 
+            GroupList => \%Groups,
+            %Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;

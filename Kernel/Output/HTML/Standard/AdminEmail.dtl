@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.dtl,v 1.5 2003-03-23 21:42:14 martin Exp $
+# $Id: AdminEmail.dtl,v 1.6 2003-04-09 19:45:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,24 +21,36 @@
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="Send">
-<table>
-<tr valign="top">
-  <td>$Text{"Recipents"}:</td>
-  <td>$Data{"UserOption"}</td>
-</tr> 
+<table border="0">
 <tr>
   <td valign="top">$Text{"From"}:</td>
   <td><input type="Text" name="From" value="$Config{"AdminEmail"}" size="40"></td>
 </tr>  
 <tr>
+  <td valign="top">$Text{"Recipents"}:</td>
+  <td valign="top">
+    <table border="0" cellspacing="0" cellpadding="1" width="70%">
+      <tr>
+        <td rowspan="2" valign="top">$Text{"User"}:<br>$Data{"UserOption"}</td>
+        <td valign="top">$Text{"Group"}:<br>$Data{"GroupOption"}</td>
+      </tr>
+      <tr>
+        <td valign="top">$Text{"Permission"}:<br>ro <input type="radio" name="GroupPermission" value="ro" checked> - rw <input type="radio" name="GroupPermission" value="rw"></td>
+      </tr> 
+    </table>
+  </td>
+</tr> 
+# get subject
+<dtl if ($Data{"Subject"} eq "") { $Data{"Subject"} = "$Text{"OTRS-Admin Info!"}"; }>
+<tr>
   <td valign="top">$Text{"Subject"}:</td>
-  <td><input type="Text" name="Subject" value="$Text{"OTRS-Admin Info!"}" size="40"></td>
+  <td><input type="Text" name="Subject" value="$Data{"Subject"}" size="40"></td>
 </tr>  
 <tr>
   <td valign="top">$Text{"Body"}:</td>
   <td>
 <textarea name="Body" rows="10" cols="60">
-
+$Data{"Body"}
 </textarea>
   </td>
 </tr>

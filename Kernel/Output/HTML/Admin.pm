@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.36 2003-03-13 15:40:17 martin Exp $
+# $Id: Admin.pm,v 1.37 2003-04-09 19:45:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -68,8 +68,13 @@ sub AdminEmail {
         Data => $Param{UserList},
         Name => 'UserIDs', 
         Size => 8,
-        SelectedID => $Param{ID},
         Multiple => 1,
+    );
+
+    $Param{'GroupOption'} = $Self->OptionStrgHashRef(
+        Data => $Param{GroupList},
+        Size => 6,
+        Name => 'GroupIDs',
     );
 
     # create & return output
@@ -904,14 +909,7 @@ sub AdminGroupForm {
     );
 
     $Param{GroupOption} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Valid => 0,
-            Clamp => 1,
-            Table => 'groups',
-          )
-        },
+        Data => $Param{GroupList},
         Size => 15,
         Name => 'ID',
         SelectedID => $Param{ID},
