@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.28 2004-02-01 19:01:46 martin Exp $
+# $Id: Language.pm,v 1.29 2004-03-12 18:43:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,11 @@ package Kernel::Language;
 
 use strict;
 use Kernel::System::Encode;
+use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,6 +74,8 @@ sub new {
     } 
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    # encode object
+    $Self->{TimeObject} = Kernel::System::Time->new(%Param);
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
     # user language
@@ -333,9 +336,9 @@ sub Time {
     if ($Param{Action} =~ /^GET$/i) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-        ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
-        $Y = $Y+1900;
-        $M++;
+        ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
     }
     elsif ($Param{Action} =~ /^RETURN$/i) {
         $m = $Param{Minute} || 0;
@@ -481,6 +484,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2004-02-01 19:01:46 $
+$Revision: 1.29 $ $Date: 2004-03-12 18:43:14 $
 
 =cut
