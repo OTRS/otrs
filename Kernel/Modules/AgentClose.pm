@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.24 2003-04-27 16:10:04 martin Exp $
+# $Id: AgentClose.pm,v 1.25 2003-06-26 19:07:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -171,8 +171,7 @@ sub Run {
             TicketID => $Self->{TicketID},
             ArticleTypeID => $NoteID,
             SenderType => 'agent',
-            From => $Self->{UserLogin},
-            To => $Self->{UserLogin},
+            From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.24 2003-05-13 22:53:09 martin Exp $
+# $Id: AgentNote.pm,v 1.25 2003-06-26 19:07:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -121,7 +121,7 @@ sub Run {
             TicketID => $Self->{TicketID},
             ArticleTypeID => $ArticleTypeID,
             SenderType => 'agent',
-            From => $Self->{UserLogin},
+            From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
