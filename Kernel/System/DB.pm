@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.11 2002-05-29 22:15:44 martin Exp $
+# $Id: DB.pm,v 1.12 2002-05-30 12:12:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -126,7 +126,7 @@ sub Prepare {
     # build finally select query
     # --
     if ($Limit) {
-        if ($Self->{DSN} =~ /mysql/i) {
+        if ($Self->{DSN} =~ /mysql/i || $Self->{DSN} =~ /:Pg:/i) {
             $SQL .= " LIMIT $Limit";
         }
         elsif ($Self->{DSN} =~ /db2/i) {
