@@ -2,7 +2,7 @@
 # Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.3 2001-12-30 01:40:52 martin Exp $
+# $Id: Article.pm,v 1.4 2002-02-21 22:13:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -321,6 +321,33 @@ sub SetFreeText {
         " WHERE id = $ArticleID";
     $Self->{DBObject}->Do(SQL => $SQL);
     return 1;
+}
+# --
+sub GetArticle {
+    my $Self = shift;
+    my %Param = @_;
+    my $ArticleID = $Param{ArticleID};
+    my %Data;
+    my $SenderType = 'customer';
+    my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
+    " at.a_subject, at.a_message_id, at.a_body " .
+    " FROM " .
+    " article at, article_sender_type st" .
+    " WHERE " .
+    " at.id = $ArticleID " .
+    " AND " .
+    " at.article_sender_type_id = st.id ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $Data{From} = $RowTmp[0];
+        $Data{ReplyTo} = $RowTmp[1],
+        $Data{To} = $RowTmp[2];
+        $Data{Cc} = $RowTmp[3];
+        $Data{Subject} = $RowTmp[4];
+        $Data{InReplyTo} = $RowTmp[5];
+        $Data{Body} = $RowTmp[6];
+    }
+    return %Data;
 }
 # --
 
