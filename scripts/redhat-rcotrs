@@ -1,7 +1,7 @@
 #!/bin/sh
 # --
 # redhat-rcotrs - rc script of otrs for RedHat Linux
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Pablo Ruiz <pruiz@ip6seguridad.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
@@ -92,7 +92,7 @@ case "$1" in
       # database connect
       # --
       echo -n " Checking database connect... "
-      if ! $OTRS_CHECKDB; then
+      if ! $OTRS_CHECKDB -s 1; then
           echo " Error! "
 	  echo "  May your database isn't configured yet? "
           echo ""
@@ -231,7 +231,7 @@ case "$1" in
       # db check
       # --
       echo -n "Checking database connect... "
-      if ! $OTRS_CHECKDB; then
+      if ! $OTRS_CHECKDB -s 1; then
           echo " Error! "
 	  echo " May your database isn't configured yet? "
       else
