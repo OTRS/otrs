@@ -2,7 +2,7 @@
 # Login.dtl - provides customer HTML login screen
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerLogin.dtl,v 1.3 2003-01-03 00:21:24 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.4 2003-01-15 17:16:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -67,11 +67,11 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <tr>
   <td class="navbar" valign="top">
     <p>
-    <li>Home</li>
-    <li>Products</li>
-    <li>Support</li>
-    <li><b><a href="">Online-Support</a></b></li>
-    <li>Contact</li>
+    <li>$Text{"Home"}</li>
+    <li>$Text{"Products"}</li>
+    <li>$Text{"Support"}</li>
+    <li><b><a href="">$Text{"Online-Support"}</a></b></li>
+    <li>$Text{"Contact"}</li>
     </p>
   </td>
   <td>
