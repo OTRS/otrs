@@ -1,8 +1,8 @@
 # --
-# PostMaster.pm - the global PostMaster module for OpenTRS
+# Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.13 2002-07-13 03:28:04 martin Exp $
+# $Id: FollowUp.pm,v 1.14 2002-07-13 12:25:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::PostMaster::AutoResponse;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -216,11 +216,11 @@ sub Run {
             DBObject => $DBObject,
             ArticleObject => $ArticleObject,
             ArticleType => 'email-external',
-            ArticleSenderType => 'system',
+            SenderType => 'system',
             TicketID => $TicketID,
             TicketObject => $TicketObject,
             HistoryType => 'SendAutoFollowUp',
-
+            HistoryComment => "Sent auto response to '$GetParam{From}'",
             From => "$Data{Realname} <$Data{Address}>",
             Email => $Data{Address},
             To => $GetParam{From},
@@ -311,12 +311,12 @@ sub Run {
          $EmailObject->Send(
             DBObject => $DBObject,
             ArticleObject => $ArticleObject,
-            ArticleType => 'email-internal',
-            ArticleSenderType => 'system',
+            ArticleType => 'email-notification-int',
+            SenderType => 'system',
             TicketID => $TicketID,
             TicketObject => $TicketObject,
             HistoryType => 'SendAgentNotification',
-
+            HistoryComment => "Sent notification to '$Preferences{UserLogin}'.",
             From => $Self->{ConfigObject}->Get('NotificationSenderName').
               ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>', 
             Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),

@@ -1,8 +1,8 @@
 # --
-# AutoResponse.pm - sub module of Postmaster.pm
+# Kernel/System/PostMaster/AutoResponse.pm - sub part of PostMaster.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoResponse.pm,v 1.4 2002-07-02 08:47:16 martin Exp $
+# $Id: AutoResponse.pm,v 1.5 2002-07-13 12:25:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::AutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
