@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Priority.pm - the sub module of the global Ticket.pm handle
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Priority.pm,v 1.10 2003-11-02 11:41:49 martin Exp $
+# $Id: Priority.pm,v 1.11 2004-01-09 16:46:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::Priority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,7 +81,7 @@ sub PriorityLookup {
     }
 }
 # --
-sub SetPriority {
+sub PrioritySet {
     my $Self = shift;
     my %Param = @_;
     # lookup!
@@ -118,6 +118,30 @@ sub SetPriority {
               " to '$Param{Priority}' ($Param{PriorityID}).",
       );
       return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub PriorityList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
+        return;
+    }
+    # sql 
+    my $SQL = "SELECT id, name ".
+        " FROM ".
+        " ticket_priority ";
+    my %Data = ();
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Data{$Row[0]} = $Row[1];
+        }
+        return %Data;
     }
     else {
         return;

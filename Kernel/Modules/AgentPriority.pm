@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.17 2003-12-29 17:25:10 martin Exp $
+# $Id: AgentPriority.pm,v 1.18 2004-01-09 16:49:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -82,7 +82,7 @@ sub Run {
 
     if ($Self->{Subaction} eq 'Update') {
         # set id
-        $Self->{TicketObject}->SetPriority(
+        $Self->{TicketObject}->PrioritySet(
             TicketID => $Self->{TicketID},
             PriorityID => $Self->{PriorityID},
             UserID => $Self->{UserID},
@@ -109,14 +109,9 @@ sub Run {
 sub MaskPriority {
     my $Self = shift;
     my %Param = @_;
-    # get priority states
-    my %States = $Self->{DBObject}->GetTableData(
-        What => 'id, name',
-        Table => 'ticket_priority',
-    );
-    # build ArticleTypeID string
+    # get and priority priority states
     $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%States, 
+        Data => { $Self->{TicketObject}->PriorityList(UserID => $Self->{UserID}) },
         Name => 'PriorityID',
         SelectedID => $Param{PriorityID},
     );
