@@ -2,7 +2,7 @@
 # User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.6 2002-06-04 00:16:38 martin Exp $
+# $Id: User.pm,v 1.7 2002-06-08 23:00:52 atif Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -108,7 +108,6 @@ sub GetGroups {
     " gu.user_id = $UserID".
     " AND " .
     " g.id = gu.group_id ";
-
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
          $Groups{$RowTmp[0]} = $RowTmp[1];
@@ -372,5 +371,30 @@ sub SetPassword {
     }
 }
 # --
+
+sub GetUserIdByName {
+    my $Self = shift;
+    my %Param = @_;
+    my $UserID = $Param{UserID} || return;
+    my $id;
+
+    my $SQL = sprintf (
+    "select %s from %s where %s='%s'", 
+       $Self->{UserTableUserID},
+       $Self->{UserTable},
+      $Self->{UserTableUser},
+      $Param{User}
+      );
+    
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+       $id = $RowTmp[0];
+    }
+    return $id;
+} 
+# --
+
+
+
 
 1;
