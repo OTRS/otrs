@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.14 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminResponse.pm,v 1.15 2004-12-02 09:29:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,7 +73,6 @@ sub Run {
         my %ResponseData = $Self->{StdResponseObject}->StdResponseGet(ID => $Param{ID});
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(
             %ResponseData,
             %Param,
@@ -138,7 +137,6 @@ sub Run {
     else {
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(
             Subaction => 'Add',
             Attachments => \%AttachmentData,
@@ -152,7 +150,7 @@ sub Run {
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
-    
+ 
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { 

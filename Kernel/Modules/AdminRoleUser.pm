@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUser.pm,v 1.3 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminRoleUser.pm,v 1.4 2004-12-02 09:29:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminRoleUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,7 +47,6 @@ sub Run {
     if ($Self->{Subaction} eq 'User') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $ID);
         # get group data
@@ -71,7 +70,6 @@ sub Run {
     elsif ($Self->{Subaction} eq 'Role') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);
         foreach (keys %UserData) {
@@ -172,7 +170,6 @@ sub Run {
     else {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);
         foreach (keys %UserData) {

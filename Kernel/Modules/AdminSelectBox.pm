@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.12 2004-10-18 19:24:23 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.13 2004-12-02 09:29:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,7 +52,6 @@ sub Run {
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSelectBoxForm',
             Data => \%Param,
@@ -105,7 +104,6 @@ sub Run {
             # generate outbut
             my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSelectBoxForm',
                 Data => \%Param,
@@ -116,7 +114,6 @@ sub Run {
         else {
             my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSelectBoxForm',
                 Data => \%Param,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.20 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminQueue.pm,v 1.21 2004-12-02 09:29:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -97,7 +97,6 @@ sub Run {
         my %QueueData = $Self->{QueueObject}->QueueGet(ID => $QueueID);
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Queue');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(%Param, %QueueData, DefaultSignKeyList => \%KeyList);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -112,7 +111,6 @@ sub Run {
         if ($GetParam{Name} =~ /::/) {
             $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => 'Don\'t use :: in queue name!',
                 Comment => 'Click back and change it!',
@@ -143,7 +141,6 @@ sub Run {
         if ($GetParam{Name} =~ /::/) {
             $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => 'Don\'t use :: in queue name!',
                 Comment => 'Click back and change it!',
@@ -171,7 +168,6 @@ sub Run {
     else {
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Queue');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

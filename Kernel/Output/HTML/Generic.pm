@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.162 2004-12-02 00:37:54 martin Exp $
+# $Id: Generic.pm,v 1.163 2004-12-02 09:29:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.162 $';
+$VERSION = '$Revision: 1.163 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1714,7 +1714,45 @@ sub NavigationBar {
     }
 
     # create & return output
-    return $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param).$Output;
+    $Output .= $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param);
+    if ($Self->{ModuleReg}->{NavBarModule}) {
+        # run navbar modules
+        my %Jobs = %{$Self->{ModuleReg}->{NavBarModule}};
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Jobs{Module}!",
+                );
+            }
+            if (eval "require $Jobs{Module}") {
+                my $Object = $Jobs{Module}->new(
+                    %{$Self},
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    LayoutObject => $Self,
+                    UserID => $Self->{UserID},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Jobs{Module} loaded!",
+                    );
+                }
+                # run module
+                $Output .= $Object->Run(%Param, Config => \%Jobs);
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Jobs{Module}!",
+                );
+            }
+    }
+    return $Output;
 }
 # --
 sub WindowTabStart {

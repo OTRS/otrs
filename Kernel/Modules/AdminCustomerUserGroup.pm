@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.5 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.6 2004-12-02 09:29:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,7 +57,6 @@ sub Run {
     if (!$Self->{ConfigObject}->Get('CustomerGroupSupport')) {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Warning(
             Message => 'Sorry, feature not activ!',
             Comment => 'CustomerGroupSupport needs to be activ in Kernel/Config.pm, read more about this feature in the documentation. Take care!',
@@ -70,7 +69,6 @@ sub Run {
     if ($Self->{Subaction} eq 'User') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $ID);
         # get group data
@@ -97,7 +95,6 @@ sub Run {
     elsif ($Self->{Subaction} eq 'Group') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);
         foreach (keys %UserData) {
@@ -192,7 +189,6 @@ sub Run {
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);
         foreach (keys %UserData) {

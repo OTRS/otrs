@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponses.pm,v 1.12 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.13 2004-12-02 09:29:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,7 +53,6 @@ sub Run {
     if ($Subaction eq 'Response') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get StdResponses data
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
                 Table => 'standard_response',
@@ -82,7 +81,6 @@ sub Run {
     elsif ($Subaction eq 'Queue') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
                 Table => 'standard_response',
@@ -145,7 +143,6 @@ sub Run {
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
         $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
 		Table => 'standard_response', 

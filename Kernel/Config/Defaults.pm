@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.174 2004-12-02 00:37:24 martin Exp $
+# $Id: Defaults.pm,v 1.175 2004-12-02 09:29:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.174 $';
+$VERSION = '$Revision: 1.175 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2610,158 +2610,43 @@ Your OTRS Notification Master
             Prio => 2000,
           },
         ],
-    };
-    $Self->{'Frontend::Module'}->{'AdminEmail'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminEmail'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminGroup'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminLog'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminNotification'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminPGP'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminQueue'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminResponse'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminRole'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminSession'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminSignature'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminState'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
-        Group => ['admin'],
-        Description => 'Software Package Manager',
-        NavBarName => 'Admin',
-    };
-    $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+        },
     };
     $Self->{'Frontend::Module'}->{'AdminUser'} = {
         Group => ['admin'],
         Description => 'Admin',
         NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'User',
+            Block => 'Block1',
+            Prio => 100,
+        },
     };
-
+    $Self->{'Frontend::Module'}->{'AdminGroup'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Groups',
+            Block => 'Block1',
+            Prio => 150,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'User <-> Groups',
+            Block => 'Block1',
+            Prio => 200,
+        },
+    };
     $Self->{'Frontend::Module'}->{'AdminCustomerUser'} = {
         GroupRo => '',
         Group => ['admin', 'users'],
@@ -2777,6 +2662,304 @@ Your OTRS Notification Master
             Prio => 86,
           }
         ],
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Customer User',
+            Block => 'Block1',
+            Prio => 300,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Customer User <-> Groups',
+            Block => 'Block1',
+            Prio => 400,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminRole'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Role',
+            Block => 'Block1',
+            Prio => 500,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Role <-> User',
+            Block => 'Block1',
+            Prio => 600,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Role <-> Group',
+            Block => 'Block1',
+            Prio => 700,
+        },
+    };
+
+
+    $Self->{'Frontend::Module'}->{'AdminQueue'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Queue',
+            Block => 'Block2',
+            Prio => 100,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Responses',
+            Block => 'Block2',
+            Prio => 200,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Responses <-> Queue',
+            Block => 'Block2',
+            Prio => 300,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Auto Response',
+            Block => 'Block2',
+            Prio => 400,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Auto Response <-> Queue',
+            Block => 'Block2',
+            Prio => 500,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Attachment',
+            Block => 'Block2',
+            Prio => 600,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Attachment <-> Response',
+            Block => 'Block2',
+            Prio => 700,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Salutation',
+            Block => 'Block3',
+            Prio => 100,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSignature'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Signature',
+            Block => 'Block3',
+            Prio => 200,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Email Addresses',
+            Block => 'Block3',
+            Prio => 300,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminNotification'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Notifications',
+            Block => 'Block3',
+            Prio => 400,
+        },
+    };
+    if ($Self->{'SMIME'}) {
+        $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
+            Group => ['admin'],
+            Description => 'Admin',
+            NavBarName => 'Admin',
+            NavBarModule => {
+                Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                Name => 'SMIME Certificates',
+                Block => 'Block3',
+                Prio => 500,
+            },
+        };
+    }
+    if ($Self->{'PGP'}) {
+        $Self->{'Frontend::Module'}->{'AdminPGP'} = {
+            Group => ['admin'],
+            Description => 'Admin',
+            NavBarName => 'Admin',
+            NavBarModule => {
+                Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                Name => 'PGP Keys',
+                Block => 'Block3',
+                Prio => 600,
+            },
+        };
+    }
+    $Self->{'Frontend::Module'}->{'AdminState'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Status',
+            Block => 'Block3',
+            Prio => 700,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'PostMaster POP3 Account',
+            Block => 'Block4',
+            Prio => 100,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'PostMaster Filter',
+            Block => 'Block4',
+            Prio => 200,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'GenericAgent',
+            Block => 'Block4',
+            Prio => 300,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminEmail'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'AdminEmail',
+            Block => 'Block4',
+            Prio => 400,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSession'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Session Management',
+            Block => 'Block4',
+            Prio => 500,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminLog'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'System Log',
+            Block => 'Block4',
+            Prio => 600,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Select Box',
+            Block => 'Block4',
+            Prio => 700,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
+        Group => ['admin'],
+        Description => 'Software Package Manager',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Package Manager',
+            Block => 'Block4',
+            Prio => 1000,
+        },
     };
 
     $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
@@ -2985,6 +3168,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.174 $ $Date: 2004-12-02 00:37:24 $
+$Revision: 1.175 $ $Date: 2004-12-02 09:29:52 $
 
 =cut

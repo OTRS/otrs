@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.10 2004-09-29 08:38:39 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.11 2004-12-02 09:29:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -249,7 +249,6 @@ sub Run {
         # start page
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'GenericAgent');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         if ($GetParam{NewDelete}) {
             $Param{Message} = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!'.@ViewableIDs.' Tickets affected! You really want to use this job?';
         }
@@ -316,7 +315,6 @@ sub Run {
             Config => \%TicketFreeText,
         );
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->MaskForm(
             %GetParam,
             %TicketFreeTextHTML,

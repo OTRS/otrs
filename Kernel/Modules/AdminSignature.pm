@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete  signatures
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSignature.pm,v 1.15 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminSignature.pm,v 1.16 2004-12-02 09:29:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSignature;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,7 +52,6 @@ sub Run {
         $ID = $Self->{DBObject}->Quote($ID);
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Signature');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         my $SQL = "SELECT name, valid_id, comments, text " .
            " FROM " .
            " signature " .
@@ -114,7 +113,6 @@ sub Run {
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Signature');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
     }
