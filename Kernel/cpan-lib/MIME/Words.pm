@@ -94,7 +94,7 @@ use MIME::QuotedPrint;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$Revision: 1.1 $, 10;
+$VERSION = substr q$Revision: 1.2 $, 10;
 
 ### Nonprintables (controls + x7F + 8bit):
 my $NONPRINT = "\\x00-\\x1F\\x7F-\\xFF"; 
@@ -306,6 +306,13 @@ sub encode_mimewords {
     my $charset  = $params{Charset} || 'ISO-8859-1';
     my $encoding = lc($params{Encoding} || 'q');
 
+    # FIX 2004-12-24 (me): Fix mime encode if utf-8 charset is used
+    if ($params{Charset} =~ /utf(-8|8)/i) {
+        if (eval "require Encode") {
+            Encode::_utf8_off($rawstr);
+        }
+    }
+
     ### Encode any "words" with unsafe characters.
     ###    We limit such words to 18 characters, to guarantee that the 
     ###    worst-case encoding give us no more than 54 + ~10 < 75 characters
@@ -349,7 +356,7 @@ Thanks also to...
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2002-11-10 23:00:46 $
+$Revision: 1.2 $ $Date: 2004-12-24 15:20:42 $
 
 =cut
 
