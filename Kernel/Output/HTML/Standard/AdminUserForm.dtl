@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.22 2004-07-08 11:24:33 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.23 2004-09-30 23:25:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,12 +11,20 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" colspan="2" class="table0">
-    <b>$Env{"Box0"}$Text{"User Management"}$Env{"Box1"}</b>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"User Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr align="center" valign="top">
-  <td width="30%" class="table1">
+<tr>
+  <td width="30%" class="mainbody">
+
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Change"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+
     $Text{"Change"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
@@ -26,8 +34,16 @@
     <br>
     <input class="button" type="submit" value="$Text{"change"}">
     </form>
+
+    </td>
+  </tr>
+  </table>
+
   </td>
-  <td width="70%" class="table1">
+  <td width="70%" class="mainbody">
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">
 # --
 # check subaction
 # --
@@ -39,7 +55,10 @@
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminUser">$Text{"$Data{"AddLink"}"}</a>:
-    <br>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentbody">
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
@@ -50,54 +69,53 @@
       <td width="60%"> <input type="text" name="Login" value="$QData{"UserLogin"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Salutation"}: </td>
+      <td class="contentkey">$Text{"Salutation"}: </td>
       <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Firstname"}: </td>
+      <td class="contentkey">$Text{"Firstname"}: </td>
       <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Lastname"}: </td>
+      <td class="contentkey">$Text{"Lastname"}: </td>
       <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Password"}: </td>
+      <td class="contentkey">$Text{"Password"}: </td>
       <td> <input type="password" name="Pw" value="$QData{"UserPw"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Email"}: </td>
+      <td class="contentkey">$Text{"Email"}: </td>
       <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Valid"}: </td>
+      <td class="contentkey">$Text{"Valid"}: </td>
       <td> $Data{"ValidOption"}</td>
     </tr>
-    $Data{"Preferences"}
 
 <!-- dtl:block:PreferencesGeneric -->
     <tr>
-        <td>
-        $Text{"$Data{"Label"}"}:
-        <br>
-        <i class="small">($Text{"$Data{"Desc"}"})</i>
+        <td class="contentkey">
+          $Text{"$Data{"Label"}"}:
+          <br>
+          <i class="small">($Text{"$Data{"Desc"}"})</i>
         </td>
-        <td>
-            $Data{"Option"}
+        <td class="contentvalue">
+          $Data{"Option"}
         </td>
     </tr>
 <!-- dtl:block:PreferencesGeneric -->
 <!-- dtl:block:PreferencesUpload -->
     <tr>
-        <td>
-        $Text{"$Data{"Label"}"}:
-        <br>
-        <i class="small">($Text{"$Data{"Desc"}"})</i>
+        <td class="contentkey">
+          $Text{"$Data{"Label"}"}:
+          <br>
+          <i class="small">($Text{"$Data{"Desc"}"})</i>
         </td>
-        <td>
-            <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
-            <br>
-            <a href="">$QData{"Filename"}</a>
+        <td class="contentvalue">
+          <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
+          <br>
+          <a href="">$QData{"Filename"}</a>
         </td>
     </tr>
 <!-- dtl:block:PreferencesUpload -->
@@ -105,6 +123,9 @@
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
     </form>
+    </td>
+  </tr>
+  </table>
   </td>
 </tr>
 </table>
@@ -112,13 +133,13 @@
 
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr valign="top">
-  <td class="table2">
-    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
+<tr>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
   </td>
 </tr>
-<tr valign="top">
-  <td class="table1">
+<tr>
+  <td class="mainbody">
   <p>
   $Text{"User will be needed to handle tickets."}
   </p>
