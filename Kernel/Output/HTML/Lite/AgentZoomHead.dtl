@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomHead.dtl,v 1.11 2004-09-27 13:26:33 martin Exp $
+# $Id: AgentZoomHead.dtl,v 1.12 2004-10-12 14:06:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -65,7 +65,7 @@ $Data{"AgentPendingStrg"}
 <dtl if ($Data{"AgentClose"} ne "0") { $Data{"AgentCloseStrg"} = " - <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Close this ticket!"}">$Text{"Close"}</a>"; }>
 $Data{"AgentCloseStrg"}
   </td>
-  <td align="right" valign="top" width="30%" class="menu">
+  <td align="right" width="30%" class="menu">
     <table border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td class="mainkey">$Text{"Created"}:</td>
