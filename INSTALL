@@ -2,7 +2,7 @@
 # INSTALL description of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.10 2002-07-10 18:20:21 martin Exp $
+# $Id: INSTALL,v 1.11 2002-08-04 14:47:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -26,7 +26,7 @@ Installation:
 1. Install CPAN Modules (if needed):
    ---------------------------------
    a) Install the RPMs if your distributions provides RPMs for
-      this modules. 
+      the CPAN modules. 
 
    b) Install the modules via CPAN (http://www.cpan.org/)
       perl -MCPAN -e shell;
@@ -36,7 +36,7 @@ Installation:
       install Digest::MD5
       ...
 
-      and maybe the GD stuff
+      and maybe the GD stuff (stats support, not required!)
       ...
       install GD
       install GD::Text
