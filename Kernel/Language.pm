@@ -2,7 +2,7 @@
 # Language.pm - provides multi language support
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.6 2002-05-09 23:41:44 martin Exp $
+# $Id: Language.pm,v 1.7 2002-05-30 15:20:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Language::Bavarian;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -42,24 +42,24 @@ sub new {
     $Self->{Debug} = 0;
 
     # user language
-    $Self->{Language} = $Param{Language} || 'English';
+    $Self->{UserLanguage} = $Param{UserLanguage} || 'English';
 
     # Debug
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'Debug',
-          MSG => "UserLanguage = $Self->{Language}",
+          MSG => "UserLanguage = $Self->{UserLanguage}",
         );
     }
 
     # load text catalog ...
-    if (eval '$Kernel::Language::'.$Self->{Language}.'::VERSION') {
-        @ISA = ("Kernel::Language::$Self->{Language}");
+    if (eval '$Kernel::Language::'.$Self->{UserLanguage}.'::VERSION') {
+        @ISA = ("Kernel::Language::$Self->{UserLanguage}");
         $Self->Data();
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
                 Priority => 'Debug',
-                MSG => "Kernel::Language::$Self->{Language} load ... done."
+                MSG => "Kernel::Language::$Self->{UserLanguage} load ... done."
             );
         }
     }
@@ -67,7 +67,7 @@ sub new {
     else {
         $Self->{LogObject}->Log(
           Priority => 'Error',
-          MSG => "Sorry, can't locate Kernel::Language::$Self->{Language} translation!",
+          MSG => "Sorry, can't locate Kernel::Language::$Self->{UserLanguage} translation!",
         );
     }
 
