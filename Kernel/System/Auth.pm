@@ -2,7 +2,7 @@
 # Auth.pm - provides the authentification and user data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.2 2001-12-21 17:51:55 martin Exp $
+# $Id: Auth.pm,v 1.3 2001-12-30 00:40:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,22 +14,23 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
+$VERSION = '$Revision: 1.3 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # 0=off; 1=on;
     $Self->{DEBUG} = 0;
 
-    $Self->{DBObject} = $Param{DBObject};
-    $Self->{LogObject} = $Param{LogObject};    
+    $Self->{DBObject} = $Param{DBObject} || die 'Got no DBObject!';
+    $Self->{LogObject} = $Param{LogObject} || die 'Got no LogObject!';    
 
     return $Self;
 }

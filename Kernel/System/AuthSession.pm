@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.2 2001-12-21 17:51:55 martin Exp $
+# $Id: AuthSession.pm,v 1.3 2001-12-30 00:40:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -22,19 +22,19 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
-    $Self->{LogObject} = $Param{LogObject};
+    $Self->{LogObject} = $Param{LogObject} || die 'No LogObject!';
 
     # get config data
-    my $ConfigObject = $Param{ConfigObject} || 
-       $Self->{LogObject}->Log(Priority => 'error', MSG => 'No ConfigObject!');
+    my $ConfigObject = $Param{ConfigObject} || die 'No ConfigObject!'; 
 
     $Self->{SessionSpool} = $ConfigObject->Get('SessionDir');
     $Self->{SystemID} = $ConfigObject->Get('SystemID');
  
-    # Debug
+    # Debug 0=off 1=on
     $Self->{Debug} = 0;    
 
     return $Self;
@@ -58,23 +58,24 @@ sub CheckSessionID {
 sub GetSessionIDData {
     my $Self = shift;
     my %Param = @_;
-    my $SessionID = $Param{SessionID};
+    my $SessionID = $Param{SessionID} || die 'Got no SessionID!';
     my $Strg = '';
     my %Data;
 
     # FIXME!
     open (SESSION, "< $Self->{SessionSpool}/$SessionID") or return;
     while (<SESSION>) {
+        chomp;
         $Strg = $_;
     }
     close (SESSION);
     my @StrgData = split(/;/, $Strg); 
     foreach (@StrgData) {
          my @PaarData = split(/=/, $_);
-         $Data{$PaarData[0]} = $PaarData[1];
+         $Data{$PaarData[0]} = $PaarData[1] || '';
          # Debug
          if ($Self->{Debug}) {
-             print STDERR "$PaarData[0]=$PaarData[1]\n";
+             print STDERR "GetSessionIDData: $PaarData[0]=$PaarData[1]\n";
          } 
     }
 
@@ -110,6 +111,33 @@ sub RemoveSessionID {
     return 1;
 }
 # --
+sub UpdateSessionID {
+    my $Self = shift;
+    my %Param = @_;
+    my $Key = $Param{Key} || die 'No Key!';
+    my $Value = $Param{Value} || die 'No Value!';
+    my $SessionID = $Param{SessionID} || die 'No SessionID!';
+
+    my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
+
+    # update the value 
+    $SessionData{$Key} = $Value; 
+    
+    open (SESSION, "> $Self->{SessionSpool}/$SessionID") || die "Can't write $Self->{SessionSpool}/$SessionID: $!";
+    foreach (keys %SessionData) {
+        print SESSION "$_=$SessionData{$_};";
+        # Debug
+        if ($Self->{Debug}) {
+            print STDERR "UpdateSessionID: $_=$SessionData{$_}\n";
+        }
+
+    }
+    close (SESSION);
+
+    return 1;
+}
+# --
+
 
 1;
 
