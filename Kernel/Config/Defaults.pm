@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.148 2004-08-06 07:45:00 martin Exp $
+# $Id: Defaults.pm,v 1.149 2004-08-10 10:06:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.148 $';
+$VERSION = '$Revision: 1.149 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -654,7 +654,7 @@ sub LoadDefaults {
 #    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
 
     # TicketCustomModule
-    # (custom functions to refedine Kernel::System::Ticket functions)
+    # (custom functions to redefine Kernel::System::Ticket functions)
 #    $Self->{TicketCustomModule} = 'Kernel::System::Ticket::Custom';
 
     $Self->{'TicketACL::Default::Action'} = {
@@ -1653,6 +1653,12 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
     $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB';
+    $Self->{'Customer::AuthModule::DB::Table'} = 'customer_user';
+    $Self->{'Customer::AuthModule::DB::CustomerKey'} = 'login';
+    $Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'pw';
+#    $Self->{'Customer::AuthModule::DB::DSN'} = "DBI:mysql:database=customerdb;host=customerdbhost";
+#    $Self->{'Customer::AuthModule::DB::User'} = "some_user";
+#    $Self->{'Customer::AuthModule::DB::Password'} = "some_password";
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
@@ -2037,21 +2043,22 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # PGP settings (supports gpg)                         #
     # --------------------------------------------------- #
-    $Self->{'PGP'} = 1;
+    $Self->{'PGP'} = 0;
     $Self->{'PGP::Bin'} = '/usr/bin/gpg';
     $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes';
 #    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
-    $Self->{'PGP::Key::Password::D2DF79FA'} = 1234;
-    $Self->{'PGP::Key::Password::488A0B8F'} = 1234;
+#    $Self->{'PGP::Key::Password::D2DF79FA'} = 1234;
+#    $Self->{'PGP::Key::Password::488A0B8F'} = 1234;
 
     # --------------------------------------------------- #
     # S/MIME settings (supports smime)                    #
     # --------------------------------------------------- #
-    $Self->{'SMIME'} = 1;
+    $Self->{'SMIME'} = 0;
+    # maybe openssl need a HOME env!
+    #$ENV{HOME} = '/var/lib/wwwrun';
     $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
 #    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
-    $Self->{'SMIME::CertPath'} = '/tmp/certs';
-    $Self->{'SMIME::PrivatePath'} = '/tmp/private';
+#    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private/private';
 
     # --------------------------------------------------- #
     # system permissions
