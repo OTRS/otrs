@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.139 2004-09-09 00:18:09 martin Exp $
+# $Id: Ticket.pm,v 1.140 2004-09-09 11:01:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.139 $';
+$VERSION = '$Revision: 1.140 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -236,8 +236,8 @@ sub TicketCheckNumber {
           " WHERE " .
           " tn = '$Param{Tn}' ",
     );
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Id = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Id = $Row[0];
     }
     return $Id;
 }
@@ -322,15 +322,19 @@ sub TicketCreate {
     if (!$Param{TN}) {
         $Param{TN} = $Self->CreateTicketNr();
     }
+    # check ticket title
+    if (!$Param{Title}) {
+        $Param{Title} = '';
+    }
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # create db record
-    my $SQL = "INSERT INTO ticket (tn, create_time_unix, queue_id, ticket_lock_id, ".
+    my $SQL = "INSERT INTO ticket (tn, title, create_time_unix, queue_id, ticket_lock_id, ".
     " user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
     " valid_id, create_time, create_by, change_time, change_by) " .
-    " VALUES ('$Param{TN}', $Age, $Param{QueueID}, $Param{LockID}, $Param{UserID}, ".
+    " VALUES ('$Param{TN}', '$Param{Title}', $Age, $Param{QueueID}, $Param{LockID}, $Param{UserID}, ".
     " $GroupID, $Param{PriorityID}, $Param{StateID}, ".
     " $Answered, $ValidID, " .
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
@@ -509,7 +513,7 @@ sub TicketGet {
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
-        " st.change_time ".
+        " st.change_time, st.title ".
         " FROM ".
         " ticket st, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -524,6 +528,7 @@ sub TicketGet {
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Ticket{TicketID} = $Row[0];
+        $Ticket{Title} = $Row[35];
         $Ticket{QueueID} = $Row[1];
         $Ticket{Queue} = $Row[2];
         $Ticket{StateID} = $Row[3];
@@ -585,6 +590,42 @@ sub TicketGet {
     $Self->{'Cache::GetTicket'.$Param{TicketID}} = \%Ticket;
     # return ticket data
     return %Ticket;
+}
+
+=item TicketTilteUpdate()
+
+update ticket title
+
+  $TicketObject->TicketTitleUpdate(
+      Title => 'Some Title',
+      TicketID => 123,
+  );
+
+=cut
+
+sub TicketTilteUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Title TicketID)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    my $SQL = "UPDATE ticket SET title = '$Param{Title}' ".
+      " WHERE ".
+      " id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        return 1;
+    }
+    else {
+        return;
+    }
 }
 
 =item TicketQueueID()
@@ -1385,183 +1426,6 @@ sub TicketPendingTimeSet {
         );
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-        return 1;
-    }
-    else {
-        return;
-    }
-}
-
-
-=item TicketLinkGet()
-
-Get ticket links.
-
-  my %LinkedTicketIDs = $TicketObject->TicketLinkGet(
-      TicketID => 1422,
-      UserID => 23,
-  );
-
-=cut
-
-sub TicketLinkGet {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    foreach (qw(TicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
-    }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
-    # db query
-    my %Tickets = ();
-    my %Used = ();
-    my $Counter = 0;
-    my $SQL = "SELECT st.id, st.tn ".
-        " FROM ".
-        " ticket st, ticket_link tl ".
-        " WHERE ".
-        " (st.id = tl.ticket_id_master OR st.id = tl.ticket_id_slave) ".
-        " AND ".
-        " (tl.ticket_id_master = $Param{TicketID} OR tl.ticket_id_slave = $Param{TicketID})";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 60);
-    while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if (!$Used{$Row[0]}) {
-            if ($Row[0] ne $Param{TicketID}) {
-                $Counter++;
-                $Tickets{"TicketLink$Counter"} = $Row[1];
-                $Tickets{"TicketLinkID$Counter"} = $Row[0];
-                $Tickets{$Row[0]} = $Row[1];
-                $Used{$Row[0]} = 1;
-            }
-        }
-    }
-    return %Tickets;
-}
-
-
-=item TicketLinkAdd()
-
-Add a ticket link.
-
-  $TicketObject->TicketLinkAdd(
-      MasterTicketID => 3541,
-      SlaveTicketID => 1422,
-      UserID => 23,
-  );
-
-=cut
-
-sub TicketLinkAdd {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    foreach (qw(MasterTicketID SlaveTicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
-    }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
-    # create db record
-    my $SQL = "INSERT INTO ticket_link (ticket_id_master, ticket_id_slave) ".
-    " VALUES ($Param{MasterTicketID}, $Param{SlaveTicketID}) ";
-
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        # add master ticket hostory
-        my $SlaveTicketNumber = $Self->TicketNumberLookup(
-            TicketID => $Param{SlaveTicketID},
-            UserID => $Param{UserID},
-        );
-        $Self->HistoryAdd(
-            TicketID => $Param{MasterTicketID},
-            CreateUserID => $Param{UserID},
-            HistoryType => 'TicketLinkAdd',
-            Name => "\%\%$SlaveTicketNumber\%\%$Param{MasterTicketID}\%\%$Param{SlaveTicketID}",
-        );
-        # added slave ticket history
-        my $MasterTicketNumber = $Self->TicketNumberLookup(
-            TicketID => $Param{MasterTicketID},
-            UserID => $Param{UserID},
-        );
-        $Self->HistoryAdd(
-            TicketID => $Param{SlaveTicketID},
-            CreateUserID => $Param{UserID},
-            HistoryType => 'TicketLinkAdd',
-            Name => "\%\%$MasterTicketNumber\%\%$Param{MasterTicketID}\%\%$Param{SlaveTicketID}",
-        );
-        return 1;
-    }
-    else {
-        return;
-    }
-}
-
-=item TicketLinkDelete()
-
-Delete a ticket link.
-
-  $TicketObject->TicketLinkDelete(
-      MasterTicketID => 3541,
-      SlaveTicketID => 1422,
-      UserID => 23,
-  );
-
-=cut
-
-sub TicketLinkDelete {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    foreach (qw(MasterTicketID SlaveTicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
-    }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
-    # db query
-    my $SQL = "DELETE FROM ticket_link ".
-        " WHERE ".
-        " ticket_id_master = $Param{MasterTicketID} ".
-        " AND ".
-        " ticket_id_slave = $Param{SlaveTicketID} ".
-        " ";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        # add master ticket hostory
-        my $SlaveTicketNumber = $Self->TicketNumberLookup(
-            TicketID => $Param{SlaveTicketID},
-            UserID => $Param{UserID},
-        );
-        $Self->HistoryAdd(
-            TicketID => $Param{MasterTicketID},
-            CreateUserID => $Param{UserID},
-            HistoryType => 'TicketLinkDelete',
-            Name => "\%\%$SlaveTicketNumber\%\%$Param{MasterTicketID}\%\%$Param{SlaveTicketID}",
-        );
-        # added slave ticket history
-        my $MasterTicketNumber = $Self->TicketNumberLookup(
-            TicketID => $Param{MasterTicketID},
-            UserID => $Param{UserID},
-        );
-        $Self->HistoryAdd(
-            TicketID => $Param{SlaveTicketID},
-            CreateUserID => $Param{UserID},
-            HistoryType => 'TicketLinkDelete',
-            Name => "\%\%$MasterTicketNumber\%\%$Param{MasterTicketID}\%\%$Param{SlaveTicketID}",
-        );
-
         return 1;
     }
     else {
@@ -2802,7 +2666,6 @@ sub HistoryTicketGet {
         "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ".
         "ORDER BY th.create_time ASC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 600);
-
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Row[1] eq 'NewTicket') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /Ticket=\[(.+?)\],.+?Q\=(.+?);P\=(.+?);S\=(.+?)/) {
@@ -3479,6 +3342,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.139 $ $Date: 2004-09-09 00:18:09 $
+$Revision: 1.140 $ $Date: 2004-09-09 11:01:51 $
 
 =cut
