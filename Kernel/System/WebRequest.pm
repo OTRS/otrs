@@ -2,7 +2,7 @@
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.15 2004-01-04 21:34:59 martin Exp $
+# $Id: WebRequest.pm,v 1.16 2004-01-14 01:41:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,10 +12,11 @@
 package Kernel::System::WebRequest;
 
 use strict;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.15 $ ';
+$VERSION = '$Revision: 1.16 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -55,16 +56,18 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(ConfigObject)) {
+    foreach (qw(ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # Simple Common Gateway Interface Class
     use CGI qw(:cgi);
     # to get the errors on screen
     use CGI::Carp qw(fatalsToBrowser);
     # max 5 MB posts
     $CGI::POST_MAX = $Self->{ConfigObject}->Get('MaxFileUpload') || 1024 * 1024 * 5;  
-
+    # query object
     $Self->{Query} = new CGI;
 
     return $Self;
@@ -104,7 +107,8 @@ sub GetParam {
     my $Self = shift;
     my %Param = @_;
     my $Value = $Self->{Query}->param($Param{Param});
-    return $Value;
+    $Self->{EncodeObject}->Encode(\$Value);
+    return $Value; 
 }
 # --
 
@@ -120,6 +124,7 @@ sub GetArray {
     my $Self = shift;
     my %Param = @_;
     my @Value = $Self->{Query}->param($Param{Param});
+    $Self->{EncodeObject}->Encode(\@Value);
     return @Value;
 }
 # --
@@ -273,6 +278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2004-01-04 21:34:59 $
+$Revision: 1.16 $ $Date: 2004-01-14 01:41:45 $
 
 =cut
