@@ -141,10 +141,11 @@ use Kernel::Modules::FAQCategory;
 use Kernel::Modules::FAQLanguage;
 
 # web customer middle ware modules
-use Kernel::Modules::CustomerAttachment;
-use Kernel::Modules::CustomerMessage;
 use Kernel::Modules::CustomerPreferences;
+use Kernel::Modules::CustomerTicketAttachment;
+use Kernel::Modules::CustomerTicketMessage;
 use Kernel::Modules::CustomerTicketOverView;
+use Kernel::Modules::CustomerTicketZoom;
 use Kernel::Modules::CustomerZoom;
 use Kernel::Modules::CustomerFAQ;
 
