@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.52 2003-03-10 21:28:08 martin Exp $
+# $Id: Defaults.pm,v 1.53 2003-03-10 23:40:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -196,7 +196,15 @@ sub LoadDefaults {
     # MaxLimit
     # (Max viewable tickets a page.)
     $Self->{MaxLimit} = 120;
-    
+
+    # TextAreaEmailWindow
+    # (width of compose email windows)
+    $Self->{TextAreaEmailWindow} = 78;
+
+    # TextAreaNoteWindow
+    # (width of compose note windows)
+    $Self->{TextAreaNoteWindow} = 60;
+ 
     # Highligh*
     # (Set the age and the color for highlighting of old queue
     # in the QueueView.)
@@ -1490,6 +1498,9 @@ Your OTRS Notification Master
     # (Possible to create in all queue? Not only queue which
     # the own groups) [0|1]
     $Self->{PhoneViewASP} = 1;
+
+    # PhoneViewOwnerSelection
+    $Self->{PhoneViewOwnerSelection} = 0;
 
     # PhoneViewSelectionType 
     # (To: seection type. Queue => show all queues, SystemAddress => show all system 
