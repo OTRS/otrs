@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.17 2004-10-13 12:44:42 martin Exp $
+# $Id: FAQ.pm,v 1.18 2004-11-07 15:15:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1094,21 +1094,21 @@ sub FAQSearch {
                 if ($What) {
                     $What .= ' OR ';
                 }
-                $What .= " i.$_ LIKE '%".$Self->{DBObject}->Quote($Value)."%'";
+                $What .= " LOWER(i.$_) LIKE LOWER('%".$Self->{DBObject}->Quote($Value)."%')";
             }
             $Ext .= $What;
         }
         else {
-            $Ext .= " i.$_ LIKE '%'";
+            $Ext .= " LOWER(i.$_) LIKE LOWER('%')";
         }
     }
     $Ext .= ' )';
     if ($Param{Number}) {
         $Param{Number} =~ s/\*/%/g;
-        $Ext .= " AND i.f_number LIKE '".$Self->{DBObject}->Quote($Param{Number})."'";
+        $Ext .= " AND LOWER(i.f_number) LIKE LOWER('".$Self->{DBObject}->Quote($Param{Number})."')";
     }
     if ($Param{Title}) {
-        $Ext .= " AND i.f_subject LIKE '%".$Self->{DBObject}->Quote($Param{Title})."%'";
+        $Ext .= " AND LOWER(i.f_subject) LIKE LOWER('%".$Self->{DBObject}->Quote($Param{Title})."%')";
     }
     if ($Param{LanguageIDs} && ref($Param{LanguageIDs}) eq 'ARRAY' && @{$Param{LanguageIDs}}) {
         $Ext .= " AND i.f_language_id IN (${\(join ', ', @{$Param{LanguageIDs}})} )";
@@ -1120,7 +1120,7 @@ sub FAQSearch {
         $Ext .= " AND s.name IN ('${\(join '\', \'', @{$Param{States}})}')";
     }
     if ($Param{Keyword}) {
-        $Ext .= " AND i.f_keywords LIKE '%".$Self->{DBObject}->Quote($Param{Keyword})."%'";
+        $Ext .= " AND LOWER(i.f_keywords) LIKE LOWER('%".$Self->{DBObject}->Quote($Param{Keyword})."%')";
     }
     $SQL .= $Ext." ORDER BY i.f_language_id DESC, i.change_time DESC";
     my @List = ();
@@ -1145,6 +1145,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2004-10-13 12:44:42 $
+$Revision: 1.18 $ $Date: 2004-11-07 15:15:17 $
 
 =cut
