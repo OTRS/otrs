@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeSign.pm,v 1.5 2004-08-12 08:09:18 martin Exp $
+# $Id: ArticleComposeSign.pm,v 1.6 2004-08-12 08:15:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -74,7 +74,7 @@ sub Run {
     }
     if (%KeyList) {
         $KeyList{''} = '-none-';
-        if ((!defined($Param{SignKeyID}) || $Param{ExpandCustomerName} == 3) && $Param{QueueID}) {
+        if ((!defined($Param{SignKeyID}) || ($Param{ExpandCustomerName} && $Param{ExpandCustomerName} == 3)) && $Param{QueueID}) {
             my %Queue = $Self->{QueueObject}->QueueGet(ID => $Param{QueueID});
             $Param{SignKeyID} = $Queue{DefaultSignKey} || '';
         }
