@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.35 2003-04-27 16:10:05 martin Exp $
+# $Id: AgentQueueView.pm,v 1.36 2003-04-30 15:20:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,8 +79,6 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $QueueID = $Self->{QueueID};
-
     # --
     # store last screen
     # --
@@ -94,7 +92,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-
     # starting with page ...
     my $Refresh = '';
     if ($Self->{UserRefreshTime}) {
@@ -120,10 +117,7 @@ sub Run {
         );
         foreach my $DataTmp (@ViewableTickets) {
           my %Data = %$DataTmp;
-          $Output .= $Self->ShowTicket(
-            %Data,
-            QueueID => $QueueID,
-          );
+          $Output .= $Self->ShowTicket(%Data);
         }
         # get page footer
         $Output .= $Self->{LayoutObject}->Footer();
@@ -133,17 +127,16 @@ sub Run {
     # build queue view ...
     # --
     my @ViewableQueueIDs = ();
-    if ($QueueID == 0) {
+    if ($Self->{QueueID} == 0) {
         @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
             UserID => $Self->{UserID}
         );
     }
     else {
-        @ViewableQueueIDs = ($QueueID);
+        @ViewableQueueIDs = ($Self->{QueueID});
     }
     $Output .= $Self->BuildQueueView(
         QueueIDs => \@ViewableQueueIDs,
-        QueueID => $QueueID
     );
 
     # to get the output faster!
@@ -194,16 +187,12 @@ sub Run {
     # show ticket's
     # --
     foreach my $DataTmp (@ViewableTickets) {
-      my %Data = %$DataTmp;
-      print $Self->ShowTicket(
-        %Data,
-        QueueID => $QueueID,
-      );
+        my %Data = %$DataTmp;
+        print $Self->ShowTicket(%Data);
     }
 
     # get page footer
     $Output .= $Self->{LayoutObject}->Footer();
-
     # return page
     return $Output;
 }
@@ -214,7 +203,6 @@ sub ShowTicket {
     my $Self = shift;
     my %Param = @_;
     my $TicketID = $Param{TicketID} || return;
-    my $QueueID = $Param{QueueID} || 0;
     my $TicketQueueID = $Param{TicketQueueID} || '';
     my $Output = '';
 
@@ -294,8 +282,7 @@ sub ShowTicket {
             Answered => $$Data{ticket_answered},
             Created => $$Data{create_time},
             StdResponses => \%StdResponses,
-        #       QueueID => $$Data{queue_id},
-            QueueID => $QueueID,
+            QueueID => $$Data{queue_id},
             Queue => $$Data{queue},
             MoveQueues => \%MoveQueues,
             CustomerID => $$Data{customer_id},
@@ -336,6 +323,7 @@ sub ShowTicket {
     # --
     $Output .= $Self->{LayoutObject}->TicketView(
         %Ticket,
+        QueueViewQueueID => $Self->{QueueID},
         CustomerData => \%CustomerData,
     );
     # if there is no customer article avalible! Error!
@@ -363,13 +351,9 @@ sub ShowTicket {
 sub BuildQueueView {
     my $Self = shift;
     my %Param = @_;
-    my $QueueID = $Param{QueueID};
-    my $Output = '';
-    my @Queues;
-
     my %Data = $Self->{TicketObject}->TicketAcceleratorIndex(
         UserID => $Self->{UserID},
-        QueueID => $QueueID,
+        QueueID => $Self->{QueueID},
         ShownQueueIDs => $Param{QueueIDs},
     ); 
     # --
@@ -383,14 +367,12 @@ sub BuildQueueView {
     # build output ...
     # --
     my %AllQueues = $Self->{QueueObject}->GetAllQueues();
-    $Output .= $Self->{LayoutObject}->QueueView(
+    return $Self->{LayoutObject}->QueueView(
         %Data,
-        QueueID => $QueueID,
+        QueueID => $Self->{QueueID},
         AllQueues => \%AllQueues,
         Start => $Self->{Start},
     );
-
-    return $Output;
 }
 # --
 
