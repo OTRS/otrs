@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.20 2004-02-03 01:08:01 martin Exp $
+# $Id: GenericAgent.pl,v 1.21 2004-02-08 22:21:02 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.20 $';
+    $VERSION = '$Revision: 1.21 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
@@ -280,6 +280,56 @@ sub Run {
         }
     }
     # --
+    # run module 
+    # --
+    if ($Jobs{$Job}->{New}->{Module}) {
+        print "  - use module ($Jobs{$Job}->{New}->{Module})\n";
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Use module ($Jobs{$Job}->{New}->{Module}) Ticket [$TicketNumber], TicketID [$TicketID].",
+        );
+        if ($Debug) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'debug',
+                Message => "Try to load module: $Jobs{$Job}->{New}->{Module}!",
+            );
+        }
+        if (eval "require $Jobs{$Job}->{New}->{Module}") {
+            my $Object = $Jobs{$Job}->{New}->{Module}->new(
+                %CommonObject,
+                Debug => $Debug,
+            );
+            if ($Debug) {
+                $CommonObject{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Loaded module: $Jobs{$Job}->{New}->{Module}!",
+                );
+                $CommonObject{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Run module: $Jobs{$Job}->{New}->{Module}!",
+                );
+            }
+            $Object->Run(TicketID => $TicketID);
+        }
+        else {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't load module: $Jobs{$Job}->{New}->{Module}!",
+            );
+        }
+    }
+    # --
+    # cmd
+    # --
+    if ($Jobs{$Job}->{New}->{CMD}) {
+        print "  - call cmd ($Jobs{$Job}->{New}->{CMD}) for ticket_id $_\n";
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Execut '$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID'.",
+        );
+        system("$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID ");
+    }
+    # --
     # delete ticket
     # --
     if ($Jobs{$Job}->{New}->{Delete}) {
@@ -292,17 +342,6 @@ sub Run {
             UserID => $UserIDOfGenericAgent, 
             TicketID => $TicketID,
         );
-    }
-    # --
-    # cmd
-    # --
-    if ($Jobs{$Job}->{New}->{CMD}) {
-        print "  - call cmd ($Jobs{$Job}->{New}->{CMD}) for ticket_id $_\n";
-        $CommonObject{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Execut '$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID'.",
-        );
-        system("$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID ");
     }
 }
 # --
