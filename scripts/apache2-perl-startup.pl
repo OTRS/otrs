@@ -2,7 +2,9 @@
 use strict;
 
 # make sure we are in a sane environment.
-$ENV{GATEWAY_INTERFACE} =~ /^CGI-Perl/ or die "GATEWAY_INTERFACE not Perl!";
+#$ENV{GATEWAY_INTERFACE} =~ /^CGI-Perl/ or die "GATEWAY_INTERFACE not Perl!";
+# check $ENV{MOD_PERL}, $ENV{GATEWAY_INTERFACE} is deprecated for mod_perl2
+$ENV{MOD_PERL} =~ /mod_perl/ or die "MOD_PERL not used!";
 
 # --
 # set otrs lib path!
