@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.23 2004-05-24 19:04:25 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.24 2004-08-06 13:30:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,16 +60,16 @@
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminGroup">$Text{"Groups"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCustomerUser">$Text{"Customer User"}</a>$Env{"Box1"} 
-    <br> 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCustomerUser">$Text{"Customer User"}</a>$Env{"Box1"}
+    <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCustomerUserGroup">$Text{"Customer User <-> Groups"}</a>$Env{"Box1"}
   </td>
-  <td class="nav"> 
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueue">$Text{"Queue"}</a>$Env{"Box1"} 
+  <td class="nav">
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueue">$Text{"Queue"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminResponse">$Text{"Responses"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminResponse">$Text{"Responses"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueueResponses">$Text{"Responses <-> Queue"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueueResponses">$Text{"Responses <-> Queue"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminAutoResponse">$Text{"Auto Responses"}</a>$Env{"Box1"}
     <br>
@@ -77,33 +77,39 @@
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminAttachment">$Text{"Attachment"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminResponseAttachment">$Text{"Attachment <-> Response"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminResponseAttachment">$Text{"Attachment <-> Response"}</a>$Env{"Box1"}
   </td>
   <td class="nav">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSalutation">$Text{"Salutation"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSignature">$Text{"Signature"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSignature">$Text{"Signature"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSystemAddress">$Text{"Email Addresses"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSystemAddress">$Text{"Email Addresses"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminNotification">$Text{"Notifications"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminNotification">$Text{"Notifications"}</a>$Env{"Box1"}
+# pgp link
+<dtl if ($Config{"PGP"} eq "1") { $Data{"PGPLink"} = "<br>$Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPGP">$Text{"PGP Keys"}</a>$Env{"Box1"}"; }>
+    $Data{"PGPLink"}
+# smime link
+<dtl if ($Config{"SMIME"} eq "1") { $Data{"SMIMELink"} = "<br>$Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSMIME">$Text{"SMIME Certificates"}</a>$Env{"Box1"}"; }>
+    $Data{"SMIMELink"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminState">$Text{"Status"}</a>$Env{"Box1"}
   </td>
   <td class="nav">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPOP3">$Text{"PostMaster POP3 Account"}</a>$Env{"Box1"} 
-    <br> 
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPostMasterFilter">$Text{"PostMaster Filter"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPOP3">$Text{"PostMaster POP3 Account"}</a>$Env{"Box1"}
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPostMasterFilter">$Text{"PostMaster Filter"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminGenericAgent">$Text{"GenericAgent"}</a>$Env{"Box1"}
-    <br> 
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSession">$Text{"Session Management"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminEmail">$Text{"AdminEmail"}</a>$Env{"Box1"} 
-    <br> 
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminLog">$Text{"System Log"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSession">$Text{"Session Management"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSelectBox">$Text{"Select Box"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminEmail">$Text{"AdminEmail"}</a>$Env{"Box1"}
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminLog">$Text{"System Log"}</a>$Env{"Box1"}
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSelectBox">$Text{"Select Box"}</a>$Env{"Box1"}
   </td>
 </tr>
 </table>
