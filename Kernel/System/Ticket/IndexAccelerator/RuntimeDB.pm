@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.16 2004-02-13 00:50:36 martin Exp $
+# $Id: RuntimeDB.pm,v 1.17 2004-02-16 02:08:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -238,7 +238,8 @@ sub GetOverTimeTickets {
     }
     # get data (viewable tickets...)
     my @TicketIDsOverTime = ();
-    my $SQL = "SELECT distinct (a.ticket_id), t.ticket_priority_id, a.incoming_time ".
+    my %TicketIDs = ();
+    my $SQL = "SELECT t.id, a.article_sender_type_id, a.incoming_time, q.escalation_time, a.id, t.ticket_priority_id ".
     " FROM ".
     " article a, queue q, ticket t ".
     " WHERE ".
@@ -248,10 +249,8 @@ sub GetOverTimeTickets {
     " AND " .
     " t.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
-    " t.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
-    " AND " .
     " t.id = a.ticket_id ".
-    " AND ".
+    " AND " .
     " q.id = t.queue_id ".
     " AND ";
     if ($Param{UserID}) {
@@ -266,14 +265,33 @@ sub GetOverTimeTickets {
             return;
         }
     }
-    $SQL .= " a.article_sender_type_id = ".
-      $Self->ArticleSenderTypeLookup(SenderType => 'customer').
-    " AND ".
-    " ".time()." >= (a.incoming_time + (q.escalation_time * 60))".
-    " ORDER BY t.ticket_priority_id DESC, a.incoming_time";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 20);
+    $SQL .= " t.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "; 
+    $SQL .= " ORDER BY t.id, t.ticket_priority_id DESC, a.incoming_time";
+    my $CustomerSenderID = $Self->ArticleSenderTypeLookup(SenderType => 'customer');
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1500);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        push (@TicketIDsOverTime, $Row[0]);
+        my $DiffTime = ($Row[2] + ($Row[3] * 60)) - time();
+        my $Prio = $Row[5] - 100;
+        if ($DiffTime < 0) {
+            if (!$TicketIDs{$Row[0]}) {
+                $TicketIDs{$Row[0]} = $Prio.'.'.$Row[2];
+            }
+            if ($TicketIDs{$Row[0]} && ($Row[1] eq $CustomerSenderID)) {
+                $TicketIDs{$Row[0]} = $Prio.'.'.$Row[2];
+            }
+        }
+        else {
+            if ($Row[1] eq $CustomerSenderID) {
+                delete $TicketIDs{$Row[0]} if ($TicketIDs{$Row[0]});
+            }
+        }
+    }
+    # get ticket ids (max shown)
+    my $Max = 40;
+    my $Count = 0;
+    foreach (sort {$TicketIDs{$a} cmp $TicketIDs{$b}} keys %TicketIDs) {
+        $Count++; 
+        push (@TicketIDsOverTime, $_) if ($Count <= $Max);
     }
     # return overtime tickets
     if (@TicketIDsOverTime) {
