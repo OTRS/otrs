@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.2 2005-01-22 16:10:04 martin Exp $
+# $Id: XML.pm,v 1.3 2005-01-24 15:47:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -39,15 +39,21 @@ create a object
 
   use Kernel::Config;
   use Kernel::System::Log;
+  use Kernel::System::DB;
   use Kernel::System::XML;
 
   my $ConfigObject = Kernel::Config->new();
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
+  my $DBObject = Kernel::System::DB->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
   my $XMLObject = Kernel::System::XML->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
+      DBObject => $DBObject,
   );
 
 =cut
@@ -66,13 +72,174 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ConfigObject LogObject)) {
+    foreach (qw(ConfigObject LogObject DBObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
     $S = $Self;
 
     return $Self;
+}
+
+=item XMLHashAdd()
+
+add a xml hash to storage
+
+    $XMLObject->XMLHashAdd(
+        Type => 'SomeType',
+        Key => '123',
+        Hash => \@XMLStructur,
+    );
+
+=cut
+
+sub XMLHashAdd {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Type Key Hash)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my %ValueHASH = $Self->XMLHashValue(XMLStructur => $Param{Hash});
+    if (%ValueHASH) {
+        $Self->XMLHashDelete(%Param);
+        # db quote
+        foreach (keys %Param) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
+        foreach my $Key (sort keys %ValueHASH) {
+            my $Value = $Self->{DBObject}->Quote($ValueHASH{$Key});
+            $Key = $Self->{DBObject}->Quote($Key);
+            $Self->{DBObject}->Do(
+                SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('$Param{Type}', '$Param{Key}', '$Key', '$Value')",
+            );
+        }
+    }
+    return 1;
+}
+
+=item XMLHashGet()
+
+get a xml hash from database
+
+    my @XMLStructur = $XMLObject->XMLHashGet(
+        Type => 'SomeType',
+        Key => '123',
+    );
+
+=cut
+
+sub XMLHashGet {
+    my $Self = shift;
+    my %Param = @_;
+    my $Content = '';
+    my @XMLStructur = ();
+    # check needed stuff
+    foreach (qw(Type Key)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote 
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql
+    my $SQL = "SELECT xml_content_key, xml_content_value " .
+        " FROM " .
+        " xml_storage " .
+        " WHERE " .
+        " xml_type = '$Param{Type}' AND xml_key = '$Param{Key}'";
+
+    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+        return;
+    }
+    while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        $Data[1] =~ s/'/\\'/g;
+        $Content .= '$XMLStructur[0]'.$Data[0]." = '$Data[1]';\n";
+    }
+#    print $Content;
+    if (!eval $Content) {
+        print STDERR "ERROR: $@\n";
+    }
+    return @XMLStructur; 
+}
+
+=item XMLHashDelete()
+
+delete a xml hash from database
+
+    $XMLObject->XMLHashDelete(
+        Type => 'SomeType',
+        Key => '123',
+    );
+
+=cut
+
+sub XMLHashDelete {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Type Key)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) { 
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    return $Self->{DBObject}->Do(
+        SQL => "DELETE FROM xml_storage WHERE xml_type = '$Param{Type}' AND xml_key = '$Param{Key}'",
+    );
+}
+
+=item XMLHashSearch()
+
+search  elete a xml hash from database
+
+    my @Keys = $XMLObject->XMLHashSearch(K
+        Type => 'SomeType',
+        What => {
+            "{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%content%',
+        }
+    );
+
+=cut
+
+sub XMLHashSearch {
+    my $Self = shift;
+    my %Param = @_;
+    my $SQL = '';
+    my @Keys = ();
+    # check needed stuff
+    foreach (qw(Type What)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    foreach my $Key (sort keys %{$Param{What}}) {
+        if ($SQL) {
+            $SQL .= " AND ";
+        }
+        my $Value = $Self->{DBObject}->Quote($Param{What}->{$Key});
+        $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
+    }
+    # db quote
+    foreach (keys %Param) { 
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    $SQL = 'SELECT xml_key FROM xml_storage WHERE '.$SQL." AND xml_type = '$Param{Type}'";
+    while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        push (@Keys, $Data[0]);
+    }
+    return @Keys;
 }
 
 =item XMLHash2XML()
@@ -143,7 +310,7 @@ sub _ElementBuild {
     return $Output;
 }
 
-=item XMLParse2Hash()
+=item XMLParse2XMLHash()
 
 parse a xml file and return a hash/array structur
 
@@ -194,36 +361,135 @@ parse a xml file and return a hash/array structur
 
 =cut
 
-sub XMLParse2Hash {
+sub XMLParse2XMLHash {
+    my $Self = shift;
+    my %Param = @_;
+    my @XMLStructur = $Self->XMLParse(%Param);
+    my @NewXMLStructur = $Self->XMLHashUpdate(XMLStructur => \@XMLStructur);
+
+#    $NewXMLStructur[1]{'IODEF-Document'} = $NewXMLStructur[0]{'IODEF-Document'};
+#    $NewXMLStructur[0]{Meta}[0]{Created} = 'admin';
+    
+    return @NewXMLStructur;
+}
+
+=item XMLHashValue()
+
+return a hash with long hash key and content 
+
+    my %Hash = $XMLObject->XMLHashSearch(XMLStructur => \@XMLStructur);
+
+    for example:
+
+    $Hash{'{Planet}[0]{Content}'} = 'Sun';
+
+=cut
+
+sub XMLHashValue {
     my $Self = shift;
     my %Param = @_;
     my @NewXMLStructur;
-    my @XMLStructur = $Self->XMLParse(%Param);
-    foreach my $Tag (@XMLStructur) {
-        # just start
-        if ($Tag->{TagType} ne 'Start') {
-            next;
-        }
-        my $Key = $Tag->{TagKey};
-        my $T = '';
-        foreach (sort keys %{$Tag}) {
-            if ($_ ne 'Tag' && $_ ne 'TagType' && $_ ne 'TagLevel' && $_ ne 'TagCount' && $_ ne 'TagLastLevel') {
-                if (defined($Tag->{$_}) && $Tag->{$_} !~ /^\s+$/) {
-                    $Tag->{$_} =~ s/'/\\'/g;
-                    $T .= '$NewXMLStructur[0]->'.$Key."{$_} = '$Tag->{$_}';\n";
-#                    print $T;
-                    if (!eval $T) {
-                        print STDERR "ERROR: $@\n";
-                    }
-                }
+    # check needed stuff
+    foreach (qw(XMLStructur)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+
+    $Self->{XMLLevel} = 0;
+    $Self->{XMLTagCount} = 0;
+    $Self->{XMLHash} = {};
+    $Self->{XMLHashReturn} = 1;
+    undef $Self->{XMLLevelTag};
+    undef $Self->{XMLLevelCount};
+    foreach my $Item (@{$Param{XMLStructur}}) {
+        if (ref($Item) eq 'HASH') {
+            foreach (keys %{$Item}) {
+                $Self->_TTT(Key => $_, Item => $Item->{$_});
             }
         }
     }
+    $Self->{XMLHashReturn} = 0;
+    return %{$Self->{XMLHash}};
+}
 
-#    $NewXMLStructur[1]{'IODEF-Document'} = $NewXMLStructur[0]{'IODEF-Document'};
-    $NewXMLStructur[0]{Meta}[0]{Created} = 'admin';
+=item XMLHashUpdate()
+
+update a @XMLStructur with current TagKey param
+
+    my @@XMLStructur = $XMLObject->XMLHashSearch(XMLStructur => \@XMLStructur);
+
+    for example:
+
+    $Hash{'{Planet}[0]{Content}'} = '{'Planet'}[0]';
+
+=cut
+
+sub XMLHashUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    my @NewXMLStructur;
+    # check needed stuff
+    foreach (qw(XMLStructur)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+
+    $Self->{XMLLevel} = 0;
+    $Self->{XMLTagCount} = 0;
+    undef $Self->{XMLLevelTag};
+    undef $Self->{XMLLevelCount};
+    foreach my $Item (@{$Param{XMLStructur}}) {
+        if (ref($Item) eq 'HASH') {
+            foreach (keys %{$Item}) {
+                $Self->_TTT(Key => $_, Item => $Item->{$_});
+            }
+        }
+    }
+    return @{$Param{XMLStructur}};
+}
+sub _TTT {
+    my $Self = shift;
+    my %Param = @_;
+
+    if (!defined($Param{Item})) {
+        return;
+    }
+    elsif (ref($Param{Item}) eq 'HASH') {
+        $S->{XMLLevel}++;
+        $S->{XMLTagCount}++;
+        $S->{XMLLevelTag}->{$S->{XMLLevel}} = $Param{Key};
+        if ($S->{Tll} && $S->{Tll} > $S->{XMLLevel}) {
+            foreach (($S->{XMLLevel}+1)..30) {
+                undef $S->{XMLLevelCount}->{$_}; #->{$Element} = 0;
+            }
+        }
+        $S->{XMLLevelCount}->{$S->{XMLLevel}}->{$Param{Key}}++;
+        # remember old level
+        $S->{Tll} = $S->{XMLLevel};
     
-    return @NewXMLStructur;
+        my $Key = '';
+        foreach (1..($S->{XMLLevel})) {
+            $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
+            $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
+        }
+        $Param{Item}->{TagKey} = $Key;
+        foreach (keys %{$Param{Item}}) {
+            if (defined($Param{Item}->{$_})) {
+                $Self->{XMLHash}->{$Key."{'$_'}"} = $Param{Item}->{$_};
+            }
+            $Self->_TTT(Key => $_, Item => $Param{Item}->{$_});
+        }
+        $S->{XMLLevel} = $S->{XMLLevel} - 1;
+    } 
+    elsif (ref($Param{Item}) eq 'ARRAY') {
+        foreach (@{$Param{Item}}) {
+            $Self->_TTT(Key => $Param{Key}, Item => $_);
+        }
+    } 
 }
 
 =item XMLParse()
@@ -248,9 +514,8 @@ sub XMLParse {
     undef $Self->{XMLARRAY};
     $Self->{XMLLevel} = 0;
     $Self->{XMLTagCount} = 0;
-    undef $Self->{XMLHash};
     undef $Self->{XMLLevelTag};
-    undef $Self->{XMLLevelTagCount};
+    undef $Self->{XMLLevelCount};
     # parse package
     my $Parser = new XML::Parser::Lite(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
     $Parser->parse($Param{String});
@@ -260,10 +525,7 @@ sub XMLParse {
 sub HS {
     my ($Expat, $Element, %Attr) = @_;
 #    print "s:'$Element'\n";
-#    push (@{$S->{XMLARRAY}}, {Type => 'Start', Tag => $Element, Attr => \%Attr});
     if ($S->{LastTag}) {
-#        push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => undef});
-#        $Self->{XMLHash}->{$Element}++; 
         push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}});
     }
     undef $S->{LastTag};
@@ -294,7 +556,7 @@ sub HS {
         Tag => $Element,
         TagLevel => $S->{XMLLevel},
         TagCount => $S->{XMLTagCount},
-        TagKey => $Key,
+#        TagKey => $Key,
         TagLastLevel => $S->{XMLLevelTag}->{($S->{XMLLevel}-1)}, 
     };
 }
@@ -346,6 +608,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-01-22 16:10:04 $
+$Revision: 1.3 $ $Date: 2005-01-24 15:47:25 $
 
 =cut
