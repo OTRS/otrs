@@ -1,0 +1,32 @@
+# --
+# scripts/redhat-rpmmacros - provides Redhat dir env for SuSE build systems 
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: redhat-rpmmacros,v 1.1 2002-09-17 12:49:56 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+# ---- configure macros.
+#
+%_prefix                /usr
+%_exec_prefix           %{_prefix}
+%_bindir                %{_exec_prefix}/bin
+%_sbindir               %{_exec_prefix}/sbin
+%_libexecdir            %{_exec_prefix}/libexec
+%_datadir               %{_prefix}/share
+%_sysconfdir            /etc
+%_sharedstatedir        %{_prefix}/com
+%_localstatedir         /var
+%_lib                   lib
+%_libdir                %{_exec_prefix}/%{_lib}
+%_includedir            %{_prefix}/include
+%_oldincludedir         /usr/include
+%_infodir               %{_prefix}/share/info
+%_mandir                %{_prefix}/share/man
+%_initrddir             %{_sysconfdir}/rc.d/init.d
+
+%_defaultdocdir         %{_usr}/share/doc
+
