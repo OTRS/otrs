@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.25 2004-07-16 22:59:04 martin Exp $
+# $Id: AgentNote.dtl,v 1.26 2004-07-22 05:41:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -107,7 +107,7 @@ function SpellCheckSubmit()
   </tr>
   <tr>
     <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
-    <td><input type="text" name="TimeUnits" value="" size="3"></td>
+    <td><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
   </tr>
 # --
 # is ticket state used?
