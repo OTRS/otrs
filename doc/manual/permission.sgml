@@ -13,10 +13,10 @@ to a queue).
 </para>
 <para>
 Group permissions are "ro" (read only access to the ticket), 
-"move" (move tickets into this group), 
-"create" (create tickets in this queue), 
-"owner" (change the ticket owner), 
-"priority" (change the ticket owner) and 
+"move" (permissions to move tickets into this queue),
+"create" (permissions to create tickets in this queue),
+"owner" (permissions to change the ticket owner),
+"priority" (permissions to change the ticket priority) and 
 "rw" (full read and write access to the ticket).
 </para>
 <para>
