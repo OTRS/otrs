@@ -2,7 +2,7 @@
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: POP3Account.pm,v 1.6 2003-05-18 14:46:22 martin Exp $
+# $Id: POP3Account.pm,v 1.7 2003-07-06 12:36:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::POP3Account;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,9 +42,7 @@ sub new {
 sub POP3AccountAdd {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
       if (!defined $Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
@@ -57,21 +55,19 @@ sub POP3AccountAdd {
         return;
       }
     }
-    # --
     # check if dispatching is by From
-    # --
     if ($Param{DispatchingBy} eq 'From') {
         $Param{QueueID} = 0;
     }
-    # --
+    elsif ($Param{DispatchingBy} eq 'Queue' && !$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID for dispatching!");
+        return;
+    }
     # db quote
-    # --
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    # --
     # sql
-    # --
     my $SQL = "INSERT INTO pop3_account (login, pw, host, valid_id, comment, queue_id, " .
         " trusted, create_time, create_by, change_time, change_by)" .
         " VALUES " .
@@ -97,16 +93,12 @@ sub POP3AccountAdd {
 sub POP3AccountGet {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
-    # --
     # sql 
-    # --
     my $SQL = "SELECT login, pw, host, queue_id, trusted, comment, valid_id " .
         " FROM " .
         " pop3_account " .
@@ -141,30 +133,26 @@ sub POP3AccountGet {
 sub POP3AccountUpdate {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ID Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
       if (!defined $Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # check if dispatching is by From
-    # --
     if ($Param{DispatchingBy} eq 'From') {
         $Param{QueueID} = 0;
     }
-    # --
-    # db quote
-    # --
-    foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    elsif ($Param{DispatchingBy} eq 'Queue' && !$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID for dispatching!");
+        return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql
-    # --
     my $SQL = "UPDATE pop3_account SET login = '$Param{Login}', pw = '$Param{Password}', ".
         " host = '$Param{Host}', comment = '$Param{Comment}', ".
         " trusted = $Param{Trusted}, valid_id = $Param{ValidID}, ".

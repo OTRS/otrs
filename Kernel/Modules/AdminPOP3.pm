@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3.pm,v 1.5 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminPOP3.pm,v 1.6 2003-07-06 12:36:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -74,8 +74,8 @@ sub Run {
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin');
+                Comment => 'Click back and check your selection!',
+            );
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
@@ -94,8 +94,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->AdminNavigationBar();
             $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin');
+                Comment => 'Click back and check your selection!',
+            );
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
