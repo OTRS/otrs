@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.45 2003-11-19 01:32:03 martin Exp $
+# $Id: AgentQueueView.pm,v 1.46 2003-12-07 23:54:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,7 @@ sub new {
            || die 'No Config entry "ViewableSenderTypes"!';
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
     # default viewable tickets a page
-    $Self->{ViewableTickets} = $Self->{ConfigObject}->Get('ViewableTickets');
+    $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 15;
 
     # --
     # get params
@@ -206,7 +206,7 @@ sub ShowTicket {
     $Param{QueueViewQueueID} = $Self->{QueueID};
     my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
         UserID => $Self->{UserID},
-        Type => 'move',
+        Type => 'move_into',
     );
     # get last article
     my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID); 
@@ -355,19 +355,199 @@ sub BuildQueueView {
     # check start option, if higher then tickets available, set 
     # it to the last ticket page (Thanks to Stefan Schmidt!)
     if ($Self->{Start} > $Data{TicketsAvail}) { 
-           my $PageShown = $Self->{ConfigObject}->Get('ViewableTickets');
+           my $PageShown = $Self->{ViewableTickets}; 
            my $Pages = int(($Data{TicketsAvail} / $PageShown) + 0.99999);
            $Self->{Start} = (($Pages - 1) * $PageShown) + 1;
     }
     # build output ...
     my %AllQueues = $Self->{QueueObject}->GetAllQueues();
-    return $Self->{LayoutObject}->QueueView(
+    return $Self->_MaskQueueView(
         %Data,
         QueueID => $Self->{QueueID},
         AllQueues => \%AllQueues,
         Start => $Self->{Start},
+        ViewableTickets => $Self->{ViewableTickets},
     );
 }
 # --
+sub _MaskQueueView {
+    my $Self = shift;
+    my %Param = @_; 
+    my $QueueID = $Param{QueueID} || 0;
+    my @QueuesNew = @{$Param{Queues}};
+    my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || -1;
+    my %AllQueues = %{$Param{AllQueues}};
+    my %Counter = ();
+    my %UsedQueue = (); 
+    my @ListedQueues = ();
+    my $Level = 0;
+    $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
+    $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
+    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
+    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
+    $Param{SelectedQueue} = $AllQueues{$QueueID} || $Self->{ConfigObject}->Get('CustomQueue'); 
+    my @MetaQueue = split(/::/, $Param{SelectedQueue});
+    $Level = $#MetaQueue+2;
+    # --
+    # prepare shown queues (short names)
+    # - get queue total count -
+    # --
+    foreach my $QueueRef (@QueuesNew) {
+        push (@ListedQueues, $QueueRef);
+        my %Queue = %$QueueRef;
+        my @Queue = split(/::/, $Queue{Queue});
+        # --
+        # remember counted/used queues
+        # --
+        $UsedQueue{$Queue{Queue}} = 1;
+        # --
+        # move to short queue names
+        # --
+        my $QueueName = '';
+        foreach (0..$#Queue) {
+            if (!$QueueName) {
+                $QueueName .= $Queue[$_];
+            }
+            else {
+                $QueueName .= '::'.$Queue[$_];
+            }
+            if (!$Counter{$QueueName}) {
+                $Counter{$QueueName} = 0;
+            }
+            $Counter{$QueueName} = $Counter{$QueueName}+$Queue{Count};
+            if ($Counter{$QueueName} && !$Queue{$QueueName} && !$UsedQueue{$QueueName}) {
+                my %Hash = ();
+                $Hash{Queue} = $QueueName;
+                $Hash{Count} = $Counter{$QueueName};
+                foreach (keys %AllQueues) {
+                    if ($AllQueues{$_} eq $QueueName) {
+                        $Hash{QueueID} = $_;
+                    }
+                }
+                $Hash{MaxAge} = 0;
+                push (@ListedQueues, \%Hash);
+                $UsedQueue{$QueueName} = 1;
+            }
+        }
+    }
+    # build queue string
+    foreach my $QueueRef (@ListedQueues) {
+        my $QueueStrg = '';
+        my %Queue = %$QueueRef;
+        my @QueueName = split(/::/, $Queue{Queue});
+        my $ShortQueueName = $QueueName[$#QueueName];
+        $Queue{MaxAge} = $Queue{MaxAge} / 60;
+        $Queue{QueueID} = 0 if (!$Queue{QueueID});
+        # should i highlight this queue
+        if ($Param{SelectedQueue} =~ /^$QueueName[0]/ && $Level-1 >= $#QueueName) {
+            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^$MetaQueue[0]$/) {
+                $QueueStrg .= '<b>';
+            }
+            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]$/) {
+               $QueueStrg .= '<b>';
+            }
+            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
+               $QueueStrg .= '<b>';
+            }
+        }
+        # --
+        # remember to selected queue info
+        # --
+        if ($QueueID eq $Queue{QueueID}) {
+           $Param{SelectedQueue} = $Queue{Queue};
+           $Param{AllSubTickets} = $Counter{$Queue{Queue}};
+           # --
+           # build Page Navigator for AgentQueueView
+           # --
+           $Param{PageShown} = $Param{'ViewableTickets'};
+           if ($Param{TicketsAvail} == 1 || $Param{TicketsAvail} == 0) {
+               $Param{Result} = $Param{TicketsAvail};
+           }
+           elsif ($Param{TicketsAvail} >= ($Param{Start}+$Param{PageShown})) {
+               $Param{Result} = $Param{Start}."-".($Param{Start}+$Param{PageShown}-1);
+           }
+           else {
+               $Param{Result} = "$Param{Start}-$Param{TicketsAvail}";
+           }
+           my $Pages = int(($Param{TicketsAvail} / $Param{PageShown}) + 0.99999);
+           my $Page = int(($Param{Start} / $Param{PageShown}) + 0.99999);
+           for (my $i = 1; $i <= $Pages; $i++) {
+               $Param{PageNavBar} .= " <a href=\"$Self->{LayoutObject}->{Baselink}Action=\$Env{\"Action\"}".
+                '&QueueID=$Data{"QueueID"}&Start='. (($i-1)*$Param{PageShown}+1) .= '">';
+               if ($Page == $i) {
+                   $Param{PageNavBar} .= '<b>'.($i).'</b>';
+               }
+               else {
+                   $Param{PageNavBar} .= ($i);
+               }
+               $Param{PageNavBar} .= '</a> ';
+           }
+        }
+        $QueueStrg .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentQueueView&QueueID=$Queue{QueueID}\"";
+        $QueueStrg .= ' onmouseover="window.status=\'$Text{"Queue"}: '.$Queue{Queue}.'\'; return true;" onmouseout="window.status=\'\';">';
+        # should i highlight this queue
+        if ($Queue{MaxAge} >= $Self->{HighlightAge2}) {
+            $QueueStrg .= "<font color='$Self->{HighlightColor2}'>";
+        }
+        elsif ($Queue{MaxAge} >= $Self->{HighlightAge1}) {
+            $QueueStrg .= "<font color='$Self->{HighlightColor1}'>";
+        }
+        # the oldest queue
+        if ($Queue{QueueID} == $QueueIDOfMaxAge) {
+            $QueueStrg .= "<blink>";
+        }
+        # QueueStrg
+        $QueueStrg .= "$ShortQueueName ($Counter{$Queue{Queue}})";
+        # the oldest queue
+        if ($Queue{QueueID} == $QueueIDOfMaxAge) {
+            $QueueStrg .= "</blink>";
+        }
+        # should i highlight this queue
+        if ($Queue{MaxAge} >= $Self->{HighlightAge1}
+              || $Queue{MaxAge} >= $Self->{HighlightAge2}) {
+            $QueueStrg .= "</font>";
+        }
+        $QueueStrg .= "</a>";
+        # should i highlight this queue
+        if ($Param{SelectedQueue} =~ /^$QueueName[0]/ && $Level >= $#QueueName) {
+            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^$MetaQueue[0]$/) {
+                $QueueStrg .= '</b>';
+            }
+            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]$/) {
+               $QueueStrg .= '</b>';
+            }
+            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
+               $QueueStrg .= '</b>';
+            }
+        }
 
+        if ($#QueueName == 0) {
+            if ($Param{QueueStrg}) {
+                $QueueStrg = ' - '.$QueueStrg;
+            }
+            $Param{QueueStrg} .= $QueueStrg;
+        }
+        elsif ($#QueueName == 1 && $Level >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::/) {
+            if ($Param{QueueStrg1}) {
+                $QueueStrg = ' - '.$QueueStrg;
+            }
+            $Param{QueueStrg1} .= $QueueStrg;
+        }
+        elsif ($#QueueName == 2 && $Level >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::/) {
+            if ($Param{QueueStrg2}) {
+                $QueueStrg = ' - '.$QueueStrg;
+            }
+            $Param{QueueStrg2} .= $QueueStrg;
+        }
+    }
+    if ($Param{QueueStrg1}) {
+        $Param{QueueStrg} .= '<br>'.$Param{QueueStrg1};
+    }
+    if ($Param{QueueStrg2}) {
+        $Param{QueueStrg} .= '<br>'.$Param{QueueStrg2};
+    }
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'QueueView', Data => \%Param);
+}
+# --
 1;

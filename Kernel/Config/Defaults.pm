@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.92 2003-12-04 22:57:56 martin Exp $
+# $Id: Defaults.pm,v 1.93 2003-12-07 23:54:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.92 $';
+$VERSION = '$Revision: 1.93 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -212,10 +212,6 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # default agent settings                              #
     # --------------------------------------------------- #
-    # ViewableTickets
-    # (The default viewable tickets a page.)
-    $Self->{ViewableTickets} = 15;
-
     # ViewableTicketLines
     # (Max viewable ticket lines in the QueueView.)
     $Self->{ViewableTicketLines} = 18;
@@ -898,7 +894,7 @@ $Data{"Signature"}
             'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify', 'MoveNotify',
         ],
         Frontend => [
-            'Language', 'Charset', 'Theme', 'RefreshTime', 'QueueView', 'PhoneNextMask', 
+            'Language', 'Charset', 'Theme', 'QueueViewShownTickets', 'QueueView', 'RefreshTime', 'PhoneNextMask', 
         ],
         'Other Options' => [
             'Password', 'CustomQueue', 'SpellDict', 'FreeText', 'Comment',
@@ -1049,7 +1045,21 @@ $Data{"Signature"}
         PrefKey => 'UserQueueView',
         Activ => 1,
     };
-
+    $Self->{PreferencesGroups}->{QueueViewShownTickets} = {
+        Colum => 'Frontend', 
+        Label => 'Shown Tickets',
+        Desc => 'Max. shown Tickets a page in QueueView.', 
+        Type => 'Generic',
+        Data => {
+            10 => 10,
+            15 => 15, 
+            20 => 20, 
+            25 => 25, 
+        },
+        DataSelected => 15,
+        PrefKey => 'UserQueueViewShowTickets',
+        Activ => 1,
+    };
     $Self->{PreferencesGroups}->{PhoneNextMask} = {
         Colum => 'Frontend', 
         Label => 'Screen after new phone ticket',
@@ -1288,10 +1298,6 @@ Your OTRS Notification Master
 #    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerZoom';
     $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketOverView';
 
-    # CustomerViewableTickets
-    # (The default viewable tickets a page in customer panel.)
-    $Self->{CustomerViewableTickets} = 25;
-
     # --------------------------------------------------- #
     # customer message settings                           #
     # --------------------------------------------------- #
@@ -1318,15 +1324,16 @@ Your OTRS Notification Master
     # CustomerPanelSelectionType 
     # (To: seection type. Queue => show all queues, SystemAddress => show all system 
     # addresses;) [Queue|SystemAddress]
-#    $Self->{CustomerPanelSelectionType} = 'Queue';
-    $Self->{CustomerPanelSelectionType} = 'SystemAddress';
+    $Self->{CustomerPanelSelectionType} = 'Queue';
+#    $Self->{CustomerPanelSelectionType} = 'SystemAddress';
 
     # CustomerPanelSelectionString
     # (String for To: selection.) 
     # use this for CustomerPanelSelectionType = Queue
 #    $Self->{CustomerPanelSelectionString} = 'Queue: <Queue> - <QueueComment>';
+    $Self->{CustomerPanelSelectionString} = '<Queue>';
     # use this for CustomerPanelSelectionType = SystemAddress
-    $Self->{CustomerPanelSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
+#    $Self->{CustomerPanelSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
 
     # CustomerPanelOwnSelection
     # (If this is in use, "just this selection is valid" for the CustomMessage.)
@@ -1581,7 +1588,7 @@ Your OTRS Notification Master
     # (Order of shown items)
     $Self->{CustomerPreferencesView} = {
         Frontend => [
-            'RefreshTime', 'Language', 'Charset', 'Theme', 
+            'ShownTickets', 'RefreshTime', 'Language', 'Charset', 'Theme', 
         ],
         'Other Options' => [
             'Password', 'ClosedTickets',
@@ -1606,7 +1613,21 @@ Your OTRS Notification Master
         PrefKey => 'UserShowClosedTickets',
         Activ => 1,
     };
-
+    $Self->{CustomerPreferencesGroups}->{ShownTickets} = {
+        Colum => 'Frontend',
+        Label => 'Shown Tickets',
+        Desc => 'Max. shown Tickets a page in Overview.',
+        Type => 'Generic',
+        Data => {
+            15 => 15,
+            20 => 20,
+            25 => 25,
+            30 => 30,
+        },
+        DataSelected => 25,
+        PrefKey => 'UserShowTickets',
+        Activ => 1,
+    };
     $Self->{CustomerPreferencesGroups}->{RefreshTime} = {
         Colum => 'Frontend', 
         Label => 'QueueView refresh time',
