@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.35 2004-07-17 21:31:36 martin Exp $
+# $Id: AgentNote.pm,v 1.36 2004-08-02 06:50:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::WebUploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -228,10 +228,17 @@ sub _Mask {
     my %Param = @_;
     $Param{FormID} = $Self->{FormID};
     # build ArticleTypeID string
+    my %ArticleType = ();
+    if (!$Param{ArticleTypeID}) {
+        $ArticleType{Selected} = $Self->{ConfigObject}->Get('DefaultNoteType');
+    }
+    else {
+        $ArticleType{SelectedID} = $Param{ArticleTypeID};
+    }
     $Param{'NoteStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NoteTypes},
         Name => 'ArticleTypeID',
-        SelectedID => $Param{ArticleTypeID},
+        %ArticleType,
     );
     # build next states string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
