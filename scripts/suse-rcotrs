@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.9 2002-05-20 23:30:10 martin Exp $
+# $Id: suse-rcotrs,v 1.10 2002-05-20 23:57:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -52,16 +52,23 @@ HTTP_RUNNING=1
 # 
 OTRS_POSTMASTER=/opt/OpenTRS/bin/PostMaster.pl
 if ! test -r $OTRS_POSTMASTER; then
-    echo "Error: $OTRS_POSTMASTER not fount!"
+    echo "Error: $OTRS_POSTMASTER not found!"
     exit 5
 fi
 
 OTRS_SPOOLDIR=/opt/OpenTRS/var/spool
 if ! test -d $OTRS_SPOOLDIR; then
-    echo "Error: $OTRS_SPOOLDIR not fount!"
+    echo "Error: $OTRS_SPOOLDIR not found!"
+    exit 5
+fi
+
+OTRS_CHECKDB=/opt/OpenTRS/bin/CheckDB.pl
+if ! test -r $OTRS_CHECKDB; then
+    echo "Error: $OTRS_CHECKDB not found!"
     exit 5
 fi
  
+
 # 
 # get host name
 #
@@ -124,7 +131,7 @@ case "$1" in
       # database connect
       # --
       echo -n " Checking database connect... ("
-      if ! /opt/OpenTRS/bin/CheckDB.pl; then
+      if ! $OTRS_CHECKDB; then
           echo ") "
           echo "----------------------------------------------------------------------------"
           echo " Error: May your database isn't configured yet? "
@@ -323,6 +330,29 @@ case "$1" in
       # mysql
       # --
       rcmysql status
+
+      # --
+      # db check
+      # --
+      echo -n "Checking database connect... ("
+      if ! $OTRS_CHECKDB; then
+          echo ") "
+          echo "----------------------------------------------------------------------------"
+          echo " Error: May your database isn't configured yet? "
+          echo "----------------------------------------------------------------------------"
+      else
+          echo ")."
+      fi
+
+      # --
+      # postmaster check
+      # --
+      echo -n "Checking $OTRS_POSTMASTER ... "
+      if test -x $OTRS_POSTMASTER; then
+          echo "(activ) done."
+      else
+          echo "(not activ) failed."
+      fi
 
       # --
       # spool dir
