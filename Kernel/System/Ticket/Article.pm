@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.55 2004-04-05 17:10:54 martin Exp $
+# $Id: Article.pm,v 1.56 2004-04-14 15:54:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,13 +12,55 @@
 package Kernel::System::Ticket::Article;
 
 use strict;
+use MIME::Words qw(:all);
+use MIME::Entity;
+use Mail::Internet;
+use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
-sub CreateArticle {
+=head1 NAME
+
+Kernel::System::Ticket::Article - sub module of Kernel::System::Ticket
+
+=head1 SYNOPSIS
+
+All article functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item ArticleCreate()
+
+create an article
+
+  my $ArticleID = $TicketObject->ArticleCreate(
+      TicketID => 123,
+      ArticleType => 'note-internal' # email-external|email-internal|phone|fax|...
+      SenderType => 'agent', # agent|system|customer
+      From => 'Some Agent <email@example.com>', # not required but useful
+      To => 'Some Customer A <customer-a@example.com>', # not required but useful
+      Cc => 'Some Customer B <customer-b@example.com>', # not required but useful
+      ReplyTo => 'Some Customer B <customer-b@example.com>', # not required 
+      Subject => 'some short description', # required 
+      Body => 'the message text', # required
+      MessageID => '<asdasdasd.123@example.com>', # not required but useful
+      ContentType => 'text/plain; charset=ISO-8859-15',
+      HistoryType => 'OwnerUpdate', # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+      HistoryComment => 'Some free text!',
+      UserID => 123,
+
+      NoAgentNotify => 0, # if you don't want to send agent notifications
+  );
+
+=cut
+
+sub ArticleCreate {
     my $Self = shift;
     my %Param = @_;
     my $ValidID 	= $Param{ValidID} || 1;
@@ -93,7 +135,7 @@ sub CreateArticle {
         return;
     }
     # get article id 
-    my $ArticleID = $Self->GetIdOfArticle(
+    my $ArticleID = $Self->_ArticleGetId(
         TicketID => $Param{TicketID},
         MessageID => $Param{MessageID},
         From => $Param{From},
@@ -114,7 +156,7 @@ sub CreateArticle {
         if ($Param{AttachContentType} =~ /name="(.+?)"/i) {
             $FileName = $1;
         }
-        $Self->WriteArticlePart(
+        $Self->ArticleWriteAttachment(
             Content => $Param{AttachBody},
             Filename => $FileName,
             ContentType => $Param{AttachContentType},
@@ -123,7 +165,7 @@ sub CreateArticle {
         );
     }
     # add history row
-    $Self->HistoryTicketAdd(
+    $Self->HistoryAdd(
         ArticleID => $ArticleID,
         TicketID => $Param{TicketID},
         CreateUserID => $Param{UserID},
@@ -133,12 +175,10 @@ sub CreateArticle {
     # send auto response
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
     my %State = $Self->{StateObject}->StateGet(ID => $Ticket{StateID});
-    # --
     # send if notification should be sent (not for closed tickets)!?
-    # --
     if ($Param{AutoResponseType} && $Param{AutoResponseType} eq 'auto reply' && ($State{TypeName} eq 'closed' || $State{TypeName} eq 'removed')) {
         # add history row
-        $Self->HistoryTicketAdd(
+        $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'Misc',
             Name => "Sent no auto response or agent notification because ticket is state-type '$State{TypeName}'!",
@@ -155,12 +195,10 @@ sub CreateArticle {
         );
         my %OrigHeader = %{$Param{OrigHeader}};
         if ($Data{Text} && $Data{Realname} && $Data{Address} && !$OrigHeader{'X-OTRS-Loop'}) {
-            # --
             # check / loop protection!
-            # --
             if (!$Self->{LoopProtectionObject}->Check(To => $OrigHeader{From})) {
                 # add history row
-                $Self->HistoryTicketAdd(
+                $Self->HistoryAdd(
                     TicketID => $Param{TicketID},
                     HistoryType => 'LoopProtection',
                     Name => "Sent no auto response (LoopProtection)!",
@@ -204,12 +242,10 @@ sub CreateArticle {
                 }
             }
         }
-        # -- 
         # log that no auto response was sent!
-        # --
         elsif ($Data{Text} && $Data{Realname} && $Data{Address} && $OrigHeader{'X-OTRS-Loop'}) {
             # add history row
-            $Self->HistoryTicketAdd(
+            $Self->HistoryAdd(
                 TicketID => $Param{TicketID},
                 HistoryType => 'Misc',
                 Name => "Sent no auto-response because the sender don't want ".
@@ -244,7 +280,7 @@ sub CreateArticle {
             );
             if ($UserData{UserSendNewTicketNotification}) {
                 # send notification
-                $Self->SendNotification(
+                $Self->SendAgentNotification(
                     Type => $Param{HistoryType},
                     UserData => \%UserData,
                     CustomerMessageParams => \%Param,
@@ -262,7 +298,7 @@ sub CreateArticle {
             my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
             if ($Preferences{UserSendFollowUpNotification}) {
                 # send notification
-                $Self->SendNotification(
+                $Self->SendAgentNotification(
                     Type => $Param{HistoryType},
                     UserData => \%Preferences,
                     CustomerMessageParams => \%Param,
@@ -277,36 +313,8 @@ sub CreateArticle {
     return $ArticleID;
 }
 # --
-sub GetArticleContentPath {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    if (!$Param{ArticleID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
-      return;
-    }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    # check cache
-    if ($Self->{"GetArticleContentPath::$Param{ArticleID}"}) {
-        return $Self->{"GetArticleContentPath::$Param{ArticleID}"};
-    }
-    # sql query
-    my $Path;
-    $Self->{DBObject}->Prepare(
-        SQL => "SELECT content_path FROM article WHERE id = $Param{ArticleID}",
-    );
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Path = $Row[0];
-    }
-    # fillup cache
-    $Self->{"GetArticleContentPath::$Param{ArticleID}"} = $Path;
-    return $Path;
-}
-# --
-sub GetIdOfArticle {
+# just for internal use
+sub _ArticleGetId {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -346,6 +354,61 @@ sub GetIdOfArticle {
     return $Id;
 }
 # --
+
+=item ArticleGetContentPath()
+
+get article content path 
+
+  my $Path = $TicketObject->ArticleGetContentPath(
+      ArticleID => 123,
+  );
+
+=cut
+
+sub ArticleGetContentPath {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{ArticleID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+      return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # check cache
+    if ($Self->{"ArticleGetContentPath::$Param{ArticleID}"}) {
+        return $Self->{"ArticleGetContentPath::$Param{ArticleID}"};
+    }
+    # sql query
+    my $Path;
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT content_path FROM article WHERE id = $Param{ArticleID}",
+    );
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Path = $Row[0];
+    }
+    # fillup cache
+    $Self->{"ArticleGetContentPath::$Param{ArticleID}"} = $Path;
+    return $Path;
+}
+# --
+
+=item ArticleSenderTypeLookup()
+
+article sender lookup
+
+  my $SenderTypeID = $TicketObject->ArticleSenderTypeLookup(
+      SenderType => 'customer', # customer|system|agent
+  );
+
+  my $SenderType = $TicketObject->ArticleSenderTypeLookup(
+      SenderTypeID => 1, 
+  );
+
+=cut
+
 sub ArticleSenderTypeLookup {
     my $Self = shift;
     my %Param = @_;
@@ -393,6 +456,21 @@ sub ArticleSenderTypeLookup {
     return $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"};
 }
 # --
+
+=item ArticleTypeLookup()
+
+article type lookup
+
+  my $ArticleTypeID = $TicketObject->ArticleTypeLookup(
+      ArticleType => 'webrequest-customer', # note-internal|... 
+  );
+
+  my $ArticleType = $TicketObject->ArticleTypeLookup(
+      ArticleTypeID => 1, 
+  );
+
+=cut
+
 sub ArticleTypeLookup {
     my $Self = shift;
     my %Param = @_;
@@ -441,7 +519,22 @@ sub ArticleTypeLookup {
     return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
 }
 # --
-sub SetArticleFreeText {
+
+=item ArticleFreeTextSet()
+
+set article free text
+
+  $TicketObject->ArticleFreeTextSet(
+      ArticleID => 123,
+      Counter => 1,
+      Key => 'Planet',
+      Value => 'Sun',
+      UserID => 123,
+  );
+
+=cut
+
+sub ArticleFreeTextSet {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -468,7 +561,18 @@ sub SetArticleFreeText {
     }
 }
 # --
-sub GetLastCustomerArticle {
+
+=item ArticleLastCustomerArticleArticle()
+
+get last customer article
+
+  my %Article = $TicketObject->ArticleLastCustomerArticle(
+      TicketID => 123,
+  );
+
+=cut
+
+sub ArticleLastCustomerArticle {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -477,15 +581,15 @@ sub GetLastCustomerArticle {
         return;
     }
     # get article index
-    my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID}, SenderType => 'customer');
+    my @Index = $Self->ArticleIndex(TicketID => $Param{TicketID}, SenderType => 'customer');
     # get article data   
     if (@Index) {
-        return $Self->GetArticle(ArticleID => $Index[$#Index], TicketOverTime => 1);
+        return $Self->ArticleGet(ArticleID => $Index[$#Index], TicketOverTime => 1);
     }
     else {
-        my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+        my @Index = $Self->ArticleIndex(TicketID => $Param{TicketID});
         if (@Index) {
-            return $Self->GetArticle(ArticleID => $Index[$#Index], TicketOverTime => 1);
+            return $Self->ArticleGet(ArticleID => $Index[$#Index], TicketOverTime => 1);
         }
         else {
             $Self->{LogObject}->Log(
@@ -497,7 +601,18 @@ sub GetLastCustomerArticle {
     }
 }
 # --
-sub GetFirstArticle {
+
+=item ArticleFirstArticle()
+
+get first article
+
+  my %Article = $TicketObject->ArticleFirstArticle(
+      TicketID => 123,
+  );
+
+=cut
+
+sub ArticleFirstArticle {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -506,10 +621,10 @@ sub GetFirstArticle {
         return;
     }
     # get article index
-    my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+    my @Index = $Self->ArticleIndex(TicketID => $Param{TicketID});
     # get article data   
     if (@Index) {
-        return $Self->GetArticle(ArticleID => $Index[0]);
+        return $Self->ArticleGet(ArticleID => $Index[0]);
     }
     else {
         $Self->{LogObject}->Log(
@@ -520,7 +635,23 @@ sub GetFirstArticle {
     }
 }
 # --
-sub GetArticleIndex {
+
+=item ArticleIndex()
+
+returns an array with article id's 
+
+  my @ArticleIDs = $TicketObject->ArticleIndex(
+      TicketID => 123,
+  );
+
+  my @ArticleIDs = $TicketObject->ArticleIndex(
+      SenderType => 'customer',
+      TicketID => 123,
+  );
+
+=cut
+
+sub ArticleIndex {
     my $Self = shift;
     my %Param = @_;
     my @Index = (); 
@@ -562,7 +693,18 @@ sub GetArticleIndex {
     return @Index; 
 }
 # --
-sub GetArticleContentIndex {
+
+=item ArticleContentIndex()
+
+returns an array with hash ref 
+
+  my @ArticleIDs = $TicketObject->ArticleContentIndex(
+      TicketID => 123,
+  );
+
+=cut
+
+sub ArticleContentIndex {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -570,16 +712,16 @@ sub GetArticleContentIndex {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
         return;
     }
-#    my @ArticleIndex = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+#    my @ArticleIndex = $Self->ArticleIndex(TicketID => $Param{TicketID});
 #    my @ArticleBox = ();
 #    foreach (@ArticleIndex) {
-#        my %Article = $Self->GetArticle(ArticleID => $_);
+#        my %Article = $Self->ArticleGet(ArticleID => $_);
 #        push (@ArticleBox, \%Article);
 #    }
-    my @ArticleBox = $Self->GetArticle(TicketID => $Param{TicketID});
+    my @ArticleBox = $Self->ArticleGet(TicketID => $Param{TicketID});
     # article attachments
     foreach my $Article (@ArticleBox) {
-        my %AtmIndex = $Self->GetArticleAtmIndex(
+        my %AtmIndex = $Self->ArticleAttachmentIndex(
             ContentPath => $Article->{ContentPath},
             ArticleID => $Article->{ArticleID},
         );
@@ -588,7 +730,22 @@ sub GetArticleContentIndex {
     return @ArticleBox;
 }
 # --
-sub GetArticle {
+
+=item ArticleGet()
+
+returns article data
+
+  my %Article = $TicketObject->ArticleGet(
+      ArticleID => 123,
+  );
+
+  my @ArticleIndex = $TicketObject->ArticleGet(
+      TicketID => 123,
+  );
+
+=cut
+
+sub ArticleGet {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -774,5 +931,832 @@ sub GetArticle {
     }
 }
 # --
+
+=item ArticleSend()
+
+send article via email and create article with attachments
+
+  my $ArticleID = $TicketObject->ArticleSend(
+      TicketID => 123,
+      ArticleType => 'note-internal' # email-external|email-internal|phone|fax|...
+      SenderType => 'agent', # agent|system|customer
+      From => 'Some Agent <email@example.com>', # not required but useful
+      To => 'Some Customer A <customer-a@example.com>', # not required but useful
+      Cc => 'Some Customer B <customer-b@example.com>', # not required but useful
+      ReplyTo => 'Some Customer B <customer-b@example.com>', # not required 
+      Subject => 'some short description', # required 
+      Body => 'the message text', # required
+      MessageID => '<asdasdasd.123@example.com>', # not required but useful
+      Loop => 0, # 1|0 used for bulk emails
+      Attach => [
+        {
+          Content => $Content,
+          ContentType => $ContentType,
+          Filename => 'lala.txt',
+        },
+        {
+          Content => $Content,
+          ContentType => $ContentType,
+          Filename => 'lala1.txt',
+        },
+      ],
+      ContentType => 'text/plain; charset=ISO-8859-15',
+      HistoryType => 'OwnerUpdate', # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+      HistoryComment => 'Some free text!',
+      UserID => 123,
+  );
+
+=cut
+
+sub ArticleSend {
+    my $Self = shift;
+    my %Param = @_;
+    my $Time = $Self->{TimeObject}->SystemTime();
+    my $Random = rand(999999);
+    my $ToOrig = $Param{To} || '';
+    my $Charset = $Param{Charset} || 'iso-8859-1';
+    my $InReplyTo = $Param{InReplyTo} || '';
+    my $Loop = $Param{Loop} || 0;
+    my $HistoryType = $Param{HistoryType} || 'SendAnswer';
+    # check needed stuff
+    foreach (qw(TicketID UserID From Body)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if (!$Param{ArticleType} && !$Param{ArticleTypeID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleType or ArticleTypeID!");
+        return;
+    }
+    if (!$Param{SenderType} && !$Param{SenderTypeID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SenderType or SenderTypeID!");
+        return;
+    }
+    # clean up
+    $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
+    $Param{Body} =~ s/\r/\n/g;
+    # create article
+    my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
+    if ($Param{ArticleID} = $Self->ArticleCreate(
+        %Param,
+        MessageID => $MessageID,
+    )) {
+      ####
+    }
+    else {
+      return;
+    }
+    # build mail ...
+    # do some encode
+    foreach (qw(From To Cc Bcc Subject)) {
+        if ($Param{$_}) {
+            $Param{$_} = encode_mimewords($Param{$_}, Charset => $Charset) || '';
+        }
+    }
+    # check bcc
+    if ($Self->{SendmailBcc}) {
+        $Param{Bcc} .= ", $Self->{SendmailBcc}";
+    }
+    # build header
+    my $Header = {
+        From => $Param{From},
+        To => $Param{To},
+        Cc => $Param{Cc},
+        Bcc => $Param{Bcc},
+        Subject => $Param{Subject},
+        'Message-ID' => $MessageID,
+        'In-Reply-To:' => $InReplyTo,
+        'References' => $InReplyTo,
+        'X-Mailer' => "OTRS Mail Service ($VERSION)",
+        'X-Powered-By' => 'OTRS - Open Ticket Request System (http://otrs.org/)',
+        Organization => $Self->{Organization},
+        Type => 'text/plain; charset='.$Charset,
+        Encoding => '8bit',
+    };
+    if ($Loop) {
+        $$Header{'Precedence:'} = 'bulk';
+        $$Header{'X-Loop'} = 'bulk';
+    }
+    my $Entity = MIME::Entity->build(%{$Header}, Data => $Param{Body});
+    # add attachments to email
+    if ($Param{Attach}) {
+        foreach my $Tmp (@{$Param{Attach}}) {
+            my %Upload = %{$Tmp};
+            if ($Upload{Content} && $Upload{Filename}) {
+              # add attachments to article
+              $Self->ArticleWriteAttachment(
+                %Upload,
+                ArticleID => $Param{ArticleID},
+                UserID => $Param{UserID},
+              );
+              # attach file to email
+              $Entity->attach(
+                Filename => $Upload{Filename},
+                Data     => $Upload{Content},
+                Type     => $Upload{ContentType},
+                Encoding => "base64",
+              );
+            }
+        }
+    }
+    # add std attachments to email
+    if ($Param{StdAttachmentIDs}) {
+        foreach my $ID (@{$Param{StdAttachmentIDs}}) {
+            my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(ID => $ID);
+            foreach (qw(Filename ContentType Content)) {
+                if (!$Data{$_}) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error', 
+                        Message => "No $_ found for std. attachment id $ID!",
+                    );
+                }
+            }
+            # attach file to email
+            $Entity->attach(
+                Filename => $Data{Filename},
+                Data     => $Data{Content},
+                Type     => $Data{ContentType},
+                Encoding => "base64",
+            );
+            # add attachments to article storage
+            $Self->ArticleWriteAttachment(
+                %Data,
+                ArticleID => $Param{ArticleID},
+                UserID => $Param{UserID},
+            );
+        }
+    }
+    # get header
+    my $head = $Entity->head;
+    # send mail
+    if ($Self->{SendmailObject}->Send(
+        From => $Param{From},
+        To => $Param{To},
+        Cc => $Param{Cc},
+        Bcc => $Param{Bcc},
+        Subject => $Param{Subject},
+        Header => $head->as_string(),
+        Body => $Entity->body_as_string(),
+    )) {
+        # write article to fs
+        if (!$Self->ArticleWritePlain(
+            ArticleID => $Param{ArticleID},
+            Email => $head->as_string."\n".$Entity->body_as_string,
+            UserID => $Param{UserID})
+        ) {
+            return;
+        }
+        # delete attacment(s) and dir
+        if ($Param{UploadFilename}) {
+            $Param{UploadFilename} =~ s/(^.*\/).*?$/$1/;
+            File::Path::rmtree([$Param{UploadFilename}]);
+        }
+        # log
+        $Self->{LogObject}->Log(
+          Priority => 'notice',
+          Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
+        );
+        return $Param{ArticleID};
+    }
+    else {
+         # error
+         return;
+    }
+}
+# --
+
+=item ArticleBounce()
+
+bounce an article
+
+  $TicketObject->ArticleBounce(
+      From => '',
+      To => '', 
+      Email => $EmailAsString,
+      TicketID => 123,
+      ArticleID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+sub BounceArticle {
+    my $Self = shift;
+    my %Param = @_;
+    my $Time = $Self->{TimeObject}->SystemTime();
+    my $Random = rand(999999);
+    my $From = $Param{From} || '';
+    my $To = $Param{To} || '';
+    my $ToOrig = $To;
+    my $Cc = $Param{Cc} || '';
+    my $HistoryType = $Param{HistoryType} || 'Bounce';
+    # check needed stuff
+    foreach (qw(From To UserID Email)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # build bounce mail ...
+    # get old email
+    my $Email = $Param{EmailPlain} || return;
+    # split body && header
+    my @EmailPlain = split(/\n/, $Email);
+    my $EmailObject = new Mail::Internet(\@EmailPlain);
+    # add ReSent header
+    my $HeaderObject = $EmailObject->head();
+    my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$Self->{FQDN}>";
+    my $OldMessageID = $HeaderObject->get('Message-ID') || '??';
+    $HeaderObject->replace('Message-ID', $NewMessageID);
+    $HeaderObject->replace('ReSent-Message-ID', $OldMessageID);
+    $HeaderObject->replace('Resent-To', $To);
+    $HeaderObject->replace('Resent-From', $From);
+    my $Body = $EmailObject->body();
+    my $BodyAsSting = '';
+    foreach (@{$Body}) {
+        $BodyAsSting .= $_."\n";
+    }
+    # pipe all into sendmail
+    if (!$Self->{SendmailObject}->Send(
+        From => $Param{From},
+        To => $Param{To},
+        Cc => $Param{Cc},
+        Bcc => $Self->{SendmailBcc},
+        Header => $HeaderObject->as_string(),
+        Body => $BodyAsSting,
+    )) {
+        return;
+    }
+    # write history
+    $Self->HistoryAdd(
+        TicketID => $Param{TicketID},
+        ArticleID => $Param{ArticleID},
+        HistoryType => $HistoryType,
+        Name => "Bounced email to '$To'.",
+        CreateUserID => $Param{UserID},
+    );
+    return 1;
+}
+# --
+
+=item SendAgentNotification()
+
+send an agent notification via email
+
+  $TicketObject->SendAgentNotification(
+      TicketID => 123,
+      CustomerMessageParams => {
+         SomeParams => 'For the message!',
+      },
+      Type => 'Move', # notification types, see database
+      UserData => { $UserObject->GetUserData(UserID => 3123)}
+      UserID => 123,
+  );
+
+=cut
+
+sub SendAgentNotification {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(CustomerMessageParams TicketID UserID Type UserData)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # comapt Type
+    if ($Param{Type} =~/(EmailCustomer|PhoneCallCustomer|WebRequestCustomer)/) {
+        $Param{Type} = 'NewTicket';
+    }
+    # get old article for quoteing
+    my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
+    my %User = %{$Param{UserData}};
+    # check recipients
+    if (!$User{UserEmail}) {
+        return;
+    }
+    # get user language
+    my $Language = $User{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
+    # get notification data
+    my %Notification = $Self->{NotificationObject}->NotificationGet(Name => $Language.'::Agent::'.$Param{Type});
+    # get ref of email params
+    my %GetParam = %{$Param{CustomerMessageParams}};
+    # get notify texts
+    foreach (qw(Subject Body)) {
+        $Param{$_} = $Notification{$_} || "No Notifiaction $_ for $Param{Type} found!";
+    }
+    # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
+    if ($Article{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        # replace customer stuff with tags 
+        foreach (keys %CustomerUser) {
+            if ($CustomerUser{$_}) {
+                $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+                $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+            }
+        }
+    }
+    # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
+    $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+
+    # replace article stuff with tags 
+    foreach (qw(From To Cc Subject Body)) {
+        if (!$GetParam{$_}) {
+            $GetParam{$_} = $Article{$_} || '';
+        }
+        chomp $GetParam{$_};
+    }
+    foreach (keys %GetParam) {
+        if ($GetParam{$_}) {
+            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+        }
+    }
+    # get owner data and replace it with <OTRS_OWNER_...
+    my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Article{UserID});
+    foreach (keys %Preferences) {
+        if ($Preferences{$_}) {
+            $Param{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+        }
+    }
+    # get current user data
+    my %CurrentUser = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
+    foreach (keys %CurrentUser) {
+        if ($CurrentUser{$_}) {
+            $Param{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
+        }
+    }
+    # replace it with given user params
+    foreach (keys %User) {
+        if ($User{$_}) {
+            $Param{Body} =~ s/<OTRS_$_>/$User{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_$_>/$User{$_}/gi;
+        }
+    }
+    # get ticket hook
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+    # prepare subject (insert old subject)
+    if ($Param{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+        my $SubjectChar = $1;
+        $GetParam{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
+        $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Param{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
+    }
+    $Param{Subject} = "[$TicketHook: $Article{TicketNumber}] $Param{Subject}";
+    # prepare body (insert old email)
+    $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
+    $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
+    $Param{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/g; 
+    $Param{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/g if (defined $GetParam{Comment});
+    # replace it with article data
+    foreach (keys %Article) {
+        if (defined($Article{$_})) {
+            $Param{Subject} =~ s/<OTRS_$_>/$Article{$_}/gi;
+            $Param{Body} =~ s/<OTRS_$_>/$Article{$_}/gi;
+        }
+        else {
+            # cleanup
+            $Param{Subject} =~ s/<OTRS_$_>//gi;
+            $Param{Body} =~ s/<OTRS_$_>//gi;
+        }
+    }
+   
+    if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+        my $Line = $1;
+        my @Body = split(/\n/, $GetParam{Body});
+        my $NewOldBody = ''; 
+        foreach (my $i = 0; $i < $Line; $i++) {
+            # 2002-06-14 patch of Pablo Ruiz Garcia
+            # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
+            if($#Body >= $i) {
+                $NewOldBody .= "> $Body[$i]\n";
+            }
+        }
+        chomp $NewOldBody;
+        $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+    }
+    # replace config options
+    $Param{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Param{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+
+    # send notify 
+    $Self->{SendmailObject}->Send(
+        From => $Self->{ConfigObject}->Get('NotificationSenderName').
+             ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
+        To => $User{UserEmail},
+        Subject => $Param{Subject},
+        ContentType => "text/plain; charset=$Notification{Charset}",
+        Body => $Param{Body},
+        Loop => 1,
+    );
+
+    # write history
+    $Self->HistoryAdd(
+        TicketID => $Param{TicketID},
+        HistoryType => 'SendAgentNotification',
+        Name => "Sent '$Param{Type}' notification to '$User{UserEmail}'.",
+        CreateUserID => $Param{UserID},
+    );
+
+    # log event
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "Sent agent '$Param{Type}' notification to '$User{UserEmail}'.",
+    );
+
+    return 1;
+}
+# --
+
+=item SendCustomerNotification()
+
+send a customer notification via email
+
+  my $ArticleID = $TicketObject->SendCustomerNotification(
+      TicketID => 123,
+      CustomerMessageParams => {
+         SomeParams => 'For the message!',
+      },
+      Type => 'Move', # notification types, see database
+      UserID => 123,
+  );
+
+=cut
+
+sub SendCustomerNotification {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(CustomerMessageParams TicketID UserID Type)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # get notify texts
+    $Param{Subject} = $Self->{ConfigObject}->Get("CustomerNotificationSubject$Param{Type}") 
+      || "No CustomerNotificationSubject$Param{Type} found in Config.pm!";
+    $Param{Body} = $Self->{ConfigObject}->Get("CustomerNotificationBody$Param{Type}")
+      || "No CustomerNotificationBody$Param{Type} found in Config.pm!";
+    # get old article for quoteing
+    my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
+    foreach (keys %Article) {
+        if ($Article{$_}) {
+            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
+        }
+    }
+    # check if notification should be send
+    my %Queue = $Self->{QueueObject}->QueueGet(ID => $Article{QueueID});
+    if ($Param{Type} =~/^StateUpdate$/ && !$Queue{StateNotify}) {
+        # need not notification
+        return;
+    }
+    elsif ($Param{Type} =~/^OwnerUpdate$/ && !$Queue{OwnerNotify}) {
+        # need not notification
+        return;
+    }
+    elsif ($Param{Type} =~/^QueueUpdate$/ && !$Queue{MoveNotify}) {
+        # need not notification
+        return;
+    }
+    elsif ($Param{Type} =~/^LockUpdate$/ && !$Queue{LockNotify}) {
+        # need not notification
+        return;
+    }
+    # get owner data
+    my ($OwnerID, $Owner) = $Self->OwnerCheck(TicketID => $Param{TicketID});
+    my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
+    foreach (keys %Preferences) {
+        if ($Preferences{$_}) {
+            $Param{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+        }
+    }
+    # get current user data
+    my %CurrentPreferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
+    foreach (keys %CurrentPreferences) {
+        if ($CurrentPreferences{$_}) {
+            $Param{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+        }
+    }
+    # get ticket hook
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+    # prepare subject (insert old subject)
+    if ($Param{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+        my $SubjectChar = $1;
+        $Article{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
+        $Article{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Param{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Article{Subject}/g;
+    }
+    $Param{Subject} = "[$TicketHook: $Article{TicketNumber}] $Param{Subject}";
+    # prepare body (insert old email)
+    $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
+    $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
+    $Param{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/g if ($Param{Queue});
+    if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+        my $Line = $1;
+        my @Body = split(/\n/, $Article{Body});
+        my $NewOldBody = ''; 
+        foreach (my $i = 0; $i < $Line; $i++) {
+            # 2002-06-14 patch of Pablo Ruiz Garcia
+            # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
+            if($#Body >= $i) {
+                $NewOldBody .= "> $Body[$i]\n";
+            }
+        }
+        chomp $NewOldBody;
+        $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+    }
+    # get ref of email params
+    my %GetParam = %{$Param{CustomerMessageParams}};
+    foreach (keys %GetParam) {
+        if ($GetParam{$_}) {
+            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+        }
+    }
+    # set new To address if customer user id is used
+    if ($Article{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        if ($CustomerUser{UserEmail}) {
+            $Article{From} = $CustomerUser{UserEmail};
+        }
+    }
+    # send notify 
+    my %Address = $Self->{QueueObject}->GetSystemAddress(QueueID => $Article{QueueID});
+    $Self->ArticleSend(
+            ArticleType => 'email-notification-ext',
+            SenderType => 'system',
+            TicketID => $Param{TicketID},
+            HistoryType => 'SendCustomerNotification',
+            HistoryComment => "Sent notification to '$Article{From}'.",
+            From => "$Address{RealName} <$Address{Email}>", 
+            To => $Article{From},
+            Subject => $Param{Subject},
+            UserID => $Param{UserID},
+            Body => $Param{Body},
+            Loop => 1,
+    );
+
+    # log event
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "Sent customer '$Param{Type}' notification to '$Article{From}'.",
+    );
+
+    return 1;
+}
+# --
+
+=item SendAutoResponse()
+
+send an auto response to a customer via email
+    
+  my $ArticleID = $TicketObject->SendAutoResponse(
+      TicketID => 123,
+      TicketNumber => '123123123',
+      Text => 'Quote Message',
+      Realname => 'Support Team',
+      Address => 'support@example.com',
+      HistoryType => 'SendAutoReply', # SendAutoReply|SendAutoReject|SendAutoFollowUp|...
+      CustomerMessageParams => {
+         SomeParams => 'For the message!',
+      },
+      UserID => 123,
+  );
+    
+=cut
+
+sub SendAutoResponse {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Text Realname Address CustomerMessageParams TicketID UserID HistoryType)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    $Param{Body} = $Param{Text} || 'No Std. Body found!';
+    my %GetParam = %{$Param{CustomerMessageParams}};
+    # get old article for quoteing
+    my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
+    foreach (qw(From To Cc Subject Body)) {
+        if (!$GetParam{$_}) {
+            $GetParam{$_} = $Article{$_} || '';
+        }
+        chomp $GetParam{$_};
+    }
+    # check reply to for auto response recipient
+    if ($GetParam{ReplyTo}) {
+        $GetParam{From} = $GetParam{ReplyTo};
+    }
+    # check if sender is e. g. MAILDER-DAEMON or Postmaster
+    my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
+    if ($GetParam{From} =~ /$NoAutoRegExp/i) {
+        # add it to ticket history
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'Misc',
+            Name => "Sent not auto response, SendNoAutoResponseRegExp is matching.",
+        );
+        # log
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Sent not auto response to '$GetParam{From}' because config".
+             " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) is matching!",
+        );
+        return 1;
+    }
+    # check if original content isn't text/plain, don't use it
+    if ($GetParam{'Content-Type'} && $GetParam{'Content-Type'} !~ /(text\/plain|\btext\b)/i) {
+        $GetParam{Body} = "-> no quotable message <-";
+    }
+    # replace all scaned email x-headers with <OTRS_CUSTOMER_X-HEADER>
+    foreach (keys %GetParam) {
+        if (defined $GetParam{$_}) {
+            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+        }
+    }
+    # replace some special stuff
+    $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
+    $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
+    # prepare customer realname
+    if ($Param{Body} =~ /<OTRS_CUSTOMER_REALNAME>/) {
+        # get realname 
+        my $From = '';
+        if ($Article{CustomerUserID}) {
+            $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Article{CustomerUserID});
+        }
+        if (!$From) {
+            $From = $GetParam{From} || '';
+            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+            $From =~ s/( $)|(  $)//g;
+        }
+        $Param{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
+    }
+    # Arnold Ligtvoet - otrs@ligtvoet.org
+    # get OTRS_CUSTOMER_SUBJECT from body
+    if ($Param{Body} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+        my $TicketHook2 = $Self->{ConfigObject}->Get('TicketHook');
+        my $SubRep = $GetParam{Subject} || 'No Std. Subject found!';
+        my $SubjectChar = $1;
+        $SubRep =~ s/\[$TicketHook2: $Article{TicketNumber}\] //g;
+        $SubRep =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Param{Body} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$SubRep/g;
+    }
+    # Arnold Ligtvoet - otrs@ligtvoet.org
+    # get OTRS_EMAIL_DATE from body and replace with received date
+    use POSIX qw(strftime);
+    if ($Param{Body} =~ /<OTRS_EMAIL_DATE\[(.*)\]>/) {
+        my $EmailDate = strftime('%A, %B %e, %Y at %T ', localtime);
+        my $TimeZone = $1;
+        $EmailDate .= "($TimeZone)";
+        $Param{Body} =~ s/<OTRS_EMAIL_DATE\[.*\]>/$EmailDate/g;
+    }
+    # prepare subject (insert old subject)
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+    my $Subject = $Param{Subject} || 'No Std. Subject found!';
+    if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+        my $SubjectChar = $1;
+        $GetParam{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
+        $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
+    }
+    $Subject = "[$TicketHook: $Article{TicketNumber}] $Subject";
+    # prepare body (insert old email)
+    if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+        my $Line = $1;
+        my @Body = split(/\n/, $GetParam{Body});
+        my $NewOldBody = '';
+        foreach (my $i = 0; $i < $Line; $i++) {
+            # 2002-06-14 patch of Pablo Ruiz Garcia
+            # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
+            if ($#Body >= $i) {
+                $NewOldBody .= "> $Body[$i]\n";
+            }
+        }
+        chomp $NewOldBody;
+        $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+    }
+    # set new To address if customer user id is used
+    my $Cc = '';
+    my $ToAll = $GetParam{From};
+    if ($Article{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        if ($CustomerUser{UserEmail} && $GetParam{From} !~ /\Q$CustomerUser{UserEmail}\E/i) {
+            $Cc = $CustomerUser{UserEmail};
+            $ToAll .= ', '.$Cc;
+        }
+    }
+    # send email
+    my $ArticleID = $Self->ArticleSend(
+        ArticleType => 'email-external',
+        SenderType => 'system',
+        TicketID => $Param{TicketID},
+        HistoryType => $Param{HistoryType}, 
+        HistoryComment => "Sent auto response to '$ToAll'",
+        From => "$Param{Realname} <$Param{Address}>",
+        To => $GetParam{From},
+        Cc => $Cc,
+        RealName => $Param{Realname},
+        Charset => $Param{Charset},
+        Subject => $Subject,
+        UserID => $Param{UserID},
+        Body => $Param{Body},
+        InReplyTo => $GetParam{'Message-ID'},
+        Loop => 1,
+    );
+    # log
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "Sent auto response ($Param{HistoryType}) for Ticket [$Article{TicketNumber}]".
+         " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$ToAll'."
+    );
+
+    return 1;
+}
+# --
+# the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm
+
+=item ArticleDelete()
+
+delete all article of an ticket
+
+  $TicketObject->ArticleDelete(
+      TicketID => 123,
+      UserID => 123,
+  );
+
+
+=item ArticleWritePlain()
+
+write an plain email to storage
+
+  $TicketObject->ArticleWritePlain(
+      ArticleID => 123,
+      Email => $EmailAsString,
+      UserID => 123,
+  );
+
+
+=item ArticlePlain()
+
+get plain message/email
+
+  my $PlainMessage = $TicketObject->ArticlePlain(
+      ArticleID => 123,
+      UserID => 123,
+  );
+
+
+=item ArticleWriteAttachment()
+
+write an article attachemnt to storage
+
+  $TicketObject->ArticleWriteAttachment(
+      Content => $ContentAsString,
+      ContentType => 'text/html; charset="iso-8859-15"',
+      Filename => 'lala.html',
+      ArticleID => 123,
+      UserID => 123,
+  );
+
+
+=item ArticleAttachmentIndex()
+
+get article attachment index as hash (ID => filename)
+
+  my %Index = $TicketObject->ArticleAttachment(
+      ArticleID => 123,
+      UserID => 123,
+  );
+
+
+=item ArticleAttachment()
+
+get article attachment (Content, ContentType, Filename)
+
+  my %Attachment = $TicketObject->ArticleAttachment(
+      ArticleID => 123,
+      FileID => 1,
+      UserID => 123,
+  );
+
+=cut
 
 1;

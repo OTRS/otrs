@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.81 2004-04-07 11:07:01 martin Exp $
+# $Id: Ticket.pm,v 1.82 2004-04-14 15:54:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,6 @@ use strict;
 use Time::Local;
 use Kernel::System::Time;
 use Kernel::System::Ticket::Article;
-use Kernel::System::Ticket::SendAutoResponse;
-use Kernel::System::Ticket::SendNotification;
-use Kernel::System::Ticket::SendArticle;
 use Kernel::System::Ticket::TimeAccounting;
 use Kernel::System::State;
 use Kernel::System::Lock;
@@ -34,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.81 $';
+$VERSION = '$Revision: 1.82 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -79,9 +76,6 @@ create a object
 @ISA = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::Ticket::TimeAccounting',
-    'Kernel::System::Ticket::SendAutoResponse',
-    'Kernel::System::Ticket::SendNotification',
-    'Kernel::System::Ticket::SendArticle',
 );
 
 # --
@@ -95,9 +89,7 @@ sub new {
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
-    # --
     # create common needed module objects
-    # --
     $Self->{TimeObject} = Kernel::System::Time->new(%Param);
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
@@ -112,15 +104,11 @@ sub new {
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
-    # --
     # get needed objects
-    # --
     foreach (qw(ConfigObject LogObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    # --
-    # get static var
-    # --
+    # get config static var
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
         Type => 'Viewable', 
         Result => 'Name',
@@ -135,6 +123,12 @@ sub new {
     $Self->{ViewableLocks} = \@ViewableLocks;
     my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(Type => 'ID');
     $Self->{ViewableLockIDs} = \@ViewableLockIDs;
+    # get config static var
+    $Self->{Sendmail} = $Self->{ConfigObject}->Get('Sendmail');
+    $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
+    $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
+    $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
+
     # --
     # load ticket number generator 
     # --
@@ -170,8 +164,7 @@ sub new {
 # --
 sub Init {
     my $Self = shift;
-    $Self->InitSendArticle();
-    $Self->InitArticleStorage();
+    $Self->ArticleStorageInit();
     return 1;
 }
 # --
@@ -319,7 +312,7 @@ sub TicketCreate {
         );
         # history insert
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
-        $Self->HistoryTicketAdd(
+        $Self->HistoryAdd(
             TicketID => $TicketID,
             HistoryType => 'NewTicket',
             Name => "Ticket=[$Param{TN}], ID=[$TicketID] created (Q=$Queue;P=$Param{Priority};S=$Param{State}).",
@@ -377,7 +370,7 @@ sub TicketDelete {
         # update ticket index
         $Self->TicketAcceleratorDelete(%Param);
         # delete articles
-        $Self->DeleteArticleOfTicket(%Param);
+        $Self->ArticleDelete(%Param);
         return 1;
     }
     else {
@@ -672,18 +665,24 @@ sub MoveTicket {
         # update ticket view index
         $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
         # history insert
-        $Self->HistoryTicketAdd(
+        $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'Move',
             Name => "Ticket moved to Queue '$Queue' (ID=$Param{QueueID}).",
             CreateUserID => $Param{UserID},
         );
+#        $Self->HistoryAdd(
+#            TicketID => $Param{TicketID},
+#            HistoryType => 'Move',
+#            Name => "\%\%$Queue\%\%$Param{QueueID}",
+#            CreateUserID => $Param{UserID},
+#        );
         # send move notify to queue subscriber 
         foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Param{QueueID})) {
             my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
             if ($UserData{UserSendMoveNotification}) {
                 # send agent notification
-                $Self->SendNotification(
+                $Self->SendAgentNotification(
                     Type => 'Move',
                     UserData => \%UserData,
                     CustomerMessageParams => { Queue => $Queue },
@@ -820,7 +819,7 @@ sub SetCustomerData {
     }
     if ($Param{History}) {
         # history insert
-        $Self->HistoryTicketAdd(
+        $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'CustomerUpdate',
             Name => $Param{History}, 
@@ -878,7 +877,7 @@ sub TicketFreeTextSet {
     " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # history insert
-        $Self->HistoryTicketAdd(
+        $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'TicketFreeTextUpdate',
             Name => "FreeKey$Param{Counter}: '$Key' FreeText$Param{Counter}: '$Value'", 
@@ -892,15 +891,15 @@ sub TicketFreeTextSet {
 }
 # --
 
-=item SetAnswered()
+=item TicketSetAnswered()
 
 Set if ticket is answered.
 
-  $TicketObject->SetAnswered(TicketID => 123, UserID => 23);
+  $TicketObject->TicketSetAnswered(TicketID => 123, UserID => 23);
 
 =cut
 
-sub SetAnswered {
+sub TicketSetAnswered {
     my $Self = shift;
     my %Param = @_;
     my $Answered = $Param{Answered} || 0;
@@ -1184,61 +1183,6 @@ sub GetLockedTicketIDs {
     return @ViewableTickets;
 }
 # --
-
-=item TicketPendingTimeSet()
-
-set ticket pending time
-
-  $TicketObject->TicketPendingTimeSet(
-      Year => 2003,
-      Month => 08,
-      Day => 14,
-      Hour => 22,
-      Minute => 05,
-      TicketID => 123,
-      UserID => 23,
-  );
-
-=cut
-
-sub TicketPendingTimeSet {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    foreach (qw(Year Month Day Hour Minute TicketID UserID)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
-    }
-    my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year});
-    # clear ticket cache
-    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    # db update
-    my $SQL = "UPDATE ticket SET until_time = $time, " .
-    " change_time = current_timestamp, change_by = $Param{UserID} " .
-    " WHERE id = $Param{TicketID} ";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        # history insert
-        $Self->HistoryTicketAdd(
-            TicketID => $Param{TicketID},
-            HistoryType => 'SetPendingTime',
-            Name => 'Set Pending Time to '.sprintf("%02d", $Param{Year}).
-              '/'.sprintf("%02d", $Param{Month}).'/'.sprintf("%02d", $Param{Day}).' '.
-              sprintf("%02d", $Param{Hour}).':'.sprintf("%02d", $Param{Minute}).'.',
-            CreateUserID => $Param{UserID},
-        );
-        return 1;
-    }
-    else {
-        return;
-    }
-}
-# --
 sub GetCustomerTickets {
     my $Self = shift;
     my %Param = @_;
@@ -1341,6 +1285,61 @@ sub GetCustomerTickets {
         push(@TicketIDs, $Row[0]);
     }
     return @TicketIDs;
+}
+# --
+
+=item TicketPendingTimeSet()
+
+set ticket pending time
+
+  $TicketObject->TicketPendingTimeSet(
+      Year => 2003,
+      Month => 08,
+      Day => 14,
+      Hour => 22,
+      Minute => 05,
+      TicketID => 123,
+      UserID => 23,
+  );
+
+=cut
+
+sub TicketPendingTimeSet {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Year Month Day Hour Minute TicketID UserID)) {
+      if (!defined($Param{$_})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year});
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db update
+    my $SQL = "UPDATE ticket SET until_time = $time, " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID} ";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # history insert
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            HistoryType => 'SetPendingTime',
+            Name => 'Set Pending Time to '.sprintf("%02d", $Param{Year}).
+              '/'.sprintf("%02d", $Param{Month}).'/'.sprintf("%02d", $Param{Day}).' '.
+              sprintf("%02d", $Param{Hour}).':'.sprintf("%02d", $Param{Minute}).'.',
+            CreateUserID => $Param{UserID},
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
 }
 # --
 
@@ -1887,7 +1886,7 @@ sub LockSet {
       }
 
       if ($HistoryType) {
-        $Self->HistoryTicketAdd(
+        $Self->HistoryAdd(
           TicketID => $Param{TicketID},
           CreateUserID => $Param{UserID},
           HistoryType => $HistoryType,
@@ -1906,7 +1905,7 @@ sub LockSet {
               my %Preferences = $Self->{UserObject}->GetUserData(UserID => $TicketData{UserID});
               if ($Preferences{UserSendLockTimeoutNotification}) {
                   # send
-                  $Self->SendNotification(
+                  $Self->SendAgentNotification(
                       Type => 'LockTimeout',
                       UserData => \%Preferences,
                       CustomerMessageParams => {}, 
@@ -2000,7 +1999,7 @@ sub StateSet {
       # update ticket view index
       $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
       # add history
-      $Self->HistoryTicketAdd(
+      $Self->HistoryAdd(
           TicketID => $Param{TicketID},
           ArticleID => $ArticleID,
           HistoryType => 'StateUpdate',
@@ -2181,7 +2180,7 @@ sub OwnerSet {
     " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
       # add history
-      $Self->HistoryTicketAdd(
+      $Self->HistoryAdd(
           TicketID => $Param{TicketID},
           CreateUserID => $Param{UserID},
           HistoryType => 'OwnerUpdate',
@@ -2196,7 +2195,7 @@ sub OwnerSet {
         # get user data
         my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
         # send agent notification
-        $Self->SendNotification(
+        $Self->SendAgentNotification(
             Type => 'OwnerUpdate',
             UserData => \%Preferences,
             CustomerMessageParams => \%Param,
@@ -2397,7 +2396,7 @@ sub PrioritySet {
         " WHERE id = $Param{TicketID} ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
       # add history
-      $Self->HistoryTicketAdd(
+      $Self->HistoryAdd(
           TicketID => $Param{TicketID},
           CreateUserID => $Param{UserID},
           HistoryType => 'PriorityUpdate',
@@ -2491,11 +2490,11 @@ sub HistoryTypeLookup {
 }
 # --
 
-=item HistoryTicketAdd()
+=item HistoryAdd()
 
 add a history entry to an ticket
 
-  $TicketObject->HistoryTicketAdd(
+  $TicketObject->HistoryAdd(
       Name => 'Some Comment', 
       HistoryType => 'Move', # see system tables
       TicketID => 123,
@@ -2506,7 +2505,7 @@ add a history entry to an ticket
 
 =cut
 
-sub HistoryTicketAdd {
+sub HistoryAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -2553,18 +2552,77 @@ sub HistoryTicketAdd {
 }
 # --
 
-=item HistoryTicketDelete()
+=item HistoryGet()
 
-delete a ticket history (from storage)
+get ticket history as array with hashes 
+(TicketID, ArticleID, Name, CreateBy, CreateTime and HistoryType)
 
-  $TicketObject->HistoryTicketDelete(
+  my @HistoryLines = $TicketObject->HistoryGet(
       TicketID => 123,
       UserID => 123,
   );
 
 =cut
 
-sub HistoryTicketDelete {
+sub HistoryGet {
+    my $Self = shift;
+    my %Param = @_;
+    my @Lines;
+    # check needed stuff
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    my $SQL = "SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ".
+        " ht.name ".
+        " FROM ".
+        " ticket_history sh, ticket_history_type ht ".
+        " WHERE ".
+        " sh.ticket_id = $Param{TicketID} ".
+        " AND ".
+        " ht.id = sh.history_type_id".
+        " ORDER BY sh.id";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
+          my %Data;
+          $Data{TicketID} = $Param{TicketID};
+          $Data{ArticleID} = $Row[1];
+          $Data{Name} = $Row[0];
+          $Data{CreateBy} = $Row[3];
+          $Data{CreateTime} = $Row[2];
+          $Data{HistoryType} = $Row[4];
+          push (@Lines, \%Data);
+    }
+    # get user data
+    foreach my $Data (@Lines) {
+        my %UserInfo = $Self->{UserObject}->GetUserData(
+            UserID => $Data->{CreateBy},
+            Cached => 1
+        );
+        %{$Data} = (%{$Data}, %UserInfo);
+    }
+    return @Lines;
+}
+# --
+
+=item HistoryDelete()
+
+delete a ticket history (from storage)
+
+  $TicketObject->HistoryDelete(
+      TicketID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+sub HistoryDelete {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -2601,6 +2659,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.81 $ $Date: 2004-04-07 11:07:01 $
+$Revision: 1.82 $ $Date: 2004-04-14 15:54:40 $
 
 =cut

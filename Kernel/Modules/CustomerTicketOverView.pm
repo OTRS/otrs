@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.21 2004-03-12 18:42:54 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.22 2004-04-14 15:54:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -145,7 +145,7 @@ sub ShowTicketStatus {
     my %Param = @_;
     my $TicketID = $Param{TicketID} || return;
     # get last article
-    my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
     # condense down the subject
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     my $Subject = $Article{Subject};

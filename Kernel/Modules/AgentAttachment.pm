@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentAttachment.pm - to get the attachments 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.11 2003-04-23 17:43:58 martin Exp $
+# $Id: AgentAttachment.pm,v 1.12 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub Run {
     # --
     # check permissions
     # --
-    my %ArticleData = $Self->{TicketObject}->GetArticle(ArticleID => $Self->{ArticleID});
+    my %ArticleData = $Self->{TicketObject}->ArticleGet(ArticleID => $Self->{ArticleID});
     if (!$ArticleData{TicketID}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
@@ -84,10 +84,8 @@ sub Run {
         TicketID => $ArticleData{TicketID},
         UserID => $Self->{UserID})) {
 
-        # --
         # geta attachment
-        # -- 
-        if (my %Data = $Self->{TicketObject}->GetArticleAttachment(
+        if (my %Data = $Self->{TicketObject}->ArticleAttachment(
           ArticleID => $Self->{ArticleID},
           FileID => $Self->{FileID},
         )) {
@@ -108,9 +106,7 @@ sub Run {
         }
     }
     else {
-        # --
         # error screen
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.68 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentPhone.pm,v 1.69 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -75,7 +75,7 @@ sub Run {
             my %Article = ();
             my %CustomerData = ();
             if ($ArticleID) {
-                %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleID);
+                %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $ArticleID);
                 my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
                 $Article{Subject} =~ s/\[${TicketHook}:\s*\d+\](\s|)//;
                 # check if original content isn't text/plain or text/html, don't use it
@@ -223,7 +223,7 @@ sub Run {
         foreach (qw(Year Month Day Hour Minute)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
-        if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
+        if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $Self->{TicketID},
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultArticleType'),
             SenderType => $Self->{ConfigObject}->Get('PhoneDefaultSenderType'),
@@ -253,7 +253,7 @@ sub Run {
             UserID => $Self->{UserID},
           );
           # set answerd
-          $Self->{TicketObject}->SetAnswered(
+          $Self->{TicketObject}->TicketSetAnswered(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Answered => $Answered,
@@ -485,7 +485,7 @@ sub Run {
                 );
             }
             foreach my $TicketID (@TicketIDs) {
-                my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
+                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'TicketViewLite',
                     Data => {
@@ -527,7 +527,7 @@ sub Run {
         if ($NewUserID) {
             $NoAgentNotify = 1;
         }
-        if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
+        if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             NoAgentNotify => $NoAgentNotify,
             TicketID => $TicketID,
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultNewArticleType'),
@@ -555,7 +555,7 @@ sub Run {
               Source => 'string',
           );
           if (%UploadStuff) {
-              $Self->{TicketObject}->WriteArticlePart(
+              $Self->{TicketObject}->ArticleWriteAttachment(
                   %UploadStuff,
                   ArticleID => $ArticleID,
                   UserID => $Self->{UserID},

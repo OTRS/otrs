@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.18 2003-12-29 17:25:10 martin Exp $
+# $Id: AgentStatusView.pm,v 1.19 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -205,7 +205,7 @@ sub ShowTicketStatus {
     # get last customer articles
     # --
     my @ShownViewableTicket = ();
-    my @ArticleIndex = $Self->{TicketObject}->GetArticleIndex(
+    my @ArticleIndex = $Self->{TicketObject}->ArticleIndex(
         TicketID => $TicketID, 
         SenderType => 'customer',
     );
@@ -223,7 +223,7 @@ sub ShowTicketStatus {
     # --
     # get last article
     # --
-    my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleIndex[$#ArticleIndex]);
+    my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $ArticleIndex[$#ArticleIndex]);
     # --
     # user info
     # --

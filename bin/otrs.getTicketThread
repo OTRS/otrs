@@ -3,7 +3,7 @@
 # bin/otrs.getTicketThread - to print the whole ticket thread to STDOUT
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.getTicketThread,v 1.2 2004-04-05 17:14:11 martin Exp $
+# $Id: otrs.getTicketThread,v 1.3 2004-04-14 15:54:39 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -62,10 +62,10 @@ foreach (qw(TicketNumber TicketID Created Queue State Priority Lock CustomerID C
 }
 print "---------------------------------------------------------------------\n";
 
-my @Index = $CommonObject{TicketObject}->GetArticleIndex(TicketID => $TicketID);
+my @Index = $CommonObject{TicketObject}->ArticleIndex(TicketID => $TicketID);
 
 foreach (@Index) {
-    my %Article = $CommonObject{TicketObject}->GetArticle(ArticleID => $_);
+    my %Article = $CommonObject{TicketObject}->ArticleGet(ArticleID => $_);
     foreach (qw(From To Cc Subject ReplyTo InReplyTo Created SenderType )) {
         print "$_: $Article{$_}\n" if ($Article{$_});
     }

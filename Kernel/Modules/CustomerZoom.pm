@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.18 2004-04-11 17:01:33 martin Exp $
+# $Id: CustomerZoom.pm,v 1.19 2004-04-14 15:54:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,10 +84,10 @@ sub Run {
         TicketID => $Ticket{TicketID},
     );
     # get all atricle of this ticket
-    my @ArticleBox = $Self->{TicketObject}->GetArticleContentIndex(TicketID => $Self->{TicketID});
+    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
     # get article attachments
     foreach my $Article (@ArticleBox) {
-        my %AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
+        my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
             ContentPath => $Article->{ContentPath},
             ArticleID => $Article->{ArticleID},
         );

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.45 2004-04-05 17:14:11 martin Exp $
+# $Id: NewTicket.pm,v 1.46 2004-04-14 15:56:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -201,7 +201,7 @@ sub Run {
     # -- 
     # do article db insert
     # --
-    my $ArticleID = $Self->{TicketObject}->CreateArticle(
+    my $ArticleID = $Self->{TicketObject}->ArticleCreate(
         TicketID => $TicketID,
         ArticleType => $GetParam{'X-OTRS-ArticleType'},
         SenderType => $GetParam{'X-OTRS-SenderType'},
@@ -258,7 +258,7 @@ sub Run {
     while ($CounterTmp <= 3) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
-            $Self->{TicketObject}->SetArticleFreeText(
+            $Self->{TicketObject}->ArticleFreeTextSet(
                 ArticleID => $ArticleID,
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},
@@ -274,7 +274,7 @@ sub Run {
     # --    
     # write plain email to the storage
     # --
-    $Self->{TicketObject}->WriteArticlePlain(
+    $Self->{TicketObject}->ArticleWritePlain(
         ArticleID => $ArticleID, 
         Email => $Self->{ParseObject}->GetPlainEmail(),
         UserID => $Param{InmailUserID},
@@ -283,7 +283,7 @@ sub Run {
     # write attachments to the storage
     # --
     foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
-        $Self->{TicketObject}->WriteArticlePart(
+        $Self->{TicketObject}->ArticleWriteAttachment(
             Content => $Attachment->{Content}, 
             Filename => $Attachment->{Filename},
             ContentType => $Attachment->{ContentType},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.9 2004-04-06 07:58:45 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.10 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPrint;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,11 +71,11 @@ sub Run {
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID},
     );
-    my @ArticleBox = $Self->{TicketObject}->GetArticleContentIndex(TicketID => $Self->{TicketID});
+    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->GetAccountedTime(TicketID => $Ticket{TicketID});
     # article attachments
     foreach my $Article (@ArticleBox) {
-        my %AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
+        my %AtmIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
             ContentPath => $Article->{ContentPath},
             ArticleID => $Article->{ArticleID},
         );

@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.23 2004-04-05 17:14:11 martin Exp $
+# $Id: GenericAgent.pl,v 1.24 2004-04-14 15:54:39 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.23 $';
+    $VERSION = '$Revision: 1.24 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
@@ -189,7 +189,7 @@ sub Run {
     # --
     if ($Jobs{$Job}->{New}->{Note}->{Body}) {
         print "  - Add note\n";
-        $CommonObject{TicketObject}->CreateArticle(
+        $CommonObject{TicketObject}->ArticleCreate(
             TicketID => $TicketID,
             ArticleType => $Jobs{$Job}->{New}->{Note}->{ArticleType} || 'note-internal',
             SenderType => 'agent',

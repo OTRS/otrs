@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.13 2004-04-05 17:10:54 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.14 2004-04-14 15:54:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,11 +22,11 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
-sub InitArticleStorage {
+sub ArticleStorageInit {
     my $Self = shift;
     my %Param = @_;
     # ArticleDataDir
@@ -64,7 +64,7 @@ sub InitArticleStorage {
     return 1;
 }
 # --
-sub DeleteArticleOfTicket {
+sub ArticleDelete {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -75,19 +75,19 @@ sub DeleteArticleOfTicket {
       }
     }
     # delete attachments and plain emails
-    my @Articles = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+    my @Articles = $Self->ArticleIndex(TicketID => $Param{TicketID});
     foreach (@Articles) {
         # delete from db
         $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $_");
         $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $_");
         # delete from fs
-        my $ContentPath = $Self->GetArticleContentPath(ArticleID => $_);
+        my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $_);
         system("rm -rf $Self->{ArticleDataDir}/$ContentPath/$_");
     } 
     # delete articles
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
         # delete history
-        if ($Self->HistoryTicketDelete(TicketID => $Param{TicketID})) {
+        if ($Self->HistoryDelete(TicketID => $Param{TicketID})) {
             return 1;
         }
         else {
@@ -99,7 +99,7 @@ sub DeleteArticleOfTicket {
     }
 }
 # --
-sub WriteArticlePlain {
+sub ArticleWritePlain {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -135,7 +135,7 @@ sub WriteArticlePlain {
     }
 }
 # --
-sub WriteArticlePart {
+sub ArticleWriteAttachment {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -153,7 +153,7 @@ sub WriteArticlePart {
     # check used name (we want just uniq names)
     my $NewFileName = decode_mimewords($Param{Filename});
     my %UsedFile = ();
-    my @Index = $Self->GetArticleAtmIndex(
+    my @Index = $Self->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
     );
     foreach (@Index) {
@@ -191,7 +191,7 @@ sub WriteArticlePart {
     }
 }
 # --
-sub GetArticlePlain {
+sub ArticlePlain {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -203,7 +203,7 @@ sub GetArticlePlain {
     $Param{ArticleID} = quotemeta($Param{ArticleID});
     $Param{ArticleID} =~ s/\0//g;
     # get content path
-    my $ContentPath = $Self->GetArticleContentPath(ArticleID => $Param{ArticleID});
+    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     # open plain article
     my $Data = '';
     if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt")) {
@@ -237,7 +237,7 @@ sub GetArticlePlain {
     }
 }
 # --
-sub GetArticleAtmIndex {
+sub ArticleAttachmentIndex {
     my $Self = shift;
     my %Param = @_;
     # check ArticleContentPath
@@ -250,7 +250,7 @@ sub GetArticleAtmIndex {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
       return;
     }
-    my $ContentPath = $Self->GetArticleContentPath(ArticleID => $Param{ArticleID});
+    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my %Index = ();
     my $Counter = 0;
     # try fs
@@ -275,7 +275,7 @@ sub GetArticleAtmIndex {
     return %Index;
 }
 # --
-sub GetArticleAttachment {
+sub ArticleAttachment {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -289,9 +289,9 @@ sub GetArticleAttachment {
     $Param{ArticleID} = quotemeta($Param{ArticleID});
     $Param{ArticleID} =~ s/\0//g;
     # get attachment index
-    my %Index = $Self->GetArticleAtmIndex(ArticleID => $Param{ArticleID});
+    my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
     # get content path
-    my $ContentPath = $Self->GetArticleContentPath(ArticleID => $Param{ArticleID});
+    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my %Data; 
     my $Counter = 0;
     $Data{Filename} = $Index{$Param{FileID}};

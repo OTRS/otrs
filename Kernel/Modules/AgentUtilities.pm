@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.42 2004-04-13 16:30:00 martin Exp $
+# $Id: AgentUtilities.pm,v 1.43 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -253,10 +253,10 @@ sub Run {
           # build search result
           if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
             # get first article data
-            my %Data = $Self->{TicketObject}->GetFirstArticle(TicketID => $_);
+            my %Data = $Self->{TicketObject}->ArticleFirstArticle(TicketID => $_);
             # get whole article (if configured!)
             if ($Self->{ConfigObject}->Get('AgentUtilArticleTreeCSV') && $GetParam{ResultForm} eq 'CSV') {
-                my @Article = $Self->{TicketObject}->GetArticle(
+                my @Article = $Self->{TicketObject}->ArticleGet(
                     TicketID => $_
                 );
                 foreach my $Articles (@Article) {

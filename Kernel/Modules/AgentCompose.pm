@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.62 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentCompose.pm,v 1.63 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -161,12 +161,12 @@ sub Form {
     # --
     my %Data = ();
     if ($Self->{ArticleID}) {
-        %Data = $Self->{TicketObject}->GetArticle(
+        %Data = $Self->{TicketObject}->ArticleGet(
             ArticleID => $Self->{ArticleID},
         );
     }
     else {
-        %Data = $Self->{TicketObject}->GetLastCustomerArticle(
+        %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
             TicketID => $Self->{TicketID},
         );
     }
@@ -392,7 +392,7 @@ sub SendEmail {
         $Self->{Body} =~ s/<OTRS_TICKET_STATE>/$NextState/g;
     }
     # send email
-    if (my $ArticleID = $Self->{TicketObject}->SendArticle(
+    if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
         Attach => [\%UploadStuff],
         ArticleType => 'email-external',
         SenderType => 'agent',
@@ -427,7 +427,7 @@ sub SendEmail {
             UserID => $Self->{UserID},
         );
         # set answerd
-        $Self->{TicketObject}->SetAnswered(
+        $Self->{TicketObject}->TicketSetAnswered(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Answered => $Self->{Answered},

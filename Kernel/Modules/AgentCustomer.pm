@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.27 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentCustomer.pm,v 1.28 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -202,7 +202,7 @@ sub Form {
     }
     my $OutputTables = '';
     foreach my $TicketID (@TicketIDs) {
-        my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
+        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
         $OutputTables .= $Self->{LayoutObject}->Output(
             TemplateFile => 'TicketViewLite',
             Data => {

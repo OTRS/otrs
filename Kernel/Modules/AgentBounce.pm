@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.33 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentBounce.pm,v 1.34 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,7 +86,7 @@ sub Run {
         # --
         # check if plain article exists
         # --
-        if (!$Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID})) {
+        if (!$Self->{TicketObject}->ArticlePlain(ArticleID => $Self->{ArticleID})) {
             $Output .= $Self->{LayoutObject}->Error();
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -135,7 +135,7 @@ sub Run {
         # --
         # get article data 
         # --
-        my %Article = $Self->{TicketObject}->GetArticle(
+        my %Article = $Self->{TicketObject}->ArticleGet(
             ArticleID => $Self->{ArticleID},
         );
         # --
@@ -261,8 +261,8 @@ sub Run {
         );
         $Param{From} = "$Address{RealName} <$Address{Email}>";
         $Param{Email} = $Address{Email};
-        $Param{EmailPlain} = $Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID});
-        if (!$Self->{TicketObject}->BounceArticle(
+        $Param{EmailPlain} = $Self->{TicketObject}->ArticlePlain(ArticleID => $Self->{ArticleID});
+        if (!$Self->{TicketObject}->ArticleBounce(
             EmailPlain => $Param{EmailPlain},
             TicketObject => $Self->{TicketObject},
             TicketID => $Self->{TicketID},
@@ -288,7 +288,7 @@ sub Run {
         if ($Param{InformSender}) {
             $Param{Body} =~ s/<OTRS_TICKET>/$Param{TicketNumber}/g;
             $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
-            if (my $ArticleID = $Self->{TicketObject}->SendArticle(
+            if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
               ArticleType => 'email-external',
               SenderType => 'agent',
               TicketID => $Self->{TicketID},

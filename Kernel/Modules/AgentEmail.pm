@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.16 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentEmail.pm,v 1.17 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -300,7 +300,7 @@ sub Run {
                 );
             }
             foreach my $TicketID (@TicketIDs) {
-                my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
+                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'TicketViewLite',
                     Data => {
@@ -361,7 +361,7 @@ sub Run {
         $Signature =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
         $Text .= "\n".$Signature;
         # send email
-        my $ArticleID = $Self->{TicketObject}->SendArticle(
+        my $ArticleID = $Self->{TicketObject}->ArticleSend(
             Attach => [\%UploadStuff],
             ArticleType => 'email-external',
             SenderType => 'agent',

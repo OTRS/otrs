@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.31 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentForward.pm,v 1.32 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -143,12 +143,12 @@ sub Form {
     # get last customer article or selecte article ...
     my %Data = ();
     if ($Self->{ArticleID}) {
-        %Data = $Self->{TicketObject}->GetArticle(
+        %Data = $Self->{TicketObject}->ArticleGet(
             ArticleID => $Self->{ArticleID},
         );
     }
     else {
-        %Data = $Self->{TicketObject}->GetLastCustomerArticle(
+        %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
             TicketID => $Self->{TicketID},
         );
     }
@@ -284,15 +284,15 @@ sub SendEmail {
     # --
     # get message articles
     # --
-    my %Article = $Self->{TicketObject}->GetArticle(
+    my %Article = $Self->{TicketObject}->ArticleGet(
         ArticleID => $Self->{ArticleID},
     );
-    my %AttachmentIndex = $Self->{TicketObject}->GetArticleAtmIndex(
+    my %AttachmentIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
         %Article,
     );
     my @Attachments = ();
     foreach (keys %AttachmentIndex) {
-        my %Attachment = $Self->{TicketObject}->GetArticleAttachment(
+        my %Attachment = $Self->{TicketObject}->ArticleAttachment(
             ArticleID => $Self->{ArticleID},
             FileID => $_,
         );
@@ -301,7 +301,7 @@ sub SendEmail {
     # --    
     # send email
     # --
-    if (my $ArticleID = $Self->{TicketObject}->SendArticle(
+    if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
         Attach => \@Attachments,
         From => $Self->{From},
         To => $Self->{To},

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerAttachment.pm - to get the attachments 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerAttachment.pm,v 1.7 2003-02-10 09:40:36 martin Exp $
+# $Id: CustomerAttachment.pm,v 1.8 2004-04-14 15:54:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -74,7 +74,7 @@ sub Run {
     # --
     # check permissions
     # --
-    my %ArticleData = $Self->{TicketObject}->GetArticle(ArticleID => $Self->{ArticleID});
+    my %ArticleData = $Self->{TicketObject}->ArticleGet(ArticleID => $Self->{ArticleID});
     if (!$ArticleData{TicketID}) {
         $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
         $Output .= $Self->{LayoutObject}->CustomerError(
@@ -98,7 +98,7 @@ sub Run {
         # --
         # geta attachment & strip file path
         # --
-        if (my %Data = $Self->{TicketObject}->GetArticleAttachment(
+        if (my %Data = $Self->{TicketObject}->ArticleAttachment(
           ArticleID => $Self->{ArticleID},
           FileID => $Self->{FileID},
         )) {

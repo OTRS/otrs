@@ -1,9 +1,9 @@
 # --
 # Kernel/Modules/AgentCustomerFollowUp.pm - to handle customer messages
 # if the agent is customer
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.7 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentCustomerFollowUp.pm,v 1.8 2004-04-14 15:56:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,7 +113,7 @@ sub Run {
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
         my $StateID = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID');
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
-        if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
+        if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $Self->{TicketID},
             ArticleType => $Self->{ConfigObject}->Get('CustomerPanelArticleType'),
             SenderType => $Self->{ConfigObject}->Get('CustomerPanelSenderType'),
@@ -149,7 +149,7 @@ sub Run {
           # --
           # set answerd
           # --
-          $Self->{TicketObject}->SetAnswered(
+          $Self->{TicketObject}->TicketSetAnswered(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Answered => 0,
@@ -162,7 +162,7 @@ sub Run {
               Source => 'String',
           );
           if (%UploadStuff) {
-              $Self->{TicketObject}->WriteArticlePart(
+              $Self->{TicketObject}->ArticleWriteAttachment(
                   %UploadStuff,
                   ArticleID => $ArticleID, 
                   UserID => $Self->{UserID},
