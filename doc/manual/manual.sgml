@@ -18,6 +18,7 @@
 <!ENTITY receiving-email SYSTEM "receiving_email.sgml">
 <!ENTITY language-translation SYSTEM "language-translation.sgml">
 <!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
+<!ENTITY multi-hosting SYSTEM "multi-hosting.sgml">
 <!ENTITY performance-tuning SYSTEM "performance-tuning.sgml">
 <!ENTITY generic-agent SYSTEM "generic-agent.sgml">
 <!ENTITY cronjob SYSTEM "cronjob.sgml">
@@ -75,6 +76,8 @@ or implied warranty.
 &cronjob;
 
 &generic-agent;
+
+&multi-hosting;
 
 &performance-tuning;
 

@@ -1,0 +1,107 @@
+<chapter id="multi-hosting">
+<title>Multi Hosting</title>
+<para>
+OTRS is able to manage different groups and domains.
+</para>
+
+<sect1 id="multi-hosting-groups">
+<title>Multi Group</title>
+<para>
+This is an example setup for one company with a helpdesk, sales and billing 
+department. Each department should not see tickets of the other department. 
+This means nobody from helpdesk should have access to the billing tickets.
+Nobody the one department can access to a queue of the others.
+</para>
+<para>
+Add the following to Kernel/Config.pm
+<programlisting>
+    # MoveInToAllQueues -> useful for ASP
+    # (Possible to move in all queue? Not only queue which
+    # the own groups) [1|0]
+    $Self->{MoveInToAllQueues} = 0;
+
+    # ChangeOwnerToEveryone -> useful for ASP
+    # (Possible to change owner of ticket ot everyone) [0|1]
+    $Self->{ChangeOwnerToEveryone} = 0;
+
+    # ShowCustomerSelection
+    # (show customer selection in phone and change customer view
+    # - disable this for ASP!) [0|1]
+    $Self->{ShowCustomerSelection} = 0;
+
+    # PhoneViewASP -> useful for ASP
+    # (Possible to create in all queue? Not only queue which 
+    # the own groups) [0|1]
+    $Self->{PhoneViewASP} = 1;
+</programlisting>
+</para>
+
+<note>
+<title>System email addresses (1/2)</title>
+<para>
+You need to add new system email addresses for each
+department (e. g. helpdesk@example.com, sales@example.com and billing@example.com). 
+Note: You can't set the right queue because you need to create the queue at first -
+this will be done later.
+</para>
+</note>
+
+<note>
+<title>Groups</title>
+<para>
+Add a new group for each department. In our case add a group helpdesk, sales and billing.
+</para>
+</note>
+
+<note>
+<title>Queue</title>
+<para>
+Add queue for each department (take care of the naming - e. g. group-topic). 
+In our case add queue helpdesk-raw, helpdesk-products, sales-raw, sales-products,
+billing-raw and billing-claim and set the group of each queue to the right.
+</para>
+</note>
+
+<note>
+<title>System email addresses (2/2)</title>
+<para>
+Update your new system email addresses 
+(e. g. helpdesk@example.com, sales@example.com and billing@example.com) with the 
+right queue. Note: Of course you need to make sure that the added system email 
+addresses are routed into your system (e. g. via admin inerface -=> POP3 accounts 
+- see chapter "Receiving emails")
+</para>
+</note>
+
+<note>
+<title>User</title>
+<para>
+Add the users and put each user into the wanted group. Means sales users to 
+the sales group, helpdesk users to the helpdesk group and billing users to the 
+billing group. 
+</para>
+</note>
+
+<note>
+<title>Note</title>
+<para>
+If you add one user of the departments to the admin group, then the user can
+change all settings of the system. Means the user can also add/modify user/response/...
+of the other groups. -=> Normally this admin changes should be done by an admin.
+</para>
+</note>
+
+<para>
+Your multi group setup is ready.
+</para>
+</sect1>
+
+<sect1 id="multi-hosting-multi-setup">
+<title>Multi Setup</title>
+<para>
+If you want a productiv and a test system or you want to host more the one 
+OTRS systems on one machine it's possible to setup more then one OTRS on one machine. 
+</para>
+</sect1>
+
+</chapter>
