@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.60 2002-10-29 22:38:45 martin Exp $
+# $Id: Agent.pm,v 1.61 2002-10-30 00:30:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -310,6 +310,7 @@ sub TicketZoom {
         $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">';
         $Param{StdResponsesStrg} .= '<input type="hidden" name="Action" value="AgentCompose">';
         $Param{StdResponsesStrg} .= '<input type="hidden" name="ArticleID" value="'.$ArticleID.'">';
+        $Param{StdResponsesStrg} .= '<input type="hidden" name="TicketID" value="'.$Self->{TicketID}.'">';
         $Param{StdResponsesStrg} .= $Self->OptionStrgHashRef(
           Name => 'ResponseID',
           Data => \%StdResponses,
@@ -579,13 +580,10 @@ sub AgentPhoneNew {
         Name => 'NextStateID',
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultNewNextState'),
     );
-
     $Param{'ToStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{To},
+        Data => $Param{To}, 
         Name => 'NewQueueID',
-#        Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
     );
-
 
     # get output back
     return $Self->Output(TemplateFile => 'AgentPhoneNew', Data => \%Param);
