@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.38 2003-02-20 11:23:41 wiktor Exp $
+# $Id: Defaults.pm,v 1.39 2003-02-23 22:21:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,6 +81,10 @@ sub LoadDefaults {
     # (Possible to move in all queue? Not only queue which
     # the own groups) [1|0]
     $Self->{MoveInToAllQueues} = 1;
+
+    # MoveType
+    # (Show form drop down of show new page of new queues) [form|link]
+    $Self->{MoveType} = 'form';
 
     # ChangeOwnerToEveryone -> useful for ASP
     # (Possible to change owner of ticket ot everyone) [0|1]
@@ -468,6 +472,26 @@ sub LoadDefaults {
         'pending auto close+',
         'pending auto close-',
     ];
+
+    # unix_style
+    $Self->{ResponseFormat} = '$Data{"Salutation"}
+$Data{"OrigFrom"} $Text{"wrote"}:
+$Data{"Body"}
+    
+$Data{"StdResponse"}
+
+$Data{"Signature"}
+';
+    # ms_style
+#    $Self->{ResponseFormat} = '$Data{"Salutation"}
+#    
+#$Data{"StdResponse"}
+#
+#$Data{"OrigFrom"} $Text{"wrote"}:
+#$Data{"Body"}
+#
+#$Data{"Signature"}
+#';
 
     # ----------------------------------------------------#
     # defaults for bounce                                 #
