@@ -41,6 +41,10 @@ $Text{" 7 minutes"}
 $Text{"10 minutes"}
 $Text{"15 minutes"}
 
+$Text{"Next"}
+$Text{"Back"}
+$Text{"Next..."}
+$Text{"...Back"}
 $Text{"none"}
 $Text{"none!"}
 $Text{"none - answered"}
@@ -160,6 +164,11 @@ $Text{"Type"}
 $Text{"Size"}
 $Text{"Upload"}
 $Text{"Directory"}
+
+$Text{"Signed"}
+$Text{"Sign"}
+$Text{"Crypted"}
+$Text{"Crypt"}
 
 # hticket history text
 $Text{"History::Move"}
