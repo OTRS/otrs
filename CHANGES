@@ -2,7 +2,7 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.10 2002-07-02 08:49:31 martin Exp $
+# $Id: CHANGES,v 1.11 2002-07-02 22:43:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,6 +17,8 @@
         ticket numbers "SystemID.Counter" like 1010138 and 1010139. 
      * "Kernel::System::Ticket::Number::Date" --> ticket numbers with date 
         "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
+     * "Kernel::System::Ticket::Number::DateChecksum" --> ticket numbers with date and
+        check sum and the counter will be rotated daily like 2002070110101520 and 2002070110101535.
      * "Kernel::System::Ticket::Number::Random" --> random ticket numbers "SystemID.Random" 
          like 100057866352 and 103745394596.
  - fixed SetPermissions.sh (permission for var/log/TicketCounter.log) (Thanks to 
