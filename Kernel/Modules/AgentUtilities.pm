@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.45 2004-04-16 08:53:43 martin Exp $
+# $Id: AgentUtilities.pm,v 1.46 2004-04-19 11:21:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -408,14 +408,29 @@ sub Run {
         # generate search mask
         my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Utilities');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(
+        # get free text config options
+        my %TicketFreeText = ();
+        foreach (1..8) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeKey$_",
+                UserID => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeText$_",
+                UserID => $Self->{UserID},
+            );
+        }
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             NullOption => 1, 
-            %GetParam,
+            Ticket => \%GetParam,
+            Config => \%TicketFreeText,
         );
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         $Output .= $Self->MaskForm(
             %GetParam, 
-            %TicketFreeText,
+            %TicketFreeTextHTML,
             Profile => $Self->{Profile}, 
         );
         $Output .= $Self->{LayoutObject}->Footer();
