@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.43 2003-03-02 12:22:13 martin Exp $
+# $Id: Defaults.pm,v 1.44 2003-03-04 00:12:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,6 +52,10 @@ sub LoadDefaults {
     # Prefix to index.pl used as ScriptAlias in web config
     # (Used when emailing links to agents).
     $Self->{ScriptAlias} = 'otrs/';
+
+    # HttpType
+    # In case you use https instead of plain http specify it here
+    $Self->{HttpType} = 'http';
 
     # AdminEmail 
     # (Email of the system admin.)
@@ -239,10 +243,6 @@ sub LoadDefaults {
     $Self->{LogoutURL} = '';
 #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
-    # HttpType
-    # In case you use https instead of plain http specify it here
-    $Self->{HttpType} = 'http';
-
     # --------------------------------------------------- #
     # LogModule                                           #
     # --------------------------------------------------- #
@@ -279,12 +279,6 @@ sub LoadDefaults {
 #    $Self->{SpellChecker} = '';
     $Self->{SpellChecker} = '/usr/bin/ispell';
     $Self->{SpellCheckerDictDefault} = 'english';
-    # installed dict catalog (check your insalled catalogues, e. g. deutsch -=> german!)
-    $Self->{SpellCheckerDict} = {
-        # dict => frontend
-        'english' => 'English', 
-        'deutsch' => 'Deutsch',
-    };
 
     # DemoSystem
     # (If this is true, no agent preferences, like language and theme, via agent 
@@ -310,25 +304,32 @@ sub LoadDefaults {
     # Ticket stuff                                        #
     # (Viewable tickets in queue view)                    #
     # --------------------------------------------------- #
-    # ViewableLocks 
-    # default: ["'unlock'", "'tmp_lock'"]
-    $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
-
-    # ViewableStats 
-    # default: ["'open'", "'new'"]
-    $Self->{ViewableStats} = ["'open'", "'new'", "'pending auto close-'", "'pending auto close+'", "'pending reminder'"];
-
-    # UnlockStats
-    # (Tickets which can be unlocked by bin/UnlockTickets.pl)
-    $Self->{UnlockStats} = ["'open'", "'new'"];
-
     # ViewableSenderTypes 
     #  default:  ["'customer'"]
     $Self->{ViewableSenderTypes} = ["'customer'"];
 
-    # ReminderStats
-    #  default:  ["'pending_reminder'"]
-    $Self->{ReminderStats} = ["'pending reminder'"];
+    # ViewableLocks 
+    # default: ["'unlock'", "'tmp_lock'"]
+    $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
+
+    # ViewableStateType 
+    # (see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
+    $Self->{ViewableStateType} = ['new', 'open', 'pending reminder', 'pending auto'];
+
+    # UnlockStateType
+    # (Tickets which can be unlocked by bin/UnlockTickets.pl
+    # (see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
+    $Self->{UnlockStateType} = ['open', 'new'];
+
+    # PendingReminderStateType
+    # (used for reminder notifications
+    # see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
+    $Self->{PendingReminderStateType} = ['pending reminder'];
+
+    # PendingAutoStateType
+    # (used for pending states which changed state after reached pending time
+    # see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
+    $Self->{PendingAutoStateType} = ['pending auto'];
 
     # state after pending 
     # (state after pending time has reached)
@@ -452,6 +453,16 @@ sub LoadDefaults {
     $Self->{DefaultNoteText} = '';
 
     # --------------------------------------------------- #
+    # defaults for pending ticket                         #
+    # --------------------------------------------------- #
+    # PendingNoteSubject
+    $Self->{DefaultPendingNoteSubject} = 'Pending!';
+    # PendingNoteText
+    $Self->{DefaultPendingNoteText} = '';
+    # next possible states for pendinf screen
+    $Self->{DefaultPendingNextStateType} = ['pending reminder', 'pending auto'];
+
+    # --------------------------------------------------- #
     # defaults for close ticket                           #
     # --------------------------------------------------- #
     # CloseNoteType
@@ -462,6 +473,8 @@ sub LoadDefaults {
     $Self->{DefaultCloseNoteText} = '';
     # CloseType
     $Self->{DefaultCloseType} = 'closed successful';
+    # next possible states for close screen
+    $Self->{DefaultCloseNextStateType} = ['closed'];
 
     # --------------------------------------------------- #
     # defaults for compose message                        #
@@ -471,15 +484,7 @@ sub LoadDefaults {
     # new line after x chars and onew word
     $Self->{ComposeTicketNewLine} = 75;
     # next possible states for compose message
-    $Self->{DefaultNextComposeTypePossible} = [
-        'open', 
-        'closed successful', 
-        'closed unsuccessful',
-        'pending reminder',
-        'pending auto close+',
-        'pending auto close-',
-    ];
-
+    $Self->{DefaultNextComposeStateType} = ['open', 'closed', 'pending auto', 'pending reminder'];
     # unix_style
     $Self->{ResponseFormat} = '$Data{"Salutation"}
 $Data{"OrigFrom"} $Text{"wrote"}:
@@ -505,12 +510,8 @@ $Data{"Signature"}
     # --------------------------------------------------- #
     # default bounce next state
     $Self->{DefaultNextBounceType} = 'closed successful';
-    # next possible states for compose message
-    $Self->{DefaultNextBounceTypePossible} = [
-        'open', 
-        'closed successful', 
-        'closed unsuccessful',
-    ];
+    # next possible states for bounce message
+    $Self->{DefaultNextBounceStateType} = ['open', 'closed'];
     # default note text
     $Self->{DefaultBounceText} = 'Your email with ticket number "<OTRS_TICKET>" '.
       'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.';
@@ -518,12 +519,8 @@ $Data{"Signature"}
     # --------------------------------------------------- #
     # defaults for forward message                        #
     # --------------------------------------------------- #
-    # next possible states for compose message
-    $Self->{DefaultNextForwardTypePossible} = [
-        'open', 
-        'closed successful',
-        'closed unsuccessful',
-    ];
+    # next possible states for forward message
+    $Self->{DefaultNextForwardStateType} = ['open', 'closed'];
     # possible email type 
     $Self->{DefaultForwardEmailType} = [
         'email-external',
@@ -617,7 +614,7 @@ $Data{"Signature"}
     $Self->{PostmasterDefaultQueue} = 'Raw';
 
     # PostmasterDefaultPriority
-    # (The default priority of new tickets.) [default: normal]
+    # (The default priority of new tickets.) [default: '3 normal']
     $Self->{PostmasterDefaultPriority} = '3 normal';
 
     # PostmasterDefaultState
@@ -808,6 +805,7 @@ $Data{"Signature"}
         Desc => 'Select your default spelling dictionary.', 
         Type => 'Generic',
         Data => {
+            # installed dict catalog (check your insalled catalogues, e. g. deutsch -=> german!)
             # dict => frontend
             'english' => 'English',
             'deutsch' => 'Deutsch',
@@ -1114,11 +1112,7 @@ Your OTRS Notification Master
     $Self->{CustomerPanelDefaultNextComposeType} = 'open';
     $Self->{CustomerPanelNextComposeState} = 1;
     # next possible states for compose message
-    $Self->{CustomerPanelDefaultNextComposeTypePossible} = [
-        'open',
-        'closed successful',
-        'closed unsuccessful',
-    ];
+    $Self->{CustomerPanelDefaultNextComposeStateType} = ['open', 'closed'];
 
     # default article type
     $Self->{CustomerPanelNewArticleType} = 'webrequest';
@@ -1385,14 +1379,8 @@ Your OTRS Notification Master
     # default note text
     $Self->{PhoneDefaultNoteText} = 'Customer called';
     # next possible states after phone
-    $Self->{PhoneDefaultNextStatePossible} = [
-        'open', 
-        'closed successful',
-        'closed unsuccessful',
-        'pending reminder',
-        'pending auto close+',
-        'pending auto close-',
-    ];
+    $Self->{PhoneDefaultNextStateType} = ['open', 'pending auto', 'pending reminder', 'closed'];
+    
     # default next state
     $Self->{PhoneDefaultNextState} = 'closed successful';
     # default history type

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.36 2003-02-17 21:59:36 martin Exp $
+# $Id: AgentCompose.pm,v 1.37 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,6 +44,7 @@ sub new {
     $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
     # --
     # get params
@@ -371,7 +373,8 @@ sub SendEmail {
         # --
         # should i set an unlock?
         # --
-        if ($NextState =~ /^close/i) {
+        my %StateData = $Self->{StateObject}->StateGet(ID => $Self->{ComposeStateID});
+        if ($StateData{TypeName} =~ /^close/i) {
             $Self->{TicketObject}->SetLock(
                 TicketID => $TicketID,
                 Lock => 'unlock',
@@ -381,7 +384,7 @@ sub SendEmail {
         # --
         # set pending time
         # --
-        elsif ($NextState =~ /^pending/i) {
+        elsif ($StateData{TypeName} =~ /^pending/i) {
             $Self->{TicketObject}->SetPendingTime(
                 UserID => $Self->{UserID},
                 TicketID => $Self->{TicketID},
@@ -417,13 +420,10 @@ sub _GetNextStates {
     # --
     # get next states
     # --
-    my %NextStates;
-    my $NextComposeTypePossible =
-       $Self->{ConfigObject}->Get('DefaultNextComposeTypePossible')
-           || die 'No Config entry "DefaultNextComposeTypePossible"!';
-    foreach (@{$NextComposeTypePossible}) {
-        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
-    }
+    my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+        Type => 'DefaultNextCompose',
+        Result => 'HASH',
+    );
     return \%NextStates;
 }
 # --

@@ -1,0 +1,210 @@
+# --
+# Kernel/System/State.pm - All Groups related function should be here eventually
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: State.pm,v 1.1 2003-03-04 00:12:52 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+package Kernel::System::State;
+
+use strict;
+
+use vars qw(@ISA $VERSION);
+$VERSION = '$Revision: 1.1 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+# --
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+    # check needed objects
+    foreach (qw(DBObject ConfigObject LogObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
+    # state params
+    $Self->{StateParams} = ['ID', 'Name', 'Comment', 'ValidID', 'TypeID', 'UserID'];
+    # check needed config options
+    foreach (qw(ViewableStateType UnlockStateType)) {
+        $Self->{ConfigObject}->Get($_) || die "Need $_ in Kernel/Config.pm!\n";
+    }
+
+    return $Self;
+}
+# --
+sub StateAdd {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Name ValidID TypeID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # qoute params
+    # -- 
+    foreach (@{$Self->{StateParams}}) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    my $SQL = "INSERT INTO ticket_state (name, valid_id, type_id, comment, " .
+        " create_time, create_by, change_time, change_by)" .
+        " VALUES " .
+        " ('$Param{Name}', $Param{ValidID}, " .
+        " $Param{TypeID}, '$Param{Comment}', " .
+        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # --
+        # get new state id
+        # --
+        my $SQL = "SELECT id FROM ticket_state WHERE name = '$Param{Name}'"; 
+        my $ID = '';
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $ID = $Row[0];
+        }
+        return $ID; 
+    }
+    else {
+        return;
+    }
+}
+# --
+sub StateGet {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
+    }
+    # --
+    # sql 
+    # --
+    my $SQL = "SELECT ts.id, ts.name, ts.valid_id, ts.comment, ts.type_id, tst.name ".
+        " FROM ".
+        " ticket_state ts, ticket_state_type tst ".
+        " WHERE ".
+        " ts.type_id = tst.id ".
+        " AND ".
+        " ts.id = $Param{ID}";
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        my @Data = $Self->{DBObject}->FetchrowArray();
+        my %Data = (
+            ID => $Data[0],
+            Name => $Data[1],
+            Comment => $Data[3],
+            ValidID => $Data[2],
+            TypeID => $Data[4],
+            TypeName => $Data[5],
+        );
+        return %Data;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub StateUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(ID Name ValidID TypeID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # db quote
+    # --
+    foreach (@{$Self->{StateParams}}) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    # --
+    # sql
+    # --
+    my $SQL = "UPDATE ticket_state SET name = '$Param{Name}', " .
+          " comment = '$Param{Comment}', " .
+          " type_id = $Param{TypeID}, valid_id = $Param{ValidID}, " .
+          " change_time = current_timestamp, change_by = $Param{UserID} " .
+          " WHERE id = $Param{ID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub StateGetStatesByType {
+    my $Self = shift;
+    my %Param = @_;
+    my @Name = ();
+    my @ID = ();
+    my %Data = ();
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Type Result)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # sql 
+    # --
+    my @StateType = ();
+    if ($Self->{ConfigObject}->Get($Param{Type}.'StateType')) {
+        @StateType = @{$Self->{ConfigObject}->Get($Param{Type}.'StateType')};
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Type '$Param{Type}StateType' not found in Kernel/Config.pm!",
+        );
+        die;
+    }
+    my $SQL = "SELECT ts.id, ts.name, tst.name  ".
+        " FROM ".
+        " ticket_state ts, ticket_state_type tst ".
+        " WHERE ".
+        " tst.id = ts.type_id ".
+        " AND ".
+        " tst.name IN ('${\(join '\', \'', @StateType)}' )".
+        " AND ".
+        " ts.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+            push (@Name, $Data[1]);
+            push (@ID, $Data[0]);
+            $Data{$Data[0]} = $Data[1];
+        }
+        if ($Param{Result} eq 'Name') {
+            return @Name;
+        }
+        elsif ($Param{Result} eq 'HASH') {
+            return %Data;
+        }
+        else {
+            return @ID;
+        }
+    }
+}
+# --
+
+1;

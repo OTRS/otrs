@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.7 2003-03-02 14:03:08 martin Exp $
+# $Id: AgentStatusView.pm,v 1.8 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,68 +13,66 @@
 package Kernel::Modules::AgentStatusView;
 
 use strict;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
-   my $Type = shift;
-   my %Param = @_;
+    my $Type = shift;
+    my %Param = @_;
 
-   # allocate new hash for object
-   my $Self = {};
-   bless ($Self, $Type);
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
 
-   # get common opjects
-   foreach (keys %Param) {
-       $Self->{$_} = $Param{$_};   
-   }
+    # get common opjects
+    foreach (keys %Param) {
+        $Self->{$_} = $Param{$_};   
+    }
 
-   # check all needed objects
-   foreach (
-     'ParamObject',
-     'DBObject',
-     'QueueObject',
-     'LayoutObject',
-     'ConfigObject',
-     'LogObject',
-     'UserObject',
-   ) {
-       die "Got no $_" if (!$Self->{$_});
-   }
+    # check all needed objects
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
+        die "Got no $_" if (!$Self->{$_});
+    }
+    # state object
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
-   # --
-   # all static variables
-   # --
-   $Self->{ViewableStats} = $Self->{ConfigObject}->Get('ViewableStats')
-          || die 'No Config entry "ViewableStats"!';
+    # --
+    # all static variables
+    # --
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        Type => 'Viewable',
+        Result => 'ID',
+    );
+    $Self->{ViewableStateIDs} = \@ViewableStateIDs;
 
-   $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
+    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
           || die 'No Config entry "ViewableSenderTypes"!';
-   # --
-   # get params 
-   # --
-   $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
-   $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
-   # viewable tickets a page
-   $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit') || 6000; 
+    # --
+    # get params 
+    # --
+    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
+    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
+    # viewable tickets a page
+    $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit') || 6000; 
 
-   $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0;
-   if ($Self->{StartHit} >= 1000) {
-       $Self->{StartHit} = 1000;
-   }
-   $Self->{PageShown} = $Self->{ConfigObject}->Get('AgentStatusView::ViewableTicketsPage') || 50;
-   $Self->{ViewType} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'Open';
-   if ($Self->{ViewType} =~ /^close/i) {
-       $Self->{ViewType} = 'Closed';
-   }
-   else {
-       $Self->{ViewType} = 'Open';
-   }
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0;
+    if ($Self->{StartHit} >= 1000) {
+        $Self->{StartHit} = 1000;
+    }
+    $Self->{PageShown} = $Self->{ConfigObject}->Get('AgentStatusView::ViewableTicketsPage') || 50;
+    $Self->{ViewType} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'Open';
+    if ($Self->{ViewType} =~ /^close/i) {
+        $Self->{ViewType} = 'Closed';
+    }
+    else {
+        $Self->{ViewType} = 'Open';
+    }
 
-   return $Self;
+    return $Self;
 }
 # --
 sub Run {
@@ -114,13 +112,10 @@ sub Run {
    # get data (viewable tickets...)
    # --
    my @ViewableTickets = ();
-   my @ViewableStats = @{$Self->{ViewableStats}};
    my $SQL = "SELECT st.id, st.queue_id FROM " .
-       " ticket st, ticket_state tsd, group_user ug, queue q, " . 
+       " ticket st, group_user ug, queue q, " . 
          $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
        " WHERE " .
-       " tsd.id = st.ticket_state_id " .
-       " AND " .
        " ug.user_id = $Self->{UserID} " .
        " AND ".
        " q.group_id = ug.group_id ".
@@ -130,10 +125,10 @@ sub Run {
        " q.id = st.queue_id ".
        " AND ";
     if ($Self->{ViewType} =~ /closed/i) {
-       $SQL .= " tsd.name not in ( ${\(join ', ', @ViewableStats)} ) ";
+        $SQL .= " st.ticket_state_id not in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} )"; 
     }
     else {
-       $SQL .= " tsd.name in ( ${\(join ', ', @ViewableStats)} ) ";
+        $SQL .= " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} )"; 
     }
     $SQL .= " ORDER BY ";
 

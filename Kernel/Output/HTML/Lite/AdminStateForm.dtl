@@ -2,7 +2,7 @@
 # AdminStateForm.dtl - provides HTML form for AdminState
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminStateForm.dtl,v 1.7 2003-02-08 15:40:41 martin Exp $
+# $Id: AdminStateForm.dtl,v 1.8 2003-03-04 00:12:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,6 +48,10 @@
     <tr>
       <td>$Text{"State"}: </td>
       <td> <input type="text" name="Name" value="$Data{"Name"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"State Type"}: </td>
+      <td> $Data{"StateTypeOption"}</td>
     </tr>
     <tr>
       <td>$Text{"Valid"}: </td>

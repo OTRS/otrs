@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.10 2003-02-17 18:31:16 martin Exp $
+# $Id: CustomerMessage.pm,v 1.11 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,30 +14,30 @@ package Kernel::Modules::CustomerMessage;
 use strict;
 use Kernel::System::SystemAddress;
 use Kernel::System::Queue;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-
     # allocate new hash for object    
     my $Self = {}; 
     bless ($Self, $Type);
-    
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
        ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-
+    # needed objects
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
 
@@ -346,13 +346,10 @@ sub _GetNextStates {
     # --
     # get next states
     # --
-    my %NextStates;
-    my $NextComposeTypePossible =
-       $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeTypePossible')
-           || die 'No Config entry "CustomerPanelDefaultNextComposeTypePossible"!';
-    foreach (@{$NextComposeTypePossible}) {
-        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
-    }
+    my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+        Type => 'CustomerPanelDefaultNextCompose',
+        Result => 'HASH',
+    );
     return \%NextStates;
 }
 # --

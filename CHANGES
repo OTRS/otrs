@@ -2,24 +2,28 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.62 2003-02-25 12:01:55 wiktor Exp $
+# $Id: CHANGES,v 1.63 2003-03-04 00:12:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
- - (2002/02/25) rewrote scripts/backup.sh, update your cronjobs!
+ - (2003/03/03) new ticket state implementation (added ticket_state_type
+    table). Use "scripts/DBUpdate-to-1.1.(mysql|postgresql).sql".
+    State name is now free settable (because of the ticket state name). 
+    Added ticket state documentation. 
+ - (2003/02/25) rewrote scripts/backup.sh, update your cronjobs!
     http://lists.otrs.org/pipermail/dev/2003-February/000112.html
- - (2002/02/23) added sub-queue support 
+ - (2003/02/23) added sub-queue support 
     http://lists.otrs.org/pipermail/otrs/2002-June/000065.html
- - (2002/02/17) added allowing the client to close a ticket via customer
+ - (2003/02/17) added allowing the client to close a ticket via customer
     panel - http://lists.otrs.org/pipermail/otrs/2003-February/000891.html
- - (2002/02/15) fixed hanging login problem with mod_perl2
- - (2002/02/15) added mod_perl2 support for web installer
- - (2002/02/15) unfortunately there is a mod_perl2 bug on RH8 - added 
+ - (2003/02/15) fixed hanging login problem with mod_perl2
+ - (2003/02/15) added mod_perl2 support for web installer
+ - (2003/02/15) unfortunately there is a mod_perl2 bug on RH8 - added 
     check if crypt() is working correctly
- - (2002/02/14) fixed default Spelling Dictionary selection and added
+ - (2003/02/14) fixed default Spelling Dictionary selection and added
     a preferences option
  - (2003/02/13) added PendingDiffTime config option (add this time to 
     shown (selected) pending time) - 

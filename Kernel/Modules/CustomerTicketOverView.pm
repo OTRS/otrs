@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.9 2003-03-02 12:21:35 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.10 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,102 +12,94 @@
 package Kernel::Modules::CustomerTicketOverView;
 
 use strict;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
-   my $Type = shift;
-   my %Param = @_;
+    my $Type = shift;
+    my %Param = @_;
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+    # get common opjects
+    foreach (keys %Param) {
+        $Self->{$_} = $Param{$_};   
+    }
+    # check all needed objects
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
+        die "Got no $_" if (!$Self->{$_});
+    }
+    # state object
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
-   # allocate new hash for object
-   my $Self = {};
-   bless ($Self, $Type);
-
-   # get common opjects
-   foreach (keys %Param) {
-       $Self->{$_} = $Param{$_};   
-   }
-
-   # check all needed objects
-   foreach (
-     'ParamObject',
-     'DBObject',
-#     'QueueObject',
-     'LayoutObject',
-     'ConfigObject',
-     'LogObject',
-     'UserObject',
-   ) {
-       die "Got no $_" if (!$Self->{$_});
-   }
-
-   # --
-   # all static variables
-   # --
-   $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
+    # --
+    # all static variables
+    # --
+    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
           || die 'No Config entry "ViewableSenderTypes"!';
-   # --
-   # get params 
-   # --
-   $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
-   $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
-   $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0; 
-   if ($Self->{StartHit} >= 1000) {
-       $Self->{StartHit} = 1000;
-   }
-   $Self->{PageShown} = 25;
-
-   return $Self;
+    # --
+    # get params 
+    # --
+    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
+    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0; 
+    if ($Self->{StartHit} >= 1000) {
+        $Self->{StartHit} = 1000;
+    }
+    $Self->{PageShown} = 25;
+ 
+    return $Self;
 }
 # --
 sub Run {
-   my $Self = shift;
-   my %Param = @_;
-   # --
-   # store last screen
-   # --
-   if (!$Self->{SessionObject}->UpdateSessionID(
-       SessionID => $Self->{SessionID},
-       Key => 'LastScreen',
-       Value => $Self->{RequestedURL},
-   )) {
-       my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
-       $Output .= $Self->{LayoutObject}->CustomerError();
-       $Output .= $Self->{LayoutObject}->CustomerFooter();
-       return $Output;
-   }
-   # --
-   # check needed CustomerID
-   # --
-   if (!$Self->{UserCustomerID}) {
-       my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
-       $Output .= $Self->{LayoutObject}->CustomerError(Message => 'Need CustomerID!!!');
-       $Output .= $Self->{LayoutObject}->CustomerFooter();
-       return $Output;
-   }
-   # --
-   # starting with page ...
-   # --
-   my $Refresh = '';
-   if ($Self->{UserRefreshTime}) {
-       $Refresh = 60 * $Self->{UserRefreshTime};
-   }
-   my $Output = $Self->{LayoutObject}->CustomerHeader(
-       Title => 'My Tickets',
-       Refresh => $Refresh,
-   );
-   # build NavigationBar
-   $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-   # to get the output faster!
-   print $Output; $Output = '';
-   # --
-   # get data (viewable tickets...)
-   # --
-   my $AllTickets = 0; 
-   my $SQL = "SELECT count(*) FROM " .
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # store last screen
+    # --
+    if (!$Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key => 'LastScreen',
+        Value => $Self->{RequestedURL},
+    )) {
+        my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->CustomerError();
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
+    }
+    # --
+    # check needed CustomerID
+    # --
+    if (!$Self->{UserCustomerID}) {
+        my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->CustomerError(Message => 'Need CustomerID!!!');
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
+    }
+    # --
+    # starting with page ...
+    # --
+    my $Refresh = '';
+    if ($Self->{UserRefreshTime}) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+    }
+    my $Output = $Self->{LayoutObject}->CustomerHeader(
+        Title => 'My Tickets',
+        Refresh => $Refresh,
+    );
+    # build NavigationBar
+    $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
+    # to get the output faster!
+    print $Output; $Output = '';
+    # --
+    # get data (viewable tickets...)
+    # --
+    my $AllTickets = 0; 
+    my $SQL = "SELECT count(*) FROM " .
        " ticket st, ticket_state tsd, queue q, " . 
          $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
        " WHERE " .
@@ -126,11 +118,9 @@ sub Run {
 
    my @ViewableTickets = ();
    $SQL = "SELECT st.id, st.queue_id FROM " .
-       " ticket st, ticket_state tsd, queue q, " . 
+       " ticket st, queue q, " . 
          $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
        " WHERE " .
-       " tsd.id = st.ticket_state_id " .
-       " AND " .
        " st.user_id = u.". $Self->{ConfigObject}->Get('DatabaseUserTableUserID') .
        " AND ".
        " q.id = st.queue_id ".
@@ -139,10 +129,13 @@ sub Run {
     # check if just open tickets should be shown
     if ((defined $Self->{UserShowClosedTickets} && !$Self->{UserShowClosedTickets}) || 
         (!defined $Self->{UserShowClosedTickets} && !$Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
-        my $ViewableStats = $Self->{ConfigObject}->Get('ViewableStats')
-           || die 'No Config entry "ViewableStats"!';
-        $SQL .= " AND " .
-          " tsd.name in ( ${\(join ', ', @{$ViewableStats})} ) ";
+
+        my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+            Type => 'Viewable',
+            Result => 'ID',
+        );
+        $SQL .= " AND ";
+        $SQL .= " st.ticket_state_id in ( ${\(join ', ', @ViewableStateIDs)} )";
     }
     $SQL .= " ORDER BY ";
 

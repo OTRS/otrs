@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.7 2003-02-08 15:09:41 martin Exp $
+# $Id: StaticDB.pm,v 1.8 2003-03-04 00:12:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,14 +14,14 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
     my $Self = shift;
     my %Param = @_;
-    my @ViewableLocks = @{$Self->{ConfigObject}{ViewableLocks}};
-    my @ViewableStats = @{$Self->{ConfigObject}{ViewableStats}};
+    my @ViewableLocks = @{$Self->{ViewableLocks}};
+    my @ViewableStates = @{$Self->{ViewableStates}};
     # --
     # check needed stuff
     # --
@@ -59,14 +59,14 @@ sub TicketAcceleratorUpdate {
     # check if this ticket ist still viewable
     # --
     my $ViewableStatsHit = 0;
-    foreach (@ViewableStats) {
-        if ($_ =~ /^'$TicketData{State}'$/i) {
+    foreach (@ViewableStates) {
+        if ($_ =~ /^$TicketData{State}$/i) {
             $ViewableStatsHit = 1;
         }
     }
     my $ViewableLocksHit = 0;
     foreach (@ViewableLocks) {
-        if ($_ =~ /^'$TicketData{Lock}'$/i) {
+        if ($_ =~ /^$TicketData{Lock}$/i) {
             $ViewableLocksHit = 1;
         }
     }
@@ -148,6 +148,9 @@ sub TicketAcceleratorAdd {
     # --
     # write/append index 
     # --
+    foreach (keys %TicketData) {
+        $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});
+    }
     my $SQL = "INSERT INTO ticket_index ".
         " (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)".
         " VALUES ".
@@ -198,6 +201,9 @@ sub TicketLockAcceleratorAdd {
     # --
     # write/append index 
     # --
+    foreach (keys %TicketData) {
+        $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});
+    }
     my $SQL = "INSERT INTO ticket_lock_index ".
         " (ticket_id)".
         " VALUES ".
@@ -213,8 +219,6 @@ sub TicketLockAcceleratorAdd {
 sub TicketAcceleratorIndex {
     my $Self = shift;
     my %Param = @_;
-    my @ViewableLocks = @{$Self->{ConfigObject}{ViewableLocks}};
-    my @ViewableStats = @{$Self->{ConfigObject}{ViewableStats}};
     # --
     # check needed stuff
     # --
@@ -235,11 +239,9 @@ sub TicketAcceleratorIndex {
     if (@QueueIDs) {
         my $SQL = "SELECT count(*) as count " .
           " FROM " .
-          " ticket st, ticket_state tsd " .
+          " ticket st " .
           " WHERE " .
-          " tsd.id = st.ticket_state_id ".
-          " AND " .
-          " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
+          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
           " and " .
           " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) " .
           " ";
@@ -322,8 +324,6 @@ sub TicketAcceleratorIndex {
 sub TicketAcceleratorRebuild {
     my $Self = shift;
     my %Param = @_;
-    my @ViewableLocks = @{$Self->{ConfigObject}{ViewableLocks}};
-    my @ViewableStats = @{$Self->{ConfigObject}{ViewableStats}};
     # --
     # get all viewable tickets
     # --
@@ -339,9 +339,9 @@ sub TicketAcceleratorRebuild {
     " AND " .
     " st.ticket_lock_id = slt.id " .
     " AND " .
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
+    " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
+    " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
     " ";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -363,6 +363,9 @@ sub TicketAcceleratorRebuild {
     $Self->{DBObject}->Do(SQL => "DELETE FROM ticket_index");
     foreach (@RowBuffer) {
         my %Data = %{$_};
+        foreach (keys %Data) {
+            $Data{$_} = $Self->{DBObject}->Quote($Data{$_});
+        }
         my $SQL = "INSERT INTO ticket_index ".
           " (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)".
           " VALUES ".
@@ -376,11 +379,9 @@ sub TicketAcceleratorRebuild {
     $Self->{DBObject}->Prepare(
        SQL => "SELECT ti.id, ti.user_id ".
          " FROM ".
-         " ticket ti, ticket_lock_type slt ".
+         " ticket ti ".
          " WHERE ".
-         " slt.id = ti.ticket_lock_id ".
-         " AND ".
-         " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) ",
+         " ti.ticket_lock_id not in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ",
     );
     my @LockRowBuffer = ();
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -455,9 +456,6 @@ sub GetIndexTicketLock {
 sub GetLockedCount {
     my $Self = shift;
     my %Param = @_;
-
-    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
-
     # --
     # check needed stuff
     # --
@@ -522,20 +520,18 @@ sub GetOverTimeTickets {
     # --
     my @TicketIDsOverTime = ();
     my %TicketIDs = ();
-    my @ViewableStats = @{$Self->{ConfigObject}->Get('ViewableStats')};
-    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
     my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
     " q.name, q.escalation_time, t.tn ".
     " FROM ".
     " article a, article_sender_type ast, queue q, ticket t, ".
-    " ticket_state tsd, ticket_lock_type slt, group_user as ug, ticket_index ti ".
+    " group_user as ug, ticket_index ti ".
     " WHERE ".
+    " t.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
+    " AND " .
+    " t.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
+    " AND ".
     " ti.ticket_id = t.id".
     " AND ".
-    " tsd.id = t.ticket_state_id " .
-    " AND " .
-    " slt.id = t.ticket_lock_id " .
-    " AND " .
     " ast.id = a.article_sender_type_id ".
     " AND ".
     " t.id = a.ticket_id ".
@@ -543,10 +539,6 @@ sub GetOverTimeTickets {
     " q.id = t.queue_id ".
     " AND ".
     " q.group_id = ug.group_id ".
-    " AND ".
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) ".
-    " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) ".
     " AND ";
     if ($Param{UserID}) {
         $SQL .= " ug.user_id = $Param{UserID} ".

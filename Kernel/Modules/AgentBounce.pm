@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.15 2003-02-17 21:59:36 martin Exp $
+# $Id: AgentBounce.pm,v 1.16 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,29 +12,30 @@
 package Kernel::Modules::AgentBounce;
 
 use strict;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-
     # allocate new hash for object    
     my $Self = {}; 
     bless ($Self, $Type);
-    
+    # get common opjects    
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
       QueueObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
+    # needed objects
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
 
@@ -197,15 +198,10 @@ sub Run {
         $Data{RealName} = $Address{RealName};
 
         # get next states
-        my %NextStates = ();
-        my $NextComposeTypePossibleTmp =
-           $Self->{ConfigObject}->Get('DefaultNextBounceTypePossible')
-               || die 'No Config entry "DefaultNextBounceTypePossible"!';
-        my @NextComposeTypePossible = @$NextComposeTypePossibleTmp;
-        foreach (@NextComposeTypePossible) {
-            $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
-        }
-
+        my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+            Type => 'DefaultNextBounce',
+            Result => 'HASH',
+        );
         # print form ...
         $Output .= $Self->{LayoutObject}->AgentBounce(
             %Param,
@@ -294,7 +290,8 @@ sub Run {
         # --
         # should i set an unlock?
         # --
-        if ($NextState =~ /^close/i) {
+        my %StateData = $Self->{StateObject}->StateGet(ID => $Param{BounceStateID});
+        if ($StateData{TypeName} =~ /^close/i) {
           $Self->{TicketObject}->SetLock(
             TicketID => $Self->{TicketID},
             Lock => 'unlock',

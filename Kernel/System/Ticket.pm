@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.46 2003-02-17 21:38:37 martin Exp $
+# $Id: Ticket.pm,v 1.47 2003-03-04 00:12:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,6 +23,8 @@ use Kernel::System::Ticket::SendAutoResponse;
 use Kernel::System::Ticket::SendNotification;
 use Kernel::System::Ticket::SendArticle;
 use Kernel::System::Ticket::TimeAccounting;
+use Kernel::System::State;
+use Kernel::System::Lock;
 use Kernel::System::Queue;
 use Kernel::System::User;
 use Kernel::System::AutoResponse;
@@ -30,7 +32,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -65,12 +67,31 @@ sub new {
     $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     # --
     # get needed objects
     # --
     foreach (qw(ConfigObject LogObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    # --
+    # get static var
+    # --
+    my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
+        Type => 'Viewable', 
+        Result => 'Name',
+    );
+    $Self->{ViewableStates} = \@ViewableStates;
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType( 
+        Type => 'Viewable',
+        Result => 'ID',
+    );
+    $Self->{ViewableStateIDs} = \@ViewableStateIDs;
+    my @ViewableLocks = $Self->{LockObject}->LockViewableLock(Type => 'Name');
+    $Self->{ViewableLocks} = \@ViewableLocks;
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(Type => 'ID');
+    $Self->{ViewableLockIDs} = \@ViewableLockIDs;
     # --
     # load ticket number generator 
     # --

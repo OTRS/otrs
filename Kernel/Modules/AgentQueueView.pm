@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.28 2003-02-23 22:23:25 martin Exp $
+# $Id: AgentQueueView.pm,v 1.29 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,36 +12,48 @@
 package Kernel::Modules::AgentQueueView;
 
 use strict;
+use Kernel::System::State;
+use Kernel::System::Lock;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-
     # allocate new hash for object
     my $Self = {}; 
     bless ($Self, $Type);
-
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+    # --
+    # some new objects
+    # --
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{LockObject} = Kernel::System::Lock->new(%Param);
 
     # --
     # get config data
     # --
-
+    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
+           || die 'No Config entry "ViewableSenderTypes"!';
+    $Self->{CustomQueue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
     # default viewable tickets a page
     $Self->{ViewableTickets} = $Self->{ConfigObject}->Get('ViewableTickets');
+
+    # --
+    # get params
+    # --
     # viewable tickets a page
     $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit')
         || $Self->{ViewableTickets};
@@ -54,20 +66,13 @@ sub new {
     # --
     # all static variables
     # --
-    $Self->{ViewableLocks} = $Self->{ConfigObject}->Get('ViewableLocks') 
-           || die 'No Config entry "ViewableLocks"!';
-
-    $Self->{ViewableStats} = $Self->{ConfigObject}->Get('ViewableStats') 
-           || die 'No Config entry "ViewableStats"!';
-
-    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes') 
-           || die 'No Config entry "ViewableSenderTypes"!';
-
-    $Self->{CustomQueue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
-    # --
-    # customer user object
-    # --
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        Type => 'Viewable',
+        Result => 'ID',
+    );
+    $Self->{ViewableStateIDs} = \@ViewableStateIDs;
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(Type => 'ID');
+    $Self->{ViewableLockIDs} = \@ViewableLockIDs;
 
     return $Self;
 }
@@ -152,20 +157,14 @@ sub Run {
     # --
     my @ViewableTickets = ();
     if (@ViewableQueueIDs) {
-        my @ViewableLocks = @{$Self->{ViewableLocks}};
-        my @ViewableStats = @{$Self->{ViewableStats}};
         my $SQL = "SELECT st.id, st.queue_id FROM " .
-          " ticket st, ticket_state tsd, ticket_lock_type slt " .
+          " ticket st " .
           " WHERE " .
-          " tsd.id = st.ticket_state_id " .
+          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
           " AND " .
-          " slt.id = st.ticket_lock_id " .
-          " AND " .
-          " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
+          " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
           " AND " .
           " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) " .
-          " AND ".
-          " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
           " ORDER BY st.ticket_priority_id DESC, st.create_time_unix ASC ";
 
           $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});

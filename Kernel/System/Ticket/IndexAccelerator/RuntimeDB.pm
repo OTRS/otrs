@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.7 2003-02-08 15:09:41 martin Exp $
+# $Id: RuntimeDB.pm,v 1.8 2003-03-04 00:12:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -39,8 +39,6 @@ sub TicketAcceleratorAdd {
 sub TicketAcceleratorIndex {
     my $Self = shift;
     my %Param = @_;
-    my @ViewableLocks = @{$Self->{ConfigObject}{ViewableLocks}};
-    my @ViewableStats = @{$Self->{ConfigObject}{ViewableStats}};
     # --
     # check needed stuff
     # --
@@ -61,11 +59,9 @@ sub TicketAcceleratorIndex {
     if (@QueueIDs) {
         my $SQL = "SELECT count(*) as count " .
           " FROM " .
-          " ticket st, ticket_state tsd " .
+          " ticket st " .
           " WHERE " .
-          " tsd.id = st.ticket_state_id ".
-          " AND " .
-          " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
+          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
           " and " .
           " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) " .
           " ";
@@ -79,20 +75,15 @@ sub TicketAcceleratorIndex {
     # CustomQueue add on
     # --
     my $SQL = "SELECT count(*) FROM " .
-    " ticket as st, queue as sq, personal_queues as suq, " .
-    " ticket_state tsd, ticket_lock_type slt " .
+    " ticket as st, queue as sq, personal_queues as suq " .
     " WHERE " .
-    " st.ticket_state_id = tsd.id " .
+    " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
+    " AND " .
+    " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
     " AND " .
     " st.queue_id = sq.id " .
     " AND " .
-    " st.ticket_lock_id = slt.id " .
-    " AND " .
     " suq.queue_id = st.queue_id " .
-    " AND " .
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-    " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
     " AND " .
     # get all custom queues
     " suq.user_id = $Param{UserID} " .
@@ -115,20 +106,15 @@ sub TicketAcceleratorIndex {
     # prepar the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) as count ".
     " FROM " .
-    " ticket as st, queue as sq, group_user as sug, ticket_state tsd, " .
-    " ticket_lock_type slt " .
+    " ticket as st, queue as sq, group_user as sug " .
     " WHERE " .
-    " st.ticket_state_id = tsd.id " .
+    " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
+    " AND " .
+    " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
     " AND " .
     " st.queue_id = sq.id " .
     " AND " .
-    " st.ticket_lock_id = slt.id " .
-    " AND " .
     " sq.group_id = sug.group_id" .
-    " AND " .
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-    " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
     " AND " .
     " sug.user_id = $Param{UserID} " .
     " GROUP BY st.queue_id,sq.name " .
@@ -167,8 +153,6 @@ sub GetLockedCount {
     my $Self = shift;
     my %Param = @_;
 
-    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
-    
     # --
     # check needed stuff
     # --
@@ -182,14 +166,12 @@ sub GetLockedCount {
        SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
               " ti.until_time, ts.name " .
               " FROM " .
-              " ticket ti, article ar, article_sender_type st, ticket_lock_type slt, " .
+              " ticket ti, article ar, article_sender_type st, " .
               " ticket_state ts" .
               " WHERE " .
-              " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) " .
+              " ti.ticket_lock_id not in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
               " AND " .
               " ti.user_id = $Param{UserID} " .
-              " AND " .
-              " slt.id = ti.ticket_lock_id " .
               " AND " .
               " ar.ticket_id = ti.id " .
               " AND " .
@@ -235,17 +217,15 @@ sub GetOverTimeTickets {
     # --
     my @TicketIDsOverTime = ();
     my %TicketIDs = ();
-    my @ViewableStats = @{$Self->{ConfigObject}->Get('ViewableStats')};
-    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
     my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
     " q.name, q.escalation_time, t.tn ".
     " FROM ".
     " article a, article_sender_type ast, queue q, ticket t, ".
-    " ticket_state tsd, ticket_lock_type slt, group_user as ug ".
+    " group_user as ug ".
     " WHERE ".
-    " tsd.id = t.ticket_state_id " .
+    " t.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
-    " slt.id = t.ticket_lock_id " .
+    " t.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
     " AND " .
     " ast.id = a.article_sender_type_id ".
     " AND ".
@@ -254,10 +234,6 @@ sub GetOverTimeTickets {
     " q.id = t.queue_id ".
     " AND ".
     " q.group_id = ug.group_id ".
-    " AND ".
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) ".
-    " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) ".
     " AND ";
     if ($Param{UserID}) {
         $SQL .= " ug.user_id = $Param{UserID} ".

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.19 2003-02-09 00:25:55 martin Exp $
+# $Id: AgentClose.pm,v 1.20 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,16 +12,16 @@
 package Kernel::Modules::AgentClose;
 
 use strict;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-
     # allocate new hash for object    
     my $Self = {};
     bless ($Self, $Type);
@@ -29,12 +29,13 @@ sub new {
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
       QueueObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
+    # needed objects
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
     return $Self;
 }
@@ -77,16 +78,10 @@ sub Run {
     
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # get next states
-        my %NextStates = $Self->{DBObject}->GetTableData(
-            Table => 'ticket_state',
-            Valid => 0,
-            What => 'id, name'
+        my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+            Type => 'DefaultCloseNext',
+            Result => 'HASH',
         );
-        foreach (keys %NextStates) {
-            if ($NextStates{$_} !~ /^close/i) {
-                delete $NextStates{$_};
-            }
-        }
         # get possible notes
         my %NoteTypes = $Self->{DBObject}->GetTableData(
             Table => 'article_type',
@@ -131,7 +126,6 @@ sub Run {
                 # show lock state
                 $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
             }
-
         }
         # --
         # print form ...

@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.31 2003-03-02 12:26:33 martin Exp $
+# $Id: Admin.pm,v 1.32 2003-03-04 00:12:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1122,6 +1122,18 @@ sub AdminStateForm {
         Size => 15,
         Name => 'ID',
         SelectedID => $Param{ID},
+    );
+
+    $Param{StateTypeOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Valid => 0,
+            Table => 'ticket_state_type',
+          )
+        },
+        Name => 'TypeID',
+        SelectedID => $Param{TypeID},
     );
 
     return $Self->Output(TemplateFile => 'AdminStateForm', Data => \%Param);

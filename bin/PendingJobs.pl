@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.6 2003-02-08 15:05:11 martin Exp $
+# $Id: PendingJobs.pl,v 1.7 2003-03-04 00:12:52 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -37,6 +37,7 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::User;
+use Kernel::System::State;
 
 # --
 # common objects
@@ -50,38 +51,30 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);  
+$CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
 
 # --
 # check args
 # --
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
-# --
-# get states
-# --
-my @AutoStates = ();
-my %States = %{$CommonObject{ConfigObject}->Get('StateAfterPending')};
-foreach (keys %States) {
-    push(@AutoStates, "'$_'");
-}
+print "Copyright (c) 2002-2003 Martin Edenhofer <martin\@otrs.org>\n";
+
 # --
 # do ticket auto jobs
 # --
+my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
+    Type => 'PendingAuto',
+    Result => 'ID',
+);
 my @TicketIDs = ();
-my $SQL = "SELECT st.tn, slt.name, st.ticket_answered, st.id, st.user_id FROM " .
-    " ticket as st, queue as sq, ticket_state tsd, ticket_lock_type slt " .
+my $SQL = "SELECT st.id FROM " .
+    " ticket as st " .
     " WHERE " .
-    " st.ticket_state_id = tsd.id " .
-    " AND " .
-    " st.queue_id = sq.id " .
-    " AND " .
-    " st.ticket_lock_id = slt.id ".
-    " AND " .
-    " tsd.name IN ( ${\(join ', ', @AutoStates)} ) ";
+    " st.ticket_state_id IN ( ${\(join ', ', @PendingAutoStateIDs)} ) ";
 $CommonObject{DBObject}->Prepare(SQL => $SQL);
-while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
-    push (@TicketIDs, $RowTmp[3]);
+while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
+    push (@TicketIDs, $Row[0]);
 }
 foreach (@TicketIDs) {
     my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
@@ -105,20 +98,24 @@ foreach (@TicketIDs) {
             }
         }
         else {
-            print STDERR "ERROR: No StateAfterPending fount for $Ticket{State} in Kernel/Config.pm!\n";
+            print STDERR "ERROR: No StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!\n";
         }
     }
 }
 # --
 # do ticket reminder notification jobs
 # --
+my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
+    Type => 'PendingReminder',
+    Result => 'ID',
+);
 @TicketIDs = ();
 $SQL = "SELECT st.tn, st.id, st.user_id FROM " .
     " ticket as st, ticket_state tsd " .
     " WHERE " .
     " st.ticket_state_id = tsd.id " .
     " AND " .
-    " tsd.name IN ( ${\(join ', ', @{$CommonObject{ConfigObject}->Get('ReminderStats')})} ) ";
+    " st.ticket_state_id IN ( ${\(join ', ', @PendingReminderStateIDs)} ) ";
 $CommonObject{DBObject}->Prepare(SQL => $SQL);
 while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
     push (@TicketIDs, $RowTmp[1]);
@@ -129,7 +126,7 @@ foreach (@TicketIDs) {
         # --
         # send reminder notification
         # --
-        print " send reminder notification (TicketID=$_)\n";
+        print " Send reminder notification (TicketID=$_)\n";
         # get user data
         my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $Ticket{UserID});
         $CommonObject{TicketObject}->SendNotification(

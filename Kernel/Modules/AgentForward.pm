@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentForward.pm - to forward a message
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.16 2003-02-17 21:59:36 martin Exp $
+# $Id: AgentForward.pm,v 1.17 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,31 +12,30 @@
 package Kernel::Modules::AgentForward;
 
 use strict;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
     # allocate new hash for object 
     my $Self = {}; 
     bless ($Self, $Type);
-    
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject 
       LogObject TicketObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
-
+    # needed objects
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
     # get params
     $Self->{From} = $Self->{ParamObject}->GetParam(Param => 'From') || '';
     $Self->{To} = $Self->{ParamObject}->GetParam(Param => 'To') || '';
@@ -56,7 +55,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-   
     # --
     # check needed stuff
     # --
@@ -185,14 +183,10 @@ sub Form {
     $Signature =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
 
     # get next states
-    my %NextStates;
-    my $NextComposeTypePossibleTmp = 
-       $Self->{ConfigObject}->Get('DefaultNextForwardTypePossible')
-           || die 'No Config entry "DefaultNextForwardTypePossible"!';
-    my @NextComposeTypePossible = @$NextComposeTypePossibleTmp;
-    foreach (@NextComposeTypePossible) {
-        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
-    }
+    my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+        Type => 'DefaultNextForward',
+        Result => 'HASH',
+    );
 
     my %ArticleTypes;
     my $ArticleTypesTmp = 
@@ -274,7 +268,8 @@ sub SendEmail {
       # --
       # should i set an unlock?
       # --
-      if ($NextState =~ /^close/i) {
+      my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
+      if ($StateData{TypeName} =~ /^close/i) {
         $Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
             Lock => 'unlock',

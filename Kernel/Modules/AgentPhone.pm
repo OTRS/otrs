@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.29 2003-03-02 10:12:46 martin Exp $
+# $Id: AgentPhone.pm,v 1.30 2003-03-04 00:12:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,10 @@ use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,6 +45,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
     return $Self;
 }
@@ -210,7 +212,8 @@ sub Run {
          # --
          # should i set an unlock?
          # --
-         if ($NextState =~ /^close/i) {
+         my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
+         if ($StateData{TypeName} =~ /^close/i) {
            $Self->{TicketObject}->SetLock(
              TicketID => $TicketID,
              Lock => 'unlock',
@@ -220,7 +223,7 @@ sub Run {
          # --
          # set pending time
          # --
-         elsif ($NextState =~ /^pending/i) {
+         elsif ($StateData{TypeName} =~ /^pending/i) {
              $Self->{TicketObject}->SetPendingTime(
                  UserID => $Self->{UserID},
                  TicketID => $TicketID,
@@ -459,7 +462,8 @@ sub Run {
           # --
           # should i set an unlock?
           # --
-          if ($NextState =~ /^close/i) {
+          my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
+          if ($StateData{TypeName} =~ /^close/i) {
               $Self->{TicketObject}->SetLock(
                   TicketID => $TicketID,
                   Lock => 'unlock',
@@ -469,7 +473,7 @@ sub Run {
           # --
           # set pending time
           # --
-          elsif ($NextState =~ /^pending/i) {
+          elsif ($StateData{TypeName} =~ /^pending/i) {
               $Self->{TicketObject}->SetPendingTime(
                   UserID => $Self->{UserID},
                   TicketID => $TicketID,
@@ -504,14 +508,10 @@ sub Run {
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
-    # get next states
-    my %NextStates;
-    my $NextComposeTypePossibleTmp = $Self->{ConfigObject}->Get('PhoneDefaultNextStatePossible')
-        || die 'No Config entry "PhoneDefaultNextStatePossible"!';
-    my @NextComposeTypePossible = @$NextComposeTypePossibleTmp;
-    foreach (@NextComposeTypePossible) {
-        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
-    }
+    my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+        Type => 'PhoneDefaultNext',
+        Result => 'HASH',
+    );
     return \%NextStates;
 }
 # --
