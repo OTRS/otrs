@@ -159,11 +159,28 @@ CREATE TABLE ticket_state
     id serial,
     name varchar (100) NOT NULL,
     comment varchar (250),
+    type_id smallint NOT NULL,
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
     change_time timestamp(0) NOT NULL,
     change_by integer NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+-----------------------------------------------------------------------------
+-- ticket_state_type
+-----------------------------------------------------------------------------
+CREATE TABLE ticket_state_type
+(
+    id serial,
+    name VARCHAR (120) NOT NULL,
+    comment VARCHAR (250),
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
 );

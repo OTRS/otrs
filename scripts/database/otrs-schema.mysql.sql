@@ -181,7 +181,26 @@ CREATE TABLE ticket_state
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     comment VARCHAR (250),
+    type_id SMALLINT NOT NULL,
     valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+# -----------------------------------------------------------------------
+# ticket_state_type
+# -----------------------------------------------------------------------
+drop table if exists ticket_state_type;
+
+CREATE TABLE ticket_state_type
+(
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (120) NOT NULL,
+    comment VARCHAR (250),
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,

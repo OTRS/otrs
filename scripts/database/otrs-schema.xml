@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.5 2003-02-25 18:50:01 martin Exp $
+  $Id: otrs-schema.xml,v 1.6 2003-03-03 23:29:01 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.5  2003/02/25 18:50:01  martin
+  removed dubbel group_id on ticket table
+
   Revision 1.4  2003/02/14 22:46:10  martin
   cleanup - small changes
 
@@ -244,7 +247,22 @@
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
   <column name="name" required="true" size="100" type="VARCHAR"/>
   <column name="comment" required="false" size="250" type="VARCHAR"/>
+  <column name="type_id" required="true" type="SMALLINT"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- ticket_state_type - all ticket states types -->
+<table name="ticket_state_type">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="120" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
