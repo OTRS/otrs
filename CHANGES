@@ -2,13 +2,28 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.37 2002-12-07 19:22:48 martin Exp $
+# $Id: CHANGES,v 1.38 2002-12-08 22:10:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 0.5 BETA9 (2002-??-??)
+ - (2002/12/08) added TicketCryptModule feature - crypt plain emails and
+    attachments with backend modules Kernel::System::Ticket::Crypt::Plain
+    (not crypted - default) or Kernel::System::Ticket::Crypt::Blowfish
+    (Blowfish encryption algorithm). TicketCryptModule option in 
+    Kernel/Config.pm!
+ - (2002/12/08) added TicketCompressModule feature - compress plain emails 
+    and attachments with backend modules 
+    Kernel::System::Ticket::Compress::Plain (not compressed - default) or 
+    Kernel::System::Ticket::Compress::Zlib (compressed with Compress::Zlib).
+    TicketCompressModule option in Kernel/Config.pm!
+ - (2002/12/08) added working PostMasterDaemon.pl and PostMasterClient.pl, 
+    alternative to PostMaster.pl. How it works: If the PostMasterDaemon.pl 
+    is running, pipe email through PostMasterClient.pl like (PostMaster.pl)
+    (e. g. "cat /tmp/some.box | bin/PostMasterClient.pl"). Pro: Speed, Contra
+    needs more memory.
  - (2002/12/07) added customer-user-backend Kernel/System/CustomerUser/DB.pm.
  - (2002/12/07) added preferences-backend module for user and customer user
     (Kernel/System/ (User/Preferences/DB.pm and CustomerUser/Preferences/DB.pm)
