@@ -2,7 +2,7 @@
 # AdminGroup.pm - to add/update/delete groups 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGroup.pm,v 1.1 2001-12-27 14:17:09 martin Exp $
+# $Id: AdminGroup.pm,v 1.2 2002-02-07 00:01:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -107,10 +107,12 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
             $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
         }
-        my $SQL = "INSERT INTO groups (name, valid_id, create_time, create_by, change_time, change_by)" .
-		" VALUES " .
-		" ('$GetParam{Name}', '$GetParam{Comment}', " .
-		" $GetParam{ValidID}, current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
+        my $SQL = "INSERT INTO groups (name, comment, valid_id, ".
+                " create_time, create_by, change_time, change_by)" .
+                " VALUES " .
+                " ('$GetParam{Name}', '$GetParam{Comment}', " .
+                " $GetParam{ValidID}, current_timestamp, $Self->{UserID}, ".
+                " current_timestamp, $Self->{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {        
              $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
