@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Priority.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Priority.pm,v 1.8 2003-02-08 15:09:40 martin Exp $
+# $Id: Priority.pm,v 1.9 2003-02-17 21:42:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::Priority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -134,7 +134,8 @@ sub SetPriority {
           TicketID => $Param{TicketID},
           CreateUserID => $Param{UserID},
           HistoryType => 'PriorityUpdate',
-          Name => "Priority update to $Param{Priority} ($Param{PriorityID}) .",
+          Name => "Priority update from '$TicketData{Priority}' ($TicketData{PriorityID})".
+              " to '$Param{Priority}' ($Param{PriorityID}).",
       );
       return 1;
     }
@@ -145,4 +146,3 @@ sub SetPriority {
 # --
 
 1;
-
