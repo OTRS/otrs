@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.33 2004-07-15 07:40:27 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.34 2004-07-15 19:27:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@
 # check if the faq link should be shown
 <dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "<td valign="top" align="center" class="nav"><div title="$Text{"FAQ-Area"}"><a href="$Env{"Baselink"}Action=FAQ&Nav=Normal" onmouseover="window.status='$Text{"FAQ-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}help.png" alt="$Text{"FAQ-Area"}"><br>$Text{"FAQ-Area"}</a></div></td>"; }>
 # check if the stats link should be shown
-<dtl if ($Env{"UserIsGroup[stats]"} eq "Yes") { $Data{"StatsLink"} = "<td valign="top" align="center" class="nav">><div title="$Text{"Stats-Area"}"><a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}stats.png" alt="$Text{"Stats-Area"}"><br>$Text{"Stats-Area"}</a></div></td>"; }>
+<dtl if ($Env{"UserIsGroup[stats]"} eq "Yes") { $Data{"StatsLink"} = "<td valign="top" align="center" class="nav"><div title="$Text{"Stats-Area"}"><a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}stats.png" alt="$Text{"Stats-Area"}"><br>$Text{"Stats-Area"}</a></div></td>"; }>
 # check if bulk feature is aktiv
 <dtl if ($Config{"FrontendBulkFeature"} eq "1") { $Data{"BulkLink"} = "<td valign="top" align="center" class="nav"><div title="$Text{"Bulk Actions on Tickets"}"><a href="" onclick="BulkSubmit(); return false;" onmouseover="window.status='$Text{"Bulk Action"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}misc.png" alt="$Text{"Bulk Action"}"><br>$Text{"Bulk Action"}</a></div></td>"; }>
 
