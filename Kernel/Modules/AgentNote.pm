@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.20 2003-04-12 09:05:41 martin Exp $
+# $Id: AgentNote.pm,v 1.21 2003-04-13 11:41:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -77,13 +77,14 @@ sub Run {
     
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # get possible notes
+        my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
         my %NoteTypes = $Self->{DBObject}->GetTableData(
             Table => 'article_type',
             Valid => 1,
             What => 'id, name'
         );
         foreach (keys %NoteTypes) {
-            if ($NoteTypes{$_} !~ /^note/i) {
+            if (!$DefaultNoteTypes{$NoteTypes{$_}}) {
                 delete $NoteTypes{$_};
             }
         }

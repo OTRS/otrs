@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.63 2003-04-12 09:02:12 martin Exp $
+# $Id: Defaults.pm,v 1.64 2003-04-13 11:41:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -495,6 +495,11 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # default note type
     $Self->{DefaultNoteType} = 'note-internal';
+    $Self->{DefaultNoteTypes} = {
+        'note-internal' => 1,
+        'note-external' => 0,
+        'note-report' => 0,
+    };
     # default note subject
     $Self->{DefaultNoteSubject} = 'Note!';
     # default note text
@@ -1557,7 +1562,7 @@ Your OTRS Notification Master
     $Self->{PhoneViewASP} = 1;
 
     # PhoneViewOwnerSelection
-    $Self->{PhoneViewOwnerSelection} = 0;
+    $Self->{PhoneViewOwnerSelection} = 1;
 
     # PhoneViewSelectionType 
     # (To: seection type. Queue => show all queues, SystemAddress => show all system 
