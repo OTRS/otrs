@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.12 2005-02-15 13:25:14 martin Exp $
+# $Id: XML.pm,v 1.13 2005-02-17 16:15:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -233,43 +233,56 @@ sub XMLHashSearch {
     my %Param = @_;
     my $SQL = '';
     my @Keys = ();
+    my %Hash = ();
+    my %HashNew = ();
     # check needed stuff
-    foreach (qw(Type What)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+    foreach (qw(Type)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
 
-    foreach my $And (@{$Param{What}}) {
-        if ($SQL) {
-            $SQL .= " AND ";
-        }
-        my $AndSQL = '';
-        foreach my $Key (sort keys %{$And}) {
-            if ($AndSQL) {
-                $AndSQL .= " OR ";
-            }
-            my $Value = $Self->{DBObject}->Quote($And->{$Key});
-            $Key = $Self->{DBObject}->Quote($Key);
-            $AndSQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
-        }
-        $AndSQL = '('.$AndSQL.')';
-        $SQL .= $AndSQL;
-    }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    $SQL = 'SELECT xml_key FROM xml_storage WHERE '.$SQL." AND xml_type = '$Param{Type}'";
+    $SQL = "SELECT xml_key FROM xml_storage WHERE xml_type = '$Param{Type}' GROUP BY xml_key";   
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
-    }
+    }  
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        push (@Keys, $Data[0]);
+        $Hash{$Data[0]} = 1;
+    }             
+    
+    if ($Param{What}) {
+        foreach my $And (@{$Param{What}}) {
+            my %HashNew = ();
+            my $SQL = '';
+            foreach my $Key (sort keys %{$And}) {   
+                if ($SQL) {
+                    $SQL .= " OR ";
+                }
+                my $Value = $Self->{DBObject}->Quote($And->{$Key});
+                $Key = $Self->{DBObject}->Quote($Key);
+                $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";   
+                                 
+            }            
+            $SQL = "SELECT xml_key FROM xml_storage WHERE $SQL AND xml_type = '$Param{Type}' GROUP BY xml_key";
+            if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+                return;
+            }
+            while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+                if ($Hash{$Data[0]}){
+                    $HashNew{$Data[0]} = 1;
+                }
+            }
+            %Hash = %HashNew;        
+        }
+    }
+    foreach my $Key(keys %Hash) {
+        push(@Keys, $Key);
     }
     return @Keys;
 }
+
+
 
 =item XMLHash2XML()
 
@@ -713,6 +726,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2005-02-15 13:25:14 $
+$Revision: 1.13 $ $Date: 2005-02-17 16:15:27 $
 
 =cut
