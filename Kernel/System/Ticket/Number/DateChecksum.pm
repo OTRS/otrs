@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.1 2002-07-01 21:03:42 martin Exp $
+# $Id: DateChecksum.pm,v 1.2 2002-07-02 20:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub CreateTicketNr {
@@ -43,15 +43,24 @@ sub CreateTicketNr {
     # read count
     # --
     open (COUNTER, "< $Self->{CounterLog}") || die "Can't open $Self->{CounterLog}";
-    my $Count = <COUNTER>;
+    my $Line = <COUNTER>;
+    my ($Count, $LastModify) = split(/;/, $Line);
     close (COUNTER);
+    # --
+    # check if we need to reset the counter
+    # --
+    if (!$LastModify || $LastModify ne "$Year-$Month-$Day") {
+        $Count = 0;
+    }
+    # --
+    # just debug
+    # --
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'debug',
           MSG => "Read counter: $Count",
         );
     }
-
     # --
     # count auto increment ($Count++)
     # --
@@ -63,7 +72,7 @@ sub CreateTicketNr {
     # --
     if (open (COUNTER, "> $Self->{CounterLog}")) {
         flock (COUNTER, 2) || warn "Can't set file lock ($Self->{CounterLog}): $!";
-        print COUNTER $Count . "\n";
+        print COUNTER $Count . ";$Year-$Month-$Day;\n";
         close (COUNTER);
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
@@ -75,8 +84,9 @@ sub CreateTicketNr {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            MSG => "Can't open $Self->{CounterLog}: $!",
+            MSG => "Can't write $Self->{CounterLog}: $!",
         );
+        die;
     }
 
     # --
@@ -125,7 +135,7 @@ sub CreateTicketNr {
         # create new ticket number again
         # --
         $Self->{LogObject}->Log(
-          Priority => 'error',
+          Priority => 'notice',
           MSG => "Tn ($Tn) exists! Creating new one.",
         );
         $Tn = $Self->CreateTicketNr($Self->{LoopProtectionCounter});

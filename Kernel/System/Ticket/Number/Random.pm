@@ -2,7 +2,7 @@
 # Ticket/Number/Random.pm - a ticket number random generator
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Random.pm,v 1.2 2002-06-23 10:16:44 martin Exp $
+# $Id: Random.pm,v 1.3 2002-07-02 20:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::Random;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub CreateTicketNr {
@@ -64,7 +64,7 @@ sub CreateTicketNr {
         # create new ticket number again
         # --
         $Self->{LogObject}->Log(
-          Priority => 'error',
+          Priority => 'notice',
           MSG => "Tn ($Tn) exists! Creating new one.",
         );
         $Tn = $Self->CreateTicketNr();

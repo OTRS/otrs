@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Date.pm,v 1.1 2002-06-23 09:52:56 martin Exp $
+# $Id: Date.pm,v 1.2 2002-07-02 20:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::Date;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub CreateTicketNr {
@@ -42,7 +42,8 @@ sub CreateTicketNr {
     # read count
     # --
     open (COUNTER, "< $Self->{CounterLog}") || die "Can't open $Self->{CounterLog}";
-    my $Count = <COUNTER>;
+    my $Line = <COUNTER>;
+    my ($Count) = split(/;/, $Line);
     close (COUNTER);
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
@@ -76,6 +77,7 @@ sub CreateTicketNr {
             Priority => 'error',
             MSG => "Can't open $Self->{CounterLog}: $!",
         );
+        die;
     }
     # --
     # new ticket number
@@ -100,7 +102,7 @@ sub CreateTicketNr {
         # create new ticket number again
         # --
         $Self->{LogObject}->Log(
-          Priority => 'error',
+          Priority => 'notice',
           MSG => "Tn ($Tn) exists! Creating new one.",
         );
         $Tn = $Self->CreateTicketNr($Self->{LoopProtectionCounter});

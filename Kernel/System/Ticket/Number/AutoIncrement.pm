@@ -2,7 +2,7 @@
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoIncrement.pm,v 1.1 2002-06-23 09:52:56 martin Exp $
+# $Id: AutoIncrement.pm,v 1.2 2002-07-02 20:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::AutoIncrement;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub CreateTicketNr {
@@ -36,7 +36,8 @@ sub CreateTicketNr {
     # read count
     # --
     open (COUNTER, "< $CounterLog") || die "Can't open $CounterLog: $!";
-    my $Count = <COUNTER>;
+    my $Line = <COUNTER>;
+    my ($Count) = split(/;/, $Line);
     close (COUNTER);
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
@@ -70,7 +71,16 @@ sub CreateTicketNr {
             Priority => 'error',
             MSG => "Can't open $CounterLog: $!",
         );
+        die;
     }
+
+    # --
+    # pad ticket number with leading '0' to length 5
+    # --
+    while ( length( $Count ) < 5 ) {
+        $Count = "0" . $Count;
+    }
+
     # --
     # new ticket number
     # --
@@ -94,7 +104,7 @@ sub CreateTicketNr {
         # create new ticket number again
         # --
         $Self->{LogObject}->Log(
-          Priority => 'error',
+          Priority => 'notice',
           MSG => "Tn ($Tn) exists! Creating new one.",
         );
         $Tn = $Self->CreateTicketNr($Self->{LoopProtectionCounter});
