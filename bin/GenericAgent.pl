@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.29 2004-08-25 01:49:13 martin Exp $
+# $Id: GenericAgent.pl,v 1.30 2004-08-25 01:54:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ use Kernel::System::GenericAgent;
 
 BEGIN {
     # get file version
-    $VERSION = '$Revision: 1.29 $';
+    $VERSION = '$Revision: 1.30 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     getopt('hcdl', \%Opts);
@@ -140,7 +140,7 @@ if ($Opts{'c'} eq 'db') {
                 $False = 1;
             }
         }
-        if (defined($DBJobRaw{ScheduleMinutes})) {
+        if (!defined($DBJobRaw{ScheduleMinutes})) {
             @{$DBJobRaw{ScheduleMinutes}} = (0);
         }
         my $Match = 0;
@@ -154,7 +154,7 @@ if ($Opts{'c'} eq 'db') {
 #print STDERR "f:ScheduleM\n";
             $False = 1;
         }
-        if (defined($DBJobRaw{ScheduleHours})) {
+        if (!defined($DBJobRaw{ScheduleHours})) {
             @{$DBJobRaw{ScheduleHours}} = (0);
         }
         $Match = 0;
