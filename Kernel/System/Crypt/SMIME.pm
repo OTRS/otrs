@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMIME.pm,v 1.4 2004-08-06 13:29:03 martin Exp $
+# $Id: SMIME.pm,v 1.5 2004-08-10 06:44:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -48,11 +48,14 @@ sub Crypt {
         return;
       }
     }
+    my $Certificate = $Self->CertificateGet(%Param);
     my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
+    my ($FHCertificate, $FilenameCertificate) = $Self->{FileTempObject}->TempFile();
+    print $FHCertificate $Certificate;
     my ($FHCrypted, $FilenameCrypted) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
 
-    open (SIGN, "$Self->{Bin} smime -encrypt -in $Filename -out $FilenameCrypted -des3 newcert.pem 2>&1 |");
+    open (SIGN, "$Self->{Bin} smime -encrypt -in $Filename -out $FilenameCrypted -des3 $FilenameCertificate 2>&1 |");
     while (<SIGN>) {
         $LogMessage .= $_;
     }
@@ -139,7 +142,7 @@ sub Sign {
     print $FHPrivate $Private;
     my ($FHCertificate, $FilenameCertificate) = $Self->{FileTempObject}->TempFile();
     print $FHCertificate $Certificate;
-    open (SIGN, "export HOME=/var/lib/wwwrun && $Self->{Bin} smime -sign -passin pass:".quotemeta($Secret)." -in $Filename -out $FilenameSign -text -signer $FilenameCertificate -inkey $FilenamePrivate -binary 2>&1 |");
+    open (SIGN, "$Self->{Bin} smime -sign -passin pass:".quotemeta($Secret)." -in $Filename -out $FilenameSign -text -signer $FilenameCertificate -inkey $FilenamePrivate -binary 2>&1 |");
     while (<SIGN>) {
         $LogMessage .= $_;
     }
@@ -180,11 +183,7 @@ sub Verify {
         print $FHSign $Param{Sign};
         $File = "$FilenameSign $File";
     }
-#    open (VERIFY, "openssl smime -verify -in $Param{Sign} -CAfile $File 2>&1 |");
-#    open (VERIFY, "openssl smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput -CAfile /etc/ssl/certs/bsi.pem 2>&1 |");
     open (VERIFY, "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput $Self->{CertPathArg} 2>&1 |");
-#-noverify
-#    open (VERIFY, "openssl rsautl -verify -in $Filename -inkey $FilenameSign -out /tmp/signedtext.txt 2>&1 |");
     while (<VERIFY>) {
         $MessageLong .= $_;
         if ($_ =~ /^\d.*:(.+?):.+?:.+?:$/ || $_ =~ /^\d.*:(.+?)$/) {
@@ -195,6 +194,15 @@ sub Verify {
         }
     }
     close (VERIFY);
+    # read signer certificate
+    my $SignerCertificate = '';
+    if (open (IN, "< $FilenameSign")) {
+        while (<IN>) {
+            $SignerCertificate .= $_;
+        }
+        close (IN);
+    }
+    # return message
     if ($Message =~ /Verification successful/i) {
         %Return = (
             SignatureFound => 1,
@@ -202,6 +210,7 @@ sub Verify {
 #            Message => $1,
             Message => "OpenSSL: ".$Message,
             MessageLong => "OpenSSL: ".$MessageLong,
+            SignerCertificate => $SignerCertificate,
         );
     }
     else {
@@ -214,7 +223,14 @@ sub Verify {
     }
     return %Return;
 }
-# serarch public certificate
+sub Search {
+    my $Self = shift;
+    my %Param = @_;
+    my @Result = $Self->CertificateSearch(%Param);
+    @Result = (@Result, $Self->PrivateSearch(%Param));
+    return @Result;
+}
+# serarch certificate
 sub CertificateSearch {
     my $Self = shift;
     my %Param = @_;
@@ -423,12 +439,11 @@ sub CertificateAttributes {
         my $Private = $Self->PrivateGet(Hash => $Attributes{Hash});
         if ($Private) {
             $Attributes{Private} = 'Yes';
-            $Attributes{Type} = 'C+P';
         }
         else {
             $Attributes{Private} = 'No';
-            $Attributes{Type} = 'C';
         }
+        $Attributes{Type} = 'cert';
     }
     return %Attributes;
 }
@@ -455,6 +470,7 @@ sub PrivateSearch {
             $Hit = 1;
         }
         if ($Hit && $Attributes{Private} eq 'Yes') {
+            $Attributes{Type} = 'key';
             push (@Result, \%Attributes);
         }
     }
@@ -605,6 +621,7 @@ sub PrivateAttributes {
         }
         $Attributes{$Key} = $Line;
     }
+    $Attributes{Type} = 'P';
     return %Attributes;
 }
 
