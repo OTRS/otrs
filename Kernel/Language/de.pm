@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.62 2004-11-28 11:20:22 martin Exp $
+# $Id: de.pm,v 1.63 2004-12-06 22:39:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,6 +113,7 @@ sub Data {
       'Update' => 'Aktualisieren',
       'submit!' => 'Übermitteln!',
       'submit' => 'Übermitteln',
+      'Submit' => 'Übermitteln',
       'change!' => 'Ändern!',
       'Change' => 'Ändern',
       'change' => 'Ändern',
@@ -671,7 +672,7 @@ sub Data {
       # Template: AdminStateForm
       'System State Management' => 'Status Verwaltung',
       'State Type' => 'Status-Typ',
-      'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Gib acht, dass auch die default-Stati in Kernel/Config.pm geändert werden!',
+      'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Gib acht, dass auch die default-Status in Kernel/Config.pm geändert werden!',
       'See also' => 'Siehe auch',
 
       # Template: AdminSystemAddressForm
@@ -733,7 +734,7 @@ sub Data {
       'Compose answer for ticket' => 'Antwort erstellen für',
       'Attach' => 'Anhängen',
       'Pending Date' => 'Warten bis',
-      'for pending* states' => 'für warten* Stati',
+      'for pending* states' => 'für warten* Status',
       'Is the ticket answered' => 'Ist das Ticket beantwortet',
 
       # Template: AgentCrypt
@@ -1198,6 +1199,7 @@ sub Data {
       # Template: Warning
     'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
     'Ticket Object' => 'Ticket Objekt',
+    'Vendor' => 'Anbieter',
     };
     # $$STOP$$
 }
