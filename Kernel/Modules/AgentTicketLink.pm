@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLink.pm - to set the ticket free text
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketLink.pm,v 1.3 2004-05-04 15:13:05 martin Exp $
+# $Id: AgentTicketLink.pm,v 1.3.2.1 2004-11-26 12:55:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,28 +14,28 @@ package Kernel::Modules::AgentTicketLink;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.3.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
       ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-   
+
     return $Self;
 }
 # --
@@ -108,10 +108,8 @@ sub Run {
                 if ($TicketID) {
                     $NewTicketLink{$TicketID} = 1;
                     my $LinkExists = 0;
-                    foreach (keys %TicketLink) { 
+                    foreach (keys %TicketLink) {
                         if ($_ =~ /^TicketLinkID/) {
-                            # remember old ticket links
-                            $OldTicketLink{$TicketLink{$_}} = 1;
                             # check if link exists
                             if ($TicketLink{$_} eq $TicketID) {
                                 $LinkExists = 1;
@@ -127,6 +125,13 @@ sub Run {
                 }
             }
         }
+        # get remove able links
+        foreach (keys %TicketLink) {
+            if ($_ =~ /^TicketLinkID/) {
+                # remember old ticket links
+                $OldTicketLink{$TicketLink{$_}} = 1;
+            }
+        }
         # add links
         foreach (keys %AddLink) {
             $Self->{TicketObject}->TicketLinkAdd(
@@ -136,7 +141,7 @@ sub Run {
             );
         }
         # delete links
-        foreach (keys %OldTicketLink) { 
+        foreach (keys %OldTicketLink) {
             if (!$NewTicketLink{$_}) {
                 $Self->{TicketObject}->TicketLinkDelete(
                     MasterTicketID => $Self->{TicketID},
