@@ -2,7 +2,7 @@
 # NoteForm.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.dtl,v 1.5 2003-07-14 12:21:57 martin Exp $
+# $Id: AgentMove.dtl,v 1.6 2003-11-05 23:06:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,23 @@
 
 <script language="JavaScript" type="text/javascript">
 <!--
+function submit_compose()
+{
+alert(start_elements);
+    if (document.compose.DestQueueID.value == "") {
+        alert('$Text{"Queue ID"}');
+        document.compose.DestQueueID.focus();
+        return false;
+    } 
+}
+//-->
+</script>
+<script language="JavaScript" type="text/javascript">
+<!--
 
 function change_selected(sel)
 { 
-   start_elements = (sel + 4);
+   start_elements = (sel + 5);
    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
        start_elements = start_elements + 1;
    }
@@ -28,6 +41,14 @@ function change_selected(sel)
 #alert(document.compose.elements[start_elements].checked)
 }
 
+function submit_compose()
+{
+    if (document.compose.DestQueueID.value == "") {
+        alert('$Text{"Queue ID"}');
+        document.compose.DestQueueID.focus();
+        return false;
+    } 
+}
 //-->
 </script>
 
@@ -48,13 +69,20 @@ function change_selected(sel)
   <td align="left" valign="top" colspan="2" class="table1">
 
 <p>
+#$Data{"TicketUnlock"}
   <form action="$Env{"CGIHandle"}" method="get" name="compose">
   <input type="hidden" name="Action" value="AgentMove">
   <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-  <input type="hidden" name="UnlockTicket" value="$Data{"TicketUnlock"}">
-  <input type="hidden" name="DestQueueID" value="">
+  <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}">
+#  <input type="hidden" name="DestQueueID" value="">
+  <input type="hidden" name="ExpandQueueUsers" value="">
  
   <table border="0" width="100%">
+  <tr valign="top">
+    <td>$Text{"New Queue"}:</td>
+    <td></td>
+    <td>$Data{"MoveQueuesStrg"} $Data{"LatestQueue"}</td>
+  </tr>
   <tr valign="top">
     <td width="18%">$Text{"New Owner"}:</td>
     <td width="2%"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
@@ -69,7 +97,7 @@ function change_selected(sel)
     <td valign="top">$Text{"Note"}:</td>
     <td></td>
     <td>
-<textarea name="Comment" rows="8" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
+<textarea name="Comment" rows="8" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}
 </textarea>
     </td>
   </tr>
@@ -80,12 +108,10 @@ function change_selected(sel)
 <dtl if ($Config{"MoveSetState"} eq "1") { $Data{"NextStatesString"} = "<tr><td width="20%">$Text{"Next ticket state"}:</td><td></td><td width="80%">$Data{"NextStatesStrg"}</td></tr>"; }>
     $Data{"NextStatesString"}
 #
-  <tr valign="top">
-    <td>$Text{"New Queue"}:</td>
-    <td></td>
-    <td>$Data{"MoveQueuesStrg"}</td>
-  </tr>
   </table>
+  <br>
+  <input class="button" type="submit" value="$Text{"Move"}" onclick="return submit_compose();">
+
   </form>
 </p>
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.21 2003-10-08 23:09:20 martin Exp $
+# $Id: AgentMove.pm,v 1.22 2003-11-05 23:06:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,10 +38,13 @@ sub new {
     }
     $Self->{StateObject} = Kernel::System::State->new(%Param);
 
-    # get DestQueueID 
+    # get params
     $Self->{DestQueueID} = $Self->{ParamObject}->GetParam(Param => 'DestQueueID');
     $Self->{QueueViewQueueID} = $Self->{ParamObject}->GetParam(Param => 'QueueViewQueueID');
-    $Self->{UnlockTicket} = $Self->{ParamObject}->GetParam(Param => 'UnlockTicket');
+    $Self->{TicketUnlock} = $Self->{ParamObject}->GetParam(Param => 'TicketUnlock');
+    $Self->{ExpandQueueUsers} = $Self->{ParamObject}->GetParam(Param => 'ExpandQueueUsers') || 0;
+    $Self->{Comment} = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
+    $Self->{NewStateID} = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
 
     return $Self;
 }
@@ -79,7 +82,7 @@ sub Run {
     # --	
     # move queue
     # --
-    if (!$Self->{DestQueueID}) {
+    if (!$Self->{DestQueueID} || $Self->{ExpandQueueUsers}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Move Ticket');
 #        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
 #        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
@@ -105,7 +108,7 @@ sub Run {
             }
         }
         else {
-            $Self->{TicketUnlock} = 0;
+#            $Self->{TicketUnlock} = 0;
             my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
                 TicketID => $Self->{TicketID},
             );
@@ -132,35 +135,6 @@ sub Run {
             );
         }
         # --
-        # get user of own groups
-        # --
-        my %ShownUsers = ();
-        $ShownUsers{''} = '-';
-        my %AllGroupsMembers = $Self->{UserObject}->UserList(
-            Type => 'Long',
-            Valid => 1,
-        );
-        if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
-            %ShownUsers = %AllGroupsMembers;
-        }
-        else {
-            my %Groups = $Self->{GroupObject}->GroupUserList(
-                UserID => $Self->{UserID},
-                Type => 'rw',
-                Result => 'HASH',
-            );
-            foreach (keys %Groups) {
-                my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                    GroupID => $_,
-                    Type => 'rw',
-                    Result => 'HASH',
-                );
-                foreach (keys %MemberList) {
-                    $ShownUsers{$_} = $AllGroupsMembers{$_};
-                }
-            }
-        }
-        # --
         # build header
         # --
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
@@ -179,10 +153,11 @@ sub Run {
             OldQueue => \@OldQueue,
             OldUser => \@OldUserInfo,
             MoveQueues => \%MoveQueues,
-            OwnerList => \%ShownUsers,
+            OwnerList => $Self->_GetUsers(),
             TicketID => $Self->{TicketID},
             NextStates => \%NextStates,
             TicketUnlock => $Self->{TicketUnlock},
+            Comment => $Self->{Comment},
             %Ticket,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -194,11 +169,10 @@ sub Run {
           TicketID => $Self->{TicketID},
       ) ) {
         # set state
-        my $NewStateID = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
-        if ($Self->{ConfigObject}->{MoveSetState} && $NewStateID) {
+        if ($Self->{ConfigObject}->{MoveSetState} && $Self->{NewStateID}) {
             $Self->{TicketObject}->SetState(
                 TicketID => $Self->{TicketID},
-                StateID => $NewStateID,
+                StateID => $Self->{NewStateID},
                 UserID => $Self->{UserID},
             );
         } 
@@ -206,7 +180,6 @@ sub Run {
         my $UserSelection = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
         my $OldUserID = $Self->{ParamObject}->GetParam(Param => 'OldUserID') || '';
-        my $Comment = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
         # check new/old user selection
         if ($UserSelection eq 'Old') {
             if ($OldUserID) {
@@ -226,12 +199,12 @@ sub Run {
                 TicketID => $Self->{TicketID},
                 UserID => $Self->{UserID},
                 NewUserID => $NewUserID,
-                Comment => $Comment,
+                Comment => $Self->{Comment},
             );
         }
         else {
             # unlock
-            if ($Self->{UnlockTicket}) {
+            if ($Self->{TicketUnlock}) {
                 $Self->{TicketObject}->SetLock(
                     TicketID => $Self->{TicketID},
                     Lock => 'unlock',
@@ -239,7 +212,7 @@ sub Run {
                 );
             }
         }
-        if ($Comment) {
+        if ($Self->{Comment}) {
             # add note
             my $ArticleID = $Self->{TicketObject}->CreateArticle(
                 TicketID => $Self->{TicketID},
@@ -247,7 +220,7 @@ sub Run {
                 SenderType => 'agent',
                 From => $Self->{UserLogin},
                 Subject => 'Move Note',
-                Body => $Comment,
+                Body => $Self->{Comment},
                 ContentType => "text/plain; charset=$Self->{'UserCharset'}",
                 UserID => $Self->{UserID},
                 HistoryType => 'AddNote',
@@ -265,9 +238,9 @@ sub Run {
     else {
         # error?!
         $Output = $Self->{LayoutObject}->Header(Title => "Error");
-	    $Output .= $Self->{LayoutObject}->Error(
-          Message => "Can't move TicketID '$Self->{TicketID}'!",
-          Comment => 'Please contact your admin',
+	$Output .= $Self->{LayoutObject}->Error(
+            Message => "Can't move TicketID '$Self->{TicketID}'!",
+            Comment => 'Please contact your admin',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -278,6 +251,7 @@ sub AgentMove {
     my $Self = shift;
     my %Param = @_;
     my %Data = %{$Param{MoveQueues}};
+    my %MoveQueues = %Data;
     my %UsedData = ();
     my %UserHash = ();
     my @OldQueue = @{$Param{OldQueue}};
@@ -362,7 +336,7 @@ sub AgentMove {
          $Param{MoveQueuesStrg} .= "$Space<a href=\"\" onclick=\"document.compose.DestQueueID.value='$ID'; document.compose.submit(); return false;\">".
                  $Queue[$#Queue].'</a>';
             if ($LatestQueueID eq $ID) {
-                $Param{MoveQueuesStrg} .= ' --&gt; $Text{"Latest Queue!"} &lt;--';
+                $Param{MoveQueuesStrg} .= '  <font color="red">--&gt; $Text{"Latest Queue!"} &lt;--</font>';
             } 
             $Param{MoveQueuesStrg} .= '<br>';
         }
@@ -374,19 +348,82 @@ sub AgentMove {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NewStateID',
-#        Selected => $Param{State},
+        SelectedID => $Self->{NewStateID},
     );
     # --
     # build owner string
     # --
     $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{OwnerList},
+#        Data => $Param{OwnerList},
+        Data => $Self->_GetUsers(QueueID => $Self->{DestQueueID}),
 #        Selected => $Param{OwnerID},
         Name => 'NewUserID',
 #       Size => 5,
         OnClick => "change_selected(0)",
     );
+    if ($LatestQueueID && $MoveQueues{$LatestQueueID}) {
+        $Param{LatestQueue} = '$Text{"Latest Queue!"} "'.$MoveQueues{$LatestQueueID}.'"';
+    }
+    $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Data => { %MoveQueues, '' => '-' },
+            Multiple => 0,
+            Size => 0,
+            Name => 'DestQueueID',
+            SelectedID => $Self->{DestQueueID},
+            OnChangeSubmit => 0,
+            OnChange => "document.compose.ExpandQueueUsers.value='3'; document.compose.submit(); return false;",
+        );
+
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentMove', Data => \%Param);
+}
+# --
+sub _GetUsers {
+    my $Self = shift;
+    my %Param = @_;
+    # get users 
+    my %ShownUsers = ();
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type => 'Long',
+        Valid => 1,
+    );
+    # just show only users with selected custom queue
+    if ($Param{QueueID}) {
+        my @UserIDs = $Self->{QueueObject}->GetAllUserIDsByQueueID(%Param);
+        foreach (keys %AllGroupsMembers) {
+            my $Hit = 0;
+            foreach my $UID (@UserIDs) {
+                if ($UID eq $_) {
+                    $Hit = 1;
+                }
+            }
+            if (!$Hit) {
+                delete $AllGroupsMembers{$_};
+            }
+        }
+    }
+    # check show users
+    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+        %ShownUsers = %AllGroupsMembers;
+    }
+    else {
+        my %Groups = $Self->{GroupObject}->GroupUserList(
+            UserID => $Self->{UserID},
+            Type => 'rw',
+            Result => 'HASH',
+        );
+        foreach (keys %Groups) {
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                    GroupID => $_,
+                    Type => 'rw',
+                    Result => 'HASH',
+            );
+            foreach (keys %MemberList) {
+                    $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
+        }
+    }
+    $ShownUsers{''} = '-';
+    return \%ShownUsers;
 }
 # --
 1;
