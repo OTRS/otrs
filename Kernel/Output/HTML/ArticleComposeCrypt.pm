@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.4 2004-08-10 06:52:19 martin Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.5 2004-08-12 10:36:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,7 +60,8 @@ sub Run {
                 Search => $SearchAddress[0]->address(),
             );
             foreach my $DataRef (@PublicKeys) {
-                $KeyList{"PGP::$DataRef->{Key}"} = "PGP: $DataRef->{Key} - $DataRef->{Identifer}";
+                $KeyList{"PGP::Detached::$DataRef->{Key}"} = "PGP-Detached: $DataRef->{Key} - $DataRef->{Identifer}";
+                $KeyList{"PGP::Inline::$DataRef->{Key}"} = "PGP-Inline: $DataRef->{Key} - $DataRef->{Identifer}";
             }
         }
         my $CryptObjectSMIME = Kernel::System::Crypt->new(%{$Self}, CryptType => 'SMIME');
@@ -69,7 +70,7 @@ sub Run {
                 Search => $SearchAddress[0]->address(),
             );
             foreach my $DataRef (@PublicKeys) {
-                $KeyList{"SMIME::$DataRef->{Hash}"} = "SMIME: $DataRef->{Hash} - $DataRef->{Email}";
+                $KeyList{"SMIME::Detached::$DataRef->{Hash}"} = "SMIME-Detached: $DataRef->{Hash} - $DataRef->{Email}";
             }
         }
         if (%KeyList) {
@@ -106,10 +107,11 @@ sub ArticleOption {
     my $Self = shift;
     my %Param = @_;
     if ($Param{CryptKeyID}) {
-        my ($Type, $Key) = split (/::/, $Param{CryptKeyID});
+        my ($Type, $SubType, $Key) = split (/::/, $Param{CryptKeyID});
         return (
             Crypt => {
                 Type => $Type,
+                SubType => $SubType,
                 Key => $Key,
             },
         );

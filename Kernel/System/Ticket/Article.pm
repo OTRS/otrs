@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.67 2004-08-10 06:42:41 martin Exp $
+# $Id: Article.pm,v 1.68 2004-08-12 10:36:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1069,15 +1069,15 @@ send article via email and create article with attachments
           Key => '81877F5E',
 
           Type => 'SMIME',
-          SubType => 'Inline|Detached',
-          Hash => '3b630c80',
+          Key => '3b630c80',
       },
       Crypt => {
           Type => 'PGP',
+          SubType => 'Inline|Detached',
           Key => '81877F5E',
 
           Type => 'SMIME',
-          Hash => '3b630c80',
+          Key => '3b630c80',
       },
       HistoryType => 'OwnerUpdate', # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
       HistoryComment => 'Some free text!',
@@ -1185,6 +1185,33 @@ sub ArticleSend {
     if ($Loop) {
         $$Header{'Precedence:'} = 'bulk';
         $$Header{'X-Loop'} = 'bulk';
+    }
+    # crypt inline
+    if ($Param{Crypt} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Inline') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Crypt}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
+        }
+        my $Body = $CryptObject->Crypt(
+            Message => $Param{Body},
+            Key => $Param{Crypt}->{Key},
+            Type => $Param{Crypt}->{SubType},
+        );
+        if ($Body) {
+            $Param{Body} = $Body;
+            $Self->HistoryAdd(
+                TicketID => $Param{TicketID},
+                ArticleID => $Param{ArticleID},
+                Name => "Crypted Mail (PGP inline)",
+                HistoryType => 'Misc',
+                CreateUserID => $Param{UserID},
+            );
+        }
     }
 
     my $Entity = MIME::Entity->build(%{$Header}, Data => $Param{Body});
@@ -1331,9 +1358,9 @@ sub ArticleSend {
         );
       }
     }
-    # crypt it!
+    # crypt detached!
 #my $NotCryptedBody = $Entity->body_as_string();
-    if ($Param{Crypt}->{Type} eq 'PGP') {
+    if ($Param{Crypt} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Detached') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
@@ -1378,7 +1405,7 @@ sub ArticleSend {
             $Self->HistoryAdd(
                 TicketID => $Param{TicketID},
                 ArticleID => $Param{ArticleID},
-                Name => "Crypted Mail",
+                Name => "Crypted Mail (PGP detached)",
                 HistoryType => 'Misc',
                 CreateUserID => $Param{UserID},
             );
