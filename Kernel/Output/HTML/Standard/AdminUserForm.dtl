@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.4 2002-05-01 17:33:43 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.5 2002-05-04 20:31:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,27 +48,27 @@
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-    <input type="hidden" name="ID" value="$Data{"ID"}">
+    <input type="hidden" name="ID" value="$Data{"UserID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td>$Text{"Login/Email"}: </td>
-      <td> <input type="text" name="Login" value="$Data{"Login"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Login" value="$Data{"UserLogin"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Password"}: </td>
-      <td> <input type="password" name="Pw" value="$Data{"Pw"}" size="35" maxlength="50"></td>
+      <td> <input type="password" name="Pw" value="$Data{"UserPw"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Salutation"}: </td>
-      <td> <input type="text" name="Salutation" value="$Data{"Salutation"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Salutation" value="$Data{"UserSalutation"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Firstname"}: </td>
-      <td> <input type="text" name="Fristname" value="$Data{"Fristname"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Fristname" value="$Data{"UserFirstname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Lastname"}: </td>
-      <td> <input type="text" name="Lastname" value="$Data{"Lastname"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Lastname" value="$Data{"UserLastname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Language"}: </td>
@@ -88,7 +88,7 @@
     </tr>
     <tr>
       <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
+      <td> <input type="text" name="Comment" value="$Data{"UserComment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
     <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
