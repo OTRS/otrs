@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.7 2002-10-25 00:07:25 martin Exp $
+# $Id: auto_build.sh,v 1.8 2002-10-25 11:48:04 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.7 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.8 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 
@@ -87,12 +87,12 @@ rm -rf $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm
 # --
 rm -rf $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR
-mkdir $PACKAGE_DEST_DIR/RPM
-mkdir $PACKAGE_DEST_DIR/RPM/suse
-mkdir $PACKAGE_DEST_DIR/RPM/redhat
-mkdir $PACKAGE_DEST_DIR/SRPM
-mkdir $PACKAGE_DEST_DIR/SRPM/suse
-mkdir $PACKAGE_DEST_DIR/SRPM/redhat
+mkdir $PACKAGE_DEST_DIR/RPMS
+mkdir $PACKAGE_DEST_DIR/RPMS/suse
+mkdir $PACKAGE_DEST_DIR/RPMS/redhat
+mkdir $PACKAGE_DEST_DIR/SRPMS
+mkdir $PACKAGE_DEST_DIR/SRPMS/suse
+mkdir $PACKAGE_DEST_DIR/SRPMS/redhat
 
 # --
 # build 
@@ -130,7 +130,7 @@ done;
 rm -rf doc/screenshots
 rm -rf doc/manual/screenshots
 # remove swap stuff
-find -name ".#*" | xargs rm
+find -name ".#*" | xargs rm -rf
 
 # --
 # create tar
@@ -157,8 +157,8 @@ cat $ARCHIVE_DIR/scripts/suse-otrs.spec | sed "s/^Version:.*/Version:      $VERS
 rpm -ba --clean $specfile || exit 1;
 rm -f $specfile
 
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPM/suse/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPM/suse/
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/
 
 # --
 # build SuSE 7.3 rpm 
@@ -168,8 +168,8 @@ cat $ARCHIVE_DIR/scripts/suse-otrs-7.3.spec | sed "s/^Version:.*/Version:      $
 rpm -ba --clean $specfile || exit 1;
 rm -f $specfile
 
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPM/suse/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPM/suse/
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/
 
 # --
 # build Redhat 7.x rpm
@@ -181,8 +181,8 @@ rpm -ba --clean $specfile || exit 1;
 rm -f $specfile
 rm -f ~/.rpmmacros
 
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPM/redhat/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPM/redhat/
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/redhat/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/redhat/
 
 # --
 # stats
