@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.26 2004-02-05 15:59:31 martin Exp $
+# $Id: CustomerMessage.pm,v 1.27 2004-02-26 17:47:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -108,10 +108,12 @@ sub Run {
                 What => 'id, name',
                 Table => 'ticket_priority',
             );
+            my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText();
             # html output
             $Output .= $Self->_MaskNew(
                 To => \%NewTos,
                 Priorities => \%Priorities,
+                %TicketFreeText,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
@@ -255,6 +257,11 @@ sub Run {
         }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'New!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
+        my %TicketFree = ();
+        foreach (1..8) {
+            $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+            $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+        }
         my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID');
         my $Priority = '';
         # if customer is not alown to set priority, set it to default
@@ -269,7 +276,7 @@ sub Run {
             Lock => 'unlock',
             # FIXME !!!
             GroupID => 1,
-            State => 'new',
+            State => $Self->{ConfigObject}->Get('CustomerDefaultState'),
             Priority => $Priority,
             PriorityID => $PriorityID, 
             CustomerNo => $Self->{UserCustomerID},
@@ -299,6 +306,18 @@ sub Run {
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
+          # set ticket free text
+          foreach (1..8) {
+            if (defined($TicketFree{"TicketFreeKey$_"})) {
+                $Self->{TicketObject}->SetTicketFreeText(
+                    TicketID => $TicketID,
+                    Key => $TicketFree{"TicketFreeKey$_"},
+                    Value => $TicketFree{"TicketFreeText$_"},
+                    Counter => $_,
+                    UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
+          }
           # get attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
               Param => 'file_upload', 

@@ -2,7 +2,7 @@
 # CustomerMessageNew.dtl - provides HTML form for customer message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessageNew.dtl,v 1.9 2003-03-22 07:03:44 martin Exp $
+# $Id: CustomerMessageNew.dtl,v 1.10 2004-02-26 17:46:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,6 +18,11 @@ function submit_compose()
     if (document.compose.Subject.value == "") {
         alert('$Text{"A message should have a subject!"}');
         document.compose.Subject.focus();
+        return false;
+    }
+    else if (document.compose.Note.value == "") {
+        alert('$Text{"A message should have a body!"}');
+        document.compose.Note.focus();
         return false;
     }
     else {
@@ -53,9 +58,7 @@ function submit_compose()
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
-<textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
-
-</textarea>
+<textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}"></textarea>
     </td>
   </tr>
   <tr>
@@ -64,7 +67,23 @@ function submit_compose()
 # should the customer user change the ticket state!
 <dtl if ($Config{"CustomerPriority"} ne "0") { $Data{"PriorityString"} = "<tr><td>$Text{"Priority"}:</td><td> $Data{"PriorityStrg"}</td></tr>"; }>
   $Data{"PriorityString"}
-#
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField1"}:</td>
+#    <td>$Data{"TicketFreeTextField1"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField2"}:</td>
+#    <td>$Data{"TicketFreeTextField2"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField3"}:</td>
+#    <td>$Data{"TicketFreeTextField3"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField4"}:</td>
+#    <td>$Data{"TicketFreeTextField4"}</td>
+#  </tr>
+
   </table>
 <br>
 <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
