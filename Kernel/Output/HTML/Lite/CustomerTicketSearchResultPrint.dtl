@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearchResultPrint.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerTicketSearchResultPrint.dtl,v 1.2 2004-04-30 13:07:16 martin Exp $
+# $Id: CustomerTicketSearchResultPrint.dtl,v 1.3 2004-06-25 11:47:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="4">
 <tr> 
  <td class="table1" align="center" valign="top">
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="5">
 <tr valign="top" align="left">
  <th width="15%">$Config{"TicketHook"}</th>
  <th width="15%">$Text{"Created"}</th>
@@ -28,7 +28,15 @@
  <th width="15%">$Text{"State"}/$Text{"Queue"}</th>
  <th width="15%">$Text{"CustomerID"}</th>
 </tr>
-$Data{"StatusTable"}
+<!-- dtl:block:Record -->
+<tr valign="top">
+ <td>$Data{"TicketNumber"}</td>
+ <td>$TimeLong{"$Data{"Created"}"}</td>
+ <td>$QData{"From","30"}<br>$QData{"Subject","30"}</td>
+ <td>$Quote{"$Text{"$Data{"State"}"}","30"}<br>$QData{"Queue","30"}</td>
+ <td>$QData{"CustomerID","15"}&nbsp;<br>$QData{"CustomerName","15"}</td>
+</tr>
+<!-- dtl:block:Record -->
 </table>
 
  </td>
