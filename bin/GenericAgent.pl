@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.16 2003-11-02 11:29:29 martin Exp $
+# $Id: GenericAgent.pl,v 1.17 2003-12-15 20:30:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.16 $';
+    $VERSION = '$Revision: 1.17 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
@@ -244,6 +244,23 @@ sub Run {
             UserID => $UserIDOfGenericAgent,
             Lock => $Jobs{$Job}->{New}->{Lock},
         );
+    }
+    # --
+    # set ticket free text options
+    # --
+    foreach (1..8) { 
+        if ($Jobs{$Job}->{New}->{"TicketFreeKey$_"} || $Jobs{$Job}->{New}->{"TicketFreeText$_"}) {
+            my $Key = $Jobs{$Job}->{New}->{"TicketFreeKey$_"} || '';
+            my $Value = $Jobs{$Job}->{New}->{"TicketFreeText$_"} || '';
+            print "  - set ticket free text to Key: '$Key' Text: '$Value'\n";
+            $CommonObject{TicketObject}->SetTicketFreeText(
+                TicketID => $TicketID,
+                UserID => $UserIDOfGenericAgent,
+                Key => $Key,
+                Value => $Value,
+                Counter => $_,
+            );
+        }
     }
     # --
     # delete ticket

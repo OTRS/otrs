@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.93 2003-12-07 23:54:43 martin Exp $
+# $Id: Defaults.pm,v 1.94 2003-12-15 20:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.93 $';
+$VERSION = '$Revision: 1.94 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -525,6 +525,10 @@ sub LoadDefaults {
 #    $Self->{TimeUnits} = ' (minutes)';
 #    $Self->{TimeUnits} = ' (hours)';
     $Self->{TimeUnits} = ' (work units)';
+    # ShowAlwaysLongTime
+    # (show always time in long /days hours minutes/ or short 
+    # /days hours/ format)
+    $Self->{ShowAlwaysLongTime} = 0;
     # PendingDiffTime
     # (Time in sec. which "pending date" shows per default) [default: 24*60*60 -=> 1d]
     $Self->{PendingDiffTime} = 24*60*60;
@@ -534,6 +538,26 @@ sub LoadDefaults {
     # FrontendNeedSpellCheck
     # (compose message must be spell checked)
     $Self->{FrontendNeedSpellCheck} = 0;
+
+    # --------------------------------------------------- #
+    # TicketFreeText                                      #
+    # (define free text options for frontend)             #
+    # --------------------------------------------------- #
+#    $Self->{"TicketFreeKey1"} = {
+#        '' => '-',
+#        'Product' => 'Product',
+#    };
+#    $Self->{"TicketFreeText1"} = {
+#        '' => '-',
+#        'PC' => 'PC',
+#        'Notebook' => 'Notebook',
+#        'LCD' => 'LCD',
+#        'Phone' => 'Phone',
+#    };
+#    $Self->{"TicketFreeKey2"} = {
+#        '' => '-',
+#        'Support' => 'Support',
+#    };
 
     # --------------------------------------------------- #
     # defaults for add note                               #

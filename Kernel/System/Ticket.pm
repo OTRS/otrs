@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.61 2003-12-08 00:06:30 martin Exp $
+# $Id: Ticket.pm,v 1.62 2003-12-15 20:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -336,7 +336,10 @@ sub GetTicket {
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
         " st.customer_id, st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
         " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, st.ticket_answered, st.until_time, ".
-        " st.customer_user_id, st.freetext1, st.freetext2, st.freekey1, st.freekey2 ".
+        " st.customer_user_id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,".
+        " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
+        " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
+        " st.freekey7, st.freetext7, st.freekey8, st.freetext8 ".
         " FROM ".
         " ticket st, ticket_lock_type slt, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -372,10 +375,22 @@ sub GetTicket {
         $Ticket{Owner} = $Row[15];
         $Ticket{Answered} = $Row[16];
         $Ticket{RealTillTimeNotUsed} = $Row[17];
-        $Ticket{TicketFreeText1} = $Row[19] || '';
-        $Ticket{TicketFreeText2} = $Row[20] || '';
-        $Ticket{TicketFreeKey1} = $Row[21] || '';
-        $Ticket{TicketFreeKey2} = $Row[22] || '';
+        $Ticket{TicketFreeKey1} = $Row[19] || '';
+        $Ticket{TicketFreeText1} = $Row[20] || '';
+        $Ticket{TicketFreeKey2} = $Row[21] || '';
+        $Ticket{TicketFreeText2} = $Row[22] || '';
+        $Ticket{TicketFreeKey3} = $Row[23] || '';
+        $Ticket{TicketFreeText3} = $Row[24] || '';
+        $Ticket{TicketFreeKey4} = $Row[25] || '';
+        $Ticket{TicketFreeText4} = $Row[26] || '';
+        $Ticket{TicketFreeKey5} = $Row[27] || '';
+        $Ticket{TicketFreeText5} = $Row[28] || '';
+        $Ticket{TicketFreeKey6} = $Row[29] || '';
+        $Ticket{TicketFreeText6} = $Row[30] || '';
+        $Ticket{TicketFreeKey7} = $Row[31] || '';
+        $Ticket{TicketFreeText7} = $Row[32] || '';
+        $Ticket{TicketFreeKey8} = $Row[33] || '';
+        $Ticket{TicketFreeText8} = $Row[34] || '';
     }
     # check ticket
     if (!$Ticket{TicketID}) {

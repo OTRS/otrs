@@ -2,7 +2,7 @@
 # AgentFreeText.dtl - provides HTML for AgentFreeText mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.dtl,v 1.2 2003-12-10 07:28:13 martin Exp $
+# $Id: AgentFreeText.dtl,v 1.3 2003-12-15 20:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -50,6 +50,36 @@
     <td>$Data{"TicketFreeKeyField2"}:</td>
     <td>$Data{"TicketFreeTextField2"}</td>
   </tr>
+  <tr>
+    <td>3</td>
+    <td>$Data{"TicketFreeKeyField3"}:</td>
+    <td>$Data{"TicketFreeTextField3"}</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>$Data{"TicketFreeKeyField4"}:</td>
+    <td>$Data{"TicketFreeTextField4"}</td>
+  </tr>
+#  <tr>
+#    <td>5</td>
+#    <td>$Data{"TicketFreeKeyField5"}:</td>
+#    <td>$Data{"TicketFreeTextField5"}</td>
+#  </tr>
+#  <tr>
+#    <td>6</td>
+#    <td>$Data{"TicketFreeKeyField6"}:</td>
+#    <td>$Data{"TicketFreeTextField6"}</td>
+#  </tr>
+#  <tr>
+#    <td>7</td>
+#    <td>$Data{"TicketFreeKeyField7"}:</td>
+#    <td>$Data{"TicketFreeTextField7"}</td>
+#  </tr>
+#  <tr>
+#    <td>8</td>
+#    <td>$Data{"TicketFreeKeyField8"}:</td>
+#    <td>$Data{"TicketFreeTextField8"}</td>
+#  </tr>
   </table>
 <br>
 <input class="button" type="submit" value="$Text{"update"}">

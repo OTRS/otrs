@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.130 2003-12-07 23:56:15 martin Exp $
+# $Id: Agent.pm,v 1.131 2003-12-15 20:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.130 $';
+$VERSION = '$Revision: 1.131 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -481,6 +481,47 @@ sub AgentCustomerMessage {
     );
     return $Output.$Self->Output(TemplateFile => 'AgentCustomerMessage', Data => \%Param);
 }   
+# --
+sub AgentFreeText {
+    my $Self = shift;
+    my %Param = @_;
+    my %Data = ();
+    foreach (1..20) {
+        # key
+        if (ref($Self->{ConfigObject}->Get("TicketFreeKey$_")) eq 'HASH') {
+            $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
+                Data => $Self->{ConfigObject}->Get("TicketFreeKey$_"),
+                Name => "TicketFreeKey$_",
+                SelectedID => $Param{"TicketFreeKey$_"},
+            );
+        }
+        else {
+            if (defined($Param{"TicketFreeKey$_"})) {
+                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Param{"TicketFreeKey$_"}.'" size="20">';
+            }
+            else {
+                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="" size="20">';
+            }
+        }
+        # value
+        if (ref($Self->{ConfigObject}->Get("TicketFreeText$_")) eq 'HASH') {
+            $Data{"TicketFreeTextField$_"} = $Self->OptionStrgHashRef(
+                Data => $Self->{ConfigObject}->Get("TicketFreeText$_"),
+                Name => "TicketFreeText$_",
+                SelectedID => $Param{"TicketFreeText$_"},
+            );
+        }
+        else {
+            if (defined($Param{"TicketFreeText$_"})) {
+                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Param{"TicketFreeText$_"}.'" size="25">';
+            }
+            else {
+                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="" size="25">';
+            }
+        }
+    }
+    return %Data;
+}
 # --
 
 1;

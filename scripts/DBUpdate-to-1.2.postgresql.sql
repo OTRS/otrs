@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.4 2003-11-26 00:57:20 martin Exp $
+-- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.5 2003-12-15 20:26:50 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
@@ -47,4 +47,20 @@ CREATE TABLE group_customer_user
     change_time timestamp(0) NOT NULL,
     change_by integer NOT NULL
 );
+
+--
+-- add more free text col. to ticket table 
+--
+ALTER TABLE ticket ADD freekey3 VARCHAR (80);
+ALTER TABLE ticket ADD freetext3 VARCHAR (150);
+ALTER TABLE ticket ADD freekey4 VARCHAR (80);
+ALTER TABLE ticket ADD freetext4 VARCHAR (150);
+ALTER TABLE ticket ADD freekey5 VARCHAR (80);
+ALTER TABLE ticket ADD freetext5 VARCHAR (150);
+ALTER TABLE ticket ADD freekey6 VARCHAR (80);
+ALTER TABLE ticket ADD freetext6 VARCHAR (150);
+ALTER TABLE ticket ADD freekey7 VARCHAR (80);
+ALTER TABLE ticket ADD freetext7 VARCHAR (150);
+ALTER TABLE ticket ADD freekey8 VARCHAR (80);
+ALTER TABLE ticket ADD freetext8 VARCHAR (150);
 

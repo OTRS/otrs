@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentText.pm - to set the ticket free text
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.pm,v 1.3 2003-12-07 23:56:15 martin Exp $
+# $Id: AgentFreeText.pm,v 1.4 2003-12-15 20:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -89,9 +89,9 @@ sub Run {
         # --
         # update ticket free text
         # --
-        foreach (1..2) {
-            my $FreeKey = $Self->{ParamObject}->GetParam(Param => "FreeKey$_") || '';
-            my $FreeValue = $Self->{ParamObject}->GetParam(Param => "FreeText$_") || '';
+        foreach (1..8) {
+            my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_") || '';
+            my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_") || '';
             $Self->{TicketObject}->SetTicketFreeText(
                 Key => $FreeKey,
                 Value => $FreeValue,
@@ -111,13 +111,15 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Free Text');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(%Ticket);
         # print change form
-	    $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentFreeText', 
-                Data => {
-                    %Ticket,
-                    QueueID => $Self->{QueueID},
-                },
+	$Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentFreeText', 
+            Data => {
+                %TicketFreeText,
+                %Ticket,
+                QueueID => $Self->{QueueID},
+            },
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

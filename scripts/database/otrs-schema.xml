@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.13 2003-11-26 00:57:19 martin Exp $
+  $Id: otrs-schema.xml,v 1.14 2003-12-15 20:26:50 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.13  2003/11/26 00:57:19  martin
+  added group_customer_user for customer user<->group relations
+
   Revision 1.12  2003/11/20 22:00:27  martin
   change new group_user table
 
@@ -419,10 +422,22 @@
   <column name="customer_user_id" required="false" size="250" type="VARCHAR"/>
   <column name="timeout" required="false" type="INTEGER"/>
   <column name="until_time" required="false" type="INTEGER"/>
-  <column name="freekey1" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey1" required="false" size="80" type="VARCHAR"/>
   <column name="freetext1" required="false" size="150" type="VARCHAR"/>
-  <column name="freekey2" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey2" required="false" size="80" type="VARCHAR"/>
   <column name="freetext2" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey3" required="false" size="80" type="VARCHAR"/>
+  <column name="freetext3" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey4" required="false" size="80" type="VARCHAR"/>
+  <column name="freetext4" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey5" required="false" size="80" type="VARCHAR"/>
+  <column name="freetext5" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey6" required="false" size="80" type="VARCHAR"/>
+  <column name="freetext6" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey7" required="false" size="80" type="VARCHAR"/>
+  <column name="freetext7" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey8" required="false" size="80" type="VARCHAR"/>
+  <column name="freetext8" required="false" size="150" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time_unix" required="true" type="BIGINT"/>
   <column name="create_time" required="true" type="DATE"/>

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomStatus.dtl,v 1.3 2003-07-07 22:05:26 martin Exp $
+# $Id: AgentZoomStatus.dtl,v 1.4 2003-12-15 20:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -53,8 +53,20 @@
 # --
 <dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeText1"}</td></tr>"; }>
 <dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeText2"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey3"} ne "") { $Data{"TicketFreeString3"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey3"}:</b></td><td>$Data{"TicketFreeText3"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey4"} ne "") { $Data{"TicketFreeString4"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey4"}:</b></td><td>$Data{"TicketFreeText4"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey5"} ne "") { $Data{"TicketFreeString5"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey5"}:</b></td><td>$Data{"TicketFreeText5"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey6"}:</b></td><td>$Data{"TicketFreeText6"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey7"}:</b></td><td>$Data{"TicketFreeText7"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey8"}:</b></td><td>$Data{"TicketFreeText8"}</td></tr>"; }>
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
+    $Data{"TicketFreeString3"}
+    $Data{"TicketFreeString4"}
+    $Data{"TicketFreeString5"}
+    $Data{"TicketFreeString6"}
+    $Data{"TicketFreeString7"}
+    $Data{"TicketFreeString8"}
     </table>
 # --
 # show customer info table 

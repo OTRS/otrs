@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.42 2003-12-14 21:02:28 martin Exp $
+# $Id: Article.pm,v 1.43 2003-12-15 20:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -617,7 +617,10 @@ sub GetArticle {
         " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, sa.article_type_id, ".
         " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
         " sa.a_freekey3, sa.a_freetext3, st.ticket_answered, ".
-        " st.freetext1, st.freetext2, st.freekey1, st.freekey2, sa.incoming_time, sa.id ".
+        " sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,".
+        " st.freekey3, st.freetext3, st.freekey4, st.freetext4,". 
+        " st.freekey5, st.freetext5, st.freekey6, st.freetext6,". 
+        " st.freekey7, st.freetext7, st.freekey8, st.freetext8". 
         " FROM ".
         " article sa, ticket st, ".
         " $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -642,7 +645,7 @@ sub GetArticle {
     my %Ticket = ();
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my %Data;
-        $Data{ArticleID} = $Row[35];
+        $Data{ArticleID} = $Row[31];
         $Data{TicketID} = $Row[0];
         $Data{From} = $Row[1];
         $Data{To} = $Row[2];
@@ -691,11 +694,23 @@ sub GetArticle {
         $Data{FreeKey3} = $Row[27];
         $Data{FreeText3} = $Row[28];
         $Data{Answered} = $Row[29];
-        $Data{TicketFreeText1} = $Row[30];
-        $Data{TicketFreeText2} = $Row[31];
         $Data{TicketFreeKey1} = $Row[32];
-        $Data{TicketFreeKey2} = $Row[33];
-        $Data{IncomingTime} = $Row[34];
+        $Data{TicketFreeText1} = $Row[33];
+        $Data{TicketFreeKey2} = $Row[34];
+        $Data{TicketFreeText2} = $Row[35];
+        $Data{TicketFreeKey3} = $Row[36];
+        $Data{TicketFreeText3} = $Row[37];
+        $Data{TicketFreeKey4} = $Row[38];
+        $Data{TicketFreeText4} = $Row[39];
+        $Data{TicketFreeKey5} = $Row[40];
+        $Data{TicketFreeText5} = $Row[41];
+        $Data{TicketFreeKey6} = $Row[42];
+        $Data{TicketFreeText6} = $Row[43];
+        $Data{TicketFreeKey7} = $Row[44];
+        $Data{TicketFreeText7} = $Row[45];
+        $Data{TicketFreeKey8} = $Row[46];
+        $Data{TicketFreeText8} = $Row[47];
+        $Data{IncomingTime} = $Row[30];
         $Data{RealTillTimeNotUsed} = $Row[17];
         # strip not wanted stuff
         foreach (qw(From To Cc Subject)) {
