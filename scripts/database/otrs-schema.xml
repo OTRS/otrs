@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.33 2004-09-11 07:50:08 martin Exp $
+  $Id: otrs-schema.xml,v 1.34 2004-09-16 09:42:46 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.33  2004/09/11 07:50:08  martin
+  added profile_type to search_profile
+
   Revision 1.32  2004/09/09 11:15:07  martin
   removed ticket_link table
 
@@ -930,6 +933,14 @@
     <column name="profile_type" required="true" size="30" type="VARCHAR"/>
     <column name="profile_key" required="true" size="200" type="VARCHAR"/>
     <column name="profile_value" required="true" size="200" type="VARCHAR"/>
+</table>
+
+<!-- process_id -->
+<table name="process_id">
+    <column name="process_name" required="true" size="200" type="VARCHAR"/>
+    <column name="process_id" required="true" size="200" type="VARCHAR"/>
+    <column name="process_host" required="true" size="200" type="VARCHAR"/>
+    <column name="process_create" required="true" type="INTEGER"/>
 </table>
 
 <!-- notifications -->

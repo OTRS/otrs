@@ -922,6 +922,19 @@ CREATE TABLE search_profile
 );
 
 # -----------------------------------------------------------------------
+# process_id
+# -----------------------------------------------------------------------
+drop table if exists process_id;
+
+CREATE TABLE process_id
+(
+    process_name varchar (200) NOT NULL,
+    process_id varchar (200) NOT NULL,
+    process_host varchar (200) NOT NULL,
+    process_create integer NOT NULL,
+);
+
+# -----------------------------------------------------------------------
 # notifications
 # -----------------------------------------------------------------------
 drop table if exists notifications;
