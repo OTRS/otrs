@@ -1,11 +1,11 @@
 # --
 # INSTALL description of OTRS
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.35 2004-02-27 21:57:26 martin Exp $
+# $Id: INSTALL,v 1.36 2004-12-10 08:48:25 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -17,24 +17,24 @@ Software requirements?
     * Database (e. g. MySQL, PostgreSQL)
     * Webpserver (mod_perl isn't required but "very nice" to have)
     * LDAPv2 compliant server (OpenLDAP for works fine, however LDAP isn't required)
-    * some CPAN-Module (DBI, DBD::mysql, Digest::MD5, MIME::Base64 (if Perl < 5.8), Net::DNS) 
+    * some CPAN-Module (DBI, DBD::mysql, Digest::MD5, MIME::Base64 (if Perl < 5.8), Net::DNS, XML::Parser, LWP::UserAgent)
       for LDAP (Net::LDAP) and for stats (GD, GD::Text, GD::Graph, GD::Graph::lines,
       GD::Text::Align)
 
 Installation:
 =============
 
-This few steps describe an OTRS installation incl. webserver and database 
+This few steps describe an OTRS installation incl. webserver and database
 settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
-(of course you can choose an other directory or/and OTRS user). 
+(of course you can choose an other directory or/and OTRS user).
 
 1. Install CPAN Modules (if needed):
    ---------------------------------
-   Note: use "bin/otrs.checkModules" to get an overview of all installed and 
+   Note: use "bin/otrs.checkModules" to get an overview of all installed and
    required cpan modules.
 
    a) Install the RPMs if your distributions provides RPMs for
-      the required CPAN modules. 
+      the required CPAN modules.
 
    b) Install the required modules via CPAN shell (http://www.cpan.org/)
       perl -MCPAN -e shell;
@@ -58,7 +58,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       ...
 
 
-2. Create user: 
+2. Create user:
    ------------
     Add user:
     ---------
@@ -76,27 +76,27 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
    $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
 
 4. Demo config files:
-   ------------------  
+   ------------------
     There are several OTRS demo config files in $OTRS_HOME/Kernel/*.dist
     and $OTRS_HOME/Kernel/Config/*.dist. Make copies of all demo config files:
-  
+
       cp Kernel/Config.pm.dist Kernel/Config.pm
- 
+
       cd Kernel/Config/
       for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
     Or if you are installing OTRS an a Windows system:
 
       copy Kernel/Config.pm.dist Kernel/Config.pm
- 
+
       cd Kernel/Config/
       copy *.dist *.
 
 5. Check if all needed modules are installed:
    ------------------------------------------
-      $shell:~> perl -cw /opt/otrs/bin/cgi-bin/index.pl 
+      $shell:~> perl -cw /opt/otrs/bin/cgi-bin/index.pl
       /opt/otrs/bin/cgi-bin/index.pl syntax OK
-      $shell:~> perl -cw /opt/otrs/bin/PostMaster.pl 
+      $shell:~> perl -cw /opt/otrs/bin/PostMaster.pl
       /opt/otrs/bin/PostMaster.pl syntax OK
       $shell:~>
 
@@ -104,15 +104,15 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
 6. Webserver:
    ----------
-   [follow README.webserver] 
+   [follow README.webserver]
 
 7. File Permissions:
    -----------------
-   Set the file permissions with 
+   Set the file permissions with
    "$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
-   e. g. 
-     Webserver with OTRS user: "SetPermissions.sh /opt/otrs otrs otrs" 
-     Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/otrs otrs wwwrun" 
+   e. g.
+     Webserver with OTRS user: "SetPermissions.sh /opt/otrs otrs otrs"
+     Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/otrs otrs wwwrun"
      Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/otrs otrs apache apache apache"
 
 8. Database setup:
@@ -123,7 +123,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 9. Config file ($HOME/Kernel/Config.pm):
    -------------------------------------
    If you used the Web-Installer, you can skip this point. If not,
-   set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, TicketHook, 
+   set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, TicketHook,
    Home, ...)
 
 10. First Login:
@@ -143,9 +143,9 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
 12. Cronjobs for the OTRS user:
     ---------------------------
-    There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist. 
+    There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
     Make copies of all of the default cronjobs:
- 
+
       cd var/cron
       for foo in *.dist; do cp $foo `basename $foo .dist`; done
 
@@ -156,14 +156,14 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
 
     Use $OTRS_HOME/bin/Cron.sh {start|stop|restart} to start or stop this cronjobs
-    from $OTRS_HOME/var/cron/* (.dist will be ignored). 
+    from $OTRS_HOME/var/cron/* (.dist will be ignored).
 
     >> Note: Install this cronjobs as OTRS user. <<
 
 Notes:
 ======
 
-Also you should read the OTRS performance tuning chapter on our homepage: 
+Also you should read the OTRS performance tuning chapter on our homepage:
 http://doc.otrs.org/cvs/en/html/performance-tuning.html
 
 For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
