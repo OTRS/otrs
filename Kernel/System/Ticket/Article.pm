@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.50 2004-02-17 13:28:38 martin Exp $
+# $Id: Article.pm,v 1.51 2004-02-17 15:08:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,9 +59,14 @@ sub CreateArticle {
     }
     # strip not wanted stuff
     foreach (qw(From To Cc Subject MessageID ReplyTo)) {
-        $Param{$_} =~ s/\n|\r//g if ($Param{$_});
+        if (defined($Param{$_})) {
+            $Param{$_} =~ s/\n|\r//g;
+        }
+        else {
+            $Param{$_} = '';
+        }
     }
-    # DB quoting
+    # db quoting
     my %DBParam = ();
     foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType TicketID ArticleTypeID SenderTypeID )) {
         if ($Param{$_}) {
