@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendStats.pl,v 1.4 2004-10-14 09:42:22 martin Exp $
+# $Id: SendStats.pl,v 1.5 2004-10-14 14:00:47 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -99,7 +99,7 @@ my $Module = "Kernel::System::Stats::$Opts{'m'}";
 my %Config = %{$CommonObject{ConfigObject}->Get('SystemStatsMap')};
 my %ConfigItem = ();
 foreach my $Stats (sort keys %Config) {
-    if ($Config{$Stats}->{Module} eq $Module) {
+    if ($Config{$Stats}->{Module} && $Config{$Stats}->{Module} eq $Module) {
         %ConfigItem = %{$Config{$Stats}};
     }
 }
