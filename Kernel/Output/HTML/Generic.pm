@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.109 2004-04-07 15:28:43 martin Exp $
+# $Id: Generic.pm,v 1.110 2004-04-07 17:27:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.109 $';
+$VERSION = '$Revision: 1.110 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -568,7 +568,10 @@ sub Error {
     my %Param = @_;
     # get backend error messages
     foreach (qw(Message Traceback)) {
-      $Param{'Backend'.$_} = $Self->{LogObject}->Error($_) || '';
+      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Error',
+          Message => $_
+      ) || '';
       $Param{'Backend'.$_} = $Self->Ascii2Html(
           Text => $Param{'Backend'.$_}, 
           HTMLResultMode => 1,
@@ -584,6 +587,23 @@ sub Error {
 sub Warning {
     my $Self = shift;
     my %Param = @_;
+    # get backend error messages
+    foreach (qw(Message)) {
+      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Notice',
+          What => $_
+      ) || $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Error',
+          What => $_
+      ) || '';
+      $Param{'Backend'.$_} = $Self->Ascii2Html(
+          Text => $Param{'Backend'.$_}, 
+          HTMLResultMode => 1,
+      );
+    }
+    if (!$Param{Message}) {
+      $Param{Message} = $Param{BackendMessage};
+    } 
     # create & return output
     return $Self->Output(TemplateFile => 'Warning', Data => \%Param);
 }

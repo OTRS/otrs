@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.31 2004-04-07 15:28:43 martin Exp $
+# $Id: Customer.pm,v 1.32 2004-04-07 17:27:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -129,19 +129,21 @@ sub CustomerError {
     my %Param = @_;
 
     # get backend error messages
-    foreach (qw(Message Subroutine Line Version)) {
-      $Param{'Backend'.$_} = $Self->{LogObject}->Error($_) || '';
+    foreach (qw(Message Traceback)) {
+      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Error', 
+          Message => $_
+      ) || '';
+      $Param{'Backend'.$_} = $Self->Ascii2Html(
+          Text => $Param{'Backend'.$_},
+          HTMLResultMode => 1,
+      );
     }
+
     if (!$Param{Message}) {
       $Param{Message} = $Param{BackendMessage};
     } 
 
-    # get frontend error messages
-    ($Param{Package}, $Param{Filename}, $Param{Line}, $Param{Subroutine}) = caller(0);
-    ($Param{Package1}, $Param{Filename1}, $Param{Line1}, $Param{Subroutine1}) = caller(1);
-    ($Param{Package2}, $Param{Filename2}, $Param{Line2}, $Param{Subroutine2}) = caller(2);
-    $Param{Version} = eval("\$$Param{Package}". '::VERSION');
-    
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerError', Data => \%Param);
 }
@@ -205,12 +207,19 @@ sub CustomerWarning {
     my %Param = @_;
 
     # get backend error messages
-    foreach (qw(Message Subroutine Line Version)) {
-      $Param{'Backend'.$_} = $Self->{LogObject}->Error($_) || '';
+    foreach (qw(Message)) {
+      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Notice',
+          What => $_
+      ) || $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Error',
+          What => $_
+      ) || '';
+      $Param{'Backend'.$_} = $Self->Ascii2Html(
+          Text => $Param{'Backend'.$_},
+          HTMLResultMode => 1,
+      );
     }
-    if (!$Param{Message}) {
-      $Param{Message} = $Param{BackendMessage};
-    } 
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerWarning', Data => \%Param);
 }
