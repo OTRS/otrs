@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.28 2002-05-18 09:57:16 martin Exp $
+# $Id: index.pl,v 1.29 2002-06-08 20:41:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,128 +20,115 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-# OpenTRS root directory
+# use ../ as lib location
 use lib '../..';
-#use lib '/opt/OpenTRS/';
 
 use strict;
 
-use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.28 $';
+use vars qw($VERSION);
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-$Debug = 0;
+# --
+# 0=off;1=on;
+# --
+my $Debug = 0;
 
 # --
-# all OpenTRS modules
+# all framework needed  modules 
+# (if you use mod_perl with startup.pl, drop this "use Kernel::.." and add
+# this to your startup.pl) 
 # --
 use Kernel::Config;
-use Kernel::System::Syslog;
+use Kernel::Config::Modules;
+use Kernel::System::Log;
 use Kernel::System::WebRequest;
 use Kernel::System::DB;
 use Kernel::System::Auth;
 use Kernel::System::AuthSession;
 use Kernel::System::User;
-use Kernel::System::Queue;
-use Kernel::System::Ticket;
-use Kernel::System::Article;
 use Kernel::System::Permission;
-use Kernel::Modules::Test;
-use Kernel::Modules::AgentQueueView;
-use Kernel::Modules::AgentMove;
-use Kernel::Modules::AgentZoom;
-use Kernel::Modules::AgentAttachment;
-use Kernel::Modules::AgentPlain;
-use Kernel::Modules::AgentNote;
-use Kernel::Modules::AgentLock;
-use Kernel::Modules::AgentPriority;
-use Kernel::Modules::AgentClose;
-use Kernel::Modules::AgentUtilities;
-use Kernel::Modules::AgentCompose;
-use Kernel::Modules::AgentForward;
-use Kernel::Modules::AgentPreferences;
-use Kernel::Modules::AgentMailbox;
-use Kernel::Modules::AgentOwner;
-use Kernel::Modules::AgentHistory;
-use Kernel::Modules::AgentPhone;
-use Kernel::Modules::Admin;
-use Kernel::Modules::AdminSession;
-use Kernel::Modules::AdminSelectBox;
-use Kernel::Modules::AdminResponse;
-use Kernel::Modules::AdminQueueResponses;
-use Kernel::Modules::AdminQueue;
-use Kernel::Modules::AdminAutoResponse;
-use Kernel::Modules::AdminQueueAutoResponse;
-use Kernel::Modules::AdminSalutation;
-use Kernel::Modules::AdminSignature;
-use Kernel::Modules::AdminUser;
-use Kernel::Modules::AdminGroup;
-use Kernel::Modules::AdminUserGroup;
-use Kernel::Modules::AdminSystemAddress;
-use Kernel::Modules::AdminCharset;
-use Kernel::Modules::AdminLanguage;
-use Kernel::Modules::SystemStats;
-use Kernel::Modules::AdminState;
 use Kernel::Output::HTML::Generic;
 
 # --
-# create common objects 
+# create common framework objects 1/3
 # --
 my %CommonObject = ();
-$CommonObject{LogObject} = Kernel::System::Syslog->new();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
+    LogPrefix => $CommonObject{ConfigObject}->Get('CGILogPrefix'),
+);
 # --
 # debug info
 # --
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug', 
-        MSG => 'Global OpenTRS handle started...',
+        MSG => 'Global handle started...',
     );
 }
 # --
-# ... common objects ...
+# create common framework objects 2/3
 # --
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{ParamObject} = Kernel::System::WebRequest->new();
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 # --
 # check common db objects
 # --
 if (!$CommonObject{DBObject}) {
     print $CommonObject{LayoutObject}->Header(Title => 'Logout');
     print $CommonObject{LayoutObject}->Error(
-        Message => "Can't connect to database!",
+        Message => $DBI::errstr,
         Comment => 'Please contact your admin'
-    );
-    $CommonObject{LogObject}->Log(
-        Message => "Can't connect to database!",
-        Priority => 'error',
     );
     print $CommonObject{LayoutObject}->Footer();
     exit (1);
 }
 # --
-# ... common objects ...
+# create common framework objects 3/3
 # --
-$CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
-$CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{ArticleObject} = Kernel::System::Article->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 $CommonObject{PermissionObject} = Kernel::System::Permission->new(%CommonObject);
+$CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
+# --
+# application and add on application common objects
+# --
+foreach ('$Kernel::Config::Modules::CommonObject', '$Kernel::Config::ModulesCustom::CommonObject') {
+  my $ModuleCommonObject = eval $_;
+  foreach my $Key (keys %{$ModuleCommonObject}) {
+    # create
+    $CommonObject{$Key} = $ModuleCommonObject->{$Key}->new(%CommonObject);
+  }
+}
+
 
 # --
-# get common parameters
+# get common framework params
 # --
 my %Param = ();
-$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => 'SessionID') || '';
-$Param{Action} = $CommonObject{ParamObject}->GetParam(Param => 'Action') || 'AgentQueueView';
-$Param{Subaction} = $CommonObject{ParamObject}->GetParam(Param => 'Subaction') || '';
-$Param{QueueID} = $CommonObject{ParamObject}->GetParam(Param => 'QueueID') || 0;
-$Param{TicketID} = $CommonObject{ParamObject}->GetParam(Param => 'TicketID') || '';
-$Param{NextScreen} = $CommonObject{ParamObject}->GetParam(Param => 'NextScreen') || '';
-$Param{RequestedURL} = $CommonObject{ParamObject}->GetParam(Param => 'RequestedURL') || $ENV{"QUERY_STRING"};
+my $FramworkPrams = {
+    SessionID => '',
+    Action => '',
+    Subaction => '',
+    NextScreen => '',
+    RequestedURL => $ENV{"QUERY_STRING"},
+};
+foreach my $Key (keys %{$FramworkPrams}) {
+    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
+      || $FramworkPrams->{$Key};
+}
+# --
+# get common application and add on application params
+# --
+foreach ('$Kernel::Config::Modules::Param', '$Kernel::Config::ModulesCustom::Param') {
+  my $Param = eval $_;
+  foreach my $Key (keys %{$Param}) {
+    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
+      || $Param->{$Key};
+  }
+}
+
 
 # --
 # check request type
@@ -220,7 +207,7 @@ elsif ($Param{Action} eq "Logout"){
             print $CommonObject{LayoutObject}->Header(Title => 'Logout');
             print $CommonObject{LayoutObject}->Error(
                 Message => 'Can`t remove SessionID',
-                Comment => 'Please contact your admin'
+                Comment => 'Please contact your admin!'
             );
             $CommonObject{LogObject}->Log(
                 Message => 'Can`t remove SessionID',
@@ -287,7 +274,11 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         # --
         # prove of concept! - create $GenericObject
         # --
-        my $GenericObject = ('Kernel::Modules::'.$Param{Action})->new(%CommonObject,%Param,%Data);
+        my $GenericObject = ('Kernel::Modules::'.$Param{Action})->new(
+            %CommonObject,
+            %Param,
+            %Data,
+        );
 
         # debug info
         if ($Debug) {
@@ -319,7 +310,7 @@ else {
     print $CommonObject{LayoutObject}->Header(Title => 'Error');
     print $CommonObject{LayoutObject}->Error(
         Message => "Action '$Param{Action}' not found!",
-        Comment => "Contact your admin!",
+        Comment => "Perhaps the admin forgot to load \"Kernel::Modules::$Param{Action}\"!",
        );
     print $CommonObject{LayoutObject}->Footer();
 }
@@ -330,7 +321,7 @@ else {
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => 'Global OpenTRS handle stopped.',
+        MSG => 'Global handle stopped.',
     );
 }
 
