@@ -5,7 +5,7 @@
 # Copyright (C) 2003 A-NeT Internet Services bv
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # --
-# $Id: nl.pm,v 1.24 2004-06-15 09:16:34 martin Exp $
+# $Id: nl.pm,v 1.24.2.1 2005-02-15 10:35:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,7 +45,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.24.2.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -386,7 +386,7 @@ sub Data {
       'Source' => 'Bron',
       'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',
       'This values are required.' => 'Deze waarden zijn verplicht',
-      'This window must be called from compose window' => 'Dit scherm moet van het scherm \'opstellen\' worden aangeroepen',
+      'This window must be called from compose window' => 'Dit scherm moet van het scherm opstellen worden aangeroepen',
     
     # Template: AdminCustomerUserGeneric
       '"}: <font color="red">$Text{"' => '',
