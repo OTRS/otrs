@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.61 2004-11-04 10:47:19 martin Exp $
+# $Id: de.pm,v 1.62 2004-11-28 11:20:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -200,6 +200,8 @@ sub Data {
       'Link (Normal)' => 'Verknüpft (Normal)',
       'Link (Parent)' => 'Verknüpft (Eltern)',
       'Link (Child)' => 'Verknüpft (Kinder)',
+      'Parent' => 'Eltern',
+      'Child' => 'Kinder',
       'between' => 'zwischen',
       'Fulltext Search' => 'Volltextsuche',
       'Data' => 'Daten',
@@ -778,8 +780,8 @@ sub Data {
       'Info' => '',
 
       # Template: AgentLinkObject
-      'Link Object' => '',
-      '"}" $Text{"with' => '',
+      'Link Object' => 'Verknüpfe Objekt',
+      'with' => 'mit',
       'Select' => 'Auswahl',
       'Results' => 'Ergebnis',
       'Total hits' => 'Treffer gesamt',
@@ -1194,6 +1196,8 @@ sub Data {
       # Template: TicketViewLite
 
       # Template: Warning
+    'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
+    'Ticket Object' => 'Ticket Objekt',
     };
     # $$STOP$$
 }
