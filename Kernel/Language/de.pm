@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.14 2003-02-23 18:39:05 martin Exp $
+# $Id: de.pm,v 1.15 2003-02-23 22:44:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Feb  3 23:27:51 2003 by 
+    # Last translation Sun Feb 23 23:32:25 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -46,8 +46,8 @@ sub Data {
       'Attention' => 'Achtung',
       'Bug Report' => 'Fehler berichten',
       'Cancel' => 'Abbrechen',
-      'Change' => 'Ändern',
       'change' => 'ändern',
+      'Change' => 'Ändern',
       'change!' => 'ändern!',
       'click here' => 'klick hier',
       'Comment' => 'Kommentar',
@@ -55,8 +55,8 @@ sub Data {
       'Customer Info' => 'Kunden Info',
       'day' => 'Tag',
       'days' => 'Tage',
-      'description' => 'Beschreibung',
       'Description' => 'Beschreibung',
+      'description' => 'Beschreibung',
       'Dispatching by email To: field.' => 'Verteilung nach To: Feld.',
       'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Arbeite nicht mit UserID 1 (System Account)! Erstelle neue Benutzer!',
@@ -91,8 +91,9 @@ sub Data {
       'Name' => 'Name',
       'New message' => 'Neue Nachricht',
       'New message!' => 'Neue Nachricht!',
-      'no' => 'kein',
       'No' => 'Nein',
+      'no' => 'kein',
+      'No entry found!' => 'Kein Eintrag gefunden!',
       'No suggestions' => 'Keine Vorschläge',
       'none' => 'keine',
       'none - answered' => 'keine - beantwortet',
@@ -164,6 +165,7 @@ sub Data {
       'Other Options' => 'Andere Optionen',
       'Preferences updated successfully!' => 'Update der Benutzereinstellungen erfolgreich!',
       'QueueView refresh time' => 'Queue-Ansicht refresh Zeit',
+      'Select your default spelling dictionary.' => 'Standard Rechtschreib-Wörterbuch auswählen.',
       'Select your frontend Charset.' => 'Zeichensatz für Darstellung auswählen.',
       'Select your frontend language.' => 'Oberflächen-Sprache auswählen.',
       'Select your frontend QueueView.' => 'Queue-Ansicht auswählen.',
@@ -173,6 +175,7 @@ sub Data {
       'Send me a notification if a ticket is moved into a custom queue.' => ' Zusenden einer Mitteilung beim verschieben eines Ticket in meine individuellen Queue(s).',
       'Send me a notification if a ticket is unlocked by the system.' => 'Zusenden einer Mitteilung wenn ein Ticket vom System freigegeben (unlocked) wird.',
       'Send me a notification if there is a new ticket in my custom queues.' => 'Zusenden einer Mitteilung bei neuem Ticket in der/den individuellen Queue(s).',
+      'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
       'Ticket lock timeout notification' => 'Mitteilung bei lock Zeitüberschreitung',
 
     # Template: AAATicket
@@ -303,19 +306,16 @@ sub Data {
       'It\'s useful for ASP solutions.' => 'Sehr nützlich für ASP-Lösungen.',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Die admin Gruppe wird für den Admin-Bereich benötigt, die stats Gruppe für den Statistik-Bereich.',
 
-    # Template: AdminLanguageForm
-      'Add language' => 'Sprache hinzufügen',
-      'Change system language setting' => 'Ändere System-Sprache',
-      'System Language Management' => 'System-Sprache Verwaltung',
-
     # Template: AdminLog
       'System Log' => '',
 
     # Template: AdminNavigationBar
       'AdminEmail' => '',
       'AgentFrontend' => 'AgentOberfläche',
+      'Attachment <-> Response' => 'Anhang <-> Antworten',
       'Auto Response <-> Queue' => 'Auto-Antworten <-> Queues',
       'Auto Responses' => 'Auto-Antworten',
+      'Bottom of Page' => 'Seitenende',
       'Charsets' => '',
       'Customer User' => 'Kunden Benutzer',
       'Email Addresses' => 'E-Mail-Adressen',
@@ -359,6 +359,7 @@ sub Data {
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gelocked jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch unlocked.',
       'Key' => 'Schlüssel',
       'Queue Management' => 'Queue Verwaltung',
+      'Sub-Queue of' => 'Unter-Queue von',
       'Systemaddress' => 'System-Adresse',
       'The salutation for email answers.' => 'Die Anrede für E-Mail Antworten.',
       'The signature for email answers.' => 'Die Signatur für E-Mail Antworten.',
@@ -413,6 +414,8 @@ sub Data {
       'Change signature settings' => 'Ändern einer Signatur',
       'for agent firstname' => 'für Vorname des Agents',
       'for agent lastname' => 'für Nachname des Agents',
+      'for agent login' => 'für Agent Login',
+      'for agent user id' => 'für Agent UserID',
       'Signature Management' => 'Signatur Verwaltung',
 
     # Template: AdminStateForm
@@ -463,6 +466,8 @@ sub Data {
       'Close!' => 'Schließen!',
       'Note Text' => 'Notiz Text',
       'Note type' => 'Notiz-Typ',
+      'Options' => 'Optionen',
+      'Spell Check' => 'Rechtschreibkontrolle',
       'store' => 'speichern',
       'Time units' => 'Zeit-Einheiten',
 
@@ -472,14 +477,14 @@ sub Data {
       'Compose answer for ticket' => 'Antwort erstellen für',
       'for pending* states' => 'für warten* Stati',
       'Is the ticket answered' => 'Ist das Ticket beantwortet',
-      'Options' => 'Optionen',
       'Pending Date' => 'Warten Datum',
-      'Spell Check' => 'Rechtschreibkontrolle',
 
     # Template: AgentCustomer
       'Back' => 'zurück',
       'Change customer of ticket' => 'Ändern des Kunden von Ticket',
-      'Set customer id of a ticket' => 'Setze eine Kunden# zu einem Ticket',
+      'CustomerID' => 'Kunden#',
+      'Search Customer' => 'Kunden suchen',
+      'Set customer user and customer id of a ticket' => 'Kunden-User und Kunden-Nummer des Tickets auswählen',
 
     # Template: AgentCustomerHistory
       'Customer history' => 'Kunden History',
@@ -502,7 +507,6 @@ sub Data {
 
     # Template: AgentMailboxNavBar
       'All messages' => 'Alle Nachrichten',
-      'CustomerID' => 'Kunden#',
       'down' => 'abwärts',
       'Mailbox' => '',
       'New' => 'Neu',
@@ -518,7 +522,10 @@ sub Data {
       'up' => 'aufwärts',
 
     # Template: AgentMailboxTicket
-      'Add Note' => 'Notiz anheften',
+
+    # Template: AgentMove
+      'Move Ticket' => 'Ticket Verschieben',
+      'New Queue' => 'Neue Queue',
 
     # Template: AgentNavigationBar
       'FAQ' => '',
@@ -548,7 +555,6 @@ sub Data {
       'Phone call at %s' => 'Anruf um %s',
 
     # Template: AgentPhoneNew
-      'Search Customer' => 'Kunden suchen',
       'new ticket' => 'neues Ticket',
 
     # Template: AgentPlain
@@ -583,9 +589,10 @@ sub Data {
 
     # Template: AgentStatusView
       'D' => '',
+      'of' => 'von',
+      'Site' => 'Seite',
       'sort downward' => 'Sortierung abwärts',
       'sort upward' => 'Sortierung aufwärts',
-      'Ticket limit:' => '',
       'Ticket Status' => '',
       'U' => '',
 
@@ -614,8 +621,10 @@ sub Data {
       'Article free text' => 'Artikel frei Text',
       'Fulltext search' => 'Volltext-Suche',
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Volltextsuche (z. B. "Mar*in" oder "Baue*" oder "martin+hallo")',
+      'In Queue' => '',
       'Search in' => 'Suche in',
       'Ticket free text' => 'Ticket frei Text',
+      'With Priority' => 'Mit Priotität',
       'With State' => 'Mit Status',
 
     # Template: AgentUtilSearchByTicketNumber
@@ -624,7 +633,6 @@ sub Data {
 
     # Template: AgentUtilSearchNavBar
       'Results' => 'Ergebnis',
-      'Site' => 'Seite',
       'Total hits' => 'Treffer gesamt',
 
     # Template: AgentUtilSearchResult
@@ -663,6 +671,7 @@ sub Data {
 
     # Template: CustomerMessage
       'Follow up' => '',
+      'Next state' => 'Nächster Status',
 
     # Template: CustomerMessageNew
 
@@ -680,7 +689,6 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
-      'of' => 'von',
 
     # Template: CustomerStatusViewTable
 
@@ -689,8 +697,10 @@ sub Data {
     # Template: CustomerWarning
 
     # Template: Error
+      'Traceback' => '',
 
     # Template: Footer
+      'Top of Page' => 'Seitenanfang',
 
     # Template: Header
 
@@ -699,7 +709,7 @@ sub Data {
 
     # Template: InstallerSystem
       '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
-      '(E-Mail of the system admin)' => '(E-Mail des System Admins)',
+      '(Email of the system admin)' => '(E-Mail des System Admins)',
       '(Full qualified domain name of your system)' => '(Foller Domain-Name des Systems)',
       '(Logfile just needed for File-LogModule!)' => '(Logfile nur benötigt für File-LogModule!)',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Das Kennzeichnen des Systems. Jede Ticket Nummer und http Sitzung beginnt mit dieser ID)',
@@ -759,6 +769,7 @@ sub Data {
       'phone call' => 'Anrufen',
 
     # Template: TicketViewLite
+      'Add Note' => 'Notiz anheften',
 
     # Template: TicketZoom
 
@@ -780,9 +791,15 @@ sub Data {
       '(Click here to add charset)' => '(Hier klicken - Charset hinzufügen',
       '(Click here to add language)' => '(Hier klicken - Sprache hinzufügen)',
       '(Click here to add state)' => '(Hier klicken - state hinzufügen)',
+      '(E-Mail of the system admin)' => '(E-Mail des System Admins)',
       'A message should have a From: recipient!' => 'Eine Nachricht sollte einen Absender im Von: haben!',
+      'Add language' => 'Sprache hinzufügen',
+      'Change system language setting' => 'Ändere System-Sprache',
       'CustomerUser' => 'Kunden-Benutzer',
       'New ticket via call.' => 'Neues Ticket durch Anruf.',
+      'Set customer id of a ticket' => 'Setze eine Kunden# zu einem Ticket',
+      'System Language Management' => 'System-Sprache Verwaltung',
+      'Ticket limit:' => '',
       'Time till escalation' => 'Zeit bis zur Escalation',
       'Update auto response' => 'Auto-Antwort aktualisieren',
       'Update charset' => 'Charset aktualisieren',
