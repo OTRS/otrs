@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.10 2004-12-23 06:02:05 martin Exp $
+# $Id: Email.pm,v 1.11 2004-12-23 21:09:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,11 @@ use strict;
 use MIME::Words qw(:all);
 use MIME::Entity;
 use Mail::Address;
+use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -89,6 +90,9 @@ sub new {
     }
     # create backend object
     $Self->{Backend} = $GenericModule->new(%Param);
+
+    # create encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
     $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
@@ -453,7 +457,9 @@ sub Send {
                 "Subject => $Param{Subject};",
         );
     }
-
+    # body encode
+    $Self->{EncodeObject}->EncodeOutput(\$Param{Body});
+    # send email to backend
     if ($Self->{Backend}->Send(
         From => $RealFrom,
         ToArray => \@ToArray,
@@ -556,7 +562,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2004-12-23 06:02:05 $
+$Revision: 1.11 $ $Date: 2004-12-23 21:09:43 $
 
 =cut
 
