@@ -1,10 +1,13 @@
 <chapter id="first_steps">
 <title>First steps</title>
+
+<sect1 id="login_and_new_user">
+<title>Login as root and create a new account</title>
 <para>
 Let's presume that you have an installed OpenTRS system on your system and of course you do not want to waste to much time and see quick results.
 </para>
 <para>
-First you have to start your favorate webbrowser and have a look at <ulink url="http://localhost/cgi-bin/index.pl"><citetitle>http://localhost/cgi-bin/index.pl</citetitle></ulink>
+First you have to start your favorate webbrowser and have a look at <ulink url="http://localhost/otrs/index.pl"><citetitle>http://localhost/otrs/index.pl</citetitle></ulink>
 <screenshot>
 <screeninfo>login screen</screeninfo>
 <graphic srccredit="login screen - screenshot" scale="40" fileref="screenshots/login.png"></graphic>
@@ -25,6 +28,10 @@ The admin interface is the central of your power. You can create and delete user
 <graphic srccredit="add new user interface" scale="40" fileref="screenshots/add-new-user.png"></graphic>
 </screenshot>
 </para>
+</sect1>
+
+<sect1 id="login_with_user_privilege">
+<title>Login with user privilege</title>
 <para>
 After you created the new user we ask you to logout and to login again as this new user. After login in he/she will see the following screen:
 <screenshot>
@@ -39,4 +46,5 @@ Between the second and third black bar (in this example) the user has access to 
 <graphic srccredit="raw queue" scale="40" fileref="screenshots/raw-queue.png"></graphic>
 </screenshot>
 </para>
+</sect1>
 </chapter>

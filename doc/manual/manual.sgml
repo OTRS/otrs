@@ -2,14 +2,17 @@
 <!ENTITY preamble SYSTEM "preamble.sgml">
 <!ENTITY install SYSTEM "install.sgml">
 <!ENTITY first-steps SYSTEM "first-steps.sgml">
+<!ENTITY first-ticket SYSTEM "first-ticket.sgml">
 <!ENTITY troubleshooting SYSTEM "troubleshooting.sgml">
 <!ENTITY faq SYSTEM "faq.sgml">
 <!ENTITY bibliography SYSTEM "bibliography.sgml">
 <!ENTITY fdl SYSTEM "fdl.sgml">
 <!ENTITY coreteam SYSTEM "coreteam.sgml">
+<!ENTITY online-resources SYSTEM "online-resources.sgml">
+<!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
 ]>
 
-<book>
+<book id="index">
 <bookinfo>
         <title>OpenTRS - Manual</title>
 <authorgroup>
@@ -43,12 +46,21 @@
 <holder>Martin Edenhofer and Stefan Wintermeyer</holder>
 </copyright>
 
-<date>2002-01-30</date>
+<date>2002-02-03</date>
+
+<legalnotice>
+<para>
+The copyright holders make no representation about the suitability of this
+document for any purpose. It is provided <quote>as is</quote> without expressed
+or implied warranty.
+</para>
+
+</legalnotice>
 
 <revhistory>
 <revision>
 <revnumber>0.42</revnumber>
-<date>30.01.02</date>
+<date>3rd Feb, 2002</date>
 <revremark>first draft</revremark>
 </revision>
 </revhistory>
@@ -67,14 +79,20 @@
 
 &first-steps;
 
+&first-ticket;
+
+&basics_about_tt;
+
 &troubleshooting;
 
 &faq;
 
-&bibliography;
+&online-resources;
 
 &coreteam;
 
 &fdl;
+
+&bibliography;
 
 </book>

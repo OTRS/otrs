@@ -1,5 +1,7 @@
 <chapter id="install_quick">
 <title>Install - The quick way.</title>
+<sect1 id="installing_the_rpm">
+<title>Installing the rpm</title>
 <para>
 This install way is intended for <ulink url="http://www.suse.de/"><citetitle>SuSE Linux</citetitle></ulink> users. For other distributions please have a look at <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>.
 </para>
@@ -22,7 +24,24 @@ Starting OpenTRS
  Checking otrs spool dir...  done.
  Starting httpd ... done.
 </screen>
-Than fire up your favorate webbrowser and have a look at <ulink url="http://localhost/cgi-bin/index.pl"><citetitle>http://localhost/cgi-bin/index.pl</citetitle></ulink>
+</para>
+</sect1>
+
+<sect1 id="installer.pl">
+<title>installer.pl</title>
+<para>
+The script/webpage <ulink url="http://localhost/otrs/installer.pl"><citetitle>http://localhost/otrs/installer.pl</citetitle></ulink> has to be visited now. It will help you to set up the database. Please doublecheck your database password.
+<screenshot>
+<screeninfo>installer.pl screen</screeninfo>
+<graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer.png"></graphic>
+</screenshot>
+</para>
+</sect1>
+
+<sect1 id="index.pl">
+<title>index.pl</title>
+<para>
+Than fire up your favorate webbrowser and have a look at <ulink url="http://localhost/otrs/index.pl"><citetitle>http://localhost/otrs/index.pl</citetitle></ulink>. index.pl is your central starting point.
 <screenshot>
 <screeninfo>login screen</screeninfo>
 <graphic srccredit="login screen - screenshot" scale="40" fileref="screenshots/login.png"></graphic>
@@ -31,4 +50,5 @@ Than fire up your favorate webbrowser and have a look at <ulink url="http://loca
 <para>
 In case you have problems to install OpenTRS please have a look into the <link linkend="troubleshooting">trouble-shooting section</link>.
 </para>
+</sect1>
 </chapter>

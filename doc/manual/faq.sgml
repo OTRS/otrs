@@ -2,6 +2,19 @@
 <title>FAQ</title>
 <qandaset>
 
+<qandaentry>
+<question>
+<para>
+What stands OpenTRS for?
+</para>
+</question>
+<answer>
+<para>
+Open Trouble-Ticket Request System.
+</para>
+</answer>
+</qandaentry>
+
 <qandaentry id="faq_agent">
 <question>
 <para>

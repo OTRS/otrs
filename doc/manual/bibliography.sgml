@@ -1,22 +1,18 @@
-<bibliography><title>Bibliography</title>
+<bibliography id="bibliography">
+<title>Bibliography</title>
 
 <biblioentry>
 <authorgroup>
-<author><firstname>Kurt</firstname><surname>Fleischmann</surname></author>
-<author><firstname>Roland</firstname><surname>Haidl</surname></author>
-<author><firstname>Carsten</firstname><surname>H&ouml;ger</surname></author>
-<author><firstname>Daniel</firstname><surname>Meier</surname></author>
-<author><firstname>R&uuml;diger</firstname><surname>M&uuml;ller</surname></author>
-<author><firstname>Karine</firstname><surname>Nguyen</surname></author>
-<author><firstname>Rainer</firstname><surname>Obesser</surname></author>
-<author><firstname>Edith</firstname><surname>Parzefall</surname></author>
+<author><firstname>Ben</firstname><surname>Laurie</surname></author>
+<author><firstname>Peter</firstname><surname>Laurie</surname></author>
 </authorgroup>
 <copyright>
-<year>2000</year>
-<holder>SuSE GmbH</holder>
+<year>1999</year>
+<holder>O'Reilly</holder>
 </copyright>
-<publisher><publishername>SuSE Press</publishername></publisher>
-<title>SuSE eMail Server II (Installation - Konfiguration - Administration</title>
+<publisher><publishername>O'Reilly</publishername></publisher>
+<title>Apache. Das umfassende Referenzwerk.</title>
+<isbn>3897211270</isbn>
 </biblioentry>
 
 <biblioentry>
@@ -31,20 +27,6 @@
 <publisher><publishername>O'Reilly</publishername></publisher>
 <title>sendmail</title>
 <isbn>1565922220</isbn>
-</biblioentry>
-
-<biblioentry>
-<authorgroup>
-<author><firstname>Ben</firstname><surname>Laurie</surname></author>
-<author><firstname>Peter</firstname><surname>Laurie</surname></author>
-</authorgroup>
-<copyright>
-<year>1999</year>
-<holder>O'Reilly</holder>
-</copyright>
-<publisher><publishername>O'Reilly</publishername></publisher>
-<title>Apache. Das umfassende Referenzwerk.</title>
-<isbn>3897211270</isbn>
 </biblioentry>
 
 <biblioentry>
@@ -85,6 +67,35 @@
 <pagenums>page 128</pagenums>
 </biblioset>
 </biblioentry>
+
+<biblioentry>
+<authorgroup>
+<author><firstname>George</firstname><surname>Reese</surname></author>
+<author><firstname>Tim</firstname><surname>King</surname></author>
+<author><firstname>Randy Jay</firstname><surname>Yarger</surname></author>
+</authorgroup>
+<copyright>
+<year>2002</year>
+<holder>O'Reilly</holder>
+</copyright>
+<publisher><publishername>O'Reilly</publishername></publisher>
+<title>Managing & Using MySQL (2nd Edition)</title>
+<isbn>0596002114</isbn>
+</biblioentry>
+
+<biblioentry>
+<authorgroup>
+<author><firstname></firstname><surname>Illiad</surname></author>
+</authorgroup>
+<copyright>
+<year>1999</year>
+<holder>O'Reilly</holder>
+</copyright>
+<publisher><publishername>O'Reilly</publishername></publisher>
+<title>User Friendly</title>
+<isbn>1565926730</isbn>
+</biblioentry>
+
 
 </bibliography>
 
