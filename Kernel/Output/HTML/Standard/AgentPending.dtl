@@ -2,7 +2,7 @@
 # AgentPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.dtl,v 1.2 2003-01-03 00:21:24 martin Exp $
+# $Id: AgentPending.dtl,v 1.3 2003-01-19 18:25:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,12 +33,12 @@
   <table border="0" width="100%">
   <tr>
     <td width="20%">$Text{"Subject"}:</td>
-    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="60"></td>
+    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultPendingNoteSubject"}"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Note Text"}:</td><td>
 <textarea name="Text" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
-$Text{"$Config{"DefaultCloseNoteText"}"}
+$Text{"$Config{"DefaultPendingNoteText"}"}
 </textarea>
     </td>
   </tr>
