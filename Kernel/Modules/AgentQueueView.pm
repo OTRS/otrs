@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.59 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentQueueView.pm,v 1.60 2004-04-28 22:32:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -223,6 +223,7 @@ sub ShowTicket {
     my %MoveQueues = $Self->{TicketObject}->MoveList(
         TicketID => $TicketID,
         UserID => $Self->{UserID},
+        Action => $Self->{Action},
         Type => 'move_into',
     );
     # get last article
