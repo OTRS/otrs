@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.46 2003-12-07 23:54:43 martin Exp $
+# $Id: AgentQueueView.pm,v 1.47 2003-12-08 20:56:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub new {
     # --
     $Self->{Start} = $Self->{ParamObject}->GetParam(Param => 'Start') || 1;
     # viewable tickets a page
-    $Self->{Limit} =  $Self->{ViewableTickets} + $Self->{Start};
+    $Self->{Limit} =  $Self->{ViewableTickets} + $Self->{Start} - 1;
     # sure is sure!
     $Self->{MaxLimit} = $Self->{ConfigObject}->Get('MaxLimit') || 1200;
     if ($Self->{Limit} > $Self->{MaxLimit}) {
