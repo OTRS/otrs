@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.5 2002-02-03 20:07:49 martin Exp $
+# $Id: Header.dtl,v 1.6 2002-04-08 16:18:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,13 @@
 # --
 Content-Type: text/html; charset=$Env{"Charset"}; 
 
+# --
+# html comment
+# --
+
+<!-- OpenTRS: Copyright 2002, OpenTRS Project. This Software is under the GPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
+<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt           -->
 # --
 # set some html variables
 # --
@@ -26,13 +33,6 @@ Content-Type: text/html; charset=$Env{"Charset"};
 # --
 <dtl if ($Data{"Refresh"} ne "") { $Data{"MetaHttpEquiv"} = "<meta http-equiv="refresh" content="$Data{"Refresh"}">"; }>
 # --
-# html comment
-# --
-
-<!-- OpenTRS: Copyright 2002, OpenTRS Project. This Software is under the GPL. -->
-<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
-<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt           -->
-
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
