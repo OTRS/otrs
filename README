@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.18 2003-04-16 22:35:45 martin Exp $
+# $Id: README,v 1.19 2003-05-21 15:30:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -26,7 +26,7 @@ What is OTRS?
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
     - Multi language support (Brazilian Portuguese, Bulgarian, Dutch, English, 
-       Finnish, French, German, Italian and Spanish)
+       Finnish, French, German, Italian, Russian and Spanish)
     - customize the output templates (dtl) release independently 
     - Webinterface with attachment support
     - easy and logical to use
@@ -59,8 +59,9 @@ What is OTRS?
     - Ticket number format free setable
     - creation and configuration of user accounts, and groups 
     - creation of standard responses
-    - Signature configuration per queue
-    - Salutation configuration per queue
+    - creation of sub queue
+    - signature configuration per queue
+    - salutation configuration per queue
     - email-notification of administrators
     - email-notification sent to problem reporter (by create, locked, deleted, 
        moved and closed)
