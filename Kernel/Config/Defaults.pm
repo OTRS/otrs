@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.68.2.2 2003-05-13 10:30:47 martin Exp $
+# $Id: Defaults.pm,v 1.68.2.3 2003-05-18 20:22:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.68.2.2 $';
+$VERSION = '$Revision: 1.68.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1396,6 +1396,7 @@ Your OTRS Notification Master
         CustomerUserListFields => ['login', 'first_name', 'last_name', 'email'],
 #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
         CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
+        CustomerUserPostMasterSearchFields => ['email'],
         CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
 #        ReadOnly => 1,
         Map => [
@@ -1436,6 +1437,7 @@ Your OTRS Notification Master
 #        CustomerID => 'mail',
 #        CustomerUserListFields => ['uid', 'cn', 'mail'],
 #        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
+#        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
