@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.54 2004-08-19 11:23:47 martin Exp $
+# $Id: Admin.pm,v 1.55 2004-09-08 21:05:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,13 +51,6 @@ sub AdminCustomerUserForm {
         SelectedID => $Param{ValidID},
     );
 
-    $Param{UserOption} = $Self->OptionStrgHashRef(
-        Data => $Param{UserList},
-        Size => 15,
-        Name => 'ID',
-        SelectedID => $Param{ID},
-        Max => 55,
-    );
     foreach my $Entry (@{$Self->{ConfigObject}->Get($Param{Source})->{Map}}) {
       if ($Entry->[0]) {
           # check input type
