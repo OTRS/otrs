@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.2 2004-08-06 06:14:21 martin Exp $
+# $Id: AdminSMIME.pm,v 1.3 2004-08-10 06:50:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -62,6 +62,7 @@ sub Run {
     # delete key
     if ($Self->{Subaction} eq 'Delete') {
         my $Hash = $Self->{ParamObject}->GetParam(Param => 'Hash') || '';
+        my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Hash) {
             my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Error(
@@ -70,9 +71,24 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        my $Message = $Self->{CryptObject}->CertificateRemove(Hash => $Hash);
+        my $Message = '';
+        # remove private key
+        if ($Type eq 'key') {
+            $Message = $Self->{CryptObject}->PrivateRemove(Hash => $Hash);
+        }
+        # remove certificate and private key if exists
+        else {
+            my $Certificate = $Self->{CryptObject}->CertificateGet(Hash => $Hash);
+            my %Attributes = $Self->{CryptObject}->CertificateAttributes(
+                Certificate => $Certificate,
+            );
+            $Message = $Self->{CryptObject}->CertificateRemove(Hash => $Hash);
+            if ($Attributes{Private} eq 'Yes') {
+                $Message .= $Self->{CryptObject}->PrivateRemove(Hash => $Hash);
+            }
+        }
 
-        my @List = $Self->{CryptObject}->CertificateSearch(Search => $Param{Search});
+        my @List = $Self->{CryptObject}->Search(Search => $Param{Search});
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
@@ -118,7 +134,7 @@ sub Run {
                 What => 'Message',
             );
         }
-        my @List = $Self->{CryptObject}->CertificateSearch(Search => $Param{Search});
+        my @List = $Self->{CryptObject}->Search(Search => $Param{Search});
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
@@ -166,7 +182,7 @@ sub Run {
                 What => 'Message',
             );
         }
-        my @List = $Self->{CryptObject}->CertificateSearch(Search => $Param{Search});
+        my @List = $Self->{CryptObject}->Search(Search => $Param{Search});
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
@@ -187,6 +203,7 @@ sub Run {
     # download key
     elsif ($Self->{Subaction} eq 'Download') {
         my $Hash = $Self->{ParamObject}->GetParam(Param => 'Hash') || '';
+        my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Hash) {
             my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Error(
@@ -195,16 +212,25 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        my $Certificate = $Self->{CryptObject}->CertificateGet(Hash => $Hash);
+        my $Download = '';
+        # download key
+        if ($Type eq 'key') {
+            my $Secret = '';
+            ($Download, $Secret) = $Self->{CryptObject}->PrivateGet(Hash => $Hash);
+        }
+        # download certificate
+        else {
+            $Download = $Self->{CryptObject}->CertificateGet(Hash => $Hash);
+        }
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/plain',
-            Content => $Certificate,
+            Content => $Download,
             Filename => "$Hash.pem"
         );
     }
     # search key
     else {
-        my @List = $Self->{CryptObject}->CertificateSearch(Search => $Param{Search});
+        my @List = $Self->{CryptObject}->Search(Search => $Param{Search});
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',

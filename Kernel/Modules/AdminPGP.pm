@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGP.pm,v 1.1 2004-08-04 13:12:48 martin Exp $
+# $Id: AdminPGP.pm,v 1.2 2004-08-10 06:50:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,6 +65,7 @@ sub Run {
     # delete key
     if ($Self->{Subaction} eq 'Delete') {
         my $Key = $Self->{ParamObject}->GetParam(Param => 'Key') || '';
+        my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Key) {
             my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Error(
@@ -73,14 +74,20 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        my $Message = $Self->{CryptObject}->DeleteKey(Key => $Key);
+        my $Message = '';
+        if ($Type eq 'sec') {
+            $Message = $Self->{CryptObject}->SecretKeyDelete(Key => $Key);
+        }
+        else {
+            $Message = $Self->{CryptObject}->PublicKeyDelete(Key => $Key);
+        }
         if (!$Message) {
             $Message = $Self->{LogObject}->GetLogEntry(
                 Type => 'Error',
                 What => 'Message',
             );
         }
-        my @List = $Self->{CryptObject}->SearchKey(Search => $Param{Search});
+        my @List = $Self->{CryptObject}->KeySearch(Search => $Param{Search});
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
@@ -93,6 +100,9 @@ sub Run {
         }
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PGP Key Management');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        if (!$Message) {
+            $Message = "Key $Key deleted!";
+        }
         $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPGPForm', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -117,14 +127,14 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        my $Message = $Self->{CryptObject}->AddKey(Key => $UploadStuff{Content});
+        my $Message = $Self->{CryptObject}->KeyAdd(Key => $UploadStuff{Content});
         if (!$Message) {
             $Message = $Self->{LogObject}->GetLogEntry(
                 Type => 'Error',
                 What => 'Message',
             );
         }
-        my @List = $Self->{CryptObject}->SearchKey(Search => $Param{Search});
+        my @List = $Self->{CryptObject}->KeySearch(Search => $Param{Search});
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
@@ -145,6 +155,7 @@ sub Run {
     # download key
     elsif ($Self->{Subaction} eq 'Download') {
         my $Key = $Self->{ParamObject}->GetParam(Param => 'Key') || '';
+        my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
         if (!$Key) {
             my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Error(
@@ -153,7 +164,13 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        my $KeyString = $Self->{CryptObject}->GetKey(Key => $Key);
+        my $KeyString = '';
+        if ($Type eq 'sec') {
+            $KeyString = $Self->{CryptObject}->SecretKeyGet(Key => $Key);
+        }
+        else {
+            $KeyString = $Self->{CryptObject}->PublicKeyGet(Key => $Key);
+        }
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/plain',
             Content => $KeyString,
@@ -162,7 +179,7 @@ sub Run {
     }
     # search key
     else {
-        my @List = $Self->{CryptObject}->SearchKey(Search => $Param{Search});
+        my @List = $Self->{CryptObject}->KeySearch(Search => $Param{Search});
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
