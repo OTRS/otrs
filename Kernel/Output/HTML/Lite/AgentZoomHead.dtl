@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomHead.dtl,v 1.3 2003-04-12 21:33:30 martin Exp $
+# $Id: AgentZoomHead.dtl,v 1.4 2003-04-12 22:37:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@
   <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Owner"}</a> -
   <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Note"}</a> -
   <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Customer"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentFreeText&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Free Field"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Free Field"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentFreeText&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Free Fields"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Free Fields"}</a> -
   <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Print"}'; return true;" onmouseout="window.status='';" class="menuitem" target="print">$Text{"Print"}</a> -
   <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Pending"}</a> -
   <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Close"}</a>
