@@ -1,0 +1,100 @@
+$Text{"Yes"}
+$Text{"No"}
+$Text{"yes"}
+$Text{"no"}
+$Text{"Off"}
+$Text{"off"}
+$Text{"On"}
+$Text{"on"}
+
+$Text{"top"}
+$Text{"end"}
+
+$Text{"Welcome to OTRS"}
+$Text{"Logout successful. Thank you for using OTRS!"}
+
+$Text{"Done"}
+$Text{"Cancel"}
+$Text{"Reset"}
+
+$Text{"day"}
+$Text{"days"}
+$Text{"hour"}
+$Text{"hours"}
+$Text{"minute"}
+$Text{"minutes"}
+
+$Text{"wrote"}
+$Text{"Message"}
+$Text{"Error"}
+$Text{"Bug Report"}
+$Text{"Attention"}
+$Text{"Warning"}
+$Text{"Module"}
+$Text{"Modulefile"}
+$Text{"Subfunction"}
+$Text{"Line"}
+$Text{"Example"}
+$Text{"Examples"}
+
+$Text{" 2 minutes"}
+$Text{" 5 minutes"}
+$Text{" 7 minutes"}
+$Text{"10 minutes"}
+$Text{"15 minutes"}
+
+$Text{"none"}
+$Text{"none!"}
+$Text{"none - answered"}
+$Text{"please do not edit!"}
+$Text{"AddLink"}
+$Text{"Hit"}
+$Text{"Hits"}
+$Text{"Text"}
+
+$Text{"User"}
+$Text{"Username"}
+$Text{"Language"}
+$Text{"Languages"}
+$Text{"Password"}
+$Text{"Salutation"}
+$Text{"Signature"}
+$Text{"Customer"}
+$Text{"Customer info"}
+$Text{"go!"}
+$Text{"go"}
+$Text{"All"}
+$Text{"all"}
+$Text{"Sorry"}
+$Text{"update!"}
+$Text{"update"}
+$Text{"submit!"}
+$Text{"submit"}
+$Text{"change!"}
+$Text{"Change"}
+$Text{"change"}
+$Text{"click here"}
+$Text{"Comment"}
+$Text{"Valid"}
+$Text{"Name"}
+$Text{"Group"}
+$Text{"Description"}
+$Text{"description"}
+$Text{"Theme"}
+
+$Text{"New message"}
+$Text{"New message!"}
+
+$Text{"AdminArea"}
+$Text{"QueueView"}
+$Text{"Stats"}
+
+$Text{"Please answer this ticket(s) to get back to the normal queue view!"}
+
+$Text{"You got new message!"}
+$Text{"The recommended charset for your language is %s!"}
+
+$Text{"No suggestions"}
+$Text{"Word"}
+$Text{"Ignore"}
+$Text{"replace with"}

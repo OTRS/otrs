@@ -1,0 +1,60 @@
+$Text{"Lock"}
+$Text{"Unlock"}
+$Text{"History"}
+$Text{"Zoom"}
+$Text{"Age"}
+$Text{"Bounce"}
+$Text{"Forward"}
+$Text{"From"}
+$Text{"To"}
+$Text{"Cc"}
+$Text{"Bcc"}
+$Text{"Subject"}
+$Text{"Move"}
+$Text{"Queue"}
+$Text{"Priority"}
+$Text{"State"}
+$Text{"Compose"}
+$Text{"Pending"}
+$Text{"Owner"}
+$Text{"Sender"}
+$Text{"Article"}
+$Text{"Ticket"}
+$Text{"Createtime"}
+$Text{"Created"}
+$Text{"View"}
+$Text{"plain"}
+$Text{"eMail"}
+$Text{"email"}
+$Text{"Close"}
+$Text{"Action"}
+$Text{"Attachment"}
+$Text{"Attachments"}
+$Text{"This message was written in a character set other than your own."}
+$Text{"If it is not displayed correctly,"}
+$Text{"This is a"}
+$Text{"to open it in a new window."}
+$Text{"This is a HTML email. Click here to show it."}
+
+$Text{"closed succsessful"}
+$Text{"closed unsuccsessful"}
+$Text{"new"}
+$Text{"open"}
+$Text{"removed"}
+
+$Text{"email-external"}
+$Text{"email-internal"}
+$Text{"note-external"}
+$Text{"note-internal"}
+$Text{"note-report"}
+$Text{"phone"}
+$Text{"sms"}
+$Text{"webrequest"}
+
+$Text{"very low"}
+$Text{"low"}
+$Text{"normal"}
+$Text{"high"}
+$Text{"very high"}
+
+$Text{""}

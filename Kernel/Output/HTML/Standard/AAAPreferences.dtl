@@ -1,0 +1,32 @@
+$Text{"Preferences updated successfully!"}
+
+$Text{"Mail Management"}
+$Text{"Frontend"}
+$Text{"Other Options"}
+
+$Text{"New ticket notification"}
+$Text{"Send me a notification if there is a new ticket in my custom queues."}
+
+$Text{"Follow up notification"}
+#$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
+$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
+
+$Text{"Ticket lock timeout notification"}
+$Text{"Send me a notification if a ticket is unlocked by the system."}
+
+$Text{"Move notification"}
+$Text{"Send me a notification if a ticket is moved into a custom queue."}
+
+$Text{"Custom Queue"}
+
+$Text{"QueueView refresh time"}
+$Text{"Select your QueueView refresh time."}
+
+$Text{"Select your frontend language."}
+
+$Text{"Select your frontend Charset."}
+
+$Text{"Select your frontend Theme."}
+
+$Text{"Select your frontend QueueView."}
+
