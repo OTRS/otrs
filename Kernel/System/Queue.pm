@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.36 2003-11-17 00:22:18 martin Exp $
+# $Id: Queue.pm,v 1.37 2003-11-26 00:45:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,9 +14,10 @@ package Kernel::System::Queue;
 use strict;
 use Kernel::System::StdResponse;
 use Kernel::System::Group;
+use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -52,6 +53,7 @@ sub new {
     # lib object
     $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+    $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
     return $Self;
 }
 # --
@@ -265,7 +267,7 @@ get all system queues
 
     my %Queues = $Self->{QueueObject}->GetAllQueues();
 
-get all system queues of a user with permission type (e. g. ro, move, rw, ...)
+get all system queues of a user with permission type (e. g. ro, move_into, rw, ...)
 
     my %Queues = $Self->{QueueObject}->GetAllQueues(UserID => 123, Type => 'ro');
 
@@ -280,7 +282,7 @@ sub GetAllQueues {
     # fetch all queues
     # --
     my %MoveQueues;
-    if ($UserID) {
+    if ($Param{UserID}) {
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Param{UserID},
             Type => $Type,
@@ -289,7 +291,32 @@ sub GetAllQueues {
         if (@GroupIDs) {
           my $SQL = "SELECT sq.id, sq.name FROM queue sq, group_user sug, groups sg ".
             " WHERE ".
-            " sug.user_id = $UserID".
+            " sug.user_id = $Param{UserID}".
+            " AND ".
+            " sug.group_id = sg.id".
+            " AND ".
+            " sq.group_id = sg.id".
+            " AND ".
+            " sg.id IN ( ${\(join ', ', @GroupIDs)} )".
+            " AND ".
+            " sq.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+            $Self->{DBObject}->Prepare(SQL => $SQL);
+        }
+        else {
+            return;
+        }
+    }
+    elsif ($Param{CustomerUserID}) {
+        my @GroupIDs = $Self->{CustomerGroupObject}->GroupMemberList(
+            UserID => $Param{CustomerUserID},
+            Type => $Type,
+            Result => 'ID',
+        );
+        if (@GroupIDs) {
+          my $SQL = "SELECT sq.id, sq.name FROM queue sq, group_customer_user".
+            " sug, groups sg ".
+            " WHERE ".
+            " sug.user_id = '$Param{CustomerUserID}'".
             " AND ".
             " sug.group_id = sg.id".
             " AND ".
@@ -936,6 +963,6 @@ sub QueueUpdate {
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2003-11-17 00:22:18 $
+$Revision: 1.37 $ $Date: 2003-11-26 00:45:18 $
 
 =cut
