@@ -2,15 +2,38 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.98 2003-11-19 01:32:11 martin Exp $
+# $Id: CHANGES,v 1.99 2003-11-26 00:41:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD
- - (2003/11/19) improved group sub system, added create, move, owner,
-    priority and state permissions to groups.
+ - (2003/11/26) added modules for ticket permission checks 
+    Kernel/System/Ticket/Permission/OwnerCheck.pm
+    Kernel/System/Ticket/Permission/GroupCheck.pm
+    Kernel/System/Ticket/CustomerPermission/CustomerIDCheck.pm
+    Kernel/System/Ticket/CustomerPermission/GroupCheck.pm
+    So it's possible to write own perission check modules! 
+    Example: Don't allow agents to change the priority if the state
+    of the ticket is 'open' and in a specific queue.
+    Example ofKernel/Config.pm:
+
+    # Module Name: 1-OwnerCheck
+    # (if the current owner is already the user, grant access)
+    $Self->{'Ticket::Permission'}->{'1-OwnerCheck'} = {
+        Module => 'Kernel::System::Ticket::Permission::OwnerCheck',
+        Required => 0,
+    };
+    # Module Name: 2-GroupCheck
+    # (if the user is in this group with type ro|rw|..., grant access)
+    $Self->{'Ticket::Permission'}->{'2-GroupCheck'} = {
+        Module => 'Kernel::System::Ticket::Permission::GroupCheck',
+        Required => 0,
+    };
+
+ - (2003/11/19) improved group sub system, added create, move_into, owner
+    and priority permissions to groups (DBUpdate-to-1.2.*.sql is required!).
  - (2003/11/05) added agent preferences option "Screen after new phone
     ticket". So you can select the next screen after creating a new
     phone ticket.
