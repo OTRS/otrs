@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.60 2004-04-28 22:32:59 martin Exp $
+# $Id: AgentQueueView.pm,v 1.61 2004-05-13 08:22:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -354,7 +354,8 @@ sub ShowTicket {
         );
     }
     # create & return output
-    if (!$Self->{UserQueueView} || $Self->{UserQueueView} ne 'TicketViewLite') {
+    my $TicketView = $Self->{UserQueueView} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueView}->{DataSelected};
+    if ($TicketView ne 'TicketViewLite') {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'TicketView', 
             Data => {%Param, %Article, %AclAction},
