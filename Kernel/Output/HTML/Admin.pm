@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.53 2004-07-08 12:48:51 martin Exp $
+# $Id: Admin.pm,v 1.54 2004-08-19 11:23:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,8 +71,16 @@ sub AdminCustomerUserForm {
           if ($Self->{ConfigObject}->Get($Param{Source})->{AutoLoginCreation} && $Entry->[0] =~ /^UserLogin$/) {
               $Param{Type} = 'hidden';
           }
+          if ($Entry->[7]) {
+              $Param{ReadOnlyType} = 'readonly';
+              $Param{ReadOnly} = '*';
+          }
+          else {
+              $Param{ReadOnlyType} = '';
+              $Param{ReadOnly} = '';
+          }
           if ($Entry->[0] =~ /^ValidID/i) {
-              $Param{Value} = $Param{'ValidOption'}; 
+              $Param{Value} = $Param{'ValidOption'};
           }
           else {
              my $Value = $Self->{LayoutObject}->Ascii2Html(
@@ -80,7 +88,7 @@ sub AdminCustomerUserForm {
                  HTMLQuote => 1,
                  LanguageTranslation => 0,
              ) || '';
-             $Param{Value} = "<input type=\"$Param{Type}\" name=\"$Entry->[0]\" value=\"$Value\" size=\"35\" maxlength=\"50\">";
+             $Param{Value} = "<input type=\"$Param{Type}\" name=\"$Entry->[0]\" value=\"$Value\" size=\"35\" maxlength=\"50\" $Param{ReadOnlyType}>";
           }
           # show required flag
           if ($Entry->[4]) {
