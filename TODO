@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.31 2003-01-05 23:45:04 martin Exp $
+# $Id: TODO,v 1.32 2003-01-15 18:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,6 +15,7 @@
 - Add a ticket browser by date (http://lists.otrs.org/pipermail/otrs/2002-August/000176.html)
 - interfaceing with bugzilla
 - internationalization of agent notification messages
+- win32 compatibility (SMTP module, Log module, ...)
 
 2.0
 - sub-queues (http://lists.otrs.org/pipermail/otrs/2002-June/000065.html)
