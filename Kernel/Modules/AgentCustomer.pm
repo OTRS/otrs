@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.35 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentCustomer.pm,v 1.36 2004-10-02 09:14:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -171,7 +171,12 @@ sub Form {
     my @TicketIDs = ();
     if ($TicketCustomerID || $CustomerUserData{UserID}) {
         if ($CustomerUserData{UserID}) {
+            # get secondary customer ids
             my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUserData{UserID});
+            # get own customer id
+            if ($CustomerUserData{UserCustomerID}) {
+                push (@CustomerIDs, $CustomerUserData{UserCustomerID});
+            }
             @TicketIDs = $Self->{TicketObject}->TicketSearch(
                 Result => 'ARRAY',
                 Limit => $Self->{ConfigObject}->Get('AgentCustomerMaxShownCustomerTickets') || '40',

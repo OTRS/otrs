@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.145 2004-10-02 08:14:17 martin Exp $
+# $Id: Ticket.pm,v 1.146 2004-10-02 09:14:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.145 $';
+$VERSION = '$Revision: 1.146 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1689,7 +1689,13 @@ sub TicketSearch {
             Result => 'ID',
             Cached => 1,
         );
+        # get secondary customer ids
         my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $Param{CustomerUserID});
+        # add own customer id
+        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $Param{CustomerUserID});
+        if ($CustomerData{UserCustomerID}) {
+            push (@CustomerIDs, $CustomerData{UserCustomerID});
+        }
         $SQLExt .= " AND (st.customer_id IN ('${\(join '\', \'' , @CustomerIDs)}') ".
           " OR ".
           " st.customer_user_id = '$Param{CustomerUserID}') ";
@@ -3412,6 +3418,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.145 $ $Date: 2004-10-02 08:14:17 $
+$Revision: 1.146 $ $Date: 2004-10-02 09:14:15 $
 
 =cut
