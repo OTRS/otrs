@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.24 2002-04-24 22:58:12 martin Exp $
+# $Id: Config.pm,v 1.25 2002-04-30 00:19:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -248,7 +248,8 @@ sub Load {
     $Self->{ArticleDir} = $Self->{Home} . '/var/article';
     # loop protection Log
     $Self->{LoopProtectionLog} = $Self->{Home} . '/var/log/LoopProtection';
-
+    # stats dir
+    $Self->{StatsPicDir} = $Self->{Home} . '/var/pics/stats';
 
     # ----------------------------------------------------#
     # Ticket stuff                                        #
