@@ -12,12 +12,12 @@ You will be able to handle different groups of users with different permissions
 to a queue). 
 </para>
 <para>
-Group permissions are "ro" (read only), 
+Group permissions are "ro" (read only access to the ticket), 
 "move" (move tickets into this group), 
 "create" (create tickets in this queue), 
 "owner" (change the ticket owner), 
 "priority" (change the ticket owner) and 
-"rw" (have full read and write permissions to the tickets).
+"rw" (full read and write access to the ticket).
 </para>
 <para>
 You can put users to groups and for each queue one group (user-group-queue). 
