@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.20 2003-01-03 00:30:28 martin Exp $
+# $Id: PostMaster.pm,v 1.21 2003-01-06 21:38:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,12 +39,7 @@ sub new {
     $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";
 
     # check needed objects
-    foreach (
-      'SystemID', 
-      'TicketHook', 
-      'PostmasterUserID', 
-      'PostmasterX-Header',
-    ) {
+    foreach (qw(SystemID TicketHook PostmasterUserID PostmasterX-Header)) {
         $Self->{$_} = $Param{ConfigObject}->Get($_) || die "Found no '$_' option in Config.pm!";
     }
 
@@ -97,7 +92,7 @@ sub Run {
     # --
     # should i ignore the incoming mail?
     # --
-    if ($GetParam{'X-OTRS-Ignore'} =~ /yes/i) {
+    if ($GetParam{'X-OTRS-Ignore'} && $GetParam{'X-OTRS-Ignore'} =~ /yes/i) {
        $Self->{LogObject}->Log(
            Message => "Droped Email (From: $GetParam{'From'}, Message-ID: $GetParam{'Message-ID'}) " .
            "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam{'X-OTRS-Ignore'})."
