@@ -1,8 +1,8 @@
 # --
 # Config.pm - Config file for OpenTRS kernel
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.18 2002-02-05 21:59:48 martin Exp $
+# $Id: Config.pm,v 1.19 2002-02-19 22:20:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -67,7 +67,7 @@ sub Load {
 
     # FQDN
     # (Full qualified domain name of your system.)
-    $Self->{FQDN} = 'avro.linuxatwork.de';
+    $Self->{FQDN} = 'yourhost.example.com';
 
     # Sendmail
     # (Where is sendmail located and some options.
@@ -120,9 +120,14 @@ sub Load {
     # (Max viewable ticket lines in the QueueView.)
     $Self->{ViewableTicketLines} = 25;
 
+    # ViewableTicketNewLine
+    # (insert new line in ticket-article after max x chars and 
+    # the next word)
+    $Self->{ViewableTicketNewLine} = 85;
+
     # ViewableTicketLinesZoom
     # (Max viewable ticket lines in the QueueZoom.)
-    $Self->{ViewableTicketLinesZoom} = 5000;
+    $Self->{ViewableTicketLinesZoom} = 6000;
 
     # MaxLimit
     # (Max viewable tickets a page.)
