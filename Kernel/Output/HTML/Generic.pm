@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.147 2004-09-08 07:33:23 martin Exp $
+# $Id: Generic.pm,v 1.148 2004-09-09 14:52:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.147 $';
+$VERSION = '$Revision: 1.148 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -817,21 +817,26 @@ sub Redirect {
             {
                 my $Start = "$1";
                 my $Target = $2;
+                my $End = '';
+                if ($Target =~ /^(.+?)#(|.+?)$/) {
+                    $Target = $1;
+                    $End = "#$2";
+                }
                 if ($Target =~ /http/i || !$Self->{SessionID}) {
-                    "$Start$Target";
+                    "$Start$Target$End";
                 }
                 else {
                     if ($Target =~ /(\?|&)$/) {
-                        "$Start$Target$Self->{SessionName}=$Self->{SessionID}";
+                        "$Start$Target$Self->{SessionName}=$Self->{SessionID}$End";
                     }
                     elsif ($Target !~ /\?/) {
-                        "$Start$Target?$Self->{SessionName}=$Self->{SessionID}";
+                        "$Start$Target?$Self->{SessionName}=$Self->{SessionID}$End";
                     }
                     elsif ($Target =~ /\?/) {
-                        "$Start$Target&$Self->{SessionName}=$Self->{SessionID}";
+                        "$Start$Target&$Self->{SessionName}=$Self->{SessionID}$End";
                     }
                     else {
-                        "$Start$Target?&$Self->{SessionName}=$Self->{SessionID}";
+                        "$Start$Target?&$Self->{SessionName}=$Self->{SessionID}$End";
                     }
                 }
             }iegx;
@@ -874,8 +879,16 @@ sub Login {
 # --
 sub FatalError {
     my $Self = shift;
+    my %Param = @_;
+    if ($Param{Message}) {
+        $Self->{LogObject}->Log(
+          Caller => 1,
+          Priority => 'error',
+          Message => "$Param{Message}",
+        );
+    }
     print $Self->Header(Area => 'Frontend', Title => 'Fatal Error');
-    print $Self->Error();
+    print $Self->Error(%Param);
     print $Self->Footer();
     exit;
 }
