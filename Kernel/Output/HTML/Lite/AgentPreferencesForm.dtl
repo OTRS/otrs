@@ -2,232 +2,36 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.9 2002-08-05 00:21:59 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.10 2002-10-15 09:32:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}" align="center">
-  <td width="50%"> 
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Change Password"}$Env{"Box1"}</font></b>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
+<tr bgcolor="$Env{"BGTableColor0"}" align="center">
+  <td width="33%">
+    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Frontend"}$Env{"Box1"}</font></b>
   </td>
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Select your custom queues"}$Env{"Box1"}</font></b>
+  <td width="33%"> 
+    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Mail Management"}$Env{"Box1"}</font></b>
+  </td>
+  <td width="33%">
+    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Other Options"}$Env{"Box1"}</font></b>
   </td>
 </tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="1" cols="3">
 <tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
   <td>
-    <center>
-    <p>
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="UpdatePw">
-    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-    <table border="0">
-    <tr>
-      <td>$Text{"New password"}:</td><td><input type="password" name="NewPw" value="" size="12"></td>
-    </tr>
-    <tr>
-      <td>$Text{"New password again"}:</td><td><input type="password" name="NewPw1" value="" size="12"></td>
-    </tr>
-    </table>
-    <br>
-    <input type="submit" value="$Text{"update"}">
-    </form>
-    </p>
-    </center>
+    $Data{"Frontend"}  
+  </td>
+  <td>
+    $Data{"Mail Management"}  
   </td> 
   <td>
-    <p>
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="UpdateCustomQueues">
-    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-
-    <select name="QueueID" multiple size="12">
-    $Data{"QueueDataStrg"}
-    </select>
-    <br>
-    <input type="submit" value="$Text{"update"}">
-    </form>
-    </p>
-  </td>
-</tr>
-</table>
-<!-- end form -->
-
-<!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}" align="center"> 
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Select your QueueView refresh time"}$Env{"Box1"}</font></b>
-  </td>
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Select your frontend language"}$Env{"Box1"}</font></b>
-  </td>
-</tr>
-<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
-  <td>
-  <p>
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="UserRefreshTime">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-  <br>
-  $Data{"RefreshOption"}
-  <br>
-  <input type="submit" value="$Text{"update"}">
-  </form>
-  </p>
-  </td>
-  <td>
-  <p>
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="UserLanguage">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-  <br>
-  $Data{"LanguageOption"}
-  <br> 
-  <input type="submit" value="$Text{"update"}">
-  </form>
-  </p>
-  </td>
-</tr>
-</table>
-<!-- end form -->
-
-<!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}" align="center">
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Select your frontend Charset"}$Env{"Box1"}</font></b>
-  </td>
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Select your frontend theme"}$Env{"Box1"}</font></b>
-  </td>
-</tr>
-<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
-  <td> 
-  <p>
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="UserCharset">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-  <br>
-  $Data{"CharsetOption"}
-  <br>
-  <input type="submit" value="$Text{"update"}">
-  </form>
-  </p>
-  </td>
-  <td>
-  <p>
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="UserTheme">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-  <br>
-  $Data{"ThemeOption"}
-  <br>
-  <input type="submit" value="$Text{"update"}">
-  </form>
-  </p>
-  </td>
-</tr>
-</table>
-<!-- end form -->
-
-<!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}" align="center">
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Send new ticket notification"}$Env{"Box1"}</font></b>
-  </td>
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Send follow up notification"}$Env{"Box1"}</font></b>
-  </td>
-</tr>
-<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
-  <td> 
-  <p>
-  $Text{"Send me a notification if there is a new ticket in my custom queues."}
-  <br>
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="UserSendNewTicketNotification">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-  <br>
-  $Data{"SendNewTicketNotificationYesNoOption"}
-  <br>
-  <input type="submit" value="$Text{"update"}">
-  </form>
-  </p>
-  </td>
-  <td>
-  <p>
-  $Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
-  <br>
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="UserSendFollowUpNotification">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-  <br>
-  $Data{"SendFollowUpNotificationYesNoOption"}
-  <br>
-  <input type="submit" value="$Text{"update"}">
-  </form>
-  </p>
-  </td>
-</tr>
-</table>
-<!-- end form -->
-
-<!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}" align="center">
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Send ticket lock timeout notification"}$Env{"Box1"}</font></b>
-  </td>
-  <td width="50%">
-    <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"-"}$Env{"Box1"}</font></b>
-  </td>
-</tr>
-<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
-  <td> 
-  <p>
-  $Text{"Send me a notification if a ticket is unlocked by the system."}
-  <br>
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="UserSendLockTimeoutNotification">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-  <br>
-  $Data{"SendLockTimeoutNotification"}
-  <br>
-  <input type="submit" value="$Text{"update"}">
-  </form>
-  </p>
-  </td>
-  <td>
-  <p>
-  $Text{"-"}
-  <br>
-<!--
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-  <br>
-  $Data{"-"}
-  <br>
-  <input type="submit" value="$Text{"update"}">
-  </form>
--->
-  </p>
+    $Data{"Other Options"}  
   </td>
 </tr>
 </table>
