@@ -1,0 +1,10 @@
+# --
+# cron/stats - create stats for OTRS
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: stats.dist,v 1.1 2002-11-21 21:39:33 martin Exp $
+# This software comes with ABSOLUTELY NO WARRANTY. 
+# --
+# create every day new graphics
+#50 23 * * * $HOME/bin/mkStats.pl >> /dev/null
+

@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.21 2002-11-19 18:51:37 martin Exp $
+# $Id: INSTALL,v 1.22 2002-11-21 21:44:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -120,8 +120,14 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
 
 10. Cronjobs for the OTRS user:
     ---------------------------
-    There are several OTRS cronjobs in $OTRS_HOME/var/cron/*. Use  
-    $OTRS_HOME/bin/Cron.sh {start|stop|restart} to start or stop this cronjobs. 
+    There are several OTRS demo cronjobs in $OTRS_HOME/var/cron/*.dist. 
+    Make copies of all of the demo cronjobs:
+ 
+      cd var/cron
+      for foo in *.dist; do cp $foo `basename $foo .dist`; done
+
+    Use $OTRS_HOME/bin/Cron.sh {start|stop|restart} to start or stop this cronjobs
+    from $OTRS_HOME/var/cron/* (.dist will be ignored). 
 
     >> Note: Install this cronjobs as OTRS user. <<
 
