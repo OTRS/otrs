@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.104 2004-04-30 06:54:48 martin Exp $
+# $Id: Ticket.pm,v 1.105 2004-05-01 18:22:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.104 $';
+$VERSION = '$Revision: 1.105 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1653,7 +1653,7 @@ sub TicketSearch {
     if (@GroupIDs) {
         $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
     }
-    else {
+    elsif (!$Param{UserID} || $Param{UserID} != 0 ) {
         return;
     }
     # ticket number
@@ -3021,6 +3021,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2004-04-30 06:54:48 $
+$Revision: 1.105 $ $Date: 2004-05-01 18:22:43 $
 
 =cut
