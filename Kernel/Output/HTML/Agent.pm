@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.99 2003-04-07 08:34:24 martin Exp $
+# $Id: Agent.pm,v 1.100 2003-04-08 20:10:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.99 $';
+$VERSION = '$Revision: 1.100 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -632,6 +632,10 @@ sub AgentZoom {
                 Data => \%Param,
               );
             }
+            $Param{TicketArticle} = $Self->Output(
+                TemplateFile => 'AgentZoomArticle', 
+                Data => \%Param,
+            );
             $BodyOutput .= $Self->Output(TemplateFile => 'AgentZoomBody', Data => \%Param);
         }
         else {
@@ -647,12 +651,17 @@ sub AgentZoom {
                 TemplateFile => 'AgentZoomAnswer', 
                 Data => \%Param,
               );
+              $Param{TicketArticle} = $Self->Output(
+                TemplateFile => 'AgentZoomArticle', 
+                Data => \%Param,
+              );
             }
 
 #            $Param{TicketAnswer} .= $Self->Output(TemplateFile => 'AgentZoomAnswer', Data => \%Param);
             $BodyOutput .= $Self->Output(TemplateFile => 'AgentZoomBody', Data => \%Param);
-            $Param{TicketAnswer} = '';
         }
+        $Param{TicketAnswer} = '';
+        $Param{TicketArticle} = '';
     }
     $Output .= $BodyOutput;
     $Output .= $Self->Output(TemplateFile => 'AgentZoomFooter', Data => \%Param);

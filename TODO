@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.39 2003-03-13 15:30:00 martin Exp $
+# $Id: TODO,v 1.40 2003-04-08 20:10:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,8 @@
 # --
 
 1.1
+- HTML only emails and std. responses
+- ticket free text for web frontend
 - bin/PostMasterPOP3.pl + procmail/filter (martin)
 - Add Page Navigator for AgentQueueView -
    http://lists.otrs.org/pipermail/otrs/2003-February/000881.html (martin)
@@ -19,12 +21,22 @@
 - send bulk answer -
    http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
 - interfaceing with bugzilla (martin)
-- internationalization of agent notification messages (martin)
 - delete option for records (martin)
+- improve ticket search with between x and y
 
 2.0
 - user backend (LDAP and DB)
+- internationalization of agent notification messages (martin)
 
 misc
 - add foreign-key to the XML db scheme
+- add "create new ticket" link on zoom view (if customer sends new problem
+   with on ticket number)
 
+ideas
+- add 'Mark as Read' feature for QueueView like other 'web based email system'
+- imap service (queue view as imap service)
+- agent email interface
+- add icon in QueueView to show if there is a note on it or it's a new ticket
+- script for check of escalated tickets
+- module feature on set state, owner, lock and queue

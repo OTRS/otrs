@@ -1,0 +1,34 @@
+# --
+# AgentZoomAnswer.dtl - provides HTML TicketZoom for AgentZoom.pm
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
+# --
+# $Id: AgentZoomArticle.dtl,v 1.1 2003-04-08 20:10:47 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+   <p>
+     <b>$Text{"Article"}</b>
+     <table border="0">
+       <tr align="left">
+         <td>
+     <a href="$Env{"Baselink"}Action=AgentForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
+# -- 
+# check if bounce should be shown
+# -- 
+    <dtl if ($Data{"Article::ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
+    <dtl if ($Data{"Article::SenderType"} ne "customer") { $Data{"ArticleBounceString"} = ""; }>
+  
+    <a href="$Env{"Baselink"}Action=AgentBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
+# -- 
+# check if split should be shown
+# -- 
+    <dtl if ($Data{"Article::SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
+  
+    <a href="$Env{"Baselink"}Action=AgentPhone&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
+         </td>
+       </tr>
+     </table>
+   </p>
