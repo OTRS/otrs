@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.31 2003-07-07 14:07:02 martin Exp $
+# $Id: Article.pm,v 1.32 2003-07-07 22:13:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -492,8 +492,17 @@ sub GetLastCustomerArticle {
         return $Self->GetArticle(ArticleID => $Index[$#Index]);
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No last customer article found!");
-        return; 
+        my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+        if (@Index) {
+            return $Self->GetArticle(ArticleID => $Index[$#Index]);
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "No article found for TicketID $Param{TicketID}!",
+            );
+            return; 
+        }
     }
 }
 # --
@@ -542,43 +551,70 @@ sub GetArticleIndex {
     return @Index; 
 }
 # --
+sub GetArticleContentIndex {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{TicketID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+        return;
+    }
+    my @ArticleIndex = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+    my @ArticleBox = ();
+    foreach (@ArticleIndex) {
+        my %Article = $Self->GetArticle(ArticleID => $_);
+        push (@ArticleBox, \%Article);
+    }
+    # --
+    # article attachments
+    # --
+    foreach my $Article (@ArticleBox) {
+        my %AtmIndex = $Self->GetArticleAtmIndex(
+            ContentPath => $Article->{ContentPath},
+            ArticleID => $Article->{ArticleID},
+        );
+        $Article->{Atms} = \%AtmIndex;
+    }
+    return @ArticleBox;
+}
+# --
 sub GetArticle {
     my $Self = shift;
     my %Param = @_;
     my %Data;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ArticleID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
       return;
     }
-    # --
     # sql query
-    # --
     $Self->{DBObject}->Prepare(
       SQL => "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_reply_to, ".
         " sa. a_message_id, sa.a_body, ".
         " st.create_time_unix, sp.name, sd.name, sq.name, sq.id, sa.create_time, ".
         " sa.a_content_type, sa.create_by, st.tn, ast.name, st.customer_id, ".
         " st.until_time, sp.id, st.customer_user_id, st.user_id, ".
-        " su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
+        " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, at.name, ".
+        " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
+        " sa.a_freekey3, sa.a_freetext3 ".
         " FROM ".
         " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq, ".
-        " article_sender_type ast, $Self->{ConfigObject}->{DatabaseUserTable} su" .
-        " where " . 
-        " sa.id = $Param{ArticleID}" .
-        " AND " .
-        " sa.ticket_id = st.id " .
-        " ANd " .
-        " sq.id = st.queue_id " .
-        " AND " .
-        " sa.article_sender_type_id = ast.id " .
-        " AND " .
-        " sp.id = st.ticket_priority_id " .
-        " AND " .
-        " st.ticket_state_id = sd.id " .
-        " ".
+        " article_sender_type ast, $Self->{ConfigObject}->{DatabaseUserTable} su, ".
+        " article_type at ".
+        " where ". 
+        " sa.id = $Param{ArticleID}".
+        " AND ".
+        " sa.ticket_id = st.id ".
+        " ANd ".
+        " sq.id = st.queue_id ".
+        " AND ".
+        " sa.article_sender_type_id = ast.id ".
+        " AND ".
+        " sp.id = st.ticket_priority_id ".
+        " AND ".
+        " st.ticket_state_id = sd.id ".
+        " AND ".
+        " at.id = sa.article_type_id ".
         " AND ".
         " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ",
     );
@@ -614,6 +650,13 @@ sub GetArticle {
         $Data{CustomerUserID} = $Row[21];
         $Data{UserID} = $Row[22];
         $Data{Owner} = $Row[23];
+        $Data{ArticleType} = $Row[24];
+        $Data{FreeKey1} = $Row[25]; 
+        $Data{FreeText1} = $Row[26];
+        $Data{FreeKey2} = $Row[27];
+        $Data{FreeText2} = $Row[28];
+        $Data{FreeKey3} = $Row[29];
+        $Data{FreeText3} = $Row[30];
         $Data{RealTillTimeNotUsed} = $Row[19];
     }
     # --
