@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.150 2004-11-04 06:48:41 martin Exp $
+# $Id: Ticket.pm,v 1.151 2004-11-07 15:01:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,6 @@ package Kernel::System::Ticket;
 
 use strict;
 use File::Path;
-use Kernel::System::Time;
 use Kernel::System::Ticket::Article;
 use Kernel::System::State;
 use Kernel::System::Priority;
@@ -31,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.150 $';
+$VERSION = '$Revision: 1.151 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,6 +72,7 @@ create a object
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
       DBObject => $DBObject,
+      TimeObject => $TimeObject,
   );
 
 =cut
@@ -249,7 +249,7 @@ creates a new ticket
 
   my $TicketID = $TicketObject->TicketCreate(
         TN => $TicketObject->TicketCreateNumber(),
-        QueueID => 123,                # or Queue => 'SomeQueue'
+        Queue => 'Raw',                # or QueueID => 123,
         Lock => 'unlock',
         GroupID => 1,
         Priority => '3 normal'         # or PriorityID => 2,
@@ -1029,12 +1029,12 @@ get possible ticket free text options
   my $HashRef = $TicketObject->TicketFreeTextGet(
      Type => 'TicketFreeText3',
      TicketID => 123,
-     UserID => 123,
+     UserID => 123, # or CustomerUserID
   );
 
   my $HashRef = $TicketObject->TicketFreeTextGet(
      Type => 'TicketFreeText3',
-     UserID => 123,
+     UserID => 123, # or CustomerUserID
   );
 
 =cut
@@ -1045,11 +1045,15 @@ sub TicketFreeTextGet {
     my $Value = $Param{Value} || '';
     my $Key = $Param{Key} || '';
     # check needed stuff
-    foreach (qw(UserID Type)) {
+    foreach (qw(Type)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+   if (!$Param{UserID} && !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
+        return;
     }
     my %Data = ();
     if (ref($Self->{ConfigObject}->Get($Param{Type})) eq 'HASH') {
@@ -1804,16 +1808,16 @@ sub TicketSearch {
     foreach my $Key (keys %FieldSQLMap) {
         if ($Param{$Key}) {
             $Param{$Key} =~ s/\*/%/gi;
-                $SQLExt .= " AND $FieldSQLMap{$Key} LIKE '".$Self->{DBObject}->Quote($Param{$Key})."'";
+                $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
         }
     }
     # customer id
     if ($Param{CustomerID}) {
         if (ref($Param{CustomerID}) eq 'ARRAY') {
-            $SQLExt .= " AND st.customer_id IN ('${\(join '\', \'', @{$Param{CustomerID}})}')";
+            $SQLExt .= " AND LOWER(st.customer_id) IN LOWER(('${\(join '\', \'', @{$Param{CustomerID}})}'))";
         }
         else {
-            $SQLExt .= " AND st.customer_id LIKE '".$Self->{DBObject}->Quote($Param{CustomerID})."'";
+            $SQLExt .= " AND LOWER(st.customer_id) LIKE LOWER('".$Self->{DBObject}->Quote($Param{CustomerID})."')";
         }
     }
     # article stuff
@@ -1831,7 +1835,7 @@ sub TicketSearch {
             if ($FullTextSQL) {
                 $FullTextSQL .= " $ContentSearch ";
             }
-            $FullTextSQL .= " $FieldSQLMapFullText{$Key} LIKE '".$Self->{DBObject}->Quote($Param{$Key})."'";
+            $FullTextSQL .= " LOWER($FieldSQLMapFullText{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
         }
     }
     if ($FullTextSQL) {
@@ -1841,7 +1845,7 @@ sub TicketSearch {
     foreach (1..8) {
         if ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq '') {
             $Param{"TicketFreeKey$_"} =~ s/\*/%/gi;
-            $SQLExt .= " AND st.freekey$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeKey$_"})."'";
+            $SQLExt .= " AND LOWER(st.freekey$_) LIKE LOWER('".$Self->{DBObject}->Quote($Param{"TicketFreeKey$_"})."')";
         }
         elsif ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq 'ARRAY') {
             my $SQLExtSub = ' AND (';
@@ -1850,7 +1854,7 @@ sub TicketSearch {
                 if (defined($Key ) && $Key ne '') {
                     $Key =~ s/\*/%/gi;
                     $SQLExtSub .= ' OR ' if ($Counter);
-                    $SQLExtSub .= " st.freekey$_ LIKE '".$Self->{DBObject}->Quote($Key)."'";
+                    $SQLExtSub .= " LOWER(st.freekey$_) LIKE LOWER('".$Self->{DBObject}->Quote($Key)."')";
                     $Counter++;
                 }
             }
@@ -1863,7 +1867,7 @@ sub TicketSearch {
     foreach (1..8) {
         if ($Param{"TicketFreeText$_"} && ref($Param{"TicketFreeText$_"}) eq '') {
             $Param{"TicketFreeText$_"} =~ s/\*/%/gi;
-            $SQLExt .= " AND st.freetext$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeText$_"})."'";
+            $SQLExt .= " AND LOWER(st.freetext$_) LIKE LOWER('".$Self->{DBObject}->Quote($Param{"TicketFreeText$_"})."')";
         }
         elsif ($Param{"TicketFreeText$_"} && ref($Param{"TicketFreeText$_"}) eq 'ARRAY') {
             my $SQLExtSub = ' AND (';
@@ -1872,7 +1876,7 @@ sub TicketSearch {
                 if (defined($Text) && $Text ne '') {
                     $Text =~ s/\*/%/gi;
                     $SQLExtSub .= ' OR ' if ($Counter);
-                    $SQLExtSub .= " st.freetext$_ LIKE '".$Self->{DBObject}->Quote($Text)."'";
+                    $SQLExtSub .= " LOWER(st.freetext$_) LIKE LOWER('".$Self->{DBObject}->Quote($Text)."')";
                     $Counter++;
                 }
             }
@@ -3496,6 +3500,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.150 $ $Date: 2004-11-04 06:48:41 $
+$Revision: 1.151 $ $Date: 2004-11-07 15:01:29 $
 
 =cut
