@@ -1,8 +1,8 @@
 # --
-# HTML/Generic.pm - provides generic HTML output
+# Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.61 2002-11-11 00:18:58 martin Exp $
+# $Id: Generic.pm,v 1.62 2002-11-21 22:55:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,8 @@
 
 package Kernel::Output::HTML::Generic;
 
-use lib '../../../';
+use FindBin qw($Bin);
+use lib "$Bin/../../../";
 
 use strict;
 use Kernel::Language;
@@ -23,7 +24,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -64,14 +65,45 @@ sub new {
     if (!$Self->{UserCharset}) {
         $Self->{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
     }
+    # --
+    # get use language (from browser) if no language is there!
+    # --
     if (!$Self->{UserLanguage}) { 
-        $Self->{UserLanguage} = $Self->{ConfigObject}->Get('DefaultLanguage');
+        my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
+        my %Data = ( 
+            en => 'English',
+            de => 'German',
+            es => 'Spanish',
+            nl => 'Dutch',
+            fr => 'French',
+            bg => 'Bulgarian',
+#            cs => 'Czech', 
+#            hu => 'Hungarian',
+#            pl => 'Polish',
+#            ro => 'Romanian',
+#            hr => 'Croatian',
+#            sk => 'Slovak', 
+#            sl => 'Slovenian',
+#            pt => 'Portuguese',
+#            it => 'Italian',
+#            da => 'Danish',
+#            sv => 'Swedish',
+#            no => 'Norwegian',
+#            fi => 'Finnish',
+        );
+        foreach (keys %Data) {
+            if ($BrowserLang =~ /^$_/i) {
+                $Self->{UserLanguage} = $Data{$_};
+            }
+        }
+        if (!$Self->{UserLanguage}) {
+            $Self->{UserLanguage} = $Self->{ConfigObject}->Get('DefaultLanguage');
+        }
     }
 
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
-#    $Self->{CGIHandle} = $Param{CGIHandle} || $Self->{ConfigObject}->Get('CGIHandle'); 
     $Self->{CGIHandle} = $ENV{"SCRIPT_NAME"};
     # --
     # Baselink 
@@ -153,11 +185,13 @@ sub new {
     # --
     # locate template files
     # --
-    if (-d '../../../Kernel/Output/HTML/') {
-        $Self->{TemplateDir} = '../../../Kernel/Output/HTML/'. $Theme;
+    foreach ('../../..', '../..', '..') {
+        if (-d "$Bin/$_/Kernel/Output/HTML/") {
+            $Self->{TemplateDir} = "$Bin/$_/Kernel/Output/HTML/$Theme";
+        }
     }
-    else {
-        $Self->{TemplateDir} = '../../Kernel/Output/HTML/'. $Theme;
+    if (!$Self->{TemplateDir}) {
+        die "No templates found!";
     }
     # --
     # create language object
@@ -165,6 +199,7 @@ sub new {
     $Self->{LanguageObject} = Kernel::Language->new(
       UserLanguage => $Self->{UserLanguage},
       LogObject => $Self->{LogObject},
+      ConfigObject => $Self->{ConfigObject},
     );
 
     if ($Self->{PermissionObject}) {
@@ -234,10 +269,21 @@ sub Output {
     # -- 
     # read template from filesystem
     # --
+    my @Template = ();
+    if ($Param{Template}) {
+         @Template = @{$Param{Template}};
+    }
+    else {
+        open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
+           ||  die "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!";
+        while (my $Line = <TEMPLATEIN>) {
+            push (@Template, $Line);
+        }
+        close (TEMPLATEIN);
+    }
+
     my $Output = '';
-    open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
-         ||  die "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!";
-    while (my $Line = <TEMPLATEIN>) {
+    foreach my $Line (@Template) {
       # filtering of comment lines
       if ($Line !~ /^#/) {
         if ($Line =~ /<dtl/) {
@@ -278,7 +324,7 @@ sub Output {
               # do eq actions
               # --
               if ($1 eq "Text") {
-                if ($Self->{LanguageObject}->Get($2) eq $4) {
+                if ($Self->{LanguageObject}->Get($2, $Param{TemplateFile}) eq $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
                   "";
                 }
@@ -299,7 +345,7 @@ sub Output {
               # do ne actions
               # --
               if ($1 eq "Text") {
-                if ($Self->{LanguageObject}->Get($2) ne $4) {
+                if ($Self->{LanguageObject}->Get($2, $Param{TemplateFile}) ne $4) {
                    $GlobalRef->{"$5Ref"}->{$6} = $7;
                    # output replace with nothing!
                    "";
@@ -355,7 +401,7 @@ sub Output {
             \$Text({"(.+?)"}|{""})
         }
         { 
-            $Self->{LanguageObject}->Get($2 || '');
+            $Self->{LanguageObject}->Get($2 || '', $Param{TemplateFile});
         }egx;
     }
     # --
@@ -410,7 +456,7 @@ sub Output {
             }
         }iegx;
     }
- 
+
     # save %Env
     $Self->{EnvRef} = $EnvRef;
 
@@ -861,11 +907,10 @@ sub GetRelease {
     # open release data file
     # --
     my %Release = ();
-    if (-f '../../../RELEASE') {
-        $Release{File} = '../../../RELEASE';
-    }
-    else {
-        $Release{File} = '../../RELEASE';
+    foreach ('../../..', '../..', '..') {
+        if (-f "$Bin/$_/RELEASE") {
+            $Release{File} = "$Bin/$_/RELEASE";
+        }
     }
     open (PRODUCT, "< $Release{File}") || print STDERR "Can't read $Release{File}: $!";
     while (<PRODUCT>) {

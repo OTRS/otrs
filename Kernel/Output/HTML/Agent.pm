@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.63 2002-11-11 00:18:06 martin Exp $
+# $Id: Agent.pm,v 1.64 2002-11-21 22:55:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -22,17 +22,29 @@ sub NavigationBar {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-
+    # check DisplayCharset
+    if ($Self->{LanguageObject}->{Charset}) {
+        foreach (@{$Self->{LanguageObject}->{Charset}}) {
+           if ($Self->{UserCharset} =~ /^$_$/i) { 
+              $Param{CorrectDisplayCharset} = 1;
+           }
+           else {
+               $Param{RecommendedDisplayCharset} = $_;
+           }
+        }
+    }
+    if (!$Param{CorrectDisplayCharset} && $Param{RecommendedDisplayCharset}) {
+        $Output .= $Self->Notify(
+          Info => $Self->{LanguageObject}->Get('The recommended charset for your language is %s!", "'.$Param{RecommendedDisplayCharset}),
+        );
+    }
+    # check lock count
     my %LockData = %{$Param{LockData}};
     $Param{LockCount} = $LockData{Count} || 0;
     $Param{LockToDo} = $LockData{ToDo} || 0;
 
     if ($Param{LockToDo}) {
-        $Param{Info} = '$Text{"You got new message!"}';
-    }
-
-    if ($Param{Info}) {
-        $Output = $Self->Notify(%Param);
+        $Output .= $Self->Notify(Info => '$Text{"You got new message!"}');
     }
 
     # create & return output
@@ -604,6 +616,12 @@ sub AgentPhoneNew {
         Data => \%NewTo, 
         Name => 'Dest',
     );
+    # build priority string
+    $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{Priorities},
+        Name => 'PriorityID',
+        Selected => $Self->{ConfigObject}->Get('PhoneDefaultPriority') || '3 normal',
+    );
 
     # get output back
     return $Self->Output(TemplateFile => 'AgentPhoneNew', Data => \%Param);
@@ -1127,9 +1145,9 @@ sub AgentSpelling {
     # --
     if ($Param{SpellCheck}) {
       $Param{SpellCheckString} = '<table border="0" width="580" cellspacing="0" cellpadding="1">';
-      $Param{SpellCheckString} .= '<tr><th width="50">Line</th><th width="100">Word</th>';
-      $Param{SpellCheckString} .= '<th width="330"colspan="2">replace with</th>';
-      $Param{SpellCheckString} .= '<th width="50">Change</th><th width="50">Ignore</th></tr>';
+      $Param{SpellCheckString} .= '<tr><th width="50">$Text{"Line"}</th><th width="100">$Text{"Word"}</th>';
+      $Param{SpellCheckString} .= '<th width="330"colspan="2">$Text{"replace with"}</th>';
+      $Param{SpellCheckString} .= '<th width="50">$Text{"Change"}</th><th width="50">$Text{"Ignore"}</th></tr>';
       $Param{SpellCounter} = 0;
       foreach (sort {$a <=> $b} keys %{$Param{SpellCheck}}) {
         my $WrongWord = $Param{SpellCheck}->{$_}->{Word};
