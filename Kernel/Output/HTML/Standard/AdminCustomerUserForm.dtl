@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.16 2004-07-08 11:42:01 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.17 2004-08-06 06:18:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,6 +38,7 @@ function updateMessage(x)
 //-->
 </script>
 
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" colspan="2" class="table0">
@@ -64,7 +65,7 @@ function updateMessage(x)
         <td><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
       </tr>
     </table>
-    <input class="button" type="submit" value="$Text{"Search"}"> 
+    <input class="button" type="submit" value="$Text{"Search"}">
     </form>
 
     </td>
@@ -81,9 +82,9 @@ function updateMessage(x)
 
     </td>
   </tr>
-  </table> 
+  </table>
 
-  </td> 
+  </td>
   <td width="60%" class="table1">
 
   <table width="100%" border="0" cellspacing="0" cellpadding="3">
@@ -108,7 +109,7 @@ function updateMessage(x)
       <td width="60%"> $Data{"SourceOption"}</td>
     </tr>
     </table>
-    <input class="button" type="submit" value="$Text{"Change"}"> 
+    <input class="button" type="submit" value="$Text{"Change"}">
     </form>
     </td>
   </tr>
@@ -118,11 +119,12 @@ function updateMessage(x)
 # check subaction
 # --
 <dtl set $Data{"Headline"} = "Add">
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
+<dtl if ($Env{"Subaction"} =~ "Change") { $Data{"Headline"} = "Update"; }>
 # set subaction!
-<dtl if ($Env{"Subaction"} ne "Change") { $Env{"Subaction"} = "Add"; }>
+<dtl if ($Env{"Subaction"} !~ "Change") { $Env{"Subaction"} = "Add"; }>
+<dtl if ($Env{"Subaction"} =~ "Change") { $Env{"Subaction"} = "Change"; }>
 # check add link
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
+<dtl if ($Env{"Subaction"} =~ "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminCustomerUser&Nav=$Data{"Nav"}">$Text{"$Data{"AddLink"}"}</a>:
 
@@ -130,7 +132,8 @@ function updateMessage(x)
   </tr>
   <tr>
     <td>
-    <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
+
+    <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="data">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="ID" value="$QData{"UserID"}">
@@ -208,4 +211,3 @@ function updateMessage(x)
 </tr>
 </table>
 <!-- end note -->
-
