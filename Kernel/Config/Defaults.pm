@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.84 2003-10-14 14:08:45 martin Exp $
+# $Id: Defaults.pm,v 1.85 2003-11-01 19:53:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.84 $';
+$VERSION = '$Revision: 1.85 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -749,9 +749,36 @@ $Data{"Signature"}
     # --------------------------------------------------- #
     # PostMaster::PreFilterModule 
     # (filtering and manipulaiting of incoming emails)
-    $Self->{'PostMaster::PreFilterModule'} = [
-        'Kernel::System::PostMaster::FilterIgnore',
-    ];
+
+    # Job Name: 1-Match 
+    # (block/ignore all spam email with From: <noreply@)
+#    $Self->{'PostMaster::PreFilterModule'}->{'1-Match'} = {
+#        Module => 'Kernel::System::PostMaster::Filter::Match',
+#        Match => {
+#            From => '<noreply@',
+#        },
+#        Set => {
+#            'X-OTRS-Ignore' => 'yes',
+#        },
+#    };
+    # Job Name: 5-SpamAssassin 
+    # (SpamAssassin example setup, ignore spam emails)
+#    $Self->{'PostMaster::PreFilterModule'}->{'5-SpamAssassin'} = {
+#        Module => 'Kernel::System::PostMaster::Filter::CMD',
+#        CMD => '/usr/bin/spamassassin | grep -i "X-Spam-Status: yes"',
+#        Set => {
+#            'X-OTRS-Ignore' => 'yes',
+#        },
+#    };
+    # (SpamAssassin example setup, move it to spam queue)
+#    $Self->{'PostMaster::PreFilterModule'}->{'5-SpamAssassin'} = {
+#        Module => 'Kernel::System::PostMaster::Filter::CMD',
+#        CMD => '/usr/bin/spamassassin | grep -i "X-Spam-Status: yes"',
+#        Set => {
+#            'X-OTRS-Queue' => 'spam',
+#        },
+#    };
+
     # --------------------------------------------------- #
     # Auto Response                                       #
     # --------------------------------------------------- #
@@ -996,7 +1023,6 @@ $Data{"Signature"}
         PrefKey => 'UserQueueView',
         Activ => 1,
     };
-
 
     # --------------------------------------------------- #
     #                                                     #

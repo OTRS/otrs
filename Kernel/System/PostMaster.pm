@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.35 2003-10-29 21:07:41 martin Exp $
+# $Id: PostMaster.pm,v 1.36 2003-11-01 19:51:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,32 +87,60 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     # ConfigObject section / get params
-    my %GetParam = $Self->GetEmailParams();
+    my $GetParam = $Self->GetEmailParams();
 
     # run all PreFilterModules (modify email params)
-    if (ref($Self->{ConfigObject}->Get('PostMaster::PreFilterModule')) eq 'ARRAY') {
-        foreach my $Module (@{$Self->{ConfigObject}->Get('PostMaster::PreFilterModule')}) {
-            if (eval "require $Module") {
-                my $FilterObject = $Module->new(
+    if (ref($Self->{ConfigObject}->Get('PostMaster::PreFilterModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('PostMaster::PreFilterModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug', 
+                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                );
+            }
+            if (eval "require $Jobs{$Job}->{Module}") {
+                my $FilterObject = $Jobs{$Job}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
                     LogObject => $Self->{LogObject},
                     DBObject => $Self->{DBObject},
+                    ParseObject => $Self->{ParseObject}, 
+                    Debug => $Self->{Debug},
                 );
-                %GetParam = $FilterObject->Run(%GetParam);
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug', 
+                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                    );
+                }
+                # modify params
+                if (!$FilterObject->Run(
+                    GetParam => $GetParam, 
+                    JobConfig => $Jobs{$Job},
+                )) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error', 
+                        Message => "Execute Run() of $Jobs{$Job}->{Module} not successfully!",
+                    );
+                }
             }
             else {
                 $Self->{LogObject}->Log(
-                    Priority => 'notice', 
-                    Message => "Can't load module $Module!",
+                    Priority => 'error', 
+                    Message => "Can't load module $Jobs{$Job}->{Module}!",
                 );
             }
         }
     }
+
     # should I ignore the incoming mail?
-    if ($GetParam{'X-OTRS-Ignore'} && $GetParam{'X-OTRS-Ignore'} =~ /yes/i) {
+    if ($GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /yes/i) {
        $Self->{LogObject}->Log(
-           Message => "Droped Email (From: $GetParam{'From'}, Message-ID: $GetParam{'Message-ID'}) " .
-           "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam{'X-OTRS-Ignore'})."
+           Priority => 'notice', 
+           Message => "Droped Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
+           "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
        );
        return 1;
    }
@@ -120,7 +148,7 @@ sub Run {
    # ticket section
    # --
    # check if follow up
-   my ($Tn, $TicketID) = $Self->CheckFollowUp(%GetParam);
+   my ($Tn, $TicketID) = $Self->CheckFollowUp(%{$GetParam});
    # check if it's a follow up ...
    if ($Tn && $TicketID) {
         # get ticket data
@@ -146,13 +174,13 @@ sub Run {
             # get queue if of From: and To:
             if (!$Param{QueueID}) {
               $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(
-                  Params => \%GetParam,
+                  Params => $GetParam,
               );
             }
             # check if trusted returns a new queue id
             if ($Self->{Trusted}) {
               my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
-                  Params => \%GetParam,
+                  Params => $GetParam,
               );
               if ($TQueueID) {
                   $Param{QueueID} = $TQueueID;
@@ -160,7 +188,7 @@ sub Run {
             }
             $Self->{NewTicket}->Run(
               InmailUserID => $Self->{PostmasterUserID},
-              GetParam => \%GetParam,
+              GetParam => $GetParam,
               QueueID => $Param{QueueID},
               Comment => "Because the old ticket [$Tn] is '$State{Name}'",
               AutoResponseType => 'auto reply/new ticket',
@@ -176,7 +204,7 @@ sub Run {
             $Self->{FollowUp}->Run(
               TicketID => $TicketID,
               InmailUserID => $Self->{PostmasterUserID},
-              GetParam => \%GetParam,
+              GetParam => $GetParam,
               Lock => $Lock,
               StateType => $State{TypeName},
               Tn => $Tn,
@@ -190,7 +218,7 @@ sub Run {
             $Self->{FollowUp}->Run(
               TicketID => $TicketID,
               InmailUserID => $Self->{PostmasterUserID},
-              GetParam => \%GetParam,
+              GetParam => $GetParam,
               Lock => $Lock,
               StateType => $State{TypeName},
               Tn => $Tn,
@@ -207,12 +235,12 @@ sub Run {
         }
         # get queue if of From: and To:
         if (!$Param{QueueID}) {
-            $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(Params => \%GetParam);
+            $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(Params => $GetParam);
         }
         # check if trusted returns a new queue id
         if ($Self->{Trusted}) {
             my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
-                Params => \%GetParam,
+                Params => $GetParam,
             );
             if ($TQueueID) {
                 $Param{QueueID} = $TQueueID;
@@ -220,7 +248,7 @@ sub Run {
         }
         $Self->{NewTicket}->Run(
             InmailUserID => $Self->{PostmasterUserID},
-            GetParam => \%GetParam,
+            GetParam => $GetParam,
             QueueID => $Param{QueueID},
             AutoResponseType => 'auto reply',
           );
@@ -291,7 +319,7 @@ sub GetEmailParams {
     $GetParam{'Content-Type'} = $Self->{ParseObject}->GetContentType(
         $Self->{ParseObject}->GetParam(WHAT => 'Content-Type'),
     );
-    return %GetParam;
+    return \%GetParam;
 }
 # --
 1;
