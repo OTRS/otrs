@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.81 2003-02-08 15:42:35 martin Exp $
+# $Id: Agent.pm,v 1.82 2003-02-08 21:06:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.81 $';
+$VERSION = '$Revision: 1.82 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1026,6 +1026,27 @@ sub AgentUtilForm {
         Size => 5,
         SelectedIDRefArray => ['open', 'new'],
     );
+    $Param{'QueuesStrg'} = $Self->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'id, name',
+                      Table => 'queue',
+                      Valid => 1,
+                    ) }, 
+        Name => 'QueueID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => [1],
+    );
+    $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'id, name',
+                      Table => 'ticket_priority',
+                    ) }, 
+        Name => 'PriorityID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => [1, 2, 3, 4, 5, 6, 7, 8],
+    );
 
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByTicketNumber', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
@@ -1061,6 +1082,28 @@ sub AgentUtilSearchAgain {
         Size => 5,
         SelectedIDRefArray => $Param{SelectedStates},
       );
+    $Param{'QueuesStrg'} = $Self->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'id, name',
+                      Table => 'queue',
+                      Valid => 1,
+                    ) }, 
+        Name => 'QueueID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{SelectedQueueIDs},
+    );
+    $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'id, name',
+                      Table => 'ticket_priority',
+                    ) }, 
+        Name => 'PriorityID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{SelectedPriorityIDs},
+    );
+
       $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
     }
     return $Output;
@@ -1160,6 +1203,12 @@ sub AgentUtilSearchCouter {
              }
              foreach (@{$Param{SelectedStates}}) {
                  $Param{SearchNavBar} .= "&State=$_";
+             }
+             foreach (@{$Param{SelectedQueueIDs}}) {
+                 $Param{SearchNavBar} .= "&QueueID=$_";
+             }
+             foreach (@{$Param{SelectedPriorityIDs}}) {
+                 $Param{SearchNavBar} .= "&PriorityID=$_";
              }
          }
          $Param{SearchNavBar} .= '&Want='.$Self->LinkEncode($Param{Want});
@@ -1459,6 +1508,25 @@ sub AgentStatusView {
     my $Self = shift;
     my %Param = @_;
 
+    if ($Param{AllHits} >= ($Param{StartHit}+$Param{PageShown})) {
+        $Param{Result} = ($Param{StartHit}+1)." - ".($Param{StartHit}+$Param{PageShown});
+    }
+    else {
+        $Param{Result} = ($Param{StartHit}+1)." - $Param{AllHits}";
+    }
+    my $Pages = $Param{AllHits} / $Param{PageShown};
+    for (my $i = 1; $i < ($Pages+1); $i++) {
+        $Self->{UtilSearchResultCounter}++;
+        $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=\$Env{\"Action\"}".
+         "&StartHit=". (($i-1)*$Param{PageShown}) .= '&SortBy=$Data{"SortBy"}&Order=$Data{"Order"}">';
+         if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{PageShown}) == ($i)) {
+             $Param{PageNavBar} .= '<b>'.($i).'</b>';
+         }
+         else {
+             $Param{PageNavBar} .= ($i);
+         }
+         $Param{PageNavBar} .= '</a> ';
+    }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentStatusView', Data => \%Param);
 }

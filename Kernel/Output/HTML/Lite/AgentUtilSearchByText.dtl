@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByText.dtl,v 1.8 2003-02-08 15:40:42 martin Exp $
+# $Id: AgentUtilSearchByText.dtl,v 1.9 2003-02-08 21:06:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,13 +21,23 @@
 
 <p>
 
-$Text{"Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")"}
 <form action="$Env{"CGIHandle"}" method="get">
 <input type="hidden" name="Action" value="AgentUtilities">
 <input type="hidden" name="Subaction" value="SearchByText">
-<input type="text" name="Want" size="30" value="$Data{"What"}">
 <br>
-$Text{"Search in"}:
+<table border="0" width="600" cellspacing="1" cellpadding="3">
+<tr align="center">
+  <td colspan="2" class="table2">$Text{"Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")"}</td>
+</tr>
+<tr align="center">
+  <td colspan="2" ><input type="text" name="Want" size="30" value="$Data{"What"}"></td>
+</tr>
+<tr align="center">
+  <td width="50%" class="table2">$Text{"Search in"}</td>
+  <td width="50%" class="table2">$Text{"With State"}</td>
+</tr>
+<tr align="center">
+  <td>
 <table>
   <tr>
     <td>$Text{"From"}</td>
@@ -54,10 +64,24 @@ $Text{"Search in"}:
     <td><input type="checkbox" name="What" value="ArticleFreeText" $Data{"ArticleFreeTextCheckBox"}></td>
   </tr>
 </table>
-$Text{"With State"}:
-<br>
+</td>
+<td>
 $Data{"StatesStrg"}
-<br>
+</td>
+</tr>
+<tr align="center">
+  <td class="table2">$Text{"In Queue"}</td>
+  <td class="table2">$Text{"With Priority"}</td>
+</tr>
+<tr align="center">
+  <td>
+  $Data{"QueuesStrg"}
+  </td>
+  <td>
+  $Data{"PriotitiesStrg"}
+  </td>
+</tr>
+</table>
 <input type="submit" value="$Text{"go"}">
 </form>
 

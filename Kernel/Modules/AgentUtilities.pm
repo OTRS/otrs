@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.16 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentUtilities.pm,v 1.17 2003-02-08 21:06:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -165,6 +165,8 @@ sub SearchByText {
     my $UserID = $Self->{UserID};
     my @WhatFields = $Self->{ParamObject}->GetArray(Param => 'What');
     my @States = $Self->{ParamObject}->GetArray(Param => 'State');
+    my @QueueIDs = $Self->{ParamObject}->GetArray(Param => 'QueueID');
+    my @PriorityIDs = $Self->{ParamObject}->GetArray(Param => 'PriorityID');
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
@@ -179,6 +181,24 @@ sub SearchByText {
         }
         $CounterTmp++;
         $SqlStateExt .= " tsd.name = '$_' ";
+    }
+    my $SqlQueueExt = '';
+    $CounterTmp = 0;
+    foreach (@QueueIDs) {
+        if ($CounterTmp != 0) {
+            $SqlQueueExt .= " or ";
+        }
+        $CounterTmp++;
+        $SqlQueueExt .= " sq.id = $_ ";
+    }
+    my $SqlPriorityExt = '';
+    $CounterTmp = 0;
+    foreach (@PriorityIDs) {
+        if ($CounterTmp != 0) {
+            $SqlPriorityExt .= " or ";
+        }
+        $CounterTmp++;
+        $SqlPriorityExt .= " st.ticket_priority_id = $_ ";
     }
     # --
     # modifier search string
@@ -195,6 +215,8 @@ sub SearchByText {
         Limit => $Self->{SearchLimitTxt},
         WhatFields => \@WhatFields,
         SelectedStates => \@States,
+        SelectedQueueIDs => \@QueueIDs,
+        SelectedPriorityIDs => \@PriorityIDs,
     );
     # --
     # if !@SParts -=> search empty!
@@ -295,10 +317,17 @@ sub SearchByText {
     " AND " .
     " sq.group_id = sug.group_id" .
     " AND " .
-    " sug.user_id = $UserID " .
-    " AND " .
-    " ($SqlStateExt)" .
-    " AND " .
+    " sug.user_id = $UserID ";
+    if ($SqlQueueExt) { 
+        $SQL .= " AND ($SqlQueueExt)"; 
+    }
+    if ($SqlStateExt) {
+        $SQL .= " AND ($SqlStateExt)";
+    }
+    if ($SqlPriorityExt) {
+        $SQL .= " AND ($SqlPriorityExt)";
+    }
+    $SQL .= " AND " .
     " ($SqlExt) " .
     " ORDER BY st.id DESC";
 #    " ORDER BY sa.incoming_time DESC";
@@ -344,6 +373,8 @@ sub SearchByText {
         WhatFields => \@WhatFields,
         Want => $Self->{Want},
         SelectedStates => \@States,
+        SelectedQueueIDs => \@QueueIDs,
+        SelectedPriorityIDs => \@PriorityIDs,
     );
     $Output .= $SearchNavBar.$OutputTables;
     $Output .= $Self->{LayoutObject}->Footer();
