@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.79 2003-02-25 18:45:10 martin Exp $
+# $Id: Generic.pm,v 1.80 2003-02-26 06:14:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.79 $';
+$VERSION = '$Revision: 1.80 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -253,8 +253,11 @@ sub Output {
     # read template from filesystem
     # --
     my @Template = ();
-    if ($Param{Template}) {
+    if ($Param{Template} && ref($Param{Template}) eq 'ARRAY') {
          @Template = @{$Param{Template}};
+    }
+    elsif ($Param{Template}) {
+         @Template = split(/\n/, $Param{Template});
     }
     else {
         open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
@@ -634,6 +637,9 @@ sub PrintHeader {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+    if (!$Param{Width}) {
+        $Param{Width} = 640;
+    }
     # --
     # create & return output
     # --
