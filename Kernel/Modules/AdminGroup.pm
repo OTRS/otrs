@@ -1,11 +1,11 @@
 # --
-# Kernel/Modules/AdminGroup.pm - to add/update/delete groups 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Modules/AdminGroup.pm - to add/update/delete groups
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGroup.pm,v 1.12 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminGroup.pm,v 1.13 2004-08-24 07:46:38 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # allocate new hash for objects
@@ -45,14 +45,14 @@ sub Run {
     my $Output = '';
     $Param{NextScreen} = 'AdminGroup';
     my %Groups = $Self->{GroupObject}->GroupList(Valid => 0);
-    # get group data 
+    # get group data
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %GroupData = $Self->{GroupObject}->GroupGet(ID => $ID);
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(
-            %GroupData, 
+            %GroupData,
             GroupList => \%Groups
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -69,11 +69,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # add group
@@ -89,14 +85,10 @@ sub Run {
              );
         }
         else {
-            $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # else ! print form 
+    # else ! print form
     else {
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();

@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spellinf module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckItem.pm,v 1.8 2003-10-16 21:06:45 martin Exp $
+# $Id: CheckItem.pm,v 1.9 2004-08-24 07:47:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Email::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     $Self->{Debug} = 0;
@@ -41,30 +41,24 @@ sub new {
 # --
 sub CheckError {
     my $Self = shift;
-    return $Self->{Error}; 
+    return $Self->{Error};
 }
 # --
 sub CheckEmail {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Address)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # check if it's to do
-    # --
     if (! $Self->{ConfigObject}->Get('CheckEmailAddresses')) {
         return 1;
     }
-    # -- 
     # check address
-    # --
     if (Email::Valid->address(
                 -address => $Param{Address},
                 -mxcheck => $Self->{ConfigObject}->Get('CheckMXRecord') || 0,
