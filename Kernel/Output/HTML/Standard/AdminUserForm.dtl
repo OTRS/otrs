@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.21 2004-04-01 09:13:17 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.22 2004-07-08 11:24:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@
     <br>
     <input class="button" type="submit" value="$Text{"change"}">
     </form>
-  </td> 
+  </td>
   <td width="70%" class="table1">
 # --
 # check subaction
@@ -38,7 +38,7 @@
 # check add link
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminUser">$Text{"$Data{"AddLink"}"}</a>: 
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminUser">$Text{"$Data{"AddLink"}"}</a>:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -74,6 +74,34 @@
       <td> $Data{"ValidOption"}</td>
     </tr>
     $Data{"Preferences"}
+
+<!-- dtl:block:PreferencesGeneric -->
+    <tr>
+        <td>
+        $Text{"$Data{"Label"}"}:
+        <br>
+        <i class="small">($Text{"$Data{"Desc"}"})</i>
+        </td>
+        <td>
+            $Data{"Option"}
+        </td>
+    </tr>
+<!-- dtl:block:PreferencesGeneric -->
+<!-- dtl:block:PreferencesUpload -->
+    <tr>
+        <td>
+        $Text{"$Data{"Label"}"}:
+        <br>
+        <i class="small">($Text{"$Data{"Desc"}"})</i>
+        </td>
+        <td>
+            <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
+            <br>
+            <a href="">$QData{"Filename"}</a>
+        </td>
+    </tr>
+<!-- dtl:block:PreferencesUpload -->
+
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
     </form>

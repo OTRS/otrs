@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.12 2004-04-01 09:13:17 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.13 2004-07-08 11:24:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -130,7 +130,7 @@ function updateMessage(x)
   </tr>
   <tr>
     <td>
-    <form action="$Env{"CGIHandle"}" method="post">
+    <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="ID" value="$QData{"UserID"}">
@@ -139,8 +139,43 @@ function updateMessage(x)
     <input type="hidden" name="Search" value="$QData{"Search"}">
     <table border="0" cellspacing="0" cellpadding="3" width="100%">
     $Data{"Preferences"}
+
+<!-- dtl:block:Generic -->
+    <tr>
+      <td width="40%">$Text{"$Data{"Item"}"}: <font color="red">$Text{"$Data{"Required"}"}</font></td>
+      <td width="60%"> $Data{"Value"}</td>
+    </tr>
+<!-- dtl:block:Generic -->
+
+<!-- dtl:block:PreferencesGeneric -->
+    <tr>
+        <td>
+        $Text{"$Data{"Label"}"}:
+        <br>
+        <i class="small">($Text{"$Data{"Desc"}"})</i>
+        </td>
+        <td>
+            $Data{"Option"}
+        </td>
+    </tr>
+<!-- dtl:block:PreferencesGeneric -->
+<!-- dtl:block:PreferencesUpload -->
+    <tr>
+        <td>
+        $Text{"$Data{"Label"}"}:
+        <br>
+        <i class="small">($Text{"$Data{"Desc"}"})</i>
+        </td>
+        <td>
+            <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
+            <br>
+            <a href="">$QData{"Filename"}</a>
+        </td>
+    </tr>
+<!-- dtl:block:PreferencesUpload -->
+
     </table>
-    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
+    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
     </form>
 
     </td>
@@ -166,7 +201,7 @@ function updateMessage(x)
   <td class="table1">
   <p>
   <font color="red">*</font> $Text{"This values are required."}</font>
-  <br> 
+  <br>
   $Text{"Customer user will be needed to have an customer histor and to to login via customer panels."}
   </p>
   </td>
