@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux 8.x of the OTRS package
 # Copyright (C) 2001-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-8.0.spec,v 1.6 2003-12-07 23:51:19 martin Exp $
+# $Id: suse-otrs-8.0.spec,v 1.7 2004-09-29 09:30:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -38,6 +38,10 @@ cp Kernel/Config.pm.dist Kernel/Config.pm
 cd Kernel/Config/ && for foo in *.dist; do cp $foo `basename $foo .dist`; done && cd ../../
 # copy all crontab dist files
 for foo in var/cron/*.dist; do mv $foo var/cron/`basename $foo .dist`; done
+# copy all .dist files
+cp .procmailrc.dist .procmailrc
+cp .fetchmailrc.dist .fetchmailrc
+cp .mailfilter.dist .mailfilter
 
 %install
 # delete old RPM_BUILD_ROOT
