@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: HeaderSmall.dtl,v 1.1 2004-03-22 13:12:10 martin Exp $
+# $Id: HeaderSmall.dtl,v 1.2 2004-03-24 15:09:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,9 +23,9 @@ $Include{"Copyright"}
 # --
 # set some html variables
 # --
-<dtl set $Env{"Box0"} = " ">
-<dtl set $Env{"Box1"} = " ">
-<dtl set $Env{"Images"} = "/otrs-web/images/Lite/">
+<dtl set $Env{"Box0"} = "[ ">
+<dtl set $Env{"Box1"} = " ]">
+<dtl set $Env{"Images"} = "/otrs-web/images/Standard/">
 # --
 # check refresh
 # --
@@ -43,22 +43,10 @@ $Include{"Copyright"}
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>OTRS :: $Data{"TitleArea"}</title>
-# include css.dtl  file
+    <title>OTRS $Data{"TitleArea"}</title>
+# include css.dtl file
 $Include{"css"}
 </head>
 <a name="top"></a>
 <body>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td align="left" width="30%" class="header">
-   <b>$Env{"Box0"}OTRS$Env{"Box1"}</b>
-   
-  </td>
-  <td align="right" width="70%" class="header">
-   $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}
-  </td>
-</tr>
-</table>
-<hr>
 <!-- end header -->
