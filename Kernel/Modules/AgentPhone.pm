@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.23 2003-02-10 09:38:55 martin Exp $
+# $Id: AgentPhone.pm,v 1.24 2003-02-14 13:54:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -129,7 +129,7 @@ sub Run {
         }
         else {
           my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
-            TicketID => $TicketID,
+              TicketID => $TicketID,
           );
 
           if ($OwnerID != $UserID) {
@@ -272,15 +272,26 @@ sub Run {
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
                 UserLogin => $From.'*',
             );
+            # check if just one customer user exists
+            # if just one, fillup CustomerUserID and CustomerID
             $Param{CustomerUserListCount} = 0;
             foreach (keys %CustomerUserList) {
                 $Param{CustomerUserListCount}++;
                 $Param{CustomerUserListLast} = $CustomerUserList{$_};
+                $Param{CustomerUserListLastUser} = $_;
             }
             if ($Param{CustomerUserListCount} == 1) {
                 $From = $Param{CustomerUserListLast};
                 $Error{"ExpandCustomerName"} = 1;
+                my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $Param{CustomerUserListLastUser},
+                );
+                if ($CustomerUserData{UserCustomerID}) {
+                    $CustomerID = $CustomerUserData{UserCustomerID};
+                } 
             }
+            # if more the one customer user exists, show list
+            # and clean CustomerUserID and CustomerID
             else {
                 $From = '';
                 $CustomerID = '';
@@ -407,7 +418,7 @@ sub Run {
           # --
           # set custoemr id
           # --
-          if ($CustomerID || $$SelectedCustomerUser) {
+          if ($CustomerID || $SelectedCustomerUser) {
               $Self->{TicketObject}->SetCustomerData(
                   TicketID => $TicketID,
                   No => $CustomerID, 
