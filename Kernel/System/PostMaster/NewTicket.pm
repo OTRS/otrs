@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.21 2002-09-23 18:56:23 martin Exp $
+# $Id: NewTicket.pm,v 1.22 2002-09-23 20:34:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -156,7 +156,7 @@ sub Run {
     $CounterTmp = 0;
     while ($CounterTmp <= 3) {
         $CounterTmp++;
-        if ($GetParam{"$Values[0]$CounterTmp"} && $GetParam{"$Values[1]$CounterTmp"}) {
+        if ($GetParam{"$Values[0]$CounterTmp"}) {
             $ArticleObject->SetFreeText(
                 ArticleID => $ArticleID,
                 Key => $GetParam{"$Values[0]$CounterTmp"},
