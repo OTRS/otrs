@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.67 2003-01-03 00:21:25 martin Exp $
+# $Id: Generic.pm,v 1.68 2003-01-05 16:04:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -742,6 +742,7 @@ sub OptionStrgHashRef {
     $Multiple = 'multiple' if ($Multiple);
     my $Selected = $Param{Selected} || '';
     my $SelectedID = $Param{SelectedID} || '';
+    my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $PossibleNone = $Param{PossibleNone} || '';
     my $Size = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
@@ -803,7 +804,16 @@ sub OptionStrgHashRef {
     }
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         if ((defined($_)) && ($Data{$_})) {
-            if ($_ eq $SelectedID || $Data{$_} eq $Selected) {
+            # check if SelectedIDRefArray exists
+            if ($SelectedIDRefArray) {
+                foreach my $ID (@{$SelectedIDRefArray}) {
+                    if ($ID eq $_) {
+                        $Param{SelectedIDRefArrayOK}->{$_} = 1;
+                    }
+                }
+            }
+            # build select string
+            if ($_ eq $SelectedID || $Data{$_} eq $Selected || $Param{SelectedIDRefArrayOK}->{$_}) {
               $Output .= '    <option selected value="'.$Self->Ascii2Html(Text => $_).'">'.
                   $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_})) ."</option>\n";
             }
