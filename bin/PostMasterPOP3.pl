@@ -3,7 +3,7 @@
 # PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.13 2004-09-16 09:40:27 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.14 2004-09-29 09:32:31 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -35,6 +35,7 @@ use Net::POP3;
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::PID;
 use Kernel::System::PostMaster;
@@ -65,6 +66,7 @@ if (!$Opts{'popd'}) {
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-PM3',
     %CommonObject,

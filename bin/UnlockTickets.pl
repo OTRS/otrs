@@ -3,18 +3,18 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.16 2004-04-05 17:14:11 martin Exp $
+# $Id: UnlockTickets.pl,v 1.17 2004-09-29 09:35:54 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,11 +29,12 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
+use Kernel::System::Time;
 use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
@@ -48,20 +49,21 @@ my $Debug = 0;
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-UnlockTickets',
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);  
-$CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);  
-$CommonObject{LockObject} = Kernel::System::Lock->new(%CommonObject);  
+$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
+$CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
+$CommonObject{LockObject} = Kernel::System::Lock->new(%CommonObject);
 
 my @UnlockStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
     Type => 'Unlock',
     Result => 'ID',
-); 
+);
 my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock(Type => 'ID');
 
 # --

@@ -1,20 +1,20 @@
 #!/usr/bin/perl -w
 # --
 # bin/RebuildTicketIndex.pl - rebuild ticket index for queue view
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RebuildTicketIndex.pl,v 1.7 2003-02-08 15:05:11 martin Exp $
+# $Id: RebuildTicketIndex.pl,v 1.8 2004-09-29 09:31:22 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,10 +29,11 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
+use Kernel::System::Time;
 use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
@@ -42,6 +43,9 @@ use Kernel::System::Ticket;
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{TimeObject} = Kernel::System::Time->new(
+    %CommonObject,
+);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-RebuildTicketIndex',
     %CommonObject,
