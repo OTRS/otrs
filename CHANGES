@@ -2,12 +2,16 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.53 2003-01-19 18:29:14 martin Exp $
+# $Id: CHANGES,v 1.54 2003-01-23 22:25:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+1.0 RC3 (2003-02-??)
+ - (2002/01/23) added Brazilian Portuguese translation! Thanks to Gilberto 
+    Cezar de Almeida!
 
 1.0 RC2 (2003-01-19)
  - (2002/01/19) added CustomerUser LDAP backend - Thanks to Wiktor Wodecki!
