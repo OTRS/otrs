@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.32 2004-04-14 15:56:36 martin Exp $
+# $Id: FollowUp.pm,v 1.33 2004-04-15 08:41:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,7 +73,7 @@ sub Run {
         Body => $GetParam{Body},
         UserID => $Param{InmailUserID},
         HistoryType => 'FollowUp',
-        HistoryComment => "FollowUp for [$Param{Tn}]. $Comment",
+        HistoryComment => "\%\%$Param{Tn}\%\%$Comment",
 
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
