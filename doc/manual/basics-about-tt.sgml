@@ -17,4 +17,27 @@ But Bob is a smart cookie so he installs OpenTRS. The e-mails of his customers a
 Of course this is just a very rough overview of the benefits of OpenTRS. Probably Bob recieves some 100 e-mails a day which could be handle even with out a Trouble Ticket System. But the time you recieve some 100000 or even just some 500 e-mails a day you will be happy to have a system which handles all the e-mails.
 </para>
 </sect1>
+
+<sect1 id="what_is_a_trouble_ticket">
+<title>What is a trouble ticket in the OpenTRS?</title>
+<para>
+Within the OpenTRS all trouble tickets are handled as normal e-mails. In case you want to attach something (e.g. a fax) it will be attached as an e-mail attachment. All tickets are stored on the harddrive in clear text format. The headers are stored in a database too. The database is used to sort the tickets and to give quick access to them. For detailed information about this mechanism have a look in the source code.
+</para>
+</sect1>
+
+<sect1 id="what_is_a_queue">
+<title>What is a ticket queue?</title>
+<para>
+For native english speaking folks this might be a bit funny but for non native speakers the term QUEUE does not make any sense at all. So we use this section to describe the idea and concept.
+</para>
+<para>
+Normaly a e-mail (and as descripted above a trouble ticket is stored as an e-mail) is stored in an INBOX. An INBOX is a large file and every new e-mail is just cated at the end of the INBOX. The e-mail client is parsing this file and sorts it as you want it (typically by date of recieving). 
+</para>
+<para>
+A queue is a mechanism to store many tickets within. As a user you do not know where the tickets are stored. You just know that a new ticket is e.g. in the RAW queue. A user (agent) can move a ticket from one queue to an other. Why should he/she do this? You can use different queues to get more order and a better overview to your tickets. Let's assume you recieve 200 e-mails (tickets) a day. And you have 3 teams of specialists. It doesn't make any sense to ask every specialist to read every ticket. It is a waste of time. So you have to create a fourth team which dispaches all the tickets in the INCOMING-QUEUE (or how ever you call this queue). The dispache instance will have a quick (quick!) look at every ticket and moves it than to a special queue. The 3 teams of specialists read their special queues only. 
+</para>
+</sect1>
+
+
 </chapter>
+
