@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.38 2003-07-10 02:25:58 martin Exp $
+# $Id: AgentPhone.pm,v 1.39 2003-07-10 22:34:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -144,9 +144,7 @@ sub Run {
             Type => 'rw',
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID})) {
-            # --
             # error screen, don't show ticket
-            # --
             return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
         }
         # --
@@ -196,8 +194,8 @@ sub Run {
           );
 
           if ($OwnerID != $Self->{UserID}) {
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => "Sorry, the current owner is $OwnerLogin",
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => "Sorry, the current owner is $OwnerLogin!",
                 Comment => 'Please change the owner first.',
             );
             $Output .= $Self->{LayoutObject}->Footer();

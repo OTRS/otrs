@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.14 2003-07-08 00:00:37 martin Exp $
+# $Id: AgentPriority.pm,v 1.15 2003-07-10 22:34:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,13 +46,9 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    # --
     # check needed stuff
-    # --
     if (!$Self->{TicketID}) {
-        # --
         # error page
-        # --
         my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
             Message => "No TicketID is given!",
@@ -61,16 +57,12 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     else {
@@ -79,8 +71,8 @@ sub Run {
         );
         if ($OwnerID != $Self->{UserID}) {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => "Sorry, the current owner is $OwnerLogin",
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => "Sorry, the current owner is $OwnerLogin!",
                 Comment => 'Please change the owner first.',
             );
             $Output .= $Self->{LayoutObject}->Footer();

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.17 2003-05-13 22:53:09 martin Exp $
+# $Id: AgentMove.pm,v 1.18 2003-07-10 22:34:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,9 +56,7 @@ sub Run {
     # --
     foreach (qw(TicketID)) {
       if (!$Self->{$_}) {
-        # --
         # error page
-        # --
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
           Message => "Need $_!",
@@ -75,9 +73,7 @@ sub Run {
         Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     # --	
@@ -114,8 +110,8 @@ sub Run {
                 TicketID => $Self->{TicketID},
             );
             if ($OwnerID != $Self->{UserID}) {
-                $Output .= $Self->{LayoutObject}->Error(
-                    Message => "Sorry, the current owner is $OwnerLogin",
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Sorry, the current owner is $OwnerLogin!",
                     Comment => 'Please change the owner first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer();

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.23 2003-07-10 02:25:58 martin Exp $
+# $Id: AgentForward.pm,v 1.24 2003-07-10 22:34:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -135,8 +135,8 @@ sub Form {
         );
         
         if ($OwnerID != $Self->{UserID}) {
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => "Sorry, the current owner is $OwnerLogin",
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => "Sorry, the current owner is $OwnerLogin!",
                 Comment => 'Please change the owner first.',
             );
             $Output .= $Self->{LayoutObject}->Footer();

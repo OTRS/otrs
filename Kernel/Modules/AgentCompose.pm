@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.47 2003-07-10 02:25:58 martin Exp $
+# $Id: AgentCompose.pm,v 1.48 2003-07-10 22:34:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,6 +88,7 @@ sub Form {
     my $Self = shift;
     my %Param = @_;
     my $Output;
+    my %Error = ();
     # -- 
     # start with page ...
     # --
@@ -122,9 +123,7 @@ sub Form {
         Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     # --
@@ -161,8 +160,8 @@ sub Form {
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => "Sorry, the current owner is $OwnerLogin",
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => "Sorry, the current owner is $OwnerLogin!",
                 Comment => 'Please change the owner first.',
             );
             $Output .= $Self->{LayoutObject}->Footer();
@@ -181,6 +180,15 @@ sub Form {
     else {
         %Data = $Self->{TicketObject}->GetLastCustomerArticle(
             TicketID => $Self->{TicketID},
+        );
+    }
+    # --
+    # get customer data
+    # --
+    my %Customer = ();
+    if ($Ticket{CustomerUserID}) {
+        %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Ticket{CustomerUserID},
         );
     }
     # --
@@ -209,6 +217,7 @@ sub Form {
     $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
     $Data{Subject} = "[$TicketHook: $Ticket{TicketNumber}] Re: " . $Data{Subject};
 
+    # check ReplyTo
     if ($Data{ReplyTo}) {
         $Data{To} = $Data{ReplyTo};
     }
@@ -217,6 +226,17 @@ sub Form {
         # try to remove some wrong text to from line (by way of ...) 
         # added by some strange mail programs on bounce 
         $Data{To} =~ s/(.+?\<.+?\@.+?\>)\s+\(by\s+way\s+of\s+.+?\)/$1/ig;
+    }
+    # get to email (just "some@example.com")
+    foreach my $Email (Mail::Address->parse($Data{To})) {
+        $Data{ToEmail} = $Email->address();
+    }
+    # use database email   
+    if ($Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Info => 'To: (%s) replaced with database email!", "$Quote{"'.$Data{To}.'"}',
+        );
+        $Data{To} = $Customer{UserEmail};
     }
     $Data{OrigFrom} = $Data{From};
     my %Address = $QueueObject->GetSystemAddress();
@@ -256,7 +276,6 @@ sub Form {
     # --
     # check some values
     # --
-    my %Error = ();
     foreach (qw(From To Cc Bcc)) {
         if ($Data{$_}) {
             foreach my $Email (Mail::Address->parse($Data{$_})) {
