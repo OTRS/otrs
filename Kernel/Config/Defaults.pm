@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.185 2005-02-15 11:58:12 martin Exp $
+# $Id: Defaults.pm,v 1.186 2005-02-16 16:57:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.185 $';
+$VERSION = '$Revision: 1.186 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -618,7 +618,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # PGP settings (supports gpg)                         #
     # --------------------------------------------------- #
-    $Self->{'PGP'} = 0;
+    $Self->{'PGP'} = 1;
     $Self->{'PGP::Bin'} = '/usr/bin/gpg';
     $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes';
 #    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
@@ -628,7 +628,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # S/MIME settings (supports smime)                    #
     # --------------------------------------------------- #
-    $Self->{'SMIME'} = 0;
+    $Self->{'SMIME'} = 1;
     # maybe openssl need a HOME env!
     #$ENV{HOME} = '/var/lib/wwwrun';
     $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
@@ -982,7 +982,7 @@ Your OTRS Notification Master
             [ 'UserLogin',      'Username',   'login',       1, 1, 'var', '', 0 ],
             [ 'UserPassword',   'Password',   'pw',          0, 1, 'var', '', 0 ],
             [ 'UserEmail',      'Email',      'email',       0, 1, 'var', '', 0 ],
-#            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}', 0 ],
+#            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentTicketCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}', 0 ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
 #            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
             [ 'UserComment',     'Comment',   'comments',    1, 0, 'var', '', 0 ],
@@ -1233,7 +1233,7 @@ Your OTRS Notification Master
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'User',
+            Name => 'Users',
             Block => 'Block1',
             Prio => 100,
         },
@@ -1255,7 +1255,7 @@ Your OTRS Notification Master
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'User <-> Groups',
+            Name => 'Users <-> Groups',
             Block => 'Block1',
             Prio => 200,
         },
@@ -1277,7 +1277,7 @@ Your OTRS Notification Master
         ],
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Customer User',
+            Name => 'Customer Users',
             Block => 'Block1',
             Prio => 300,
         },
@@ -1288,7 +1288,7 @@ Your OTRS Notification Master
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Customer User <-> Groups',
+            Name => 'Customer Users <-> Groups',
             Block => 'Block1',
             Prio => 400,
         },
@@ -1299,7 +1299,7 @@ Your OTRS Notification Master
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Role',
+            Name => 'Roles',
             Block => 'Block1',
             Prio => 500,
         },
@@ -1310,7 +1310,7 @@ Your OTRS Notification Master
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Role <-> User',
+            Name => 'Roles <-> Users',
             Block => 'Block1',
             Prio => 600,
         },
@@ -1321,7 +1321,7 @@ Your OTRS Notification Master
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Role <-> Group',
+            Name => 'Roles <-> Groups',
             Block => 'Block1',
             Prio => 700,
         },
@@ -1332,7 +1332,7 @@ Your OTRS Notification Master
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'SMIME Certificates',
+            Name => 'SMIME',
             Block => 'Block3',
             Prio => 500,
         },
@@ -1343,7 +1343,7 @@ Your OTRS Notification Master
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'PGP Keys',
+            Name => 'PGP',
             Block => 'Block3',
             Prio => 600,
         },
@@ -1579,6 +1579,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.185 $ $Date: 2005-02-15 11:58:12 $
+$Revision: 1.186 $ $Date: 2005-02-16 16:57:14 $
 
 =cut
