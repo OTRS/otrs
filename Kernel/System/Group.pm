@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.13 2003-11-26 00:48:47 martin Exp $
+# $Id: Group.pm,v 1.14 2004-01-04 13:45:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -380,8 +380,18 @@ sub GroupMemberList {
 # --
 1;
 
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).  
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2003-11-26 00:48:47 $
+$Revision: 1.14 $ $Date: 2004-01-04 13:45:19 $
 
 =cut

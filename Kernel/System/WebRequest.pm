@@ -2,7 +2,7 @@
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.13 2003-12-07 23:52:31 martin Exp $
+# $Id: WebRequest.pm,v 1.14 2004-01-04 13:45:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.13 $ ';
+$VERSION = '$Revision: 1.14 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -258,5 +258,20 @@ sub GetCookie {
     return $Self->{Query}->cookie($Param{Key}) || '';
 }
 # --
-
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).  
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.14 $ $Date: 2004-01-04 13:45:19 $
+
+=cut

@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.20 2003-12-07 23:52:31 martin Exp $
+# $Id: Log.pm,v 1.21 2004-01-04 13:45:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $ ';
+$VERSION = '$Revision: 1.21 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -209,5 +209,20 @@ sub CleanUp {
     return 1;
 }
 # --
-
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).  
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.21 $ $Date: 2004-01-04 13:45:19 $
+
+=cut
