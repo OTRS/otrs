@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.24 2004-09-27 17:03:49 martin Exp $
+# $Id: AgentPending.pm,v 1.25 2004-11-07 15:16:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -213,6 +213,13 @@ sub _Mask {
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID},
     );
+    my %SelectedState = ();
+    if ($Param{StateID}) {
+        $SelectedState{SelectedID} = $Param{StateID};
+    }
+    else {
+        $SelectedState{Selected} = $Self->{ConfigObject}->Get('DefaultPendingState');
+    }
     # get possible notes
     my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
     my %NoteTypes = $Self->{DBObject}->GetTableData(
@@ -229,7 +236,7 @@ sub _Mask {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%NextStates,
         Name => 'StateID',
-        SelectedID => $Param{StateID},
+        %SelectedState,
     );
     # build string
     $Param{'NoteTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
