@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.138 2004-09-08 15:24:23 martin Exp $
+# $Id: Ticket.pm,v 1.139 2004-09-09 00:18:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.138 $';
+$VERSION = '$Revision: 1.139 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2826,10 +2826,10 @@ sub HistoryTicketGet {
                 $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
             }
-            $Ticket{CreateOwnerID} = $Row[9];
-            $Ticket{CreatePriorityID} = $Row[8];
-            $Ticket{CreateStateID} = $Row[7];
-            $Ticket{CreateQueueID} = $Row[6];
+            $Ticket{CreateOwnerID} = $Row[9] || '';
+            $Ticket{CreatePriorityID} = $Row[8] || '';
+            $Ticket{CreateStateID} = $Row[7] || '';
+            $Ticket{CreateQueueID} = $Row[6] || '';
         }
         # compat to otrs 1.1
         elsif ($Row[1] eq 'PhoneCallCustomer') {
@@ -2869,10 +2869,10 @@ sub HistoryTicketGet {
 #
 #        }
         # get default options
-        $Ticket{OwnerID} = $Row[9];
-        $Ticket{PriorityID} = $Row[8];
-        $Ticket{StateID} = $Row[7];
-        $Ticket{QueueID} = $Row[6];
+        $Ticket{OwnerID} = $Row[9] || '';
+        $Ticket{PriorityID} = $Row[8] || '';
+        $Ticket{StateID} = $Row[7] || '';
+        $Ticket{QueueID} = $Row[6] || '';
     }
     if (!%Ticket) {
         $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in Ticket Hisorry till '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!");
@@ -3479,6 +3479,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.138 $ $Date: 2004-09-08 15:24:23 $
+$Revision: 1.139 $ $Date: 2004-09-09 00:18:09 $
 
 =cut
