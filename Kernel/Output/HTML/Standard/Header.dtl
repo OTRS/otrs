@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.8 2002-04-14 13:31:12 martin Exp $
+# $Id: Header.dtl,v 1.9 2002-05-05 15:52:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -41,7 +41,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>OTRS :: $Text{"$Data{"Title"}"}</title>
+    <title>OpenTRS :: $Text{"$Data{"Title"}"}</title>
 
 <style type="text/css">
 <!--
@@ -57,7 +57,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left">
-   <font color="$Env{"FontColor1"}"><b>$Env{"Box0"}OTRS || </b></font>
+   <font color="$Env{"FontColor1"}"><b>$Env{"Box0"}OpenTRS || </b></font>
    <a href="$Env{"CGIHandle"}?SessionID=$Env{"SessionID"}">home</a> <font color="$Env{"FontColor1"}"><b>$Env{"Box1"}</b></font>
   </td>
   <td align="right">
