@@ -99,6 +99,32 @@ If your browser get the message "Error: Can't connect to database!" after you ch
 If the "Error: Can't connect to database!" message is still there, check the error log of your webserver (e. g. /var/log/httpd/error_log).
 </para>
 </sect2>
+
+<sect2>
+<title>FreeBSD, PostgeSQL and Apache (install_driver(Pg) failed)</title>
+<para>
+Everything is working fine just if I want to use the web interface I get always: 
+[...]
+Software error:
+install_driver(Pg) failed: [Thu Sep 19 16:52:18 2002] index.pl: [Thu Sep 19
+16:52:18 2002] index.pl: Can't load
+'/usr/local/lib/perl5/site_perl/5.005/i386-freebsd/auto/DBD/Pg/Pg.so' for
+module DBD::Pg: Shared object "libpq.so.2" not found at
+/usr/libdata/perl/5.00503/DynaLoader.pm line 169. [Thu Sep 19 16:52:18 2002]
+index.pl: [Thu Sep 19 16:52:18 2002] index.pl: [Thu Sep 19 16:52:18 2002]
+index.pl: [Thu Sep 19 16:52:18 2002] index.pl: at (eval 124) line 3 Perhaps
+a required shared library or dll isn't installed where expected at   
+/usr/local/OpenTRS/bin/cgi-bin/../../Kernel/System/DB.pm line 67
+[...]
+</para>
+<para>
+To solve this problem, you can tell the Apache httpd.conf to include the
+environmental variable LD_LIBRARY_PATH= /usr/local/pgsql/lib. Put this line
+to httpd.confand then restart "SetEnv LD_LIBRARY_PATH /usr/local/pgsql/lib" 
+and then restart (source http://lists.otrs.org/pipermail/otrs/2002-September/000248.html).
+</para>
+</sect2>
+
 </sect1>
 
 <sect1 id="problems_with_mysql">
