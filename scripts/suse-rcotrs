@@ -1,0 +1,231 @@
+# --
+# suse-rcotrs - rc script of otrs for SuSE Linux
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: suse-rcotrs,v 1.1 2002-01-12 15:27:24 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+# PS: I'm not a shell hacker! 
+
+#
+# load the configuration
+#
+. /etc/rc.config
+
+# Shell functions sourced from /etc/rc.status:
+#      rc_check         check and set local and overall rc status
+#      rc_status        check and set local and overall rc status
+#      rc_status -v     ditto but be verbose in local rc status
+#      rc_status -v -r  ditto and clear the local rc status
+#      rc_failed        set local and overall rc status to failed
+#      rc_failed <num>  set local and overall rc status to <num>
+#      rc_reset         clear local rc status (overall remains)
+#      rc_exit          exit appropriate to overall rc status
+test -s /etc/rc.status && \
+    . /etc/rc.status
+
+#
+# Determine the base and follow a runlevel link name.
+#
+base=${0##*/}
+link=${base#*[SK][0-9][0-9]}
+
+#
+# Force execution if not called by a runlevel directory.
+#
+test $link = $base && START_OTRS="yes"
+test "$START_OTRS" = yes || exit 0
+
+# 
+# if one of this is false, it will not be checked at the startup!
+# Note: (may be the database isn't on the same host! --> DB_RUNNING=0) 
+# 
+DB_RUNNING=1
+HTTP_RUNNING=1
+
+# 
+# check needed files
+# 
+HTTPD_BIN=/usr/sbin/httpd
+if ! test -x $HTTPD_BIN ; then
+    echo "Error: $HTTPD_BIN not fount!"
+    exit 5
+fi
+
+OTRS_HTTPD_CONF=/opt/OpenTRS/scripts/suse-httpd.conf
+if ! test -r $OTRS_HTTPD_CONF ; then
+    echo "Error: $OTRS_HTTPD_CONF not fount!"
+    exit 5
+fi
+
+OTRS_POSTMASTER=/opt/OpenTRS/bin/PostMaster.pl
+if ! test -r $OTRS_POSTMASTER; then
+    echo "Error: $OTRS_POSTMASTER not fount!"
+    exit 5
+fi
+
+OTRS_SPOOLDIR=/opt/OpenTRS/var/spool
+if ! test -d $OTRS_SPOOLDIR; then
+    echo "Error: $OTRS_SPOOLDIR not fount!"
+    exit 5
+fi
+ 
+
+# reset status of this service
+rc_reset
+
+#
+# The echo return value for success (defined in /etc/rc.config).
+#
+return=$rc_done
+
+# 
+# main part
+# 
+case "$1" in
+    start)
+      echo "Starting OpenTRS"
+
+      # --
+      # check mysql
+      # --
+      if test $DB_RUNNING -gt 0; then
+        if rcmysql start > /dev/null 2>&1 ; then 
+          echo " Starting mysql ... done."
+          rc_status 
+        else 
+          echo " Starting mysql ... faild."
+          rc_failed
+          rc_status -v 
+          exit 1;
+        fi
+      else 
+          echo " Disabled: mysql check!"
+      fi
+
+      # --
+      # database connect
+      # --
+      echo -n " Checking database connect... ("
+      if ! /opt/OpenTRS/bin/CheckDB.pl ; then
+          echo ") Error!!"
+          rc_failed 
+          rc_status -v
+          exit 1;
+      else 
+          echo ")."
+          rc_status 
+      fi
+
+      # --
+      # check otrs spool dir
+      # --
+      echo -n " Checking otrs spool dir... ("
+      if ls -f $OTRS_SPOOLDIR/ | grep otrs ; then
+          echo ") Found !!"
+          echo -n " Starting otrs PostMaster... "
+          if ls $OTRS_SPOOLDIR/otrs* | xargs cat | $OTRS_POSTMASTER ; then
+              # FIXME!
+              echo -n "remove emails... "
+              rm -rf $OTRS_SPOOLDIR/otrs*
+              echo "done."
+          else 
+              echo "faild."
+              rc_failed
+          fi
+      else
+          echo "clean)."
+          rc_status
+      fi
+
+      # --
+      # check apache
+      # --
+      if test $HTTP_RUNNING -gt 0; then 
+        if  $HTTPD_BIN -f $OTRS_HTTPD_CONF ; then
+          echo " Starting httpd ... done."
+          rc_status 
+        else 
+          echo " Starting httpd ... faild."
+          rc_failed
+          exit 1
+        fi
+      else 
+          echo " Disabled: httpd check!"
+      fi
+      
+      # show status
+      rc_status -v
+    ;;
+    stop)
+      echo "Shutting down OpenTRS"
+
+      # --
+      # httpd
+      # --
+      if test $HTTP_RUNNING -gt 0; then
+        if rcapache stop > /dev/null 2>&1 ; then
+          echo " Shutting down apache ... done."
+          rc_status 
+        else
+          echo " Shutting down apache ... faild."
+          rc_failed
+        fi
+      fi
+
+      # --
+      # mysql
+      # --
+      if test $DB_RUNNING -gt 0; then
+        if rcmysql stop > /dev/null 2>&1 ; then
+          echo " Shutting down mysql ... done."
+          rc_status 
+        else
+          echo " Shutting down mysql ... faild."
+          rc_failed
+        fi
+      fi
+
+      # show status
+      rc_status -v
+    ;;
+    restart)
+      $0 stop  && sleep 3
+      $0 start
+      # Remember status and be quiet
+      rc_status
+    ;;
+    status) 
+      # --
+      # httpd
+      # --
+      rcapache status
+
+      # --
+      # mysql
+      # --
+      rcmysql status
+
+      # --
+      # spool dir
+      # --
+      echo -n "Checking otrs spool dir... ("
+      if ls -f $OTRS_SPOOLDIR/ | grep otrs ; then
+          echo ") Found !!"
+      else 
+          echo "clean)."
+      fi
+
+    ;;
+    *)
+    echo "Usage: $0 {start|stop|status|restart}"
+    exit 1
+esac
+
+# Inform the caller not only verbosely and set an exit status.
+rc_exit
+
