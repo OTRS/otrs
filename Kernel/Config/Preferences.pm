@@ -2,7 +2,7 @@
 # Kernel/Config/Preferences.pm - Preferences config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Preferences.pm,v 1.3 2002-10-22 13:54:05 martin Exp $
+# $Id: Preferences.pm,v 1.4 2002-10-25 00:04:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Preferences;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,7 @@ sub LoadPreferences {
             'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify', 'MoveNotify',
         ],
         Frontend => [
-            'RefreshTime', 'Language', 'Charset', 'Theme', 'QueueView', 
+            'Language', 'Charset', 'Theme', 'RefreshTime', 'QueueView', 
         ],
         'Other Options' => [
             'Password', 'CustomQueue',
@@ -119,7 +119,7 @@ sub LoadPreferences {
     };
     $Self->{PreferencesGroups}->{Language} = {
         Colum => 'Frontend', 
-        Label => 'Frontend Language',
+        Label => 'Language',
         Desc => 'Select your frontend language.', 
         Type => 'Generic',
         PrefKey => 'UserLanguage',
@@ -127,7 +127,7 @@ sub LoadPreferences {
     };
     $Self->{PreferencesGroups}->{Charset} = {
         Colum => 'Frontend', 
-        Label => 'Frontend Charset',
+        Label => 'Charset',
         Desc => 'Select your frontend Charset.', 
         Type => 'Generic',
         PrefKey => 'UserCharset',
@@ -135,7 +135,7 @@ sub LoadPreferences {
     };
     $Self->{PreferencesGroups}->{Theme} = {
         Colum => 'Frontend', 
-        Label => 'Frontend Theme',
+        Label => 'Theme',
         Desc => 'Select your frontend Theme.', 
         Type => 'Generic',
         PrefKey => 'UserTheme',
@@ -143,7 +143,7 @@ sub LoadPreferences {
     };
     $Self->{PreferencesGroups}->{QueueView} = {
         Colum => 'Frontend', 
-        Label => 'Frontend QueueView',
+        Label => 'QueueView',
         Desc => 'Select your frontend QueueView.', 
         Type => 'Generic',
         Data => {
