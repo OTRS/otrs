@@ -1,8 +1,8 @@
 # --
 # INSTALL description of OpenTRS
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.6 2002-04-08 14:17:40 martin Exp $
+# $Id: INSTALL,v 1.7 2002-04-22 22:29:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,8 +19,8 @@ Software requirements?
     * some CPAN-Module (CGI, MIME::Words, Mail::Internet, MIME::Parser, DBI,
       DBD::mysql, Digest::MD5) and for stats (GD, GD::Graph, GD::Graph::lines, Date::Calc)
 
-Instalation:
-============
+Installation:
+=============
 
 1. Install CPAN Modules (if needed):
    perl -MCPAN -e shell;
@@ -31,10 +31,9 @@ Instalation:
 
 2. create user and install tar.gz 
 
-   $shell: mkdir /opt/OpenTRS/
    $shell: useradd -d /opt/OpenTRS/ otrs
-   $shell: cd /opt/OpenTRS/
-   $shell: tar -xzvf OpenTRS-xxxx-xx-xx.tar-gz
+   $shell: cd /opt/
+   $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
    $shell: chown -r /opt/OpenTRS/* otrs
    
 3. Database:
@@ -51,7 +50,9 @@ Instalation:
    User: root@localhost
    PW: root
 
-   --> goto AdminArea and set some config setings.
+   --> goto AdminArea and set some config settings (UserAdd, Queues, ...).
+
+   Finished.
 
 7. First Email:
    use the procmailrc of the OpenTRS-User --> /opt/OpenTRS/.procmailrc
@@ -59,11 +60,14 @@ Instalation:
    --> send emails to the otrs user (e. g. otrs@localhost)
 
    or pipe an email directly into $OpenTRS_HOME/bin/Postmaster.pl
-    (e. g. 'cat /tmp/email | $OpenTRS_HOME/bin/Postmaster.pl').
+    (e. g. 'cat /opt/OpenTRS/test-email-1.box | $OpenTRS_HOME/bin/Postmaster.pl').
+
+Remark: For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
 Have a lot of fun.
 
  Martin Edenhofer 
 
-(January 2002 Frankfurt/Germany)
+(April 2002 Frankfurt/Germany)
 
+EOF
