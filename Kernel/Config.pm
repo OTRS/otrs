@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.44 2002-07-23 22:55:34 martin Exp $
+# $Id: Config.pm,v 1.45 2002-07-24 08:48:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -130,6 +130,25 @@ sub Load {
     $Self->{DatabasePreferencesTableUserID} = 'user_id';
 
     # ----------------------------------------------------#
+    # authentification settings                           #
+    # (enable what you need, auth against otrs db or      #
+    # against a LDAP directory)                           #
+    # ----------------------------------------------------#
+
+    # This is the auth. module againt the otrs db
+    $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
+
+    # This is an example configuration for an LDAP auth. backend.
+#    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
+#    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
+#    $Self->{'AuthModule::LDAP::BaseDN'} = 'cn=Manager,dc=example,dc=com';
+#    $Self->{'AuthModule::LDAP::UID'} = 'uid';
+    # The following is valid but would only be necessary if the
+    # anonymous user do NOT have permission to read from the LDAP tree 
+#    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
+#    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
+
+    # ----------------------------------------------------#
     # user preferences settings                           #
     # (allow you to add simply more user preferences)     #
     # ----------------------------------------------------#
@@ -137,6 +156,7 @@ sub Load {
     $Self->{UserPreferences} = {
       # key => value
       # key is usable with $Env{"UserCharset"} in dtl.
+      UserEmail => 'Email',
       UserCharset => 'Charset',
       UserTheme => 'Theme',
       UserLanguage => 'Language',
