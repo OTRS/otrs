@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.13 2002-10-25 11:46:00 martin Exp $
+# $Id: AgentPreferences.pm,v 1.14 2002-10-28 00:46:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -86,7 +86,7 @@ sub Form {
     # get notification
     # --
     if ($What) {
-        $Output .= $Self->{LayoutObject}->Notify(Info => 'Preferences updated succsessful!');
+        $Output .= $Self->{LayoutObject}->Notify(Info => 'Preferences updated successfully!');
     }
     # --
     # get form
@@ -108,9 +108,11 @@ sub UpdatePw {
     my $Output;
     my $Pw = $Self->{ParamObject}->GetParam(Param => 'NewPw') || '';
     my $Pw1 = $Self->{ParamObject}->GetParam(Param => 'NewPw1') || '';
-    
+
     if ($Pw eq $Pw1 && $Pw) {
-        $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
+        if (!$Self->{ConfigObject}->Get('DemoSystem')) {
+            $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
+        }
         $Output .= $Self->{LayoutObject}->Redirect(
             OP => "Action=AgentPreferences&What=1",
         );
@@ -167,11 +169,13 @@ sub UpdateGeneric {
 
     if (defined($Topic)) {
         # pref update db
-        $Self->{UserObject}->SetPreferences(
-            UserID => $Self->{UserID},
-            Key => $Self->{Subaction},
-            Value => $Topic,
-        );
+        if (!$Self->{ConfigObject}->Get('DemoSystem')) {
+            $Self->{UserObject}->SetPreferences(
+                UserID => $Self->{UserID},
+                Key => $Self->{Subaction},
+                Value => $Topic,
+            );
+        }
         # update SessionID
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
