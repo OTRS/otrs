@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.16 2003-02-09 13:17:42 martin Exp $
+# $Id: README,v 1.17 2003-02-15 12:11:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -119,6 +119,7 @@ Software requirements?
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Roxen-Webserver 2.2.252
     * SuSE Linux 8.0 (i386) interfacing with Exchange 5.5 via fetchmail and postfix   
     * Redhat 7.3 (i386) (no detail description available)
+    * Redhat 8.0 (i386), Perl 5.8, MySQL 4, Apache2 and mod_perl2.
     * Mandrake 8.2 server (i386) interfacing with Lotus Notes mail server via fetchmail and sendmail
     * FreeBSD (i386), Sendmail, Perl 5.6.1, MySQL and Apache. 
     ... and you? ;-)
