@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.24 2003-01-18 09:21:23 martin Exp $
+# $Id: Admin.pm,v 1.25 2003-02-03 19:39:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -773,13 +773,20 @@ sub AdminUserForm {
           my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
           my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
           my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
+
           if ($Data) {
-            $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-              Data => $Data,
-              Name => "GenericTopic::$PrefKey",
-              SelectedID => $Param{$PrefKey}, 
-            );
-          }
+            if (ref($Data) eq 'HASH') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                Data => $Data,
+                Name => "GenericTopic::$PrefKey",
+                SelectedID => $Param{$PrefKey},
+              );
+            }
+            else {
+                $PrefItem{'Option'} = "<input type=\"text\" name=\"GenericTopic::$PrefKey\" ".
+                     "value=\"". $Self->Ascii2Html(Text => $Param{$PrefKey}) .'">';
+            }
+          } 
           elsif ($PrefKey eq 'UserLanguage') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                   Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'), 
