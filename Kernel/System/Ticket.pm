@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.28 2002-10-25 00:04:58 martin Exp $
+# $Id: Ticket.pm,v 1.29 2002-10-28 17:40:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -267,10 +267,11 @@ sub GetTicket {
     # --
     my $SQL = "SELECT st.id, st.queue_id, sq.name, tsd.id, tsd.name, slt.id, slt.name, ".
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
-        " st.customer_id, st.user_id ".
+        " st.customer_id, st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+        " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, st.ticket_answered ".
         " FROM ".
         " ticket st, ticket_state tsd, ticket_lock_type slt, ticket_priority sp, ".
-        " queue sq ".
+        " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
         " WHERE ".
         " tsd.id = st.ticket_state_id ".
         " AND ".
@@ -279,6 +280,8 @@ sub GetTicket {
         " sp.id = st.ticket_priority_id ".
         " AND ".
         " sq.id = st.queue_id ".
+        " AND ".
+        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ".
         " AND ".
         " st.id = $Param{TicketID} ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -299,6 +302,9 @@ sub GetTicket {
         $Ticket{TicketNumber} = $Row[12];
         $Ticket{CustomerID} = $Row[13];
         $Ticket{UserID} = $Row[14];
+        $Ticket{OwnerID} = $Row[15];
+        $Ticket{Owner} = $Row[16];
+        $Ticket{Answered} = $Row[17];
     }
     return %Ticket;
 }
