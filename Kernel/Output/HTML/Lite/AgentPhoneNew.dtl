@@ -1,8 +1,8 @@
 # --
 # AgentPhoneNew.dtl - provides HTML form for phone
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.27 2004-02-09 23:50:40 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.27.2.1 2004-02-23 10:36:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -156,6 +156,7 @@ function clear_field()
   <tr>
     <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
     <td> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
+  </tr>
 # select lock state
 <dtl if ($Config{"PhoneDefaultNewLock"} eq "lock") { $Data{"LockSelectionYes"} = "checked"; }>
 <dtl if ($Config{"PhoneDefaultNewLock"} eq "unlock") { $Data{"LockSelectionNo"} = "checked"; }>
