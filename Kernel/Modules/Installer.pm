@@ -2,7 +2,7 @@
 # Installer.pm - provides the DB installer
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.2 2002-02-03 18:16:07 martin Exp $
+# $Id: Installer.pm,v 1.3 2002-02-03 18:23:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'DBObject', 'LayoutObject', 'LogObject', 'ConfigObject') {
+    foreach ('ParamObject', 'LayoutObject', 'LogObject', 'ConfigObject') {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -46,7 +46,7 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $Subaction = $Self->{Subaction} || ''; 
-    my $DirOfSQLFiles = '/usr/share/doc/packages/otrs/install/database/';
+    my $DirOfSQLFiles = '/usr/share/doc/packages/otrs/install/database';
 
     # print form
     if ($Subaction eq '' || !$Subaction) {
