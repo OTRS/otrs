@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLookup.pm,v 1.2 2004-05-01 14:06:57 martin Exp $
+# $Id: AgentLookup.pm,v 1.3 2004-05-01 14:12:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLookup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -120,7 +120,13 @@ sub Run {
         $SQL .= $Where;
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 100);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $Result{$Row[0]} = $Row[0];
+            my $KeyValue = '';
+            foreach (1..8) {
+                if ($Row[$_]) {
+                    $KeyValue .= $Row[$_];
+                }
+            }
+            $Result{$KeyValue} = $KeyValue;
         }
     }
     # start with page ...
