@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.61 2002-10-03 21:07:54 martin Exp $
+# $Id: Config.pm,v 1.62 2002-10-05 16:04:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -480,6 +480,31 @@ sub Load {
     $Self->{DefaultPhoneNewHistoryType} = 'PhoneCallCustomer';
     $Self->{DefaultPhoneNewHistoryComment} = 'Customer called us.';
 
+    # PhoneViewASP -> useful for ASP
+    # (Possible to create in all queue? Not only queue which
+    # the own groups) [0|1]
+    $Self->{PhoneViewASP} = 1;
+
+    # PhoneViewSelectionType 
+    # (To: seection type. Queue => show all queues, SystemAddress => show all system 
+    # addresses;) [Queue|SystemAddress]
+#    $Self->{PhoneViewSelectionType} = 'Queue';
+    $Self->{PhoneViewSelectionType} = 'SystemAddress';
+
+    # PhoneViewSelectionString
+    # (String for To: selection.) 
+    # use this for PhoneViewSelectionType = Queue
+#   $Self->{PhoneViewSelectionString} = 'Queue: <Queue> - <QueueComment>';
+    # use this for PhoneViewSelectionType = SystemAddress
+    $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
+
+    # PhoneViewOwnSelection
+    # (If this is in use, "just this selection is valid" for the PhoneView.)
+#    $Self->{PhoneViewOwnSelection} = {
+#        # QueueID => String
+#        '1' => 'First Queue!',
+#        '2' => 'Second Queue!',
+#    };
 
     # ----------------------------------------------------#
     # defaults for forward message                        #
