@@ -3,7 +3,7 @@
 # PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.13 2003-02-08 15:05:11 martin Exp $
+# $Id: PostMaster.pl,v 1.14 2003-05-18 20:23:09 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my $Debug = 1;
@@ -49,12 +49,15 @@ use Kernel::System::PostMaster;
 # get options
 # --
 my %Opts = ();
-getopt('hqt', \%Opts);
+getopt('hqtd', \%Opts);
 if ($Opts{'h'}) {
     print "PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
     print "Copyright (c) 2001-2003 Martin Edenhofer <martin\@otrs.org>\n";
     print "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> \n";
     exit 1;
+}
+if (!$Opts{'d'}) {
+    $Opts{'d'} = 0;
 }
 if (! defined($Opts{'t'})) {
     $Opts{'t'} = 1;
@@ -85,6 +88,7 @@ $CommonObject{PostMaster} = Kernel::System::PostMaster->new(
     %CommonObject, 
     Email => \@Email,
     Trusted => $Opts{'t'},
+    Debug => $Opts{'d'},
 );
 $CommonObject{PostMaster}->Run(
     Queue => $Opts{'q'},

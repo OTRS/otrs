@@ -3,7 +3,7 @@
 # PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.9 2003-04-30 15:46:18 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.10 2003-05-18 20:23:09 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -164,8 +164,11 @@ sub FetchMail {
                     %CommonObject, 
                     Email => $Lines,
                     Trusted => $Trusted,
+                    Debug => $Opts{'d'},
                 );
-                $CommonObject{PostMaster}->Run(QueueID => $QueueID);
+                $CommonObject{PostMaster}->Run(
+                    QueueID => $QueueID,
+                );
                 $PopObject->delete($Messageno);
                 $FetchCounter++;
             }

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.38 2003-04-14 19:49:28 martin Exp $
+# $Id: NewTicket.pm,v 1.39 2003-05-18 20:23:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,11 +13,10 @@ package Kernel::System::PostMaster::NewTicket;
 
 use strict;
 use Kernel::System::AutoResponse;
-use Kernel::System::Queue;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -28,15 +27,13 @@ sub new {
     # allocate new hash for object 
     my $Self = {}; 
     bless ($Self, $Type);
-    
+   
     $Self->{Debug} = $Param{Debug} || 0;
-    
+ 
     # get all objects
-    foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject DestQueueObject)) {
+    foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject QueueObject)) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
-
-    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
@@ -46,15 +43,22 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $InmailUserID = $Param{InmailUserID};
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(InmailUserID GetParam)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
     my %GetParam = %{$Param{GetParam}};
-     
     my $Comment = $Param{Comment} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
     # -- 
     # get queue id and name
     # --
-    my $QueueID = $Param{QueueID} || $Self->{DestQueueObject}->GetQueueID(Params => \%GetParam);
+    my $QueueID = $Param{QueueID} || die "need QueueID!"; 
     my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $QueueID);    
     # --
     # get state
@@ -84,8 +88,8 @@ sub Run {
         GroupID => 1,
         Priority => $Priority,
         State => $State,
-        UserID => $InmailUserID,
-        CreateUserID => $InmailUserID,
+        UserID => $Param{InmailUserID},
+        CreateUserID => $Param{InmailUserID},
     );
     # --
     # debug
@@ -112,7 +116,7 @@ sub Run {
         MessageID => $GetParam{'Message-ID'},
         ContentType => $GetParam{'Content-Type'},
         Body => $GetParam{Body},
-        UserID => $InmailUserID,
+        UserID => $Param{InmailUserID},
         HistoryType => 'NewTicket',
         HistoryComment => "New Ticket [$NewTn] created (Q=$Queue;P=$Priority;S=$State). $Comment",
         OrigHeader => \%GetParam,
@@ -137,7 +141,7 @@ sub Run {
     # --
     if (!$GetParam{'X-OTRS-CustomerNo'}) {
         # --
-        # get customer user data
+        # get customer user data form X-OTRS-CustomerUser
         # --
         my %CustomerData = ();
         if ($GetParam{'X-OTRS-CustomerUser'}) {
@@ -146,8 +150,32 @@ sub Run {
             );
         }
         # --
+        # get customer user data form From:
+        # --
+        elsif ($GetParam{'From'}) {
+            my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+                Line => $GetParam{From},
+            );
+            foreach (@EmailAddresses) {
+                $GetParam{'EmailForm'} = $Self->{ParseObject}->GetEmailAddress(
+                    Email => $_,
+                );
+            }
+            my %List = $Self->{CustomerUserObject}->CustomerSearch(
+                PostMasterSearch => lc($GetParam{'EmailForm'}),
+            ); 
+            foreach (keys %List) {
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                  User => $_,
+                );
+            }
+        }
+        # --
         # take CustomerID from customer backend lookup or from from field
         # --
+        if ($CustomerData{UserLogin}) {
+            $GetParam{'X-OTRS-CustomerUser'} = $CustomerData{UserLogin};
+        }
         if ($CustomerData{UserCustomerID}) {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
         }
@@ -158,7 +186,7 @@ sub Run {
             foreach (@EmailAddresses) {
                 $GetParam{'X-OTRS-CustomerNo'} = $Self->{ParseObject}->GetEmailAddress(
                     Email => $_,
-        	);
+                );
             }
         }
     }
@@ -170,7 +198,7 @@ sub Run {
             TicketID => $TicketID,
             No => $GetParam{'X-OTRS-CustomerNo'},
             User => $GetParam{'X-OTRS-CustomerUser'},
-            UserID => $InmailUserID,
+            UserID => $Param{InmailUserID},
         );
     # --
     # debug
@@ -193,7 +221,7 @@ sub Run {
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},
                 Counter => $CounterTmp,
-                UserID => $InmailUserID,
+                UserID => $Param{InmailUserID},
             );
         }
     }
@@ -203,7 +231,7 @@ sub Run {
     if (!$ArticleID) {
         $Self->{TicketObject}->SetState(
             TicketID => $TicketID,
-            UserID => $InmailUserID,
+            UserID => $Param{InmailUserID},
             State => 'removed',
         );
         $Self->{LogObject}->Log(
@@ -238,7 +266,7 @@ sub Run {
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},
                 Counter => $CounterTmp,
-                UserID => $InmailUserID,
+                UserID => $Param{InmailUserID},
             );
             if ($Self->{Debug} > 0) {
                 print "ArticleKey$CounterTmp: ".$GetParam{"$Values[0]$CounterTmp"}."\n";
@@ -252,7 +280,7 @@ sub Run {
     $Self->{TicketObject}->WriteArticlePlain(
         ArticleID => $ArticleID, 
         Email => $Self->{ParseObject}->GetPlainEmail(),
-        UserID => $InmailUserID,
+        UserID => $Param{InmailUserID},
     );
     # --    
     # write attachments to the storage
@@ -263,7 +291,7 @@ sub Run {
             Filename => $Attachment->{Filename},
             ContentType => $Attachment->{ContentType},
             ArticleID => $ArticleID,
-            UserID => $InmailUserID,
+            UserID => $Param{InmailUserID},
         );
     }
     # do log

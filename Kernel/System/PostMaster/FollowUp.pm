@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.27 2003-04-14 23:22:08 martin Exp $
+# $Id: FollowUp.pm,v 1.28 2003-05-18 20:23:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,12 +26,11 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
-    # 0=off 1=on
-    $Self->{Debug} = 0;
-
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
+
+    $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed Objects
     foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject)) {
@@ -44,21 +43,24 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my $InmailUserID = $Param{InmailUserID}; 
-    my $GetParamTmp = $Param{GetParam};
-    my %GetParam = %$GetParamTmp;
-    my $Tn = $Param{Tn};
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID InmailUserID GetParam StateType Tn AutoResponseType)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my %GetParam = %{$Param{GetParam}};
     my $State = $Param{State} || '';
 	my $Comment = $Param{Comment} || '';
     my $Lock = $Param{Lock} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
-    my $OldState = $Self->{TicketObject}->GetState(TicketID => $TicketID) || '';
-
     # do db insert
     my $ArticleID = $Self->{TicketObject}->CreateArticle(
-        TicketID => $TicketID,
+        TicketID => $Param{TicketID},
         ArticleType => 'email-external',
         SenderType => 'customer',
         From => $GetParam{From},
@@ -69,9 +71,9 @@ sub Run {
         MessageID => $GetParam{'Message-ID'},
         ContentType => $GetParam{'Content-Type'},
         Body => $GetParam{Body},
-        UserID => $InmailUserID,
+        UserID => $Param{InmailUserID},
         HistoryType => 'FollowUp',
-        HistoryComment => "FollowUp for [$Tn]. $Comment",
+        HistoryComment => "FollowUp for [$Param{Tn}]. $Comment",
 
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
@@ -81,7 +83,7 @@ sub Run {
     # --
     if ($Self->{Debug} > 0) {
         print "Follow up Ticket\n";
-        print "TicketNumber: $Tn\n";
+        print "TicketNumber: $Param{Tn}\n";
         print "From: $GetParam{From}\n";
         print "ReplyTo: $GetParam{ReplyTo}\n" if ($GetParam{ReplyTo});
         print "To: $GetParam{To}\n";
@@ -95,7 +97,7 @@ sub Run {
     $Self->{TicketObject}->WriteArticlePlain(
         ArticleID => $ArticleID,
         Email => $Self->{ParseObject}->GetPlainEmail(),
-        UserID => $InmailUserID,
+        UserID => $Param{InmailUserID},
     );
     # --    
     # write attachments to the storage
@@ -106,7 +108,7 @@ sub Run {
             Filename => $Attachment->{Filename},
             ContentType => $Attachment->{ContentType},
             ArticleID => $ArticleID,
-            UserID => $InmailUserID,
+            UserID => $Param{InmailUserID},
         );
     }
     # --
@@ -122,7 +124,7 @@ sub Run {
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},
                 Counter => $CounterTmp,
-                UserID => $InmailUserID,
+                UserID => $Param{InmailUserID},
             );
             if ($Self->{Debug} > 0) {
                 print "ArticleKey$CounterTmp: ".$GetParam{"$Values[0]$CounterTmp"}."\n";
@@ -134,11 +136,11 @@ sub Run {
     # --
     # set state 
     # --
-    if ($State && ($OldState ne $State)) {
+    if ($State) {
 	    $Self->{TicketObject}->SetState(
     	    State => $State,
-        	TicketID => $TicketID,
-	        UserID => $InmailUserID,
+        	TicketID => $Param{TicketID},
+	        UserID => $Param{InmailUserID},
     	);
         if ($Self->{Debug} > 0) {
             print "State: $State\n";
@@ -147,34 +149,33 @@ sub Run {
     # --
     # set lock
     # --
-    if ($Lock && !$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID) && $OldState =~ /^close/i) {
-       $Self->{TicketObject}->SetLock( 
-           TicketID => $TicketID,
+    if ($Lock && $Param{StateType} =~ /^close/i) {
+        $Self->{TicketObject}->SetLock( 
+           TicketID => $Param{TicketID},
            Lock => 'lock',
-           UserID => => $InmailUserID,
-       );
+           UserID => => $Param{InmailUserID},
+        );
         if ($Self->{Debug} > 0) {
             print "Lock: lock\n";
         }
     }
     # --
-    # set unanswered
+    # set ticket to unanswered
     # --
     $Self->{TicketObject}->SetAnswered(
-        TicketID => $TicketID,
-        UserID => $InmailUserID,
+        TicketID => $Param{TicketID},
+        UserID => $Param{InmailUserID},
         Answered => 0,
     );
 
     # write log
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message => "FollowUp Article to Ticket [$Tn] created (TicketID=$TicketID, " .
-			"ArticleID=$ArticleID). $Comment"
+        Message => "FollowUp Article to Ticket [$Param{Tn}] created ".
+          "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment"
     );
 
     return 1;
 }
 # --
-
 1;
