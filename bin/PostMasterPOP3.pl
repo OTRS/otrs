@@ -3,7 +3,7 @@
 # PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.8 2003-04-14 19:55:36 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.9 2003-04-30 15:46:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,10 +27,8 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-
-my $Debug = 0;
 
 use strict;
 use Net::POP3;
@@ -49,7 +47,7 @@ getopt('upshd', \%Opts);
 if ($Opts{'h'}) {
     print "PostMasterPOP3.pl <Revision $VERSION> - POP3 to OTRS\n";
     print "Copyright (c) 2001-2003 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: PostMasterPOP3.pl -s <POP3-SERVER> -u <USER> -p <PASSWORD> [-d 1]\n";
+    print "usage: PostMasterPOP3.pl -s <POP3-SERVER> -u <USER> -p <PASSWORD> [-d 1-2]\n";
     exit 1;
 }
 if (!$Opts{'t'}) {
@@ -58,7 +56,9 @@ if (!$Opts{'t'}) {
 if (!$Opts{'d'}) {
     $Opts{'d'} = 0;
 }
-
+if (!$Opts{'popd'}) {
+    $Opts{'popd'} = 0;
+}
 # --
 # create common objects 
 # --
@@ -73,7 +73,7 @@ $CommonObject{POP3Account} = Kernel::System::POP3Account->new(%CommonObject);
 # MaxEmailSize 
 my $MaxEmailSize = $CommonObject{ConfigObject}->Get('PostMasterPOP3MaxEmailSize') || 1024 * 6;
 # debug info
-if ($Debug) {
+if ($Opts{'d'} > 1) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
         Message => 'Global OTRS email handle (PostMasterPOP3.pl) started...',
@@ -107,7 +107,7 @@ else {
     }
 }
 # debug info
-if ($Debug) {
+if ($Opts{'d'} > 1) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
         Message => 'Global OTRS email handle (PostMasterPOP3.pl) stoped.',
@@ -125,7 +125,7 @@ sub FetchMail {
     my $QueueID = $Param{QueueID} || 0;
     my $Trusted = $Param{Trusted} || 0;
     # connect to host
-    my $PopObject = Net::POP3->new($Host, Timeout => $Opts{'t'}, Debug => $Opts{'d'});
+    my $PopObject = Net::POP3->new($Host, Timeout => $Opts{'t'}, Debug => $Opts{'popd'});
     if (!$PopObject) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
@@ -176,10 +176,12 @@ sub FetchMail {
          print "No messages ($User\@$Host)\n";
     }
     # log status
-    $CommonObject{LogObject}->Log(
-        Priority => 'notice',
-        Message => "Fetched $FetchCounter email(s) from $User\@$Host.",
-    );
+    if ($Opts{'d'} > 0 || $FetchCounter) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Fetched $FetchCounter email(s) from $User\@$Host.",
+        );
+    }
     $PopObject->quit();
     print "Connection to $Host closed.\n\n";
 }
