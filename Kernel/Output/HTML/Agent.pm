@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.11 2002-02-21 22:11:04 martin Exp $
+# $Id: Agent.pm,v 1.12 2002-03-10 18:51:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -97,7 +97,7 @@ sub TicketView {
 
     # do some html quoting
     foreach ('From', 'To', 'Cc', 'Subject', 'Priority', 'State') {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50, MIME => 1) || '';
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150, MIME => 1) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
 
@@ -136,7 +136,7 @@ sub TicketZoom {
     my %Param = @_;
 
     # do some html quoting
-    foreach ('From', 'To', 'Cc', 'Subject', 'Priority', 'State') {
+    foreach ('Priority', 'State') {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50, MIME => 1) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
@@ -234,7 +234,7 @@ sub TicketZoom {
 
     # do some strips && quoting
     foreach ('To', 'Cc', 'From', 'Subject') {
-        $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 70, MIME => 1);
+        $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300, MIME => 1);
     }
     # html quoting
     $Param{"Article::Text"} = $Self->Ascii2Html(
