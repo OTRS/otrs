@@ -169,5 +169,23 @@ May there is an error message, then you have to fix it. If not and you see this 
 </para>
 </sect1>
 
+<sect1>
+<title>Problems - misc</title>
+<sect2>
+<title>Lost root password of OpenTRS</title>
+<para>
+I lost the root password of OpenTRS ("Login failed! Your username or password was entered incorrectly."). 
+</para>
+<para>
+Reset of the OpenTRS root password:
+<programlisting>
+shell:~ # mysql -u root -p otrs
+mysql> UPDATE system_user SET pw='roK20XGbWEsSM' where login='root@localhost';
+mysql>
+</programlisting>
+And the password of user 'root@localhost' will be 'root'. The password is crypted like 'man 3 crypt' with crypt().
+</para>
+</sect2>
+</sect1>
 
 </chapter>
