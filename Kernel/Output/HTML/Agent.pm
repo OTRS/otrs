@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.117 2003-06-06 14:36:58 martin Exp $
+# $Id: Agent.pm,v 1.118 2003-06-17 12:52:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.117 $';
+$VERSION = '$Revision: 1.118 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -637,8 +637,8 @@ sub AgentZoom {
         # --
         # do some strips && quoting
         # --
-        foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
-            FreeValue3 ArticleType SenderType ArticleID)) {
+        $Article{CreateTime} = $Self->{LanguageObject}->FormatTimeString($Article{CreateTime});
+        foreach (keys %Article) {
             $Article{$_} = $Self->{LanguageObject}->CharsetConvert(
                 Text => $Article{$_}, 
                 From => $Article{ContentCharset},

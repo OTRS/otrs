@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.5 2003-05-21 13:44:19 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.6 2003-06-17 12:52:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,6 +34,10 @@
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
       <td> $Data{"Article::Subject"}</td>
+    </tr>
+    <tr>
+      <td valign="top"><b>$Text{"Created"}:</b></td>
+      <td> $Data{"Article::CreateTime"}</td>
     </tr>
 # --
 # show the Article::FreeKey1-3 and Article::FreeValue1-3
