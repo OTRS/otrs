@@ -3,7 +3,7 @@
 # the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GroupCheck.pm,v 1.3 2004-04-05 17:10:54 martin Exp $
+# $Id: GroupCheck.pm,v 1.4 2004-04-16 08:08:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::Permission::GroupCheck;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,6 +54,7 @@ sub Run {
         UserID => $Param{UserID},
         Type => $Param{Type},
         Result => 'ID',
+        Cached => 1,
     );
     foreach (@GroupIDs) {
         if ($_ eq $GID) {

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.19 2004-02-13 00:50:37 martin Exp $
+# $Id: Group.pm,v 1.20 2004-04-16 08:08:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -383,6 +383,23 @@ sub GroupMemberList {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
+    # create cache key
+    my $CacheKey = 'GroupMemberList::'.$Param{Type}.'::'.$Param{Result}.'::';
+    if ($Param{UserID}) {
+      $CacheKey .= $Param{UserID};
+    }
+    else {
+      $CacheKey .= $Param{GroupID};
+    }
+    # check cache
+    if ($Param{Cached} && $Self->{$CacheKey}) {
+        if (ref($Self->{$CacheKey}) eq 'ARRAY') {
+            return @{$Self->{$CacheKey}};
+        }
+        elsif (ref($Self->{$CacheKey}) eq 'HASH') {
+            return %{$Self->{$CacheKey}};
+        }
+    }
     # sql
     my %Data = (); 
     my @Name = ();
@@ -425,13 +442,20 @@ sub GroupMemberList {
             push (@ID, $Key);
         }
     }
+    # return result
     if ($Param{Result} && $Param{Result} eq 'ID') {
+        # cache result
+        $Self->{$CacheKey} = \@ID;
         return @ID;
     }
     if ($Param{Result} && $Param{Result} eq 'Name') {
+        # cache result
+        $Self->{$CacheKey} = \@Name;
         return @Name;
     }
     else {
+        # cache result
+        $Self->{$CacheKey} = \%Data;
         return %Data;
     }
 }
@@ -450,6 +474,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2004-02-13 00:50:37 $
+$Revision: 1.20 $ $Date: 2004-04-16 08:08:21 $
 
 =cut

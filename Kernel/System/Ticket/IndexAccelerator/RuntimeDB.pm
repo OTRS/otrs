@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.20 2004-04-15 08:34:29 martin Exp $
+# $Id: RuntimeDB.pm,v 1.21 2004-04-16 08:08:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -57,6 +57,7 @@ sub TicketAcceleratorIndex {
         UserID => $Param{UserID},
         Type => $Type,
         Result => 'ID',
+        Cached => 1,
     );
     my @QueueIDs = @{$Param{ShownQueueIDs}};
     my %Queues = ();
@@ -256,6 +257,7 @@ sub GetOverTimeTickets {
             UserID => $Param{UserID},
             Type => 'rw',
             Result => 'ID',
+            Cached => 1,
         );
         $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND ";
         # check if user is in min. one group! if not, return here

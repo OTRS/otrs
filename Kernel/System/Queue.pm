@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.42 2004-02-13 00:50:37 martin Exp $
+# $Id: Queue.pm,v 1.43 2004-04-16 08:09:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -306,6 +306,7 @@ sub GetAllQueues {
             UserID => $Param{UserID},
             Type => $Type,
             Result => 'ID',
+            Cached => 1,
         );
         if (@GroupIDs) {
           my $SQL = "SELECT id, name FROM queue".
@@ -324,6 +325,7 @@ sub GetAllQueues {
             UserID => $Param{CustomerUserID},
             Type => $Type,
             Result => 'ID',
+            Cached => 1,
         );
         if (@GroupIDs) {
           my $SQL = "SELECT id, name FROM queue".
@@ -934,6 +936,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2004-02-13 00:50:37 $
+$Revision: 1.43 $ $Date: 2004-04-16 08:09:17 $
 
 =cut
