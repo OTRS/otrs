@@ -2,7 +2,7 @@
 # Kernel/System/Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.14 2002-08-05 17:25:41 martin Exp $
+# $Id: Article.pm,v 1.15 2002-08-06 19:10:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use MIME::Words qw(:all);
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -227,7 +227,15 @@ sub WritePart {
 sub GetAtmIndex  {
     my $Self = shift;
     my %Param = @_;
-    my $ArticleID = $Param{ArticleID} || return;
+    my $ArticleID = $Param{ArticleID} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ArticleID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+      return;
+    }
+
     my $ContentPath = $Param{ContentPath} || '';
     $ContentPath = $Self->GetContentPath(ArticleID => $ArticleID) if (!$ContentPath);
     my @Index;
@@ -242,7 +250,15 @@ sub GetAtmIndex  {
 sub GetPlain {
     my $Self = shift;
     my %Param = @_;
-    my $ArticleID = $Param{ArticleID} || return;
+    my $ArticleID = $Param{ArticleID} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ArticleID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+      return;
+    }
+
     my $ContentPath = $Self->GetContentPath(ArticleID => $ArticleID);
     # --
     # open plain article
@@ -271,11 +287,20 @@ sub GetPlain {
 sub GetAttachment {
     my $Self = shift;
     my %Param = @_;
-    my $ArticleID = $Param{ArticleID} || return;
+    my $ArticleID = $Param{ArticleID} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ArticleID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+      return;
+    }
+
     my $File = $Param{File};
     my $ContentPath = $Self->GetContentPath(ArticleID => $ArticleID);
-    my %Data; my $Counter = 0;
-    
+    my %Data; 
+    my $Counter = 0;
+ 
     open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$ArticleID/$File") or
        print STDERR "$!: $Self->{ArticleDataDir}/$ContentPath/$ArticleID/$File\n";
     while (<DATA>) {
@@ -291,12 +316,19 @@ sub GetAttachment {
 sub GetContentPath {
     my $Self = shift;
     my %Param = @_;
-    my $ArticleID = $Param{ArticleID} || return;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ArticleID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+      return;
+    }
+
     my $Path;
-    my $SQL = "SELECT content_path FROM article WHERE id = $ArticleID";
+    my $SQL = "SELECT content_path FROM article WHERE id = $Param{ArticleID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Path = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Path = $Row[0];
     }
     return $Path;
 }
@@ -331,20 +363,32 @@ sub GetIdOfArticle {
 sub SenderTypeLookup {
     my $Self = shift;
     my %Param = @_;
-    my $SenderType = $Param{SenderType};
-
+    my $SenderType = $Param{SenderType} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{SenderType}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need SenderType!");
+      return;
+    }
+    # --
     # check if we ask the same request?
+    # --
     if (exists $Self->{"Kernel::System::Article::SenderTypeLookup::$SenderType"}) {
         return $Self->{"Kernel::System::Article::SenderTypeLookup::$SenderType"};
     }
+    # --
     # get data
+    # --
     my $SQL = "SELECT id FROM article_sender_type WHERE name = '$SenderType'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
-        $Self->{"Kernel::System::Article::SenderTypeLookup::$SenderType"} = $RowTmp[0];
+        $Self->{"Kernel::System::Article::SenderTypeLookup::$SenderType"} = $Row[0];
     }
+    # --
     # check if data exists
+    # --
     if (!exists $Self->{"Kernel::System::Article::SenderTypeLookup::$SenderType"}) {
         print STDERR "Article->SenderTypeLookup(!\$SenderTypeID / $SenderType) \n";
         return;
@@ -356,20 +400,32 @@ sub SenderTypeLookup {
 sub ArticleTypeLookup {
     my $Self = shift;
     my %Param = @_;
-    my $ArticleType = $Param{ArticleType} || die 'Got no ArticleType!';
-
+    my $ArticleType = $Param{ArticleType} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ArticleType}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleType!");
+      return;
+    }
+    # --
     # check if we ask the same request?
+    # --
     if (exists $Self->{"Kernel::System::Article::ArticleTypeLookup::$ArticleType"}) {
         return $Self->{"Kernel::System::Article::ArticleTypeLookup::$ArticleType"};
     }
+    # --
     # get data
+    # --
     my $SQL = "SELECT id FROM article_type WHERE name = '$ArticleType'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
-        $Self->{"Kernel::System::Article::ArticleTypeLookup::$ArticleType"} = $RowTmp[0];
+        $Self->{"Kernel::System::Article::ArticleTypeLookup::$ArticleType"} = $Row[0];
     }
+    # --
     # check if data exists
+    # --
     if (!exists $Self->{"Kernel::System::Article::ArticleTypeLookup::$ArticleType"}) {
         print STDERR "Article->ArticleTypeLookup(!\$ArticleTypeID / $ArticleType)\n";
         return;
@@ -400,34 +456,55 @@ sub SetFreeText {
 sub GetArticle {
     my $Self = shift;
     my %Param = @_;
-    my $ArticleID = $Param{ArticleID};
     my %Data;
-    my $SenderType = 'customer';
-    my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
-    " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time " .
-    " a_content_type " .
-    " FROM " .
-    " article at, article_sender_type st" .
-    " WHERE " .
-    " at.id = $ArticleID " .
-    " AND " .
-    " at.article_sender_type_id = st.id ";
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ArticleID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+      return;
+    }
+    # --
+    # sql query
+    # --
+    my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_reply_to, ".
+        " sa. a_message_id, sa.a_body, " .
+        " st.create_time_unix, sp.name, sd.name, sq.name, sq.id, sa.create_time, sa.a_content_type " .
+        " FROM " .
+        " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq" .
+        " where " . 
+        " sa.id = $Param{ArticleID}" .
+        " and " .
+        " sa.ticket_id = st.id " .
+        " and " .
+        " sq.id = st.queue_id " .
+        " and " .
+        " sp.id = st.ticket_priority_id " .
+        " and " .
+        " st.ticket_state_id = sd.id " .
+        " ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Data{From} = $RowTmp[0];
-        $Data{ReplyTo} = $RowTmp[1],
-        $Data{To} = $RowTmp[2];
-        $Data{Cc} = $RowTmp[3];
-        $Data{Subject} = $RowTmp[4];
-        $Data{InReplyTo} = $RowTmp[5];
-        $Data{Body} = $RowTmp[6];
-        $Data{TicketID} = $RowTmp[7];
-        $Data{Date} = $RowTmp[8];
-        $Data{ContentType} = $RowTmp[9];
-        if ($RowTmp[9] && $Data{ContentType} =~ /charset=(.*)(| |\n)/i) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Data{TicketID} = $Row[0];
+        $Data{From} = $Row[1];
+        $Data{To} = $Row[2];
+        $Data{Cc} = $Row[3];
+        $Data{Subject} = $Row[4];
+        $Data{ReplyTo} = $Row[5],
+        $Data{InReplyTo} = $Row[6];
+        $Data{Body} = $Row[7];
+        $Data{Age} = time() - $Row[8];
+        $Data{Priority} = $Row[9];
+        $Data{State} = $Row[10];
+        $Data{Queue} = $Row[11];
+        $Data{QueueID} = $Row[12];
+        $Data{Date} = $Row[13];
+        $Data{Created} = $Row[13];
+        $Data{ContentType} = $Row[14];
+        if ($Row[14] && $Data{ContentType} =~ /charset=(.*)(| |\n)/i) {
             $Data{ContentCharset} = $1;
         }
-        if ($RowTmp[9] && $Data{ContentType} =~ /^(.+?\/.+?)( |;)/i) {
+        if ($Row[14] && $Data{ContentType} =~ /^(.+?\/.+?)( |;)/i) {
             $Data{MimeType} = $1;
         } 
     }
