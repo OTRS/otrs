@@ -2,7 +2,7 @@
 # Warning.dtl - provides HTML warning screen
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Warning.dtl,v 1.4 2003-02-08 15:40:42 martin Exp $
+# $Id: Warning.dtl,v 1.4.2.1 2003-05-19 17:22:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@
     <table>
         <tr>
             <td class="table1" valign="top"><b>$Text{"Comment"}:</b></td>
-            <td class="table1" valign="top">$Data{"Comment"}</td>
+            <td class="table1" valign="top">$Text{"$Data{"Comment"}"}</td>
         </tr>
     </table>
   </td>
