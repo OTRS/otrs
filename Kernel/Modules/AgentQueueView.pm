@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.11 2002-05-30 13:39:02 martin Exp $
+# $Id: AgentQueueView.pm,v 1.12 2002-06-13 22:07:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -128,7 +128,7 @@ sub Run {
     if ($QueueID == 0) {
         @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
             UserID => $Self->{UserID}
-        );
+        ) || 0;
     }
     else {
         @ViewableQueueIDs = ($QueueID);
@@ -304,8 +304,7 @@ sub BuildQueueView {
     my $Self = shift;
     my %Param = @_;
     my $QueueID = $Param{QueueID};
-    my $QueueIDs = $Param{QueueIDs};
-    my @QueueISsTmp = @$QueueIDs;
+    my @QueueIDs = @{$Param{QueueIDs}};
     my $Output = '';
     my @Queues;
     my $TicketsShown = 0;
@@ -314,24 +313,30 @@ sub BuildQueueView {
     my @ViewableLocks = @{$Self->{ViewableLocks}};
     my @ViewableStats = @{$Self->{ViewableStats}};
 
+    # --
     # prepar "All tickets: ??" in Queue
-    my $SQL = "SELECT count(*) as count " .
-    " FROM " .
-    " ticket st, ticket_state tsd " .
-    " WHERE " .
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-    " and " .
-    " st.queue_id in ( ${\(join ', ', @QueueISsTmp)} ) " .
-    " AND " .
-    " tsd.id = st.ticket_state_id ";
+    # --
+    if (@QueueIDs) {
+        my $SQL = "SELECT count(*) as count " .
+          " FROM " .
+          " ticket st, ticket_state tsd " .
+          " WHERE " .
+          " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
+          " and " .
+          " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) " .
+          " AND " .
+          " tsd.id = st.ticket_state_id ";
 
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $AllTickets = $RowTmp[0];
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+            $AllTickets = $RowTmp[0];
+        }
     }
-
+ 
+    # --
     # CustomQueue add on
-    $SQL = "SELECT count(*) FROM " .
+    # --
+    my $SQL = "SELECT count(*) FROM " .
     " ticket as st, queue as sq, group_user as sug, personal_queues as suq, " .
     " ticket_state tsd, ticket_lock_type slt " .
     " WHERE " .
@@ -370,7 +375,9 @@ sub BuildQueueView {
         }
     }
 
+    # --
     # the "oldest" valiables
+    # --
     my $QueueIDOfMaxAge = '';
     my $MaxAge = 0;
 
@@ -417,12 +424,16 @@ sub BuildQueueView {
         }
     }
 
+    # --
     # check shown tickets
+    # --
     if ($Self->{Limit} < $TicketsShown) {
         $TicketsShown = $Self->{Limit};
     }
 
+    # --
     # build output ...
+    # --
     $Output .= $Self->{LayoutObject}->QueueView(
         Queues => \@Queues,
         TicketsAvail => $TicketsAvail,
