@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.24 2003-03-13 22:28:54 martin Exp $
+# $Id: Article.pm,v 1.25 2003-04-11 17:46:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub CreateArticle {
         $Param{Body} = 'see attachment'; 
     }
     else {
-        # fix some bad stuff from browsers!
+        # fix some bad stuff from some browsers (Opera)!
         $Param{Body} =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
     }
     # --
@@ -148,12 +148,30 @@ sub CreateArticle {
     # --
     # send auto response
     # --
-    my $TicketNumber = $Self->GetTNOfId(ID => $Param{TicketID});
-    my $QueueID = $Self->GetQueueIDOfTicketID(TicketID => $Param{TicketID});
+    my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
+    my %State = $Self->{StateObject}->StateGet(ID => $Ticket{StateID});
+    # --
+    # send if notification should be sent (not for closed tickets)!?
+    # --
+    if ($Param{AutoResponseType} && $Param{AutoResponseType} eq 'auto reply' && ($State{TypeName} eq 'closed' || $State{TypeName} eq 'removed')) {
+        # --
+        # add history row
+        # --
+        $Self->AddHistoryRow(
+            TicketID => $Param{TicketID},
+            HistoryType => 'Misc',
+            Name => "Sent no auto response or agent notification because ticket is state-type '$State{TypeName}'!",
+            CreateUserID => $Param{UserID},
+        );
+        # --
+        # return ArticleID
+        # --
+        return $ArticleID;
+    }
     if ($Param{AutoResponseType} && $Param{OrigHeader}) {
         # get auto default responses
         my %Data = $Self->{AutoResponse}->AutoResponseGetByTypeQueueID(
-            QueueID => $QueueID, 
+            QueueID => $Ticket{QueueID}, 
             Type => $Param{AutoResponseType},
         );
         my %OrigHeader = %{$Param{OrigHeader}};
@@ -172,7 +190,7 @@ sub CreateArticle {
                 # do log
                 $Self->{LogObject}->Log(
                     Message => "Sent no '$Param{AutoResponseType}' for Ticket [".
-                      "$TicketNumber] ($OrigHeader{From}) "
+                      "$Ticket{TicketNumber}] ($OrigHeader{From}) "
                 );
             }
             else {
@@ -199,7 +217,7 @@ sub CreateArticle {
                     $Self->SendAutoResponse(
                         %Data,
                         CustomerMessageParams => \%OrigHeader,
-                        TicketNumber => $TicketNumber, 
+                        TicketNumber => $Ticket{TicketNumber}, 
                         TicketID => $Param{TicketID},
                         UserID => $Param{UserID}, 
                         HistoryType => $SendInfo{AutoResponseHistoryType},
@@ -222,7 +240,7 @@ sub CreateArticle {
     # --
     my $To = '';
     if ($Param{HistoryType} =~ /^NewTicket$/i ||  $Param{HistoryType} =~ /^PhoneCallCustomer$/i) {
-		foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $QueueID)) {
+		foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
 			my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
 			if ($UserData{UserEmail} && $UserData{UserSendNewTicketNotification}) {
 				$To .= "$UserData{UserEmail}, ";
@@ -246,7 +264,7 @@ sub CreateArticle {
         Type => $Param{HistoryType},
         To => $To,
         CustomerMessageParams => \%Param,
-        TicketNumber => $TicketNumber,
+        TicketNumber => $Ticket{TicketNumber},
         TicketID => $Param{TicketID},
         Queue => $Param{Queue},
         UserID => $Param{UserID},
