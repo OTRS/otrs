@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.70.2.5 2004-10-06 08:38:32 martin Exp $
+# $Id: Article.pm,v 1.70.2.6 2004-10-06 18:47:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70.2.5 $';
+$VERSION = '$Revision: 1.70.2.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1363,7 +1363,7 @@ sub ArticleSend {
         my $head = $Entity->head;
         $head->delete('MIME-Version');
         $head->delete('Content-Type');
-        $head->delete('Content‐Disposition');
+        $head->delete('Content-Disposition');
         $head->delete('Content-Transfer-Encoding');
         my $Header = $head->as_string();
         # get string to sign
@@ -1462,7 +1462,7 @@ sub ArticleSend {
         my $head = $Entity->head;
         $head->delete('MIME-Version');
         $head->delete('Content-Type');
-        $head->delete('Content‐Disposition');
+        $head->delete('Content-Disposition');
         $head->delete('Content-Transfer-Encoding');
         my $Header = $head->as_string();
         # crypt it
