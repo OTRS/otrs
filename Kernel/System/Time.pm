@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.pm,v 1.5 2004-08-19 11:22:55 martin Exp $
+# $Id: Time.pm,v 1.6 2004-09-28 17:47:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -245,6 +245,28 @@ sub Date2SystemTime {
         return;
     }
 }
+
+
+=item MailTimeStamp()
+
+returns the current utc time stamp in "Wed, 22 Sep 2004 16:30:57 +0000"
+format (used for email Date time stamps).
+
+    my $MailTimeStamp = $TimeObject->MailTimeStamp();
+
+=cut
+
+sub MailTimeStamp {
+    my $Self = shift;
+    my %Param = @_;
+    my @DayMap = qw/Sun Mon Tue Wed Thu Fri Sat/;
+    my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
+    my @GMTime = gmtime();
+    $GMTime[5] = $GMTime[5] + 1900;
+    my $TimeString = "$DayMap[$GMTime[6]], $GMTime[3] $MonthMap[$GMTime[4]] $GMTime[5] $GMTime[2]:$GMTime[1]:$GMTime[0] +0000";
+    return $TimeString;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -259,6 +281,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2004-08-19 11:22:55 $
+$Revision: 1.6 $ $Date: 2004-09-28 17:47:15 $
 
 =cut
