@@ -2,7 +2,7 @@
 # Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.7 2002-05-26 22:43:08 martin Exp $
+# $Id: Article.pm,v 1.8 2002-06-13 13:16:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -187,14 +187,23 @@ sub GetPlain {
     my %Param = @_;
     my $ArticleID = $Param{ArticleID} || return;
     my $ContentPath = $Self->GetContentPath(ArticleID => $ArticleID);
-    my $Data = '';
-    open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt") || 
-       print STDERR "$!: $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt\n";
-    while (<DATA>) {
-        $Data .= $_;
+    # --
+    # open plain article
+    # --
+    if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt")) {
+        # can't open article
+        print STDERR "$!: $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt\n";
+        return "$!: $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt\n";
     }
-    close (DATA);
-    return $Data;
+    else {
+        my $Data = '';
+        # read whole article
+        while (<DATA>) {
+            $Data .= $_;
+        }
+        close (DATA);
+        return $Data;
+    }
 }
 # --
 sub GetAttachment {
