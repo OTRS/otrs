@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.91 2004-07-22 05:48:00 martin Exp $
+# $Id: AgentPhone.pm,v 1.92 2004-08-19 15:38:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.91 $';
+$VERSION = '$Revision: 1.92 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -283,6 +283,13 @@ sub Run {
         my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
         );
+        # check if date is valid
+        my %StateData = $Self->{StateObject}->StateGet(ID => $GetParam{NextStateID});
+        if ($StateData{TypeName} =~ /^pending/i) {
+            if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
+                $Error{"Date invalid"} = 'invalid';
+            }
+        }
         if (%Error) {
             # get ticket info if ticket id is given
             my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
@@ -480,12 +487,18 @@ sub Run {
             AttachmentDelete9 AttachmentDelete10 )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
+        # check pending date
+        if ($StateData{TypeName} && $StateData{TypeName} =~ /^pending/i) {
+            if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
+                $Error{"Date invalid"} = 'invalid';
+            }
+        }
         # attachment delete
         foreach (1..10) {
             if ($GetParam{"AttachmentDelete$_"}) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
-                     FormID => $Self->{FormID},
+                    FormID => $Self->{FormID},
                     FileID => $_,
                 );
             }

@@ -1,8 +1,8 @@
 # --
 # AgentPending.dtl - provides HTML form for pending mask
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.dtl,v 1.13 2004-01-23 02:22:28 martin Exp $
+# $Id: AgentPending.dtl,v 1.14 2004-08-19 15:38:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ function submit_compose()
         alert('$Text{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
-    } 
+    }
     else if (document.compose.Body.value == "") {
         alert('$Text{"A message should have a body!"}');
         document.compose.Body.focus();
@@ -27,11 +27,11 @@ function submit_compose()
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
-    } 
+    }
     else {
         return true;
     }
-} 
+}
 //-->
 </script>
 
@@ -51,7 +51,7 @@ function SpellCheckSubmit()
   <td align="left" class="table2">
     <b>$Env{"Box0"}$Text{"Set Pending"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
-  <td align="right" class="table2"> 
+  <td align="right" class="table2">
      <b>-</b>
   </td>
 </tr>
@@ -62,13 +62,11 @@ function SpellCheckSubmit()
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
 <input type="hidden" name="Action" value="AgentPending">
 <input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0" width="100%">
   <tr>
     <td width="20%">$Text{"Subject"}:</td>
-    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultPendingNoteSubject"}"}" size="70"></td>
+    <td width="80%"><input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
   </tr>
   <tr>
     <td>$Text{"Options"}:</td>
@@ -77,9 +75,9 @@ function SpellCheckSubmit()
     </td>
   </tr>
   <tr>
-    <td>$Text{"Note Text"}:</td>
-    <td>
-<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"DefaultPendingNoteText"}"}</textarea>
+    <td valign="top" >$Text{"Note Text"}:</td>
+    <td valign="top" >
+<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea> <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
     </td>
   </tr>
   <tr>
@@ -92,7 +90,7 @@ function SpellCheckSubmit()
   </tr>
   <tr>
     <td>$Text{"Pending date"}:</td>
-    <td>$Data{"DateString"}</td>
+    <td>$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
   </tr>
 #  <tr>
 #    <td>$Text{"Next Queue"}:</td><td>$Data{"MoveQueuesStrg"}</td>

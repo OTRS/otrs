@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.69 2004-07-29 06:14:48 martin Exp $
+# $Id: AgentCompose.pm,v 1.70 2004-08-19 15:38:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::WebUploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -377,6 +377,12 @@ sub SendEmail {
     );
     my $NextState = $StateData{Name};
 
+    # check pending date
+    if ($StateData{TypeName} && $StateData{TypeName} =~ /^pending/i) {
+        if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
+            $Error{"Date invalid"} = 'invalid';
+        }
+    }
     # attachment delete
     foreach (1..10) {
         if ($GetParam{"AttachmentDelete$_"}) {

@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.35 2004-07-22 05:48:09 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.36 2004-08-19 15:38:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -107,7 +107,7 @@ function clear_field()
 <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br><input type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">"; }>
     $Data{"TakeThisCustomer"}
     <input type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
-    <input type="submit" name="" value="$Text{"Clear From"}" onclick="javascript:clear_field();">
+    <input type="submit" name="" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;">
     </td>
     <td width="20%" rowspan="10" valign="top">
 # --
@@ -175,7 +175,7 @@ function clear_field()
   </tr>
   <tr>
     <td>$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
-    <td>$Data{"PendingDateString"}</td>
+    <td>$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
   </tr>
   <tr>
     <td>$Text{"Priority"}:</td>
