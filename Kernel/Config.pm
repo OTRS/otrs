@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.32 2002-05-26 10:15:43 martin Exp $
+# $Id: Config.pm,v 1.33 2002-05-27 21:01:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -176,13 +176,10 @@ sub Load {
     # (Max viewable tickets a page.)
     $Self->{MaxLimit} = 150;
     
-    # Refresh (in minutes)
-    # (Default reload time for teh QueueView.)
-    $Self->{Refresh} = 2;
-
     # RefreshOptions
     # (Refresh option list for preferences)
     $Self->{RefreshOptions} = {
+        '' => 'off',
         2 => ' 2 minutes',
         5 => ' 5 minutes',
         7 => ' 7 minutes',
