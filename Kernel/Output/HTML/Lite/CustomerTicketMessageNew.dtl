@@ -2,7 +2,7 @@
 # CustomerMessageNew.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessageNew.dtl,v 1.15 2005-03-11 06:00:09 martin Exp $
+# $Id: CustomerTicketMessageNew.dtl,v 1.1 2005-03-27 11:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
