@@ -86,6 +86,9 @@ The OTRS log method.
 
     # param for LogModule Kernel::System::Log::File (required!)
 #    $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
+    # param if the date (yyyy-mm) should be added as suffix to 
+    # logfile [0|1]
+#    $Self->{'LogModule::LogFile::Date'} = 0;
 [...]
 </programlisting>
 </example>
