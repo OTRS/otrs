@@ -2,13 +2,21 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.86 2003-06-26 19:20:02 martin Exp $
+# $Id: CHANGES,v 1.87 2003-07-13 11:54:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD
+ - (2003/07/13) add "single sign on" (pre-authentication) option for 
+    http-basic-auth (Kernel::System::Auth::HTTPBasicAuth and 
+    Kernel::System::CustomerAuth::HTTPBasicAuth). Thanks to Phil Davis!
+ - (2003/07/12) fixed bug 155 - in multiple page ticket view, start value 
+    might be too high 
+ - (2003/07/12) improved ticket search, added also search profile option
+ - (2003/07/05) improved module permission options, now it's possible
+    to add more the one group
  - (2003/06/26) improved ticket search and added new search preferences
     table (db update with scripts/DBUpdate-to-1.2.(mysql|postgres).sql) 
     required!
@@ -25,7 +33,17 @@ CVS HEAD
     [...]
  - (2003/05/13) removed UNIQUE (not needed!) in pop3_account table
 
-1.1.3 (2003-??-??)
+1.1.3 (2003-07-12)
+ - (2003/07/12) improved performance of Kernel/System/Ticket/ArticleStorageDB.pm
+    with large objects
+ - (2003/07/10) fixed bug 171 - No lock check if two Agents try to lock 
+    ticket at same time (or later)
+ - (2003/07/06) fixed bug 168 - The install script for POSTGRES contains wrong 
+    datatypes (DATETIME instead of TIMESTAMP)
+ - (2003/07/06) fixed bug 165 - Pop3 change - does not show the queue
+ - (2003/07/03) fixed bug 178 - Authenticated customer LDAP requests don't work
+ - (2003/07/02) updated Finnish translation, thanks to Antti Kämäräinen
+ - (2003/07/01) added SMTP module port patch of Jeroen Boomgaardt
  - (2003/06/22) fixed bug 144 - PostMasterPOP3.pl is exiting 
     "Attached .eml file causes bug in EmailParser.pm"
     http://bugs.otrs.org/show_bug.cgi?id=144
