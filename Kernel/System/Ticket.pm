@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.62 2003-12-15 20:26:50 martin Exp $
+# $Id: Ticket.pm,v 1.63 2004-01-08 11:44:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -174,50 +174,50 @@ sub CreateTicketDB {
     my $Answered = $Param{Answered} || 0;
     my $ValidID = $Param{ValidID} || 1;
     my $Age = time();
-    # --
     # check needed stuff
-    # --
-    foreach (qw(TN QueueID UserID CreateUserID)) {
+    foreach (qw(QueueID UserID CreateUserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
-    # StateID lookup!
-    # --
+    # StateID/State lookup!
     if (!$Param{StateID}) {
         my %State = $Self->{StateObject}->StateGet(Name => $Param{State});
         $Param{StateID} = $State{ID}; 
+    }
+    elsif (!$Param{State}) {
+        my %State = $Self->{StateObject}->StateGet(ID => $Param{StateID}); 
+        $Param{State} = $State{Name}; 
     }
     if (!$Param{StateID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No StateID!!!");
         return;
     }
-    # --
     # LockID lookup!
-    # --
-    if ((!$Param{LockID}) && ($Param{Lock})) {
+    if (!$Param{LockID} && $Param{Lock}) {
         $Param{LockID} = $Self->LockLookup(Type => $Param{Lock});
     }
-    if ((!$Param{LockID}) && (!$Param{Lock})) {
+    if (!$Param{LockID} && !$Param{Lock}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No LockID and no LockType!!!");
         return;
     }
-    # --
-    # PriorityID lookup!
-    # --
-    if ((!$Param{PriorityID}) && ($Param{Priority})) {
+    # PriorityID/Priority lookup!
+    if (!$Param{PriorityID} && $Param{Priority}) {
         $Param{PriorityID} = $Self->PriorityLookup(Type => $Param{Priority});
     }
-    if ((!$Param{PriorityID}) && (!$Param{Priority})) {
+    elsif ($Param{PriorityID} && !$Param{Priority}) {
+        $Param{Priority} = $Self->PriorityLookup(ID => $Param{PriorityID});
+    }
+    if (!$Param{PriorityID} && !$Param{Priority}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No PriorityID and no PriorityType!!!");
         return;
     }
-
-    # --
+    # create ticket number if not given
+    if (!$Param{TN}) {
+        $Param{TN} = $Self->CreateTicketNr();
+    }
     # create db record
-    # --
     my $SQL = "INSERT INTO ticket (tn, create_time_unix, queue_id, ticket_lock_id, ".
     " user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
     " valid_id, create_time, create_by, change_time, change_by) " .
@@ -227,17 +227,28 @@ sub CreateTicketDB {
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        # --
         # get ticket id
-        # --
         my $TicketID = $Self->GetIdOfTN(TN => $Param{TN}, Age => $Age);
-        # --
-        # update ticket viewi index
-        # --
+        # history insert
+        my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
+        $Self->AddHistoryRow(
+            TicketID => $TicketID,
+            HistoryType => 'NewTicket',
+            Name => "Ticket=[$Param{TN}], ID=[$TicketID] created (Q=$Queue;P=$Param{Priority};S=$Param{State}).",
+            CreateUserID => $Param{UserID},
+        );
+        # set customer data if given
+        if ($Param{CustomerNo} || $Param{CustomerUser}) {
+            $Self->SetCustomerData(
+                TicketID => $TicketID,
+                No => $Param{CustomerNo} || '',
+                User => $Param{CustomerUser} || '',
+                UserID => $Param{UserID},
+            );
+        }
+        # update ticket view index
         $Self->TicketAcceleratorAdd(TicketID => $TicketID);
-        # -- 
         # return ticket id
-        # --
         return $TicketID;
     }
     else {
@@ -950,6 +961,160 @@ sub GetCustomerTickets {
         push(@TicketIDs, $Row[0]);
     }
     return @TicketIDs;
+}
+# --
+sub SearchTicket {
+    my $Self = shift;
+    my %Param = @_;
+    my $Result = $Param{Result} || 'HASH';
+    my $OrderBy = $Param{OrderBy} || 'Down';
+    my $SortBy = $Param{SortBy} || 'Age';
+    my $Limit = $Param{Limit} || 10000;
+    my %SortOptions = (
+        Owner => 'st.user_id',
+        CustomerID => 'st.customer_id',
+        State => 'tsd.name', 
+        Ticket => 'st.tn',
+        Queue => 'sq.name', 
+        Age => 'st.create_time_unix',
+    );
+    # check options
+    if (!$SortOptions{$SortBy}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need valid SortBy!");
+        return;
+    }
+    if ($OrderBy ne 'Down' && $OrderBy ne 'Up') {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need valid OrderBy!");
+        return;
+    }
+    # sql
+    my $SQLExt = '';
+    my $SQL = "SELECT DISTINCT st.id, st.tn, $SortOptions{$SortBy} FROM ".
+    " ticket st, queue sq ";
+    # use also article table it required
+    my $UseArticleTable = 0;
+    foreach (qw(From To Cc Subject Body)) {
+        if ($Param{$_} && !$UseArticleTable) {
+            $SQL .= ", article at ";
+            $UseArticleTable = 1;
+        }
+    }
+    $SQL .= " WHERE sq.id = st.queue_id";
+    
+    # if article table used
+    if ($UseArticleTable) {
+        $SQLExt .= " AND st.id = at.ticket_id";
+    }
+    # ticket states
+    if ($Param{States}) {
+        foreach (@{$Param{States}}) {
+            my %State = $Self->{StateObject}->StateGet(Name => $_, Cache => 1);
+            if ($State{ID}) {
+                push (@{$Param{StateIDs}}, $State{ID}); 
+            }
+        }
+    }
+    if ($Param{StateIDs}) {
+        $SQLExt .= " AND st.ticket_state_id IN (${\(join ', ' , @{$Param{StateIDs}})})";
+    }
+    # ticket locks
+    if ($Param{Locks}) {
+        foreach (@{$Param{Locks}}) {
+            if ($Self->LockLookup(Type => $_)) {
+                push (@{$Param{LockIDs}}, $Self->LockLookup(Type => $_)); 
+            }
+        }
+    } 
+    if ($Param{LockIDs}) {
+        $SQLExt .= " AND st.ticket_lock_id IN (${\(join ', ' , @{$Param{LockIDs}})})";
+    }
+    # ticket queues
+    if ($Param{Queues}) {
+        foreach (@{$Param{Queues}}) {
+            if ($Self->{QueueObject}->QueueLookup(Queue => $_)) {
+                push (@{$Param{QueueIDs}}, $Self->{QueueObject}->QueueLookup(Queue => $_));
+            }
+        }
+    }
+    if ($Param{QueueIDs}) {
+        $SQLExt .= " AND st.queue_id IN (${\(join ', ' , @{$Param{QueueIDs}})})";
+    }
+    # user groups
+    if ($Param{UserID}) {
+        # get users groups
+        my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+            UserID => $Param{UserID},
+            Type => 'ro',
+            Result => 'ID',
+        );
+        $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
+    }
+    # ticket number
+    if ($Param{TicketNumber}) {
+        my $TicketNumber = $Param{TicketNumber};
+        $TicketNumber =~ s/\*/%/gi;
+        $SQLExt .= " AND st.tn LIKE '".$Self->{DBObject}->Quote($TicketNumber)."'";
+    }
+    # other ticket stuff 
+    my %FieldSQLMap = (
+        CustomerID => 'st.customer_id',
+        CustomerUserLogin => 'st.customer_user_id',
+    );
+    foreach my $Key (keys %FieldSQLMap) {
+        if ($Param{$Key}) {
+            $Param{$Key} =~ s/\*/%/gi;
+                $SQLExt .= " AND $FieldSQLMap{$Key} LIKE '".$Self->{DBObject}->Quote($Param{$Key})."'";
+        }
+    }
+    # article stuff
+    my %FieldSQLMapFullText = (
+        From => 'at.a_from',
+        To => 'at.a_to',
+        Cc => 'at.a_cc',
+        Subject => 'at.a_subject',
+        Body => 'at.a_body',
+    );
+    foreach my $Key (keys %FieldSQLMapFullText) {
+        if ($Param{$Key}) {
+            $Param{$Key} =~ s/\*/%/gi;
+            $SQLExt .= " AND $FieldSQLMapFullText{$Key} LIKE '\%".$Self->{DBObject}->Quote($Param{$Key})."%'";
+        }
+    }
+    # ticket free text
+    foreach (1..8) {
+        if ($Param{"TicketFreeKey$_"}) {
+            $Param{"TicketFreeKey$_"} =~ s/\*/%/gi;
+            $SQLExt .= " AND st.freekey$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeKey$_"})."'";
+        }
+    }
+    foreach (1..8) {
+        if ($Param{"TicketFreeText$_"}) {
+            $Param{"TicketFreeText$_"} =~ s/\*/%/gi;
+            $SQLExt .= " AND st.freetext$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeText$_"})."'";
+        }
+    }
+    # database query
+    $SQLExt .= " ORDER BY $SortOptions{$SortBy}";
+    if ($OrderBy eq 'Up') {
+        $SQLExt .= ' ASC';
+    }
+    else {
+        $SQLExt .= ' DESC';
+    }
+    my %Tickets = ();
+    my @TicketIDs = ();
+    $Self->{DBObject}->Prepare(SQL => $SQL.$SQLExt, Limit => $Limit);
+print STDERR "SQL: $SQL$SQLExt\n";
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Tickets{$Row[0]} = $Row[1];
+        push (@TicketIDs, $Row[0]);
+    }
+    if ($Result eq 'HASH') {
+        return %Tickets;
+    }
+    else {
+        return @TicketIDs;
+    }
 }
 # --
 1;
