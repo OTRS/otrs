@@ -2,7 +2,7 @@
 # State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.4 2002-05-26 22:38:39 martin Exp $
+# $Id: State.pm,v 1.5 2002-07-12 23:03:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,26 +13,34 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub GetState {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
     my $State = '';
-
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    # --
+    # db query
+    # --
     my $SQL = "SELECT ts.name " .
     " FROM " .
     " ticket st, ticket_state ts " .
     " WHERE " .
     " ts.id = st.ticket_state_id " .
     " AND " .
-    " st.id = $TicketID ";
+    " st.id = $Param{TicketID} ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $State = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $State = $Row[0];
     }
     return $State;
 }
@@ -41,28 +49,37 @@ sub StateLookup {
     my $Self = shift;
     my %Param = @_;
     my $State = $Param{State};
-
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{State}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need State!");
+      return;
+    }
+    # --
     # check if we ask the same request?
+    # --
     if (exists $Self->{"Ticket::State::StateLookup::$State"}) {
         return $Self->{"Ticket::State::StateLookup::$State"};
     }
+    # --
     # get data
+    # --
     my $SQL = "SELECT id " .
     " FROM " .
     " ticket_state " .
     " WHERE " .
     " name = '$State'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
-        $Self->{"Ticket::State::StateLookup::$State"} = $RowTmp[0];
+        $Self->{"Ticket::State::StateLookup::$State"} = $Row[0];
     }
+    # --
     # check if data exists
+    # --
     if (!exists $Self->{"Ticket::State::StateLookup::$State"}) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => "No \$StateID for $State found!"
-        );
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No StateID for $State found!");
         return;
     }
 
@@ -72,13 +89,23 @@ sub StateLookup {
 sub StateIDLookup {
     my $Self = shift;
     my %Param = @_;
-    my $StateID = $Param{StateID} || '???';
-
+    my $StateID = $Param{StateID} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{StateID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need StateID!");
+      return;
+    }
+    # --
     # check if we ask the same request?
+    # --
     if (exists $Self->{"Ticket::State::StateLookupID::$StateID"}) {
         return $Self->{"Ticket::State::StateLookupID::$StateID"};
     }
-    # get data
+    # --
+    # get data 
+    # --
     my $SQL = "SELECT name " .
     " FROM " .
     " ticket_state " .
@@ -89,12 +116,11 @@ sub StateIDLookup {
         # store result
         $Self->{"Ticket::State::StateLookupID::$StateID"} = $RowTmp[0];
     }
+    # --
     # check if data exists
+    # --
     if (!exists $Self->{"Ticket::State::StateLookupID::$StateID"}) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => "No \$State for $StateID found!"
-        );
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No State for $StateID found!");
         return;
     }
 
@@ -104,63 +130,84 @@ sub StateIDLookup {
 sub SetState {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my $UserID = $Param{UserID};
-    my $StateID = $Param{StateID};
-    my $State = $Param{State};
     my $ArticleID = $Param{ArticleID} || '';
 
-    if ((!$StateID) && ($State)) {
-        $StateID = $Self->StateLookup(State => $State);
-        if ($Self->{Debug} > 0) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                MSG => "No \$StateID -> StateLookup($State=$StateID)!"
-            );
-        }
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
     }
-
-    if (!$StateID) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => "No \$StateID found!"
-        );
+    if (!$Param{State} && !$Param{StateID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need StateID or State!");
         return;
     }
-
-    if (!$State) {
-        $State = $Self->StateIDLookup(StateID => $StateID);
+    # --
+    # state id lookup
+    # --
+    if (!$Param{StateID}) {
+      $Param{StateID} = $Self->StateLookup(State => $Param{State}) || return;
     }
+    # --
+    # state lookup
+    # --
+    if (!$Param{State}) {
+      $Param{State} = $Self->StateIDLookup(StateID => $Param{StateID}) || return;
+    } 
+    # --
+    # check if update is needed
+    # --
+    my $CurrentState = $Self->GetState(TicketID => $Param{TicketID});
+    if ($Param{State} eq $CurrentState) {
+      # update is not needed
+      return 1;
+    }
+    # --
+    # db update
+    # --
+    my $SQL = "UPDATE ticket SET ticket_state_id = $Param{StateID}, " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID} ";
 
-    my $SQL = "UPDATE ticket SET ticket_state_id = $StateID, " .
-    " change_time = current_timestamp, " .
-    " change_by = $UserID " .
-    " WHERE id = $TicketID";
-
-    $Self->{DBObject}->Do(SQL => $SQL);
-
-    my $HistoryType = '';
-    if ($State eq 'closed succsessful') {
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # --
+      # ad history
+      # --
+      my $HistoryType = '';
+      if ($Param{State} =~ /closed succsessful/i) {
         $HistoryType = 'Close succsessful';
-    }
-    elsif ($State eq 'closed unsuccsessful') {
+      }
+      elsif ($Param{State} =~ /closed unsuccsessful/i) {
         $HistoryType = 'Close unsuccsessful';
-    }
-    elsif ($State eq 'open') {
+      }
+      elsif ($Param{State} =~ /open/i) {
         $HistoryType = 'Open';
-    }
+      }
+      elsif ($Param{State} =~ /new/i) {
+        $HistoryType = 'NewTicket';
+      }
+      else {
+        $HistoryType = 'Misc';
+      }
 
-    if ($HistoryType) {
+      if ($HistoryType) {
         $Self->AddHistoryRow(
-            TicketID => $TicketID,
+            TicketID => $Param{TicketID},
             ArticleID => $ArticleID,
             HistoryType => $HistoryType,
-            Name => "Ticket $State.",
-            CreateUserID => $UserID,
+            Name => "Chaned Ticket State from '$CurrentState' to '$Param{State}'.",
+            CreateUserID => $Param{UserID},
         );
+      }
+ 
+      return 1;
     }
-
-    return 1;
+    else {
+      return;
+    }
 }
 # --
 

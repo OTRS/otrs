@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.12 2002-07-12 16:02:14 martin Exp $
+# $Id: Ticket.pm,v 1.13 2002-07-12 23:03:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,11 +16,12 @@ use Kernel::System::Ticket::State;
 use Kernel::System::Ticket::History;
 use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
+use Kernel::System::Ticket::Owner;
 use Kernel::System::Queue;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -28,6 +29,7 @@ $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
     'Kernel::System::Ticket::History',
     'Kernel::System::Ticket::Lock',
     'Kernel::System::Ticket::Priority',
+    'Kernel::System::Ticket::Owner',
 );
 
 # --
@@ -44,12 +46,8 @@ sub new {
 
     # --
     # get needed opbjects
-    # **
-    foreach (
-      'ConfigObject', 
-      'LogObject', 
-      'DBObject',
-    ) {
+    # --
+    foreach (qw(ConfigObject LogObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -73,11 +71,20 @@ sub new {
 sub CheckTicketNr {
     my $Self = shift;
     my %Param = @_;
-    my $Tn = $Param{Tn};
     my $Id = '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{Tn}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TN!");
+      return;
+    }
+    # --
+    # db query
+    # --
     my $SQL = "SELECT id FROM ticket " .
     " WHERE " .
-    " tn = '$Tn' ";
+    " tn = '$Param{Tn}' ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Id = $RowTmp[0];
@@ -111,15 +118,12 @@ sub CreateTicketDB {
         if ($Self->{Debug} > 0) {
            $Self->{LogObject}->Log(
               Priority => 'debug',
-              MSG => "DB->CreateTicketDB-> (!\$StateID) ->StateLookup($State=$StateID)",
+              Message => "DB->CreateTicketDB-> (!\$StateID) ->StateLookup($State=$StateID)",
            );
         }
     }
     if (!$StateID) {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          MSG => "DB->CreateTicketDB-> No \$StateID!!!",
-        );
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No \$StateID!!!");
         return;
     }
 
@@ -130,10 +134,7 @@ sub CreateTicketDB {
         $LockID = $Self->LockLookup(Type => $Lock);
     }
     if ((!$LockID) && (!$Lock)) {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          MSG => "DB->CreateTicketDB-> No LockID and no LockType!!!",
-        );
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No LockID and no LockType!!!");
         return;
     }
     # --
@@ -143,10 +144,7 @@ sub CreateTicketDB {
         $PriorityID = $Self->PriorityLookup(Type => $Priority);
     }
     if ((!$PriorityID) && (!$Priority)) {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          MSG => "DB->CreateTicketDB-> No PriorityID and no PriorityType!!!",
-        );
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No PriorityID and no PriorityType!!!");
         return;
     }
 
@@ -164,10 +162,7 @@ sub CreateTicketDB {
         return $Self->GetIdOfTN(TN => $TN, Age => $Age);
     }
     else {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          MSG => "DB->CreateTicketDB-> create db record failed!!!",
-        );
+        $Self->{LogObject}->Log(Priority => 'error', Message => "create db record failed!!!");
         return;
     } 
 }
@@ -175,14 +170,22 @@ sub CreateTicketDB {
 sub GetIdOfTN {
     my $Self = shift;
     my %Param = @_;
-    my $TN = $Param{TN};
-    my $Age = $Param{Age} || '';
     my $Id;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{TN}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TN!");
+      return;
+    }
+    # --
+    # db query
+    # --
     my $SQL = "SELECT id FROM ticket " .
     " WHERE " .
-    " tn = '$TN' ";
-    if ($Age) {
-        $SQL .= " AND create_time_unix = $Age";
+    " tn = '$Param{TN}' ";
+    if ($Param{Age}) {
+        $SQL .= " AND create_time_unix = $Param{Age}";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -195,15 +198,16 @@ sub GetQueueIDOfTicketID {
     my $Self = shift;
     my %Param = @_;
     my $Id;
+    # --
     # check needed stuff
+    # --
     if (!$Param{TicketID}) {
-      $Self->{LogObject}->Log(
-        Priority => 'error',
-        MSG => "Need TicketID!",
-      );
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
       return;
     }
-    # create query
+    # --
+    # db query
+    # --
     my $SQL = "SELECT queue_id FROM ticket WHERE id = $Param{TicketID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -212,20 +216,28 @@ sub GetQueueIDOfTicketID {
     return $Id;
 }
 # --
-sub MoveTicketID {
+sub MoveByTicketID {
     my $Self = shift;
     my %Param = @_;
+    # --
     # check needed stuff
+    # --
     foreach (qw(TicketID QueueID UserID)) {
       if (!$Param{$_}) {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          MSG => "Need $_!",
-        );
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # create update
+    # --
+    # move needed?
+    # --
+    if ($Param{QueueID} == $Self->GetQueueIDOfTicketID(TicketID => $Param{TicketID})) {
+      # update not needed
+      return 1;
+    }
+    # --
+    # db update
+    # --
     my $SQL = "UPDATE ticket SET queue_id = $Param{QueueID} where id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
@@ -247,9 +259,18 @@ sub MoveTicketID {
 sub GetTNOfId {
     my $Self = shift;
     my %Param = @_;
-    my $Tn;
-    my $Id = $Param{ID} || return;
-    my $SQL = "SELECT tn FROM ticket WHERE id = $Id";
+    my $Tn = '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+      return;
+    }
+    # --
+    # db query
+    # --
+    my $SQL = "SELECT tn FROM ticket WHERE id = $Param{ID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Tn = $RowTmp[0];
@@ -260,15 +281,24 @@ sub GetTNOfId {
 sub GetLastCustomerArticle {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my %Data;
+    my %Data = ();
     my $SenderType = 'customer';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    # --
+    # dn query
+    # --
     my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
     " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time" .
     " FROM " .
     " article at, article_sender_type st" .
     " WHERE " .
-    " at.ticket_id = $TicketID " .
+    " at.ticket_id = $Param{TicketID} " .
     " AND " .
     " at.article_sender_type_id = st.id " .
     " AND " .
@@ -288,66 +318,6 @@ sub GetLastCustomerArticle {
     }
 
     return %Data;
-}
-# --
-sub CheckOwner {
-    my $Self = shift;
-    my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my $UserID = $Param{UserID};
-    my $SQL = '';
-    if ($UserID) {
-        $SQL = "SELECT user_id " .
-        " FROM " .
-        " ticket " .
-        " WHERE " .
-        " id = $TicketID " .
-        " AND " .
-        " user_id = $UserID";
-    }
-    else {
-        $SQL = "SELECT st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} " .
-        " FROM " .
-        " ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su " .
-        " WHERE " .
-        " st.id = $TicketID " .
-        " AND " .
-        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}";
-    }
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        return $RowTmp[0], $RowTmp[1];
-    }
-    return;
-}
-# --
-sub SetOwner {
-    my $Self = shift;
-    my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my $UserID = $Param{UserID};
-    my $NewUserID = $Param{NewUserID};
-    my $UserLogin = $Param{UserLogin};
-
-    if (!$NewUserID) {
-        $NewUserID = $UserID;
-    }
-
-    # lookup!
-    # db update
-    my $SQL = "UPDATE ticket SET user_id = $NewUserID, " .
-    " change_time = current_timestamp, change_by = $UserID " .
-    " WHERE id = $TicketID";
-    $Self->{DBObject}->Do(SQL => $SQL);
-
-    $Self->AddHistoryRow(
-        TicketID => $TicketID,
-        CreateUserID => $UserID,
-        HistoryType => 'OwnerUpdate',
-        Name => "New Owner is '$UserLogin' (ID=$NewUserID).",
-    );
-
-    return 1;
 }
 # --
 sub SetCustomerNo {
@@ -395,13 +365,22 @@ sub SetFreeText {
 sub SetAnswered {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my $UserID = $Param{UserID};
     my $Answered = $Param{Answered} || 0;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{ID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
     # db update
+    # --
     my $SQL = "UPDATE ticket SET ticket_answered = $Answered, " .
-    " change_time = current_timestamp, change_by = $UserID " .
-    " WHERE id = $TicketID";
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID} ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
