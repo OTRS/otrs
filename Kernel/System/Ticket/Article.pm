@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.57 2004-04-15 08:34:28 martin Exp $
+# $Id: Article.pm,v 1.58 2004-04-15 11:50:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1520,7 +1520,7 @@ sub SendCustomerNotification {
 =item SendAutoResponse()
 
 send an auto response to a customer via email
-    
+
   my $ArticleID = $TicketObject->SendAutoResponse(
       TicketID => 123,
       TicketNumber => '123123123',
@@ -1533,7 +1533,7 @@ send an auto response to a customer via email
       },
       UserID => 123,
   );
-    
+
 =cut
 
 sub SendAutoResponse {
@@ -1737,7 +1737,7 @@ write an article attachemnt to storage
 
 =item ArticleAttachmentIndex()
 
-get article attachment index as hash (ID => filename)
+get article attachment index as hash (ID => hashref (Filename, Filesize))
 
   my %Index = $TicketObject->ArticleAttachment(
       ArticleID => 123,
