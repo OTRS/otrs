@@ -2,13 +2,16 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.85 2003-06-01 18:06:19 martin Exp $
+# $Id: CHANGES,v 1.86 2003-06-26 19:20:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD
+ - (2003/06/26) improved ticket search and added new search preferences
+    table (db update with scripts/DBUpdate-to-1.2.(mysql|postgres).sql) 
+    required!
  - (2003/05/29) added utf-8 support for webfrontends (min. Perl 5.8.0 
     required)
  - (2003/05/20) added array for source queue selection to bin/GenericAgent.pl
@@ -22,6 +25,12 @@ CVS HEAD
     [...]
  - (2003/05/13) removed UNIQUE (not needed!) in pop3_account table
 
+1.1.3 (2003-??-??)
+ - (2003/06/22) fixed bug 144 - PostMasterPOP3.pl is exiting 
+    "Attached .eml file causes bug in EmailParser.pm"
+    http://bugs.otrs.org/show_bug.cgi?id=144
+ - (2003/06/04) fixed legend colors of stats pics
+
 1.1.2 (2003-05-31)
  - (2003/06/01) improved Kernel/System/Ticket/Number/*.pm (ticket number
     generator modules) to work with non existing var/log/TicketCounter.log.
@@ -30,10 +39,12 @@ CVS HEAD
      reseted on tar-update of OTRS update) 
  - (2003/06/01) added Resent-To email header check for queue sorting of 
     new ticket - http://lists.otrs.org/pipermail/otrs/2003-May/001845.html
- - (2003/05/30) added "PerlInitHandler Apache::Reload" (Reload %INC files 
-    - perl modules) when updated on disk to scripts/apache2-httpd.include.conf
- - (2003/05/30) added "PerlInitHandler Apache::StatINC" (Reload %INC files 
-    - perl modules) when updated on disk to scripts/apache-httpd.include.conf
+ - (2003/05/30) added "PerlInitHandler Apache::Reload" (Reload %INC files
+    - perl modules) to scripts/apache2-httpd.include.conf
+    -=> no apache reload is needed when perl modules is updated on disk <=-
+ - (2003/05/30) added "PerlInitHandler Apache::StatINC" (Reload %INC files
+    - perl modules) to scripts/apache-httpd.include.conf   
+    -=> no apache reload is needed when perl modules is updated on disk <=-
  - (2003/05/29) fixed create ticket (without priority selection) via
     customer panel and changed priority names.
  - (2003/05/26) fixed pic.pl bug - http://bugs.otrs.org/show_bug.cgi?id=149
