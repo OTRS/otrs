@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByText.dtl,v 1.10 2003-02-14 13:55:45 martin Exp $
+# $Id: AgentUtilSearchByText.dtl,v 1.11 2003-03-11 22:13:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
   <td align="left" class="table0"">
-    <b>$Env{"Box0"}$Text{"Fulltext search"}$Env{"Box1"}</b>
+    <b>$Env{"Box0"}$Text{"Ticket Search"}$Env{"Box1"}</b>
   </td>
 </tr>
 <tr>
@@ -22,21 +22,21 @@
 
 <form action="$Env{"CGIHandle"}" method="get">
 <input type="hidden" name="Action" value="AgentUtilities">
-<input type="hidden" name="Subaction" value="SearchByText">
+<input type="hidden" name="Subaction" value="Search">
 <br>
 <table border="0" width="600" cellspacing="1" cellpadding="3">
+<tr align="center">
+  <td colspan="2" class="table2">$Config{"TicketHook"}-$Text{"search (e. g. 10*5155 or 105658*)"}</td>
+</tr>
+<tr align="center">
+  <td colspan="2" ><input type="text" name="TicketNumber" size="30" value="$Data{"TicketNumber"}"></td>
+</tr>
 <tr align="center">
   <td colspan="2" class="table2">$Text{"Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")"}</td>
 </tr>
 <tr align="center">
-  <td colspan="2" ><input type="text" name="Want" size="30" value="$Data{"What"}"></td>
-</tr>
-<tr align="center">
-  <td width="50%" class="table2">$Text{"Search in"}</td>
-  <td width="50%" class="table2">$Text{"With State"}</td>
-</tr>
-<tr align="center">
-  <td>
+  <td colspan="2" ><input type="text" name="Want" size="30" value="$Data{"What"}">
+<br>
 <table>
   <tr>
     <td>$Text{"From"}</td>
@@ -63,25 +63,33 @@
     <td><input type="checkbox" name="What" value="ArticleFreeText" $Data{"ArticleFreeTextCheckBox"}></td>
   </tr>
 </table>
+  </td>
+</tr>
+<tr align="center">
+  <td width="50%" class="table2">$Text{"Priority"}</td>
+  <td width="50%" class="table2">$Text{"State"}</td>
+</tr>
+<tr align="center">
+  <td>$Data{"PriotitiesStrg"}</td>
 </td>
 <td>
 $Data{"StatesStrg"}
 </td>
 </tr>
 <tr align="center">
-  <td class="table2">$Text{"In Queue"}</td>
-  <td class="table2">$Text{"With Priority"}</td>
+  <td class="table2">$Text{"Queue"}</td>
+  <td class="table2">$Text{"User"}</td>
 </tr>
 <tr align="center">
   <td>
   $Data{"QueuesStrg"}
   </td>
   <td>
-  $Data{"PriotitiesStrg"}
+  $Data{"UserStrg"}
   </td>
 </tr>
 </table>
-<input type="submit" value="$Text{"go"}">
+<input type="submit" value="$Text{"search"}">
 </form>
 
 </p>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.19 2003-03-06 22:11:59 martin Exp $
+# $Id: AgentUtilities.pm,v 1.20 2003-03-11 22:13:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,11 +50,8 @@ sub Run {
     my %Param = @_;
     my $Output;
     
-    if ($Self->{Subaction} eq 'SearchByTn') {
-        $Output = $Self->SearchByTn();
-    }
-    elsif ($Self->{Subaction} eq 'SearchByText') {
-        $Output = $Self->SearchByText();
+    if ($Self->{Subaction} eq 'Search') {
+        $Output = $Self->Search();
     }
     else {
         $Output = $Self->Form();
@@ -67,97 +64,48 @@ sub Form {
     my %Param = @_;
     my $Output;
     my $UserID = $Self->{UserID};
-    
-    $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    $Output .= $Self->{LayoutObject}->AgentUtilForm();
-    $Output .= $Self->{LayoutObject}->Footer();
-    
-    return $Output;
-}
-# --
-sub SearchByTn {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my $Want = $Self->{Want};
-    my $UserID = $Self->{UserID};
-    # get user groups 
-    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
-        UserID => $Self->{UserID},
-        Type => 'ro',
-        Result => 'ID',
-    );
-    # start html 
-    $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
-        What => $Want,
-        Kind => 'SearchByTn',
-        Limit => $Self->{SearchLimitTn},
-    );
-    my $Age = '?';
-    # modifier search string!!!
-    $Want =~ s/\*/%/g;
-    my $OutputTables = '';
-    my $SQL = "SELECT st.id, st.tn, st.create_time_unix ".
-    " FROM ".
-    " ticket st, queue sq ".
-    " WHERE ".
-    " sq.id = st.queue_id ".
-    " AND ".
-    " sq.group_id IN ( ${\(join ', ', @GroupIDs)} )".
-    " AND " .
-    " st.tn LIKE '$Want' ";
 
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTn});
-    my @ViewableTicketIDs = ();
-    my $Counter = 0;
-    while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-      push (@ViewableTicketIDs, $$Data{id});
-    }
-    foreach (@ViewableTicketIDs) {
-      $Counter++;
-      # --
-      # build search result
-      # --
-      if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $_);
-        my %LastArticle = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $_);
-        my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $LastArticle{ArticleID});
-        $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
-            %Ticket,
-            From => $Article{From},
-            To => $Article{To},
-            Subject => $Article{Subject},
-            Body => $Article{Body},
-            Age => $Article{Age},
-            Priority => $Article{Priority},
-            Queue => $Article{Queue},
-            ContentCharset => $Article{ContentCharset},
-            MimeType => $Article{MimeType},
-            What => $Want,
-        );
-      } 
-    }
     # --
-    # build search navigation bar
+    # get user of own groups
     # --
-    my $SearchNavBar = $Self->{LayoutObject}->AgentUtilSearchCouter(
-        Limit => $Self->{SearchLimitTxt}, 
-        StartHit => $Self->{StartHit}, 
-        SearchPageShown => $Self->{SearchPageShown},
-        AllHits => $Counter,
-        Want => $Self->{Want},
+    my %ShownUsers = ();
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type => 'Long',
+        Valid => 1,
     );
-    $Output .= $SearchNavBar.$OutputTables;
+    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+        %ShownUsers = %AllGroupsMembers;
+    }
+    else {
+        my %Groups = $Self->{GroupObject}->GroupUserList(
+            UserID => $Self->{UserID},
+            Type => 'rw',
+            Result => 'HASH',
+        );
+        foreach (keys %Groups) {
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $_,
+                Type => 'rw',
+                Result => 'HASH',
+            );
+            foreach (keys %MemberList) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
+        }
+    }
+    
+    $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    $Output .= $Self->{LayoutObject}->AgentUtilForm(
+        Users => \%ShownUsers,
+    );
     $Output .= $Self->{LayoutObject}->Footer();
+    
     return $Output;
 }
 # --
-sub SearchByText {
+sub Search {
     my $Self = shift;
     my %Param = @_;
     my $Output;
@@ -167,12 +115,25 @@ sub SearchByText {
     my @States = $Self->{ParamObject}->GetArray(Param => 'State');
     my @QueueIDs = $Self->{ParamObject}->GetArray(Param => 'QueueID');
     my @PriorityIDs = $Self->{ParamObject}->GetArray(Param => 'PriorityID');
+    my @UserIDs = $Self->{ParamObject}->GetArray(Param => 'UserID');
+    my $TicketNumber = $Self->{ParamObject}->GetParam(Param => 'TicketNumber') || '';
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     # --
     # add states to where statement
     # --
+    my $SqlTicketNumberExt = '';
+    if ($TicketNumber) {
+        # modifier search string!!!
+        my $TicketNumberTmp = $TicketNumber;
+        $TicketNumberTmp =~ s/\*/%/g;
+        $SqlTicketNumberExt .= " st.tn LIKE '$TicketNumberTmp' ";
+    }
+    my $SqlUserExt = '';
+    foreach (@UserIDs) {
+        $SqlUserExt = " st.user_id IN ( ${\(join ', ', @UserIDs)} )";
+    }
     my $SqlStateExt = '';
     my $CounterTmp = 0;
     foreach (@States) {
@@ -209,7 +170,36 @@ sub SearchByText {
     # --
     # show search again table
     # --
+    # --
+    # get user of own groups
+    # --
+    my %ShownUsers = ();
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type => 'Long',
+        Valid => 1,
+    );
+    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+        %ShownUsers = %AllGroupsMembers;
+    }
+    else {
+        my %Groups = $Self->{GroupObject}->GroupUserList(
+            UserID => $Self->{UserID},
+            Type => 'rw',
+            Result => 'HASH',
+        );
+        foreach (keys %Groups) {
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $_,
+                Type => 'rw',
+                Result => 'HASH',
+            ); 
+            foreach (keys %MemberList) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
+        }
+    }
     $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
+        TicketNumber => $TicketNumber,
         What => $Want,
         Kind => 'SearchByText',
         Limit => $Self->{SearchLimitTxt},
@@ -217,6 +207,8 @@ sub SearchByText {
         SelectedStates => \@States,
         SelectedQueueIDs => \@QueueIDs,
         SelectedPriorityIDs => \@PriorityIDs,
+        Users => \%ShownUsers,
+        SelectedUserIDs => \@UserIDs,
     );
     if (!@SParts && !$Self->{ConfigObject}->Get('SearchFulltextWithoutText')) {
         $Output .= $Self->{LayoutObject}->Footer();
@@ -278,18 +270,20 @@ sub SearchByText {
     # if there is no search field selected!
     # --
     if (!@SearchFields) {
-      # --
-      # error page
-      # --
-      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error(
-          Message => "Can't search! Select min. one search field!",
-          Comment => 'Please Select min. one search field.',
-      );
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
+        # --
+        # error page
+        # --
+        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error(
+            Message => "Can't search! Select min. one search field!",
+            Comment => 'Please Select min. one search field.',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    # get user groups 
+    # --
+    # get users groups
+    # --
     my @GroupIDs = $Self->{GroupObject}->GroupUserList(
         UserID => $Self->{UserID},
         Type => 'ro',
@@ -302,22 +296,19 @@ sub SearchByText {
     my $Age = '?';
     my $SQL = "SELECT sa.id as article_id, st.id ".
       " FROM ".
-      " article sa, ticket st, article_sender_type stt, article_type at, ".
-      " ticket_lock_type sl, ticket_state tsd, queue sq ".
+      " article sa, ticket st, queue sq ".
       " WHERE ".
       " sa.ticket_id = st.id ".
       " AND ".
       " sq.id = st.queue_id ".
       " AND ".
-      " stt.id = sa.article_sender_type_id ".
-      " AND ".
-      " at.id = sa.article_type_id ".
-      " AND ".
-      " sl.id = st.ticket_lock_id ".
-      " AND ".
-      " tsd.id = st.ticket_state_id ".
-      " AND ".
       " sq.group_id IN ( ${\(join ', ', @GroupIDs)} )";
+    if ($SqlTicketNumberExt) {
+        $SQL .= " AND $SqlTicketNumberExt";
+    }
+    if ($SqlUserExt) {
+        $SQL .= " AND $SqlUserExt";
+    } 
     if ($SqlQueueExt) { 
         $SQL .= " AND ($SqlQueueExt)"; 
     }
@@ -335,8 +326,12 @@ sub SearchByText {
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTxt});
     my @ViewableArticleIDs = ();
     my $Counter = 0;
+    my %Shown = ();
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-      push (@ViewableArticleIDs, $$Data{article_id});
+        if (!$Shown{$$Data{id}}) {
+            push (@ViewableArticleIDs, $$Data{article_id});
+        }
+        $Shown{$$Data{id}} = 1;
     }
     foreach (@ViewableArticleIDs) {
       $Counter++;

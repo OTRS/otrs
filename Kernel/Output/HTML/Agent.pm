@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.92 2003-03-10 23:35:08 martin Exp $
+# $Id: Agent.pm,v 1.93 2003-03-11 22:13:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.92 $';
+$VERSION = '$Revision: 1.93 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1164,7 +1164,6 @@ sub AgentUtilForm {
         Name => 'State',
         Multiple => 1,
         Size => 5,
-        SelectedIDRefArray => ['open', 'new'],
     );
     $Param{'QueuesStrg'} = $Self->AgentQueueListOption(
         Data => {
@@ -1177,7 +1176,6 @@ sub AgentUtilForm {
         Multiple => 1,
         Size => 5,
         Name => 'QueueID',
-        SelectedID => 1,
         OnChangeSubmit => 0,
     );
     $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
@@ -1188,10 +1186,14 @@ sub AgentUtilForm {
         Name => 'PriorityID',
         Multiple => 1,
         Size => 5,
-        SelectedIDRefArray => [1, 2, 3, 4, 5, 6, 7, 8],
+    );
+    $Param{'UserStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{Users}, 
+        Name => 'UserIDs',
+        Multiple => 1,
+        Size => 5,
     );
     $Output .= $Self->Output(TemplateFile => 'AgentUtilTicketStatus', Data => \%Param);
-    $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByTicketNumber', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByCustomerID', Data => \%Param);
     return $Output;
@@ -1202,10 +1204,7 @@ sub AgentUtilSearchAgain {
     my %Param = @_;
     my $Output = '';
     # create & return output
-    if ($Self->{Subaction} eq 'SearchByTn') {
-      $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByTicketNumber', Data => \%Param);
-    }
-    elsif ($Self->{Subaction} eq 'CustomerID') {
+    if ($Self->{Subaction} eq 'CustomerID') {
       $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByCustomerID', Data => \%Param);
     }
     else {
@@ -1224,7 +1223,7 @@ sub AgentUtilSearchAgain {
         Size => 5,
         SelectedIDRefArray => $Param{SelectedStates},
       );
-    $Param{'QueuesStrg'} = $Self->AgentQueueListOption(
+      $Param{'QueuesStrg'} = $Self->AgentQueueListOption(
         Data => {
           $Self->{DBObject}->GetTableData(
             What => 'id, name',
@@ -1237,8 +1236,8 @@ sub AgentUtilSearchAgain {
         Name => 'QueueID',
         SelectedIDRefArray => $Param{SelectedQueueIDs},
         OnChangeSubmit => 0,
-    );
-    $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
+      );
+      $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
         Data => { $Self->{DBObject}->GetTableData(
                       What => 'id, name',
                       Table => 'ticket_priority',
@@ -1247,7 +1246,14 @@ sub AgentUtilSearchAgain {
         Multiple => 1,
         Size => 5,
         SelectedIDRefArray => $Param{SelectedPriorityIDs},
-    );
+      );
+      $Param{'UserStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{Users}, 
+        Name => 'UserID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{SelectedUserIDs},
+      );
 
       $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
     }
