@@ -1158,6 +1158,28 @@ $Data{"Signature"}
     };
 
     # --------------------------------------------------- #
+    # default core objects and params in frontend
+    # --------------------------------------------------- #
+    # key => module
+    $Self->{'Frontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue';
+    $Self->{'Frontend::CommonObject'}->{TicketObject} = 'Kernel::System::Ticket';
+    # param => default value
+    $Self->{'Frontend::CommonParam'}->{Action} = 'AgentTicketQueue';
+    $Self->{'Frontend::CommonParam'}->{QueueID} = 0;
+    $Self->{'Frontend::CommonParam'}->{TicketID} = '';
+
+    # --------------------------------------------------- #
+    # default core objects and params in customer frontend
+    # --------------------------------------------------- #
+    # key => module
+    $Self->{'CustomerFrontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue';
+    $Self->{'CustomerFrontend::CommonObject'}->{TicketObject} = 'Kernel::System::Ticket';
+    # param => default value
+    $Self->{'CustomerFrontend::CommonParam'}->{Action} = 'CustomerTicketOverView';
+    $Self->{'CustomerFrontend::CommonParam'}->{QueueID} = 0;
+    $Self->{'CustomerFrontend::CommonParam'}->{TicketID} = '';
+
+    # --------------------------------------------------- #
     # Frontend Module Registry
     # --------------------------------------------------- #
     $Self->{'Frontend::Module'}->{'AgentTicketQueue'} = {
