@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.29 2004-03-28 09:32:40 martin Exp $
+# $Id: EmailParser.pm,v 1.30 2004-04-04 11:50:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -348,10 +348,14 @@ sub GetMessageBody {
         elsif ($Self->GetParam(WHAT => 'Content-Transfer-Encoding') =~ /base64/i) {
             $BodyStrg = decode_base64($BodyStrg);
         }
+        # charset decode
         $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
             Text => $BodyStrg, 
             From => $Self->GetCharset(),
         );
+        # check it it's juat a html email (store it as attachment and add text/plain)
+        $Self->CheckMessageBody();
+        # return message body
         return $Self->{MessageBody};
     }
     else {
@@ -379,6 +383,9 @@ sub GetMessageBody {
                 Text => $Attachment{Content}, 
                 From => $Self->GetCharset(),
             );
+            # check it it's juat a html email (store it as attachment and add text/plain)
+            $Self->CheckMessageBody();
+            # return message body
             return $Self->{MessageBody};
         }
         else {
@@ -526,6 +533,54 @@ sub GetContentTypeParams {
     return %Param;
 }
 # --
+# just for internal
+sub CheckMessageBody {
+    my $Self = shift;
+    my %Param = @_;
+    # if already checked, just return
+    if ($Self->{MessageChecked} || !$Self->{ConfigObject}->Get('PostmasterAutoHTML2Text')) {
+        return;
+    } 
+    # check it it's juat a html email (store it as attachment and add text/plain)
+    if ($Self->GetReturnContentType() =~ /text\/html/i) {
+        $Self->{MessageChecked} = 1;
+        # add html email as attachment (if needed)
+        if (!$Self->{MimeEmail}) {
+            push (@{$Self->{Attachments}}, {
+                Charset => $Self->GetCharset(),
+                ContentType => $Self->GetReturnContentType(),
+                Content => $Self->{MessageBody},
+                Filename => 'orig-html-email.html',
+            });
+        }
+        # remember to html file if not aleady there
+        else {
+            if ($Self->{Attachments}->[0]->{Filename}) {
+                if ($Self->{Attachments}->[0]->{Filename} !~ /\.(htm|html)/i) {
+                    $Self->{Attachments}->[0]->{Filename} .= '.html';
+                }
+            }
+        }
+        # remember to be an mime email now
+        $Self->{MimeEmail} = 1;
+        # html2text filter for message body
+        $Self->{MessageBody} =~ s/\<.+?\>//gs;
+        $Self->{MessageBody} =~ s/&amp;/&/g;
+        $Self->{MessageBody} =~ s/&lt;/</g;
+        $Self->{MessageBody} =~ s/&gt;/>/g;
+        $Self->{MessageBody} =~ s/&quot;/"/g;
+        $Self->{MessageBody} =~ s/&nbsp;/ /g;
+        $Self->{ContentType} = 'text/plain';
+        if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message => "It's an html only email, added ascii dump, attached html email as attachment.",
+            );
+        }
+    }
+    return;
+}
+# --
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -538,6 +593,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2004-03-28 09:32:40 $
+$Revision: 1.30 $ $Date: 2004-04-04 11:50:08 $
 
 =cut
