@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.7 2002-08-06 19:09:01 martin Exp $
+# $Id: State.pm,v 1.8 2002-10-03 17:41:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -28,21 +28,13 @@ sub GetState {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
       return;
     }
-    # --
-    # db query
-    # --
-    my $SQL = "SELECT ts.name " .
-    " FROM " .
-    " ticket st, ticket_state ts " .
-    " WHERE " .
-    " ts.id = st.ticket_state_id " .
-    " AND " .
-    " st.id = $Param{TicketID} ";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $State = $Row[0];
+    my %TicketData = $Self->GetTicket(%Param);
+    if ($TicketData{State}) {
+        return $TicketData{State};
     }
-    return $State;
+    else {
+        return;
+    }
 }
 # --
 sub StateLookup {
