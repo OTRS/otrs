@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.167 2004-10-07 15:16:48 martin Exp $
+# $Id: Defaults.pm,v 1.168 2004-10-07 16:05:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.167 $';
+$VERSION = '$Revision: 1.168 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -520,6 +520,15 @@ sub LoadDefaults {
 #        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
         Output => ['Print', 'CSV', 'Graph'],
         OutputDefault => 'Graph',
+    };
+
+    $Self->{SystemStatsMap}->{"OTRS::Stats5"} = {
+        Name => 'Time Accounting',
+        Module => 'Kernel::System::Stats::AccountedTime',
+        Desc => 'A list about accounted time per customer.',
+#        UseResultCache => 1,
+        Output => ['Print', 'CSV'],
+        OutputDefault => 'Print',
     };
 
     # --------------------------------------------------- #
