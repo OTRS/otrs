@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.79 2005-02-10 16:20:56 martin Exp $
+# $Id: AgentCompose.pm,v 1.80 2005-02-10 20:14:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.79 $';
+$VERSION = '$Revision: 1.80 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub new {
 #    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # get params
     foreach (qw(From To Cc Bcc Subject Body InReplyTo ResponseID ComposeStateID
-      Answered ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
+      ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
       AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
       AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
       AttachmentDelete9 AttachmentDelete10 FormID)) {
@@ -106,12 +106,10 @@ sub Form {
     $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose');
     # check needed stuff
     if (!$Self->{TicketID}) {
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Got no TicketID!",
                 Comment => 'System Error!',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
@@ -609,12 +607,6 @@ sub SendEmail {
             State => $NextState,
             UserID => $Self->{UserID},
         );
-        # set answerd
-        $Self->{TicketObject}->TicketSetAnswered(
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID},
-            Answered => $GetParam{Answered} || 0,
-        );
         # should I set an unlock?
         if ($StateData{TypeName} =~ /^close/i) {
             $Self->{TicketObject}->LockSet(
@@ -635,6 +627,8 @@ sub SendEmail {
                 Minute => $GetParam{Minute},
             );
         }
+        # remove pre submited attachments
+        $Self->{UploadCachObject}->FormIDRemove(FormID => $GetParam{FormID});
         # redirect
         if ($StateData{TypeName} =~ /^close/i) {
             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
@@ -687,21 +681,6 @@ sub _Mask {
         }
       }
       $Param{'StdAttachmentsStrg'} .= "</select>\n";
-    }
-    # answered strg
-    if (defined($Param{Answered})) {
-        $Param{'AnsweredYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-            Name => 'Answered',
-            SelectedID => $Param{Answered},
-        );
-    }
-    else {
-        $Param{'AnsweredYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-            Name => 'Answered',
-            Selected => 'Yes',
-        );
     }
     # create FromHTML (to show)
     $Param{FromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{From}, Max => 70);

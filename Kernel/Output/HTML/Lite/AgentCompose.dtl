@@ -1,8 +1,8 @@
 # --
 # AgentCompose.dtl - provides HTML form for AgentCompose
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.27 2004-11-05 07:08:43 martin Exp $
+# $Id: AgentCompose.dtl,v 1.28 2005-02-10 20:14:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -83,13 +83,13 @@ function FAQSubmit()
     $Env{"Box0"}$Text{"Compose answer for ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
+$Include{"AgentTicketLocked"}
 <tr>
   <td class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-  <input type="hidden" name="Action" value="AgentCompose">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="SendEmail">
-  <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
   <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
   <input type="hidden" name="Email" value="$QData{"Email"}">
   <input type="hidden" name="InReplyTo" value="$QData{"InReplyTo"}">
@@ -205,10 +205,6 @@ $Data{"ResponseFormat"}
 #      <td class="contentkey">$Data{"TicketFreeKeyField8"}:</td>
 #      <td class="contentvalue">$Data{"TicketFreeTextField8"}</td>
 #   </tr>
-    <tr>
-      <td class="contentkey">$Text{"Is the ticket answered"}:</td>
-      <td class="contentvalue">$Data{"AnsweredYesNoOption"}</td>
-    </tr>
     <tr>
       <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
       <td class="contentvalue"><input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
