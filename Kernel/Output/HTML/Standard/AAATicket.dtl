@@ -69,4 +69,4 @@ $Text{"3 normal"}
 $Text{"4 high"}
 $Text{"5 very high"}
 
-$Text{""}
+$Text{"Ticket "%s" created!"}
