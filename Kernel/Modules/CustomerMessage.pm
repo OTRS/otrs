@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.30 2004-04-14 15:54:40 martin Exp $
+# $Id: CustomerMessage.pm,v 1.31 2004-04-15 11:56:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -195,7 +195,7 @@ sub Run {
                 Body => $Text,
             },
             HistoryType => $Self->{ConfigObject}->Get('CustomerPanelHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('CustomerPanelHistoryComment'),
+            HistoryComment => $Self->{ConfigObject}->Get('CustomerPanelHistoryComment') || '%%',
             AutoResponseType => 'auto follow up',
         )) {
           # set state
@@ -204,7 +204,7 @@ sub Run {
           );
           my $NextState = $NextStateData{Name} || 
             $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType') || 'open';
-          $Self->{TicketObject}->StateState(
+          $Self->{TicketObject}->StateSet(
               TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
               State => $NextState,
@@ -296,7 +296,7 @@ sub Run {
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             HistoryType => $Self->{ConfigObject}->Get('CustomerPanelNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('CustomerPanelNewHistoryComment'),
+            HistoryComment => $Self->{ConfigObject}->Get('CustomerPanelNewHistoryComment') || '%%',
             AutoResponseType => 'auto reply',
             OrigHeader => {
                 From => $From,
