@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.9 2003-02-14 13:44:33 martin Exp $
+# $Id: IPC.pm,v 1.10 2003-03-13 17:28:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -180,13 +180,13 @@ sub CheckSessionID {
     # --
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
     if ( (time() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
-         $Kernel::System::AuthSession::CheckSessionID = "Session to old!";
+         $Kernel::System::AuthSession::CheckSessionID = "Session too old!";
          $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "SessionID ($SessionID) to old (". int((time() - $Data{UserSessionStart})/(60*60)) 
+          Message => "SessionID ($SessionID) too old (". int((time() - $Data{UserSessionStart})/(60*60)) 
           ."h)! Don't grant access!!!",
         );
-        # delete session id if to old?
+        # delete session id if too old?
         if ($Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld')) {
             $Self->RemoveSessionID(SessionID => $SessionID);
         }
