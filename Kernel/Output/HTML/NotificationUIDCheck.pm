@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NotificationUIDCheck.pm  
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotificationUIDCheck.pm,v 1.1 2003-12-01 00:30:51 martin Exp $
+# $Id: NotificationUIDCheck.pm,v 1.1.2.1 2004-04-15 08:40:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NotificationUIDCheck;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.1.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,7 +30,6 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
     return $Self;
 }
 # --
