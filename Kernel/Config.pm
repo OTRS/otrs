@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.17 2002-02-05 21:32:25 martin Exp $
+# $Id: Config.pm,v 1.18 2002-02-05 21:59:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -62,7 +62,7 @@ sub Load {
 
     # TicketHook 
     # (To set the Ticket identifier. Some people want to 
-    # set this to e. g. Call# oder MyTicket# .)
+    # set this to e. g. Call# or MyTicket# .)
     $Self->{TicketHook} = 'Ticket#',
 
     # FQDN
@@ -197,11 +197,11 @@ sub Load {
     $Self->{MaxPostMasterEmails} = 20;
 
     # PostmasterUserID
-    # (The post master db-uid)
+    # (The post master db-uid.)
     $Self->{PostmasterUserID} = 1;
 
     # DefaultQueue
-    # (The default queue of all)
+    # (The default queue of all.)
     $Self->{DefaultQueue} = 'Raw';
 
     # DefaultPriority
