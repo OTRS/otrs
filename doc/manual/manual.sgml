@@ -6,6 +6,7 @@
 <!ENTITY install-win32 SYSTEM "install-win32.sgml">
 <!ENTITY config-file SYSTEM "config-file.sgml">
 <!ENTITY notification SYSTEM "notification.sgml">
+<!ENTITY auto-response SYSTEM "auto-response.sgml">
 <!ENTITY first-steps SYSTEM "first-steps.sgml">
 <!ENTITY troubleshooting SYSTEM "troubleshooting.sgml">
 <!ENTITY faq SYSTEM "faq.sgml">
@@ -29,6 +30,7 @@
 <!ENTITY priority SYSTEM "system-priority.sgml">
 <!ENTITY state SYSTEM "system-state.sgml">
 <!ENTITY dtl SYSTEM "dtl.sgml">
+<!ENTITY permission SYSTEM "permission.sgml">
 <!ENTITY glossary SYSTEM "glossary.sgml">
 ]>
 
@@ -72,25 +74,27 @@ or implied warranty.
 
 &ticket-topics;
 
+&notification;
+
+&auto-response;
+
 &receiving-email;
 
 &sending-email;
 
+&user;
+
+&customer;
+
+&permission;
+
 &config-file;
-
-<!--&auto-response;-->
-
-&notification;
-
-&language-translation;
 
 &cronjob;
 
 &generic-agent;
 
-&user;
-
-&customer;
+&language-translation;
 
 &dtl;
 
@@ -106,6 +110,8 @@ or implied warranty.
 
 &faq;
 
+&glossary;
+
 &online-resources;
 
 &coreteam;
@@ -115,8 +121,6 @@ or implied warranty.
 &rfc1297;
 
 &fdl;
-
-&glossary;
 
 &bibliography;
 
