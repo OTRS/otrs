@@ -1,5 +1,5 @@
 # --
-# $Id: CREDITS,v 1.6 2002-11-25 00:22:34 martin Exp $
+# $Id: CREDITS,v 1.7 2002-12-17 15:47:05 martin Exp $
 # --
 
 This is at least a partial credits-file of people that have
@@ -32,11 +32,12 @@ S: Netherlands
 N: Martin Scherbaum
 E: maddin at scherbaum.org
 W: http://www.scherbaum.org
-D: German and French translation - RPM-Tips
+D: German and French initial translation - RPM-Tips
 S: Germany
 --
-N: Sebastien Guilbaud
-E: sguilbaud at oceanet-technology.com
+N: Nicolas Goralski
+E: ngoralski at oceanet-technology.com
+W: http://www.goralski.info/
 D: Maintainer of French translation
 S: France
 --

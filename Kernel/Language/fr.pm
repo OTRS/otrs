@@ -1,8 +1,9 @@
 # --
 # Kernel/Language/fr.pm - provides fr language translation
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
+# Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.2 2002-12-15 00:58:23 martin Exp $
+# $Id: fr.pm,v 1.3 2002-12-17 15:47:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -48,7 +49,7 @@ sub Data {
     $Hash{'days'} = 'jours';
     $Hash{'Description'} = 'Description';
     $Hash{'description'} = 'description';
-    $Hash{'Done'} = '';
+    $Hash{'Done'} = 'Fait';
     $Hash{'end'} = 'fin';
     $Hash{'Error'} = 'Erreur';
     $Hash{'Example'} = 'Exemple';
@@ -57,14 +58,14 @@ sub Data {
     $Hash{'go!'} = 'c\'est parti&nbsp;!';
     $Hash{'Group'} = 'Groupe';
     $Hash{'Hit'} = 'Hit';
-    $Hash{'Hits'} = '';
+    $Hash{'Hits'} = 'Hits';
     $Hash{'hour'} = 'heure';
     $Hash{'hours'} = 'heures';
-    $Hash{'Ignore'} = '';
+    $Hash{'Ignore'} = 'Ignorer';
     $Hash{'Language'} = 'Langue';
     $Hash{'Languages'} = 'Langues';
     $Hash{'Line'} = 'Ligne';
-    $Hash{'Logout successful. Thank you for using OTRS!'} = '';
+    $Hash{'Logout successful. Thank you for using OTRS!'} = 'Déconnection réussie. Merci d\'avoir utilisé OTRS!';
     $Hash{'Message'} = 'Message';
     $Hash{'minute'} = 'minute';
     $Hash{'minutes'} = 'minutes';
@@ -75,7 +76,7 @@ sub Data {
     $Hash{'New message!'} = 'Nouveau message&nbsp;!';
     $Hash{'no'} = 'aucun';
     $Hash{'No'} = 'Non';
-    $Hash{'No suggestions'} = '';
+    $Hash{'No suggestions'} = 'Pas de suggestions';
     $Hash{'none'} = 'aucun';
     $Hash{'none - answered'} = 'aucun - répondu';
     $Hash{'none!'} = 'aucun&nbsp;!';
@@ -83,12 +84,12 @@ sub Data {
     $Hash{'Off'} = 'Éteint';
     $Hash{'On'} = 'Allumé';
     $Hash{'on'} = 'allumé';
-    $Hash{'Password'} = '';
+    $Hash{'Password'} = 'Mot de Passe';
     $Hash{'Please answer this ticket(s) to get back to the normal queue view!'} = 'Il faut répondre à ce(s) ticket(s) pour revenir à la vue normale de la file.';
     $Hash{'please do not edit!'} = 'Ne pas modifier&nbsp;!';
     $Hash{'QueueView'} = 'Vue file';
-    $Hash{'replace with'} = '';
-    $Hash{'Reset'} = '';
+    $Hash{'replace with'} = 'remplacer par';
+    $Hash{'Reset'} = 'Remise à zéro';
     $Hash{'Salutation'} = 'Salutation';
     $Hash{'Signature'} = 'Signature';
     $Hash{'Sorry'} = 'Désolé';
@@ -96,51 +97,51 @@ sub Data {
     $Hash{'Subfunction'} = 'sous-fonction';
     $Hash{'submit'} = 'soumettre';
     $Hash{'submit!'} = 'soumettre&nbsp;!';
-    $Hash{'Text'} = '';
-    $Hash{'The recommended charset for your language is %s!'} = '';
-    $Hash{'Theme'} = '';
+    $Hash{'Text'} = 'Texte';
+    $Hash{'The recommended charset for your language is %s!'} = 'Les jeux de charactères pour votre langue est %s!';
+    $Hash{'Theme'} = 'Thème';
     $Hash{'top'} = 'haut';
-    $Hash{'update'} = '';
+    $Hash{'update'} = 'Mise à jour';
     $Hash{'update!'} = 'actualiser&nbsp;!';
     $Hash{'User'} = 'Utilisateur';
-    $Hash{'Username'} = '';
+    $Hash{'Username'} = 'Nom d\'utilisateur';
     $Hash{'Valid'} = 'Valide';
-    $Hash{'Warning'} = '';
-    $Hash{'Welcome to OTRS'} = '';
-    $Hash{'Word'} = '';
+    $Hash{'Warning'} = 'Attention';
+    $Hash{'Welcome to OTRS'} = 'Bienvenue à OTRS';
+    $Hash{'Word'} = 'Mot';
     $Hash{'wrote'} = 'écrit';
     $Hash{'yes'} = 'oui';
     $Hash{'Yes'} = 'Oui';
-    $Hash{'You got new message!'} = '';
+    $Hash{'You got new message!'} = 'Vous avez un nouveau Message';
 
     # Template: AAAPreferences
-    $Hash{'Custom Queue'} = '';
-    $Hash{'Follow up notification'} = '';
-    $Hash{'Frontend'} = '';
-    $Hash{'Mail Management'} = '';
-    $Hash{'Move notification'} = '';
-    $Hash{'New ticket notification'} = '';
-    $Hash{'Other Options'} = '';
-    $Hash{'Preferences updated successfully!'} = '';
-    $Hash{'QueueView refresh time'} = '';
+    $Hash{'Custom Queue'} = 'File d\'attente personnelle';
+    $Hash{'Follow up notification'} = 'Notification de suivi';
+    $Hash{'Frontend'} = 'Frontal';
+    $Hash{'Mail Management'} = 'Gestion des Emails';
+    $Hash{'Move notification'} = 'Notification de mouvement';
+    $Hash{'New ticket notification'} = 'Notification de nouveau ticket';
+    $Hash{'Other Options'} = 'Autres options';
+    $Hash{'Preferences updated successfully!'} = 'Les préférences ont bien été mises à jours';
+    $Hash{'QueueView refresh time'} = 'Temps de rafraîchissement de la vue des files';
     $Hash{'Select your frontend Charset.'} = 'Choix du jeu de caractères du frontal';
     $Hash{'Select your frontend language.'} = 'Choix de la langue du frontal';
-    $Hash{'Select your frontend QueueView.'} = '';
+    $Hash{'Select your frontend QueueView.'} = 'Choisissez votre frontal de vue des files';
     $Hash{'Select your frontend Theme.'} = 'Choix du thème du frontal';
     $Hash{'Select your QueueView refresh time.'} = 'Choix du délai de rafraîchissement de la vue des files';
     $Hash{'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.'} = 'Me prévenir si un client envoie un suivi (follow-up) et que je suis le propriétaire du ticket.';
-    $Hash{'Send me a notification if a ticket is moved into a custom queue.'} = '';
-    $Hash{'Send me a notification if a ticket is unlocked by the system.'} = '';
+    $Hash{'Send me a notification if a ticket is moved into a custom queue.'} = 'Me prévenir si un ticket est déplacé dans une file personnalisé';
+    $Hash{'Send me a notification if a ticket is unlocked by the system.'} = 'Me prévenir si un ticket est dévérouillé par le système';
     $Hash{'Send me a notification if there is a new ticket in my custom queues.'} = 'Me prévenir si un nouveau ticket apparaît dans mes files personnelles.';
-    $Hash{'Ticket lock timeout notification'} = '';
+    $Hash{'Ticket lock timeout notification'} = 'Prévenir du dépassement du délai d\'un verrou ';
 
     # Template: AAATicket
     $Hash{'Action'} = 'Action';
     $Hash{'Age'} = 'Vieillir';
     $Hash{'Article'} = 'Article';
     $Hash{'Attachment'} = 'Pièce jointe';
-    $Hash{'Attachments'} = '';
-    $Hash{'Bcc'} = '';
+    $Hash{'Attachments'} = 'Pièces jointes';
+    $Hash{'Bcc'} = 'Copie Invisible';
     $Hash{'Bounce'} = 'Renvoyer';
     $Hash{'Cc'} = 'Copie ';
     $Hash{'Close'} = 'Fermer';
@@ -149,7 +150,7 @@ sub Data {
     $Hash{'Compose'} = 'Composer';
     $Hash{'Created'} = 'Créé ';
     $Hash{'Createtime'} = 'Création du ';
-    $Hash{'eMail'} = '';
+    $Hash{'eMail'} = 'courriel';
     $Hash{'email'} = 'courriel';
     $Hash{'email-external'} = 'message externe';
     $Hash{'email-internal'} = 'message interne';
@@ -157,7 +158,7 @@ sub Data {
     $Hash{'From'} = 'De ';
     $Hash{'high'} = 'bloque tout un poste';
     $Hash{'History'} = 'Historique';
-    $Hash{'If it is not displayed correctly,'} = '';
+    $Hash{'If it is not displayed correctly,'} = 'Si il n\'est pas affiché correctement';
     $Hash{'Lock'} = 'Verrouiller';
     $Hash{'low'} = 'confort de fonctionnement';
     $Hash{'Move'} = 'Déplacer';
@@ -172,36 +173,36 @@ sub Data {
     $Hash{'phone'} = 'téléphone';
     $Hash{'plain'} = 'tel quel';
     $Hash{'Priority'} = 'Priorité';
-    $Hash{'Queue'} = '';
+    $Hash{'Queue'} = 'File';
     $Hash{'removed'} = 'supprimé';
     $Hash{'Sender'} = 'Émetteur';
-    $Hash{'sms'} = '';
+    $Hash{'sms'} = 'sms';
     $Hash{'State'} = 'État';
     $Hash{'Subject'} = 'Sujet';
-    $Hash{'This is a'} = '';
+    $Hash{'This is a'} = 'Ceci est un';
     $Hash{'This is a HTML email. Click here to show it.'} = 'Ceci est un message au format HTML&nbsp;; cliquer ici pour l\'afficher.';
     $Hash{'This message was written in a character set other than your own.'} = '';
     $Hash{'Ticket'} = 'Ticket';
     $Hash{'To'} = 'À ';
-    $Hash{'to open it in a new window.'} = '';
+    $Hash{'to open it in a new window.'} = 'Pour l\'ouvrir dans une nouvelle fenêtre';
     $Hash{'Unlock'} = 'Déverrouiller';
     $Hash{'very high'} = 'bloque un service entier';
     $Hash{'very low'} = 'confort intellectuel';
     $Hash{'View'} = 'Vue';
-    $Hash{'webrequest'} = '';
+    $Hash{'webrequest'} = 'Requete par le web';
     $Hash{'Zoom'} = 'Détail';
 
     # Template: AdminAutoResponseForm
     $Hash{'Add auto response'} = 'Ajouter une réponse automatique';
-    $Hash{'Auto Response From'} = '';
+    $Hash{'Auto Response From'} = 'Réponse automatique de ';
     $Hash{'Auto Response Management'} = 'Gestion des réponses automatiques';
     $Hash{'Change auto response settings'} = 'Modifier les paramètres de réponses automatiques';
-    $Hash{'Charset'} = '';
-    $Hash{'Note'} = '';
+    $Hash{'Charset'} = 'Jeu de charactère';
+    $Hash{'Note'} = 'Note';
     $Hash{'Response'} = 'Réponse';
-    $Hash{'to get the first 20 character of the subject'} = '';
-    $Hash{'to get the first 5 lines of the email'} = '';
-    $Hash{'Type'} = '';
+    $Hash{'to get the first 20 character of the subject'} = 'pour avoir les 20 premiers charactères du sujet ';
+    $Hash{'to get the first 5 lines of the email'} = 'pour avoir les 5 premières ligne du mail';
+    $Hash{'Type'} = 'Type';
     $Hash{'Useable options'} = 'Options accessibles';
 
     # Template: AdminCharsetForm
@@ -210,26 +211,26 @@ sub Data {
     $Hash{'System Charset Management'} = 'Gestion du jeu de caractères système';
 
     # Template: AdminCustomerUserForm
-    $Hash{'Add customer user'} = '';
-    $Hash{'Change customer user settings'} = '';
-    $Hash{'Customer User Management'} = '';
+    $Hash{'Add customer user'} = 'Ajouter un utilisateur client';
+    $Hash{'Change customer user settings'} = 'Changer les préférences utilisateurs du client';
+    $Hash{'Customer User Management'} = 'Gestion des clients utilisateurs';
     $Hash{'Customer user will be needed to to login via customer panels.'} = '';
     $Hash{'CustomerID'} = 'Numéro de client#';
     $Hash{'Email'} = 'Courriel';
     $Hash{'Firstname'} = 'Prénom';
     $Hash{'Lastname'} = 'Nom';
-    $Hash{'Login'} = '';
+    $Hash{'Login'} = 'Login';
 
     # Template: AdminCustomerUserPreferencesGeneric
 
     # Template: AdminEmail
-    $Hash{'Admin-Email'} = '';
-    $Hash{'Body'} = '';
-    $Hash{'OTRS-Admin Info!'} = '';
-    $Hash{'Recipents'} = '';
+    $Hash{'Admin-Email'} = 'Email de l\'administrateur';
+    $Hash{'Body'} = 'Corps';
+    $Hash{'OTRS-Admin Info!'} = 'Information de l\'administrateur OTRS';
+    $Hash{'Recipents'} = 'Récipients';
 
     # Template: AdminEmailSent
-    $Hash{'Message sent to'} = '';
+    $Hash{'Message sent to'} = 'Message envoyé à';
 
     # Template: AdminGroupForm
     $Hash{'Add group'} = 'Ajouter un groupe';
@@ -245,21 +246,21 @@ sub Data {
     $Hash{'System Language Management'} = 'Gestion des langues du système';
 
     # Template: AdminNavigationBar
-    $Hash{'AdminEmail'} = '';
+    $Hash{'AdminEmail'} = 'Email de l\'administrateur.';
     $Hash{'AgentFrontend'} = 'Frontal d\'agent';
-    $Hash{'Auto Response <-> Queue'} = '';
+    $Hash{'Auto Response <-> Queue'} = 'Réponse Automatique <-> Files';
     $Hash{'Auto Responses'} = 'Réponses automatiques';
-    $Hash{'Charsets'} = '';
-    $Hash{'CustomerUser'} = '';
+    $Hash{'Charsets'} = 'Jeu de Charactère';
+    $Hash{'CustomerUser'} = 'Client Utilisateur';
     $Hash{'Email Addresses'} = 'Adresses courriel';
     $Hash{'Groups'} = 'Groupes';
     $Hash{'Logout'} = 'Déconnexion';
     $Hash{'Responses'} = 'Réponses';
     $Hash{'Responses <-> Queue'} = 'Réponses <-> Files';
-    $Hash{'Select Box'} = '';
+    $Hash{'Select Box'} = 'Choisissez une boîte';
     $Hash{'Session Management'} = 'Gestion des sessions';
     $Hash{'Status defs'} = '';
-    $Hash{'User <-> Groups'} = '';
+    $Hash{'User <-> Groups'} = 'Utilisateur <-> Groupes';
 
     # Template: AdminQueueAutoResponseForm
     $Hash{'Queue <-> Auto Response Management'} = 'Gestion des files <-> réponses automatiques';
@@ -267,12 +268,12 @@ sub Data {
     # Template: AdminQueueAutoResponseTable
 
     # Template: AdminQueueForm
-    $Hash{'0 = no escalation'} = '';
-    $Hash{'0 = no unlock'} = '';
+    $Hash{'0 = no escalation'} = '0 = pas d\'escalade';
+    $Hash{'0 = no unlock'} = '0 = pas de vérouillage';
     $Hash{'Add queue'} = 'Ajouter une file';
     $Hash{'Change queue settings'} = 'Modifier les paramètres des files';
     $Hash{'Escalation time'} = 'Délai d\'escalade';
-    $Hash{'Follow up Option'} = '';
+    $Hash{'Follow up Option'} = 'Option des suivis';
     $Hash{'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.'} = '';
     $Hash{'If a ticket will not be answered in thos time, just only this ticket will be shown.'} = '';
     $Hash{'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.'} = '';
