@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.161 2005-02-15 11:58:13 martin Exp $
+# $Id: Ticket.pm,v 1.162 2005-02-23 10:27:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.161 $';
+$VERSION = '$Revision: 1.162 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -256,9 +256,9 @@ creates a new ticket
 
   my $TicketID = $TicketObject->TicketCreate(
         TN => $TicketObject->TicketCreateNumber(),
+        Title => 'Some Ticket Title',
         Queue => 'Raw',                # or QueueID => 123,
         Lock => 'unlock',
-        GroupID => 1,
         Priority => '3 normal'         # or PriorityID => 2,
         State => 'new',                # or StateID => 5,
         CustomerNo => '123465',
@@ -272,7 +272,7 @@ creates a new ticket
 sub TicketCreate {
     my $Self = shift;
     my %Param = @_;
-    my $GroupID = $Param{GroupID};
+    my $GroupID = $Param{GroupID} || 1;
     my $ValidID = $Param{ValidID} || 1;
     my $Age = $Self->{TimeObject}->SystemTime();
     my $EscalationStartTime = $Self->{TimeObject}->SystemTime();
@@ -372,6 +372,12 @@ sub TicketCreate {
         }
         # update ticket view index
         $Self->TicketAcceleratorAdd(TicketID => $TicketID);
+        # log
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+                Message => "New Ticket [$Param{TN}/".substr($Param{Title}, 0, 15)."] created (TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
+        );
+
         # return ticket id
         return $TicketID;
     }
@@ -3624,6 +3630,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.161 $ $Date: 2005-02-15 11:58:13 $
+$Revision: 1.162 $ $Date: 2005-02-23 10:27:45 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.51 2004-10-28 15:05:11 martin Exp $
+# $Id: NewTicket.pm,v 1.52 2005-02-23 10:27:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -161,10 +161,9 @@ sub Run {
     # --
     my $TicketID = $Self->{TicketObject}->TicketCreate(
         TN => $NewTn,
-        Subject => $GetParam{Subject},
+        Title => $GetParam{Subject},
         QueueID => $QueueID,
         Lock => 'unlock',
-        GroupID => 1,
         Priority => $Priority,
         State => $State,
         CustomerNo => $GetParam{'X-OTRS-CustomerNo'},
@@ -296,12 +295,6 @@ sub Run {
             UserID => $Param{InmailUserID},
         );
     }
-    # do log
-    $Self->{LogObject}->Log(
-	Priority => 'notice',
-        Message => "New Ticket [$NewTn] created (TicketID=$TicketID, " .
-        "ArticleID=$ArticleID). $Comment"
-    );
 
     return $TicketID;
 }
