@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.48 2003-01-03 16:16:48 martin Exp $
+# $Id: index.pl,v 1.49 2003-01-09 15:06:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -85,7 +85,7 @@ my %Param = ();
 $Param{SessionName} = $CommonObject{ConfigObject}->Get('SessionName') || 'SessionID';
 $Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => $Param{SessionName}) || '';
 # drop old session id (if exists)
-my $QueryString = $ENV{"QUERY_STRING"};
+my $QueryString = $ENV{"QUERY_STRING"} || '';
 $QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/;
 # definde frame work params
 my $FramworkPrams = {
