@@ -2,7 +2,7 @@
 # Kernel/System/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.17 2002-09-01 20:24:05 martin Exp $
+# $Id: Article.pm,v 1.18 2002-09-19 22:23:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,6 @@ use strict;
 use File::Path;
 use File::Basename;
 use MIME::Parser;
-use MIME::Words qw(:all);
 use Kernel::System::Ticket;
 
 # --
@@ -25,7 +24,7 @@ use Kernel::System::Ticket;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -88,8 +87,6 @@ sub CreateArticle {
     # --
     foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
         if ($Param{$_}) {
-            # mime decode
-            $Param{$_} = decode_mimewords($Param{$_});
             # qb quoting
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
         }
