@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.53 2002-10-20 11:43:13 martin Exp $
+# $Id: Agent.pm,v 1.54 2002-10-20 22:34:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -966,7 +966,7 @@ sub AgentMailboxTicket {
     my %Param = @_;
 
     if ($Param{ViewType} eq 'New' && $Param{LastSenderID} eq $Param{UserID}) {
-        return;
+        return '';
     }
 
     if ($Param{LastSenderID} ne $Param{UserID}) {
@@ -976,8 +976,11 @@ sub AgentMailboxTicket {
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
 
     # do some strips && quoting
-    foreach ('To', 'Cc', 'From', 'Subject') {
+    foreach (qw(To Cc From Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70);
+    }
+    foreach (qw(State Priotity Queue CustomerID)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 20);
     }
 
     # create & return output
@@ -1037,11 +1040,11 @@ sub AgentStatusViewTable {
     my %Param = @_;
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
     # do html quoteing
-    foreach (qw(State Queue Owner Lock)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 16);
+    foreach (qw(State Queue Owner Lock CustomerID)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 10) || '';
     }
-    foreach (qw(Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 30);
+    foreach (qw(From To Cc Subject)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 30) || '';
     }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentStatusViewTable', Data => \%Param);
