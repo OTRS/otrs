@@ -1,8 +1,8 @@
 # --
 # Config.pm - Config file for OpenTRS kernel
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.22 2002-04-12 16:32:31 martin Exp $
+# $Id: Config.pm,v 1.23 2002-04-14 13:37:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -51,18 +51,6 @@ sub Load {
     # (Enable this so you can't use the installer.pl)
     $Self->{SecureMode} = 1;
 
-    # CheckRemoteIP 
-    # (If the application is used via a proxy-farm then the 
-    # remote ip address is mostly different. In this case,
-    # turn of the CheckRemoteID. ) [1|0] 
-    $Self->{CheckRemoteID} = 1;
-
-    # SessionDriver
-    # (How should be the session-data stored? [sql|fs]
-    # Advantage of sql ist that you can split the 
-    # Frontendserver from the DB-Server.)
-    $Self->{SessionDriver} = 'sql';
-
     # SystemID
     # (The identify oh the system. Each ticket number and
     # each http session id starts with this number)
@@ -90,6 +78,37 @@ sub Load {
     # CustomQueue
     # (The name of custom queue.)
     $Self->{CustomQueue} = 'PersonalQueue';
+
+
+    # ----------------------------------------------------
+    # session settings
+    # ----------------------------------------------------
+
+    # SessionDriver
+    # (How should be the session-data stored? [sql|fs]
+    # Advantage of sql ist that you can split the 
+    # Frontendserver from the DB-Server.)
+    $Self->{SessionDriver} = 'sql';
+
+    # SessionCheckRemoteIP 
+    # (If the application is used via a proxy-farm then the 
+    # remote ip address is mostly different. In this case,
+    # turn of the CheckRemoteID. ) [1|0] 
+    $Self->{SessionCheckRemoteIP} = 1;
+
+    # SessionDeleteIfNotRemoteID
+    # (Delete session if the session id is used with an 
+    # invalied remote IP?) [0|1]
+    $Self->{SessionDeleteIfNotRemoteID} = 1;
+
+    # SessionMaxTime
+    # (Max valid time of one session id in second (8h = 28800).)
+    $Self->{SessionMaxTime} = 28800;
+
+    # SessionDeleteIfTimeToOld
+    # (Delete session's witch are requested and to old?) [0|1]
+    $Self->{SessionDeleteIfTimeToOld} = 1;
+
 
     # ----------------------------------------------------
     # DB settings
@@ -207,10 +226,6 @@ sub Load {
     # (Global CGI handle.)
     $Self->{CGIHandle} = 'index.pl';
 
-    # MaxSessionTime
-    # (Max valid time of one session id in second (8h = 28800).)
-    $Self->{MaxSessionTime} = 28800;
-
     # ----------------------------------------------------
     # Ticket stuff
     # ----------------------------------------------------
@@ -291,7 +306,7 @@ sub Load {
     # default charset
     $Self->{DefaultCharset} = 'iso-8859-1';
     # default langauge
-    $Self->{DefaultLanguage} = 'German';
+    $Self->{DefaultLanguage} = 'English';
     # default theme
     $Self->{DefaultTheme} = 'Standard';
 
@@ -331,6 +346,22 @@ sub Load {
         'closed unsuccsessful',
     ];
 
+    # ----------------------------------------------------
+    # defaults for forward message
+    # ----------------------------------------------------
+    # next possible states for compose message
+    $Self->{DefaultNextForwardTypePossible} = [
+        'open', 
+        'closed succsessful',
+        'closed unsuccsessful',
+    ];
+    # possible email type 
+    $Self->{DefaultForwardEmailType} = [
+        'email-external',
+        'email-internal',
+    ];
+
+    # EOC
 }
 # --
 sub Get {
