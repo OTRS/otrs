@@ -1,9 +1,9 @@
 # --
 # AgentZoomBody.dtl - provides HTML AgentZoom for AgentZoom.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.9 2004-04-02 08:39:02 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.10 2004-07-08 12:48:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,44 +16,39 @@
     $Data{"ArticleStrg"}
     <hr>
     <table border="0" width="100%" cellspacing="0" cellpadding="1">
+# From:, To:, Cc:
+<!-- dtl:block:Row -->
     <tr>
-      <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> $QData{"From","160"}</td>
+      <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
+      <td width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
     </tr>
-# --
-# check if To exists
-# -- 
-    <dtl if ($Data{"To"} ne "") { $Data{"ArticleToString"} = "<tr><td valign="top"><b>$Text{"To"}:</b></td><td> $QData{"To","160"}</td></tr>"; }>
-    $Data{"ArticleToString"}
-# --
-# check if Cc exists
-# -- 
-    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $QData{"Cc","160"}</td></tr>"; }>
-    $Data{"ArticleCcString"}
-# --
-    <tr>
-      <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> $QData{"Subject","160"}</td>
-    </tr>
+<!-- dtl:block:Row -->
     <tr>
       <td valign="top"><b>$Text{"Created"}:</b></td>
-      <td> $TimeLong{"$Data{"Created"}"}</td>
+      <td> <div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></td>
     </tr>
-# --
 # show the Article::FreeKey1-3 and Article::FreeText1-3
-# --
-<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>"; }>
-<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>"; }>
-<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>"; }>
-     $Data{"ArticleFreeString1"}
-     $Data{"ArticleFreeString2"}
-     $Data{"ArticleFreeString3"}
-# --
-# check if To exists
-# -- 
-    <dtl if ($Data{"ATM"} ne "") { $Data{"ArticleATMString"} = "<tr><td valign="top"><b>$Text{"Attachment"}:</b></td><td> $Data{"ATM"}</td></tr>"; }>
-    $Data{"ArticleATMString"}
-# --
+<!-- dtl:block:ArticleFreeText -->
+    <tr>
+      <td valign="top" width="15%"><b>$QData{"Key"}:</b></td>
+      <td width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
+    </tr>
+<!-- dtl:block:ArticleFreeText -->
+# show article options like signed, crypted, ...
+<!-- dtl:block:ArticleOption -->
+    <tr>
+      <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
+      <td width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
+    </tr>
+<!-- dtl:block:ArticleOption -->
+# show attachments
+<!-- dtl:block:ArticleAttachment -->
+    <tr>
+      <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
+      <td width="85%"> $Data{"Value"}</div></td>
+    </tr>
+<!-- dtl:block:ArticleAttachment -->
+
   </table>
 $Data{"BodyNote"}
 <div class="message">
