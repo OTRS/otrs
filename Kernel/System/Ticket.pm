@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.142 2004-09-09 13:36:29 martin Exp $
+# $Id: Ticket.pm,v 1.143 2004-09-29 09:37:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.142 $';
+$VERSION = '$Revision: 1.143 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -53,11 +53,15 @@ All ticket functions.
 create a object
 
   use Kernel::Config;
+  use Kernel::System::Time;
   use Kernel::System::Log;
   use Kernel::System::DB;
   use Kernel::System::Ticket;
 
   my $ConfigObject = Kernel::Config->new();
+  my $TimeObject    = Kernel::System::Time->new(
+      ConfigObject => $ConfigObject,
+  );
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
@@ -83,13 +87,13 @@ sub new {
 
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
+
+    # get needed objects
+    foreach (qw(ConfigObject LogObject TimeObject DBObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
+
     # create common needed module objects
-    if (!$Param{TimeObject}) {
-        $Self->{TimeObject} = Kernel::System::Time->new(%Param);
-    }
-    else {
-        $Self->{TimeObject} = $Param{TimeObject};
-    }
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     if (!$Param{GroupObject}) {
         $Self->{GroupObject} = Kernel::System::Group->new(%Param);
@@ -118,10 +122,7 @@ sub new {
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
-    # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+
     # get config static var
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
         Type => 'Viewable',
@@ -3163,6 +3164,10 @@ sub TicketAcl {
         my %Queue = $Self->{QueueObject}->QueueGet(ID => $Param{QueueID}, Cache => 1);
         $Checks{Queue} = \%Queue;
     }
+    elsif ($Param{Queue}) {
+        my %Queue = $Self->{QueueObject}->QueueGet(Name => $Param{Queue}, Cache => 1);
+        $Checks{Queue} = \%Queue;
+    }
     # check workflow config
     my %Acls = %{$Self->{ConfigObject}->Get('TicketAcl')};
     my %NewData = ();
@@ -3344,6 +3349,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.142 $ $Date: 2004-09-09 13:36:29 $
+$Revision: 1.143 $ $Date: 2004-09-29 09:37:45 $
 
 =cut
