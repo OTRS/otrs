@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Sendmail.pm,v 1.13 2004-11-28 11:18:34 martin Exp $
+# $Id: Sendmail.pm,v 1.14 2004-12-04 18:27:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,8 +48,9 @@ sub new {
 sub Send {
     my $Self = shift;
     my %Param = @_;
+    my $ToString = '';
     # check needed stuff
-    foreach (qw(Header Body To ToArray)) {
+    foreach (qw(Header Body ToArray)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -62,6 +63,7 @@ sub Send {
     }
     # recipient
     foreach (@{$Param{ToArray}}) {
+        $ToString .= "$_,";
         $Arg.= ' '.quotemeta($_);
     }
     # send mail
@@ -76,7 +78,7 @@ sub Send {
         if ($Self->{Debug} > 2) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Sent email to '$Param{To}' from '$Param{From}'.",
+                Message => "Sent email to '$ToString' from '$Param{From}'.",
             );
         }
         return 1;
