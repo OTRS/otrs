@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.69 2004-04-19 09:55:30 martin Exp $
+# $Id: index.pl,v 1.70 2004-04-19 19:53:36 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -170,27 +170,17 @@ $Param{Action} =~ s/\W//g;
 # check request type
 # --
 if ($Param{Action} eq "Login") {
-    # --
     # get params
-    # --
     my $PostUser = $CommonObject{ParamObject}->GetParam(Param => 'User') || '';
     my $PostPw = $CommonObject{ParamObject}->GetParam(Param => 'Password') || '';
-    # --
     # create AuthObject
-    # --
     my $AuthObject = Kernel::System::Auth->new(%CommonObject);
-    # --
     # check submited data
-    # --
     my $User = $AuthObject->Auth(User => $PostUser, Pw => $PostPw);
     if ($User) {
-        # --
         # get user data
-        # --
         my %UserData = $CommonObject{UserObject}->GetUserData(User => $User, Valid => 1);
-        # --
         # check needed data
-        # --
         if (!$UserData{UserID} || !$UserData{UserLogin}) {
             if ($CommonObject{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
                 # sync user
@@ -244,9 +234,7 @@ if ($Param{Action} eq "Login") {
                 exit (0);
             }
         }
-        # --
-        # pref update 
-        # --
+        # last login preferences update 
         $CommonObject{UserObject}->SetPreferences(
             UserID => $UserData{UserID},
             Key => 'UserLastLogin',
@@ -270,16 +258,13 @@ if ($Param{Action} eq "Login") {
         foreach (keys %GroupData) {
             $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
         }
-        # --
         # create new session id
-        # --
         my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(
             %UserData, 
+            UserLastRequest => time(), 
             UserType => 'User', 
         );
-        # --
         # create a new LayoutObject with SessionIDCookie
-        # --
         my $Expires = '+'.$CommonObject{ConfigObject}->Get('SessionMaxTime').'s';
         if (!$CommonObject{ConfigObject}->Get('SessionUseCookieAfterBrowserClose')) {
             $Expires = '';
@@ -296,17 +281,12 @@ if ($Param{Action} eq "Login") {
           SessionName => $Param{SessionName},
           %CommonObject,
         );
-
-        # --
         # redirect with new session id and old params
-        # --
         # prepare old redirect URL -- do not redirect to Login or Logout (loop)!
         if ($Param{RequestedURL} =~ /Action=(Logout|Login)/) {
             $Param{RequestedURL} = '';
         }
-        # --
         # use login module (if configured)
-        # --
         my $LoginModule = $CommonObject{ConfigObject}->Get('LoginModule');
         if ($LoginModule && eval "require $LoginModule") {
             my $LoginModuleObject = $LoginModule->new(
@@ -323,14 +303,10 @@ if ($Param{Action} eq "Login") {
             print $LayoutObject->Redirect(OP => "$Param{RequestedURL}");
         }
     }
-    # --
     # login is valid
-    # --
     else {
         if ($CommonObject{ConfigObject}->Get('LoginURL')) {
-            # --
             # redirect to alternate login
-            # --
             $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $CommonObject{LayoutObject}->Redirect(
                  ExtURL => $CommonObject{ConfigObject}->Get('LoginURL').
@@ -338,9 +314,7 @@ if ($Param{Action} eq "Login") {
             );
         }
         else {
-            # --
             # show normal login
-            # --
             print $CommonObject{LayoutObject}->Login(
                 Title => 'Login',          
                 Message => $CommonObject{LogObject}->GetLogEntry(
@@ -358,15 +332,11 @@ if ($Param{Action} eq "Login") {
 # --
 elsif ($Param{Action} eq "Logout"){
     if ($CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID})) {
-        # --
         # get session data
-        # --
         my %UserData = $CommonObject{SessionObject}->GetSessionIDData(
           SessionID => $Param{SessionID},
         );
-        # --
         # create new LayoutObject with new '%Param' and '%UserData'
-        # --
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
@@ -378,22 +348,16 @@ elsif ($Param{Action} eq "Logout"){
           %Param,
           %UserData,
         );
-        # --
         # remove session id
-        # --
         if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID})) {
             if ($CommonObject{ConfigObject}->Get('LogoutURL')) {
-                # --
                 # redirect to alternate login
-                # --
                 print $CommonObject{LayoutObject}->Redirect(
                      ExtURL => $CommonObject{ConfigObject}->Get('LogoutURL')."?Reason=Logout",
                 );
             }
             else {
-                # --
                 # show logout screen
-                # --
                 print $CommonObject{LayoutObject}->Login(
                     Title => 'Logout',
                     Message => 'Logout successful. Thank you for using OTRS!',
@@ -416,9 +380,7 @@ elsif ($Param{Action} eq "Logout"){
     }
     else {
         if ($CommonObject{ConfigObject}->Get('LoginURL')) {
-            # --
             # redirect to alternate login
-            # --
             $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $CommonObject{LayoutObject}->Redirect(
                  ExtURL => $CommonObject{ConfigObject}->Get('LoginURL').
@@ -426,9 +388,7 @@ elsif ($Param{Action} eq "Logout"){
             );
         }
         else {
-            # --
             # show login screen
-            # --
             print $CommonObject{LayoutObject}->Login(
                 Title => 'Logout',
                 Message => 'Invalid SessionID!',
@@ -441,31 +401,21 @@ elsif ($Param{Action} eq "Logout"){
 # user lost password
 # --
 elsif ($Param{Action} eq "LostPassword"){
-    # --
     # check feature
-    # --
     if (! $CommonObject{ConfigObject}->Get('LostPassword')) {
-        # --
         # show normal login
-        # --
         print $CommonObject{LayoutObject}->Login(
            Title => 'Login',
            Message => 'Feature not active!',
         );
         exit 0;
     }
-    # --
     # get params
-    # --
     my $User = $CommonObject{ParamObject}->GetParam(Param => 'User') || '';
-    # --
     # get user data
-    # --
     my %UserData = $CommonObject{UserObject}->GetUserData(User => $User);
     if (! $UserData{UserID}) {
-        # --
         # show normal login
-        # --
         print $CommonObject{LayoutObject}->Login(
            Title => 'Login',          
            Message => 'There is no account with that login name.',
@@ -511,9 +461,7 @@ elsif ($Param{Action} eq "LostPassword"){
 # show login site
 # --
 elsif (!$Param{SessionID}) {
-    # --
     # create AuthObject
-    # --
     my $AuthObject = Kernel::System::Auth->new(%CommonObject);
     if ($AuthObject->GetOption(What => 'PreAuth')) {
         # automatic login
@@ -523,9 +471,7 @@ elsif (!$Param{SessionID}) {
         );
     }
     elsif ($CommonObject{ConfigObject}->Get('LoginURL')) {
-        # --
         # redirect to alternate login
-        # --
         $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
         print $CommonObject{LayoutObject}->Redirect(
             ExtURL => $CommonObject{ConfigObject}->Get('LoginURL').
@@ -533,9 +479,7 @@ elsif (!$Param{SessionID}) {
         );
     }
     else {
-        # --
         # login screen
-        # --
         print $CommonObject{LayoutObject}->Login(
             Title => 'Login',
             %Param,
@@ -547,13 +491,9 @@ elsif (!$Param{SessionID}) {
 # --
 #elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && (eval '$Param{Action} =~ /$Kernel::Config::Modules::Allow/' || eval '$Param{Action} =~ /$Kernel::Config::ModulesCustom::Allow/')){
 elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && (eval '$Param{Action} =~ /$Kernel::Config::Modules::Allow/' || eval '$Param{Action} =~ /$Kernel::Config::ModulesCustom::Allow/')){
-    # --
     # check session id
-    # --
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
-        # --
         # create new LayoutObject with new '%Param' 
-        # --
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
@@ -564,9 +504,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
           %CommonObject,
           %Param,
         );
-        # --
         # create AuthObject
-        # --
         my $AuthObject = Kernel::System::Auth->new(%CommonObject);
         if ($AuthObject->GetOption(What => 'PreAuth')) {
             # automatic re-login
@@ -576,9 +514,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
              );
         }
         elsif ($CommonObject{ConfigObject}->Get('LoginURL')) {
-            # --
             # redirect to alternate login
-            # --
             $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $CommonObject{LayoutObject}->Redirect(
                  ExtURL => $CommonObject{ConfigObject}->Get('LoginURL').
@@ -586,9 +522,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
             );
         }
         else {
-            # --
             # show login
-            # --
             print $CommonObject{LayoutObject}->Login(
                 Title => 'Login',
                 Message => $Kernel::System::AuthSession::CheckSessionID,
@@ -600,28 +534,20 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
     # run module
     # --
     else { 
-        # --
         # get session data
-        # --
         my %UserData = $CommonObject{SessionObject}->GetSessionIDData(
             SessionID => $Param{SessionID},
         );
-        # --
         # check needed data
-        # --
         if (!$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'User') {
             if ($CommonObject{ConfigObject}->Get('LoginURL')) {
-                # --
                 # redirect to alternate login
-                # --
                 print $CommonObject{LayoutObject}->Redirect(
                     ExtURL => $CommonObject{ConfigObject}->Get('LoginURL')."?Reason=SystemError",
                 );
             }
             else {
-                # --
                 # show login screen
-                # ---
                 print $CommonObject{LayoutObject}->Login(
                     Title => 'Panic!',
                     Message => 'Panic! Invalid Session!!!',
@@ -630,17 +556,13 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
                 exit (0);
             }
         }
-        # --
         # create new LayoutObject with new '%Param' and '%UserData'
-        # --
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
             %CommonObject, 
             %Param, 
             %UserData,
         );
-        # -- 
         # module permisson check
-        # --
         my $Access = 1;
         my $AccessOk = 0;
         my %ConfigMap = (
@@ -669,39 +591,37 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
         }
         if (!$Access) {
             print $CommonObject{LayoutObject}->NoPermission(
-                Message => "You have to be in the a permitted group!",
+                Message => "You have to be in the permitted group!",
             );
             exit (0);
         }
-        # --
+        # updated last request time
+        $CommonObject{SessionObject}->UpdateSessionID(
+            SessionID => $Param{SessionID},
+            Key => 'UserLastRequest',
+            Value => time(), 
+        );
         # debug info
-        # --
         if ($Debug) {
             $CommonObject{LogObject}->Log(
                 Priority => 'debug',
                 Message => 'Kernel::Modules::' . $Param{Action} .'->new',
             );
         }
-        # --
         # prove of concept! - create $GenericObject
-        # --
         my $GenericObject = ('Kernel::Modules::'.$Param{Action})->new(
             %CommonObject,
             %Param,
             %UserData,
         );
-        # --
         # debug info
-        # --
         if ($Debug) {
             $CommonObject{LogObject}->Log(
                 Priority => 'debug',
                 Message => ''. 'Kernel::Modules::' . $Param{Action} .'->run',
             );
         }
-        # --
         # ->Run $Action with $GenericObject
-        # --
         print $GenericObject->Run();
 
     }
