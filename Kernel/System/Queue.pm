@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.14 2002-07-24 21:11:35 martin Exp $
+# $Id: Queue.pm,v 1.15 2002-07-25 21:47:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -476,6 +476,7 @@ sub QueueAdd {
       # --
       # add default responses (if needed)
       # -- 
+      # add response by name
       if ($Self->{ConfigObject}->Get('StdResponse2QueueByCreating')) {
           foreach (@{$Self->{ConfigObject}->{StdResponse2QueueByCreating}}) {
               my $StdResponseID = $Self->{StdResponseObject}->StdResponseLookup(StdResponse => $_);
@@ -486,6 +487,16 @@ sub QueueAdd {
                   UserID => $Param{UserID},
                 );
               }
+          }
+      }
+      # add response by id
+      if ($Self->{ConfigObject}->Get('StdResponseID2QueueByCreating')) {
+          foreach (@{$Self->{ConfigObject}->{StdResponseID2QueueByCreating}}) {
+              $Self->SetQueueStdResponse(
+                  QueueID => $QueueID, 
+                  ResponseID => $_,
+                  UserID => $Param{UserID},
+              );
           }
       }
       return $QueueID; 
