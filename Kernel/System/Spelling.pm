@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spellinf module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.6 2003-03-09 15:09:29 martin Exp $
+# $Id: Spelling.pm,v 1.7 2003-04-09 21:26:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Spelling;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -77,7 +77,6 @@ sub Check {
     $Param{Text} =~ s/Ä/A"/g;
     $Param{Text} =~ s/Ö/O"/g;
     $Param{Text} =~ s/Ü/U"/g;
-    $Param{Text} =~ s/'/\\'/g;
     # --
     # get spell output
     # --
