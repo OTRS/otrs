@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerHeader.dtl,v 1.4 2003-02-08 15:40:44 martin Exp $
+# $Id: CustomerHeader.dtl,v 1.5 2003-02-17 20:38:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -52,13 +52,13 @@ Pragma: no-cache
   td,th
    { font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
   .header
-   { color:#ffffff;background-color:#cc0000;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+   { color:#efefef;background-color:#cc0000;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   a.headeritem
-   { color:#ffffff; }
+   { color:#efefef; }
   .footer
-   { color:#ffffff;background-color:#cc0000;font-weight:bold;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+   { color:#efefef;background-color:#cc0000;font-weight:bold;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   a.footeritem
-   { color:#ffffff; }
+   { color:#efefef; }
   .navbar
    { color:#000000;font-size:12px;font-weight:normal;font-family:Geneva,Helvetica,Arial,sans-serif; }
   .small
