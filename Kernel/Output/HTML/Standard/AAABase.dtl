@@ -133,3 +133,12 @@ $Text{"Don't show closed Tickets"}
 $Text{"Show closed Tickets"}
 $Text{"New Article"}
 $Text{"(Click here to add)"}
+$Text{"last"}
+$Text{"before"}
+$Text{"day(s)"}
+$Text{"month(s)"}
+$Text{"week(s)"}
+$Text{"year(s)"}
+$Text{"Normal"}
+$Text{"Preview"}
+
