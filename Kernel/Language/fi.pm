@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.15 2003-04-12 23:03:37 martin Exp $
+# $Id: fi.pm,v 1.16 2003-07-02 22:18:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Sun Apr 13 01:00:15 2003 by 
+    # Last translation Tue Jun 18 11:57:15 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -179,8 +179,8 @@ sub Data {
       'Send me a notification if a ticket is moved into a custom queue.' => 'Lähetä minulle ilmoitus, jos tikettejä siirretään valitsemiini jonoihin',
       'Send me a notification if a ticket is unlocked by the system.' => 'Lähetä minulle ilmoitus, jos järjestelmä poistaa tiketin lukituksen.',
       'Send me a notification if there is a new ticket in my custom queues.' => 'Lähetä ilmoitus uusista tiketeistä, jotka tulevat valitsemilleni jonotuslistoille',
-      'Show closed tickets.' => '',
-      'Spelling Dictionary' => '',
+      'Show closed tickets.' => 'Näytä suljetut tiketit.',
+      'Spelling Dictionary' => 'Oikolukusanasto',
       'Ticket lock timeout notification' => 'Ilmoitus tiketin lukituksen vanhenemisesta',
 
     # Template: AAATicket
@@ -189,7 +189,7 @@ sub Data {
       '3 normal' => '3 Normaali',
       '4 high' => '4 Kiireellinen',
       '5 very high' => '5 Erittäin kiireellinen',
-      'Action' => 'Hyväksy',
+      'Action' => 'Tapahtumat',
       'Age' => 'Ikä',
       'Article' => 'Artikkeli',
       'Attachment' => 'Liitetiedosto',
@@ -212,7 +212,7 @@ sub Data {
       'high' => 'Kiireellinen',
       'History' => 'Historia',
       'If it is not displayed correctly,' => 'Jos tämä ei näy oikein,',
-      'lock' => '',
+      'lock' => 'lukittu',
       'Lock' => 'Lukitse',
       'low' => 'Alhainen',
       'Move' => 'Siirrä',
@@ -224,9 +224,9 @@ sub Data {
       'open' => 'avoin',
       'Owner' => 'Omistaja',
       'Pending' => 'Odottaa',
-      'pending auto close+' => '',
-      'pending auto close-' => '',
-      'pending reminder' => '',
+      'pending auto close+' => 'Automaattisulkeminen+',
+      'pending auto close-' => 'Automaattisulkeminen-',
+      'pending reminder' => 'Muistutus',
       'phone' => 'puhelimitse',
       'plain' => 'pelkkä teksti',
       'Priority' => 'Prioriteetti',
@@ -300,9 +300,9 @@ sub Data {
       'Admin-Email' => 'Ylläpidon sähköposti',
       'Body' => 'Runko-osa',
       'OTRS-Admin Info!' => '',
-      'Permission' => '',
+      'Permission' => 'Käyttöoikeus',
       'Recipents' => 'Vastaanottajat',
-      'send' => '',
+      'send' => 'lähetä',
 
     # Template: AdminEmailSent
       'Message sent to' => 'Viesti lähetetty, vastaanottaja: ',
@@ -343,7 +343,7 @@ sub Data {
       'Add POP3 Account' => 'Lisää POP3 -tunnus',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Kaikki saapuvat sähköpostit lähetetään valitulle jonotuslistalle',
       'Change POP3 Account setting' => 'Muuta POP3 -asetuksia',
-      'Dispatching' => '',
+      'Dispatching' => 'Lähetä',
       'Host' => 'Palvelin',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => '',
       'Login' => 'Käyttäjätunnus',
@@ -468,14 +468,14 @@ sub Data {
       'A message should have a To: recipient!' => 'Viestissä pitää olla vastaanottaja!',
       'Bounce ticket' => 'Delekoi tiketti',
       'Bounce to' => 'Delekoi',
-      'Inform sender' => '',
+      'Inform sender' => 'Informoi lähettäjää',
       'Next ticket state' => 'Uusi tiketin status',
       'Send mail!' => 'Lähetä sähköposti!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Laita vastaanottajakenttään sähköpostiosoite!',
       'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
 
     # Template: AgentClose
-      ' (work units)' => '',
+      ' (work units)' => ' (esim. minuutteina)',
       'A message should have a subject!' => 'Viestissä pitää olla otsikko!',
       'Close ticket' => 'Sulje tiketti',
       'Close type' => 'Sulkemisen syy',
@@ -484,15 +484,15 @@ sub Data {
       'Note type' => 'Viestityyppi',
       'Options' => 'Asetukset',
       'Spell Check' => 'Oikeinkirjoituksen tarkistus',
-      'Time units' => 'Aikayksiköt',
-      'You need to account time!' => '',
+      'Time units' => 'Työaika',
+      'You need to account time!' => 'Käsittelyaika',
 
     # Template: AgentCompose
-      'A message must be spell checked!' => '',
+      'A message must be spell checked!' => 'Viesti täytyy oikolukea!',
       'Attach' => 'Liite',
       'Compose answer for ticket' => 'Lähetä vastaus tikettiin',
-      'for pending* states' => '',
-      'Is the ticket answered' => '',
+      'for pending* states' => 'Automaattisulkeminen tai muistutus',
+      'Is the ticket answered' => 'Onko tikettiin vastattu',
       'Pending Date' => 'Odotuspäivä',
 
     # Template: AgentCustomer
@@ -527,7 +527,7 @@ sub Data {
       'Value' => '',
 
     # Template: AgentHistoryForm
-      'History of' => '',
+      'History of' => 'Historia:',
 
     # Template: AgentMailboxNavBar
       'All messages' => 'Kaikki viestit',
@@ -636,7 +636,7 @@ sub Data {
     # Template: AgentTicketPrintHeader
       'Accounted time' => '',
       'Escalation in' => 'Vanhenee',
-      'printed by' => '',
+      'printed by' => 'tulostanut: ',
 
     # Template: AgentUtilSearch
       'Article free text' => '',
@@ -683,7 +683,7 @@ sub Data {
 
     # Template: AgentZoomHead
       'Free Fields' => '',
-      'Print' => '',
+      'Print' => 'Tulosta',
 
     # Template: AgentZoomStatus
 
@@ -698,7 +698,7 @@ sub Data {
 
     # Template: CustomerHeader
       'Contact' => 'Yhteystiedot',
-      'Home' => 'Koti',
+      'Home' => 'Etusivu',
       'Online-Support' => 'Online-tuki',
       'Products' => 'Tuotteet',
       'Support' => 'Tuki',
@@ -743,9 +743,9 @@ sub Data {
     # Template: Header
 
     # Template: InstallerBody
-      'Create Database' => '',
-      'Drop Database' => '',
-      'Finished' => '',
+      'Create Database' => 'Luo tietokanta',
+      'Drop Database' => 'Poista tietokanta',
+      'Finished' => 'Valmis',
       'System Settings' => '',
       'Web-Installer' => '',
 
@@ -754,14 +754,14 @@ sub Data {
       'After doing so your OTRS is up and running.' => '',
       'Have a lot of fun!' => '',
       'Restart your webserver' => '',
-      'Start page' => '',
+      'Start page' => 'Aloitussivu',
       'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
       'Your OTRS Team' => '',
 
     # Template: InstallerLicense
-      'accept license' => '',
-      'don\'t accept license' => '',
-      'License' => '',
+      'accept license' => 'Hyväksy lisenssi',
+      'don\'t accept license' => 'En hyväksy lisenssiä',
+      'License' => 'Lisenssi',
 
     # Template: InstallerStart
       'Create new database' => '',
@@ -797,7 +797,7 @@ sub Data {
       'System FQDN' => '',
       'SystemID' => '',
       'Ticket Hook' => '',
-      'Ticket Number Generator' => '',
+      'Ticket Number Generator' => 'Tikettinumeroiden generoija',
       'Webfrontend' => 'Webnäkymä',
 
     # Template: Login
@@ -822,7 +822,7 @@ sub Data {
       'Tickets shown' => 'Tikettejä näkyvissä',
 
     # Template: SystemStats
-      'Graphs' => 'Grafiikat',
+      'Graphs' => 'Kuvaajat',
 
     # Template: Test
       'OTRS Test Page' => 'OTRS - Testisivu',
@@ -881,7 +881,7 @@ sub Data {
       'You have to be in the admin group!' => 'Sinun täytyy olla admin -ryhmässä!',
       'You have to be in the stats group!' => 'Sinun täytyy olla stats -ryhmässä',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Lähettäjä -kentässä pitää olla sähköpostiosoite (esim. teppo.testi@esimerkki.fi)',
-      'auto responses set' => '',
+      'auto responses set' => 'Automaattivastaus asetettu',
       'store' => 'tallenna',
       'tickets' => 'tikettiä',
     );
