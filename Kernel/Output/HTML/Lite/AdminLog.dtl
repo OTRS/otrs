@@ -2,7 +2,7 @@
 # AdminLog.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.dtl,v 1.10 2005-02-16 16:49:12 martin Exp $
+# $Id: AdminLog.dtl,v 1.11 2005-02-17 12:16:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@
       <td class="contentkey" width="60%">$Text{"Message"}</td>
     </tr>
 <!-- dtl:block:Row -->
-<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpasive"; }>
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
     <tr class="contentbody">
       <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Time"}$Data{"StartFont"}</td>
       <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Priority"}$Data{"StartFont"}</td>
@@ -35,7 +35,7 @@
       <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
     </tr>
 <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "searchpasive") { $Env{"Color"} = "searchactive"; }>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
 <!-- dtl:block:Row -->
     </table>
     </p>

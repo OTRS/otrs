@@ -1,8 +1,8 @@
 # --
 # AdminSession.dtl - provides global HTML AdminSession
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.dtl,v 1.11 2004-12-23 06:03:31 martin Exp $
+# $Id: AdminSession.dtl,v 1.12 2005-02-17 12:16:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,8 +47,8 @@
         <td class="$Env{"Color"}"><b>$Text{"Session"}: $Data{"SessionID"}</b><br><div class="small">$Data{"Output"}</td>
         <td valign="top" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">$Text{"kill session"}</a></td>
       </tr>
-<dtl if ($Env{"Color"} eq "searchpasive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpasive"; }>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
 <!-- dtl:block:Session -->
     </table>
   </td>

@@ -2,7 +2,7 @@
 # AdminSMIMEForm.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIMEForm.dtl,v 1.10 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminSMIMEForm.dtl,v 1.11 2005-02-17 12:16:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -139,8 +139,8 @@
         <td class="$Env{"Color"}">$QData{"ShortStartDate"}<br>$QData{"ShortEndDate"}</td>
         <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Hash=$QData{"Hash"}">x</a></td>
     </tr>
-<dtl if ($Env{"Color"} eq "searchpasive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpasive"; }>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
 <!-- dtl:block:Row -->
 
     </table>

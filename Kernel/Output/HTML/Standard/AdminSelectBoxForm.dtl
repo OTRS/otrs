@@ -1,8 +1,8 @@
 # --
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.14 2004-10-18 19:17:23 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.15 2005-02-17 12:16:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,8 +60,8 @@
 <!-- dtl:block:Row -->
 <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "active"; }>
 <tr class="search$Env{"Color"}">$Data{"Result"}</tr>
-<dtl if ($Env{"Color"} eq "pasive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "active") { $Env{"Color"} = "pasive"; }>
+<dtl if ($Env{"Color"} eq "passive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "active") { $Env{"Color"} = "passive"; }>
 <!-- dtl:block:Row -->
 </table>
 

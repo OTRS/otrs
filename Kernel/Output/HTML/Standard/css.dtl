@@ -1,8 +1,8 @@
 # --
 # css.dtl - css file
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: css.dtl,v 1.9 2004-12-04 10:58:36 martin Exp $
+# $Id: css.dtl,v 1.10 2005-02-17 12:16:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -63,7 +63,7 @@
   .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
   .contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .searchactive { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .searchpasive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .searchpassive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # singleboxhead
   .singleboxhead { color:#ffffff;background-color:#00000c;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
   .singleboxbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
