@@ -2,12 +2,17 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.29 2002-10-25 10:31:34 martin Exp $
+# $Id: CHANGES,v 1.30 2002-10-31 23:56:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+0.5 BETA9 (2002-??-??)
+ - (2002/11/01) added file permission check for PostMaster.pl on startup!
+    -=> Will help to get setup faster working!
+ - (2002/10/31) added email valid check (incl. mx) on CreateAccount (customer 
+    panel) -=> Config option: $Self->{CustomerPanelMXCheck}!
 
 0.5 BETA8 (2002-10-25)
  - (2002/10/24) improved web installer - added system settings
