@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.34 2003-06-22 18:37:31 martin Exp $
+# $Id: PostMaster.pm,v 1.35 2003-10-29 21:07:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,6 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
     # get common opjects
-    $Param{DBObject} = Kernel::System::DB->new(%Param);
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -51,7 +50,6 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # create common objects
-    $Self->{DBObject} = Kernel::System::DB->new(%Param);
     $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
     $Self->{ParseObject} = Kernel::System::EmailParser->new(
         Email => $Param{Email}, 
@@ -88,13 +86,29 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    # --
-    # ConfigObjectrse section / get params
-    # --
+    # ConfigObject section / get params
     my %GetParam = $Self->GetEmailParams();
-    # --
-    # should i ignore the incoming mail?
-    # --
+
+    # run all PreFilterModules (modify email params)
+    if (ref($Self->{ConfigObject}->Get('PostMaster::PreFilterModule')) eq 'ARRAY') {
+        foreach my $Module (@{$Self->{ConfigObject}->Get('PostMaster::PreFilterModule')}) {
+            if (eval "require $Module") {
+                my $FilterObject = $Module->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                );
+                %GetParam = $FilterObject->Run(%GetParam);
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'notice', 
+                    Message => "Can't load module $Module!",
+                );
+            }
+        }
+    }
+    # should I ignore the incoming mail?
     if ($GetParam{'X-OTRS-Ignore'} && $GetParam{'X-OTRS-Ignore'} =~ /yes/i) {
        $Self->{LogObject}->Log(
            Message => "Droped Email (From: $GetParam{'From'}, Message-ID: $GetParam{'Message-ID'}) " .
@@ -107,9 +121,7 @@ sub Run {
    # --
    # check if follow up
    my ($Tn, $TicketID) = $Self->CheckFollowUp(%GetParam);
-   # --
-   # Follow up ...
-   # --
+   # check if it's a follow up ...
    if ($Tn && $TicketID) {
         # get ticket data
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
