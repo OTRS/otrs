@@ -1,8 +1,8 @@
 # --
 # QueueView.dtl - provides HTML QueueView for AgentQueueView.pm
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: QueueView.dtl,v 1.3 2002-11-10 23:16:02 martin Exp $
+# $Id: QueueView.dtl,v 1.4 2003-01-03 00:21:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

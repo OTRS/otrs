@@ -1,8 +1,8 @@
 # --
 # AgentCustomerHistoryTable.dtl - provides HTML form for AgentCustomer.pm
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerHistoryTable.dtl,v 1.5 2002-11-10 23:10:34 martin Exp $
+# $Id: AgentCustomerHistoryTable.dtl,v 1.6 2003-01-03 00:21:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

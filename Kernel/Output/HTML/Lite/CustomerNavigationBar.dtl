@@ -1,8 +1,8 @@
 # --
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.1 2002-10-20 15:28:50 martin Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.2 2003-01-03 00:21:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

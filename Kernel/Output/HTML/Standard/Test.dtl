@@ -1,8 +1,8 @@
 # --
 # Test.dtl - provides HTML test page 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Test.dtl,v 1.6 2002-11-19 18:37:57 martin Exp $
+# $Id: Test.dtl,v 1.7 2003-01-03 00:21:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

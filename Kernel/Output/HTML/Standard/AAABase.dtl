@@ -109,3 +109,10 @@ $Text{"Logout successful. Thank you for using OTRS!"}
 $Text{"Invalid SessionID!"}
 $Text{"Feature not acitv!"}
 
+# misc
+$Text{"possible"}
+$Text{"reject"}
+$Text{"Facility"}
+$Text{"Timeover"}
+$Text{"Pending till"}
+$Text{"Don't work with UserID 1 (System account)! Create new users!"}

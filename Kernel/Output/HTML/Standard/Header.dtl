@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.22 2002-11-10 23:24:33 martin Exp $
+# $Id: Header.dtl,v 1.23 2003-01-03 00:21:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

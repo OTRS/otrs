@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByText.dtl,v 1.4 2002-10-15 09:51:46 martin Exp $
+# $Id: AgentUtilSearchByText.dtl,v 1.5 2003-01-03 00:21:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

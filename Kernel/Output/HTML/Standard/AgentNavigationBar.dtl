@@ -1,8 +1,8 @@
 # --
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.14 2002-12-27 18:41:10 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.15 2003-01-03 00:21:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

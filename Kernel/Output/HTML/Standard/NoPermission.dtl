@@ -1,8 +1,8 @@
 # --
 # NoPermission.dtl.dtl - provides HTML NoPermission screen
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NoPermission.dtl,v 1.1 2002-05-17 17:48:36 martin Exp $
+# $Id: NoPermission.dtl,v 1.2 2003-01-03 00:21:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

@@ -1,8 +1,8 @@
 # --
 # AdminLog.dtl - provides HTML form for AdminLog
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.dtl,v 1.1 2002-12-15 12:41:33 martin Exp $
+# $Id: AdminLog.dtl,v 1.2 2003-01-03 00:21:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

@@ -1,8 +1,8 @@
 # --
 # AgentOwner.dtl - provides HTML for AgentOwner mask
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.dtl,v 1.7 2002-12-25 09:33:07 martin Exp $
+# $Id: AgentOwner.dtl,v 1.8 2003-01-03 00:21:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

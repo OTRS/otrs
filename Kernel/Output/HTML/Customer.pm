@@ -1,8 +1,8 @@
 # --
 # HTML/Customer.pm - provides generic customer HTML output
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.7 2002-12-20 02:19:30 martin Exp $
+# $Id: Customer.pm,v 1.8 2003-01-03 00:21:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --

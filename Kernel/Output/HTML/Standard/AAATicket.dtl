@@ -41,6 +41,9 @@ $Text{"closed unsuccessful"}
 $Text{"new"}
 $Text{"open"}
 $Text{"removed"}
+$Text{"pending reminder"}
+$Text{"pending auto close+"}
+$Text{"pending auto close-"}
 
 $Text{"email-external"}
 $Text{"email-internal"}
@@ -56,5 +59,11 @@ $Text{"low"}
 $Text{"normal"}
 $Text{"high"}
 $Text{"very high"}
+
+$Text{"1 very low"}
+$Text{"2 low"}
+$Text{"3 normal"}
+$Text{"4 high"}
+$Text{"5 very high"}
 
 $Text{""}

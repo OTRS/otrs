@@ -1,8 +1,8 @@
 # --
 # InstallerFinish.dtl - provides HTML form for Installer
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerFinish.dtl,v 1.7 2002-10-24 23:57:12 martin Exp $
+# $Id: InstallerFinish.dtl,v 1.8 2003-01-03 00:21:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
