@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.5 2002-05-26 18:16:43 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.6 2002-10-03 21:14:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
 <p>
 
 <form action="$Env{"CGIHandle"}" method="post">
-<input type="hidden" name="Action" value="AdminSelectBox">
+<input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Select">
 <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
 <textarea name="SQL" rows="10" cols="60">
