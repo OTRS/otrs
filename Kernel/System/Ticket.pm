@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.95 2004-04-19 09:53:07 martin Exp $
+# $Id: Ticket.pm,v 1.96 2004-04-19 19:50:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.95 $';
+$VERSION = '$Revision: 1.96 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -84,7 +84,12 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
     # create common needed module objects
-    $Self->{TimeObject} = Kernel::System::Time->new(%Param);
+    if (!$Param{TimeObject}) {
+        $Self->{TimeObject} = Kernel::System::Time->new(%Param);
+    }
+    else {
+        $Self->{TimeObject} = $Param{TimeObject};
+    }
     if (!$Param{UserObject}) {
         $Self->{UserObject} = Kernel::System::User->new(%Param);
     } 
@@ -97,16 +102,30 @@ sub new {
     else {
         $Self->{GroupObject} = $Param{GroupObject};
     }
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
-    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    if (!$Param{CustomerUserObject}) {
+        $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    }
+    else {
+        $Self->{CustomerUserObject} = $Param{CustomerUserObject};
+    }
+    if (!$Param{CustomerGroupObject}) {
+        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+    }
+    else {
+        $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
+    }
+    if (!$Param{QueueObject}) {
+        $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    }
+    else {
+        $Self->{QueueObject} = $Param{QueueObject};
+    }
     $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
     $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
     # get needed objects
     foreach (qw(ConfigObject LogObject DBObject)) {
@@ -3033,6 +3052,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.95 $ $Date: 2004-04-19 09:53:07 $
+$Revision: 1.96 $ $Date: 2004-04-19 19:50:52 $
 
 =cut
