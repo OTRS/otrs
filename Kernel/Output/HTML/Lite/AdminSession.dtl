@@ -1,8 +1,8 @@
 # --
 # AdminSession.dtl - provides global HTML AdminSession
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.dtl,v 1.11 2004-03-01 14:00:57 martin Exp $
+# $Id: AdminSession.dtl,v 1.12 2004-06-25 09:49:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,6 +32,21 @@
     </table>
     <a href="$Env{"Baselink"}Action=AdminSession&Subaction=KillAll&WantSessionID=$Env{"SessionID"}">$Text{"kill all sessions"}</a><br>
     </p>
+  </td>
+</tr>
+<tr valign="top" align="left">
+  <td class="table1">
+    <table width="100%" cellspacing="0" cellpadding="3">
+      <tr><td class="table2">$Text{"Session"}</td><td class="table2">$Text{"kill session"}</td></tr>
+
+<!-- dtl:block:Session -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "1"; }>
+      <tr><td class="table$Env{"Color"}"><b>$Text{"Session"}: $Data{"SessionID"}</b><br>$Data{"Output"}</td><td valign="top" class="table$Env{"Color"}"><a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">$Text{"kill session"}</a></td></tr>
+<dtl if ($Env{"Color"} eq "2") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "1") { $Env{"Color"} = "2"; }>
+<!-- dtl:block:Session -->
+
+    </table>
   </td>
 </tr>
 </table>
