@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.3 2002-10-20 12:10:11 martin Exp $
+# $Id: IPC.pm,v 1.4 2002-10-29 11:59:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,11 +12,12 @@
 package Kernel::System::AuthSession::IPC;
 
 use strict;
+use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -38,7 +39,6 @@ sub new {
     # Debug 0=off 1=on
     # --
     $Self->{Debug} = 0;    
-
     # --
     # get more common params
     # --
@@ -46,9 +46,13 @@ sub new {
     # --
     # ipc stuff
     # --
+    $Self->{IPCKeyMeta} = "444421$Self->{SystemID}"; 
+    $Self->{IPCSizeMeta} = 20;
     $Self->{IPCKey} = "444422$Self->{SystemID}"; 
+    $Self->{IPCAddBufferSize} = 4*1024;
     $Self->{IPCSize} = 80*1024;
-
+    $Self->{IPCSizeMax} = (180*1024) - $Self->{IPCAddBufferSize};
+    $Self->{CMD} = $Param{CMD} || 0;
     $Self->InitSHM();
 
     return $Self;
@@ -56,8 +60,79 @@ sub new {
 # --
 sub InitSHM {
     my $Self = shift;
+    # init meta data mem
+    $Self->{KeyMeta} = shmget($Self->{IPCKeyMeta}, $Self->{IPCSizeMeta}, 0777 | 0001000) || die $!;
+    # init session data mem
+    $Self->{Key} = shmget($Self->{IPCKey}, $Self->GetSHMDataSize(), 0777 | 0001000) || die $!;
+}
+# --
+sub WriteSHM {
+    my $Self = shift;
     my %Param = @_;
-    $Self->{Key} = shmget($Self->{IPCKey}, $Self->{IPCSize}, 0777 | 0001000) || die $!;
+    # get size of data
+    my $DataSize = (length($Param{Data})+1);
+    my $AddBuffer = 4000;
+    my $CurrentDataSize = $Self->GetSHMDataSize();
+    # overwrite with new session data
+    if ($Self->{CMD} || $DataSize < $CurrentDataSize || $DataSize > $Self->{IPCSizeMax}) {
+        shmwrite($Self->{Key}, $Param{Data}, 0, $CurrentDataSize) || die $!;
+        if ($DataSize > $Self->{IPCSizeMax}) {
+            $Self->{LogObject}->Log(
+              Priority => 'error',
+              Message => "Can't write session data. Max. size ".
+                "($Self->{IPCSizeMax} Bytes) of SessionData reached! Drop old sessions!",
+            );
+        }
+    }
+    else {
+        my $NewIPCSize = $DataSize + $Self->{IPCAddBufferSize};
+        if ($NewIPCSize > $Self->{IPCSizeMax}) {
+            $NewIPCSize = $Self->{IPCSizeMax};
+        } 
+        # delete old shm
+        shmctl($Self->{Key}, IPC_RMID, 0) || die "$!";
+        # init new mem
+        $Self->{Key} = shmget($Self->{IPCKey}, $NewIPCSize, 0777 | 0001000) || die $!;
+        # write session data to mem
+        shmwrite($Self->{Key}, $Param{Data}, 0, $NewIPCSize) || die $!;
+        # write new meta data
+        $Self->SetSHMDataSize($NewIPCSize);
+    }
+}
+# --
+sub ReadSHM {
+    my $Self = shift;
+    # read session data fro mem
+    my $String = '';
+    shmread($Self->{Key}, $String, 0, $Self->GetSHMDataSize()) || die "$!";
+    my @Lines = split(/\n/, $String);
+    $String = '';
+    foreach (@Lines) {
+        if ($_ =~ /^SessionID/) {
+            $String .= $_."\n";
+        }
+    }
+    return $String;
+}
+# --
+sub SetSHMDataSize {
+    my $Self = shift;
+    my $Size = shift || return;
+    # read meta data from mem
+    shmwrite($Self->{KeyMeta}, $Size.";", 0, $Self->{IPCSizeMeta}) || die $!;
+    return 1;
+}
+# --
+sub GetSHMDataSize {
+    my $Self = shift;
+    # read meta data from mem
+    my $MetaString = '';
+    shmread($Self->{KeyMeta}, $MetaString, 0, $Self->{IPCSizeMeta}) || die "$!";
+    my @Items = split(/;/, $MetaString);
+    if ($MetaString !~ /;/) {
+        $Items[0] = $Self->{IPCSize};
+    }
+    return $Items[0];
 }
 # --
 sub CheckSessionID {
@@ -124,7 +199,7 @@ sub GetSessionIDData {
     my $Self = shift;
     my %Param = @_;
     my $SessionID = $Param{SessionID} || '';
-    my $String = '';
+    my $SessionIDBase64 = encode_base64($SessionID, '');
     my %Data;
     # --
     # check session id
@@ -133,11 +208,10 @@ sub GetSessionIDData {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no SessionID!!");
         return;
     }
-
     # --
     # read data
     # --
-    shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
+    my $String = $Self->ReadSHM();
     if (!$String) {
         return;
     }
@@ -146,16 +220,19 @@ sub GetSessionIDData {
     # --
     my @Items = split(/\n/, $String);
     foreach my $Item (@Items) {
-        my @PaarData = split(/:/, $Item);
-        if ($PaarData[0] && $PaarData[1] && $PaarData[2]) {
-            if ($PaarData[0] eq $SessionID) {
-                $Data{$PaarData[1]} = decode_base64($PaarData[2]) || '';
+        my @PaarData = split(/;/, $Item);
+        if ($PaarData[0]) {
+            if ($Item =~ /^SessionID:$SessionIDBase64;/) {
+                foreach (@PaarData) {
+                    my ($Key, $Value) = split(/:/, $_);
+                    $Data{$Key} = decode_base64($Value) || ''; 
+                }
                 # Debug
                 if ($Self->{Debug}) {
-                  $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "GetSessionIDData: '$PaarData[1]:".decode_base64($PaarData[2])."'",
-                  );
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "GetSessionIDData: '$PaarData[1]:".decode_base64($PaarData[2])."'",
+                    );
                 }
             }
         }
@@ -183,41 +260,37 @@ sub CreateSessionID {
         (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
     );
     $SessionID = $Self->{SystemID} . $md5->hexdigest;
+    my $SessionIDBase64 = encode_base64($SessionID, '');
     # --
     # data 2 strg
     # --
-    my $DataToStore = '';
+    my $DataToStore = "SessionID:". encode_base64($SessionID, '') .";";
     foreach (keys %Param) {
         if ($Param{$_}) {
             $Param{$_} = encode_base64($Param{$_}, '');
-            $DataToStore .= "$SessionID:$_:". $Param{$_} ."\n";
+            $DataToStore .= "$_:". $Param{$_} .";";
         }
     }
-    $DataToStore .= "$SessionID:UserSessionStart:". encode_base64(time(), '') ."\n";
-    $DataToStore .= "$SessionID:UserRemoteAddr:". encode_base64($RemoteAddr, '') ."\n";
-    $DataToStore .= "$SessionID:UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') ."\n";
+    $DataToStore .= "UserSessionStart:". encode_base64(time(), '') .";";
+    $DataToStore .= "UserRemoteAddr:". encode_base64($RemoteAddr, '') .";";
+    $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') .";\n";
     # --
     # read old session data (the rest)
     # --
-    my $String = '';
-    shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
+    my $String = $Self->ReadSHM();
     # --
     # split data
     # --
     my @Items = split(/\n/, $String); 
     foreach my $Item (@Items) {
-        my @PaarData = split(/:/, $Item);
-        if ($PaarData[0] && $PaarData[1] && $PaarData[2]) {
-            if ($PaarData[0] ne $SessionID) {
-                $DataToStore .= $Item ."\n";
-            }
+        if ($Item !~ /^SessionID:$SessionIDBase64;/) {
+            $DataToStore .= $Item ."\n";
         }
     }
     # --
     # store SessionID + data
     # --
-    shmwrite($Self->{Key}, $DataToStore, 0, length($DataToStore)) || die $!; 
-
+    $Self->WriteSHM(Data => $DataToStore);
     return $SessionID;
 }
 # --
@@ -225,28 +298,25 @@ sub RemoveSessionID {
     my $Self = shift;
     my %Param = @_;
     my $SessionID = $Param{SessionID};
+    my $SessionIDBase64 = encode_base64($SessionID, '');
     # --
     # read old session data (the rest)
     # --
     my $DataToStore = '';
-    my $String = '';
-    shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
+    my $String = $Self->ReadSHM();
     # --
     # split data
     # --
     my @Items = split(/\n/, $String); 
     foreach my $Item (@Items) {
-        my @PaarData = split(/:/, $Item);
-        if ($PaarData[0] && $PaarData[1] && $PaarData[2]) {
-            if ($PaarData[0] ne $SessionID) {
-                $DataToStore .= $Item ."\n";
-            }
+        if ($Item !~ /^SessionID:$SessionIDBase64;/) {
+            $DataToStore .= $Item ."\n";
         }
     }
     # --
     # update shm
     # --
-    shmwrite($Self->{Key}, $DataToStore, 0, $Self->{IPCSize}) || die $!;
+    $Self->WriteSHM(Data => $DataToStore);
 
     # log event
     $Self->{LogObject}->Log(
@@ -265,6 +335,13 @@ sub UpdateSessionID {
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
     # --
+    # check needed update! (no changes)
+    # --
+    if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value) 
+      || (!exists $SessionData{$Key} && !$Value)) {
+        return 1;
+    }
+    # --
     # update the value 
     # --
     if ($Value) {
@@ -276,10 +353,11 @@ sub UpdateSessionID {
     # --
     # set new data sting
     # -- 
-    my $NewDataToStore = '';
+    my $NewDataToStore = "SessionID:". encode_base64($SessionID, '').";";
     foreach (keys %SessionData) {
         $SessionData{$_} = encode_base64($SessionData{$_}, '');
-        $NewDataToStore .= "$SessionID:$_:$SessionData{$_}\n";
+        $NewDataToStore .= "$_:$SessionData{$_};";
+        chomp ($SessionData{$_});
         # Debug
         if ($Self->{Debug}) {
             $Self->{LogObject}->Log(
@@ -288,27 +366,25 @@ sub UpdateSessionID {
             );
         }
     }
+    $NewDataToStore .= "\n";
     # --
     # read old session data (the rest)
     # --
-    my $String = '';
-    shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
+    my $String = $Self->ReadSHM();
     # --
     # split data
     # --
-    my @Items = split(/\n/, $String);
+    my @Items = split(/\n/, $String); 
     foreach my $Item (@Items) {
-        my @PaarData = split(/:/, $Item);
-        if ($PaarData[0] && $PaarData[1] && $PaarData[2]) {
-            if ($PaarData[0] ne $SessionID) {
-                $NewDataToStore .= $Item ."\n";
-            }
+        my $SessionIDBase64 = encode_base64($SessionID, '');
+        if ($Item !~ /^SessionID:$SessionIDBase64;/) {
+            $NewDataToStore .= $Item ."\n";
         }
     }
     # --
     # update shm
     # --
-    shmwrite($Self->{Key}, $NewDataToStore, 0, $Self->{IPCSize}) || die $!;
+    $Self->WriteSHM(Data => $NewDataToStore);
 
     return 1;
 }
@@ -320,24 +396,23 @@ sub GetAllSessionIDs {
     # --
     # read data
     # --
-    my $String;
-    shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
+    my $String = $Self->ReadSHM();
     if (!$String) {
         return;
     }
     # --
     # split data
     # --
-    my %Sessions = ();
     my @Items = split(/\n/, $String);
     foreach my $Item (@Items) {
-        my @PaarData = split(/:/, $Item);
-        if ($PaarData[0] && $PaarData[1] && $PaarData[2]) {
-            $Sessions{$PaarData[0]} = 1;
+        my @PaarData = split(/;/, $Item);
+        if ($PaarData[0]) {
+            my ($Key, $Value) = split(/:/, $PaarData[0]);
+            if ($Value) {
+                my $SessionID = decode_base64($Value);
+                push (@SessionIDs, $SessionID);
+            }
         }
-    }
-    foreach my $SessionID (keys %Sessions) {
-       push (@SessionIDs, $SessionID);
     }
     return @SessionIDs;
 }
