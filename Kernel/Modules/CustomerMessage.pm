@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.33 2004-04-27 14:54:46 martin Exp $
+# $Id: CustomerMessage.pm,v 1.34 2004-04-29 10:50:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -112,11 +112,15 @@ sub Run {
                 QueueID => $Self->{QueueID},
             );
             my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText();
+            my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject');
+            my $Body = $Self->{ParamObject}->GetParam(Param => 'Body');
             # html output
             $Output .= $Self->_MaskNew(
                 To => \%NewTos,
                 Priorities => \%Priorities,
                 %TicketFreeText,
+                Body => $Body,
+                Subject => $Subject,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
@@ -179,7 +183,7 @@ sub Run {
             return $Output;
         }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Follow up!';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
+        my $Body = $Self->{ParamObject}->GetParam(Param => 'Body');
         my $StateID = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID');
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
         if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
@@ -188,14 +192,14 @@ sub Run {
             SenderType => $Self->{ConfigObject}->Get('CustomerPanelSenderType'),
             From => $From,
             Subject => $Subject,
-            Body => $Text,
+            Body => $Body,
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'), 
             OrigHeader => {
                 From => $From,
                 To => 'System',
                 Subject => $Subject,
-                Body => $Text,
+                Body => $Body,
             },
             HistoryType => $Self->{ConfigObject}->Get('CustomerPanelHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('CustomerPanelHistoryComment') || '%%',
@@ -259,7 +263,7 @@ sub Run {
           $To = 'System';
         }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'New!';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
+        my $Body = $Self->{ParamObject}->GetParam(Param => 'Body');
         my %TicketFree = ();
         foreach (1..8) {
             $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
@@ -295,7 +299,7 @@ sub Run {
             From => $From,
             To => $To,
             Subject => $Subject,
-            Body => $Text,
+            Body => $Body,
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             HistoryType => $Self->{ConfigObject}->Get('CustomerPanelNewHistoryType'),
@@ -305,7 +309,7 @@ sub Run {
                 From => $From,
                 To => $Self->{UserLogin},
                 Subject => $Subject,
-                Body => $Text,
+                Body => $Body,
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
@@ -379,9 +383,13 @@ sub _MaskNew {
              $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
         }
     }
-    $Param{'ToStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'ToStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => \%NewTo,
+        Multiple => 0,
+        Size => 0,
         Name => 'Dest',
+        SelectedID => $Param{ToSelected},
+        OnChangeSubmit => 0,
     );
     # build priority string
     $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(

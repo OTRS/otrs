@@ -2,7 +2,7 @@
 # CustomerMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.dtl,v 1.9 2004-04-27 14:47:15 martin Exp $
+# $Id: CustomerMessage.dtl,v 1.10 2004-04-29 10:51:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,12 +29,11 @@
   <table border="0" width="100%">
   <tr>
     <td width="15%">$Text{"Subject"}:</td>
-    <td width="85%"><input type="text" name="Subject" value="" size="60"></td>
+    <td width="85%"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
-<textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
-</textarea>
+<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
     </td>
   </tr>
   <tr>
