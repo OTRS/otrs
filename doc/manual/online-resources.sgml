@@ -1,0 +1,43 @@
+<appendix id="online-resources">
+<title>Online resources</title>
+<para>
+We try to support you with the very last information about OpenTRS and give you a good way to provide us with your feedback.
+</para>
+<sect1 id="otrs_homepage">
+<title>OpenTRS Homepage</title>
+<para>
+Our homepage can be found at <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>.
+<screenshot>
+<screeninfo>OpenTRS Homepage</screeninfo>
+<graphic srccredit="OpenTRS Homepage" scale="40" fileref="screenshots/homepage-otrs.png"></graphic>
+</screenshot>
+</para>
+</sect1>
+
+<sect1 id="mailinglists">
+<title>Mailinglists</title>
+<para>
+We provide two major mailinglists. <email>announce@otrs.org</email> is a low traffic announcement mailinglist. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
+</para>
+<para>
+The second mailinglist is <email>otrs@otrs.org</email>. It is a medium to high traffic list with all sorts of questions and support to the product. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
+</sect1>
+
+<sect1 id="bugtracking">
+<title>Bugtracking</title>
+<para>
+Real geeks don't need a bugtracking tool! ;-)
+</para>
+<para>
+Just kidding. To submit bugs visit <ulink url="http://bugs.otrs.org/"><citetitle>http://bugs.otrs.org/</citetitle></ulink>. We know sometimes bugzilla isn't that comfortable but right know it is the best bug tracking system we've found.
+<screenshot>
+<screeninfo>bugtracking tool</screeninfo>
+<graphic srccredit="bugtracking tool" scale="40" fileref="screenshots/bugs-otrs-org.png"></graphic>
+</screenshot>
+</para>
+<para>
+By reporting bugs you do help us very much. We appreciate your help!
+</para>
+</sect1>
+
+</appendix>
