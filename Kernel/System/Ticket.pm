@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.84 2004-04-15 11:44:37 martin Exp $
+# $Id: Ticket.pm,v 1.85 2004-04-16 12:39:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.84 $';
+$VERSION = '$Revision: 1.85 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -623,6 +623,15 @@ sub MoveList {
 # TicketID!!!
     my %Queues = $Self->{QueueObject}->GetAllQueues(%Param);
 #delete $Queues{315};
+    # workflow
+    if ($Self->TicketWorkflow(
+        %Param,
+        Type => 'Move',
+        Data => \%Queues,
+    )) { 
+        return $Self->TicketWorkflowData();
+    }
+    # /workflow
     return %Queues;
 }
 # --
@@ -653,6 +662,15 @@ sub MoveTicket {
     if ($Param{QueueID} == $Self->TicketQueueID(TicketID => $Param{TicketID})) {
         # update not needed
         return 1;
+    }
+    # permission check
+    my %MoveList = $Self->MoveList(%Param);
+    if (!$MoveList{$Param{QueueID}}) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice', 
+            Message => "Permission denied on TicketID: $Param{TicketID}!",
+        );
+        return;
     }
     # remember to old queue
     my $OldQueueID = $Self->TicketQueueID(TicketID => $Param{TicketID});
@@ -828,6 +846,34 @@ sub SetCustomerData {
     else {
         return;
     }
+}
+# --
+
+=item TicketFreeTextGet()
+
+get possible  ticket free text
+
+  my $HashRef = $TicketObject->TicketFreeTextGet(
+     Type => 'TicketFreeText3',
+     TicketID => 123,
+     UserID => 123,
+  );
+
+=cut
+
+sub TicketFreeTextGet {
+    my $Self = shift;
+    my %Param = @_;
+    my $Value = $Param{Value} || '';
+    my $Key = $Param{Key} || '';
+    # check needed stuff
+    foreach (qw(TicketID UserID Type)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    return $Self->{ConfigObject}->Get($Param{Type});
 }
 # --
 
@@ -1210,6 +1256,7 @@ sub GetCustomerTickets {
             UserID => $Param{CustomerUserID},
             Type => 'ro',
             Result => 'ID',
+            Cached => 1,
         );
     }
     else {
@@ -1217,6 +1264,7 @@ sub GetCustomerTickets {
             UserID => $Param{UserID},
             Type => 'ro',
             Result => 'ID',
+            Cached => 1,
         );
     }
     # order by
@@ -1622,6 +1670,7 @@ sub TicketSearch {
             UserID => $Param{UserID},
             Type => $Param{Permission} || 'ro',
             Result => 'ID',
+            Cached => 1,
         );
         if (@GroupIDs) {
             $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
@@ -1982,6 +2031,15 @@ sub StateSet {
       # update is not needed
       return 1;
     }
+    # permission check
+    my %StateList = $Self->StateList(%Param);
+    if (!$StateList{$Param{StateID}}) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice', 
+            Message => "Permission denied on TicketID: $Param{TicketID}!",
+        );
+        return;
+    }
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -2067,8 +2125,16 @@ sub StateList {
             Result => 'HASH',
         );
     }
-# TicketID!!!
 #delete $States{4}; # remove open!
+    # workflow
+    if ($Self->TicketWorkflow(
+        %Param,
+        Type => 'State',
+        Data => \%States,
+    )) { 
+        return $Self->TicketWorkflowData();
+    }
+    # /workflow
     return %States;
 }
 # --
@@ -2382,6 +2448,15 @@ sub PrioritySet {
        # update not needed
        return 1;
     }
+    # permission check
+    my %PriorityList = $Self->PriorityList(%Param);
+    if (!$PriorityList{$Param{PriorityID}}) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice', 
+            Message => "Permission denied on TicketID: $Param{TicketID}!",
+        );
+        return;
+    }
     # clear ticket cache
     $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
@@ -2434,10 +2509,10 @@ sub PriorityList {
         return;
     }
     # check needed stuff
-#    if (!$Param{QueueID} && !$Param{TicketID}) {
-#        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
-#        return;
-#    }
+    if (!$Param{QueueID} && !$Param{TicketID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
+        return;
+    }
     # sql 
     my $SQL = "SELECT id, name ".
         " FROM ".
@@ -2448,6 +2523,15 @@ sub PriorityList {
             $Data{$Row[0]} = $Row[1];
         }
 #delete $Data{2};
+        # workflow
+        if ($Self->TicketWorkflow(
+            %Param,
+            Type => 'Priority',
+            Data => \%Data,
+         )) {
+            return $Self->TicketWorkflowData();
+        }
+        # /workflow
         return %Data;
     }
     else {
@@ -2721,6 +2805,120 @@ sub TicketAccountTime {
     }
 }
 # --
+sub TicketWorkflow {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(UserID Type Data)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # check if workflows are configured, if not, just return
+    if (!$Self->{ConfigObject}->Get('TicketWorkflow') || $Param{UserID} == 1) {
+        return;
+    }
+    my %Data = %{$Param{Data}};
+    my %Checks = ();
+    # use ticket data if ticket id is given
+    if ($Param{TicketID}) {
+        my %Ticket = $Self->TicketGet(%Param);
+        $Checks{Ticket} = \%Ticket;
+    }
+    # use user data
+    if ($Param{UserID}) {
+        my %User = $Self->{UserObject}->GetUserData(UserID => $Param{UserID}, Cached => 1);
+        foreach my $Type (@{$Self->{ConfigObject}->Get('System::Permission')}) {
+            my @Groups = $Self->{GroupObject}->GroupMemberList(
+                UserID => $Param{UserID},
+                Result => 'Name',
+                Type => $Type,
+                Cached => 1,
+            );
+            $User{"Group_$Type"} = \@Groups;
+        }
+        $Checks{User} = \%User;
+    }
+    # use queue data (if given)
+    if ($Param{QueueID}) {
+        my %Queue = $Self->{QueueObject}->QueueGet(ID => $Param{QueueID}, Cache => 1);
+        $Checks{Queue} = \%Queue;
+    }
+    # check workflow config
+    my %Workflow = %{$Self->{ConfigObject}->Get('TicketWorkflow')};
+    foreach my $StepT (sort keys %Workflow) {
+        my %Step = %{$Workflow{$StepT}};
+        my $Match = 1;
+        my $Match3 = 0;
+        foreach my $Key (keys %Checks) {
+#print STDERR "($StepT)Key: $Key\n";
+          foreach my $Data (keys %{$Step{Properties}->{$Key}}) {
+            my $Match2 = 0;
+            foreach (@{$Step{Properties}->{$Key}->{$Data}}) {
+                if (ref($Checks{$Key}->{$Data}) eq 'ARRAY') {
+                    foreach my $Array (@{$Checks{$Key}->{$Data}}) {
+                        if ($_ eq $Array) {
+                            $Match2 = 1;
+                            # debug log
+                            if ($Self->{Debug} > 4) {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'debug',
+                                    Message => "Workflow '$StepT/$Key/$Data' MatchedARRAY ($_ eq $Array)",
+                                );
+                            }
+                        }
+                    }
+                }
+                else {
+                    if ($_ eq $Checks{$Key}->{$Data}) {
+                        $Match2 = 1;
+                        # debug
+                        if ($Self->{Debug} > 4) {
+                            $Self->{LogObject}->Log(
+                                    Priority => 'debug',
+                                    Message => "Workflow '$StepT/$Key/$Data' Matched ($_ eq $Checks{$Key}->{$Data})",
+                            );
+                        }
+                    }
+                }
+            }
+            if (!$Match2) {
+                $Match = 0;
+            }
+            $Match3 = 1;
+          }
+        }
+        if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{Type}}) {
+            # debug log
+            if ($Self->{Debug} > 3) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Workflow '$StepT' used with '$Param{Type}'",
+                );
+            }
+            # build new data hash 
+            my %NewData = ();
+            foreach my $PriorityID (keys %Data) {
+                foreach my $NewPriority (@{$Step{Possible}->{Ticket}->{$Param{Type}}}) {
+                    if ($Data{$PriorityID} eq $NewPriority) {
+                        $NewData{$PriorityID} = $Data{$PriorityID};
+                    }
+                }
+            }
+            $Self->{TicketWorkflowData} = \%NewData;
+            return 1;
+        }
+    }
+    return;
+}
+# --
+sub TicketWorkflowData {
+    my $Self = shift;
+    my %Param = @_;
+    return %{$Self->{TicketWorkflowData}};
+}
+# --
 1; 
 
 =head1 TERMS AND CONDITIONS
@@ -2733,6 +2931,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.84 $ $Date: 2004-04-15 11:44:37 $
+$Revision: 1.85 $ $Date: 2004-04-16 12:39:29 $
 
 =cut
