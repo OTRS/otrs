@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.19 2002-12-07 18:57:07 martin Exp $
+# $Id: Admin.pm,v 1.20 2002-12-15 12:37:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -29,10 +29,29 @@ sub AdminNavigationBar {
 sub AdminSession {
     my $Self = shift;
     my %Param = @_;
-    my $Output = '';
 
     # create & return output
     return $Self->Output(TemplateFile => 'AdminSession', Data => \%Param);
+}
+# --
+sub AdminLog {
+    my $Self = shift;
+    my %Param = @_;
+    # create table
+    $Param{LogTable} = '<table border="0" width="100%">';
+    $Param{LogTable} .= '<tr><th width="15%">$Text{"Time"}</th><th>$Text{"Priority"}</th><th>$Text{"Facility"}</th><th>$Text{"Module"}</th><th>$Text{"Line"}</th><th width="40%">$Text{"Message"}</th></tr>';
+    my @Lines = split(/\n/, $Param{Log});
+    foreach (@Lines) {
+        my @Row = split(/;;/, $_);
+        if ($Row[5]) {
+            $Row[3] = $Self->Ascii2Html(Text => $Row[3], Max => 35);
+            $Row[5] = $Self->Ascii2Html(Text => $Row[5], Max => 1000);
+            $Param{LogTable} .= "<tr><td>$Row[0]</td><td>$Row[1]</td><td>$Row[2]</td><td>$Row[3]</td><td>$Row[4]</td><td>$Row[5]</td></tr>"; 
+        }
+    }
+    $Param{LogTable} .= '</table>';
+    # create & return output
+    return $Self->Output(TemplateFile => 'AdminLog', Data => \%Param);
 }
 # --
 sub AdminEmail {
