@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.getConfig - get OpenTRS config vars
+# bin/otrs.getConfig - get OTRS config vars
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.getConfig,v 1.1 2002-08-13 15:02:14 martin Exp $
+# $Id: otrs.getConfig,v 1.2 2002-10-15 09:25:21 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ use FindBin qw($Bin);
 use lib "$Bin/../";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -37,7 +37,7 @@ use Kernel::System::Log;
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OpenTRS-getConfig',
+    LogPrefix => 'OTRS-getConfig',
     %CommonObject,
 );
 # --
