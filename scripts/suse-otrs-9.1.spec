@@ -2,7 +2,7 @@
 # RPM spec file for SUSE Linux 9.1 of the OTRS package
 # Copyright (C) 2001-2004 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-9.1.spec,v 1.1 2004-06-18 11:58:30 martin Exp $
+# $Id: suse-otrs-9.1.spec,v 1.1.2.1 2004-07-05 15:16:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -57,9 +57,10 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/apache2/conf.d
 
 # replace apache with apache2
 sed  "s/rcapache/rcapache2/" scripts/suse-rcotrs-config > /tmp.otrs.$$ && mv /tmp.otrs.$$ scripts/suse-rcotrs-config
+sed  "s/apache/apache2/" scripts/suse-rcotrs > /tmp.otrs.$$ && mv /tmp.otrs.$$ scripts/suse-rcotrs
 install -m 644 scripts/suse-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
-
 install -m 755 scripts/suse-rcotrs $RPM_BUILD_ROOT/etc/init.d/otrs
+
 rm -f $RPM_BUILD_ROOT/sbin/otrs
 ln -s ../../etc/init.d/otrs $RPM_BUILD_ROOT/usr/sbin/rcotrs
 
@@ -101,14 +102,6 @@ fi
 %post
 # sysconfig
 %{fillup_and_insserv -s otrs START_OTRS}
-
-# add httpd.include.conf to /etc/sysconfig/apache
-if test -e /etc/sysconfig/apache; then
-    OTRSINCLUDE=/opt/otrs/scripts/apache-httpd.include.conf
-    APACHERC=/etc/sysconfig/apache
-    sed 's+^HTTPD_CONF_INCLUDE_FILES=.*$+HTTPD_CONF_INCLUDE_FILES='$OTRSINCLUDE'+' \
-    $APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC 
-fi
 
 # if it's a major-update backup old version templates (maybe not compatible!)
 if test -e /tmp/otrs-old.tmp; then
