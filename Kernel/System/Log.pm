@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.15 2003-02-19 17:06:48 martin Exp $
+# $Id: Log.pm,v 1.16 2003-03-08 09:12:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,12 +10,11 @@
 # --
 
 package Kernel::System::Log;
-use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $ ';
+$VERSION = '$Revision: 1.16 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,11 +52,14 @@ sub new {
     # --
     # ipc stuff
     # --
-    $Self->{SystemID} = $Param{ConfigObject}->Get('SystemID');
-    $Self->{IPCKey} = "444423$Self->{SystemID}";
-    $Self->{IPCSize} = 4*1024;
-    # init session data mem
-    $Self->{Key} = shmget($Self->{IPCKey}, $Self->{IPCSize}, 0777 | 0001000) || die $!;
+    if (eval "require IPC::SysV") {
+        $Self->{IPC} = 1;
+        $Self->{SystemID} = $Param{ConfigObject}->Get('SystemID');
+        $Self->{IPCKey} = "444423$Self->{SystemID}";
+        $Self->{IPCSize} = 4*1024;
+        # init session data mem
+        $Self->{Key} = shmget($Self->{IPCKey}, $Self->{IPCSize}, 0777 | 0001000) || die $!;
+    }
 
     return $Self;
 }
@@ -122,7 +124,7 @@ sub Log {
     # --
     # write shm cache log
     # --
-    if ($Priority !~ /debug/i) {
+    if ($Priority !~ /debug/i && $Self->{IPC}) {
         $Priority = lc($Priority);
         my $Data = localtime().";;$Priority;;$Self->{LogPrefix};;$Subroutine2;;$Line1;;$Message;;\n";
         my $String = $Self->GetLog();
@@ -140,7 +142,9 @@ sub Error {
 sub GetLog {
     my $Self = shift;
     my $String = '';
-    shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
+    if ($Self->{IPC}) {
+        shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
+    }
     return $String;
 }
 # --
