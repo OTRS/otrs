@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 # --
 # SetPermissions.sh - to set the otrs permissions 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.13 2002-10-17 17:10:07 martin Exp $
+# $Id: SetPermissions.sh,v 1.14 2002-10-30 16:49:22 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.13 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.14 $> - set OTRS file permissions"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 if ! test $1 || ! test $2 || ! test $3; then 
@@ -52,47 +52,47 @@ fi
 # --
 echo "Setting file permissions... "
 # set all files to root.root (safe is safe)
-echo "chown -R 0.0 $OTRSDEST"
-chown -R 0.0 $OTRSDEST
+echo "chown -R 0:0 $OTRSDEST"
+chown -R 0:0 $OTRSDEST
 
 # set the $HOME to the OTRS user
-echo "chown $OTRSUSER.$OTRSGROUP $OTRSDEST"
-chown $OTRSUSER.$OTRSGROUP $OTRSDEST
+echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST"
+chown $OTRSUSER:$OTRSGROUP $OTRSDEST
 
 # set the fetchmail rc to OTRS user
-echo "chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.fetchmailrc"
-chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.fetchmailrc
+echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.fetchmailrc"
+chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.fetchmailrc
 echo "chmod 0710 $OTRSDEST/.fetchmailrc"
 chmod 0710 $OTRSDEST/.fetchmailrc
 
 # set procmailrc 
-echo "chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.procmailrc"
-chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.procmailrc
+echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.procmailrc"
+chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.procmailrc
 echo "chmod 0644 $OTRSDEST/.procmailrc"
 chmod 0644 $OTRSDEST/.procmailrc
 
 # set forward (just for Exim)
 if test -e $OTRSDEST/.forward; then
-    echo "chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.forward"
-    chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.forward
+    echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.forward"
+    chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.forward
 fi
 
 # --
 # var/*
 # --
 # set the var directory to OTRS and webserver user
-echo "chown -R $OTRSUSER.$WEBGROUP $OTRSDEST/var/" 
-chown -R $OTRSUSER.$WEBGROUP $OTRSDEST/var/
+echo "chown -R $OTRSUSER:$WEBGROUP $OTRSDEST/var/" 
+chown -R $OTRSUSER:$WEBGROUP $OTRSDEST/var/
 chmod -R 2775 $OTRSDEST/var/article/
 chmod -R 2775 $OTRSDEST/var/log/
 
 # set the var/sessions directory to OTRS and webserver user
-echo "chown -R $WEBUSER.$WEBGROUP $OTRSDEST/var/sessions/"
-chown -R $WEBUSER.$WEBGROUP $OTRSDEST/var/sessions/ 
+echo "chown -R $WEBUSER:$WEBGROUP $OTRSDEST/var/sessions/"
+chown -R $WEBUSER:$WEBGROUP $OTRSDEST/var/sessions/ 
 
 # set the var/log/TicketCounter.log file to OTRS and webserver user
-echo "$OTRSUSER.$WEBGROUP $OTRSDEST/var/log/TicketCounter.log"
-chown $OTRSUSER.$WEBGROUP $OTRSDEST/var/log/TicketCounter.log
+echo "chown $OTRSUSER:$WEBGROUP $OTRSDEST/var/log/TicketCounter.log"
+chown $OTRSUSER:$WEBGROUP $OTRSDEST/var/log/TicketCounter.log
 chmod 2775 $OTRSDEST/var/log/TicketCounter.log
 
 # --
@@ -103,19 +103,19 @@ echo "chmod -R 755 $OTRSDEST/bin/"
 chmod -R 755 $OTRSDEST/bin/
 
 # set the DeleteSessionIDs.pl just to OTRS user
-echo "(chown && chmod 700) $OTRSUSER.0 $OTRSDEST/bin/DeleteSessionIDs.pl"
+echo "(chown && chmod 700) $OTRSUSER:0 $OTRSDEST/bin/DeleteSessionIDs.pl"
 chmod 700 $OTRSDEST/bin/DeleteSessionIDs.pl
-chown $OTRSUSER.0 $OTRSDEST/bin/DeleteSessionIDs.pl 
+chown $OTRSUSER:0 $OTRSDEST/bin/DeleteSessionIDs.pl 
 
 # set the UnlockTickets.pl just to OTRS user
-echo "(chown && chmod 700) $OTRSUSER.0 $OTRSDEST/bin/UnlockTickets.pl"
+echo "(chown && chmod 700) $OTRSUSER:0 $OTRSDEST/bin/UnlockTickets.pl"
 chmod 700 $OTRSDEST/bin/UnlockTickets.pl
-chown $OTRSUSER.0 $OTRSDEST/bin/UnlockTickets.pl
+chown $OTRSUSER:0 $OTRSDEST/bin/UnlockTickets.pl
 
 # set the bin/otrs.getConfig just to OTRS user
-echo "(chown && chmod 700) $OTRSUSER.0 $OTRSDEST/bin/otrs.getConfig"
+echo "(chown && chmod 700) $OTRSUSER:0 $OTRSDEST/bin/otrs.getConfig"
 chmod 700 $OTRSDEST/bin/otrs.getConfig
-chown $OTRSUSER.0 $OTRSDEST/bin/otrs.getConfig
+chown $OTRSUSER:0 $OTRSDEST/bin/otrs.getConfig
 
 exit;
 
