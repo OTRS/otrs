@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.170 2004-10-13 13:29:34 martin Exp $
+# $Id: Defaults.pm,v 1.171 2004-11-07 14:50:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,8 +19,9 @@
 package Kernel::Config::Defaults;
 
 use strict;
+
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.170 $';
+$VERSION = '$Revision: 1.171 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -69,6 +70,8 @@ sub LoadDefaults {
 #    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
     # (e. g. pdftohtml (pdf2html), http://pdftohtml.sourceforge.net/)
 #    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
+    # (e. g. xml2html (xml2html))
+#    $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl';
 
     # SendmailModule
     # (Where is sendmail located and some options.
@@ -187,6 +190,8 @@ sub LoadDefaults {
     # NoteSetState
     # (possible to set ticket state via AgentNote)
     $Self->{NoteSetState} = 0;
+    $Self->{NoteInformInvolvedAgent} = 0;
+    $Self->{NoteInformAgent} = 0;
     # default note next state
     $Self->{DefaultNextNoteStateType} = ['new', 'open', 'closed'];
 
@@ -295,6 +300,11 @@ sub LoadDefaults {
     # in case you want to add always one filter to each ldap query, use
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
 #   $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
+
+    # in case you want to add a suffix to each login name, then
+    # you can use this option. e. g. user just want to use user but
+    # in your ldap directory exists user@domain.
+#    $Self->{'AuthModule::LDAP::UserSuffix'} = '@domain.com';
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #    $Self->{'AuthModule::LDAP::Params'} = {
@@ -432,6 +442,11 @@ sub LoadDefaults {
 #        Debug => 0,
 #    };
 
+    # AgentNoEscalationGroup
+    # (don't show escalated tickets in frontend for agents who are writable
+    # in this group)
+    $Self->{AgentNoEscalationGroup} = 'some_group';
+
     # AgentQueueSortDefault
     # (default sort order of the queue view / after priority sort)
     # ASC: oldest on top, default
@@ -505,7 +520,7 @@ sub LoadDefaults {
         Desc => 'Overview of the tickets in queue at the end of this month.',
         SumCol => 1,
         SumRow => 1,
-#        UseResultCache => 1,
+        UseResultCache => 1,
 #        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
         Output => ['Print', 'CSV', 'Graph'],
         OutputDefault => 'Print',
@@ -575,7 +590,7 @@ sub LoadDefaults {
     # (if syslog can't work with utf-8, force the log
     # charset with this option, on other chars will be
     # replaces with ?)
-#    $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15';
+    $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15';
 #    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
     # param for LogModule Kernel::System::Log::File (required!)
@@ -617,7 +632,7 @@ sub LoadDefaults {
 
     # SpellCheckerIgnore
     # (A list of ignored words.)
-    $Self->{SpellCheckerIgnore} = ['www', 'webmail', 'https', 'http', 'html'];
+    $Self->{SpellCheckerIgnore} = ['www', 'webmail', 'https', 'http', 'html', 'rfc'];
 
     # DemoSystem
     # (If this is true, no agent preferences, like language and theme, via agent
@@ -634,6 +649,11 @@ sub LoadDefaults {
     # force the download) [attachment|inline]
     $Self->{'Agent::DownloadType'} = 'inline';
 #    $Self->{'Agent::DownloadType'} = 'attachment';
+
+    # Agent::HistoryOrder
+    # (show history order reverse) [normal|reverse]
+    $Self->{'Agent::HistoryOrder'} = 'normal';
+#    $Self->{'Agent::HistoryOrder'} = 'reverse';
 
     # --------------------------------------------------- #
     # directories                                         #
@@ -807,7 +827,7 @@ sub LoadDefaults {
             cz => 'Czech',
             pl => 'Polski',
             nb_NO => 'Norsk bokm&aring;l',
-            nb_SW => 'Svenska',
+            sv => 'Svenska',
             hu => 'Hungarian',
 #            ro => 'Romanian',
 #            hr => 'Croatian',
@@ -904,6 +924,8 @@ sub LoadDefaults {
     $Self->{DefaultPendingNoteSubject} = 'Pending!';
     # PendingNoteText
     $Self->{DefaultPendingNoteText} = '';
+    # PendingState
+    $Self->{DefaultPendingState} = 'pending reminder';
     # next possible states for pendinf screen
     $Self->{DefaultPendingNextStateType} = ['pending reminder', 'pending auto'];
 
@@ -1254,9 +1276,9 @@ $Data{"Signature"}
     # (How should be the session-data stored?
     # Advantage of DB is that you can split the
     # Frontendserver from the db-server. fs or ipc is faster.)
-#    $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
+    $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
 #    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
-    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
+#    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
 
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
@@ -1306,11 +1328,11 @@ $Data{"Signature"}
     # SessionTable*
     # (just needed if $Self->{SessionModule}='Kernel::System::AuthSession::DB)
     # SessionTable
-    $Self->{SessionTable} = 'session';
+    $Self->{SessionTable} = 'sessions';
     # SessionTable id column
     $Self->{SessionTableID} = 'session_id';
     # SessionTable value column
-    $Self->{SessionTableValue} = 'value';
+    $Self->{SessionTableValue} = 'session_value';
 
     # --------------------------------------------------- #
     #                                                     #
@@ -1742,6 +1764,11 @@ Your OTRS Notification Master
     # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
 #   $Self->{'Customer::AuthModule::LDAP::AlwaysFilter'} = '';
 
+    # in case you want to add a suffix to each customer login name, then
+    # you can use this option. e. g. user just want to use user but
+    # in your ldap directory exists user@domain.
+#    $Self->{'Customer::AuthModule::LDAP::UserSuffix'} = '@domain.com';
+
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #    $Self->{'Customer::AuthModule::LDAP::Params'} = {
 #        port => 389,
@@ -1890,6 +1917,8 @@ Your OTRS Notification Master
 #        CustomerUserNameFields => ['givenname', 'sn'],
 #        # show now own tickets in customer panel, CompanyTickets
 #        CustomerUserExcludePrimaryCustomerID => 0,
+#        # add a ldap filter for valid users (expert setting)
+##       CustomerUserValidFilter => '(!(description=gesperrt))',
 #        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
 #        Map => [
@@ -2670,6 +2699,11 @@ Your OTRS Notification Master
         Description => 'Admin',
         NavBarName => 'Admin',
     };
+    $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
+        Group => ['admin'],
+        Description => 'Software Package Manager',
+        NavBarName => 'Admin',
+    };
     $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
@@ -2830,9 +2864,37 @@ sub new {
     # 0=off; 1=log if there exists no entry; 2=log all;
     $Self->{Debug} = 0;
     # load defaults
-    $Self->LoadDefaults;
+    $Self->LoadDefaults();
     # load config
     $Self->Load();
+    # load extra config files
+    if (-e "$Self->{Home}/Kernel/Config/Files/") {
+        my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
+        foreach my $File (@Files) {
+            my $ConfigFile = '';
+            if (open (IN, "< $File")) {
+                while (<IN>) {
+                    $ConfigFile .= $_;
+                }
+                close (IN);
+            }
+            else {
+                print STDERR "ERROR: $!: $File\n";
+            }
+            if ($ConfigFile) {
+                if (! eval $ConfigFile) {
+                    print STDERR "ERROR: Syntax error in $File: $@\n";
+                }
+                else {
+                    # file loaded
+#                    print STDERR "Notice: Loaded: $File\n";
+                }
+            }
+        }
+    }
+    # load config (again)
+    $Self->Load();
+
     # replace config variables in config variables
     foreach (keys %{$Self}) {
         if ($_) {
@@ -2842,6 +2904,21 @@ sub new {
 
     return $Self;
 }
-# --
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.171 $ $Date: 2004-11-07 14:50:59 $
+
+=cut
