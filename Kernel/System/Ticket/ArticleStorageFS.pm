@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.3 2003-01-04 03:46:12 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.4 2003-01-18 09:21:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,6 +14,7 @@ package Kernel::System::Ticket::ArticleStorageFS;
 use strict;
 use File::Path;
 use File::Basename;
+use MIME::Parser;
 
 # --
 # to get it writable for the otrs group (just in case)
@@ -21,11 +22,11 @@ use File::Basename;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
-sub ArticleStorageInit {
+sub InitArticleStorage {
     my $Self = shift;
     my %Param = @_;
     # --
