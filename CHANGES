@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.125 2004-07-17 21:35:45 martin Exp $
+# $Id: CHANGES,v 1.126 2004-08-04 09:32:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,25 @@
 
 CVS head
 
+ - (2004/08/04) moved customer notifications from Kernel/Config.pm to
+    database and added multi language support
+ - (2004/08/02) fixed bug 466 - Error in managing very long Message-IDs
+ - (2004/08/01) improved Kernel::System::Log::SysLog with log charset
+    config option in case syslog can't work with utf-8
+ - (2004/08/01) improved Kernel::System::Email backends
+ - (2004/08/01) fixed bug 429 - Attachment file names with spaces do
+    not save properly
+ - (2004/08/01) fixed bug 450 - Spelling mistake in default FAQ entry
+ - (2004/08/01) fixed bug 460 - Patch to add params hash to LDAP bind
+    in Kernel/System/User.pm.
+ - (2004/07/30) added references, in-reply-to follow up check
+    [Kernel/Config.pm]
+    # PostmasterFollowUpSearchInReferences
+    # (If no ticket number in subject, otrs also looks in In-Reply-To
+    # and References for follow up checks)
+    $Self->{PostmasterFollowUpSearchInReferences} = 0;
+
+ - (2004/07/17) fixed generic agent Schedule web interface
  - (2004/07/16) added multi attachment support for attachments
  - (2004/06/28) improved Kernel/Modules/AdminSelectBox.pm module
  - (2004/06/27) added Block() feature to dtl files (removed a lot
@@ -21,6 +40,7 @@ CVS head
     in "Set =>" option.
  - (2004/06/22) added support for crypted database passwords (use
     bin/CryptPassword.pl to crypt passwords).
+ - (2004/06/10) added generic agent web interface
  - (2004/06/03) improved language translation with custom translation
     files:
     Kernel/Language/$Locale.pm (default)
