@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.8 2002-12-15 12:39:22 martin Exp $
+# $Id: Log.pm,v 1.9 2002-12-15 13:18:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $ ';
+$VERSION = '$Revision: 1.9 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -89,23 +89,38 @@ sub Log {
     # --
     if ($Priority =~ /error/i) {
         printf STDERR "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: ".localtime()."\n\n", $^V;
-
         print STDERR "  Message: $Message\n\n";
         print STDERR "  Traceback ($$): \n";
-        foreach (0...8) {
-            my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+$_);
-            my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+1+$_);
+        for (my $i = 0; $i < 12; $i++) {
+            my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+$i);
+            my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+1+$i);
+            # if there is no caller module use the file name
             if (!$Subroutine2) {
                 $Subroutine2 = $0;
             }
-            print STDERR "    Module: $Subroutine2 Line: $Line1\n" if ($Line1);
+            # print line if upper caller module exists
+            if ($Line1) {
+                print STDERR "    Module: $Subroutine2 Line: $Line1\n";
+            }
+            # return if there is no upper caller module
+            if (!$Line2) {
+                $i = 12;
+            }
         }
         print STDERR "\n";
+        # --
+        # store data (for the frontend)
+        # --
+        $Self->{Error}->{Message} = $Message;
+        $Self->{Error}->{Subroutine} = $Subroutine2;
+        $Self->{Error}->{Line} = $Line1;
+        $Self->{Error}->{Version} = eval("\$$Package1". '::VERSION');
     }
     # --
     # write shm cache log
     # --
     if ($Priority !~ /debug/i) {
+        $Priority = lc($Priority);
         my $Data = localtime().";;$Priority;;$Self->{LogPrefix};;$Subroutine2;;$Line1;;$Message;;\n";
         my $String = $Self->GetLog();
         shmwrite($Self->{Key}, $Data.$String, 0, $Self->{IPCSize}) || die $!;
@@ -116,7 +131,7 @@ sub Log {
 sub Error {
     my $Self = shift;
     my $What = shift;
-    return $Self->{Backend}->{Error}->{$What} || ''; 
+    return $Self->{Error}->{$What} || ''; 
 }
 # --
 sub GetLog {
