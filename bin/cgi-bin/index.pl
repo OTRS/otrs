@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.22 2002-05-04 20:33:29 martin Exp $
+# $Id: index.pl,v 1.23 2002-05-05 13:32:50 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 0;
@@ -77,7 +77,10 @@ use Kernel::Modules::AdminUser;
 use Kernel::Modules::AdminGroup;
 use Kernel::Modules::AdminUserGroup;
 use Kernel::Modules::AdminSystemAddress;
+use Kernel::Modules::AdminCharset;
+use Kernel::Modules::AdminLanguage;
 use Kernel::Modules::SystemStats;
+use Kernel::Modules::AdminState;
 use Kernel::Output::HTML::Generic;
 
 # --
