@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.35 2002-06-17 07:45:51 martin Exp $
+# $Id: Agent.pm,v 1.36 2002-06-27 11:05:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -847,11 +847,12 @@ sub TicketLocked {
 sub Attachment {
     my $Self = shift;
     my %Param = @_;
-   (my $Output = <<EOF);
-Content-Disposition: attachment; filename=$Param{File}
-Content-Type: $Param{Type}
-$Param{Data}
-EOF
+    # --
+    # return attachment 
+    # --
+    my $Output = "Content-Disposition: attachment; filename=$Param{File}\n";
+    $Output .= "Content-Type: $Param{Type}\n";
+    $Output .= "$Param{Data}";
     return $Output;
 }
 # --
