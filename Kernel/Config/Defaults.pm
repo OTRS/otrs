@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.58 2003-03-23 21:34:17 martin Exp $
+# $Id: Defaults.pm,v 1.59 2003-03-24 09:12:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -359,7 +359,15 @@ sub LoadDefaults {
     $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageDB';
     # FS is faster but webserver user should be the otrs user)
 #    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
-
+ 
+    # UncountedUnlockTime
+    # (don't count this hours as unlock time)
+    $Self->{UncountedUnlockTime} = {
+        Fri => [ 16,17,18,19,20,21,22,23 ],
+        Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
+        Sun => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
+        Mon => [ 0,1,2,3,4,5,6,7,8 ],
+    };
     # --------------------------------------------------- #
     # TicketNumberGenerator                               # 
     # --------------------------------------------------- #
@@ -1549,7 +1557,7 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # module group permissions
     # --------------------------------------------------- #
-    # Module => Group
+    # Module (from Kernel/Modules/*.pm) => Group
     $Self->{'Module::Permission'}->{'Admin'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminAttachment'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminAutoResponse'} = 'admin';

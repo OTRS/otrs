@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.71 2003-03-23 21:34:18 martin Exp $
+# $Id: CHANGES,v 1.72 2003-03-24 09:12:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2003/02/24) added UncountedUnlockTime config options - e.g. don't 
+    count Fri 16:00 - Mon 8:00 as unlock time.
  - (2003/03/23) added generic module/group permission concept
     -=> add "$Self->{'Module::Permission'}->{'module'} = 'group';"
     to Kernel/Config.pm like

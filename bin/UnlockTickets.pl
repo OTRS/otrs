@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.13 2003-03-04 00:12:52 martin Exp $
+# $Id: UnlockTickets.pl,v 1.14 2003-03-24 09:12:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,9 +29,10 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
+use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
@@ -121,7 +122,44 @@ elsif ($Command eq '--timeout') {
     " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
-        if (($RowTmp[3] + ($RowTmp[4]*60)) <= time()) {
+        # get lock date
+        my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime($RowTmp[3]);
+        $Y = $Y+1900;
+        $M++;
+        my $LockDay = "$Y-$M-$D";
+        # get current date
+        my ($Ns,$Nm,$Nh, $ND,$NM,$NY, $Nwd,$Nyd,$Ndst) = localtime(time());
+        $NY = $NY+1900;
+        $NM++;
+        my $ToDay = "$NY-$NM-$ND";
+        # get delta days
+        my $Dd = Delta_Days($Y,$M,$D, $NY,$NM,$ND);
+#        print STDERR "Delta_Days: $Dd\n";
+        # get not counted time (hours)
+        my $UncountedUnlockTime = 0; 
+        foreach (0..$Dd) {
+            my ($year,$month,$day) = Add_Delta_Days($Y,$M,$D, $_);
+            my $Dow = Day_of_Week($year,$month,$day);
+            $Dow = Day_of_Week_Abbreviation($Dow);
+#           print STDERR "$Dow: $year,$month,$day .($Ns,$Nm,$Nh).\n";
+            # get not counted time
+            my $CountDay = "$year-$month-$day";
+            if ($CommonObject{ConfigObject}->Get('UncountedUnlockTime')->{$Dow}) {
+                foreach (@{$CommonObject{ConfigObject}->Get('UncountedUnlockTime')->{$Dow}}) {
+                    if ($CountDay ne $LockDay && $CountDay ne $ToDay) {
+                        $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
+                    }
+                    elsif ($CountDay eq $ToDay && $Nh >= $_) {
+                        $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
+                    }
+                    elsif ($CountDay eq $LockDay && $h <= $_) {
+                        $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
+                    }
+                }
+            }
+        }
+#print STDERR "not counted time: $UncountedUnlockTime \n";
+        if (($RowTmp[3] + ($RowTmp[4]*60) + $UncountedUnlockTime) <= time()) {
             push (@Tickets, \@RowTmp);
         }
     }
