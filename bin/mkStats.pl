@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.1 2002-04-30 00:16:50 martin Exp $
+# $Id: mkStats.pl,v 1.2 2002-05-30 15:00:50 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ foreach (keys %States) {
 $graph->plot(\@Data);
 my $ext = $graph->export_format;
 print STDOUT "writing $PicDataDir/$Year-$Month.$ext\n";
-open (OUT, "> $PicDataDir/$Year-$Month.$ext");
+open (OUT, "> $PicDataDir/$Year-$Month.$ext") || die $!;
 binmode OUT;
 print OUT $graph->gd->$ext();
 close();
