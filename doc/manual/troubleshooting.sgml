@@ -133,7 +133,7 @@ mysql>
 </programlisting>
 Reload the grant tables of your mysql-daemon:
 <programlisting>
-$shell> mysqladmin -u root -psomepassword reload
+$shell> mysqladmin -u root -p reload
 </programlisting>
 (or restart your mysql-daemon) and change the new otrs password in Kernel/Config.pm.
 </para>
