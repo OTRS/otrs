@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.50 2003-09-28 13:53:55 martin Exp $
+# $Id: AgentCompose.pm,v 1.51 2003-10-16 21:06:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -279,7 +279,7 @@ sub Form {
     foreach (qw(From To Cc Bcc)) {
         if ($Data{$_}) {
             foreach my $Email (Mail::Address->parse($Data{$_})) {
-                if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Email->address())) {
+                if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
                      $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
@@ -332,7 +332,7 @@ sub SendEmail {
     foreach (qw(From To Cc Bcc)) {
         if ($Self->{$_}) {
             foreach my $Email (Mail::Address->parse($Self->{$_})) {
-                if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Email->address())) {
+                if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
                      $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }

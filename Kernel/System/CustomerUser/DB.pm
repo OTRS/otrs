@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.17 2003-05-23 09:11:03 martin Exp $
+# $Id: DB.pm,v 1.18 2003-10-16 21:06:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -299,7 +299,7 @@ sub CustomerUserAdd {
     # --
     # check email address
     # --
-    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CkeckEmail(Address => $Param{UserEmail})) {
+    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error', 
             Message => "Email address ($Param{UserEmail}) not valid (".
@@ -366,7 +366,7 @@ sub CustomerUserUpdate {
     # --
     # check email address
     # --
-    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CkeckEmail(Address => $Param{UserEmail})) {
+    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error', 
             Message => "Email address ($Param{UserEmail}) not valid (".

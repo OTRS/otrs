@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.35 2003-09-28 15:49:10 martin Exp $
+# $Id: User.pm,v 1.36 2003-10-16 21:06:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -208,7 +208,7 @@ sub UserAdd {
     # --
     # check email address
     # --
-    if ($Param{Email} && !$Self->{CheckItemObject}->CkeckEmail(Address => $Param{Email})) {
+    if ($Param{Email} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{Email})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Email address ($Param{Email}) not valid (".
@@ -292,7 +292,7 @@ sub UserUpdate {
     # --
     # check email address
     # --
-    if ($Param{Email} && !$Self->{CheckItemObject}->CkeckEmail(Address => $Param{Email})) {
+    if ($Param{Email} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{Email})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Email address ($Param{Email}) not valid (".
