@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.7 2002-12-07 18:48:44 martin Exp $
+# $Id: Defaults.pm,v 1.8 2002-12-07 21:04:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -85,6 +85,11 @@ sub LoadDefaults {
     # ChangeOwnerToEveryone -> useful for ASP
     # (Possible to change owner of ticket ot everyone) [0|1]
     $Self->{ChangeOwnerToEveryone} = 0;
+
+    # ShowCustomerSelection 
+    # (show customer selection in phone and change customer view
+    # - disable this for ASP!) [0|1]
+    $Self->{ShowCustomerSelection} = 1;
 
     # ----------------------------------------------------#
     # database settings                                   #
@@ -1090,6 +1095,7 @@ Your OTRS Notification Master
 #            Host => '',
 #            User => '',
 #            Password => '',
+#            Database => '',
             Table => 'customer_user',
         }, 
         Map => [
