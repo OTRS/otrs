@@ -2,10 +2,10 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.63 2004-07-05 06:00:33 martin Exp $
+# $Id: Article.pm,v 1.64 2004-07-30 09:19:10 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,9 +14,10 @@ use MIME::Words qw(:all);
 use MIME::Entity;
 use Mail::Internet;
 use Kernel::System::StdAttachment;
+use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -44,8 +45,8 @@ create an article
       From => 'Some Agent <email@example.com>', # not required but useful
       To => 'Some Customer A <customer-a@example.com>', # not required but useful
       Cc => 'Some Customer B <customer-b@example.com>', # not required but useful
-      ReplyTo => 'Some Customer B <customer-b@example.com>', # not required 
-      Subject => 'some short description', # required 
+      ReplyTo => 'Some Customer B <customer-b@example.com>', # not required
+      Subject => 'some short description', # required
       Body => 'the message text', # required
       MessageID => '<asdasdasd.123@example.com>', # not required but useful
       ContentType => 'text/plain; charset=ISO-8859-15',
@@ -70,7 +71,7 @@ sub ArticleCreate {
     }
     # lockups if no ids!!!
     if (($Param{ArticleType}) && (!$Param{ArticleTypeID})) {
-        $Param{ArticleTypeID} = $Self->ArticleTypeLookup(ArticleType => $Param{ArticleType}); 
+        $Param{ArticleTypeID} = $Self->ArticleTypeLookup(ArticleType => $Param{ArticleType});
     }
     if (($Param{SenderType}) && (!$Param{SenderTypeID})) {
         $Param{SenderTypeID} = $Self->ArticleSenderTypeLookup(SenderType => $Param{SenderType});
@@ -91,7 +92,7 @@ sub ArticleCreate {
         $Param{AttachContentType} = $Param{ContentType};
         $Param{AttachBody} = $Param{Body};
         $Param{ContentType} = 'text/plain';
-        $Param{Body} = 'no text/plain body => see attachment'; 
+        $Param{Body} = 'no text/plain body => see attachment';
     }
     else {
         # fix some bad stuff from some browsers (Opera)!
@@ -125,21 +126,21 @@ sub ArticleCreate {
       " VALUES ".
       " ($DBParam{TicketID}, $DBParam{ArticleTypeID}, $DBParam{SenderTypeID}, ".
       " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
-      " '$DBParam{Subject}', ". 
+      " '$DBParam{Subject}', ".
       " '$DBParam{MessageID}', ?, '$DBParam{ContentType}', ?, ".
       " $ValidID,  $IncomingTime, " .
       " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     if (!$Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Body}, \$Self->{ArticleContentPath}])) {
         return;
     }
-    # get article id 
+    # get article id
     my $ArticleID = $Self->_ArticleGetId(
         TicketID => $Param{TicketID},
         MessageID => $Param{MessageID},
         From => $Param{From},
         Subject => $Param{Subject},
         IncomingTime => $IncomingTime
-    ); 
+    );
     # return if there is not article created
     if (!$ArticleID) {
         $Self->{LogObject}->Log(
@@ -188,7 +189,7 @@ sub ArticleCreate {
     if ($Param{AutoResponseType} && $Param{OrigHeader}) {
         # get auto default responses
         my %Data = $Self->{AutoResponse}->AutoResponseGetByTypeQueueID(
-            QueueID => $Ticket{QueueID}, 
+            QueueID => $Ticket{QueueID},
             Type => $Param{AutoResponseType},
         );
         my %OrigHeader = %{$Param{OrigHeader}};
@@ -210,7 +211,7 @@ sub ArticleCreate {
             }
             else {
                 # write log
-                if ($Param{UserID} ne $Self->{ConfigObject}->Get('PostmasterUserID') || 
+                if ($Param{UserID} ne $Self->{ConfigObject}->Get('PostmasterUserID') ||
                      $Self->{LoopProtectionObject}->SendEmail(To => $OrigHeader{From})) {
                     # get history type
                     my %SendInfo = ();
@@ -227,14 +228,14 @@ sub ArticleCreate {
                         $SendInfo{AutoResponseHistoryType} = 'SendAutoReject';
                     }
                     else {
-                        $SendInfo{AutoResponseHistoryType} = 'Misc'; 
+                        $SendInfo{AutoResponseHistoryType} = 'Misc';
                     }
                     $Self->SendAutoResponse(
                         %Data,
                         CustomerMessageParams => \%OrigHeader,
-                        TicketNumber => $Ticket{TicketNumber}, 
+                        TicketNumber => $Ticket{TicketNumber},
                         TicketID => $Param{TicketID},
-                        UserID => $Param{UserID}, 
+                        UserID => $Param{UserID},
                         HistoryType => $SendInfo{AutoResponseHistoryType},
                     );
                 }
@@ -272,8 +273,8 @@ sub ArticleCreate {
     if ($Param{HistoryType} =~ /^(EmailCustomer|PhoneCallCustomer|WebRequestCustomer)$/i) {
         foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
 	    my %UserData = $Self->{UserObject}->GetUserData(
-                UserID => $_, 
-                Cached => 1, 
+                UserID => $_,
+                Cached => 1,
                 Valid => 1,
             );
             if ($UserData{UserSendNewTicketNotification}) {
@@ -310,7 +311,6 @@ sub ArticleCreate {
     # return ArticleID
     return $ArticleID;
 }
-# --
 # just for internal use
 sub _ArticleGetId {
     my $Self = shift;
@@ -351,11 +351,61 @@ sub _ArticleGetId {
     }
     return $Id;
 }
-# --
+
+=item ArticleGetTicketIDOfMessageID()
+
+get ticket id of given message id
+
+  my $TicketID = $TicketObject->ArticleGetTicketIDOfMessageID(
+      MessageID=> '<13231231.1231231.32131231@example.com>',
+  );
+
+=cut
+
+sub ArticleGetTicketIDOfMessageID {
+    my $Self = shift;
+    my %Param = @_;
+    my $TicketID;
+    my $Count = 0;
+    # check needed stuff
+    if (!$Param{MessageID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need MessageID!");
+        return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql query
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT ticket_id FROM article WHERE a_message_id = '$Param{MessageID}'",
+        Limit => 10,
+    );
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Count++;
+        $TicketID = $Row[0];
+    }
+    # no reference found
+    if ($Count == 0) {
+        return;
+    }
+    # one found
+    if ($Count == 1) {
+        return $TicketID;
+    }
+    # more the one found! that should not be, a message_id should be uniq!
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'Notice',
+            Message => "The MessageID '$Param{MessageID}' is in your database more the one time! That should not be, a message_id should be uniq!",
+        );
+        return;
+    }
+}
 
 =item ArticleGetContentPath()
 
-get article content path 
+get article content path
 
   my $Path = $TicketObject->ArticleGetContentPath(
       ArticleID => 123,
@@ -391,7 +441,6 @@ sub ArticleGetContentPath {
     $Self->{"ArticleGetContentPath::$Param{ArticleID}"} = $Path;
     return $Path;
 }
-# --
 
 =item ArticleSenderTypeLookup()
 
@@ -402,7 +451,7 @@ article sender lookup
   );
 
   my $SenderType = $TicketObject->ArticleSenderTypeLookup(
-      SenderTypeID => 1, 
+      SenderTypeID => 1,
   );
 
 =cut
@@ -438,7 +487,7 @@ sub ArticleSenderTypeLookup {
     else {
         $SQL = "SELECT name FROM article_sender_type WHERE id = $Param{SenderTypeID}";
     }
-    $Self->{DBObject}->Prepare(SQL => $SQL); 
+    $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
         $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"} = $Row[0];
@@ -453,18 +502,17 @@ sub ArticleSenderTypeLookup {
     # return
     return $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"};
 }
-# --
 
 =item ArticleTypeLookup()
 
 article type lookup
 
   my $ArticleTypeID = $TicketObject->ArticleTypeLookup(
-      ArticleType => 'webrequest-customer', # note-internal|... 
+      ArticleType => 'webrequest-customer', # note-internal|...
   );
 
   my $ArticleType = $TicketObject->ArticleTypeLookup(
-      ArticleTypeID => 1, 
+      ArticleTypeID => 1,
   );
 
 =cut
@@ -516,7 +564,6 @@ sub ArticleTypeLookup {
     # return
     return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
 }
-# --
 
 =item ArticleFreeTextSet()
 
@@ -551,14 +598,13 @@ sub ArticleFreeTextSet {
           " a_freetext$Param{Counter} = '$Param{Value}', " .
           " change_time = current_timestamp, change_by = $Param{UserID} " .
           " WHERE id = $Param{ArticleID}",
-    )) { 
+    )) {
         return 1;
     }
     else {
         return;
     }
 }
-# --
 
 =item ArticleLastCustomerArticle()
 
@@ -580,7 +626,7 @@ sub ArticleLastCustomerArticle {
     }
     # get article index
     my @Index = $Self->ArticleIndex(TicketID => $Param{TicketID}, SenderType => 'customer');
-    # get article data   
+    # get article data
     if (@Index) {
         return $Self->ArticleGet(ArticleID => $Index[$#Index], TicketOverTime => 1);
     }
@@ -591,14 +637,13 @@ sub ArticleLastCustomerArticle {
         }
         else {
             $Self->{LogObject}->Log(
-                Priority => 'error', 
+                Priority => 'error',
                 Message => "No article found for TicketID $Param{TicketID}!",
             );
-            return; 
+            return;
         }
     }
 }
-# --
 
 =item ArticleFirstArticle()
 
@@ -620,23 +665,22 @@ sub ArticleFirstArticle {
     }
     # get article index
     my @Index = $Self->ArticleIndex(TicketID => $Param{TicketID});
-    # get article data   
+    # get article data
     if (@Index) {
         return $Self->ArticleGet(ArticleID => $Index[0]);
     }
     else {
         $Self->{LogObject}->Log(
-            Priority => 'error', 
+            Priority => 'error',
             Message => "No article found for TicketID $Param{TicketID}!",
         );
-        return; 
+        return;
     }
 }
-# --
 
 =item ArticleIndex()
 
-returns an array with article id's 
+returns an array with article id's
 
   my @ArticleIDs = $TicketObject->ArticleIndex(
       TicketID => 123,
@@ -652,7 +696,7 @@ returns an array with article id's
 sub ArticleIndex {
     my $Self = shift;
     my %Param = @_;
-    my @Index = (); 
+    my @Index = ();
     # check needed stuff
     if (!$Param{TicketID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
@@ -688,13 +732,13 @@ sub ArticleIndex {
         push (@Index, $Row[0]);
     }
     # return data
-    return @Index; 
+    return @Index;
 }
 # --
 
 =item ArticleContentIndex()
 
-returns an array with hash ref 
+returns an array with hash ref
 
   my @ArticleIDs = $TicketObject->ArticleContentIndex(
       TicketID => 123,
@@ -727,7 +771,6 @@ sub ArticleContentIndex {
     }
     return @ArticleBox;
 }
-# --
 
 =item ArticleGet()
 
@@ -949,8 +992,8 @@ send article via email and create article with attachments
       From => 'Some Agent <email@example.com>', # not required but useful
       To => 'Some Customer A <customer-a@example.com>', # not required but useful
       Cc => 'Some Customer B <customer-b@example.com>', # not required but useful
-      ReplyTo => 'Some Customer B <customer-b@example.com>', # not required 
-      Subject => 'some short description', # required 
+      ReplyTo => 'Some Customer B <customer-b@example.com>', # not required
+      Subject => 'some short description', # required
       Body => 'the message text', # required
       MessageID => '<asdasdasd.123@example.com>', # not required but useful
       Loop => 0, # 1|0 used for bulk emails
@@ -967,6 +1010,15 @@ send article via email and create article with attachments
         },
       ],
       ContentType => 'text/plain; charset=ISO-8859-15',
+      Sign => {
+          Type => 'PGP',
+          SubType => 'Inline|Detached',
+          Key => '81877F5E',
+      },
+      Crypt => {
+          Type => 'PGP',
+          Key => '81877F5E',
+      },
       HistoryType => 'OwnerUpdate', # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
       HistoryComment => 'Some free text!',
       UserID => 123,
@@ -1002,6 +1054,34 @@ sub ArticleSend {
     # clean up
     $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
     $Param{Body} =~ s/\r/\n/g;
+
+    # get sign options for inline
+    if ($Param{Sign} && $Param{Sign}->{SubType} eq 'Inline') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Sign}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
+        }
+        my $Body = $CryptObject->Sign(
+            Message => $Param{Body},
+            Key => $Param{Sign}->{Key},
+            Type => 'Clearsign',
+        );
+        if ($Body) {
+            $Param{Body} = $Body;
+            $Self->HistoryAdd(
+                TicketID => $Param{TicketID},
+                ArticleID => $Param{ArticleID},
+                Name => "Signed Mail (inline)",
+                HistoryType => 'Misc',
+                CreateUserID => $Param{UserID},
+            );
+        }
+    }
     # create article
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
     if ($Param{ArticleID} = $Self->ArticleCreate(
@@ -1037,13 +1117,16 @@ sub ArticleSend {
         'X-Mailer' => "OTRS Mail Service ($VERSION)",
         'X-Powered-By' => 'OTRS - Open Ticket Request System (http://otrs.org/)',
         Organization => $Self->{Organization},
-        Type => 'text/plain; charset='.$Charset,
-        Encoding => '8bit',
+        Type => 'text/plain',
+        Charset=> $Charset,
+        Encoding => "7bit",
+#        Encoding => '8bit',
     };
     if ($Loop) {
         $$Header{'Precedence:'} = 'bulk';
         $$Header{'X-Loop'} = 'bulk';
     }
+
     my $Entity = MIME::Entity->build(%{$Header}, Data => $Param{Body});
     # add attachments to email
     if ($Param{Attach}) {
@@ -1073,7 +1156,7 @@ sub ArticleSend {
             foreach (qw(Filename ContentType Content)) {
                 if (!$Data{$_}) {
                     $Self->{LogObject}->Log(
-                        Priority => 'error', 
+                        Priority => 'error',
                         Message => "No $_ found for std. attachment id $ID!",
                     );
                 }
@@ -1090,6 +1173,114 @@ sub ArticleSend {
                 %Data,
                 ArticleID => $Param{ArticleID},
                 UserID => $Param{UserID},
+            );
+        }
+    }
+
+# sign it
+    # get sign options for detached
+    if ($Param{Sign} && $Param{Sign}->{SubType} eq 'Detached') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Sign}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
+        }
+        # make_multipart -=> one attachment for sign
+        $Entity->make_multipart(
+            "signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\";",
+            Force => 1,
+        );
+        # get string to sign
+        my $T = $Entity->parts(0)->as_string();
+        # according to RFC3156 all line endings MUST be CR/LF
+        $T =~ s/\x0A/\x0D\x0A/g;
+        $T =~ s/\x0D+/\x0D/g;
+        my $Sign = $CryptObject->Sign(
+            Message => $T,
+            Key => $Param{Sign}->{Key},
+            Type => 'Detached',
+        );
+        # it sign failed, remove singned multi part
+        if (!$Sign) {
+            $Entity->make_singlepart();
+        }
+        else {
+            # addach sign to email
+            $Entity->attach(Data => $Sign,
+                Type => "application/pgp-signature",
+                Encoding => "7bit",
+            );
+            # add attachments to article storage
+            $Self->ArticleWriteAttachment(
+                Content => $Sign,
+                Filename => 'pgp_sign.asc',
+                ContentType => 'application/pgp-signature',
+                ArticleID => $Param{ArticleID},
+                UserID => $Param{UserID},
+            );
+            # add history entry
+            $Self->HistoryAdd(
+                TicketID => $Param{TicketID},
+                ArticleID => $Param{ArticleID},
+                Name => "Signed Mail (detached)",
+                HistoryType => 'Misc',
+                CreateUserID => $Param{UserID},
+            );
+        }
+    }
+    # crypt it!
+    if ($Param{Crypt}) {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Crypt}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
+        }
+        # make_multipart -=> one attachment for encryption
+        $Entity->make_multipart(
+            "encrypted; protocol=\"application/pgp-encrypted\";",
+            Force => 1,
+        );
+        # crypt it
+        my $Crypt = $CryptObject->Crypt(
+            Message => $Entity->parts(0)->as_string(),
+#            Key => '81877F5E',
+#            Key => '488A0B8F',
+            Key => $Param{Crypt}->{Key},
+        );
+        # it crypt failed, remove encrypted multi part
+        if (!$Crypt) {
+            $Entity->make_singlepart();
+        }
+        else {
+            # eliminate all parts
+            $Entity->parts([]);
+            # add crypted parts
+            $Entity->attach(Type => "application/pgp-encrypted",
+                Disposition => "attachment",
+                Data => ["Version: 1",""],
+                Encoding => "7bit",
+            );
+            $Entity->attach(Type => "application/octet-stream",
+                Disposition => "inline",
+                Filename => "msg.asc",
+                Data => $Crypt,
+                Encoding => "7bit",
+            );
+            # add history entry
+            $Self->HistoryAdd(
+                TicketID => $Param{TicketID},
+                ArticleID => $Param{ArticleID},
+                Name => "Crypted Mail",
+                HistoryType => 'Misc',
+                CreateUserID => $Param{UserID},
             );
         }
     }
@@ -1138,7 +1329,7 @@ bounce an article
 
   $TicketObject->ArticleBounce(
       From => '',
-      To => '', 
+      To => '',
       Email => $EmailAsString,
       TicketID => 123,
       ArticleID => 123,
@@ -1238,6 +1429,8 @@ sub SendAgentNotification {
     }
     # get old article for quoteing
     my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
+    # format body
+    $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ($Article{Body});
     my %User = %{$Param{UserData}};
     # check recipients
     if (!$User{UserEmail}) {
@@ -1258,7 +1451,7 @@ sub SendAgentNotification {
         my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Article{CustomerUserID},
         );
-        # replace customer stuff with tags 
+        # replace customer stuff with tags
         foreach (keys %CustomerUser) {
             if ($CustomerUser{$_}) {
                 $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
@@ -1270,13 +1463,15 @@ sub SendAgentNotification {
     $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
     $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
-    # replace article stuff with tags 
+    # replace article stuff with tags
     foreach (qw(From To Cc Subject Body)) {
         if (!$GetParam{$_}) {
             $GetParam{$_} = $Article{$_} || '';
         }
         chomp $GetParam{$_};
     }
+    # format body
+    $GetParam{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ($GetParam{Body});
     foreach (keys %GetParam) {
         if ($GetParam{$_}) {
             $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
@@ -1319,7 +1514,7 @@ sub SendAgentNotification {
     # prepare body (insert old email)
     $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
     $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
-    $Param{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/g; 
+    $Param{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/g;
     $Param{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/g if (defined $GetParam{Comment});
     # replace it with article data
     foreach (keys %Article) {
@@ -1333,11 +1528,11 @@ sub SendAgentNotification {
             $Param{Body} =~ s/<OTRS_$_>//gi;
         }
     }
-   
+
     if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
         my $Line = $1;
         my @Body = split(/\n/, $GetParam{Body});
-        my $NewOldBody = ''; 
+        my $NewOldBody = '';
         foreach (my $i = 0; $i < $Line; $i++) {
             # 2002-06-14 patch of Pablo Ruiz Garcia
             # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
@@ -1352,7 +1547,7 @@ sub SendAgentNotification {
     $Param{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     $Param{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
-    # send notify 
+    # send notify
     $Self->{SendmailObject}->Send(
         From => $Self->{ConfigObject}->Get('NotificationSenderName').
              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
@@ -1407,12 +1602,14 @@ sub SendCustomerNotification {
       }
     }
     # get notify texts
-    $Param{Subject} = $Self->{ConfigObject}->Get("CustomerNotificationSubject$Param{Type}") 
+    $Param{Subject} = $Self->{ConfigObject}->Get("CustomerNotificationSubject$Param{Type}")
       || "No CustomerNotificationSubject$Param{Type} found in Config.pm!";
     $Param{Body} = $Self->{ConfigObject}->Get("CustomerNotificationBody$Param{Type}")
       || "No CustomerNotificationBody$Param{Type} found in Config.pm!";
     # get old article for quoteing
     my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
+    # format body
+    $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ($Article{Body});
     foreach (keys %Article) {
         if ($Article{$_}) {
             $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
@@ -1471,7 +1668,7 @@ sub SendCustomerNotification {
     if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
         my $Line = $1;
         my @Body = split(/\n/, $Article{Body});
-        my $NewOldBody = ''; 
+        my $NewOldBody = '';
         foreach (my $i = 0; $i < $Line; $i++) {
             # 2002-06-14 patch of Pablo Ruiz Garcia
             # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
