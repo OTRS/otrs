@@ -2,7 +2,7 @@
 # .procmailrc - procmailrc of the OpenTRS user
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: .procmailrc,v 1.3 2002-01-16 22:32:51 martin Exp $
+# $Id: .procmailrc,v 1.4 2002-01-16 22:40:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,37 +19,41 @@ LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
 VERBOSE=on 
 
 # --
-# example for queue pre sort
+# Example for queue pre sort.
 # --
 :0 fhw :
 * TO:.*edenhofer
 | formail -I "X-OTRS-Queue: Privat"
 
 # --
-# example for add free form key and value (max 3) 
+# Example for add free form key and value (max 3). 
 # --
 :0 fhw :
 * TO:.*edenhofer
 | formail -I "X-OTRS-ArticleKey1: Test" |  formail -I "X-OTRS-ArticleValue1: True!"
 
 # --
-# backup of all incoming emails
+# Backup of all incoming emails. 
+# It's always better to have a backup of all incoming emails!
 # --
 :0 c :
 $SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
 
 
 # --
-# some mail into the system
+# Pipe all email into the PostMaster process.
 # --
 :0 :
 | $SYS_HOME/bin/PostMaster.pl
 
 # --
 # spool all the rest (which the PostMaster.pl can't process!) 
+# If the database is down or the PostMaster.pl exit was not '0'!
 # --
 :0 :
 $SYS_HOME/var/spool/.
 
-
+# --
+# end of .procmailrc
+# --
 
