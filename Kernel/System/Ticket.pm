@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.100 2004-04-22 15:42:29 martin Exp $
+# $Id: Ticket.pm,v 1.101 2004-04-22 18:04:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.100 $';
+$VERSION = '$Revision: 1.101 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -684,6 +684,10 @@ to move a ticket (send notification to agentsw of selected my queues)
 sub MoveTicket {
     my $Self = shift;
     my %Param = @_;
+    # queue lookup
+    if ($Param{Queue} && !$Param{QueueID}) {
+        $Param{QueueID} = $Self->{QueueObject}->QueueLookup(Queue => $Param{Queue});
+    }
     # check needed stuff
     foreach (qw(TicketID QueueID UserID)) {
       if (!$Param{$_}) {
@@ -3091,6 +3095,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.100 $ $Date: 2004-04-22 15:42:29 $
+$Revision: 1.101 $ $Date: 2004-04-22 18:04:39 $
 
 =cut
