@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.25 2003-02-02 12:04:19 martin Exp $
+# $Id: Defaults.pm,v 1.26 2003-02-03 19:37:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1141,7 +1141,10 @@ Your OTRS Notification Master
         CustomerKey => 'login',
         # customer #
         CustomerID => 'customer_id',
+        CustomerValid => 'valid_id',
         CustomerListFileds => ['customer_id', 'comment'],
+        CustomerUserListFileds => ['login', 'first_name', 'last_name', 'email'],
+#        CustomerUserListFileds => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
 #        ReadOnly => 1,
         Map => [
             # note: Login, Email and CustomerID needed!
@@ -1167,7 +1170,7 @@ Your OTRS Notification Master
 #            Host => 'bay.csuhayward.edu',
 #            # ldap base dn
 #            BaseDN => 'ou=seas,o=csuh',
-#            # search scope
+#            # search scope (one|sub)
 #            SSCOPE => 'one',
 #            # The following is valid but would only be necessary if the
 #            # anonymous user does NOT have permission to read from the LDAP tree 
@@ -1178,7 +1181,8 @@ Your OTRS Notification Master
 #        CustomerKey => 'uid',
 #        # customer #
 #        CustomerID => 'mail',
-#        CustomerListFileds => ['uid', 'cn'],
+#        CustomerListFileds => ['mail', 'cn'],
+#        CustomerUserListFileds => ['uid', 'cn', 'mail'],
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
 #            # var, frontend, storage, shown, required, storage-type
