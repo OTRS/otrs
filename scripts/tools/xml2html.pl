@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2html.pl - a "_simple_" xml2html viewer
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2html.pl,v 1.3 2004-11-28 07:43:00 martin Exp $
+# $Id: xml2html.pl,v 1.4 2005-01-11 22:16:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 
 use strict;
-use XML::Parser;
+use XML::Parser::Lite;
 
 my $Title = 'xml2html: ';
 
@@ -45,7 +45,7 @@ else {
     }
 }
 
-my $p1 = new XML::Parser(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+my $p1 = new XML::Parser::Lite(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
 
 my @Data = $p1->parse($FileContent);
 
@@ -77,7 +77,7 @@ sub HS {
 
 sub CS {
     my ($Expat, $Element, $I, $II) = @_;
-    $Element = $Expat->recognized_string();
+#    $Element = $Expat->recognized_string();
 #    print "v:'$Element'\n";
     if ($Element !~ /^\W+$/) {
         $Element =~ s/(.{100}.+?\s)/$1\n/g;
