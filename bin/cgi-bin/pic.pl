@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OpenTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.2 2002-05-05 15:56:42 martin Exp $
+# $Id: pic.pl,v 1.3 2002-05-30 15:09:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -84,7 +84,7 @@ if ( !$Param{SessionID} ||
     Priority => 'info',
   );
 
-  my $Pic = GetImage('help.gif');
+  my $Pic = GetImage('help.gif', '', \%CommonObject);
   print <<EOF
 Content-Type: image/gif
 
@@ -110,7 +110,7 @@ else {
       Priority => 'info',
     );
 
-    my $Pic = GetImage('help.gif');
+    my $Pic = GetImage('help.gif', '', \%CommonObject);
     print <<EOF
 Content-Type: image/gif
 
@@ -121,10 +121,12 @@ EOF
   else {
     my $Pic = '';
     if ($Param{Action} eq 'SystemStats') {
-      $Pic = GetImage($Param{Pic}, 'SystemStats') || GetImage('help.gif');
+      $Pic = GetImage($Param{Pic}, 'SystemStats', \%CommonObject) 
+       || GetImage('help.gif', '', \%CommonObject);
     }
     else {
-      $Pic = GetImage($Param{Pic}) || GetImage('help.gif');
+      $Pic = GetImage($Param{Pic}, '', \%CommonObject) 
+       || GetImage('help.gif', '', \%CommonObject);
     }
     print <<EOF
 Content-Type: image
@@ -153,6 +155,8 @@ sub GetImage {
     $File =~ s/(\.\.\/||^\/)//g;
     my $Data = '';
     my $HtdocsPath = '';
+    my $CommonObjectTmp = shift || return;
+    my %CommonObject = %{$CommonObjectTmp};
     if ($Type eq 'SystemStats') {
       $HtdocsPath = $CommonObject{ConfigObject}->Get('StatsPicDir') 
        || '../../var/pics/stats';
