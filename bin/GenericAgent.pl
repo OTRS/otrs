@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.11 2003-02-08 15:05:11 martin Exp $
+# $Id: GenericAgent.pl,v 1.12 2003-05-20 20:21:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -74,9 +74,20 @@ foreach my $Job (keys %Jobs) {
     # --
     my %Tickets = ();
     if (! $Jobs{$Job}->{Escalation}) {
-        %Tickets = $CommonObject{QueueObject}->GetTicketIDsByQueue(
-            %{$Jobs{$Job}},
-        );
+        my %PartJobs = %{$Jobs{$Job}};
+        if (ref($PartJobs{Queue}) eq 'ARRAY') {
+            foreach (@{$PartJobs{Queue}}) {
+                print " For Queue: $_\n";
+                %Tickets = $CommonObject{QueueObject}->GetTicketIDsByQueue(
+                    Queue => $_,            
+                );
+            }
+        }
+        else {
+            %Tickets = $CommonObject{QueueObject}->GetTicketIDsByQueue(
+                %{$Jobs{$Job}},
+            );
+        }
     }
     # --
     # escalation tickets
