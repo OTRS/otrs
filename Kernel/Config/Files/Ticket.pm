@@ -266,7 +266,7 @@
 
     # Ticket::Frontend::MoveType
     # (Show form drop down of show new page of new queues) [form|link]
-    $Self->{'Ticket::Frontend::MoveType'} = 'link';
+    $Self->{'Ticket::Frontend::MoveType'} = 'form';
 
     # Ticket::Frontend::MoveSetState
     # (Set ticket state by move)
@@ -708,6 +708,7 @@ $Data{"Signature"}
         Module => 'Kernel::Output::HTML::TicketMenuGeneric',
         Name => 'Back',
         Description => 'Back',
+        Action => '',
         Link => '$Env{"LastScreenOverview"}&TicketID=$QData{"TicketID"}',
     };
     # show lock/unlock link
