@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# $Id: otrs.checkModules,v 1.4 2003-03-10 21:29:16 martin Exp $
+# $Id: otrs.checkModules,v 1.5 2004-12-10 08:38:18 martin Exp $
 # --
 # This programm is based on pminst from Tom Christiansen.
-# This is free software.  You may modify it and distribute it 
+# This is free software.  You may modify it and distribute it
 # under Perl's Artistic Licence.  Modified versions must be
 # clearly indicated.
 # --
@@ -18,15 +18,15 @@ use File::Find;
 
 if (@ARGV == 0) {
     @ARGV = ('.');
-} 
+}
 
 my @NeededModules = (qw(
-    CGI 
-    Date::Pcalc 
-    DBI DBD::mysql 
-    Digest::MD5 
-    Email::Valid
-    IO::Scalar IO::Wrap 
+    CGI
+    XML::Parser
+    Date::Pcalc
+    DBI DBD::mysql
+    Digest::MD5
+    IO::Scalar IO::Wrap
     MIME::Base64 MIME::Tools Mail::Internet
     Net::DNS Net::POP3 Net::LDAP Net::SMTP
     Authen::SASL
@@ -37,21 +37,21 @@ my %InstalledModules = ();
 
 no lib '.';
 
-for $startdir (@INC) { 
+for $startdir (@INC) {
     find(\&wanted, $startdir);
 }
 
 sub wanted {
-    if (-d && /^[a-z]/) { 
+    if (-d && /^[a-z]/) {
         # this is so we don't go down site_perl etc too early
         $File::Find::prune = 1;
         return;
     }
     return unless /\.pm$/;
     local $_ = $File::Find::name;
-    $tmpname = $_; 
+    $tmpname = $_;
     $tmpname =~ s{^\Q$startdir/}{};
-    s{^\Q$startdir/}{};  
+    s{^\Q$startdir/}{};
     s/\.pm$//;
     s{/}{::}g;
     $InstalledModules{lc($_)} = 1;
