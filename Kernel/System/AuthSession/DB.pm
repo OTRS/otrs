@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.3 2002-08-05 04:02:40 martin Exp $
+# $Id: DB.pm,v 1.4 2002-10-15 09:23:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -40,13 +40,13 @@ sub new {
     $Self->{Debug} = 0;    
 
     # session table data
-    $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('DatabaseSessionTable') 
+    $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('SessionTable') 
      || 'session';
     # id row
-    $Self->{SQLSessionTableID} = $Self->{ConfigObject}->Get('DatabaseSessionTableID') 
+    $Self->{SQLSessionTableID} = $Self->{ConfigObject}->Get('SessionTableID') 
      || 'session_id';
     # value row
-    $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('DatabaseSessionTableValue') 
+    $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('SessionTableValue') 
      || 'value';
 
     return $Self;
