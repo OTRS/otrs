@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.65 2002-10-20 15:44:56 martin Exp $
+# $Id: Config.pm,v 1.66 2002-10-20 22:27:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -227,7 +227,9 @@ sub Load {
     # ----------------------------------------------------#
     # CGIHandle
     # (Global CGI handle.)
-    $Self->{CGIHandle} = 'index.pl';
+    # !!$Self->{CGIHandle} = 'index.pl';!!
+    # -=> CGIHandle not longer exists. CGIHandle is automatically the 
+    #     script name (It is possible to rename index.pl to otrs.cgi!).
     
     # CGILogPrefix
     $Self->{CGILogPrefix} = 'OTRS-CGI';
