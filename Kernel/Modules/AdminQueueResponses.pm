@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponses.pm,v 1.9 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.10 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,6 +46,7 @@ sub Run {
     my $Subaction = $Self->{Subaction}; 
     my $UserID = $Self->{UserID};
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+    $ID = $Self->{DBObject}->Quote($ID);
     my $NextScreen = 'AdminQueueResponses';
 
     # user <-> group 1:n
@@ -109,11 +110,13 @@ sub Run {
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         $Self->{DBObject}->Do(SQL => "DELETE FROM queue_standard_response WHERE queue_id = $ID");
 
-        foreach (@NewIDs) {
+        foreach my $NewID (@NewIDs) {
+            # db quote
+            $NewID = $Self->{DBObject}->Quote($NewID);
             my $SQL = "INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, " .
 	            " change_time, change_by)" .
                 " VALUES " .
-                " ( $ID, $_, current_timestamp, $UserID, current_timestamp, $UserID)";
+                " ( $ID, $NewID, current_timestamp, $UserID, current_timestamp, $UserID)";
                 $Self->{DBObject}->Do(SQL => $SQL);
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");    
@@ -124,11 +127,13 @@ sub Run {
 
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         $Self->{DBObject}->Do(SQL => "DELETE FROM queue_standard_response WHERE standard_response_id = $ID");
-        foreach (@NewIDs) {
-        my $SQL = "INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, " .
+        foreach my $NewID (@NewIDs) {
+            # db quote
+            $NewID = $Self->{DBObject}->Quote($NewID);
+            my $SQL = "INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, " .
                 " change_time, change_by)" .
                 " VALUES " .
-                " ( $_, $ID, current_timestamp, $UserID, current_timestamp, $UserID)";
+                " ( $NewID, $ID, current_timestamp, $UserID, current_timestamp, $UserID)";
              $Self->{DBObject}->Do(SQL => $SQL);
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");

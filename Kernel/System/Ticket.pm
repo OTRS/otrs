@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.68 2004-02-02 22:01:27 martin Exp $
+# $Id: Ticket.pm,v 1.69 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -62,7 +62,7 @@ create a object
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::System::DB;
-  use Kernel::System::Group;
+  use Kernel::System::Ticket;
 
   my $ConfigObject = Kernel::Config->new();
   my $LogObject    = Kernel::System::Log->new(
@@ -187,16 +187,16 @@ sub CheckTicketNr {
     my $Self = shift;
     my %Param = @_;
     my $Id = '';
-    # --
     # check needed stuff
-    # --
     if (!$Param{Tn}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need TN!");
       return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db query
-    # --
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id FROM ticket " .
           " WHERE " .
@@ -258,6 +258,10 @@ sub CreateTicketDB {
     if (!$Param{TN}) {
         $Param{TN} = $Self->CreateTicketNr();
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # create db record
     my $SQL = "INSERT INTO ticket (tn, create_time_unix, queue_id, ticket_lock_id, ".
     " user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
@@ -301,14 +305,16 @@ sub CreateTicketDB {
 sub DeleteTicket {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket WHERE id = $Param{TicketID}")) {
         $Self->TicketAcceleratorDelete(%Param);
@@ -324,16 +330,16 @@ sub GetIdOfTN {
     my $Self = shift;
     my %Param = @_;
     my $Id;
-    # --
     # check needed stuff
-    # --
     if (!$Param{TN}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need TN!");
       return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db query
-    # --
     my $SQL = "SELECT id FROM ticket " .
     " WHERE " .
     " tn = '$Param{TN}' ";
@@ -351,16 +357,16 @@ sub GetTNOfId {
     my $Self = shift;
     my %Param = @_;
     my $Tn = '';
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db query
-    # --
     my $SQL = "SELECT tn FROM ticket WHERE id = $Param{ID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -382,7 +388,6 @@ sub GetTicket {
     if ($Param{Cached} && $Self->{'GetTicket'.$Param{TicketID}}) {
         return %{$Self->{'GetTicket'.$Param{TicketID}}};
     }
-
     # db query
     my $SQL = "SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, slt.id, slt.name, ".
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
@@ -404,7 +409,7 @@ sub GetTicket {
         " AND ".
         " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ".
         " AND ".
-        " st.id = $Param{TicketID} ";
+        " st.id = ".$Self->{DBObject}->Quote($Param{TicketID})."";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Ticket{TicketID} = $Row[0];
@@ -482,7 +487,7 @@ sub GetQueueIDOfTicketID {
         return $Self->{"GetQueueIDOfTicketID::$Param{TicketID}"};
     }
     # db query
-    my $SQL = "SELECT queue_id FROM ticket WHERE id = $Param{TicketID}";
+    my $SQL = "SELECT queue_id FROM ticket WHERE id = ".$Self->{DBObject}->Quote($Param{TicketID})."";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Id = $RowTmp[0];
@@ -515,7 +520,9 @@ sub MoveByTicketID {
         return 1;
     }
     # db update
-    my $SQL = "UPDATE ticket SET queue_id = $Param{QueueID} where id = $Param{TicketID}";
+    my $SQL = "UPDATE ticket SET ".
+      " queue_id = ".$Self->{DBObject}->Quote($Param{QueueID}).
+      "  where id = ".$Self->{DBObject}->Quote($Param{TicketID})."";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID}); 
@@ -567,6 +574,10 @@ sub GetMoveQueueList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db query
     my @Queue = ();
@@ -630,6 +641,10 @@ sub SetCustomerData {
     if (!defined($Param{No}) && !defined($Param{User})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or No for update!");
         return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db customer id update
     if (defined($Param{No})) {
@@ -741,6 +756,10 @@ sub SetAnswered {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db update
     my $SQL = "UPDATE ticket SET ticket_answered = $Answered, " .
@@ -937,6 +956,10 @@ sub GetLockedTicketIDs {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     my @ViewableTickets;
     my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
     my $SQL = "SELECT ti.id " .
@@ -992,14 +1015,16 @@ sub SetPendingTime {
       }
     }
     my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year});
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db update
     my $SQL = "UPDATE ticket SET until_time = $time, " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID} ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        # --
         # history insert
-        # --
         $Self->AddHistoryRow(
             TicketID => $Param{TicketID},
             HistoryType => 'SetPendingTime',
@@ -1446,6 +1471,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2004-02-02 22:01:27 $
+$Revision: 1.69 $ $Date: 2004-02-13 00:50:36 $
 
 =cut

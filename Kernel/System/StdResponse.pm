@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdResponse.pm,v 1.9 2004-02-02 23:27:23 martin Exp $
+# $Id: StdResponse.pm,v 1.10 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -120,6 +120,10 @@ sub StdResponseDelete {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql 
     if ($Self->{DBObject}->Prepare(SQL => "DELETE FROM standard_response WHERE ID = $Param{ID}")) {
         return 1;
@@ -180,27 +184,23 @@ sub StdResponseLookup {
     if ($Param{StdResponse} && $Self->{"StdResponseLookup$Param{StdResponse}"}) {
         return $Self->{"StdResponseLookup$Param{StdResponse}"};
     }
-    # --
     # get data
-    # --
     my $SQL = '';
     my $Suffix = '';
     if ($Param{StdResponse}) {
         $Suffix = 'StdResponseID';
-        $SQL = "SELECT id FROM standard_response WHERE name = '$Param{StdResponse}'";
+        $SQL = "SELECT id FROM standard_response WHERE name = '".$Self->{DBObject}->Quote($Param{StdResponse})."'";
     }
     else {
         $Suffix = 'StdResponse';
-        $SQL = "SELECT name FROM standard_response WHERE id = $Param{StdResponseID}";
+        $SQL = "SELECT name FROM standard_response WHERE id = ".$Self->{DBObject}->Quote($Param{StdResponseID})."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
         $Self->{"StdResponse$Suffix"} = $Row[0];
     }
-    # --
     # check if data exists
-    # --
     if (!exists $Self->{"StdResponse$Suffix"}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Found no \$$Suffix!");
         return;
@@ -215,9 +215,7 @@ sub GetAllStdResponses {
     if (!defined $Param{Valid}) {
         $Param{Valid} = 1;
     }
-    # --
     # return data
-    # --
     return $Self->{DBObject}->GetTableData(
         Table => 'standard_response',
         What => 'id, name',

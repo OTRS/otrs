@@ -2,7 +2,7 @@
 # Kernel/System/Auth/DB.pm - provides the db authentification 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.8 2004-01-10 15:33:33 martin Exp $
+# $Id: DB.pm,v 1.9 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::System::Auth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -111,10 +111,8 @@ sub Auth {
             Priority => 'notice',
             Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
         );
-        my $TempSalt = $Salt;
-        $TempSalt =~ s/'/\\'/g;
-        my $TempPw = $Pw;
-        $TempPw =~ s/'/\\'/g;
+        my $TempSalt = quotemeta($Salt);
+        my $TempPw = quotemeta($Pw);
         my $CMD = "perl -e \"print crypt('$TempPw', '$TempSalt');\"";
         open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
         while (<IO>) {

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.16 2004-02-09 01:41:27 martin Exp $
+# $Id: CustomerUser.pm,v 1.17 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -142,8 +142,9 @@ sub CustomerUserAdd {
     my %Param = @_;
     # check data source
     if (!$Param{Source}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Source!");
-        return;
+#        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Source!");
+        $Param{Source} = 'CustomerUser';
+#        return;
     }
     # check if user exists
     my %User = $Self->CustomerUserDataGet(User => $Param{UserLogin});

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Owner.pm - the sub module of the global ticket handle
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Owner.pm,v 1.10 2004-01-23 01:03:22 martin Exp $
+# $Id: Owner.pm,v 1.11 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Owner;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,16 +22,16 @@ sub CheckOwner {
     my $Self = shift;
     my %Param = @_;
     my $SQL = '';
-    # --
     # check needed stuff
-    # --
     if (!$Param{TicketID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
       return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db query
-    # --
     if ($Param{UserID}) {
         $SQL = "SELECT user_id, user_id " .
         " FROM " .
@@ -66,9 +66,7 @@ sub CheckOwner {
 sub SetOwner {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -79,44 +77,36 @@ sub SetOwner {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need NewUserID or NewUser!");
         return;
     }
-    # --
     # lookup if no NewUserID is given
-    # --
     if (!$Param{NewUserID}) {
       $Param{NewUserID} = $Self->{UserObject}->GetUserIdByName(User => $Param{NewUser})||return;
     }
-    # --
     # lookup if no NewUser is given
-    # --
     if (!$Param{NewUser}) {
       $Param{NewUser} = $Self->{UserObject}->GetUserByID(UserID => $Param{NewUserID})||return;
     }
-    # --
     # check if update is needed!
-    # --
     if ($Self->CheckOwner(TicketID => $Param{TicketID}, UserID => $Param{NewUserID})) {
         # update is "not" needed!
         return 1;
     }
-    # --     
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db update
-    # --
     my $SQL = "UPDATE ticket SET user_id = $Param{NewUserID}, " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # --
       # add history
-      # --
       $Self->AddHistoryRow(
-        TicketID => $Param{TicketID},
-        CreateUserID => $Param{UserID},
-        HistoryType => 'OwnerUpdate',
-        Name => "New Owner is '$Param{NewUser}' (ID=$Param{NewUserID}).",
+          TicketID => $Param{TicketID},
+          CreateUserID => $Param{UserID},
+          HistoryType => 'OwnerUpdate',
+          Name => "New Owner is '$Param{NewUser}' (ID=$Param{NewUserID}).",
       );
-      # --
       # send agent notify
-      # --
       if ($Param{UserID} ne $Param{NewUserID} && 
            $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
         if (!$Param{Comment}) {
@@ -133,9 +123,7 @@ sub SetOwner {
             UserID => $Param{UserID},
         );
       }
-      # --
       # send customer notification email
-      # --
       my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
       $Self->SendCustomerNotification(
           Type => 'OwnerUpdate',
@@ -159,6 +147,10 @@ sub GetOwnerList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db query
     my @User = ();

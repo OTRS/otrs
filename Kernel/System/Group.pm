@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.18 2004-02-02 23:27:23 martin Exp $
+# $Id: Group.pm,v 1.19 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -84,6 +84,10 @@ sub GetGroupIdByName {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Group!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql 
     my $SQL = sprintf ("SELECT id from groups where name='%s'" , $Param{Group});
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -127,6 +131,10 @@ sub GroupMemberAdd {
         return;
       }
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # update permission 
     foreach (keys %{$Param{Permission}}) {
         # delete existing permission
@@ -136,7 +144,7 @@ sub GroupMemberAdd {
           " AND ".
           " user_id = $Param{UID} ".
           " AND ".
-          " permission_key = '$_'";
+          " permission_key = '".$Self->{DBObject}->Quote($_)."'";
         $Self->{DBObject}->Do(SQL => $SQL);
         # debug
         if ($Self->{Debug}) {
@@ -150,7 +158,8 @@ sub GroupMemberAdd {
           " (user_id, group_id, permission_key, permission_value, ".
           " create_time, create_by, change_time, change_by) ".
           " VALUES ".
-          " ($Param{UID}, $Param{GID}, '$_', $Param{Permission}->{$_},".
+          " ($Param{UID}, $Param{GID}, '".$Self->{DBObject}->Quote($_)."', ".
+          " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).", ".
           " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
         $Self->{DBObject}->Do(SQL => $SQL);
     }
@@ -232,6 +241,10 @@ sub GroupGet {
     if (!$Param{ID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
         return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql 
     my $SQL = "SELECT name, valid_id, comments ".
@@ -366,6 +379,11 @@ sub GroupMemberList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or GroupID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql
     my %Data = (); 
     my @Name = ();
     my @ID = ();
@@ -432,6 +450,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2004-02-02 23:27:23 $
+$Revision: 1.19 $ $Date: 2004-02-13 00:50:37 $
 
 =cut

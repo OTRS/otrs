@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.8 2004-01-10 15:33:33 martin Exp $
+# $Id: DB.pm,v 1.9 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::System::CustomerAuth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,25 +59,23 @@ sub GetOption {
 sub Auth {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{User}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
       return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # get params
-    # --
     my $User = $Param{User} || ''; 
     my $Pw = $Param{Pw} || '';
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     my $UserID = '';
     my $GetPw = '';
 
-    # --
     # sql query
-    # --
     my $SQL = "SELECT pw, login ".
       " FROM ".
       " customer_user ".
@@ -86,9 +84,9 @@ sub Auth {
       " AND ".
       " login = '$User'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) { 
-        $GetPw = $RowTmp[0];
-        $UserID = $RowTmp[1];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) { 
+        $GetPw = $Row[0];
+        $UserID = $Row[1];
     }
 
     # crypt given pw 
@@ -108,10 +106,8 @@ sub Auth {
             Priority => 'notice',
             Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
         );
-        my $TempSalt = $Salt;
-        $TempSalt =~ s/'/\\'/g;
-        my $TempPw = $Pw;
-        $TempPw =~ s/'/\\'/g;
+        my $TempSalt = quotemeta($Salt);
+        my $TempPw = quotemeta($Pw);
         my $CMD = "perl -e \"print crypt('$TempPw', '$TempSalt');\"";
         open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
         while (<IO>) {
@@ -121,9 +117,7 @@ sub Auth {
         chomp $CryptedPw;
     }
 
-    # --
     # just in case!
-    # --
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -131,9 +125,7 @@ sub Auth {
         );
     }
 
-    # --
     # just a note 
-    # --
     if (!$Pw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -141,9 +133,7 @@ sub Auth {
         );
         return;
     }
-    # --
     # login note
-    # --
     elsif ((($GetPw)&&($User)&&($UserID)) && $CryptedPw eq $GetPw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -151,9 +141,7 @@ sub Auth {
         );
         return $User;
     }
-    # --
     # just a note
-    # --
     elsif (($UserID) && ($GetPw)) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -161,9 +149,7 @@ sub Auth {
         ); 
         return;
     }
-    # --
     # just a note
-    # --
     else {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -175,4 +161,3 @@ sub Auth {
 # --
 
 1;
-

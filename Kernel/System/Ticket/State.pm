@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/State.pm - the sub module of the global Ticket.pm handle
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.16 2004-01-08 11:41:29 martin Exp $
+# $Id: State.pm,v 1.17 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,9 +41,7 @@ sub SetState {
     my $Self = shift;
     my %Param = @_;
     my $ArticleID = $Param{ArticleID} || '';
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -54,43 +52,35 @@ sub SetState {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need StateID or State!");
         return;
     }
-    # --
     # state id lookup
-    # --
     if (!$Param{StateID}) {
         my %State = $Self->{StateObject}->StateGet(Name => $Param{State}, Cache => 1);
         $Param{StateID} = $State{ID} || return;
     }
-    # --
     # state lookup
-    # --
     if (!$Param{State}) {
         my %State = $Self->{StateObject}->StateGet(ID => $Param{StateID});
         $Param{State} = $State{Name} || return;
     } 
-    # --
     # check if update is needed
-    # --
     my $CurrentState = $Self->GetState(TicketID => $Param{TicketID});
     if ($Param{State} eq $CurrentState) {
       # update is not needed
       return 1;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db update
-    # --
     my $SQL = "UPDATE ticket SET ticket_state_id = $Param{StateID}, " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID} ";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # -- 
       # update ticket view index
-      # --
       $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
-      # --
       # add history
-      # --
       $Self->AddHistoryRow(
           TicketID => $Param{TicketID},
           ArticleID => $ArticleID,
@@ -98,9 +88,7 @@ sub SetState {
           Name => "Old: '$CurrentState' New: '$Param{State}'",
           CreateUserID => $Param{UserID},
       );
-      # --
       # send customer notification email
-      # --
       $Self->SendCustomerNotification(
           Type => 'StateUpdate',
 		  CustomerMessageParams => \%Param,

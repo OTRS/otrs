@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseAttachment.pm,v 1.5 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminResponseAttachment.pm,v 1.6 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,6 +50,8 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+    $ID = $Self->{DBObject}->Quote($ID);
+
     my $NextScreen = 'AdminResponseAttachment';
 
     # get StdResponses data 
@@ -112,16 +114,17 @@ sub Run {
         $Self->{DBObject}->Do(
           SQL => "DELETE FROM standard_response_attachment WHERE standard_attachment_id = $ID",
         );
-        foreach (@NewIDs) {
+        foreach my $NewID (@NewIDs) {
+            # db quote
+            $NewID = $Self->{DBObject}->Quote($NewID);
             my $SQL = "INSERT INTO standard_response_attachment (standard_attachment_id, ".
               "standard_response_id, create_time, create_by, " .
 	          " change_time, change_by)" .
               " VALUES " .
-              " ($ID, $_, current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
+              " ($ID, $NewID, current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
             $Self->{DBObject}->Do(SQL => $SQL);
         }
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");    
-
+        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
     }
     # --
     # update attachments of response

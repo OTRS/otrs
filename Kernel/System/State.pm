@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.6 2004-02-02 23:27:23 martin Exp $
+# $Id: State.pm,v 1.7 2004-02-13 00:51:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -98,10 +98,10 @@ sub StateGet {
         " ts.type_id = tst.id ".
         " AND ";
     if ($Param{Name}) {
-        $SQL .= " ts.name = '$Param{Name}'";
+        $SQL .= " ts.name = '".$Self->{DBObject}->Quote($Param{Name})."'";
     }
     else {
-        $SQL .= " ts.id = $Param{ID}";
+        $SQL .= " ts.id = ".$Self->{DBObject}->Quote($Param{ID})."";
     }
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         my %Data = ();

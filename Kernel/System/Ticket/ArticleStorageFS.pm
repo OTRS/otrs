@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.10 2004-02-10 00:28:09 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.11 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,21 +22,17 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub InitArticleStorage {
     my $Self = shift;
     my %Param = @_;
-    # --
     # ArticleDataDir
-    # --
     $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
        || die "Got no ArticleDir!";
-    # --
     # create ArticleContentPath
-    # --
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
     $Self->{Year} = $Year+1900;
     $Self->{Month} = $Month+1;
@@ -44,9 +40,7 @@ sub InitArticleStorage {
     $Self->{Day} = $Day;
     $Self->{ArticleContentPath} = $Self->{Year}.'/'.$Self->{Month}.'/'. $Self->{Day};
 
-    # --
     # check fs write permissions!
-    # --
     my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/check_permissons.$$";
     if (-d $Path) {
         File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
@@ -75,18 +69,14 @@ sub InitArticleStorage {
 sub DeleteArticleOfTicket {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # delete attachments and plain emails
-    # --
     my @Articles = $Self->GetArticleIndex(TicketID => $Param{TicketID});
     foreach (@Articles) {
         # delete from db
@@ -96,11 +86,9 @@ sub DeleteArticleOfTicket {
         my $ContentPath = $Self->GetArticleContentPath(ArticleID => $_);
         system("rm -rf $Self->{ArticleDataDir}/$ContentPath/$_");
     } 
-    # --
     # delete articles
-    # --
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
-        # delete history´
+        # delete history
         if ($Self->DeleteHistoryOfTicket(TicketID => $Param{TicketID})) {
             return 1;
         }
@@ -116,29 +104,25 @@ sub DeleteArticleOfTicket {
 sub WriteArticlePlain {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ArticleID Email UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
+    # prepare/filter ArticleID
+    $Param{ArticleID} = quotemeta($Param{ArticleID});
+    $Param{ArticleID} =~ s/\0//g;
+    # define path
     my $Path = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
-    # --
     # debug
-    # --
     if ($Self->{Debug} > 1) {
         $Self->{LogObject}->Log(Message => "->WriteArticle: $Path");
     }
-    # --
     # write article to fs 1:1
-    # --
     File::Path::mkpath([$Path], 0, 0775);
-    # --
     # write article to fs 
-    # --
     if (open (DATA, "> $Path/plain.txt")) { 
         print DATA $Param{Email};
         close (DATA);
@@ -156,19 +140,19 @@ sub WriteArticlePlain {
 sub WriteArticlePart {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Content Filename ContentType ArticleID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
+    # prepare/filter ArticleID
+    $Param{ArticleID} = quotemeta($Param{ArticleID});
+    $Param{ArticleID} =~ s/\0//g;
+    # define path
     $Param{Path} = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
-    # --
     # check used name (we want just uniq names)
-    # --
     my $NewFileName = decode_mimewords($Param{Filename});
     my %UsedFile = ();
     my @Index = $Self->GetArticleAtmIndex(
@@ -186,18 +170,14 @@ sub WriteArticlePart {
         }
     }
     $Param{Filename} = $NewFileName;
-    # --
     # write attachment to backend           
-    # --
     if (! -d $Param{Path}) {
         if (! File::Path::mkpath([$Param{Path}], 0, 0775)) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Param{Path}: $!");
             return;
         }
     }
-    # --
     # write attachment to fs
-    # --
     if (open (DATA, "> $Param{Path}/$Param{Filename}")) {
         print DATA "$Param{ContentType}\n";
         print DATA $Param{Content};
@@ -216,25 +196,24 @@ sub WriteArticlePart {
 sub GetArticlePlain {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ArticleID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
       return;
     }
-
+    # prepare/filter ArticleID
+    $Param{ArticleID} = quotemeta($Param{ArticleID});
+    $Param{ArticleID} =~ s/\0//g;
+    # get content path
     my $ContentPath = $Self->GetArticleContentPath(ArticleID => $Param{ArticleID});
-    # --
     # open plain article
-    # --
     my $Data = '';
     if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt")) {
         # can't open article
         # try database
         my $SQL = "SELECT body FROM article_plain ".
         " WHERE ".
-        " article_id = $Param{ArticleID}";
+        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data = $Row[0];
@@ -263,16 +242,12 @@ sub GetArticlePlain {
 sub GetArticleAtmIndex {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check ArticleContentPath
-    # --
     if (!$Self->{ArticleContentPath}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleContentPath!");
         return;
     }
-    # --
     # check needed stuff
-    # --
     if (!$Param{ArticleID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
       return;
@@ -291,7 +266,7 @@ sub GetArticleAtmIndex {
     if (!%Index) {
         my $SQL = "SELECT filename FROM article_attachment ".
         " WHERE ".
-        " article_id = $Param{ArticleID}".
+        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."".
         " ORDER BY id";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -305,16 +280,19 @@ sub GetArticleAtmIndex {
 sub GetArticleAttachment {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ArticleID FileID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
+    # prepare/filter ArticleID
+    $Param{ArticleID} = quotemeta($Param{ArticleID});
+    $Param{ArticleID} =~ s/\0//g;
+    # get attachment index
     my %Index = $Self->GetArticleAtmIndex(ArticleID => $Param{ArticleID});
+    # get content path
     my $ContentPath = $Self->GetArticleContentPath(ArticleID => $Param{ArticleID});
     my %Data; 
     my $Counter = 0;
@@ -333,7 +311,7 @@ sub GetArticleAttachment {
         # try database
         my $SQL = "SELECT content_type, content FROM article_attachment ".
         " WHERE ".
-        " article_id = $Param{ArticleID}";
+        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."";
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID});
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{ContentType} = $Row[0];

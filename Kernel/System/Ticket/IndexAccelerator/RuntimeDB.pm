@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database 
 # queue ticket index module
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.15 2003-11-19 01:32:04 martin Exp $
+# $Id: RuntimeDB.pm,v 1.16 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -39,14 +39,16 @@ sub TicketAcceleratorAdd {
 sub TicketAcceleratorIndex {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(UserID QueueID ShownQueueIDs)) {
       if (!exists($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # get user groups 
     my $Type = 'rw';
@@ -63,9 +65,7 @@ sub TicketAcceleratorIndex {
     $Queues{MaxAge} = 0;
     $Queues{TicketsShown} = 0;
     $Queues{TicketsAvail} = 0;
-    # --
     # prepar "All tickets: ??" in Queue
-    # --
     if (@QueueIDs) {
         my $SQL = "SELECT count(*) ".
           " FROM ".
@@ -91,9 +91,7 @@ sub TicketAcceleratorIndex {
         push (@{$Queues{Queues}}, \%Hashes);
         return %Queues;
     }
-    # --
     # CustomQueue add on
-    # --
     my $SQL = "SELECT count(*) FROM ".
     " ticket st, queue sq, personal_queues suq ".
     " WHERE ".
@@ -172,15 +170,18 @@ sub TicketAcceleratorRebuild {
 sub GetLockedCount {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(UserID)) {
       if (!exists($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db query
     $Self->{DBObject}->Prepare(
        SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
               " ti.until_time, ts.name, tst.name " .
@@ -210,9 +211,7 @@ sub GetLockedCount {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         if (!$Param{"ID$RowTmp[2]"}) {
           $Data{'All'}++;
-          # --
           # put all tickets to ToDo where last sender type is customer or ! UserID
-          # --
           if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
               $Data{'New'}++;
           }
@@ -233,9 +232,11 @@ sub GetLockedCount {
 sub GetOverTimeTickets {
     my $Self = shift;
     my %Param = @_;
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # get data (viewable tickets...)
-    # --
     my @TicketIDsOverTime = ();
     my $SQL = "SELECT distinct (a.ticket_id), t.ticket_priority_id, a.incoming_time ".
     " FROM ".

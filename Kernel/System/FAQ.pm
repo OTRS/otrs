@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.6 2004-02-09 01:38:01 martin Exp $
+# $Id: FAQ.pm,v 1.7 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -57,6 +57,10 @@ sub ArticleGet {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     my %Data = ();
     my $SQL = "SELECT i.f_name, i.f_language_id, i.f_subject, ".
@@ -280,6 +284,10 @@ sub ArticleHistoryGet {
         return;
       }
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     my @Data = ();
     $Self->{DBObject}->Prepare(
         SQL => "SELECT name, create_time FROM faq_history WHERE item_id = $Param{ID}",
@@ -303,6 +311,10 @@ sub ArticleHistoryDelete {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     $Self->{DBObject}->Prepare(
         SQL => "DELETE FROM faq_history WHERE item_id = $Param{ID}",
@@ -370,6 +382,10 @@ sub CategoryGet {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql 
     my %Data = ();
@@ -557,6 +573,10 @@ sub StateGet {
         return;
       }
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql 
     my %Data = ();
     $Self->{DBObject}->Prepare(
@@ -652,6 +672,10 @@ sub LanguageGet {
         return;
       }
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql 
     my %Data = ();
     $Self->{DBObject}->Prepare(
@@ -687,7 +711,7 @@ sub Search {
             $Ext .= ' (';
         }
         if (defined($Param{What})) {
-            $Ext .= " i.$_ LIKE '%".$Param{What}."%'";
+            $Ext .= " i.$_ LIKE '%".$Self->{DBObject}->Quote($Param{What})."%'";
         }
         else {
             $Ext .= " i.$_ LIKE '%'";
@@ -729,6 +753,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2004-02-09 01:38:01 $
+$Revision: 1.7 $ $Date: 2004-02-13 00:50:37 $
 
 =cut

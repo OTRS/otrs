@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/TimeAccouning.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TimeAccounting.pm,v 1.6 2004-02-08 23:27:46 martin Exp $
+# $Id: TimeAccounting.pm,v 1.7 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::TimeAccounting;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,6 +26,10 @@ sub GetAccountedTime {
     if (!$Param{TicketID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
       return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db query
     my $SQL = "SELECT time_unit " .
@@ -55,6 +59,10 @@ sub AccountTime {
     my $TimeUnit = $Param{TimeUnit};
     $TimeUnit =~ s/,/\./g;
     $TimeUnit = int($TimeUnit);
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db update
     my $SQL = "INSERT INTO time_accounting ".
       " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) ".

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.4 2003-02-08 15:16:30 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.5 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -126,10 +126,12 @@ sub UpdateCustomQueues  {
         $Self->{DBObject}->Do(
             SQL => "DELETE FROM personal_queues WHERE user_id = $UserID",
         );
-        foreach (@QueueIDs) {
+        foreach my $ID (@QueueIDs) {
+            # db quote
+            $ID = $Self->{DBObject}->Quote($ID);
             $Self->{DBObject}->Do(
                 SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
-                " VALUES ($_, $UserID)",
+                " VALUES ($ID, $UserID)",
             );
         }
         # mk redirect

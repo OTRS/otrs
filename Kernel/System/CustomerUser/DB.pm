@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.21 2004-02-09 01:41:28 martin Exp $
+# $Id: DB.pm,v 1.22 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -276,7 +276,7 @@ sub CustomerUserAdd {
     $SQL .= " VALUES (";
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         if ($Entry->[5] =~ /^int$/i) {
-            $SQL .= " $Param{$Entry->[0]}, ";
+            $SQL .= " ".$Self->{DBObject}->Quote($Param{$Entry->[0]}).", ";
         }
         else {
             $SQL .= " '".$Self->{DBObject}->Quote($Param{$Entry->[0]})."', ";
@@ -328,7 +328,7 @@ sub CustomerUserUpdate {
     my $SQL = "UPDATE $Self->{CustomerTable} SET ";
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         if ($Entry->[5] =~ /^int$/i) {
-            $SQL .= " $Entry->[2] = $Param{$Entry->[0]}, ";
+            $SQL .= " $Entry->[2] = ".$Self->{DBObject}->Quote($Param{$Entry->[0]}).", ";
         }
         elsif ($Entry->[0] !~ /^UserPassword$/i) {
             $SQL .= " $Entry->[2] = '".$Self->{DBObject}->Quote($Param{$Entry->[0]})."', ";
@@ -381,10 +381,8 @@ sub SetPassword {
             Priority => 'notice',
             Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
         );
-        my $TempUser = $Param{UserLogin};
-        $TempUser =~ s/'/\\'/g;
-        my $TempPw = $Pw;
-        $TempPw =~ s/'/\\'/g;
+        my $TempUser = quotemeta($Param{UserLogin});
+        my $TempPw = quotemeta($Pw);
         my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
         open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
         while (<IO>) {

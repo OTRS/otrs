@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutation.pm,v 1.12 2004-02-02 23:27:23 martin Exp $
+# $Id: AdminSalutation.pm,v 1.13 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,6 +48,9 @@ sub Run {
     # get user data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+        # db quote
+        $ID = $Self->{DBObject}->Quote($ID);
+
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Salutation');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my $SQL = "SELECT name, valid_id, comments, text " .

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.48 2004-02-03 18:42:16 martin Exp $
+# $Id: Article.pm,v 1.49 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -309,6 +309,10 @@ sub GetArticleContentPath {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
       return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # check cache
     if ($Self->{"GetArticleContentPath::$Param{ArticleID}"}) {
         return $Self->{"GetArticleContentPath::$Param{ArticleID}"};
@@ -335,6 +339,10 @@ sub GetIdOfArticle {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql query
     my $SQL = "SELECT id FROM article " .
@@ -379,6 +387,10 @@ sub ArticleSenderTypeLookup {
     if ($Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"}) {
         return $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"};
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # get data
     my $SQL = '';
     if ($Param{SenderType}) {
@@ -421,6 +433,10 @@ sub ArticleTypeLookup {
     # check if we ask the same request (cache)?
     if ($Self->{"ArticleTypeLookup::$Param{$Param{Key}}"}) {
         return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # get data
     my $SQL = '';
@@ -535,6 +551,10 @@ sub GetArticleIndex {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # db query
     my $SQL = '';
     if ($Param{SenderType}) {
@@ -597,6 +617,10 @@ sub GetArticle {
     if (!$Param{ArticleID} && !$Param{TicketID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID or TicketID!");
         return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # article type lookup
     my $ArticleTypeSQL = '';

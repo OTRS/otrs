@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.10 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.11 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,6 +44,8 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+    $Param{ID} = $Self->{DBObject}->Quote($Param{ID});
+
     $Param{NextScreen} = 'AdminQueueAutoResponse';
     
     if ($Self->{Subaction} eq 'Change') {
@@ -90,19 +92,20 @@ sub Run {
     }
     # queues to queue_auto_responses
     elsif ($Self->{Subaction} eq 'ChangeAction') {
-
         $Self->{DBObject}->Do(
             SQL => "DELETE FROM queue_auto_response WHERE queue_id = $Param{ID}",
         );
         my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
-        foreach (@NewIDs) {
-          if ($_) {
-            my $SQL = "INSERT INTO queue_auto_response (queue_id, auto_response_id, " .
-			" create_time, create_by, change_time, change_by)" .
-            " VALUES " .
-            " ( $Param{ID}, $_, current_timestamp, $Self->{UserID}, " .
-            " current_timestamp, $Self->{UserID})";
-            $Self->{DBObject}->Do(SQL => $SQL);
+        foreach my $NewID (@NewIDs) {
+            if ($NewID) {
+              # db quote
+              $NewID = $Self->{DBObject}->Quote($NewID);
+              my $SQL = "INSERT INTO queue_auto_response (queue_id, auto_response_id, " .
+  			" create_time, create_by, change_time, change_by)" .
+              " VALUES " .
+              " ( $Param{ID}, $NewID, current_timestamp, $Self->{UserID}, " .
+              " current_timestamp, $Self->{UserID})";
+              $Self->{DBObject}->Do(SQL => $SQL);
           }
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");

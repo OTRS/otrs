@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.19 2003-12-29 17:25:10 martin Exp $
+# $Id: AgentPreferences.pm,v 1.20 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -141,10 +141,13 @@ sub UpdateCustomQueues  {
     $Self->{DBObject}->Do(
         SQL => "DELETE FROM personal_queues WHERE user_id = $Self->{UserID}",
     );
-    foreach (@QueueIDs) {
+    foreach my $ID (@QueueIDs) {
+        # db quote
+        $ID = $Self->{DBObject}->Quote($ID);
+
         $Self->{DBObject}->Do(
                 SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
-                " VALUES ($_, $Self->{UserID})",
+                " VALUES ($ID, $Self->{UserID})",
         );
     }
     # mk redirect

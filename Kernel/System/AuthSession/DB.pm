@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/DB.pm - provides session db backend
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.13 2003-10-29 20:22:08 martin Exp $
+# $Id: DB.pm,v 1.14 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -103,23 +103,26 @@ sub CheckSessionID {
 sub GetSessionIDData {
     my $Self = shift;
     my %Param = @_;
-    my $SessionID = $Param{SessionID} || '';
     my $Strg = '';
     my %Data;
     # check session id
-    if (!$SessionID) {
+    if (!$Param{SessionID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no SessionID!!");
         return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # read data
     my $SQL = "SELECT $Self->{SQLSessionTableValue} ".
           " FROM ".
           " $Self->{SQLSessionTable} ".
           " WHERE ".
-          " $Self->{SQLSessionTableID} = '$SessionID'";
+          " $Self->{SQLSessionTableID} = '$Param{SessionID}'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Strg = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Strg = $Row[0];
     } 
     # split data
     my @StrgData = split(/;/, $Strg); 
@@ -226,7 +229,7 @@ sub UpdateSessionID {
             " SET ".
             " $Self->{SQLSessionTableValue} = '$NewDataToStore' ".
             " WHERE ".
-            " $Self->{SQLSessionTableID} = '$SessionID'";
+            " $Self->{SQLSessionTableID} = '".$Self->{DBObject}->Quote($SessionID)."'";
     $Self->{DBObject}->Do(SQL => $SQL) || die "Can't update session table!";
 
     return 1;

@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.8 2004-02-02 23:27:23 martin Exp $
+# $Id: StdAttachment.pm,v 1.9 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -190,43 +190,35 @@ sub StdAttachmentDelete {
 sub StdAttachmentLookup {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{StdAttachment} && !$Param{StdAttachmentID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no StdAttachment or StdAttachment!");
         return;
     }
-    # --
     # check if we ask the same request?
-    # --
     if ($Param{StdAttachmentID} && $Self->{"StdAttachmentLookup$Param{StdAttachmentID}"}) {
         return $Self->{"StdAttachmentLookup$Param{StdAttachmentID}"};
     }
     if ($Param{StdAttachment} && $Self->{"StdResponseLookup$Param{StdAttachment}"}) {
         return $Self->{"StdAttachmentLookup$Param{StdAttachment}"};
     }
-    # --
     # get data
-    # --
     my $SQL = '';
     my $Suffix = '';
     if ($Param{StdAttachment}) {
         $Suffix = 'StdAttachmentID';
-        $SQL = "SELECT id FROM standard_attachment WHERE name = '$Param{StdAttachment}'";
+        $SQL = "SELECT id FROM standard_attachment WHERE name = '".$Self->{DBObject}->Quote($Param{StdAttachment})."'";
     }
     else {
         $Suffix = 'StdAttachment';
-        $SQL = "SELECT name FROM standard_attachment WHERE id = $Param{StdAttachmentID}";
+        $SQL = "SELECT name FROM standard_attachment WHERE id = ".$Self->{DBObject}->Quote($Param{StdAttachmentID})."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
         $Self->{"StdAttachment$Suffix"} = $Row[0];
     }
-    # --
     # check if data exists
-    # --
     if (!exists $Self->{"StdAttachment$Suffix"}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Found no \$$Suffix!");
         return;
@@ -238,16 +230,16 @@ sub StdAttachmentLookup {
 sub StdAttachmentsByResponseID {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no ID!");
         return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # return data
-    # --
     my %Relation = $Self->{DBObject}->GetTableData(
         Table => 'standard_response_attachment',
         What => 'standard_attachment_id, standard_response_id',
@@ -267,9 +259,7 @@ sub GetAllStdAttachments {
     if (!defined $Param{Valid}) {
         $Param{Valid} = 1;
     }
-    # --
     # return data
-    # --
     return $Self->{DBObject}->GetTableData(
         Table => 'standard_attachment',
         What => 'id, name, filename',
@@ -281,18 +271,18 @@ sub GetAllStdAttachments {
 sub SetStdAttachmentsOfResponseID {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ID AttachmentIDsRef UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # add attachments to response
-    # --
     $Self->{DBObject}->Do(
         SQL => "DELETE FROM standard_response_attachment WHERE standard_response_id = $Param{ID}",
     );

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Priority.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Priority.pm,v 1.11 2004-01-09 16:46:40 martin Exp $
+# $Id: Priority.pm,v 1.12 2004-02-13 00:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::Priority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -39,10 +39,10 @@ sub PriorityLookup {
     # db query
     my $SQL = '';
     if ($Param{Type}) {
-        $SQL = "SELECT id FROM ticket_priority WHERE name = '$Param{Type}'";
+        $SQL = "SELECT id FROM ticket_priority WHERE name = '".$Self->{DBObject}->Quote($Param{Type})."'";
     }
     else {
-        $SQL = "SELECT name FROM ticket_priority WHERE id = $Param{ID}";
+        $SQL = "SELECT name FROM ticket_priority WHERE id = ".$Self->{DBObject}->Quote($Param{ID})."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -103,6 +103,10 @@ sub PrioritySet {
     if ($TicketData{Priority} eq $Param{Priority}) {
        # update not needed
        return 1;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db update
     my $SQL = "UPDATE ticket SET ticket_priority_id = $Param{PriorityID}, " .

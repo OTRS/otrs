@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.41 2004-02-04 09:28:40 martin Exp $
+# $Id: Queue.pm,v 1.42 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,7 +73,7 @@ sub GetSystemAddress {
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
     my $SQL = "SELECT sa.value0, sa.value1 FROM system_address sa, queue sq ".
 	" WHERE ".
-	" sq.id = $QueueID ".
+	" sq.id = ".$Self->{DBObject}->Quote($QueueID)." ".
 	" and ".
 	" sa.id = sq.system_address_id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -101,6 +101,11 @@ sub GetSalutation {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql
     my $String = '';
     my $SQL = "SELECT text FROM salutation sa, queue sq ".
         " WHERE ".
@@ -131,6 +136,11 @@ sub GetSignature {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql
     my $String = '';
     my $SQL = "SELECT text FROM signature si, queue sq ".
         " WHERE ".
@@ -162,6 +172,10 @@ sub GetStdResponse {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql 
     my $SQL = "SELECT text FROM standard_response".
         " WHERE ".
@@ -175,45 +189,52 @@ sub GetStdResponse {
 # --
 # for comapt!
 sub SetQueueStdResponse {
-   my $Self = shift;
-   my %Param = @_;
-   unless  ($Param{ResponseID} && $Param{QueueID} && $Param{UserID}) {
+    my $Self = shift;
+    my %Param = @_;
+    unless  ($Param{ResponseID} && $Param{QueueID} && $Param{UserID}) {
        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID, QueueID and UserID!");
        return;
-   }
-   if ($Self->QueueHasStdResponse(%Param)){
-      return;
-   }
-   # sql 
-   my $SQL = sprintf(qq|INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, change_time, change_by)
-   VALUES ( %s, %s, current_timestamp, %s, current_timestamp, %s)| , $Param{QueueID}, $Param{ResponseID}, $Param{UserID}, $Param{UserID});
+    }
+    if ($Self->QueueHasStdResponse(%Param)){
+       return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql 
+    my $SQL = sprintf(qq|INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, change_time, change_by)
+    VALUES ( %s, %s, current_timestamp, %s, current_timestamp, %s)| , $Param{QueueID}, $Param{ResponseID}, $Param{UserID}, $Param{UserID});
    # print "SQL was\n$SQL\n\n";
-   if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      return 1;
-   } else {
-      return 0;
-   }
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+       return 1;
+    }
+    else {
+       return 0;
+    }
 }
 # --
 # for comapt!
 sub QueueHasStdResponse {
-   my $Self = shift;
-   my %Param = @_;
-   unless  ($Param{ResponseID} && $Param{QueueID}) {
+    my $Self = shift;
+    my %Param = @_;
+    unless  ($Param{ResponseID} && $Param{QueueID}) {
        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID and QueueID!");
        return;
-   }
-   # --
-   # sql 
-   # --
-   my $SQL = sprintf("select count(*) from  queue_standard_response  where queue_id=%s and standard_response_id=%s" ,  $Param{QueueID}, $Param{ResponseID});
-   #print "SQL was\n$SQL\n\n";
-   $Self->{DBObject}->Prepare(SQL => $SQL);
-   my $Count;
-   while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-       $Count = $Row[0];
-   }
-   return $Count;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql 
+    my $SQL = sprintf("select count(*) from  queue_standard_response  where queue_id=%s and standard_response_id=%s" ,  $Param{QueueID}, $Param{ResponseID});
+    #print "SQL was\n$SQL\n\n";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    my $Count;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Count = $Row[0];
+    }
+    return $Count;
 }
 # --
 
@@ -244,7 +265,7 @@ sub GetStdResponses {
         " FROM ".
         " standard_response sr, queue_standard_response qsr".
         " WHERE ".
-        " qsr.queue_id in ($Param{QueueID})".
+        " qsr.queue_id in (".$Self->{DBObject}->Quote($Param{QueueID}).")".
         " AND ".
         " qsr.standard_response_id = sr.id".
         " AND ".
@@ -278,9 +299,7 @@ sub GetAllQueues {
     my %Param = @_;
     my $UserID = $Param{UserID} || '';
     my $Type = $Param{Type} || 'ro';
-    # --
     # fetch all queues
-    # --
     my %MoveQueues;
     if ($Param{UserID}) {
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -347,6 +366,10 @@ sub GetAllCustomQueues {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # fetch all queues
     my @QueueIDs;
     my $SQL = "SELECT queue_id FROM personal_queues WHERE user_id = $Param{UserID}";
@@ -373,6 +396,10 @@ sub GetAllUserIDsByQueueID {
     if (!$Param{QueueID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # fetch all queues
     my @UserIDs = ();
@@ -417,12 +444,12 @@ sub QueueLookup {
     if ($Param{Queue}) {
         $Param{What} = $Param{Queue};
         $Suffix = 'QueueID';
-        $SQL = "SELECT id FROM queue WHERE name = '$Param{Queue}'";
+        $SQL = "SELECT id FROM queue WHERE name = '".$Self->{DBObject}->Quote($Param{Queue})."'";
     }
     else {
         $Param{What} = $Param{QueueID};
         $Suffix = 'Queue';
-        $SQL = "SELECT name FROM queue WHERE id = $Param{QueueID}";
+        $SQL = "SELECT name FROM queue WHERE id = ".$Self->{DBObject}->Quote($Param{QueueID})."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -458,6 +485,10 @@ sub GetFollowUpOption {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # fetch queues data
     my $Return = '';
     my $SQL = "SELECT sf.name ".
@@ -491,6 +522,10 @@ sub GetFollowUpLockOption {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # fetch queues data
     my $Return = 0;
     my $SQL = "SELECT sq.follow_up_lock ".
@@ -522,9 +557,13 @@ sub GetQueueGroupID {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql 
     my $GID = '';
-        my $SQL = "SELECT group_id ".
+    my $SQL = "SELECT group_id ".
         " FROM ".
         " queue ".
         " WHERE ".
@@ -731,12 +770,12 @@ sub QueueGet {
     if ($Param{ID}) {
         $Param{What} = $Param{ID};
         $Suffix = 'ID';
-        $SQL .= " q.id = $Param{ID}";
+        $SQL .= " q.id = ".$Self->{DBObject}->Quote($Param{ID})."";
     }
     else {
         $Param{What} = $Param{Name};
         $Suffix = 'Name';
-        $SQL .= " q.name = '$Param{Name}'";
+        $SQL .= " q.name = '".$Self->{DBObject}->Quote($Param{Name})."'";
     }
     my %QueueData = ();
     $Self->{DBObject}->Prepare(SQL => $SQL); 
@@ -895,6 +934,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2004-02-04 09:28:40 $
+$Revision: 1.42 $ $Date: 2004-02-13 00:50:37 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerGroup.pm,v 1.5 2004-01-24 18:39:02 martin Exp $
+# $Id: CustomerGroup.pm,v 1.6 2004-02-13 00:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -89,11 +89,11 @@ sub GroupMemberAdd {
         # delete existing permission
         my $SQL = "DELETE FROM group_customer_user ".
           " WHERE ".
-          " group_id = $Param{GID} ".
+          " group_id = ".$Self->{DBObject}->Quote($Param{GID}).
           " AND ".
-          " user_id = '$Param{UID}' ".
+          " user_id = '".$Self->{DBObject}->Quote($Param{UID})."' ".
           " AND ".
-          " permission_key = '$_'";
+          " permission_key = '".$Self->{DBObject}->Quote($_)."'";
         $Self->{DBObject}->Do(SQL => $SQL);
         # debug
         if ($Self->{Debug}) {
@@ -107,7 +107,10 @@ sub GroupMemberAdd {
           " (user_id, group_id, permission_key, permission_value, ".
           " create_time, create_by, change_time, change_by) ".
           " VALUES ".
-          " ('$Param{UID}', $Param{GID}, '$_', $Param{Permission}->{$_},".
+          " ('".$Self->{DBObject}->Quote($Param{UID})."', ".
+          " ".$Self->{DBObject}->Quote($Param{GID}).", ".
+          " '".$Self->{DBObject}->Quote($_)."', ".
+          " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).",".
           " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
         $Self->{DBObject}->Do(SQL => $SQL);
     }
@@ -171,13 +174,13 @@ sub GroupMemberList {
       " AND ".
       " gu.permission_value = 1 ".
       " AND ".
-      " gu.permission_key IN ('$Param{Type}', 'rw') ".
+      " gu.permission_key IN ('".$Self->{DBObject}->Quote($Param{Type})."', 'rw') ".
       " AND ";
     if ($Param{UserID}) {
-      $SQL .= " gu.user_id = '$Param{UserID}'";
+      $SQL .= " gu.user_id = '".$Self->{DBObject}->Quote($Param{UserID})."'";
     }
     else {
-      $SQL .= " gu.group_id = $Param{GroupID}";
+      $SQL .= " gu.group_id = ".$Self->{DBObject}->Quote($Param{GroupID})."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -235,6 +238,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2004-01-24 18:39:02 $
+$Revision: 1.6 $ $Date: 2004-02-13 00:50:37 $
 
 =cut
