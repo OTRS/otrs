@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.pm,v 1.7 2004-10-01 11:23:20 martin Exp $
+# $Id: Time.pm,v 1.8 2004-12-23 05:58:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -91,10 +91,17 @@ sub SystemTime {
 
 =item SystemTime2TimeStamp()
 
-returns a time stamp in "yyyy-mm-dd 24:60:60" format.
+returns a time stamp in "yyyy-mm-dd 23:59:59" format.
 
     my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $SystenTime,
+    );
+
+Also if needed a short form "23:59:59" if the date is today (if needed).
+
+    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $SystenTime,
+        Type => 'Short',
     );
 
 =cut
@@ -113,6 +120,18 @@ sub SystemTime2TimeStamp {
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->SystemTime2Date(
         %Param,
     );
+    if ($Param{Type} && $Param{Type} eq 'Short') {
+        my ($CSec, $CMin, $CHour, $CDay, $CMonth, $CYear) = $Self->SystemTime2Date(
+            SystemTime => $Self->SystemTime(),
+        );
+#print STDERR "aaaaa $CYear == $Year && $CMonth == $Month && $CDay == $Day\n";
+        if ($CYear == $Year && $CMonth == $Month && $CDay == $Day) {
+            return "$Hour:$Min:$Sec";
+        }
+        else {
+            return "$Year-$Month-$Day $Hour:$Min:$Sec";
+        }
+    }
     return "$Year-$Month-$Day $Hour:$Min:$Sec";
 }
 
@@ -184,7 +203,7 @@ sub TimeStamp2SystemTime {
             Second => $6,
         );
     }
-    # match europ time format
+    # match euro time format
     elsif ($Param{String} =~ /(\d\d|\d)\.(\d\d|\d)\.(\d\d\d\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
         $SytemTime = $Self->Date2SystemTime(
             Year => $3,
@@ -194,6 +213,34 @@ sub TimeStamp2SystemTime {
             Minute => $5,
             Second => $6,
         );
+    }
+    # match mail time format
+    elsif ($Param{String} =~ /((...),\s+|)(\d\d|\d)\s(...)\s(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)\s((\+|\-)(\d\d)(\d\d)|...)/) {
+        my $DiffTime = 0;
+        if ($10 eq '+') {
+#            $DiffTime = $DiffTime - ($11 * 60 * 60);
+#            $DiffTime = $DiffTime - ($12 * 60);
+        }
+        elsif ($10 eq '-') {
+#            $DiffTime = $DiffTime + ($11 * 60 * 60);
+#            $DiffTime = $DiffTime + ($12 * 60);
+        }
+        my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
+        my $Month = 1;
+        my $MonthString = $4;
+        foreach my $MonthCount (0..$#MonthMap) {
+            if ($MonthString =~ /$MonthMap[$MonthCount]/i) {
+                $Month = $MonthCount+1;
+            }
+        }
+        $SytemTime = $Self->Date2SystemTime(
+            Year => $5,
+            Month => $Month,
+            Day => $3,
+            Hour => $6,
+            Minute => $7,
+            Second => $8,
+        ) + $DiffTime + $Self->{TimeSecDiff};
     }
     # return system time
     if ($SytemTime) {
@@ -262,8 +309,45 @@ sub MailTimeStamp {
     my @DayMap = qw/Sun Mon Tue Wed Thu Fri Sat/;
     my @MonthMap = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
     my @GMTime = gmtime();
+    my @LTime = localtime();
+    my $GUTime = $Self->Date2SystemTime(
+        Year => $GMTime[5]+1900,
+        Month => $GMTime[4]+1,
+        Day => $GMTime[3],
+        Hour => $GMTime[2],
+        Minute => $GMTime[1],
+        Second => $GMTime[0],
+    );
+    my $LUTime = $Self->Date2SystemTime(
+        Year => $LTime[5]+1900,
+        Month => $LTime[4]+1,
+        Day => $LTime[3],
+        Hour => $LTime[2],
+        Minute => $LTime[1],
+        Second => $LTime[0],
+    );
+    my $DifTime = $LUTime - $GUTime;
+    my ($DH, $DM, $DP);
+    if ($DifTime =~ /^-(.*)/) {
+        $DifTime = $1;
+        $DP = '-';
+    }
+    if (!$DP) {
+        $DP = '+';
+    }
+    if ($DifTime >= 3599) {
+        $DH = sprintf("%02d", int($DifTime/3600));
+        $DM = sprintf("%02d", int(($DifTime/60) % 60));
+    }
+    else {
+        $DH = '00';
+        $DM = sprintf("%02d", int($DifTime/60));
+    }
     $GMTime[5] = $GMTime[5] + 1900;
-    my $TimeString = "$DayMap[$GMTime[6]], $GMTime[3] $MonthMap[$GMTime[4]] $GMTime[5] $GMTime[2]:$GMTime[1]:$GMTime[0] +0000";
+    $LTime[5] = $LTime[5] + 1900;
+    my $TimeString = "$DayMap[$LTime[6]], $LTime[3] $MonthMap[$LTime[4]] $LTime[5] ".
+     sprintf("%02d", $LTime[2]).":".sprintf("%02d", $LTime[1]).":".sprintf("%02d", $LTime[0])." $DP$DH$DM";
+#print STDERR "dddd$DifTime dddd $TimeString\n";
     return $TimeString;
 }
 
@@ -382,6 +466,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2004-10-01 11:23:20 $
+$Revision: 1.8 $ $Date: 2004-12-23 05:58:57 $
 
 =cut
