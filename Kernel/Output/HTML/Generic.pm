@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.160 2004-11-16 12:24:19 martin Exp $
+# $Id: Generic.pm,v 1.161 2004-11-28 11:19:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.160 $';
+$VERSION = '$Revision: 1.161 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -233,7 +233,7 @@ sub BlockTemplatePreferences {
                 }
                 else {
                     $LastLayer = $CurrentLayer;
-                    $CurrentLayer = $CurrentLayer.'::'.$BlockName;;
+                    $CurrentLayer = $CurrentLayer.'::'.$BlockName;
                 }
 #        print STDERR "Layer: $Layer ($CurrentLayer)\n";
                 $LastLayerCount = $Layer;
