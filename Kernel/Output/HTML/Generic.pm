@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.115 2004-04-18 16:01:46 martin Exp $
+# $Id: Generic.pm,v 1.116 2004-05-04 16:22:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.115 $';
+$VERSION = '$Revision: 1.116 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -612,6 +612,18 @@ sub Notify {
     my $Self = shift;
     my %Param = @_;
     # create & return output
+    if (!$Param{Info}) {
+      foreach (qw(Message)) {
+        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Notice',
+          What => $_
+        ) || $Self->{LogObject}->GetLogEntry(
+          Type => 'Error',
+          What => $_
+        ) || '';
+      }
+      $Param{Info} = $Param{BackendMessage};
+    }
     return $Self->Output(TemplateFile => 'Notify', Data => \%Param);
 }
 # --
