@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.17 2003-01-09 15:08:08 martin Exp $
+# $Id: Defaults.pm,v 1.18 2003-01-09 15:36:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1214,7 +1214,7 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultArticleType} = 'phone';
     $Self->{PhoneDefaultSenderType} = 'agent'; 
     # default note subject
-    $Self->{PhoneDefaultSubject} = '$Text{"Phone call at %s", "'.localtime().'"}';
+    $Self->{PhoneDefaultSubject} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
     # default note text
     $Self->{PhoneDefaultNoteText} = 'Customer called';
     # next possible states after phone
@@ -1237,7 +1237,7 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewArticleType} = 'phone';
     $Self->{PhoneDefaultNewSenderType} = 'customer';
     # default note subject
-    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "'.localtime().'"}';
+    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
     # default note text
     $Self->{PhoneDefaultNewNoteText} = 'New ticket via call.';
     # default next state

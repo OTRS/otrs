@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.15 2003-01-03 21:08:13 martin Exp $
+# $Id: Language.pm,v 1.16 2003-01-09 15:36:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -138,7 +138,18 @@ sub Get {
            $Self->{UsedWords}->{$File} = {$What => $Self->{Translation}->{$What}};
         }
         foreach (0..5) {
-            $Self->{Translation}->{$What} =~ s/\%(s|d)/$Dyn[$_]/ if (defined $Dyn[$_]);
+            if (defined $Dyn[$_]) {
+                if ($Dyn[$_] =~ /Time\((.*)\)/) {
+                    $Dyn[$_] = $Self->Time(
+                        Action => 'GET', 
+                        Format => $1,
+                    );
+                    $Self->{Translation}->{$What} =~ s/\%(s|d)/$Dyn[$_]/;
+                }
+                else {
+                    $Self->{Translation}->{$What} =~ s/\%(s|d)/$Dyn[$_]/;
+                }
+            }
         }
         return $Self->{Translation}->{$What};
     }
