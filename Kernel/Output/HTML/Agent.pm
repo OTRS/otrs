@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.88 2003-02-23 22:23:24 martin Exp $
+# $Id: Agent.pm,v 1.89 2003-03-02 08:32:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.88 $';
+$VERSION = '$Revision: 1.89 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -470,14 +470,13 @@ sub TicketZoom {
         # the full part thread string
         # --
         $ThreadStrg .= "<a href=\"$BaseLink"."Action=AgentZoom&ArticleID=$Article{ArticleID}\"" .
-           'onmouseover="window.status=\''."$Article{SenderType} ($Article{ArticleType})".
-           '\'; return true;" onmouseout="window.status=\'\';">'.
-           "$Article{SenderType} ($Article{ArticleType})</a> ";
+           'onmouseover="window.status=\''."\$Text{\"$Article{SenderType}\"} (".
+           "\$Text{\"$Article{ArticleType}\"})".'\'; return true;" onmouseout="window.status=\'\';">'.
+           "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</a> ";
         if ($Article{ArticleType} =~ /^email/) {
             $ThreadStrg .= " (<a href=\"$BaseLink"."Action=AgentPlain&ArticleID=$Article{ArticleID}\"".
-             'onmouseover="window.status=\''.$Self->{LanguageObject}->Get('plain').
-             '\'; return true;" onmouseout="window.status=\'\';">'.
-            $Self->{LanguageObject}->Get('plain') . "</a>)";
+             'onmouseover="window.status=\'$Text{"plain"}'.
+             '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
         $ThreadStrg .= " $Article{CreateTime}";
 #        $ThreadStrg .= "</table><BR>";
@@ -1129,6 +1128,7 @@ sub AgentUtilForm {
             Valid => 1,
           )
         },
+        Multiple => 1,
         Size => 5,
         Name => 'QueueID',
         SelectedID => 1,
@@ -1273,7 +1273,7 @@ sub AgentUtilSearchResult {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
     }
     foreach (qw(From To Cc Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
+#        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
 
@@ -1322,7 +1322,9 @@ sub AgentUtilSearchCouter {
                  $Param{SearchNavBar} .= "&PriorityID=$_";
              }
          }
-         $Param{SearchNavBar} .= '&Want='.$Self->LinkEncode($Param{Want});
+         if ($Param{Want}) {
+             $Param{SearchNavBar} .= '&Want='.$Self->LinkEncode($Param{Want});
+         }
          $Param{SearchNavBar} .= '">';
          if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{SearchPageShown}) == ($i)) {
              $Param{SearchNavBar} .= '<b>'.($i).'</b>';
@@ -1621,15 +1623,49 @@ sub AgentMove {
     my $Self = shift;
     my %Param = @_;
     my %Data = %{$Param{MoveQueues}};
-    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-        my @Queue = split(/::/, $Data{$_});
+    foreach my $ID (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        my @Queue = split(/::/, $Data{$ID});
         $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
-        my $Space = '';
-        for (my $i = 0; $i < $#Queue; $i++) {
-            $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+        my $Space = '|';
+        if ($#Queue == 0) {
+            $Space .= '--';
         }
-        $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$_\">".
+        for (my $i = 0; $i < $#Queue; $i++) {
+#            $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+            if ($#Queue == 1) {
+                $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;|--';
+            }
+            elsif ($#Queue == 2 && $i == $#Queue-1) {
+                my $Hit = 0;
+                foreach (keys %Data) {
+                    my @Queue = split(/::/, $Data{$_});
+                    my $QueueName = '';
+                    for (my $i = 0; $i < $#Queue-1; $i++) {
+                        if (!$QueueName) {
+                            $QueueName .= $Queue[$i].'::';
+                        }
+#                        else {
+#                            $QueueName .= '::'.$Queue[$i];
+#                        }
+                    }
+#                    my $SecondLevel = $Queue[0].'::'.$Queue[1];
+#print STDERR "$Data{$ID} ($QueueName) $#Queue--\n";
+                    if ($#Queue == 1 && $QueueName && $Data{$ID} =~ /^$QueueName/) { 
+#print STDERR "sub queue of $Data{$ID} ($QueueName) exists\n";
+                        $Hit = 1;
+                    }
+                }
+                if ($Hit) {
+                    $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--';
+                }
+                else {
+                    $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|--';
+                }
+            }
+        }
+        $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$ID\">".
                 $Queue[$#Queue].'</a><br>';
+        delete $Data{$ID};
     }
     return $Self->Output(TemplateFile => 'AgentMove', Data => \%Param);
 }
