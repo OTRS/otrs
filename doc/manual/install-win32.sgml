@@ -9,7 +9,7 @@
 
 <section id="download_and_installation_otrs4win32">
 <title>Download &amp; Installation</title>
-<para>Download the <ulink url="ftp://ftp.otrs.org/pub/otrs/misc/win32/otrs4win32.current.exe"> current release</ulink> It's an executable .exe file, it's name follows this conventions: <emphasis>otrs4win32-&lt;OTRS-VERSION&gt;-&lt;STATUS&gt;.exe</emphasis>. You may want to verify <ulink url="ftp://ftp.otrs.org/pub/otrs/misc/win32/otrs4win32.current.md5">the 
+<para>Download the <ulink url="ftp://ftp2.otrs.org/pub/otrs/misc/win32/otrs4win32-current.exe"> current release</ulink> It's an executable .exe file, it's name follows this conventions: <emphasis>otrs4win32-&lt;OTRS-VERSION&gt;-&lt;STATUS&gt;.exe</emphasis>. You may want to verify <ulink url="ftp://ftp.otrs.org/pub/otrs/misc/win32/otrs4win32-current.md5">the 
 corresponding md5 sum</ulink> after download. We herefore recommend 
 md5-summer: <ulink url="http://md5summer.org/">http://md5summer.org/</ulink>. 
 Give it a try, it's a fine piece of software.</para>
