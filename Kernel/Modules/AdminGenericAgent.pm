@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.7.2.3 2005-02-10 11:49:18 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.7.2.4 2005-02-10 11:59:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7.2.3 $';
+$VERSION = '$Revision: 1.7.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -345,7 +345,7 @@ sub MaskForm {
     $Param{'NewUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%ShownUsers,
         Name => 'NewOwnerID',
-        Multiple => 0,
+        Multiple => 1,
         Size => 5,
         SelectedID => $Param{NewOwnerID},
     );
@@ -429,7 +429,7 @@ sub MaskForm {
              )
         },
         Name => 'NewStateID',
-        Multiple => 0,
+        Multiple => 1,
         Size => 5,
         SelectedID => $Param{NewStateID},
     );
@@ -454,7 +454,7 @@ sub MaskForm {
           ),
         },
         Size => 5,
-        Multiple => 0,
+        Multiple => 1,
         Name => 'NewQueueID',
         SelectedID => $Param{NewQueueID},
         OnChangeSubmit => 0,
@@ -479,7 +479,7 @@ sub MaskForm {
             ),
         },
         Name => 'NewPriorityID',
-        Multiple => 0,
+        Multiple => 1,
         Size => 5,
         SelectedID => $Param{NewPriorityID},
     );
@@ -554,7 +554,7 @@ sub MaskForm {
             Table => 'ticket_lock_type',
         ) },
         Name => 'NewLockID',
-        Multiple => 0,
+        Multiple => 1,
         Size => 3,
         LanguageTranslation => 0,
         SelectedID => $Param{NewLockID},
