@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.26 2003-07-10 22:34:28 martin Exp $
+# $Id: AgentClose.pm,v 1.27 2003-09-28 13:53:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -170,9 +170,7 @@ sub Run {
             HistoryType => 'AddNote',
             HistoryComment => 'Close Note added.',
         )) {
-          # --
           # time accounting
-          # --
           if ($TimeUnits) {
             $Self->{TicketObject}->AccountTime(
               TicketID => $Self->{TicketID},
@@ -181,18 +179,14 @@ sub Run {
               UserID => $Self->{UserID},
             );
           }
-          # --
           # set state
-          # --
           $Self->{TicketObject}->SetState(
             UserID => $Self->{UserID},
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             StateID => $StateID,
           );
-          # --
           # set queue
-          # --
           if ($DestQueueID) {
             $Self->{TicketObject}->MoveByTicketID(
               TicketID => => $Self->{TicketID},
@@ -200,19 +194,21 @@ sub Run {
               QueueID => $DestQueueID,
             );
           }
-          # --
           # set lock
-          # --
           $Self->{TicketObject}->SetLock(
             UserID => $Self->{UserID},
             TicketID => $Self->{TicketID},
             Lock => 'unlock'
           );
-          if ($Self->{QueueID}) {
-             return $Self->{LayoutObject}->Redirect(OP => "QueueID=$Self->{QueueID}");
+          # redirect
+          my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+              ID => $StateID,
+          );
+          if ($StateData{TypeName} =~ /^close/i) {
+              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
           }
           else {
-             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
           }
         }
         else {

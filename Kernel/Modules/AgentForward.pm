@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.24 2003-07-10 22:34:28 martin Exp $
+# $Id: AgentForward.pm,v 1.25 2003-09-28 13:53:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -340,9 +340,7 @@ sub SendEmail {
         State => $NextState,
         UserID => $Self->{UserID},
       );
-      # --
       # should i set an unlock?
-      # --
       my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
       if ($StateData{TypeName} =~ /^close/i) {
         $Self->{TicketObject}->SetLock(
@@ -351,12 +349,13 @@ sub SendEmail {
             UserID => $Self->{UserID},
         );
       }
-      # --
       # redirect
-      # --
-      return $Self->{LayoutObject}->Redirect(
-        OP => "QueueID=$Self->{QueueID}",
-      );
+      if ($StateData{TypeName} =~ /^close/i) {
+          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
+      }
+      else {
+          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+      }
     }
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.20 2003-07-08 00:00:37 martin Exp $
+# $Id: AgentMailbox.pm,v 1.21 2003-09-28 13:53:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
     # --
     if (!$Self->{SessionObject}->UpdateSessionID(
       SessionID => $Self->{SessionID},
-      Key => 'LastScreen',
+      Key => 'LastScreenQueue',
       Value => $Self->{RequestedURL},
     )) {
       $Output = $Self->{LayoutObject}->Header(Title => 'Error');

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.49 2003-09-28 13:33:50 martin Exp $
+# $Id: AgentCompose.pm,v 1.50 2003-09-28 13:53:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -391,9 +391,7 @@ sub SendEmail {
         Charset => $Self->{UserCharset},
         StdAttachmentIDs => \@StdAttachmentIDs,
     )) {
-        # --
         # time accounting
-        # --
         if ($Self->{TimeUnits}) {
             $Self->{TicketObject}->AccountTime(
                 TicketID => $Self->{TicketID},
@@ -402,26 +400,20 @@ sub SendEmail {
                 UserID => $Self->{UserID},
             );
         }
-        # --
         # set state
-        # --
         $Self->{TicketObject}->SetState(
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             State => $NextState,
             UserID => $Self->{UserID},
         );
-        # --
         # set answerd
-        # --
         $Self->{TicketObject}->SetAnswered(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Answered => $Self->{Answered},
         );
-        # --
-        # should i set an unlock?
-        # --
+        # should I set an unlock?
         if ($StateData{TypeName} =~ /^close/i) {
             $Self->{TicketObject}->SetLock(
                 TicketID => $Self->{TicketID},
@@ -429,9 +421,7 @@ sub SendEmail {
                 UserID => $Self->{UserID},
             );
         }
-        # --
         # set pending time
-        # --
         elsif ($StateData{TypeName} =~ /^pending/i) {
             $Self->{TicketObject}->SetPendingTime(
                 UserID => $Self->{UserID},
@@ -443,15 +433,16 @@ sub SendEmail {
                 Minute => $Self->{Minute},
             );
         }
-        # --
         # redirect
-        # --
-        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+        if ($StateData{TypeName} =~ /^close/i) {
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
+        }
+        else {
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+        }
     }
     else {
-      # --
       # error page
-      # --
       $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
       $Output .= $Self->{LayoutObject}->Error(
           Comment => 'Please contact the admin.',
@@ -464,9 +455,7 @@ sub SendEmail {
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
-    # --
     # get next states
-    # --
     my %NextStates = $Self->{StateObject}->StateGetStatesByType(
         Type => 'DefaultNextCompose',
         Result => 'HASH',

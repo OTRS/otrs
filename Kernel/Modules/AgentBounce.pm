@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.24 2003-07-10 22:34:27 martin Exp $
+# $Id: AgentBounce.pm,v 1.25 2003-09-28 13:53:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $NextScreen = $Self->{NextScreen} || '';
     # --
     # check needed stuff
     # --
@@ -340,9 +339,12 @@ sub Run {
         # --
         # redirect
         # --
-        $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "Action=$NextScreen&QueueID=$Param{QueueID}&TicketID=$Self->{TicketID}",
-        );
+        if ($StateData{TypeName} =~ /^close/i) {
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
+        }
+        else {
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+        }
     }
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
