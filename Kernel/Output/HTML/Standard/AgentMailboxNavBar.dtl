@@ -1,8 +1,8 @@
 # --
 # AgentMailboxNavBar.dtl - provides HTML AgentMailboxNavBar for AgentAgentMailboxNavBar.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailboxNavBar.dtl,v 1.5 2003-02-09 10:05:23 martin Exp $
+# $Id: AgentMailboxNavBar.dtl,v 1.5.8.1 2004-10-15 11:08:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,14 +15,14 @@
     <b>$Env{"Box0"}$Text{"Mailbox"}: $Text{"$Data{"ViewType"}"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr> 
+<tr>
   <td class="table1">
   $Text{"Tickets"}:
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=All&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"All messages"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"All"} ($Data{"All"})</a>
-  - 
-  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Open"} ($Data{"Open"})</a>
+#  -
+#  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Old messages"} ($Data{"Open"})</a>
   -
-  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"New messages"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"New"} ($Data{"New"})</a>
+  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"New messages"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"New messages"} ($Data{"New"})</a>
   -
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Pending&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Pending messages"} ($Data{"Pending"})'; return true;" onmouseout="window.status='';">$Text{"Pending"} ($Data{"Pending"})</a>
   -
