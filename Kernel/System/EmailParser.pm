@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.28 2004-02-17 23:02:32 martin Exp $
+# $Id: EmailParser.pm,v 1.28.2.1 2004-03-28 09:32:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.28.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -363,22 +363,38 @@ sub GetMessageBody {
             );
         }
         my @Attachments = $Self->GetAttachments();
-        my %Attachment = %{$Attachments[0]};
-        $Self->{Charset} = $Attachment{Charset};
-        $Self->{ContentType} = $Attachment{ContentType};
-        if ($Self->{Debug} > 0) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message => "First atm ContentType: $Self->{ContentType}",
+        # check if there is an valid attachment there, if yes, return
+        # first attachment (normally text/plain) as message body
+        if (@Attachments > 0) {
+            my %Attachment = %{$Attachments[0]};
+            $Self->{Charset} = $Attachment{Charset};
+            $Self->{ContentType} = $Attachment{ContentType};
+            if ($Self->{Debug} > 0) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "First atm ContentType: $Self->{ContentType}",
+                );
+            }
+            $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
+                Text => $Attachment{Content}, 
+                From => $Self->GetCharset(),
             );
+            return $Self->{MessageBody};
         }
-        $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
-            Text => $Attachment{Content}, 
-            From => $Self->GetCharset(),
-        );
-        return $Self->{MessageBody};
+        else {
+            if ($Self->{Debug} > 0) {
+                $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message => "No attachments returned from GetAttachments(), just a null attachment!?",
+                );
+            }
+            # return empty attachment
+            $Self->{Charset} = 'iso-8859-1';
+            $Self->{ContentType} = 'text/plain';
+            return '-';
+        }
     }
-    return
+    return;
 }
 # --
 
@@ -522,6 +538,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2004-02-17 23:02:32 $
+$Revision: 1.28.2.1 $ $Date: 2004-03-28 09:32:34 $
 
 =cut
