@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.23 2004-05-04 16:22:09 martin Exp $
+# $Id: AgentPreferences.pm,v 1.24 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,18 +14,18 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
@@ -43,7 +43,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    
+
     if ($Self->{Subaction} eq 'UpdatePw') {
         $Output = $Self->UpdatePw();
     }
@@ -56,8 +56,7 @@ sub Run {
     else {
         # get header
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Preferences');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->Form();
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -115,8 +114,7 @@ sub UpdatePw {
         else {
             # get header
             $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Preferences');
-            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-            $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+            $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify();
             $Output .= $Self->Form();
             $Output .= $Self->{LayoutObject}->Footer();
@@ -125,8 +123,7 @@ sub UpdatePw {
     else {
         # get header
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Preferences');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify(Info => 'Passwords dosn\'t match! Please try it again!');
         $Output .= $Self->Form();
         $Output .= $Self->{LayoutObject}->Footer();

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.26 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentMailbox.pm,v 1.27 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,34 +50,24 @@ sub Run {
     my $OrderBy = $Self->{ParamObject}->GetParam(Param => 'OrderBy') || 'Up';
 
     # store last screen
-    if (!$Self->{SessionObject}->UpdateSessionID(
-      SessionID => $Self->{SessionID},
-      Key => 'LastScreen',
-      Value => $Self->{RequestedURL},
-    )) {
-      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error();
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
-    }  
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key => 'LastScreen',
+        Value => $Self->{RequestedURL},
+    );
     # store last queue screen
-    if (!$Self->{SessionObject}->UpdateSessionID(
-      SessionID => $Self->{SessionID},
-      Key => 'LastScreenQueue',
-      Value => $Self->{RequestedURL},
-    )) {
-      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error();
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
-    }  
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key => 'LastScreenQueue',
+        Value => $Self->{RequestedURL},
+    );
 
     # --
     # check view type
     # --
     if (!$Self->{Subaction}) {
         $Self->{Subaction} = 'All';
-    } 
+    }
     # --
     # starting with page ...
     # --
@@ -86,15 +76,15 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     $Output .= $Self->{LayoutObject}->Header(
-        Area => 'Agent', 
+        Area => 'Agent',
         Title => 'Locked Tickets',
         Refresh => $Refresh,
     );
+    $Output .= $Self->{LayoutObject}->NavigationBar();
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentMailboxNavBar',
-        Data => { 
+        Data => {
             %LockedData,
             SortBy => $SortBy,
             OrderBy => $OrderBy,

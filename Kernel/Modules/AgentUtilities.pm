@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.61 2004-09-10 14:20:06 martin Exp $
+# $Id: AgentUtilities.pm,v 1.62 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -449,8 +449,7 @@ sub Run {
         }
         # start html page
         my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Search');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # build search navigation bar
         my %PageNav = $Self->{LayoutObject}->PageNavBar(

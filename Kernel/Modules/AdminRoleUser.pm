@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUser.pm,v 1.1 2004-09-09 11:18:24 martin Exp $
+# $Id: AdminRoleUser.pm,v 1.2 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminRoleUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,8 @@ sub Run {
     # user <-> role 1:n
     if ($Self->{Subaction} eq 'User') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $ID);
         # get group data
@@ -69,7 +70,8 @@ sub Run {
     # roles <-> user n:1
     elsif ($Self->{Subaction} eq 'Role') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);
         foreach (keys %UserData) {
@@ -169,7 +171,8 @@ sub Run {
     # else ! print form
     else {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> User');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);
         foreach (keys %UserData) {

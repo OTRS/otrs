@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.37 2004-08-19 15:39:35 martin Exp $
+# $Id: AgentNote.pm,v 1.38 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::WebUploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,6 +42,10 @@ sub new {
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam(Param => 'FormID');
+    my @NewUserID = $Self->{ParamObject}->GetArray(Param => 'NewUserID');
+    $Self->{NewUserID} = \@NewUserID;
+    my @OldUserID = $Self->{ParamObject}->GetArray(Param => 'OldUserID');
+    $Self->{OldUserID} = \@OldUserID;
     # create form id
     if (!$Self->{FormID}) {
         $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
@@ -117,8 +121,7 @@ sub Run {
         # check errors
         if (%Error) {
             my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Add Note');
-            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-            $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+            $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->_Mask(
                 TicketID => $Self->{TicketID},
                 QueueID => $Self->{QueueID},
@@ -138,6 +141,7 @@ sub Run {
             UserID => $Self->{UserID},
             HistoryType => 'AddNote',
             HistoryComment => '%%Note',
+            ForceNotificationToUserID => [@{$Self->{NewUserID}}, @{$Self->{OldUserID}}, ],
             %GetParam,
         )) {
             # time accounting
@@ -199,8 +203,7 @@ sub Run {
         }
         # print form ...
         my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Add Note');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},
             QueueID => $Self->{QueueID},
@@ -262,6 +265,52 @@ sub _Mask {
             Data => $DataRef,
         );
     }
+    # agent list
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+    my %ShownUsers = ();
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type => 'Long',
+        Valid => 1,
+    );
+    my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
+    my %MemberList = $Self->{GroupObject}->GroupMemberList(
+        GroupID => $GID,
+        Type => 'rw',
+        Result => 'HASH',
+        Cached => 1,
+    );
+    foreach (keys %MemberList) {
+        $ShownUsers{$_} = $AllGroupsMembers{$_};
+    }
+    $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%ShownUsers,
+        SelectedIDRefArray => $Self->{NewUserID},
+        Name => 'NewUserID',
+        Multiple => 1,
+        Size => 6,
+    );
+    # get old owner
+    my @OldUserInfo = $Self->{TicketObject}->OwnerList(TicketID => $Self->{TicketID});
+    my %UserHash = ();
+    my $Counter = 0;
+    foreach my $User (reverse @OldUserInfo) {
+        if ($Counter) {
+            if (!$UserHash{$User->{UserID}}) {
+                $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
+                  "$User->{UserFirstname} ($User->{UserLogin})";
+            }
+        }
+        $Counter++;
+    }
+
+    $Param{'OldUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%UserHash,
+        SelectedIDRefArray => $Self->{OldUserID},
+        Name => 'OldUserID',
+        Multiple => 1,
+        Size => 4,
+    );
+
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentNote', Data => \%Param);
 }

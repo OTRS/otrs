@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.65 2004-09-11 08:25:22 martin Exp $
+# $Id: AgentQueueView.pm,v 1.66 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -116,10 +116,8 @@ sub Run {
         Title => 'QueueView',
         Refresh => $Refresh,
     );
-    # get user lock data
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     # build NavigationBar
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    $Output .= $Self->{LayoutObject}->NavigationBar();
     # to get the output faster!
     print $Output; $Output = '';
     # --

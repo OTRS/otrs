@@ -2,10 +2,10 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutation.pm,v 1.13 2004-02-13 00:50:37 martin Exp $
+# $Id: AdminSalutation.pm,v 1.14 2004-09-16 22:04:00 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -52,7 +52,8 @@ sub Run {
         $ID = $Self->{DBObject}->Quote($ID);
 
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Salutation');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         my $SQL = "SELECT name, valid_id, comments, text " .
            " FROM " .
            " salutation " .
@@ -63,7 +64,7 @@ sub Run {
         $Output .= $Self->_Mask(
             ID => $ID,
             Name => $Data[0],
-            Comment => $Data[2], 
+            Comment => $Data[2],
             Salutation => $Data[3],
             ValidID => $Data[1],
         );
@@ -105,22 +106,18 @@ sub Run {
 		" VALUES " .
 		" ('$GetParam{Name}', $GetParam{ValidID}, '$GetParam{Comment}', '$GetParam{Salutation}', " .
 		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
-        if ($Self->{DBObject}->Do(SQL => $SQL)) {        
+        if ($Self->{DBObject}->Do(SQL => $SQL)) {
              $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin');
-        $Output .= $Self->{LayoutObject}->Footer();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # else ! print form 
+    # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Salutation');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
     }

@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/Admin.pm - provides admin main page 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Modules/Admin.pm - provides admin main page
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.7 2003-12-29 17:26:06 martin Exp $
+# $Id: Admin.pm,v 1.8 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,10 +22,10 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -43,9 +43,10 @@ sub Run {
     my %Param = @_;
     my $Output;
 
-    # build output    
+    # build output
     $Output .= $Self->{LayoutObject}->Header(Area => 'Admin');
-    $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+    $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+    $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
     $Output .= $Self->{LayoutObject}->Footer();
 
     return $Output;

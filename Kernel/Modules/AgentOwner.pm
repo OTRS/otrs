@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.27 2004-05-01 14:46:59 martin Exp $
+# $Id: AgentOwner.pm,v 1.28 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,18 +14,18 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -127,8 +127,7 @@ sub Run {
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         my $OwnerID = $Self->{TicketObject}->OwnerCheck(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Owner');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         # get user of own groups
         my %ShownUsers = ();
         my %AllGroupsMembers = $Self->{UserObject}->UserList(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachment.pm,v 1.8 2004-03-29 13:23:03 martin Exp $
+# $Id: AdminAttachment.pm,v 1.9 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -47,7 +47,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    $Param{Subaction} = $Self->{Subaction} || ''; 
+    $Param{Subaction} = $Self->{Subaction} || '';
     $Param{NextScreen} = 'AdminAttachment';
 
     my %AttachmentIndex = $Self->{StdAttachmentObject}->GetAllStdAttachments(Valid => 0);
@@ -58,9 +58,10 @@ sub Run {
         $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %ResponseData = $Self->{StdAttachmentObject}->StdAttachmentGet(ID => $Param{ID});
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Attachment change');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(
-            %ResponseData,  
+            %ResponseData,
             %Param,
             AttachmentIndex => \%AttachmentIndex,
         );
@@ -79,15 +80,11 @@ sub Run {
             Source => 'string',
         );
 
-        if ($Self->{StdAttachmentObject}->StdAttachmentUpdate(%GetParam, %UploadStuff, UserID => $Self->{UserID})) { 
+        if ($Self->{StdAttachmentObject}->StdAttachmentUpdate(%GetParam, %UploadStuff, UserID => $Self->{UserID})) {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # add new response
@@ -108,11 +105,7 @@ sub Run {
              );
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # delete response
@@ -125,17 +118,14 @@ sub Run {
              return $Self->{LayoutObject}->Redirect(OP => "Action=AdminAttachment");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # else ! print form 
+    # else ! print form
     else {
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Attachment add');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(
             AttachmentIndex => \%AttachmentIndex,
         );
@@ -150,12 +140,12 @@ sub _Mask {
 
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
+        Data => {
           $Self->{DBObject}->GetTableData(
             What => 'id, name',
             Table => 'valid',
             Valid => 0,
-          ) 
+          ),
         },
         Name => 'ValidID',
         SelectedID => $Param{ValidID},

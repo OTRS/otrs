@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.33 2004-09-16 13:16:16 martin Exp $
+# $Id: AgentCustomer.pm,v 1.34 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -143,8 +143,7 @@ sub Form {
     my $Output;
     # print header
     $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer');
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    $Output .= $Self->{LayoutObject}->NavigationBar(); 
     my $TicketCustomerID = $Self->{CustomerID};
     # --
     # print change form if ticket id is given

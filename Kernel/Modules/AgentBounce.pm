@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
+# Kernel/Modules/AgentBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.35 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentBounce.pm,v 1.36 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,17 +18,17 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    # get common opjects    
+    # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }

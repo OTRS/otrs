@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.21 2004-04-16 08:54:37 martin Exp $
+# $Id: AgentPriority.pm,v 1.22 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,28 +14,28 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
       QueueObject ConfigObject UserObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-   
+
     # get  PriorityID
     $Self->{PriorityID} = $Self->{ParamObject}->GetParam(Param => 'PriorityID') || '';
 
@@ -101,8 +101,7 @@ sub Run {
         # print form
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Set Priority');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         # print change form
 	$Output .= $Self->MaskPriority(
             %Ticket,

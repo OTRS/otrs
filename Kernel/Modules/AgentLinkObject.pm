@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.pm,v 1.1 2004-09-11 08:27:51 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.2 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,8 +67,7 @@ sub Run {
     my %Param = @_;
     # start application page
     my $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Link');
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    $Output .= $Self->{LayoutObject}->NavigationBar();
 
     # check needed stuff
     foreach (qw(SourceID SourceObject)) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.25 2004-09-10 09:21:41 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.26 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $ ';
+$VERSION = '$Revision: 1.26 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,17 +85,15 @@ sub Run {
     }
     if ($Nav eq 'Admin') {
         $NavBar = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
-        $NavBar .= $Self->{LayoutObject}->AdminNavigationBar();
+        $NavBar .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $NavBar .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
     }
     elsif ($Nav eq 'None') {
         $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User', Type => 'Small');
     }
     else {
         $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User');
-        # get user lock data
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        # build NavigationBar 
-        $NavBar .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $NavBar .= $Self->{LayoutObject}->NavigationBar();
     }
     # add notify
     if ($AddedUID) {
@@ -161,6 +159,7 @@ sub Run {
     }
     # update action
     elsif ($Self->{Subaction} eq 'ChangeAction') {
+        my $Note = '';
         # get params
         my %GetParam;
         foreach my $Entry (@{$Self->{ConfigObject}->Get($Source)->{Map}}) {
@@ -191,6 +190,67 @@ sub Run {
                         Source => 'String',
                     );
                     if ($UploadStuff{Content}) {
+
+# TODO
+                        my $True = 0;
+                        use Kernel::System::Crypt;
+                        if ($PrefKey =~ /PGP/) {
+                          my $CryptObject = Kernel::System::Crypt->new(
+                            LogObject => $Self->{LogObject},
+                            DBObject => $Self->{DBObject},
+                            ConfigObject => $Self->{ConfigObject},
+                            CryptType => 'PGP',
+                          );
+                          my $Message = $CryptObject->KeyAdd(Key => $UploadStuff{Content});
+                          if (!$Message) {
+                              $Message = $Self->{LogObject}->GetLogEntry(
+                                  Type => 'Error',
+                                  What => 'Message',
+                              );
+                          }
+                          else {
+                              if ($Message =~ /gpg: key (.*):/) {
+                                  my @Result = $CryptObject->SearchPublicKey(Search => $1);
+                                  if ($Result[0]) {
+                                     $UploadStuff{Filename} = "$Result[0]->{Identifier}-$Result[0]->{Bit}-$Result[0]->{Key}.$Result[0]->{Type}";
+                                  }
+                              }
+                              $True = 1;
+                          }
+                          if ($Message) {
+                              $Note .= $Self->{LayoutObject}->Notify(Info => $Message);
+                          }
+                        }
+                        if ($PrefKey =~ /SMIME/) {
+                          my $CryptObject = Kernel::System::Crypt->new(
+                            LogObject => $Self->{LogObject},
+                            DBObject => $Self->{DBObject},
+                            ConfigObject => $Self->{ConfigObject},
+                            CryptType => 'SMIME',
+                          );
+                          my $Message = $CryptObject->CertificateAdd(Certificate => $UploadStuff{Content});
+                          if (!$Message) {
+                              $Message = $Self->{LogObject}->GetLogEntry(
+                                  Type => 'Error',
+                                  What => 'Message',
+                              );
+                          }
+                          else {
+                              my %Attributes = $CryptObject->CertificateAttributes(
+                                  Certificate => $UploadStuff{Content},
+                              );
+                              if ($Attributes{Hash}) {
+                                  $UploadStuff{Filename} = "$Attributes{Hash}.pem";
+                              }
+                              $True = 1;
+                          }
+                          if ($Message) {
+                              $Note .= $Self->{LayoutObject}->Notify(Info => $Message);
+                          }
+                        }
+# TODO
+                        if ($True) {
+
                       $Self->{CustomerUserObject}->SetPreferences(
                         UserID => $GetParam{ID},
                         Key => $PrefKey,
@@ -207,13 +267,23 @@ sub Run {
                         Value => $UploadStuff{ContentType},
                       );
                     }
+        }
                 }
               }
             }
-            # redirect
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminCustomerUser&Nav=$Nav&Search=$Search",
+             # get user data and show screen again
+            $Note .= $Self->{LayoutObject}->Notify(Info => 'Customer updated!');
+            my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $GetParam{ID});
+            my $Output = $NavBar.$Note.$Self->{LayoutObject}->AdminCustomerUserForm(
+                Nav => $Nav,
+                UserLinkList => $Link,
+                SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()},
+                Source => $Source,
+                Search => $Search,
+                %UserData,
             );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         else {
             my $Output = $NavBar.$Self->{LayoutObject}->Error();

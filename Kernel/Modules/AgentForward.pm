@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.38 2004-09-08 23:46:58 martin Exp $
+# $Id: AgentForward.pm,v 1.39 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -102,37 +102,37 @@ sub Form {
     my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
 
     # get lock state && permissions
-    if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
-        # set owner
-        $Self->{TicketObject}->OwnerSet(
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID},
-            NewUserID => $Self->{UserID},
-        );
-        # set lock
-        if ($Self->{TicketObject}->LockSet(
-            TicketID => $Self->{TicketID},
-            Lock => 'lock',
-            UserID => $Self->{UserID},
-        )) {
-            # show lock state
-            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
-        }
-    }
-    else {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
-            TicketID => $Self->{TicketID},
-        );
-
-        if ($OwnerID != $Self->{UserID}) {
-            $Output .= $Self->{LayoutObject}->Warning(
-                Message => "Sorry, the current owner is $OwnerLogin!",
-                Comment => 'Please change the owner first.',
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-    }
+#    if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
+#        # set owner
+#        $Self->{TicketObject}->OwnerSet(
+#            TicketID => $Self->{TicketID},
+#            UserID => $Self->{UserID},
+#            NewUserID => $Self->{UserID},
+#        );
+#        # set lock
+#        if ($Self->{TicketObject}->LockSet(
+#            TicketID => $Self->{TicketID},
+#            Lock => 'lock',
+#            UserID => $Self->{UserID},
+#        )) {
+#            # show lock state
+#            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+#        }
+#    }
+#    else {
+#        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
+#            TicketID => $Self->{TicketID},
+#        );
+#
+#        if ($OwnerID != $Self->{UserID}) {
+#            $Output .= $Self->{LayoutObject}->Warning(
+#                Message => "Sorry, the current owner is $OwnerLogin!",
+#                Comment => 'Please change the owner first.',
+#            );
+#            $Output .= $Self->{LayoutObject}->Footer();
+#            return $Output;
+#        }
+#    }
 
     # get last customer article or selecte article ...
     my %Data = ();

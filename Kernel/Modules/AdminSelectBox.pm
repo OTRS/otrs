@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.9 2004-06-29 10:40:16 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.10 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -50,7 +50,8 @@ sub Run {
     # --
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSelectBoxForm',
             Data => \%Param,
@@ -63,7 +64,8 @@ sub Run {
     # --
     elsif ($Self->{Subaction} eq 'Select') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSelectBoxForm',
             Data => \%Param,
@@ -75,32 +77,30 @@ sub Run {
              push (@Data, \@Row);
           }
           $Output .= $Self->MaskSelectBoxResult(
-              Data => \@Data, 
+              Data => \@Data,
           );
           $Output .= $Self->{LayoutObject}->Footer();
           return $Output;
         }
         else {
-          my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
-          $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-          $Output .= $Self->{LayoutObject}->Output(
-              TemplateFile => 'AdminSelectBoxForm',
-              Data => \%Param,
-          );
-          $Output .= $Self->{LayoutObject}->Error();
-          $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
+            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminSelectBoxForm',
+                Data => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Error();
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
-    } 
+    }
     # else! error!
     else {
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
                 Message => 'No Subaction!!',
-                Comment => 'Please contact your admin');
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+                Comment => 'Please contact your admin',
+        );
     }
 }
 # --

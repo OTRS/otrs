@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.31 2004-08-18 08:48:59 martin Exp $
+# $Id: customer.pl,v 1.32 2004-09-16 22:03:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -516,11 +516,7 @@ elsif (!$Param{SessionID}) {
 # --
 # run modules if exists a version value
 # --
-#elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'
-#  && eval '$Param{Action} =~ /$Kernel::Config::ModulesCustomerPanel::Allow/'){
-elsif (eval "require Kernel::Modules::$Param{Action}" &&
-  eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' &&
-  eval '$Param{Action} =~ /$Kernel::Config::ModulesCustomerPanel::Allow/'){
+elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
     # check session id
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
         # create new LayoutObject with new '%Param'
@@ -583,6 +579,18 @@ elsif (eval "require Kernel::Modules::$Param{Action}" &&
             %Param,
             %UserData,
         );
+        # module registry
+        my $ModuleReg = $CommonObject{ConfigObject}->Get('CustomerFrontend::Module');
+        if (!$ModuleReg->{$Param{Action}}) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message => "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
+            );
+            print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
+            print $CommonObject{LayoutObject}->Error();
+            print $CommonObject{LayoutObject}->CustomerFooter();
+            exit 0;
+        }
         # updated last request time
         $CommonObject{SessionObject}->UpdateSessionID(
             SessionID => $Param{SessionID},

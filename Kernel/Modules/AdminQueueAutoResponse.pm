@@ -2,10 +2,10 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.11 2004-02-13 00:50:37 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.12 2004-09-16 22:04:00 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,16 +14,16 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -47,10 +47,11 @@ sub Run {
     $Param{ID} = $Self->{DBObject}->Quote($Param{ID});
 
     $Param{NextScreen} = 'AdminQueueAutoResponse';
-    
+
     if ($Self->{Subaction} eq 'Change') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Queue <-> Auto Response');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get Type Auto Responses data
         my %TypeResponsesData = $Self->{DBObject}->GetTableData(
             Table => 'auto_response_type',
@@ -113,14 +114,15 @@ sub Run {
     # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Queue <-> Auto Response');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get queue data
         my %QueueData = $Self->{DBObject}->GetTableData(
             Table => 'queue',
             What => 'id, name',
             Valid => 1,
         );
-        
+
         foreach (sort {$QueueData{$a} cmp $QueueData{$b}} keys %QueueData) {
             my @Data;
             my $SQL = "SELECT ar.name, art.name, ar.id FROM " .

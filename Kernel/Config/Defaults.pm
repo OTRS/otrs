@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.155 2004-09-09 15:16:48 martin Exp $
+# $Id: Defaults.pm,v 1.156 2004-09-16 22:03:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.155 $';
+$VERSION = '$Revision: 1.156 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -359,6 +359,13 @@ sub LoadDefaults {
     $Self->{HighlightAge2} = 2880;
     $Self->{HighlightColor2} = 'red';
 
+
+    # agent interface notification module to check the used charset
+    $Self->{'Frontend::NavBarModule'}->{'1-LockedTickets'} = {
+        Module => 'Kernel::Output::HTML::NavBarLockedTickets',
+    };
+
+
     # agent interface notification module to check the used charset
     $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
         Module => 'Kernel::Output::HTML::NotificationCharsetCheck',
@@ -367,6 +374,10 @@ sub LoadDefaults {
     # (don't work with user id 1 notification)
     $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
         Module => 'Kernel::Output::HTML::NotificationUIDCheck',
+    };
+    # agent interface notification module to show important agent tickets
+    $Self->{'Frontend::NotifyModule'}->{'999-TicketNotify'} = {
+        Module => 'Kernel::Output::HTML::NotificationAgentTicket',
     };
     # show online agents
 #    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
@@ -507,7 +518,7 @@ sub LoadDefaults {
 
     # LoginURL
     # (If this is anything other than '', then it is assumed to be the
-    # URL of an alternate login screen which will be used in place of 
+    # URL of an alternate login screen which will be used in place of
     # the default one.)
     $Self->{LoginURL} = '';
 #    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
@@ -519,13 +530,13 @@ sub LoadDefaults {
     $Self->{LogoutURL} = '';
 #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
-    # PreApplicationModule 
+    # PreApplicationModule
     # (Used for every request, if defined, the PreRun() function of
     # this module will be used. This interface use useful to check
-    # some user options or to redirect not accept new application 
+    # some user options or to redirect not accept new application
     # news)
 #    $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo';
-    # Kernel::Modules::AgentInfo check key, if this user preferences key 
+    # Kernel::Modules::AgentInfo check key, if this user preferences key
     # is true, then the message is already accepted
 #    $Self->{InfoKey} = 'wpt22';
     # shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl
@@ -579,7 +590,7 @@ sub LoadDefaults {
 
     # SpellChecker
     # (If ispell or aspell is available, then we will provide a spelling
-    # checker.) 
+    # checker.)
 #    $Self->{SpellChecker} = '';
     $Self->{SpellChecker} = '/usr/bin/ispell';
     $Self->{SpellCheckerDictDefault} = 'english';
@@ -651,7 +662,7 @@ sub LoadDefaults {
     # see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
     $Self->{PendingAutoStateType} = ['pending auto'];
 
-    # state after pending 
+    # state after pending
     # (state after pending time has reached)
     $Self->{StateAfterPending} = {
         'pending auto close+' => 'closed successful',
@@ -699,7 +710,7 @@ sub LoadDefaults {
         Mon => [ 0,1,2,3,4,5,6,7,8 ],
     };
 
-    # SendNoPendingNotificationTime 
+    # SendNoPendingNotificationTime
     # (send no pending notification this hours)
     $Self->{SendNoPendingNotificationTime} = {
         Mon => [ 0,1,2,3,4,5,6 ],
@@ -1083,6 +1094,12 @@ $Data{"Signature"}
     # PostmasterFollowUpState
     # (The state if a ticket got a follow up.) [default: open]
     $Self->{PostmasterFollowUpState} = 'open';
+
+    # PostmasterFollowUpOnLockAgentNotifyOnlyToOwner
+    # (Send agent follow up notification just to the owner if a
+    # ticket is unlocked. Normally it a ticket is unlocked, the
+    # agent follow up notification get to all agents) [default: 0]
+    $Self->{PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner} = 0;
 
     # X-Header
     # (All scanned x-headers.)
@@ -1783,6 +1800,7 @@ Your OTRS Notification Master
         CustomerUserSearchListLimit => 250,
         CustomerUserPostMasterSearchFields => ['email'],
         CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
+        CustomerUserEmailUniqCheck => 1,
 #        AutoLoginCreation => 0,
 #        AutoLoginCreationPrefix => 'auto',
 #        AdminSetPreferences => 1,
@@ -1802,6 +1820,12 @@ Your OTRS Notification Master
             [ 'UserComment',     'Comment',   'comments',    1, 0, 'var', '', 0 ],
             [ 'ValidID',         'Valid',     'valid_id',    0, 1, 'int', '', 0 ],
         ],
+        Selections => {
+            UserSalutation => {
+                'Mr.' => 'Mr.',
+                'Mrs.' => 'Mrs.',
+            },
+        },
     };
 
     # CustomerUser
@@ -2158,44 +2182,487 @@ Your OTRS Notification Master
     $Self->{'FAQ::Field6'} = 'Comment (internal)';
 
     # --------------------------------------------------- #
-    # module group permissions
+    # frontend module registry
     # --------------------------------------------------- #
     # Module (from Kernel/Modules/*.pm) => Group
-    $Self->{'Module::Permission'}->{'Admin'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminAttachment'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminAutoResponse'} = 'admin';
-#    $Self->{'Module::Permission'}->{'AdminCustomerUser'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminCustomerUser'} = ['admin', 'users'];
-    $Self->{'Module::Permission'}->{'AdminCustomerUserGroup'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminEmail'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminGroup'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminLog'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminNotification'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminPGP'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminPOP3'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminPostMasterFilter'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminQueueAutoResponse'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminQueue'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminQueueResponses'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminResponseAttachment'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminResponse'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminSalutation'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminSelectBox'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminSession'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminSignature'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminState'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminSystemAddress'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminUserGroup'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminUser'} = 'admin';
 
-    $Self->{'Module::Permission::Ro'}->{'FAQ'} = ['faq'];
-    $Self->{'Module::Permission::Ro'}->{'FAQHistory'} = ['faq'];
-    $Self->{'Module::Permission'}->{'FAQCategory'} = ['faq'];
-    $Self->{'Module::Permission'}->{'FAQLanguage'} = ['faq'];
-    $Self->{'Module::Permission'}->{'FAQArticle'} = ['faq'];
+    $Self->{'Frontend::Module'}->{'Logout'} = {
+        Description => 'Logout',
+        NavBar => [
+          {
+            Description => 'Logout',
+            Name => 'Logout',
+            Image => 'exit.png',
+            Link => 'Action=Logout',
+            NavBar => '',
+            Prio => 1,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentQueueView'} = {
+        Description => 'Overview of all open Tickets',
+        NavBar => [
+          {
+            Description => 'Overview of all open Tickets',
+            Name => 'QueueView',
+            Image => 'queue.png',
+            Link => 'Action=AgentQueueView',
+            NavBar => 'Agent',
+            Prio => 10,
+          },
+          {
+            Description => 'Agent-Area',
+            Block => 'ItemArea',
+            Name => 'Agent-Area',
+            Image => 'desktop.png',
+            Link => 'Action=AgentQueueView',
+            NavBar => '',
+            NavBarNotShown => 'Agent',
+            Prio => 1900,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentPhone'} = {
+        Description => 'Create new Phone Ticket',
+        NavBar => [{
+            Description => 'Create new Phone Ticket',
+            Name => 'Phone-Ticket',
+            Image => 'new.png',
+            Link => 'Action=AgentPhone',
+            NavBar => 'Agent',
+            Prio => 20,
+         },
+       ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentEmail'} = {
+        Description => 'Create new Email Ticket',
+        NavBar => [
+          {
+            Description => 'Create new Email Ticket',
+            Name => 'Email-Ticket',
+            Image => 'mail_new.png',
+            Link => 'Action=AgentEmail',
+            NavBar => 'Agent',
+            Prio => 30,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentUtilities'} = {
+        Description => 'Search Tickets',
+        NavBar => [{
+            Description => 'Search Tickets',
+            Name => 'Search',
+            Image => 'search.png',
+            Link => 'Action=AgentUtilities',
+            NavBar => 'Agent',
+            Prio => 30,
+         },
+       ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentPreferences'} = {
+        Description => 'Agent Preferences',
+        NavBar => [{
+            Description => 'Agent Preferences',
+            Name => 'Preferences',
+            Image => 'prefer.png',
+            Link => 'Action=AgentPreferences',
+            NavBar => 'Agent',
+            Prio => 80,
+         },
+       ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentMailbox'} = {
+        Description => 'Agent Mailbox',
+    };
+    $Self->{'Frontend::Module'}->{'AgentZoom'} = {
+        Description => 'Ticket Zoom',
+    };
+    $Self->{'Frontend::Module'}->{'AgentPlain'} = {
+        Description => 'Ticket plain view of an email',
+    };
+    $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
+        Description => 'Spell checker',
+    };
+    $Self->{'Frontend::Module'}->{'AgentBook'} = {
+        Description => 'Address book of CustomerUser sources',
+    };
+    $Self->{'Frontend::Module'}->{'AgentNote'} = {
+        Description => 'Ticket Note',
+    };
+    $Self->{'Frontend::Module'}->{'AgentPending'} = {
+        Description => 'Ticket Pending',
+    };
+    $Self->{'Frontend::Module'}->{'AgentPriority'} = {
+        Description => 'Ticket Priority',
+    };
+    $Self->{'Frontend::Module'}->{'AgentLock'} = {
+        Description => 'Ticket Lock',
+    };
+    $Self->{'Frontend::Module'}->{'AgentMove'} = {
+        Description => 'Ticket Move',
+    };
+    $Self->{'Frontend::Module'}->{'AgentHistory'} = {
+        Description => 'Ticket History',
+    };
+    $Self->{'Frontend::Module'}->{'AgentOwner'} = {
+        Description => 'Ticket Owner',
+    };
+    $Self->{'Frontend::Module'}->{'AgentCompose'} = {
+        Description => 'Ticket Compose Email Answer',
+    };
+    $Self->{'Frontend::Module'}->{'AgentBounce'} = {
+        Description => 'Ticket Compose Bounce Email',
+    };
+    $Self->{'Frontend::Module'}->{'AgentForward'} = {
+        Description => 'Ticket Forward Email',
+    };
+    $Self->{'Frontend::Module'}->{'AgentCustomer'} = {
+        Description => 'Ticket Customer',
+    };
+    $Self->{'Frontend::Module'}->{'AgentClose'} = {
+        Description => 'Ticket Close',
+    };
+    $Self->{'Frontend::Module'}->{'AgentFreeText'} = {
+        Description => 'Ticket FreeText',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketPrint'} = {
+        Description => 'Ticket Print',
+    };
+    $Self->{'Frontend::Module'}->{'AgentBulk'} = {
+        Description => 'Ticket bulk module',
+    };
+    $Self->{'Frontend::Module'}->{'AgentLinkObject'} = {
+        Description => 'Link Object',
+    };
+    $Self->{'Frontend::Module'}->{'AgentInfo'} = {
+        Description => 'Generic Agent Info module',
+    };
+    # stats
+    $Self->{'Frontend::Module'}->{'SystemStats'} = {
+        GroupRo => ['stats', 'admin'],
+        Description => 'Stats-Area',
+        NavBar => [
+          {
+            Description => 'Stats-Area',
+            Name => 'Stats-Area',
+            Image => 'stats.png',
+            Link => 'Action=SystemStats',
+            NavBar => 'Agent',
+            Prio => 85,
+          },
+        ],
+    };
+    # faq interface
+    $Self->{'Frontend::Module'}->{'FAQ'} = {
+        Group => '',
+        GroupRo => 'faq',
+        Description => 'FAQ-Area',
+        NavBar => [
+          {
+            GroupRo => 'faq',
+            Description => 'FAQ-Area',
+            Block => 'ItemArea',
+            Name => 'FAQ-Area',
+            Image => 'help.png',
+            Link => 'Action=FAQ',
+            NavBar => '',
+            NavBarNotShown => 'FAQ',
+            Prio => 1700,
+          },
+          {
+            GroupRo => 'faq',
+            Description => 'FAQ-Search',
+            Name => 'Search',
+            Image => 'search.png',
+            Link => 'Action=FAQ',
+            NavBar => 'FAQ',
+            Prio => 1701,
+          },
+          {
+            GroupRo => 'faq',
+            Description => 'History',
+            Name => 'History',
+            Image => 'list.png',
+            Link => 'Action=FAQ&Subaction=SystemHistory',
+            NavBar => 'FAQ',
+            Prio => 1703,
+          },
+        ],
+    };
 
-    $Self->{'Module::Permission'}->{'SystemStats'} = ['admin', 'stats'];
+    $Self->{'Frontend::Module'}->{'FAQArticle'} = {
+#        GroupRo => 'faq',
+        Group => 'faq',
+        Description => 'FAQ-Article',
+        NavBar => [
+          {
+            Description => 'New Article',
+            Name => 'New Article',
+            Image => 'create.png',
+            Link => 'Action=FAQArticle',
+            NavBar => 'FAQ',
+            Prio => 1702,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'FAQState'} = {
+        GroupRo => '',
+        Group => 'faq',
+        Description => 'FAQ-State',
+        NavBar => [
+          {
+            Description => 'State',
+            Name => 'State',
+            Image => 'fileopen.png',
+            Link => 'Action=FAQState',
+            NavBar => 'FAQ',
+            Prio => 1704,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'FAQLanguage'} = {
+        GroupRo => '',
+        Group => 'faq',
+        Description => 'FAQ-Language',
+        NavBar => [
+          {
+            Description => 'Language',
+            Name => 'Language',
+            Image => 'fileopen.png',
+            Link => 'Action=FAQfileopen',
+            NavBar => 'FAQ',
+            Prio => 1705,
+          },
+        ],
+    };
+    # admin interface
+    $Self->{'Frontend::Module'}->{'Admin'} = {
+        Group => ['admin'],
+        Description => 'Admin-Area',
+        NavBar => [
+          {
+            Description => 'Admin-Area',
+            Block => 'ItemArea',
+            Name => 'Admin-Area',
+            Image => 'admin.png',
+            Link => 'Action=Admin',
+            NavBar => '',
+            NavBarNotShown => 'Admin',
+            Prio => 2000,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'AdminEmail'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminEmail'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminGroup'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminLog'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminNotification'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminPGP'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminQueue'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminRole'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminSession'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminSignature'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminState'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
+    $Self->{'Frontend::Module'}->{'AdminUser'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+    };
 
+    $Self->{'Frontend::Module'}->{'AdminCustomerUser'} = {
+        GroupRo => '',
+        Group => ['admin', 'users'],
+        Description => 'Edit Customer Users',
+        NavBar => [ {
+            Description => 'Edit Customer Users',
+            Name => 'Customer User',
+            Image => 'folder_yellow.png',
+            Link => 'Action=AdminCustomerUser',
+            NavBar => 'Agent',
+            Prio => 86,
+          }
+        ],
+    };
+
+    $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
+        Description => 'Logout of customer panel.',
+        NavBar => [
+          {
+            Description => 'Logout',
+            Name => 'Logout',
+            Image => 'exit.png',
+            Link => 'Action=Logout',
+            Prio => 1,
+          },
+        ],
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketOverView'} = {
+        Description => 'Overview of customer tickets.',
+        NavBar => [
+          {
+            Description => 'MyTickets',
+            Name => 'MyTickets',
+            Image => 'ticket.png',
+            Link => 'Action=CustomerTicketOverView&Type=MyTickets',
+            Prio => 20,
+          },
+          {
+            Description => 'CompanyTickets',
+            Name => 'CompanyTickets',
+            Image => 'tickets.png',
+            Link => 'Action=CustomerTicketOverView&Type=CompanyTickets',
+            Prio => 21,
+          },
+        ],
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerMessage'} = {
+        Description => 'Create and updated tickets.',
+        NavBar => [
+          {
+            Description => 'Create new Ticket',
+            Name => 'New Ticket',
+            Image => 'create.png',
+            Link => 'Action=CustomerMessage',
+            Prio => 10,
+          },
+        ],
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketSearch'} = {
+        Description => 'Customer ticket search.',
+        NavBar => [
+          {
+            Description => 'Search',
+            Name => 'Search',
+            Image => 'search.png',
+            Link => 'Action=CustomerTicketSearch',
+            Prio => 30,
+          },
+        ],
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerFAQ'} = {
+        Description => 'Customer faq.',
+        NavBar => [
+          {
+            Description => 'FAQ-Area',
+            Name => 'FAQ-Area',
+            Image => 'help.png',
+            Link => 'Action=CustomerFAQ',
+            Prio => 30,
+          },
+        ],
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerPreferences'} = {
+        Description => 'Customer preferences.',
+        NavBar => [
+          {
+            Description => 'Preferences',
+            Name => 'Preferences',
+            Image => 'prefer.png',
+            Link => 'Action=CustomerPreferences',
+            Prio => 40,
+          },
+        ],
+    };
 
     # --------------------------------------------------- #
 }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseAttachment.pm,v 1.7 2004-04-01 13:26:07 martin Exp $
+# $Id: AdminResponseAttachment.pm,v 1.8 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
 
     my $NextScreen = 'AdminResponseAttachment';
 
-    # get StdResponses data 
+    # get StdResponses data
     my %StdResponses = $Self->{StdResponseObject}->GetAllStdResponses(Valid => 1);
     # get queue data
     my %StdAttachments = $Self->{StdAttachmentObject}->GetAllStdAttachments(Valid => 1);
@@ -62,8 +62,9 @@ sub Run {
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'Response') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        # get StdResponses data 
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
+        # get StdResponses data
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
             Table => 'standard_response',
             What => 'id, name',
@@ -77,7 +78,7 @@ sub Run {
         $Output .= $Self->_MaskChange(
             FirstData => \%StdResponsesData,
             SecondData => \%StdAttachments,
-            Data => \%Data,	 
+            Data => \%Data,
             Type => 'Response',
         );
 
@@ -86,7 +87,8 @@ sub Run {
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Attachment') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get queue data
         my %AttachmentData = $Self->{DBObject}->GetTableData(
                 Table => 'standard_attachment',
@@ -139,12 +141,13 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
 
     }
-    # else ! print form 
+    # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Attachment');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(
-            FirstData => \%StdResponses, 
+            FirstData => \%StdResponses,
             SecondData => \%StdAttachments,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -160,7 +163,7 @@ sub _Mask {
     my $GroupData = $Param{SecondData};
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminResponseAttachment&";
-    
+
     foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
         $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $UserDataTmp{$_},

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.147 2004-09-09 13:06:46 martin Exp $
+# $Id: Agent.pm,v 1.148 2004-09-16 22:03:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,72 +14,9 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.147 $';
+$VERSION = '$Revision: 1.148 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
-sub NavigationBar {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output = '';
-    # run notification modules
-    if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
-        foreach my $Job (sort keys %Jobs) {
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                );
-            }
-            if (eval "require $Jobs{$Job}->{Module}") {
-                my $Object = $Jobs{$Job}->{Module}->new(
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject => $Self->{LogObject},
-                    DBObject => $Self->{DBObject},
-                    LayoutObject => $Self,
-                    UserID => $Self->{UserID},
-                    Debug => $Self->{Debug},
-                );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                    );
-                }
-                # run module
-                $Output .= $Object->Run(%Param, Config => $Jobs{$Job});
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Jobs{$Job}->{Module}!",
-                );
-            }
-        }
-    }
-    # check lock count
-    foreach (keys %{$Param{LockData}}) {
-        $Param{$_} = $Param{LockData}->{$_} || 0;
-    }
-    if ($Param{New}) {
-        $Output .= $Self->Notify(
-          Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New">'.
-            $Self->{LanguageObject}->Get('You have %s new message(s)!", "'.$Param{New}).'</a>'
-        );
-    }
-    if ($Param{Reminder}) {
-        $Output .= $Self->Notify(
-          Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Reminder">'.
-           $Self->{LanguageObject}->Get('You have %s reminder ticket(s)!", "'.
-           $Param{Reminder}).'</a>',
-        );
-    }
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param).$Output;
-}
 # --
 sub TicketStdResponseString {
     my $Self = shift;

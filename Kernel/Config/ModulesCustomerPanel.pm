@@ -1,11 +1,11 @@
 # --
 # Kernel/Config/ModulesCustomerPanel.pm - config file of all used application modules
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ModulesCustomerPanel.pm,v 1.7 2003-03-06 10:40:07 martin Exp $
+# $Id: ModulesCustomerPanel.pm,v 1.8 2004-09-16 22:03:59 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -13,14 +13,8 @@ package Kernel::Config::ModulesCustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-
-# --
-# allow module Action=? (regexpr)
-# --
-$Kernel::Config::ModulesCustomerPanel::Allow = "^(Customer).+?";
-
 
 # --
 # all custom modules
@@ -28,7 +22,7 @@ $Kernel::Config::ModulesCustomerPanel::Allow = "^(Customer).+?";
 #use Kernel::Config::ModulesCustomerPanelCustom;
 
 # --
-# all OTRS customer frontend modules 
+# all OTRS customer frontend modules
 # --
 
 # system basic lib modules
@@ -37,20 +31,13 @@ use Kernel::System::Ticket;
 use Kernel::System::Email;
 
 # --
-# Note: Removed Kernel::Modules::* because pure cgi is faster!
-#       Added/moved Kernel::Modules::* to scripts/apache-perl-startup.pl
-#       for mod_perl applications. (use Perlrequire /path/to startup.pl 
-#       in httpd.conf)
-# --
-
-# --
 # common needed objects
-# (so you can access this modules in Kernel::Modules::* with 
+# (so you can access this modules in Kernel::Modules::* with
 # $Self->{Key})
 # --
 $Kernel::Config::ModulesCustomerPanel::CommonObject = {
     # key => module
-    QueueObject => 'Kernel::System::Queue', 
+    QueueObject => 'Kernel::System::Queue',
     TicketObject => 'Kernel::System::Ticket',
 };
 # --

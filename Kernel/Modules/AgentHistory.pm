@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
+# Kernel/Modules/AgentHistory.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.16 2004-04-15 08:35:43 martin Exp $
+# $Id: AgentHistory.pm,v 1.17 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,10 +22,10 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -65,13 +65,11 @@ sub Run {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    # -- 
+    # --
     # build header
     # --
     $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'History');
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-    # build NavigationBar 
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    $Output .= $Self->{LayoutObject}->NavigationBar();
 
     my @Lines = $Self->{TicketObject}->HistoryGet(
         TicketID => $Self->{TicketID},
@@ -83,7 +81,7 @@ sub Run {
     my $Table = '';
     foreach my $DataTmp (@Lines) {
         my %Data = %{$DataTmp};
-        # replace text 
+        # replace text
         if ($Data{Name} && $Data{Name} =~ /^%%/) {
 #print STDERR "lll $Data{Name} - $Data{HistoryType}\n";
             my %Info = ();

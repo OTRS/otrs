@@ -2,10 +2,10 @@
 # Kernel/Modules/FAQArticle.pm - to add/update/delete faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticle.pm,v 1.7 2004-04-01 11:32:44 martin Exp $
+# $Id: FAQArticle.pm,v 1.8 2004-09-16 22:04:00 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -55,13 +55,13 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my %Data = $Self->{FAQObject}->ArticleGet(%GetParam, UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Article');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
     }
     # update action
     elsif ($Self->{Subaction} eq 'ChangeAction') {
-        if ($Self->{FAQObject}->ArticleUpdate(%GetParam, UserID => $Self->{UserID})) { 
+        if ($Self->{FAQObject}->ArticleUpdate(%GetParam, UserID => $Self->{UserID})) {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=FAQ&ID=$GetParam{ID}");
         }
         else {
@@ -77,7 +77,7 @@ sub Run {
     elsif ($Self->{Subaction} eq 'Delete') {
         my %Data = $Self->{FAQObject}->ArticleGet(%GetParam, UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Delete');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'FAQArticleDelete', Data => { %Param, %GetParam } );
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -88,7 +88,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
             $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin',
@@ -103,7 +103,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
             $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin',
@@ -111,10 +111,10 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
-    # else ! print form 
+    # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Article');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
         $Output .= $Self->_Mask(State => $Self->{ConfigObject}->Get('FAQ::Default::State'));
         $Output .= $Self->{LayoutObject}->Footer();
     }

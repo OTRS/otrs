@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponse.pm,v 1.12 2004-01-10 15:36:14 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.13 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,18 +15,18 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
@@ -69,12 +69,13 @@ sub Run {
     }
     # get composed charset
     $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
-    # get data 
+    # get data
     if ($Param{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{AutoResponseObject}->AutoResponseGet(ID => $ID);
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Auto response change');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -88,14 +89,10 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # add new auto response 
+    # add new auto response
     elsif ($Param{Subaction} eq 'AddAction') {
         if ($Self->{AutoResponseObject}->AutoResponseAdd(
             %GetParam,
@@ -104,17 +101,14 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # else ! print form
     else {
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Auto response add');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

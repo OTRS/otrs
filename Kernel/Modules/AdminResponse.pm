@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.12 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminResponse.pm,v 1.13 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -25,7 +25,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -58,10 +58,10 @@ sub Run {
         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
     }
 
-    # get response attachment data 
+    # get response attachment data
     my %AttachmentData = $Self->{StdAttachmentObject}->GetAllStdAttachments(Valid => 1);
     my %SelectedAttachmentData = ();
-    if ($GetParam{ID}) { 
+    if ($GetParam{ID}) {
       %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
         ID => $GetParam{ID},
       );
@@ -72,9 +72,10 @@ sub Run {
         $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %ResponseData = $Self->{StdResponseObject}->StdResponseGet(ID => $Param{ID});
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(
-            %ResponseData, 
+            %ResponseData,
             %Param,
             Attachments => \%AttachmentData,
             SelectedAttachments => \%SelectedAttachmentData,
@@ -97,11 +98,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # add new response
@@ -124,11 +121,7 @@ sub Run {
             );
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # delete response
@@ -138,17 +131,14 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "Action=AdminResponse");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # else ! print form 
+    # else ! print form
     else {
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(
             Subaction => 'Add',
             Attachments => \%AttachmentData,

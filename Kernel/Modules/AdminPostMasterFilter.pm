@@ -1,11 +1,11 @@
 # --
-# Kernel/Modules/AdminPostmasterFilter.pm - to add/update/delete filters 
+# Kernel/Modules/AdminPostmasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.2 2004-05-11 09:01:20 martin Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.3 2004-09-16 22:04:00 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -87,7 +87,8 @@ sub Run {
             }
         }
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PostMaster Filter');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(%Data, List => \%List);
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -113,11 +114,12 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => 'Action=$Env{"Action"}');
     }
-    # else ! print form 
+    # else ! print form
     else {
         my %List = $Self->{PostMasterFilter}->FilterList();
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PostMaster Filter');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(List => \%List);
         $Output .= $Self->{LayoutObject}->Footer();
     }

@@ -2,66 +2,45 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.39 2004-09-09 10:20:57 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.40 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-# check if the admin link should be shown
-<dtl if ($Env{"UserIsGroup[admin]"} eq "Yes") { $Data{"AdminLink"} = "<td valign="top" align="center" class="nav"><div title="$Text{"Admin-Area"}"><a href="$Env{"Baselink"}Action=Admin" onmouseover="window.status='$Text{"Admin-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}admin.png" alt="$Text{"Admin-Area"}"><br>$Text{"Admin-Area"}</a></div></td>"; }>
-# check if the faq link should be shown
-<dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "<td valign="top" align="center" class="nav"><div title="$Text{"FAQ-Area"}"><a href="$Env{"Baselink"}Action=FAQ&Nav=Normal" onmouseover="window.status='$Text{"FAQ-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}help.png" alt="$Text{"FAQ-Area"}"><br>$Text{"FAQ-Area"}</a></div></td>"; }>
-# check if the stats link should be shown
-<dtl if ($Env{"UserIsGroup[stats]"} eq "Yes") { $Data{"StatsLink"} = "<td valign="top" align="center" class="nav"><div title="$Text{"Stats-Area"}"><a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}stats.png" alt="$Text{"Stats-Area"}"><br>$Text{"Stats-Area"}</a></div></td>"; }>
 # check if bulk feature is aktiv
 <dtl if ($Config{"FrontendBulkFeature"} eq "1") { $Data{"BulkLink"} = "<td valign="top" align="center" class="nav"><div title="$Text{"Bulk Actions on Tickets"}"><a href="" onclick="BulkSubmit(); return false;" onmouseover="window.status='$Text{"Bulk Action"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}misc.png" alt="$Text{"Bulk Action"}"><br>$Text{"Bulk Action"}</a></div></td>"; }>
 
 <!-- start NavigationBar -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<table border="0" width="100%" cellspacing="0" cellpadding="2">
 <tr>
   <td valign="top" align="left" width="70%" class="nav">
-    <table cellspacing="1" cellpadding="3">
+    <table border="0" cellspacing="2" cellpadding="2">
     <tr>
+<!-- dtl:block:Item -->
       <td valign="top" align="center" class="nav">
-        <div title="$Text{"Logout"}"><a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}exit.png" alt="$Text{"Logout"}"><br>$Text{"Logout"}</a></div>
+        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
+<!-- dtl:block:Item -->
+#      $Data{"BulkLink"}
+      <td></td>
+<!-- dtl:block:ItemArea -->
       <td valign="top" align="center" class="nav">
-        <div title="$Text{"Overview of all open Tickets"}"><a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}queue.png" alt="$Text{"QueueView"}"><br>$Text{"QueueView"}</a></div>
+        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
-
-      <td valign="top" align="center" class="nav">
-        <div title="$Text{"Create new Phone Ticket"}"><a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"Create new Phone Ticket"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}new.png" alt="$Text{"Create new Phone Ticket"}"><br>$Text{"Phone-Ticket"}</a></div>
-      </td>
-      <td valign="top" align="center" class="nav">
-        <div title="$Text{"Create new Email Ticket"}"><a href="$Env{"Baselink"}Action=AgentEmail" onmouseover="window.status='$Text{"Create new Email Ticket"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}mail_new.png" alt="$Text{"Create new Email Ticket"}"><br>$Text{"Email-Ticket"}</a></div>
-      </td>
-      <td valign="top" align="center" class="nav">
-        <div title="$Text{"Search Tickets"}"><a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Search"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}search.png" alt="$Text{"Search"}"><br>$Text{"Search"}</a></div>
-      </td>
-      <td valign="top" align="center" class="nav">
-        <div title="$Text{"Agent Preferences"}"><a href="$Env{"Baselink"}Action=AgentPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}prefer.png" alt="$Text{"Preferences"}"><br>$Text{"Preferences"}</a></div>
-      </td>
-#      <td valign="top" align="center" class="nav">
-#        <div title="$Text{"Edit Customer Users"}"><a href="$Env{"Baselink"}Action=AdminCustomerUser" onmouseover="window.status='$Text{"Customer User"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}folder_yellow.png" alt="$Text{"Customer User"}"><br>$Text{"CustomerUser"}</a></div>
-#      </td>
-      $Data{"BulkLink"}
-      $Data{"StatsLink"}
-      $Data{"FAQLink"}
-      $Data{"AdminLink"}
+<!-- dtl:block:ItemArea -->
     </tr>
     </table>
   </td>
   <td valign="top" align="right" width="30%" class="nav">
-    <table>
+    <table border="0" cellspacing="2" cellpadding="2">
     <tr>
+<!-- dtl:block:ItemPersonal -->
       <td valign="top" align="center" class="nav">
-        <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New" onmouseover="window.status='$Text{"new message"} ($Data{"New"})'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}new-message.png" alt="$Text{"new message"}"><br>$Text{"new message"} ($Data{"New"})</a>
+        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
-      <td valign="top" align="center" class="nav">
-        <a href="$Env{"Baselink"}Action=AgentMailbox" onmouseover="window.status='$Text{"Locked tickets"} ($Data{"All"})'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}personal.png" alt="$Text{"Locked tickets"}"><br>$Text{"Locked tickets"} ($Data{"All"})</a>
-      </td>
+<!-- dtl:block:ItemPersonal -->
     </tr>
   </table>
   </td>

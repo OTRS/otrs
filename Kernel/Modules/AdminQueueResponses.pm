@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponses.pm,v 1.11 2004-04-01 13:26:07 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.12 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,7 +43,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    my $Subaction = $Self->{Subaction}; 
+    my $Subaction = $Self->{Subaction};
     my $UserID = $Self->{UserID};
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
     $ID = $Self->{DBObject}->Quote($ID);
@@ -52,8 +52,9 @@ sub Run {
     # user <-> group 1:n
     if ($Subaction eq 'Response') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        # get StdResponses data 
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
+        # get StdResponses data
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
                 Table => 'standard_response',
                 What => 'id, name',
@@ -80,7 +81,8 @@ sub Run {
     # group <-> user n:1
     elsif ($Subaction eq 'Queue') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
                 Table => 'standard_response',
@@ -142,7 +144,8 @@ sub Run {
     # else ! print form 
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
 		Table => 'standard_response', 

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.56 2004-09-10 08:09:54 martin Exp $
+# $Id: Admin.pm,v 1.57 2004-09-16 22:03:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,17 +14,9 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
-sub AdminNavigationBar {
-    my $Self = shift;
-    my %Param = @_;
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
-}
 # --
 sub AdminCustomerUserForm {
     my $Self = shift;

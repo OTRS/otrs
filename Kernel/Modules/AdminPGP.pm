@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGP.pm,v 1.3 2004-08-11 10:13:40 martin Exp $
+# $Id: AdminPGP.pm,v 1.4 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -99,7 +99,8 @@ sub Run {
             );
         }
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PGP Key Management');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         if (!$Message) {
             $Message = "Key $Key deleted!";
         }
@@ -146,7 +147,8 @@ sub Run {
             );
         }
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PGP Key Management');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPGPForm', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -222,7 +224,8 @@ sub Run {
             );
         }
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'PGP Key Management');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPGPForm', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
     }

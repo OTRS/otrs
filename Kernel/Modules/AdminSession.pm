@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.16 2004-06-25 15:36:15 martin Exp $
+# $Id: AdminSession.pm,v 1.17 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -51,19 +51,20 @@ sub Run {
     }
     # kill all session id
     elsif ($Self->{Subaction} eq 'KillAll') {
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");    
+        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");
         my @List = $Self->{SessionObject}->GetAllSessionIDs();
         foreach my $SessionID (@List) {
             # killall sessions but not the own one!
             if ($WantSessionID ne $SessionID) {
-                $Self->{SessionObject}->RemoveSessionID(SessionID => $SessionID);    
+                $Self->{SessionObject}->RemoveSessionID(SessionID => $SessionID);
             }
         }
     }
-    # else, show session list 
+    # else, show session list
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Session Management');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         my @List = $Self->{SessionObject}->GetAllSessionIDs();
         my $Table = '';
         my $Counter = @List;

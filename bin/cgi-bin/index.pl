@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.73 2004-08-18 08:48:59 martin Exp $
+# $Id: index.pl,v 1.74 2004-09-16 22:03:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -479,8 +479,7 @@ elsif (!$Param{SessionID}) {
 # --
 # run modules if exists a version value
 # --
-#elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && (eval '$Param{Action} =~ /$Kernel::Config::Modules::Allow/' || eval '$Param{Action} =~ /$Kernel::Config::ModulesCustom::Allow/')){
-elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && (eval '$Param{Action} =~ /$Kernel::Config::Modules::Allow/' || eval '$Param{Action} =~ /$Kernel::Config::ModulesCustom::Allow/')){
+elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules::'. $Param{Action} .'::VERSION') {
     # check session id
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
         # create new LayoutObject with new '%Param'
@@ -552,36 +551,45 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
             %Param,
             %UserData,
         );
+        # module registry
+        my $ModuleReg = $CommonObject{ConfigObject}->Get('Frontend::Module');
+        if (!$ModuleReg->{$Param{Action}}) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message => "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
+            );
+            print $CommonObject{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
+            print $CommonObject{LayoutObject}->Error();
+            print $CommonObject{LayoutObject}->Footer();
+            exit 0;
+        }
         # module permisson check
-        my $Access = 1;
         my $AccessOk = 0;
-        my %ConfigMap = (
-            'Module::Permission' => 'UserIsGroup',
-            'Module::Permission::Ro' => 'UserIsGroupRo',
-        );
-        foreach my $Map (keys %ConfigMap) {
-          my $Group = '';
-          if ($CommonObject{ConfigObject}->Get($Map)) {
-              $Group = $CommonObject{ConfigObject}->Get($Map)->{$Param{Action}} || '';      }
-          if (ref($Group) eq 'ARRAY') {
-            foreach (@{$Group}) {
-                if ($_ && ($UserData{$ConfigMap{$Map}."[$_]"} && $UserData{$ConfigMap{$Map}."[$_]"} eq 'Yes')) {
-                    $AccessOk = 1;
+        if (!$ModuleReg->{$Param{Action}} || (!$ModuleReg->{$Param{Action}}->{GroupRo} && !$ModuleReg->{$Param{Action}}->{Group})) {
+            $AccessOk = 1;
+        }
+        else {
+            foreach my $Permission (qw(GroupRo Group)) {
+                my $Group = $ModuleReg->{$Param{Action}}->{$Permission};
+                my $Key = "UserIs$Permission";
+                if (ref($Group) eq 'ARRAY') {
+                    foreach (@{$Group}) {
+                        if ($_ && $UserData{$Key."[$_]"} && $UserData{$Key."[$_]"} eq 'Yes') {
+                            $AccessOk = 1;
+                        }
+                    }
+                }
+                else {
+                    if ($Group && $UserData{$Key."[$Group]"} && $UserData{$Key."[$Group]"} eq 'Yes') {
+                        $AccessOk = 1;
+                    }
+#print STDERR "$Group $AccessOk pppppp UserIs$Permission"."[$Group]\n";
                 }
             }
-            if (!$AccessOk) {
-                $Access = 0;
-            }
-          }
-          else {
-            if ($Group && (!$UserData{$ConfigMap{$Map}."[$Group]"} || $UserData{$ConfigMap{$Map}."[$Group]"} ne 'Yes')) {
-                $Access = 0;
-            }
-          }
         }
-        if (!$Access) {
+        if (!$AccessOk) {
             print $CommonObject{LayoutObject}->NoPermission(
-                Message => "You have to be in the permitted group!",
+                Message => "No Permission to use this frontend module!",
             );
             exit (0);
         }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleGroup.pm,v 1.1 2004-09-09 11:18:24 martin Exp $
+# $Id: AdminRoleGroup.pm,v 1.2 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminRoleGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,8 @@ sub Run {
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'Role') {
         my $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User <-> Groups');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %Role = $Self->{GroupObject}->RoleGet(ID => $ID);
         # get group data
@@ -73,7 +74,8 @@ sub Run {
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Group') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> Groups');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get role data
         my %RoleData = $Self->{GroupObject}->RoleList(Valid => 1);
         # get permission list users
@@ -161,7 +163,8 @@ sub Run {
     # else ! print form
     else {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Role <-> Groups');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %RoleData = $Self->{GroupObject}->RoleList(Valid => 1);
         # get group data

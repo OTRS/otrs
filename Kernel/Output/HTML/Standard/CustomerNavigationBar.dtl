@@ -1,8 +1,8 @@
 # --
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.14 2004-04-30 08:09:40 martin Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.15 2004-09-16 22:03:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,29 +12,21 @@
 <!-- start Notifications -->
 $Data{"Notification"}
 <!-- end Notifications -->
+
 <!-- start NavigationBar -->
 <table order="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td valign="top" align="left" width="60%" class="table1">
-    <table cellspacing="1" cellpadding="3">
+
+    <table cellspacing="2" cellpadding="2">
     <tr>
+<!-- dtl:block:Item -->
       <td valign="top" align="center" class="nav">
-        <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}exit.png" alt="$Text{"Logout"}"><br>$Text{"Logout"}</a>
+        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
-      <td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=CustomerMessage" onmouseover="window.status='$Text{"Create new Ticket"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}create.png" alt="$Text{"New Article"}"><br>$Text{"New Ticket"}</a>
-      </td>
-      <td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=CustomerTicketOverView&Type=MyTickets" onmouseover="window.status='$Text{"MyTickets"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}ticket.png" alt="$Text{"MyTickets"}"><br>$Text{"MyTickets"}</a>
-      </td>
-      <td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=CustomerTicketOverView&Type=CompanyTickets" onmouseover="window.status='$Text{"CompanyTickets"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}tickets.png" alt="$Text{"CompanyTickets"}"><br>$Text{"CompanyTickets"}</a>
-      </td>
-      <td valign="top" align="center" class="nav"> 
-        <a href="$Env{"Baselink"}Action=CustomerTicketSearch" onmouseover="window.status='$Text{"Search"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}search.png" alt="$Text{"Search"}"><br>$Text{"Search"}</a>
-      </td>
-      <td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=CustomerFAQ" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}help.png" alt="$Text{"FAQ-Area"}"><br>$Text{"FAQ"}</a>
-      </td>
-      <td valign="top" align="center" class="nav">
-        <a href="$Env{"Baselink"}Action=CustomerPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}prefer.png" alt="$Text{"Preferences"}"><br>$Text{"Preferences"}</a>
+<!-- dtl:block:Item -->
     </table>
+
   </td>
   <td valign="top" align="right" width="40%" class="table1">
     $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}<br>

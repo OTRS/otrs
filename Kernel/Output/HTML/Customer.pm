@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.36 2004-06-22 11:44:08 martin Exp $
+# $Id: Customer.pm,v 1.37 2004-09-16 22:03:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,7 +79,32 @@ sub CustomerFooter {
 sub CustomerNavigationBar {
     my $Self = shift;
     my %Param = @_;
-    # run notification modules 
+    # create menu items
+    my %NavBarModule = ();
+    foreach my $Module (sort keys %{$Self->{ConfigObject}->Get('CustomerFrontend::Module')}) {
+        my %Hash = %{$Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Module}};
+        if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
+            my @Items = @{$Hash{NavBar}};
+            foreach my $Item (@Items) {
+                foreach (1..51) {
+                   if ($NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                       $Item->{Prio}++;
+                   }
+                   if (!$NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                        last;
+                    }
+                }
+                $NavBarModule{sprintf("%07d", $Item->{Prio})} = $Item;
+            }
+        }
+    }
+    foreach (sort keys %NavBarModule) {
+        $Self->Block(
+            Name => $NavBarModule{$_}->{Block} || 'Item',
+            Data => $NavBarModule{$_},
+        );
+    }
+    # run notification modules
     if (ref($Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')};
         foreach my $Job (sort keys %Jobs) {
@@ -106,7 +131,7 @@ sub CustomerNavigationBar {
                         Message => "Module: $Jobs{$Job}->{Module} loaded!",
                     );
                 }
-                # run module 
+                # run module
                 $Param{Notification} .= $Object->Run(%Param, Config => $Jobs{$Job});
             }
             else {
@@ -134,7 +159,7 @@ sub CustomerError {
     # get backend error messages
     foreach (qw(Message Traceback)) {
       $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
-          Type => 'Error', 
+          Type => 'Error',
           What => $_
       ) || '';
       $Param{'Backend'.$_} = $Self->Ascii2Html(
@@ -145,7 +170,7 @@ sub CustomerError {
 
     if (!$Param{Message}) {
       $Param{Message} = $Param{BackendMessage};
-    } 
+    }
 
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerError', Data => \%Param);
@@ -168,14 +193,14 @@ sub CustomerPreferencesForm {
           if ($PrefKey eq 'UserLanguage') {
               $HTMLQuote = 0;
           }
-          if ($Data) { 
+          if ($Data) {
             $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-              Data => $Data, 
+              Data => $Data,
               Name => 'GenericTopic',
               SelectedID => defined ($Self->{$PrefKey}) ? $Self->{$PrefKey} : $DataSelected,
               HTMLQuote => $HTMLQuote,
             );
-          } 
+          }
           elsif ($PrefKey eq 'UserTheme') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                   Data => {

@@ -1,11 +1,11 @@
 # --
 # Kernel/Modules/FAQLanguage.pm - to add/update/delete faq languages
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQLanguage.pm,v 1.2 2004-04-01 09:23:00 martin Exp $
+# $Id: FAQLanguage.pm,v 1.3 2004-09-16 22:04:00 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -51,7 +51,7 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{FAQObject}->LanguageGet(ID => $ID, UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Language');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -86,7 +86,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
             $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin',
@@ -94,10 +94,10 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
-    # else ! print form 
+    # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Language');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
     }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.16 2004-07-08 11:20:45 martin Exp $
+# $Id: AdminUser.pm,v 1.17 2004-09-16 22:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $ ';
+$VERSION = '$Revision: 1.17 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,8 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->AdminUserForm(%UserData);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -114,11 +115,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # --
@@ -181,11 +178,7 @@ sub Run {
             );
         }
         else {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # --
@@ -193,7 +186,8 @@ sub Run {
     # --
     else {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->AdminUserForm();
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

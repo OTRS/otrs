@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.149 2004-09-10 09:20:58 martin Exp $
+# $Id: Generic.pm,v 1.150 2004-09-16 22:03:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,18 +17,16 @@ use strict;
 use Kernel::Language;
 use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Admin;
-use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.149 $';
+$VERSION = '$Revision: 1.150 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
     'Kernel::Output::HTML::Agent',
     'Kernel::Output::HTML::Admin',
     'Kernel::Output::HTML::Customer',
-    'Kernel::Output::HTML::FAQ',
 );
 
 sub new {
@@ -1539,6 +1537,162 @@ sub PageNavBar {
         SiteNavBar => $Param{SearchNavBar},
         Link => $Param{Link},
     );
+}
+# --
+sub NavigationBar {
+    my $Self = shift;
+    my %Param = @_;
+    my $Type = $Param{Type} || 'Agent';
+    my $Output = '';
+    # run notification modules
+    if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                );
+            }
+            if (eval "require $Jobs{$Job}->{Module}") {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    LayoutObject => $Self,
+                    UserID => $Self->{UserID},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                    );
+                }
+                # run module
+                $Output .= $Object->Run(%Param, Config => $Jobs{$Job});
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Jobs{$Job}->{Module}!",
+                );
+            }
+        }
+    }
+    # create menu items
+    my %NavBarModule = ();
+    foreach my $Module (sort keys %{$Self->{ConfigObject}->Get('Frontend::Module')}) {
+        my %Hash = %{$Self->{ConfigObject}->Get('Frontend::Module')->{$Module}};
+        if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
+            my @Items = @{$Hash{NavBar}};
+            foreach my $Item (@Items) {
+                if (($Item->{NavBar} && $Item->{NavBar} eq $Type) || (!$Item->{NavBar} && $Item->{NavBarNotShown} && $Type !~ /^$Item->{NavBarNotShown}/) || (!$Item->{NavBar} && !$Item->{NavBarNotShown})) {
+                    # get permissions from module if no permissions are defined for the icon
+                    if (!$Item->{GroupRo} && !$Item->{Group}) {
+                        if ($Hash{GroupRo}) {
+                            $Item->{GroupRo} = $Hash{GroupRo};
+                        }
+                        if ($Hash{Group}) {
+                            $Item->{Group} = $Hash{Group};
+                        }
+                    }
+                    # check shown permission
+                    my $Shown = 0;
+                    foreach my $Permission (qw(GroupRo Group)) {
+#                        if ($Item->{Group} && !$Item->{GroupRo} && $Permission eq 'Group') {
+#                            $Shown = 0;
+#                        }
+                        # array access restriction
+                        if ($Item->{$Permission} && ref($Item->{$Permission}) eq 'ARRAY') {
+                            foreach (@{$Item->{$Permission}}) {
+                                my $Key = "UserIs".$Permission."[".$_."]";
+                                if ($Self->{$Key} && $Self->{$Key} eq 'Yes') {
+                                    $Shown = 1;
+                                }
+                            }
+                        }
+                        # scalar access restriction
+                        elsif ($Item->{$Permission}) {
+                            my $Key = "UserIs".$Permission."[".$Item->{$Permission}."]";
+                            if ($Self->{$Key} && $Self->{"$Key"} eq 'Yes') {
+                                $Shown = 1;
+                            }
+                        }
+                        # no access restriction
+                        elsif (!$Item->{GroupRo} && !$Item->{Group}) {
+                            $Shown = 1;
+                        }
+                    }
+                    if ($Shown) {
+                        foreach (1..51) {
+                            if ($NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                                $Item->{Prio}++;
+                            }
+                            if (!$NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                                last;
+                            }
+                        }
+                        $NavBarModule{sprintf("%07d", $Item->{Prio})} = $Item;
+                    }
+                }
+            }
+        }
+    }
+    # run menu item modules
+    if (ref($Self->{ConfigObject}->Get('Frontend::NavBarModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NavBarModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                );
+            }
+            if (eval "require $Jobs{$Job}->{Module}") {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    LayoutObject => $Self,
+                    UserID => $Self->{UserID},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                    );
+                }
+                # run module
+                %NavBarModule = (%NavBarModule, $Object->Run(%Param, Config => $Jobs{$Job}));
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Jobs{$Job}->{Module}!",
+                );
+            }
+        }
+    }
+
+#    foreach (sort {$NavBarModule{$a} <=> $NavBarModule{$b}} keys %NavBarModule) {
+    foreach (sort keys %NavBarModule) {
+#print STDERR "$_ ööö\n";
+        $Self->Block(
+            Name => $NavBarModule{$_}->{Block} || 'Item',
+            Data => $NavBarModule{$_},
+        );
+    }
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param).$Output;
 }
 # --
 sub WindowTabStart {

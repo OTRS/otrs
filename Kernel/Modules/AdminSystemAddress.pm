@@ -1,11 +1,11 @@
 # --
-# Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses 
+# Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddress.pm,v 1.11 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.12 2004-09-16 22:04:00 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -52,7 +52,8 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{SystemAddress}->SystemAddressGet(ID => $ID);
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System address');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -85,18 +86,14 @@ sub Run {
              $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin');
-            $Output .= $Self->{LayoutObject}->Footer();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # else ! print form 
+    # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System address');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
     }

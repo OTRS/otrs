@@ -2,47 +2,49 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.18 2004-07-15 07:40:28 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.19 2004-09-16 22:03:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-# --
-# check if the admin link should be shown
-# --
-<dtl if ($Env{"UserIsGroup[admin]"} eq "Yes") { $Data{"AdminLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=Admin" onmouseover="window.status='$Text{"AdminArea"}'; return true;" onmouseout="window.status='';">$Text{"AdminArea"}</a>$Env{"Box1"}"; }>
-# --
-# check if the stats link should be shown
-# --
-<dtl if ($Env{"UserIsGroup[stats]"} eq "Yes") { $Data{"StatsLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats"}'; return true;" onmouseout="window.status='';">$Text{"Stats"}</a>$Env{"Box1"}"; }>
-# --
-# check if the faq link should be shown
-# --
-<dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=FAQ&Nav=Normal" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';">$Text{"FAQ"}</a>$Env{"Box1"}"; }>
-
 <!-- start NavigationBar -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="2">
 <tr>
-  <td valign="top" align="left" width="40%" class="table1">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';">$Text{"Logout"}</a>$Env{"Box1"}
-    $Data{"AdminLink"}
-    <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';">$Text{"QueueView"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"Phone Ticket"}'; return true;" onmouseout="window.status='';">$Text{"Phone Ticket"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentEmail" onmouseover="window.status='$Text{"Email Ticket"}'; return true;" onmouseout="window.status='';">$Text{"Email Ticket"}</a>$Env{"Box1"}
+  <td valign="top" align="left" width="70%" class="nav">
+
+    <table border="0" cellspacing="2" cellpadding="3">
+    <tr>
+<!-- dtl:block:ItemArea -->
+      <td valign="top" align="center" class="nav">
+        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"$QData{"Name"}"}</a></div>
+      </td>
+<!-- dtl:block:ItemArea -->
+    </tr>
+    </table>
+
+    <table border="0" cellspacing="2" cellpadding="3">
+    <tr>
+<!-- dtl:block:Item -->
+      <td valign="top" align="center" class="nav">
+        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"$QData{"Name"}"}</a></div>
+      </td>
+<!-- dtl:block:Item -->
+    </tr>
+    </table>
+
   </td>
-  <td align="right" width="60%" class="table1">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Search"}'; return true;" onmouseout="window.status='';">$Text{"Search"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';">$Text{"Preferences"}</a>$Env{"Box1"}
-    $Data{"StatsLink"}
-    $Data{"FAQLink"}
-    $Env{"Box0"}<a href="#end" onmouseover="window.status='$Text{"Bottom of Page"}'; return true;" onmouseout="window.status='';">$Text{"Bottom of Page"}</a>$Env{"Box1"}
-    <br>
-    <!--$Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentFAQ" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';">$Text{"FAQ"}</a>$Env{"Box1"}-->
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New" onmouseover="window.status='$Text{"new message"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"new message"} ($Data{"New"})</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox" onmouseover="window.status='$Text{"Locked tickets"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"Locked tickets"} ($Data{"All"})</a>$Env{"Box1"}
+  <td valign="top" align="right" width="30%" class="nav">
+    <table border="0" cellspacing="2" cellpadding="4">
+    <tr>
+<!-- dtl:block:ItemPersonal -->
+      <td valign="top" align="center" class="nav">
+        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"$QData{"Name"}"}</a></div>
+      </td>
+<!-- dtl:block:ItemPersonal -->
+    </tr>
+  </table>
   </td>
 </tr>
 </table>
