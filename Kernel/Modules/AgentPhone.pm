@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.18 2003-01-03 16:17:30 martin Exp $
+# $Id: AgentPhone.pm,v 1.19 2003-02-03 19:42:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,7 +36,7 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
-       ConfigObject )) {
+       ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -90,8 +90,23 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+        # --
+        # get ticket number
+        # --
         my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
+        # --
+        # customer info
+        # --
+        my $CustomerID = $Self->{TicketObject}->GetCustomerNo(TicketID => $TicketID);
+        my %CustomerData = ();
+        if ($CustomerID) {
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                CustomerID => $CustomerID,
+            );
+        }
+        # --
         # get lock state && permissions
+        # --
         if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
           # --
           # set owner
@@ -136,13 +151,14 @@ sub Run {
             NextScreen => $NextScreen,
             TicketNumber => $Tn,
             NextStates => $Self->_GetNextStates(),
+            CustomerData => \%CustomerData,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
     elsif ($Subaction eq 'Store') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
+        my $Text = $Self->{ParamObject}->GetParam(Param => 'Body');
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
@@ -229,7 +245,7 @@ sub Run {
     }
     elsif ($Subaction eq 'StoreNew') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Note') || '';
+        my $Text = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
         my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID') || '';
@@ -238,8 +254,31 @@ sub Run {
         my ($NewQueueID, $To) = split(/\|\|/, $Dest); 
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
+        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || '';
+        my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         my $CustomerIDSelection = $Self->{ParamObject}->GetParam(Param => 'CustomerIDSelection') || '';
+        # --
+        # get from and customer id if customer user is given
+        # --
+        my %CustomerUserData = ();
+        if ($CustomerUser && $ExpandCustomerName != 1) {
+            %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $CustomerUser,
+            );
+            my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                UserLogin => $CustomerUser,
+            );
+            foreach (keys %CustomerUserList) {
+                $From = $CustomerUserList{$_};
+            }
+            if ($CustomerUserData{UserCustomerID}) {
+                $CustomerIDSelection = $CustomerUserData{UserCustomerID};
+            }
+        }
+        # --
+        # if customer id is selected, use it (not CustomerID)
+        # --
         if ($CustomerIDSelection) {
             $CustomerID = $CustomerIDSelection;
         }
@@ -247,10 +286,37 @@ sub Run {
         foreach (qw(Year Month Day Hour Minute)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
+        my %Error = ();
+        # --
+        # Expand Customer Name
+        # -- 
+        if ($ExpandCustomerName == 1) {
+            # search customer 
+            my %CustomerUserList = ();
+            %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                UserLogin => $From.'*',
+            );
+            $Param{CustomerUserListCount} = 0;
+            foreach (keys %CustomerUserList) {
+                $Param{CustomerUserListCount}++;
+                $Param{CustomerUserListLast} = $CustomerUserList{$_};
+            }
+            if ($Param{CustomerUserListCount} == 1) {
+                $From = $Param{CustomerUserListLast};
+                $Error{"ExpandCustomerName"} = 1;
+            }
+            else {
+                $From = '';
+                $Param{"FromOptions"} = \%CustomerUserList;
+                $Error{"ExpandCustomerName"} = 1;
+            }
+        }
+        elsif ($ExpandCustomerName == 2) {
+            $Error{"ExpandCustomerName"} = 1;
+        }
         # --
         # check some values
         # --
-        my %Error = ();
         my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $From);
         foreach my $Address (@Addresses) {
             if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Address)) {
@@ -289,6 +355,7 @@ sub Run {
               CustomerID => $CustomerID,
               TimeUnits => $TimeUnits,
               From => $From,
+              FromOptions => $Param{"FromOptions"},
               Body => $Text,
               To => $Self->_GetTos(),
               ToSelected => $Dest,
