@@ -2,13 +2,46 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.95 2003-10-29 21:19:13 martin Exp $
+# $Id: CHANGES,v 1.96 2003-11-02 11:47:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD
+ - (2003/11/02) improved GenericAgent.pl to work also with ticket
+    priorities (search and change). 
+    Example for Kernel/Config/GenericAgent.pm:
+    # --
+    # [name of job] -> move all tickets from abc to experts and change priority
+    # --
+    'move all abc priority "3 normal" tickets to experts and change priority'=> {
+      # get all tickets with these properties  
+      Queue => 'abc',
+      Priorities => ['3 normal'],
+      # new ticket properties
+      New => {
+        Queue => 'experts',
+        Priority => '4 high',
+      },
+    },
+ - (2003/11/02) added delete option to Admin->StdAttachment menu
+ - (2003/11/01) added PostMaster(POP3).pl filter options like procmail. 
+    Example for Kernel/Config.pm:
+    # Job Name: 1-Match 
+    # (block/ignore all spam email with From: noreply@)
+    $Self->{'PostMaster::PreFilterModule'}->{'1-Match'} = {
+        Module => 'Kernel::System::PostMaster::Filter::Match',
+        Match => {
+            From => 'noreply@',
+        },
+        Set => {
+            'X-OTRS-Ignore' => 'yes',
+        },
+    };
+    Available modules are Kernel::System::PostMaster::Filter::Match 
+    and Kernel::System::PostMaster::Filter::CMD. See more to use it
+    on http://doc.otrs.org/.
  - (2003/10/29) added bin/CleanUp.pl to clean up of all tmp data 
     like ipc, database or fs session and log stuff (added CleanUp() 
     to Kernel::System::AuthSession::* and Kernel::System::Log).
