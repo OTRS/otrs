@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.5 2002-10-28 00:47:32 martin Exp $
+# $Id: DB.pm,v 1.6 2002-11-04 00:07:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -171,9 +171,9 @@ sub CreateSessionID {
     # --
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
     # --
-    # REMOTE_USER_AGENT
+    # HTTP_USER_AGENT
     # --
-    my $RemoteUserAgent = $ENV{REMOTE_USER_AGENT} || 'none';
+    my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
     # --
     # create SessionID
     # --
