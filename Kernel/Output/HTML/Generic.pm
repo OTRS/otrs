@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.29 2002-05-30 15:20:35 martin Exp $
+# $Id: Generic.pm,v 1.30 2002-06-04 22:56:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -37,21 +37,29 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
+    # --
     # allocate new hash for object
+    # --
     my $Self = {}; 
     bless ($Self, $Type);
 
+    # --
     # get common objects
+    # --
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
+    # --
     # check needed objects
+    # --
     foreach ('ConfigObject', 'LogObject') {
         die "Got no $_!" if (!$Self->{$_});
     } 
 
+    # --
     # get/set some common params
+    # --
     $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{Baselink}  = "$Self->{CGIHandle}?SessionID=$Self->{SessionID}";
@@ -64,13 +72,26 @@ sub new {
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
 
-    # load theme
-    my $Theme = $Self->{UserTheme} || 'Standard';
+    # --
+    # get release data
+    # --
+    my %ReleaseData = $Self->GetRelease();
+    $Self->{Product} = $ReleaseData{Product} || '???'; 
+    $Self->{Version} = $ReleaseData{Version} || '???'; 
 
+    # --
+    # load theme
+    # --
+    my $Theme = $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme') || 'Standard';
+
+    # --
     # locate template files
+    # --
     $Self->{TemplateDir} = '../../Kernel/Output/HTML/'. $Theme;
 
+    # --
     # create language object
+    # --
     $Self->{LanguageObject} = Kernel::Language->new(
       UserLanguage => $Self->{UserLanguage},
       LogObject => $Self->{LogObject},
@@ -96,20 +117,26 @@ sub Output {
         # build OpenTRS env
         # --
         %Env = %ENV;
-        $Env{SessionID} = $Self->{SessionID};
-        $Env{Time} = $Self->{Time};
-        $Env{CGIHandle} = $Self->{CGIHandle};
         $Env{Charset} = $Self->{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset');
-        $Env{Baselink} = $Self->{Baselink};
-        $Env{Action} = $Self->{Action};
-        $Env{Subaction} = $Self->{Subaction};
-        $Env{QueueID} = $Self->{QueueID};
+        foreach (
+          'SessionID',
+          'Time',
+          'CGIHandle',
+          'Baselink', 
+          'Action', 
+          'Subaction',
+          'QueueID',
+          'UserFirstname',
+          'UserLastname',
+          'UserLogin',
+          'Product',
+          'Version',
+        ) {
+            $Env{$_} = $Self->{$_};
+        }
         # --
         # user data
         # --
-        $Env{UserFirstname} = $Self->{UserFirstname};
-        $Env{UserLastname} = $Self->{UserLastname};
-        $Env{UserLogin} = $Self->{UserLogin};
         $Env{UserLoginTop} = '('. $Self->{UserLogin} .')' if ($Env{UserLogin});
         $Env{UserTheme} = $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme');
         $Env{UserCharset} = $Self->{UserCharset} || $Env{Charset};
@@ -513,6 +540,28 @@ sub NoPermission {
 
     # return output
     return $Output;
+}
+# --
+sub GetRelease {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # open release data file
+    # --
+    open (PRODUCT, "< ../../RELEASE") || print STDERR "Can't read ../../RELEASE: $!";
+    while (<PRODUCT>) {
+      # filtering of comment lines
+      if ($_ !~ /^#/) {
+        if ($_ =~ /^PRODUCT.=(.*)$/i) {
+            $Param{Product} = $1;
+        }
+        elsif ($_ =~ /^VERSION.=(.*)$/i) {
+            $Param{Version} = $1;
+        }
+      }
+    }
+    close (PRODUCT);
+    return %Param;
 }
 # --
 
