@@ -1,0 +1,58 @@
+# --
+# README.webserver - webserver description of OpenTRS
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: README.webserver,v 1.1 2002-01-10 20:07:42 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+Which webserver is needed?
+==========================
+I prefer the apache webserver (http://httpd.apache.org). 
+
+Configuration:
+==============
+After this steps, you will get the login page at 
+http://your-host/otrs/index.pl .
+
+If you work with SuSE Linux, you can use the 
+$OTRS_HOME/scripts/suse-httpd.conf config file.
+
+Or edit the httpd.conf:
+=======================
+Change the webserver user (normaly wwwrun) to the OpenTRS 
+user (otrs).
+
+[...]
+User wwwrun 
+[...]
+User otrs
+[...]
+
+
+Without mod_perl:
+=================
+Add this to the cgi-bin stuff section in httpd.conf
+[...]
+ScriptAlias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+[...]
+
+
+With mod_perl:
+==============
+Add this to the mod_perl stuff section in httpd.conf
+[...]
+<IfDefine PERL>
+   Alias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+</IfDefine>
+<Location /otrs>
+   SetHandler  perl-script
+   PerlHandler Apache::PerlRun
+   Options ExecCGI
+   PerlSendHeader On
+</Location>
+
+

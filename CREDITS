@@ -1,0 +1,33 @@
+# --
+# $Id: CREDITS,v 1.1 2002-01-10 20:06:27 martin Exp $
+# --
+
+This is at least a partial credits-file of people that have
+contributed to the OpenTRS project.
+The fields are: name (N), email (E), web-address (W), 
+PGP key ID and fingerprint (P), description (D), and
+snail-mail address (S).
+
+Thanks,
+
+       Martin 
+
+--
+N: Stefan Wintermeyer
+E: stefan@otrs.org
+W: http://www.wintermeyer.de/
+D: Webpage and Documentation
+S: Germany
+--
+N: Breu Franz
+E: breu.franz@bogen.net
+D: Documentation
+S: Germany
+--
+N: Martin Edenhofer
+E: martin@otrs.org
+W: http://martin.edenhofer.de/
+D: Fonder and Coder
+S: Germany
+--
+
