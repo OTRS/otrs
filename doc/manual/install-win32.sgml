@@ -1,6 +1,47 @@
 <section>
 <title>Install OTRS 1.0 on Win32</title>
 <para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
+<note><title>Command Boxes</title>
+<para>Throughout this document, we will need to enter commands directly into the system quite often. We do this in a so called <emphasis>command box</emphasis>. Other names are <emphasis>command line</emphasis>, <emphasis>(DOS) prompt</emphasis> or <emphasis>shell</emphasis>. Here is how to invoke a command box on Windows:</para>
+<para>Click <emphasis>Start</emphasis>, then <emphasis>Execute</emphasis> and enter <userinput>cmd</userinput> in the dialogue box popping up. Hit <userinput>Return</userinput> on your keyboard or click <emphasis>OK</emphasis>. A (usually black) box appears, showing something similar to this:</para>
+<para><screen>
+Microsoft Windows 2000 [Version 5.00.2195]
+(C) Copyright 1985-2000 Microsoft Corp.
+
+C:\>
+</screen></para>
+<para>You may now enter commands such as</para>
+<para><screen>
+Microsoft Windows 2000 [Version 5.00.2195]
+(C) Copyright 1985-2000 Microsoft Corp.
+
+C:\><userinput>cd /d d:\otrs\bin\cgi-bin</userinput>
+
+D:\otrs\bin\cgi-bin><userinput>dir</userinput>
+<computeroutput> Datentr&auml;ger in Laufwerk D: ist Aurelia
+ Datentr&auml;gernummer: C8F1-F408
+
+ Verzeichnis von D:\otrs\bin\cgi-bin
+
+20.01.03  00:20         &lt;DIR&gt;          .
+20.01.03  00:20         &lt;DIR&gt;          ..
+08.06.02  23:37                     10 .cvsignore
+18.01.03  02:14                     20 .htaccess
+09.01.03  16:06                 20.734 customer.pl
+09.01.03  16:06                 19.014 index.pl
+03.01.03  17:17                  4.203 installer.pl
+03.01.03  17:17                  5.450 pic.pl
+               6 Datei(en)         49.431 Bytes
+               2 Verzeichnis(se),   9.825.726.464 Bytes frei
+</computeroutput>
+D:\otrs\bin\cgi-bin>
+</screen></para>
+<para>This will bring you to your OTRS executable directory and show it's contents. The <emphasis>/d</emphasis> switch tells Windows to also change the drive letter, if necessary, i.e. to directly switch to the given directory.</para>
+<para>Please note that this is a <emphasis>sample output only</emphasis>, and it's from my box, a german Windows 2000 installation, as you see. It will probably look different on your box.</para>
+<para>You can customize the appearance of command boxes by clicking in the upper left corner of the window and choose <userinput>Properties</userinput>.</para>
+<para>It will help if you get a little bit comfortable with command boxes and working from the command line in general. <ulink url="http://www.google.com/search?num=100&amp;newwindow=1&amp;q=%22command+line%22+%22learning+resources%22+windows">Search with Google for help with command lines</ulink>.</para>
+</note>
+
 <section>
 <title>Installations</title>
 <para>You will need four main components on your system, a webserver (<ulink url="http://www.sambar.com/">Sambar Server</ulink> or/and <ulink url="http://apache.org/">Apache</ulink>), a database (<emphasis>MySQL</emphasis>), an MTA  (=Mail Transfer Agent, <emphasis>exim</emphasis> from the UN*X emulation <emphasis>Cygwin</emphasis>) and a programming language (<emphasis>Perl</emphasis>).</para>
@@ -67,10 +108,15 @@ IO-Stringy.zip</screen></para>
 <title>Install Sambar Server</title>
 <para>Download Sambar Server from <ulink url="http://sambar.robertkehl.de">http://sambar.robertkehl.de</ulink>, the home page is <ulink url="http://www.sambar.com">http://www.sambar.com</ulink>. I recommend using version 5.2 Production, surely any later version will do, too. Do not use any version prior to 5.2 Production!</para>
 <para>Read the security notes on <ulink url="http://www.sambar.com/syshelp/security.htm">http://www.sambar.com/syshelp/security.htm</ulink> and install Sambar, where you like to, <emphasis>D:\Sambar</emphasis> is a good choice.</para>
-<para>If you're running Windows NT4, 2000 or XP, you can and should install Sambar as a Service, if the install routine hasn't done so yet. Therefore you click <emphasis>Start</emphasis> -&gt; <emphasis>Execute</emphasis>, enter <emphasis>CMD</emphasis> and press RETURN. Now a so called command box pops up, which we won't need only for now. You enter the following:</para>
-<para><screen><userinput>d:\sambar\bin\ntserver.exe -i -s Sambar</userinput></screen></para>
+<para>If you're running Windows NT4, 2000 or XP, you can and should install Sambar as a Service, if the install routine hasn't done so yet. Therefore you open a command box. You enter the following:</para>
+<para><screen>
+C:\><userinput>cd /d d:\sambar\bin</userinput>
+D:\sambar\bin><userinput>ntserver.exe -i -s Sambar</userinput>
+</screen></para>
 <para>Now start Sambar using the built-in service administration panel or by entering:</para>
-<para><screen><userinput>net start Sambar</userinput></screen></para>
+<para><screen>
+D:\sambar\bin><userinput>net start Sambar</userinput>
+</screen></para>
 <para>On Win9x/ME, you start Sambar clicking <emphasis>Start</emphasis> -&gt; <emphasis>Programs</emphasis> -&gt; <emphasis>Sambar Server</emphasis> -&gt; <emphasis>Start Sambar Server</emphasis>. There are no services on Win9x/ME.</para>
 <para>Ensure that Sambar is running: <ulink url="http://localhost">http://localhost</ulink>. The documentation can be found here: <ulink url="http://localhost/syshelp/index.htm">http://localhost/syshelp/index.htm</ulink>. The system administration forms are here: <ulink url="http://localhost/session/adminlogin?RCpage=/sysadmin/index.stm">http://localhost/session/adminlogin?RCpage=/sysadmin/index.stm</ulink>.</para>
 <important>
@@ -118,11 +164,12 @@ remote_smtp:
   hosts = smtp.yourprovider.com</screen></para>
 <para>Now <emphasis>exim</emphasis> will send each incoming message to the relay server of your provider. By now you can't forward messages to Sambar. In future we won't need <emphasis>exim</emphasis> and Cygwin at all, because OTRS will have it's own SMTP module included.</para>
 <para>Now you change the access rights for <emphasis>D:\cygwin\etc\exim.conf</emphasis> using <emphasis>chmod</emphasis> from Cygwin:</para>
-<para><screen>d:
-cd d:\cygwin
-cygwin
-chown SYSTEM /etc/exim.conf
-chmod 755 /etc/exim.conf</screen></para>
+<para><screen>
+C:\><userinput>cd /d d:\cygwin</userinput>
+D:\cygwin><userinput>cygwin</userinput>
+D:\cygwin><userinput>chown SYSTEM /etc/exim.conf</userinput>
+D:\cygwin><userinput>chmod 755 /etc/exim.conf</userinput>
+</screen></para>
 <para>That's it for <emphasis>exim</emphasis> and <emphasis>Cygwin</emphasis>.</para>
 </section>
 
@@ -130,8 +177,11 @@ chmod 755 /etc/exim.conf</screen></para>
 <title>Configuring Perl</title>
 <para>We now patch our Perl because it doesn't suit our needs in the default installation, there are some so called &quot;packages&quot; missing.</para>
 <para>Open a command box and enter this:</para>
-<para><screen>C:\><userinput>cd /d D:\Perl\packages</userinput>
+<para><screen>
+C:\><userinput>cd /d D:\Perl\packages</userinput>
+
 D:\Perl\packages><userinput>ppm</userinput>
+PPM interactive shell (2.1.6) - type 'help' for available commands.
 PPM&gt; <userinput>install DBI.ppd</userinput>
 Install package 'DBI.ppd?' (y/N): <userinput>y</userinput>
   [...returned ouput snipped...]
@@ -175,6 +225,7 @@ Install package 'mod_perl.ppd?' (y/N): <userinput>y</userinput>
     libwin32         [0.19.1 ]
     mod_perl         [1.27_01-dev]
 PPM&gt; <userinput>quit</userinput>
+Quit!
 </screen></para>
 <para>You may now delete the files in D:\Perl\packages, if you want to, but you don't have to.</para>
 <para>That's it for Perl.</para>
@@ -328,9 +379,9 @@ require group root
 </screen></para>
 <para>Open a command box and enter this:</para>
 <para><screen>
-d:
-cd d:\otrs\bin
-ren htaccess.txt .htaccess
+C:\><userinput>cd /d d:\otrs\bin</userinput>
+
+D:\otrs\bin><userinput>ren htaccess.txt .htaccess</userinput>
 </screen></para>
 <para>Now only users belonging to the group &quot;root&quot; and the system itself (CRON jobs f.e.) will be allowed to access the scripts in &quot;d:\otrs\bin&quot;.</para>
 </section>
@@ -341,13 +392,13 @@ ren htaccess.txt .htaccess
 <section>
 <title>Configuring MySQL</title>
 <para>Secure your MySQL by providing good passwords for the users <emphasis>@%</emphasis>, <emphasis>root@%</emphasis> und <emphasis>root@localhost</emphasis>. This can easily be done via <emphasis>phpMyAdmin</emphasis>.</para>
-<para>Let's fill the database. You can do this via the command line, as show here:</para>
-<para><screen>d:
-cd d:\mysql
-mysql -u root -p password -e 'create database otrs'
-mysql -u root -p password otrs &lt; d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql
-mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;some-pass&quot; WITH GRANT OPTION;'
-mysqladmin -u root -p password reload
+<para>Let's fill the database. You can do this via the command line, as show here (output not shown):</para>
+<para><screen>
+C:\><userinput>cd /d d:\mysql</userinput>
+D:\mysql><userinput>mysql -u root -p password -e 'create database otrs'</userinput>
+D:\mysql><userinput>mysql -u root -p password otrs &lt; d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</userinput>
+D:\mysql><userinput>mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;some-pass&quot; WITH GRANT OPTION;'</userinput>
+D:\mysql><userinput>mysqladmin -u root -p password reload</userinput>
 </screen></para>
 <para>I recommend using phpMyAdmin under <ulink url="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</ulink> instead of working on the command line. You create the database right on the start screen. Now you click the tab &quot;SQL&quot;, and enter <emphasis>d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</emphasis>. Click OK.</para>
 <para>Now commit this command:</para>
@@ -360,9 +411,9 @@ mysqladmin -u root -p password reload
 
 <section><title>CONFIG.PM</title>
 <para>Now you teach OTRS s.th. about you. First create your configuration file:</para>
-<para><screen>d:
-cd d:\otrs\Kernel
-copy Config.pm.dist Config.pm
+<para><screen>
+C:\><userinput>cd /d d:\otrs\Kernel</userinput>
+D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 </screen></para>
 <para>Despite your settings concerning FQDN etc., you set the following in <emphasis>d:\otrs\Kernel\Config.pm</emphasis>:</para>
 <para><screen>    # -----------------------------------------------------#
@@ -474,10 +525,7 @@ copy Config.pm.dist Config.pm
 
 <note>
 <title>No CRON Jobs on Apache</title>
-<para>Please note that Apache cannot CRON. You will have to execute the CRON Jobs manually from the command line or by using Windows Task Scheduler. Use the following command for each script to prevent windows popping up at you screen while executing the script.</para>
-<para><screen>
-cmd /c start /min perl d:\otrs\bin\NameOfCRONJob.pl
-</screen></para>
+<para>Please note that Apache cannot CRON. You will have to execute the CRON Jobs manually from the command line or by using Windows Task Scheduler. Use the following command for each script to prevent windows popping up at you screen while executing the script. <userinput>cmd /c start /min perl d:\otrs\bin\NameOfCRONJob.pl</userinput></para>
 </note>
 </section>
 
