@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PostMaster.pl - the global eMail handle for email2db
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.1 2001-12-21 17:49:49 martin Exp $
+# $Id: PostMaster.pl,v 1.2 2002-01-10 20:10:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,13 +20,11 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-#use lib '/opt/OpenTRS/';
-# only for testing
-use lib '/home/martin/src/otrs/';
+use lib '/opt/OpenTRS/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 1;

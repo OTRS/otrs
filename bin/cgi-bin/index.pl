@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 # --
 # index.pl - the global CGI handle file for OpenTRS
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.12 2002-01-02 17:53:48 martin Exp $
+# $Id: index.pl,v 1.13 2002-01-10 20:09:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,12 +22,10 @@
 
 # OpenTRS root directory
 use lib '/opt/OpenTRS/';
-# only for testing
-use lib '/home/martin/src/otrs/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
