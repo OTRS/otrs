@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.62 2004-04-29 10:08:30 martin Exp $
+# $Id: AgentZoom.pm,v 1.63 2004-04-29 10:09:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -277,8 +277,8 @@ sub MaskAgentZoom {
         $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
         $ThreadStrg .= '<div title="'.$Title.'">';
         if ($LastSenderType ne $Article{SenderType}) {
-            $Counter .= "&nbsp;&nbsp;";
-            $Space = "$Counter|--&gt;";
+            $Counter .= "&nbsp;";
+            $Space = "$Counter&nbsp;|--&gt;";
         }
         $LastSenderType = $Article{SenderType};
         $ThreadStrg .= "$Space";
