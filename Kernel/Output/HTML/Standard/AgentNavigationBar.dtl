@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.36 2004-08-18 14:34:11 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.37 2004-08-18 14:49:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,6 +86,18 @@ function BulkChangeSelected(x,c)
 }
 function BulkSubmit()
 {
+# check if min one ticket is selected
+    var Check = 0;
+    for(var i = 7; i <= 36; i++) {
+        if (document.bulk.elements[i].value) {
+            Check = 1;
+#            alert(document.bulk.elements[i].value);
+        }
+    }
+    if (Check == 0) {
+        alert('$Text{"You need min. one selected Ticket.!"}');
+        return false;
+    }
 # example
 #    document.bulk.Subaction.value = 'Do';
 #    document.bulk.State.value = 'closed successful';
