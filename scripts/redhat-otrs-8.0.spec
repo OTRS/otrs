@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs-8.0.spec,v 1.2 2003-04-13 11:42:58 martin Exp $
+# $Id: redhat-otrs-8.0.spec,v 1.3 2003-04-15 20:07:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -50,9 +50,13 @@ cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # install init-Script 
 install -d -m 755 $RPM_BUILD_ROOT/etc/rc.d/init.d
 install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
+install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
 
 install -m 755 scripts/redhat-rcotrs $RPM_BUILD_ROOT/etc/rc.d/init.d/otrs
 install -m 644 scripts/redhat-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
+
+# copy apache2-httpd.include.conf to /etc/httpd/conf.d/otrs.conf 
+install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/otrs.conf
 
 # set permission
 export OTRSUSER=otrs
@@ -62,15 +66,8 @@ groupadd apache || :
 $RPM_BUILD_ROOT/opt/otrs/bin/SetPermissions.sh $RPM_BUILD_ROOT/opt/otrs $OTRSUSER apache apache apache
 
 %pre
-# backup old version templates (not compatible!)
-TOINSTALL=`echo %{version}| sed 's/..$//'`
-INSTALLEDVERSION=`cat /opt/otrs/RELEASE|grep VERSION|sed 's/VERSION = //'|sed 's/ /-/g'`
-if echo $INSTALLEDVERSION | grep -v "$TOINSTALL"; then
-    echo "backup old - not compatible templates (.$INSTALLEDVERSION)"
-    for foo in /opt/otrs/Kernel/Output/HTML/Standard/*.dtl;
-        do mv $foo $foo.$INSTALLEDVERSION.backup;
-    done
-fi
+# remember about the installed version
+cat /opt/otrs/RELEASE|grep VERSION|sed 's/VERSION = //'|sed 's/ /-/g' > /tmp/otrs-old.tmp
 
 %post
 # useradd
@@ -84,8 +81,16 @@ else
     useradd $OTRSUSER -d /opt/otrs/ -s /bin/false -g apache -c 'OTRS System User' && echo "$OTRSUSER added."
 fi
 
-# copy apache2-httpd.include.conf to /etc/httpd/conf.d/otrs.conf 
-cp /opt/otrs/scripts/apache2-httpd.include.conf /etc/httpd/conf.d/otrs.conf
+# if it's a major-update backup old version templates (maybe not compatible!)
+TOINSTALL=`echo %{version}| sed 's/..$//'`
+OLDOTRS=`cat /tmp/otrs-old.tmp`
+if echo $OLDOTRS | grep -v "$TOINSTALL" > /dev/null; then
+    echo "backup old (maybe not compatible) templates (of $OLDOTRS)"
+    for i in /opt/otrs/Kernel/Output/HTML/Standard/*.rpmnew;
+        do BF=`echo $i|sed 's/.rpmnew$//'`; mv -v $BF $BF.backup_maybe_not_compat_to.$OLDOTRS; mv $i $BF;
+    done
+fi
+rm -rf /tmp/otrs-old.tmp
 
 # note
 HOST=`hostname -f`
@@ -115,8 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %config(noreplace) /etc/sysconfig/otrs
+%config /etc/httpd/conf.d/otrs.conf
 /etc/rc.d/init.d/otrs
-
 <FILES>
 
 %changelog
