@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.140 2004-08-19 13:12:21 martin Exp $
+# $Id: Generic.pm,v 1.141 2004-08-30 14:13:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.140 $';
+$VERSION = '$Revision: 1.141 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -187,7 +187,130 @@ sub Block {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
         return;
     }
-    push (@{$Self->{Block}->{$Param{Name}}}, $Param{Data});
+    push (@{$Self->{BlockData}}, {Name => $Param{Name}, Data => $Param{Data}});
+}
+# --
+sub BlockTemplatePreferences {
+    my $Self = shift;
+    my %Param = @_;
+    my %TagsOpen = ();
+    my @Preferences = ();
+    my $LastLayerCount = 0;
+    my $Layer = 0;
+    my $LastLayer = '';
+    my $CurrentLayer = '';
+    my %UsedNames = ();
+    my $TemplateFile = $Param{TemplateFile} || '';
+    if (!$Param{Template}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Template!");
+        return;
+    }
+    if (!$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile}) {
+        $Param{Template} =~ s{
+            <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
+        }
+        {
+            my $BlockName = $1;
+            if (!$TagsOpen{$BlockName}) {
+                $Layer++;
+                $TagsOpen{$BlockName} = 1;
+                my $CL = '';
+                if ($Layer == 1) {
+                    $LastLayer = '';
+                    $CurrentLayer = $BlockName;
+                }
+                elsif ($LastLayerCount == $Layer) {
+                    $CurrentLayer = $LastLayer.'::'.$BlockName;
+                }
+                else {
+                    $LastLayer = $CurrentLayer;
+                    $CurrentLayer = $CurrentLayer.'::'.$BlockName;;
+                }
+#        print STDERR "Layer: $Layer ($CurrentLayer)\n";
+                $LastLayerCount = $Layer;
+                if (!$UsedNames{$BlockName}) {
+#        print STDERR "CN: $BlockName\n";
+                    push (@Preferences, {
+                        Name => $BlockName,
+                        Layer => $Layer,
+                        },
+                    );
+                    $UsedNames{$BlockName} = 1;
+                }
+            }
+            else {
+                $TagsOpen{$BlockName} = 0;
+                $Layer--;
+            }
+        }segxm;
+        # remember block data
+        if ($TemplateFile) {
+            $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
+        }
+        else {
+#print STDERR "Not Cached: $TemplateFile\n";
+            undef $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
+        }
+        return @Preferences;
+    }
+    else {
+        # return already parsed block data
+#print STDERR "Cached: $TemplateFile\n";
+        return @{$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile}};
+    }
+}
+# --
+sub BlockTemplatesReplace {
+    my $Self = shift;
+    my %Param = @_;
+    my %BlockLayer = ();
+    my %BlockTemplates = ();
+    my @BR = ();
+    if (!$Param{Template}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Template!");
+        return;
+    }
+    my $TemplateString = $Param{Template};
+    my $TemplateFile = $Param{TemplateFile} || '';
+    # get availabe template block preferences
+    my @Blocks = $Self->BlockTemplatePreferences(
+        Template => $$TemplateString,
+        TemplateFile => $TemplateFile,
+    );
+    foreach my $Block (reverse @Blocks) {
+#print STDERR "GP: $Block->{Name}\n";
+         $$TemplateString =~ s{
+            <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
+        }
+        {
+            $BlockTemplates{$Block->{Name}} = $1;
+            "<!-- dtl:place_block:$Block->{Name} -->";
+        }segxm;
+        $BlockLayer{$Block->{Name}} = $Block->{Layer};
+    }
+    # create block template string
+    if ($Self->{BlockData}) {
+        my @NotUsedBlockData = ();
+        foreach my $Block (@{$Self->{BlockData}}) {
+            if ($BlockTemplates{$Block->{Name}}) {
+                push (@BR, {
+                    Layer => $BlockLayer{$Block->{Name}},
+                    Name => $Block->{Name},
+                    Data => $Self->Output(
+                        Template => "<!--start $Block->{Name}-->".$BlockTemplates{$Block->{Name}}."<!--stop $Block->{Name} -->",
+                        Data => $Block->{Data},
+                        NoBlockReplace => 1,
+                    ),
+                });
+            }
+            else {
+                push (@NotUsedBlockData, {%{$Block}});
+            }
+        }
+        # remember not use block data
+        $Self->{BlockData} = \@NotUsedBlockData;
+    }
+    return @BR;
 }
 # --
 sub Output {
@@ -262,25 +385,69 @@ sub Output {
     $TemplateString =~ s/^#.*\n//gm;
 
     # parse/get text blocks
-    $TemplateString =~ s{
-        <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
-    }
-    {
-        my $BlockName = $1;
-        my $Template = $2;
-        my $New = '';
-        if ($Self->{Block}->{$BlockName}) {
-            foreach (@{$Self->{Block}->{$BlockName}}) {
-                $New .= $Self->Output(
-                    Template => "<!--start $BlockName-->".$Template."<!--stop $BlockName-->",
-                    Data => $_,
-                );
+    my @BR = $Self->BlockTemplatesReplace(
+        Template => \$TemplateString,
+        TemplateFile => $Param{TemplateFile} || '',
+    );
+    my $C = 0;
+    foreach my $Block (@BR) {
+        # add block counter to template blocks
+        if ($Block->{Layer} == 1) {
+            $TemplateString =~ s{
+                (<!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
             }
-            # if used, remove it from ram
-            undef $Self->{Block}->{$BlockName};
+            {
+#            print STDERR "FR(): $1\n";
+                "$1:".($C+1)."$2";
+            }segxm;
         }
-        $New;
-    }segxim;
+        # count first block layer
+        if ($Block->{Layer} == 1) {
+            $C++;
+        }
+#        print STDERR "BD($C): $Block->{Name}\n";
+        # add block counter to in blocks
+        $Block->{Data} =~ s{
+            (<!--\s{0,1}dtl:place_block:.+?)(\s{0,1}-->)
+        }
+        {
+#            print STDERR "IR($C): $1\n";
+            "$1:".($C).$2;
+        }segxm;
+
+        # replace first block layer from template and add new C++ block name
+        if ($Block->{Layer} == 1) {
+            $TemplateString =~ s{
+                (<!--\s{0,1}dtl:place_block:$Block->{Name}:)($C)(\s{0,1}-->)
+            }
+            {
+#print STDERR "EE($C): $Block->{Name}\n";
+               $Block->{Data}.$1.($C+1).$3;
+            }sexm;
+        }
+        # replace second and higer block layer from template, and replace
+        # with the same block name
+        else {
+            $TemplateString =~ s{
+                (<!--\s{0,1}dtl:place_block:$Block->{Name}:)($C)(\s{0,1}-->)
+            }
+            {
+#print STDERR "SE($C): $Block->{Name}\n";
+               $Block->{Data}."$1$2$3";
+            }sexm;
+        }
+    }
+
+    # remove empty blocks and block preferences
+    if (!$Param{NoBlockReplace}) {
+        undef $Self->{BlockTemplatePreferences};
+        $TemplateString =~ s{
+            <!--\s{0,1}dtl:place_block:.+?\s{0,1}-->
+        }
+        {
+            '';
+        }segxm;
+    }
 
     # process template
     my @Template = split(/\n/, $TemplateString);
