@@ -1,0 +1,24 @@
+# --
+# AgentStatusViewTable.dtl
+# Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
+# Copyright (C) 2002 Martin Edenhofer <martin+code at otrs.org>
+# --
+# $Id: AgentStatusViewTable.dtl,v 1.1 2002-10-15 09:36:22 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<!-- start record -->
+<tr>
+ <td align="center"><a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Data{"TicketNumber"}</a></td>
+ <td>$Data{"Age"}</td>
+ <td>$Data{"Subject"}</td>
+ <td>$Data{"State"}</td>
+ <td>$Data{"Queue"}</td>
+ <td>$Data{"Owner"}</td>
+ <td><a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}">$Data{"CustomerID"}</a></td>  
+</tr>
+<!-- end record -->
+
