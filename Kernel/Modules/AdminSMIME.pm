@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.1 2004-08-04 13:12:48 martin Exp $
+# $Id: AdminSMIME.pm,v 1.2 2004-08-06 06:14:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -92,8 +92,8 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # add key
-    elsif ($Self->{Subaction} eq 'Add') {
+    # add certivicate
+    elsif ($Self->{Subaction} eq 'AddCertificate') {
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key => 'SMIMESearch',
@@ -112,6 +112,54 @@ sub Run {
             return $Output;
         }
         my $Message = $Self->{CryptObject}->CertificateAdd(Certificate => $UploadStuff{Content});
+        if (!$Message) {
+            $Message = $Self->{LogObject}->GetLogEntry(
+                Type => 'Error',
+                What => 'Message',
+            );
+        }
+        my @List = $Self->{CryptObject}->CertificateSearch(Search => $Param{Search});
+        foreach my $Key (@List) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Row',
+                Data => {
+                    StartFont => '<font color ="red">',
+                    StopFont => '</font>',
+                    %{$Key},
+                },
+            );
+        }
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
+        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    # add private
+    elsif ($Self->{Subaction} eq 'AddPrivate') {
+        my $Secret = $Self->{ParamObject}->GetParam(Param => 'Secret') || '';
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'SMIMESearch',
+            Value => '',
+        );
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param => 'file_upload',
+            Source => 'String',
+        );
+        if (!%UploadStuff) {
+            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => 'Need Private Key!',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        my $Message = $Self->{CryptObject}->PrivateAdd(
+            Private => $UploadStuff{Content},
+            Secret => $Secret,
+        );
         if (!$Message) {
             $Message = $Self->{LogObject}->GetLogEntry(
                 Type => 'Error',
