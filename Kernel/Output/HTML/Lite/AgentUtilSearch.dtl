@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearch.dtl,v 1.8 2004-10-06 19:43:05 martin Exp $
+# $Id: AgentUtilSearch.dtl,v 1.9 2004-10-13 06:38:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,23 +18,27 @@
 <tr>
   <td align="center" class="mainbody">
 
+<form action="$Env{"CGIHandle"}" method="get">
 <table width="700" border="0" cellspacing="0" cellpadding="3">
 <tr>
   <td class="contenthead">$Text{"Profile"}</td>
 </tr>
 <tr>
   <td class="contentbody">
-  <form action="$Env{"CGIHandle"}" method="get">
   <input type="hidden" name="Action" value="AgentUtilities">
   <input type="hidden" name="Subaction" value="LoadProfile">
   $Text{"Search-Template"} $Data{"ProfilesStrg"}
+  </td>
+</tr>
+<tr>
+  <td class="contentfooter">
   <input class="button" name="SelectTemplate" type="submit" value="$Text{"Select"}">
   <input class="button" name="EraseTemplate" type="submit" value="$Text{"Delete"}">
   <input class="button" name="SearchTemplate" type="submit" value="$Text{"Search"}">
-  </form>
   </td>
 </tr>
 </table>
+</form>
 
 <br>
 
@@ -164,7 +168,7 @@ $Data{"UserStrg"}
   </td>
 </tr>
 <tr>
-  <td colspan="4" class="contentbody"><input class="button" type="submit" value="$Text{"Search"}"></td>
+  <td colspan="4" class="contentfooter"><input class="button" type="submit" value="$Text{"Search"}"></td>
 </td>
 </table>
 </form>
