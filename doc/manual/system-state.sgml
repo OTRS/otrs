@@ -32,17 +32,29 @@ Use the Admin-Interface (Status defs) if you want to change or add ticket states
 </screenshot>
 </para>
 
-<para> 
-Take care that you also update the default state "new" in your Kernel/Config.pm 
-(if you changed the name "new").
+<para>
+Take care that you also update some config options if you changed/rename the
+state "new". Add to you Kernel/Config.pm:
 <programlisting>
     [...]
     # PostmasterDefaultState
     # (The default state of new tickets.) [default: new]
     $Self->{PostmasterDefaultState} = 'new';
     [...]
+</programlisting>
+</para>
+
+<para>
+Take care that you also update some config options if you changed/rename the
+state "open". Add to you Kernel/Config.pm:
+<programlisting>
+    [...]
     # default phone new state
     $Self->{PhoneDefaultNewNextState} = 'open';
+
+    # PostmasterFollowUpState
+    # (The state if a ticket got a follow up.) [default: open]
+    $Self->{PostmasterFollowUpState} = 'open';
     [...]
 </programlisting>
 </para>
