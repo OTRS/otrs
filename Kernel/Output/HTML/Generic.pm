@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.144 2004-09-04 15:20:25 martin Exp $
+# $Id: Generic.pm,v 1.145 2004-09-04 17:39:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.144 $';
+$VERSION = '$Revision: 1.145 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1181,34 +1181,38 @@ sub OptionStrgHashRef {
     # --
     # set default value
     # --
-    if (($Name eq 'ValidID' || $Name eq 'Valid') && !$Selected && !$SelectedID) {
+    my $NoSelectedDataGiven = 0;
+    if ($Selected eq '-not-possible-to-use-' && $SelectedID eq '-not-possible-to-use-') {
+        $NoSelectedDataGiven = 1;
+    }
+    if (($Name eq 'ValidID' || $Name eq 'Valid') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultValid');
     }
-    elsif (($Name eq 'CharsetID' || $Name eq 'Charset') && !$Selected  && !$SelectedID) {
+    elsif (($Name eq 'CharsetID' || $Name eq 'Charset') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultCharset');
     }
-    elsif (($Name eq 'LanguageID' || $Name eq 'Language') && !$Selected && !$SelectedID) {
+    elsif (($Name eq 'LanguageID' || $Name eq 'Language') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
-    elsif (($Name eq 'ThemeID' || $Name eq 'Theme') && !$Selected && !$SelectedID) {
+    elsif (($Name eq 'ThemeID' || $Name eq 'Theme') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultTheme');
     }
-    elsif (($Name eq 'LanguageID' || $Name eq 'Language') && !$Selected && !$SelectedID) {
+    elsif (($Name eq 'LanguageID' || $Name eq 'Language') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
-    elsif ($Name eq 'NoteID' && !$Selected && !$SelectedID) {
+    elsif ($Name eq 'NoteID' && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultNoteType');
     }
-    elsif ($Name eq 'CloseNoteID' && !$Selected && !$SelectedID) {
+    elsif ($Name eq 'CloseNoteID' && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultCloseNoteType');
     }
-    elsif ($Name eq 'CloseStateID' && !$Selected && !$SelectedID) {
+    elsif ($Name eq 'CloseStateID' && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultCloseType');
     }
-    elsif ($Name eq 'ComposeStateID' && !$Selected && !$SelectedID) {
+    elsif ($Name eq 'ComposeStateID' && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultNextComposeType');
     }
-    elsif (!$Selected && !$SelectedID) {
+    elsif ($NoSelectedDataGiven) {
         # else set 1?
 #        $SelectedID = 1;
     }
