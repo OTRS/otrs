@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.41 2004-11-07 15:16:19 martin Exp $
+# $Id: AgentNote.pm,v 1.42 2004-11-16 12:24:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,10 @@ package Kernel::Modules::AgentNote;
 
 use strict;
 use Kernel::System::State;
-use Kernel::System::WebUploadCache;
+use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,7 +38,7 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{UploadCachObject} = Kernel::System::WebUploadCache->new(%Param);
+    $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam(Param => 'FormID');
@@ -97,18 +97,27 @@ sub Run {
     if ($Self->{Subaction} eq 'Store') {
         # store action
         my %Error = ();
-        # check needed stuff
-        foreach (qw(Year Month Day Hour Minute)) {
-            if (!defined($GetParam{$_})) {
-                $Error{"Date invalid"} = '* invalid';
+        # check pending time
+        if ($GetParam{NewStateID}) {
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $GetParam{NewStateID},
+            );
+            # check state type
+            if ($StateData{TypeName} =~ /^pending/i) {
+                # check needed stuff
+                foreach (qw(Year Month Day Hour Minute)) {
+                    if (!defined($GetParam{$_})) {
+                        $Error{"Date invalid"} = '* invalid';
+                    }
+                }
+                # check date
+                if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
+                    $Error{"Date invalid"} = '* invalid';
+                }
+                if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
+                    $Error{"Date invalid"} = '* invalid';
+                }
             }
-        }
-        # check date
-        if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
-            $Error{"Date invalid"} = '* invalid';
-        }
-        if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
-            $Error{"Date invalid"} = '* invalid';
         }
         # attachment delete
         foreach (1..10) {
