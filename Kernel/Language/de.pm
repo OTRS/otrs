@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.57 2004-10-11 14:37:20 martin Exp $
+# $Id: de.pm,v 1.58 2004-10-11 14:48:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -29,6 +29,7 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
+    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
@@ -192,6 +193,11 @@ sub Data {
       'Changed by' => 'Geändert von',
       'Search' => 'Suche',
       'and' => 'und',
+      'Path' => 'Pfad',
+      'Category' => 'Kategorie',
+      'Link (Normal)' => 'Verknüpft (Normal)',
+      'Link (Parent)' => 'Verknüpft (Eltern)',
+      'Link (Child)' => 'Verknüpft (Kinder)',
       'between' => 'zwischen',
       'Fulltext Search' => 'Volltextsuche',
       'Data' => 'Daten',

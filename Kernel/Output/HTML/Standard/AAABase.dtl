@@ -53,6 +53,9 @@ $Text{"none!"}
 $Text{"none - answered"}
 $Text{"please do not edit!"}
 $Text{"AddLink"}
+$Text{"Link (Normal)"}
+$Text{"Link (Parent)"}
+$Text{"Link (Child)"}
 $Text{"Hit"}
 $Text{"Hits"}
 $Text{"Text"}
@@ -116,6 +119,7 @@ $Text{"Export"}
 $Text{"Up"}
 $Text{"Down"}
 $Text{"Add"}
+$Text{"Category"}
 
 $Text{"New message"}
 $Text{"New message!"}
