@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.171 2004-11-07 14:50:59 martin Exp $
+# $Id: Defaults.pm,v 1.172 2004-11-11 10:47:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.171 $';
+$VERSION = '$Revision: 1.172 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -432,6 +432,15 @@ sub LoadDefaults {
     };
     $Self->{'Frontend::ArticleComposeModule'}->{'2-CryptEmail'} = {
         Module => 'Kernel::Output::HTML::ArticleComposeCrypt',
+    };
+
+    # links in agent zoom for attachments to download
+    $Self->{'Frontend::ArticleAttachmentModule'}->{'1-Download'} = {
+        Module => 'Kernel::Output::HTML::ArticleAttachmentDownload',
+    };
+    # links in agent zoom for attachments html online viewer
+    $Self->{'Frontend::ArticleAttachmentModule'}->{'2-HTML-Viewer'} = {
+        Module => 'Kernel::Output::HTML::ArticleAttachmentHTMLViewer',
     };
 
     # Frontend::Output::PostFilter
@@ -2450,7 +2459,7 @@ Your OTRS Notification Master
     };
     # faq interface
     $Self->{'Frontend::Module'}->{'FAQ'} = {
-        Group => '',
+        Group => 'faq',
         GroupRo => 'faq',
         Description => 'FAQ-Area',
         NavBarName => 'FAQ',
@@ -2919,6 +2928,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.171 $ $Date: 2004-11-07 14:50:59 $
+$Revision: 1.172 $ $Date: 2004-11-11 10:47:37 $
 
 =cut
