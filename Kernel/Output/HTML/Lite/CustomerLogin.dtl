@@ -1,8 +1,8 @@
 # --
 # Login.dtl - provides customer HTML login screen
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerLogin.dtl,v 1.10 2004-12-04 10:51:04 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.11 2005-03-11 06:00:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,10 +19,10 @@ $Include{"CustomerHeader"}
 <font color="red">$Quote{"$Text{"$Data{"Message"}"}"}</font>
 <table border="0" cellspacing="0" cellpadding="3" width="100%">
 <tr>
-  <td align="left" class="table0"><b>$Text{"Login"}</b></td>
+  <td class="singleboxhead">$Text{"Login"}</td>
 </tr>
 <tr>
-  <td align="left" class="table1">
+  <td class="singleboxbody">
 
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="Login">
@@ -50,10 +50,10 @@ $Include{"CustomerHeader"}
 <p>
 <table border="0" cellspacing="0" cellpadding="3" width="100%">
 <tr>
-  <td align="left" class="table0"><b>$Text{"Lost your password?"}</b></td>
+  <td class="singleboxhead">$Text{"Lost your password?"}</td>
 </tr>
 <tr>
-  <td align="left" class="table1">
+  <td class="singleboxbody">
     <form action="$Env{"CGIHandle"}" method="get" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="CustomerLostPassword">
     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
@@ -83,10 +83,10 @@ $Include{"CustomerHeader"}
 
 <table border="0" cellspacing="0" cellpadding="3" width="100%">
 <tr>
-  <td align="left" class="table0"><b>$Text{"Language"}</b></td>
+  <td class="singleboxhead">$Text{"Language"}</td>
 </tr>
 <tr>
-  <td align="left" class="table1">
+  <td class="singleboxbody">
     <table cellspacing="8" cellpadding="2">
     <tr>
       <td>$Text{"Language"}:</td>
@@ -103,11 +103,11 @@ $Include{"CustomerHeader"}
 <!-- dtl:block:CreateAccount -->
 <p>
 <table border="0" cellspacing="0" cellpadding="3" width="100%">
-<tr> 
-  <td align="left" class="table0"><b>$Text{"Create Account"}</b></td>
+<tr>
+  <td class="singleboxhead">$Text{"Create Account"}</td>
 </tr>
 <tr>
-  <td align="left" class="table1"> 
+  <td class="singleboxbody">
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="CustomerCreateAccount">
     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">

@@ -1,8 +1,8 @@
 # --
 # CustomerFAQSearchResult.dtl - provides HTML form for faq articles
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQSearchResult.dtl,v 1.1 2004-01-21 22:46:19 martin Exp $
+# $Id: CustomerFAQSearchResult.dtl,v 1.2 2005-03-11 06:00:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,13 +10,13 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
-  <td align="left" colspan="2" class="table0">
-  <b>$Env{"Box0"}$Text{"FAQ Search Result"}$Env{"Box1"}</b>
+<tr>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"FAQ Search Result"}$Env{"Box1"}
   </td>
 </tr>
-<tr align="left" valign="top">
-  <td width="100%" class="table1">
+<tr>
+  <td width="100%" class="mainbody">
     <table>
     $Data{"List"}
     </table>

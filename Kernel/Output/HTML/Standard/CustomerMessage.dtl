@@ -1,8 +1,8 @@
 # --
 # CustomerMessage.dtl - provides HTML form for customer message
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.dtl,v 1.13 2004-04-29 11:18:32 martin Exp $
+# $Id: CustomerMessage.dtl,v 1.14 2005-03-11 06:00:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,12 +34,12 @@ function submit_compose()
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" class="table0"> 
-    <b>$Env{"Box0"}$Text{"Follow up"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Follow up"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" class="table1">
+  <td class="mainbody">
 
 <p>
 
@@ -73,7 +73,7 @@ function submit_compose()
 
 </p>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->

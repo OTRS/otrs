@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearchResultCSV.dtl - provides HTML form for CustomerTicketSeach.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearchResultCSV.dtl,v 1.2 2004-04-30 13:07:16 martin Exp $
+# $Id: CustomerTicketSearchResultCSV.dtl,v 1.3 2005-03-11 06:00:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
