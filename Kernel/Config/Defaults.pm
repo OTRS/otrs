@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.21 2003-01-14 19:54:14 martin Exp $
+# $Id: Defaults.pm,v 1.22 2003-01-15 18:30:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1170,7 +1170,7 @@ Your OTRS Notification Master
     };
     $Self->{CustomerPreferencesGroups}->{Language} = {
         Colum => 'Frontend', 
-        Label => 'Frontend Language',
+        Label => 'Language',
         Desc => 'Select your frontend language.', 
         Type => 'Generic',
         Data => $Self->Get('DefaultUsedLanguages'),
@@ -1179,7 +1179,7 @@ Your OTRS Notification Master
     };
     $Self->{CustomerPreferencesGroups}->{Charset} = {
         Colum => 'Frontend', 
-        Label => 'Frontend Charset',
+        Label => 'Charset',
         Desc => 'Select your frontend Charset.', 
         Type => 'Generic',
         PrefKey => 'UserCharset',
@@ -1187,7 +1187,7 @@ Your OTRS Notification Master
     };
     $Self->{CustomerPreferencesGroups}->{Theme} = {
         Colum => 'Frontend', 
-        Label => 'Frontend Theme',
+        Label => 'Theme',
         Desc => 'Select your frontend Theme.', 
         Type => 'Generic',
         PrefKey => 'UserTheme',
