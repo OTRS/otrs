@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.3 2004-12-02 12:16:40 martin Exp $
+# $Id: Package.pm,v 1.4 2004-12-02 12:24:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -231,7 +231,7 @@ sub RepositoryAdd {
         my $SQL = "DELETE FROM package_repository WHERE ".
             " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
             " AND ".
-            " version = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'";
+            " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
         $Self->{DBObject}->Do(SQL => $SQL);
     }
     my $SQL = "INSERT INTO package_repository (name, version, vendor, filename, ".
@@ -268,7 +268,7 @@ sub RepositoryRemove {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Name Version)) {
+    foreach (qw(Name)) {
       if (!defined $Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
         return;
@@ -280,8 +280,10 @@ sub RepositoryRemove {
     }
     # sql
     my $SQL = "DELETE FROM package_repository WHERE ".
-        " name = '$Param{Name}' AND version = '$Param{Version}'";
-
+        " name = '$Param{Name}'";
+    if ($Param{Version}) {
+        $SQL .= " AND version = '$Param{Version}'";
+    }
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
@@ -1177,6 +1179,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2004-12-02 12:16:40 $
+$Revision: 1.4 $ $Date: 2004-12-02 12:24:34 $
 
 =cut
