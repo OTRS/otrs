@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# DeleteSessionIDs.pl - to delete all existing or expired session ids
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DeleteSessionIDs.pl,v 1.9 2003-02-08 15:05:11 martin Exp $
+# $Id: DeleteSessionIDs.pl,v 1.10 2004-04-19 19:52:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -86,16 +86,26 @@ elsif ($Command eq '--expired') {
         my %SessionData = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $SessionID);
         my $MaxSessionTime = $CommonObject{ConfigObject}->Get('SessionMaxTime');
         my $ValidTime = ($SessionData{UserSessionStart} + $MaxSessionTime) - time();
-        if ($ValidTime >= 0) {
-            print " SessionID $SessionID valid (till ". int(($ValidTime/60)) ." minutes).\n";
-        }
-        else {
+        my $MaxSessionIdleTime = $CommonObject{ConfigObject}->Get('SessionMaxIdleTime');
+        my $ValidIdleTime = ($SessionData{UserLastRequest} + $MaxSessionIdleTime) - time();
+        if ($ValidIdleTime <= 0) {
             if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
-                print " SessionID $SessionID deleted.\n";
+                print " SessionID $SessionID deleted (idle timeout).\n";
             }
             else {
                 print " Warning: Can't delete SessionID $SessionID!\n";
             }
+        }
+        elsif ($ValidTime <= 0) {
+            if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+                print " SessionID $SessionID deleted (too old).\n";
+            }
+            else {
+                print " Warning: Can't delete SessionID $SessionID!\n";
+            }
+        }
+        else {
+            print " SessionID $SessionID valid (till ". int(($ValidTime/60)) ." minutes, idle timeout in ". int(($ValidIdleTime/60)) ." minutes).\n";
         }
     }
     exit (0);

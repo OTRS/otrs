@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.13 2003-10-29 20:21:35 martin Exp $
+# $Id: IPC.pm,v 1.14 2004-04-19 19:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -155,6 +155,21 @@ sub CheckSessionID {
         );
         # delete session id if it isn't the same remote ip?
         if ($Self->{ConfigObject}->Get('SessionDeleteIfNotRemoteID')) {
+            $Self->RemoveSessionID(SessionID => $SessionID);
+        }
+        return;
+    }
+    # check session idle time
+    my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+    if ( (time() - $MaxSessionIdleTime) >= $Data{UserLastRequest} ) {
+         $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
+         $Self->{LogObject}->Log(
+          Priority => 'notice',
+          Message => "SessionID ($SessionID) idle timeout (". int((time() - $Data{UserLastRequest})/(60*60)) 
+          ."h)! Don't grant access!!!",
+        );
+        # delete session id if too old?
+        if ($Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld')) {
             $Self->RemoveSessionID(SessionID => $SessionID);
         }
         return;
