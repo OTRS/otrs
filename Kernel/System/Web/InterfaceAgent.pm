@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceAgent.pm,v 1.5 2005-03-22 09:01:41 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.6 2005-03-27 11:46:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -578,8 +578,8 @@ sub Run {
                 }
             }
             # check module registry
-            my $ModuleReg = $Self->{ConfigObject}->Get('Frontend::Module');
-            if (!$ModuleReg->{$Param{Action}}) {
+            my $ModuleReg = $Self->{ConfigObject}->Get('Frontend::Module')->{$Param{Action}};
+            if (!$ModuleReg) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message => "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
@@ -590,14 +590,14 @@ sub Run {
                 exit 0;
             }
             # module permisson check
-            if (!$ModuleReg->{$Param{Action}}->{GroupRo} && !$ModuleReg->{$Param{Action}}->{Group}) {
+            if (!$ModuleReg->{GroupRo} && !$ModuleReg->{Group}) {
                 $Param{AccessRo} = 1;
                 $Param{AccessRw} = 1;
             }
             else {
                 foreach my $Permission (qw(GroupRo Group)) {
                     my $AccessOk = 0;
-                    my $Group = $ModuleReg->{$Param{Action}}->{$Permission};
+                    my $Group = $ModuleReg->{$Permission};
                     my $Key = "UserIs$Permission";
                     if (ref($Group) eq 'ARRAY') {
                         foreach (@{$Group}) {
@@ -631,7 +631,7 @@ sub Run {
                 %{$Self},
                 %Param,
                 %UserData,
-                ModuleReg => $ModuleReg->{$Param{Action}},
+                ModuleReg => $ModuleReg,
             );
             # updated last request time
             $Self->{SessionObject}->UpdateSessionID(
@@ -654,7 +654,7 @@ sub Run {
                     %{$Self},
                     %Param,
                     %UserData,
-                    ModuleReg => $ModuleReg->{$Param{Action}},
+                    ModuleReg => $ModuleReg,
                 );
                 my $Output = $PreModuleObject->PreRun();
                 if ($Output) {
@@ -674,7 +674,7 @@ sub Run {
                 %{$Self},
                 %Param,
                 %UserData,
-                ModuleReg => $ModuleReg->{$Param{Action}},
+                ModuleReg => $ModuleReg,
             );
             # debug info
             if ($Self->{Debug}) {
@@ -735,6 +735,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2005-03-22 09:01:41 $
+$Revision: 1.6 $ $Date: 2005-03-27 11:46:37 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceCustomer.pm,v 1.4 2005-02-17 11:56:08 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.5 2005-03-27 11:46:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,7 +30,6 @@ use Kernel::System::AuthSession;
 use Kernel::System::CustomerAuth;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
-use Kernel::System::Permission;
 use Kernel::Output::HTML::Generic;
 
 =head1 NAME
@@ -612,8 +611,8 @@ sub Run {
                 %UserData,
             );
             # module registry
-            my $ModuleReg = $Self->{ConfigObject}->Get('CustomerFrontend::Module');
-            if (!$ModuleReg->{$Param{Action}}) {
+            my $ModuleReg = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Param{Action}};
+            if (!$ModuleReg) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message => "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
@@ -724,6 +723,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2005-02-17 11:56:08 $
+$Revision: 1.5 $ $Date: 2005-03-27 11:46:37 $
 
 =cut
