@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.7 2003-03-04 00:12:52 martin Exp $
+# $Id: PendingJobs.pl,v 1.8 2003-06-23 11:19:03 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -67,18 +67,19 @@ my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
     Type => 'PendingAuto',
     Result => 'ID',
 );
-my @TicketIDs = ();
-my $SQL = "SELECT st.id FROM " .
-    " ticket as st " .
-    " WHERE " .
-    " st.ticket_state_id IN ( ${\(join ', ', @PendingAutoStateIDs)} ) ";
-$CommonObject{DBObject}->Prepare(SQL => $SQL);
-while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
-    push (@TicketIDs, $Row[0]);
-}
-foreach (@TicketIDs) {
-    my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
-    if ($Ticket{UntilTime} < 1) {
+if (@PendingAutoStateIDs) {
+    my @TicketIDs = ();
+    my $SQL = "SELECT st.id FROM " .
+      " ticket as st " .
+      " WHERE " .
+      " st.ticket_state_id IN ( ${\(join ', ', @PendingAutoStateIDs)} ) ";
+    $CommonObject{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
+        push (@TicketIDs, $Row[0]);
+    }
+    foreach (@TicketIDs) {
+      my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
+      if ($Ticket{UntilTime} < 1) {
         my %States = %{$CommonObject{ConfigObject}->Get('StateAfterPending')};
         if ($States{$Ticket{State}}) {
             print " Update ticket state for ticket $Ticket{TicketNumber} ($_) to '$States{$Ticket{State}}'...";
@@ -100,6 +101,7 @@ foreach (@TicketIDs) {
         else {
             print STDERR "ERROR: No StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!\n";
         }
+      }
     }
 }
 # --
@@ -109,20 +111,21 @@ my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
     Type => 'PendingReminder',
     Result => 'ID',
 );
-@TicketIDs = ();
-$SQL = "SELECT st.tn, st.id, st.user_id FROM " .
-    " ticket as st, ticket_state tsd " .
-    " WHERE " .
-    " st.ticket_state_id = tsd.id " .
-    " AND " .
-    " st.ticket_state_id IN ( ${\(join ', ', @PendingReminderStateIDs)} ) ";
-$CommonObject{DBObject}->Prepare(SQL => $SQL);
-while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
-    push (@TicketIDs, $RowTmp[1]);
-}
-foreach (@TicketIDs) {
-    my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
-    if ($Ticket{UntilTime} < 1) {
+if (@PendingReminderStateIDs) {
+    my @TicketIDs = ();
+    my $SQL = "SELECT st.tn, st.id, st.user_id FROM " .
+      " ticket as st, ticket_state tsd " .
+      " WHERE " .
+      " st.ticket_state_id = tsd.id " .
+      " AND " .
+      " st.ticket_state_id IN ( ${\(join ', ', @PendingReminderStateIDs)} ) ";
+    $CommonObject{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
+        push (@TicketIDs, $RowTmp[1]);
+    }
+    foreach (@TicketIDs) {
+      my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
+      if ($Ticket{UntilTime} < 1) {
         # --
         # send reminder notification
         # --
@@ -137,9 +140,9 @@ foreach (@TicketIDs) {
             TicketID => $Ticket{TicketID},
             UserID => 1,
         );
+      }
     }
 }
-
 
 exit (0);
 
