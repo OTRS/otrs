@@ -2,7 +2,7 @@
 # EmailSend.pm - the global email send module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.8 2002-05-26 18:18:04 martin Exp $
+# $Id: EmailSend.pm,v 1.9 2002-06-16 20:43:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::System::EmailSend;
 
 use strict;
 use MIME::Words qw(:all);
+use Mail::Internet;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -165,30 +166,65 @@ sub Send {
 sub Bounce {
     my $Self = shift;
     my %Param = @_;
-
+    my $Time = time();
+    my $Random = rand(999999);
+    my $UserID = $Param{UserID} || 0;
+    my $From = $Param{From} || '';
+    my $To = $Param{To} || '';
+    my $ToOrig = $To;
+    my $Cc = $Param{Cc} || '';
+    my $TicketObject = $Param{TicketObject} || '';
+    my $HistoryType = $Param{HistoryType} || 'SendAnswer';
+    my $RetEmail = $Param{Email};
+    # --
     # build bounce mail ...
-    my @Mail = ("From: old_from\n");
-    push @Mail, "To: old_to\n";
-#       push @Mail, "Cc: $cc\n" if ($cc);
-    push @Mail, "Subject: old_subject\n";
-#    push @Mail, "Message-ID: old_msgid\n" if (old_msgid);
-    push @Mail, "X-Mailer: OpenTicketRequestSystem Mail Service ($VERSION)\n";
-    push @Mail, "Content-Type: TEXT/PLAIN; charset=Charset\n";
-    push @Mail, "Content-Transfer-Encoding: 8BIT\n";
-    push @Mail, "ReSent-Date: timescalar\n";
-    push @Mail, "Resent-From: from\n";
-    push @Mail, "Resent-To: to\n";
-    push @Mail, "ReSent-Subject: old_subject\n";
-    push @Mail, "ReSent-Message-ID: <>\n";
-    push @Mail, "\n";
-#    push @Mail, old_text;
-    push @Mail, "\n";
+    # --
+    # get old email
+    my $Email = $Param{EmailPlain} || return;
+    # split body && header
+    my @EmailPlain = split(/\n/, $Email);
+    my $EmailObject = new Mail::Internet(\@EmailPlain);
 
-    # send mail
-    open( MAIL, "|$Self->{Sendmail} \"from\" " );
-    print MAIL @Mail;
-    close(MAIL);
+    # --
+    # add ReSent header
+    # --
+    my $HeaderObject = $EmailObject->head();
+    my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$UserID\@$Self->{FQDN}>";
+    my $OldMessageID = $HeaderObject->get('Message-ID') || '??';
+    $HeaderObject->replace('Message-ID', $NewMessageID);
+    $HeaderObject->replace('ReSent-Message-ID', $OldMessageID);
+    $HeaderObject->replace('Resent-To', $To);
+    $HeaderObject->replace('Resent-From', $From);
+    my $Body = $EmailObject->body();
 
+    # --
+    # pipe all into sendmail
+    # --
+    if (open( MAIL, "|$Self->{Sendmail} '$RetEmail' " )) {
+        print MAIL $HeaderObject->as_string;
+        print MAIL "\n";
+        foreach (@{$Body}) {
+            print MAIL $_."\n";
+        }
+        close(MAIL);
+    }
+    else {
+        print STDERR "$!\n";
+        return;
+    }
+
+    # --
+    # write history
+    # --
+    if ($TicketObject) {
+        $TicketObject->AddHistoryRow(
+          TicketID => $Param{TicketID},
+          ArticleID => $Param{ArticleID},
+          HistoryType => $HistoryType,
+          Name => "Bounced email to '$To'.",
+          CreateUserID => $UserID,
+        );
+    }
     return 1;
 }
 # --
