@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.27 2004-03-25 10:17:01 martin Exp $
+# $Id: DB.pm,v 1.28 2004-04-22 11:08:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -109,6 +109,7 @@ sub CustomerSearch {
     my $Self = shift;
     my %Param = @_;
     my %Users = ();
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
     # check needed stuff
     if (!$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!");
@@ -173,7 +174,7 @@ sub CustomerSearch {
         $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
     }
     # add valid option
-    if ($Self->{CustomerUserMap}->{CustomerValid}) {
+    if ($Self->{CustomerUserMap}->{CustomerValid} && $Valid) {
         $SQL .= "AND ".$Self->{CustomerUserMap}->{CustomerValid}.
         " in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
     }
