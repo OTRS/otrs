@@ -1,8 +1,8 @@
 # --
 # INSTALL description of OTRS
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.36 2004-12-10 08:48:25 martin Exp $
+# $Id: INSTALL,v 1.37 2005-02-17 12:03:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -123,7 +123,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 9. Config file ($HOME/Kernel/Config.pm):
    -------------------------------------
    If you used the Web-Installer, you can skip this point. If not,
-   set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, TicketHook,
+   set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, Ticket::Hook,
    Home, ...)
 
 10. First Login:
