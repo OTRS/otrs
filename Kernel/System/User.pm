@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.15 2002-08-26 21:56:56 martin Exp $
+# $Id: User.pm,v 1.16 2002-10-01 13:48:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -53,40 +53,6 @@ sub new {
       || 'user_id';
 
     return $Self;
-}
-# --
-sub GetLockedCount {
-    my $Self = shift;
-    my %Param = @_;
-    my $UserID = $Param{UserID};
-    my @LockIDs = (2);
-    my %Data;
-
-    $Self->{DBObject}->Prepare(
-       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by" .
-              " FROM " .
-              " ticket ti, article ar, article_sender_type st" .
-              " WHERE " .
-              " ti.user_id = $UserID " .
-              " AND " .
-              " ti.ticket_lock_id in ( ${\(join ', ', @LockIDs)} )" .
-              " AND " .
-              " ar.ticket_id = ti.id " .
-              " AND " .
-              " st.id = ar.article_sender_type_id " .
-              " ORDER BY ar.create_time DESC",
-    );
-
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        if (!$Data{"ID$RowTmp[2]"}) {
-          $Data{'Count'}++;
-          if ($RowTmp[1] ne 'agent' || $RowTmp[3] ne $UserID) {
-            $Data{'ToDo'}++;
-          }
-        }
-        $Data{"ID$RowTmp[2]"} = 1;
-    }
-    return %Data;
 }
 # --
 sub GetGroups {
