@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.15 2002-02-05 20:24:58 martin Exp $
+# $Id: Config.pm,v 1.16 2002-02-05 21:05:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -41,53 +41,92 @@ sub Load {
         $Self->{LogObject}->Log(Priority=>'debug', MSG=>'Kernel::Config->Load()');
     }
 
-
-    # --
+    # ----------------------------------------------------
     # system data
-    # --
-    # secure mode
+    # ----------------------------------------------------
+
+    # SecureMode
+    # (Enable this so you can't use the installer.pl)
     $Self->{SecureMode} = 0;
-    # check remote IP
+
+    # CheckRemoteIP 
+    # (If the application is used via a proxy-farm then the 
+    # remote ip address is mostly different. In this case,
+    # turn of the CheckRemoteID. ) [1|0] 
     $Self->{CheckRemoteID} = 1;
-    # system ID
+
+    # SystemID
+    # (The identify oh the system. Each ticket number and
+    # each http session id starts with this number)
     $Self->{SystemID} = 10; 
-    # ticket Hook 
+
+    # TicketHook 
+    # (To set the Ticket identifier. Some people want to 
+    # set this to e. g. Call# oder MyTicket# .)
     $Self->{TicketHook} = 'Ticket#',
-    # full qualified domain name of your system
+
+    # FQDN
+    # (Full qualified domain name of your system.)
     $Self->{FQDN} = 'avro.linuxatwork.de';
-    # where is sendmail located
+
+    # Sendmail
+    # (Where is sendmail located and some options.
+    # See 'man sendmail' for details.) 
     $Self->{Sendmail} = '/usr/sbin/sendmail -t -f ';
-    # send all outgoing email via bcc to
+
+    # SendmailBcc
+    # (Send all outgoing email via bcc to...)
     $Self->{SendmailBcc} = '';
-    # name of custom queues
+
+    # CustomQueue
+    # (The name of custom queue.)
     $Self->{CustomQueue} = 'PersonalQueue';
 
-    # --
+    # ----------------------------------------------------
     # DB settings
-    # --
-    # database host
+    # ----------------------------------------------------
+
+    # DatabaseHost
+    # (The database host.)
     $Self->{DatabaseHost} = 'localhost';
-    # database name
-#    $Self->{Database} = 'OpenTRS';
+   
+    # Database
+    # (The database name.)
     $Self->{Database} = 'otrs';
-    # database user
+
+    # DatabaseUser
+    # (The database user.)
     $Self->{DatabaseUser} = 'otrs';
-    # password of database user
+
+    # DatabasePw
+    # (The password of database user.)
     $Self->{DatabasePw} = 'some-pass';
-    # database DNS
+   
+    # DatabaseDSN
+    # (The database DNS.)
     $Self->{DatabaseDSN} = 'DBI:mysql:database='.
         $Self->{Database}.';host='.$Self->{DatabaseHost}.';';
 
 
-    # --
+    # ----------------------------------------------------
     # default agent settings
-    # --
-    # default viewable tickets a page
+    # ----------------------------------------------------
+
+    # ViewableTickets
+    # (The default viewable tickets a page.)
     $Self->{ViewableTickets} = 25;
-    # max viewable tickets a page
+
+    # MaxLimit
+    # (Max viewable tickets a page.)
     $Self->{MaxLimit} = 150;
-    # default reload time
+    
+    # Refresh
+    # (Default reload time for teh QueueView.)
     $Self->{Refresh} = 180;
+
+    # Highligh*
+    # (Set the age and the collor for highlighting of old queues
+    # in the QueueView.)
     # highlight age1 in min
     $Self->{HighlightAge1} = 1440;
     $Self->{HighlightColor1} = 'orange';
@@ -95,17 +134,17 @@ sub Load {
     $Self->{HighlightAge2} = 2880;
     $Self->{HighlightColor2} = 'red';
 
-    # --
+    # ----------------------------------------------------
     # AgentUtil
-    # --
+    # ----------------------------------------------------
     # default limit for Tn search
     $Self->{SearchLimitTn} = 20;
     # default limit for Txt search
     $Self->{SearchLimitTxt} = 20;
 
-    # --
+    # ----------------------------------------------------
     # directories
-    # --
+    # ----------------------------------------------------
     # root directory
     $Self->{Home} = '/opt/OpenTRS';
     # directory for all sessen id informations
@@ -117,18 +156,21 @@ sub Load {
     # loop protection Log
     $Self->{LoopProtectionLog} = $Self->{Home} . '/var/log/LoopProtection';
 
-    # --
+    # ----------------------------------------------------
     # web stuff
-    # --
-    # global CGI handle
+    # ----------------------------------------------------
+
+    # CGIHandle
+    # (Global CGI handle.)
     $Self->{CGIHandle} = 'index.pl';
-    # max valid time of one session id
-    # in second (8h = 28800)
+
+    # MaxSessionTime
+    # (Max valid time of one session id in second (8h = 28800).)
     $Self->{MaxSessionTime} = 28800;
 
-    # --
+    # ----------------------------------------------------
     # Ticket stuff
-    # --
+    # ----------------------------------------------------
     # ViewableLocks
     $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
 
@@ -138,20 +180,32 @@ sub Load {
     # ViewableSenderTypes
     $Self->{ViewableSenderTypes} = ["'customer'"];
 
-    # --
+    # ----------------------------------------------------
     # PostMaster stuff
-    # --
-    # max post master daemon email to own email-address a day
+    # ----------------------------------------------------
+   
+    # MaxPostMasterEmails
+    # (Max post master daemon email to own email-address a day.)
     $Self->{MaxPostMasterEmails} = 20;
-    # post master id
+
+    # PostmasterUserID
+    # (The post master db-uid)
     $Self->{PostmasterUserID} = 1;
-    # default queue of all
+
+    # DefaultQueue
+    # (The default queue of all)
     $Self->{DefaultQueue} = 'Raw';
-    # default priority
+
+    # DefaultPriority
+    # (The default priority of new tickets.)
     $Self->{DefaultPriority} = 'normal';
-    # default state 
+
+    # DefaultState
+    # (The default state of new tickets.)
     $Self->{DefaultState} = 'new';
-    # scanned x-headers
+
+    # X-Header
+    # (All scanned x-headers.)
     $Self->{"X-Header"} = [
       'From',
       'To',
@@ -184,9 +238,10 @@ sub Load {
       'X-OTRS-TicketValue2',
     ];
 
-    # --
+    # ----------------------------------------------------
     # default values
-    # --
+    # (default values for GUIs)
+    # ----------------------------------------------------
     # default valid
     $Self->{DefaultValid} = 'valid';
     # default charset
@@ -196,9 +251,9 @@ sub Load {
     # default theme
     $Self->{DefaultTheme} = 'Standard';
 
-    # --
-    # defaults dor add note
-    # --
+    # ----------------------------------------------------
+    # defaults for add note
+    # ----------------------------------------------------
     # default note type
     $Self->{DefaultNoteType} = 'note-internal';
     # default note subject
@@ -206,9 +261,9 @@ sub Load {
     # default note text
     $Self->{DefaultNoteText} = '';
 
-    # --
+    # ----------------------------------------------------
     # defaults for close ticket
-    # --
+    # ----------------------------------------------------
     # CloseNoteType
     $Self->{DefaultCloseNoteType} = 'note-internal';
     # CloseNoteSubject
@@ -218,9 +273,9 @@ sub Load {
     # CloseType
     $Self->{DefaultCloseType} = 'closed succsessful';
 
-    # --
+    # ----------------------------------------------------
     # defaults for compose message
-    # --
+    # ----------------------------------------------------
     # default compose next state
     $Self->{DefaultNextComposeType} = 'open';
     # next possible states for compose message
