@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.40 2004-04-07 17:25:42 martin Exp $
+# $Id: User.pm,v 1.41 2004-08-01 10:29:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -459,10 +459,15 @@ sub SyncLDAP2Database {
         $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
         $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
         $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
-        # --
+        # Net::LDAP new params
+        if ($Self->{ConfigObject}->Get('AuthModule::LDAP::Params')) {
+            $Self->{Params} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Params');
+        }
+        else {
+            $Self->{Params} = {};
+        }
         # bind to LDAP
-        # --
-        my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
+        my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
         if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
