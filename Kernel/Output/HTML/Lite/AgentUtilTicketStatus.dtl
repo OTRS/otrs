@@ -1,0 +1,30 @@
+# --
+# AgentUtilTicketStatus.dtl - provides HTML form for AgentUtilities.pm
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentUtilTicketStatus.dtl,v 1.1 2002-10-15 09:48:19 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor0"}">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Ticket Status"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top">
+
+<p>
+$Text{"Provides an overview of all"} <a href="$Env{"Baselink"}Action=AgentStatusView">$Text{"open tickets"}</a>. $Text{"So you see what is going on in your system."}
+</p>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+
