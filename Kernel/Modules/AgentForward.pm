@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.33 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentForward.pm,v 1.34 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -191,6 +191,7 @@ sub Form {
     # get next states
     my %NextStates = $Self->{TicketObject}->StateList(
         Type => 'DefaultNextForward',
+        Action => $Self->{Action},
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID},
     );

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.25 2004-04-14 15:56:13 martin Exp $
+# $Id: AgentMailbox.pm,v 1.26 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -192,6 +192,16 @@ sub MaskMailboxTicket {
     my $Self = shift;
     my %Param = @_;
     $Param{Message} = $Self->{LayoutObject}->{LanguageObject}->Get($Param{Message}).' ';
+    # get ack actions 
+    $Self->{TicketObject}->TicketAcl(
+        Data => '-',
+        Action => $Self->{Action},
+        TicketID => $Param{TicketID},
+        ReturnType => 'Action',
+        ReturnSubType => '-',
+        UserID => $Self->{UserID},
+    ); 
+    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
     # check if the pending ticket is Over Time
     if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
         $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover').' '.
@@ -222,7 +232,7 @@ sub MaskMailboxTicket {
     # create & return output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentMailboxTicket', 
-        Data => \%Param,
+        Data => {%Param, %AclAction},
     );
 }
 # --

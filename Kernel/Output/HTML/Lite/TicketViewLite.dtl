@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketViewLite.dtl,v 1.13 2004-04-01 09:15:44 martin Exp $
+# $Id: TicketViewLite.dtl,v 1.14 2004-04-22 13:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,11 +24,19 @@
 <tr>
   <td align="left" width="60%" class="table2">
   <a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';">$Text{"Lock"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Text{"Zoom"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';">$Text{"Priority"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';">$Text{"History"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Add Note"}'; return true;" onmouseout="window.status='';">$Text{"Note"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';">$Text{"Close"}</a>
+  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Text{"Zoom"}</a>
+# should we show the priority action
+<dtl if ($Data{"AgentPriority"} ne "0") { $Data{"AgentPriorityStrg"} = " - <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket priority!"}">$Text{"Priority"}</a>"; }>
+$Data{"AgentPriorityStrg"}
+# should we show the history action
+<dtl if ($Data{"AgentHistory"} ne "0") { $Data{"AgentHistoryStrg"} = " - <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the ticket history!"}">$Text{"History"}</a>"; }>
+# should we show the note action
+<dtl if ($Data{"AgentNote"} ne "0") { $Data{"AgentNoteStrg"} = " - <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Add a note to this ticket!"}">$Text{"Note"}</a>"; }>
+$Data{"AgentNoteStrg"}
+# should we show the close action
+<dtl if ($Data{"AgentClose"} ne "0") { $Data{"AgentCloseStrg"} = " - <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Close this ticket!"}">$Text{"Close"}</a>"; }>
+$Data{"AgentCloseStrg"}
+
   </td>
   <td align="right" width="40%" class="table2">
   <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.77 2004-04-18 11:57:27 martin Exp $
+# $Id: AgentPhone.pm,v 1.78 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -646,6 +646,7 @@ sub _GetNextStates {
     if ($Param{QueueID} || $Param{TicketID}) {
         %NextStates = $Self->{TicketObject}->StateList(
             %Param,
+            Action => $Self->{Action},
             Type => 'PhoneDefaultNext',
             UserID => $Self->{UserID},
         );
@@ -705,6 +706,7 @@ sub _GetPriorities {
     if ($Param{QueueID} || $Param{TicketID}) {
         %Priorities = $Self->{TicketObject}->PriorityList(
             %Param,
+            Action => $Self->{Action},
             UserID => $Self->{UserID},
         );
     }
@@ -725,6 +727,7 @@ sub _GetTos {
         if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
             %Tos = $Self->{TicketObject}->MoveList(
                 Type => 'create',
+                Action => $Self->{Action},
                 QueueID => $Self->{QueueID},
                 UserID => $Self->{UserID},
             );

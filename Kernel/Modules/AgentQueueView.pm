@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.58 2004-04-16 12:35:25 martin Exp $
+# $Id: AgentQueueView.pm,v 1.59 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -329,29 +329,40 @@ sub ShowTicket {
             SelectedID => $Article{QueueID},
         );
     }
+    # get ack actions 
+    $Self->{TicketObject}->TicketAcl(
+        Data => '-',
+        Action => $Self->{Action},
+        TicketID => $Article{TicketID},
+        ReturnType => 'Action',
+        ReturnSubType => '-',
+        UserID => $Self->{UserID},
+    );
+    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    # create output
     if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
         $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentZoomAgentIsCustomer',
-            Data => {%Param, %Article},
+            Data => {%Param, %Article, %AclAction},
         );
     }
     else {
         $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentZoomAnswer',
-            Data => {%Param, %Article},
+            Data => {%Param, %Article, %AclAction},
         );
     }
     # create & return output
     if (!$Self->{UserQueueView} || $Self->{UserQueueView} ne 'TicketViewLite') {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'TicketView', 
-            Data => {%Param, %Article},
+            Data => {%Param, %Article, %AclAction},
         );
     }
     else {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'TicketViewLite', 
-            Data => {%Param, %Article},
+            Data => {%Param, %Article, %AclAction},
         );
     }
 }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.19 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentPending.pm,v 1.20 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,6 +83,7 @@ sub Run {
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
             Type => 'DefaultPendingNext',
+            Action => $Self->{Action},
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
         );

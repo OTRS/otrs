@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.35 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentClose.pm,v 1.36 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,6 +71,7 @@ sub Run {
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
             Type => 'DefaultCloseNext',
+            Action => $Self->{Action},
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
         );
@@ -93,6 +94,7 @@ sub Run {
         my %MoveQueues = $Self->{TicketObject}->MoveList(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
+            Action => $Self->{Action},
             Type => 'move',
         );
         # -- 

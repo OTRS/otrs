@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomHead.dtl,v 1.9 2004-04-02 08:20:21 martin Exp $
+# $Id: AgentZoomHead.dtl,v 1.10 2004-04-22 13:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,17 +30,37 @@
 <dtl if ($Data{"Lock"} eq "lock") { $Data{"LockText"} = "Unlock"; }>
 <dtl set $Data{"LockLink"} = "Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}">
 <dtl if ($Data{"Lock"} eq "unlock") { $Data{"LockLink"} = "Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}"; }>
-  <a href="$Env{"Baselink"}$Data{"LockLink"}" onmouseover="window.status='$Text{"$Data{"LockText"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Lock it to work on it!"}">$Text{"$Data{"LockText"}"}</a> - 
-  <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket priority!"}">$Text{"Priority"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the ticket history!"}">$Text{"History"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket owner!"}">$Text{"Owner"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Add a note to this ticket!"}">$Text{"Note"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket customer!"}">$Text{"Customer"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentFreeText&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Free Fields"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket free fields!"}">$Text{"Free Fields"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentTicketLink&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Link"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Link this ticket to an other one!"}">$Text{"Link"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Print"}'; return true;" onmouseout="window.status='';" class="menuitem" target="print" title="$Text{"Print this ticket!"}">$Text{"Print"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Set this ticket to pending!"}">$Text{"Pending"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Close this ticket!"}">$Text{"Close"}</a>
+  <a href="$Env{"Baselink"}$Data{"LockLink"}" onmouseover="window.status='$Text{"$Data{"LockText"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Lock it to work on it!"}">$Text{"$Data{"LockText"}"}</a>
+# should we show the priority action
+<dtl if ($Data{"AgentPriority"} ne "0") { $Data{"AgentPriorityStrg"} = " - <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket priority!"}">$Text{"Priority"}</a>"; }>
+$Data{"AgentPriorityStrg"}
+# should we show the history action
+<dtl if ($Data{"AgentHistory"} ne "0") { $Data{"AgentHistoryStrg"} = " - <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the ticket history!"}">$Text{"History"}</a>"; }>
+$Data{"AgentHistoryStrg"}
+# should we show the owner action
+<dtl if ($Data{"AgentOwner"} ne "0") { $Data{"AgentOwnerStrg"} = " - <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket owner!"}">$Text{"Owner"}</a>"; }>
+$Data{"AgentOwnerStrg"}
+# should we show the note action
+<dtl if ($Data{"AgentNote"} ne "0") { $Data{"AgentNoteStrg"} = " - <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Add a note to this ticket!"}">$Text{"Note"}</a>"; }>
+$Data{"AgentNoteStrg"}
+# should we show the customer action
+<dtl if ($Data{"AgentCustomer"} ne "0") { $Data{"AgentCustomerStrg"} = " - <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket customer!"}">$Text{"Customer"}</a>"; }>
+$Data{"AgentCustomerStrg"}
+# should we show the free text action
+<dtl if ($Data{"AgentFreeText"} ne "0") { $Data{"AgentFreeTextStrg"} = " - <a href="$Env{"Baselink"}Action=AgentFreeText&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Free Fields"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket free fields!"}">$Text{"Free Fields"}</a>"; }>
+$Data{"AgentFreeTextStrg"}
+# should we show the ticket link action
+<dtl if ($Data{"AgentTicketLink"} ne "0") { $Data{"AgentTicketLinkStrg"} = " - <a href="$Env{"Baselink"}Action=AgentTicketLink&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Link"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Link this ticket to an other one!"}">$Text{"Link"}</a>"; }>
+$Data{"AgentTicketLinkStrg"}
+# should we show the print action
+<dtl if ($Data{"AgentTicketPrint"} ne "0") { $Data{"AgentTicketPrintStrg"} = " - <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Print"}'; return true;" onmouseout="window.status='';" class="menuitem" target="print" title="$Text{"Print this ticket!"}">$Text{"Print"}</a>"; }>
+$Data{"AgentTicketPrintStrg"} 
+# should we show the pending action
+<dtl if ($Data{"AgentPending"} ne "0") { $Data{"AgentPendingStrg"} = " - <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Set this ticket to pending!"}">$Text{"Pending"}</a>"; }>
+$Data{"AgentPendingStrg"}
+# should we show the close action
+<dtl if ($Data{"AgentClose"} ne "0") { $Data{"AgentCloseStrg"} = " - <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Close this ticket!"}">$Text{"Close"}</a>"; }>
+$Data{"AgentCloseStrg"}
   </td>
   <td align="right" valign="top" width="30%" class="table2">
     <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}

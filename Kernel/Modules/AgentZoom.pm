@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.59 2004-04-16 15:19:09 martin Exp $
+# $Id: AgentZoom.pm,v 1.60 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -142,6 +142,7 @@ sub Run {
     my %MoveQueues = $Self->{TicketObject}->MoveList(
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID},
+        Action => $Self->{Action},
         Type => 'move_into',
     );
     # fetch all std. responses
@@ -181,8 +182,8 @@ sub Run {
         CustomerData => \%CustomerData,
         TicketTimeUnits => $Self->{TicketObject}->TicketAccountedTimeGet(%Ticket),
         %UserInfo,
-        %Ticket,
         %TicketLink,
+        %Ticket,
     );
     # add footer 
     $Output .= $Self->{LayoutObject}->Footer();
@@ -193,6 +194,17 @@ sub Run {
 sub MaskAgentZoom {
     my $Self = shift;
     my %Param = @_;
+    # get ack actions 
+    $Self->{TicketObject}->TicketAcl(
+        Data => '-',
+        Action => $Self->{Action},
+        TicketID => $Self->{TicketID},
+        ReturnType => 'Action',
+        ReturnSubType => '-',
+        UserID => $Self->{UserID},
+    );
+    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    # age design
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
     if ($Param{UntilTime}) {
         if ($Param{UntilTime} < -1) {
@@ -356,7 +368,7 @@ sub MaskAgentZoom {
     # --
     $Param{TicketStatus} .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentZoomStatus',
-        Data => {%Param},
+        Data => {%Param, %AclAction},
     );
     my $BodyOutput = '';
     foreach my $ArticleTmp (@NewArticleBox) {
@@ -425,16 +437,16 @@ sub MaskAgentZoom {
             if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
               $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentZoomAgentIsCustomer',
-                Data => {%Param, %Article},
+                Data => {%Param, %Article, %AclAction},
               );
             }
             $Article{TicketArticle} = $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentZoomArticle',
-                Data => {%Param, %Article},
+                Data => {%Param, %Article, %AclAction},
             );
             $BodyOutput .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentZoomBody', 
-                Data => {%Param, %Article},
+                Data => {%Param, %Article, %AclAction},
             );
         }
         else {
@@ -442,33 +454,33 @@ sub MaskAgentZoom {
             if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
               $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentZoomAgentIsCustomer',
-                Data => {%Param, %Article},
+                Data => {%Param, %Article, %AclAction},
               );
             }
             else {
               $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
                   TemplateFile => 'AgentZoomAnswer',
-                  Data => {%Param, %Article},
+                  Data => {%Param, %Article, %AclAction},
               );
               $Article{TicketArticle} = $Self->{LayoutObject}->Output(
                   TemplateFile => 'AgentZoomArticle',
-                  Data => {%Param, %Article},
+                  Data => {%Param, %Article, %AclAction},
               );
             }
             $BodyOutput .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentZoomBody', 
-                Data => {%Param, %Article},
+                Data => {%Param, %Article, %AclAction},
             );
         }
     }
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentZoomHead', 
-        Data => \%Param, 
+        Data => {%Param, %AclAction}, 
     );
     $Output .= $BodyOutput;
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentZoomFooter', 
-        Data => \%Param,
+        Data => {%Param, %AclAction},
     );
     # return output
     return $Output;

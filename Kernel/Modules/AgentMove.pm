@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.32 2004-04-16 08:53:43 martin Exp $
+# $Id: AgentMove.pm,v 1.33 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -117,6 +117,7 @@ sub Run {
         my %MoveQueues = $Self->{TicketObject}->MoveList(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
+            Action => $Self->{Action},
             Type => 'move_into',
         );
         # build header
@@ -124,6 +125,7 @@ sub Run {
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
             Type => 'DefaultNextMove',
+            Action => $Self->{Action},
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
         );

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.48 2004-04-20 09:33:05 martin Exp $
+# $Id: AgentUtilities.pm,v 1.49 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -498,7 +498,11 @@ sub MaskForm {
         SelectedID => $Param{Profile},
     );
     $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{StateObject}->StateList(UserID => $Self->{UserID}) },
+        Data => { $Self->{StateObject}->StateList(
+             UserID => $Self->{UserID}, 
+             Action => $Self->{Action},
+             ) 
+        },
         Name => 'StateIDs',
         Multiple => 1,
         Size => 5,
@@ -508,7 +512,8 @@ sub MaskForm {
         Data => { $Self->{QueueObject}->GetAllQueues(
             UserID => $Self->{UserID},
             Type => 'ro',
-          ) },
+          ),
+        },
         Size => 5,
         Multiple => 1,
         Name => 'QueueIDs',
@@ -516,7 +521,11 @@ sub MaskForm {
         OnChangeSubmit => 0,
     );
     $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{PriorityObject}->PriorityList(UserID => $Self->{UserID}) },
+        Data => { $Self->{PriorityObject}->PriorityList(
+            UserID => $Self->{UserID},
+            Action => $Self->{Action},
+            ),
+        },
         Name => 'PriorityIDs',
         Multiple => 1,
         Size => 5,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.64 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentCompose.pm,v 1.65 2004-04-22 13:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -477,6 +477,7 @@ sub _GetNextStates {
     # get next states
     my %NextStates = $Self->{TicketObject}->StateList(
         Type => 'DefaultNextCompose',
+        Action => $Self->{Action},
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID},
     );
