@@ -1,8 +1,8 @@
 # --
 # README.webserver - webserver description of OpenTRS
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.1 2002-01-10 20:07:42 martin Exp $
+# $Id: README.webserver,v 1.2 2002-05-04 20:37:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,44 +15,75 @@ I prefer the apache webserver (http://httpd.apache.org).
 
 Configuration:
 ==============
-After this steps, you will get the login page at 
-http://your-host/otrs/index.pl .
+"After" this steps, you will get the login page at 
+http://your-host/otrs/index.pl or http://your-host/otrs/installer.pl.
 
-If you work with SuSE Linux, you can use the 
-$OTRS_HOME/scripts/suse-httpd.conf config file.
+SuSE Linux:
+===========
+a) Install the RPM-Package.
 
-Or edit the httpd.conf:
-=======================
-Change the webserver user (normaly wwwrun) to the OpenTRS 
-user (otrs).
+b) The manual way:
+  Use the "$OTRS_HOME/scripts/suse-httpd.include.conf" include config file.
 
-[...]
-User wwwrun 
-[...]
-User otrs
-[...]
+  Add it to /etc/sysconfig/apache with HTTPD_CONF_INCLUDE_FILES
+  [...]
+  HTTPD_CONF_INCLUDE_FILES=/opt/OpenTRS/scripts/suse-httpd.include.conf
+  [...]
 
-
-Without mod_perl:
-=================
-Add this to the cgi-bin stuff section in httpd.conf
-[...]
-ScriptAlias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
-[...]
+  Start SuSEconfig and restart the webserver (rcapache restart).
 
 
-With mod_perl:
-==============
-Add this to the mod_perl stuff section in httpd.conf
-[...]
-<IfDefine PERL>
-   Alias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
-</IfDefine>
-<Location /otrs>
-   SetHandler  perl-script
-   PerlHandler Apache::PerlRun
-   Options ExecCGI
-   PerlSendHeader On
-</Location>
+Or edit the httpd.conf directly:
+================================
+a)
+  Change the webserver user (normaly wwwrun) to the OpenTRS user (otrs).
+
+  [...]
+  User wwwrun 
+  [...]
+  User otrs
+  [...]
 
 
+b)
+ *) 
+  Without mod_perl (just CGI):
+  ============================
+  Add this to the cgi-bin stuff section in httpd.conf
+  [...]
+  ScriptAlias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+  [...]
+
+*)
+  With mod_perl (speed!):
+  =======================
+  Add this to the mod_perl stuff section in httpd.conf
+  [...]
+  Alias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+
+  <Location /otrs>
+    SetHandler  perl-script
+    PerlHandler Apache::Registry
+    Options ExecCGI
+    PerlSendHeader On
+  </Location>
+
+  May you want use the mod_perl startup script (on SuSE 
+  /usr/include/apache/modules/perl/startup.perl) to have as a simple 
+  way to have apache servers establish connections on process startup.
+
+  Add:
+  [...]
+  use Apache ();
+  use Apache::DBI ();
+  Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
+  # Apache::DBI->connect_on_init($data_source, $username, $auth, \%attr)
+  [...]
+
+  Nice! ,-)
+
+c)
+  Restart the webserver
+  =====================
+
+EOF
