@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.28 2004-04-14 15:56:13 martin Exp $
+# $Id: AgentCustomer.pm,v 1.29 2004-04-30 06:54:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -168,12 +168,12 @@ sub Form {
     # --
     # print change form if ticket id is given
     # --
+    my %CustomerUserData = ();
     if ($Self->{TicketID}) {
         # --
         # get ticket data 
         # --
         my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-        my %CustomerUserData = ();
         if ($TicketData{CustomerUserID}) {
             %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $TicketData{CustomerUserID},
@@ -194,11 +194,26 @@ sub Form {
     # get ticket ids with customer id
     # --
     my @TicketIDs = ();
-    if ($TicketCustomerID) {
-        @TicketIDs = $Self->{TicketObject}->GetCustomerTickets(
-            UserID => $Self->{UserID}, 
-            CustomerID => $TicketCustomerID,
-        );
+    if ($TicketCustomerID || $CustomerUserData{UserID}) {
+        if ($CustomerUserData{UserID}) {
+            my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUserData{UserID});
+            @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                Result => 'ARRAY',
+                CustomerID => \@CustomerIDs,
+  
+                UserID => $Self->{UserID},
+                Permission => 'ro',
+            );
+        }
+        elsif ($TicketCustomerID) {
+            @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                Result => 'ARRAY',
+                CustomerID => $TicketCustomerID,
+  
+                UserID => $Self->{UserID},
+                Permission => 'ro',
+            );
+        }
     }
     my $OutputTables = '';
     foreach my $TicketID (@TicketIDs) {

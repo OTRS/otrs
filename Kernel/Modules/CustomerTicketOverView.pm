@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.24 2004-04-27 14:30:10 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.25 2004-04-30 06:54:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -98,20 +98,36 @@ sub Run {
         $ShowClosed = 1;
     }
     # get data (viewable tickets...)
-    my $Open = 0;
+    my $StateType = '';
     if (!$ShowClosed) {
-       $Open = 1;
+       $StateType = 'Open';
     }
 
-    my @ViewableTickets = $Self->{TicketObject}->GetCustomerTickets(
-        CustomerID => $Self->{UserCustomerID},
-        CustomerUserID => $Self->{UserID},
-        ShowJustOpenTickets => $Open,
-        SortBy => $Self->{SortBy},
-        Order => $Self->{Order},
-        Type => $Self->{Type},
-        Limit => 3000,
-    );
+    my @ViewableTickets = ();
+    if ($Self->{Type} eq 'MyTickets') {
+        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            Result => 'ARRAY',
+            CustomerUserLogin => $Self->{UserID}, 
+            StateType => $StateType,
+            OrderBy => $Self->{Order},
+            SortBy => $Self->{SortBy},
+
+            CustomerUserID => $Self->{UserID},
+            Permission => 'ro',
+        );
+    }
+    else {
+        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            Result => 'ARRAY',
+            StateType => $StateType,
+            OrderBy => $Self->{Order},
+            SortBy => $Self->{SortBy},
+
+            CustomerUserID => $Self->{UserID},
+            Permission => 'ro',
+        );
+    }
+
     my $AllTickets = @ViewableTickets;
     # show ticket's
     my $OutputTable = "";

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.22 2004-04-23 07:34:41 martin Exp $
+# $Id: AgentEmail.pm,v 1.23 2004-04-30 06:54:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -201,7 +201,7 @@ sub Run {
             # search customer 
             my %CustomerUserList = ();
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                Search => $To,
+                Search => $To.'*',
             );
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
@@ -331,10 +331,14 @@ sub Run {
             );
             # show customer tickets
             my @TicketIDs = ();
-            if ($CustomerID) {
-                @TicketIDs = $Self->{TicketObject}->GetCustomerTickets(
-                    UserID => $Self->{UserID}, 
-                    CustomerID => $CustomerID, 
+            if ($CustomerUser) {
+                my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUser);
+                @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                    Result => 'ARRAY',
+                    CustomerID => \@CustomerIDs,
+            
+                    UserID => $Self->{UserID},
+                    Permission => 'ro',
                 );
             }
             foreach my $TicketID (@TicketIDs) {
