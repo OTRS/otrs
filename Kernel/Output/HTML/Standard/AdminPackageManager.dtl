@@ -1,0 +1,252 @@
+# --
+# AdminPackageManager.dtl - provides global HTML AdminPackageManager
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminPackageManager.dtl,v 1.1 2004-12-02 00:44:48 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
+  </td>
+</tr>
+
+<!-- dtl:block:Overview -->
+
+<tr>
+  <td width="30%" class="mainbody">
+
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="InstallPackage">
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Install"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+    <table>
+      <tr>
+        <td class="contentkey">$Text{"Package"}:</td>
+        <td class="contentvalue"><input name="file_upload" type="file" size="12" class="fixed"></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+    <input class="button" type="submit" value="$Text{"Install"}">
+    </td>
+  </tr>
+  </table>
+  </form>
+
+  <br>
+
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="">
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Online Reposetory"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+    <table>
+      <tr>
+        <td class="contentkey">$Text{"Source"}:</td>
+        <td class="contentvalue"> $Data{"SourceList"}</td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+    <input class="button" type="submit" name="GetRepositoryList" value="$Text{"Update"}">
+    </td>
+  </tr>
+  </table>
+  </form>
+  </td>
+  <td width="70%" class="mainbody">
+
+  <table border="0" width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Online Reposetory"}: $QData{"Source"}</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+    <table border="0" width="100%">
+      <tr>
+        <td>$Text{"Name"}</td>
+        <td>$Text{"Version"}</td>
+        <td>$Text{"Vendor"}</td>
+        <td width="55%">$Text{"Description"}</td>
+        <td>$Text{"Action"}</td>
+      </tr>
+<!-- dtl:block:ShowRemotePackage -->
+      <tr>
+        <td class="contentvalue">$QData{"Name"}</td>
+        <td class="contentvalue">$QData{"Version"}</td>
+        <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+        <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","70"}</td>
+        <td class="contentvalue">
+<!-- dtl:block:ShowRemotePackageInstall -->
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=InstallRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a>
+<!-- dtl:block:ShowRemotePackageInstall -->
+<!-- dtl:block:ShowRemotePackageUpgrade -->
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=InstallRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Upgrade"}</a>
+<!-- dtl:block:ShowRemotePackageUpgrade -->
+        </td>
+      </tr>
+<!-- dtl:block:ShowRemotePackage -->
+    </table>
+    </td>
+  </tr>
+  </table>
+
+  <br>
+
+  <table border="0" width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Local Reposetory"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+    <table border="0" width="100%">
+      <tr>
+        <td>$Text{"Name"}</td>
+        <td>$Text{"Version"}</td>
+        <td>$Text{"Vendor"}</td>
+        <td width="50%">$Text{"Description"}</td>
+        <td>$Text{"Status"}</td>
+        <td>$Text{"Action"}</td>
+      </tr>
+<!-- dtl:block:ShowLocalPackage -->
+      <tr>
+        <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}">$QData{"Name"}</a></td>
+        <td class="contentvalue">$QData{"Version"}</td>
+        <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+        <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","70"}</td>
+        <td class="contentvalue">$Text{"$QData{"Status"}"}</td>
+        <td class="contentvalue">
+<!-- dtl:block:ShowLocalPackageInstall -->
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Install&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a>
+<!-- dtl:block:ShowLocalPackageInstall -->
+<!-- dtl:block:ShowLocalPackageUninstall -->
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Uninstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Uninstall"}</a>
+<!-- dtl:block:ShowLocalPackageUninstall -->
+        </td>
+      </tr>
+<!-- dtl:block:ShowLocalPackage -->
+    </table>
+    </td>
+  </tr>
+  </table>
+
+    </td>
+  </tr>
+
+  </table>
+
+  </td>
+</tr>
+<!-- dtl:block:Overview -->
+
+<!-- dtl:block:Package -->
+<tr>
+  <td class="menu">
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Overview"}</a>
+    -
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Download"}</a>
+  </td>
+</tr>
+<tr>
+  <td class="mainbody">
+  <table border="0">
+<!-- dtl:block:PackageItem -->
+    <tr>
+      <td>$QData{"Tag"}: </td><td>$QData{"Content"}</td>
+    </tr>
+<!-- dtl:block:PackageItem -->
+<!-- dtl:block:PackageItemDescription -->
+    <tr>
+      <td>$QData{"Tag"}: </td><td>($QData{"Lang"}) $QData{"Content"}</td>
+    </tr>
+<!-- dtl:block:PackageItemDescription -->
+<!-- dtl:block:PackageItemConfig -->
+    <tr>
+      <td>$QData{"Tag"}: </td><td>$QData{"Key"} = $QData{"Content"}</td>
+    </tr>
+<!-- dtl:block:PackageItemConfig -->
+<!-- dtl:block:PackageItemFile -->
+    <tr>
+      <td>$QData{"Tag"}: </td><td>$QData{"Location"}</td>
+    </tr>
+    <tr>
+      <td> </td><td>$QData{"Content"}</td>
+    </tr>
+<!-- dtl:block:PackageItemFile -->
+  </table>
+  </td>
+</tr>
+<!-- dtl:block:Package -->
+
+
+<!-- dtl:block:Form -->
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Send">
+
+  <table border="0" width="700" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Options"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+
+    <table border="0" width="700" cellspacing="0" cellpadding="4">
+    <tr>
+      <td class="contentkey">$Text{"From"}:</td>
+      <td class="contentvalue"><input type="Text" name="From" value="$Config{"AdminEmail"}" size="40"></td>
+    </tr>
+    <tr>
+      <td class="contentkey">$Text{"Recipents"}:</td>
+      <td class="contentvalue">
+        <table border="0" cellspacing="0" cellpadding="1" width="70%">
+        <tr>
+          <td rowspan="2" valign="top">$Text{"User"}:<br>$Data{"UserOption"}</td>
+          <td valign="top">$Text{"Group"}:<br>$Data{"GroupOption"}</td>
+        </tr>
+        <tr>
+          <td valign="top">$Text{"Permission"}:<br>ro <input type="radio" name="GroupPermission" value="ro" checked> - rw <input type="radio" name="GroupPermission" value="rw"></td>
+        </tr>
+      </table>
+      </td>
+    </tr>
+# get subject
+<dtl if ($Data{"Subject"} eq "") { $Data{"Subject"} = "$Text{"OTRS-Admin Info!"}"; }>
+    <tr>
+      <td class="contentkey">$Text{"Subject"}:</td>
+      <td class="contentvalue"><input type="Text" name="Subject" value="$Data{"Subject"}" size="76"></td>
+    </tr>
+    <tr>
+      <td class="contentkey">$Text{"Body"}:</td>
+      <td class="contentvalue"><textarea name="Body" rows="10" cols="76">$QData{"Body"}</textarea></td>
+    </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter"><input class="button" type="submit" value="$Text{"send"}"></td>
+  </tr>
+  </table>
+  </form>
+<!-- dtl:block:Form -->
+</table>
+<!-- end -->
