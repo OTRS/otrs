@@ -35,14 +35,15 @@ CRON_RUNNING=1
 
 HOST=`hostname -f`
 
-USED_DB=MySQL
-USED_DB_TEST="ps --pid $(cat /var/lib/mysql/$HOST.pid)"
+USED_DB=mysqld
+#USED_DB_TEST="ps --pid $(cat /var/lib/mysql/$HOST.pid)"
+USED_DB_TEST="/sbin/service mysqld status | grep 'is running'"
 # --- The Wonderfull redhat's mysql init script does not have a status check.. sucks
 #USED_DB=PostgreSQL
 #USED_DB_RCSCRIPT="service postgresql status| grep 'is running' > /dev/null 2>&1"
 
 USED_WEBSERVER=httpd   #Redhat's default httpd is apache..
-USED_WEBSERVER_TEST="service httpd status | grep 'is running'"
+USED_WEBSERVER_TEST="/sbin/service httpd status | grep 'is running'"
 
 OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
 OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
@@ -110,11 +111,11 @@ case "$1" in
           echo " done."
         else 
           echo " failed."
-          echo "  --> Please start the database at first! (service mysql start) <--"
+          echo "  --> Please start the database at first! (service $USED_DB start) <--"
           exit 1;
         fi
       else 
-          echo " Disabled: mysql check!"
+          echo " Disabled: $USED_DB check!"
       fi
 
       # --
@@ -176,7 +177,7 @@ case "$1" in
       fi
  
       echo ""
-      echo "  -->> http://$HOST/otrs/index.pl <<-- "
+      echo "  -->> http://$HOST/$OTRS_HTTP_LOCATION/index.pl <<-- "
       echo $"Final start of $prog.. done"
     ;;
     # ------------------------------------------------------
@@ -226,12 +227,12 @@ case "$1" in
       # --
       # httpd
       # --
-      service httpd status
+      service $USED_WEBSERVER status
 
       # --
       # mysql
       # --
-      service mysql status
+      service $USED_DB status
       # --
       # db check
       # --
@@ -266,7 +267,7 @@ case "$1" in
       echo "done."
     ;;
     *)
-    echo "Usage: $0 {start|stop|stop-force|start-force|status|restart|restart-force}"
+    echo "Usage: $0 {start|stop|status|restart}"
     exit 1
 esac
 
