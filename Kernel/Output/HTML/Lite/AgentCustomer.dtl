@@ -2,7 +2,7 @@
 # AgentCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.dtl,v 1.9 2003-03-14 08:24:19 martin Exp $
+# $Id: AgentCustomer.dtl,v 1.10 2004-04-01 11:43:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@
 </tr>
 <tr>
   <td align="left" class="table2">
-    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';">$Text{"Back"}</a>
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
   </td>
 </tr>
 </table>
@@ -32,19 +32,19 @@ $Text{"Set customer user and customer id of a ticket"}:
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Update">
 <input type="hidden" name="ExpandCustomerName" value="0">
-<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+<input type="hidden" name="TicketID" value="$QData{"TicketID"}">
   <table>
   <tr>
     <td>$Text{"Customer User"}:</td>
-    <td><input type="text" name="CustomerUserID" value="$Data{"CustomerUserID"}" size="40">
+    <td><input type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" size="40">
     $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Search Customer"}'; return true;"> $Text{"Search Customer"}</a>$Env{"Box1"}<br> $Data{"CustomerUserStrg"}</td>
   </tr>
   <tr>
     <td>$Text{"CustomerID"}:</td>
-    <td> <input type="text" name="CustomerID" value="$Data{"CustomerID"}" size="40"></td>
+    <td> <input type="text" name="CustomerID" value="$QData{"CustomerID"}" size="40"></td>
   </tr>
   </table>
-<input type="submit" value="$Text{"update"}">
+<input class="button" type="submit" value="$Text{"update"}">
 </form>
 
 </p>

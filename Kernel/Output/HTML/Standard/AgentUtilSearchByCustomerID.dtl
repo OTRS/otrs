@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchByCustomerID.dtl - provides HTML form for AgentUtilities.pm
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByCustomerID.dtl,v 1.6 2004-01-19 23:50:36 martin Exp $
+# $Id: AgentUtilSearchByCustomerID.dtl,v 1.7 2004-04-01 11:43:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ $Text{"Customer history search (e. g. "ID342425")."} $Text{"No * possible!"}
 <input type="hidden" name="Action" value="AgentCustomer">
 <input type="hidden" name="Subaction" value="CustomerID">
 <input type="hidden" name="Search" value="1">
-$Text{"CustomerID"} <input type="text" name="CustomerID" size="20" value="$Data{"CustomerID"}">
+$Text{"CustomerID"} <input type="text" name="CustomerID" size="20" value="$QData{"CustomerID"}">
 <br>
 <input class="button" type="submit" value="$Text{"Search"}">
 </form>
