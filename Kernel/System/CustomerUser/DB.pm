@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.32 2004-08-26 09:59:18 martin Exp $
+# $Id: DB.pm,v 1.33 2004-09-16 08:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -326,7 +326,7 @@ sub CustomerUserAdd {
         $Day = "0$Day" if ($Day <10);
         $Hour = "0$Hour" if ($Hour <10);
         $Min = "0$Min" if ($Min <10);
-        my $Prefix = $Self->{CustomerUserMap}->{AutoLoginCreationName} || 'auto';
+        my $Prefix = $Self->{CustomerUserMap}->{AutoLoginCreationPrefix} || 'auto';
         $Param{UserLogin} = "$Prefix-$Year$Month$Day$Hour$Min".int(rand(99));
     }
     # check if user login exists
@@ -334,7 +334,18 @@ sub CustomerUserAdd {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
         return;
     }
-    # check email address
+    # check email address if already exists
+    if ($Param{UserEmail} && $Self->{CustomerUserMap}->{CustomerUserEmailUniqCheck}) {
+        my %Result = $Self->CustomerSearch(
+            Valid => 1,
+            PostMasterSearch => $Param{UserEmail},
+        );
+        if (%Result) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Email already exists!");
+            return;
+        }
+    }
+    # check email address mx
     if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
