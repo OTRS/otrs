@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.19 2002-08-26 21:38:32 martin Exp $
+# $Id: DB.pm,v 1.20 2002-11-24 23:52:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -29,19 +29,29 @@ sub new {
 
     # 0=off; 1=updates; 2=+selects; 3=+Connects;
     $Self->{Debug} = 0;
-    
+
+    # --
+    # check needed objects
+    # --
+    foreach ('ConfigObject', 'LogObject') {
+        if ($Param{$_}) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
+    } 
+    # --
     # get config data
-    $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";;
+    # --
     $Self->{HOST} = $Self->{ConfigObject}->Get('DatabaseHost');
     $Self->{DB}   = $Self->{ConfigObject}->Get('Database');
     $Self->{USER} = $Self->{ConfigObject}->Get('DatabaseUser');
     $Self->{PW}   = $Self->{ConfigObject}->Get('DatabasePw');
     $Self->{DSN}  = $Self->{ConfigObject}->Get('DatabaseDSN');
-
-    # get log object
-    $Self->{LogObject} = $Param{LogObject} || die "Got no LogObject!";
-
+    # --
     # do db connect 
+    # --
     if (!$Self->Connect()) {
         return;
     }
