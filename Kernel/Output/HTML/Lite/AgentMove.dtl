@@ -2,7 +2,7 @@
 # NoteForm.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.dtl,v 1.7 2003-12-08 00:10:20 martin Exp $
+# $Id: AgentMove.dtl,v 1.8 2004-09-27 13:26:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -53,8 +53,8 @@ function submit_compose()
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr> 
-  <td align="left" class="table2"> 
+<tr>
+  <td align="left" class="table2">
     <b>$Env{"Box0"}$Text{"Move Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
 </tr>
@@ -62,7 +62,7 @@ function submit_compose()
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 #<tr>
 #  <td align="left" colspan="2" class="table2">
-#    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+#    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
 #  </td>
 #</tr>
 <tr>

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomHead.dtl,v 1.10 2004-09-11 07:59:07 martin Exp $
+# $Id: AgentZoomHead.dtl,v 1.11 2004-09-27 13:26:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,22 +12,22 @@
 <!-- start ticket head $Data{"TicketNumber"} -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" width="50%" class="table0">
-    <b>$Env{"Box0"}$Text{"Zoom"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
+  <td width="50%" class="mainhead">
+    $Env{"Box0"}$Text{"Zoom"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
-  <td align="right" width="50%" class="table0">
-    <b>$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</b>
+  <td align="right" width="50%" class="mainhead">
+    $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" width="70%" class="table2">
+  <td width="70%" class="menu">
 # --
 # check lock link
 # --
 # should we show the back link
-<dtl if ($Env{"LastScreenQueue"} ne "") { $Data{"Back"} = "<a href="$Env{"Baselink"}$Env{"LastScreenQueue"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Back"}">$Text{"Back"}</a> - "; }>
+<dtl if ($Env{"LastScreenOverview"} ne "") { $Data{"Back"} = "<a href="$Env{"Baselink"}$Env{"LastScreenOverview"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Back"}">$Text{"Back"}</a> - "; }>
 $Data{"Back"}
 <dtl set $Data{"LockText"} = "Lock">
 <dtl if ($Data{"Lock"} eq "lock") { $Data{"LockText"} = "Unlock"; }>
@@ -65,8 +65,13 @@ $Data{"AgentPendingStrg"}
 <dtl if ($Data{"AgentClose"} ne "0") { $Data{"AgentCloseStrg"} = " - <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Close this ticket!"}">$Text{"Close"}</a>"; }>
 $Data{"AgentCloseStrg"}
   </td>
-  <td align="right" valign="top" width="30%" class="table2">
-    <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}
+  <td align="right" valign="top" width="30%" class="menu">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="mainkey">$Text{"Created"}:</td>
+        <td class="mainvalue"> $TimeLong{"$Data{"Created"}"}</td>
+      </tr>
+   </table>
   </td>
 </tr>
 </table>

@@ -1,53 +1,57 @@
 # --
 # AgentPriority.dtl - provides HTML for AgentPriority mask
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.dtl,v 1.13 2003-04-13 22:24:48 martin Exp $
+# $Id: AgentPriority.dtl,v 1.14 2004-09-27 13:26:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Change priority of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
-  </td>
-  <td align="right" class="table0">
-  <b>-</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Change priority of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" colspan="2" class="table2">
-    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+  <td class="menu">
+    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
   </td>
 </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="center" valign="top" colspan="2" class="table1">
+  <td class="mainbody">
 
-<p>
+<br
 
-<form action="$Env{"CGIHandle"}" method="post">
-<input type="hidden" name="Action" value="AgentPriority">
-<input type="hidden" name="Subaction" value="Update">
-<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-  <table border="0">
+  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td>$Text{"Priority"}:</td><td>$Data{"OptionStrg"}</td>
+    <td colspan="2" class="contenthead">$Text{"Options"}</td>
+  </tr>
+  <tr>
+  <td class="contentbody">
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="AgentPriority">
+    <input type="hidden" name="Subaction" value="Update">
+    <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+      <table border="0">
+      <tr>
+        <td class="contentkey">$Text{"Priority"}:</td>
+        <td class="contentvalue">$Data{"OptionStrg"}</td>
+      </tr>
+      </table>
+    <br>
+    <input class="button" type="submit" value="$Text{"update"}">
+    </form>
+  </td>
   </tr>
   </table>
-<br>
-<input class="button" type="submit" value="$Text{"update"}">
-</form>
 
-</p>
-
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->

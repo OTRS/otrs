@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.dtl,v 1.1 2004-09-11 07:59:07 martin Exp $
+# $Id: AgentLinkObject.dtl,v 1.2 2004-09-27 13:26:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,19 +11,19 @@
 <!-- dtl:block:LinkOption -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Link Object"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Link Object"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" colspan="2" class="table2">
-    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+  <td class="menu">
+    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="center" valign="top" colspan="2" class="table1">
+  <td colspan="2" class="mainbody">
       $Text{"Link Object"} "$Text{"$Env{"SourceObject"}"}" $Text{"with"}:
       <form name="AgentTicketLink" action="$Env{"CGIHandle"}" method="post">
       <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -41,14 +41,14 @@
 <!-- dtl:block:Search -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Search"}: $Text{"$QData{"ChildObject"}"} $Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Search"}$Env{"Box1"}
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td valign="top" colspan="2" class="table1">
+  <td class="mainbody">
 
       <form name="AgentTicketLink" action="$Env{"CGIHandle"}" method="post">
       <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -73,12 +73,12 @@
 <!-- dtl:block:SearchResult -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Result"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Result"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" class="table2">
+  <td class="menu">
 $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
 - $Text{"Site"}: $Data{"SiteNavBar"}
   </td>
@@ -86,7 +86,7 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td valign="top" class="table1">
+  <td class="mainbody">
 
   <table border="0" width="100%" cellspacing="0" cellpadding="2">
   <tr>
@@ -128,13 +128,13 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 <!-- dtl:block:Preview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Preview"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Preview"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" colspan="2" class="table2">
-    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Detail"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Detail"}</a>
+  <td class="menu">
+    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Detail"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Detail"}</a>
   </td>
 </tr>
 </table>

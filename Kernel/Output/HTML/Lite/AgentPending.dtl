@@ -2,7 +2,7 @@
 # AgentPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.dtl,v 1.10 2004-08-19 15:38:49 martin Exp $
+# $Id: AgentPending.dtl,v 1.11 2004-09-27 13:26:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -46,65 +46,78 @@ function SpellCheckSubmit()
 // -->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table2">
-    <b>$Env{"Box0"}$Text{"Set Pending"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
-  </td>
-  <td align="right" class="table2">
-     <b>-</b>
+  <td class="mainhead2">
+    $Env{"Box0"}$Text{"Set Pending"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" colspan="2" class="table1">
-<p>
+  <td class="menu">
+    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+  </td>
+</tr>
+<tr>
+  <td class="mainbody">
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-<input type="hidden" name="Action" value="AgentPending">
-<input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-  <table border="0" width="100%">
+  <br>
+  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td width="20%">$Text{"Subject"}:</td>
-    <td width="80%"><input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+    <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
-    <td>$Text{"Options"}:</td>
-    <td>
-       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+  <td class="contentbody">
+
+    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+    <input type="hidden" name="Action" value="AgentPending">
+    <input type="hidden" name="Subaction" value="Store">
+    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+      <table border="0" width="100%">
+      <tr>
+        <td width="20%">$Text{"Subject"}:</td>
+        <td width="80%"><input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+      </tr>
+      <tr>
+        <td>$Text{"Options"}:</td>
+        <td>
+           $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" >$Text{"Note Text"}:</td>
+        <td valign="top" >
+        <textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea> <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+        </td>
+      </tr>
+      <tr>
+        <td>$Text{"Note type"}:</td>
+        <td>$Data{"NoteTypesStrg"}</td>
+      </tr>
+      <tr>
+        <td>$Text{"Pending type"}:</td>
+        <td>$Data{"NextStatesStrg"}</td>
+      </tr>
+      <tr>
+        <td>$Text{"Pending date"}:</td>
+        <td>$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+      </tr>
+#     <tr>
+#        <td>$Text{"Next Queue"}:</td><td>$Data{"MoveQueuesStrg"}</td>
+#     </tr>
+      <tr>
+        <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+        <td><input type="text" name="TimeUnits" value="" size="3"></td>
+      </tr>
+      </table>
+    <br>
+    <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+    </form>
+
+    <br>
+
     </td>
-  </tr>
-  <tr>
-    <td valign="top" >$Text{"Note Text"}:</td>
-    <td valign="top" >
-<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea> <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
-    </td>
-  </tr>
-  <tr>
-    <td>$Text{"Note type"}:</td>
-    <td>$Data{"NoteTypesStrg"}</td>
-  </tr>
-  <tr>
-    <td>$Text{"Pending type"}:</td>
-    <td>$Data{"NextStatesStrg"}</td>
-  </tr>
-  <tr>
-    <td>$Text{"Pending date"}:</td>
-    <td>$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
-  </tr>
-#  <tr>
-#    <td>$Text{"Next Queue"}:</td><td>$Data{"MoveQueuesStrg"}</td>
-#  </tr>
-  <tr>
-    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
-    <td><input type="text" name="TimeUnits" value="" size="3"></td>
   </tr>
   </table>
-<br>
-<input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-</form>
-
-</p>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
   <input type="hidden" name="Action" value="AgentSpelling">
@@ -112,7 +125,7 @@ function SpellCheckSubmit()
   <input type="hidden" name="spell_lang" value="">
 </form>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->

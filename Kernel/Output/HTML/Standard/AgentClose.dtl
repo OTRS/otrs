@@ -1,8 +1,8 @@
 # --
 # AgentClose.dtl - provides HTML form for close mask
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.24 2004-01-23 02:22:28 martin Exp $
+# $Id: AgentClose.dtl,v 1.25 2004-09-27 13:26:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ function submit_compose()
         alert('$Text{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
-    } 
+    }
     else if (document.compose.Body.value == "") {
         alert('$Text{"A message should have a body!"}');
         document.compose.Body.focus();
@@ -27,7 +27,7 @@ function submit_compose()
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
-    } 
+    }
     else {
         return true;
     }
@@ -46,63 +46,76 @@ function SpellCheckSubmit()
 // -->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table2">
-    <b>$Env{"Box0"}$Text{"Close ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
-  </td>
-  <td align="right" class="table2"> 
-    <b>-</b>
+  <td class="mainhead2">
+    $Env{"Box0"}$Text{"Close ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" colspan="2" class="table1">
-<p>
+  <td class="menu">
+    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+  </td>
+</tr>
+<tr>
+  <td align="left" valign="top" colspan="2" class="mainbody">
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-<input type="hidden" name="Action" value="AgentClose">
-<input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-  <table border="0" width="100%">
+  <br>
+
+  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td width="20%">$Text{"Subject"}:</td>
-    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="70"></td>
+    <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
-    <td>$Text{"Options"}:</td>
-    <td>
-       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+  <td class="contentbody">
+
+    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+    <input type="hidden" name="Action" value="AgentClose">
+    <input type="hidden" name="Subaction" value="Store">
+    <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+      <table border="0" width="100%">
+      <tr>
+        <td width="20%">$Text{"Subject"}:</td>
+        <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="70"></td>
+      </tr>
+      <tr>
+        <td>$Text{"Options"}:</td>
+        <td>
+           $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+        </td>
+      </tr>
+      <tr>
+        <td>$Text{"Note Text"}:</td>
+        <td>
+        <textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"DefaultCloseNoteText"}"}</textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>$Text{"Note type"}:</td>
+        <td>$Data{"NoteTypesStrg"}</td>
+      </tr>
+      <tr>
+        <td>$Text{"Close type"}:</td>
+        <td>$Data{"NextStatesStrg"}</td>
+      </tr>
+#     <tr>
+#       <td>$Text{"Next Queue"}:</td><td>$Data{"MoveQueuesStrg"}</td>
+#     </tr>
+      <tr>
+        <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+        <td><input type="text" name="TimeUnits" value="" size="3"></td>
+      </tr>
+      </table>
+    <br>
+    <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+    </form>
+
     </td>
-  </tr>
-  <tr>
-    <td>$Text{"Note Text"}:</td>
-    <td>
-<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"DefaultCloseNoteText"}"}</textarea>
-    </td>
-  </tr>
-  <tr>
-    <td>$Text{"Note type"}:</td>
-    <td>$Data{"NoteTypesStrg"}</td>
-  </tr>
-  <tr>
-    <td>$Text{"Close type"}:</td>
-    <td>$Data{"NextStatesStrg"}</td>
-  </tr>
-#  <tr>
-#    <td>$Text{"Next Queue"}:</td><td>$Data{"MoveQueuesStrg"}</td>
-#  </tr>
-  <tr>
-    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
-    <td><input type="text" name="TimeUnits" value="" size="3"></td>
   </tr>
   </table>
-<br>
-<input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-</form>
 
-</p>
+  <br>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
   <input type="hidden" name="Action" value="AgentSpelling">
@@ -110,7 +123,7 @@ function SpellCheckSubmit()
   <input type="hidden" name="spell_lang" value="">
 </form>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->
