@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.10 2003-01-14 20:00:38 martin Exp $
+# $Id: CustomerUser.pm,v 1.11 2003-01-19 16:37:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub new {
     # --
     # load generator customer preferences module
     # --
-    my $GeneratorModule = $Self->{ConfigObject}->Get('Customer::PreferencesModule')
+    my $GeneratorModule = $Self->{ConfigObject}->Get('CustomerPreferences')->{Module}
       || 'Kernel::System::CustomerUser::Preferences::DB';
     eval "require $GeneratorModule";
     $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
