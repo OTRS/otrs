@@ -2,7 +2,7 @@
 # AdminLanguage.pm - to add/update/delete system language
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLanguage.pm,v 1.1 2002-05-05 12:59:38 martin Exp $
+# $Id: AdminLanguage.pm,v 1.2 2002-05-14 00:23:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminLanguage;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -73,7 +73,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AdminLanguageForm(
                 ID => $ID,
                 Name => $Data[0],
-                ValidID => $Data[3],
+                ValidID => $Data[1],
             );
         $Output .= $Self->{LayoutObject}->Footer();
     }
