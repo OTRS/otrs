@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.26 2003-04-01 20:06:25 martin Exp $
+# $Id: Queue.pm,v 1.27 2003-04-13 15:21:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,7 +182,7 @@ sub GetStdResponses {
     # --
     my $SQL = "SELECT sr.id, sr.name ".
         " FROM ".
-        " standard_response as sr, queue_standard_response as qsr".
+        " standard_response sr, queue_standard_response qsr".
         " WHERE ".
         " qsr.queue_id in ($Param{QueueID})".
         " AND ".
@@ -213,7 +213,7 @@ sub GetAllQueues {
     # --
     my %MoveQueues;
     if ($UserID) {
-        my $SQL = "SELECT sq.id, sq.name FROM queue as sq, group_user sug, groups as sg ".
+        my $SQL = "SELECT sq.id, sq.name FROM queue sq, group_user sug, groups sg ".
         " WHERE ".
         " sug.user_id = $UserID".
         " AND ".
