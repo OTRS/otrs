@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.4 2002-01-01 20:37:55 martin Exp $
+# $Id: AuthSession.pm,v 1.5 2002-01-11 10:22:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,9 +12,10 @@
 package Kernel::System::AuthSession; 
 
 use strict;
+use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -85,9 +86,18 @@ sub GetSessionIDData {
 sub CreateSessionID {
     my $Self = shift;
     my %Param = @_;
-    my $SessionID = 10 . time() . int(rand(999999999)) . $Self->{SystemID};
+    # REMOTE_ADDR
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
+    # REMOTE_USER_AGENT
+    my $RemoteUserAgent = $ENV{REMOTE_USER_AGENT} || 'none';
+    # create SessionID
+    my $md5 = Digest::MD5->new();
+    my $SessionID = $md5->add(
+           (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
+    );
+    $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
+    # store SessionID + data
     # FIXME!
     open (SESSION, ">> $Self->{SessionSpool}/$SessionID") || die "Can't create $Self->{SessionSpool}/$SessionID: $!"; 
     foreach (keys %Param) {
