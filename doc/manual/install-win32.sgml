@@ -307,7 +307,7 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 
 <section>
 <title>No CRON Jobs on Apache</title>
-<para>Please note that Apache cannot CRON. You will have to execute the CRON Jobs manually from the command line or by using Windows Task Scheduler. Use the following command for each script to prevent windows popping up at you screen while executing the script. <userinput>cmd /c start /min perl d:\otrs\bin\NameOfCRONJob.pl</userinput></para>
+<para>Please note that Apache cannot CRON. You may therefore want to visit <ulink url="http://cronw.sourceforge.net/">http://cronw.sourceforge.net/</ulink> for a Perl-based CRON solution for 32-Bit Windows that runs as a system service.</para>
 </section>
 
 </section>
