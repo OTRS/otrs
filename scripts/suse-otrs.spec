@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <martin+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.2 2002-01-16 22:33:53 martin Exp $
+# $Id: suse-otrs.spec,v 1.3 2002-01-20 22:22:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -81,7 +81,7 @@ else
     useradd $OTRSUSER -d /opt/OpenTRS/ && echo "$OTRSUSER added."
 fi
 # set permission
-echo -n "Set file permission... "
+echo -n "Setting file permissions... "
 if chown -R root $OTRSDEST && chown -R $OTRSUSER $OTRSDEST/var/ ; then 
     echo "(chown -R root $OTRSDEST && chown -R $OTRSUSER $OTRSDEST/var/) "
 fi
@@ -95,8 +95,27 @@ else
   echo "/etc/rc.config and /var/adm/fillup-templates/rc.config.mysql and update by hand."
 fi
 # note
-echo "Note: You have to create a MySQL database (see README.database)"
-
+echo "Note: You have to create a MySQL database and tables (see README.database "
+echo " or follow the short setup description)"
+echo ""
+echo "[short database setup]"
+echo " Create a database:"
+echo "  shell> mysql -u root -p -e 'create database OpenTRS'"
+echo " Create the OpenTRS tables"
+echo "  shell> mysql -u root -p OpenTRS < /usr/share/doc/packages/otrs/install/database/OpenTRS-schema.sql"
+echo " Insert inital data:"
+echo "  shell> mysql -u root -p OpenTRS < /usr/share/doc/packages/otrs/install/database/initial_insert.sql"
+echo " Create an database user:"
+echo "  shell> mysql -u root -p -e 'GRANT ALL PRIVILEGES ON OpenTRS.* TO otrs@localhost " 
+echo "     IDENTIFIED BY 'some_pass' WITH GRANT OPTION;"
+echo ""
+echo "[OpenTRS services]"
+echo " use rcotrs {start|stop|status|restart} to manage your OpenTRS system."
+echo ""
+echo "Have fun!"
+echo ""
+echo " Your OpenTRS Team"
+echo ""
 
 %postun
 # rpm -e
@@ -128,7 +147,6 @@ rm -rf $RPM_BUILD_ROOT
 /opt/OpenTRS/Kernel/System/*
 /opt/OpenTRS/bin/*
 /opt/OpenTRS/scripts/*
-/opt/OpenTRS/install/*
 /opt/OpenTRS/var/article/
 /opt/OpenTRS/var/httpd/*
 /opt/OpenTRS/var/sessions/
@@ -136,7 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 
 /var/adm/fillup-templates/rc.config.otrs
 
-%doc INSTALL TODO COPYING READM* doc/*
+%doc INSTALL TODO COPYING READM* doc/* install*
 
 
 %changelog 
