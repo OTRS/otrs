@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.114 2004-06-09 11:44:33 martin Exp $
+# $Id: Ticket.pm,v 1.115 2004-06-11 08:38:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.114 $';
+$VERSION = '$Revision: 1.115 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2626,6 +2626,45 @@ sub PriorityList {
     return %Data;
 }
 # --
+sub HistoryTicketStatusGet {
+    my $Self = shift;
+    my %Param = @_;
+    my %Ticket = ();
+    # check needed stuff
+    foreach (qw(TimeStamp)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    my $SQL = "SELECT DISTINCT(th.ticket_id) FROM ".
+        "ticket_history th ".
+        "WHERE ".
+        "th.create_time <= '$Param{TimeStamp} 23:59:59' ".
+        "ORDER BY th.create_time DESC";
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 50000);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Ticket{$Row[0]} = 1;
+    }
+    foreach my $TicketID (keys %Ticket) {
+        my %TicketData = $Self->HistoryTicketGet(
+            TicketID => $TicketID, 
+            TimeStamp => $Param{TimeStamp},
+        );
+        if (%TicketData) {
+            $Ticket{$TicketID} = \%TicketData;
+        }
+        else {
+print STDERR "lala $TicketID\n";
+        }
+    }
+    return %Ticket;
+}
+# --
 sub HistoryTicketGet {
     my $Self = shift;
     my %Param = @_;
@@ -2643,29 +2682,29 @@ sub HistoryTicketGet {
     $File =~ s/ //g;
     $File = quotemeta($File);
     # write cache
-    if (-f "$Path/$File") {
-        if (open (DATA, "< $Path/$File")) {
-            while (<DATA>) {
-                if ($_ =~ /^(.+?):(.+?)$/) {
-                    $Ticket{$1} = $2;
-                }
-            }
-            close (DATA);
-print STDERR "return cache!!!\n";
-            return %Ticket;
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't open: $Path/$File: $!",
-            );
-        }
-    }
+#    if (-f "$Path/$File") {
+#        if (open (DATA, "< $Path/$File")) {
+#            while (<DATA>) {
+#                if ($_ =~ /^(.+?):(.+?)$/) {
+#                    $Ticket{$1} = $2;
+#                }
+#            }
+#            close (DATA);
+##print STDERR "return cache!!!\n";
+#            return %Ticket;
+#        }
+#        else {
+#            $Self->{LogObject}->Log(
+#                Priority => 'error',
+#                Message => "Can't open: $Path/$File: $!",
+#            );
+#        }
+#    }
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    my $SQL = "SELECT th.name, tht.name FROM ".
+    my $SQL = "SELECT th.name, tht.name, th.create_time FROM ".
         "ticket_history th, ticket_history_type tht ".
         "WHERE ".
         "th.history_type_id = tht.id ".
@@ -2680,10 +2719,12 @@ print STDERR "return cache!!!\n";
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/) {
                 $Ticket{TicketNumber} = $1;
                 $Ticket{Queue} = $2;
+                $Ticket{CreateQueue} = $2;
                 $Ticket{Priority} = $3;
                 $Ticket{State} = $4;
                 $Ticket{TicketID} = $5;
                 $Ticket{Owner} = 'root';
+                $Ticket{CreateTime} = $Row[2];
             }
         }
         elsif ($Row[1] eq 'Move') {
@@ -2718,22 +2759,22 @@ print STDERR "return cache!!!\n";
 
     }
     if (!%Ticket) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "No such TicketID ($Param{TicketID})!");
+      $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in this time area ($Param{TicketID})!");
     }
     else {
         # write cache
-        if (open (DATA, "> $Path/$File")) {
-            foreach (keys %Ticket) {
-                print DATA "$_:$Ticket{$_}\n";
-            }
-            close (DATA);
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't write: $Path/$File: $!",
-            );
-        }
+#        if (open (DATA, "> $Path/$File")) {
+#            foreach (keys %Ticket) {
+#                print DATA "$_:$Ticket{$_}\n";
+#            }
+#            close (DATA);
+#        }
+#        else {
+#            $Self->{LogObject}->Log(
+#                Priority => 'error',
+#                Message => "Can't write: $Path/$File: $!",
+#            );
+#        }
         return %Ticket;
     }
 }
@@ -3240,6 +3281,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.114 $ $Date: 2004-06-09 11:44:33 $
+$Revision: 1.115 $ $Date: 2004-06-11 08:38:36 $
 
 =cut
