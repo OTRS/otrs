@@ -2,7 +2,7 @@
 # AgentClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.5 2002-02-07 00:13:52 martin Exp $
+# $Id: AgentClose.dtl,v 1.6 2002-04-08 16:11:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,12 +11,12 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Close ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  <td align="left" bgcolor="$Env{"BGTableColor2"}">
+  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Close ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
   </font>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">-</font></b>
+  <td align="right" bgcolor="$Env{"BGTableColor2"}">
+  <b><font color="$Env{"FontColor0"}">-</font></b>
   </font>
   </td>
 </tr>
