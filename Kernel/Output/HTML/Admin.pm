@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.2 2001-12-26 20:06:50 martin Exp $
+# $Id: Admin.pm,v 1.3 2001-12-30 00:34:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -468,6 +468,283 @@ EOF
     );
 
     return $Output;
+}
+# --
+sub AdminSalutationForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        Selected => $Param{ValidID},
+    );
+
+    $Param{SalutationOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Valid => 0,
+            Clamp => 0,
+            Table => 'salutation',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        Selected => $Param{ID},
+    );
+
+
+    return $Self->Output(TemplateFile => 'AdminSalutationForm', Data => \%Param);
+}
+# --
+sub AdminSignatureForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        Selected => $Param{ValidID},
+    );
+
+    $Param{SignatureOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Valid => 0,
+            Clamp => 0,
+            Table => 'signature',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        Selected => $Param{ID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminSignatureForm', Data => \%Param);
+}
+# --
+sub AdminUserForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        Selected => $Param{ValidID},
+    );
+
+    $Param{UserOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, login',
+            Valid => 0,
+            Clamp => 0,
+            Table => 'user',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        Selected => $Param{ID},
+    );
+
+    $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, charset',
+            Table => 'charset',
+            Valid => 1,
+          )
+        },
+        Name => 'CharsetID',
+        Selected => $Param{CharsetID},
+    );
+
+    $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, theme',
+            Table => 'theme',
+            Valid => 1,
+          )
+        },
+        Name => 'ThemeID',
+        Selected => $Param{ThemeID},
+    );
+
+    $Param{'LanguageOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, language',
+            Table => 'language',
+            Valid => 1,
+          )
+        },
+        Name => 'LanguageID',
+        Selected => $Param{LanguageID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminUserForm', Data => \%Param);
+}
+# --
+sub AdminGroupForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        Selected => $Param{ValidID},
+    );
+
+    $Param{GroupOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'groups',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        Selected => $Param{ID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminGroupForm', Data => \%Param);
+}
+# --
+sub AdminUserGroupForm {
+    my $Self = shift;
+    my %Param = @_;
+    my $UserData = $Param{UserData};
+    my %UserDataTmp = %$UserData;
+    my $GroupData = $Param{GroupData};
+    my %GroupDataTmp = %$GroupData;
+    my $BaseLink = $Self->{Baselink} . "&Action=AdminUserGroup";
+
+    foreach (sort keys %UserDataTmp){
+      $Param{UserStrg} .= "<A HREF=\"$BaseLink&Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
+    }
+    foreach (sort keys %GroupDataTmp){
+      $Param{GroupStrg} .= "<A HREF=\"$BaseLink&Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
+    }
+
+
+    return $Self->Output(TemplateFile => 'AdminUserGroupForm', Data => \%Param);
+}
+# --
+sub AdminUserGroupChangeForm {
+    my $Self = shift;
+    my %Param = @_;
+    my $FirstData = $Param{FirstData};
+    my %FirstDataTmp = %$FirstData;
+    my $SecondData = $Param{SecondData};
+    my %SecondDataTmp = %$SecondData;
+    my $Data = $Param{Data};
+    my %DataTmp = %$Data;
+    my $BaseLink = $Self->{Baselink};
+    my $Type = $Param{Type} || 'User';
+    my $NeType = 'Group';
+    $NeType = 'User' if ($Type eq 'Group');
+
+
+    foreach (sort keys %FirstDataTmp){
+        $Param{OptionStrg0} .= "<B>$Type:</B> <A HREF=\"$BaseLink&Action=Admin$Type&Subaction=Change&ID=$_\">" .
+          "$FirstDataTmp{$_}</A> (id=$_)<BR>";
+        $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
+    }
+
+    $Param{OptionStrg0} .= "<B>$NeType:</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
+    foreach my $ID (sort keys %SecondDataTmp){
+        $Param{OptionStrg0} .= "<OPTION ";
+        foreach (sort keys %DataTmp){
+          if ($_ eq $ID) {
+               $Param{OptionStrg0} .= 'selected';
+          }
+        }
+        $Param{OptionStrg0} .= " VALUE=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</OPTION>\n";
+    }
+    $Param{OptionStrg0} .= "</SELECT>\n";
+
+
+    return $Self->Output(TemplateFile => 'AdminUserGroupChangeForm', Data => \%Param);
+}
+# --
+sub AdminSystemAddressForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        Selected => $Param{ValidID},
+    );
+
+    $Param{'QueueOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 1,
+            Clamp => 1,
+            Table => 'queue',
+          )
+        },
+        Name => 'QueueID',
+        Selected => $Param{QueueID},
+    );
+
+    $Param{SystemAddressOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, value1, value0',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'system_address',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        Selected => $Param{ID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminSystemAddressForm', Data => \%Param);
 }
 # --
 

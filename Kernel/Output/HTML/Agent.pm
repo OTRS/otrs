@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.2 2001-12-26 20:06:50 martin Exp $
+# $Id: Agent.pm,v 1.3 2001-12-30 00:34:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -392,6 +392,71 @@ sub AgentCompose {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCompose', Data => \%Param);
+}
+# --
+sub AgentPreferencesForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build option string
+    $Param{LanguageOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, language',
+            Valid => 1,
+            Clamp => 0,
+            Table => 'language',
+          )
+        },
+        Name => 'LanguageID',
+        Selected => $Self->{UserLanguage},
+    );
+
+    $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, charset',
+            Table => 'charset',
+            Valid => 1,
+          )
+        },
+        Name => 'CharsetID',
+        Selected => $Self->{UserCharset},
+    );
+
+    $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, theme',
+            Table => 'theme',
+            Valid => 1,
+          )
+        },
+        Name => 'ThemeID',
+        Selected => $Self->{UserThemeID},
+    );
+
+    my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
+    # prepar custom selection
+    my $CustomQueueIDs = $Param{CustomQueueIDs};
+    my @CustomQueueIDsTmp = @$CustomQueueIDs;
+    my $QueueData = $Param{QueueData};
+    my %QueueDataTmp = %$QueueData;
+    $Param{QueueDataStrg} = '';
+    foreach my $ID (sort keys %QueueDataTmp) {
+        my $Mach = 0;
+        foreach (@CustomQueueIDsTmp) {
+            if ($_ eq $ID) {
+                $Param{QueueDataStrg} .= "<OPTION selected VALUE=\"$ID\">$QueueDataTmp{$ID}\n";
+                $Mach = 1;
+            }
+         }
+         $Param{QueueDataStrg} .= "<OPTION VALUE=\"$ID\">$QueueDataTmp{$ID}\n" if (!$Mach);
+    }
+
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentPreferencesForm', Data => \%Param);
 }
 # --
 
