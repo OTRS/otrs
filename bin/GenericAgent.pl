@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.33 2004-09-04 15:21:05 martin Exp $
+# $Id: GenericAgent.pl,v 1.34 2004-10-21 15:33:06 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@ use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
+use Kernel::System::PID;
 use Kernel::System::Time;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
@@ -50,14 +51,14 @@ use Kernel::System::GenericAgent;
 
 BEGIN {
     # get file version
-    $VERSION = '$Revision: 1.33 $';
+    $VERSION = '$Revision: 1.34 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
-    getopt('hcdl', \%Opts);
+    getopt('fhcdl', \%Opts);
     if ($Opts{'h'}) {
         print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
         print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
-        print "usage: GenericAgent.pl (-c 'Kernel::Config::GenericAgentJobModule') (-d 1) (-l <limit>)\n";
+        print "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] [-l <limit>] [-f force]\n";
         exit 1;
     }
     # set debug
@@ -102,6 +103,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(
     %CommonObject,
@@ -117,6 +119,15 @@ $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
 # process all jobs
 # --
 if ($Opts{'c'} eq 'db') {
+    # create pid lock
+    if (!$Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate(Name => 'GenericAgent')) {
+        print "Notice: GenericAgent.pl is already running!\n";
+        exit 1;
+    }
+    elsif ($Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate(Name => 'GenericAgent')) {
+        print "Notice: GenericAgent.pl is already running but is starting again!\n";
+    }
+    # process jobs
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
     foreach my $DBJob (sort keys %DBJobs) {
         my %DBJobRaw = $CommonObject{GenericAgentObject}->JobGet(Name => $DBJob);
@@ -194,6 +205,8 @@ if ($Opts{'c'} eq 'db') {
             );
         }
     }
+    # delete pid lock
+    $CommonObject{PIDObject}->PIDDelete(Name => 'GenericAgent');
 }
 # --
 # process all config file jobs
