@@ -1,0 +1,66 @@
+# --
+# AgentMailboxTicket.dtl - provides HTML form for agent mailbox 
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentMailboxTicket.dtl,v 1.1 2002-01-02 00:41:42 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left" width="20%"> 
+   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Ticket#"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right" width="79%" colspan="2">
+   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor2"}">
+  <td colspan="3">
+    <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Zoom"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Unlock"}</a> -
+    <a href="$Env{"Baselink"}&Action=&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Pending"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Add Note"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Close"}</a> -
+    <a href="$Env{"Baselink"}&Action=&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Start work"}</a> -
+    <a href="$Env{"Baselink"}&Action=&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Stop work"}</a>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" valign="top">
+  <td> 
+  <table border="0">
+    <tr>
+      <td>$Text{"State"}:</td><td> <font color="red">$Text{"$Data{"State"}"}</font></td>
+    </tr>
+    <tr>
+      <td>$Text{"Priority"}:</td><td> <font color="red">$Text{"$Data{"Priority"}"}</font></td>
+    </tr>
+    <tr>
+      <td>$Text{"Queue"}:</td><td> $Data{"Queue"}</td>
+    </tr>
+  </table>
+  </td>
+  <td>
+  <table border="0">
+    <tr>
+      <td>$Text{"From"}:</td><td> $Data{"From"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"To"}:</td><td> $Data{"To"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Subject"}:</td><td> $Data{"Subject"}</td>
+    </tr>
+  </table>
+  </td>
+  <td valign="center" align="center">
+    <font color="red">$Text{"$Data{"Message"}"}</font> .
+  </td>
+</tr>
+</table>
+<!-- end form -->
+
