@@ -2,12 +2,23 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.108 2004-02-02 23:58:28 martin Exp $
+# $Id: CHANGES,v 1.109 2004-02-09 23:55:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+1.2.0 beta3 (2004-02-09)
+
+ - (2004/02/09) added contact customer (create ticket) feature 
+ - (2004/02/08) added multi customer map/source support
+ - (2004/02/08) added GenericAgent module support
+ - (2004/02/05) fixed bug in X-OTRS-Queue option if bin/PostMasterPOP3.pl
+    is used.
+ - (2004/02/04) fixed bug in customer interface (empty To selection)
+ - (2004/02/03) fixed typo in template (wrong $Data{} for Field6) 
+    Kernel/Output/HTML/Standard/FAQArticleForm.dtl
+
 1.2.0 beta2 (2004-02-02)
  
  - (2004/02/02) replaced column "comment" to "comments" of each table to
@@ -39,7 +50,7 @@
     # for all customer user in there)
     $Self->{CustomerGroupAlwaysGroups} = ['users', 'info'];
  - (2004/01/23) changed Kernel::System::Ticket->SearchTicket() to 
-    return false if on param (e. g. Queue or State) dosn't exist
+    return false if on param (e. g. Queue or State) doesn't exist
     (problem was, that if a queue name dosn't exist, then the
     GenericAgent gets tickets from all queues!).
 
