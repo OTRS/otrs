@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.20 2004-04-28 22:23:21 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.21 2004-04-28 22:25:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $ ';
+$VERSION = '$Revision: 1.21 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -105,7 +105,7 @@ sub Run {
             else {
                 $AddLink = $_;
             }
-            $Link .= "<tr><td valign='top'>$AddLink</td><td valign='top'><a href='?Action=AdminCustomerUser&Subaction=Change&ID=$_&Search=".$Self->{LayoutObject}->LinkEncode($Search)."&Nav=$Nav'>".$Self->{LayoutObject}->Ascii2Html(Text => $UserList{$_}, Max => 45)."</a></td></tr>";
+            $Link .= "<tr><td valign='top'>$AddLink</td><td valign='top'><a href=\"\$Env{\"Baselink\"}?Action=AdminCustomerUser&Subaction=Change&ID=$_&Search=".$Self->{LayoutObject}->LinkEncode($Search)."&Nav=$Nav\">".$Self->{LayoutObject}->Ascii2Html(Text => $UserList{$_}, Max => 45)."</a></td></tr>";
         }
     }
     # get user data 2 form
