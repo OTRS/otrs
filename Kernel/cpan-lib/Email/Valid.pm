@@ -119,17 +119,23 @@ sub _net_dns_query {
   my $self = shift;
   my $host = shift;
 
-  $Resolver = Net::DNS::Resolver->new unless defined $Resolver; 
+  $Resolver = Net::DNS::Resolver->new unless defined $Resolver;
 
-  my $packet = $Resolver->send($host, 'A')
-    or croak $Resolver->errorstring;
+  my $packet = $Resolver->send($host, 'A');
+  if (!$packet) {
+      $Email::Valid::Details = "DNS problem: ".$Resolver->errorstring;
+      return;
+  }
   return 1 if $packet->header->ancount;
- 
-  $packet = $Resolver->send($host, 'MX')
-    or croak $Resolver->errorstring;
+
+  $packet = $Resolver->send($host, 'MX');
+  if (!$packet) {
+      $Email::Valid::Details = "DNS problem: ".$Resolver->errorstring;
+      return;
+  }
   return 1 if $packet->header->ancount;
- 
-  return $self->details('mx');               
+
+  return $self->details('mx');
 }
 
 # Purpose: perform DNS query using the nslookup utility
