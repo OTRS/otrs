@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.39 2004-12-02 09:38:46 martin Exp $
+  $Id: otrs-schema.xml,v 1.40 2005-02-08 12:59:11 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.39  2004/12/02 09:38:46  martin
+  moved to otrs.org xml based translator to sql
+
   Revision 1.38  2004/11/10 23:07:32  martin
   added package_repository
 
@@ -1439,6 +1442,23 @@
     <Reference Local="create_by" Foreign="id"/>
     <Reference Local="change_by" Foreign="id"/>
   </ForeignKey>
+</Table>
+
+<!-- xml - xml_storage-->
+<Table Name="xml_storage">
+  <Column Name="xml_type" Required="true" Size="200" Type="VARCHAR"/>
+  <Column Name="xml_key" Required="true" Size="250" Type="VARCHAR"/>
+  <Column Name="xml_content_key" Required="true" Size="250" Type="VARCHAR"/>
+  <Column Name="xml_content_value" Required="true" Type="LONGBLOB"/>
+  <Index Name="xml_type">
+    <IndexColumn Name="xml_type"/>
+  </Index>
+  <Index Name="xml_key">
+    <IndexColumn Name="xml_key"/>
+  </Index>
+  <Index Name="xml_content_key">
+    <IndexColumn Name="xml_content_key"/>
+  </Index>
 </Table>
 
 <!-- opm - package_repository -->
