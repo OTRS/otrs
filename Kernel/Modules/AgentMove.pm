@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.18 2003-07-10 22:34:28 martin Exp $
+# $Id: AgentMove.pm,v 1.19 2003-07-14 12:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,15 +164,20 @@ sub Run {
         # build header
         # --
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
-        # --
         # get next states
-        # --
         my %NextStates = $Self->{StateObject}->StateGetStatesByType(
             Type => 'DefaultNextMove',
             Result => 'HASH',
         );
         $NextStates{''} = '-';
-        $Output .= $Self->{LayoutObject}->AgentMove(
+        # get old owners
+        my @OldUserInfo = $Self->{TicketObject}->GetOwnerList(TicketID => $Self->{TicketID});
+        # get lod queues
+        my @OldQueue = $Self->{TicketObject}->GetMoveQueueList(TicketID => $Self->{TicketID});
+        # print change form
+        $Output .= $Self->AgentMove(
+            OldQueue => \@OldQueue,
+            OldUser => \@OldUserInfo,
             MoveQueues => \%MoveQueues,
             OwnerList => \%ShownUsers,
             TicketID => $Self->{TicketID},
@@ -188,9 +193,7 @@ sub Run {
           UserID => $Self->{UserID},
           TicketID => $Self->{TicketID},
       ) ) {
-        # --
         # set state
-        # --
         my $NewStateID = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
         if ($Self->{ConfigObject}->{MoveSetState} && $NewStateID) {
             $Self->{TicketObject}->SetState(
@@ -199,11 +202,18 @@ sub Run {
                 UserID => $Self->{UserID},
             );
         } 
-        # --
         # new owner!
-        # --
-        my $NewUserID= $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
+        my $UserSelection = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
+        my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
+        my $OldUserID = $Self->{ParamObject}->GetParam(Param => 'OldUserID') || '';
         my $Comment = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
+        # check new/old user selection
+        if ($UserSelection eq 'Old') {
+            if ($OldUserID) {
+                $NewUserID = $OldUserID;
+            }
+        }
+        # check if new user is given
         if ($NewUserID) {
             # lock
             $Self->{TicketObject}->SetLock(
@@ -244,9 +254,7 @@ sub Run {
                 HistoryComment => 'Note added.',
             );
         }
-        # --
         # redirect 
-        # --
         if ($Self->{QueueViewQueueID}) {
              return $Self->{LayoutObject}->Redirect(OP => "QueueID=$Self->{QueueViewQueueID}");
         }
@@ -266,5 +274,116 @@ sub Run {
     }
 }
 # --
-
+sub AgentMove {
+    my $Self = shift;
+    my %Param = @_;
+    my %Data = %{$Param{MoveQueues}};
+    my %UsedData = ();
+    my %UserHash = ();
+    my @OldQueue = @{$Param{OldQueue}};
+    my $LatestQueueID = $OldQueue[$#OldQueue];
+    if ($Param{OldUser}) {
+        my $Counter = 0;
+        foreach my $User (reverse @{$Param{OldUser}}) {
+          if ($Counter) { 
+            if (!$UserHash{$User->{UserID}}) {
+                $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
+                  "$User->{UserFirstname} ($User->{UserLogin})";
+            }
+          }
+          $Counter++;
+        }
+    }
+    if (!%UserHash) {
+        $UserHash{''} = '-';
+    }
+    # build string 
+    $Param{'OldUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%UserHash,
+        SelectedID => $Param{OldUser}->[0]->{UserID}.'1',
+        Name => 'OldUserID',
+        OnClick => "change_selected(2)",
+    );
+    # add suffix for correct sorting
+    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        $Data{$_} .= '::';
+    }
+    # build a href stuff
+    foreach my $ID (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        $Data{$ID} =~ s/^(.*)::/$1/;
+        my @Queue = split(/::/, $Data{$ID});
+        $UsedData{$Data{$ID}} = 1;
+        my $UpQueue = $Data{$ID}; 
+        $UpQueue =~ s/^(.*)::.+?$/$1/g;
+        $Queue[$#Queue] = $Self->{LayoutObject}->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
+        my $Space = '|';
+        if ($#Queue == 0) {
+            $Space .= '--';
+        }
+        for (my $i = 0; $i < $#Queue; $i++) {
+#            $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+            if ($#Queue == 1) {
+                $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;|--';
+            }
+            elsif ($#Queue == 2 && $i == $#Queue-1) {
+                my $Hit = 0;
+                foreach (keys %Data) {
+                    my @Queue = split(/::/, $Data{$_});
+                    my $QueueName = '';
+                    for (my $i = 0; $i < $#Queue-1; $i++) {
+                        if (!$QueueName) {
+                            $QueueName .= $Queue[$i].'::';
+                        }
+#                        else {
+#                            $QueueName .= '::'.$Queue[$i];
+#                        }
+                    }
+#                    my $SecondLevel = $Queue[0].'::'.$Queue[1];
+#print STDERR "$Data{$ID} ($QueueName) $#Queue--\n";
+                    if ($#Queue == 1 && $QueueName && $Data{$ID} =~ /^$QueueName/) {
+#print STDERR "sub queue of $Data{$ID} ($QueueName) exists\n";
+                        $Hit = 1;
+                    }
+                }
+                if ($Hit) {
+                    $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--';
+                }
+                else {
+                    $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|--';
+                }
+            }
+        }
+        if ($UsedData{$UpQueue}) {
+#         $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$ID\">".
+#                $Queue[$#Queue].'</a><br>';
+         $Param{MoveQueuesStrg} .= "$Space<a href=\"\" onclick=\"document.compose.DestQueueID.value='$ID'; document.compose.submit(); return false;\">".
+                 $Queue[$#Queue].'</a>';
+            if ($LatestQueueID eq $ID) {
+                $Param{MoveQueuesStrg} .= ' --&gt; $Text{"Latest Queue!"} &lt;--';
+            } 
+            $Param{MoveQueuesStrg} .= '<br>';
+        }
+        delete $Data{$ID};
+    }
+    # --
+    # build next states string
+    # -- 
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'NewStateID',
+#        Selected => $Param{State},
+    );
+    # --
+    # build owner string
+    # --
+    $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{OwnerList},
+#        Selected => $Param{OwnerID},
+        Name => 'NewUserID',
+#       Size => 5,
+        OnClick => "change_selected(0)",
+    );
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentMove', Data => \%Param);
+}
+# --
 1;
