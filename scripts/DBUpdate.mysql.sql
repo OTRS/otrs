@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.15 2002-12-15 00:58:21 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.16 2002-12-25 09:31:39 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -12,6 +12,24 @@
 -- --
 -- 0.5 BETA 9 upgrate
 -- --
+-- update states
+DELETE FROM ticket_history_type WHERE name = 'WatingForClose-';
+DELETE FROM ticket_history_type WHERE name = 'WatingForClose+';
+DELETE FROM ticket_history_type WHERE name = 'WatingForReminder';
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('SetPendingTime', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('SetPending', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('pending reminder', 'ticket is pending for agent reminder', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('pending auto close+', 'ticket is pending for automatic close', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('pending auto close-', 'ticket is pending for automatic close', 1, 1, current_timestamp, 1, current_timestamp);
 -- update typo
 UPDATE ticket_state SET name = 'closed successful', comment = 'ticket is closed succsessful' WHERE name = 'closed succsessful';
 UPDATE ticket_state SET name = 'closed unsuccessful', comment = 'ticket is closed unsuccsessful' WHERE name = 'closed unsuccsessful';
