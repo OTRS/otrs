@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.20 2002-11-24 23:52:20 martin Exp $
+# $Id: DB.pm,v 1.21 2002-12-15 23:22:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -107,7 +107,10 @@ sub Disconnect {
 # --
 sub Quote {
     my $Self = shift;
-    my $Text = shift || return '';
+    my $Text = shift;
+    if (!defined $Text) {
+        return;
+    }
     # --
     # do quote
     # --
