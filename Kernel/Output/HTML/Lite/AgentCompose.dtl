@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.15 2003-02-25 12:03:04 martin Exp $
+# $Id: AgentCompose.dtl,v 1.16 2003-03-06 23:10:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,6 +25,11 @@ function submit_compose()
         document.compose.Subject.focus();
         return false;
     } 
+    else if (document.spelling.was_spell_checked != true && $Config{"FrontendNeedSpellCheck"}) {
+        alert('$Text{"A message must be spell checked!"}');
+        document.compose.Body.focus();
+        return false;
+    }
     else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.Subject.focus();
@@ -43,6 +48,7 @@ function SpellCheckSubmit()
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=650,height=550,left=100,top=100');
     document.spelling.submit()
+    document.spelling.was_spell_checked=true;
 }
 // -->
 </script>

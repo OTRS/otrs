@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.48 2003-03-06 22:12:00 martin Exp $
+# $Id: Defaults.pm,v 1.49 2003-03-06 23:10:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -453,7 +453,11 @@ sub LoadDefaults {
     # (Time in sec. which "pending date" shows per default) [default: 24*60*60 -=> 1d]
     $Self->{PendingDiffTime} = 24*60*60;
     # FrontendNeedAccountedTime
+    # (time must be accounted)
     $Self->{FrontendNeedAccountedTime} = 0;
+    # FrontendNeedSpellCheck
+    # (compose message must be spell checked)
+    $Self->{FrontendNeedSpellCheck} = 0;
 
     # --------------------------------------------------- #
     # defaults for add note                               #
