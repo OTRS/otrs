@@ -249,16 +249,13 @@ The OpenTRS session management.
     # (Max viewable tickets a page.)
     $Self->{MaxLimit} = 150;
 
-    # Refresh (in minutes)
-    # (Default reload time for teh QueueView.)
-    $Self->{Refresh} = 2;
-
     # RefreshOptions
     # (Refresh option list for preferences)
     $Self->{RefreshOptions} = {
-        2 => ' 2 minutes',
-        5 => ' 5 minutes',
-        7 => ' 7 minutes',
+        '' => 'off',
+        2  => ' 2 minutes',
+        5  => ' 5 minutes',
+        7  => ' 7 minutes',
         10 => '10 minutes',
         15 => '15 minutes',
     };
@@ -285,6 +282,22 @@ The OpenTRS session management.
 
     # viewable ticket lines by search util 
     $Self->{ViewableTicketLinesBySearch} = 15;
+
+    # ----------------------------------------------------#
+    # Ticket stuff                                        #
+    # (Viewable tickets in queue view)                    #
+    # ----------------------------------------------------#
+    # ViewableLocks 
+    # default: ["'unlock'", "'tmp_lock'"]
+    $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
+
+    # ViewableStats 
+    # default: ["'open'", "'new'"]
+    $Self->{ViewableStats} = ["'open'", "'new'"];
+
+    # ViewableSenderTypes 
+    #  default:  ["'customer'"]
+    $Self->{ViewableSenderTypes} = ["'customer'"];
 [...]
 </programlisting>
 </example>
