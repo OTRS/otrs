@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.30 2004-01-10 15:36:14 martin Exp $
+# $Id: AgentBounce.pm,v 1.31 2004-02-10 01:04:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -198,7 +198,9 @@ sub Run {
         # --
         # prepare from ...
         # --
-        my %Address = $Self->{QueueObject}->GetSystemAddress();
+        my %Address = $Self->{QueueObject}->GetSystemAddress(
+            QueueID => $Article{QueueID},
+        );
         $Article{From} = "$Address{RealName} <$Address{Email}>";
         $Article{Email} = $Address{Email};
         $Article{RealName} = $Address{RealName};
@@ -248,7 +250,14 @@ sub Run {
         # --
         # prepare from ...
         # --
-        my %Address = $Self->{QueueObject}->GetSystemAddress();
+        # get article data 
+        # --
+        my %Ticket = $Self->{TicketObject}->GetTicket(
+            TicketID => $Self->{TicketID},
+        );
+        my %Address = $Self->{QueueObject}->GetSystemAddress(
+            QueueID => $Ticket{QueueID},
+        );
         $Param{From} = "$Address{RealName} <$Address{Email}>";
         $Param{Email} = $Address{Email};
         $Param{EmailPlain} = $Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID});
