@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.9 2002-05-07 22:32:22 martin Exp $
+# $Id: suse-otrs.spec,v 1.10 2002-05-09 23:50:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -142,17 +142,6 @@ echo "Have fun!"
 echo ""
 echo " Your OpenTRS Team"
 echo ""
-
-%postun
-# rpm -e
-export OTRSUSER=otrs
-if userdel $OTRSUSER ; then 
-    echo "Delete OpenTRS user ($OTRSUSER) ... done"
-else 
-    echo "Delete OpenTRS user ($OTRSUSER) ... faild"
-fi
-# 
-sbin/insserv etc/init.d/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
