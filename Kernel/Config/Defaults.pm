@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.146 2004-08-01 20:48:52 martin Exp $
+# $Id: Defaults.pm,v 1.147 2004-08-04 09:23:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.146 $';
+$VERSION = '$Revision: 1.147 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -528,6 +528,13 @@ sub LoadDefaults {
 
     # param for LogModule Kernel::System::Log::SysLog
 #    $Self->{'LogModule::SysLog::Facility'} = 'user';
+
+    # param for LogModule Kernel::System::Log::SysLog
+    # (if syslog can't work with utf-8, force the log
+    # charset with this option, on other chars will be
+    # replaces with ?)
+#    $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15';
+#    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
 
     # param for LogModule Kernel::System::Log::File (required!)
     $Self->{'LogModule::LogFile'} = '/tmp/otrs.log';
@@ -1640,56 +1647,6 @@ Your OTRS Notification Master
 ";
 
     # --------------------------------------------------- #
-    # notification email for state update                 #
-    # --------------------------------------------------- #
-    $Self->{CustomerNotificationSubjectStateUpdate} = "New State '<OTRS_CUSTOMER_State>'!";
-    $Self->{CustomerNotificationBodyStateUpdate} = "
-*** THIS IS JUST A NOTE ***
-
-The state of your ticket '<OTRS_TICKET_NUMBER>' has been changed by
-'<OTRS_OWNER_UserFirstname> <OTRS_OWNER_UserLastname>' to '<OTRS_CUSTOMER_State>'.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
-
-Your OTRS Notification Master
-
-*** THIS IS JUST A NOTE ***
-";
-    # --------------------------------------------------- #
-    # notification email for owner update                 #
-    # --------------------------------------------------- #
-    $Self->{CustomerNotificationSubjectOwnerUpdate} = "New Owner '<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>'!";
-    $Self->{CustomerNotificationBodyOwnerUpdate} = "
-*** THIS IS JUST A NOTE ***
-
-The owner of your ticket '<OTRS_TICKET_NUMBER>' has been changed to
-'<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>'.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
-
-Your OTRS Notification Master
-
-*** THIS IS JUST A NOTE ***
-";
-
-    # --------------------------------------------------- #
-    # notification email for queue update                 #
-    # --------------------------------------------------- #
-    $Self->{CustomerNotificationSubjectQueueUpdate} = "New Queue '<OTRS_CUSTOMER_Queue>'!";
-    $Self->{CustomerNotificationBodyQueueUpdate} = "
-*** THIS IS JUST A NOTE ***
-
-The queue of your ticket '<OTRS_TICKET_NUMBER>' has been changed by
-'<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>' to '<OTRS_CUSTOMER_Queue>'.
-
-<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
-
-Your OTRS Notification Master
-
-*** THIS IS JUST A NOTE ***
-";
-
-    # --------------------------------------------------- #
     # customer authentication settings                    #
     # (enable what you need, auth against otrs db or      #
     # against a LDAP directory)                           #
@@ -2156,26 +2113,29 @@ Your OTRS Notification Master
     $Self->{'Module::Permission'}->{'Admin'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminAttachment'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminAutoResponse'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminCustomerUser'} = 'admin';
-#    $Self->{'Module::Permission'}->{'AdminCustomerUser'} = ['admin', 'users'];
+#    $Self->{'Module::Permission'}->{'AdminCustomerUser'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminCustomerUser'} = ['admin', 'users'];
     $Self->{'Module::Permission'}->{'AdminCustomerUserGroup'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminEmail'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminGroup'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminLog'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminNotification'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminPGP'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminPOP3'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminQueue'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminPostMasterFilter'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminQueueAutoResponse'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminQueue'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminQueueResponses'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminResponse'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminResponseAttachment'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminResponse'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminSalutation'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminSelectBox'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminSession'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminSignature'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminState'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminSystemAddress'} = 'admin';
-    $Self->{'Module::Permission'}->{'AdminUser'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminUserGroup'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminUser'} = 'admin';
 
     $Self->{'Module::Permission::Ro'}->{'FAQ'} = ['faq'];
     $Self->{'Module::Permission::Ro'}->{'FAQHistory'} = ['faq'];
@@ -2208,7 +2168,7 @@ sub Set {
     my %Param = @_;
     foreach (qw(Key Value)) {
         if (!defined $Param{$_}) {
-            $Param{$_} = ''; 
+            $Param{$_} = '';
         }
     }
     # debug
