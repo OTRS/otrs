@@ -1,14 +1,17 @@
 # --
 # Changes of OTRS 
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.43 2003-01-04 03:28:59 martin Exp $
+# $Id: CHANGES,v 1.44 2003-01-05 14:30:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.0 RC1 (2003-01-??)
+ - (2003/01/05) added CMD option to bin/GenericAgent.pl (so you can
+    execute own programs on GenericAgent.pl actions - e. g. send 
+    special admin emails)
  - (2003/01/02) added attachments support for std. responses  
  - (2002/12/27) added filters (All, Open, New, Pending, Reminder) to 
     AgentMailbox (locked-ticket-view)
@@ -21,7 +24,7 @@
     TicketStorageModule in Kernel/Config.pm.
      * Kernel::System::Ticket::ArticleStorageDB -> (default)
      * Kernel::System::Ticket::ArticleStorageFS -> (faster but webserver 
-        user should be the otrs user)
+        user should be the otrs user - use it for larger setups!)
  - (2002/12/19) attachment support (send and view) for customer panel!
  - (2002/12/18) added config option CheckEmailAddresses and CheckMXRecord.
     CheckMXRecord is useful for pre checks of valid/invalid senders (
