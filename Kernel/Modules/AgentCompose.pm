@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.42 2003-03-11 18:34:34 martin Exp $
+# $Id: AgentCompose.pm,v 1.43 2003-03-14 15:55:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,14 +12,14 @@
 package Kernel::Modules::AgentCompose;
 
 use strict;
-use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 use Kernel::System::State;
 use Kernel::System::CustomerUser;
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,7 +43,6 @@ sub new {
     }
     # some new objects
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -238,9 +237,8 @@ sub Form {
     my %Error = ();
     foreach (qw(From To Cc Bcc)) {
         if ($Data{$_}) {
-            my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $Data{$_});
-            foreach my $Address (@Addresses) {
-                if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Address)) {
+            foreach my $Email (Mail::Address->parse($Data{$_})) {
+                if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Email->address())) {
                      $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
@@ -289,9 +287,8 @@ sub SendEmail {
     my %Error = ();
     foreach (qw(From To Cc Bcc)) {
         if ($Self->{$_}) {
-            my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $Self->{$_});
-            foreach my $Address (@Addresses) {
-                if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Address)) {
+            foreach my $Email (Mail::Address->parse($Self->{$_})) {
+                if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Email->address())) {
                      $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }

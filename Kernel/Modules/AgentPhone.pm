@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.32 2003-03-10 23:35:08 martin Exp $
+# $Id: AgentPhone.pm,v 1.33 2003-03-14 15:55:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,12 +14,12 @@ package Kernel::Modules::AgentPhone;
 use strict;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
-use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 use Kernel::System::State;
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,7 +43,6 @@ sub new {
 
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
 
@@ -356,9 +355,8 @@ sub Run {
         # --
         # check some values
         # --
-        my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $From);
-        foreach my $Address (@Addresses) {
-            if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Address)) {
+        foreach my $Email (Mail::Address->parse($From)) {
+            if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Email->address())) {
                 $Error{"From invalid"} .= $Self->{CheckItemObject}->CheckError();
             }
         }
