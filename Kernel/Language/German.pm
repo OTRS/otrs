@@ -1,8 +1,8 @@
 # --
 # German.pm - provides german languag translation
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.8 2002-04-08 15:56:41 martin Exp $
+# $Id: German.pm,v 1.9 2002-04-14 19:12:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -126,7 +126,8 @@ sub Data {
     # ticket history
     $Self->{'History of Ticket'} = 'History von Ticket';
     # ticket note
-    $Self->{'Add note to ticket'} = 'Add note to ticket';
+    $Self->{'Add note to ticket'} = 'Anheften einer Notiz an Ticket';
+    $Self->{'Note type'} = 'Notiz Type';
     # queue view
     $Self->{'Tickets shown'} = 'Tickets gezeigt';
     $Self->{'Ticket available'} = 'Ticket verfügbar';
@@ -153,6 +154,11 @@ sub Data {
     $Self->{'wrote'} = 'schrieb';
     $Self->{'Compose answer for ticket'} = 'Antwort erstellen für';
     $Self->{'Ticket locked!'} = 'Ticket gesperrt!';
+    # forward
+    $Self->{'Forward article of ticket'} = 'Weiterleitung des Artikels vom Ticket';
+    $Self->{'Article type'} = 'Artikle Type';
+    $Self->{'Next ticket state'} = 'Nächster Status des Tickets';
+
     # preferences
     $Self->{'User Preferences'} = 'Benutzereinstellungen';
     $Self->{'Change Password'} = 'Paßwort ändern';
@@ -177,7 +183,13 @@ sub Data {
     $Self->{'closed succsessful'} = 'erfolgreich geschlossen';
     $Self->{'closed unsuccsessful'} = 'unerfolgreich geschlossen';
     $Self->{'removed'} = 'zurückgezogen';
-#    $Self->{''} = '';
+    # article types
+    $Self->{'email-external'} = 'Email für extern';
+    $Self->{'email-internal'} = 'Email für intern';
+    $Self->{'note-internal'} = 'Notiz für intern';
+    $Self->{'note-external'} = 'Notiz für extern';
+    $Self->{'note-report'} = 'Notiz für reporting';
+
 #    $Self->{''} = '';
 #    $Self->{''} = '';
 
