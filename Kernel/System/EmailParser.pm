@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.35 2004-07-30 09:09:27 martin Exp $
+# $Id: EmailParser.pm,v 1.36 2004-08-10 06:55:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -72,15 +72,29 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject Email)) {
+    foreach (qw(LogObject ConfigObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
+    # check needed objects
+    if ($Param{Email} && !$Param{Entity}) {
+        die "Need Email or Entity!";
     }
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
-    # create Mail::Internet object
-    $Self->{Email} = new Mail::Internet($Param{Email});
-    # create a Mail::Header object with email
-    $Self->{HeaderObject} = $Self->{Email}->head();
+
+    if ($Param{Email}) {
+        # create Mail::Internet object
+        $Self->{Email} = new Mail::Internet($Param{Email});
+        # create a Mail::Header object with email
+        $Self->{HeaderObject} = $Self->{Email}->head();
+        # create MIME::Parser object and get message body or body of first attachemnt
+        my $Parser = new MIME::Parser;
+        $Parser->output_to_core("ALL");
+        $Self->{ParserParts} = $Parser->parse_data($Self->{Email}->as_string());
+    }
+    else {
+        $Self->{ParserParts} = $Param{Entity};
+    }
     # parse email at first
     $Self->GetMessageBody();
 
@@ -188,7 +202,7 @@ sub SplitAddressLine {
 
 =item GetContentType()
 
-Returns the message body (or from the first attachment) "ContentType" header. 
+Returns the message body (or from the first attachment) "ContentType" header.
 
     my $ContentType = $ParseObject->GetContentType();
 
@@ -318,10 +332,6 @@ sub GetMessageBody {
     if ($Self->{MessageBody}) {
         return $Self->{MessageBody};
     }
-    # create MIME::Parser object and get message body or body of first attachemnt
-    my $Parser = new MIME::Parser;
-    $Parser->output_to_core("ALL");
-    $Self->{ParserParts} = $Parser->parse_data($Self->{Email}->as_string());
 
     if ($Self->{ParserParts}->parts() == 0) {
         $Self->{MimeEmail} = 0;
@@ -442,11 +452,11 @@ sub PartsAttachments {
     if ($Part->parts() > 0) {
 	    $PartCounter++;
 	    foreach ($Part->parts()) {
-		    $SubPartCounter++;
-            if ($Self->{Debug} > 0) {
- 		        print STDERR "Sub part($PartCounter/$SubPartCounter)!\n";
-            }
-		    $Self->PartsAttachments(Part => $_, PartCounter => $PartCounter);
+                $SubPartCounter++;
+                if ($Self->{Debug} > 0) {
+                    print STDERR "Sub part($PartCounter/$SubPartCounter)!\n";
+                }
+                $Self->PartsAttachments(Part => $_, PartCounter => $PartCounter);
 	    }
     }
     else {
@@ -643,6 +653,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2004-07-30 09:09:27 $
+$Revision: 1.36 $ $Date: 2004-08-10 06:55:49 $
 
 =cut
