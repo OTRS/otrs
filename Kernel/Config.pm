@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.51 2002-08-01 02:34:52 martin Exp $
+# $Id: Config.pm,v 1.52 2002-08-04 17:24:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -268,6 +268,7 @@ sub Load {
     # Frontendserver from the DB-Server. fs is faster.)
     $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
 #    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
+#    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
 
     # SessionCheckRemoteIP 
     # (If the application is used via a proxy-farm then the 
@@ -288,6 +289,13 @@ sub Load {
     # (Delete session's witch are requested and to old?) [0|1]
     $Self->{SessionDeleteIfTimeToOld} = 1;
 
+    # SessionUseCookie
+    # (Sould the session management use html cookies?
+    # It's more comfortable to send links -==> if you have a valid 
+    # session, you don't have to login again.) [0|1]
+    # Note: If the client browser disabled html cookies, the system
+    # will work as usual, append SessionID to links!
+    $Self->{SessionUseCookie} = 0;
 
     # ----------------------------------------------------#
     # web stuff                                           #
