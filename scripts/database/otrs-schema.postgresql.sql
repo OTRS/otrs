@@ -109,6 +109,21 @@ CREATE TABLE group_user
 );
 
 -----------------------------------------------------------------------------
+-- group_role
+-----------------------------------------------------------------------------
+CREATE TABLE group_role
+(
+    role_id INTEGER NOT NULL,
+    group_id INTEGER NOT NULL,
+    permission_key VARCHAR (20),
+    permission_value SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL
+);
+
+-----------------------------------------------------------------------------
 -- group_customer_user
 -----------------------------------------------------------------------------
 CREATE TABLE group_customer_user
@@ -121,6 +136,36 @@ CREATE TABLE group_customer_user
     create_by integer NOT NULL,
     change_time timestamp(0) NOT NULL,
     change_by integer NOT NULL
+);
+
+-----------------------------------------------------------------------------
+-- roles
+-----------------------------------------------------------------------------
+CREATE TABLE roles
+(
+    id serial,
+    name VARCHAR (100) NOT NULL,
+    comments VARCHAR (250),
+    valid_id SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+-----------------------------------------------------------------------------
+-- role_user
+-----------------------------------------------------------------------------
+CREATE TABLE role_user
+(
+    role_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL
 );
 
 -----------------------------------------------------------------------------
@@ -310,6 +355,7 @@ CREATE TABLE ticket
 (
     id serial,
     tn varchar (50) NOT NULL,
+    title varchar (255),
     queue_id integer NOT NULL,
     ticket_lock_id smallint NOT NULL,
     ticket_answered smallint NOT NULL,
@@ -355,12 +401,15 @@ create  INDEX index_ticket_user ON ticket (user_id);
 create  INDEX index_ticket_answered ON ticket (ticket_answered);
 
 -----------------------------------------------------------------------------
--- ticket_link
+-- object_link
 -----------------------------------------------------------------------------
-CREATE TABLE ticket_link
+CREATE TABLE object_link
 (
-    ticket_id_master serial NOT NULL,
-    ticket_id_slave serial NOT NULL
+    object_link_a_id BIGINT NOT NULL,
+    object_link_b_id BIGINT NOT NULL,
+    object_link_a_object VARCHAR (200) NOT NULL,
+    object_link_b_object VARCHAR (200) NOT NULL,
+    object_link_type VARCHAR (200) NOT NULL
 );
 
 -----------------------------------------------------------------------------

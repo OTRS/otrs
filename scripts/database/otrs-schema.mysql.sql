@@ -123,6 +123,23 @@ CREATE TABLE group_user
 );
 
 # -----------------------------------------------------------------------
+# group_role
+# -----------------------------------------------------------------------
+drop table if exists group_role;
+
+CREATE TABLE group_role
+(
+    role_id INTEGER NOT NULL,
+    group_id INTEGER NOT NULL,
+    permission_key VARCHAR (20),
+    permission_value SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL
+);
+
+# -----------------------------------------------------------------------
 # group_customer_user
 # -----------------------------------------------------------------------
 drop table if exists group_customer_user;
@@ -133,6 +150,40 @@ CREATE TABLE group_customer_user
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20),
     permission_value SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL
+);
+
+# -----------------------------------------------------------------------
+# roles
+# -----------------------------------------------------------------------
+drop table if exists roles;
+
+CREATE TABLE roles
+(
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (100) NOT NULL,
+    comments VARCHAR (250),
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+# -----------------------------------------------------------------------
+# role_user
+# -----------------------------------------------------------------------
+drop table if exists role_user;
+
+CREATE TABLE role_user
+(
+    role_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -348,6 +399,7 @@ CREATE TABLE ticket
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
     tn VARCHAR (50) NOT NULL,
+    title VARCHAR (255),
     queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
     ticket_answered SMALLINT NOT NULL,
@@ -390,18 +442,20 @@ CREATE TABLE ticket
     INDEX index_ticket_queue_view (ticket_state_id, ticket_lock_id, group_id)
         ,INDEX index_ticket_user (user_id)
         ,INDEX index_ticket_answered (ticket_answered)
-   
 );
 
 # -----------------------------------------------------------------------
-# ticket_link
+# object_link
 # -----------------------------------------------------------------------
-drop table if exists ticket_link;
+drop table if exists object_link;
 
-CREATE TABLE ticket_link
+CREATE TABLE object_link
 (
-    ticket_id_master BIGINT NOT NULL,
-    ticket_id_slave BIGINT NOT NULL
+    object_link_a_id BIGINT NOT NULL,
+    object_link_b_id BIGINT NOT NULL,
+    object_link_a_object VARCHAR (200) NOT NULL,
+    object_link_b_object VARCHAR (200) NOT NULL,
+    object_link_type VARCHAR (200) NOT NULL
 );
 
 # -----------------------------------------------------------------------
