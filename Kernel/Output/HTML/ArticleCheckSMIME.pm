@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.2 2004-08-04 13:14:18 martin Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.3 2004-12-06 22:27:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,7 +48,7 @@ sub Check {
     if ($Param{Article}->{ArticleType} !~ /email/i) {
         return;
     }
-    # check inline pgp
+    # check inline smime
     if ($Param{Article}->{Body} =~ /^-----BEGIN PKCS7-----/) {
         %SignCheck = $Self->{CryptObject}->Verify(Message => $Param{Article}->{Body});
         if (%SignCheck) {
@@ -63,7 +63,7 @@ sub Check {
             });
         }
     }
-    # check mime pgp
+    # check smime
     else {
         # write email to fs
         my $Message = $Self->{TicketObject}->ArticlePlain(
@@ -82,10 +82,16 @@ sub Check {
         $Head->combine('Content-Type');
         my $ContentType = $Head->get('Content-Type');
        if ($ContentType && $ContentType =~ /application\/(x-pkcs7|pkcs7)-mime/i) {
-print STDERR "asdadads\n";
+            # check sender (don't decrypt sent emails)
+            if ($Param{Article}->{SenderType} =~ /(agent|system)/i) {
+                # return info
+                return ({
+                    Key => 'Crypted',
+                    Value => 'Sent message crypted to recipient!',
+                    Successful => 1,
+                });
+            }
             # decrypt
-#            my $Cryped = $entity->parts(0)->as_string;
-            # Encrypt it
             my %Decrypt = $Self->{CryptObject}->Decrypt(
                 Message => $Message,
                 Cert => 123,

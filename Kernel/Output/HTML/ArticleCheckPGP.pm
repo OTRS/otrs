@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleCheckPGP.pm,v 1.4 2004-08-12 10:45:28 martin Exp $
+# $Id: ArticleCheckPGP.pm,v 1.5 2004-12-06 22:27:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,6 +51,14 @@ sub Check {
     }
     # check inline pgp crypt
     if ($Param{Article}->{Body} =~ /^-----BEGIN PGP MESSAGE-----/) {
+        # check sender (don't decrypt sent emails)
+        if ($Param{Article}->{SenderType} =~ /(agent|system)/i) {
+            # return info
+            return ({
+                Key => 'Crypted',
+                Value => 'Sent message crypted to recipient!',
+            });
+        }
         my %Decrypt = $Self->{CryptObject}->Decrypt(Message => $Param{Article}->{Body});
         if ($Decrypt{Successful}) {
             # remember to result
@@ -116,6 +124,15 @@ sub Check {
         my $ContentType = $Head->get('Content-Type');
         # check if we need to decrypt it
         if ($ContentType && $ContentType =~ /multipart\/encrypted/i && $ContentType =~ /application\/pgp/i) {
+            # check sender (don't decrypt sent emails)
+            if ($Param{Article}->{SenderType} =~ /(agent|system)/i) {
+                # return info
+                return ({
+                    Key => 'Crypted',
+                    Value => 'Sent message crypted to recipient!',
+                    Successful => 1,
+                });
+            }
             # decrypt
             my $Cryped = $Entity->parts(1)->as_string;
             # Encrypt it
