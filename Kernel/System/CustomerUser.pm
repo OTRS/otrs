@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.4 2002-11-19 16:07:16 martin Exp $
+# $Id: CustomerUser.pm,v 1.5 2002-11-24 23:55:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Email::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -361,7 +361,27 @@ sub GetPreferences {
     if (!$Data{UserCharset}) {
         $Data{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
     }
-
+    # --
+    # check language if long name s given --> compat (REMOVE ME LATER!)
+    # --
+    if ($Data{UserLanguage} && $Data{UserLanguage} !~ /^..$/) {
+      my %OldNames = (
+          bb => 'Bavarian',
+          en => 'English',
+          de => 'German',
+          nl => 'Dutch',
+          fr => 'French',
+          bg => 'Bulgarian',
+          es => 'Spanish',
+          cs => 'Czech',
+          it => 'Italian',
+      );
+      foreach (keys %OldNames) {
+          if ($OldNames{$_} =~ /^$Data{UserLanguage}$/i) {
+              $Data{UserLanguage} = $_;
+          }
+      }
+    }
     # --
     # return data
     # --

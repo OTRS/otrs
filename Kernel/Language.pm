@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.10 2002-11-21 22:22:12 martin Exp $
+# $Id: Language.pm,v 1.11 2002-11-24 23:59:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,14 +39,39 @@ sub new {
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_!" if (!$Self->{$_});
     } 
-
+    # --
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
+    # --
     $Self->{Debug} = 0;
-
+    # --
     # user language
-    $Self->{UserLanguage} = $Param{UserLanguage} || 'English';
-
-    # Debug
+    # --
+    $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
+#    $Self->{UserLanguage} = 'english';
+    # --
+    # check language if long name s given --> compat 
+    # --
+    if ($Self->{UserLanguage} !~ /^..$/) {
+      my %OldNames = (
+          bb => 'Bavarian',
+          en => 'English',
+          de => 'German',
+          nl => 'Dutch',
+          fr => 'French',
+          bg => 'Bulgarian',
+          es => 'Spanish',
+          cs => 'Czech', 
+          it => 'Italian',
+      );
+      foreach (keys %OldNames) {
+          if ($OldNames{$_} =~ /^$Self->{UserLanguage}$/i) {
+              $Self->{UserLanguage} = $_;
+          }
+      }
+    }
+    # --
+    # Debug 
+    # --
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'Debug',
@@ -137,6 +162,27 @@ sub Get {
     }
 }
 # --
+sub GetRecommendedCharset {
+    my $Self = shift;
+    if ($Self->{Charset}) {
+        my @Chatsets = @{$Self->{Charset}};
+        return $Chatsets[$#Chatsets];
+    }
+    else {
+        return $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
+    }
+}
+# --
+sub GetPossibleCharsets {
+    my $Self = shift;
+    if ($Self->{Charset}) {
+        return @{$Self->{Charset}};
+    }
+    else {
+        return;
+    }
+}
+# --
 sub DESTROY {
     my $Self = shift;
 
@@ -153,7 +199,7 @@ sub DESTROY {
         print TEMPLATEOUT "# Kernel/Language/$Self->{UserLanguage}.pm - provides $Self->{UserLanguage} language translation\n";
         print TEMPLATEOUT "# Copyright (C) 2002 ??? <???>\n";
         print TEMPLATEOUT "# --\n";
-        print TEMPLATEOUT "# \$Id: Language.pm,v 1.10 2002-11-21 22:22:12 martin Exp $\n";
+        print TEMPLATEOUT "# \$Id: Language.pm,v 1.11 2002-11-24 23:59:00 martin Exp $\n";
         print TEMPLATEOUT "# --\n";
         print TEMPLATEOUT "# This software comes with ABSOLUTELY NO WARRANTY. For details, see\n";
         print TEMPLATEOUT "# the enclosed file COPYING for license information (GPL). If you\n";
@@ -164,7 +210,7 @@ sub DESTROY {
         print TEMPLATEOUT "use strict;\n";
         print TEMPLATEOUT "\n";
         print TEMPLATEOUT "use vars qw(\$VERSION);\n";
-        print TEMPLATEOUT "\$VERSION = '\$Revision: 1.10 $';\n";
+        print TEMPLATEOUT "\$VERSION = '\$Revision: 1.11 $';\n";
         print TEMPLATEOUT '$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;';
         print TEMPLATEOUT "\n";
         print TEMPLATEOUT "# --\n";
@@ -181,7 +227,6 @@ sub DESTROY {
             }
         }
         print TEMPLATEOUT "];\n";
-#        print TEMPLATEOUT "\n";
 
         foreach my $Screen (sort keys %Screens) {
             my %Words = %{$Screens{$Screen}};
