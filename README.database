@@ -2,7 +2,7 @@
 # README.database - database description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.database,v 1.10 2002-10-23 12:08:30 martin Exp $
+# $Id: README.database,v 1.11 2002-12-02 21:28:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -44,11 +44,11 @@ shell> mysql -u root -p -e 'create database otrs'
 
 Create the OTRS tables:
 -----------------------
-shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/OpenTRS-schema.mysql.sql
+shell> mysql -u root -p otrs < install/database/OpenTRS-schema.mysql.sql
 
 Insert inital data:
 -------------------
-shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/initial_insert.sql
+shell> mysql -u root -p otrs < install/database/initial_insert.sql
 
 Create an database user:
 -----------------------
