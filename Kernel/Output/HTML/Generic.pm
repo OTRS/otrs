@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.96 2003-12-08 00:06:07 martin Exp $
+# $Id: Generic.pm,v 1.97 2003-12-29 17:23:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,16 +17,18 @@ use strict;
 use Kernel::Language;
 use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Admin;
+use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.96 $';
+$VERSION = '$Revision: 1.97 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
     'Kernel::Output::HTML::Agent',
     'Kernel::Output::HTML::Admin',
     'Kernel::Output::HTML::Customer',
+    'Kernel::Output::HTML::FAQ',
 );
 
 sub new {
@@ -578,17 +580,18 @@ sub Header {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    # --
     # add cookies if exists
-    # --
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
-    # --
+    # check area
+    if (!$Param{'Area'} && $Param{'Title'}) {
+        $Param{'Area'} = $Param{'Title'};
+        $Param{'Title'} = '';
+    }
     # create & return output
-    # --
     $Output .= $Self->Output(TemplateFile => 'Header', Data => \%Param);
     return $Output;
 }
