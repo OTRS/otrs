@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.112 2004-05-28 08:02:28 martin Exp $
+# $Id: Ticket.pm,v 1.113 2004-06-09 11:43:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.112 $';
+$VERSION = '$Revision: 1.113 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -528,6 +528,7 @@ sub TicketGet {
         $Ticket{PriorityID} = $Row[6];
         $Ticket{Priority} = $Row[7];
         $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
+        $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Row[8]);
         $Ticket{CreateTimeUnix} = $Row[8];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[8]);
         $Ticket{GroupID} = $Row[10];
@@ -1744,7 +1745,7 @@ sub TicketSearch {
         $SQLExt .= " AND st.customer_id IN ('${\(join '\', ' , @CustomerIDs)}') ";
     }
     if ($Param{UserID} && $Param{UserID} == 1) {
-        $Self->{LogObject}->Log(Priority => 'info', Message => "It's a admin search, no groups are used!");
+#        $Self->{LogObject}->Log(Priority => 'info', Message => "It's a admin search, no groups are used!");
     }
     elsif (@GroupIDs) {
         $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
@@ -2152,6 +2153,7 @@ sub StateSet {
           ArticleID => $ArticleID,
           QueueID => $Ticket{QueueID},
           Name => "\%\%$Ticket{State}\%\%$Param{State}",
+          HistoryType => 'StateUpdate',
           CreateUserID => $Param{UserID},
       );
       # send customer notification email
@@ -2622,6 +2624,118 @@ sub PriorityList {
     }
     # /workflow
     return %Data;
+}
+# --
+sub HistoryTicketGet {
+    my $Self = shift;
+    my %Param = @_;
+    my %Ticket = ();
+    # check needed stuff
+    foreach (qw(TicketID TimeStamp)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # check cache
+    my $Path = $Self->{ConfigObject}->Get('TempDir');
+    my $File = "TicketHistoryCache-$Param{TicketID}-$Param{TimeStamp}";
+    $File =~ s/ //g;
+    $File = quotemeta($File);
+    # write cache
+    if (-f "$Path/$File") {
+        if (open (DATA, "< $Path/$File")) {
+            while (<DATA>) {
+                if ($_ =~ /^(.+?):(.+?)$/) {
+                    $Ticket{$1} = $2;
+                }
+            }
+            close (DATA);
+print STDERR "return cache!!!\n";
+            return %Ticket;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't open: $Path/$File: $!",
+            );
+        }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    my $SQL = "SELECT th.name, tht.name FROM ".
+        "ticket_history th, ticket_history_type tht ".
+        "WHERE ".
+        "th.history_type_id = tht.id ".
+        "AND ".
+        "th.ticket_id = $Param{TicketID} ".
+        "AND ".
+        "th.create_time <= '$Param{TimeStamp} 23:59:59' ".
+        "ORDER BY th.create_time ASC";
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 600);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        if ($Row[1] eq 'NewTicket') {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/) {
+                $Ticket{TicketNumber} = $1;
+                $Ticket{Queue} = $2;
+                $Ticket{Priority} = $3;
+                $Ticket{State} = $4;
+                $Ticket{TicketID} = $5;
+                $Ticket{Owner} = 'root';
+            }
+        }
+        elsif ($Row[1] eq 'Move') {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/) {
+                $Ticket{Queue} = $1;
+            }
+        }
+        elsif ($Row[1] eq 'StateUpdate') {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/) {
+                $Ticket{State} = $2;
+            }
+        }
+        elsif ($Row[1] eq 'TicketFreeTextUpdate') {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)$/) {
+                $Ticket{$1} = $2;
+                $Ticket{$3} = $4;
+            }
+        }
+        elsif ($Row[1] eq 'PriorityUpdate') {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/) {
+                $Ticket{Priority} = $3;
+            } 
+        }
+        elsif ($Row[1] eq 'OwnerUpdate') {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)/) {
+                $Ticket{Owner} = $1;
+            }
+        }
+#        elsif ($Row[1] eq '') {
+#
+#        }
+
+    }
+    if (!%Ticket) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "No such TicketID ($Param{TicketID})!");
+    }
+    else {
+        # write cache
+        if (open (DATA, "> $Path/$File")) {
+            foreach (keys %Ticket) {
+                print DATA "$_:$Ticket{$_}\n";
+            }
+            close (DATA);
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't write: $Path/$File: $!",
+            );
+        }
+        return %Ticket;
+    }
 }
 # --
 sub HistoryTypeLookup {
@@ -3126,6 +3240,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.112 $ $Date: 2004-05-28 08:02:28 $
+$Revision: 1.113 $ $Date: 2004-06-09 11:43:17 $
 
 =cut
