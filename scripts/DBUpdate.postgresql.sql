@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.postgresql.sql,v 1.3 2002-10-20 12:34:08 martin Exp $
+-- $Id: DBUpdate.postgresql.sql,v 1.4 2002-10-21 15:56:06 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.postgresql.sql | psql otrs 
@@ -20,6 +20,7 @@ CREATE TABLE customer_user
     id serial,
     login varchar (80) NOT NULL,
     email varchar (120) NOT NULL,
+    customer_id VARCHAR (120) NOT NULL,
     pw varchar (20) NOT NULL,
     salutation varchar (20),
     first_name varchar (40) NOT NULL,
