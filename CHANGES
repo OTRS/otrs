@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.26 2002-10-20 20:04:48 martin Exp $
+# $Id: CHANGES,v 1.27 2002-10-22 16:36:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,8 @@
 # --
 
 0.5 BETA8 (2002-10-??)
+ - (2002/10/22) added notify mail to agent by ticket move - configurable via preferences
+ - (2002/10/22) added Lite QueueView - configurable via preferences
  - (2002/10/20) added customer web frontend (bin/cgi-bin/customer.pl, 
      Kernel/Modules/Customer*.pm and Kernel/Output/HTML/*/Customer.dtl) 
  - (2002/10/20) added lost password feature
@@ -23,7 +25,7 @@
       # the own groups) [0|1]
       $Self->{PhoneViewASP} = 1;
       # PhoneViewSelectionType 
-      # (To: seection type. Queue => show all queues, SystemAddress => show all system 
+      # (To: section type. Queue => show all queues, SystemAddress => show all system 
       # addresses;) [Queue|SystemAddress]
        $Self->{PhoneViewSelectionType} = 'SystemAddress';
       # PhoneViewSelectionString
