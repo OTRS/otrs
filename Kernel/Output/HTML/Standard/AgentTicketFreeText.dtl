@@ -1,0 +1,105 @@
+# --
+# AgentTicketFreeText.dtl - provides HTML for AgentFreeText mask
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentTicketFreeText.dtl,v 1.1 2005-02-17 07:01:15 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Change free text of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
+  </td>
+</tr>
+<tr>
+  <td class="menu">
+    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td class="mainbody">
+
+  <br>
+
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Update">
+  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+
+  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+  <tr>
+    <td colspan="2" class="contenthead">$Text{"Options"}</td>
+  </tr>
+  <tr>
+  <td class="contentbody">
+
+      <table border="0">
+      <tr>
+        <td width="20"></td>
+        <td>$Text{"Key"}:</td>
+        <td>$Text{"Value"}</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>$Data{"TicketFreeKeyField1"}:</td>
+        <td>$Data{"TicketFreeTextField1"}</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>$Data{"TicketFreeKeyField2"}:</td>
+        <td>$Data{"TicketFreeTextField2"}</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>$Data{"TicketFreeKeyField3"}:</td>
+        <td>$Data{"TicketFreeTextField3"}</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>$Data{"TicketFreeKeyField4"}:</td>
+        <td>$Data{"TicketFreeTextField4"}</td>
+      </tr>
+#     <tr>
+#       <td>5</td>
+#       <td>$Data{"TicketFreeKeyField5"}:</td>
+#       <td>$Data{"TicketFreeTextField5"}</td>
+#     </tr>
+#     <tr>
+#       <td>6</td>
+#       <td>$Data{"TicketFreeKeyField6"}:</td>
+#       <td>$Data{"TicketFreeTextField6"}</td>
+#    </tr>
+#    <tr>
+#       <td>7</td>
+#       <td>$Data{"TicketFreeKeyField7"}:</td>
+#       <td>$Data{"TicketFreeTextField7"}</td>
+#    </tr>
+#    <tr>
+#       <td>8</td>
+#       <td>$Data{"TicketFreeKeyField8"}:</td>
+#       <td>$Data{"TicketFreeTextField8"}</td>
+#   </tr>
+   </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+        <input class="button" type="submit" value="$Text{"update"}">
+    </td>
+  </tr>
+  </table>
+  </form>
+
+  <br>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+

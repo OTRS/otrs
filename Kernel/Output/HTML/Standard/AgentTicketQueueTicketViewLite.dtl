@@ -1,0 +1,151 @@
+# --
+# AgentTicketQueueTicketViewLite.dtl - provides HTML TicketView for AgentTicketQueue
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.1 2005-02-17 07:01:15 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start ticket -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+
+<!-- dtl:block:Bulk -->
+  <td width="1%" class="mainhead">
+    <form name="abulk$Data{"Counter"}"><input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"></form>
+  </td>
+<!-- dtl:block:Bulk -->
+
+  <td align="left" width="50%" class="mainhead">
+    $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
+  </td>
+  <td align="right" width="49%" class="mainhead">
+    $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" width="60%" class="menu">
+
+<!-- dtl:block:Menu -->
+<!-- dtl:block:MenuItemSplit -->
+ - 
+<!-- dtl:block:MenuItemSplit -->
+<!-- dtl:block:MenuItem -->
+<a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
+$Text{"$QData{"Name"}"}</a>
+<!-- dtl:block:MenuItem -->
+<!-- dtl:block:Menu -->
+
+  </td>
+  <td align="right" width="40%" class="menu">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="mainkey">$Text{"Created"}:</td>
+        <td class="mainvalue"> $TimeLong{"$Data{"Created"}"}</td>
+      </tr>
+   </table>
+  </td>
+</tr>
+</table>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
+<tr>
+  <td width="60%" class="mainbody">
+  <table border="0" width="100%" cellspacing="0" cellpadding="1">
+# From:, To:, Cc:
+<!-- dtl:block:Row -->
+    <tr>
+      <td valign="top" width="15%" class="table1"><b>$Text{"$Data{"Key"}"}:</b></td>
+      <td width="85%" class="table1"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
+    </tr>
+<!-- dtl:block:Row -->
+# show the Article::FreeKey1-3 and Article::FreeText1-3
+<!-- dtl:block:ArticleFreeText -->
+    <tr>
+      <td valign="top" width="15%" class="table1"><b>$QData{"Key"}:</b></td>
+      <td width="85%" class="table1"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
+    </tr>
+<!-- dtl:block:ArticleFreeText -->
+# --
+# show FreeKey1-3 and FreeText1-3 (in other way like the block, so you could add link or somethin else)
+# --
+#<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>"; }>
+#     $Data{"ArticleFreeString1"}
+#     $Data{"ArticleFreeString2"}
+#     $Data{"ArticleFreeString3"}
+# --
+  </table>
+  </td>
+  <td width="20%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
+    <table border="0">
+    <tr valign="top">
+      <td><b>$Text{"State"}:</b></td>
+      <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","14"}</div></font></td>
+    </tr>
+    <tr valign="top">
+      <td><b>$Text{"Priority"}:</b></td>
+      <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","14"}</div></font></td>
+    </tr>
+    <tr valign="top">
+      <td><b>$Text{"Queue"}:</b></td>
+      <td><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","14"}</div></font></td>
+    </tr>
+    </table>
+  </td>
+  <td width="20%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
+    <table border="0" cellspacing="0" cellpadding="1">
+    <tr valign="top">
+      <td><b>$Text{"CustomerID"}:</b></td>
+      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","14"}</a></td>
+    </tr>
+    <tr valign="top">
+      <td><b>$Text{"Escalation in"}:</b></td>
+      <td>$Data{"TicketOverTime"}</td>
+    </tr>
+# --
+# show TicketFreeKey1-2 and TicketFreeValue1-2
+# --
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey1","25"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","25"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey2","25"}:</b></td><td><div title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","25"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey3"} ne "") { $Data{"TicketFreeString3"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey3","25"}:</b></td><td><div title="$QData{"TicketFreeText3"}">$QData{"TicketFreeText3","25"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey4"} ne "") { $Data{"TicketFreeString4"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey4","25"}:</b></td><td><div title="$QData{"TicketFreeText4"}">$QData{"TicketFreeText4","25"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey5"} ne "") { $Data{"TicketFreeString5"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey5","25"}:</b></td><td><div title="$QData{"TicketFreeText5"}">$QData{"TicketFreeText5","25"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey6","25"}:</b></td><td><div title="$QData{"TicketFreeText6"}">$QData{"TicketFreeText6","25"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey7","25"}:</b></td><td><div title="$QData{"TicketFreeText7"}">$QData{"TicketFreeText7","25"}</div></td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr valign="top"><td><b>$QData{"TicketFreeKey8","25"}:</b></td><td><div title="$QData{"TicketFreeText8"}">$QData{"TicketFreeText8","25"}</div></td></tr>"; }>
+    $Data{"TicketFreeString1"}
+    $Data{"TicketFreeString2"}
+    $Data{"TicketFreeString3"}
+    $Data{"TicketFreeString4"}
+    $Data{"TicketFreeString5"}
+    $Data{"TicketFreeString6"}
+    $Data{"TicketFreeString7"}
+    $Data{"TicketFreeString8"}
+# --
+   </tr>
+   </table>
+  </td>
+</tr>
+# use the following if you want also a change queue option in this view
+#<tr>
+#  <td valign="top" class="table1">&nbsp;</td>
+#  <td valign="top" class="PriorityID-$Data{"PriorityID"}"><b>$Text{"Change queue"}:</b></td>
+#  <td valign="top" class="PriorityID-$Data{"PriorityID"}">
+#       <form action="$Env{"CGIHandle"}" method="get">
+#       <input type="hidden" name="Action" value="AgentMove">
+#       <input type="hidden" name="Subaction" value="InRage">
+#       <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+#       <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+#       $Data{"MoveQueuesStrg"}
+#       <input class="button" type="submit" value="$Text{"Move"}">
+#       </form>
+#  </td>
+#</tr>
+</table>
+<!-- end ticket -->

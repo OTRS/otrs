@@ -1,0 +1,36 @@
+# --
+# AgentTicketQueue.dtl - provides HTML QueueView for AgentTicketQueue
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentTicketQueue.dtl,v 1.1 2005-02-17 07:02:25 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- dtl:block:QueueNav -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="center" class="mainhead">
+  $Env{"Box0"}$Text{"Queue"}: $Data{"SelectedQueue"}$Env{"Box1"}
+  </font>
+  </td>
+</tr>
+<tr>
+  <td class="menu">
+  $Text{"Tickets shown"}: $Data{"Result"} -
+  $Text{"Page"}: $Data{"PageNavBar"} -
+  $Text{"Tickets available"}: $Data{"TicketsAvail"} -
+  $Text{"All tickets"}: <a href="$Env{"Baselink"}Action=$Env{"Action"}&QueueID=$Env{"QueueID"}&ViewAll=1">$Data{"AllTickets"}</a>
+#  $Text{"Sub Tickets available"}: $Data{"AllSubTickets"} -
+#  $Text{"All tickets"}: $Data{"AllSubTickets"}
+  </td>
+</tr>
+<tr>
+  <td class="mainbody">
+  $Text{"Queues"}: $Data{"QueueStrg"}
+  </td>
+</tr>
+</table>
+<!-- dtl:block:QueueNav -->
+
