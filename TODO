@@ -1,8 +1,8 @@
 # --
 # TODO - todo list of OTRS
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+todo@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.57 2004-07-30 09:23:41 martin Exp $
+# $Id: TODO,v 1.58 2005-02-10 09:28:48 sr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,10 @@
 - master ticket feature
 - user info backend (LDAP and DB)
 - allow users to add or change stored replies for their queue without giving them full admin rights
-
+- Agent ticket search base on customername 
+- Agent ticket search ticket processed from - to absorb
+- Agent ticket search  escalate from - to  absorb
+- 
 misc (not scheduled yet - nobody is working on it yet)
 - store ticket before sending
 - AdminQueueList with all config options on one screen
