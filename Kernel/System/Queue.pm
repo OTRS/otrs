@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.11 2002-07-21 21:09:49 martin Exp $
+# $Id: Queue.pm,v 1.12 2002-07-24 00:39:11 atif Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -107,6 +107,26 @@ sub GetStdResponse {
         $String = $Row[0];
     }
     return $String;
+}
+# --
+sub SetQueueStdResponse {
+   my $Self = shift;
+   my %Param = @_;
+   unless  ($Param{ResponseID} && $Param{QueueID}) {
+       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID and QueueID!");
+       return;
+   }
+   # --
+   # sql 
+   # --
+   my $SQL = sprintf(qq|INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, change_time, change_by)
+   VALUES ( %s, %s, current_timestamp, %s, current_timestamp, %s)| , $Param{QueueID}, $Param{ResponseID}, $Param{UserID}, $Param{UserID});
+   # print "SQL was\n$SQL\n\n";
+   if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      return 1;
+   } else {
+      return 0;
+   }
 }
 # --
 sub GetStdResponses {
