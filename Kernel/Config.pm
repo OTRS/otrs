@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.42 2002-07-21 22:56:37 martin Exp $
+# $Id: Config.pm,v 1.43 2002-07-22 21:57:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -324,8 +324,14 @@ sub Load {
     # Kernel::System::Ticket::Number::Date --> ticket numbers with date 
     #   "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
     #
+    # Kernel::System::Ticket::Number::DateChecksum --> ticket numbers with date 
+    #   "Year.Month.Day.SystemID.Counter.Checksum" like 2002062310100019.
+    #
     # Kernel::System::Ticket::Number::Random -->
     #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
+#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Date';
+#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
+#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Random';
     $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
  
     # MaxPostMasterEmails
