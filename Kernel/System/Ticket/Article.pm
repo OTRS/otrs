@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.1 2002-10-03 17:27:39 martin Exp $
+# $Id: Article.pm,v 1.2 2002-10-20 22:00:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -23,7 +23,7 @@ use MIME::Parser;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -239,7 +239,7 @@ sub WriteArticle {
     # --
     # debug
     # --
-    if ($Self->{Debug} > 0) {
+    if ($Self->{Debug} > 1) {
         print STDERR '->WriteArticle: ' . $Path . "\n";
     }
     # --
