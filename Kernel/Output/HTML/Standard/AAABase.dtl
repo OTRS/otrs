@@ -10,9 +10,6 @@ $Text{"on"}
 $Text{"top"}
 $Text{"end"}
 
-$Text{"Welcome to OTRS"}
-$Text{"Logout successful. Thank you for using OTRS!"}
-
 $Text{"Done"}
 $Text{"Cancel"}
 $Text{"Reset"}
@@ -98,3 +95,12 @@ $Text{"No suggestions"}
 $Text{"Word"}
 $Text{"Ignore"}
 $Text{"replace with"}
+
+$Text{"Welcome to OTRS"}
+$Text{"There is no account with that login name."}
+$Text{"Login failed! Your username or password was entered incorrectly."}
+$Text{"Please contact your admin"}
+$Text{"Logout successful. Thank you for using OTRS!"}
+$Text{"Invalid SessionID!"}
+$Text{"Feature not acitv!"}
+
