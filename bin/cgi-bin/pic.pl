@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.10 2002-11-24 23:51:35 martin Exp $
+# $Id: pic.pl,v 1.11 2002-12-14 22:23:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,7 +46,6 @@ use Kernel::System::DB;
 use Kernel::System::AuthSession;
 use Kernel::System::User;
 use Kernel::System::Queue;
-use Kernel::System::Ticket;
 use Kernel::System::Permission;
 
 # --
@@ -68,11 +67,10 @@ if ($Debug) {
     );
 }
 # ... common objects ...
-$CommonObject{ParamObject} = Kernel::System::WebRequest->new();
+$CommonObject{ParamObject} = Kernel::System::WebRequest->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 $CommonObject{PermissionObject} = Kernel::System::Permission->new(%CommonObject);
 
