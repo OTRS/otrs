@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.173 2004-11-28 11:24:39 martin Exp $
+# $Id: Defaults.pm,v 1.174 2004-12-02 00:37:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.173 $';
+$VERSION = '$Revision: 1.174 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2267,6 +2267,21 @@ Your OTRS Notification Master
     $Self->{'FAQ::Field6'} = 'Comment (internal)';
 
     # --------------------------------------------------- #
+    #                                                     #
+    #            package management options               #
+    #                                                     #
+    # --------------------------------------------------- #
+
+    $Self->{'Package::RepositoryList'} = {
+        'http://otrs.org/online/' => 'http://otrs.org/online/',
+        'http://localhost/' => 'http://localhost/',
+    };
+
+    $Self->{'Package::Timeout'} = 12;
+
+#    $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/';
+
+    # --------------------------------------------------- #
     # frontend module registry
     # --------------------------------------------------- #
     # Module (from Kernel/Modules/*.pm) => Group
@@ -2924,6 +2939,25 @@ sub new {
             }
         }
     }
+    # load RELEASE file
+    if (-e "$Self->{Home}/RELEASE") {
+        if (open (PRODUCT, "< $Self->{Home}/RELEASE")) {
+            while (<PRODUCT>) {
+                # filtering of comment lines
+                if ($_ !~ /^#/) {
+                    if ($_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
+                        $Self->{Product} = $1;
+                    }
+                    elsif ($_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
+                        $Self->{Version} = $1;
+                    }
+                }
+            }
+        }
+        else {
+            print STDERR "Can't read $Self->{Home}/RELEASE: $!";
+        }
+    }
     # load config (again)
     $Self->Load();
 
@@ -2951,6 +2985,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.173 $ $Date: 2004-11-28 11:24:39 $
+$Revision: 1.174 $ $Date: 2004-12-02 00:37:24 $
 
 =cut
