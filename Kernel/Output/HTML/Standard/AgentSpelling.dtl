@@ -1,0 +1,86 @@
+# --
+# AgentSpelling.dtl - provides HTML form for AgentSpelling
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentSpelling.dtl,v 1.1 2002-11-10 23:10:29 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start Spelling form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+
+function updateMessage()
+{
+    if (parent.opener.closed) {
+        alert('$Text{"The message being composed has been closed.  Exiting."}');
+        this.close();
+        return;
+    }
+
+    if (!parent.opener.document.compose) {
+        alert('$Text{"This window must be called from compose window"}');
+        this.close();
+        return;
+    }
+
+    parent.opener.document.compose.Body.value = document.spelling.Body.value 
+
+    this.close();
+}
+
+function change_selected(sel) 
+{
+   start_elements = (4 * sel);
+   if (!document.spelling.elements[0].name == "$Config{"SessionName"}") {
+       start_elements = start_elements - 1;
+   }
+   if (!document.spelling.elements[start_elements].checked) {
+        document.spelling.elements[start_elements].checked = true;
+   }
+# just for debug!
+#alert(start_elements);
+#alert(document.spelling.elements[0].name)
+}
+
+//-->
+</script>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr bgcolor="$Env{"BGTableColor2"}">
+  <td align="left"> 
+  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Spell Checker"} - $Data{"SpellCounter"} $Text{"spelling error(s)"} $Env{"Box1"}</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="left" valign="top">
+
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
+  <input type="hidden" name="Action" value="AgentSpelling">
+
+$Data{"SpellCheckString"}
+
+<hr>
+<input type="submit" value="$Text{"Apply these changes"}"> 
+<input type="reset" value="$Text{"Reset"}"> 
+
+<pre>
+<textarea name="Body" rows="22" cols="80" wrap="$Env{"BrowserWrap"}">
+$Data{"Body"}
+</textarea>
+</pre>
+
+<input type="button" onclick="updateMessage();" value="$Text{"Done"}"> 
+<i>($Text{"Return to the compose screen"})</i>
+
+<input type="button" onclick="window.close();" value="$Text{"Cancel"}"> 
+<i>($Text{"Discard all changes and return to the compose screen"})</i>
+
+<hr>
+  </td> 
+</tr>
+</table>
+<!-- end Spelling form -->
+
