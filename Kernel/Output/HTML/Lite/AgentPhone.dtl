@@ -2,13 +2,25 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.9 2003-01-12 19:58:39 martin Exp $
+# $Id: AgentPhone.dtl,v 1.10 2003-02-03 19:43:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function SpellCheckSubmit()
+{ 
+    document.spelling.Body.value = document.compose.Body.value;
+    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=650,height=550,left=100,top=100');
+    document.spelling.submit() 
+} 
+// -->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left"> 
@@ -23,7 +35,7 @@
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="post" name="compose">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
@@ -32,11 +44,27 @@
   <table border="0" width="100%">
   <tr>
     <td width="20%">$Text{"Subject"}:</td>
-    <td width="80%"><input type="text" name="Subject" value="$Config{"PhoneDefaultSubject"}" size="60"></td>
+    <td width="60%"><input type="text" name="Subject" value="$Config{"PhoneDefaultSubject"}" size="60"></td>
+    <td width="20%" rowspan="7" valign="top">
+# --
+# uncomment this if customer info should be shown
+# --
+
+#    <b>$Text{"Customer Info"}</b>:
+#    $Data{"CustomerTable"}
+
+</td>
   </tr>
   <tr>
-    <td>$Text{"Text"}:</td><td>
-<textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
+    <td>$Text{"Options"}:</td>
+    <td> 
+       <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';">$Text{"Spell Check"}</a>
+#       <a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">$Text{"Text"}:</td><td>
+<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
 $Text{"$Config{"PhoneDefaultNoteText"}"}
 </textarea>
     </td>
@@ -60,6 +88,12 @@ $Text{"$Config{"PhoneDefaultNoteText"}"}
   </table>
 <br>
 <input type="submit" value="$Text{"store"}">
+</form>
+
+<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+  <input type="hidden" name="Action" value="AgentSpelling">
+  <input type="hidden" name="Body" value="">
+  <input type="hidden" name="spell_lang" value="">
 </form>
 
 </p>
