@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.21 2004-04-19 09:54:18 martin Exp $
+# $Id: Group.pm,v 1.22 2004-05-02 05:55:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -407,40 +407,74 @@ sub GroupMemberList {
     }
 #print STDERR "not cached $CacheKey\n";
     # sql
-    my %Data = (); 
-    my @Name = ();
-    my @ID = ();
-    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
-      " gu.user_id ".
-      " FROM ".
-      " groups g, group_user gu".
-      " WHERE " .
-      " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
-      " AND ".
-      " g.id = gu.group_id ".
-      " AND ".
-      " gu.permission_value = 1 ".
-      " AND ".
-      " gu.permission_key IN ('$Param{Type}', 'rw') ".
-      " AND ";
-    if ($Param{UserID}) {
-      $SQL .= " gu.user_id = $Param{UserID}";
+    my @UserTable = ();
+    my @GroupTable = ();
+    my $DoSQL = 1;
+    if ($Param{UserID} && $Self->{"GroupMemberList::UserTable::$Param{Type}"}) {
+        $DoSQL = 0;
     }
-    else {
-      $SQL .= " gu.group_id = $Param{GroupID}";
+    elsif ($Param{GroupID} && $Self->{"GroupMemberList::GroupTable::$Param{Type}"}) {
+        $DoSQL = 0;
     }
-#print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        my $Key = '';
-        my $Value = '';
+    if ($DoSQL) {
+        my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
+          " gu.user_id, gu.group_id ".
+          " FROM ".
+          " groups g, group_user gu".
+          " WHERE " .
+          " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+          " AND ".
+          " g.id = gu.group_id ".
+          " AND ".
+          " gu.permission_value = 1 ".
+          " AND ".
+          " gu.permission_key IN ('$Param{Type}', 'rw') ";
+#          " AND ";
         if ($Param{UserID}) {
-            $Key = $Row[0];
-            $Value = $Row[1];
+#          $SQL .= " gu.user_id = $Param{UserID}";
         }
         else {
-            $Key = $Row[4];
-            $Value = $Row[1];
+#          $SQL .= " gu.group_id = $Param{GroupID}";
+        }
+print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            if ($Param{UserID}) {
+                push (@UserTable, \@Row);
+            }
+            else {
+                push (@GroupTable, \@Row);
+            }
+        }
+        if ($Param{UserID}) {
+            $Self->{"GroupMemberList::UserTable::$Param{Type}"} = \@UserTable;
+        }
+        else {
+            $Self->{"GroupMemberList::GroupTable::$Param{Type}"} = \@GroupTable;
+        }
+    }
+    # get data
+    my %Data = ();
+    my @Name = ();
+    my @ID = ();
+    my @DataTable = ();
+    if ($Param{UserID}) {
+        @DataTable = @{$Self->{"GroupMemberList::UserTable::$Param{Type}"}};
+    }
+    else {
+        @DataTable = @{$Self->{"GroupMemberList::GroupTable::$Param{Type}"}};
+    }
+    foreach my $ArrayRef (@DataTable) {
+        my @DataRow = @{$ArrayRef};
+        my $Key = '';
+        my $Value = '';
+        if ($Param{UserID} && $Param{UserID} == $DataRow[4]) {
+            $Key = $DataRow[0];
+            $Value = $DataRow[1];
+        }
+        elsif ($Param{GroupID} && $Param{GroupID} == $DataRow[5]) {
+            $Key = $DataRow[4];
+            $Value = $DataRow[1];
         }
         # remember permissions
         if (!defined($Data{$Key})) {
@@ -481,6 +515,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2004-04-19 09:54:18 $
+$Revision: 1.22 $ $Date: 2004-05-02 05:55:55 $
 
 =cut
