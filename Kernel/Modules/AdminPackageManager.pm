@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.6 2004-12-04 14:41:31 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.7 2004-12-04 14:46:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,6 +43,7 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
+    my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || '';
     # ------------------------------------------------------------ #
     # view package
     # ------------------------------------------------------------ #
@@ -124,7 +125,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $Package)) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -136,7 +137,6 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'InstallRemote') {
         my $File = $Self->{ParamObject}->GetParam(Param => 'File') || '';
-        my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || '';
         my %Frontend = ();
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
@@ -149,7 +149,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $Package)) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -161,11 +161,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'UpgradeRemote') {
         my $File = $Self->{ParamObject}->GetParam(Param => 'File') || '';
-        my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || '';
         my %Frontend = ();
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
-            Source => $Source,
             File => $File,
         );
         # check
@@ -182,7 +180,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUpgrade(String => $Package)) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -205,7 +203,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUninstall(String => $Package)) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -225,7 +223,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $UploadStuff{Content})) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -263,7 +261,6 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || '';
         my %Frontend = ();
         $Frontend{'SourceList'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => $Self->{ConfigObject}->Get('Package::RepositoryList'),
