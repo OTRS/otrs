@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemAddress.pm,v 1.1 2002-10-05 16:08:42 martin Exp $
+# $Id: SystemAddress.pm,v 1.2 2002-10-20 19:48:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::SystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -104,8 +104,9 @@ sub SystemAddressGet {
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
     }
-    if (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        my %Data = ( 
+    my %Data = ();
+    while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        %Data = ( 
             ID => $Param{ID}, 
             Name => $Data[0],
             Realname => $Data[1],
@@ -113,11 +114,8 @@ sub SystemAddressGet {
             ValidID => $Data[3],
             QueueID => $Data[4],
         );
-        return %Data;
     }
-    else { 
-        return;
-    }
+    return %Data;
 }
 # --
 sub SystemAddressUpdate {

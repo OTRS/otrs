@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.16 2002-10-03 17:50:41 martin Exp $
+# $Id: Queue.pm,v 1.17 2002-10-20 19:48:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -595,9 +595,10 @@ sub QueueGet {
         " queue " .
         " WHERE " .
         " id = $Param{ID}";
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        my @Data = $Self->{DBObject}->FetchrowArray();
-        my %QueueData = (
+    my %QueueData = ();
+    $Self->{DBObject}->Prepare(SQL => $SQL); 
+    while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        %QueueData = (
             QueueID => $Param{ID},
             Name => $Data[0],
             GroupID => $Data[1],
@@ -611,11 +612,8 @@ sub QueueGet {
             Comment => $Data[6],
             ValidID => $Data[7],
         );
-        return %QueueData;
     }
-    else {
-        return;
-    }
+    return %QueueData;
 }
 # --
 sub QueueUpdate {
