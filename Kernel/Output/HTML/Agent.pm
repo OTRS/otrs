@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.58 2002-10-25 00:01:33 martin Exp $
+# $Id: Agent.pm,v 1.59 2002-10-28 18:16:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1070,7 +1070,12 @@ sub AgentStatusViewTable {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 30) || '';
     }
     # create & return output
-    return $Self->Output(TemplateFile => 'AgentStatusViewTable', Data => \%Param);
+    if (!$Param{Answered}) {
+        return $Self->Output(TemplateFile => 'AgentStatusViewTableNotAnswerd', Data => \%Param);
+    }
+    else {
+        return $Self->Output(TemplateFile => 'AgentStatusViewTable', Data => \%Param);
+    }
 }
 # --
 
