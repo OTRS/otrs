@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.25 2004-05-01 18:15:52 martin Exp $
+# $Id: GenericAgent.pl,v 1.26 2004-05-24 19:00:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use strict;
 
-use vars qw($VERSION $Debug $Limit);
+use vars qw($VERSION $Debug $Limit %Opts);
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,16 +42,16 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
+use Kernel::System::GenericAgent;
 
 # import %jobs 
 #use Kernel::Config::GenericAgent qw(%Jobs);
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.25 $';
+    $VERSION = '$Revision: 1.26 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
-    my %Opts = ();
     getopt('hcdl', \%Opts);
     if ($Opts{'h'}) {
         print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
@@ -77,13 +77,18 @@ BEGIN {
     if (!$Opts{'c'}) {
         $Opts{'c'} = 'Kernel::Config::GenericAgent';
     }
+    if ($Opts{'c'} eq 'db') {
+#        %Jobs = ();
+    }
     # load jobs file
-    if (!eval "require $Opts{'c'};") {
+    elsif (!eval "require $Opts{'c'};") {
         print STDERR "Can't load agent job file '$Opts{'c'}': $!\n";
         exit 1;
     }
-    # import %Jobs
-    eval "import $Opts{'c'}";
+    else {
+        # import %Jobs
+        eval "import $Opts{'c'}";
+    }
 }
 # set generic agent uid
 my $UserIDOfGenericAgent = 1;
@@ -101,7 +106,26 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(
     Debug => $Debug, 
 );
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
-
+$CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(%CommonObject);
+my %Jobs = ();
+if ($Opts{'c'} eq 'db') {
+    my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
+    foreach my $DBJob (sort keys %DBJobs) {
+        my %DBJobRaw = $CommonObject{GenericAgentObject}->JobGet(Name => $DBJob);
+        foreach my $Key (keys %DBJobRaw) {
+            if ($Key =~ /^New/) {
+                my $NewKey = $Key;
+                $NewKey =~ s/^New//;
+                $Jobs{$DBJob}->{New}->{$NewKey} = $DBJobRaw{$Key};
+#print STDERR "nn: $Key:  $DBJobRaw{$Key}\n";
+            }
+            else {
+#print STDERR "kk: $Key: $DBJobRaw{$Key}\n";
+                $Jobs{$DBJob}->{$Key} = $DBJobRaw{$Key}; 
+            }
+        }
+    }
+}
 # --
 # process all jobs
 # --
@@ -187,21 +211,29 @@ sub Run {
             TicketID => $TicketID,
         );
     }
+    if ($Jobs{$Job}->{New}->{QueueID}) {
+        print "  - Move Ticket to QueueID '$Jobs{$Job}->{New}->{QueueID}'\n";
+        $CommonObject{TicketObject}->MoveTicket(
+            QueueID => $Jobs{$Job}->{New}->{QueueID},
+            UserID => $UserIDOfGenericAgent,
+            TicketID => $TicketID,
+        );
+    }
     # --
     # add note if wanted
     # --
-    if ($Jobs{$Job}->{New}->{Note}->{Body}) {
+    if ($Jobs{$Job}->{New}->{Note}->{Body} || $Jobs{$Job}->{New}->{NoteBody}) {
         print "  - Add note\n";
         $CommonObject{TicketObject}->ArticleCreate(
             TicketID => $TicketID,
             ArticleType => $Jobs{$Job}->{New}->{Note}->{ArticleType} || 'note-internal',
             SenderType => 'agent',
-            From => $Jobs{$Job}->{New}->{Note}->{From} || 'GenericAgent',
-            Subject => $Jobs{$Job}->{New}->{Note}->{Subject} || 'Note',
-            Body => $Jobs{$Job}->{New}->{Note}->{Body}, 
+            From => $Jobs{$Job}->{New}->{Note}->{From} || $Jobs{$Job}->{New}->{NoteFrom} || 'GenericAgent',
+            Subject => $Jobs{$Job}->{New}->{Note}->{Subject} || $Jobs{$Job}->{New}->{NoteSubject} || 'Note',
+            Body => $Jobs{$Job}->{New}->{Note}->{Body} || $Jobs{$Job}->{New}->{NoteBody}, 
             UserID => $UserIDOfGenericAgent,
             HistoryType => 'AddNote',
-            HistoryComment => 'Note added.',
+            HistoryComment => 'Generic Agent note added.',
         );
     }
     # --   
@@ -213,6 +245,14 @@ sub Run {
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             State => $Jobs{$Job}->{New}->{State}, 
+        );
+    }
+    if ($Jobs{$Job}->{New}->{StateID}) {
+        print "  - set state id to '$Jobs{$Job}->{New}->{StateID}'\n";
+        $CommonObject{TicketObject}->StateSet(
+            TicketID => $TicketID,
+            UserID => $UserIDOfGenericAgent,
+            StateID => $Jobs{$Job}->{New}->{StateID}, 
         );
     }
     # --   
@@ -243,6 +283,14 @@ sub Run {
             Priority => $Jobs{$Job}->{New}->{Priority}, 
         );
     }
+    if ($Jobs{$Job}->{New}->{PriorityID}) {
+        print "  - set priority id to '$Jobs{$Job}->{New}->{PriorityID}'\n";
+        $CommonObject{TicketObject}->PrioritySet(
+            TicketID => $TicketID,
+            UserID => $UserIDOfGenericAgent,
+            PriorityID => $Jobs{$Job}->{New}->{PriorityID}, 
+        );
+    }
     # --
     # set new owner
     # --
@@ -254,6 +302,14 @@ sub Run {
             NewUser => $Jobs{$Job}->{New}->{Owner},
         );
     }
+    if ($Jobs{$Job}->{New}->{OwnerID}) {
+        print "  - set owner id to '$Jobs{$Job}->{New}->{OwnerID}'\n";
+        $CommonObject{TicketObject}->OwnerSet(
+            TicketID => $TicketID,
+            UserID => $UserIDOfGenericAgent,
+            NewUser => $Jobs{$Job}->{New}->{OwnerID},
+        );
+    }
     # --
     # set new lock 
     # --
@@ -263,6 +319,14 @@ sub Run {
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             Lock => $Jobs{$Job}->{New}->{Lock},
+        );
+    }
+    if ($Jobs{$Job}->{New}->{LockID}) {
+        print "  - set lock id to '$Jobs{$Job}->{New}->{LockID}'\n";
+        $CommonObject{TicketObject}->LockSet(
+            TicketID => $TicketID,
+            UserID => $UserIDOfGenericAgent,
+            LockID => $Jobs{$Job}->{New}->{LockID},
         );
     }
     # --
@@ -301,6 +365,7 @@ sub Run {
             my $Object = $Jobs{$Job}->{New}->{Module}->new(
                 %CommonObject,
                 Debug => $Debug,
+                
             );
             if ($Debug) {
                 $CommonObject{LogObject}->Log(
@@ -312,7 +377,7 @@ sub Run {
                     Message => "Run module: $Jobs{$Job}->{New}->{Module}!",
                 );
             }
-            $Object->Run(TicketID => $TicketID);
+            $Object->Run(%{$Jobs{$Job}}, TicketID => $TicketID);
         }
         else {
             $CommonObject{LogObject}->Log(
