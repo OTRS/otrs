@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.40 2003-08-22 15:19:57 martin Exp $
+# $Id: NewTicket.pm,v 1.41 2003-12-15 19:05:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,28 +101,6 @@ sub Run {
         print "Priority: $Priority\n";
         print "State: $State\n";
     }
-    # -- 
-    # do article db insert
-    # --
-    my $ArticleID = $Self->{TicketObject}->CreateArticle(
-        TicketID => $TicketID,
-        ArticleType => 'email-external',
-        SenderType => 'customer',
-        From => $GetParam{From},
-        ReplyTo => $GetParam{ReplyTo},
-        To => $GetParam{To},
-        Cc => $GetParam{Cc},
-        Subject => $GetParam{Subject},
-        MessageID => $GetParam{'Message-ID'},
-        ContentType => $GetParam{'Content-Type'},
-        Body => $GetParam{Body},
-        UserID => $Param{InmailUserID},
-        HistoryType => 'NewTicket',
-        HistoryComment => "New Ticket [$NewTn] created (Q=$Queue;P=$Priority;S=$State). $Comment",
-        OrigHeader => \%GetParam,
-        AutoResponseType => $AutoResponseType,
-        Queue => $Queue,
-    );
     # --    
     # get sender email 
     # --
@@ -222,7 +200,7 @@ sub Run {
     # --
     my @Values = ('X-OTRS-TicketKey', 'X-OTRS-TicketValue');
     my $CounterTmp = 0;
-    while ($CounterTmp <= 2) {
+    while ($CounterTmp <= 8) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
             $Self->{TicketObject}->SetTicketFreeText(
@@ -234,6 +212,28 @@ sub Run {
             );
         }
     }
+    # -- 
+    # do article db insert
+    # --
+    my $ArticleID = $Self->{TicketObject}->CreateArticle(
+        TicketID => $TicketID,
+        ArticleType => 'email-external',
+        SenderType => 'customer',
+        From => $GetParam{From},
+        ReplyTo => $GetParam{ReplyTo},
+        To => $GetParam{To},
+        Cc => $GetParam{Cc},
+        Subject => $GetParam{Subject},
+        MessageID => $GetParam{'Message-ID'},
+        ContentType => $GetParam{'Content-Type'},
+        Body => $GetParam{Body},
+        UserID => $Param{InmailUserID},
+        HistoryType => 'NewTicket',
+        HistoryComment => "New Ticket [$NewTn] created (Q=$Queue;P=$Priority;S=$State). $Comment",
+        OrigHeader => \%GetParam,
+        AutoResponseType => $AutoResponseType,
+        Queue => $Queue,
+    );
     # --
     # close ticket if article create failed!
     # --
