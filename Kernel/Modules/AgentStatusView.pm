@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.14.2.1 2003-05-29 16:07:52 martin Exp $
+# $Id: AgentStatusView.pm,v 1.14.2.2 2003-06-01 18:08:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14.2.1 $';
+$VERSION = '$Revision: 1.14.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -233,9 +233,12 @@ sub ShowTicketStatus {
     # --
     # customer info (customer name)
     # --
-    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-        User => $Article{CustomerUserID},
-    );
+    my %CustomerData = ();
+    if ($Article{CustomerUserID}) {
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+    }
     if ($CustomerData{UserLogin}) {
         $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
             UserLogin => $CustomerData{UserLogin},
