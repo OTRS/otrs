@@ -1,19 +1,19 @@
 # --
-# Kernel/Language/French.pm - provides French language translation
+# Kernel/Language/fr.pm - provides fr language translation
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # --
-# $Id: French.pm,v 1.5 2002-11-21 22:17:27 martin Exp $
+# $Id: fr.pm,v 1.1 2002-11-24 23:54:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::French;
+package Kernel::Language::fr;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -94,7 +94,7 @@ sub Data {
     $Hash{'Sorry'} = 'Désolé';
     $Hash{'Stats'} = 'Statistiques';
     $Hash{'Subfunction'} = 'sous-fonction';
-    $Hash{'submit'} = '';
+    $Hash{'submit'} = 'soumettre';
     $Hash{'submit!'} = 'soumettre&nbsp;!';
     $Hash{'Text'} = '';
     $Hash{'The recommended charset for your language is %s!'} = '';
@@ -112,23 +112,6 @@ sub Data {
     $Hash{'yes'} = 'oui';
     $Hash{'Yes'} = 'Oui';
     $Hash{'You got new message!'} = '';
-
-    # Template: AAALanguage
-    $Hash{'Brazilian'} = 'Brésilien';
-    $Hash{'Chinese'} = 'Chinois';
-    $Hash{'Czech'} = 'Tchèque';
-    $Hash{'Danish'} = 'Danois';
-    $Hash{'Dutch'} = 'Hollandais';
-    $Hash{'English'} = 'Anglais';
-    $Hash{'French'} = 'Français';
-    $Hash{'German'} = 'Allemand';
-    $Hash{'Greek'} = 'Grec';
-    $Hash{'Italian'} = 'Italien';
-    $Hash{'Korean'} = 'Koréen';
-    $Hash{'Polish'} = 'Polonais';
-    $Hash{'Russian'} = 'Russe';
-    $Hash{'Spanish'} = 'Espagnol';
-    $Hash{'Swedish'} = 'Suédois';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = '';

@@ -1,19 +1,19 @@
 # --
-# Kernel/Language/Bulgarian.pm - provides Bulgarian language translation
+# Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: Bulgarian.pm,v 1.2 2002-11-21 22:17:27 martin Exp $
+# $Id: bg.pm,v 1.1 2002-11-24 23:54:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::Bulgarian;
+package Kernel::Language::bg;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -112,23 +112,6 @@ sub Data {
     $Hash{'yes'} = 'да';
     $Hash{'Yes'} = 'Да';
     $Hash{'You got new message!'} = 'Вие получихте ново съобщение!';
-
-    # Template: AAALanguage
-    $Hash{'Brazilian'} = 'Бразилски';
-    $Hash{'Chinese'} = 'Китайски';
-    $Hash{'Czech'} = 'Чешски';
-    $Hash{'Danish'} = 'Датски';
-    $Hash{'Dutch'} = 'Холандски';
-    $Hash{'English'} = 'Английски';
-    $Hash{'French'} = 'Френски';
-    $Hash{'German'} = 'Германски';
-    $Hash{'Greek'} = 'Гръцки';
-    $Hash{'Italian'} = 'Италиански';
-    $Hash{'Korean'} = 'Корейски';
-    $Hash{'Polish'} = 'Полски';
-    $Hash{'Russian'} = 'Руски';
-    $Hash{'Spanish'} = 'Испански';
-    $Hash{'Swedish'} = 'Шведски';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = '';

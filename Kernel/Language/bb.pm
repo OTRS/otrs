@@ -1,19 +1,19 @@
 # --
-# Kernel/Language/Bavarian.pm - provides Bavarian language translation
+# Kernel/Language/bb.pm - provides bb language translation
 # Copyright (C) 2002 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: Bavarian.pm,v 1.3 2002-11-21 22:17:27 martin Exp $
+# $Id: bb.pm,v 1.1 2002-11-24 23:54:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::Bavarian;
+package Kernel::Language::bb;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -111,23 +111,6 @@ sub Data {
     $Hash{'yes'} = 'ja';
     $Hash{'Yes'} = 'Ja';
     $Hash{'You got new message!'} = 'Neie Nachtricht grikt';
-
-    # Template: AAALanguage
-    $Hash{'Brazilian'} = 'Brasilianisch';
-    $Hash{'Chinese'} = 'Chinesisch';
-    $Hash{'Czech'} = 'Tschechisch';
-    $Hash{'Danish'} = 'Dänisch';
-    $Hash{'Dutch'} = 'Niederländisch';
-    $Hash{'English'} = 'Englisch';
-    $Hash{'French'} = 'Französisch';
-    $Hash{'German'} = 'Deutsch';
-    $Hash{'Greek'} = 'Griechisch';
-    $Hash{'Italian'} = 'Italienisch';
-    $Hash{'Korean'} = 'Koreanisch';
-    $Hash{'Polish'} = 'Polnisch';
-    $Hash{'Russian'} = 'Russisch';
-    $Hash{'Spanish'} = 'Spanisch';
-    $Hash{'Swedish'} = 'Schwedisch';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = '';

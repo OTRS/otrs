@@ -1,19 +1,19 @@
 # --
-# Kernel/Language/Dutch.pm - provides Dutch language translation
+# Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: Dutch.pm,v 1.2 2002-11-21 22:17:27 martin Exp $
+# $Id: nl.pm,v 1.1 2002-11-24 23:54:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::Dutch;
+package Kernel::Language::nl;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -94,7 +94,7 @@ sub Data {
     $Hash{'Sorry'} = 'Sorry';
     $Hash{'Stats'} = 'Statistiek';
     $Hash{'Subfunction'} = 'sub-functie';
-    $Hash{'submit'} = '';
+    $Hash{'submit'} = 'versturen';
     $Hash{'submit!'} = 'versturen!';
     $Hash{'Text'} = '';
     $Hash{'The recommended charset for your language is %s!'} = '';
@@ -112,23 +112,6 @@ sub Data {
     $Hash{'yes'} = 'ja';
     $Hash{'Yes'} = 'Ja';
     $Hash{'You got new message!'} = 'Nieuw bericht binnen!';
-
-    # Template: AAALanguage
-    $Hash{'Brazilian'} = 'Braziliaans';
-    $Hash{'Chinese'} = 'Chinees';
-    $Hash{'Czech'} = 'Tjechisch';
-    $Hash{'Danish'} = 'Deens';
-    $Hash{'Dutch'} = 'Nederlands';
-    $Hash{'English'} = 'Engels';
-    $Hash{'French'} = 'Frans';
-    $Hash{'German'} = 'Duits';
-    $Hash{'Greek'} = 'Grieks';
-    $Hash{'Italian'} = 'Italiaans';
-    $Hash{'Korean'} = 'Koreaans';
-    $Hash{'Polish'} = 'Pools';
-    $Hash{'Russian'} = 'Russisch';
-    $Hash{'Spanish'} = 'Spaans';
-    $Hash{'Swedish'} = 'Zweeds';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = '';
