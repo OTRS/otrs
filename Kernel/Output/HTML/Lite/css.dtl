@@ -1,0 +1,62 @@
+# --
+# css.dtl - provides global HTML css
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: css.dtl,v 1.1 2004-03-22 13:12:10 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<style type="text/css">
+<!--
+# body
+  body 
+   { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#ededed;color:black; }
+  a
+    { color:blue;} 
+  a:hover 
+    { color:#002244;text-decoration:none; }
+  pre
+    { font-family:Courier,monospace,fixed;font-size:12px; }
+  td,th
+    { font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .header
+    { color:#000000;background-color:#ededed;font-size:13px; } 
+  a.headeritem
+    { color:#222222; }
+  .footer
+    { color:#000000;background-color:#ededed;font-size:13px; } 
+  a.footeritem
+    { color:#222222; }
+  .small
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+# table color
+  .table0
+    { color:#000000;background-color:#ededed;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+  .table1
+    { color:#000000;background-color:#ededed;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+  .table2
+    { color:#000000;background-color:#ededed;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+# message 
+  .message { color:#000000;font-size:12px;font-family:monospace, fixed; }
+# article type color 
+  .agent-email-external
+    { background-color:#ccffcc; }
+  .agent-note-internal
+    { background-color:#ffcccc; }
+  .agent-note-external
+    { background-color:#eeeeee; }
+# priority id color
+  .PriorityID-1
+    { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-2
+    { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-3
+    { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-4
+    { background-color:#ffcccc;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-5
+    { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+//-->
+</style>
