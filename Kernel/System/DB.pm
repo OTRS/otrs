@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.25 2003-04-12 14:00:52 martin Exp $
+# $Id: DB.pm,v 1.26 2003-04-16 21:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,22 +52,22 @@ sub new {
     # --
     # get database type and functions
     # --
-    if ($Self->{DSN} =~ /mysql/i) {
+    if ($Self->{DSN} =~ /:mysql/i) {
         $Self->{'DB::Type'} = 'mysql';
         $Self->{'DB::Limit'} = 'limit';
         $Self->{'DB::DirectBlob'} = 1;
     }
-    elsif ($Self->{DSN} =~ /:Pg:/i) {
+    elsif ($Self->{DSN} =~ /:Pg/i) {
         $Self->{'DB::Type'} = 'postgresql';
         $Self->{'DB::Limit'} = 'limit';
         $Self->{'DB::DirectBlob'} = 0;
     }
-    elsif ($Self->{DSN} =~ /db2/i) {
+    elsif ($Self->{DSN} =~ /:db2/i) {
         $Self->{'DB::Type'} = 'db2';
         $Self->{'DB::Limit'} = 'fetch';
         $Self->{'DB::DirectBlob'} = 0;
     }
-    elsif ($Self->{DSN} =~ /odbc/i) {
+    elsif ($Self->{DSN} =~ /:odbc/i) {
         $Self->{'DB::Type'} = 'odbc';
         $Self->{'DB::Limit'} = 0;
         $Self->{'DB::DirectBlob'} = 0;
@@ -96,7 +96,7 @@ sub Connect {
         $Self->{LogObject}->Log(
           Caller => 1,
           Priority => 'debug', 
-          Message => "DB.pm->Connect: DB: $Self->{DB}, User: $Self->{USER}, Pw: $Self->{PW}",
+          Message => "DB.pm->Connect: DB: $Self->{DB}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
     # --
@@ -136,7 +136,6 @@ sub Disconnect {
 sub GetDatabaseFunction {
     my $Self = shift;
     my $What = shift;
-    # warn if the value is not def
     return $Self->{'DB::'.$What};
 }
 # --
@@ -251,7 +250,7 @@ sub FetchrowArray {
     return $Self->{Curser}->fetchrow_array();
 }
 # --
-# not used becaus of database incompat.
+# _should_ not used because of database incompat.
 sub FetchrowHashref {
     my $Self = shift;
     # work with cursers if database don't support limit
