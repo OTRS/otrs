@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.16 2004-11-04 11:02:04 martin Exp $
+# $Id: DB.pm,v 1.17 2004-11-07 14:51:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,7 +45,7 @@ sub new {
      || 'session_id';
     # value row
     $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('SessionTableValue')
-     || 'value';
+     || 'session_value';
 
     return $Self;
 }
