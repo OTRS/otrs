@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.62 2002-11-21 22:55:51 martin Exp $
+# $Id: Generic.pm,v 1.63 2002-11-25 00:18:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -56,49 +56,38 @@ sub new {
     foreach ('ConfigObject', 'LogObject') {
         die "Got no $_!" if (!$Self->{$_});
     } 
+
+    # --
+    # get use language (from browser) if no language is there!
+    # --
+    if (!$Self->{UserLanguage}) { 
+        my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
+        my %Data = %{$Self->{ConfigObject}->Get('DefaultUsedLanguages')}; 
+        foreach (keys %Data) {
+            if ($BrowserLang =~ /^$_/i) {
+                $Self->{UserLanguage} = $_;
+            }
+        }
+    }
+    # --
+    # create language object
+    # --
+    $Self->{LanguageObject} = Kernel::Language->new(
+        UserLanguage => $Self->{UserLanguage},
+        LogObject => $Self->{LogObject},
+        ConfigObject => $Self->{ConfigObject},
+    );
     # --
     # get/set some common params
     # --
     if (!$Self->{UserTheme}) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
     }
+    # --
+    # set charset if there is no charset given
+    # --
     if (!$Self->{UserCharset}) {
-        $Self->{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
-    }
-    # --
-    # get use language (from browser) if no language is there!
-    # --
-    if (!$Self->{UserLanguage}) { 
-        my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
-        my %Data = ( 
-            en => 'English',
-            de => 'German',
-            es => 'Spanish',
-            nl => 'Dutch',
-            fr => 'French',
-            bg => 'Bulgarian',
-#            cs => 'Czech', 
-#            hu => 'Hungarian',
-#            pl => 'Polish',
-#            ro => 'Romanian',
-#            hr => 'Croatian',
-#            sk => 'Slovak', 
-#            sl => 'Slovenian',
-#            pt => 'Portuguese',
-#            it => 'Italian',
-#            da => 'Danish',
-#            sv => 'Swedish',
-#            no => 'Norwegian',
-#            fi => 'Finnish',
-        );
-        foreach (keys %Data) {
-            if ($BrowserLang =~ /^$_/i) {
-                $Self->{UserLanguage} = $Data{$_};
-            }
-        }
-        if (!$Self->{UserLanguage}) {
-            $Self->{UserLanguage} = $Self->{ConfigObject}->Get('DefaultLanguage');
-        }
+        $Self->{UserCharset} = $Self->{LanguageObject}->GetRecommendedCharset();
     }
 
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
@@ -110,7 +99,6 @@ sub new {
     # --
     $Self->{Baselink}  = "$Self->{CGIHandle}?";
     $Self->{Time}      = localtime();
-    $Self->{HistoryCounter} = 0;
     $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
     $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
@@ -193,14 +181,6 @@ sub new {
     if (!$Self->{TemplateDir}) {
         die "No templates found!";
     }
-    # --
-    # create language object
-    # --
-    $Self->{LanguageObject} = Kernel::Language->new(
-      UserLanguage => $Self->{UserLanguage},
-      LogObject => $Self->{LogObject},
-      ConfigObject => $Self->{ConfigObject},
-    );
 
     if ($Self->{PermissionObject}) {
         # --
@@ -253,8 +233,7 @@ sub Output {
         # --
         # get %Env from $Self->{EnvRef} 
         # --
-        my $Tmp = $Self->{EnvRef};
-        %Env = %$Tmp;
+        %Env = %{$Self->{EnvRef}};
     }
     # -- 
     # create refs
@@ -547,6 +526,16 @@ sub Login {
         $Param{"Motd"} = $Self->Output(TemplateFile => 'Motd', Data => \%Param);
     }
     # --
+    # get language options
+    # --
+    $Param{Language} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+        Name => 'Lang',
+        SelectedID => $Self->{UserLanguage},
+        OnChange => 'submit()'
+    );
+
+    # --
     # create & return output
     # --
     $Output .= $Self->Output(TemplateFile => 'Login', Data => \%Param);
@@ -658,6 +647,8 @@ sub Ascii2Html {
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
+    $Text =~ s/ç/&ccedil;/g;
+#&ntilde;
     # return result
     return $Text;
 }

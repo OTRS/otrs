@@ -2,7 +2,7 @@
 # Login.dtl - provides customer HTML login screen
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerLogin.dtl,v 1.1 2002-10-20 15:28:49 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.2 2002-11-25 00:18:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,6 +93,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="Login">
     <input type="hidden" name="RequestedURL" value="$Data{"RequestedURL"}">
+    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
 
     <table cellspacing="8" cellpadding="2">
     <tr>
@@ -112,6 +113,33 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 </table>
 </p>
 $Data{"LostPassword"}
+# --
+# language
+# --
+<p>
+<form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="Action" value="">
+<input type="hidden" name="RequestedURL" value="$Data{"RequestedURL"}">
+
+<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left"><font color="$Env{"FontColor1"}"><b>$Text{"Language"}</b></font></td>
+</tr>
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor1"}">
+    <table cellspacing="8" cellpadding="2">
+    <tr>
+      <td>$Text{"Language"}:</td>
+      <td>$Data{"Language"}</td>
+    </tr>
+    </table>
+  <input type="submit" value="$Text{"submit"}">
+  </td>
+</tr>
+</table>
+</form>
+</p>
+
 $Data{"CreateAccount"}
 <!-- stop login -->
 

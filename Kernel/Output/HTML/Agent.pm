@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.64 2002-11-21 22:55:51 martin Exp $
+# $Id: Agent.pm,v 1.65 2002-11-25 00:19:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -23,19 +23,14 @@ sub NavigationBar {
     my %Param = @_;
     my $Output = '';
     # check DisplayCharset
-    if ($Self->{LanguageObject}->{Charset}) {
-        foreach (@{$Self->{LanguageObject}->{Charset}}) {
-           if ($Self->{UserCharset} =~ /^$_$/i) { 
-              $Param{CorrectDisplayCharset} = 1;
-           }
-           else {
-               $Param{RecommendedDisplayCharset} = $_;
-           }
+    foreach ($Self->{LanguageObject}->GetPossibleCharsets()) {
+        if ($Self->{UserCharset} =~ /^$_$/i) { 
+            $Param{CorrectDisplayCharset} = 1;
         }
     }
-    if (!$Param{CorrectDisplayCharset} && $Param{RecommendedDisplayCharset}) {
+    if (!$Param{CorrectDisplayCharset} && $Self->{LanguageObject}->GetRecommendedCharset()) {
         $Output .= $Self->Notify(
-          Info => $Self->{LanguageObject}->Get('The recommended charset for your language is %s!", "'.$Param{RecommendedDisplayCharset}),
+          Info => $Self->{LanguageObject}->Get('The recommended charset for your language is %s!", "'.$Self->{LanguageObject}->GetRecommendedCharset()),
         );
     }
     # check lock count
@@ -413,7 +408,7 @@ sub TicketZoom {
     foreach (@ATMs) {
         my $FileName = $Self->LinkEncode($_) || '???';
         $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
-          "ArticleID=$Article{ArticleID}&File=$FileName\ target=\"attachment\" ".
+          "ArticleID=$Article{ArticleID}&File=$FileName\" target=\"attachment\" ".
           "onmouseover=\"window.status='\$Text{\"Download\"}: $FileName';".
            ' return true;" onmouseout="window.status=\'\';">'.
            $_.'</a><br> ';
@@ -975,20 +970,6 @@ sub AgentPreferencesForm {
               }
               $PrefItem{'Option'} .= "<OPTION VALUE=\"$ID\">$QueueDataTmp{$ID}\n" if (!$Mach);
             }
-          }
-          elsif ($PrefKey eq 'UserLanguage') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'language, language',
-                      Valid => 1,
-                      Clamp => 0,
-                      Table => 'language',
-                    )
-                  },
-                  Name => 'GenericTopic',
-                  Selected => $Self->{UserLanguage},
-              );
           }
           elsif ($PrefKey eq 'UserCharset') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
