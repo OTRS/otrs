@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.136 2004-09-04 21:42:12 martin Exp $
+# $Id: Ticket.pm,v 1.137 2004-09-08 11:28:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.136 $';
+$VERSION = '$Revision: 1.137 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1392,6 +1392,7 @@ sub TicketPendingTimeSet {
     }
 }
 
+
 =item TicketLinkGet()
 
 Get ticket links.
@@ -1442,6 +1443,7 @@ sub TicketLinkGet {
     }
     return %Tickets;
 }
+
 
 =item TicketLinkAdd()
 
@@ -2739,7 +2741,7 @@ sub HistoryTicketGet {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    my $SQL = "SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id, th.article_id, th.system_queue_id FROM ".
+    my $SQL = "SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id, th.article_id, th.queue_id, th.state_id, th.priority_id, th.owner_id FROM ".
         "ticket_history th, ticket_history_type tht ".
         "WHERE ".
         "th.history_type_id = tht.id ".
@@ -2749,6 +2751,7 @@ sub HistoryTicketGet {
         "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ".
         "ORDER BY th.create_time ASC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 600);
+
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Row[1] eq 'NewTicket') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /Ticket=\[(.+?)\],.+?Q\=(.+?);P\=(.+?);S\=(.+?)/) {
@@ -2772,6 +2775,10 @@ sub HistoryTicketGet {
                 $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
             }
+            $Ticket{CreateOwnerID} = $Row[9];
+            $Ticket{CreatePriorityID} = $Row[8];
+            $Ticket{CreateStateID} = $Row[7];
+            $Ticket{CreateQueueID} = $Row[6];
         }
         # compat to otrs 1.1
         elsif ($Row[1] eq 'PhoneCallCustomer') {
@@ -2810,6 +2817,11 @@ sub HistoryTicketGet {
 #        elsif ($Row[1] eq '') {
 #
 #        }
+        # get default options
+        $Ticket{OwnerID} = $Row[9];
+        $Ticket{PriorityID} = $Row[8];
+        $Ticket{StateID} = $Row[7];
+        $Ticket{QueueID} = $Row[6];
     }
     if (!%Ticket) {
         $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in Ticket Hisorry till '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!");
@@ -3416,6 +3428,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.136 $ $Date: 2004-09-04 21:42:12 $
+$Revision: 1.137 $ $Date: 2004-09-08 11:28:05 $
 
 =cut
