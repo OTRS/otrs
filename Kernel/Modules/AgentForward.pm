@@ -2,7 +2,7 @@
 # AgentForward.pm - to forward a message
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.4 2002-07-12 23:01:20 martin Exp $
+# $Id: AgentForward.pm,v 1.5 2002-07-13 03:28:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentForward;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,15 +32,8 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject',
-      'ArticleObject',
-    ) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject 
+      LogObject TicketObject ArticleObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -86,8 +79,8 @@ sub Form {
     # check needed stuff
     if (!$TicketID) {
         $Output .= $Self->{LayoutObject}->Error(
-                Message => "Got no TicketID!",
-                Comment => 'System Error!',
+            Message => "Got no TicketID!",
+            Comment => 'System Error!',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -220,25 +213,13 @@ sub SendEmail {
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
     my $UserID = $Self->{UserID};
     
-    # save article
-    my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
-        TicketID => $TicketID,
-        ArticleTypeID => $Self->{ArticleTypeID},
-        SenderType => 'agent',
-        From => $Self->{From},
-        To => $Self->{To},
-        Cc => $Self->{Cc},
-        Subject => $Self->{Subject},
-        Body => $Self->{Body},
-        CreateUserID => $UserID,
-    );
     # send email
     my $EmailObject = Kernel::System::EmailSend->new(
         DBObject => $Self->{DBObject},
         ConfigObject => $Self->{ConfigObject},
         LogObject => $Self->{LogObject},
     );
-    $EmailObject->Send(
+    if (my $ArticleID = $EmailObject->Send(
         From => $Self->{From},
         Email => $Self->{Email},
         To => $Self->{To},
@@ -246,35 +227,43 @@ sub SendEmail {
         Subject => $Self->{Subject},
         Body => $Self->{Body},
         TicketID => $TicketID,
-        ArticleID => $ArticleID,
+        ArticleTypeID => $Self->{ArticleTypeID},
+        SenderType => 'agent',
         UserID => $UserID,
         Charset => $Charset,
         InReplyTo => $Self->{InReplyTo},
         DBObject => $Self->{DBObject},
         TicketObject => $Self->{TicketObject},
-    );
-    # set state
-    if ($Self->{TicketObject}->GetState(TicketID => $TicketID)  ne $NextState) {
-        $Self->{TicketObject}->SetState(
-            TicketID => $TicketID,
-            ArticleID => $ArticleID,
-            State => $NextState,
-            UserID => $UserID,
-        );
-    }
-    # should i set an unlock?
-    if ($NextState =~ /^close/i) {
+        ArticleObject => $Self->{ArticleObject},
+        HistoryType => 'Forward',
+        HistoryComment => "Forwarded to '$Self->{To}, $Self->{Cc}'",
+    )) {
+      # set state
+      $Self->{TicketObject}->SetState(
+        TicketID => $TicketID,
+        ArticleID => $ArticleID,
+        State => $NextState,
+        UserID => $UserID,
+      );
+      # should i set an unlock?
+      if ($NextState =~ /^close/i) {
         $Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
             Lock => 'unlock',
             UserID => $UserID,
         );
-    }
-    # make redirect
-    $Output .= $Self->{LayoutObject}->Redirect(
+      }
+      # make redirect
+      $Output .= $Self->{LayoutObject}->Redirect(
         OP => "&Action=$NextScreen&QueueID=$QueueID",
-    );
-    return $Output;
+      );
+      return $Output;
+    }
+    else {
+        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error();
+        $Output .= $Self->{LayoutObject}->Footer();
+    }
 }
 # --
 

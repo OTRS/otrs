@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.12 2002-07-02 08:47:16 martin Exp $
+# $Id: FollowUp.pm,v 1.13 2002-07-13 03:28:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::PostMaster::AutoResponse;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -80,7 +80,7 @@ sub Run {
     );
 
     # do db insert
-    my $ArticleID = $ArticleObject->CreateArticleDB(
+    my $ArticleID = $ArticleObject->CreateArticle(
         TicketID => $TicketID,
         ArticleType => 'email-external',
         SenderType => 'customer',
@@ -92,8 +92,10 @@ sub Run {
         MessageID => $GetParam{'Message-ID'},
         ContentType => $GetParam{'Content-Type'},
         Body => $GetParam{Body},
-        CreateUserID => $InmailUserID,
-    );
+        UserID => $InmailUserID,
+        HistoryType => 'FollowUp',
+        HistoryComment => "FollowUp for [$Tn]. $Comment",
+    ); 
 
     # write to fs
     $ArticleObject->WriteArticle(ArticleID => $ArticleID, Email => $Email);
@@ -123,16 +125,6 @@ sub Run {
 	        UserID => $InmailUserID,
     	);
     }
-    # --
-    # add history row
-    # --
-    $TicketObject->AddHistoryRow(
-        TicketID => $TicketID,
-        HistoryType => 'FollowUp',
-        ArticleID => $ArticleID,
-        Name => "FollowUp for [$Tn]. $Comment",
-        CreateUserID => $InmailUserID,
-    );
     # --
     # set lock
     # --

@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.12 2002-07-02 08:47:16 martin Exp $
+# $Id: NewTicket.pm,v 1.13 2002-07-13 03:28:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -122,7 +122,7 @@ sub Run {
     }
     
     # do article db insert
-    my $ArticleID = $ArticleObject->CreateArticleDB(
+    my $ArticleID = $ArticleObject->CreateArticle(
         TicketID => $TicketID,
         ArticleType => 'email-external',
         SenderType => 'customer',
@@ -134,8 +134,11 @@ sub Run {
         MessageID => $GetParam{'Message-ID'},
         ContentType => $GetParam{'Content-Type'},
         Body => $GetParam{Body},
-        CreateUserID => $InmailUserID,
+        UserID => $InmailUserID,
+        HistoryType => 'NewTicket',
+        HistoryComment => "New Ticket [$NewTn] created (Queue=$Queue). $Comment",
     );
+
     
     # set free article text
     @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
@@ -155,15 +158,6 @@ sub Run {
     
     # write it to the fs
     $ArticleObject->WriteArticle(ArticleID => $ArticleID, Email => $Email);
-    
-    # add history entry
-    $TicketObject->AddHistoryRow(
-        TicketID => $TicketID,
-        HistoryType => 'NewTicket',
-        ArticleID => $ArticleID,
-        Name => "New Ticket [$NewTn] created (Queue=$Queue). $Comment",
-        CreateUserID => $InmailUserID,
-    );
     
     # do log
     $LogObject->Log(

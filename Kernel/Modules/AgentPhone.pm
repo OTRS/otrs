@@ -2,7 +2,7 @@
 # AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.5 2002-07-12 23:01:20 martin Exp $
+# $Id: AgentPhone.pm,v 1.6 2002-07-13 03:28:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPhone;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,16 +31,9 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-       'ParamObject', 
-       'DBObject', 
-       'TicketObject', 
-       'LayoutObject', 
-       'LogObject', 
-       'QueueObject', 
-       'ConfigObject',
-       'ArticleObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
+       ConfigObject ArticleObject
+    )) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -58,8 +51,6 @@ sub Run {
     my $BackScreen = $Self->{BackScreen};
     my $UserID = $Self->{UserID};
     my $UserLogin = $Self->{UserLogin};
-    
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
     
     if ($Subaction eq '' || !$Subaction) {
         # --
@@ -113,6 +104,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
         # get lock state && permissions
         my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
         if (!$LockState) {
@@ -166,7 +158,7 @@ sub Run {
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $Answered = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
-        my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
+        if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
             TicketID => $TicketID,
 #            ArticleTypeID => $ArticleTypeID,
             ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneArticleType'),
@@ -176,54 +168,52 @@ sub Run {
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
-            CreateUserID => $UserID
-        );
-        $Self->{TicketObject}->AddHistoryRow(
-            TicketID => $TicketID,
-            ArticleID => $ArticleID,
+            UserID => $UserID, 
             HistoryType => $Self->{ConfigObject}->Get('DefaultPhoneHistoryType'),
-            Name => $Self->{ConfigObject}->Get('DefaultPhoneHistoryComment'),
-            CreateUserID => $UserID,
-        );
-
-        # --
-        # set state
-        # --
-        if ($Self->{TicketObject}->GetState(TicketID => $TicketID)  ne $NextState) {
+            HistoryComment => $Self->{ConfigObject}->Get('DefaultPhoneHistoryComment'),
+        )) {
+          # --
+          # set state
+          # --
           $Self->{TicketObject}->SetState(
             TicketID => $TicketID,
             ArticleID => $ArticleID,
             State => $NextState,
             UserID => $UserID,
           );
-        }
 
-        # --
-        # set answerd
-        # --
-        $Self->{TicketObject}->SetAnswered(
+          # --
+          # set answerd
+          # --
+          $Self->{TicketObject}->SetAnswered(
             TicketID => $TicketID,
             UserID => $UserID,
             Answered => $Answered,
-        );
+         );
 
-        # --
-        # should i set an unlock?
-        # --
-        if ($NextState =~ /^close/i) {
-          $Self->{TicketObject}->SetLock(
-            TicketID => $TicketID,
-            Lock => 'unlock',
-            UserID => $UserID,
-          );
-        }
+         # --
+         # should i set an unlock?
+         # --
+         if ($NextState =~ /^close/i) {
+           $Self->{TicketObject}->SetLock(
+             TicketID => $TicketID,
+             Lock => 'unlock',
+             UserID => $UserID,
+           );
+         }
 
-        # --
-        # redirect to zoom view
-        # --        
-        $Output .= $Self->{LayoutObject}->Redirect(
+         # --
+         # redirect to zoom view
+         # --        
+         $Output .= $Self->{LayoutObject}->Redirect(
             OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
-        );
+         );
+      }
+      else {
+        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error();
+        $Output .= $Self->{LayoutObject}->Footer();
+      }
     }
     elsif ($Subaction eq 'StoreNew') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
@@ -249,7 +239,7 @@ sub Run {
             CreateUserID => $Self->{UserID},
         );
 
-        my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
+      if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
             TicketID => $TicketID,
 #            ArticleTypeID => $ArticleTypeID,
             ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneNewArticleType'),
@@ -259,17 +249,10 @@ sub Run {
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
-            CreateUserID => $UserID
-        );
-
-        $Self->{TicketObject}->AddHistoryRow(
-            TicketID => $TicketID,
-            ArticleID => $ArticleID,
+            UserID => $UserID,
             HistoryType => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryType'),
-            Name => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryComment'),
-            CreateUserID => $UserID,
-        );
-
+            HistoryComment => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryComment'),
+        )) {
         # should i set an unlock?
         if ($NextState =~ /^close/i) {
           $Self->{TicketObject}->SetLock(
@@ -278,10 +261,15 @@ sub Run {
             UserID => $UserID,
           );
         }
-        
         $Output .= $Self->{LayoutObject}->Redirect(
             OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
         );
+      }
+      else {
+        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error();
+        $Output .= $Self->{LayoutObject}->Footer();
+      }
     }
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');

@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.8 2002-07-12 23:01:20 martin Exp $
+# $Id: AgentClose.pm,v 1.9 2002-07-13 03:28:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentClose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -127,7 +127,7 @@ sub Run {
         my $NoteID = $Self->{ParamObject}->GetParam(Param => 'CloseNoteID');
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Text');
-        my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
+        if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
             TicketID => $TicketID,
             ArticleTypeID => $NoteID,
             SenderType => 'agent',
@@ -136,31 +136,38 @@ sub Run {
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
-            CreateUserID => $UserID
-        );
-        $Self->{TicketObject}->SetState(
+            UserID => $UserID,
+            HistoryType => 'AddNote',
+            HistoryComment => 'Close Note added.',
+        )) {
+          $Self->{TicketObject}->SetState(
             UserID => $UserID,
             TicketID => $TicketID,
             ArticleID => $ArticleID,
             StateID => $StateID,
-        );
-        $Self->{TicketObject}->SetLock(
+          );
+          $Self->{TicketObject}->SetLock(
             UserID => $UserID,
             TicketID => $TicketID,
             Lock => 'unlock'
-        );
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen&QueueID=$QueueID");
+          );
+          $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen&QueueID=$QueueID");
+        }
+        else {
+          # error screen
+          $Output .= $Self->{LayoutObject}->Header();
+          $Output .= $Self->{LayoutObject}->Error(
+            Comment => 'Please contact your admin'
+          );
+          $Output .= $Self->{LayoutObject}->Footer();
+        }
     }
     else {
         # error screen
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->Error(
-            MSG => 'No Subaction!!',
-            REASON => 'Please contact your admin'
-        );
-        $Self->{LogObject}->ErrorLog(
-            MSG => 'No Subaction!!',
-            REASON => 'Please contact your admin'
+            Message => 'Wrong Subaction!!',
+            Comment => 'Please contact your admin'
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }

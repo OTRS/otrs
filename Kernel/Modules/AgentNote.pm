@@ -2,7 +2,7 @@
 # AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.7 2002-07-02 08:49:16 martin Exp $
+# $Id: AgentNote.pm,v 1.8 2002-07-13 03:28:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentNote;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,16 +31,8 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'QueueObject', 
-      'ConfigObject',
-      'ArticleObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject 
+                 QueueObject ConfigObject ArticleObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -74,7 +66,7 @@ sub Run {
             }
         }
         # print form ...
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Add Note');
+        $Output = $Self->{LayoutObject}->Header(Title => 'Add Note');
         $Output .= $Self->{LayoutObject}->AgentNote(
             TicketID => $TicketID,
             QueueID => $QueueID,
@@ -90,7 +82,7 @@ sub Run {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
-        my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
+        if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
             TicketID => $TicketID,
             ArticleTypeID => $ArticleTypeID,
             SenderType => 'agent',
@@ -99,30 +91,26 @@ sub Run {
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
-            CreateUserID => $UserID
-        );
-        $Self->{TicketObject}->AddHistoryRow(
-            TicketID => $TicketID,
-            ArticleID => $ArticleID,
+            UserID => $UserID,
             HistoryType => 'AddNote',
-            Name => "Note added.",
-            CreateUserID => $UserID,
-        );
-        
-        $Output .= $Self->{LayoutObject}->Redirect(
+            HistoryComment => 'Note added.',
+        )) {
+          $Output = $Self->{LayoutObject}->Redirect(
             OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
-        );
+          ); 
+        }
+        else {
+          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+          $Output .= $Self->{LayoutObject}->Error();
+          $Output .= $Self->{LayoutObject}->Footer();
+        }
     }
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
-            MSG => 'No Subaction!!',
-            REASON => 'Please contact your admin',
+            Message => 'Wrong Subaction!!',
+            Comment => 'Please contact your admin',
         );
-#        $Self->{LogObject}->ErrorLog(
-#            MSG => 'No Subaction!!',
-#            REASON => 'Please contact your admin',
-#        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;

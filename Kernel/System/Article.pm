@@ -2,7 +2,7 @@
 # Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.9 2002-07-02 08:42:21 martin Exp $
+# $Id: Article.pm,v 1.10 2002-07-13 03:28:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub new {
     $Self->{Debug} = 0;
 
     # check needed objects
-    foreach ('DBObject', 'ConfigObject') {
+    foreach (qw(DBObject ConfigObject TicketObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -50,28 +50,33 @@ sub new {
     return $Self;
 }
 # --
-sub CreateArticleDB {
+sub CreateArticle {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID 	= $Param{TicketID};
-    my $ArticleTypeID   = $Param{ArticleTypeID}; 
-    my $ArticleType	= $Param{ArticleType};
-    my $SenderTypeID 	= $Param{SenderTypeID};
-    my $SenderType	= $Param{SenderType};
     my $ValidID 	= $Param{ValidID} || 1;
-    my $CreateUserID	= $Param{CreateUserID};
     my $ContentPath     = $Self->{ContentPath};
     my $IncomingTime    = time();
-
+    # --
     # lockups if no ids!!!
-    if (($ArticleType) && (!$ArticleTypeID)) {
-        $ArticleTypeID = $Self->ArticleTypeLookup(ArticleType => $ArticleType); 
+    # --
+    if (($Param{ArticleType}) && (!$Param{ArticleTypeID})) {
+        $Param{ArticleTypeID} = $Self->ArticleTypeLookup(ArticleType => $Param{ArticleType}); 
     }
-    if (($SenderType) && (!$SenderTypeID)) {
-        $SenderTypeID = $Self->SenderTypeLookup(SenderType => $SenderType);
+    if (($Param{SenderType}) && (!$Param{SenderTypeID})) {
+        $Param{SenderTypeID} = $Self->SenderTypeLookup(SenderType => $Param{SenderType});
     }
-
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID ArticleTypeID SenderTypeID HistoryType HistoryComment)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
     # DB Quoting
+    # --
     foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
@@ -79,30 +84,40 @@ sub CreateArticleDB {
          $Param{Body} = 'no body found!';
     }
     $ContentPath = $Self->{DBObject}->Quote($ContentPath) || '';
-
+    # --
     # do db insert
+    # --
     my $SQL = "INSERT INTO article ".
     " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
 	" a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, ".
     " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
 	" VALUES ".
-    " ($TicketID, $ArticleTypeID, $SenderTypeID, '$Param{From}', '$Param{ReplyTo}', ".
-    " '$Param{To}', '$Param{Cc}', '$Param{Subject}', ". 
+    " ($Param{TicketID}, $Param{ArticleTypeID}, $Param{SenderTypeID}, ".
+    " '$Param{From}', '$Param{ReplyTo}', '$Param{To}', '$Param{Cc}', '$Param{Subject}', ". 
 	" '$Param{MessageID}', '$Param{Body}', '$Param{ContentType}', '$ContentPath', ".
     " $ValidID,  $IncomingTime, " .
-	" current_timestamp, $CreateUserID, current_timestamp, $CreateUserID)";
-    $Self->{DBObject}->Do(SQL => $SQL);
-
-    # get article id 
-    my $ArticleID = $Self->GetIdOfArticle(
-        TicketID => $TicketID,
+	" current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # get article id 
+      if (my $ArticleID = $Self->GetIdOfArticle(
+        TicketID => $Param{TicketID},
         MessageID => $Param{MessageID},
         From => $Param{From},
         Subject => $Param{Subject},
         IncomingTime => $IncomingTime
-    );
-
-    return $ArticleID;
+      )) {
+        # add history row
+        $Self->{TicketObject}->AddHistoryRow(
+          ArticleID => $ArticleID,
+          TicketID => $Param{TicketID},
+          CreateUserID => $Param{UserID},
+          HistoryType => $Param{HistoryType},
+          Name => $Param{HistoryComment},
+        );
+        return $ArticleID;
+      }
+    }
+    return;
 }
 # --
 sub WriteArticle {
@@ -113,24 +128,36 @@ sub WriteArticle {
     my @Plain = @$GetPlain;
     my $Path = $Self->{ArticleDataDir} . "/" . $Self->{Year} . "/" . $Self->{Month} . "/" . 
 	$Self->{Day} . "/" . $ArticleID;
+    # --
+    # debug
+    # --
     if ($Self->{Debug} > 0) {
             print STDERR '->WriteArticle: ' . $Path . "\n";
     }
-
+    # --
+    # mk dir
+    # --
     File::Path::mkpath([$Path], 0, 0775);# if (! -d $ArticleDir);  
-
-    open (DATA, "> $Path/plain.txt") or print "$! \n";
-    print DATA @Plain;
-    close (DATA);
-    # store atms.
-    my $Parser = new MIME::Parser;
-    $Parser->output_to_core("ALL");
-    my $Data;
-    eval { $Data = $Parser->parse_open("$Path/plain.txt") };
-    foreach my $Part ($Data->parts()) {
+    # --
+    # write article to fs 1:1
+    # --
+    if (open (DATA, "> $Path/plain.txt")) { 
+      print DATA @Plain;
+      close (DATA);
+      # store atms.
+      my $Parser = new MIME::Parser;
+      $Parser->output_to_core("ALL");
+      my $Data;
+      eval { $Data = $Parser->parse_open("$Path/plain.txt") };
+      foreach my $Part ($Data->parts()) {
         $Self->WritePart(Part => $Part, Path => $Path);
+      }
+      return 1;
     }
-    return 1;
+    else {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write: $Path/plain.txt: $!");
+      return;
+    }
 }
 # --
 sub WritePart {
@@ -144,21 +171,38 @@ sub WritePart {
         my $PartCounter1 = 0;
         foreach ($Part->parts()) {
             $PartCounter1++;
+            # --
+            # debug
+            # --
             if ($Self->{Debug} > 0) {
-                print STDERR "Sub part($Self->{PartCounter}/$PartCounter1)!\n";
+              $Self->{LogObject}->Log(Message => "Sub part($Self->{PartCounter}/$PartCounter1)!");
             }
+            # --
+            # there is a part in the current part
+            # --
             $Self->WritePart(Part => $_, PartCounter => $Self->{PartCounter}, Path => $Path);
         }
     }
     else {
         my $Filename = $Part->head()->recommended_filename() || "file-$Self->{PartCounter}";
+        # --
+        # debug
+        # --
         if ($Self->{Debug} > 0) {
-            print STDERR '->GotArticle::Atm->Filename:' . $Filename . "\n";
+          $Self->{LogObject}->Log(Message => '->GotArticle::Atm->Filename:' . $Filename);
         }
-        open (DATA, "> $Path/$Filename") or print STDERR "$!: $Path/$Filename \n";
-        print DATA $Part->effective_type() . "\n";
-        print DATA $Part->bodyhandle()->as_string();
-        close (DATA);
+        # --
+        # write attachment to fs
+        # --
+        if (open (DATA, "> $Path/$Filename")) {
+          print DATA $Part->effective_type() . "\n";
+          print DATA $Part->bodyhandle()->as_string();
+          close (DATA);
+        }
+        else {
+          $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write: $Path/$Filename: $!");
+          return;
+        }
     }
     return 1;
 }
@@ -188,12 +232,17 @@ sub GetPlain {
     # --
     if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt")) {
         # can't open article
-        print STDERR "$!: $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt\n";
-        return "$!: $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt\n";
+        $Self->{LogObject}->Log(
+          Priority => 'error', 
+          Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$ArticleID/plain.txt: $!",
+        );
+        return;
     }
     else {
         my $Data = '';
+        # --
         # read whole article
+        # --
         while (<DATA>) {
             $Data .= $_;
         }
