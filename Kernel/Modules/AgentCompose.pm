@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.40 2003-03-06 22:11:58 martin Exp $
+# $Id: AgentCompose.pm,v 1.41 2003-03-10 15:20:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -226,10 +226,12 @@ sub Form {
     # prepare signature
     # --
     $Data{Signature} = $QueueObject->GetSignature();
-    $Data{Signature} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-    $Data{Signature} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-    $Data{Signature} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
-    $Data{Signature} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
+    foreach (qw(Signature Salutation)) {
+        $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+        $Data{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+        $Data{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
+        $Data{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
+    }
     # --
     # check some values
     # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.19 2003-03-06 22:11:58 martin Exp $
+# $Id: AgentBounce.pm,v 1.20 2003-03-10 15:20:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -184,10 +184,12 @@ sub Run {
         # prepare signature
         # --
         $Param{Signature} = $QueueObject->GetSignature();
-        $Param{Signature} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-        $Param{Signature} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-        $Param{Signature} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
-        $Param{Signature} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
+        foreach (qw(Signature Salutation)) {
+            $Param{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+            $Param{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+            $Param{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
+            $Param{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
+        }
         # --
         # prepare body ...
         # --
