@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStatusView.pm,v 1.21 2004-10-09 08:27:56 martin Exp $
+# $Id: AgentStatusView.pm,v 1.22 2004-11-04 06:49:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,7 +104,7 @@ sub Run {
         Limit => $Self->{Limit},
         StateType => $Self->{ViewType},
         OrderBy => $Self->{Order},
-        SoryBy => $Self->{SortBy},
+        SortBy => $Self->{SortBy},
         UserID => $Self->{UserID},
         Permission => 'ro',
     );
