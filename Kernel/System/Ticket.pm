@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.55 2003-04-17 22:38:37 martin Exp $
+# $Id: Ticket.pm,v 1.56 2003-07-07 22:26:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -738,7 +738,7 @@ sub GetLockedTicketIDs {
     my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
     my $SQL = "SELECT ti.id " .
       " FROM " .
-      " ticket ti, ticket_lock_type slt, queue as sq" .
+      " ticket ti, ticket_lock_type slt, queue sq" .
       " WHERE " .
       " ti.user_id = $Param{UserID} " .
       " AND ".
