@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.14 2002-06-23 09:55:01 martin Exp $
+# $Id: Header.dtl,v 1.15 2002-07-17 22:32:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,10 @@
 # --
 Content-Type: text/html; charset=$Env{"UserCharset"}; 
 X-Powered-By: $Env{"Product"} $Env{"Version"} - Open Ticket Request System (http://otrs.org)
-X-Wanted: I think you are smart. I'm looking for smart people! 
+X-Wanted: I think you are smart. I'm looking for smart people!
+Expires: Tue, 1 Jan 1980 12:00:00 GMT
+Cache-Control: no-cache
+Pragma: no-cache
 
 
 # --
