@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.13 2002-07-24 00:56:38 atif Exp $
+# $Id: Queue.pm,v 1.14 2002-07-24 21:11:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,9 +12,10 @@
 package Kernel::System::Queue;
 
 use strict;
+use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,6 +33,11 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    # lib object
+    $Self->{StdResponseObject} = Kernel::System::StdResponse->new(
+        %Param,
+    );
 
     return $Self;
 }
@@ -112,8 +118,8 @@ sub GetStdResponse {
 sub SetQueueStdResponse {
    my $Self = shift;
    my %Param = @_;
-   unless  ($Param{ResponseID} && $Param{QueueID}) {
-       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID and QueueID!");
+   unless  ($Param{ResponseID} && $Param{QueueID} && $Param{UserID}) {
+       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID, QueueID and UserID!");
        return;
    }
    if ($Self->QueueHasStdResponse(%Param)){
@@ -143,7 +149,7 @@ sub QueueHasStdResponse {
    # sql 
    # --
    my $SQL = sprintf("select count(*) from  queue_standard_response  where queue_id=%s and standard_response_id=%s" ,  $Param{QueueID}, $Param{ResponseID});
-   print "SQL was\n$SQL\n\n";
+   #print "SQL was\n$SQL\n\n";
    $Self->{DBObject}->Prepare(SQL => $SQL);
    my $Count;
    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -457,17 +463,30 @@ sub QueueAdd {
       # --
       # get new queue id
       # --
-      
       $SQL = "SELECT id ".
        " FROM " .
        " queue " .
        " WHERE " .
        " name = '$Param{Name}'";
-      
       my $QueueID = '';
       $Self->{DBObject}->Prepare(SQL => $SQL);
       while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
          $QueueID = $RowTmp[0];
+      }
+      # --
+      # add default responses (if needed)
+      # -- 
+      if ($Self->{ConfigObject}->Get('StdResponse2QueueByCreating')) {
+          foreach (@{$Self->{ConfigObject}->{StdResponse2QueueByCreating}}) {
+              my $StdResponseID = $Self->{StdResponseObject}->StdResponseLookup(StdResponse => $_);
+              if ($StdResponseID) {
+                $Self->SetQueueStdResponse(
+                  QueueID => $QueueID, 
+                  ResponseID => $StdResponseID,
+                  UserID => $Param{UserID},
+                );
+              }
+          }
       }
       return $QueueID; 
    }
