@@ -3,22 +3,20 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: AgentStatusViewTable.dtl,v 1.5 2003-02-08 21:45:48 martin Exp $
+# $Id: AgentStatusViewTable.dtl,v 1.6 2003-05-29 16:08:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
 <!-- start record -->
-<tr>
- <td class="PriorityID-$Data{"PriorityID"}" align="center"><a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
+<tr valign="top">
+ <td class="PriorityID-$Data{"PriorityID"}"><a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
  <td class="PriorityID-$Data{"PriorityID"}">$Data{"Age"}</td>
  <td class="PriorityID-$Data{"PriorityID"}">$Data{"Subject"}&nbsp;</td>
  <td class="PriorityID-$Data{"PriorityID"}">$Data{"State"}</td>
  <td class="PriorityID-$Data{"PriorityID"}">$Data{"Queue"}</td>
- <td class="PriorityID-$Data{"PriorityID"}">$Data{"Owner"}</td>
- <td class="PriorityID-$Data{"PriorityID"}"><a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer history"}'; return true;" onmouseout="window.status='';">$Data{"CustomerID"}</a>&nbsp;</td>  
+ <td class="PriorityID-$Data{"PriorityID"}">$Data{"Owner"} ($Data{"UserFirstname"} $Data{"UserLastname"})</td>
+ <td class="PriorityID-$Data{"PriorityID"}"><a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer history"}'; return true;" onmouseout="window.status='';">$Data{"CustomerID"}</a>&nbsp;<br>$Data{"CustomerName"}</td>  
 </tr>
 <!-- end record -->
-
