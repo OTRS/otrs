@@ -1,8 +1,8 @@
 # --
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.7 2004-12-22 22:02:35 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.8 2005-01-14 07:16:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -230,6 +230,8 @@
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Download"}</a>
     -
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RebuildPackage&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Rebuild"}</a>
+    -
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ReinstallPackage&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Reinstall"}</a>
   </td>
 </tr>
 <tr>
