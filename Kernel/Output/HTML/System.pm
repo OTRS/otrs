@@ -2,7 +2,7 @@
 # HTML/System.pm - provides generic system HTML output
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: System.pm,v 1.2 2002-05-12 22:04:21 martin Exp $
+# $Id: System.pm,v 1.3 2002-10-15 09:21:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::System;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub SystemStats {
 
     foreach (reverse @Files) {
         $Param{Output} .= '<P>
-        <A HREF="pic.pl?SessionID=$Env{"SessionID"}&Action=SystemStats&Pic='.$_.'"><IMG SRC="pic.pl?SessionID=$Env{"SessionID"}&Action=SystemStats&Pic='.$_.'" border="1"></A>
+        <A HREF="pic.pl?Action=SystemStats&Pic='.$_.'"><IMG SRC="pic.pl?Action=SystemStats&Pic='.$_.'" border="1"></A>
         </P>';
     }
 
