@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.17 2003-03-10 23:35:08 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.18 2003-03-14 08:24:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,6 +76,9 @@ function clear_field()
     <td width="20%">$Text{"From"}:</td>
     <td width="60%"><input type="text" name="From" value="$Data{"From"}" size="60"> <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font><br>
     $Data{"CustomerUserStrg"}
+    $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Search Customer"}'; return true;">$Text{"Search Customer"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="javascript:clear_field();" onmouseout="window.status='';" onmouseover="window.status='$Text{"Clear From"}'; return true;">$Text{"Clear From"}</a>$Env{"Box1"}
+
     </td>
     <td width="20%" rowspan="10" valign="top">
 # --
@@ -103,12 +106,8 @@ function clear_field()
   <tr>
     <td>$Text{"Options"}:</td>
     <td>
-       <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';">$Text{"Spell Check"}</a> 
-       - 
-       <a href="" onclick="document.compose.ExpandCustomerName.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Search Customer"}'; return true;">$Text{"Search Customer"}</a> 
-       - 
-       <a href="javascript:clear_field();" onmouseout="window.status='';" onmouseover="window.status='$Text{"Clear From"}'; return true;">$Text{"Clear From"}</a>
-#       <a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>
+       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';">$Text{"Spell Check"}</a>$Env{"Box1"} 
+#      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
