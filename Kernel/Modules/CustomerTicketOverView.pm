@@ -1,8 +1,8 @@
-# --   
+# --
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
-# --   
-# $Id: CustomerTicketOverView.pm,v 1.29 2004-06-25 15:36:15 martin Exp $
+# --
+# $Id: CustomerTicketOverView.pm,v 1.30 2004-07-07 06:31:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -28,7 +28,7 @@ sub new {
     bless ($Self, $Type);
     # get common opjects
     foreach (keys %Param) {
-        $Self->{$_} = $Param{$_};   
+        $Self->{$_} = $Param{$_};
     }
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
@@ -40,14 +40,14 @@ sub new {
     # all static variables
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
           || die 'No Config entry "ViewableSenderTypes"!';
-    # get params 
+    # get params
     $Self->{ShowClosedTickets} = $Self->{ParamObject}->GetParam(Param => 'ShowClosedTickets');
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
-    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1; 
-    $Self->{Type} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'MyTickets'; 
-    $Self->{PageShown} = $Self->{UserShowTickets} || $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ShownTickets}->{DataSelected} || 1;  
- 
+    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
+    $Self->{Type} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'MyTickets';
+    $Self->{PageShown} = $Self->{UserShowTickets} || $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ShownTickets}->{DataSelected} || 1;
+
     return $Self;
 }
 # --
@@ -161,7 +161,7 @@ sub Run {
 
     # get page footer
     $Output .= $Self->{LayoutObject}->CustomerFooter();
-    
+
     # return page
     return $Output;
 }
@@ -182,7 +182,7 @@ sub ShowTicketStatus {
     # return ticket
     $Article{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ') || 0;
     # customer info (customer name)
-    if ($Article{CustomerUserID}) { 
+    if ($Article{CustomerUserID}) {
         $Param{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
             UserLogin => $Article{CustomerUserID},
         );
@@ -196,7 +196,7 @@ sub ShowTicketStatus {
             Subject => $Subject,
             %Param,
         },
-    ); 
+    );
 }
 # --
 
