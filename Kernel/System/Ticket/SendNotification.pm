@@ -1,45 +1,24 @@
 # --
-# Kernel/System/SendNotification.pm - send notifications to agent
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/System/Ticket/SendNotification.pm - send notifications to agent
+# Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.3 2003-01-03 00:30:28 martin Exp $
+# $Id: SendNotification.pm,v 1.1 2003-01-04 03:34:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::SendNotification;
+package Kernel::System::Ticket::SendNotification;
     
 use strict;
 
-use Kernel::System::EmailSend;
-
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
-sub new {
-    my $Type = shift;
-    my %Param = @_;
-    
-    # allocate new hash for object 
-    my $Self = {}; 
-    bless ($Self, $Type);
-
-    # get all objects
-    foreach (qw(DBObject ConfigObject LogObject TicketObject UserObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_";
-    }
-
-    # create email object
-    $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
-
-    return $Self;
-}
-# --
-sub Send {
+sub SendNotification {
     my $Self = shift;
     my %Param = @_;
     # --
@@ -74,7 +53,7 @@ sub Send {
     # --
     # get old article for quoteing
     # --
-    my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $Param{TicketID});
+    my %Article = $Self->GetLastCustomerArticle(TicketID => $Param{TicketID});
     foreach (qw(From To Cc Subject Body)) {
         if (!$GetParam{$_}) {
             $GetParam{$_} = $Article{$_} || '';
@@ -90,7 +69,7 @@ sub Send {
     # --
     # get owner data
     # --
-    my ($OwnerID, $Owner) = $Self->{TicketObject}->CheckOwner(TicketID => $Param{TicketID});
+    my ($OwnerID, $Owner) = $Self->CheckOwner(TicketID => $Param{TicketID});
     my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
     foreach (keys %Preferences) {
         if ($Preferences{$_}) {
@@ -146,7 +125,7 @@ sub Send {
     # --
     # send notify 
     # --
-    $Self->{EmailObject}->Send(
+    $Self->SendArticle(
             ArticleType => 'email-notification-int',
             SenderType => 'system',
             TicketID => $Param{TicketID},

@@ -1,46 +1,24 @@
 # --
-# Kernel/System/SendAutoResponse.pm - send auto responses to customers
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/System/Ticket/SendAutoResponse.pm - send auto responses to customers
+# Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.5 2003-01-03 00:30:28 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.1 2003-01-04 03:34:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::SendAutoResponse;
+package Kernel::System::Ticket::SendAutoResponse;
     
 use strict;
 
-use Kernel::System::EmailSend;
-
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
-sub new {
-    my $Type = shift;
-    my %Param = @_;
-    
-    # allocate new hash for object 
-    my $Self = {}; 
-    bless ($Self, $Type);
-
-    $Self->{Debug} = 0; 
-    # get all objects
-    foreach (qw(DBObject ConfigObject LogObject TicketObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_";
-    }
-
-    # create email object
-    $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
-
-    return $Self;
-}
-# --
-sub Send {
+sub SendAutoResponse {
     my $Self = shift;
     my %Param = @_;
     # --
@@ -58,7 +36,7 @@ sub Send {
     # --
     # get old article for quoteing
     # --
-    my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $Param{TicketID});
+    my %Article = $Self->GetLastCustomerArticle(TicketID => $Param{TicketID});
     foreach (qw(From To Cc Subject Body)) {
         if (!$GetParam{$_}) {
             $GetParam{$_} = $Article{$_} || '';
@@ -149,7 +127,7 @@ sub Send {
     # --
     # send email
     # --
-    my $ArticleID = $Self->{EmailObject}->Send(
+    my $ArticleID = $Self->SendArticle(
         ArticleType => 'email-external',
         SenderType => 'system',
         TicketID => $Param{TicketID},

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.15 2003-01-03 00:34:22 martin Exp $
+# $Id: Article.pm,v 1.16 2003-01-04 03:36:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -169,7 +169,7 @@ sub CreateArticle {
                     else {
                         $SendInfo{AutoResponseHistoryType} = 'Misc'; 
                     }
-                    $Self->{SendAutoResponse}->Send(
+                    $Self->SendAutoResponse(
                         %Data,
                         CustomerMessageParams => \%OrigHeader,
                         TicketNumber => $TicketNumber, 
@@ -206,7 +206,7 @@ sub CreateArticle {
     # --
     # send notification
     # --
-    $Self->{SendNotification}->Send(
+    $Self->SendNotification(
         Type => $Param{HistoryType},
         To => $To,
         CustomerMessageParams => \%Param,
