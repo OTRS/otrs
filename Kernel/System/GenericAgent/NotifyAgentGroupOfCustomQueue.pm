@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.4 2004-05-24 21:06:03 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.5 2004-12-10 09:17:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
     );
     # send each agent the escalation notification 
     foreach (@UserIDs) {
-        my %User = $Self->{UserObject}->GetUserData(UserID => $_);
+        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
         # send agent notification
         $Self->{TicketObject}->SendAgentNotification(
             Type => 'Escalation',
