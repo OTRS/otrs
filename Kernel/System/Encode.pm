@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.10 2004-08-01 20:06:20 martin Exp $
+# $Id: Encode.pm,v 1.11 2004-10-29 20:00:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -80,7 +80,6 @@ sub new {
     }
     return $Self;
 }
-# --
 
 =item EncodeSupported()
 
@@ -99,7 +98,6 @@ sub EncodeSupported {
     my $Self = shift;
     return $Self->{CharsetEncodeSupported};
 }
-# --
 
 =item EncodeInternalUsed()
 
@@ -121,7 +119,6 @@ sub EncodeInternalUsed {
         return;
     }
 }
-# --
 
 =item EncodeFrontendUsed()
 
@@ -143,7 +140,6 @@ sub EncodeFrontendUsed {
         return;
     }
 }
-# --
 
 =item Convert()
 
@@ -211,7 +207,6 @@ sub Convert {
         return $Param{Text};
     }
 }
-# --
 
 =item SetIO()
 
@@ -233,8 +228,6 @@ sub SetIO {
     }
     return;
 }
-
-# --
 
 =item Encode()
 
@@ -272,7 +265,6 @@ sub Encode {
     }
     return 1;
 }
-# --
 
 =item Decode()
 
@@ -307,7 +299,6 @@ sub Decode {
         return $Param{Text};
     }
 }
-# --
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -322,6 +313,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2004-08-01 20:06:20 $
+$Revision: 1.11 $ $Date: 2004-10-29 20:00:13 $
 
 =cut
