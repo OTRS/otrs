@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.3 2002-12-17 15:47:48 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.4 2002-12-17 17:39:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerTicketOverView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,9 +54,11 @@ sub new {
    # --
    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
-   # viewable tickets a page
-   $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit')
-       || 50; 
+   $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0; 
+   if ($Self->{StartHit} >= 1000) {
+       $Self->{StartHit} = 1000;
+   }
+   $Self->{PageShown} = 25;
 
    return $Self;
 }
@@ -162,7 +164,7 @@ sub Run {
         $SQL .= " ASC";
     }
 
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{StartHit}+$Self->{PageShown});
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         my $Data = {
             TicketID => $RowTmp[0],
@@ -175,18 +177,23 @@ sub Run {
     # show ticket's
     # --
     my $OutputTable = "";
+    my $Counter = 0;
     foreach my $DataTmp (@ViewableTickets) {
+      $Counter++;
+      if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{PageShown}+$Self->{StartHit})) {
         $OutputTable .= ShowTicketStatus(
            $Self,
            %{$DataTmp}, 
         );
+      }
     }
     $Output .= $Self->{LayoutObject}->CustomerStatusView(
         StatusTable => $OutputTable, 
-        Limit => $Self->{Limit},
         SortBy => $Self->{SortBy},
         Order => $Self->{Order},
-        AllTickets => $AllTickets,
+        PageShown => $Self->{PageShown},
+        AllHits => $AllTickets,
+        StartHit => $Self->{StartHit},
     );
     # get page footer
     $Output .= $Self->{LayoutObject}->CustomerFooter();

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerStatusView.dtl,v 1.3 2002-12-16 23:15:23 martin Exp $
+# $Id: CustomerStatusView.dtl,v 1.4 2002-12-17 17:39:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,12 +23,7 @@
 </tr>
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td colspan="2">
-    <form action="$Env{"CGIHandle"}" method="Get">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="SortBy" value="$Data{"SortBy"}">
-    <input type="hidden" name="Order" value="$Data{"Order"}">
-    $Text{"All tickets"}: $Data{"AllTickets"} - $Text{"Ticket limit:"} <input type="text" name="Limit" value="$Data{"Limit"}" size="5">
-    </form>
+    $Text{"Ticket"} <b>$Data{"Result"}</b> $Text{"of"} $Data{"AllHits"} - $Text{"Site"}: $Data{"PageNavBar"}
   </td>
 </tr>
 </table>

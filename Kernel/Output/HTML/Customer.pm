@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.4 2002-11-27 14:32:49 martin Exp $
+# $Id: Customer.pm,v 1.5 2002-12-17 17:39:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -97,6 +97,25 @@ sub CustomerNavigationBar {
 sub CustomerStatusView {
     my $Self = shift;
     my %Param = @_;
+    if ($Param{AllHits} >= ($Param{StartHit}+$Param{PageShown})) {
+        $Param{Result} = ($Param{StartHit}+1)." - ".($Param{StartHit}+$Param{PageShown});
+    }
+    else {
+        $Param{Result} = ($Param{StartHit}+1)." - $Param{AllHits}";
+    }
+    my $Pages = $Param{AllHits} / $Param{PageShown};
+    for (my $i = 1; $i < ($Pages+1); $i++) {
+        $Self->{UtilSearchResultCounter}++;
+        $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=CustomerTicketOverView".
+         "&StartHit=". (($i-1)*$Param{PageShown}) .= '&SortBy=$Data{"SortBy"}&Order=$Data{"Order"}">';
+         if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{PageShown}) == ($i)) {
+             $Param{PageNavBar} .= '<b>'.($i).'</b>';
+         }
+         else {
+             $Param{PageNavBar} .= ($i);
+         }
+         $Param{PageNavBar} .= '</a> ';
+    }
 
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerStatusView', Data => \%Param);
