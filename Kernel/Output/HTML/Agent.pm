@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.80 2003-02-03 23:40:41 martin Exp $
+# $Id: Agent.pm,v 1.81 2003-02-08 15:42:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,8 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.80 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.81 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub NavigationBar {
@@ -354,10 +354,11 @@ sub TicketZoom {
     my $Counter = '';
     my $Space = '';
     my $LastSenderType = '';
-    $Param{ArticleStrg} = '';
+    $Param{ArticleStrg} = '<table border="0" width="100%" cellspacing="0" cellpadding="0">';
     foreach my $ArticleTmp (@ArticleBox) {
       my %Article = %$ArticleTmp;
       if ($Article{ArticleType} ne 'email-notification-int') {
+        $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
         if ($LastSenderType ne $Article{SenderType}) {
             $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
             $Space = "$Counter |-->";
@@ -369,7 +370,7 @@ sub TicketZoom {
         # --
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= ">><B>";
+            $ThreadStrg .= '>><B>';
         }
         # --
         # the full part thread string
@@ -385,17 +386,18 @@ sub TicketZoom {
             $Self->{LanguageObject}->Get('plain') . "</a>)";
         }
         $ThreadStrg .= " $Article{CreateTime}";
-        $ThreadStrg .= "<BR>";
+#        $ThreadStrg .= "</table><BR>";
         # --
         # if this is the shown article -=> add </b>
         # --
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= "</B>";
+            $ThreadStrg .= '</B>';
         }
+        $ThreadStrg .= '</td></tr>';
       }
     }
-    $ThreadStrg .= '';
+    $ThreadStrg .= '</table>';
     $Param{ArticleStrg} .= $ThreadStrg;
 
     my $ArticleOB = $ArticleBox[$LastCustomerArticle];
@@ -1551,4 +1553,3 @@ sub AgentSpelling {
 # --  
 
 1;
- 
