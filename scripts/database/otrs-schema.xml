@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no" ?>
+<!DOCTYPE app-data SYSTEM "http://jakarta.apache.org/turbine/dtd/database.dtd">
+
+<!--
+
+  XML File for the OTRS database description
+  Copyright (C) 2001-2003 Martin Edenhofer
+
+  $Id: otrs-schema.xml,v 1.1 2003-02-08 11:54:29 martin Exp $
+
+  $Log: not supported by cvs2svn $
+  Revision 1.28  2003/01/09 20:46:01  martin
+  added ticket_lock_index table - for Kernel/System/Ticket/IndexAccelerator/StaticDB.pm
+
+  Revision 1.27  2003/01/06 21:40:51  martin
+  removed language table, not longer used
+
+  Revision 1.26  2003/01/03 01:09:55  martin
+  added standard_response_attachment, standard_attachment and pop3_account tables
+
+  Revision 1.25  2002/12/07 19:07:56  martin
+  added customer_preferences changes
+
+  Revision 1.24  2002/12/01 16:14:21  martin
+  changed varchar values of ticket_loop_protection
+
+  Revision 1.23  2002/11/27 14:27:18  martin
+  added ticket_loop_protection, article_attachment and article_plain tables
+
+  Revision 1.22  2002/10/20 12:34:08  martin
+  added customer_user and customer_preferences tables
+
+  Revision 1.21  2002/09/23 20:32:35  martin
+  added index on table ticket_index, useful for more then 60.000 tickets
+
+  Revision 1.20  2002/09/19 23:26:00  martin
+  renamed database from OpenTRS to OTRS
+
+  Revision 1.19  2002/08/06 19:01:44  martin
+  added ticket_index table
+
+  Revision 1.18  2002/07/31 23:17:23  martin
+  added time accounting feature
+
+  Revision 1.17  2002/07/02 08:41:27  martin
+  added a_content_type to article table
+
+  Revision 1.16  2002/05/30 13:32:37  martin
+  fixed user_preferences. added normal index
+
+  Revision 1.15  2002/05/30 11:54:30  martin
+  fixed -> (comment) problem with ==>
+
+  Revision 1.14  2002/05/30 11:50:13  martin
+  removed create_* and change_* of personal_queue, removed required from value2 and value3 of system_address, fixed typo in ticket_history ==> now with postgrsql support. .)
+
+  Revision 1.13  2002/05/26 22:56:45  martin
+  added ticket_answered to ticket table and added index_ticket_answered and changed user_id_index to primaryKey.
+
+  Revision 1.12  2002/05/04 20:34:22  martin
+  renamed user table and removed comment row from user table.
+
+  Revision 1.11  2002/04/14 18:25:49  martin
+  removed preferenvers from user table
+
+  Revision 1.10  2002/04/12 16:36:23  martin
+  added user_preferences tabel.
+
+  Revision 1.9  2002/04/08 13:41:20  martin
+  added session table.
+
+  Revision 1.8  2002/03/10 19:10:27  martin
+  reworked article col. types.
+
+  Revision 1.7  2002/03/10 18:58:01  martin
+  changed signature and salutagen type to LONGVARCHAR
+
+  Revision 1.6  2002/02/07 00:09:35  martin
+  changed col. text type from VARCHAR to LONGVARCHAR.
+
+  Revision 1.5  2002/02/03 18:40:36  martin
+  changed time format from TIMESTAMP to DATE
+
+  Revision 1.4  2001/12/21 17:56:42  martin
+  small fixes
+
+  Revision 1.3  2001/12/16 19:15:15  martin
+  change table names.
+
+  Revision 1.2  2001/12/02 11:49:34  martin
+  Added first indexes for tables.
+
+
+-->
+
+<app-data>
+
+<database name="OTRS">
+
+<!-- valid - all valid stats -->
+<table name="valid">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="25" type="VARCHAR"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique> 
+</table>
+
+<!-- ticket_priority - all ticket priorites -->
+<table name="ticket_priority">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="25" type="VARCHAR"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- ticket_lock_type - all ticket lock types -->
+<table name="ticket_lock_type">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="25" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/> 
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- user - all user -->
+<table name="system_user">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="login" required="true" size="80" type="VARCHAR"/>
+  <column name="pw" required="true" size="20" type="VARCHAR"/>
+  <column name="salutation" required="false" size="20" type="VARCHAR"/>
+  <column name="first_name" required="true" size="40" type="VARCHAR"/>
+  <column name="last_name" required="true" size="40" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/> 
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="login"/>
+  </unique>
+</table>
+
+<!-- user preferences -->
+<table name="user_preferences">
+  <column name="user_id" required="true" type="INTEGER"/>
+  <column name="preferences_key" required="true" size="100" type="VARCHAR"/>
+  <column name="preferences_value" required="false" size="250" type="VARCHAR"/>
+  <index name="index_user_preferences_user_id">
+    <index-column name="user_id"/>
+  </index>
+</table>
+
+<!-- group - all groups -->
+<table name="groups">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="25" type="VARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- group_user - relation group<->user -->
+<table name="group_user">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="user_id" required="true" type="INTEGER"/>
+  <column name="group_id" required="true" type="INTEGER"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
+<!-- personal_queues - there should stored all personal_queues -->
+<table name="personal_queues">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="user_id" required="true" type="INTEGER"/>
+  <column name="queue_id" required="true" type="INTEGER"/>
+</table>
+
+<!-- theme - all frontend themes -->
+<table name="theme">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="theme" required="true" size="30" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="theme"/>
+  </unique>
+</table>
+
+<!-- charset - all system charsets -->
+<table name="charset">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="30" type="VARCHAR"/>
+  <column name="charset" required="true" size="30" type="VARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>                                  
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- ticket_state - all ticket states -->
+<table name="ticket_state">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="30" type="VARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- salutation - all salutation for the queues -->
+<table name="salutation">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
+  <column name="text" required="true" type="LONGVARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- signature - all signature for the queues -->
+<table name="signature">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
+  <column name="text" required="true" type="LONGVARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+
+<!-- system_address - all addresses of the system -->
+<!-- e. g. email address or phone number or whatever -->
+<table name="system_address">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="value0" required="true" size="200" type="VARCHAR"/>
+  <column name="value1" required="true" size="200" type="VARCHAR"/>
+  <column name="value2" required="false" size="200" type="VARCHAR"/>
+  <column name="value3" required="false" size="200" type="VARCHAR"/>
+  <column name="queue_id" required="true" type="SMALLINT"/>
+  <column name="comment" required="false" size="200" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
+<!-- follow_up_possible? -->
+<table name="follow_up_possible">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <column name="comment" required="false" size="200" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- queue - all system queues -->
+<table name="queue">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <column name="group_id" required="true" type="SMALLINT"/>
+  <column name="unlock_timeout" required="false" type="INTEGER"/>
+  <column name="escalation_time" required="false" type="INTEGER"/>
+  <column name="system_address_id" required="true" type="SMALLINT"/>
+  <column name="salutation_id" required="true" type="SMALLINT"/>
+  <column name="signature_id" required="true" type="SMALLINT"/>
+  <column name="follow_up_id" required="true" type="SMALLINT"/>
+  <column name="follow_up_lock" required="true" type="SMALLINT"/>
+  <column name="comment" required="false" size="200" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- ticket - all tickets :) (the main point) -->
+<table name="ticket">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
+  <column name="tn" required="true" size="50" type="VARCHAR"/>
+  <column name="queue_id" required="true" type="SMALLINT"/>
+  <column name="ticket_lock_id" required="true" type="SMALLINT"/>
+  <column name="ticket_answered" required="true" type="SMALLINT"/>
+  <column name="user_id" required="true" type="SMALLINT"/>
+  <column name="group_id" required="true" type="SMALLINT"/>
+  <column name="ticket_priority_id" required="true" type="SMALLINT"/>
+  <column name="ticket_state_id" required="true" type="SMALLINT"/>
+  <column name="group_read" required="false" type="SMALLINT"/>
+  <column name="group_write" required="false" type="SMALLINT"/>
+  <column name="other_read" required="false" type="SMALLINT"/>
+  <column name="other_write" required="false" type="SMALLINT"/>
+  <column name="customer_id" required="false" size="150" type="VARCHAR"/>
+  <column name="timeout" required="false" type="INTEGER"/>
+  <column name="until_time" required="false" type="INTEGER"/>
+  <column name="freekey1" required="false" size="150" type="VARCHAR"/>
+  <column name="freetext1" required="false" size="150" type="VARCHAR"/>
+  <column name="freekey2" required="false" size="150" type="VARCHAR"/>
+  <column name="freetext2" required="false" size="150" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time_unix" required="true" type="BIGINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="tn"/>
+  </unique>
+  <index name="index_ticket_queue_view">
+    <index-column name="ticket_state_id"/>
+    <index-column name="group_id"/>
+    <index-column name="ticket_lock_id"/>
+    <index-column name="group_id"/>
+  </index>
+  <index name="index_ticket_user">
+    <index-column name="user_id"/>
+  </index>
+  <index name="index_ticket_answered">
+    <index-column name="ticket_answered"/>
+  </index>
+</table>
+
+<!-- ticket_history - the whole history of all tickets -->
+<table name="ticket_history">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <column name="history_type_id" required="true" type="SMALLINT"/>
+  <column name="ticket_id" required="true" type="BIGINT"/>
+  <column name="article_id" required="false" type="BIGINT"/>
+  <column name="system_queue_id" required="false" type="SMALLINT"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <index name="ticket_history_ticket_id">
+    <index-column name="ticket_id"/>
+  </index>
+  <index name="ticket_history_create_time">
+    <index-column name="create_time"/>
+  </index>
+</table>
+
+<!-- ticket_history_type - all history types -->
+<table name="ticket_history_type">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- article_type - all types of articles (e. g. email, fax, phonecall, ...) -->
+<table name="article_type">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- article_sender_type - all possibles senders (e. g. agent, system, customer, ...) -->
+<table name="article_sender_type">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- article - all articles -->
+<table name="article">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
+  <column name="ticket_id" required="true" type="BIGINT"/>
+  <column name="article_type_id" required="true" type="SMALLINT"/>
+  <column name="article_sender_type_id" required="true" type="SMALLINT"/>
+  <column name="a_from" required="false" type="LONGVARCHAR"/>
+  <column name="a_reply_to" required="false" size="255" type="VARCHAR"/>
+  <column name="a_to" required="false" type="LONGVARCHAR"/>
+  <column name="a_cc" required="false" type="LONGVARCHAR"/>
+  <column name="a_subject" required="false" type="LONGVARCHAR"/>
+  <column name="a_message_id" required="false" size="250" type="VARCHAR"/>
+  <column name="a_content_type" required="false" size="100" type="VARCHAR"/>
+  <column name="a_body" required="true" type="LONGVARCHAR"/>
+  <column name="incoming_time" required="true" type="INTEGER"/>
+  <column name="content_path" required="false" size="250" type="VARCHAR"/>
+  <column name="a_freekey1" required="false" size="250" type="VARCHAR"/>
+  <column name="a_freetext1" required="false" size="250" type="VARCHAR"/>
+  <column name="a_freekey2" required="false" size="250" type="VARCHAR"/>
+  <column name="a_freetext2" required="false" size="250" type="VARCHAR"/>
+  <column name="a_freekey3" required="false" size="250" type="VARCHAR"/>
+  <column name="a_freetext3" required="false" size="250" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <index name="article_ticket_id">
+    <index-column name="ticket_id"/>
+  </index>
+</table>
+
+<!-- article_plain - all articles -->
+<table name="article_plain">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
+  <column name="article_id" required="true" type="BIGINT"/>
+  <column name="body" required="true" type="LONGVARCHAR"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <index name="article_id">
+    <index-column name="article_id"/>
+  </index>
+</table>
+
+<!-- article_plain - attachments -->
+<table name="article_attachment">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
+  <column name="article_id" required="true" type="BIGINT"/>
+  <column name="filename" required="false" size="250" type="VARCHAR"/>
+  <column name="content_type" required="false" size="250" type="VARCHAR"/>
+  <column name="content" required="true" type="LONGVARCHAR"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <index name="article_id">
+    <index-column name="article_id"/>
+  </index>
+</table>
+
+<!-- standard_response - -->
+<table name="standard_response">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="80" type="VARCHAR"/>
+  <column name="text" required="true" type="LONGVARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- queue_standard_response - -->
+<table name="queue_standard_response">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="queue_id" required="true" type="INTEGER"/>
+  <column name="standard_response_id" required="true" type="INTEGER"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
+<!-- standard_attachment -->
+<table name="standard_attachment">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="150" type="VARCHAR"/>
+  <column name="content_type" required="true" size="150" type="VARCHAR"/>
+  <column name="content" required="true" type="LONGVARCHAR"/>
+  <column name="filename" required="true" size="250" type="VARCHAR"/>
+  <column name="comment" required="false" size="200" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- standard_response_attachment -->
+<table name="standard_response_attachment">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="standard_attachment_id" required="true" type="INTEGER"/>
+  <column name="standard_response_id" required="true" type="INTEGER"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
+<!-- auto_response_type - -->
+<table name="auto_response_type">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- auto_response - -->
+<table name="auto_response">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="80" type="VARCHAR"/>
+  <column name="text0" required="false" type="LONGVARCHAR"/>
+  <column name="text1" required="false" type="LONGVARCHAR"/>
+  <column name="text2" required="false" type="LONGVARCHAR"/>
+  <column name="type_id" required="true" type="SMALLINT"/>
+  <column name="system_address_id" required="true" type="SMALLINT"/>
+  <column name="charset_id" required="true" type="SMALLINT"/>
+  <column name="comment" required="false" size="100" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- queue_auto_response - -->
+<table name="queue_auto_response">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="queue_id" required="true" type="INTEGER"/>
+  <column name="auto_response_id" required="true" type="INTEGER"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
+<!-- time_accounting - the whole time accounting of all tickets -->
+<table name="time_accounting">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
+  <column name="ticket_id" required="true" type="BIGINT"/>
+  <column name="article_id" required="false" type="BIGINT"/>
+  <column name="time_unit" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <index name="index_ticket_id">
+    <index-column name="ticket_id"/>
+  </index>
+</table>
+
+<!-- faq -->
+<table name="faq">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <column name="text" required="true" size="255" type="VARCHAR"/>
+  <column name="language_id" required="true" type="SMALLINT"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- session -->
+<table name="session">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
+  <column name="session_id" required="true" size="120" type="VARCHAR"/>
+  <column name="value" required="true" type="LONGVARCHAR"/>
+  <unique>
+    <unique-column name="session_id"/>
+  </unique>
+  <index name="index_session_id">
+    <index-column name="session_id"/>
+  </index>
+</table>
+
+<!-- ticket_index -->
+<table name="ticket_index">
+  <column name="ticket_id" required="true" type="BIGINT"/>
+  <column name="queue_id" required="true" type="INTEGER"/>
+  <column name="queue" required="true" size="70" type="VARCHAR"/>
+  <column name="group_id" required="true" type="INTEGER"/>
+  <column name="s_lock" required="true" size="70" type="VARCHAR"/>
+  <column name="s_state" required="true" size="70" type="VARCHAR"/>
+  <column name="create_time_unix" required="true" type="BIGINT"/>
+  <index name="index_ticket_id">
+    <index-column name="ticket_id"/>
+  </index>
+</table>
+
+<!-- ticket_lock_index -->
+<table name="ticket_lock_index">
+  <column name="ticket_id" required="true" type="BIGINT"/>
+  <index name="index_ticket_id">
+    <index-column name="ticket_id"/>
+  </index>
+</table>
+
+<!-- customer user -->
+<table name="customer_user">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="login" required="true" size="80" type="VARCHAR"/>
+  <column name="email" required="true" size="120" type="VARCHAR"/>
+  <column name="customer_id" required="true" size="120" type="VARCHAR"/>
+  <column name="pw" required="true" size="20" type="VARCHAR"/>
+  <column name="salutation" required="false" size="20" type="VARCHAR"/>
+  <column name="first_name" required="true" size="40" type="VARCHAR"/>
+  <column name="last_name" required="true" size="40" type="VARCHAR"/>
+  <column name="comment" required="true" size="120" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/> 
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="login"/>
+  </unique>
+</table>
+
+<!-- customer preferences -->
+<table name="customer_preferences">
+  <column name="user_id" required="true" size="250" type="VARCHAR"/>
+  <column name="preferences_key" required="true" size="150" type="VARCHAR"/>
+  <column name="preferences_value" required="false" size="250" type="VARCHAR"/>
+  <index name="index_customer_preferences_user_id">
+    <index-column name="user_id"/>
+  </index>
+</table>
+
+<!-- ticket_loop_protection -->
+<table name="ticket_loop_protection">
+  <column name="sent_to" required="true" size="250" type="VARCHAR"/>
+  <column name="sent_date" required="true" size="150" type="VARCHAR"/>
+  <index name="index_ticket_loop_protection_sent_to">
+    <index-column name="sent_to"/>
+  </index>
+  <index name="index_ticket_loop_protection_sent_date">
+    <index-column name="sent_date"/>
+  </index>
+</table>
+
+<!-- pop3_account -->
+<table name="pop3_account">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="login" required="true" size="200" type="VARCHAR"/>
+  <column name="pw" required="true" size="200" type="VARCHAR"/>
+  <column name="host" required="true" size="200" type="VARCHAR"/>
+  <column name="queue_id" required="true" type="INTEGER"/>
+  <column name="trusted" required="true" type="SMALLINT"/>
+  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
+</database>
+</app-data>
+
