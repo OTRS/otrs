@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Yann Richard <ze at nawak-online.org>
 # --
-# $Id: fr.pm,v 1.33 2004-04-15 08:36:15 martin Exp $
+# $Id: fr.pm,v 1.34 2004-04-26 13:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -1022,35 +1022,35 @@ sub Data {
       'store' => 'stocker',
       'tickets' => 'Tickets',
 
-      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
-      'History::FollowUp' => 'FollowUp for [%s]. %s',
-      'History::SendAutoReject' => 'AutoReject sent to "%s".',
-      'History::SendAutoReply' => 'AutoReply sent to "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
-      'History::Forward' => 'Forwarded to "%s".',
-      'History::Bounce' => 'Bounced to "%s".',
-      'History::SendAnswer' => 'Email sent to "%s".',
-      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
-      'History::SendCustomerNotification' => 'Notification sent to "%s".',
-      'History::EmailAgent' => 'Email sent to customer.',
-      'History::EmailCustomer' => 'Added email. %s',
-      'History::PhoneCallAgent' => 'Agent called customer.',
-      'History::PhoneCallCustomer' => 'Customer called us.',
-      'History::AddNote' => 'Added note (%s)',
-      'History::Lock' => 'Locked ticket.',
-      'History::Unlock' => 'Unlocked ticket.',
-      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
+      'History::Move' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
+      'History::NewTicket' => 'Un nouveau ticket a été crée: [%s] created (Q=%s;P=%s;S=%s).',
+      'History::FollowUp' => 'Un suivie du ticket [%s]. %s',
+      'History::SendAutoReject' => 'Rejet automatique envoyé à "%s".',
+      'History::SendAutoReply' => 'Réponse automatique envoyé à "%s".',
+      'History::SendAutoFollowUp' => 'Suivie automatique envoyé à "%s".',
+      'History::Forward' => 'Transféré vers "%s".',
+      'History::Bounce' => 'Redirigé vers "%s".',
+      'History::SendAnswer' => 'Email envoyé à "%s".',
+      'History::SendAgentNotification' => '"%s"-notification envoyé à "%s".',
+      'History::SendCustomerNotification' => 'Notification envoyé à "%s".',
+      'History::EmailAgent' => 'Email envoyé au client.',
+      'History::EmailCustomer' => 'Ajout d\'une adresse email. %s',
+      'History::PhoneCallAgent' => 'Agent a appellé le client.',
+      'History::PhoneCallCustomer' => 'Le client nous a appellé.',
+      'History::AddNote' => 'Ajout d\'une note (%s)',
+      'History::Lock' => 'Ticket vérouillé.',
+      'History::Unlock' => 'Ticket dévérouillé.',
+      'History::TimeAccounting' => 'Temps passé sur l\'action: %s . Total du temps passé pour ce ticket: %s unité(s).',
       'History::Remove' => '%s',
-      'History::CustomerUpdate' => 'Updated: %s',
-      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
-      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
+      'History::CustomerUpdate' => 'Mise à jour: %s',
+      'History::PriorityUpdate' => 'Changement de priorité de "%s" (%s) pour "%s" (%s).',
+      'History::OwnerUpdate' => 'Le nouveau propriétaire est "%s" (ID=%s).',
+      'History::LoopProtection' => 'Protection anti-boucle! Pas d\'auto réponse envoyé à "%s".',
       'History::Misc' => '%s',
-      'History::SetPendingTime' => 'Updated: %s',
-      'History::StateUpdate' => 'Old: "%s" New: "%s"',
-      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
-      'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::SetPendingTime' => 'Mise à jour: %s',
+      'History::StateUpdate' => 'Avant: "%s" Après: "%s"',
+      'History::TicketFreeTextUpdate' => 'Mise à jour: %s=%s;%s=%s;',
+      'History::WebRequestCustomer' => 'Requête du client via le web.',
 
     );
 
