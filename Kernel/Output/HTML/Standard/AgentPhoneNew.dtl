@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.20 2003-03-30 18:30:35 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.21 2003-10-07 08:13:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -91,7 +91,7 @@ function clear_field()
   </tr>
   <tr>
     <td>$Text{"To"}:</td>
-    <td>$Data{"ToStrg"}</td>
+    <td>$Data{"ToStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font></td>
   </td>
   </tr>
 # --
