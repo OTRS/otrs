@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: MatchDBSource.pm,v 1.1 2004-05-10 12:50:38 martin Exp $
+# $Id: MatchDBSource.pm,v 1.2 2004-06-22 13:34:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -61,11 +61,11 @@ sub Run {
             $Prefix = "Filter: '$Config{Name}' ";
         }
         # match 'Match => ???' stuff
-        my $Matched = 0;
+        my $Matched = '';
         my $MatchedNot = 0;
         foreach (keys %Match) {
             if ($Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i) {
-                $Matched = 1;
+                $Matched = $1 || '1';
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
@@ -86,6 +86,9 @@ sub Run {
         # should I ignore the incoming mail?
         if ($Matched && !$MatchedNot) {
             foreach (keys %Set) {
+                if ($Set{$_} =~ /\[\*\*\*\]/i) {
+                    $Set{$_} = $Matched;
+                }
                 $Param{GetParam}->{$_} = $Set{$_};
                     $Self->{LogObject}->Log(
                       Priority => 'notice',
