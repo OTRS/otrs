@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.26 2003-04-16 21:17:23 martin Exp $
+# $Id: DB.pm,v 1.27 2003-05-21 22:41:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,7 @@ sub new {
     # --
     # check needed objects
     # --
-    foreach ('ConfigObject', 'LogObject') {
+    foreach (qw(ConfigObject LogObject)) {
         if ($Param{$_}) {
             $Self->{$_} = $Param{$_};
         }
@@ -44,11 +44,9 @@ sub new {
     # --
     # get config data
     # --
-    $Self->{HOST} = $Self->{ConfigObject}->Get('DatabaseHost');
-    $Self->{DB}   = $Self->{ConfigObject}->Get('Database');
-    $Self->{USER} = $Self->{ConfigObject}->Get('DatabaseUser');
-    $Self->{PW}   = $Self->{ConfigObject}->Get('DatabasePw');
-    $Self->{DSN}  = $Self->{ConfigObject}->Get('DatabaseDSN');
+    $Self->{DSN}  = $Param{DatabaseDSN} || $Self->{ConfigObject}->Get('DatabaseDSN');
+    $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
+    $Self->{PW}   = $Param{DatabasePw} || $Self->{ConfigObject}->Get('DatabasePw');
     # --
     # get database type and functions
     # --
@@ -96,7 +94,7 @@ sub Connect {
         $Self->{LogObject}->Log(
           Caller => 1,
           Priority => 'debug', 
-          Message => "DB.pm->Connect: DB: $Self->{DB}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
+          Message => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
     # --
