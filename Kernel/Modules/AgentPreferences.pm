@@ -2,7 +2,7 @@
 # AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.5 2002-05-04 20:29:51 martin Exp $
+# $Id: AgentPreferences.pm,v 1.6 2002-05-12 15:05:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -74,6 +74,9 @@ sub Run {
     elsif ($Self->{Subaction} eq 'UpdateTheme') {
         $Output = $Self->UpdateTheme();
     }
+    elsif ($Self->{Subaction} eq 'UpdateRefreshTime') {
+        $Output = $Self->UpdateRefreshTime();
+    }
     else {
         $Output = $Self->Form();
     }
@@ -92,9 +95,11 @@ sub Form {
     my %QueueData = $Self->{QueueObject}->GetAllQueues(UserID => $UserID);
 
     my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $UserID);
+
     $Output .= $Self->{LayoutObject}->AgentPreferencesForm(
         QueueData => \%QueueData,
         CustomQueueIDs => \@CustomQueueIDs,
+        RefreshTime => $Self->{UserRefreshTime} || $Self->{ConfigObject}->Get('Refresh'),
     );
 
     $Output .= $Self->{LayoutObject}->Footer();
@@ -293,6 +298,43 @@ sub UpdateTheme {
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->Error(
             Message => 'No ThemeID selected!',
+            Comment => 'Please one and try it again!',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+    }
+
+    return $Output;
+}
+# --
+sub UpdateRefreshTime {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output;
+    my $UserID = $Self->{UserID};
+    my $Time = $Self->{ParamObject}->GetParam(Param => 'Time') || '';
+
+    if ($Time) {
+        # pref update db
+        $Self->{UserObject}->SetPreferences(
+            UserID => $UserID,
+            Key => 'UserRefreshTime',
+            Value => $Time,
+        );
+        # update SessionID
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'UserRefreshTime',
+            Value => $Time,
+        );
+        # mk rediect
+        $Output .= $Self->{LayoutObject}->Redirect(
+            OP => "&Action=AgentPreferences",
+        );
+    }
+    else {
+        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Error(
+            Message => 'No Time selected!',
             Comment => 'Please one and try it again!',
         );
         $Output .= $Self->{LayoutObject}->Footer();
