@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-#               2001-2003 Martin Edenhofer <martin+code@otrs.org>
+#               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.15 2004-01-04 21:34:59 martin Exp $
+# $Id: Group.pm,v 1.16 2004-01-09 16:41:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -29,6 +29,31 @@ All group functions. E. g. to add groups or to get a member list of a group.
 =head1 PUBLIC INTERFACE
 
 =over 4
+
+=cut
+
+=item new()
+
+create a language object 
+ 
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB;
+  use Kernel::System::Group;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $DBObject = Kernel::System::DB->new( 
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $GroupObject = Kernel::System::Group->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      DBObject => $DBObject,
+  );
 
 =cut
 
@@ -75,7 +100,7 @@ to add a member to a group
   
   Permission: ro,move_into,priority,create,rw 
 
-  my $ID = $Self->{GroupObject}->GroupMemberAdd(
+  my $ID = $GroupObject->GroupMemberAdd(
       GID => 12,
       UID => 6,
       Permission => {
@@ -137,7 +162,7 @@ sub GroupMemberAdd {
 
 to add a group
 
-  my $ID = $Self->{GroupObject}->GroupAdd(
+  my $ID = $GroupObject->GroupAdd(
       Name => 'example-group',
       ValidID => 1,
       UserID => 123,
@@ -196,7 +221,7 @@ sub GroupAdd {
 
 returns a hash with group data
 
-  %GroupData = $Self->{GroupObject}->GroupGet(ID => 2);
+  %GroupData = $GroupObject->GroupGet(ID => 2);
 
 =cut
 
@@ -236,7 +261,7 @@ sub GroupGet {
 
 update of a group 
 
-  $Self->{GroupObject}->GroupUpdate(
+  $GroupObject->GroupUpdate(
       ID => 123,
       Name => 'example-group',
       ValidID => 1,
@@ -278,7 +303,7 @@ sub GroupUpdate {
 
 returns a hash of all groups
 
-  my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
+  my %Groups = $GroupObject->GroupList(Valid => 1);
 
 =cut
 
@@ -297,17 +322,30 @@ sub GroupList {
 
 =item GroupMemberList()
 
-returns a list of users of a group with ro/move_into/create/owner/priority/rw permissions 
+returns a list of users/groups with ro/move_into/create/owner/priority/rw permissions 
 
   UserID: user id
   GroupID: group id
+
   Type: ro|move_into|priority|create|rw
+
   Result: HASH -> returns a hash of key => group id, value => group name
           Name -> returns an array of user names
           ID   -> returns an array of user names
-  Example:
-  $Self->{GroupObject}->GroupMemberList(
+
+
+  Example (get groups of user):
+
+  $GroupObject->GroupMemberList(
       UserID => $ID,
+      Type => 'move_into',
+      Result => 'HASH',
+  );
+
+  Example (get users of group):
+
+  $GroupObject->GroupMemberList(
+      GroupID => $ID,
       Type => 'move_into',
       Result => 'HASH',
   );
@@ -362,10 +400,12 @@ sub GroupMemberList {
             $Key = $Row[4];
             $Value = $Row[1];
         }
-        # get permissions
-        $Data{$Key} = $Value;
-        push (@Name, $Value);
-        push (@ID, $Key);
+        # remember permissions
+        if (!defined($Data{$Key})) {
+            $Data{$Key} = $Value;
+            push (@Name, $Value);
+            push (@ID, $Key);
+        }
     }
     if ($Param{Result} && $Param{Result} eq 'ID') {
         return @ID;
@@ -392,6 +432,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2004-01-04 21:34:59 $
+$Revision: 1.16 $ $Date: 2004-01-09 16:41:19 $
 
 =cut
