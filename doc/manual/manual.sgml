@@ -1,6 +1,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
 <!ENTITY preamble SYSTEM "preamble.sgml">
 <!ENTITY install SYSTEM "install.sgml">
+<!ENTITY config-file SYSTEM "config-file.sgml">
 <!ENTITY first-steps SYSTEM "first-steps.sgml">
 <!ENTITY first-ticket SYSTEM "first-ticket.sgml">
 <!ENTITY troubleshooting SYSTEM "troubleshooting.sgml">
@@ -8,6 +9,7 @@
 <!ENTITY bibliography SYSTEM "bibliography.sgml">
 <!ENTITY fdl SYSTEM "fdl.sgml">
 <!ENTITY coreteam SYSTEM "coreteam.sgml">
+<!ENTITY credits SYSTEM "credits.sgml">
 <!ENTITY online-resources SYSTEM "online-resources.sgml">
 <!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
 <!ENTITY procmail SYSTEM "procmail.sgml">
@@ -85,6 +87,8 @@ or implied warranty.
 
 &install;
 
+&config-file;
+
 &first-steps;
 
 &first-ticket;
@@ -100,6 +104,8 @@ or implied warranty.
 &online-resources;
 
 &coreteam;
+
+&credits;
 
 &fdl;
 

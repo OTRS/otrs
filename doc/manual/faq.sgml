@@ -5,6 +5,22 @@
 <qandaentry>
 <question>
 <para>
+I installed the otrs.rpm from SuSE 8.0. But it doesn't work. Why?
+</para>
+</question>
+<answer>
+<para>
+The rpm is buggy (which is not a SuSE mistake). Please visit our <ulink url="http://www.otrs.org/">website</ulink> and download the newest rpm. Your can install the rpm with YaST or manually
+<programlisting>
+rpm -Uvh otrs.rpm
+</programlisting>
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
 What stands OpenTRS for?
 </para>
 </question>

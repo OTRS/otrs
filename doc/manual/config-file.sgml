@@ -1,0 +1,27 @@
+<chapter id="configfile">
+<title>Config Files</title>
+<para>
+The config file is quite simple to read. So you should have any problems. But just in case we will descripe some features in this chapter.
+</para>
+<sect1 id="tickethook">
+<title>TicketHook</title>
+<para>
+Your can configure the value of the TicketHook which is the first part of the subject of each e-mail (e.g. [MyTicket: 007]).
+</para>
+<example>
+<title>TicketHook</title>
+<programlisting>
+[...]
+Kernel/Config.pm
+[...]
+
+    # TicketHook
+    # (To set the Ticket identifier. Some people want to  
+    # set this to e. g. 'Call#', 'MyTicket#' or 'TN'.)     
+    $Self->{TicketHook} = 'Ticket#',              
+
+[...]
+</programlisting>
+</example>
+</sect1>
+</chapter>
