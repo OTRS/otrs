@@ -2,7 +2,7 @@
 # Language.pm - provides multi language support
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.3 2002-02-21 22:09:49 martin Exp $
+# $Id: Language.pm,v 1.4 2002-04-22 22:21:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Language::English;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,7 @@ sub new {
     my @Languages = ('German', 'English');
 
     # user language
-    $Self->{Language} = $Param{Language} || 'German';
+    $Self->{Language} = $Param{Language} || 'English';
 
     # Debug
     if ($Self->{Debug} > 0) {
