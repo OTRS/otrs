@@ -2,7 +2,7 @@
 # QueueView.dtl - provides HTML QueueView for AgentQueueView.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: QueueView.dtl,v 1.6 2003-04-12 09:08:34 martin Exp $
+# $Id: QueueView.dtl,v 1.7 2003-09-30 17:05:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@
 <tr>
   <td class="table2">
   $Text{"Tickets shown"}: $Data{"Result"} -
-  Page: $Data{"PageNavBar"} -
+  $Text{"Page"}: $Data{"PageNavBar"} -
   $Text{"Tickets available"}: $Data{"TicketsAvail"} -
   $Text{"All tickets"}: $Data{"AllTickets"} 
 #  $Text{"Sub Tickets available"}: $Data{"AllSubTickets"} -
