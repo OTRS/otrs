@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PreferencesPassword.pm,v 1.2 2005-03-27 11:40:34 martin Exp $
+# $Id: PreferencesPassword.pm,v 1.3 2005-04-06 05:25:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -80,29 +80,29 @@ sub Run {
     }
 
     if ($Pw ne $Pw1) {
-        $Self->{Error} = "Passwords dosn't match! Please try it again!";
+        $Self->{Error} = "Can\'t update password, passwords dosn\'t match! Please try it again!";
         return;
     }
     # check pw
-    if ($Pw !~ /[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?/) {
-#        $Self->{Error} = 'Erlaubte Zeichen sind: a-zA-z0-9.;,:-+#!\$&?!';
-#        return;
+    if ($Self->{ConfigItem}->{PasswordRegExp} && $Pw !~ /$Self->{ConfigItem}->{PasswordRegExp}/) {
+        $Self->{Error} = 'Can\'t update password, invalid characters!';
+        return;
     }
-    if ($Pw !~ /^......../) {
-#        $Self->{Error} = 'Passwort muss min. 8 Zeichen lang sein!';
-#       return;
+    if ($Self->{ConfigItem}->{PasswordMinSize} && $Pw !~ /^.{$Self->{ConfigItem}->{PasswordMinSize}}/) {
+        $Self->{Error} = 'Can\'t update password, need min. 8 characters!';
+       return;
     }
-    if ($Pw !~ /[A-Z]/ || $Pw !~ /[a-z]/) {
-#        $Self->{Error} = 'Im Passwort muss mindestens ein großgeschriebener und ein kleingeschriebener Buchstabe enthalten sein!';
-#       return;
+    if ($Self->{ConfigItem}->{PasswordMin2Lower2UpperCharacters} && ($Pw !~ /[A-Z]/ || $Pw !~ /[a-z]/)) {
+        $Self->{Error} = 'Can\'t update password, need 2 lower and 2 upper characters!';
+       return;
     }
-    if ($Pw !~ /\d/) {
-#        $Self->{Error} = 'Passwort muss mit eine Zahl enthalten!';
-#       return;
+    if ($Self->{ConfigItem}->{PasswordNeedDigit} && $Pw !~ /\d/) {
+        $Self->{Error} = 'Can\'t update password, need min. 1 digit!';
+       return;
     }
-    if ($Pw !~ /[A-z][A-z]/) {
-#        $Self->{Error} = 'Passwort muss zwei Buchstaben enthalten!';
-#        return;
+    if ($Self->{ConfigItem}->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/) {
+        $Self->{Error} = 'Can\'t update password, need min. 2 characters!';
+        return;
     }
     # check current pw
     if ($Param{UserData}->{UserPw} && (crypt($Pw, $Param{UserData}->{UserLogin}) eq $Param{UserData}->{UserPw})) {

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.191 2005-03-27 11:50:49 martin Exp $
+# $Id: Defaults.pm,v 1.192 2005-04-06 05:25:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.191 $';
+$VERSION = '$Revision: 1.192 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -667,6 +667,12 @@ sub LoadDefaults {
         Colum => 'Other Options',
         Label => 'Change Password',
         Prio => 1000,
+#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
+        PasswordRegExp => '',
+        PasswordMinSize => 0,
+        PasswordMin2Lower2UpperCharacters => 0,
+        PasswordMin2Characters => 0,
+        PasswordNeedDigit => 0,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
@@ -1094,6 +1100,12 @@ Your OTRS Notification Master
         Colum => 'Other Options',
         Label => 'Change Password',
         Prio => 1000,
+#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
+        PasswordRegExp => '',
+        PasswordMinSize => 0,
+        PasswordMin2Lower2UpperCharacters => 0,
+        PasswordMin2Characters => 0,
+        PasswordNeedDigit => 0,
         Activ => 1,
     };
     $Self->{CustomerPreferencesGroups}->{Language} = {
@@ -1647,6 +1659,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.191 $ $Date: 2005-03-27 11:50:49 $
+$Revision: 1.192 $ $Date: 2005-04-06 05:25:43 $
 
 =cut
