@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.12 2002-06-13 22:07:41 martin Exp $
+# $Id: AgentQueueView.pm,v 1.13 2002-06-17 07:46:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -128,7 +128,7 @@ sub Run {
     if ($QueueID == 0) {
         @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
             UserID => $Self->{UserID}
-        ) || 0;
+        );
     }
     else {
         @ViewableQueueIDs = ($QueueID);
@@ -150,15 +150,15 @@ sub Run {
     my $SQL = "SELECT st.id, st.queue_id FROM " .
     " ticket st, ticket_state tsd, ticket_lock_type slt " .
     " WHERE " .
+    " tsd.id = st.ticket_state_id " .
+    " AND " .
+    " slt.id = st.ticket_lock_id " .
+    " AND " .
     " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
     " AND " .
     " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) " .
     " AND ".
     " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
-    " AND " .
-    " tsd.id = st.ticket_state_id " .
-    " AND " .
-    " slt.id = st.ticket_lock_id " .
     " ORDER BY st.ticket_priority_id DESC, st.create_time_unix ASC ";
 
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
@@ -223,19 +223,19 @@ sub ShowTicket {
         " FROM " .
         " article sa, ticket st, ticket_priority sp, ticket_state sd, article_sender_type sdt, queue sq " .
         " WHERE " .
-        " sa.ticket_id = $TicketID " .
-        " AND " .
         " sa.ticket_id = st.id " .
         " AND " .
         " sa.article_sender_type_id = sdt.id " .
-        " AND " .
-        " sdt.name in ( ${\(join ', ', @ViewableSenderTypes)} ) " .
         " AND " .
         " sq.id = st.queue_id" .
         " AND " .
         " sp.id = st.ticket_priority_id " .
         " AND " .
         " st.ticket_state_id = sd.id " .
+        " AND " .
+        " sa.ticket_id = $TicketID " .
+        " AND " .
+        " sdt.name in ( ${\(join ', ', @ViewableSenderTypes)} ) " .
         " ORDER BY sa.create_time DESC ";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
@@ -321,11 +321,12 @@ sub BuildQueueView {
           " FROM " .
           " ticket st, ticket_state tsd " .
           " WHERE " .
+          " tsd.id = st.ticket_state_id ".
+          " AND " .
           " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
           " and " .
           " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) " .
-          " AND " .
-          " tsd.id = st.ticket_state_id ";
+          " ";
 
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -337,7 +338,7 @@ sub BuildQueueView {
     # CustomQueue add on
     # --
     my $SQL = "SELECT count(*) FROM " .
-    " ticket as st, queue as sq, group_user as sug, personal_queues as suq, " .
+    " ticket as st, queue as sq, personal_queues as suq, " .
     " ticket_state tsd, ticket_lock_type slt " .
     " WHERE " .
     " st.ticket_state_id = tsd.id " .
@@ -346,19 +347,16 @@ sub BuildQueueView {
     " AND " .
     " st.ticket_lock_id = slt.id " .
     " AND " .
-    " st.group_id = sug.group_id" .
-    " AND " .
-    # get all custom queues
-    " suq.user_id = $Self->{UserID} " .
-    " AND " .
-    " suq.queue_id = sq.id " .
-    " AND " .
-    " sug.user_id = $Self->{UserID} " .
-    #/ get all custom queues /
+    " suq.queue_id = st.queue_id " .
     " AND " .
     " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
     " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) ";
+    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
+    " AND " .
+    # get all custom queues
+    " suq.user_id = $Self->{UserID} " .
+    #/ get all custom queues /
+    "";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -454,10 +452,11 @@ sub CheckOldTickets {
     # get data (viewable tickets...)
     # --
     my @TicketIDsOverTime = ();
+    my %TicketIDs = ();
     my @ViewableLocks = @{$Self->{ViewableLocks}};
     my @ViewableStats = @{$Self->{ViewableStats}};
 
-    my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ". 
+    my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
     " q.name, q.escalation_time ".
     " FROM ".
     " article a, article_sender_type ast, queue q, ticket t, ".
@@ -475,21 +474,25 @@ sub CheckOldTickets {
     " AND ".
     " q.group_id = ug.group_id ".
     " AND ".
-    " ug.user_id = $Self->{UserID} " .
-    " AND ".
     " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
     " AND " .
     " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
     " AND " .
+    " ug.user_id = $Self->{UserID} " .
+    " AND ".
     " ast.name = 'customer' ".
     " AND " .
     " t.ticket_answered != 1 ".
-#    " GROUP BY t.id ".
+    " AND " .
+    " q.escalation_time != 0 ".
+#    " GROUP BY t.id, t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
+#    " q.name, q.escalation_time, t.ticket_priority_id ".
     " ORDER BY t.ticket_priority_id, a.incoming_time ASC";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-      if ($RowTmp[6]) {
+      if ($RowTmp[6] && !exists($TicketIDs{$RowTmp[1]})) {
+         $TicketIDs{$RowTmp[1]} = 1;
          my $OverTime = (time() - ($RowTmp[4] + ($RowTmp[6]*60))); 
          my $Data = {
               TicketID => $RowTmp[1],
