@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.8 2002-07-15 22:10:17 martin Exp $
+# $Id: Queue.pm,v 1.9 2002-07-21 17:17:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -22,17 +22,15 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     $Self->{QueueID} = $Param{QueueID} || ''; #die "Got no QueueID!";
-    $Self->{DBObject} = $Param{DBObject} || die "Got no DBObject!";
-    
-    # If ConfigObject is passed use it, if not passed dont complain
-    # Currently otrs.addQueue is passing the ConfigObject
-    # Eventually others may too
-    if ($Param{ConfigObject}) {
-       $Self->{ConfigObject} = $Param{ConfigObject};
+
+    # check needed objects
+    foreach (qw(DBObject ConfigObject LogObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     return $Self;
@@ -314,20 +312,6 @@ sub QueueAdd {
        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || ''; #Ooooh what does this button do?
    };
 
-   unless ($Self->{ConfigObject}) {
-      # why is this module not loading Config?
-      # almost anything should have acess to Config
-      # Note: otrs.addQueue is passing the ConfigObject
-      # If the ConfigObject is not present, then it will
-      # be imported
-      require Kernel::Config;
-      import Kernel::Config;
-
-      #bring in the missing Config Object
-      $Self->{ConfigObject}=Kernel::Config->new();
-   }
-
-
    for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock)) {
       # these are coming from Config.pm
       # I added default values in the Load Routine
@@ -430,6 +414,96 @@ sub GetTicketIDsByQueue {
     }
     return %Tickets;
 }   
+# --
+sub QueueGet {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
+    }
+    # --
+    # sql 
+    # --
+     my $SQL = "SELECT name, group_id, unlock_timeout, " .
+        " system_address_id, salutation_id, signature_id, comment, valid_id, " .
+        " escalation_time, follow_up_id, follow_up_lock " .
+        " FROM " .
+        " queue " .
+        " WHERE " .
+        " id = $Param{ID}";
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        my @Data = $Self->{DBObject}->FetchrowArray();
+        my %QueueData = (
+            QueueID => $Param{ID},
+            Name => $Data[0],
+            GroupID => $Data[1],
+            UnlockTimeout => $Data[2],
+            EscalationTime => $Data[8],
+            FollowUpID => $Data[9],
+            FollowUpLock => $Data[10],
+            SystemAddressID => $Data[3],
+            SalutationID => $Data[4],
+            SignatureID => $Data[5],
+            Comment => $Data[6],
+            ValidID => $Data[7],
+        );
+        return %QueueData;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub QueueUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # db quote
+    # --
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    # check !!!
+    $Param{UnlockTimeout} = 0 if (!$Param{UnlockTimeout});
+    $Param{EscalationTime} = 0 if (!$Param{EscalationTime});
+    $Param{FollowUpLock} = 0 if (!$Param{FollowUpLock});
+    # --
+    # sql
+    # --
+    my $SQL = "UPDATE queue SET name = '$Param{Name}', " .
+        " comment = '$Param{Comment}', " .
+        " group_id = $Param{GroupID}, " .
+        " unlock_timeout = $Param{UnlockTimeout}, " .
+        " escalation_time = $Param{EscalationTime}, " .
+        " follow_up_id = $Param{FollowUpID}, " .
+        " follow_up_lock = $Param{FollowUpLock}, " .
+        " system_address_id = $Param{SystemAddressID}, " .
+        " salutation_id = $Param{SalutationID}, " .
+        " signature_id = $Param{SignatureID}, " .
+        " valid_id = $Param{ValidID}, " .
+        " change_time = current_timestamp, " .
+        " change_by = $Param{UserID} " .
+        " WHERE id = $Param{QueueID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
 # --
 
 1;
