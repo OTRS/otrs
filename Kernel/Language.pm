@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.34 2004-09-10 16:17:23 martin Exp $
+# $Id: Language.pm,v 1.35 2004-12-04 11:13:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -107,7 +107,7 @@ sub new {
         );
     }
     # load action text catalog ...
-    if ($Param{Action} && eval "require Kernel::Language::$Self->{UserLanguage}_$Param{Action}") {
+    if (!$Param{TranslationFile} && $Param{Action} && eval "require Kernel::Language::$Self->{UserLanguage}_$Param{Action}") {
        @ISA = ("Kernel::Language::$Self->{UserLanguage}_$Param{Action}");
        $Self->Data();
        if ($Self->{Debug} > 0) {
@@ -118,7 +118,7 @@ sub new {
         }
     }
     # load custom text catalog ...
-    if (eval "require Kernel::Language::$Self->{UserLanguage}_Custom") {
+    if (!$Param{TranslationFile} && eval "require Kernel::Language::$Self->{UserLanguage}_Custom") {
        @ISA = ("Kernel::Language::$Self->{UserLanguage}_Custom");
        $Self->Data();
        if ($Self->{Debug} > 0) {
@@ -264,9 +264,13 @@ sub FormatTimeString {
     my $Self = shift;
     my $String = shift || return;
     my $Config = shift || 'DateFormat';
+    my $Short  = shift || 0;
     my $ReturnString = $Self->{$Config} || "$Config needs to be translated!";
     if ($String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/) {
         my ($Y,$M,$D, $T) = ($1, $2, $3, $4);
+        if ($Short) {
+            $T =~ s/(\d\d:\d\d):\d\d/$1/g;
+        }
         $ReturnString =~ s/\%T/$T/g;
         $ReturnString =~ s/\%D/$D/g;
         $ReturnString =~ s/\%M/$M/g;
@@ -436,74 +440,6 @@ sub CharsetConvert {
         Text => $Text,
     );
 }
-# --
-sub DESTROY {
-    my $Self = shift;
-    if (!$Self->{WriteNewTranslationFile}) {
-        return 1;
-    }
-    if ($Self->{UsedWords}) {
-        my %UniqWords = ();
-        my $Data = '';
-        my %Screens = %{$Self->{UsedWords}};
-        if (!$Self->{ConfigObject}->Get('FileTranslation')) {
-            $Data .= "    # possible charsets\n".
-                     "    \$Self->{Charset} = [";
-            if ($Self->{Charset}) {
-                foreach (@{$Self->{Charset}}) {
-                    $Data .= "'$_', ";
-                }
-            }
-            $Data .= "];\n".
-                 "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n".
-                 "    \$Self->{DateFormat} = '$Self->{DateFormat}';\n".
-                 "    \$Self->{DateFormatLong} = '$Self->{DateFormatLong}';\n".
-                 "    \$Self->{DateInputFormat} = '$Self->{DateInputFormat}';\n".
-                 "    \$Self->{DateInputFormatLong} = '$Self->{DateInputFormatLong}';\n\n".
-                 "    \%Hash = (";
-        }
-        foreach my $Screen (sort keys %Screens) {
-            my %Words = %{$Screens{$Screen}};
-            if ($Screen) {
-                $Data .= "\n    # Template: $Screen\n";
-                foreach my $Key (sort {uc($a) cmp uc($b)} keys %Words) {
-                    if (!$UniqWords{$Key} && $Key) {
-                        $UniqWords{$Key} = 1;
-                        my $QuoteKey = $Key;
-                        $QuoteKey =~ s/'/\\'/g;
-                        if (defined $Words{$Key}) {
-                            $Words{$Key} =~ s/'/\\'/g;
-                        }
-                        else {
-                            $Words{$Key} = '';
-                        }
-                        $Data .= "      '$QuoteKey' => '$Words{$Key}',\n";
-                    }
-                }
-            }
-        }
-        if ($Self->{ConfigObject}->Get('FileTranslation')) {
-            return $Data;
-        }
-        $Data .= "\n    # Misc\n";
-        foreach my $Key (sort keys %{$Self->{Translation}}) {
-            if (!$UniqWords{$Key} && $Key && $Self->{Translation}->{$Key} !~ /HASH\(/) {
-                $UniqWords{$Key} = 1;
-                my $QuoteKey = $Key;
-                $QuoteKey =~ s/'/\\'/g;
-                if (defined $Self->{Translation}->{$Key}) {
-                    $Self->{Translation}->{$Key} =~ s/'/\\'/g;
-                }
-                else {
-                    $Self->{Translation}->{$Key} = '';
-                }
-                $Data .= "      '$QuoteKey' => '$Self->{Translation}->{$Key}',\n";
-            }
-        }
-        $Data .= "    );\n";
-        return $Data;
-    }
-}
 
 1;
 
@@ -519,6 +455,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2004-09-10 16:17:23 $
+$Revision: 1.35 $ $Date: 2004-12-04 11:13:27 $
 
 =cut
