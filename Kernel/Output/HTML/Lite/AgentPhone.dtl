@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.2 2002-07-31 23:17:23 martin Exp $
+# $Id: AgentPhone.dtl,v 1.3 2002-10-15 09:20:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,6 @@
 <form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="AgentPhone">
 <input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">

@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.3 2002-08-04 14:43:52 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.4 2002-10-15 09:20:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -54,7 +54,6 @@ function submit_compose()
 <form action="$Env{"CGIHandle"}" method="post" name="compose">
 <input type="hidden" name="Action" value="AgentPhone">
 <input type="hidden" name="Subaction" value="StoreNew">
-<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">

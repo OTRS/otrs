@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.11 2002-10-05 16:28:41 martin Exp $
+# $Id: AgentPhone.pm,v 1.12 2002-10-15 09:20:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -74,8 +74,8 @@ sub Run {
         # get next states
         my %NextStates;
         my $NextComposeTypePossibleTmp =
-           $Self->{ConfigObject}->Get('DefaultPhoneNextStatePossible')
-             || die 'No Config entry "DefaultPhoneNextStatePossible"!';
+           $Self->{ConfigObject}->Get('PhoneDefaultNextStatePossible')
+             || die 'No Config entry "PhoneDefaultNextStatePossible"!';
         my @NextComposeTypePossible = @$NextComposeTypePossibleTmp;
         foreach (@NextComposeTypePossible) {
             $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
@@ -216,16 +216,16 @@ sub Run {
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,
-            ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('DefaultPhoneSenderType'),
+            ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultArticleType'),
+            SenderType => $Self->{ConfigObject}->Get('PhoneDefaultSenderType'),
             From => $UserLogin,
             To => $UserLogin,
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
             UserID => $UserID, 
-            HistoryType => $Self->{ConfigObject}->Get('DefaultPhoneHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('DefaultPhoneHistoryComment'),
+            HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultHistoryType'),
+            HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultHistoryComment'),
         )) {
           # --
           # time accounting
@@ -306,16 +306,16 @@ sub Run {
 
       if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,
-            ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneNewArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('DefaultPhoneNewSenderType'),
+            ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultNewArticleType'),
+            SenderType => $Self->{ConfigObject}->Get('PhoneDefaultNewSenderType'),
             From => $From,
             To => $UserLogin,
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
             UserID => $UserID,
-            HistoryType => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryComment'),
+            HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryType'),
+            HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryComment'),
             AutoResponseType => 'auto reply',
             OrigHeader => {
               From => $From,
