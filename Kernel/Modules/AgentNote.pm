@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.16 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentNote.pm,v 1.17 2003-02-08 22:40:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentNote;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -106,7 +106,8 @@ sub Run {
     }
     elsif ($Subaction eq 'Store') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
+        my $Text = $Self->{ParamObject}->GetParam(Param => 'Note') || 
+            $Self->{ParamObject}->GetParam(Param => 'Body');
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0; 
         if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
@@ -132,6 +133,22 @@ sub Run {
               TimeUnit => $TimeUnits,
               UserID => $UserID,
             );
+          }
+          # --
+          # get attachment
+          # -- 
+          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+              Param => 'file_upload', 
+              Source => 'String',
+          );
+          if (%UploadStuff) {
+              $Self->{TicketObject}->WriteArticlePart(
+                  Content => $UploadStuff{UploadFilename},
+                  Filename => $UploadStuff{UploadRealFileName},
+                  ContentType => $UploadStuff{UploadContentType},
+                  ArticleID => $ArticleID, 
+                  UserID => $UserID, 
+              );
           }
           # --
           # redirect
