@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerHeader.dtl,v 1.10 2004-12-02 00:39:44 martin Exp $
+# $Id: CustomerHeader.dtl,v 1.11 2004-12-23 06:40:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@ $Include{"Copyright"}
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>OTRS :: CPanel :: $Text{"$Data{"Title"}"}</title>
+    <title>$Config{"ProductName"} :: CPanel :: $Text{"$Data{"Title"}"}</title>
 # include customer-css.dtl file
 $Include{"customer-css"}
 </head>
@@ -48,7 +48,7 @@ $Include{"customer-css"}
   <td class="header"> <a href="" class="headeritem">COMPANY NAME</a> </td>
 </tr>
 <tr>
-  <td class="navbar" valign="top"> 
+  <td class="navbar" valign="top">
     <p>
     <li>$Text{"Home"}</li>
     <li>$Text{"Products"}</li>
