@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.36 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentClose.pm,v 1.37 2004-08-19 15:44:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,17 +15,17 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-    # allocate new hash for object    
+    # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -48,13 +48,10 @@ sub Run {
     # check needed stuff
     if (!$Self->{TicketID}) {
         # error page
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => "Can't close Ticket, no TicketID is given!",
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need TicketID!",
             Comment => 'Please contact the admin.',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # check permissions
     if (!$Self->{TicketObject}->Permission(
@@ -64,9 +61,9 @@ sub Run {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    
+
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
-    
+
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
@@ -97,13 +94,9 @@ sub Run {
             Action => $Self->{Action},
             Type => 'move',
         );
-        # -- 
         # html header
-        # --
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Close');
-        # --
         # get lock state
-        # --
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             $Self->{TicketObject}->LockSet(
                 TicketID => $Self->{TicketID},
@@ -132,9 +125,7 @@ sub Run {
                 return $Output;
             }
         }
-        # --
         # print form ...
-        # --
         $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},
             TicketNumber => $Tn,
@@ -152,7 +143,7 @@ sub Run {
         my $StateID = $Self->{ParamObject}->GetParam(Param => 'CloseStateID');
         my $NoteID = $Self->{ParamObject}->GetParam(Param => 'CloseNoteID');
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Text') || 
+        my $Text = $Self->{ParamObject}->GetParam(Param => 'Text') ||
             $Self->{ParamObject}->GetParam(Param => 'Body');
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         my $DestQueueID = $Self->{ParamObject}->GetParam(Param => 'DestQueueID') || '';
@@ -210,31 +201,23 @@ sub Run {
           }
         }
         else {
-          # error screen
-          $Output .= $Self->{LayoutObject}->Header();
-          $Output .= $Self->{LayoutObject}->Error(
-            Comment => 'Please contact your admin'
-          );
-          $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
+            # error screen
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     else {
         # error screen
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => 'Wrong Subaction!!',
             Comment => 'Please contact your admin'
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
 }
 # --
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
-    
+
     # build string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStatesStrg},
@@ -244,7 +227,7 @@ sub _Mask {
     $Param{'NoteTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NoteTypesStrg},
         Name => 'CloseNoteID'
-    ); 
+    );
     # get MoveQueuesStrg
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Name => 'DestQueueID',
