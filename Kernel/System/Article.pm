@@ -2,7 +2,7 @@
 # Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.8 2002-06-13 13:16:32 martin Exp $
+# $Id: Article.pm,v 1.9 2002-07-02 08:42:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -58,13 +58,6 @@ sub CreateArticleDB {
     my $ArticleType	= $Param{ArticleType};
     my $SenderTypeID 	= $Param{SenderTypeID};
     my $SenderType	= $Param{SenderType};
-    my $From 		= $Param{From} || '';
-    my $ReplyTo		= $Param{ReplyTo} || '';
-    my $To 		= $Param{To} || '';
-    my $Cc 		= $Param{Cc} || '';
-    my $Subject 	= $Param{Subject} || '';
-    my $MessageID 	= $Param{MessageID} || '';
-    my $Body 		= $Param{Body} || 'no body found!';
     my $ValidID 	= $Param{ValidID} || 1;
     my $CreateUserID	= $Param{CreateUserID};
     my $ContentPath     = $Self->{ContentPath};
@@ -79,30 +72,33 @@ sub CreateArticleDB {
     }
 
     # DB Quoting
-    $From = $Self->{DBObject}->Quote($From) || '';
-    $To = $Self->{DBObject}->Quote($To) || '';
-    $Cc = $Self->{DBObject}->Quote($Cc) || '';
-    $ReplyTo = $Self->{DBObject}->Quote($ReplyTo) || '';
-    $Subject = $Self->{DBObject}->Quote($Subject) || '';
-    $Body = $Self->{DBObject}->Quote($Body) || '';
-    $MessageID = $Self->{DBObject}->Quote($MessageID) || '';
+    foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    if (!$Param{Body}) {
+         $Param{Body} = 'no body found!';
+    }
     $ContentPath = $Self->{DBObject}->Quote($ContentPath) || '';
 
     # do db insert
-    my $SQL = "INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
-	" a_cc, a_subject, a_message_id, a_body, content_path, valid_id, incoming_time, " .
-	" create_time, create_by, change_time, change_by) " .
-	"VALUES ($TicketID, $ArticleTypeID, $SenderTypeID, '$From', '$ReplyTo', '$To', '$Cc', '$Subject', ". 
-	" '$MessageID', '$Body', '$ContentPath', $ValidID,  $IncomingTime, " .
+    my $SQL = "INSERT INTO article ".
+    " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
+	" a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, ".
+    " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
+	" VALUES ".
+    " ($TicketID, $ArticleTypeID, $SenderTypeID, '$Param{From}', '$Param{ReplyTo}', ".
+    " '$Param{To}', '$Param{Cc}', '$Param{Subject}', ". 
+	" '$Param{MessageID}', '$Param{Body}', '$Param{ContentType}', '$ContentPath', ".
+    " $ValidID,  $IncomingTime, " .
 	" current_timestamp, $CreateUserID, current_timestamp, $CreateUserID)";
     $Self->{DBObject}->Do(SQL => $SQL);
 
     # get article id 
     my $ArticleID = $Self->GetIdOfArticle(
         TicketID => $TicketID,
-        MessageID => $MessageID,
-        From => $From,
-        Subject => $Subject,
+        MessageID => $Param{MessageID},
+        From => $Param{From},
+        Subject => $Param{Subject},
         IncomingTime => $IncomingTime
     );
 
@@ -343,6 +339,7 @@ sub GetArticle {
     my $SenderType = 'customer';
     my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
     " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time " .
+    " a_content_type " .
     " FROM " .
     " article at, article_sender_type st" .
     " WHERE " .
@@ -360,6 +357,13 @@ sub GetArticle {
         $Data{Body} = $RowTmp[6];
         $Data{TicketID} = $RowTmp[7];
         $Data{Date} = $RowTmp[8];
+        $Data{ContentType} = $RowTmp[9];
+        if ($RowTmp[9] && $Data{ContentType} =~ /charset=(.*)(| |\n)/i) {
+            $Data{ContentCharset} = $1;
+        }
+        if ($RowTmp[9] && $Data{ContentType} =~ /^(.+?\/.+?)( |;)/i) {
+            $Data{MimeType} = $1;
+        } 
     }
     return %Data;
 }
