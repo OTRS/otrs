@@ -2,7 +2,7 @@
 # InstallerFinish.dtl - provides HTML form for Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerFinish.dtl,v 1.3 2002-05-06 00:00:33 martin Exp $
+# $Id: InstallerFinish.dtl,v 1.4 2002-05-20 23:26:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ $Data{"Setup"}
 </p>
 
 <dtl set $Data{"Wishes"} = "-">
-<dtl if ($Data{"Ready"} eq "1") { $Data{"Wishes"} = "<b><font color='red'>Restart OpenTRS with 'rcotrs restart'</font></p><p> Start page: <a href="http://$Env{"HTTP_HOST"}/otrs/index.pl">http://$Env{"HTTP_HOST"}/otrs/index.pl</a><br><br>user: root@localhost<br>pw: root<br><br>and configure your system (User, Queues, Responses, ...).<br><br>Have a lot of fun! Your OpenTRS Team</b>"; }>
+<dtl if ($Data{"Ready"} eq "1") { $Data{"Wishes"} = "<b><font color='red'>Restart OpenTRS with 'rcotrs restart-force'</font></p><p> Start page: <a href="http://$Env{"HTTP_HOST"}/otrs/index.pl">http://$Env{"HTTP_HOST"}/otrs/index.pl</a><br><br>user: root@localhost<br>pw: root<br><br>and configure your system (User, Queues, Responses, ...).<br><br>Have a lot of fun! Your OpenTRS Team</b>"; }>
 <p>
 $Data{"Wishes"}
 </p>
