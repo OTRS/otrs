@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OTRS
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.15 2003-03-08 09:14:23 martin Exp $
+# $Id: pic.pl,v 1.16 2003-03-09 15:07:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -159,12 +159,10 @@ EOF
       $Pic = GetImage($Param{Pic}, '', \%CommonObject) 
        || GetImage('help.gif', '', \%CommonObject);
     }
-    print <<EOF
-Content-Disposition: attachment; filename=$Param{Pic}
-Content-Type: $ContentType 
-
-$Pic
-EOF
+    print "Content-Type: $ContentType\n"; 
+    print "Content-Disposition: inline; filename=$Param{Pic}\n";
+    print "\n";
+    print "$Pic\n";
   }
 }
 # --
