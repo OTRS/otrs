@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.66 2004-05-11 08:40:11 martin Exp $
+# $Id: AgentZoom.pm,v 1.67 2004-05-11 08:45:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -391,7 +391,7 @@ sub MaskAgentZoom {
         if ($Article{Atms}) {
             %AtmIndex = %{$Article{Atms}};
         }
-        $Article{"ATM"} = '<table border="0" cellspacing="1" cellpadding="3">';
+        $Article{"ATM"} = '<table border="0" cellspacing="0" cellpadding="1">';
         foreach my $FileID (keys %AtmIndex) {
             my %File = %{$AtmIndex{$FileID}};
             # check viewer
