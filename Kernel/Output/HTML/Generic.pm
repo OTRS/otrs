@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.164 2004-12-02 11:24:38 martin Exp $
+# $Id: Generic.pm,v 1.165 2004-12-04 10:53:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.164 $';
+$VERSION = '$Revision: 1.165 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -902,13 +902,16 @@ sub Login {
         OnChange => 'submit()',
         HTMLQuote => 0,
     );
-    # create & return output
-    $Output .= $Self->Output(TemplateFile => 'Login', Data => \%Param);
     # get lost password y
     if ($Self->{ConfigObject}->Get('LostPassword')
          && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB') {
-        $Output .= $Self->Output(TemplateFile => 'LostPassword', Data => \%Param);
+        $Self->Block(
+            Name => 'LostPassword',
+            Data => \%Param,
+        );
     }
+    # create & return output
+    $Output .= $Self->Output(TemplateFile => 'Login', Data => \%Param);
     return $Output;
 }
 # --

@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.12 2004-10-22 11:32:02 martin Exp $
+# $Id: Login.dtl,v 1.13 2004-12-04 10:53:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,18 +42,18 @@ $Include{"css"}
 
 <table border="0" cellspacing="0" cellpadding="3" width="250">
 <tr>
-  <td align="center" class="mainhead">$Text{"Welcome to OTRS"}</td>
+  <td align="center" class="singleboxhead">$Text{"Welcome to OTRS"}</td>
 </tr>
 <tr>
-  <td align="center" class="mainbody">
+  <td align="center" class="singleboxbody">
     <table cellspacing="8" cellpadding="2">
     <tr>
-      <td>$Text{"User"}:</td>
-      <td><input type="text" name="User" value="$QData{"User"}" size="18"></td>
+      <td class="singleboxkey">$Text{"User"}:</td>
+      <td class="singleboxvalue"><input type="text" name="User" value="$QData{"User"}" size="18"></td>
     </tr>
     <tr>
-      <td>$Text{"Password"}:</td>
-      <td><input type="password" name="Password" size="18"></td>
+      <td class="singleboxkey">$Text{"Password"}:</td>
+      <td class="singleboxvalue"><input type="password" name="Password" size="18"></td>
     </tr>
     </table>
   <input class="button" type="submit" value="$Text{"Login"}">
@@ -72,14 +72,14 @@ $Include{"css"}
 
 <table border="0" cellspacing="0" cellpadding="3" width="250">
 <tr>
-  <td align="center" class="mainhead">$Text{"Language"}</td>
+  <td align="center" class="singleboxhead">$Text{"Language"}</td>
 </tr>
 <tr>
-  <td align="center" class="mainbody">
+  <td align="center" class="singleboxbody">
     <table cellspacing="8" cellpadding="2">
     <tr>
-      <td>$Text{"Language"}:</td>
-      <td>$Data{"Language"}</td>
+      <td class="singleboxkey">$Text{"Language"}:</td>
+      <td class="singleboxvalue">$Data{"Language"}</td>
     </tr>
     </table>
   <input class="button" type="submit" value="$Text{"submit"}">
@@ -88,6 +88,35 @@ $Include{"css"}
 </table>
 </form>
 </p>
+
+<!-- dtl:block:LostPassword -->
+<p>
+<center>
+<table border="0" cellspacing="0" cellpadding="3" width="250">
+<tr>
+  <td align="center" class="singleboxhead">$Text{"Lost your password?"}</td>
+</tr>
+<tr>
+  <td align="center" class="singleboxbody">
+    <i class="table1"><font size="-2">($Text{"Request new password"})</font></i>
+    <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="Action" value="LostPassword">
+    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+    <table cellspacing="8" cellpadding="2">
+    <tr>
+      <td class="singleboxkey">$Text{"User"}:</td>
+      <td class="singleboxbody"><input type="text" name="User" value="" size="18"></td>
+    </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"submit"}">
+    </form>
+  </td>
+</tr>
+</table>
+</center>
+</p>
+<!-- dtl:block:LostPassword -->
+
 # --
 # Message of the day data!
 # --
