@@ -2,7 +2,7 @@
 # CodingStyleGuide.txt - a short style decription
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CodingStyleGuide.txt,v 1.1 2001-12-02 18:25:34 martin Exp $
+# $Id: CodingStyleGuide.txt,v 1.2 2001-12-02 18:30:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,8 +12,8 @@
 In order to preserve the consistent development of OpenTRS project we 
 have set up a few guidelines regarding style.
 
-1.Formatting
-============
+1. Formatting
+=============
 
 TAB: We use the standard tab for spacing, equal to 4 spaces.
 ----
@@ -35,8 +35,8 @@ Braces:
  --
 
 
-2.Naming
-========
+2. Naming
+=========
 
 Names and comments are written in English. 
 
@@ -53,7 +53,7 @@ Attach the following header to each source file.
 # <file name> - a short decription what it does.
 # Copyright (C) <year> <name of author> <email of author>
 # --
-# $Id: CodingStyleGuide.txt,v 1.1 2001-12-02 18:25:34 martin Exp $
+# $Id: CodingStyleGuide.txt,v 1.2 2001-12-02 18:30:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
