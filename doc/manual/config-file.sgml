@@ -42,6 +42,64 @@ The OpenTRS full qualified domain name. Will be used for email messages id's.
 </example>
 </sect1>
 
+<sect1>
+<title>Log</title>
+<para>
+The OpenTRS log method (since 0.5 Beta8). 
+</para>
+<example>
+<title>Kernel/Config.pm - LogModule</title>
+<programlisting>
+[...]
+    # ----------------------------------------------------#
+    # log settings                                        #
+    # ----------------------------------------------------#
+
+    # LogModule
+    # (log backend module)
+    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
+#    $Self->{LogModule} = 'Kernel::System::Log::File';
+
+    # param for LogModule Kernel::System::Log::File (required!)
+#    $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
+[...]
+</programlisting>
+</example>
+</sect1>
+
+<sect1>
+<title>Authentication</title>
+<para>
+The OpenTRS authentication method (since 0.5 Beta7). 
+</para>
+<example>
+<title>Kernel/Config.pm - AuthModule</title>
+<programlisting>
+[...]
+    # ----------------------------------------------------#
+    # authentication settings                             #
+    # (enable what you need, auth against otrs db or      #
+    # against a LDAP directory)                           #
+    # ----------------------------------------------------#
+
+    # This is the auth. module againt the otrs db
+    $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
+
+    # This is an example configuration for an LDAP auth. backend.
+    # (take care that Net::LDAP is installed!)
+#    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
+#    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
+#    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+#    $Self->{'AuthModule::LDAP::UID'} = 'uid';
+    # The following is valid but would only be necessary if the
+    # anonymous user do NOT have permission to read from the LDAP tree 
+#    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
+#    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
+[...]
+</programlisting>
+</example>
+</sect1>
+
 <sect1 id="maxpostmasteremails"> 
 <title>Max. Postmaster email</title> 
 <para> 
@@ -234,12 +292,14 @@ The OpenTRS session management.
     # ----------------------------------------------------#
     # session settings                                    #
     # ----------------------------------------------------#
-    
-    # SessionDriver
-    # (How should be the session-data stored? [sql|fs]
-    # Advantage of sql is that you can split the 
+
+    # SessionModule (replace old SessionDriver!!!)
+    # (How should be the session-data stored? 
+    # Advantage of DB is that you can split the 
     # Frontendserver from the DB-Server. fs is faster.)
-    $Self->{SessionDriver} = 'sql';
+    $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
+#    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
+#    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
     
     # SessionCheckRemoteIP 
     # (If the application is used via a proxy-farm then the 
@@ -259,6 +319,44 @@ The OpenTRS session management.
     # SessionDeleteIfTimeToOld
     # (Delete session's witch are requested and to old?) [0|1]
     $Self->{SessionDeleteIfTimeToOld} = 1;
+
+    # SessionUseCookie
+    # (Should the session management use html cookies?
+    # It's more comfortable to send links -==> if you have a valid 
+    # session, you don't have to login again.) [0|1]
+    # Note: If the client browser disabled html cookies, the system
+    # will work as usual, append SessionID to links!
+    $Self->{SessionUseCookie} = 1;
+[...]
+</programlisting>
+</example>
+</sect1>
+
+<sect1>
+<title>URL login and logout settings</title>
+<para>
+</para>
+<example>
+<title>Kernel/Config.pm - URL login and logout settings</title>
+<programlisting>
+[...]
+    # ----------------------------------------------------#
+    # URL login and logout settings                       #
+    # ----------------------------------------------------#
+
+    # LoginURL
+    # (If this is anything other than '', then it is assumed to be the
+    # URL of an alternate login screen which will be used in place of 
+    # the default one.)
+    $Self->{LoginURL} = '';
+#    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
+
+    # LogoutURL
+    # (If this is anything other than '', it is assumed to be the URL
+    # of an alternate logout page which users will be sent to when they
+    # logout.)
+    $Self->{LogoutURL} = '';
+#    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 [...]
 </programlisting>
 </example>
