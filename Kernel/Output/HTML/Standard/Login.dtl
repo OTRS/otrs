@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.3 2002-05-05 21:57:48 martin Exp $
+# $Id: Login.dtl,v 1.4 2002-05-12 15:06:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,6 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 # --
 <html>
 <head>
-    $Data{"MetaHttpEquiv"}
     <title>OpenTRS :: $Text{"$Data{"Title"}"}</title>
 <style type="text/css">
 <!--
@@ -82,6 +81,9 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 </form>
 </p>
 
+# --
+# Message of the day data!
+# --
 $Data{"Motd"}
 
 </center>
