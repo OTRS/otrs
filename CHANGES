@@ -2,18 +2,22 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.52 2003-01-19 16:40:10 martin Exp $
+# $Id: CHANGES,v 1.53 2003-01-19 18:29:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-1.0 RC2 (2003-01-??)
- - (2002/01/19) added CustomerUser LDAP backend of Wiktor Wodecki
+1.0 RC2 (2003-01-19)
+ - (2002/01/19) added CustomerUser LDAP backend - Thanks to Wiktor Wodecki!
  - (2002/01/19) fixed CustomerUser backend (config options)
  - (2002/01/18) fixed bug 61 (ArticleStorageInit error ) - 
     http://bugs.otrs.org/show_bug.cgi?id=61
+ - (2002/01/17) fixed bug 68 on FreeBSD 4.7 (trying to "compose email" from 
+    the agent interface) - http://bugs.otrs.org/show_bug.cgi?id=68
+ - (2002/01/16) fixed bug 62 (not working command line utilitity) -
+    http://bugs.otrs.org/show_bug.cgi?id=62
  - (2002/01/16) added bin/otrs.checkModules to check installed and 
     required cpan modules
  - (2002/01/15) updated finnish translation! Thanks to Antti Kämäräinen!
@@ -21,6 +25,8 @@
  - (2003/01/14) fixed typos "preferneces != preferences typo" 
     http://lists.otrs.org/pipermail/dev/2003-January/000074.html 
     Thanks to Wiktor Wodecki!
+ - (2003/01/14) fixed bug 59 (Bug in SELECT statement on empty search form) -
+    http://bugs.otrs.org/show_bug.cgi?id=59
  - (2003/01/14) updated french translation! Thanks to Nicolas Goralski!
  - (2003/01/12) added spanisch translation! Thanks to Jorge Becerra!
  - (2003/01/11) fixed AgentPhone bug of Time() in subject - 
