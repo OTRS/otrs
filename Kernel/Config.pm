@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.13 2002-02-03 17:59:21 martin Exp $
+# $Id: Config.pm,v 1.14 2002-02-03 18:16:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -41,9 +41,12 @@ sub Load {
         $Self->{LogObject}->Log(Priority=>'debug', MSG=>'Kernel::Config->Load()');
     }
 
+
     # --
     # system data
     # --
+    # secure mode
+    $Self->{SecureMode} = 0;
     # system ID
     $Self->{SystemID} = 10; 
     # ticket Hook 

@@ -2,7 +2,7 @@
 # Installer.pm - provides the DB installer
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.1 2002-02-03 18:06:22 martin Exp $
+# $Id: Installer.pm,v 1.2 2002-02-03 18:16:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -153,6 +153,7 @@ sub Run {
                 $SetupOutput .= "\$Self->{Database} = '$DB{Database}';<br>";
                 $SetupOutput .= "\$Self->{DatabaseUser} = '$DB{DatabaseUser}';<br>";
                 $SetupOutput .= "\$Self->{DatabasePw} = '$DB{DatabasePw}';<br>";
+                $SetupOutput .= "\$Self->{SecureMode} = 1;<br>";
 
             }
             else {
@@ -229,6 +230,7 @@ sub ReConfigure {
     $Config =~ s/(\$Self->{Database}.*=.*');/\$Self->{Database} = '$Param{Database}';/g;
     $Config =~ s/(\$Self->{DatabaseUser}.*=.*');/\$Self->{DatabaseUser} = '$Param{DatabaseUser}';/g;
     $Config =~ s/(\$Self->{DatabasePw}.*=.*');/\$Self->{DatabasePw} = '$Param{DatabasePw}';/g;
+    $Config =~ s/(\$Self->{SecureMode}.*=.*);/\$Self->{SecureMode} = 1;/g;
 
     open (OUT, "> ../../Kernel/Config.pm") || return "Can't open ../../Kernel/Config.pm: $!";
     print $Config;
