@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQState.pm - to add/update/delete faq categories
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQState.pm,v 1.2 2004-03-05 11:35:09 martin Exp $
+# $Id: FAQState.pm,v 1.3 2004-04-01 13:27:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,6 +113,13 @@ sub _Mask {
         Size => 10,
         Name => 'ID',
         SelectedID => $Param{StateID},
+    );
+
+    $Param{StateTypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { $Self->{FAQObject}->StateTypeList(UserID => $Self->{UserID}) },
+        Size => 10,
+        Name => 'TypeID',
+        SelectedID => $Param{TypeID},
     );
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'FAQStateForm', Data => \%Param);
