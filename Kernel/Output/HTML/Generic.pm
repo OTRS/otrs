@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.117 2004-05-19 10:02:22 martin Exp $
+# $Id: Generic.pm,v 1.118 2004-05-24 18:59:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.117 $';
+$VERSION = '$Revision: 1.118 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1143,7 +1143,7 @@ sub BuildDateSelection {
     $Param{Year} = $Self->OptionStrgHashRef(
         Name => $Prefix.'Year',
         Data => \%Year,
-        SelectedID => $Param{$Prefix.'Year'} || $Y,
+        SelectedID => int($Param{$Prefix.'Year'} || $Y),
     );
     # month
     my %Month = ();
@@ -1154,7 +1154,7 @@ sub BuildDateSelection {
     $Param{Month} = $Self->OptionStrgHashRef(
         Name => $Prefix.'Month',
         Data => \%Month,
-        SelectedID => $Param{$Prefix.'Month'} || $M,
+        SelectedID => int($Param{$Prefix.'Month'} || $M),
     );
     # day
     my %Day = ();
@@ -1165,7 +1165,7 @@ sub BuildDateSelection {
     $Param{Day} = $Self->OptionStrgHashRef(
         Name => $Prefix.'Day',
         Data => \%Day,
-        SelectedID => $Param{$Prefix.'Day'} || $D,
+        SelectedID => int($Param{$Prefix.'Day'} || $D),
     );
     if ($Format eq 'DateInputFormatLong') {
         # hour
