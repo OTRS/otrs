@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.5 2002-06-04 23:07:09 martin Exp $
+# $Id: Queue.pm,v 1.6 2002-06-09 01:15:52 atif Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -27,6 +27,14 @@ sub new {
 
     $Self->{QueueID} = $Param{QueueID} || ''; #die "Got no QueueID!";
     $Self->{DBObject} = $Param{DBObject} || die "Got no DBObject!";
+    
+    # If ConfigObject is passed use it, if not passed dont complain
+    # Currently otrs.addQueue is passing the ConfigObject
+    # Eventually others may too
+    if ($Param{ConfigObject}) {
+       $Self->{ConfigObject} = $Param{ConfigObject};
+    }
+
     return $Self;
 }
 # --
@@ -270,5 +278,118 @@ sub GetQueueGroupID {
     return $GID;
 }
 # --
+sub QueueAdd {
+   my $Self=shift;
+   my %Param = @_;
+   # Add Queue to the Database
+   
+   # Requires
+   # Params{GroupID}   : ID of the group responsible for this quese
+   # Param{QueueName}  : Duh! Name of the Queue
+   # Param{ValidID}    : Is the queue invalid, valid, suspended etc
+   # Param{UserID}     : ID of the person creating the Queue
+
+   # Returns 
+   # new Queue ID on success
+   # null/false on failure
+
+   # ' and , are for modems. Line noise
+   # A less noisy way to defining @Params is
+   my @Params = qw(
+       Name
+       GroupID
+       UnlockTimeout
+       SystemAddressID
+       SalutationID
+       SignatureID
+       FollowUpID
+       FollowUpLock
+       EscalationTime
+       Comment
+       ValidID
+   );
+   
+
+   foreach (@Params) {
+       $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || ''; #Ooooh what does this button do?
+   };
+
+   unless ($Self->{ConfigObject}) {
+      # why is this module not loading Config?
+      # almost anything should have acess to Config
+      # Note: otrs.addQueue is passing the ConfigObject
+      # If the ConfigObject is not present, then it will
+      # be imported
+      require Kernel::Config;
+      import Kernel::Config;
+
+      #bring in the missing Config Object
+      $Self->{ConfigObject}=Kernel::Config->new();
+   }
+
+
+   for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock)) {
+      # these are coming from Config.pm
+      # I added default values in the Load Routine
+      $Param{$_} = $Self->{ConfigObject}{QueueDefaults}{$_} || 0  unless ($Param{$_});
+   };
+
+
+   my $SQL = "INSERT INTO queue " .
+   "(name, " .
+       " group_id, " .
+       " unlock_timeout, " .
+       " system_address_id, " .
+       " salutation_id, " .
+       " signature_id, " .
+       " escalation_time, " .
+       " follow_up_id, " .
+       " follow_up_lock, " .
+       " valid_id, " .
+       " comment, " .
+       " create_time, " .
+       " create_by, " .
+       " change_time, " .
+       " change_by)" .
+       " VALUES " .
+       " ('$Param{Name}', " .
+       " $Param{GroupID}, " .
+       " $Param{UnlockTimeout}, " .
+       " $Param{SystemAddressID}, " .
+       " $Param{SalutationID}, " .
+       " $Param{SignatureID}, " .
+       " $Param{EscalationTime}, " .
+       " $Param{FollowUpID}, " .
+       " $Param{FollowUpLock}, " .
+       " $Param{ValidID}, " .
+       " '$Param{Comment}', " .
+       " current_timestamp, " .
+       " $Param{UserID}, " .
+       " current_timestamp, " .
+       " $Param{UserID})";
+   
+   if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # --
+      # get new queue id
+      # --
+      
+      $SQL = "SELECT id ".
+       " FROM " .
+       " queue " .
+       " WHERE " .
+       " name = '$Param{Name}'";
+      
+      my $QueueID = '';
+      $Self->{DBObject}->Prepare(SQL => $SQL);
+      while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+         $QueueID = $RowTmp[0];
+      }
+      return $QueueID; 
+   }
+   else {
+      return;
+   }
+}
+#--
 
 1;
