@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.24 2002-10-20 20:08:45 martin Exp $
+# $Id: Ticket.pm,v 1.25 2002-10-20 21:57:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -594,7 +594,7 @@ sub GetLockedCount {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         if (!$Data{"ID$RowTmp[2]"}) {
           $Data{'Count'}++;
-          if ($RowTmp[1] ne 'agent' || $RowTmp[3] ne $Param{UserID}) {
+          if ($RowTmp[3] ne $Param{UserID}) {
             $Data{'ToDo'}++;
           }
         }
