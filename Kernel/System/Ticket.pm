@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.11 2002-06-23 09:52:33 martin Exp $
+# $Id: Ticket.pm,v 1.12 2002-07-12 16:02:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -194,14 +194,54 @@ sub GetIdOfTN {
 sub GetQueueIDOfTicketID {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
     my $Id;
-    my $SQL = "SELECT queue_id FROM ticket WHERE id = $TicketID";
+    # check needed stuff
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(
+        Priority => 'error',
+        MSG => "Need TicketID!",
+      );
+      return;
+    }
+    # create query
+    my $SQL = "SELECT queue_id FROM ticket WHERE id = $Param{TicketID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Id = $RowTmp[0];
     }
     return $Id;
+}
+# --
+sub MoveTicketID {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID QueueID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(
+          Priority => 'error',
+          MSG => "Need $_!",
+        );
+        return;
+      }
+    }
+    # create update
+    my $SQL = "UPDATE ticket SET queue_id = $Param{QueueID} where id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        # queue lookup
+        my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID}); 
+        # history insert
+        $Self->AddHistoryRow(
+            TicketID => $Param{TicketID},
+            HistoryType => 'Move',
+            Name => "Ticket moved to Queue '$Queue'.",
+            CreateUserID => $Param{UserID},
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
 }
 # --
 sub GetTNOfId {
