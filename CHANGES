@@ -2,15 +2,21 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.32 2002-11-21 22:52:18 martin Exp $
+# $Id: CHANGES,v 1.33 2002-11-25 00:21:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 0.5 BETA9 (2002-??-??)
- - (2002/11/21) moved var/cron/* to var/cron/*.dist to make updates easier!
-    Thanks to Bryan Fullerton!
+ - (2002/11/24) added delete ticket feature for GenericAgent.pl (removes tickets 
+    from db and fs) - http://lists.otrs.org/pipermail/dev/2002-October/000037.html.
+ - (2002/11/23) removed Kernel::Modules::AdminLanguage! Moved used languages
+    to config file (Kernel/Config.pm - DefaultUsedLanguages). Moved translation
+    files from long language names to short names like en, de, bg, nl, ... 
+    (e. g. Kernel/Language/bg.pm). Updated docu.
+ - (2002/11/21) moved var/cron/* to var/cron/*.dist (.dist is not used) to make 
+    updates easier! Thanks to Bryan Fullerton!
  - (2002/11/15) moved %doc/install/* to /opt/OpenTRS/install in RPM-specs. 
     because the web-installer needs this stuff in this location. %doc isn't 
     consistent on different linux distributions!
@@ -23,7 +29,8 @@
     as Kernel/Config.pm (cp Kernel/Config.pm.dist Kernel/Config.pm)!
     Kernel/Config/Defaults.pm is the config file with all defaults. If you want 
     to change this settings, add the needed entry to Kernel/Config.pm(.dist)
-    and the Kernel/Config/Defaults.pm will be overwrite. Updates will be much easier! 
+    and the Kernel/Config/Defaults.pm will be overwrite. Updates will be much  
+    easier! - http://lists.otrs.org/pipermail/otrs/2002-October/000315.html
  - (2002/11/11) added spell ckecker for agent interface (Kernel::Modules::AgentSpelling).
  - (2002/11/11) added browser window.status info for Standard Theme (Agent 
     and Customer frontend).
