@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.8 2002-12-01 13:11:11 martin Exp $
+# $Id: Article.pm,v 1.9 2002-12-01 16:18:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,6 +17,7 @@ use File::Path;
 use File::Basename;
 use MIME::Parser;
 use MIME::Words qw(:all);
+use MIME::Base64;
 
 # --
 # to get it writable for the otrs group (just in case)
@@ -24,7 +25,7 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -521,6 +522,12 @@ sub WriteArticleParts {
         }
         else {
             # --
+            # encode attachemnt if it's a postgresql backend!!!
+            # --
+            if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+                $PartData{Content} = encode_base64($PartData{Content});
+            }
+            # --
             # write attachment to db
             # --
             foreach (keys %PartData) {
@@ -667,7 +674,15 @@ sub GetArticleAttachment {
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
             $Data{Type} = $RowTmp[0]."\n";
-            $Data{Data} = $RowTmp[1];
+            # --
+            # decode attachemnt if it's a postgresql backend!!!
+            # --
+            if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+                $Data{Data} = decode_base64($RowTmp[1]);
+            }
+            else {
+                $Data{Data} = $RowTmp[1];
+            }
         }
         if ($Data{Data}) {
             return %Data;
