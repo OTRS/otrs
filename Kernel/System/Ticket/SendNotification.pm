@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendNotification.pm - send notifications to agent
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.6 2004-01-07 12:05:05 martin Exp $
+# $Id: SendNotification.pm,v 1.7 2004-01-08 11:41:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendNotification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -29,6 +29,10 @@ sub SendNotification {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # comapt Type
+    if ($Param{Type} =~/(EmailCustomer|PhoneCallCustomer|WebRequestCustomer)/) {
+        $Param{Type} = 'NewTicket';
     }
     # --
     # check recipients
