@@ -100,7 +100,7 @@ Click on 'Show Details' to watch the output of the installer:
 </screenshot>
 </para>
 <para>
-The system now configures itself to the current location using an external routine - sorry for that, it will be changed in later releases of otrs4win32. A (usually dark colored, mine is white) window will pop up - please be patient and wait for the process to finish. Watch the script's output and press a key at it's end.
+The system now configures itself to the current location using an external routine - sorry for that, it will be changed in later releases of otrs4win32. A (usually dark colored) window will pop up - please be patient and wait for the process to finish. Watch the script's output and press a key at it's end.
 <screen>
   Configure Apache HTTPD in C:\otrs\apache\conf\httpd.conf ...  DONE!
   Configure Apache SSL in C:\otrs\apache\conf\ssl.conf ...  DONE!
