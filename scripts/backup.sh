@@ -3,7 +3,7 @@
 # scripts/backup.sh - a backup script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.sh,v 1.6 2003-02-25 10:18:58 wiktor Exp $
+# $Id: backup.sh,v 1.7 2003-02-25 11:55:30 wiktor Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,79 +20,128 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "backup.sh - a backup script for OTRS <\$Revision: 1.6 $>"
-echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
+echo "backup.sh - a backup script for OTRS <\$Revision: 1.7 $>"
 
-# --
-# check needed pograms
-# --
-for i in bzip2 cp mysqldump tar; do
-    if ! which $i >> /dev/null; then
-        echo "ERROR: Can't locate $i!"
-        exit 1;
-    fi 
+REMOVE_OLD=0
+# parse user input
+while getopts "rb:c:d:" Option
+do
+  case $Option in
+    r)
+      # remove backups older than a month
+      REMOVE_OLD=1
+    ;;
+    b)
+      # bin path
+      OTRS_BIN=$OPTARG
+    ;;
+    c)
+      # config path
+      OTRS_CFG=$OPTARG
+    ;;
+    d)
+      # backup path
+      BACKUPDIR=$OPTARG
+    ;;
+  esac
 done
+shift $(($OPTIND - 1))
 
-if ! test $1 || ! test $2 || ! test $3; then
-    # --
-    # usage
-    # --
+if [ "x${OTRS_BIN}" == "x" ] || [ "x${OTRS_CFG}" == "x" ] || [ "x${BACKUPDIR}" == "x" ]; then
     echo ""
-    echo "Usage: backup.sh <OTRS_BIN_DIR> <OTRS_CONFIG_DIR> <BACKUP_DIR> "
+    echo "Usage: backup.sh [-r] -b path/bin -c path/Kernel/Config -d backup-path "
     echo ""
-    echo "  Try: backup.sh /opt/otrs/bin /opt/otrs/Kernel/Config/ /data/otrs-backup"
+    echo "  Try: backup.sh -b /opt/otrs/bin -c /opt/otrs/Kernel/Config/ -d /data/otrs-backup"
+    echo "  Use the -r switch to remove backups older than a month"
     echo ""
-    exit 1;
+    exit 1
 fi
 
 # --
 # get config options
 # --
-DATABASE_DSN=`$1/otrs.getConfig DatabaseDSN` || exit 1;
-DATABASE_HOST=`$1/otrs.getConfig DatabaseHost` || exit 1;
-DATABASE=`$1/otrs.getConfig Database` || exit 1;
-DATABASE_USER=`$1/otrs.getConfig DatabaseUser` || exit 1;
-DATABASE_PW=`$1/otrs.getConfig DatabasePw` || exit 1;
-ARTICLE_DIR=`$1/otrs.getConfig ArticleDir` || exit 1;
+DATABASE_DSN=`${OTRS_BIN}/otrs.getConfig DatabaseDSN` || exit 1
+DATABASE_HOST=`${OTRS_BIN}/otrs.getConfig DatabaseHost` || exit 1
+DATABASE=`${OTRS_BIN}/otrs.getConfig Database` || exit 1
+DATABASE_USER=`${OTRS_BIN}/otrs.getConfig DatabaseUser` || exit 1
+DATABASE_PW=`${OTRS_BIN}/otrs.getConfig DatabasePw` || exit 1
+ARTICLE_DIR=`${OTRS_BIN}/otrs.getConfig ArticleDir` || exit 1
+
+# --
+# check what kind of db whe are running
+# --
+if echo $DATABASE_DSN | grep -i mysql >> /dev/null ; then
+    DB=MYSQL
+    DB_DUMP=mysqldump
+elif echo $DATABASE_DSN | grep -i DBI:Pg >> /dev/null ; then
+    DB=POSTGRES
+    DB_DUMP=pg_dump
+else
+    echo "ERROR: Can't run backup script because there is no support for your database. Better start coding now."
+    exit 1
+fi
+
+# --
+# check needed pograms
+# --
+for i in bzip2 $DB_DUMP mkdir cp tar; do
+    if ! which $i >> /dev/null; then
+        echo "ERROR: Can't locate $i!"
+        exit 1
+    fi 
+done
+
+if [ $REMOVE_OLD == 1 ]; then
+    # --
+    # delete old backup sub directory
+    # --
+
+    OLDBACKUPFOLDER="$(date +%Y)-$(( $(date +%m) - 1))-$(date +%d)*"
+    echo "deleting old backups in ${BACKUPDIR}/${OLDBACKUPFOLDER}"
+    rm -Rf ${BACKUPDIR}/${OLDBACKUPFOLDER}
+fi
+
+# --
 # create backup sub directory
 # --
 SUBBACKUPFOLDER=`date +%Y-%m-%d_%H-%M`
-mkdir -p $3/$SUBBACKUPFOLDER || exit 1;
+mkdir ${BACKUPDIR}/${SUBBACKUPFOLDER} || exit 1
 
-#echo $DATABASE_DSN
-if echo $DATABASE_DSN | grep -i mysql >> /dev/null ; then
-    echo "dump MySQL database $DATABASE@$DATABASE_HOST "
-    if ! mysqldump -u$DATABASE_USER -p$DATABASE_PW -h$DATABASE_HOST $DATABASE > $3/$SUBBACKUPFOLDER/database_backup.sql; then
-        echo "ERROR: Can't dump database!";
-        exit 1;
+# --
+# dump database and compress
+# --
+if [ "$DB" == "MYSQL" ]; then
+    echo "dump MySQL rdbms ${DATABASE}@${DATABASE_HOST}"
+    if ! mysqldump -u $DATABASE_USER -p $DATABASE_PW -h $DATABASE_HOST $DATABASE > ${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql; then
+        echo "ERROR: Cannot dump database, please check!"
+        exit 1
     fi
-elif echo $DATABASE_DSN | grep -i DBI:Pg >> /dev/null ; then
-    echo "dump PostgreSQL database $DATABASE@$DATABASE_HOST "
-    if ! pg_dump -f $3/$SUBBACKUPFOLDER/database_backup.sql -h$DATABASE_HOST -U $DATABASE_USER $DATABASE; then
-        echo "ERROR: Can't dump database!";
-        exit 1;
+elif [ "$DB" == "POSTGRES" ]; then
+    echo "dump PostgreSQL rdbms ${DATABASE}@${DATABASE_HOST}"
+    if ! pg_dump -f ${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql -h $DATABASE_HOST -U $DATABASE_USER $DATABASE; then
+        echo "ERROR: Cannot dump database, please check!"
+        exit 1
     fi
-else
-    echo "ERROR: Can't dump database because this script supports only MySQL/PostgreSQL"
-    exit 1;
 fi
 
 echo "compresses SQL-file"
-if ! bzip2 $3/$SUBBACKUPFOLDER/database_backup.sql; then
-    echo "ERROR: Can't compresses SQL-file ($3/$SUBBACKUPFOLDER/database_backup.sql)!"
-    exit 1;
+if ! bzip2 -9 ${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql; then
+    echo "ERROR: Can't compresses SQL-file (${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql)!"
+    exit 1
 fi
+
 # --
 # config files backup
 # --
-echo "backup $2/* $2/../Config.pm"
-mkdir $3/$SUBBACKUPFOLDER/Config/
-cp $2/* $3/$SUBBACKUPFOLDER/Config/
-cp $2/../Config.pm $3/$SUBBACKUPFOLDER/ 
+echo "backup ${OTRS_CFG}/* ${OTRS_CFG}/../Config.pm"
+mkdir ${BACKUPDIR}/${SUBBACKUPFOLDER}/Config/
+cp ${OTRS_CFG}/* ${BACKUPDIR}/${SUBBACKUPFOLDER}/Config/
+cp ${OTRS_CFG}/../Config.pm ${BACKUPDIR}/${SUBBACKUPFOLDER}/ 
 
 # --
 # var backup 
 # --
 echo "backup $ARTICLE_DIR"
-cd $ARTICLE_DIR && tar -cjf $3/$SUBBACKUPFOLDER/article_backup.tar.bz2 .
+cd $ARTICLE_DIR && tar -cjf $BACKUPDIR/$SUBBACKUPFOLDER/article_backup.tar.bz2 .
 
+exit 0
