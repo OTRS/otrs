@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.21 2003-12-15 00:10:06 martin Exp $
+# $Id: CustomerMessage.pm,v 1.22 2003-12-15 17:58:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -147,19 +147,24 @@ sub Run {
             # error screen, don't show ticket
             return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
         }
-        # check if it is possible to do the follow up
-        my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(
+        # get ticket data
+        my %Ticket = $Self->{TicketObject}->GetTicket(
             TicketID => $Self->{TicketID},
         );
         # get follow up option (possible or not)
         my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
-            QueueID => $QueueID,
+            QueueID => $Ticket{QueueID},
         );
-        # get ticket state 
-        my $State = $Self->{TicketObject}->GetState(
-            TicketID => $Self->{TicketID},
+        # get lock option (should be the ticket locked - if closed - after the follow up)
+        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
+            QueueID => $Ticket{QueueID},
         );
-        if ($FollowUpPossible =~ /(new ticket|reject)/i && $State =~ /^close/i) {
+        # get ticket state details
+        my %State = $Self->{StateObject}->StateGet(
+            ID => $Ticket{StateID}, 
+            Cache => 1,
+        );
+        if ($FollowUpPossible =~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i) {
             $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
             $Output .= $Self->{LayoutObject}->CustomerWarning(
                 Message => 'Can\'t reopen ticket, not possible in this queue!',
@@ -189,25 +194,34 @@ sub Run {
             },
             HistoryType => $Self->{ConfigObject}->Get('CustomerPanelHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('CustomerPanelHistoryComment'),
+            AutoResponseType => 'auto follow up',
         )) {
           # set state
-          my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+          my %NextStateData = $Self->{StateObject}->StateGet(
               ID => $StateID,
           );
-          my $State = $StateData{Name} || 
+          my $NextState = $NextStateData{Name} || 
             $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType') || 'open';
           $Self->{TicketObject}->SetState(
-            TicketID => $Self->{TicketID},
-            ArticleID => $ArticleID,
-            State => $State,
-            UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+              TicketID => $Self->{TicketID},
+              ArticleID => $ArticleID,
+              State => $NextState,
+              UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
           );
           # set answerd
           $Self->{TicketObject}->SetAnswered(
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            Answered => 0,
+              TicketID => $Self->{TicketID},
+              UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+              Answered => 0,
           );
+          # set lock if ticket was cloased
+          if ($Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1') {
+              $Self->{TicketObject}->SetLock(
+                  TicketID => $Self->{TicketID},
+                  Lock => 'lock',
+                  UserID => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+              );
+          }
           # get attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
               Param => 'file_upload', 
