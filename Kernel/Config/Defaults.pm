@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.154.2.2 2004-09-29 12:09:47 martin Exp $
+# $Id: Defaults.pm,v 1.154.2.3 2004-10-01 10:35:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.154.2.2 $';
+$VERSION = '$Revision: 1.154.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,10 +43,6 @@ sub LoadDefaults {
     # (To set the Ticket identifier. Some people want to
     # set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.)
     $Self->{TicketHook} = 'Ticket#';
-
-    # TicketDivider
-    # (The part between TicketHook and TicketNumber)
-    $Self->{TicketDivider} = ': ';
 
     # FQDN
     # (Full qualified domain name of your system.)
