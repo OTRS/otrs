@@ -2,13 +2,19 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.79.2.1 2003-05-13 10:30:48 martin Exp $
+# $Id: CHANGES,v 1.79.2.2 2003-05-18 20:24:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1.2 (2003-?-?)
+ - (2003/05/18) fixed small logic bugs in Kernel/System/PostMaster*
+    improved debug options for bin/PostMaster.pl and bin/PostMasterPOP3.pl
+     -=> just used -d1 (1-3) for debug level of Kernel/System/PostMaster*
+ - (2003/05/18) added customer data lookup for PostMaster*.pl based on
+    senders email address (set customer id and customer user)
+ - (2003/05/13) fixed unwanted ticket unlock on move
  - (2003/05/13) added russian translation! Thanks to Serg V Kravchenko!
  - (2003/05/13) added config options for shown customer info size
     $Self->{ShowCustomerInfo(Zoom|Queue|Phone)MaxSize}
