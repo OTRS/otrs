@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdResponse.pm,v 1.7 2003-03-13 17:20:46 martin Exp $
+# $Id: StdResponse.pm,v 1.8 2003-11-02 00:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,24 +42,18 @@ sub new {
 sub StdResponseAdd {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Name ValidID Response UserID)) {
       if (!defined($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
     my $SQL = "INSERT INTO standard_response ".
         " (name, valid_id, comment, text, ".
         " create_time, create_by, change_time, change_by)".
@@ -85,16 +79,12 @@ sub StdResponseAdd {
 sub StdResponseGet {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
-    # --
     # sql 
-    # --
     my $SQL = "SELECT name, valid_id, comment, text ".
         " FROM ".
         " standard_response ".
@@ -114,6 +104,23 @@ sub StdResponseGet {
         return %Data;
     }
     else { 
+        return;
+    }
+}
+# --
+sub StdResponseDelete {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{ID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+      return;
+    }
+    # sql 
+    if ($Self->{DBObject}->Prepare(SQL => "DELETE FROM standard_response WHERE ID = $Param{ID}")) {
+        return 1;
+    }
+    else {
         return;
     }
 }

@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.6 2003-04-12 14:00:52 martin Exp $
+# $Id: StdAttachment.pm,v 1.7 2003-11-02 00:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -173,6 +173,25 @@ sub StdAttachmentUpdate {
         " WHERE " .
         " id = $Param{ID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub StdAttachmentDelete {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(ID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # sql
+    if ($Self->{DBObject}->Do(SQL => "DELETE FROM standard_attachment WHERE ID = $Param{ID}")) {
         return 1;
     }
     else {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.9 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminResponse.pm,v 1.10 2003-11-02 00:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,9 +67,7 @@ sub Run {
       );
     }
 
-    # --
     # get data 2 form
-    # --
     if ($Param{Subaction} eq 'Change') {
         $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %ResponseData = $Self->{StdResponseObject}->StdResponseGet(ID => $Param{ID});
@@ -84,9 +82,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
     # update action
-    # --
     elsif ($Param{Subaction} eq 'ChangeAction') {
         if ($Self->{StdResponseObject}->StdResponseUpdate(%GetParam, UserID => $Self->{UserID})) { 
             # --
@@ -108,9 +104,7 @@ sub Run {
             return $Output;
         }
     }
-    # --
     # add new response
-    # --
     elsif ($Param{Subaction} eq 'AddAction') {
         if (my $Id = $Self->{StdResponseObject}->StdResponseAdd(%GetParam, UserID => $Self->{UserID})) {
             # --
@@ -137,9 +131,21 @@ sub Run {
             return $Output;
         }
     }
-    # --
+    # delete response
+    elsif ($Param{Subaction} eq 'Delete') {
+        if ($Self->{StdResponseObject}->StdResponseDelete(ID => $GetParam{ID})) {
+            # show next page
+            return $Self->{LayoutObject}->Redirect(OP => "Action=AdminResponse");
+        }
+        else {
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+            $Output .= $Self->{LayoutObject}->Error();
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+    }
     # else ! print form 
-    # --
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Response add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
