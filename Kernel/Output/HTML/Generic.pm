@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.111 2004-04-07 18:27:35 martin Exp $
+# $Id: Generic.pm,v 1.112 2004-04-11 17:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.111 $';
+$VERSION = '$Revision: 1.112 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -308,7 +308,7 @@ sub Output {
     # --
     # variable & env & config replacement (three times)
     # --
-    foreach (1..3) {
+    foreach (1..2) {
         $Output =~ s{
             \$(QData|Data|Env|Config|Include){"(.+?)"}
         }
@@ -388,7 +388,7 @@ sub Output {
     # --
     # do html quote
     # --
-    foreach (1..2) {
+    foreach (1..1) {
         $Output =~ s{
             \$Quote({"(.+?)"}|{""})
         }
@@ -1030,9 +1030,13 @@ sub Attachment {
     # reset binmode, don't use utf8
     binmode(STDOUT);
     # return attachment  
-    my $Output = "Content-Disposition: filename=$Param{Filename}\n";
-    $Output .= "Content-Type: $Param{ContentType}\n\n";
-    $Output .= "$Param{Content}";
+    my $Output = "Content-Disposition: ";
+    if ($Param{Type}) {
+        $Output .= $Param{Type};
+    }
+    $Output .= "filename=$Param{Filename}\n".
+      "Content-Type: $Param{ContentType}\n\n".
+      "$Param{Content}";
     return $Output;
 }
 # --
