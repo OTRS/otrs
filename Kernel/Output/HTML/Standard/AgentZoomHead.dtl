@@ -1,9 +1,9 @@
 # --
 # AgentZoomHead.dtl - provides HTML AgentZoom for AgentZoom.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomHead.dtl,v 1.7 2004-01-09 17:07:29 martin Exp $
+# $Id: AgentZoomHead.dtl,v 1.8 2004-02-02 22:00:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,6 +37,7 @@
   <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Note"}</a> -
   <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Customer"}</a> -
   <a href="$Env{"Baselink"}Action=AgentFreeText&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Free Fields"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Free Fields"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentTicketLink&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Link"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Link"}</a> -
   <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Print"}'; return true;" onmouseout="window.status='';" class="menuitem" target="print">$Text{"Print"}</a> -
   <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Pending"}</a> -
   <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Close"}</a>

@@ -1,9 +1,9 @@
 # --
 # AgentZoomStatus.dtl - provides HTML AgentZoom for AgentZoom.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomStatus.dtl,v 1.5 2003-12-19 01:01:40 martin Exp $
+# $Id: AgentZoomStatus.dtl,v 1.6 2004-02-02 22:00:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,6 +48,23 @@
       <td><b>$Text{"Owner"}:</b></td>
       <td><div title="$Data{"Owner"} ($Data{"UserFirstname"}$Data{"UserLastname"})">$Quote{"$Data{"Owner"}","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</div></td>
     </tr>
+# --
+# ticket links
+# --
+<dtl if ($Data{"TicketLink1"} ne "") { $Data{"TicketLinkString1"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketLinkID1"}">$Data{"TicketLink1"}</a> "; }>
+<dtl if ($Data{"TicketLink2"} ne "") { $Data{"TicketLinkString2"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketLinkID2"}">$Data{"TicketLink2"}</a> "; }>
+<dtl if ($Data{"TicketLink3"} ne "") { $Data{"TicketLinkString3"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketLinkID3"}">$Data{"TicketLink3"}</a> "; }>
+<dtl if ($Data{"TicketLink4"} ne "") { $Data{"TicketLinkString4"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketLinkID4"}">$Data{"TicketLink4"}</a> "; }>
+<dtl if ($Data{"TicketLink5"} ne "") { $Data{"TicketLinkString5"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketLinkID5"}">$Data{"TicketLink5"}</a> "; }>
+<dtl if ($Data{"TicketLink6"} ne "") { $Data{"TicketLinkString6"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketLinkID6"}">$Data{"TicketLink6"}</a> "; }>
+<dtl if ($Data{"TicketLink7"} ne "") { $Data{"TicketLinkString7"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketLinkID7"}">$Data{"TicketLink7"}</a> "; }>
+# build one link string
+<dtl set $Data{"TicketLinkString"} = "$Data{"TicketLinkString1"}$Data{"TicketLinkString2"}$Data{"TicketLinkString3"}$Data{"TicketLinkString4"}$Data{"TicketLinkString5"}$Data{"TicketLinkString6"}$Data{"TicketLinkString7"}">
+$Data{"Test1"}
+# show link row if needed
+<dtl if ($Data{"TicketLinkString"} ne "") { $Data{"TicketLinkStringTable"} = "<tr valign="top"><td><b>$Text{"Link"}:</b></td><td>$Data{"TicketLinkString"}</td></tr>"; }>
+    $Data{"TicketLinkStringTable"}
+
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeText1-2
 # --
