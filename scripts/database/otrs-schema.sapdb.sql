@@ -466,6 +466,7 @@ CREATE TABLE article_attachment
     article_id INTEGER NOT NULL,
     filename VARCHAR (250),
     content_type VARCHAR (250),
+    content_size VARCHAR (30),
     content LONG NOT NULL,
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL,

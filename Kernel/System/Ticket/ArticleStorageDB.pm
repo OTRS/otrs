@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.17 2004-04-15 08:34:28 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.18 2004-04-15 11:55:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -125,7 +125,14 @@ sub ArticleWriteAttachment {
             $i = 20;
         }
     }
+    # get file name
     $Param{Filename} = $NewFileName;
+    # get attachment size
+    {
+        use bytes;
+        $Param{Filesize} = length($Param{Content});
+        no bytes;
+    }
     # encode attachemnt if it's a postgresql backend!!!
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
         $Param{Content} = encode_base64($Param{Content});
@@ -135,10 +142,10 @@ sub ArticleWriteAttachment {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
     }
     my $SQL = "INSERT INTO article_attachment ".
-        " (article_id, filename, content_type, content, ".
+        " (article_id, filename, content_type, content_size, content, ".
         " create_time, create_by, change_time, change_by) " .
         " VALUES ".
-        " ($Param{ArticleID}, '$Param{Filename}', '$Param{ContentType}', ?, ".
+        " ($Param{ArticleID}, '$Param{Filename}', '$Param{ContentType}', '$Param{Filesize}', ?, ".
         " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     # write attachment to db
     if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Content}])) {
@@ -215,22 +222,61 @@ sub ArticleAttachmentIndex {
     my %Index = ();
     my $Counter = 0;
     # try database
-    my $SQL = "SELECT filename FROM article_attachment ".
+    my $SQL = "SELECT filename, content_type, content_size FROM article_attachment ".
         " WHERE ".
         " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."".
         " ORDER BY id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Counter++;
-        $Index{$Counter} = $Row[0];
+        # human readable file size
+        if ($Row[2]) {
+            if ($Row[2] > (1024*1024)) {
+                $Row[2] = sprintf "%.1f MBytes", ($Row[2]/(1024*1024));
+            }
+            elsif ($Row[2] > 1024) {
+                $Row[2] = sprintf "%.1f KBytes", (($Row[2]/1024));
+            }
+            else {
+                $Row[2] = $Row[2].' Bytes';
+            }
+        }
+        # add the info the the hash
+        $Index{$Counter} = {
+            Filename => $Row[0],
+            ContentType => $Row[1],
+            Filesize => $Row[2] || '',
+        };
     }
     # try fs (if there is no index in fs)
     if (!%Index) {
         my @List = glob("$Self->{ArticleDataDir}/$Param{ContentPath}/$Param{ArticleID}/*");
         foreach (@List) {
             $Counter++;
+            my $FileSize = -s $_;
+            # human readable file size
+            if ($FileSize) {
+                # remove meta data in files
+                $FileSize = $FileSize - 30 if ($FileSize > 30);
+                if ($FileSize > (1024*1024)) {
+                    $FileSize = sprintf "%.1f MBytes", ($FileSize/(1024*1024));
+                }
+                elsif ($FileSize > 1024) {
+                    $FileSize = sprintf "%.1f KBytes", (($FileSize/1024));
+                }
+                else {
+                    $FileSize = $FileSize.' Bytes';
+                }
+            }
+            # strip filename
             s!^.*/!!;
-            $Index{$Counter} = $_ if ($_ ne 'plain.txt');
+            if ($_ ne 'plain.txt') {
+                # add the info the the hash
+                $Index{$Counter} = {
+                    Filename => $_,
+                    Filesize => $FileSize,
+                };
+            }
         }
     }
     return %Index;
@@ -253,10 +299,10 @@ sub ArticleAttachment {
     my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my %Data; 
+    my %Data = %{$Index{$Param{FileID}}}; 
     my $Counter = 0;
-    $Data{Filename} = $Index{$Param{FileID}}; 
-    if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Index{$Param{FileID}}")) {
+
+    if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}")) {
         while (<DATA>) {
             $Data{ContentType} = $_ if ($Counter == 0);
             $Data{Content} .= $_ if ($Counter > 0);

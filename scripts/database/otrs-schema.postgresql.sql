@@ -476,6 +476,7 @@ CREATE TABLE article_attachment
     id serial,
     article_id BIGINT NOT NULL,
     filename VARCHAR (250),
+    content_size VARCHAR (30),
     content_type VARCHAR (250),
     content text,
     create_time timestamp(0) NOT NULL,

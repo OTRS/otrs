@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.20 2004-02-02 23:02:00 martin Exp $
+  $Id: otrs-schema.xml,v 1.21 2004-04-15 11:55:44 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.20  2004/02/02 23:02:00  martin
+  removed not needed faq table, renamed comment to comments
+
   Revision 1.19  2004/02/02 22:10:24  martin
   added ticket_link table
 
@@ -601,6 +604,7 @@
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
   <column name="article_id" required="true" type="BIGINT"/>
   <column name="filename" required="false" size="250" type="VARCHAR"/>
+  <column name="content_size" required="false" size="30" type="VARCHAR"/>
   <column name="content_type" required="false" size="250" type="VARCHAR"/>
   <column name="content" required="true" type="LONGVARCHAR"/>
   <column name="create_time" required="true" type="DATE"/>

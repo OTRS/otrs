@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.57 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentZoom.pm,v 1.58 2004-04-15 11:55:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -379,13 +379,14 @@ sub MaskAgentZoom {
             %AtmIndex = %{$Article{Atms}};
         }
         $Article{"ATM"} = '';
-        foreach (keys %AtmIndex) {
-            $AtmIndex{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $AtmIndex{$_});
+        foreach my $FileID (keys %AtmIndex) {
+            my %File = %{$AtmIndex{$FileID}};
+            $File{Filename} = $Self->{LayoutObject}->Ascii2Html(Text => $File{Filename});
             $Article{"ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
-              "ArticleID=$Article{ArticleID}&FileID=$_\" target=\"attachment\" ".
-              "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
+              "ArticleID=$Article{ArticleID}&FileID=$FileID\" target=\"attachment\" ".
+              "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';".
               ' return true;" onmouseout="window.status=\'\';">'.
-              $AtmIndex{$_}.'</a><br> ';
+              "$File{Filename}</a> $File{Filesize}<br>";
         }
         # do some strips && quoting
         foreach (qw(From To Cc Subject Body)) {

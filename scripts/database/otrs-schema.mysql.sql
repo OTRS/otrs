@@ -550,6 +550,7 @@ CREATE TABLE article_attachment
     article_id BIGINT NOT NULL,
     filename VARCHAR (250),
     content_type VARCHAR (250),
+    content_size VARCHAR (30),
     content LONGBLOB,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,

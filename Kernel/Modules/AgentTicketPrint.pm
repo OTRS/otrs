@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.11 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.12 2004-04-15 11:55:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPrint;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -125,13 +125,14 @@ sub _Mask {
             %AtmIndex = %{$Article{Atms}};
         }
         $Param{"Article::ATM"} = '';
-        foreach (keys %AtmIndex) {
-          $AtmIndex{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $AtmIndex{$_});
+        foreach my $FileID (keys %AtmIndex) {
+          my %File = %{$AtmIndex{$FileID}};
+          $File{Filename} = $Self->{LayoutObject}->Ascii2Html(Text => $File{Filename});
           $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
-            "ArticleID=$Article{ArticleID}&FileID=$_\" target=\"attachment\" ".
-            "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
+            "ArticleID=$Article{ArticleID}&FileID=$FileID\" target=\"attachment\" ".
+            "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';".
              ' return true;" onmouseout="window.status=\'\';">'.
-             $AtmIndex{$_}.'</a><br> ';
+             "$File{Filename}</a> $File{Filesize}<br>";
         }
         foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
           FreeValue3 CreateTime SenderType ArticleType)) {

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.15 2004-04-15 08:34:28 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.16 2004-04-15 11:55:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -255,19 +255,59 @@ sub ArticleAttachmentIndex {
     my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
     foreach (@List) {
         $Counter++;
+        my $FileSize = -s $_;
+        # human readable file size
+        if ($FileSize) {
+            # remove meta data in files
+            $FileSize = $FileSize - 30 if ($FileSize > 30);
+            if ($FileSize > (1024*1024)) {
+                $FileSize = sprintf "%.1f MBytes", ($FileSize/(1024*1024));
+            }
+            elsif ($FileSize > 1024) {
+                $FileSize = sprintf "%.1f KBytes", (($FileSize/1024));
+            }
+            else {
+                $FileSize = $FileSize.' Bytes';
+            }
+        }
+        # strip filename
         s!^.*/!!;
-        $Index{$Counter} = $_ if ($_ ne 'plain.txt');
+        if ($_ ne 'plain.txt') {
+            # add the info the the hash
+            $Index{$Counter} = {
+                Filename => $_,
+                Filesize => $FileSize,
+            };
+        }
+
     }
     # try database (if there is no index in fs)
     if (!%Index) {
-        my $SQL = "SELECT filename FROM article_attachment ".
+        my $SQL = "SELECT filename, content_type, content_size FROM article_attachment ".
         " WHERE ".
         " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."".
         " ORDER BY id";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
            $Counter++;
-           $Index{$Counter} = $Row[0];
+            # human readable file size
+            if ($Row[2]) {
+                if ($Row[2] > (1024*1024)) {
+                    $Row[2] = sprintf "%.1f MBytes", ($Row[2]/(1024*1024));
+                }
+                elsif ($Row[2] > 1024) {
+                    $Row[2] = sprintf "%.1f KBytes", (($Row[2]/1024));
+                }
+                else {
+                    $Row[2] = $Row[2].' Bytes';
+                }
+            }
+            # add the info the the hash
+            $Index{$Counter} = {
+                Filename => $Row[0],
+                ContentType => $Row[1],
+                Filesize => $Row[2] || '',
+            };
         }
     }
     return %Index;
@@ -290,10 +330,9 @@ sub ArticleAttachment {
     my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my %Data; 
+    my %Data = %{$Index{$Param{FileID}}};; 
     my $Counter = 0;
-    $Data{Filename} = $Index{$Param{FileID}};
-    if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Index{$Param{FileID}}")) {
+    if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}")) {
         while (<DATA>) {
             $Data{ContentType} = $_ if ($Counter == 0);
             $Data{Content} .= $_ if ($Counter > 0);
