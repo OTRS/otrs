@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.50 2004-01-28 02:04:41 martin Exp $
+# $Id: AgentQueueView.pm,v 1.51 2004-02-27 22:48:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -437,6 +437,12 @@ sub _MaskQueueView {
     foreach my $QueueRef (@ListedQueues) {
         my $QueueStrg = '';
         my %Queue = %$QueueRef;
+        # replace name of CustomQueue
+        if ($Queue{Queue} eq 'CustomQueue') {
+            my $CustomQueue = $Self->{ConfigObject}->Get('CustomQueue');
+            $Counter{$CustomQueue} = $Counter{$Queue{Queue}};
+            $Queue{Queue} = $CustomQueue;
+        }
         my @QueueName = split(/::/, $Queue{Queue});
         my $ShortQueueName = $QueueName[$#QueueName];
         $Queue{MaxAge} = $Queue{MaxAge} / 60;

@@ -5,7 +5,7 @@ $Text{"Frontend"}
 $Text{"Other Options"}
 
 $Text{"New ticket notification"}
-$Text{"Send me a notification if there is a new ticket in my custom queues."}
+$Text{"Send me a notification if there is a new ticket in "My Queues"."}
 
 $Text{"Follow up notification"}
 #$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
@@ -15,7 +15,7 @@ $Text{"Ticket lock timeout notification"}
 $Text{"Send me a notification if a ticket is unlocked by the system."}
 
 $Text{"Move notification"}
-$Text{"Send me a notification if a ticket is moved into a custom queue."}
+$Text{"Send me a notification if a ticket is moved into one of "My Queues"."}
 
 $Text{"Custom Queue"}
 

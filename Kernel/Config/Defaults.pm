@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.113 2004-02-26 21:44:25 martin Exp $
+# $Id: Defaults.pm,v 1.114 2004-02-27 22:47:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.113 $';
+$VERSION = '$Revision: 1.114 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -89,7 +89,7 @@ sub LoadDefaults {
 
     # CustomQueue
     # (The name of custom queue.)
-    $Self->{CustomQueue} = 'PersonalQueue';
+    $Self->{CustomQueue} = 'My Queues';
 
     # QueueViewAllPossibleTickets
     # (show all ro and rw queues - not just rw queues)
@@ -973,7 +973,7 @@ $Data{"Signature"}
     $Self->{PreferencesGroups}->{NewTicketNotify} = {
         Colum => 'Mail Management', 
         Label => 'New ticket notification',
-        Desc => 'Send me a notification if there is a new ticket in my custom queues.', 
+        Desc => 'Send me a notification if there is a new ticket in "My Queues".', 
         Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         PrefKey => 'UserSendNewTicketNotification',
@@ -1000,7 +1000,7 @@ $Data{"Signature"}
     $Self->{PreferencesGroups}->{MoveNotify} = {
         Colum => 'Mail Management', 
         Label => 'Move notification',
-        Desc => 'Send me a notification if a ticket is moved into a custom queue.', 
+        Desc => 'Send me a notification if a ticket is moved into one of "My Queues".', 
         Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         PrefKey => 'UserSendMoveNotification',
@@ -1016,9 +1016,9 @@ $Data{"Signature"}
     };
     $Self->{PreferencesGroups}->{CustomQueue} = {
         Colum => 'Other Options', 
-        Label => 'Custom Queue',
+        Label => 'Your Queues',
         Type => 'CustomQueue',
-        Desc => 'Select your custom queues.', 
+        Desc => 'Select your queues.', 
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{SpellDict} = {

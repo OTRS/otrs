@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.41 2004-02-26 22:17:24 martin Exp $
+# $Id: de.pm,v 1.42 2004-02-27 22:47:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb 10 01:02:02 2004 by 
+    # Last translation Fri Feb 27 23:29:49 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -179,6 +179,7 @@ sub Data {
 
     # Template: AAAPreferences
       'Closed Tickets' => 'Geschlossene Tickets',
+      'CreateTicket' => 'Ticket Erstellen',
       'Custom Queue' => 'Bevorzugte Queue',
       'Follow up notification' => 'Mitteilung bei Nachfragen',
       'Frontend' => 'Oberfläche',
@@ -200,9 +201,9 @@ sub Data {
       'Select your QueueView refresh time.' => 'Queue-Ansicht Aktualisierungszeit auswählen.',
       'Select your screen after creating a new ticket.' => 'Wählen Sie das Fenster nach der Erstellung eines neuen Tickets.',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Zusenden einer Mitteilung, wenn ein Kunde eine Nachfrage stellt und ich der Besitzer bin.',
-      'Send me a notification if a ticket is moved into a custom queue.' => 'Zusenden einer Mitteilung beim Verschieben eines Tickets in meine bevorzugten Queues.',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => 'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Queues".',
       'Send me a notification if a ticket is unlocked by the system.' => 'Zusenden einer Mitteilung, wenn ein Ticket vom System freigegeben (unlocked) wird.',
-      'Send me a notification if there is a new ticket in my custom queues.' => 'Zusenden einer Mitteilung bei neuem Ticket in den bevorzugten Queues.',
+      'Send me a notification if there is a new ticket in "My Queues".' => 'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
       'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
       'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
       'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Sperrzeit',
@@ -239,7 +240,6 @@ sub Data {
       'If it is not displayed correctly,' => 'Wenn sie nicht korrekt angezeigt wird,',
       'lock' => 'gesperrt',
       'Lock' => 'Sperren',
-      'Locked' => 'Sperre',
       'low' => 'niedrig',
       'Move' => 'Verschieben',
       'new' => 'neu',
@@ -384,11 +384,11 @@ sub Data {
       'Dispatching' => 'Verteilung',
       'Host' => 'Rechner',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Wird dem Konto vertraut, werden die X-OTRS Header benutzt!',
-      'Login' => '',
       'POP3 Account Management' => 'POP3-Konten-Verwaltung',
       'Trusted' => 'Vertraut',
 
     # Template: AdminPostMasterFilterForm
+      'Login' => '',
       'Match' => 'Treffer',
       'PostMasterFilter Management' => '',
       'Set' => 'Setzen',
@@ -645,7 +645,9 @@ sub Data {
       'TicketID' => '',
 
     # Template: AgentPreferencesCustomQueue
-      'Select your custom queues' => 'Bevorzugte Queues auswählen',
+      'My Queues' => 'Meine Queues',
+      'You also get notified about this queues via email if enabled.' => 'Wenn eingeschaltet werden auch Benachrichtigungen als Email zusgestellt.',
+      'Your queue selection of your favorite queues.' => 'Die eigene Queue Auswahl der bevorzugten Queues.',
 
     # Template: AgentPreferencesForm
 
@@ -768,6 +770,7 @@ sub Data {
 
     # Template: AgentZoomStatus
       '"}","18' => '',
+      'Locked' => 'Sperre',
 
     # Template: CustomerCreateAccount
       'Create Account' => 'Account erstellen',
@@ -1001,6 +1004,7 @@ sub Data {
       'New ticket via call.' => 'Neues Ticket durch Anruf.',
       'New user' => 'Neuer Besitzer',
       'Search in' => 'Suche in',
+      'Select your custom queues' => 'Bevorzugte Queues auswählen',
       'Show all' => 'Alle anzeigen',
       'Shown Tickets' => 'Angezeigte Tickets',
       'System Charset Management' => 'Zeichensatz-Verwaltung',
@@ -1012,7 +1016,6 @@ sub Data {
       'store' => 'Speichern',
       'tickets' => 'Tickets',
       'valid' => 'gültig',
-      'CreateTicket' => 'Ticket Erstellen',
     );
 
     # $$STOP$$

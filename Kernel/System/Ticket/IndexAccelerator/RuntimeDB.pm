@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.17 2004-02-16 02:08:58 martin Exp $
+# $Id: RuntimeDB.pm,v 1.18 2004-02-27 22:47:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -85,7 +85,7 @@ sub TicketAcceleratorIndex {
     if (!@GroupIDs) {
         my %Hashes;
         $Hashes{QueueID} = 0;
-        $Hashes{Queue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
+        $Hashes{Queue} = 'CustomQueue';
         $Hashes{MaxAge} = 0;
         $Hashes{Count} = 0;
         push (@{$Queues{Queues}}, \%Hashes);
@@ -113,7 +113,7 @@ sub TicketAcceleratorIndex {
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my %Hashes;
         $Hashes{QueueID} = 0;
-        $Hashes{Queue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
+        $Hashes{Queue} = 'CustomQueue';
         $Hashes{MaxAge} = 0;
         $Hashes{Count} = $Row[0];
         push (@{$Queues{Queues}}, \%Hashes);
