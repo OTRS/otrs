@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.10 2002-05-27 21:03:25 martin Exp $
+# $Id: AgentQueueView.pm,v 1.11 2002-05-30 13:39:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -393,7 +393,7 @@ sub BuildQueueView {
     " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
     " AND " .
     " sug.user_id = $Self->{UserID} " .
-    " GROUP BY st.queue_id " .
+    " GROUP BY st.queue_id,sq.name " .
     " ORDER BY sq.name";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -473,7 +473,7 @@ sub CheckOldTickets {
     " ast.name = 'customer' ".
     " AND " .
     " t.ticket_answered != 1 ".
-    " GROUP BY t.id ".
+#    " GROUP BY t.id ".
     " ORDER BY t.ticket_priority_id, a.incoming_time ASC";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
