@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.42 2004-04-05 17:14:11 martin Exp $
+# $Id: PostMaster.pm,v 1.43 2004-07-30 09:07:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -274,6 +274,25 @@ sub CheckFollowUp {
                 );
             }
             return ($Tn, $TicketID);
+        }
+    }
+    # There is no valid ticket number in the subject.
+    # Try to find ticket number in References and In-Reply-To header.
+    if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInReferences')) {
+        my @References = $Self->{ParseObject}->GetReferences();
+        foreach (@References) {
+            # get ticket id of message id
+            my $TicketID = $Self->{TicketObject}->ArticleGetTicketIDOfMessageID(
+                MessageID => "<$_>",
+            );
+            if ($TicketID) {
+                my $Tn = $Self->{TicketObject}->TicketNumberLookup(
+                     TicketID => $TicketID,
+                );
+                if ($TicketID && $Tn) {
+                    return ($Tn, $TicketID);
+                }
+            }
         }
     }
     return;
