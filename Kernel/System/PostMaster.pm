@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.17 2002-10-31 23:55:53 martin Exp $
+# $Id: PostMaster.pm,v 1.18 2002-11-11 00:39:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -64,40 +64,6 @@ sub new {
     # for debug 0=off; 1=info; 2=on; 3=with GetHeaderParam;
     $Self->{Debug} = 1;
 
-    # --
-    # check fs write permissions!
-    # --
-    my $ArticleDataDir = $Self->{ConfigObject}->Get('ArticleDir')
-       || die "Got no ArticleDir!";
-    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
-    $Year = $Year+1900;
-    $Month = $Month+1;
-    $Month  = "0$Self->{Month}" if ($Month < 10);
-    my $Path = "$ArticleDataDir/$Year/$Month/$Day/check_permissons.$$";
-    if (-d $Path) {
-        File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
-    }
-    if (mkdir("$ArticleDataDir/check_permissons_$$")) {
-        if (!rmdir("$ArticleDataDir/check_permissons_$$")) {
-            die "Can't remove $ArticleDataDir/check_permissons_$$: $!\n";
-        }
-        if (File::Path::mkpath([$Path], 0, 0775)) {
-            File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
-        }
-    }
-    else {
-        my $Error = $!;
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Can't create $ArticleDataDir/check_permissons_$$: $Error, Try: \$OTRS_HOME/bin/SetPermissions.sh !",
-        );
-        print STDERR "\n";
-        print STDERR " -->> Can't create $ArticleDataDir/check_permissons_$$: $Error <<--\n";
-        print STDERR "\n";
-        print STDERR " Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n";
-        print STDERR "\n";
-        exit 1;
-    }
     return $Self;
 }
 # --
