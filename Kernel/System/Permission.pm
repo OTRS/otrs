@@ -1,8 +1,8 @@
 # --
-# Permission.pm - to control the access permissions 
+# Kernel/System/Permission.pm - to control the access permissions 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Permission.pm,v 1.4 2002-06-08 20:33:54 martin Exp $
+# $Id: Permission.pm,v 1.5 2002-07-15 22:19:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Permission;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --

@@ -1,8 +1,8 @@
 # --
-# Syslog.pm - a wrapper for xyz::Syslog 
+# Kernel/System/Log.pm - a wrapper for xyz::Syslog 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.5 2002-07-13 03:33:34 martin Exp $
+# $Id: Log.pm,v 1.6 2002-07-15 22:18:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Sys::Syslog qw(:DEFAULT setlogsock);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $ ';
+$VERSION = '$Revision: 1.6 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --

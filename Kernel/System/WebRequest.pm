@@ -1,8 +1,8 @@
 # --
-# WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.2 2002-02-03 17:58:26 martin Exp $
+# $Id: WebRequest.pm,v 1.3 2002-07-15 22:21:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
