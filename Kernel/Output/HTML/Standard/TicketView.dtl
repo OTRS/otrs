@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.47 2004-04-22 13:17:23 martin Exp $
+# $Id: TicketView.dtl,v 1.48 2004-05-24 07:51:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,8 +27,12 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" width="60%" class="table2">
-  <a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Lock it to work on it!"}">$Text{"Lock"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the detail view of this ticket!"}">$Text{"Zoom"}</a>
+# should we show the lock action
+<dtl if ($Data{"AgentLock"} ne "0") { $Data{"AgentLockStrg"} = "<a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';" title="$Text{"Lock it to work on it!"}">$Text{"Lock"}</a> -"; }>
+$Data{"AgentLockStrg"}
+# should we show the zoom action
+<dtl if ($Data{"AgentZoom"} ne "0") { $Data{"AgentZoomStrg"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the detail view of this ticket!"}">$Text{"Zoom"}</a>"; }>
+$Data{"AgentZoomStrg"}
 # 
 # incase you want to add an delete link, replace DestQueueID with "delete" queue id 
 #  <a href="$Env{"Baselink"}Action=AgentMove&TicketID=$Data{"TicketID"}&DestQueueID=1" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Delete"}</a> -
