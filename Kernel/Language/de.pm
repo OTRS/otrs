@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.58 2004-10-11 14:48:02 martin Exp $
+# $Id: de.pm,v 1.59 2004-10-11 14:54:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -782,15 +782,8 @@ sub Data {
       'Results' => 'Ergebnis',
       'Total hits' => 'Treffer gesamt',
       'Site' => 'Seite',
-      'Number' => '',
-      'Title' => 'Titel',
-      'Changed' => '',
-      'Parent' => '',
-      'Child' => '',
-      'Detail' => '',
 
       # Template: AgentLocalView
-      'LocalView' => '',
       'sort upward' => 'aufwärts sortieren',
       'U' => 'A',
       'sort downward' => 'abwärts sortieren',
@@ -939,90 +932,7 @@ sub Data {
       'closed tickets' => 'geschlossenen Tickets',
       'So you see what is going on in your system.' => 'Damit können Sie sehen, was in Ihrem System vorgeht.',
 
-      # Template: AgentVulnerability
-      'Search Vulnerability' => '',
-      'Vendor-ID' => '',
-      'Category' => 'Kategorie',
-      'Product' => '',
-      'Version' => '',
-      'possible Remoteattack' => '',
-      'Reference' => '',
-      'Known since' => '',
-      'between' => '',
-      'Vulnerability edit' => '',
-      'search' => 'Suche',
-      'Search Artefact' => '',
-      'Filename' => 'Dateiname',
-      'Artefact-ID' => '',
-      'Artefact Type' => '',
-      'File MD5' => '',
-      'Artefact edit' => '',
-      'Add Elements' => '',
-      'Vulnerability' => '',
-      'Artefact' => '',
-
-      # Template: AgentVulnerabilityAdd
-      'Vulnerability Add' => '',
-      'Finish' => '',
-      'Link Artefact' => '',
-
-      # Template: AgentVulnerabilityArtefactAdd
-      'Artefact Add' => '',
-      'File Source' => '',
-
-      # Template: AgentVulnerabilityArtefactLink
-      'Link Artefacts' => '',
       'Print' => 'Drucken',
-      'File Name' => '',
-      'Artefact-Number' => '',
-      'File Size' => '',
-      'Unlink' => '',
-
-      # Template: AgentVulnerabilityArtefactLinkSearch
-      'Artefact edit:' => '',
-      'Artefact Search Result' => '',
-      'A-ID' => '',
-      'Create Date' => '',
-      'Link' => 'Verknüpfung',
-
-      # Template: AgentVulnerabilityArtefactLinkSearchTable
-
-      # Template: AgentVulnerabilityArtefactLinkTable
-
-      # Template: AgentVulnerabilityArtefactPrint
-      'Print Artefact' => '',
-      'Vulnerabilitys' => '',
-      'Updated' => '',
-
-      # Template: AgentVulnerabilityArtefactSearchResult
-      'old' => '',
-      'A' => '',
-      'Z' => '',
-
-      # Template: AgentVulnerabilityArtefactSearchResultTable
-
-      # Template: AgentVulnerabilityArtefactUpdate
-      'Artefact Update' => '',
-
-      # Template: AgentVulnerabilityArtefactView
-      'Show Artefact' => '',
-
-      # Template: AgentVulnerabilityPrint
-      'Print Vulnerability' => '',
-      'V-ID' => '',
-      'Artefacts' => '',
-      'last change' => '',
-
-      # Template: AgentVulnerabilitySearchResult
-      'Vulnerability Search Result' => '',
-
-      # Template: AgentVulnerabilitySearchResultTable
-
-      # Template: AgentVulnerabilityUpdate
-      'Vulnerability Update' => '',
-
-      # Template: AgentVulnerabilityView
-      'Show Vulnerability' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1045,10 +955,6 @@ sub Data {
 
       # Template: AgentZoomStatus
       'Locked' => 'Sperre',
-      'SLA Age' => '',
-      'Link (Normal)' => '',
-      'Link (Parent)' => '',
-      'Link (Child)' => '',
 
       # Template: Copyright
 
