@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.32 2004-04-04 13:46:41 martin Exp $
+# $Id: EmailParser.pm,v 1.33 2004-04-07 06:48:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -574,13 +574,25 @@ sub CheckMessageBody {
             $LinkList .= "[$Counter] $2\n";
             "[$Counter]";
         }egxi;
-        $Self->{MessageBody} .= $LinkList;
+        $Self->{MessageBody} =~ s/^\s*//mg;
+        $Self->{MessageBody} =~ s/\n//gs;
+        $Self->{MessageBody} =~ s/\<style.+?\>.*\<\/style\>//gsi;
+        $Self->{MessageBody} =~ s/\<br(\/|)\>/\n/gsi;
+        $Self->{MessageBody} =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
+        $Self->{MessageBody} =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi
+;
+        $Self->{MessageBody} =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
+        $Self->{MessageBody} =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
         $Self->{MessageBody} =~ s/\<.+?\>//gs;
+        $Self->{MessageBody} =~ s/  / /mg;
         $Self->{MessageBody} =~ s/&amp;/&/g;
         $Self->{MessageBody} =~ s/&lt;/</g;
         $Self->{MessageBody} =~ s/&gt;/>/g;
         $Self->{MessageBody} =~ s/&quot;/"/g;
         $Self->{MessageBody} =~ s/&nbsp;/ /g;
+        $Self->{MessageBody} =~ s/^\s*\n\s*\n/\n/mg;
+        $Self->{MessageBody} =~ s/(.{72}.+?\s)/$1\n/g;
+        $Self->{MessageBody} .= "\n".$LinkList;
         $Self->{ContentType} = 'text/plain';
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
@@ -604,6 +616,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2004-04-04 13:46:41 $
+$Revision: 1.33 $ $Date: 2004-04-07 06:48:29 $
 
 =cut
