@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.16 2002-08-04 23:35:11 martin Exp $
+# $Id: AgentZoom.pm,v 1.17 2002-08-06 19:15:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -167,7 +167,8 @@ sub Run {
     " sq.name, st.create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
-    " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time ";
+    " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time, ".
+    " sa.a_content_type ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
         # get escalation_time
