@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.1 2002-10-20 15:40:29 martin Exp $
+# $Id: CustomerZoom.pm,v 1.2 2002-12-01 14:33:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -169,11 +169,6 @@ sub Run {
         $Ticket{GroupID} = $$Data{group_id};
         $Ticket{Age} = time() - $$Data{create_time_unix};
         $Ticket{Answered} = $$Data{ticket_answered};
-        # article attachments
-        my @AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
-            ContentPath => $$Data{content_path},
-            ArticleID => $$Data{id},
-        );
         # article data
         my %Article;
         $Article{ArticleType} = $$Data{article_type};
@@ -184,7 +179,6 @@ sub Run {
         $Article{Cc} = $$Data{a_cc} || ' ';
         $Article{Subject} = $$Data{a_subject} || ' ';
         $Article{Text} = $$Data{a_body};
-        $Article{Atms} = \@AtmIndex;
         $Article{CreateTime} = $$Data{create_time};
         $Article{FreeKey1} = $$Data{a_freekey1};
         $Article{FreeValue1} = $$Data{a_freetext1};
@@ -200,7 +194,16 @@ sub Run {
         }
         push (@ArticleBox, \%Article);
     }
-  
+    # --
+    # article attachments
+    # --
+    foreach my $Article (@ArticleBox) {
+        my @AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
+            ContentPath => $Article->{ContentPath},
+            ArticleID => $Article->{ArticleID},
+        );
+        $Article->{Atms} = \@AtmIndex;
+    }
     # --
     # check permission
     # --
