@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.33 2004-01-09 16:48:47 martin Exp $
+# $Id: AgentUtilities.pm,v 1.34 2004-01-19 23:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -55,15 +55,27 @@ sub Run {
     $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';
     $Self->{SaveProfile} = $Self->{ParamObject}->GetParam(Param => 'SaveProfile') || '';
     $Self->{TakeLastSearch} = $Self->{ParamObject}->GetParam(Param => 'TakeLastSearch') || '';
-    $Self->{selecttemplate} = $Self->{ParamObject}->GetParam(Param => 'selecttemplate') || '';
-    $Self->{erasetemplate} = $Self->{ParamObject}->GetParam(Param => 'erasetemplate') || '';
+    $Self->{SelectTemplate} = $Self->{ParamObject}->GetParam(Param => 'SelectTemplate') || '';
+    $Self->{EraseTemplate} = $Self->{ParamObject}->GetParam(Param => 'EraseTemplate') || '';
+    # check request
+    if ($Self->{ParamObject}->GetParam(Param => 'SearchTemplate') && $Self->{Profile}) {
+        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentUtilities&Subaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}");
+    }
     # get signle params
     my %GetParam = ();
     foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin 
       Agent ResultForm TicketFreeKey1 TicketFreeText1 TicketFreeKey2 
       TicketFreeText2 TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
       TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
-      TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8)) {
+      TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
+      TimeSearchType
+      TicketCreateTimePointFormat TicketCreateTimePoint 
+      TicketCreateTimePointStart
+      TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth 
+      TicketCreateTimeStartYear
+      TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth 
+      TicketCreateTimeStopYear 
+    )) {
         # load profiles string params (press load profile)
         if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
             my $SQL = "SELECT profile_value FROM search_profile".
@@ -109,6 +121,16 @@ sub Run {
             }
         }
     }
+    # get time option
+    if (!$GetParam{TimeSearchType}) {
+        $GetParam{'TimeSearchType::None'} = 'checked';
+    }
+    elsif ($GetParam{TimeSearchType} eq 'TimePoint') {
+        $GetParam{'TimeSearchType::TimePoint'} = 'checked';
+    }
+    elsif ($GetParam{TimeSearchType} eq 'TimeSlot') {
+        $GetParam{'TimeSearchType::TimeSlot'} = 'checked';
+    }
     # set result form env
     if (!$GetParam{ResultForm}) {
         $GetParam{ResultForm} = '';
@@ -117,7 +139,7 @@ sub Run {
         $Self->{SearchPageShown} = $Self->{SearchLimit}; 
     }
     # show result site
-    if ($Self->{Subaction} eq 'Search' && !$Self->{erasetemplate}) {
+    if ($Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate}) {
         # fill up profile name (e.g. with last-search)
         if (!$Self->{Profile} || !$Self->{SaveProfile}) {
             $Self->{Profile} = 'last-search';
@@ -157,6 +179,65 @@ sub Run {
         }
     
 #        foreach (qw(email-notification-int email-notification-ext)) {
+
+        # get time settings
+        if (!$GetParam{TimeSearchType}) {
+            # do noting ont time stuff
+        }
+        elsif ($GetParam{TimeSearchType} eq 'TimeSlot') {
+          foreach (qw(Month Day)) {
+              if ($GetParam{"TicketCreateTimeStart$_"} <= 9) {
+                  $GetParam{"TicketCreateTimeStart$_"} = '0'.$GetParam{"TicketCreateTimeStart$_"};
+              }
+          }
+          foreach (qw(Month Day)) {
+              if ($GetParam{"TicketCreateTimeStop$_"} <= 9) {
+                  $GetParam{"TicketCreateTimeStop$_"} = '0'.$GetParam{"TicketCreateTimeStop$_"};
+              }
+          }
+          if ($GetParam{TicketCreateTimeStartDay} && $GetParam{TicketCreateTimeStartMonth} && $GetParam{TicketCreateTimeStartYear}) {
+              $GetParam{TicketCreateTimeOlderDate} = $GetParam{TicketCreateTimeStartYear}.
+                '-'.$GetParam{TicketCreateTimeStartMonth}.
+                '-'.$GetParam{TicketCreateTimeStartDay}.
+                ' 00:00:01';
+          }
+          if ($GetParam{TicketCreateTimeStopDay} && $GetParam{TicketCreateTimeStopMonth} && $GetParam{TicketCreateTimeStopYear}) {
+              $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStopYear}.
+                '-'.$GetParam{TicketCreateTimeStopMonth}.
+                '-'.$GetParam{TicketCreateTimeStopDay}.
+                ' 23:59:59';
+          }
+        }
+        elsif ($GetParam{TimeSearchType} eq 'TimePoint') {
+          if ($GetParam{TicketCreateTimePoint} && $GetParam{TicketCreateTimePointStart} && $GetParam{TicketCreateTimePointFormat}) {
+            my $Time = 0;
+            if ($GetParam{TicketCreateTimePointFormat} eq 'day') {
+                $Time = $GetParam{TicketCreateTimePoint} * 60 * 24;
+            }
+            elsif ($GetParam{TicketCreateTimePointFormat} eq 'week') {
+                $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 7;
+            }
+            elsif ($GetParam{TicketCreateTimePointFormat} eq 'month') {
+                $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 30;
+            }
+            elsif ($GetParam{TicketCreateTimePointFormat} eq 'year') {
+                $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 356;
+            }
+            if ($GetParam{TicketCreateTimePointStart} eq 'Before') {
+                $GetParam{TicketCreateTimeOlderMinutes} = $Time;
+            }
+            else {
+                $GetParam{TicketCreateTimeNewerMinutes} = $Time;
+            }
+          }
+        }
+        # focus of "From To Cc Subject Body"
+        foreach (qw(From To Cc Subject Body)) {
+            if (defined($GetParam{$_})) {
+                $GetParam{$_} = "*$GetParam{$_}*";
+            }
+        }
+        # perform ticket search
         my $Counter = 0;
         my @ViewableIDs = $Self->{TicketObject}->SearchTicket(
             Result => 'ARRAY',
@@ -294,7 +375,7 @@ sub Run {
     # empty search site
     else {
         # delete profile
-        if ($Self->{erasetemplate} && $Self->{Profile}) {
+        if ($Self->{EraseTemplate} && $Self->{Profile}) {
             $Self->{DBObject}->Do(
                 SQL => "DELETE FROM search_profile WHERE ".
                   "profile_name = '".$Self->{DBObject}->Quote($Self->{Profile}).
@@ -304,7 +385,7 @@ sub Run {
             $Self->{Profile} = '';
         }
         # set profile to zero
-        elsif (!$Self->{selecttemplate}) {
+        elsif (!$Self->{SelectTemplate}) {
 #            $Self->{Profile} = '';
         }
         # generate search mask
@@ -404,6 +485,50 @@ sub MaskForm {
         Size => 5,
         SelectedIDRefArray => $Param{PriorityIDs},
     );
+    $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { 
+            1 => 1, 
+            2 => 2, 
+            3 => 3, 
+            4 => 4, 
+            5 => 5, 
+            6 => 6, 
+            7 => 7, 
+            8 => 8, 
+            9 => 9, 
+        },
+        Name => 'TicketCreateTimePoint',
+        SelectedID => $Param{TicketCreateTimePoint},
+    );
+    $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { 
+            'Last' => 'last', 
+            'Before' => 'before', 
+        },
+        Name => 'TicketCreateTimePointStart',
+        SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
+    );
+    $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { 
+            day => 'day(s)',
+            week => 'week(s)',
+            month => 'month(s)',
+            year => 'year(s)',
+        },
+        Name => 'TicketCreateTimePointFormat',
+        SelectedID => $Param{TicketCreateTimePointFormat},
+    );
+    $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix => 'TicketCreateTimeStart',
+        Format => 'DateInputFormat',
+    );
+    $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix => 'TicketCreateTimeStop',
+        Format => 'DateInputFormat',
+        DiffTime => -((60*60*24)*30),
+    );
     # html search mask output
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentUtilSearch', 
@@ -462,9 +587,12 @@ sub MaskPreviewResult {
     if ($Param{GetParam}) {
         foreach (qw(Body From To Subject)) {
           if ($Param{GetParam}->{$_}) {
-            my @SParts = split('%', $Param{GetParam}->{$_});
+            $Param{GetParam}->{$_} =~ s/(\*|\%)//g;
+            my @Parts = split('%', $Param{GetParam}->{$_});
             if ($Param{$_}) {
-                $Param{$_} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
+                foreach my $Part (@Parts) {
+                   $Param{$_} =~ s/($Part)/$HighlightStart$1$HighlightEnd/gi;
+                }
             }
           }
         }

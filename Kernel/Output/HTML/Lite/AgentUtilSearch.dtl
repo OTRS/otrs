@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearch.dtl,v 1.4 2004-01-09 16:48:46 martin Exp $
+# $Id: AgentUtilSearch.dtl,v 1.5 2004-01-19 23:50:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,8 +28,9 @@
   <input type="hidden" name="Action" value="AgentUtilities">
   <input type="hidden" name="Subaction" value="LoadProfile">
   $Text{"Search-Template"} $Data{"ProfilesStrg"}
-  <input class="button" name="selecttemplate" type="submit" value="$Text{"Select"}">
-  <input class="button" name="erasetemplate" type="submit" value="$Text{"Delete"}">
+  <input class="button" name="SelectTemplate" type="submit" value="$Text{"Select"}">
+  <input class="button" name="EraseTemplate" type="submit" value="$Text{"Delete"}">
+  <input class="button" name="SearchTemplate" type="submit" value="$Text{"Search"}">
   </form>
   </td>
 </tr>
@@ -49,12 +50,35 @@
   <td width="50%"><input type="text" name="TicketNumber" size="30" value="$Data{"TicketNumber"}"></td>
 </tr>
 <tr align="left">
-  <td>$Text{"CustomerID"} (z. B. 234321)</td>
+  <td>$Text{"CustomerID"} $Text{"(e. g. 234321)"}</td>
   <td><input type="text" name="CustomerID" size="30" value="$Data{"CustomerID"}"></td>
 </tr>
 <tr align="left">
-  <td>$Text{"Customer User Login"} (z. B. wps5150)</td>
+  <td>$Text{"Customer User Login"} $Text{"(e. g. U5150)"}</td>
   <td><input type="text" name="CustomerUserLogin" size="30" value="$Data{"CustomerUserLogin"}"></td>
+</tr>
+<tr align="left">
+  <td colspan="2" class="table2">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
+</tr>
+<tr align="left">
+  <td>$Text{"From"}</td>
+  <td><input type="text" name="From" size="30" value="$Data{"From"}"></td>
+</tr>
+<tr align="left">
+  <td>$Text{"To"}</td>
+  <td><input type="text" name="To" size="30" value="$Data{"To"}"></td>
+</tr>
+<tr align="left">
+  <td>$Text{"Cc"}</td>
+  <td><input type="text" name="Cc" size="30" value="$Data{"Cc"}"></td>
+</tr>
+<tr align="left">
+  <td>$Text{"Subject"}</td>
+  <td><input type="text" name="Subject" size="30" value="$Data{"Subject"}"></td>
+</tr>
+<tr align="left">
+  <td>$Text{"Body"}</td>
+  <td><input type="text" name="Body" size="30" value="$Data{"Body"}"></td>
 </tr>
 <tr align="left">
   <td colspan="2" class="table2">$Text{"TicketFreeText"}</td>
@@ -91,29 +115,6 @@
 #  <td>$Data{"TicketFreeKeyField8"}</td>
 #  <td>$Data{"TicketFreeTextField8"}</td>
 #</tr>
-<tr align="left">
-  <td colspan="2" class="table2">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
-</tr>
-<tr align="left">
-  <td>$Text{"From"}</td>
-  <td><input type="text" name="From" size="30" value="$Data{"From"}"></td>
-</tr>
-<tr align="left">
-  <td>$Text{"To"}</td>
-  <td><input type="text" name="To" size="30" value="$Data{"To"}"></td>
-</tr>
-<tr align="left">
-  <td>$Text{"Cc"}</td>
-  <td><input type="text" name="Cc" size="30" value="$Data{"Cc"}"></td>
-</tr>
-<tr align="left">
-  <td>$Text{"Subject"}</td>
-  <td><input type="text" name="Subject" size="30" value="$Data{"Subject"}"></td>
-</tr>
-<tr align="left">
-  <td>$Text{"Body"}</td>
-  <td><input type="text" name="Body" size="30" value="$Data{"Body"}"></td>
-</tr>
 </table>
 
 <table width="600" border="0" cellspacing="1" cellpadding="3">
@@ -139,12 +140,18 @@ $Data{"UserStrg"}
   <td colspan="2" class="table2">$Text{"Times"}</td>
 </tr>
 <tr align="left">
-  <td width="50%">$Text{"Time Period"}</td>
-  <td width="50%">Last Week, Last Month, Last Year</td>
+  <td colspan="2"><input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}>
+  $Text{"No time settings."}
+  </td>
+</tr>
+  <td colspan="2"><input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}>
+  $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
+  </td>
 </tr>
 <tr align="left">
-  <td>$Text{"Time Ranges"}</td>
-  <td>start - end</td>
+  <td colspan="2"><input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}>
+  $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
+  </td>
 </tr>
 <tr align="left">
   <td class="table2">$Text{"Result Form"}</td>
@@ -158,7 +165,7 @@ $Data{"UserStrg"}
   </td>
 </tr>
 </table>
-<input class="button" type="submit" value="$Text{"search"}">
+<input class="button" type="submit" value="$Text{"Search"}">
 </form>
 
   </td>
