@@ -3,7 +3,7 @@
 # scripts/test/UserAuth.pl - test script of user auth 
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UserAuth.pl,v 1.1 2003-10-06 22:39:47 martin Exp $
+# $Id: UserAuth.pl,v 1.2 2003-10-13 20:29:54 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,13 +23,13 @@
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
-use lib dirname($RealBin);
-use lib dirname($RealBin)."/Kernel/cpan-lib";
+use lib dirname($RealBin).'/..';
+use lib dirname($RealBin).'/../Kernel/cpan-lib';
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
