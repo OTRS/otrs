@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.32 2003-01-15 18:32:31 martin Exp $
+# $Id: TODO,v 1.33 2003-01-18 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,15 +10,20 @@
 # --
 
 1.1
-- merge tickets (http://lists.otrs.org/pipermail/otrs/2002-August/000147.html)
-- send bulk answer (http://lists.otrs.org/pipermail/otrs/2002-June/000066.html)
-- Add a ticket browser by date (http://lists.otrs.org/pipermail/otrs/2002-August/000176.html)
-- interfaceing with bugzilla
-- internationalization of agent notification messages
-- win32 compatibility (SMTP module, Log module, ...)
+- Add Zoom view all articles config option - 
+   http://lists.otrs.org/pipermail/otrs/2003-January/000784.html (martin)
+- merge tickets -
+   http://lists.otrs.org/pipermail/otrs/2002-August/000147.html (martin)
+- send bulk answer -
+   http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
+- Add a ticket browser by date  - 
+   http://lists.otrs.org/pipermail/otrs/2002-August/000176.html (martin)
+- interfaceing with bugzilla (martin)
+- internationalization of agent notification messages (martin)
+- win32 compatibility (SMTP module, Log module, ...) (martin)
 
 2.0
-- sub-queues (http://lists.otrs.org/pipermail/otrs/2002-June/000065.html)
+- sub-queues (http://lists.otrs.org/pipermail/otrs/2002-June/000065.html) (martin)
 
 misc
 - Email-notification sent to problem reporter (by create, locked, deleted,
