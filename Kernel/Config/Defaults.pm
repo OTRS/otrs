@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.154 2004-09-08 22:02:52 martin Exp $
+# $Id: Defaults.pm,v 1.154.2.1 2004-09-16 08:06:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.154 $';
+$VERSION = '$Revision: 1.154.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1774,6 +1774,7 @@ Your OTRS Notification Master
         CustomerUserSearchListLimit => 250,
         CustomerUserPostMasterSearchFields => ['email'],
         CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
+        CustomerUserEmailUniqCheck => 1,
 #        AutoLoginCreation => 0,
 #        AutoLoginCreationPrefix => 'auto',
 #        AdminSetPreferences => 1,
