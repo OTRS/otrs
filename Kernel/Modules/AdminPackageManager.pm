@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.4 2004-12-02 12:24:10 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.5 2004-12-02 12:36:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -147,15 +147,6 @@ sub Run {
         if (!$Package) {
             return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
         }
-        # add package to repository
-        if (!$Self->{PackageObject}->RepositoryAdd(String => $Package)) {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
-        # get package
-#        $Package = $Self->{PackageObject}->RepositoryGet(
-#            Name => $Name,
-#            Version => $Version,
-#        );
         if (!$Package) {
             return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
         }
@@ -183,19 +174,6 @@ sub Run {
         # check
         if (!$Package) {
             return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
-        }
-        # add package to repository
-        if (!$Self->{PackageObject}->RepositoryAdd(String => $Package)) {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
-        # delete old packages
-        if ($Self->{PackageObject}->RepositoryRemove(Name => $Name)) {
-            if (!$Self->{PackageObject}->RepositoryAdd(String => $Package)) {
-                return $Self->{LayoutObject}->ErrorScreen();
-            }
-        }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen();
         }
         # get package
 #        $Package = $Self->{PackageObject}->RepositoryGet(
@@ -230,12 +208,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUninstall(String => $Package)) {
-                if ($Self->{PackageObject}->RepositoryRemove(Name => $Name)) {
-                    return $Self->{LayoutObject}->ErrorScreen(Message => 'Uninstalled');
-                }
-                else {
-                    return $Self->{LayoutObject}->ErrorScreen();
-                }
+                return $Self->{LayoutObject}->ErrorScreen(Message => 'Uninstalled');
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -254,7 +227,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen(Message => 'Need File');
         }
         else {
-            if ($Self->{PackageObject}->RepositoryAdd(String => $UploadStuff{Content})) {
+            if ($Self->{PackageObject}->PackageInstall(String => $UploadStuff{Content})) {
                 return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {

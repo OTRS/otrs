@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.4 2004-12-02 12:24:34 martin Exp $
+# $Id: Package.pm,v 1.5 2004-12-02 12:35:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -435,6 +435,8 @@ sub PackageInstall {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Config conflict, can't install package!");
         return;
     }
+    # add package
+    $Self->RepositoryAdd(String => %Param);
     # update package status
     my $SQL = "UPDATE package_repository SET install_status = 'installed'".
         " WHERE ".
@@ -510,6 +512,9 @@ sub PackageUpgrade {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Package is not installed, can't upgrade!");
         return;
     }
+    # remove old packages
+    $Self->RepositoryRemove(Name => $Structur{Name}->{Content});
+    $Self->RepositoryAdd(String => %Param);
     # check OS
     my $OSCheckOk = 1;
     if ($Structur{OS} && ref($Structur{OS}) eq 'ARRAY') {
@@ -651,13 +656,15 @@ sub PackageUninstall {
             }
         }
     }
-    # update package status
-    my $SQL = "UPDATE package_repository SET install_status = 'not installed'".
-        " WHERE ".
-        " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
-        " AND ".
-        " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
-    $Self->{DBObject}->Do(SQL => $SQL);
+    # remove old packages
+    $Self->RepositoryRemove(Name => $Structur{Name}->{Content});
+#    # update package status
+#    my $SQL = "UPDATE package_repository SET install_status = 'not installed'".
+#        " WHERE ".
+#        " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
+#        " AND ".
+#        " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
+#    $Self->{DBObject}->Do(SQL => $SQL);
 
     # remove config settings
 #    $Self->{ConfigToolObject}->ConfigDelete(
@@ -1179,6 +1186,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2004-12-02 12:24:34 $
+$Revision: 1.5 $ $Date: 2004-12-02 12:35:45 $
 
 =cut
