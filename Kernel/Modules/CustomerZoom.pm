@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.24 2004-06-17 09:59:31 martin Exp $
+# $Id: CustomerZoom.pm,v 1.25 2004-07-16 23:00:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,22 +15,22 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-    # allocate new hash for object 
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    # get common objects 
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
         ConfigObject UserObject SessionObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -38,7 +38,7 @@ sub new {
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     # get ArticleID
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
-    
+
     return $Self;
 }
 # --
@@ -61,7 +61,7 @@ sub Run {
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
-    }  
+    }
     # store last screen
     if ($Self->{Subaction} ne 'ShowHTMLeMail') {
       if (!$Self->{SessionObject}->UpdateSessionID(
@@ -73,7 +73,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->CustomerError();
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
-      }  
+      }
     }
     # --
     # fetch all std. responses
@@ -223,11 +223,8 @@ sub _Mask {
         }
     }
     # check show article type
-    if ($Article{ArticleType} eq 'email-notification-int' ||
-          $Article{ArticleType} eq 'email-internal' ||
-          $Article{ArticleType} eq 'note-internal') {
-        my $Output .= $Self->{LayoutObject}->CustomerError(Message => 'No permission!');
-        return $Output;
+    if ($Article{ArticleType} !~ /int/) {
+        return $Self->{LayoutObject}->CustomerError(Message => 'No permission!');
     }
     # get attacment string
     my %AtmIndex = ();
