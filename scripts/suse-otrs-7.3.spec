@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.7 2002-09-23 14:45:52 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.8 2002-10-01 14:00:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -37,36 +37,66 @@ Authors:
     Stefan Wintermeyer <stefan@wintermeyer.de>
     Martin Edenhofer <martin+rpm@otrs.org>
 
+  OTRS is an Open source Ticket Request System with many features to manage
+  customer telephone calls and e-mails. It is distributed under the GNU
+  General Public License (GPL) and tested on Linux, Solaris, AIX, FreeBSD
+  and Mac OS 10.x. Do you receive many e-mails and want to answer them with
+  a team of agents? You're going to love the OTRS!
+
   Feature list:
-  - Agent web interface for viewing and working on all customer requests.
-  - Admin web interface for changing system things.
-  - Customer web interface for viewing and sending infos to the agents.
-  - Central database which contains all configuration, customer information.
-  - Custom queue view.
-  - Ticket locking.
-  - Ticket autoreplies (standard responses)
-  - Ticket history, evolution of ticket status and actions taken on ticket
-  - Abaility to add notes (with different note types) to a ticket.
-  - Ticket zoom feature
-  - Tickets can be bounced or forwarded to other email addresses.
-  - Ticket can be moved to a different queue (this is helpful if emails are
-     for a specific subject)
-  - Fulltext search.
-  - Ticket priority.
-  - Creation and configuration of user accounts, and groups
-  - Creation of standard responses
-  - Signature and Salutation configuration
-  - Multi language support.
-  - Email-notification of administrators.
-  - Email-notification sent to problem reporter (by create, locked, deleted,
-     moved and closed)
-  - Submitting update-info (via email or webinterface).
-  - Deadlines for trouble tickets.
-  - Different levels of permissions/access-rights.
+
+   Web-Interface:
+    - Agent web interface for viewing and working on all customer requests
+    - Admin web interface for changing system things
+    - Customer web interface for viewing and sending infos to the agents
+    - Webinterface with themes support
+    - Multi language support (english, german and french)
+    - customize the output templates (dtl) release independently
+    - easy and logical to use
+
+   Email-Interface:
+    - MIME support (attachments)
+    - dispatching of incoming email via email addess or x-header
+    - autoresponders for customers by incoming emails (per queue)
+    - email-notification to the agent by new tickets, follow ups or lock timeouts
+
+   Ticket:
+    - custom queue view and queue view of all requests
+    - Ticket locking
+    - Ticket replies (standard responses)
+    - Ticket autoresponders per queue
+    - Ticket history, evolution of ticket status and actions taken on ticket
+    - abaility to add notes (with different note types) to a ticket
+    - Ticket zoom feature
+    - Tickets can be bounced or forwarded to other email addresses
+    - Ticket can be moved to a different queue (this is helpful if emails are
+       for a specific subject)
+    - Ticket priority
+    - Ticket time accounting
+    - content Fulltext search
+
+   System:
+    - creation and configuration of user accounts, and groups
+    - creation of standard responses
+    - Signature configuration per queue
+    - Salutation configuration per queue
+    - email-notification of administrators
+    - email-notification sent to problem reporter (by create, locked, deleted,
+       moved and closed)
+    - submitting update-info (via email or webinterface).
+    - deadlines for trouble tickets
+    - ASP (activ service providing) support
+    - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
+    - Ticket number format free setable
+    - different levels of permissions/access-rights.
+    - central database, Support of different SQL databases (e. g. MySQL, PostgeSQL, ...)
+    - user authentication agains database or ldap directory
+    - easy to develope you own addon's (OTRS API)
+    - easy to write different frontends (e. g. X11, console, ...)
+    - a fast and usefull application
 
 
 SuSE series: ap
-
 
 %prep
 %setup -n OpenTRS
@@ -104,6 +134,8 @@ export OTRSUSER=otrs
 echo -n "Check OTRS user (/etc/passwd)... " 
 if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
     echo "$OTRSUSER exists."
+    # update groups
+    usermod -G nogroup otrs
 else
     useradd $OTRSUSER -d /opt/OpenTRS/ -s /bin/false -G nogroup -c 'OTRS User' && echo "$OTRSUSER added."
 fi

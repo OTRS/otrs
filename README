@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.8 2002-09-23 20:38:08 martin Exp $
+# $Id: README,v 1.9 2002-10-01 14:00:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,8 +12,11 @@
 What is OTRS?
 =============
 
-  OTRS has been developed with many features to manage customer
-  emails and telephone calls.
+  OTRS is an Open source Ticket Request System with many features to manage 
+  customer telephone calls and e-mails. It is distributed under the GNU 
+  General Public License (GPL) and tested on Linux, Solaris, AIX, FreeBSD 
+  and Mac OS 10.x. Do you receive many e-mails and want to answer them with 
+  a team of agents? You're going to love the OTRS!
 
   Feature list:
 
@@ -23,47 +26,54 @@ What is OTRS?
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
     - Multi language support (english, german and french)
-    - customize the output templates (dtl) release independently
+    - customize the output templates (dtl) release independently 
+    - easy and logical to use
 
    Email-Interface:
     - MIME support (attachments)
-    - Dispatching of incoming email via email addess or x-header
+    - dispatching of incoming email via email addess or x-header
     - autoresponders for customers by incoming emails (per queue)
     - email-notification to the agent by new tickets, follow ups or lock timeouts
 
    Ticket:
-    - Custom queue view
+    - custom queue view and queue view of all requests
     - Ticket locking
     - Ticket replies (standard responses)
     - Ticket autoresponders per queue
     - Ticket history, evolution of ticket status and actions taken on ticket
-    - Abaility to add notes (with different note types) to a ticket
+    - abaility to add notes (with different note types) to a ticket
     - Ticket zoom feature
     - Tickets can be bounced or forwarded to other email addresses
     - Ticket can be moved to a different queue (this is helpful if emails are 
        for a specific subject)
     - Ticket priority
     - Ticket time accounting
-    - Content Fulltext search
+    - content Fulltext search
 
    System:
-    - Central database which contains all configuration, customer information.
-    - Creation and configuration of user accounts, and groups
-    - Creation of standard responses
+    - ASP (activ service providing) support
+    - Ticket number format free setable
+    - creation and configuration of user accounts, and groups 
+    - creation of standard responses
     - Signature configuration per queue
     - Salutation configuration per queue
     - email-notification of administrators
     - email-notification sent to problem reporter (by create, locked, deleted, 
        moved and closed)
-    - Submitting update-info (via email or webinterface).
-    - Deadlines for trouble tickets
-    - ASP (activ service providing) support
+    - submitting update-info (via email or webinterface)
+    - deadlines for trouble tickets
     - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
-    - Ticket number format free setable
-    - Different levels of permissions/access-rights. 
-    - Support of different SQL databases (e. g. MySQL, PostgeSQL, ...)
+    - different levels of permissions/access-rights 
+    - central database, Support of different SQL databases (e. g. MySQL, PostgeSQL, ...)
     - user authentication agains database or ldap directory
- 
+    - easy to develope you own addon's (OTRS API)
+    - easy to write different frontends (e. g. X11, console, ...)
+    - a fast and usefull application
+
+Todo: 
+    - API to other ticket systems like Paregrine
+    - XML interface
+
 License:
 ========
   It is distributed under the GNU General Public License - see the
