@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.29 2004-03-02 21:11:37 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.30 2004-03-02 21:23:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -70,7 +70,7 @@ function clear_field()
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" 
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose"> 
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="StoreNew">
 <input type="hidden" name="ExpandCustomerName" value="0">
