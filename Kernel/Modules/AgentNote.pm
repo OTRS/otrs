@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.42 2004-11-16 12:24:53 martin Exp $
+# $Id: AgentNote.pm,v 1.43 2005-02-10 22:10:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -377,6 +377,17 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'InvolvedAgent',
+            Data => \%Param,
+        );
+    }
+    # show time accounting box
+    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
             Data => \%Param,
         );
     }

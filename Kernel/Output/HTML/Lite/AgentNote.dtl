@@ -1,8 +1,8 @@
 # --
 # AgentNote.dtl - provides HTML form for note mask
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.31 2004-12-20 10:42:38 martin Exp $
+# $Id: AgentNote.dtl,v 1.32 2005-02-10 22:10:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,11 +23,13 @@ function submit_compose()
         document.compose.Body.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else {
         return true;
     }
@@ -131,10 +133,12 @@ function SpellCheckSubmit()
         <td class="contentkey">$Text{"Note type"}:</td>
         <td class="contentvalue">$Data{"NoteStrg"}</td>
       </tr>
+<!-- dtl:block:TimeUnits -->
       <tr>
         <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
         <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
       </tr>
+<!-- dtl:block:TimeUnits -->
       </table>
 
       </td>
