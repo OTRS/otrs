@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.111 2004-05-25 10:46:39 martin Exp $
+# $Id: Ticket.pm,v 1.112 2004-05-28 08:02:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.111 $';
+$VERSION = '$Revision: 1.112 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -337,6 +337,7 @@ sub TicketCreate {
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
         $Self->HistoryAdd(
             TicketID => $TicketID,
+            QueueID => $Param{QueueID},
             HistoryType => 'NewTicket',
             Name => "\%\%$Param{TN}\%\%$Queue\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
             CreateUserID => $Param{UserID},
@@ -716,6 +717,7 @@ sub MoveTicket {
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
+            QueueID => $OldQueueID,
             HistoryType => 'Move',
             Name => "\%\%$Queue\%\%$Param{QueueID}\%\%$OldQueue\%\%$OldQueueID",
             CreateUserID => $Param{UserID},
@@ -834,8 +836,6 @@ sub SetCustomerData {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or No for update!");
         return;
     }
-    # clear ticket cache
-    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -868,6 +868,8 @@ sub SetCustomerData {
             Name => "\%\%".$Param{History}, 
             CreateUserID => $Param{UserID},
         );
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         return 1;
     }
     else {
@@ -956,8 +958,6 @@ sub TicketFreeTextSet {
         $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}) {
         return 1;
     }
-    # clear ticket cache
-    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     my $DBValue = $Self->{DBObject}->Quote($Value);
     my $DBKey = $Self->{DBObject}->Quote($Key);
@@ -970,10 +970,13 @@ sub TicketFreeTextSet {
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
+            QueueID => $Ticket{QueueID},
             HistoryType => 'TicketFreeTextUpdate',
             Name => "\%\%FreeKey$Param{Counter}\%\%$Key\%\%FreeText$Param{Counter}\%\%$Value", 
             CreateUserID => $Param{UserID},
         );
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         return 1;
     }
     else {
@@ -1346,8 +1349,6 @@ sub TicketPendingTimeSet {
       }
     }
     my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year});
-    # clear ticket cache
-    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -1366,6 +1367,8 @@ sub TicketPendingTimeSet {
               sprintf("%02d", $Param{Hour}).':'.sprintf("%02d", $Param{Minute}).'',
             CreateUserID => $Param{UserID},
         );
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         return 1;
     }
     else {
@@ -1561,7 +1564,7 @@ To find tickets in your system.
 
       # ticket properties (optional)
       TicketNumber => '%123546%',
-      Queue => 'system queue',
+      Queues => ['system queue', 'other queue'],
       States => ['new', 'open'],
       StateIDs => [3, 4],
       StateType => 'Open', # Open|Closed tickets
@@ -1576,7 +1579,7 @@ To find tickets in your system.
       # 1..8 (optional)
       TicketFreeKey1 => 'Product',
       TicketFreeText1 => 'adasd',
-      # or with multi options as array ref
+      # or with multi options as array ref or string possible
       TicketFreeKey2 => ['Product', 'Product2'],
       TicketFreeText2 => ['Browser', 'Sound', 'Mouse'],
 
@@ -1589,15 +1592,15 @@ To find tickets in your system.
       # content search (AND or OR) (optional)
       ContentSearch => 'AND',
 
-      # tickets older the 60 minutes (optional)
+      # tickets after 60 minutes (optional)
       TicketCreateTimeOlderMinutes => 60,
-      # tickets newer then 60 minutes (optional)
-      TicketCreateTimeNewerMinutes => 60,
+      # tickets before 120 minutes (optional)
+      TicketCreateTimeNewerMinutes => 120,
 
-      # tickets with create time older then .... (optional)
-      TicketCreateTimeOlderDate => '2004-01-19 00:00:01',
-      # tickets with create time newer then ... (optional)
-      TicketCreateTimeNewerDate => '2004-01-09 23:59:59',
+      # tickets with create time after ... (optional)
+      TicketCreateTimeNewerDate => '2004-01-09 00:00:01',
+      # tickets with create time before then .... (optional)
+      TicketCreateTimeOlderDate => '2004-01-19 23:59:59',
 
       # user search (optional)
       UserID => 123,
@@ -1813,7 +1816,7 @@ sub TicketSearch {
     }
     # ticket free text
     foreach (1..8) {
-        if ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq 'SCALAR') {
+        if ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq '') {
             $Param{"TicketFreeKey$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND st.freekey$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeKey$_"})."'";
         }
@@ -1835,7 +1838,7 @@ sub TicketSearch {
         }
     }
     foreach (1..8) {
-        if ($Param{"TicketFreeText$_"} && ref($Param{"TicketFreeText$_"}) eq 'SCALAR') {
+        if ($Param{"TicketFreeText$_"} && ref($Param{"TicketFreeText$_"}) eq '') {
             $Param{"TicketFreeText$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND st.freetext$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeText$_"})."'";
         }
@@ -1904,7 +1907,7 @@ sub TicketSearch {
     my %Tickets = ();
     my @TicketIDs = ();
     $Self->{DBObject}->Prepare(SQL => $SQL.$SQLExt, Limit => $Limit);
-#print STDERR "SQL: $SQL$SQLExt\n";
+print STDERR "SQL: $SQL$SQLExt\n";
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Tickets{$Row[0]} = $Row[1];
         push (@TicketIDs, $Row[0]);
@@ -2147,7 +2150,7 @@ sub StateSet {
       $Self->HistoryAdd(
           TicketID => $Param{TicketID},
           ArticleID => $ArticleID,
-          HistoryType => 'StateUpdate',
+          QueueID => $Ticket{QueueID},
           Name => "\%\%$Ticket{State}\%\%$Param{State}",
           CreateUserID => $Param{UserID},
       );
@@ -2323,8 +2326,6 @@ sub OwnerSet {
         # update is "not" needed!
         return 1;
     }
-    # clear ticket cache
-    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -2341,6 +2342,8 @@ sub OwnerSet {
           HistoryType => 'OwnerUpdate',
           Name => "\%\%$Param{NewUser}\%\%$Param{NewUserID}",
       );
+      # clear ticket cache
+      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
       # send agent notify
       if ($Param{UserID} ne $Param{NewUserID} && 
            $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
@@ -2548,8 +2551,6 @@ sub PrioritySet {
         );
         return;
     }
-    # clear ticket cache
-    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -2562,11 +2563,14 @@ sub PrioritySet {
       # add history
       $Self->HistoryAdd(
           TicketID => $Param{TicketID},
+          QueueID => $TicketData{QueueID},
           CreateUserID => $Param{UserID},
           HistoryType => 'PriorityUpdate',
           Name => "\%\%$TicketData{Priority}\%\%$TicketData{PriorityID}".
               "\%\%$Param{Priority}\%\%$Param{PriorityID}",
       );
+      # clear ticket cache
+      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
       return 1;
     }
     else {
@@ -2663,6 +2667,7 @@ add a history entry to an ticket
       HistoryType => 'Move', # see system tables
       TicketID => 123,
       ArticleID => 1234, # not required!
+      QueueID => 123, # not required!
       UserID => 123,
       CreateUserID => 123,
   );
@@ -2699,13 +2704,17 @@ sub HistoryAdd {
     if (!$Param{ValidID}) {
         $Param{ValidID} = $Self->{DBObject}->GetValidIDs();
     }
+    # get QueueID
+    if (!$Param{QueueID}) {
+        $Param{QueueID} = $Self->TicketQueueID(TicketID => $Param{TicketID});
+    }
     # db insert
     my $SQL = "INSERT INTO ticket_history " .
-    " (name, history_type_id, ticket_id, article_id, valid_id, " .
+    " (name, history_type_id, ticket_id, article_id, system_queue_id, valid_id, " .
     " create_time, create_by, change_time, change_by) " .
         "VALUES " .
     "('$Param{Name}', $Param{HistoryTypeID}, $Param{TicketID}, ".
-    " $Param{ArticleID}, $Param{ValidID}, " .
+    " $Param{ArticleID}, $Param{QueueID}, $Param{ValidID}, " .
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
@@ -2850,8 +2859,6 @@ sub TicketAccountTime {
     my $TimeUnit = $Param{TimeUnit};
     $TimeUnit =~ s/,/\./g;
     $TimeUnit = int($TimeUnit);
-    # clear ticket cache
-    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -2879,6 +2886,8 @@ sub TicketAccountTime {
           HistoryType => 'TimeAccounting',
           Name => $HistoryComment, 
       );
+      # clear ticket cache
+      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
       return 1;
     }
     else {
@@ -3117,6 +3126,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.111 $ $Date: 2004-05-25 10:46:39 $
+$Revision: 1.112 $ $Date: 2004-05-28 08:02:28 $
 
 =cut
