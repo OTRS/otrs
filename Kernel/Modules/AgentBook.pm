@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBook.pm - spelling module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBook.pm,v 1.5 2004-03-24 15:42:17 martin Exp $
+# $Id: AgentBook.pm,v 1.6 2004-11-04 11:04:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,25 +15,25 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject 
+    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject
       ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
@@ -46,12 +46,11 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
     # get params
     foreach (qw(To Cc Bcc)) {
         $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-    } 
-    # ger listed users
+    }
+    # get list of users
     my $Search = $Self->{ParamObject}->GetParam(Param => 'Search');
     my %CustomerUserList = ();
     if ($Search) {
@@ -59,39 +58,27 @@ sub Run {
             Search => $Search,
         );
     }
-    my %AddressList = ();
+    my %List = ();
     foreach (keys %CustomerUserList) {
         my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $_, 
+            User => $_,
         );
-        $AddressList{$CustomerUserData{UserEmail}} = $CustomerUserList{$_};
+        $List{$CustomerUserData{UserEmail}} = $CustomerUserList{$_};
+    }
+    foreach (sort { $List{$b} <=> $List{$a} } keys %List) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Row',
+            Data => {
+                Name => $List{$_},
+                Email => $_,
+            },
+        );
     }
     # start with page ...
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Address Book', Type => 'Small');
-    $Output .= $Self->_Mask(
-        List => \%AddressList,
-        %Param,
-    );
+    my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Address Book', Type => 'Small');
+    $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentBook', Data => \%Param);
     $Output .= $Self->{LayoutObject}->Footer(Type => 'Small');
     return $Output;
-}
-# --
-sub _Mask {
-    my $Self = shift;
-    my %Param = @_;
-    # do html quoteing
-    foreach (qw(To Cc Bcc)) {
-        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_});
-    }
-    my %List = %{$Param{List}};
-    foreach (keys %List) {
-        $Param{AddressList} .= '<tr><td>'.$Self->{LayoutObject}->Ascii2Html(Text => $List{$_}).
-            "</td><td><a href=\"\" onclick=\"AddToAddress('$_'); return false;\">\$Text{\"To\"}</a></td>".
-            "</td><td><a href=\"\" onclick=\"AddCcAddress('$_'); return false;\">\$Text{\"Cc\"}</a></td>".
-            "<td><a href=\"\" onclick=\"AddBccAddress('$_'); return false;\">\$Text{\"Bcc\"}</a></td></tr>";
-    }
-    # create & return output
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBook', Data => \%Param);
 }
 # --
 1;

@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBook.dtl,v 1.5 2004-10-06 19:47:53 martin Exp $
+# $Id: AgentBook.dtl,v 1.6 2004-11-04 11:04:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -80,22 +80,23 @@ function AddBccAddress(x)
 
 <table border="0" cellspacing="0" cellpadding="1">
 <tr>
-  <td>$Text{"To"}:</td><td> <input type="text" name="To" value="$Data{"To"}" size="80"></td>
+  <td>$Text{"To"}:</td><td> <input type="text" name="To" value="$QData{"To"}" size="80"></td>
 </tr>
 <tr>
-  <td>$Text{"Cc"}:</td><td> <input type="text" name="Cc" value="$Data{"Cc"}" size="80"></td>
+  <td>$Text{"Cc"}:</td><td> <input type="text" name="Cc" value="$QData{"Cc"}" size="80"></td>
 </tr>
 </tr>
 <tr>
-  <td>$Text{"Bcc"}:</td><td> <input type="text" name="Bcc" value="$Data{"Bcc"}" size="80"></td>
+  <td>$Text{"Bcc"}:</td><td> <input type="text" name="Bcc" value="$QData{"Bcc"}" size="80"></td>
 </tr>
 </table>
 
 <br>
-<input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"> 
+
+<input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">
 <i>($Text{"Return to the compose screen"})</i>
 
-<input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"> 
+<input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
 <i>($Text{"Discard all changes and return to the compose screen"})</i>
 
 <hr>
@@ -109,8 +110,15 @@ function AddBccAddress(x)
 </tr>
 </table>
 
-<table border="0" cellspacing="2" cellpadding="2">
-$Data{"AddressList"}
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<!-- dtl:block:Row -->
+<tr>
+  <td>$QData{"Name"}</td>
+  <td><a href="" onclick="AddToAddress('$QData{"Email"}'); return false;">$Text{"To"}</a></td>
+  <td><a href="" onclick="AddCcAddress('$QData{"Email"}'); return false;">$Text{"Cc"}</a></td>
+  <td><a href="" onclick="AddBccAddress('$QData{"Email"}'); return false;">$Text{"Bcc"}</a></td>
+</tr>
+<!-- dtl:block:Row -->
 </table>
 
   <hr>
