@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Sendmail.pm,v 1.7 2003-04-09 19:46:09 martin Exp $
+# $Id: Sendmail.pm,v 1.7.2.1 2003-06-01 19:20:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.7.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -82,28 +82,28 @@ sub Send {
             $To .= ", $Param{$_}" if ($Param{$_});
         }
     }
-    # --
-    # send mail
-    # --
-    # SOLO_adress patch by Robert Kehl (2003-03-11)
+    # get sender 
+    # - SOLO_adress patch by Robert Kehl (2003-03-11) -
     my @SOLO_address = Mail::Address->parse($Param{From});
     my $RealFrom = $SOLO_address[0]->address();
-
+    # send mail
     if (open( MAIL, "|".$Self->{Sendmail}." '$RealFrom' " )) {
         print MAIL $Param{Header};
         print MAIL "\n";
         print MAIL $Param{Body};
         close(MAIL);
-        # -- 
-        # log
-        # -- 
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Sent email to '$To' from '$Param{From}'. Subject => $Param{Subject};",
-        );
+        # debug 
+        if ($Self->{Debug}) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Sent email to '$To' from '$Param{From}'. ".
+                  "Subject => $Param{Subject};",
+            );
+        }
         return 1;
     }
     else {
+        # log error
         $Self->{LogObject}->Log(
             Priority => 'error', 
             Message => "Can't use ".$Self->{Sendmail}.": $!!",
