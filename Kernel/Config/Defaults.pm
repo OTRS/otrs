@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.112 2004-02-23 23:25:06 martin Exp $
+# $Id: Defaults.pm,v 1.113 2004-02-26 21:44:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.112 $';
+$VERSION = '$Revision: 1.113 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1222,6 +1222,10 @@ Your OTRS Notification Master
     # CustomerDefaultPriority
     # (default priority of new customer tickets)
     $Self->{CustomerDefaultPriority} = '3 normal';
+
+    # CustomerDefaultState
+    # (default state of new customer tickets)
+    $Self->{CustomerDefaultState} = 'new';
 
     # CustomerNextScreenAfterNewTicket
 #    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerZoom';
