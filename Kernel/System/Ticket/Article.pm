@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.70.2.3 2004-10-01 12:50:36 martin Exp $
+# $Id: Article.pm,v 1.70.2.4 2004-10-01 16:22:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70.2.3 $';
+$VERSION = '$Revision: 1.70.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1384,7 +1384,7 @@ sub ArticleSend {
     }
     # crypt detached!
 #my $NotCryptedBody = $Entity->body_as_string();
-    if ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Detached') {
+    if ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{SubType} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Detached') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
@@ -1435,7 +1435,7 @@ sub ArticleSend {
             );
         }
     }
-    elsif ($Param{Crypt}->{Type} eq 'SMIME') {
+    elsif ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{Type} eq 'SMIME') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
