@@ -1,8 +1,8 @@
 # --
 # AgentPhoneNew.dtl - provides HTML form for phone
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.16 2003-03-02 10:10:24 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.17 2003-03-10 23:35:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ function submit_compose()
 function SpellCheckSubmit()
 {
     document.spelling.Body.value = document.compose.Body.value;
-    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=650,height=550,left=100,top=100');
+    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
 }
 // -->
@@ -91,6 +91,11 @@ function clear_field()
     <td>$Data{"ToStrg"}</td>
   </td>
   </tr>
+# --
+# show owner string
+<dtl if ($Config{"PhoneViewOwnerSelection"} eq "1") { $Data{"OwnerSelection"} = "<tr><td>$Text{"Owner"}:</td><td>$Data{"OptionStrg"}</td></tr>"; }>
+    $Data{"OwnerSelection"}
+# --
   <tr>
     <td>$Text{"Subject"}:</td>
     <td><input type="text" name="Subject" value="$Data{"Subject"}" size="60"> <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
@@ -108,7 +113,7 @@ function clear_field()
   </tr>
   <tr>
     <td valign="top">$Text{"Text"}:</td><td class="table1">
-<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
 $Data{"Body"}
 </textarea>
     </td>
@@ -135,7 +140,7 @@ $Data{"Body"}
   </tr>
   </table>
 <br>
-<input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
+<input type="submit" value="$Text{"create"}" onclick="return submit_compose();">
 </form>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.91 2003-03-05 17:50:20 martin Exp $
+# $Id: Agent.pm,v 1.92 2003-03-10 23:35:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.91 $';
+$VERSION = '$Revision: 1.92 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -127,6 +127,7 @@ sub QueueView {
         my @QueueName = split(/::/, $Queue{Queue});
         my $ShortQueueName = $QueueName[$#QueueName];
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
+        $Queue{QueueID} = -1 if (!$Queue{QueueID});
         # should i highlight this queue
         if ($Param{SelectedQueue} =~ /^$QueueName[0]/ && $Level-1 >= $#QueueName) {
             if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^$MetaQueue[0]$/) {
@@ -337,6 +338,12 @@ sub AgentZoom {
     # create short html customer id
     # --
     $Param{CustomerIDHTML} = $Param{CustomerID} || '';
+    if ($Param{Lock} =~ /unlock/) {
+        $Param{Locked} = 2;
+    }
+    else {
+        $Param{Locked} = 1;
+    }
     # --
     # do some html quoting
     # --
@@ -443,7 +450,7 @@ sub AgentZoom {
     $Param{ArticleStrg} = '<table border="0" width="100%" cellspacing="0" cellpadding="0">';
     foreach my $ArticleTmp (@ArticleBox) {
       my %Article = %$ArticleTmp;
-      if ($Article{ArticleType} ne 'email-notification-int') {
+      if ($Article{ArticleType} !~ /^email-notification/i) {
         $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
         if ($LastSenderType ne $Article{SenderType}) {
             $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -514,7 +521,7 @@ sub AgentZoom {
         # --
         if ($Param{"ShowHTMLeMail"}) {
             # generate output
-            my $Output = "Content-Disposition: attachment; filename=";
+            my $Output = "Content-Disposition: inline; filename=";
             $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
             $Output .= "$Param{TicketID}-$Article{ArticleID}\n";
             $Output .= "Content-Type: $Article{MimeType}; charset=$Article{ContentCharset}\n";
@@ -883,6 +890,13 @@ sub AgentPhone {
 sub AgentPhoneNew {
     my $Self = shift;
     my %Param = @_;
+    # build string
+    $Param{Users}->{''} = '-';
+    $Param{'OptionStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{Users},
+        SelectedID => $Param{UserSelected},
+        Name => 'NewUserID',
+    ); 
     # --
     # build next states string
     # --
@@ -910,11 +924,23 @@ sub AgentPhoneNew {
              $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
         }
     }
-    $Param{'ToStrg'} = $Self->OptionStrgHashRef(
-        Data => \%NewTo, 
-        Name => 'Dest',
-        SelectedID => $Param{ToSelected},
-    );
+    if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
+        $Param{'ToStrg'} = $Self->AgentQueueListOption(
+            Data => \%NewTo,
+            Multiple => 0,
+            Size => 0,
+            Name => 'Dest',
+            SelectedID => 0,
+            OnChangeSubmit => 0,
+        );
+    }
+    else {
+        $Param{'ToStrg'} = $Self->OptionStrgHashRef(
+            Data => \%NewTo, 
+            Name => 'Dest',
+            SelectedID => $Param{ToSelected},
+        );
+    }
     # --
     # customer info string 
     # --
@@ -931,19 +957,11 @@ sub AgentPhoneNew {
     # --
     # build priority string
     # --
-    if ($Param{PriorityID}) { 
-      $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
+    $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{Priorities},
         Name => 'PriorityID',
-        SelectedID => $Param{PriorityID},
-      );
-    } else {
-      $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{Priorities},
-        Name => 'PriorityID',
-        Selected => $Self->{ConfigObject}->Get('PhoneDefaultPriority') || '3 normal',
-      );
-    }
+        Selected => $Param{PriorityID} || $Self->{ConfigObject}->Get('PhoneDefaultPriority'),
+    );
     # --
     # pending data string
     # --
@@ -1793,7 +1811,7 @@ sub AgentSpelling {
     # dict language selection
     # --
     $Param{SpellLanguageString}  .= $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('SpellCheckerDict'),
+        Data => $Self->{ConfigObject}->Get('PreferencesGroups')->{SpellDict}->{Data},
         Name => "SpellLanguage",
         SelectedID => $Param{SpellLanguage},
     );

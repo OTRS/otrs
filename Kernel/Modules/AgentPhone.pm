@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.31 2003-03-06 22:11:59 martin Exp $
+# $Id: AgentPhone.pm,v 1.32 2003-03-10 23:35:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,13 +54,11 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
     my $QueueID = $Self->{QueueID};
-    my $Subaction = $Self->{Subaction};
     my $NextScreen = $Self->{NextScreen} || 'AgentZoom';
     my $UserLogin = $Self->{UserLogin};
     
-    if ($Subaction eq '' || !$Subaction) {
+    if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # --
         # header
         # --
@@ -68,7 +66,7 @@ sub Run {
         # --
         # if there is no ticket id!
         # --
-        if (!$TicketID) {
+        if (!$Self->{TicketID}) {
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --
@@ -78,7 +76,8 @@ sub Run {
               QueueID => $QueueID,
               NextScreen => $NextScreen,
               NextStates => $Self->_GetNextStates(),
-              Priorities => $Self->_GetPriorities(),
+              Priorities => $Self->_GetPriorities(), 
+              Users => $Self->_GetUsers(),
               Body => '$Text{"$Config{"PhoneDefaultNewNoteText"}"}',
               Subject => '$Config{"PhoneDefaultNewSubject"}',
               To => $Self->_GetTos(),
@@ -101,7 +100,7 @@ sub Run {
         # --
         # get ticket info
         # --
-        my %TicketData = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
+        my %TicketData = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
         my $Tn = $TicketData{TicketNumber};
         my %CustomerData = ();
         if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
@@ -119,12 +118,12 @@ sub Run {
         # --
         # get lock state && permissions
         # --
-        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
+        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
           # --
           # set owner
           # --
           $Self->{TicketObject}->SetOwner(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             NewUserID => $Self->{UserID},
           );
@@ -132,17 +131,17 @@ sub Run {
           # set lock
           # --
           if ($Self->{TicketObject}->SetLock(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             Lock => 'lock',
             UserID => $Self->{UserID},
           )) {
             # show lock state
-            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);
+            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
           }
         }
         else {
           my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
-              TicketID => $TicketID,
+              TicketID => $Self->{TicketID},
           );
 
           if ($OwnerID != $Self->{UserID}) {
@@ -158,7 +157,7 @@ sub Run {
         # print form ...
         # --
         $Output .= $Self->{LayoutObject}->AgentPhone(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             QueueID => $QueueID,
             NextScreen => $NextScreen,
             TicketNumber => $Tn,
@@ -168,7 +167,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    elsif ($Subaction eq 'Store') {
+    elsif ($Self->{Subaction} eq 'Store') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body');
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
@@ -181,7 +180,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
         if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultArticleType'),
             SenderType => $Self->{ConfigObject}->Get('PhoneDefaultSenderType'),
             From => $UserLogin,
@@ -198,7 +197,7 @@ sub Run {
           # --
           if ($TimeUnits) {
             $Self->{TicketObject}->AccountTime(
-              TicketID => $TicketID,
+              TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
               TimeUnit => $TimeUnits,
               UserID => $Self->{UserID},
@@ -208,7 +207,7 @@ sub Run {
           # set state
           # --
           $Self->{TicketObject}->SetState(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             State => $NextState,
             UserID => $Self->{UserID},
@@ -217,7 +216,7 @@ sub Run {
           # set answerd
           # --
           $Self->{TicketObject}->SetAnswered(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Answered => $Answered,
          );
@@ -227,7 +226,7 @@ sub Run {
          my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
          if ($StateData{TypeName} =~ /^close/i) {
            $Self->{TicketObject}->SetLock(
-             TicketID => $TicketID,
+             TicketID => $Self->{TicketID},
              Lock => 'unlock',
              UserID => $Self->{UserID},
            );
@@ -238,7 +237,7 @@ sub Run {
          elsif ($StateData{TypeName} =~ /^pending/i) {
              $Self->{TicketObject}->SetPendingTime(
                  UserID => $Self->{UserID},
-                 TicketID => $TicketID,
+                 TicketID => $Self->{TicketID},
                  %GetParam,
              );
          }
@@ -246,7 +245,7 @@ sub Run {
          # redirect to zoom view
          # --        
          return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
+            OP => "Action=$NextScreen&QueueID=$QueueID&TicketID=$Self->{TicketID}",
          );
       }
       else {
@@ -256,13 +255,14 @@ sub Run {
         return $Output;
       }
     }
-    elsif ($Subaction eq 'StoreNew') {
+    elsif ($Self->{Subaction} eq 'StoreNew') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
         my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID') || '';
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
+        my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest); 
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
@@ -381,6 +381,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
               QueueID => $QueueID,
               NextScreen => $NextScreen,
+              Users => $Self->_GetUsers(),
+              UserSelected => $NewUserID,
               NextStates => $Self->_GetNextStates(),
               NextState => $NextState,
               Priorities => $Self->_GetPriorities(),
@@ -419,8 +421,15 @@ sub Run {
             UserID => $Self->{UserID},
             CreateUserID => $Self->{UserID},
         );
-
-      if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
+        # --
+        # check if new owner is given (then send no agent notify)
+        # --
+        my $NoAgentNotify = 0;
+        if ($NewUserID) {
+            $NoAgentNotify = 1;
+        }
+        if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
+            NoAgentNotify => $NoAgentNotify,
             TicketID => $TicketID,
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultNewArticleType'),
             SenderType => $Self->{ConfigObject}->Get('PhoneDefaultNewSenderType'),
@@ -442,13 +451,27 @@ sub Run {
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
           # --
-          # set lock
+          # set lock (get lock type)
           # --
+          my $Lock = $Self->{ConfigObject}->Get('PhoneDefaultNewLock') || 'lock';
+          if ($NewUserID) {
+              $Lock = 'lock';
+          }
           $Self->{TicketObject}->SetLock(
               TicketID => $TicketID,
-              Lock => $Self->{ConfigObject}->Get('PhoneDefaultNewLock') || 'lock',
+              Lock => $Lock, 
               UserID => $Self->{UserID},
           );
+          # --
+          # set owner (if new user id is given)
+          # --
+          if ($NewUserID) {
+              $Self->{TicketObject}->SetOwner(
+                  TicketID => $TicketID, 
+                  NewUserID => $NewUserID,
+                  UserID => $Self->{UserID},
+              );
+          }
           # --
           # time accounting
           # --
@@ -527,6 +550,40 @@ sub _GetNextStates {
     return \%NextStates;
 }
 # --
+sub _GetUsers {
+    my $Self = shift;
+    my %Param = @_;
+    # -- 
+    # get users 
+    # --
+    my %ShownUsers = ();
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type => 'Long',
+        Valid => 1,
+    );
+    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+        %ShownUsers = %AllGroupsMembers;
+    }
+    else {
+        my %Groups = $Self->{GroupObject}->GroupUserList(
+            UserID => $Self->{UserID},
+            Type => 'rw',
+            Result => 'HASH',
+        );
+        foreach (keys %Groups) {
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                    GroupID => $_,
+                    Type => 'rw',
+                    Result => 'HASH',
+            );
+            foreach (keys %MemberList) {
+                    $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
+        }
+    }
+    return \%ShownUsers;
+}
+# --
 sub _GetPriorities {
     my $Self = shift;
     my %Param = @_;
@@ -560,10 +617,10 @@ sub _GetTos {
         }
         else {
             %Tos = $Self->{DBObject}->GetTableData(
-                        Table => 'system_address',
-                        What => 'queue_id, id',
-                        Valid => 1,
-                        Clamp => 1,
+                Table => 'system_address',
+                What => 'queue_id, id',
+                Valid => 1,
+                Clamp => 1,
             );
         }
         # --
