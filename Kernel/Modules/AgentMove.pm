@@ -2,7 +2,7 @@
 # AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.2 2002-07-12 16:02:57 martin Exp $
+# $Id: AgentMove.pm,v 1.3 2002-07-13 03:28:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMove;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub Run {
     }
     else {
         # update
-        if ($Self->{TicketObject}->MoveTicketID(
+        if ($Self->{TicketObject}->MoveByTicketID(
           QueueID => $Self->{DestQueueID},
           UserID => $Self->{UserID},
           TicketID => $Self->{TicketID},
