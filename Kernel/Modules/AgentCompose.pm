@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.13 2002-06-08 18:22:14 martin Exp $
+# $Id: AgentCompose.pm,v 1.14 2002-06-13 22:09:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -81,7 +81,7 @@ sub Form {
     my $UserLogin = $Self->{UserLogin};
   
     # start with page ...
-    $Output .= $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
  
     # check needed stuff
     if (!$TicketID) {
@@ -250,7 +250,7 @@ sub SendEmail {
         ConfigObject => $Self->{ConfigObject},
         LogObject => $Self->{LogObject},
     );
-    my $ArticleID = $EmailObject->Send(
+    if (my $ArticleID = $EmailObject->Send(
         DBObject => $Self->{DBObject},
         ArticleObject => $Self->{ArticleObject},
         ArticleType => 'email-external',
@@ -268,44 +268,55 @@ sub SendEmail {
         Body => $Self->{Body},
         InReplyTo => $Self->{InReplyTo},
         Charset => $Charset,
-    );
+    )) {
 
-    # --
-    # set state
-    # --
-    if ($Self->{TicketObject}->GetState(TicketID => $TicketID)  ne $NextState) {
-        $Self->{TicketObject}->SetState(
+        # --
+        # set state
+        # --
+        if ($Self->{TicketObject}->GetState(TicketID => $TicketID)  ne $NextState) {
+          $Self->{TicketObject}->SetState(
             TicketID => $TicketID,
             ArticleID => $ArticleID,
             State => $NextState,
             UserID => $UserID,
+          );
+        }
+        # --
+        # set answerd
+        # --
+        $Self->{TicketObject}->SetAnswered(
+          TicketID => $TicketID,
+          UserID => $UserID,
+          Answered => $Self->{Answered},
         );
-    }
-    # --
-    # set answerd
-    # --
-    $Self->{TicketObject}->SetAnswered(
-        TicketID => $TicketID,
-        UserID => $UserID,
-        Answered => $Self->{Answered},
-    );
-    # --
-    # should i set an unlock?
-    # --
-    if ($NextState =~ /^close/i) {
-        $Self->{TicketObject}->SetLock(
+        # --
+        # should i set an unlock?
+        # --
+        if ($NextState =~ /^close/i) {
+          $Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
             Lock => 'unlock',
             UserID => $UserID,
-        );
+          );
+      }
+      # --
+      # make redirect
+      # --
+      $Output .= $Self->{LayoutObject}->Redirect(
+          OP => "&Action=$NextScreen&QueueID=$QueueID",
+      );
+      return $Output;
     }
-    # --
-    # make redirect
-    # --
-    $Output .= $Self->{LayoutObject}->Redirect(
-        OP => "&Action=$NextScreen&QueueID=$QueueID",
-    );
-    return $Output;
+    else {
+      # start with page ...
+      $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
+      $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't send email!",
+          Comment => 'Please contact the admin.',
+      );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }
 }
 # --
 
