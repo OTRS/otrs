@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.3 2004-01-21 00:42:39 martin Exp $
+# $Id: FAQ.pm,v 1.4 2004-01-21 22:51:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,6 +83,31 @@ sub Run {
             TemplateFile => 'FAQSearch', 
             Data => { %Param },
         );
+        # build an overview
+        my %Categories = $Self->{FAQObject}->CategoryList(UserID => $Self->{UserID});
+        foreach (sort {$Categories{$a} cmp $Categories{$b}} keys %Categories) {
+            $Param{Overview} .= "<b>$Categories{$_}</b><br>";
+            my @FAQIDs = $Self->{FAQObject}->Search(
+                %Param,
+#            States => ['internal (agent)', 'external (customer)', 'public (all)'],
+#                LanguageIDs => \@LanguageIDs,
+                CategoryIDs => [$_],
+                UserID => $Self->{UserID},
+            );
+            my %AllArticle = ();
+            foreach (@FAQIDs) {
+                my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
+                $AllArticle{$Data{ID}} = "<a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>";
+                $AllArticle{$Data{ID}} .= "[$Data{Language}/$Data{Category}] $Data{Subject} (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})</a><br>";
+            }
+            foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
+                $Param{Overview} .= $AllArticle{$_};
+            }
+        }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'FAQOverview', 
+            Data => { %Param },
+        );
     }
     # search action
     elsif ($Self->{Subaction} eq 'Search') {
@@ -90,19 +115,19 @@ sub Run {
         $Output .= $Self->{LayoutObject}->FAQNavigationBar();
         my @FAQIDs = $Self->{FAQObject}->Search(
             %Param,
-#            States => ['internal (agent)', 'external (customer)', 'public (all)'],
+            States => ['external (customer)', 'public (all)'],
             LanguageIDs => \@LanguageIDs,
             CategoryIDs => \@CategoryIDs,
             UserID => $Self->{UserID},
         );
         my %AllArticle = ();
         foreach (@FAQIDs) {
-            my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
+            my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID});
             $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}</td><td> (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})";
         }
         foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
-            $Param{List} .= "<tr><td><a href='\$Env{\"Baselink\"}Action=FAQ&ID=$_'>$AllArticle{$Data{ID}}</a></td></tr>\n";
+            $Param{List} .= "<tr><td><a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>$AllArticle{$Data{ID}}</a></td></tr>\n";
         }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQSearch', 
@@ -147,7 +172,7 @@ sub Run {
                 UserID => $Row->{CreatedBy},
                 Cached => 1,
             );
-            $Param{HistoryList} .= "<tr><td><a href=\"\$Env{\"Baselink\"}Action=FAQ&ID=$Row->{ID}\">[$Data{Language}/$Data{Category}] $Data{Subject}</a></td><td> (\$Text{\"$Row->{Name}\"} - \$TimeLong{\"$Data{Changed}\"} - $User{UserLogin} ($User{UserFirstname} $User{UserLastname}))</td></tr>";
+            $Param{HistoryList} .= "<tr><td><a href=\"\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$Row->{ID}\">[$Data{Language}/$Data{Category}] $Data{Subject}</a></td><td> (\$Text{\"$Row->{Name}\"} - \$TimeLong{\"$Data{Changed}\"} - $User{UserLogin} ($User{UserFirstname} $User{UserLastname}))</td></tr>";
         }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQArticleSystemHistory', 
