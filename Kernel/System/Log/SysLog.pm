@@ -2,7 +2,7 @@
 # Kernel/System/Log/SysLog.pm - a wrapper for xyz::Syslog 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SysLog.pm,v 1.7 2003-03-08 15:09:23 martin Exp $
+# $Id: SysLog.pm,v 1.8 2004-04-26 12:25:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Sys::Syslog qw(:DEFAULT setlogsock);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.8 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,6 +27,8 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
+    $Self->{SysLogFacility} = $Param{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
+
     return $Self;
 }
 # --
@@ -37,7 +39,7 @@ sub Log {
     # start syslog connect
     # --
     setlogsock('unix');
-    openlog($Param{LogPrefix}, 'cons,pid', 'user');
+    openlog($Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility});
 
     if ($Param{Priority} =~ /debug/i) {
         syslog('debug', "[Debug][$Param{Module}][$Param{Line}] $Param{Message}");
