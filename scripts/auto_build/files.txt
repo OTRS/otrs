@@ -12,6 +12,9 @@
 %config(noreplace) /opt/otrs/var/cron/*
 
 /opt/otrs/RELEASE
+/opt/otrs/Kernel/Config.pm.dist
+/opt/otrs/Kernel/Config/GenericAgent.pm.dist
+/opt/otrs/Kernel/Config/GenericAgent.pm.examples
 /opt/otrs/Kernel/Config/Modules.pm
 /opt/otrs/Kernel/Config/Defaults.pm
 /opt/otrs/Kernel/Language.pm
@@ -29,5 +32,12 @@
 
 /opt/otrs/Kernel/cpan-lib*
 
-%doc INSTAL* UPGRADING TODO COPYING CHANGES READM* doc/*
+%doc /opt/otrs/INSTAL* 
+%doc /opt/otrs/UPGRADING 
+%doc /opt/otrs/TODO 
+%doc /opt/otrs/COPYING 
+%doc /opt/otrs/CHANGES 
+%doc /opt/otrs/READM* 
+%doc /opt/otrs/doc/*
+%doc /opt/otrs/CREDITS
 
