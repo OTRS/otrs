@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.34 2004-01-19 23:50:36 martin Exp $
+# $Id: AgentUtilities.pm,v 1.35 2004-02-17 16:27:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -391,7 +391,10 @@ sub Run {
         # generate search mask
         my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Utilities');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(%GetParam);
+        my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(
+            NullOption => 1, 
+            %GetParam,
+        );
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         $Output .= $Self->MaskForm(
             %GetParam, 

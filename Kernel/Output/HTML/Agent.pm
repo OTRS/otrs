@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.137 2004-02-12 00:53:14 martin Exp $
+# $Id: Agent.pm,v 1.138 2004-02-17 16:26:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.137 $';
+$VERSION = '$Revision: 1.138 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -474,12 +474,17 @@ sub AgentCustomerMessage {
 sub AgentFreeText {
     my $Self = shift;
     my %Param = @_;
+    my %NullOption = ();
+    $NullOption{''} = '-' if ($Param{NullOption});
     my %Data = ();
     foreach (1..20) {
         # key
         if (ref($Self->{ConfigObject}->Get("TicketFreeKey$_")) eq 'HASH') {
             $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
-                Data => $Self->{ConfigObject}->Get("TicketFreeKey$_"),
+                Data => { 
+                    %NullOption, 
+                    %{$Self->{ConfigObject}->Get("TicketFreeKey$_")},
+                },
                 Name => "TicketFreeKey$_",
                 SelectedID => $Param{"TicketFreeKey$_"},
             );
@@ -495,7 +500,10 @@ sub AgentFreeText {
         # value
         if (ref($Self->{ConfigObject}->Get("TicketFreeText$_")) eq 'HASH') {
             $Data{"TicketFreeTextField$_"} = $Self->OptionStrgHashRef(
-                Data => $Self->{ConfigObject}->Get("TicketFreeText$_"),
+                Data => { 
+                    %NullOption, 
+                    %{$Self->{ConfigObject}->Get("TicketFreeText$_")},
+                },
                 Name => "TicketFreeText$_",
                 SelectedID => $Param{"TicketFreeText$_"},
             );
