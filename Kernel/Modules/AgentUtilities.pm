@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.25 2003-04-15 21:04:38 martin Exp $
+# $Id: AgentUtilities.pm,v 1.26 2003-05-29 16:09:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentUtilities;
 
 use strict;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,6 +35,7 @@ sub new {
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # get params
     $Self->{Want} = $Self->{ParamObject}->GetParam(Param => 'Want') || '';
@@ -355,6 +357,20 @@ sub Search {
             %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $_);
             %Data = $Self->{TicketObject}->GetTicket(TicketID => $Article{TicketID});
         }
+        # --
+        # customer info
+        # --
+        my %CustomerData = ();
+        if ($Article{CustomerUserID}) {
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Article{CustomerUserID},
+            );
+        }
+        elsif ($Article{CustomerID}) {
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                CustomerID => $Article{CustomerID},
+            );
+        }
         $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
             %Data,
             ArticleID => $_,
@@ -369,6 +385,7 @@ sub Search {
             MimeType => $Article{MimeType},
             What => $Want,
             Highlight => 1,
+            CustomerData => \%CustomerData,
         );
       } 
     }

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.115 2003-05-29 11:23:15 martin Exp $
+# $Id: Agent.pm,v 1.116 2003-05-29 16:09:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.115 $';
+$VERSION = '$Revision: 1.116 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -410,7 +410,7 @@ sub AgentZoom {
     foreach (qw(State Priority Lock)) {
         $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
     }
-    foreach (qw(Priority State Owner Queue CustomerIDHTML Lock)) {
+    foreach (qw(Priority State Owner Queue CustomerIDHTML Lock UserFirstname UserLastname)) {
         $Param{$_} = $Self->Ascii2Html(
             Text => $Param{$_}, 
             Max => $Self->{ConfigObject}->Get('ViewableTicketStatusZoomMaxSize'),
@@ -1417,13 +1417,14 @@ sub AgentUtilSearchResult {
         $Param{Body} = '';
     }
     else {
-        # --
+        # charset convert
+        $Param{Body} = $Self->{LanguageObject}->CharsetConvert(
+            Text => $Param{Body},
+            From => $Param{ContentCharset},
+        );
         # do some strips
-        # --
         $Param{Body} =~ s/^\s*\n//mg;
-        # --
         # do some text quoting
-        # --
         $Param{Body} = $Self->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Param{Body},
@@ -1463,6 +1464,11 @@ sub AgentUtilSearchResult {
             }
         } 
     }
+    # customer info string 
+    $Param{CustomerTable} = $Self->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
+    );
     # create & return output
     return $Self->Output(TemplateFile => 'AgentUtilSearchResult', Data => \%Param);
 }
@@ -1939,10 +1945,15 @@ sub AgentStatusViewTable {
         $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
     }
     # do html quoteing
-    foreach (qw(State Queue Owner Lock CustomerID)) {
+    foreach (qw(State Queue Owner Lock CustomerID UserFirstname UserLastname CustomerName)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 10) || '';
     }
+    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
     foreach (qw(From To Cc Subject)) {
+        $Param{$_} = $Self->{LanguageObject}->CharsetConvert(
+            Text => $Param{$_},
+            From => $Param{ContentCharset},
+        );
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 30) || '';
     }
     # create & return output
