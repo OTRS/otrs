@@ -53,7 +53,7 @@ D:\otrs\bin\cgi-bin>
 <para>Install Perl using the default values to <emphasis>D:\Perl</emphasis>.</para>
 <section>
 <title>Install Additional PERL Packages</title>
-<para>Download the OTRS-Win32-Perl-Packages <ulink url="http://robert.kehl.bei.t-online.de/OTRS-Win32-Perl-Packages.zip">in one file</ulink> (coming from <emphasis>robert.kehl.bei.t-online.de</emphasis>, not browsable) and unpack the file into <computeroutput>D:\Perl</computeroutput>, preserving directory structure.</para>
+<para>Download the OTRS-Win32-Perl-Packages <ulink url="ftp://ftp.otrs.org/pub/otrs/misc/win32/OTRS-Win32-Perl-Packages.zip">in one file</ulink> (coming via FTP from <emphasis>ftp.otrs.org</emphasis>) and unpack it into <computeroutput>D:\Perl</computeroutput>, preserving directory structure.</para>
 </section>
 </section>
 
@@ -329,6 +329,21 @@ C:\><userinput>cd /d d:\otrs\bin</userinput>
 D:\otrs\bin><userinput>ren htaccess.txt .htaccess</userinput>
 </screen></para>
 <para>Now only users belonging to the group &quot;root&quot; and the system itself (CRON jobs f.e.) will be allowed to access the scripts in &quot;d:\otrs\bin&quot;.</para>
+</section>
+<section><title>Accelerating PHP and Perl</title>
+<para>We will now tell Sambar to speed up a bit while using Perl and PHP by telling him to load the two as ISAPI-DLLs.</para>
+<para>In <emphasis>D:\Sambar\config\config.ini</emphasis> you clear the value for <emphasis>CGI Extensions</emphasis> as shown beneath:</para>
+<para><screen>[common]
+CGI Extensions =</screen></para>
+<para>In <emphasis>D:\Sambar\config\mappings.ini</emphasis> you set these values:</para>
+<para><screen>[isapi]
+*.pl = d:\perl\bin\perlis.dll
+*.cgi = d:\perl\bin\perlis.dll
+*.php = d:\php\php4isapi.dll
+*.php4 = d:\php\php4isapi.dll
+*.php3 = d:\php\php4isapi.dll</screen></para>
+<para>Now you must copy the file <emphasis>D:\php\sapi\php4isapi.dll</emphasis> to <emphasis>d:\php\</emphasis>. Restart Sambar for all changes to take effect.</para>
+<para>That's it for Sambar.</para>
 </section>
 </section>
 
