@@ -1,0 +1,144 @@
+<chapter id="performance-tuning">
+<title>Performance Tuning</title>
+<para>
+An exhaustive list of various techniques you might want to use to get the 
+most performance possible out of your OTRS system: configuration, coding, 
+memory use and more.
+</para>
+
+<sect1 id="performance-tuning-otrs">
+<title>OTRS</title>
+<para>
+There are several options to improve the performance via OTRS.
+</para>
+
+<sect2>
+<title>TicketIndexModule</title>
+<para>
+You have three backend modules for the ticket index.
+</para> 
+<para>
+Kernel/Config.pm
+<programlisting>
+[...]
+    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+[...]
+</programlisting>
+</para> 
+
+<para>
+<itemizedlist mark='opencircle'>
+
+<listitem>
+<para>
+Kernel::System::Ticket::IndexAccelerator::RuntimeDB (default), generate 
+each queue view on the fly from ticket table. You will not have performance 
+trouble till ~ 50.000 tickets in your system. 
+</para>
+</listitem>
+
+<listitem>
+<para>
+Kernel::System::Ticket::IndexAccelerator::FS, write the shown tickets in a file. 
+Use bin/RebuildTicketIndex.pl for initial index building.
+</para>
+</listitem>
+
+<listitem>
+<para>
+Kernel::System::Ticket::IndexAccelerator::StaticDB, the most powerfull module, it 
+should be used over 80.000 tickets in a system - use a extra ticket_index table, 
+works like a view. Use bin/RebuildTicketIndex.pl for initial index building.
+</para>
+</listitem>
+
+</itemizedlist>
+
+</para>
+</sect2>
+
+
+<sect2>
+<title>TicketStorageModule</title>
+<para>
+You have two backend modules for the ticket/article storage .
+</para> 
+<para>
+Kernel/Config.pm
+<programlisting>
+[...]
+    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageDB';
+[...]
+</programlisting>
+</para> 
+
+<para>
+<itemizedlist mark='opencircle'>
+
+<listitem>
+<para>
+Kernel::System::Ticket::ArticleStorageDB (default), store attachments and co 
+into the database. Note: Don't use it for larger setups. 
+</para>
+<para>
+Pro: If your webserver user isn't the otrs user, use this module to have no 
+file permission problems.
+</para>
+<para>
+Contra: It's not really nice to store attachments in your database. Take care 
+that your database is able to store large objects. E. g. MySQL (config) 
+"set-variable = max_allowed_packet=8M" to store 8 MB objects (default is 2M). 
+</para>
+</listitem>
+
+<listitem>
+<para>
+Kernel::System::Ticket::ArticleStorageFS, store attachments and co in local 
+file system. Note: Use it for larger setups.
+</para>
+<para>
+Pro: Faster! 
+</para>
+<para>
+Contra: Your webserver user should be the otrs user (file system permissions!). 
+</para>
+</listitem>
+
+</itemizedlist>
+
+</para>
+</sect2>
+
+</sect1>
+
+
+<sect1 id="performance-tuning-database">
+<title>Database</title>
+<para>
+This depends on your used database. If you have trouble, go to read your 
+docu of your used database or ask your database admin. 
+</para>
+</sect1>
+
+
+<sect1 id="performance-tuning-webserver">
+<title>Webserver</title>
+<para>
+Of course you should use mod_perl (http://perl.apache.org/). It's much faster 
+(~ * 100) then pure cgi. But needs more RAM. So your httpd with mod_perl 
+will be about 16 MB (~10MB shared). And you can have establish datababase 
+connections on process startup (httpd). This saves also time (see README.webserver).
+</para>
+<para>
+If you have a really large installation (over 1000 new tickets a day and over 40 
+Agents) is a good idea to read "Choosing the Right Strategy" 
+(http://perl.apache.org/docs/1.0/guide/strategy.html).
+</para>
+<para>
+Anyway, if your bandwidth is a little bit small use mod_gzip 
+(http://www.schroepl.net/projekte/mod_gzip/). If you have a html
+page with 45k, mod_gzip compress it. The page will be about 7k. That's really nice.
+</para>
+</sect1>
+
+</chapter>
