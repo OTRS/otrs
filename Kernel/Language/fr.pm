@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.21 2003-04-12 23:03:37 martin Exp $
+# $Id: fr.pm,v 1.22 2003-06-22 19:28:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -255,8 +255,8 @@ sub Data {
       'Mon' => 'Lun',
       'Sat' => 'Sam',
       'Sun' => 'Dim',
-      'Thu' => 'Mar',
-      'Tue' => 'Jeu',
+      'Thu' => 'Jeu',
+      'Tue' => 'Mar',
       'Wed' => 'Mer',
 
     # Template: AdminAttachmentForm
