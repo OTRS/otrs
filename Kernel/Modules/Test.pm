@@ -1,8 +1,8 @@
 # --
-# Test.pm - a simple test module
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Modules/Test.pm - a simple test module
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Test.pm,v 1.3 2001-12-21 17:57:32 martin Exp $
+# $Id: Test.pm,v 1.4 2002-07-21 19:35:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::Test;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -22,7 +22,8 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # get common opjects
