@@ -2,7 +2,7 @@
 # Kernel/Config/CustomerPanel.pm - CustomerPanel config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPanel.pm,v 1.3 2002-10-20 15:44:17 martin Exp $
+# $Id: CustomerPanel.pm,v 1.4 2002-10-20 20:03:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::CustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -108,7 +108,7 @@ password.
 
 New Password: <OTRS_NEWPW>
 
-http://$Self->{FQDN}/cpanel/index.pl
+http://$Self->{FQDN}/$Self->{ScriptAlias}/customer.pl
 
 Your OTRS Notification Master
 ";
