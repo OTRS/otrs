@@ -2,7 +2,7 @@
 # Kernel/Config/ModulesCustomerPanel.pm - config file of all used application modules
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ModulesCustomerPanel.pm,v 1.1 2002-10-15 09:18:55 martin Exp $
+# $Id: ModulesCustomerPanel.pm,v 1.2 2002-10-20 12:04:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::ModulesCustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,14 +31,17 @@ use Kernel::System::Ticket;
 use Kernel::System::EmailSend;
 
 # web agent middle ware modules
-use Kernel::Modules::AgentQueueView;
+use Kernel::Modules::CustomerZoom;
+use Kernel::Modules::CustomerTicketOverView;
+use Kernel::Modules::CustomerMessage;
+use Kernel::Modules::CustomerPreferences;
 
 # --
 # common needed objects
 # (so you can access this modules in Kernel::Modules::* with 
 # $Self->{Key})
 # --
-$Kernel::Config::Modules::CommonObject = {
+$Kernel::Config::ModulesCustomerPanel::CommonObject = {
     # key => module
     QueueObject => 'Kernel::System::Queue', 
     TicketObject => 'Kernel::System::Ticket',
@@ -48,9 +51,9 @@ $Kernel::Config::Modules::CommonObject = {
 # (so you can access this params in Kernel::Modules::* with
 # $Self->{Key})
 # --
-$Kernel::Config::Modules::Param = {
+$Kernel::Config::ModulesCustomerPanel::Param = {
     # param => default value
-    Action => 'AgentQueueView',
+    Action => 'CustomerTicketOverView',
     QueueID => 0,
     TicketID => '',
 };
