@@ -2,7 +2,7 @@
 # INSTALL description of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.7 2002-04-22 22:29:55 martin Exp $
+# $Id: INSTALL,v 1.8 2002-04-24 21:53:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -60,7 +60,7 @@ Installation:
    --> send emails to the otrs user (e. g. otrs@localhost)
 
    or pipe an email directly into $OpenTRS_HOME/bin/Postmaster.pl
-    (e. g. 'cat /opt/OpenTRS/test-email-1.box | $OpenTRS_HOME/bin/Postmaster.pl').
+    (e. g. 'cat /opt/OpenTRS/doc/test-email-1.box | /opt/OpenTRS/bin/PostMaster.pl').
 
 Remark: For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
