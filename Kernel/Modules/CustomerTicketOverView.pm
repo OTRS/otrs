@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.25 2004-04-30 06:54:49 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.26 2004-06-22 11:44:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,10 +40,10 @@ sub new {
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
           || die 'No Config entry "ViewableSenderTypes"!';
     # get params 
-    $Self->{ShowClosedTickets} = $Self->{ParamObject}->GetParam(Param => 'ShowClosedTickets') || 0;
+    $Self->{ShowClosedTickets} = $Self->{ParamObject}->GetParam(Param => 'ShowClosedTickets');
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0; 
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1; 
     $Self->{Type} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'MyTickets'; 
     if ($Self->{StartHit} >= 1000) {
         $Self->{StartHit} = 1000;
@@ -90,12 +90,16 @@ sub Run {
     # check if just open tickets should be shown
     my $SQLExt = '';
     my $ShowClosed = 0;
-    if ((defined($Self->{UserShowClosedTickets}) && !$Self->{UserShowClosedTickets}) 
-      || (!defined $Self->{UserShowClosedTickets} && !$Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
-        $ShowClosed = 0;
+    if (!defined($Self->{ShowClosedTickets})) {
+        if (defined($Self->{UserShowClosedTickets})) {
+            $ShowClosed = $Self->{UserShowClosedTickets};
+        }
+        else {
+            $ShowClosed = $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected};
+        }
     }
-    if ($Self->{ShowClosedTickets}) {
-        $ShowClosed = 1;
+    else {
+        $ShowClosed = $Self->{ShowClosedTickets};
     }
     # get data (viewable tickets...)
     my $StateType = '';
@@ -134,20 +138,31 @@ sub Run {
     my $Counter = 0;
     foreach my $TicketID (@ViewableTickets) {
       $Counter++;
-      if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{PageShown}+$Self->{StartHit})) {
+      if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{PageShown}+$Self->{StartHit})) {
         $OutputTable .= $Self->ShowTicketStatus(TicketID => $TicketID);
       }
     }
-    $Output .= $Self->{LayoutObject}->CustomerStatusView(
-        StatusTable => $OutputTable, 
-        SortBy => $Self->{SortBy},
-        Order => $Self->{Order},
+    # create & return output
+    my %PageNav = $Self->{LayoutObject}->PageNavBar(
+        Limit => 10000,
+        StartHit => $Self->{StartHit},
         PageShown => $Self->{PageShown},
         AllHits => $AllTickets,
-        StartHit => $Self->{StartHit},
-        ShowClosed => $ShowClosed,
-        Type => $Self->{Type},
+        Action => "Action=CustomerTicketOverView",
+        Link => "SortBy=$Self->{SortBy}&Order=$Self->{Order}&ShowClosedTickets=$ShowClosed&Type=$Self->{Type}&",
     );
+    # create & return output
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerStatusView', 
+        Data => {
+            StatusTable => $OutputTable,
+            Type => $Self->{Type},
+            ShowClosed => $ShowClosed,
+            %PageNav,
+            %Param,
+        },
+    );
+
     # get page footer
     $Output .= $Self->{LayoutObject}->CustomerFooter();
     
@@ -169,9 +184,15 @@ sub ShowTicketStatus {
     $Subject =~ s/^RE://i;
     $Subject =~ s/\[${TicketHook}:.*\]//;
     # return ticket
-    return $Self->{LayoutObject}->CustomerStatusViewTable(
-        %Article,
-        Subject => $Subject,
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ') || 0;
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerStatusViewTable', 
+        Data => {
+            %Article,
+            Subject => $Subject,
+            %Param,
+        },
     );
 }
 # --
