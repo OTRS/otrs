@@ -2,7 +2,7 @@
 # AgentPriority.dtl - provides HTML for AgentPriority mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.dtl,v 1.10 2003-04-12 22:03:28 martin Exp $
+# $Id: AgentPriority.dtl,v 1.11 2003-04-13 22:24:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0">
   <tr>
-    <td>$Text{"New state"}:</td><td>$Data{"OptionStrg"}</td>
+    <td>$Text{"Priority"}:</td><td>$Data{"OptionStrg"}</td>
   </tr>
   </table>
 <br>
