@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.2 2004-06-11 06:58:19 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.3 2004-06-22 09:58:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -67,7 +67,7 @@ sub Run {
     }
     # get signle params
     my %GetParam = ();
-    foreach (qw(TicketNumber From To Cc Subject Body ResultForm TimeSearchType
+    foreach (qw(TicketNumber From To Cc Subject Body CustomerID ResultForm TimeSearchType
       TicketCreateTimePointFormat TicketCreateTimePoint 
       TicketCreateTimePointStart
       TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth 
@@ -81,7 +81,7 @@ sub Run {
               " WHERE ".
               " profile_name = '".$Self->{DBObject}->Quote($Self->{Profile})."' AND ".
               " profile_key = '$_' AND ".
-              " login = '".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
+              " login = 'Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
             $Self->{DBObject}->Prepare(SQL => $SQL);
             while (my @Row = $Self->{DBObject}->FetchrowArray()) {
                 $GetParam{$_} = $Row[0];
@@ -104,7 +104,7 @@ sub Run {
               " WHERE ".
               " profile_name = '".$Self->{DBObject}->Quote($Self->{Profile})."' AND ".
               " profile_key = '$_' AND ".
-              " login = '".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
+              " login = 'Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
             $Self->{DBObject}->Prepare(SQL => $SQL);
             my @Array = ();
             while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -142,6 +142,39 @@ sub Run {
         # fill up profile name (e.g. with last-search)
         if (!$Self->{Profile} || !$Self->{SaveProfile}) {
             $Self->{Profile} = 'last-search';
+        }
+        # save search profile (under last-search or real profile name)
+        $Self->{SaveProfile} = 1;
+        # remember last search values
+        if ($Self->{SaveProfile} && $Self->{Profile}) {
+            # remove old profile stuff
+            my $SQL = "DELETE FROM search_profile WHERE ".
+                  "profile_name = '".$Self->{DBObject}->Quote($Self->{Profile}).
+                  "' AND login = 'Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
+            $Self->{DBObject}->Do(SQL => $SQL);
+            # insert new profile params
+            foreach my $Key (keys %GetParam) {
+              if ($GetParam{$Key}) {
+                if (ref($GetParam{$Key}) eq 'ARRAY') {
+                    foreach (@{$GetParam{$Key}}) {
+                      my $SQL = "INSERT INTO search_profile (login, profile_name, ".
+                        "profile_key, profile_value) VALUES ".
+                        " ('Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."', '".
+                        $Self->{DBObject}->Quote($Self->{Profile})."', '$Key', '".
+                        $Self->{DBObject}->Quote($_)."')";
+                      $Self->{DBObject}->Do(SQL => $SQL);
+                    }
+                }
+                else {
+                    my $SQL = "INSERT INTO search_profile (login, profile_name, ".
+                      "profile_key, profile_value) VALUES ".
+                      " ('Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."', '".
+                        $Self->{DBObject}->Quote($Self->{Profile})."', '$Key', '".
+                        $Self->{DBObject}->Quote($GetParam{$Key})."')";
+                    $Self->{DBObject}->Do(SQL => $SQL);
+                }
+              }
+            }
         }
 
         # get time settings
