@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminLanguage.pm - to add/update/delete system language
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLanguage.pm,v 1.3 2002-07-21 16:50:55 martin Exp $
+# $Id: AdminLanguage.pm,v 1.4 2002-07-21 16:58:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminLanguage;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject PermissionObject) {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject PermissionObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -48,15 +48,14 @@ sub Run {
     # permission check
     # --
     if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
+        return $Self->{LayoutObject}->NoPermission();
     }
     # --
     # get data
     # --
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        $Output .= $Self->{LayoutObject}->Header(Title => 'System address change');
+        $Output = $Self->{LayoutObject}->Header(Title => 'System address change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my $SQL = "SELECT language, valid_id " .
            " FROM " .
@@ -71,6 +70,7 @@ sub Run {
                 ValidID => $Data[1],
             );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # update action
@@ -91,11 +91,12 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
         }
         else {
-          $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
           $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin');
           $Output .= $Self->{LayoutObject}->Footer();
+          return $Output;
         }
     }
     # --
@@ -114,27 +115,28 @@ sub Run {
 		" ('$GetParam{Name}', $GetParam{ValidID}, " .
 		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {        
-             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
+             return $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->Error(
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+            $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin');
-        $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
     # --
     # else ! print form 
     # --
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'System language add');
+        $Output = $Self->{LayoutObject}->Header(Title => 'System language add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminLanguageForm();
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 # --
 
