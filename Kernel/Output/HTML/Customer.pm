@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.33 2004-04-07 18:27:35 martin Exp $
+# $Id: Customer.pm,v 1.34 2004-04-18 16:01:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -132,7 +132,7 @@ sub CustomerError {
     foreach (qw(Message Traceback)) {
       $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
           Type => 'Error', 
-          Message => $_
+          What => $_
       ) || '';
       $Param{'Backend'.$_} = $Self->Ascii2Html(
           Text => $Param{'Backend'.$_},
