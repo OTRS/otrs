@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.8 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.9 2004-10-31 18:22:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@
 
 <!-- dtl:block:Overview -->
 <tr>
-  <td width="40%" class="mainbody">
+  <td width="30%" class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -46,7 +46,7 @@
   </form>
 
   </td>
-  <td width="60%" class="mainbody">
+  <td width="70%" class="mainbody">
 
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
@@ -374,13 +374,13 @@
 
 <!-- dtl:block:Result -->
 <tr>
-  <td colspan="2" class="table2">
+  <td colspan="2" class="menu">
     <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Job-List"}</a> -
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&Profile=$QData{"Name"}">$Text{"Edit"}</a>
   </td>
 </tr>
 <tr>
-  <td colspan="2" class="table1">
+  <td colspan="2" class="mainbody">
   <p>
   $QData{"Message"}
   </p>
