@@ -837,7 +837,7 @@ CREATE TABLE process_id
     process_name varchar (200) NOT NULL,
     process_id varchar (200) NOT NULL,
     process_host varchar (200) NOT NULL,
-    process_create integer NOT NULL,
+    process_create integer NOT NULL
 );
 
 -----------------------------------------------------------------------------

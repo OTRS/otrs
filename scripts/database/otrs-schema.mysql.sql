@@ -900,6 +900,7 @@ CREATE TABLE postmaster_filter
 # -----------------------------------------------------------------------
 # generic_agent_jobs
 # -----------------------------------------------------------------------
+drop table if exists generic_agent_jobs;
 
 CREATE TABLE generic_agent_jobs (
   job_name varchar(200) NOT NULL,
@@ -931,7 +932,7 @@ CREATE TABLE process_id
     process_name varchar (200) NOT NULL,
     process_id varchar (200) NOT NULL,
     process_host varchar (200) NOT NULL,
-    process_create integer NOT NULL,
+    process_create integer NOT NULL
 );
 
 # -----------------------------------------------------------------------

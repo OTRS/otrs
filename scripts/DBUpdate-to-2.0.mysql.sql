@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.3 2004-09-16 09:42:46 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.4 2004-09-28 19:23:18 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.3.mysql.sql | mysql -f -u root otrs
@@ -81,6 +81,6 @@ CREATE TABLE process_id
     process_name varchar (200) NOT NULL,
     process_id varchar (200) NOT NULL,
     process_host varchar (200) NOT NULL,
-    process_create integer NOT NULL,
+    process_create integer NOT NULL
 );
 
