@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LinkObject.pm,v 1.3 2004-09-27 12:44:53 martin Exp $
+# $Id: LinkObject.pm,v 1.4 2004-11-28 09:12:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -207,6 +207,32 @@ sub UnlinkObject {
     }
 }
 
+sub RemoveLinkObject {
+    my $Self = shift;
+    my %Param = @_;
+    foreach (qw(Object ID)) {
+        if (!$Param{$_}) {
+             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my $SQL = "DELETE FROM object_link WHERE ".
+        " (object_link_a_id = $Param{ID} ".
+        " AND ".
+        " object_link_a_object = '$Param{Object}') ".
+        " OR ".
+        " (object_link_b_id = $Param{ID} ".
+        " AND ".
+        " object_link_b_object = '$Param{Object}')";
+
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
 sub LinkedObjects {
     my $Self = shift;
     my %Param = @_;
@@ -380,6 +406,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2004-09-27 12:44:53 $
+$Revision: 1.4 $ $Date: 2004-11-28 09:12:17 $
 
 =cut
