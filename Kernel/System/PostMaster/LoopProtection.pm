@@ -1,8 +1,8 @@
 # --
 # LoopProtection.pm - sub module of Postmaster.pm
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LoopProtection.pm,v 1.1 2001-12-30 00:33:14 martin Exp $
+# $Id: LoopProtection.pm,v 1.2 2002-06-08 21:03:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::LoopProtection;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -28,25 +28,28 @@ sub new {
 
     $Self->{Debug} = 0;
 
-    # get db object
-    $Self->{DBObject} = $Param{DBObject} || die 'Got no DBObject!';
+    # --
+    # get needed  objects
+    # --
+    foreach (qw(DBObject LogObject ConfigObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
 
-    # get LogObject
-    $Self->{LogObject} = $Param{LogObject} || die 'Got no LogObject!';
-
-    # get config object
-    $Self->{ConfigObject} = $Param{ConfigObject} || die 'Got no ConfigObject!';
-
+    # --
+    # get config options
+    # --
     $Self->{LoopProtectionLog} = $Self->{ConfigObject}->Get('LoopProtectionLog') 
         || die 'No Config option "LoopProtectionLog"!';
 
     $Self->{MaxPostMasterEmails} = $Self->{ConfigObject}->Get('MaxPostMasterEmails')
-        || die 'No Config option "MaxPostMasterEmails"!';
+        || 20;
 
+    # --
+    # create logfile name
+    # --
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
     $Year=$Year+1900;
     $Month++;
-
     $Self->{LoopProtectionLog} .= '-'.$Year.'-'.$Month.'-'.$Day.'.log';    
 
     return $Self;
@@ -57,6 +60,9 @@ sub SendEmail {
     my %Param = @_;
     my $To = $Param{To} || return;
 
+    # --
+    # write log
+    # --
     open (DATA, ">> $Self->{LoopProtectionLog}") || die "Can't open $Self->{LoopProtectionLog}: $!";
     print DATA "$To;".localtime().";\n";
     close (DATA);   
@@ -69,22 +75,37 @@ sub Check {
     my %Param = @_;
     my $To = $Param{To} || return;
     my $Count = 0;
- 
-    # FIXME
-    open (DATA, "< $Self->{LoopProtectionLog}") || 
+
+    # --
+    # check existing logfile
+    # --
+    if (! open (DATA, "< $Self->{LoopProtectionLog}")) {
+      # --
+      # create new log file
+      # --
+      open (DATA, "> $Self->{LoopProtectionLog}") || 
         $Self->{LogObject}->Log(
           Priority => 'error',
-          MSG => "LoopProtection!!! Can't open'$Self->{LoopProtectionLog}': $!! ",
+          MSG => "LoopProtection!!! Can't create '$Self->{LoopProtectionLog}': $!! ",
         );
-
-    while (<DATA>) {
+      close (DATA);
+    }
+    else {
+      # --
+      # open old log file
+      # --
+      while (<DATA>) {
         my @Data = split(/;/, $_);
         if ($Data[0] eq "$To") {
             $Count++;
         }
+      }
+      close (DATA);
     }
-    close (DATA);
 
+    # --
+    # check possible loop
+    # --
     if ($Count >= $Self->{MaxPostMasterEmails}) {
         $Self->{LogObject}->Log(
           Priority => 'error',
