@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.10 2002-11-04 00:09:52 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.11 2002-11-15 13:15:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ Version:      0.5
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs 
-Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail
+Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail
 Autoreqprov:  on
 Release:      BETA7
 Source0:      otrs-%{version}-%{release}.tar.bz2
@@ -211,12 +211,19 @@ rm -rf $RPM_BUILD_ROOT
 /opt/OpenTRS/var/tmp/
 /opt/OpenTRS/var/pics/stats/
 
+/opt/OpenTRS/install*
+
+/opt/OpenTRS/Kernel/cpan-lib*
+
 /var/adm/fillup-templates/rc.config.otrs
 
-%doc INSTAL* UPGRADING TODO COPYING CHANGES READM* doc/* install*
+%doc INSTAL* UPGRADING TODO COPYING CHANGES READM* doc/* 
 
 
 %changelog
+* Thu Nov 12 2002 - martin+rpm@otrs.org
+- moved %doc/install* to /opt/OpenTRS/ (installer problems!)
+  and added Kernel/cpan-lib*
 * Sun Sep 22 2002 - martin+rpm@otrs.org
 - added /etc/rc.config.d/otrs for rc script (Thanks to Lars Müller)
 * Fri Sep 06 2002 - martin+rpm@otrs.org

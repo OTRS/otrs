@@ -1,8 +1,8 @@
 # --
-# RPM spec file for RedHat Linux of the OpenTRS package
+# RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs.spec,v 1.6 2002-11-04 00:09:52 martin Exp $
+# $Id: redhat-otrs.spec,v 1.7 2002-11-15 13:15:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ Version:      0.5
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs 
-Requires:     perl perl-CGI perl-DBI perl-MIME-Base64 perl-Date-Calc perl-DBD-MySQL perl-Digest-MD5 perl-URI mod_perl apache mysql mysqlclient9 mysql-server fetchmail procmail sendmail
+Requires:     perl perl-DBI perl-Date-Calc perl-DBD-MySQL perl-Digest-MD5 perl-URI mod_perl apache mysql mysqlclient9 mysql-server fetchmail procmail sendmail
 Autoreqprov:  on
 Release:      BETA7
 Source0:      otrs-%{version}-%{release}.tar.bz2
@@ -189,11 +189,18 @@ rm -rf $RPM_BUILD_ROOT
 /opt/OpenTRS/var/tmp/
 /opt/OpenTRS/var/pics/stats/
 
+/opt/OpenTRS/install*
+
+/opt/OpenTRS/Kernel/cpan-lib*
+
 # redhat doc dir
-%doc INSTAL* UPGRADING TODO COPYING CHANGES READM* doc/* install*
+%doc INSTAL* UPGRADING TODO COPYING CHANGES READM* doc/* 
 
 
 %changelog
+* Thu Nov 12 2002 - martin+rpm@otrs.org
+- moved %doc/install* to /opt/OpenTRS/ (installer problems!)
+  and added Kernel/cpan-lib*
 * Sun Sep 22 2002 - martin+rpm@otrs.org
 - added /etc/sysconfig/otrs for rc script (Thanks to Lars Müller)
 * Thu Sep 17 2002 - martin+rpm@otrs.org
