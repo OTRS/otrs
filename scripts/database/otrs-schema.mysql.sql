@@ -393,6 +393,17 @@ CREATE TABLE ticket
 );
 
 # -----------------------------------------------------------------------
+# ticket_link
+# -----------------------------------------------------------------------
+drop table if exists ticket_link;
+
+CREATE TABLE ticket_link
+(
+    ticket_id_master BIGINT NOT NULL,
+    ticket_id_slave BIGINT NOT NULL
+);
+
+# -----------------------------------------------------------------------
 # ticket_history
 # -----------------------------------------------------------------------
 drop table if exists ticket_history;

@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.mysql.sql,v 1.10 2004-02-01 21:01:03 martin Exp $
+-- $Id: DBUpdate-to-1.2.mysql.sql,v 1.11 2004-02-02 22:10:32 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.mysql.sql | mysql -f -u root otrs
@@ -34,6 +34,15 @@ CREATE TABLE search_profile
     profile_name varchar (200) NOT NULL,
     profile_key varchar (200) NOT NULL,
     profile_value varchar (200) NOT NULL
+);
+
+--
+-- ticket link table 
+--
+CREATE TABLE ticket_link
+(
+    ticket_id_master BIGINT NOT NULL,
+    ticket_id_slave BIGINT NOT NULL
 );
 
 --

@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.18 2004-01-24 18:36:11 martin Exp $
+  $Id: otrs-schema.xml,v 1.19 2004-02-02 22:10:24 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.18  2004/01/24 18:36:11  martin
+  fixed group_customer_user table
+
   Revision 1.17  2004/01/23 00:37:59  martin
   moved agent notifications from config file to database
 
@@ -470,6 +473,12 @@
   <index name="index_ticket_answered">
     <index-column name="ticket_answered"/>
   </index>
+</table>
+
+<!-- ticket_link - all linked tickets -->
+<table name="ticket_link">
+  <column name="ticket_id_master" required="true" type="BIGINT"/>
+  <column name="ticket_id_slave" required="true" type="BIGINT"/>
 </table>
 
 <!-- ticket_history - the whole history of all tickets -->

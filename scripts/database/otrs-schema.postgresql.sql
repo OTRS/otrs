@@ -354,6 +354,15 @@ create  INDEX index_ticket_user ON ticket (user_id);
 create  INDEX index_ticket_answered ON ticket (ticket_answered);
 
 -----------------------------------------------------------------------------
+-- ticket_link
+-----------------------------------------------------------------------------
+CREATE TABLE ticket_link
+(
+    ticket_id_master serial NOT NULL,
+    ticket_id_slave serial NOT NULL
+);
+
+-----------------------------------------------------------------------------
 -- ticket_history
 -----------------------------------------------------------------------------
 CREATE TABLE ticket_history
