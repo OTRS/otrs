@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.33 2003-01-09 15:07:12 martin Exp $
+# $Id: AgentCompose.pm,v 1.34 2003-01-22 22:33:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -191,6 +191,9 @@ sub Form {
     }
     else {
         $Data{To} = $Data{From};
+        # try to remove some wrong text to from line (by way of ...) 
+        # added by some strange mail programs on bounce 
+        $Data{To} =~ s/(.+?\<.+?\@.+?\>)\s+\(by\s+way\s+of\s+.+?\)/$1/ig;
     }
     $Data{OrigFrom} = $Data{From};
     my %Address = $QueueObject->GetSystemAddress();
