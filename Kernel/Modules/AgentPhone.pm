@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.86 2004-05-24 21:05:48 martin Exp $
+# $Id: AgentPhone.pm,v 1.87 2004-05-30 16:41:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.86 $';
+$VERSION = '$Revision: 1.87 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,6 +54,14 @@ sub Run {
     my %Param = @_;
     my $Output;
 
+    # store last queue screen
+    if ($Self->{LastScreenQueue} !~ /Action=AgentPhone/) {
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'LastScreenQueue',
+            Value => $Self->{RequestedURL},
+        );
+    }
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone call');
