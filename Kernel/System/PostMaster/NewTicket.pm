@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.30 2003-01-04 03:42:22 martin Exp $
+# $Id: NewTicket.pm,v 1.31 2003-01-06 21:39:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,13 +32,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
     
     # get all objects
-    foreach (
-      'DBObject', 
-      'ConfigObject', 
-      'TicketObject', 
-      'LogObject', 
-      'ParseObject',
-    ) {
+    foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject)) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
 
@@ -127,6 +121,19 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         Queue => $Queue,
     );
+    # --    
+    # get customer id (sender email) if there is no customer id given
+    # --
+    if (!$GetParam{'X-OTRS-CustomerNo'}) {
+        my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+            Line => $GetParam{From},
+        );
+        foreach (@EmailAddresses) {
+            $GetParam{'X-OTRS-CustomerNo'} = $Self->{ParseObject}->GetEmailAddress(
+                Email => $_,
+            );
+        }
+    }
     # --    
     # set customer no
     # --
