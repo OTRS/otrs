@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.49 2004-02-12 00:35:25 martin Exp $
+# $Id: AgentZoom.pm,v 1.49.2.1 2004-04-11 16:55:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.49.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -251,8 +251,9 @@ sub MaskAgentZoom {
       $TicketOverTime = $Article{TicketOverTime}; 
       if ($Article{ArticleType} !~ /^email-notification/i) {
         $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
+        $ThreadStrg .= '<div title="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{Subject}, Max => 200).' - $TimeLong{"'.$Article{Created}.'"}">';
         if ($LastSenderType ne $Article{SenderType}) {
-            $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+            $Counter .= "&nbsp;&nbsp;";
             $Space = "$Counter |--&gt;";
         }
         $LastSenderType = $Article{SenderType};
@@ -275,14 +276,14 @@ sub MaskAgentZoom {
              'onmouseover="window.status=\'$Text{"plain"}'.
              '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
-        $ThreadStrg .= ' $TimeLong{"'.$Article{Created}.'"}';
+        $ThreadStrg .= '&nbsp;-&nbsp;'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{Subject}, Max => 20).'&nbsp;-&nbsp;$TimeLong{"'.$Article{Created}.'"}';
         # --
         # if this is the shown article -=> add </b>
         # --
         if ($ArticleID eq $Article{ArticleID}) { 
             $ThreadStrg .= '</u></b></i>';
         }
-        $ThreadStrg .= '</td></tr>';
+        $ThreadStrg .= '</div></td></tr>';
       }
     }
     $ThreadStrg .= '</table>';
@@ -404,7 +405,7 @@ sub MaskAgentZoom {
                 ContentCharset => $Article{ContentCharset},
                 TicketID => $Param{TicketID},
                 ArticleID => $Article{ArticleID} )) {
-                $Article{"TextNote"} = $CharsetText;
+                $Article{"BodyNote"} = $CharsetText;
             }
         }
         # select the output template
