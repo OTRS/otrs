@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.5 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentBulk.pm,v 1.6 2004-04-22 18:05:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -109,31 +109,13 @@ sub Run {
                 );
                 # do some actions on tickets
                 if ($Self->{Subaction} eq 'Do') {
-                    # set state
-                    my $StateID = $Self->{ParamObject}->GetParam(Param => 'StateID') || '';
-                    if ($StateID) {
-                        $Self->{TicketObject}->StateSet(
-                            TicketID => $_,
-                            StateID => $StateID,
-                            UserID => $Self->{UserID},
-                        );
-                        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-                            ID => $StateID,
-                        );
-                        # should I set an unlock?
-                        if ($StateData{TypeName} =~ /^close/i) {
-                            $Self->{TicketObject}->LockSet(
-                                TicketID => $_,
-                                Lock => 'unlock',
-                                UserID => $Self->{UserID},
-                            );
-                        }
-                    } 
                     # set queue
                     my $QueueID = $Self->{ParamObject}->GetParam(Param => 'QueueID') || '';
-                    if ($QueueID) {
+                    my $Queue = $Self->{ParamObject}->GetParam(Param => 'Queue') || '';
+                    if ($QueueID || $Queue) {
                         $Self->{TicketObject}->MoveTicket(
                             QueueID => $QueueID,
+                            Queue => $Queue,
                             TicketID => $_,
                             UserID => $Self->{UserID},
                         );
@@ -141,12 +123,14 @@ sub Run {
                     # add note
                     my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
                     my $Body = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
-                    my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'ArticleTypeID');
+                    my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'ArticleTypeID') || '';
+                    my $ArticleType = $Self->{ParamObject}->GetParam(Param => 'ArticleType') || '';
 
-                    if (($Subject || $Body) && $ArticleTypeID) {
+                    if (($Subject || $Body) && ($ArticleTypeID||$ArticleType)) {
                       my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                         TicketID => $_,
                         ArticleTypeID => $ArticleTypeID,
+                        ArticleType => $ArticleType,
                         SenderType => 'agent',
                         From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
                         Subject => $Subject,
@@ -154,8 +138,31 @@ sub Run {
                         ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
                         UserID => $Self->{UserID},
                         HistoryType => 'AddNote',
-                        HistoryComment => '$$Bulk',
+                        HistoryComment => '%%Bulk',
                       );
+                    }
+                    # set state
+                    my $StateID = $Self->{ParamObject}->GetParam(Param => 'StateID') || '';
+                    my $State = $Self->{ParamObject}->GetParam(Param => 'State') || '';
+                    if ($StateID || $State) {
+                        $Self->{TicketObject}->StateSet(
+                            TicketID => $_,
+                            StateID => $StateID,
+                            State => $State,
+                            UserID => $Self->{UserID},
+                        );
+                        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);
+                        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                            ID => $Ticket{StateID},
+                        );
+                        # should I set an unlock?
+                        if ($Ticket{StateType} =~ /^close/i) {
+                            $Self->{TicketObject}->LockSet(
+                                TicketID => $_,
+                                Lock => 'unlock',
+                                UserID => $Self->{UserID},
+                            );
+                        }
                     }
                 }
             }

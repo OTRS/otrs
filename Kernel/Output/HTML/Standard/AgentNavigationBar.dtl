@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.31 2004-04-22 15:45:53 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.32 2004-04-22 18:05:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,6 +76,7 @@
 <!--
 function BulkChangeSelected(x,c)
 {
+    c = c + 7;
     if (!document.bulk.elements[c].value) {
         document.bulk.elements[c].value = x;
        alert('$Text{"Ticket selected for bulk action!"}');
@@ -88,6 +89,19 @@ function BulkChangeSelected(x,c)
 }
 function BulkSubmit()
 {
+# example
+#    document.bulk.Subaction.value = 'Do';
+#    document.bulk.State.value = 'closed successful';
+#    document.bulk.Queue.value = 'Delete';
+#    document.bulk.ArticleType.value = 'note-internal';
+#    document.bulk.Subject.value = 'Some Bulk Note';
+#    document.bulk.Body.value = 'Some Bulk Text';
+    document.bulk.Subaction.value = '';
+    document.bulk.State.value = '';
+    document.bulk.Queue.value = '';
+    document.bulk.ArticleType.value = '';
+    document.bulk.Subject.value = '';
+    document.bulk.Body.value = '';
     document.bulk.submit()
 }
 //-->
@@ -95,6 +109,12 @@ function BulkSubmit()
 
 <form action="$Env{"CGIHandle"}" method="post" name="bulk">
   <input type="hidden" name="Action" value="AgentBulk">
+  <input type="hidden" name="Subaction" value="">
+  <input type="hidden" name="Queue" value="">
+  <input type="hidden" name="State" value="">
+  <input type="hidden" name="ArticleType" value="">
+  <input type="hidden" name="Subject" value="">
+  <input type="hidden" name="Body" value="">
   <input type="hidden" name="TicketID1" value="">
   <input type="hidden" name="TicketID2" value="">
   <input type="hidden" name="TicketID3" value="">
