@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.11 2004-10-29 20:00:13 martin Exp $
+# $Id: Encode.pm,v 1.12 2004-12-23 21:08:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -299,6 +299,27 @@ sub Decode {
         return $Param{Text};
     }
 }
+
+=item EncodeOutput()
+
+Convert utf8 to a sequence of octets. All possible characters have
+a UTF-8 representation so this function cannot fail.
+
+This should be used in for output of utf8 chars.
+
+  $EncodeObject->EncodeOutput(\$String);
+
+=cut
+
+sub EncodeOutput {
+    my $Self = shift;
+    my $What = shift;
+    # internel charset
+    if ($Self->{CharsetEncodeSupported} && $Self->EncodeFrontendUsed() && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
+        ${$What} = Encode::encode_utf8(${$What});
+    }
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -313,6 +334,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2004-10-29 20:00:13 $
+$Revision: 1.12 $ $Date: 2004-12-23 21:08:57 $
 
 =cut
