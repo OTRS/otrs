@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.35 2004-12-06 22:26:10 martin Exp $
+# $Id: FollowUp.pm,v 1.36 2004-12-07 13:04:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,6 +60,28 @@ sub Run {
     my $Lock = $Param{Lock} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
+    # set lock (if ticket should be locked on follow up)
+    if ($Lock && $Ticket{StateType} =~ /^close/i) {
+        $Self->{TicketObject}->LockSet(
+           TicketID => $Param{TicketID},
+           Lock => 'lock',
+           UserID => => $Param{InmailUserID},
+        );
+        if ($Self->{Debug} > 0) {
+            print "Lock: lock\n";
+        }
+    }
+    # set state
+    if ($Ticket{StateType} !~ /^new/ && $Self->{ConfigObject}->Get('PostmasterFollowUpState')) {
+	    $Self->{TicketObject}->StateSet(
+    	    State => $Self->{ConfigObject}->Get('PostmasterFollowUpState'),
+        	TicketID => $Param{TicketID},
+	        UserID => $Param{InmailUserID},
+    	);
+        if ($Self->{Debug} > 0) {
+            print "State: ".$Self->{ConfigObject}->Get('PostmasterFollowUpState')."\n";
+        }
+    }
     # do db insert
     my $ArticleID = $Self->{TicketObject}->ArticleCreate(
         TicketID => $Param{TicketID},
@@ -137,35 +159,7 @@ sub Run {
 
         }
     }
-    # --
-    # set lock
-    # --
-    if ($Lock && $Ticket{StateType} =~ /^close/i) {
-        $Self->{TicketObject}->LockSet(
-           TicketID => $Param{TicketID},
-           Lock => 'lock',
-           UserID => => $Param{InmailUserID},
-        );
-        if ($Self->{Debug} > 0) {
-            print "Lock: lock\n";
-        }
-    }
-    # --
-    # set state
-    # --
-    if ($Ticket{StateType} !~ /^new/ && $Self->{ConfigObject}->Get('PostmasterFollowUpState')) {
-	    $Self->{TicketObject}->StateSet(
-    	    State => $Self->{ConfigObject}->Get('PostmasterFollowUpState'),
-        	TicketID => $Param{TicketID},
-	        UserID => $Param{InmailUserID},
-    	);
-        if ($Self->{Debug} > 0) {
-            print "State: ".$Self->{ConfigObject}->Get('PostmasterFollowUpState')."\n";
-        }
-    }
-    # --
     # set ticket to unanswered
-    # --
     $Self->{TicketObject}->TicketSetAnswered(
         TicketID => $Param{TicketID},
         UserID => $Param{InmailUserID},
