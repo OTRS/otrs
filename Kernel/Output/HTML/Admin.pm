@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.4 2002-01-23 23:02:26 martin Exp $
+# $Id: Admin.pm,v 1.5 2002-02-03 23:33:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -24,79 +24,6 @@ sub AdminNavigationBar {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
-}
-# --
-sub ArticlePlain {
-    my $Self = shift;
-    my %Param = @_;
-
-    # do some highlightings
-    $Param{Text} =~ s/^((From|To|Cc|Subject|Reply-To|Organization|X-Company):.*)/<font color=\"red\">$1<\/font>/gm;
-    $Param{Text} =~ s/^(Date:.*)/<FONT COLOR=777777>$1<\/font>/m;
-    $Param{Text} =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<blink>$1<\/blink>/gmi;
-    $Param{Text} =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<font color=\"blue\">$1$2<\/font>/gmi;
-    $Param{Text} =~ s/^((Resent-.*):.*)/<font color=\"green\">$1<\/font>/gmi;
-    $Param{Text} =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
-    $Param{Text} =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentPlain', Data => \%Param);
-}
-# --
-sub Note {
-    my $Self = shift;
-    my %Param = @_;
-
-    # build ArticleTypeID string
-    $Param{'NoteStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{NoteTypes},
-        Name => 'ArticleTypeID'
-    );
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentNote', Data => \%Param);
-}
-# --
-sub AgentPriority {
-    my $Self = shift;
-    my %Param = @_;
-
-    # build ArticleTypeID string
-    $Param{'OptionStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{OptionStrg},
-        Name => 'PriorityID'
-    );
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentPriority', Data => \%Param);
-}
-# --
-sub AgentClose {
-    my $Self = shift;
-    my %Param = @_;
-
-    # build string
-    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{NextStatesStrg},
-        Name => 'StateID'
-    );
-
-    # build string
-    $Param{'NoteTypesStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{NoteTypesStrg},
-        Name => 'NoteID'
-    );
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentClose', Data => \%Param);
-}
-# --
-sub AgentUtilForm {
-    my $Self = shift;
-    my %Param = @_;
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentUtilForm', Data => \%Param);
 }
 # --
 sub AdminSessionTable {
@@ -573,7 +500,7 @@ sub AdminUserForm {
     $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, name, charset',
+            What => 'id, charset',
             Table => 'charset',
             Valid => 1,
           )
