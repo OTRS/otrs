@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.46 2002-08-15 22:37:43 martin Exp $
+# $Id: Agent.pm,v 1.47 2002-09-01 20:24:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -90,7 +90,7 @@ sub TicketView {
     my %StdResponses = %{$Param{StdResponses}};
 
     # do some html quoting
-    foreach ('From', 'To', 'Cc', 'Subject', 'Priority', 'State') {
+    foreach (qw(From To Cc Subject Priority State Queue Owner Lock)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
@@ -696,27 +696,51 @@ sub AgentUtilSearchResult {
 
     $Self->{UtilSearchResultCounter}++;
 
-    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
-
-    # do some strips
-    $Param{Text} =~ s/^\s*\n//mg;
-    $Param{Text} = $Self->Ascii2Html(
-        Text => $Param{Text},
-        NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-        VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
-      );
-
-    # do html quoteing
-    foreach (qw(State Queue Owner Lock From Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_});
+    # --
+    # check if just a only html email
+    # --
+    if (my $MimeTypeText = $Self->CheckMimeType(%Param, Text => $Param{Body})) {
+        $Param{TextNote} = $MimeTypeText;
+        $Param{Body} = '';
     }
+    else {
+        # --
+        # do some strips
+        # --
+        $Param{Body} =~ s/^\s*\n//mg;
+        # --
+        # do some text quoting
+        # --
+        $Param{Body} = $Self->Ascii2Html(
+            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+            Text => $Param{Body},
+            VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
+        );
+        # --
+        # do charset check
+        # --
+        if (my $CharsetText = $Self->CheckCharset(
+            ContentCharset => $Param{ContentCharset},
+            TicketID => $Param{TicketID},
+            ArticleID => $Param{ArticleID} )) {
+            $Param{TextNote} = $CharsetText;
+        }
+    }
+
+    # do some html quoting
+    foreach (qw(From To Cc Subject Priority State Queue Owner Lock)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
+    }
+    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
 
     # do some html highlighting
     if ($Highlight) {
         my @SParts = split('%', $Param{What});
-        $Param{Text} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
-        $Param{From} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
-        $Param{Subject} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
+        foreach (qw(Body From To Subject)) {
+            if ($_) {
+                $Param{$_} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
+            }
+        } 
     }
 
     # create & return output
@@ -727,16 +751,36 @@ sub AgentUtilSearchCouter {
     my $Self = shift;
     my %Param = @_;
     my $Limit = $Param{Limit} || 0;
-    my $Output = '';
-    $Self->{UtilSearchResultCounter} = 0 if (!$Self->{UtilSearchResultCounter});
-    if ($Limit == $Self->{UtilSearchResultCounter}) {
-    $Output = "<B>${\$Self->{LanguageObject}->Get('Total hits')}: &gt;<FONT COLOR=RED>" .
-    $Self->{UtilSearchResultCounter} . "</FONT></B><BR>";
+    $Param{AllHits} = 0 if (!$Param{AllHits});
+    $Param{Results} = ($Param{StartHit}+1)."-".($Param{StartHit}+$Self->{UtilSearchResultCounter});
+    if ($Limit == $Param{AllHits}) {
+       $Param{TotalHits} = "<font color=red>$Param{AllHits}</font>";
     }
     else {
-    $Output = "<B>${\$Self->{LanguageObject}->Get('Total hits')}: $Self->{UtilSearchResultCounter}</B><BR>";
+       $Param{TotalHits} = $Param{AllHits};
     }
-    return $Output;
+
+    my $Pages = $Param{AllHits} / $Param{SearchPageShown};
+    for (my $i = 1; $i < ($Pages+1); $i++) {
+        $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}&Action=AgentUtilities&Subaction=".
+         "$Self->{Subaction}&StartHit=". (($i-1)*$Param{SearchPageShown});
+         if ($Param{WhatFields}) {
+             foreach (@{$Param{WhatFields}}) {
+                 $Param{SearchNavBar} .= "&What=$_";
+             }
+         }
+         $Param{SearchNavBar} .= '&Want='.$Self->LinkEncode($Param{Want});
+         $Param{SearchNavBar} .= '">';
+         if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{SearchPageShown}) == ($i)) {
+             $Param{SearchNavBar} .= '<b>'.($i).'</b>';
+         }
+         else {
+             $Param{SearchNavBar} .= ($i);
+         }
+         $Param{SearchNavBar} .= '</a> ';
+    }
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentUtilSearchNavBar', Data => \%Param);
 }
 # --
 sub AgentCompose {

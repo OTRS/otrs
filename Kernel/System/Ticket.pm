@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.18 2002-08-06 19:07:03 martin Exp $
+# $Id: Ticket.pm,v 1.19 2002-09-01 20:24:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Queue;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -230,7 +230,8 @@ sub GetTicket {
     # db query
     # --
     my $SQL = "SELECT st.id, st.queue_id, sq.name, tsd.id, tsd.name, slt.id, slt.name, ".
-        " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id ".
+        " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
+        " st.customer_id ".
         " FROM ".
         " ticket st, ticket_state tsd, ticket_lock_type slt, ticket_priority sp, ".
         " queue sq ".
@@ -259,6 +260,8 @@ sub GetTicket {
         $Ticket{CreateTimeUnix} = $Row[9];
         $Ticket{Created} = $Row[10];
         $Ticket{GroupID} = $Row[11];
+        $Ticket{TicketNumber} = $Row[12];
+        $Ticket{CustomerID} = $Row[13];
     }
     return %Ticket;
 }
@@ -369,7 +372,7 @@ sub GetLastCustomerArticle {
     # db query
     # --
     my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
-    " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time" .
+    " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time, at.id" .
     " FROM " .
     " article at, article_sender_type st" .
     " WHERE " .
@@ -390,6 +393,7 @@ sub GetLastCustomerArticle {
         $Data{Body} = $RowTmp[6];
         $Data{TicketID} = $RowTmp[7];
         $Data{Date} = $RowTmp[8];
+        $Data{ArticleID} = $RowTmp[9];
     }
 
     return %Data;

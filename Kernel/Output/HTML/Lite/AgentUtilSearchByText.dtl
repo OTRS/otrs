@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByText.dtl,v 1.2 2002-07-18 23:28:30 martin Exp $
+# $Id: AgentUtilSearchByText.dtl,v 1.3 2002-09-01 20:28:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@
 <p>
 
 $Text{"Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")"}
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="get">
 <input type="hidden" name="Action" value="AgentUtilities">
 <input type="hidden" name="Subaction" value="SearchByText">
 <input type="hidden" name="SessionID" value="$Env{"SessionID"}">

@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Article.pm - global article module for OpenTRS kernel
+# Kernel/System/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.16 2002-08-21 09:51:31 martin Exp $
+# $Id: Article.pm,v 1.17 2002-09-01 20:24:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -25,7 +25,7 @@ use Kernel::System::Ticket;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -493,6 +493,7 @@ sub GetArticle {
         " ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Data{ArticleID} = $Param{ArticleID};
         $Data{TicketID} = $Row[0];
         $Data{From} = $Row[1];
         $Data{To} = $Row[2];

@@ -1,0 +1,24 @@
+# --
+# AgentUtilSearchNavBar.dtl - provides HTML nav bar for AgentUtilities.pm
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentUtilSearchNavBar.dtl,v 1.1 2002-09-01 20:28:16 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top">
+<p>
+$Text{"Results"}: <b>$Data{"Results"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b> 
+- $Text{"Site"}: $Data{"SearchNavBar"}
+</p>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+

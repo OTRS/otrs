@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.8 2002-07-15 00:03:55 martin Exp $
+# $Id: AgentUtilities.pm,v 1.9 2002-09-01 20:24:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,9 +46,11 @@ sub new {
 
     # get params
     $Self->{Want} = $Self->{ParamObject}->GetParam(Param => 'Want') || '';
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0;
     # get confid data
-    $Self->{SearchLimitTn} = $Self->{ConfigObject}->Get('SearchLimitTn');
-    $Self->{SearchLimitTxt} = $Self->{ConfigObject}->Get('SearchLimitTxt');
+    $Self->{SearchLimitTn} = $Self->{ConfigObject}->Get('SearchLimitTn') || 200;
+    $Self->{SearchLimitTxt} = $Self->{ConfigObject}->Get('SearchLimitTxt') || 200;
+    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('SearchPageShown') || 15;
     return $Self;
 }
 # --
@@ -103,31 +105,15 @@ sub SearchByTn {
     # modifier search string!!!
     $Want =~ s/\*/%/g;
     my $OutputTables = '';
-    my $SQL = "SELECT st.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, " .
-    " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, sa.create_time, " .
-    " stt.name as sender_type, at.name as article_type, su.$Self->{ConfigObject}->{DatabaseUserTableUser}, " .
-    " sl.name as lock_type, " .
-    " sp.name as priority, tsd.name as state, sa.content_path, sq.name as queue " .
+    my $SQL = "SELECT st.id, st.tn, " .
+    " st.create_time_unix, su.$Self->{ConfigObject}->{DatabaseUserTableUser} " .
     " FROM " .
-    " article sa, ticket st, article_sender_type stt, article_type at, ".
-    " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
-    " ticket_priority sp, ticket_state tsd, queue sq, group_user sug  " .
+    " ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su, ". 
+    " queue sq, group_user sug  ".
     " WHERE " .
-    " sa.ticket_id = st.id " .
-    " AND " .
     " sq.id = st.queue_id " .
     " AND " .
-    " stt.id = sa.article_sender_type_id " .
-    " AND " .
-    " at.id = sa.article_type_id " .
-    " AND " .
     " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
-    " AND " .
-    " sp.id = st.ticket_priority_id " .
-    " AND " .
-    " sl.id = st.ticket_lock_id " .
-    " AND " .
-    " tsd.id = st.ticket_state_id " .
     " AND " .
     " sq.group_id = sug.group_id" .
     " AND " .
@@ -135,25 +121,46 @@ sub SearchByTn {
     " AND " .
     " st.tn LIKE '$Want' ";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTn});
+    my @ViewableTicketIDs = ();
+    my $Counter = 0;
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-        my $Age = time() - $$Data{create_time_unix};
-        $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
-            TicketNumber => $$Data{tn},
-            From => $$Data{a_from},
-            To => $$Data{a_to},
-            Subject => $$Data{a_subject},
-            State => $$Data{state},
-            Text => $$Data{a_body},
-            Lock => $$Data{lock_type},
-            Queue => $$Data{queue},
-            TicketID => $$Data{id},
-            Owner => $$Data{login},
-            What => $Want,
-			Age => $Age,
-        );
+      push (@ViewableTicketIDs, $$Data{id});
     }
-    $Output .= $Self->{LayoutObject}->AgentUtilSearchCouter(Limit => $Self->{SearchLimitTn});
-    $Output .= $OutputTables;
+    foreach (@ViewableTicketIDs) {
+      $Counter++;
+      # --
+      # build search result
+      # --
+      if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
+        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $_);
+        my %LastArticle = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $_);
+        my %Article = $Self->{ArticleObject}->GetArticle(ArticleID => $LastArticle{ArticleID});
+        $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
+            %Ticket,
+            From => $Article{From},
+            To => $Article{To},
+            Subject => $Article{Subject},
+            Body => $Article{Body},
+            Age => $Article{Age},
+            Priority => $Article{Priority},
+            Queue => $Article{Queue},
+            ContentCharset => $Article{ContentCharset},
+            MimeType => $Article{MimeType},
+            What => $Want,
+        );
+      } 
+    }
+    # --
+    # build search navigation bar
+    # --
+    my $SearchNavBar = $Self->{LayoutObject}->AgentUtilSearchCouter(
+        Limit => $Self->{SearchLimitTxt}, 
+        StartHit => $Self->{StartHit}, 
+        SearchPageShown => $Self->{SearchPageShown},
+        AllHits => $Counter,
+        Want => $Self->{Want},
+    );
+    $Output .= $SearchNavBar.$OutputTables;
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
@@ -251,15 +258,15 @@ sub SearchByText {
     # --
     my $OutputTables = '';
     my $Age = '?';
-    my $SQL = "SELECT st.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, " .
-    " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, sa.create_time, " .
-    " stt.name as sender_type, at.name as article_type, su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ".
-    " sl.name as lock_type, " .
-    " sp.name as priority, tsd.name as state, sa.content_path, sq.name as queue " .
+    my $SQL = "SELECT sa.id as article_id, st.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, ".
+    " sa.a_subject, sa.a_body, st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, ".
+    " sa.create_time, stt.name as sender_type, at.name as article_type, ".
+    " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, sl.name as lock_type, " .
+    " tsd.name as state, sa.content_path, sq.name as queue " .
     " FROM " .
     " article sa, ticket st, article_sender_type stt, article_type at, ".
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
-    " ticket_priority sp, ticket_state tsd, queue sq, group_user sug " .
+    " ticket_state tsd, queue sq, group_user sug " .
     " WHERE  " .
     " sa.ticket_id = st.id " .
     " AND " .
@@ -271,8 +278,6 @@ sub SearchByText {
     " AND " .
     " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
     " AND " .
-    " sp.id = st.ticket_priority_id " .
-    " AND " .
     " sl.id = st.ticket_lock_id " .
     " AND " .
     " tsd.id = st.ticket_state_id " .
@@ -282,28 +287,50 @@ sub SearchByText {
     " sug.user_id = $UserID " .
     " AND " .
     " ($SqlExt) " .
-    " ORDER BY st.tn DESC";
+    " ORDER BY sa.incoming_time DESC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTxt});
+    my @ViewableArticleIDs = ();
+    my $Counter = 0;
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-        my $Age = time() - $$Data{create_time_unix};
+      push (@ViewableArticleIDs, $$Data{article_id});
+    }
+    foreach (@ViewableArticleIDs) {
+      $Counter++;
+      # --
+      # build search result
+      # --
+      if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
+        my %Article = $Self->{ArticleObject}->GetArticle(ArticleID => $_);
+        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Article{TicketID});
         $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
-            TicketNumber => $$Data{tn},
-            From => $$Data{a_from},
-            To => $$Data{a_to},
-            Subject => $$Data{a_subject},
-            State => $$Data{state},
-            Text => $$Data{a_body},
-            Lock => $$Data{lock_type},
-            Queue => $$Data{queue},
-            TicketID => $$Data{id},
-            Owner => $$Data{login},
+            %Ticket,
+            ArticleID => $_,
+            From => $Article{From},
+            To => $Article{To},
+            Subject => $Article{Subject},
+            Body => $Article{Body},
+            Age => $Article{Age},
+            Priority => $Article{Priority},
+            Queue => $Article{Queue},
+            ContentCharset => $Article{ContentCharset},
+            MimeType => $Article{MimeType},
             What => $Want,
             Highlight => 1,
-            Age => $Age,
         );
+      } 
     }
-    $Output .= $Self->{LayoutObject}->AgentUtilSearchCouter(Limit => $Self->{SearchLimitTxt});
-    $Output .= $OutputTables;
+    # --
+    # build search navigation bar
+    # --
+    my $SearchNavBar = $Self->{LayoutObject}->AgentUtilSearchCouter(
+        Limit => $Self->{SearchLimitTxt}, 
+        StartHit => $Self->{StartHit}, 
+        SearchPageShown => $Self->{SearchPageShown},
+        AllHits => $Counter,
+        WhatFields => \@WhatFields,
+        Want => $Self->{Want},
+    );
+    $Output .= $SearchNavBar.$OutputTables;
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }

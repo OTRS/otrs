@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.57 2002-08-27 23:41:55 martin Exp $
+# $Id: Config.pm,v 1.58 2002-09-01 20:24:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::Config::Postmaster;
 use Kernel::Config::Notification;
 use vars qw(@ISA $VERSION);
 @ISA = qw(Kernel::Config::Postmaster Kernel::Config::Notification);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -68,7 +68,8 @@ sub Load {
     # Organization
     # (If this is anything other than '', then the email will have an
     # Organization X-Header)
-    $Self->{Organization} = 'Example Company';
+#    $Self->{Organization} = 'Example Company';
+    $Self->{Organization} = '';
 
     # CustomQueue
     # (The name of custom queue.)
@@ -196,16 +197,20 @@ sub Load {
     # AgentUtil                                           #
     # ----------------------------------------------------#
     # default limit for Tn search
-    # [default: 20]
-    $Self->{SearchLimitTn} = 20;
+    # [default: 150]
+    $Self->{SearchLimitTn} = 150;
 
     # default limit for Txt search
-    # [default: 20]
-    $Self->{SearchLimitTxt} = 20;
+    # [default: 150]
+    $Self->{SearchLimitTxt} = 150;
+
+    # defaut of shown article a page
+    # [default: 15]
+    $Self->{SearchPageShown} = 15;
 
     # viewable ticket lines by search util
-    # [default: 15]
-    $Self->{ViewableTicketLinesBySearch} = 15;
+    # [default: 10]
+    $Self->{ViewableTicketLinesBySearch} = 10;
 
     # ----------------------------------------------------#
     # SessionModule (replace old SessionDriver!!!)        #
