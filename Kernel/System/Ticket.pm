@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.73 2004-04-01 08:58:35 martin Exp $
+# $Id: Ticket.pm,v 1.74 2004-04-01 18:36:41 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -866,7 +866,7 @@ sub Permission {
                         $Self->{LogObject}->Log(
                             Priority => 'notice', 
                             Message => "Permission denied because module ".
-                             "($Modules{$Module}->{Module}) is requred ".
+                             "($Modules{$Module}->{Module}) is required ".
                              "(UserID: $Param{UserID} '$Param{Type}' on ".
                              "TicketID: $Param{TicketID})!",
                         );
@@ -961,7 +961,7 @@ sub CustomerPermission {
                         $Self->{LogObject}->Log(
                             Priority => 'notice', 
                             Message => "Permission denied because module ".
-                             "($Modules{$Module}->{Module}) is requred ".
+                             "($Modules{$Module}->{Module}) is required ".
                              "(UserID: $Param{UserID} '$Param{Type}' on ".
                              "TicketID: $Param{TicketID})!",
                         );
@@ -1602,6 +1602,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.73 $ $Date: 2004-04-01 08:58:35 $
+$Revision: 1.74 $ $Date: 2004-04-01 18:36:41 $
 
 =cut
