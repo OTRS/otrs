@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.5 2002-05-14 01:37:55 martin Exp $
+# $Id: NewTicket.pm,v 1.6 2002-05-18 09:56:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,9 +15,10 @@ use strict;
 use Kernel::System::PostMaster::AutoResponse;
 use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::EmailSend;
+use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -259,6 +260,111 @@ sub Run {
         );
     }
 
+    # --
+    # send new ticket agent notification?
+    # --
+    my @UserIDs = ();
+    my $SQL = "SELECT user_id FROM personal_queues " .
+    " WHERE " .
+    " queue_id = $QueueID ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        push (@UserIDs, $RowTmp[0]);
+    }
+    # create user object
+    my $UserObject = Kernel::System::User->new(
+        DBObject => $Self->{DBObject},
+        LogObject => $Self->{LogObject},
+        ConfigObject => $Self->{ConfigObject},
+    );
+    my $Cc = '';
+    foreach (@UserIDs) {
+        my %UserData = $UserObject->GetUserData(UserID => $_);
+        if ($UserData{UserLogin} && $UserData{UserSendNewTicketNotification}) {
+            $Cc .= "$UserData{UserLogin}, ";
+        }
+    }
+    if ($Cc) {
+# FIXME!! Get data from db table!!!
+        # --
+        # prepare subject (insert old subject)
+        # --
+#        my $Subject = $Data{Subject} || 'No Std. Subject found!';
+        my $Subject = 'New ticket notification! (<OTRS_CUSTOMER_SUBJECT[10]>)';
+        my $OldSubject = $GetParam{Subject} || 'Your email!';
+        $OldSubject =~ s/\n//g;
+        if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+            my $SubjectChar = $1;
+            $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+            $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
+        }
+        $Subject = "[". $Self->{ConfigObject}->Get('TicketHook') .": $NewTn] $Subject";
+
+        # --
+        # prepare body (insert old email)
+        # --
+#        my $Body = $Data{Text} || 'No Std. Body found!';
+        my $Body = "
+Hi,
+
+new ticket [$NewTn]!
+
+<snip>
+<OTRS_CUSTOMER_EMAIL[6]>
+<snip>
+
+http://yourhost.example.com/otrs/index.pl?Action=AgentZoom?TicketID=$TicketID
+
+Your OpenTRS Notification Master
+";
+        my $OldBody = $GetParam{Body} || 'Your Message!';
+        if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+            my $Line = $1;
+            my @Body = split(/\n/, $OldBody);
+            my $NewOldBody = '';
+            foreach (my $i = 0; $i < $Line; $i++) {
+              $NewOldBody .= "> $Body[$i]\n";
+            }
+            $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+        }
+        my $From = 'ticket@bogen.net';
+
+        # --
+        # send notification
+        # --
+        my $EmailObject = Kernel::System::EmailSend->new(
+            ConfigObject => $Self->{ConfigObject},
+            DBObject => $Self->{DBObject},
+            LogObject => $Self->{LogObject},
+        );
+        $EmailObject->Send(
+            ArticleObject => $ArticleObject,
+            ArticleType => 'email-internal',
+            ArticleSenderType => 'system',
+            TicketID => $TicketID,
+            TicketObject => $TicketObject,
+            HistoryType => 'SendAgentNotification',
+
+            From => $From,
+            Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
+            To => $Cc,
+            RealName => 'lala', 
+            Subject => $Subject, 
+            UserID => $Self->{ConfigObject}->Get('PostmasterUserID'),
+            Body => $Body, 
+            Loop => 1,
+        );
+    }
+    else {
+       if ($Self->{Debug} > 0) {
+           $LogObject->Log(
+               Message => "Sent no new ticket notification!",
+		   );  
+        }
+    }
+    # --
+    # debug
+    # --
     if ($Self->{Debug} > 0) {
        $LogObject->Log(
             Message => "Debug($Self->{Debug}): AutoResponseType=$AutoResponseType, " .
@@ -267,7 +373,6 @@ sub Run {
             "Precedence=$GetParam{Precedence}, X-Loop=$GetParam{'X-Loop'}, " .
             "X-No-Loop=$GetParam{'X-No-Loop'}, X-OTRS-Loop=$GetParam{'X-OTRS-Loop'}."
 		);  
-
     }
     return 1;
 }
