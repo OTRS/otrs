@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.103 2004-02-23 23:33:40 martin Exp $
+# $Id: Generic.pm,v 1.104 2004-02-26 21:43:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.103 $';
+$VERSION = '$Revision: 1.104 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -752,6 +752,7 @@ sub OptionStrgHashRef {
     my $Max = $Param{Max} || 80;
     my $Multiple = $Param{Multiple} ? 'multiple' : '';
     my $HTMLQuote = defined($Param{HTMLQuote}) ? $Param{HTMLQuote} : 1;
+    my $LT = defined($Param{LanguageTranslation}) ? $Param{LanguageTranslation} : 1;
     my $Selected = $Param{Selected} || '';
     my $SelectedID = $Param{SelectedID} || '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
@@ -836,11 +837,14 @@ sub OptionStrgHashRef {
             else {
               $Output .= '  <option value="'.$Self->Ascii2Html(Text => $_).'">';
             }
+            if ($LT) {
+                $Data{$_} = $Self->{LanguageObject}->Get($Data{$_});
+            }
             if ($HTMLQuote) {
-              $Output .= $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_}), Max => $Max); 
+                $Output .= $Self->Ascii2Html(Text => $Data{$_}, Max => $Max); 
             }
             else {
-                  $Output .= $Data{$_};
+                $Output .= $Data{$_};
             }
             $Output .= "</option>\n";
         }
