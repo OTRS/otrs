@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.29 2002-05-26 19:40:22 martin Exp $
+# $Id: Agent.pm,v 1.30 2002-05-27 21:04:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -634,7 +634,7 @@ sub AgentPreferencesForm {
           )
         },
         Name => 'GenericTopic',
-        Selected => $Self->{UserCharset},
+        Selected => $Self->{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
     );
 
     $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
@@ -646,13 +646,13 @@ sub AgentPreferencesForm {
           )
         },
         Name => 'GenericTopic',
-        Selected => $Self->{UserTheme},
+        Selected => $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
     );
 
     $Param{'RefreshOption'} = $Self->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('RefreshOptions'),
         Name => 'GenericTopic',
-        Selected => $Self->{UserRefreshTime},
+        SelectedID => $Self->{UserRefreshTime},
     );
 
     $Param{'SendFollowUpNotificationYesNoOption'} = $Self->OptionStrgHashRef(
@@ -685,7 +685,6 @@ sub AgentPreferencesForm {
          }
          $Param{QueueDataStrg} .= "<OPTION VALUE=\"$ID\">$QueueDataTmp{$ID}\n" if (!$Mach);
     }
-
 
     # create & return output
     return $Self->Output(TemplateFile => 'AgentPreferencesForm', Data => \%Param);
