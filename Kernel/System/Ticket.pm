@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.59 2003-11-19 01:32:04 martin Exp $
+# $Id: Ticket.pm,v 1.60 2003-11-26 00:41:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,6 +28,8 @@ use Kernel::System::Lock;
 use Kernel::System::Queue;
 use Kernel::System::User;
 use Kernel::System::Group;
+use Kernel::System::CustomerUser;
+use Kernel::System::CustomerGroup;
 use Kernel::System::Email;
 use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
@@ -35,7 +37,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -67,6 +69,8 @@ sub new {
     # --
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
     $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
@@ -322,6 +326,11 @@ sub GetTicket {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
         return;
     }
+    # check if result is cached 
+    if ($Param{Cached} && $Self->{'GetTicket'.$Param{TicketID}}) {
+        return %{$Self->{'GetTicket'.$Param{TicketID}}};
+    }
+
     # db query
     my $SQL = "SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, slt.id, slt.name, ".
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
@@ -386,6 +395,9 @@ sub GetTicket {
     else {
         $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - time();
     }
+    # cache user result
+    $Self->{'GetTicket'.$Param{TicketID}} = \%Ticket;
+    # return ticket data
     return %Ticket;
 }
 # --
@@ -661,80 +673,166 @@ sub SetAnswered {
 sub Permission {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Type TicketID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
-    # check article id permisson
-    # --
-    $Param{ArticlePermissionOK} = 0;
-    if ($Param{ArticleID}) {
-        my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID});
-        foreach (@Index) {
-            if ($Param{ArticleID} == $_) {
-                $Param{ArticlePermissionOK} = 1;
+    my $AccessOk = 0;
+    # run all TicketPermission modules 
+    if (ref($Self->{ConfigObject}->Get('Ticket::Permission')) eq 'HASH') { 
+        my %Modules = %{$Self->{ConfigObject}->Get('Ticket::Permission')};
+        foreach my $Module (sort keys %Modules) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Modules{$Module}->{Module}!",
+                );
+            }
+            # load module
+            if (eval "require $Modules{$Module}->{Module}") {
+                # create object
+                my $ModuleObject = $Modules{$Module}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    TicketObject => $Self,
+                    QueueObject => $Self->{QueueObject},
+                    UserObject => $Self->{UserObject},
+                    GroupObject => $Self->{GroupObject},
+                    Debug => $Self->{Debug},
+                );
+                # execute Run()
+                if ($ModuleObject->Run(%Param)) {
+                    if ($Self->{Debug} > 0) {
+                      $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' ".
+                            "through $Modules{$Module}->{Module}!",
+                      );
+                    }
+                    # set access ok
+                    $AccessOk = 1;
+                }
+                else {
+                    # return because true is required
+                    if ($Modules{$Module}->{Required}) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'notice', 
+                            Message => "Permission denied because module ".
+                             "($Modules{$Module}->{Module}) is requred ".
+                             "(UserID: $Param{UserID} '$Param{Type}' on ".
+                             "TicketID: $Param{TicketID})!",
+                        );
+                        return;
+                    }
+                }
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Modules{$Module}->{Module}!",
+                );
             }
         }
-        if (!$Param{ArticlePermissionOK}) {
-            $Self->{LogObject}->Log(
-                Priority => 'notice', 
-                Message => "Permission denied (UserID: $Param{UserID} on ArticleID: $Param{ArticleID}))!",
-            );
-            return;
-        }
     }
-    # --
-    # check if the user is in the same group as the ticket
-    # --
-    $Param{TicketPermissionOK} = 0;
-    my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
-    if ($Ticket{UserID} eq $Param{UserID}) {
-        $Param{TicketPermissionOK} = 1;
+    # grant access to the ticket
+    if ($AccessOk) {
+        return 1;
     }
-    my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
-    # get user groups 
-    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
-        UserID => $Param{UserID},
-        Type => $Param{Type},
-        Result => 'ID',
-    );
-    foreach (@GroupIDs) {
-        if ($_ eq $GID) {
-            $Param{TicketPermissionOK} = 1;
-        }
-    }
-    # --
-    # just ticket check
-    # --
-    if (!$Param{ArticleID} && $Param{TicketID}) {
-        if (!$Param{TicketPermissionOK}) {
-            $Self->{LogObject}->Log(
-                Priority => 'notice', 
-                Message => "Permission denied (UserID: $Param{UserID} on TicketID: $Param{TicketID})!",
-            );
-        }
-        return $Param{TicketPermissionOK}; 
-    }
-    # --
-    # ticket amd article check
-    # --
+    # don't grant access to the ticket
     else {
-        if ($Param{TicketPermissionOK} && $Param{ArticlePermissionOK}) {
-            return 1;
+        $Self->{LogObject}->Log(
+            Priority => 'notice', 
+            Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on TicketID: $Param{TicketID})!",
+        );
+        return;
+    }
+}
+# --
+sub CustomerPermission {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Type TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # run all CustomerTicketPermission modules 
+    my $AccessOk = 0;
+    if (ref($Self->{ConfigObject}->Get('CustomerTicket::Permission')) eq 'HASH') { 
+        my %Modules = %{$Self->{ConfigObject}->Get('CustomerTicket::Permission')};
+        foreach my $Module (sort keys %Modules) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Modules{$Module}->{Module}!",
+                );
+            }
+            # load module
+            if (eval "require $Modules{$Module}->{Module}") {
+                # create object
+                my $ModuleObject = $Modules{$Module}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    TicketObject => $Self,
+                    QueueObject => $Self->{QueueObject},
+                    CustomerUserObject => $Self->{CustomerUserObject},
+                    CustomerGroupObject => $Self->{CustomerGroupObject},
+                    Debug => $Self->{Debug},
+                );
+                # execute Run()
+                if ($ModuleObject->Run(%Param)) {
+                    if ($Self->{Debug} > 0) {
+                      $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' ".
+                            "through $Modules{$Module}->{Module}!",
+                      );
+                    }
+                    # set access ok
+                    $AccessOk = 1;
+                }
+                else {
+                    # return because true is required
+                    if ($Modules{$Module}->{Required}) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'notice', 
+                            Message => "Permission denied because module ".
+                             "($Modules{$Module}->{Module}) is requred ".
+                             "(UserID: $Param{UserID} '$Param{Type}' on ".
+                             "TicketID: $Param{TicketID})!",
+                        );
+                        return;
+                    }
+                }
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Modules{$Module}->{Module}!",
+                );
+            }
         }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'notice', 
-                Message => "Permission denied (UserID: $Param{UserID} on TicketID: $Param{TicketID})!",
-            );
-            return;
-        }
+    }
+    # grant access to the ticket
+    if ($AccessOk) {
+        return 1;
+    }
+    # don't grant access to the ticket
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'notice', 
+            Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on TicketID: $Param{TicketID})!",
+        );
+        return;
     }
 }
 # --
