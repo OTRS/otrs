@@ -2,13 +2,33 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.15 2003-02-10 09:38:55 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.16 2003-02-25 12:03:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{   
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    } 
+    else if (document.compose.From.value != "" && document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
+        alert('$Text{"You need to account time!"}');
+        document.compose.TimeUnits.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -91,7 +111,7 @@ $Data{"Body"}
   </tr>
   </table>
 <br>
-<input type="submit" value="$Text{"store"}">
+<input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
 </form>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">

@@ -2,13 +2,33 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.12 2003-02-09 02:00:09 martin Exp $
+# $Id: AgentPhone.dtl,v 1.13 2003-02-25 12:03:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
+        alert('$Text{"You need to account time!"}');
+        document.compose.TimeUnits.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -46,10 +66,11 @@ function SpellCheckSubmit()
     <td width="20%">$Text{"Subject"}:</td>
     <td width="50%"><input type="text" name="Subject" value="$Config{"PhoneDefaultSubject"}" size="60"></td>
     <td width="30%" rowspan="7" valign="top">
+
 # --
 # show customer info table 
 # --
-<dtl if ($Config{"ShowCustomerInfoPhone"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>"; }> 
+<dtl if ($Config{"ShowCustomerInfoPhone"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>"; }>
     $Data{"CustomerInfo"}
 # --
 
@@ -88,7 +109,7 @@ $Text{"$Config{"PhoneDefaultNoteText"}"}
   </tr>
   </table>
 <br>
-<input type="submit" value="$Text{"store"}">
+<input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
 </form>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">

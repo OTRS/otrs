@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.39 2003-02-23 22:21:26 martin Exp $
+# $Id: Defaults.pm,v 1.40 2003-02-25 12:03:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -273,8 +273,9 @@ sub LoadDefaults {
     # (If ispell or aspell is available, then we will provide a spelling
     # checker) 
 #    $Self->{SpellChecker} = '';
-    $Self->{SpellChecker} = 'ispell';
+    $Self->{SpellChecker} = '/usr/bin/ispell';
     $Self->{SpellCheckerDictDefault} = 'english';
+    # installed dict catalog (check your insalled catalogues, e. g. deutsch -=> german!)
     $Self->{SpellCheckerDict} = {
         # dict => frontend
         'english' => 'English', 
@@ -433,6 +434,8 @@ sub LoadDefaults {
     # PendingDiffTime
     # (Time in sec. which "pending date" shows per default) [default: 24*60*60 -=> 1d]
     $Self->{PendingDiffTime} = 24*60*60;
+    # FrontendNeedAccountedTime
+    $Self->{FrontendNeedAccountedTime} = 0;
 
     # ----------------------------------------------------#
     # defaults for add note                               #

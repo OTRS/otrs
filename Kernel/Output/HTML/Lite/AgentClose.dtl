@@ -2,13 +2,33 @@
 # AgentClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.17 2003-02-09 00:25:55 martin Exp $
+# $Id: AgentClose.dtl,v 1.18 2003-02-25 12:03:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    } 
+    else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
+        alert('$Text{"You need to account time!"}');
+        document.compose.TimeUnits.focus();
+        return false;
+    } 
+    else {
+        return true;
+    }
+}
+//-->
+</script>
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -76,7 +96,7 @@ $Text{"$Config{"DefaultCloseNoteText"}"}
   </tr>
   </table>
 <br>
-<input type="submit" value="$Text{"store"}">
+<input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
 </form>
 
 </p>

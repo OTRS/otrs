@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.25 2003-02-18 22:30:25 martin Exp $
+# $Id: AgentPhone.pm,v 1.26 2003-02-25 12:03:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -251,7 +251,7 @@ sub Run {
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest); 
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
-        my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
+        my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || '';
         my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
