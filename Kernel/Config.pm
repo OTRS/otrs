@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.67 2002-10-25 00:08:28 martin Exp $
+# $Id: Config.pm,v 1.68 2002-11-15 14:08:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -536,7 +536,7 @@ sub LoadSubConfig {
     foreach (keys %{$Self->{SubConfigs}}) {
         eval "require $Self->{SubConfigs}->{$_}";
         push (@ISA, $Self->{SubConfigs}->{$_});
-        $Self->$_;
+        $Self->$_();
     }
 }
 # --
