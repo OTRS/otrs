@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.9 2003-03-13 22:05:27 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.10 2003-04-12 08:54:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,6 +71,12 @@ sub SendAutoResponse {
              " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) is matching!",
         );
         return 1;
+    }
+    # --
+    # check if original content isn't text/plain, don't use it
+    # --
+    if ($GetParam{'Content-Type'} && $GetParam{'Content-Type'} !~ /text\/plain/i) {
+        $GetParam{Body} = "-> no quotable message <-";
     }
     # --
     # replace all scaned email x-headers with <OTRS_CUSTOMER_X-HEADER>
