@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.3 2004-01-21 00:38:38 martin Exp $
+# $Id: FAQ.pm,v 1.4 2004-01-24 18:42:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -84,7 +84,7 @@ sub ArticleGet {
             Field3 => $Row[5],
             Field4 => $Row[6],
             Field5 => $Row[7],
-            Field5 => $Row[8],
+            Field6 => $Row[8],
             FreeKey1 => $Row[9],
             FreeKey2 => $Row[10],
             FreeKey3 => $Row[11],
@@ -724,6 +724,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2004-01-21 00:38:38 $
+$Revision: 1.4 $ $Date: 2004-01-24 18:42:33 $
 
 =cut
