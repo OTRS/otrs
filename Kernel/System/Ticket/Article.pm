@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.22 2003-03-06 22:11:58 martin Exp $
+# $Id: Article.pm,v 1.23 2003-03-10 23:33:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -180,6 +180,15 @@ sub CreateArticle {
                 }
             }
         }
+    }
+    # --
+    # send no agent notification!?
+    # --
+    if ($Param{NoAgentNotify}) {
+        # --
+        # return ArticleID
+        # --
+        return $ArticleID;
     }
     # --
     # send agent notification!?
