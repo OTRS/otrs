@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMIME.pm,v 1.3 2004-08-06 06:13:59 martin Exp $
+# $Id: SMIME.pm,v 1.4 2004-08-06 13:29:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -227,7 +227,7 @@ sub CertificateSearch {
         my $Hit = 0;
         if ($Search) {
             foreach (keys %Attributes) {
-                if ($Attributes{$_} =~ /$Search/i) {
+                if (eval {$Attributes{$_} =~ /$Search/i}) {
                     $Hit = 1;
                 }
             }
@@ -369,15 +369,65 @@ sub CertificateAttributes {
         elsif ($Key eq 'Modulus') {
             $Line =~ s/Modulus=//;
         }
+        if ($Key =~ /(StartDate|EndDate)/) {
+            my $Type = $1;
+            if ($Line =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/) {
+                my $Day = $2;
+                if ($Day < 10) {
+                    $Day = "0".int($Day);
+                }
+                my $Month = '';
+                my $Year = $4;
+                if ($Line =~ /jan/i) {
+                    $Month = '01';
+                }
+                elsif ($Line =~ /feb/i) {
+                    $Month = '02';
+                }
+                elsif ($Line =~ /mar/i) {
+                    $Month = '03';
+                }
+                elsif ($Line =~ /apr/i) {
+                    $Month = '04';
+                }
+                elsif ($Line =~ /mai/i) {
+                    $Month = '05';
+                }
+                elsif ($Line =~ /jun/i) {
+                    $Month = '06';
+                }
+                elsif ($Line =~ /jul/i) {
+                    $Month = '07';
+                }
+                elsif ($Line =~ /aug/i) {
+                    $Month = '08';
+                }
+                elsif ($Line =~ /sep/i) {
+                    $Month = '09';
+                }
+                elsif ($Line =~ /oct/i) {
+                    $Month = '10';
+                }
+                elsif ($Line =~ /nov/i) {
+                    $Month = '11';
+                }
+                elsif ($Line =~ /dec/i) {
+                    $Month = '12';
+                }
+                $Attributes{"Short$Type"} = "$Year-$Month-$Day";
+            }
+        }
         $Attributes{$Key} = $Line;
     }
     if ($Attributes{Hash}) {
         my $Private = $Self->PrivateGet(Hash => $Attributes{Hash});
         if ($Private) {
             $Attributes{Private} = 'Yes';
+            $Attributes{Type} = 'C+P';
         }
         else {
             $Attributes{Private} = 'No';
+            $Attributes{Type} = 'C';
         }
     }
     return %Attributes;
