@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.6 2002-02-07 00:03:03 martin Exp $
+# $Id: DB.pm,v 1.7 2002-04-12 16:34:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use DBI;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -45,6 +45,8 @@ sub new {
 
     # get log object
     $Self->{LogObject} = $Param{LogObject} || die "Got no LogObject!";
+
+    $Self->{ConfigObject} = $ConfigObject;
    
     # do db connect 
     $Self->Connect();
