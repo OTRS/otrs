@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.135 2004-09-01 13:03:30 martin Exp $
+# $Id: Ticket.pm,v 1.136 2004-09-04 21:42:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.135 $';
+$VERSION = '$Revision: 1.136 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -649,7 +649,13 @@ sub MoveList {
         return;
     }
 # TicketID!!!
-    my %Queues = $Self->{QueueObject}->GetAllQueues(%Param);
+    my %Queues = ();
+    if ($Param{UserID} && $Param{UserID} eq 1) {
+        %Queues = $Self->{QueueObject}->GetAllQueues();
+    }
+    else {
+        %Queues = $Self->{QueueObject}->GetAllQueues(%Param);
+    }
 #delete $Queues{315};
     # workflow
     if ($Self->TicketAcl(
@@ -696,7 +702,7 @@ sub MoveTicket {
         return 1;
     }
     # permission check
-    my %MoveList = $Self->MoveList(%Param);
+    my %MoveList = $Self->MoveList(%Param, Type => 'move_into');
     if (!$MoveList{$Param{QueueID}}) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -3410,6 +3416,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.135 $ $Date: 2004-09-01 13:03:30 $
+$Revision: 1.136 $ $Date: 2004-09-04 21:42:12 $
 
 =cut
