@@ -1,0 +1,40 @@
+# --
+# AdminQueueResponsesForm.dtl - provides HTML form for AdminQueueResponses
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminQueueResponsesForm.dtl,v 1.1 2001-12-26 20:05:04 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Std. Responses <-> Queue Managament"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+  $Text{"Change Answer <-> Queue settings"}
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" valign="top">
+  <td align="right">
+    <b>$Text{"Answer:Queue (1:n)"}</b>
+    <br>
+    $Data{"AnswerQueueStrg"}
+  </td>
+  <td align="left">
+    <b>$Text{"Answer:Queue (n:1)"}</b>
+    <br>
+    $Data{"QueueAnswerStrg"}
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+

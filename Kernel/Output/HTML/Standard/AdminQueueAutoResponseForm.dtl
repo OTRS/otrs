@@ -1,0 +1,38 @@
+# --
+# AdminQueueAutoResponseForm.dtl - provides HTML form for AdminQueueAutoResponse
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminQueueAutoResponseForm.dtl,v 1.1 2001-12-26 20:05:04 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left" width="70%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Queue <-> Auto Response Managament"}: $Data{"Queue"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right" width="30%">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
+  <td colspan="2">
+    $Text{"Queue"}: $Data{"Queue"}
+    <br>
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="ChangeAction">
+    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+    <input type="hidden" name="ID" value="$Data{"ID"}">
+    $Data{"DataStrg"}
+    <br>
+    <input type="submit" value="$Text{"Update"}">
+    </form>
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
