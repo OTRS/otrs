@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.123 2003-07-13 19:02:38 martin Exp $
+# $Id: Agent.pm,v 1.124 2003-07-14 12:29:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.123 $';
+$VERSION = '$Revision: 1.124 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -991,89 +991,6 @@ sub TicketLocked {
     my $Self = shift;
     my %Param = @_;
     return $Self->Output(TemplateFile => 'AgentTicketLocked', Data => \%Param);
-}
-# --
-sub AgentMove {
-    my $Self = shift;
-    my %Param = @_;
-    my %Data = %{$Param{MoveQueues}};
-    my %UsedData = ();
-    # add suffix for correct sorting
-    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-        $Data{$_} .= '::';
-    }
-    # build a href stuff
-    foreach my $ID (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-        $Data{$ID} =~ s/^(.*)::/$1/;
-        my @Queue = split(/::/, $Data{$ID});
-        $UsedData{$Data{$ID}} = 1;
-        my $UpQueue = $Data{$ID}; 
-        $UpQueue =~ s/^(.*)::.+?$/$1/g;
-        $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
-        my $Space = '|';
-        if ($#Queue == 0) {
-            $Space .= '--';
-        }
-        for (my $i = 0; $i < $#Queue; $i++) {
-#            $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-            if ($#Queue == 1) {
-                $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;|--';
-            }
-            elsif ($#Queue == 2 && $i == $#Queue-1) {
-                my $Hit = 0;
-                foreach (keys %Data) {
-                    my @Queue = split(/::/, $Data{$_});
-                    my $QueueName = '';
-                    for (my $i = 0; $i < $#Queue-1; $i++) {
-                        if (!$QueueName) {
-                            $QueueName .= $Queue[$i].'::';
-                        }
-#                        else {
-#                            $QueueName .= '::'.$Queue[$i];
-#                        }
-                    }
-#                    my $SecondLevel = $Queue[0].'::'.$Queue[1];
-#print STDERR "$Data{$ID} ($QueueName) $#Queue--\n";
-                    if ($#Queue == 1 && $QueueName && $Data{$ID} =~ /^$QueueName/) { 
-#print STDERR "sub queue of $Data{$ID} ($QueueName) exists\n";
-                        $Hit = 1;
-                    }
-                }
-                if ($Hit) {
-                    $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--';
-                }
-                else {
-                    $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|--';
-                }
-            }
-        }
-        if ($UsedData{$UpQueue}) {
-
-#         $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$ID\">".
-#                $Queue[$#Queue].'</a><br>';
-         $Param{MoveQueuesStrg} .= "$Space<a href=\"\" onclick=\"document.compose.DestQueueID.value='$ID'; document.compose.submit(); return false;\">".
-                 $Queue[$#Queue].'</a><br>';
-        }
-        delete $Data{$ID};
-    }
-    # --
-    # build next states string
-    # -- 
-    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{NextStates},
-        Name => 'NewStateID',
-#        Selected => $Param{State},
-    );
-    # --
-    # build owner string
-    # --
-    $Param{'OwnerStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{OwnerList},
-#        Selected => $Param{OwnerID},
-        Name => 'NewUserID',
-#       Size => 5,
-    );
-    return $Self->Output(TemplateFile => 'AgentMove', Data => \%Param);
 }
 # --
 sub AgentStatusView {
