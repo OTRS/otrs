@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.17 2002-09-01 13:03:26 martin Exp $
+# $Id: suse-otrs.spec,v 1.18 2002-09-17 12:53:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ Version:      0.5
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs 
-Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Syslog perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail
+Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail
 Autoreqprov:  on
 Release:      BETA7
 Source0:      otrs-%{version}-%{release}.tar.gz
@@ -70,23 +70,9 @@ SuSE series: ap
 
 %prep
 %setup -n OpenTRS
-# remove CVS dirs
-find . -name CVS | xargs rm -rf
-# remove old sessions, articles and spool
-rm -f var/sessions/*
-rm -rf var/article/*
-rm -rf var/spool/*
-# remove old docu stuff
-for i in aux log out tex; do
-  rm -rf doc/manual/manual.$i;
-  rm -rf doc/manual/README.$i;
-done;
-#rm -rf doc/screenshots
-#mv doc/manual/manual doc/html
 
 %build
 # nothing
-
 
 %install
 # delete old RPM_BUILD_ROOT
@@ -116,7 +102,7 @@ echo -n "Check OTRS user (/etc/passwd)... "
 if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
     echo "$OTRSUSER exists."
 else
-    useradd $OTRSUSER -d /opt/OpenTRS/ -s /bin/false && echo "$OTRSUSER added."
+    useradd $OTRSUSER -d /opt/OpenTRS/ -s /bin/false -G nogroup -c 'OTRS User' && echo "$OTRSUSER added."
 fi
 
 # set permission
@@ -163,8 +149,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %config(noreplace) /opt/OpenTRS/Kernel/Config.pm
-%config(noreplace) /opt/OpenTRS/Kernel/Config/Modules.pm
-%config(noreplace) /opt/OpenTRS/Kernel/Config/ModulesCustom.pm
+%config(noreplace) /opt/OpenTRS/Kernel/Config/*.pm
 %config(noreplace) /opt/OpenTRS/var/log/TicketCounter.log
 %config(noreplace) /opt/OpenTRS/.procmailrc
 %config(noreplace) /opt/OpenTRS/.fetchmailrc
@@ -195,6 +180,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Sep 06 2002 - martin+rpm@otrs.org
+- added Kernel/Config/*.pm
 * Sat Jun 16 2002 - martin+rpm@otrs.org
 - added new modules for 0.5 BETA6
 * Thu Jun 04 2002 - martin+rpm@otrs.org
