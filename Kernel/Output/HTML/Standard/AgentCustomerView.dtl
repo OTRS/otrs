@@ -1,0 +1,38 @@
+# --
+# AgentCustomerView.dtl - provides HTML for AgentCustomerView.pm
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentCustomerView.dtl,v 1.1 2002-12-05 22:25:18 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor0"}">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Customer Data"}: $Data{"CustomerID"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+  <td align="right" bgcolor="$Env{"BGTableColor0"}">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </font>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+<p>
+
+$Data{"Table"}
+
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
