@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.144 2004-10-01 08:53:32 martin Exp $
+# $Id: Ticket.pm,v 1.145 2004-10-02 08:14:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.144 $';
+$VERSION = '$Revision: 1.145 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1516,6 +1516,7 @@ To find tickets in your system.
       Locks => ['unlock'],
       UserIDs => [1, 12, 455, 32]
       Owner => '123',
+      # CustomerID as ARRAY or more as ARRAYREF
       CustomerID => '123',
       CustomerUserLogin => 'uid123',
 
@@ -1689,7 +1690,9 @@ sub TicketSearch {
             Cached => 1,
         );
         my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $Param{CustomerUserID});
-        $SQLExt .= " AND st.customer_id IN ('${\(join '\', \'' , @CustomerIDs)}') ";
+        $SQLExt .= " AND (st.customer_id IN ('${\(join '\', \'' , @CustomerIDs)}') ".
+          " OR ".
+          " st.customer_user_id = '$Param{CustomerUserID}') ";
     }
     if ($Param{UserID} && $Param{UserID} == 1) {
 #        $Self->{LogObject}->Log(Priority => 'info', Message => "It's a admin search, no groups are used!");
@@ -3185,7 +3188,7 @@ sub TicketAcl {
       }
     }
     # check if workflows are configured, if not, just return
-    if (!$Self->{ConfigObject}->Get('TicketAcl') || $Param{UserID} == 1) {
+    if (!$Self->{ConfigObject}->Get('TicketAcl') || ($Param{UserID} && $Param{UserID} == 1)) {
         return;
     }
     # get used data
@@ -3409,6 +3412,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.144 $ $Date: 2004-10-01 08:53:32 $
+$Revision: 1.145 $ $Date: 2004-10-02 08:14:17 $
 
 =cut
