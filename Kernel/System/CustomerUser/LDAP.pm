@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.9 2003-03-05 19:41:53 martin Exp $
+# $Id: LDAP.pm,v 1.10 2003-03-23 21:43:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -241,10 +241,10 @@ sub CustomerUserDataGet {
     # check data
     # --
     if (! exists $Data{UserLogin} && $Param{User}) {
-        $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Panic! No UserData for customer user: '$Param{User}'!!!",
-        );
+#        $Self->{LogObject}->Log(
+#          Priority => 'notice',
+#          Message => "Panic! No UserData for customer user: '$Param{User}'!!!",
+#        );
         return;
     }
     if (! exists $Data{UserLogin} && $Param{CustomerID}) {
