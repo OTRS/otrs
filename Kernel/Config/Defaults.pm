@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.114 2004-02-27 22:47:10 martin Exp $
+# $Id: Defaults.pm,v 1.115 2004-03-05 08:37:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.114 $';
+$VERSION = '$Revision: 1.115 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -153,6 +153,22 @@ sub LoadDefaults {
 
     # (The database DSN for PostgrSQL ==> more: "man DBD::Pg") 
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
+
+    # (The database DSN for DBI:ODBC ==> more: "man DBD::ODBC")
+#    $Self->{DatabaseDSN} = "DBI:ODBC:$Self->{Database}";
+    # If you use ODBC, no database auto detection is possible,
+    # so set the database type here. Possible: mysq,postgresql,sapdb
+#    $Self->{'Database::Type'} = 'sapdb';
+
+    # (The database DSN for Oracle ==> more: "man DBD::oracle")
+#    $Self->{DatabaseDSN} = "DBI:Oracle:sid=$Self->{Database};host=$Self->{DatabaseHost};port=1521;";
+#    $Self->{DatabaseDSN} = "DBI:Oracle:sid=vingador;host=vingador;port=1521;";
+    # if needed, oracle env settings
+#    $ENV{ORACLE_HOME} = '/opt/ora9/product/9.2';
+#    $ENV{ORACLE_HOME} = '/oracle/Ora92';
+#    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
+#    $ENV{NLS_LANG} = "german_germany.we8iso8859p15";
+#    $ENV{NLS_LANG} = "american_america.we8iso8859p1";
 
     # UserTable
     $Self->{DatabaseUserTable} = 'system_user';
@@ -1779,6 +1795,7 @@ Your OTRS Notification Master
     $Self->{'Module::Permission'}->{'AdminAttachment'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminAutoResponse'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminCustomerUser'} = 'admin';
+#    $Self->{'Module::Permission'}->{'AdminCustomerUser'} = ['admin', 'users'];
     $Self->{'Module::Permission'}->{'AdminCustomerUserGroup'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminEmail'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminGroup'} = 'admin';
