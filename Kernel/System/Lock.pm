@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.3 2004-04-05 17:11:41 martin Exp $
+# $Id: Lock.pm,v 1.4 2004-05-25 10:58:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Lock;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,33 +79,42 @@ sub LockViewableLock {
 sub LockLookup {
     my $Self = shift;
     my %Param = @_;
+    my $Key = ''; 
     # check needed stuff
-    if (!$Param{Type}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
+    if (!$Param{Type} && $Param{ID}) {
+      $Key = 'ID'; 
+    }
+    if ($Param{Type} && !$Param{ID}) {
+      $Key = 'Type';
+    }
+    if (!$Param{Type} && !$Param{ID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type od ID!");
       return; 
     }
     # check if we ask the same request?
-    if (exists $Self->{"Lookup::$Param{Type}"}) {
-        return $Self->{"Lookup::$Param{Type}"};
+    if (exists $Self->{"Lock::Lookup::$Param{$Key}"}) {
+        return $Self->{"Lock::Lookup::$Param{$Key}"};
     }
     # db query
-    my $SQL = "SELECT id " .
-    " FROM " .
-    " ticket_lock_type " .
-    " WHERE " .
-    " name = '$Param{Type}'";
+    my $SQL = ''; 
+    if ($Param{Type}) {
+        $SQL = "SELECT id FROM ticket_lock_type WHERE name = '$Param{Type}'";
+    }
+    else {
+        $SQL = "SELECT name FROM ticket_lock_type WHERE id = '$Param{ID}'";
+    }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
-        $Self->{"Lookup::$Param{Type}"} = $Row[0];
+        $Self->{"Lock::Lookup::$Param{$Key}"} = $Row[0];
     }
     # check if data exists
-    if (!exists $Self->{"Lookup::$Param{Type}"}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No TypeID for $Param{Type} found!");
+    if (!exists $Self->{"Lock::Lookup::$Param{$Key}"}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No Type/TypeID for $Param{$Key} found!");
         return;
     }
     else {
-        return $Self->{"Lookup::$Param{Type}"};
+        return $Self->{"Lock::Lookup::$Param{$Key}"};
     }
 }
 # --
