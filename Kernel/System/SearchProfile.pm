@@ -2,7 +2,7 @@
 # Kernel/System/SearchProfile.pm - module to manage search profiles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SearchProfile.pm,v 1.2 2004-09-30 08:19:39 martin Exp $
+# $Id: SearchProfile.pm,v 1.3 2004-11-07 15:15:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::SearchProfile;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -154,7 +154,7 @@ sub SearchProfileGet {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql
-    my $SQL = "SELECT profile_type, profile_key, profile_value name ".
+    my $SQL = "SELECT profile_type, profile_key, profile_value".
         " FROM ".
         " search_profile ".
         " WHERE ".
@@ -272,6 +272,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2004-09-30 08:19:39 $
+$Revision: 1.3 $ $Date: 2004-11-07 15:15:52 $
 
 =cut
