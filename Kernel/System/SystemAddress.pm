@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemAddress.pm,v 1.4 2003-02-08 15:09:38 martin Exp $
+# $Id: SystemAddress.pm,v 1.5 2003-03-13 23:17:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::SystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,10 +95,10 @@ sub SystemAddressGet {
     # --
     # sql 
     # --
-    my $SQL = "SELECT value0, value1, comment, valid_id, queue_id " .
-        " FROM " .
-        " system_address " .
-        " WHERE " . 
+    my $SQL = "SELECT value0, value1, comment, valid_id, queue_id ".
+        " FROM ".
+        " system_address ".
+        " WHERE ". 
         " id = $Param{ID}";
 
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
@@ -151,6 +151,42 @@ sub SystemAddressUpdate {
     }
 }
 # --
+sub SystemAddressIsLocalAddress {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Address)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # sql 
+    # --
+    my $SQL = "SELECT value0, value1, comment, valid_id, queue_id ".
+        " FROM ".
+        " system_address ".
+        " WHERE ". 
+        " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+#        " AND ".
+#        " value0 LIKE '$Param{Address}'";
 
+    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+        return;
+    }
+    my $Hit = 0; 
+    $Param{Address} =~ s/\\/\\\\/g;
+    $Param{Address} =~ s/\+/\\\+/g;
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        if ($Row[0] =~ /^$Param{Address}$/i) {
+            $Hit = 1;
+        }
+    }
+    return $Hit;
+}
+# --
 
 1;
