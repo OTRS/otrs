@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.139 2004-09-09 00:18:09 martin Exp $
+# $Id: Ticket.pm,v 1.139.2.1 2004-11-04 06:46:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.139 $';
+$VERSION = '$Revision: 1.139.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1619,9 +1619,9 @@ To find tickets in your system.
       # tickets with create time before then .... (optional)
       TicketCreateTimeOlderDate => '2004-01-19 23:59:59',
 
-      # OrderBy and SoryBy (optional)
+      # OrderBy and SortBy (optional)
       OrderBy => 'Down',       # Down|Up
-      SoryBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age
+      SortBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age
 
       # user search (optional)
       UserID => 123,
@@ -3479,6 +3479,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.139 $ $Date: 2004-09-09 00:18:09 $
+$Revision: 1.139.2.1 $ $Date: 2004-11-04 06:46:46 $
 
 =cut
