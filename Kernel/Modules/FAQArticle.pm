@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/FAQArticle.pm - to add/update/delete faq articles
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticle.pm,v 1.2 2004-01-08 11:46:35 martin Exp $
+# $Id: FAQArticle.pm,v 1.3 2004-01-21 00:42:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,11 +46,14 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    my @Params = qw(ID Name CategoryID StateID LanguageID Subject UserID Field1 Field2 Field3 FreeKey1 FreeKey2 FreeKey3);
+    my @Params = qw(ID Name CategoryID StateID LanguageID Subject UserID Field1 Field2 Field3 FreeKey1 FreeKey2 FreeKey3 Keywords);
+    my %GetParam;
+    foreach (@Params) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+    }
     # get data 2 form
     if ($Self->{Subaction} eq 'Change') {
-        my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my %Data = $Self->{FAQObject}->ArticleGet(ID => $ID, UserID => $Self->{UserID});
+        my %Data = $Self->{FAQObject}->ArticleGet(%GetParam, UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Article');
         $Output .= $Self->{LayoutObject}->FAQNavigationBar();
         $Output .= $Self->_Mask(%Data);
@@ -58,10 +61,6 @@ sub Run {
     }
     # update action
     elsif ($Self->{Subaction} eq 'ChangeAction') {
-        my %GetParam;
-        foreach (@Params) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-        }
         if ($Self->{FAQObject}->ArticleUpdate(%GetParam, UserID => $Self->{UserID})) { 
             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=FAQ&ID=$GetParam{ID}");
         }
@@ -74,12 +73,31 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # delete
+    elsif ($Self->{Subaction} eq 'Delete') {
+        my %Data = $Self->{FAQObject}->ArticleGet(%GetParam, UserID => $Self->{UserID});
+        $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Delete');
+        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'FAQArticleDelete', Data => { %Param, %GetParam } );
+        $Output .= $Self->{LayoutObject}->Footer();
+    }
+    # delete action
+    elsif ($Self->{Subaction} eq 'DeleteAction') {
+        if ($Self->{FAQObject}->ArticleDelete(%GetParam, UserID => $Self->{UserID}) ) {
+            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=FAQ");
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => 'DB Error!!',
+                Comment => 'Please contact your admin',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+        }
+    }
     # add new queue
     elsif ($Self->{Subaction} eq 'AddAction') {
-        my %GetParam;
-        foreach (@Params) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-        }
         if ($Self->{FAQObject}->ArticleAdd(%GetParam, UserID => $Self->{UserID}) ) {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=FAQ&ID=$GetParam{ID}");
         }
@@ -120,7 +138,7 @@ sub _Mask {
     $Param{LanguageOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->LanguageList(UserID => $Self->{UserID}) },
         Name => 'LanguageID',
-        SelectedID => $Param{LanguageID},
+        SelectedID => $Param{LanguageID} || $Self->{UserLanguage},
     );
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'FAQArticleForm', Data => \%Param);

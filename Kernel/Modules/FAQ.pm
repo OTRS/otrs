@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/FAQ.pm - faq module
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.2 2004-01-08 11:46:35 martin Exp $
+# $Id: FAQ.pm,v 1.3 2004-01-21 00:42:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,22 +52,26 @@ sub Run {
     $Output .= $Self->{LayoutObject}->FAQNavigationBar();
 
     $Param{What} = $Self->{ParamObject}->GetParam(Param => 'What') || '';
-    $Param{LanguageID} = $Self->{ParamObject}->GetParam(Param => 'LanguageID') || '';
-    my @CategoryIDs = $Self->{ParamObject}->GetArray(Param => 'CategoryID');
+    $Param{Keyword} = $Self->{ParamObject}->GetParam(Param => 'Keyword') || '';
+    my @LanguageIDs = $Self->{ParamObject}->GetArray(Param => 'LanguageIDs');
+    my @CategoryIDs = $Self->{ParamObject}->GetArray(Param => 'CategoryIDs');
 
     $Param{LanguageOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->LanguageList(UserID => $Self->{UserID}) },
-        Name => 'LanguageID',
-        Selected => $Self->{UserLanguage},
-        SelectedID => $Param{LanguageID},
+        Size => 6,
+        Name => 'LanguageIDs',
+        Multiple => 1,
+        SelectedIDRefArray => \@LanguageIDs,
+        HTMLQuote => 0,
     );
 
     $Param{CategoryOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->CategoryList(UserID => $Self->{UserID}) },
-        Size => 10,
-        Name => 'CategoryID',
+        Size => 6,
+        Name => 'CategoryIDs',
         Multiple => 1,
         SelectedIDRefArray => \@CategoryIDs,
+        HTMLQuote => 0,
     );
 
 
@@ -86,13 +90,24 @@ sub Run {
         $Output .= $Self->{LayoutObject}->FAQNavigationBar();
         my @FAQIDs = $Self->{FAQObject}->Search(
             %Param,
+#            States => ['internal (agent)', 'external (customer)', 'public (all)'],
+            LanguageIDs => \@LanguageIDs,
             CategoryIDs => \@CategoryIDs,
             UserID => $Self->{UserID},
         );
+        my %AllArticle = ();
         foreach (@FAQIDs) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
-            $Param{List} .= "<a href='\$Env{\"Baselink\"}Action=FAQ&ID=$_'>$Data{Subject} - Changed \$TimeLong{\"$Data{Changed}\"}</a><br>\n";
+            $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}</td><td> (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})";
         }
+        foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
+            my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
+            $Param{List} .= "<tr><td><a href='\$Env{\"Baselink\"}Action=FAQ&ID=$_'>$AllArticle{$Data{ID}}</a></td></tr>\n";
+        }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'FAQSearch', 
+            Data => { %Param },
+        );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQSearchResult', 
             Data => { %Param },
@@ -101,6 +116,46 @@ sub Run {
     }
     # history
     elsif ($Self->{Subaction} eq 'History') {
+        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'History');
+        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        my @History = $Self->{FAQObject}->ArticleHistoryGet(
+            ID => $ID,
+            UserID => $Self->{UserID},
+        );
+        foreach my $Row (@History) {
+            $Param{HistoryList} .= "<tr><td>\$Text{\"$Row->{Name}\"}</td><td>(\$TimeLong{\"$Row->{Created}\"})</td></tr>";
+        }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'FAQArticleHistory', 
+            Data => { 
+                ID => $ID,
+                %Param 
+            },
+        );
+
+    }
+    # system history
+    elsif ($Self->{Subaction} eq 'SystemHistory') {
+        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'History');
+        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        my @History = $Self->{FAQObject}->HistoryGet(
+            UserID => $Self->{UserID},
+        );
+        foreach my $Row (@History) {
+            my %Data = $Self->{FAQObject}->ArticleGet(ID => $Row->{ID}, UserID => $Self->{UserID}); 
+            my %User = $Self->{UserObject}->GetUserData(
+                UserID => $Row->{CreatedBy},
+                Cached => 1,
+            );
+            $Param{HistoryList} .= "<tr><td><a href=\"\$Env{\"Baselink\"}Action=FAQ&ID=$Row->{ID}\">[$Data{Language}/$Data{Category}] $Data{Subject}</a></td><td> (\$Text{\"$Row->{Name}\"} - \$TimeLong{\"$Data{Changed}\"} - $User{UserLogin} ($User{UserFirstname} $User{UserLastname}))</td></tr>";
+        }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'FAQArticleSystemHistory', 
+            Data => { 
+                ID => $ID,
+                %Param 
+            },
+        );
 
     }
     # view
