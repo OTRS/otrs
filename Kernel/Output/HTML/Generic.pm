@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.130 2004-07-17 21:31:08 martin Exp $
+# $Id: Generic.pm,v 1.131 2004-07-22 05:49:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.130 $';
+$VERSION = '$Revision: 1.131 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1189,7 +1189,53 @@ sub PageNavBar {
        $Param{TotalHits} = $Param{AllHits};
     }
     # build page nav bar
-    for (my $i = 1; $i <= $Pages; $i++) {
+    my $i = 0;
+    while ($i <= $Pages) {
+        my $Space = '';
+        if ($Page + 9 > $i && $Page -10 < $i) {
+            $i++;
+        }
+        else {
+            $Space = ' - ';
+            my $Add = 1;
+            if ($i > 0 && $i =~ /(.)$/) {
+                if ($1 == 0) {
+                    $Add = 10;
+                }
+                elsif ($1 == 1) {
+                    $Add = 9;
+                }
+                elsif ($1 == 2) {
+                    $Add = 8;
+                }
+                elsif ($1 == 3) {
+                    $Add = 7;
+                }
+                elsif ($1 == 4) {
+                    $Add = 6;
+                }
+                elsif ($1 == 5) {
+                    $Add = 5;
+                }
+                elsif ($1 == 6) {
+                    $Add = 4;
+                }
+                elsif ($1 == 7) {
+                    $Add = 3;
+                }
+                elsif ($1 == 8) {
+                    $Add = 2;
+                }
+                elsif ($1 == 9) {
+                    $Add = 1;
+                }
+            }
+            $i = $i+$Add;
+        }
+      if (($i-1) < $Pages) {
+        if ($Param{SearchNavBar}) {
+            $Param{SearchNavBar} .= $Space;
+        }
         $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
          "StartHit=". ((($i-1)*$Param{PageShown})+1);
          $Param{SearchNavBar} .= '">';
@@ -1200,6 +1246,7 @@ sub PageNavBar {
              $Param{SearchNavBar} .= ($i);
          }
          $Param{SearchNavBar} .= '</a> ';
+       }
     }
     # return data
     return (
