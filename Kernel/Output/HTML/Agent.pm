@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.31 2002-06-05 22:48:25 martin Exp $
+# $Id: Agent.pm,v 1.32 2002-06-05 22:55:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -612,27 +612,38 @@ sub AgentCompose {
     my $Self = shift;
     my %Param = @_;
 
+    # --
     # build next states string
+    # --
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'ComposeStateID'
     );
 
+    # --
     # answered strg
+    # --
     $Param{'AnsweredYesNoOption'} = $Self->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name => 'Answered',
         Selected => 'Yes',
     );
 
+    # --
     # prepare 
+    # --
     foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
         $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
         $Param{$_} =~ s/"//g;
     }
+    # create FromHTML (to show)
     $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70, MIME => 1);
+    # email quoted print decode
+    $Param{Body} = MIME::QuotedPrint::decode($Param{Body});
 
+    # --
     # create & return output
+    # --
     return $Self->Output(TemplateFile => 'AgentCompose', Data => \%Param);
 }
 # --
@@ -640,7 +651,9 @@ sub AgentForward {
     my $Self = shift;
     my %Param = @_;
 
+    # --
     # build next states string
+    # --
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'ComposeStateID'
@@ -651,14 +664,21 @@ sub AgentForward {
         Name => 'ArticleTypeID'
     );
 
-
+    # --
+    # prepare 
+    # --
     foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
         $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
         $Param{$_} =~ s/"//g;
     }
+    # create html from
     $Param{SystemFromHTML} = $Self->Ascii2Html(Text => $Param{SystemFrom}, Max => 70, MIME => 1);
+    # email quoted print decode
+    $Param{Body} = MIME::QuotedPrint::decode($Param{Body});
 
+    # --
     # create & return output
+    # --
     return $Self->Output(TemplateFile => 'AgentForward', Data => \%Param);
 }
 # --
