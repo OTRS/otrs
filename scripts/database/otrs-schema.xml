@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.37 2004-10-31 18:36:28 martin Exp $
+  $Id: otrs-schema.xml,v 1.38 2004-11-10 23:07:32 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.37  2004/10/31 18:36:28  martin
+  added foreign-keys, renamed tables session to session (because of oracle support), removed not needed charsets table
+
   Revision 1.36  2004/10/13 12:45:53  martin
   added faq_item.number and added faq_attachment table
 
@@ -202,8 +205,6 @@
 
 
 -->
-
-<app-data>
 
 <database name="otrs">
 
@@ -850,12 +851,12 @@
   <column name="ticket_id" required="true" type="BIGINT"/>
   <column name="article_type_id" required="true" type="SMALLINT"/>
   <column name="article_sender_type_id" required="true" type="SMALLINT"/>
-  <column name="a_from" required="false" size="2000" type="VARCHAR"/>
-  <column name="a_reply_to" required="false" size="255" type="VARCHAR"/>
-  <column name="a_to" required="false" size="2000" type="VARCHAR"/>
-  <column name="a_cc" required="false" size="2000" type="VARCHAR"/>
-  <column name="a_subject" required="false" size="2000" type="VARCHAR"/>
-  <column name="a_message_id" required="false" size="2000" type="VARCHAR"/>
+  <column name="a_from" required="false" size="3800" type="VARCHAR"/>
+  <column name="a_reply_to" required="false" size="500" type="VARCHAR"/>
+  <column name="a_to" required="false" size="3800" type="VARCHAR"/>
+  <column name="a_cc" required="false" size="3800" type="VARCHAR"/>
+  <column name="a_subject" required="false" size="3800" type="VARCHAR"/>
+  <column name="a_message_id" required="false" size="3800" type="VARCHAR"/>
   <column name="a_content_type" required="false" size="250" type="VARCHAR"/>
   <column name="a_body" required="true" size="5000000" type="VARCHAR"/>
   <column name="incoming_time" required="true" type="INTEGER"/>
@@ -1134,7 +1135,7 @@
 <!-- sessions -->
 <table name="sessions">
   <column name="session_id" required="true" size="150" type="VARCHAR"/>
-  <column name="value" required="true" size="10000" type="VARCHAR"/>
+  <column name="session_value" required="true" size="10000" type="VARCHAR"/>
   <unique>
     <unique-column name="session_id"/>
   </unique>
@@ -1428,5 +1429,25 @@
   </foreign-key>
 </table>
 
+<!-- opm - package_repository -->
+<table name="package_repository">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="name" required="true" size="250" type="VARCHAR"/>
+  <column name="version" required="true" size="250" type="VARCHAR"/>
+  <column name="vendor" required="true" size="250" type="VARCHAR"/>
+  <column name="install_status" required="true" size="250" type="VARCHAR"/>
+  <column name="filename" required="false" size="250" type="VARCHAR"/>
+  <column name="content_size" required="false" size="30" type="VARCHAR"/>
+  <column name="content_type" required="false" size="250" type="VARCHAR"/>
+  <column name="content" required="true" type="LONGBLOB"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
+</table>
+
 </database>
-</app-data>
