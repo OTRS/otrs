@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentClose.pm - to close a ticket
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.16 2002-10-25 11:46:00 martin Exp $
+# $Id: AgentClose.pm,v 1.17 2003-01-02 19:14:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentClose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,15 +31,8 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'QueueObject', 
-      'ConfigObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
+      QueueObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -50,13 +43,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
     my $QueueID = $Self->{QueueID};
-    my $LockID = 2;
-    my $UnLockID = 0;
-    my $Subaction = $Self->{Subaction};
-    my $UserID    = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
 
     # --
     # check needed stuff
@@ -86,9 +73,9 @@ sub Run {
     }
 
     
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
+    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
     
-    if ($Subaction eq '' || !$Subaction) {
+    if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # get next states
         my %NextStates = $Self->{DBObject}->GetTableData(
             Table => 'ticket_state',
@@ -112,7 +99,9 @@ sub Run {
             }
         }
         # move queues
-        my $SelectedMoveQueue = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
+        my $SelectedMoveQueue = $Self->{TicketObject}->GetQueueIDOfTicketID(
+            TicketID => $Self->{TicketID},
+        );
         my %MoveQueues = ();
         if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
             %MoveQueues = $Self->{QueueObject}->GetAllQueues();
@@ -128,19 +117,19 @@ sub Run {
         # --
         # get lock state
         # --
-        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
+        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
             $Self->{TicketObject}->SetLock(
-                TicketID => $TicketID,
+                TicketID => $Self->{TicketID},
                 Lock => 'lock',
-                UserID => $UserID
+                UserID => $Self->{UserID}
             );
             if ($Self->{TicketObject}->SetOwner(
-                TicketID => $TicketID,
-                UserID => $UserID,
-                NewUserID => $UserID,
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+                NewUserID => $Self->{UserID},
             )) {
                 # show lock state
-                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);
+                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
             }
 
         }
@@ -148,7 +137,7 @@ sub Run {
         # print form ...
         # --
         $Output .= $Self->{LayoutObject}->AgentClose(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             TicketNumber => $Tn,
             QueueID => $QueueID,
             NextStatesStrg => \%NextStates,
@@ -159,7 +148,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    elsif ($Subaction eq 'Store') {
+    elsif ($Self->{Subaction} eq 'Store') {
         # store action
         my $StateID = $Self->{ParamObject}->GetParam(Param => 'CloseStateID');
         my $NoteID = $Self->{ParamObject}->GetParam(Param => 'CloseNoteID');
@@ -168,15 +157,15 @@ sub Run {
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         my $DestQueueID = $Self->{ParamObject}->GetParam(Param => 'DestQueueID') || '';
         if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             ArticleTypeID => $NoteID,
             SenderType => 'agent',
-            From => $UserLogin,
-            To => $UserLogin,
+            From => $Self->{UserLogin},
+            To => $Self->{UserLogin},
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
-            UserID => $UserID,
+            UserID => $Self->{UserID},
             HistoryType => 'AddNote',
             HistoryComment => 'Close Note added.',
         )) {
@@ -185,18 +174,18 @@ sub Run {
           # --
           if ($TimeUnits) {
             $Self->{TicketObject}->AccountTime(
-              TicketID => $TicketID,
+              TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
               TimeUnit => $TimeUnits,
-              UserID => $UserID,
+              UserID => $Self->{UserID},
             );
           }
           # --
           # set state
           # --
           $Self->{TicketObject}->SetState(
-            UserID => $UserID,
-            TicketID => $TicketID,
+            UserID => $Self->{UserID},
+            TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             StateID => $StateID,
           );
@@ -205,8 +194,8 @@ sub Run {
           # --
           if ($DestQueueID) {
             $Self->{TicketObject}->MoveByTicketID(
-              TicketID => => $TicketID,
-              UserID => $UserID,
+              TicketID => => $Self->{TicketID},
+              UserID => $Self->{UserID},
               QueueID => $DestQueueID,
             );
           }
@@ -214,8 +203,8 @@ sub Run {
           # set lock
           # --
           $Self->{TicketObject}->SetLock(
-            UserID => $UserID,
-            TicketID => $TicketID,
+            UserID => $Self->{UserID},
+            TicketID => $Self->{TicketID},
             Lock => 'unlock'
           );
           if ($Self->{QueueID}) {
@@ -246,5 +235,5 @@ sub Run {
         return $Output;
     }
 }
-
+# --
 1;
