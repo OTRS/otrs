@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.19 2003-04-08 21:36:22 martin Exp $
+# $Id: AgentNote.pm,v 1.20 2003-04-12 09:05:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentNote;
 
 use strict;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,6 +36,7 @@ sub new {
                  QueueObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
     return $Self;
 }
@@ -89,12 +91,21 @@ sub Run {
         $Output = $Self->{LayoutObject}->Header(Title => 'Add Note');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        # --
+        # get next states
+        # --
+        my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+            Type => 'DefaultNextNote',
+            Result => 'HASH',
+        );
+        $NextStates{''} = '-';
         $Output .= $Self->{LayoutObject}->AgentNote(
             TicketID => $Self->{TicketID},
             QueueID => $Self->{QueueID},
             TicketNumber => $Tn,
             NoteSubject => $Self->{ConfigObject}->Get('DefaultNoteSubject'),
             NoteTypes => \%NoteTypes,
+            NextStates => \%NextStates,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -143,6 +154,17 @@ sub Run {
                   UserID => $Self->{UserID}, 
               );
           }
+          # --
+          # set state
+          # --
+          my $NewStateID = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
+          if ($Self->{ConfigObject}->{MoveSetState} && $NewStateID) {
+              $Self->{TicketObject}->SetState(
+                  TicketID => $Self->{TicketID},
+                  StateID => $NewStateID,
+                  UserID => $Self->{UserID},
+              );
+          } 
           # --
           # redirect
           # --
