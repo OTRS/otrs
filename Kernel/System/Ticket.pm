@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.3 2002-04-14 13:29:02 martin Exp $
+# $Id: Ticket.pm,v 1.4 2002-04-16 07:10:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -280,11 +280,16 @@ sub SetOwner {
     my %Param = @_;
     my $TicketID = $Param{TicketID};
     my $UserID = $Param{UserID};
+    my $NewUserID = $Param{NewUserID};
     my $UserLogin = $Param{UserLogin};
+
+    if (!$NewUserID) {
+        $NewUserID = $UserID;
+    }
 
     # lookup!
     # db update
-    my $SQL = "UPDATE ticket SET user_id = $UserID, " .
+    my $SQL = "UPDATE ticket SET user_id = $NewUserID, " .
     " change_time = current_timestamp, change_by = $UserID " .
     " WHERE id = $TicketID";
     $Self->{DBObject}->Do(SQL => $SQL);
@@ -293,7 +298,7 @@ sub SetOwner {
         TicketID => $TicketID,
         CreateUserID => $UserID,
         HistoryType => 'OwnerUpdate',
-        Name => "New Owner is '$UserLogin'",
+        Name => "New Owner is '$UserLogin' (ID=$NewUserID).",
     );
 
     return 1;
