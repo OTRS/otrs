@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.1 2004-02-09 23:48:34 martin Exp $
+# $Id: AgentEmail.pm,v 1.2 2004-02-10 00:31:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -351,6 +351,8 @@ sub Run {
             SenderType => $Self->{ConfigObject}->Get('EmailDefaultNewSenderType'),
             From => "$Queue{RealName} <$Queue{Email}>",
             To => $To,
+            Cc => $Cc,
+            Bcc => $Bcc,
             Subject => $Subject,
             Body => $Text,
             Charset => $Self->{LayoutObject}->{UserCharset},
