@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.22 2004-03-11 14:39:44 martin Exp $
+-- $Id: initial_insert.sql,v 1.23 2004-04-02 12:49:35 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.22  2004/03/11 14:39:44  martin
+-- added customer message quote
+--
 -- Revision 1.21  2004/02/26 23:34:55  martin
 -- some agent notification typos
 --
@@ -544,6 +547,10 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('TicketFreeTextUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('WebRequestCustomer', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- article_type
 INSERT INTO article_type
