@@ -27,11 +27,40 @@
 <title>Install PERL</title>
 <para>Download <emphasis>Perl</emphasis>, <emphasis>Version 5.6.1 build 633</emphasis> from <ulink url="http://www.activestate.com/Products/Download/Download.plex?id=ActivePerl">http://www.activestate.com/Products/Download/Download.plex?id=ActivePerl</ulink>. I recommend chosing the MSI version.</para>
 <para>Install Perl using the default values to <emphasis>D:\Perl</emphasis>.</para>
+<section>
+<title>Install Additional PERL Packages</title>
+<para>Download the following ZIP-packages from <ulink url="http://www.activestate.com/PPMPackages/zips/6xx-builds-only/">http://www.activestate.com/PPMPackages/zips/6xx-builds-only/</ulink>:</para>
+<para><screen>
+DBD-Mysql.zip
+DBI.zip
+IO-Stringy.zip</screen></para>
+<para>Unzip all files to <emphasis>D:\Perl\packages</emphasis>.</para>
+<caution>
+<title>Caution!</title>
+<para>Every directory contains a README, which will be overwritten by the following one. If you want to read each README you should rename it directly after unzipping each package.</para>
+</caution>
+<para>Download <ulink url="http://www.robertkehl.de/otrs/RC2-mod_perl-Win32.zip">mod_perl</ulink> from <ulink url="http://www.robertkehl.de/otrs">robertkehl.de/otrs</ulink> and unpack it into <computeroutput>D:\Perl\packages</computeroutput>.</para>
 </section>
 
 <section>
 <title>Choosing And Installing The Webserver</title>
 <para>OTRS requires a minimum of one webserver to run ;) You may choose the one of your choice, it will probably run on every perl-enabled webserver. I tested it on <ulink url="http://www.sambar.org">Sambar</ulink> <ulink url="http://sambar.robertkehl.de">5.2 &amp; above</ulink> and on <ulink url="http://httpd.apache.org/">Apache</ulink>, both <ulink url="http://httpd.apache.org/docs/">1.3</ulink> and <ulink url="http://httpd.apache.org/docs-2.0/">2.0</ulink>. <computeroutput>mod_perl</computeroutput> is only availabe for Apache, but *not* working for OTRS by now.</para>
+
+<section>
+<title>Installing Apache</title>
+
+<para>Download the <ulink url="http://www.apache.org">Apache</ulink> of your choice (<ulink url="http://www.apache.org/dist/httpd/binaries/win32/apache_1.3.27-win32-x86-no_src.msi">1.3.27</ulink> and/or <ulink url="http://www.apache.org/dist/httpd/binaries/win32/apache_2.0.43-win32-x86-no_ssl.msi">2.0.43</ulink>) and install it/them. I recommend you choose <userinput>D:\Apache</userinput> as root for *both* versions. The resulting directory structure will be:</para>
+<para><screen>
+<computeroutput>D:\Apache\</computeroutput>           --- home of both
+<computeroutput>D:\Apache\Apache\</computeroutput>    --- home of Apache 1.3
+<computeroutput>D:\Apache\Apache2\</computeroutput>   --- home of Apache 2.0
+</screen></para>
+
+<tip>
+<para>You may install both 1.3 and 2.0 on the very same machine, they can both be running and may both be used at the same time, if you like to. All you have to do is to ensure they are not configured to run on the same port. The second installation willing to start on port 80 won't succeed in doing so. So configure Apache 1.3 to run on port 80, Apache 2.0 to run on port 81. You could even configure the Sambar webserver (see different section in this manual) to run on port 82, if you'd like to, or choose your own port configuration. Surely one webserver running one version would be enough - the rest is for geeks ;)</para>
+</tip>
+
+</section>
 
 <section>
 <title>Install Sambar Server</title>
@@ -45,21 +74,6 @@
 <para>Ensure that Sambar is running: <ulink url="http://localhost">http://localhost</ulink>. The documentation can be found here: <ulink url="http://localhost/syshelp/index.htm">http://localhost/syshelp/index.htm</ulink>. The system administration forms are here: <ulink url="http://localhost/session/adminlogin?RCpage=/sysadmin/index.stm">http://localhost/session/adminlogin?RCpage=/sysadmin/index.stm</ulink>.</para>
 <important>
 <para>Ensure to *now* set the admin password to prevent others using your Sambar in a malicious way. You do this on the sysadmin forms under <emphasis>User Management</emphasis>. Good Passwords are longer than eight keystrokes and look like this: <userinput>sie.&amp;Fh9w_iG</userinput></para></important>
-</section>
-
-<section>
-<title>Installing Apache</title>
-
-<para>Download the <ulink url="http://http://www.apache.org">Apache</ulink> of your choice (<ulink url="http://www.apache.org/dist/httpd/binaries/win32/apache_1.3.27-win32-x86-no_src.msi">1.3.27</ulink> and/or <ulink url="http://www.apache.org/dist/httpd/binaries/win32/apache_2.0.43-win32-x86-no_ssl.msi">2.0.43</ulink>) and install it/them. I recommend you choose <userinput>D:\Apache</userinput> as root for *both* versions. The resulting directory structure will be:</para>
-<para><screen>
-<computeroutput>D:\Apache\</computeroutput>           --- home of both
-<computeroutput>D:\Apache\Apache\</computeroutput>    --- home of Apache 1.3
-<computeroutput>D:\Apache\Apache2\</computeroutput>   --- home of Apache 2.0
-</screen></para>
-
-<tip>
-<para>You may install both 1.3 and 2.0 on the very same machine, they can both be running and may both be used at the same time, if you like to. All you have to do is to ensure they are not configured to run on the same port. The second installation willing to start on port 80 won't succeed in doing so. So configure Apache 1.3 to run on port 80, Apache 2.0 to run on port 81. You could even configure the Sambar webserver (see different section in this manual) to run on port 82, if you'd like to, or choose your own port configuration. Surely one webserver running one version would be enough - the rest is for geeks ;)</para>
-</tip>
 </section>
 
 </section>
@@ -113,32 +127,25 @@ chmod 755 /etc/exim.conf</screen></para>
 
 <section>
 <title>Configuring Perl</title>
-<para>We now patch our Perl because it doesn't suit our needs in the default installation, there are some so called &quot;packages&quot; missing. We could use the tools ppm2 or ppm3 from ActiveState for downloading the packages, too, but I prefer downloading them manually.</para>
-<para>Download the following ZIP-packages from <ulink url="http://www.activestate.com/PPMPackages/zips/6xx-builds-only/">http://www.activestate.com/PPMPackages/zips/6xx-builds-only/</ulink>:</para>
-<para><screen>
-DBD-Mysql.zip
-DBI.zip
-IO-Stringy.zip</screen></para>
-<para>Unzip all files to <emphasis>D:\Perl\packages</emphasis>.</para>
-<caution>
-<title>Caution!</title>
-<para>Every directory contains a README, which will be overwritten by the following one. If you want to read each README you should rename it directly after unzipping each package.</para>
-</caution>
-<para>Change to directory <emphasis>D:\Perl\packages</emphasis>, by entering:</para>
-<para><screen>D:
-cd Perl\packages</screen></para>
-<para>Start the <emphasis>Perl Package Manager</emphasis>, by entering <userinput>ppm</userinput>. Now install:</para>
-<para><screen>
-PPM&gt; <emphasis>install DBI.ppd</emphasis>
-Install package 'DBI.ppd?' (y/N): y
-  [...snipped...]
-PPM&gt; <emphasis>install IO-stringy.ppd</emphasis>
-Install package 'IO-Stringy.ppd?' (y/N): y
-  [...snipped...]
-PPM&gt; <emphasis>install DBD-Mysql.ppd</emphasis>
-Install package 'DBD-Mysql.ppd?' (y/N): y</screen></para>
+<para>We now patch our Perl because it doesn't suit our needs in the default installation, there are some so called &quot;packages&quot; missing.</para>
+<para>Open a command box and enter this:</para>
+<para><screen>C:\><userinput>cd /d D:\Perl\packages</userinput>
+D:\Perl\packages><userinput>ppm</userinput>
+PPM&gt; <userinput>install DBI.ppd</userinput>
+Install package 'DBI.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install IO-stringy.ppd</userinput>
+Install package 'IO-Stringy.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install DBD-Mysql.ppd</userinput>
+Install package 'DBD-Mysql.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install mod_perl.ppd</userinput>
+Install package 'mod_perl.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]</screen></para>
+<para>The install routine for <computeroutput>mod_perl</computeroutput> will ask you where to copy <computeroutput>mod_perl.so</computeroutput>. Please enter the absolute path to the directory <computeroutput>modules</computeroutput> in your Apache installation, i.e. <userinput>d:/Apache/Apache/modules</userinput>.</para>
 <para>Your Perl should now look like this or even better:</para>
-<para><screen>PPM&gt; <emphasis>query</emphasis>
+<para><screen>PPM&gt; <userinput>query</userinput>
     Archive-Tar      [0.072  ]
     Compress-Zlib    [1.16   ]
     DBD-Mysql        [1.2200 ]
@@ -164,14 +171,81 @@ Install package 'DBD-Mysql.ppd?' (y/N): y</screen></para>
     URI              [1.19   ]
     XML-Parser       [2.27   ]
     XML-Simple       [1.06   ]
-    libwin32         [0.19.1 ]</screen></para>
-<para>You quit ppm by entering <userinput>quit</userinput>. You may now delete the files in D:\Perl\packages, if you want to, but you don't have to.</para>
+    libwin32         [0.19.1 ]
+    mod_perl         [1.27_01-dev]
+PPM&gt; <userinput>quit</userinput>
+</screen></para>
+<para>You may now delete the files in D:\Perl\packages, if you want to, but you don't have to.</para>
 <para>That's it for Perl.</para>
 </section>
 
 <section>
 <title>Configuring The Webserver</title>
-<para>Again we differentiate between Sambar and Apache. Remeber you can have both running or switch around if you like.</para>
+<para>Again we differentiate between Apache and Sambar. Remeber you can have both running or switch around if you like.</para>
+
+<section>
+<title>Configuring Apache</title>
+
+<para>In the following, I will refer to 'Apache' only, the process is the same for both versions 1.3 and 2.0.</para>
+<para>Open Apache's configuration file <userinput>httpd.conf</userinput>, it is located in <userinput>d:\Apache\Apache\conf\</userinput>. Append these lines to the end of the file, adjust them to your needs:</para>
+<para><screen>
+# uncomment the following two for Apache2!
+LoadModule perl_module modules/mod_perl.so
+AddModule mod_perl.c
+
+### added for OTRS (http://otrs.org/)
+
+&lt;IfModule mod_alias.c&gt;
+	Alias /otrs/ "d:/otrs/bin/cgi-bin/"
+	PerlModule Apache::Registry
+&lt;/IfModule&gt;
+
+&lt;Location /otrs&gt;
+	Options ExecCGI
+	Order deny,allow
+	Deny from all
+	allow from 127.0.0.1
+
+	SetHandler cgi-script
+	ScriptInterpreterSource registry
+
+	&lt;IfModule mod_perl.c&gt;
+		SetHandler  perl-script
+		PerlHandler Apache::Registry
+		PerlSendHeader On
+	&lt;/IfModule&gt;
+
+&lt;/Location&gt;
+
+# load all otrs modules
+Perlrequire d:/otrs/scripts/apache-perl-startup.pl
+
+# MaxRequestsPerChild (so no apache child will be to big!)
+#MaxRequestsPerChild 400
+# depends on your RAM
+</screen></para>
+<para>Take a little time to configure the rest of <computeroutput>httpd.conf</computeroutput>, too. Open <computeroutput>d:\otrs\scripts\apache-perl-startup.pl</computeroutput> and change these lines:</para>
+<para><screen>
+1:
+#! D:/Perl/bin/perl
+10,11:
+use lib "d:/otrs/";
+use lib "d:/otrs/Kernel/cpan-lib";
+38,39:
+#use Kernel::System::AuthSession::IPC;
+use Kernel::System::AuthSession::DB;
+46,47:
+#use Kernel::System::Log::SysLog;
+use Kernel::System::Log::File;
+</screen></para>
+
+<note>
+<title>About mod_perl_2.0 on Apache2</title>
+<para>At this moment, OTRS under mod_perl_2.0 isn't running smoothly on Win32, so perl is used as a CGI process on Apache2 only. We are fully aware that mod_perl_2.0 should be used to efficiently speed things up, and we're in the process of getting it to work. Please be patient or try mod_perl yourself. <ulink url="mailto:otrs-win32@robertkehl.de?subject?mod_perl">Let us know</ulink> if you succeed :)</para>
+</note>
+
+<para>That's it for Apapche. (Re-)Start your installation(s) using the Apache monitor, proabably located in your task bar. Sometimes it's a good idea to restart the whole box.</para>
+</section>
 
 <section>
 <title>Configuring Sambar</title>
@@ -259,36 +333,6 @@ ren htaccess.txt .htaccess
 </screen></para>
 <para>Now only users belonging to the group &quot;root&quot; and the system itself (CRON jobs f.e.) will be allowed to access the scripts in &quot;d:\otrs\bin&quot;.</para>
 </section>
-</section>
-
-<section>
-<title>Configuring Apache</title>
-
-<para>In the following, I will refer to 'Apache' only, the process is the same for both versions.</para>
-<para>Open Apache's configuration file <userinput>httpd.conf</userinput>, it is located in <userinput>d:\Apache\Apache\conf\</userinput>. Append these lines to the end of the file, adjust them to your needs:</para>
-<para><screen>
-### added for OTRS (http://otrs.org/)
-
-# agent, admin and customer frontend
-&lt;IfModule mod_alias.c&gt;
-
-  ScriptAlias /otrs/ "d:/otrs/bin/cgi-bin/"
-  &lt;Directory "d:/otrs/bin/cgi-bin">
-    ScriptInterpreterSource registry
-      Order allow,deny
-        Allow from all
-  &lt;/Directory&gt;
-
-&lt;/IfModule&gt;
-</screen></para>
-<para>Take a little time to configure the rest of <userinput>httpd.conf</userinput>, too.</para>
-
-<note>
-<title>What about mod_perl?</title>
-<para>At this moment, OTRS under mod_perl isn't running smoothly on Win32, so perl is used as a CGI process. We are fully aware that mod_perl should be used to efficiently speed things up, and we're in the process of getting it to work. Please be patient or try mod_perl yourself. <ulink url="mailto:otrs-win32@robertkehl.de?subject?mod_perl">Let us know</ulink> if you succeed :)</para>
-</note>
-
-<para>That's it for Apapche 1.3/2.0. (Re-)Start your installation(s) using the Apache monitor, proabably located in your task bar. Sometimes it's a good idea to restart the whole box.</para>
 </section>
 
 </section>
