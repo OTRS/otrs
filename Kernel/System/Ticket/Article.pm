@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.36 2003-07-12 08:12:27 martin Exp $
+# $Id: Article.pm,v 1.37 2003-07-13 19:32:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,6 +66,10 @@ sub CreateArticle {
     else {
         # fix some bad stuff from some browsers (Opera)!
         $Param{Body} =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
+    }
+    # strip not wanted stuff
+    foreach (qw(From To Cc Subject MessageID ReplyTo)) {
+        $Param{$_} =~ s/\n|\r//g if ($Param{$_});
     }
     # --
     # DB Quoting
@@ -661,6 +665,10 @@ sub GetArticle {
         $Data{TicketFreeKey2} = $Row[33];
         $Data{IncomingTime} = $Row[34];
         $Data{RealTillTimeNotUsed} = $Row[17];
+        # strip not wanted stuff
+        foreach (qw(From To Cc Subject)) {
+            $Data{$_} =~ s/\n|\r//g if ($Data{$_});
+        }
         push (@Content, {%Data});
     }
 
