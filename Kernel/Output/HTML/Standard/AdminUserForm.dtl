@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.2 2002-01-30 16:36:33 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.3 2002-04-30 00:18:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -40,7 +40,7 @@
 # set subaction!
 <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
 # check add link
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a response)"; }>
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a user)"; }>
 # --
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}&Action=AdminUser">$Text{"$Data{"AddLink"}"}</a>: 
     <br>
