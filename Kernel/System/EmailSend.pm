@@ -2,7 +2,7 @@
 # EmailSend.pm - the global email send module
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.3 2001-12-30 00:41:57 martin Exp $
+# $Id: EmailSend.pm,v 1.4 2002-05-14 01:36:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -58,9 +58,7 @@ sub Send {
     my $Time = time();
     my $Random = rand(999999);
     my $UserID = $Param{UserID} || 0;
-    my $TicketID = $Param{TicketID} || 0;
     my $TicketObject = $Param{TicketObject} || '';
-    my $ArticleID = $Param{ArticleID} || '';
     my $Body = $Param{Body};
     my $InReplyTo = $Param{InReplyTo} || '';
     my $RetEmail = $Param{Email};
@@ -71,15 +69,42 @@ sub Send {
 #    $To = encode_mimeword($To) if ($To);
 #    $Cc = encode_mimeword($Cc) if ($Cc);
 #    $Subject = encode_mimeword($Subject) if ($Subject);
+
+    # --
+    # create article
+    # --
+    if ($Param{ArticleObject} && $Param{TicketID} && $Param{ArticleType} &&
+         $Param{ArticleSenderType} ) {
+
+         $Param{ArticleID} = $Param{ArticleObject}->CreateArticleDB(
+            TicketID => $Param{TicketID},
+            ArticleType => $Param{ArticleType},
+            SenderType => $Param{ArticleSenderType},
+            From => $From,
+            To => $To,
+            Cc => $Cc,
+            Subject => $Subject,
+            MessageID => "<$Time.$Random.$Param{TicketID}.0.$UserID\@$Self->{FQDN}>",
+            Body => $Body,
+            CreateUserID => $UserID,
+        );
+
+    }
+
+    foreach ('ArticleID', 'TicketID') {
+        $Param{$_} = 0 if (!$Param{$_});
+    }
+
     # --
     # build mail ...
+    # --
     my @Mail = ("From: $From\n");
     push @Mail, "To: $To\n";
     push @Mail, "Cc: $Cc\n" if ($Cc);
     push @Mail, "Bcc: $Self->{SendmailBcc}\n" if ($Self->{SendmailBcc});
     push @Mail, "Subject: $Subject\n";
     push @Mail, "In-Reply-To: $InReplyTo\n" if ($InReplyTo);
-    push @Mail, "Message-ID: <$Time.$Random.$TicketID.$ArticleID.$UserID\@$Self->{FQDN}>\n";
+    push @Mail, "Message-ID: <$Time.$Random.$Param{TicketID}.$Param{ArticleID}.$UserID\@$Self->{FQDN}>\n";
     push @Mail, "X-Mailer: Open-Ticket-Request-System Mail Service ($VERSION)\n";
     push @Mail, "X-OTRS-Loop: $RetEmail\n";
     push @Mail, "Precedence: bulk\nX-Loop: $RetEmail\n" if ($Loop);
@@ -92,6 +117,7 @@ sub Send {
 
     # --
     # send mail
+    # --
     open( MAIL, "|$Self->{Sendmail} '$RetEmail' " );
     print MAIL @Mail;
     close(MAIL);
@@ -99,12 +125,12 @@ sub Send {
     # --
     # write article to fs
     # --
-    if (($ArticleID) && ($DBObject)) {
+    if (($Param{ArticleID}) && ($DBObject)) {
         my $ArticleObject = Kernel::System::Article->new(
           DBObject => $Self->{DBObject},
           ConfigObject => $Self->{ConfigObject},
         );
-        $ArticleObject->WriteArticle(ArticleID => $ArticleID, Email => \@Mail);
+        $ArticleObject->WriteArticle(ArticleID => $Param{ArticleID}, Email => \@Mail);
     }
 
     # --
@@ -112,15 +138,27 @@ sub Send {
     # --
     if ($TicketObject) {
         $TicketObject->AddHistoryRow(
-          TicketID => $TicketID,
-          ArticleID => $ArticleID,
+          TicketID => $Param{TicketID},
+          ArticleID => $Param{ArticleID},
           HistoryType => $HistoryType,
           Name => "Sent email to '$ToOrig'.",
           CreateUserID => $UserID,
         );
     }
 
-    return 1;
+    # --
+    # log
+    # --
+    $Self->{LogObject}->Log(
+        MSG => "Sent email to '$ToOrig' from '$From'. HistoryType => $HistoryType, Subject => $Subject;",
+    );
+
+    if ($Param{ArticleID}) {
+        return $Param{ArticleID};
+    }
+    else {
+        return 1;
+    }
 }
 # --
 sub Bounce {
