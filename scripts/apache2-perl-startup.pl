@@ -29,7 +29,11 @@ use Kernel::Config;
 use Kernel::Config::Modules;
 use Kernel::Config::ModulesCustomerPanel;
 
-use Kernel::System::WebRequest;
+use Kernel::System::Web::InterfaceAgent;
+use Kernel::System::Web::InterfaceCustomer;
+use Kernel::System::Web::InterfaceFAQPublic;
+use Kernel::System::Web::Request;
+use Kernel::System::Web::UploadCache;
 use Kernel::System::DB;
 use Kernel::System::Encode;
 use Kernel::System::Time;
