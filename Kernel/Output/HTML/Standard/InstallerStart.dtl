@@ -1,0 +1,66 @@
+# --
+# InstallerStart.dtl - provides HTML form for Installer
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: InstallerStart.dtl,v 1.1 2002-02-03 18:02:42 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+Web-Installer (create database)
+<p>
+
+<form action="installer.pl" method="post">
+<input type="hidden" name="Action" value="Installer">
+<input type="hidden" name="Subaction" value="DB">
+<table>
+  <tr>
+    <td>DB Admin User:</td><td><input type="text" name="DBUser" value="root"></td>
+  </tr>
+  <tr>
+    <td>DB Admin Password:</td><td><input type="password" name="DBPassword" value=""></td>
+  </tr>
+  <tr>
+    <td>DB Host:</td><td><input type="text" name="DBHost" value="$Config{"DatabaseHost"}"></td>
+  </tr>
+  <tr>
+    <td>DB Type:</td><td>
+          <select name="DBType">
+            <option value="MySQL" selected="selected">MySQL</option>
+          </select>
+   </td>
+  </tr>
+  <tr>
+    <td>OpenTRS DB Name:</td><td><input type="text" name="DBName" value="$Config{"Database"}"></td>
+  </tr>
+  <tr>
+    <td>OpenTRS DB User:</td><td><input type="text" name="OpenTRSDBUser" value="$Config{"DatabaseUser"}"></td>
+  </tr>
+  <tr>
+    <td>OpenTRS DB Password:</td><td><input type="password" name="OpenTRSDBPassword" value=""></td>
+  </tr>
+  <tr>
+    <td>OpenTRS DB connect host:</td><td><input type="text" name="OpenTRSDBConnectHost" value="localhost"></td>
+  </tr>
+</table>
+
+Create new database: <input type="radio" name="DBAction" checked value="Create"> 
+Delete database: <input type="radio" name="DBAction" value="Delete">
+
+<br>
+<input type="submit" value="$Text{"submit"}">
+</form>
+
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
