@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.18 2004-09-30 05:36:20 martin Exp $
+# $Id: AgentLock.pm,v 1.19 2004-09-30 05:39:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,8 +42,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $QueueID = $Self->{QueueID};
-
     # --
     # check needed stuff
     # --
