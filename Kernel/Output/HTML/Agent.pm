@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.138 2004-02-17 16:26:07 martin Exp $
+# $Id: Agent.pm,v 1.139 2004-02-23 17:33:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.138 $';
+$VERSION = '$Revision: 1.139 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -479,15 +479,29 @@ sub AgentFreeText {
     my %Data = ();
     foreach (1..20) {
         # key
-        if (ref($Self->{ConfigObject}->Get("TicketFreeKey$_")) eq 'HASH') {
-            $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
-                Data => { 
-                    %NullOption, 
-                    %{$Self->{ConfigObject}->Get("TicketFreeKey$_")},
-                },
-                Name => "TicketFreeKey$_",
-                SelectedID => $Param{"TicketFreeKey$_"},
-            );
+        if (ref($Self->{ConfigObject}->Get("TicketFreeKey$_")) eq 'HASH' && %{$Self->{ConfigObject}->Get("TicketFreeKey$_")}) {
+            my $Counter = 0;
+            my $LastKey = '';
+            foreach (keys %{$Self->{ConfigObject}->Get("TicketFreeKey$_")}) {
+                $Counter++;
+                $LastKey = $_;
+            }
+            if ($Counter > 1 || %NullOption) { 
+                $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
+                    Data => { 
+                        %NullOption, 
+                        %{$Self->{ConfigObject}->Get("TicketFreeKey$_")},
+                    },
+                    Name => "TicketFreeKey$_",
+                    SelectedID => $Param{"TicketFreeKey$_"},
+                );
+            }
+            else {
+                if ($LastKey) {
+                    $Data{"TicketFreeKeyField$_"} = $Self->{ConfigObject}->Get("TicketFreeKey$_")->{$LastKey}.
+                      '<input type="hidden" name="TicketFreeKey'.$_.'" value="$Quote{"'.$LastKey.'"}">';
+                }
+            }
         }
         else {
             if (defined($Param{"TicketFreeKey$_"})) {
