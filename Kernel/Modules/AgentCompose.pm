@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.26 2002-11-09 09:36:27 martin Exp $
+# $Id: AgentCompose.pm,v 1.27 2002-11-11 00:52:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentCompose;
 
 use strict;
+use Kernel::System::EmailParser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -45,20 +46,27 @@ sub new {
     }
 
     $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
-
+    $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
+    # --
     # get params
-    $Self->{From} = $Self->{ParamObject}->GetParam(Param => 'From') || '';
-    $Self->{To} = $Self->{ParamObject}->GetParam(Param => 'To') || '';
-    $Self->{Cc} = $Self->{ParamObject}->GetParam(Param => 'Cc') || '';
-    $Self->{Subject} = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
-    $Self->{Body} = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
-    $Self->{Email} = $Self->{ParamObject}->GetParam(Param => 'Email') || '';
-    $Self->{InReplyTo} = $Self->{ParamObject}->GetParam(Param => 'InReplyTo') || '';
-    $Self->{ResponseID} = $Self->{ParamObject}->GetParam(Param => 'ResponseID') || '';
-    $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || ''; 
-    $Self->{NextStateID} = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID') || '';
-    $Self->{Answered} = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
-    $Self->{TimeUnits} = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
+    # --
+    foreach (qw(From To Cc Bcc Subject Body Email InReplyTo ResponseID ComposeStateID 
+      Answered ArticleID TimeUnits)) {
+        my $Value = $Self->{ParamObject}->GetParam(Param => $_);
+        $Self->{$_} = defined $Value ? $Value : '';
+    }
+    # -- 
+    # get response format
+    # --
+    $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('ResponseFormat') ||
+      '$Data{"Salutation"}
+$Data{"OrigFrom"} $Text{"wrote"}:
+$Data{"Body"}
+
+$Data{"StdResponse"}
+
+$Data{"Signature"}
+';
     return $Self;
 }
 # --
@@ -81,12 +89,10 @@ sub Form {
     my %Param = @_;
     my $Output;
     my $TicketID = $Self->{TicketID};
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
-  
+    # -- 
     # start with page ...
+    # --
     $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
-
     # -- 
     # check needed stuff
     # --
@@ -107,20 +113,21 @@ sub Form {
         ConfigObject => $Self->{ConfigObject},
         LogObject => $Self->{LogObject},
     );
-
+    # --
     # get lock state && permissions
+    # --
     if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
         # set owner
         $Self->{TicketObject}->SetOwner(
             TicketID => $TicketID,
-            UserID => $UserID,
-            NewUserID => $UserID,
+            UserID => $Self->{UserID},
+            NewUserID => $Self->{UserID},
         );
         # set lock
         if ($Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
             Lock => 'lock',
-            UserID => $UserID
+            UserID => $Self->{UserID}
         )) {
             # show lock state
             $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);
@@ -131,7 +138,7 @@ sub Form {
             TicketID => $TicketID,
         );
         
-        if ($OwnerID != $UserID) {
+        if ($OwnerID != $Self->{UserID}) {
             $Output .= $Self->{LayoutObject}->Error(
                 Message => "Sorry, the current owner is $OwnerLogin",
                 Comment => 'Please change the owner first.',
@@ -140,8 +147,9 @@ sub Form {
             return $Output;
         }
     }
-    
+    # -- 
     # get last customer article or selecte article ...
+    # --
     my %Data = ();
     if ($Self->{ArticleID}) {
         %Data = $Self->{TicketObject}->GetArticle(
@@ -153,84 +161,90 @@ sub Form {
             TicketID => $TicketID,
         );
     }
-
     # --
-    # prepare body ...
+    # prepare body, subject, ReplyTo ...
     # --
     my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
     $Data{Body} =~ s/(.{$NewLine}.+?\s)/$1\n/g;
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
 
-    # --
-    # prepare subject ...
-    # --
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
     $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
     $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
     $Data{Subject} =~ s/^..: //ig;
     $Data{Subject} = "[$TicketHook: $Tn] Re: " . $Data{Subject};
 
-    # --
-    # prepare to (ReplyTo!) ...
-    # --
     if ($Data{ReplyTo}) {
         $Data{To} = $Data{ReplyTo};
     }
     else {
         $Data{To} = $Data{From};
     }
-
-    # --
-    # prepare salutation
-    # --
-    my $Salutation = $QueueObject->GetSalutation();
-
-    # prepare customer realname
-    if ($Salutation =~ /<OTRS_CUSTOMER_REALNAME>/) {
-        # get realname 
-        $Data{From} =~ s/<.*>|\(.*\)|\"|;|,//g;
-        $Data{From} =~ s/( $)|(  $)//g;
-        $Salutation =~ s/<OTRS_CUSTOMER_REALNAME>/$Data{From}/g;
-    }
-
-    # --
-    # prepare signature
-    # --
-    my $Signature = $QueueObject->GetSignature();
-    $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-    $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-    # --
-    # prepare from ...
-    # --
+    $Data{OrigFrom} = $Data{From};
     my %Address = $QueueObject->GetSystemAddress();
     $Data{From} = "$Address{RealName} <$Address{Email}>";
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
+    $Data{StdResponse} = $QueueObject->GetStdResponse(ID => $Self->{ResponseID});
 
+    # --
+    # prepare salutation
+    # --
+    $Data{Salutation} = $QueueObject->GetSalutation();
+    # prepare customer realname
+    if ($Data{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
+        # get realname 
+        my $From = $Data{OrigFrom} || '';
+        $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+        $From =~ s/( $)|(  $)//g;
+        $Data{Salutation} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
+    }
+    # --
+    # prepare signature
+    # --
+    $Data{Signature} = $QueueObject->GetSignature();
+    $Data{Signature} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+    $Data{Signature} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+    # --
     # get next states
+    # --
     my %NextStates;
-    my $NextComposeTypePossibleTmp = 
+    my $NextComposeTypePossible = 
        $Self->{ConfigObject}->Get('DefaultNextComposeTypePossible')
            || die 'No Config entry "DefaultNextComposeTypePossible"!';
-    my @NextComposeTypePossible = @$NextComposeTypePossibleTmp;
-    foreach (@NextComposeTypePossible) {
+    foreach (@{$NextComposeTypePossible}) {
         $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
     }
-
+    # --
+    # check some values
+    # --
+    my %Error = ();
+    foreach (qw(From To Cc Bcc)) {
+        if ($Data{$_}) {
+            my @Adresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $Data{$_});
+            foreach my $Adress (@Adresses) {
+                if (!Email::Valid->address(
+                   -address => $Adress,
+                   -mxcheck => $Self->{ConfigObject}->Get('AgentMXCheck') || 0,
+                )) {
+                   $Error{"$_ invalid"} .= "$Email::Valid::Details of $Adress! ";
+                }
+            }
+        }
+    }
+    # --
     # build view ...
+    # --
     $Output .= $Self->{LayoutObject}->AgentCompose(
         TicketNumber => $Tn,
-        Salutation => $Salutation,
-        Signature => $Signature,
-        StdResponse => $QueueObject->GetStdResponse(ID => $Self->{ResponseID}),
         TicketID => $TicketID,
         QueueID => $QueueID,
         NextStates => \%NextStates,
+        ResponseFormat => $Self->{ResponseFormat},
+        Errors => \%Error,
         %Data,
     );
-    
     $Output .= $Self->{LayoutObject}->Footer();
     
     return $Output;
@@ -242,23 +256,29 @@ sub SendEmail {
     my $Output = '';
     my $QueueID = $Self->{QueueID};
     my $TicketID = $Self->{TicketID};
-    my $NextStateID = $Self->{NextStateID} || '??';
-    my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
-    my $UserID = $Self->{UserID};
-  
+    my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $Self->{ComposeStateID});
     # --
     # get attachment
     # -- 
     my $Upload = $Self->{ParamObject}->GetUpload(Filename => 'file_upload');
     if ($Upload) {
         $Param{UploadFilenameOrig} = $Self->{ParamObject}->GetParam(Param => 'file_upload') || 'unkown';
+print STDERR "- $Param{UploadFilenameOrig} -\n";
+        # --
+        # delete upload dir if exists
+        # --
         my $Path = "/tmp/$$";
         if (-d $Path) {
             File::Path::rmtree([$Path]);
         }
+        # --
+        # create upload dir
+        # --
         File::Path::mkpath([$Path], 0, 0700);
-        my $NewFileName = $Param{UploadFilenameOrig};
+        # --
         # replace all devices like c: or d: and dirs for IE!
+        # --
+        my $NewFileName = $Param{UploadFilenameOrig};
         $NewFileName =~ s/.:\\(.*)/$1/g;
         $NewFileName =~ s/.*\\(.+?)/$1/g;
         $Param{UploadFilename} = "$Path/$NewFileName";
@@ -274,7 +294,53 @@ sub SendEmail {
           ) || '';
         }
     }
- 
+    # --
+    # check some values
+    # --
+    my %Error = ();
+    foreach (qw(From To Cc Bcc)) {
+        if ($Self->{$_}) {
+            my @Adresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $Self->{$_});
+            foreach my $Adress (@Adresses) {
+                if (!Email::Valid->address(         
+                   -address => $Adress,
+                   -mxcheck => $Self->{ConfigObject}->Get('AgentMXCheck') || 0,
+                )) {
+                   $Error{"$_ invalid"} .= "$Email::Valid::Details of $Adress! ";
+                }
+            }
+        }
+    }
+    if (%Error) {
+        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
+        my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Compose');
+        my %Data = ();
+        foreach (qw(From To Cc Bcc Subject Body Email InReplyTo Answered ArticleID TimeUnits)) {
+            $Data{$_} = $Self->{$_};
+        }
+        $Data{StdResponse} = $Self->{Body};
+        my %NextStates;
+        my $NextComposeTypePossible = 
+           $Self->{ConfigObject}->Get('DefaultNextComposeTypePossible')
+             || die 'No Config entry "DefaultNextComposeTypePossible"!';
+        foreach (@{$NextComposeTypePossible}) {
+            $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
+        }
+        $Output .= $Self->{LayoutObject}->AgentCompose(
+            TicketNumber => $Tn,
+            TicketID => $TicketID,
+            QueueID => $QueueID,
+            NextStates => \%NextStates,
+            NextState => $NextState,
+            ResponseFormat => $Self->{Body},
+            AnsweredID => $Self->{Answered},
+            %Data,
+            Errors => \%Error,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output; 
+    }
     # --
     # send email
     # --
@@ -291,7 +357,7 @@ sub SendEmail {
         To => $Self->{To},
         Cc => $Self->{Cc},
         Subject => $Self->{Subject},
-        UserID => $UserID,
+        UserID => $Self->{UserID},
         Body => $Self->{Body},
         InReplyTo => $Self->{InReplyTo},
         Charset => $Self->{UserCharset},
@@ -304,27 +370,25 @@ sub SendEmail {
             TicketID => $TicketID,
             ArticleID => $ArticleID,
             TimeUnit => $Self->{TimeUnits},
-            UserID => $UserID,
+            UserID => $Self->{UserID},
           );
         }
         # --
         # set state
         # --
-        if ($Self->{TicketObject}->GetState(TicketID => $TicketID)  ne $NextState) {
-          $Self->{TicketObject}->SetState(
+        $Self->{TicketObject}->SetState(
             TicketID => $TicketID,
             ArticleID => $ArticleID,
             State => $NextState,
-            UserID => $UserID,
-          );
-        }
+            UserID => $Self->{UserID},
+        );
         # --
         # set answerd
         # --
         $Self->{TicketObject}->SetAnswered(
-          TicketID => $TicketID,
-          UserID => $UserID,
-          Answered => $Self->{Answered},
+            TicketID => $TicketID,
+            UserID => $Self->{UserID},
+            Answered => $Self->{Answered},
         );
         # --
         # should i set an unlock?
@@ -333,7 +397,7 @@ sub SendEmail {
           $Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
             Lock => 'unlock',
-            UserID => $UserID,
+            UserID => $Self->{UserID},
           );
       }
       # --
