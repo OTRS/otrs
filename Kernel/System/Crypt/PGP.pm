@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PGP.pm,v 1.3 2004-08-06 13:30:04 martin Exp $
+# $Id: PGP.pm,v 1.4 2004-08-10 06:44:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -207,42 +207,62 @@ sub Verify {
     return %Return;
 }
 
-sub SearchKey {
+sub KeySearch {
     my $Self = shift;
     my %Param = @_;
     my @Result = ();
-    push (@Result, $Self->SearchPublicKey(%Param));
-    push (@Result, $Self->SearchPrivateKey(%Param));
+    push (@Result, $Self->PublicKeySearch(%Param));
+    push (@Result, $Self->PrivateKeySearch(%Param));
     return @Result;
 }
-sub SearchPrivateKey {
-    my $Self = shift;
-    my %Param = @_;
-    my $Search = $Param{Search} || '';
-    my @Result = ();
-    open (SEARCH, "$Self->{GPGBin} --list-secret-keys ".quotemeta($Search)." 2>&1 |");
-    while (<SEARCH>) {
-        if ($_ =~ /^(se.+?)\s(.+?)\/(.+?)\s(.+?)\s(.*)$/) {
-            push (@Result, {
-                Type => $1,
-                Bit => $2,
-                Key => $3,
-                Created => $4,
-                Identifer => $5,
-            });
-        }
-    }
-    close (SEARCH);
-
-    return @Result;
-}
-sub SearchPublicKey {
+sub PrivateKeySearch {
     my $Self = shift;
     my %Param = @_;
     my $Search = $Param{Search} || '';
     my @Result = ();
     my $InKey = 0;
-    open (SEARCH, "$Self->{GPGBin} --list-public-keys ".quotemeta($Search)." 2>&1 |");
+    open (SEARCH, "$Self->{GPGBin} --list-secret-keys --with-fingerprint ".quotemeta($Search)." 2>&1 |");
+    my %Key = ();
+    while (my $Line = <SEARCH>) {
+        if ($Line =~ /^(se.+?)\s(.+?)\/(.+?)\s(.+?)\s(.*)$/) {
+            if (%Key) {
+                push (@Result, {%Key});
+                %Key = ();
+            }
+            $InKey = 1;
+            $Key{Type} .= $1;
+            $Key{Bit} .= $2;
+            $Key{Key} .= $3;
+            $Key{Created} .= $4;
+            $Key{Identifer} .= $5;
+        }
+        if ($InKey && $Line =~ /^(ssb)\s(.+?)\/(.+?)\s(.+?)\s/) {
+            $Key{Bit} = $2;
+            $Key{Key} = $3;
+            $Key{Created} = $4;
+        }
+        if ($InKey && $Line =~ /\[expires:\s(.+?)\]/) {
+            $Key{Expires} = $1;
+        }
+        if ($InKey && $Line =~ /Key fingerprint = (.*)/) {
+            $Key{Fingerprint} = $1;
+            $Key{FingerprintShort} = $1;
+            $Key{FingerprintShort} =~ s/  / /g;
+            $Key{FingerprintShort} =~ s/ //g;
+        }
+    }
+    push (@Result, {%Key}) if (%Key);
+    close (SEARCH);
+
+    return @Result;
+}
+sub PublicKeySearch {
+    my $Self = shift;
+    my %Param = @_;
+    my $Search = $Param{Search} || '';
+    my @Result = ();
+    my $InKey = 0;
+    open (SEARCH, "$Self->{GPGBin} --list-public-keys --with-fingerprint ".quotemeta($Search)." 2>&1 |");
     my %Key = ();
     while (my $Line = <SEARCH>) {
         if ($Line =~ /^(p.+?)\s(.+?)\/(.+?)\s(.+?)\s(.*)$/) {
@@ -260,13 +280,19 @@ sub SearchPublicKey {
         if ($InKey && $Line =~ /\[expires:\s(.+?)\]/) {
             $Key{Expires} = $1;
         }
+        if ($InKey && $Line =~ /Key fingerprint = (.*)/) {
+            $Key{Fingerprint} = $1;
+            $Key{FingerprintShort} = $1;
+            $Key{FingerprintShort} =~ s/  / /g;
+            $Key{FingerprintShort} =~ s/ //g;
+        }
     }
     push (@Result, {%Key}) if (%Key);
     close (SEARCH);
     return @Result;
 }
 
-sub GetKey {
+sub PublicKeyGet {
     my $Self = shift;
     my %Param = @_;
     my $Key = $Param{Key} || '';
@@ -280,8 +306,22 @@ sub GetKey {
 
     return $KeyString;
 }
+sub SecretKeyGet {
+    my $Self = shift;
+    my %Param = @_;
+    my $Key = $Param{Key} || '';
+    my $KeyString = '';
+    my %Result = ();
+    open (SEARCH, "$Self->{GPGBin} --export-secret-keys -a ".quotemeta($Key)." 2>&1 |");
+    while (<SEARCH>) {
+        $KeyString .= $_;
+    }
+    close (SEARCH);
 
-sub DeleteKey {
+    return $KeyString;
+}
+
+sub PublicKeyDelete {
     my $Self = shift;
     my %Param = @_;
     my $Key = $Param{Key} || '';
@@ -295,8 +335,22 @@ sub DeleteKey {
 
     return $KeyString;
 }
+sub SecretKeyDelete {
+    my $Self = shift;
+    my %Param = @_;
+    my $Key = $Param{Key} || '';
+    my $KeyString = '';
+    my %Result = ();
+    open (SEARCH, "$Self->{GPGBin} --delete-secret-key ".quotemeta($Key)." 2>&1 |");
+    while (<SEARCH>) {
+        $KeyString .= $_;
+    }
+    close (SEARCH);
 
-sub AddKey {
+    return $KeyString;
+}
+
+sub KeyAdd {
     my $Self = shift;
     my %Param = @_;
     my $Key = $Param{Key} || '';
@@ -327,7 +381,7 @@ sub _CryptedWithKey {
     }
     close (OUT);
     if ($Message =~ /encrypted with.+?\sID\s(.+?),\s/i) {
-        my @Result = $Self->SearchKey(Search => $1);
+        my @Result = $Self->KeySearch(Search => $1);
         if (@Result) {
             return ($1, $Result[$#Result]->{Key});
         }
