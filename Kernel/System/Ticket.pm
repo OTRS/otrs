@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.71 2004-03-12 18:35:11 martin Exp $
+# $Id: Ticket.pm,v 1.72 2004-03-12 18:42:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.72 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1070,29 +1070,100 @@ sub GetCustomerTickets {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(CustomerID UserID)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    if (!$Param{CustomerUserID} && !$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need CustomerUserID or UserID!");
         return;
-      }
     }
+    if (!$Param{CustomerUserID} && !$Param{CustomerID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need CustomerUserID or CustomerID!");
+        return;
+    }
+    # get closed tickets
+    my $SQLExt = '';
+    if ($Param{ShowJustOpenTickets}) {
+        my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+            Type => 'Viewable',
+            Result => 'ID',
+        );
+        $SQLExt .= " AND ";
+        $SQLExt .= " st.ticket_state_id in ( ${\(join ', ', @ViewableStateIDs)} ) ";
+    }
+    # get group permissions
+    my @GroupIDs = ();
+    if ($Param{CustomerUserID}) {
+        @GroupIDs = $Self->{CustomerGroupObject}->GroupMemberList(
+            UserID => $Param{CustomerUserID},
+            Type => 'ro',
+            Result => 'ID',
+        );
+    }
+    else {
+        @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+            UserID => $Param{UserID},
+            Type => 'ro',
+            Result => 'ID',
+        );
+    }
+    # order by
+    my $OrderSQL = '';
+    if ($Param{SortBy} && $Param{SortBy} eq 'Owner') {
+        $OrderSQL .= "u.".$Self->{ConfigObject}->Get('DatabaseUserTableUser');
+    }
+    elsif ($Param{SortBy} && $Param{SortBy} eq 'CustomerID') {
+        $OrderSQL .= "st.customer_id";
+    }
+    elsif ($Param{SortBy} && $Param{SortBy} eq 'State') {
+        $OrderSQL .= "tsd.name";
+    }
+    elsif ($Param{SortBy} && $Param{SortBy} eq 'Ticket') {
+        $OrderSQL .= "st.tn";
+    }
+    elsif ($Param{SortBy} && $Param{SortBy} eq 'Queue') {
+        $OrderSQL .= "q.name";
+    }
+    else {
+        $OrderSQL .= "st.create_time_unix";
+    }
+    # sort by 
+    if ($Param{SortBy} && $Param{SortBy} eq 'Age') {
+        if ($Param{Order} && $Param{Order} eq 'Down') {
+            $OrderSQL .= " ASC";
+        }
+        else {
+            $OrderSQL .= " DESC";
+        }
+    }
+    else {
+        if ($Param{Order}  && $Param{Order} eq 'Down') {
+            $OrderSQL .= " DESC";
+        }
+        else {
+            $OrderSQL .= " ASC";
+        }
+    }
+
     my @TicketIDs = ();
-    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
-        UserID => $Param{UserID},
-        Type => 'ro',
-        Result => 'ID',
-    );
     my $SQL = "SELECT st.id, st.tn ".
         " FROM ".
-        " ticket st, queue q ".
+        " ticket st, queue q, ticket_state tsd,  ".
+        $Self->{ConfigObject}->Get('DatabaseUserTable')." u ".
         " WHERE ".
         " st.queue_id = q.id ".
         " AND ".
-        " st.customer_id = '".$Self->{DBObject}->Quote($Param{CustomerID})."' ".
-        " AND ".
+        " tsd.id = st.ticket_state_id ".
+        " AND " .
+        " st.user_id = u.".$Self->{ConfigObject}->Get('DatabaseUserTableUserID').
+        " AND ";
+    if ($Param{Type} && $Param{Type} eq 'MyTickets') {
+        $SQL .= " st.customer_user_id = '".$Self->{DBObject}->Quote($Param{CustomerUserID})."' ";
+    }
+    else {
+        $SQL .= " st.customer_id = '".$Self->{DBObject}->Quote($Param{CustomerID})."' ";
+    }
+    $SQL .= " AND ".
         " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-        " ORDER BY st.create_time_unix DESC ";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 60);
+        $SQLExt." ORDER BY ".$OrderSQL;
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{Limit} || 60);
     while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push(@TicketIDs, $Row[0]);
     }
@@ -1503,6 +1574,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2004-03-12 18:35:11 $
+$Revision: 1.72 $ $Date: 2004-03-12 18:42:54 $
 
 =cut

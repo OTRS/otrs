@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.20 2004-02-16 01:43:30 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.21 2004-03-12 18:42:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,6 +44,7 @@ sub new {
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0; 
+    $Self->{Type} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'MyTickets'; 
     if ($Self->{StartHit} >= 1000) {
         $Self->{StartHit} = 1000;
     }
@@ -79,7 +80,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->CustomerHeader(
-        Title => 'My Tickets',
+        Title => $Self->{Type},
         Refresh => $Refresh,
     );
     # build NavigationBar
@@ -96,94 +97,22 @@ sub Run {
     if ($Self->{ShowClosedTickets}) {
         $ShowClosed = 1;
     }
-    if (!$ShowClosed) {
-        my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type => 'Viewable',
-            Result => 'ID',
-        );
-        $SQLExt .= " AND ";
-        $SQLExt .= " st.ticket_state_id in ( ${\(join ', ', @ViewableStateIDs)} ) ";
-    }
     # get data (viewable tickets...)
-    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
-        UserID => $Self->{UserID},
-        Type => 'ro',
-        Result => 'ID',
-    ); 
-    my $AllTickets = 0; 
-    my $SQL = "SELECT count(*) FROM ".
-       " ticket st, queue q ".
-       " WHERE ".
-       " st.queue_id = q.id ".
-       " AND ".
-       " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-       " AND ".
-       " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'".
-       $SQLExt;
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $AllTickets = $Row[0];
-    }
-    my @ViewableTickets = ();
-    $SQL = "SELECT st.id FROM " .
-       " ticket st, ticket_state tsd, queue q, " . 
-         $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
-       " WHERE " .
-       " tsd.id = st.ticket_state_id " .
-       " AND " .
-       " st.user_id = u.". $Self->{ConfigObject}->Get('DatabaseUserTableUserID') .
-       " AND ".
-       " q.id = st.queue_id ".
-       " AND ".
-       " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-       " AND ".
-       " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'".
-       $SQLExt.
-       " ORDER BY ";
-
-    if ($Self->{SortBy} eq 'Owner') {
-        $SQL .= "u.".$Self->{ConfigObject}->Get('DatabaseUserTableUser');
-    }
-    elsif ($Self->{SortBy} eq 'CustomerID') {
-        $SQL .= "st.customer_id";
-    }
-    elsif ($Self->{SortBy} eq 'State') {
-        $SQL .= "tsd.name";
-    }
-    elsif ($Self->{SortBy} eq 'Ticket') {
-        $SQL .= "st.tn";
-    }
-    elsif ($Self->{SortBy} eq 'Queue') {
-        $SQL .= "q.name";
-    }
-    else {
-        $SQL .= "st.create_time_unix";
+    my $Open = 0;
+    if (!$ShowClosed) {
+       $Open = 1;
     }
 
-    if ($Self->{SortBy} eq 'Age') {
-        if ($Self->{Order} eq 'Down') {
-            $SQL .= " ASC";
-        }
-        else {
-            $SQL .= " DESC";
-        }
-    }
-    else {
-        if ($Self->{Order} eq 'Down') {
-            $SQL .= " DESC";
-        }
-        else {
-            $SQL .= " ASC";
-        }
-    }
-
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{StartHit}+$Self->{PageShown});
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        push (@ViewableTickets, $RowTmp[0]);
-    }
-    # --
+    my @ViewableTickets = $Self->{TicketObject}->GetCustomerTickets(
+        CustomerID => $Self->{UserCustomerID},
+        CustomerUserID => $Self->{UserID},
+        ShowJustOpenTickets => $Open,
+        SortBy => $Self->{SortBy},
+        Order => $Self->{Order},
+        Type => $Self->{Type},
+    );
+    my $AllTickets = @ViewableTickets;
     # show ticket's
-    # --
     my $OutputTable = "";
     my $Counter = 0;
     foreach my $TicketID (@ViewableTickets) {
@@ -200,6 +129,7 @@ sub Run {
         AllHits => $AllTickets,
         StartHit => $Self->{StartHit},
         ShowClosed => $ShowClosed,
+        Type => $Self->{Type},
     );
     # get page footer
     $Output .= $Self->{LayoutObject}->CustomerFooter();
