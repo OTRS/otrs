@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLookup.pm,v 1.1 2004-04-26 11:15:48 martin Exp $
+# $Id: AgentLookup.pm,v 1.2 2004-05-01 14:06:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLookup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,8 +70,8 @@ sub Run {
     # config options
     $Self->{Limit} = $Self->{Map}->{$Param{Source}}->{ResultLimit} || 250;
     $Self->{Table} = $Self->{Map}->{$Param{Source}}->{Params}->{Table} || die "Need DataLookup->$Param{Source}->Params->Table in Kernel/Config.pm!";
-    $Self->{Key} = $Self->{Map}->{$Param{Source}}->{Key} || die "Need DataLookup->$Param{Source}->Key in Kernel/Config.pm!";
-    $Self->{Value} = $Self->{Map}->{$Param{Source}}->{Value} || die "Need DataLookup->$Param{Source}->Value in Kernel/Config.pm!";
+    $Self->{KeyList} = $Self->{Map}->{$Param{Source}}->{KeyList} || die "Need DataLookup->$Param{Source}->KeyList in Kernel/Config.pm!";
+    $Self->{ValueList} = $Self->{Map}->{$Param{Source}}->{ValueList} || die "Need DataLookup->$Param{Source}->ValueList in Kernel/Config.pm!";
     $Self->{SearchPrefix} = $Self->{Map}->{$Param{Source}}->{SearchPrefix}; 
     if (!defined($Self->{SearchPrefix})) {
         $Self->{SearchPrefix} = '';
@@ -100,7 +100,24 @@ sub Run {
         $SearchDB =~ s/\*/%/g;
         $SearchDB =~ s/%%/%/g;
         # build SQL string
-        my $SQL = "SELECT $Self->{Key}, $Self->{Value} FROM $Self->{Table} WHERE $Self->{Key} LIKE '".$Self->{DBObject}->Quote($SearchDB)."'";
+        my $SQL = "SELECT ";
+        my $What = '';
+        foreach my $Entry (@{$Self->{KeyList}}) {
+            if ($What) {
+                $What .= ', ';
+            }
+            $What .= $Entry;
+        }
+        $SQL .= $What;
+        $SQL .= " FROM $Self->{Table} WHERE ";
+        my $Where = '';
+        foreach my $Entry (@{$Self->{KeyList}}) {
+            if ($Where) {
+                $Where .= ' OR ';
+            }
+            $Where .= " $Entry LIKE '".$Self->{DBObject}->Quote($SearchDB)."'";
+        }
+        $SQL .= $Where;
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 100);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Result{$Row[0]} = $Row[0];
