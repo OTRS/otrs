@@ -1,9 +1,9 @@
 # --
 # CustomerStatusView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerStatusView.dtl,v 1.17 2004-06-25 15:33:44 martin Exp $
+# $Id: CustomerStatusView.dtl,v 1.18 2004-10-07 16:39:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,10 +22,10 @@
    <b>$Env{"Box0"}$Text{"$Data{"Type"}"}$Env{"Box1"}</b>
  </td>
 </tr>
-<tr> 
+<tr>
   <td class="table2">
-    $Text{"Ticket"} <b>$Data{"Result"}</b> $Text{"of"} $Data{"TotalHits"} - 
-    $Text{"Site"}: $Data{"SiteNavBar"} - 
+    $Text{"Ticket"} <b>$Data{"Result"}</b> $Text{"of"} $Data{"TotalHits"} -
+    $Text{"Site"}: $Data{"SiteNavBar"} -
     (<a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=&Order=&Limit=$Data{"Limit"}&$Data{"ClosedLink"}&Type=$Data{"Type"}">$Text{"$Data{"ClosedTicketText"}"}</a>)
   </td>
 </tr>
@@ -51,7 +51,9 @@
    <th width="10%">$Text{"Owner"}<br>
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
-#   <th width="10%">$Text{"CustomerID"}</th>
+#   <th width="10%">$Text{"CustomerID"}<br>
+#    <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Up&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+#    <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
 </tr>
 <!-- dtl:block:Record -->
 <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "2"; }>
