@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomStatus.dtl,v 1.2 2003-05-29 16:04:38 martin Exp $
+# $Id: AgentZoomStatus.dtl,v 1.3 2003-07-07 22:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,23 +13,23 @@
     <table border="0" cellspacing="1" cellpadding="0" width="95%">
     <tr valign="top">
       <td><b>$Text{"State"}:</b></td>
-      <td><font color="red">$Data{"State"}</font></td>
+      <td><font color="red">$Quote{"$Text{"$Data{"State"}"}","18"}</font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Priority"}:</b></td>
-      <td><font color="red">$Data{"Priority"}</font></td>
+      <td><font color="red">$Quote{"$Text{"$Data{"Priority"}"}","18"}</font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Queue"}:</b></td>
-      <td><font color="red">$Data{"Queue"}</font></td>
+      <td><font color="red">$Quote{"$Data{"Queue"}","18"}</font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Lock"}:</b></td>
-      <td><font color="red">$Data{"Lock"}</font></td>
+      <td><font color="red">$Quote{"$Text{"$Data{"Lock"}"}","18"}</font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"CustomerID"}:</b></td>
-      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td>
+      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Accounted time"}:</b></td>
@@ -46,13 +46,13 @@
     $Data{"PendingUntilString"}
     <tr  valign="top">
       <td><b>$Text{"Owner"}:</b></td>
-      <td>$Data{"Owner"} ($Data{"UserFirstname"} $Data{"UserLastname"})</td>
+      <td>$Quote{"$Data{"Owner"}","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</td>
     </tr>
 # --
-# use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
+# use this if you want to show TicketFreeKey1-2 and TicketFreeText1-2
 # --
-<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeText1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeText2"}</td></tr>"; }>
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
     </table>

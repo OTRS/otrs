@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.6 2003-06-17 12:52:27 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.7 2003-07-07 22:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,52 +12,52 @@
 <!-- start body ticket $Data{"TicketNumber"} -->
 <tr>
   <td rowspan="2" valign="top" width="75%" class="table1">
-    <a name="$Data{"Article::ArticleID"}"></a>
+    <a name="$Data{"ArticleID"}"></a>
     $Data{"ArticleStrg"}
     <hr>
     <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> $Data{"Article::From"}</td>
+      <td width="85%"> $Quote{"$Data{"From"}","160"}</td>
     </tr>
 # --
 # check if To exists
 # -- 
-    <dtl if ($Data{"Article::To"} ne "") { $Data{"ArticleToString"} = "<tr><td valign="top"><b>$Text{"To"}:</b></td><td> $Data{"Article::To"}</td></tr>"; }>
+    <dtl if ($Data{"To"} ne "") { $Data{"ArticleToString"} = "<tr><td valign="top"><b>$Text{"To"}:</b></td><td> $Quote{"$Data{"To"}","160"}</td></tr>"; }>
     $Data{"ArticleToString"}
 # --
 # check if Cc exists
 # -- 
-    <dtl if ($Data{"Article::Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Data{"Article::Cc"}</td></tr>"; }>
+    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Quote{"$Data{"Cc"}","160"}</td></tr>"; }>
     $Data{"ArticleCcString"}
 # --
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> $Data{"Article::Subject"}</td>
+      <td> $Quote{"$Data{"Subject"}","160"}</td>
     </tr>
     <tr>
       <td valign="top"><b>$Text{"Created"}:</b></td>
-      <td> $Data{"Article::CreateTime"}</td>
+      <td> $TimeLong{"$Data{"Created"}"}</td>
     </tr>
 # --
-# show the Article::FreeKey1-3 and Article::FreeValue1-3
+# show the Article::FreeKey1-3 and Article::FreeText1-3
 # --
-<dtl if ($Data{"Article::FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey1"}:</b></td><td> $Data{"Article::FreeValue1"}</td></tr>"; }>
-<dtl if ($Data{"Article::FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey2"}:</b></td><td> $Data{"Article::FreeValue2"}</td></tr>"; }>
-<dtl if ($Data{"Article::FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey3"}:</b></td><td> $Data{"Article::FreeValue3"}</td></tr>"; }>
+<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"FreeKey1"}:</b></td><td> $Data{"FreeText1"}</td></tr>"; }>
+<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"FreeKey2"}:</b></td><td> $Data{"FreeText2"}</td></tr>"; }>
+<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"FreeKey3"}:</b></td><td> $Data{"FreeText"}</td></tr>"; }>
      $Data{"ArticleFreeString1"}
      $Data{"ArticleFreeString2"}
      $Data{"ArticleFreeString3"}
 # --
 # check if To exists
 # -- 
-    <dtl if ($Data{"Article::ATM"} ne "") { $Data{"ArticleATMString"} = "<tr><td valign="top"><b>$Text{"Attachment"}:</b></td><td> $Data{"Article::ATM"}</td></tr>"; }>
+    <dtl if ($Data{"ATM"} ne "") { $Data{"ArticleATMString"} = "<tr><td valign="top"><b>$Text{"Attachment"}:</b></td><td> $Data{"ATM"}</td></tr>"; }>
     $Data{"ArticleATMString"}
 # --
   </table>
-$Data{"Article::TextNote"}
+$Data{"BodyNote"}
 <div class="message">
-$Data{"Article::Body"}
+$Data{"Body"}
 </div>
   </td> 
   <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">

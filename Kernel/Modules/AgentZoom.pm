@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.35 2003-05-29 16:04:37 martin Exp $
+# $Id: AgentZoom.pm,v 1.36 2003-07-07 22:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,19 +30,23 @@ sub new {
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
       QueueObject ConfigObject UserObject SessionObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-
-    # get ArticleID
+    # get params 
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
-
+    $Self->{ZoomExpand} = $Self->{ParamObject}->GetParam(Param => 'ZoomExpand');
+    $Self->{ZoomExpandSort} = $Self->{ParamObject}->GetParam(Param => 'ZoomExpandSort');
+    if (!defined($Self->{ZoomExpand})) {
+        $Self->{ZoomExpand} = $Self->{ConfigObject}->Get('TicketZoomExpand');
+    }
+    if (!defined($Self->{ZoomExpandSort})) {
+        $Self->{ZoomExpandSort} = $Self->{ConfigObject}->Get('TicketZoomExpandSort');
+    }
     # customer user object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    
     return $Self;
 }
 # --
@@ -50,11 +54,10 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
     # --
     # check needed stuff
     # --
-    if (!$Self->{TicketID} || !$QueueID) {
+    if (!$Self->{TicketID}) {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error();
         $Output .= $Self->{LayoutObject}->Footer();
@@ -87,9 +90,41 @@ sub Run {
         return $Output;
       }  
     }
+    # get content
+    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+    my @ArticleBox = $Self->{TicketObject}->GetArticleContentIndex(TicketID => $Self->{TicketID});
     # --
-    # fetch all queues
+    # return if HTML email
     # --
+    if ($Self->{Subaction} eq 'ShowHTMLeMail') {
+        # check needed ArticleID
+        if (!$Self->{ArticleID}) {
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(Message => 'Need ArticleID!');
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        # get article data
+        my %Article = ();
+        foreach my $ArticleTmp (@ArticleBox) {
+            if ($ArticleTmp->{ArticleID} eq $Self->{ArticleID}) {
+                %Article = %{$ArticleTmp};
+            }
+        }
+        # check if article data exists
+        if (!%Article) {
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(Message => 'Invalid ArticleID!');
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        # if it is a html email, return here
+        return $Self->MaskAgentZoomHTML(%Ticket, %Article);
+    }
+    # --
+    # else show normal ticket zoom view
+    # --
+    # fetch all move queues
     my %MoveQueues = ();
     if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
         %MoveQueues = $Self->{QueueObject}->GetAllQueues();
@@ -100,143 +135,14 @@ sub Run {
             Type => 'rw',
         );
     }
-    # --
     # fetch all std. responses
-    # --
-    my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $QueueID);
-    
-    my %Ticket;
-    $Ticket{TicketID} = $Self->{TicketID};
-    $Ticket{Age} = '?';
-    $Ticket{TmpCounter} = 0;
-    $Ticket{FreeKey1} = '';
-    $Ticket{FreeValue1} = '';
-    $Ticket{FreeKey2} = '';
-    $Ticket{FreeValue2} = '';
-    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->GetAccountedTime(TicketID => $Ticket{TicketID});
-    # --
-    # grep all atricle of this ticket
-    # --
-    my @ArticleBox;
-    my $SQL = "SELECT sa.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, ".
-    " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ". 
-    " sa.create_time, stt.name as sender_type, at.name as article_type, ".
-    " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ".
-    " sl.name as lock_type, sp.name as priority, sp.id as priority_id, tsd.name as state, sa.content_path, ".
-    " sq.name as queue, st.create_time as ticket_create_time, ".
-    " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
-    " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
-    " st.freetext2, st.customer_id, st.customer_user_id, sq.group_id, st.ticket_answered, ".
-    " sq.escalation_time, sa.a_content_type, sa.incoming_time, st.until_time ".
-    " FROM ".
-    " article sa, ticket st, article_sender_type stt, article_type at, ".
-    " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
-    " ticket_priority sp, ticket_state tsd, queue sq " .
-    " WHERE " .
-    " sa.ticket_id = st.id " .
-    " AND " .
-    " sq.id = st.queue_id " .
-    " AND " .
-    " stt.id = sa.article_sender_type_id " .
-    " AND " .
-    " at.id = sa.article_type_id " .
-    " AND " .
-    " sp.id = st.ticket_priority_id " .
-    " AND " .
-    " sl.id = st.ticket_lock_id " .
-    " AND " .
-    " tsd.id = st.ticket_state_id " .
-    " AND " .
-    " sa.ticket_id = $Self->{TicketID} " .
-    " AND " .
-    " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
-    " GROUP BY sa.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, ".
-    " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ".
-    " sa.create_time, stt.name, at.name, ".
-    " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ".
-    " sl.name, sp.name, sp.id, tsd.name, sa.content_path, ".
-    " sq.name, st.create_time, ".
-    " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
-    " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
-    " st.freetext2, st.customer_id, st.customer_user_id, sq.group_id, st.ticket_answered, ".
-    " sq.escalation_time, sa.a_content_type, sa.incoming_time, st.until_time ";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-        # get escalation_time
-        if ($$Data{escalation_time} && $$Data{sender_type} eq 'customer') {
-            $Ticket{TicketOverTime} = (($$Data{incoming_time} + ($$Data{escalation_time}*60)) - time());
-        }
-        if (!$$Data{until_time} || $$Data{state} !~ /^pending/i) {
-            $Ticket{UntilTime} = 0;
-        }
-        else {
-            $Ticket{UntilTime} = $$Data{until_time} - time();
-        }
-        # ticket data
-        $Ticket{TicketNumber} = $$Data{tn};
-        $Ticket{State} = $$Data{state};
-        $Ticket{CustomerID} = $$Data{customer_id};
-        $Ticket{CustomerUserID} = $$Data{customer_user_id};
-        $Ticket{Queue} = $$Data{queue};
-        $Ticket{QueueID} = $QueueID;
-        $Ticket{Lock} = $$Data{lock_type};
-        $Ticket{Owner} = $$Data{login};
-        $Ticket{Priority} = $$Data{priority};
-        $Ticket{PriorityID} = $$Data{priority_id};
-        $Ticket{TicketFreeKey1} = $$Data{freekey1};
-        $Ticket{TicketFreeValue1} = $$Data{freetext1};
-        $Ticket{TicketFreeKey2} = $$Data{freekey2};
-        $Ticket{TicketFreeValue2} = $$Data{freetext2};
-        $Ticket{Created} = $$Data{ticket_create_time};
-        $Ticket{GroupID} = $$Data{group_id};
-        $Ticket{Age} = time() - $$Data{create_time_unix};
-        $Ticket{Answered} = $$Data{ticket_answered};
-        # article data
-        my %Article;
-        $Article{ContentPath} = $$Data{content_path},
-        $Article{ArticleType} = $$Data{article_type};
-        $Article{SenderType} = $$Data{sender_type};
-        $Article{ArticleID} = $$Data{id};
-        $Article{From} = $$Data{a_from} || '';
-        $Article{To} = $$Data{a_to} || '';
-        $Article{Cc} = $$Data{a_cc} || '';
-        $Article{Subject} = $$Data{a_subject} || '';
-        $Article{Body} = $$Data{a_body};
-        $Article{CreateTime} = $$Data{create_time};
-        $Article{FreeKey1} = $$Data{a_freekey1};
-        $Article{FreeValue1} = $$Data{a_freetext1};
-        $Article{FreeKey2} = $$Data{a_freekey2};
-        $Article{FreeValue2} = $$Data{a_freetext2};
-        $Article{FreeKey3} = $$Data{a_freekey3};
-        $Article{FreeValue3} = $$Data{a_freetext3};
-        if ($$Data{a_content_type} && $$Data{a_content_type} =~ /charset=(.*)(| |\n)/i) {
-            $Article{ContentCharset} = $1;
-        }
-        if ($$Data{a_content_type} && $$Data{a_content_type} =~ /^(.+?\/.+?)( |;)/i) {
-            $Article{MimeType} = $1;
-        }
-        push (@ArticleBox, \%Article);
-    }
-    # --
-    # article attachments
-    # --
-    foreach my $Article (@ArticleBox) {
-        my %AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
-            ContentPath => $Article->{ContentPath},
-            ArticleID => $Article->{ArticleID},
-        );
-        $Article->{Atms} = \%AtmIndex;
-    }
-    # --
+    my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $Ticket{QueueID});
     # user info
-    # --
     my %UserInfo = $Self->{UserObject}->GetUserData(
         User => $Ticket{Owner},
         Cached => 1
     );
-    # --
     # customer info
-    # --
     my %CustomerData = ();
     if ($Self->{ConfigObject}->Get('ShowCustomerInfoZoom')) {
         if ($Ticket{CustomerUserID}) {
@@ -259,36 +165,311 @@ sub Run {
     # --
     # show ticket
     # --
-    if ($Self->{Subaction} eq 'ShowHTMLeMail') {
-        # if it is a html email, drop normal header
-        $Ticket{ShowHTMLeMail} = 1;
-        $Output = '';
-    }
-    $Output .= $Self->{LayoutObject}->AgentZoom(
-        TicketID => $Self->{TicketID},
-        QueueID => $QueueID,
+    $Output .= $Self->MaskAgentZoom(
         MoveQueues => \%MoveQueues,
         StdResponses => \%StdResponses,
         ArticleBox => \@ArticleBox,
-        ArticleID => $Self->{ArticleID},
+        CustomerData => \%CustomerData,
         %Ticket,
         %UserInfo,
-        CustomerData => \%CustomerData,
     );
-    # --
-    # return if HTML email
-    # --
-    if ($Self->{Subaction} eq 'ShowHTMLeMail') {
-        # if it is a html email, return here
-        $Ticket{ShowHTMLeMail} = 1;
-        return $Output;
-    }
     # add footer 
     $Output .= $Self->{LayoutObject}->Footer();
-
     # return output
     return $Output;
 }
 # --
+sub MaskAgentZoom {
+    my $Self = shift;
+    my %Param = @_;
+    if ($Param{Lock} =~ /unlock/) {
+        $Param{Locked} = 2;
+    }
+    else {
+        $Param{Locked} = 1;
+    }
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    if ($Param{UntilTime}) {
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
+        }
+        $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => '<br>');
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} .= "</font>";
+        }
+    }
+    # --
+    # prepare escalation time (if needed)
+    # --
+    if ($Param{Answered}) {
+        $Param{TicketOverTime} = '$Text{"none - answered"}';
+    }
+    elsif ($Param{TicketOverTime}) {
+      $Param{TicketOverTimeSuffix} = '';
+      # colloring  
+      $Param{TicketOverTimeFont} = '';
+      $Param{TicketOverTimeFontEnd} = '';
+      if ($Param{TicketOverTime} <= -60*20) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+      elsif ($Param{TicketOverTime} <= -60*40) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
 
+      $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+          Age => $Param{TicketOverTime},
+          Space => '<br>',
+      );
+      $Param{TicketOverTime} = $Param{TicketOverTimeFont}.
+        $Param{TicketOverTime}.$Param{TicketOverTimeFontEnd};
+    }
+    else {
+        $Param{TicketOverTime} = '-';
+    }
+    # --
+    # get MoveQueuesStrg
+    # --
+    if ($Self->{ConfigObject}->Get('MoveType') =~ /^form$/i) {
+        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Name => 'DestQueueID',
+            Data => $Param{MoveQueues},
+            SelectedID => $Param{QueueID},
+        );
+    }
+    # --
+    # customer info string 
+    # --
+    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoZoomMaxSize'),
+    );
+    # --
+    # build article stuff
+    # --
+    my $BaseLink = $Self->{LayoutObject}->{Baselink}."TicketID=$Self->{TicketID}&QueueID=$Self->{QueueID}&";
+    my @ArticleBox = @{$Param{ArticleBox}};
+    # get selected or last customer article
+    my $CounterArray = 0;
+    my $ArticleID;
+    if ($Self->{ArticleID}) {
+        $ArticleID = $Self->{ArticleID};
+    }
+    else {
+        foreach my $ArticleTmp (@ArticleBox) {
+            if ($ArticleTmp->{SenderType} eq 'customer') {
+                $ArticleID = $ArticleTmp->{ArticleID};
+            }
+        }
+    }
+    # --
+    # build thread string
+    # --
+    my $ThreadStrg = '';
+    my $Counter = '';
+    my $Space = '';
+    my $LastSenderType = '';
+    $Param{ArticleStrg} = '<table border="0" width="100%" cellspacing="0" cellpadding="0">';
+    foreach my $ArticleTmp (@ArticleBox) {
+      my %Article = %$ArticleTmp;
+      if ($Article{ArticleType} !~ /^email-notification/i) {
+        $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
+        if ($LastSenderType ne $Article{SenderType}) {
+            $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+            $Space = "$Counter |--&gt;";
+        }
+        $LastSenderType = $Article{SenderType};
+        $ThreadStrg .= "$Space";
+        # --
+        # if this is the shown article -=> add <b>
+        # --
+        if ($ArticleID eq $Article{ArticleID}) {
+            $ThreadStrg .= '&gt;&gt;<i><b>';
+        }
+        # --
+        # the full part thread string
+        # --
+        $ThreadStrg .= "<a href=\"$BaseLink"."Action=AgentZoom&ArticleID=$Article{ArticleID}#$Article{ArticleID}\"" .
+           'onmouseover="window.status=\''."\$Text{\"$Article{SenderType}\"} (".
+           "\$Text{\"$Article{ArticleType}\"})".'\'; return true;" onmouseout="window.status=\'\';">'.
+           "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</a> ";
+        if ($Article{ArticleType} =~ /^email/) {
+            $ThreadStrg .= " (<a href=\"$BaseLink"."Action=AgentPlain&ArticleID=$Article{ArticleID}\"".
+             'onmouseover="window.status=\'$Text{"plain"}'.
+             '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
+        }
+        $ThreadStrg .= ' $TimeLong{"'.$Article{Created}.'"}';
+        # --
+        # if this is the shown article -=> add </b>
+        # --
+        if ($ArticleID eq $Article{ArticleID}) { 
+            $ThreadStrg .= '</b></i>';
+        }
+        $ThreadStrg .= '</td></tr>';
+      }
+    }
+    $ThreadStrg .= '</table>';
+    $Param{ArticleStrg} .= $ThreadStrg;
+    # --
+    # get shown article(s)
+    # --
+    my @NewArticleBox = ();
+    if (!$Self->{ZoomExpand}) {
+        foreach my $ArticleTmp (@ArticleBox) {
+            if ($ArticleID eq $ArticleTmp->{ArticleID}) {
+                push(@NewArticleBox, $ArticleTmp);
+            }
+        }
+    }
+    else {
+        # resort article order
+        if ($Self->{ZoomExpandSort} eq 'reverse') {
+            @ArticleBox = reverse(@ArticleBox);
+        }
+      # show no email-notification* article
+      foreach my $ArticleTmp (@ArticleBox) {
+          my %Article = %$ArticleTmp;
+          if ($Article{ArticleType} !~ /^email-notification/i) {
+              push (@NewArticleBox, $ArticleTmp);
+          }
+      }
+    }
+    # --
+    # build shown article(s)
+    # --
+    $Param{TicketStatus} .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentZoomStatus',
+        Data => {%Param},
+    );
+    my $BodyOutput = '';
+    foreach my $ArticleTmp (@NewArticleBox) {
+        my %Article = %$ArticleTmp;
+        # delete ArticleStrg and TicketStatus if it's not the first shown article
+        if ($BodyOutput) {
+            $Param{ArticleStrg} = '';
+            $Param{TicketStatus} = '';
+        }
+        # get StdResponsesStrg
+        $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
+            StdResponsesRef => $Param{StdResponses},
+            TicketID => $Param{TicketID},
+            ArticleID => $Article{ArticleID},
+        );
+        # get attacment string
+        my %AtmIndex = ();
+        if ($Article{Atms}) {
+            %AtmIndex = %{$Article{Atms}};
+        }
+        $Article{"ATM"} = '';
+        foreach (keys %AtmIndex) {
+            $AtmIndex{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $AtmIndex{$_});
+            $Article{"ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
+              "ArticleID=$Article{ArticleID}&FileID=$_\" target=\"attachment\" ".
+              "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
+              ' return true;" onmouseout="window.status=\'\';">'.
+              $AtmIndex{$_}.'</a><br> ';
+        }
+        # do some strips && quoting
+        foreach (qw(From To Cc Subject Body)) {
+            $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+                Text => $Article{$_},
+                From => $Article{ContentCharset},
+            );
+        }
+        # check if just a only html email
+        if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article)) {
+            $Article{"BodyNote"} = $MimeTypeText;
+            $Article{"Body"} = '';
+        }
+        else {
+            # html quoting
+            $Article{"Body"} = $Self->{LayoutObject}->Ascii2Html(
+                NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+                Text => $Article{Body},
+                VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+            );
+            # link quoting
+            $Article{"Body"} = $Self->{LayoutObject}->LinkQuote(
+                Text => $Article{"Body"},
+            );
+            $Article{"Body"} =~ s/\n/<br>\n/g;
+            # do charset check
+            if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+                ContentCharset => $Article{ContentCharset},
+                TicketID => $Param{TicketID},
+                ArticleID => $Article{ArticleID} )) {
+                $Article{"TextNote"} = $CharsetText;
+            }
+        }
+        # select the output template
+        if ($Article{ArticleType} =~ /^note/i ||
+             ($Article{ArticleType} =~ /^phone/i && $Article{SenderType} eq 'agent') ||
+             $Article{SenderType} eq 'system' || $Article{SenderType} eq 'agent') {
+            # without compose links!
+            if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+              $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentZoomAgentIsCustomer',
+                Data => {%Param, %Article},
+              );
+            }
+            $Article{TicketArticle} = $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentZoomArticle',
+                Data => {%Param, %Article},
+            );
+            $BodyOutput .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentZoomBody', 
+                Data => {%Param, %Article},
+            );
+        }
+        else {
+            # without all!
+            if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+              $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentZoomAgentIsCustomer',
+                Data => {%Param, %Article},
+              );
+            }
+            else {
+              $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
+                  TemplateFile => 'AgentZoomAnswer',
+                  Data => {%Param, %Article},
+              );
+              $Article{TicketArticle} = $Self->{LayoutObject}->Output(
+                  TemplateFile => 'AgentZoomArticle',
+                  Data => {%Param, %Article},
+              );
+            }
+            $BodyOutput .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentZoomBody', 
+                Data => {%Param, %Article},
+            );
+        }
+    }
+    my $Output = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentZoomHead', 
+        Data => \%Param, 
+    );
+    $Output .= $BodyOutput;
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentZoomFooter', 
+        Data => \%Param,
+    );
+    # return output
+    return $Output;
+}
+# --
+sub MaskAgentZoomHTML {
+    my $Self = shift;
+    my %Param = @_;
+    # generate output
+    my $Output = "Content-Disposition: inline; filename=";
+    $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
+    $Output .= "$Param{TicketID}-$Param{ArticleID}\n";
+    $Output .= "Content-Type: $Param{MimeType}; charset=$Param{ContentCharset}\n";
+    $Output .= "\n";
+    $Output .= $Param{"Body"};
+    return $Output;
+}
+# --
 1;

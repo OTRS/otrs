@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.36 2003-04-30 15:20:43 martin Exp $
+# $Id: AgentQueueView.pm,v 1.37 2003-07-07 22:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -205,7 +205,7 @@ sub ShowTicket {
     my $TicketID = $Param{TicketID} || return;
     my $TicketQueueID = $Param{TicketQueueID} || '';
     my $Output = '';
-
+    $Param{QueueViewQueueID} = $Self->{QueueID};
     my %MoveQueues = ();
     if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
         %MoveQueues = $Self->{QueueObject}->GetAllQueues();
@@ -216,92 +216,12 @@ sub ShowTicket {
             Type => 'rw',
         );
     }
-
     # fetch all std. responses ...
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $TicketQueueID);
-
-    # --
-    # get atrticles
-    # --
-    my @ShownViewableTicket = ();
-    my %Ticket = ();
-    my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, ".
-        " sa.a_body, st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, ".
-        " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, ".
-        " st.freetext1, st.freetext2, st.customer_id, st.customer_user_id, ".
-        " sq.name as queue, sa.id as article_id, st.id, st.tn, sp.name, ".
-        " sp.id as priority_id, sd.name as state, st.queue_id, st.create_time, ".
-        " sa.incoming_time, sq.escalation_time, st.ticket_answered, sa.a_content_type ".
-        " FROM ".
-        " article sa, ticket st, ticket_priority sp, ticket_state sd, article_sender_type sdt, queue sq ".
-        " WHERE ".
-        " sa.ticket_id = st.id ".
-        " AND ".
-        " sa.article_sender_type_id = sdt.id ".
-        " AND ".
-        " sq.id = st.queue_id".
-        " AND ".
-        " sp.id = st.ticket_priority_id ".
-        " AND ".
-        " st.ticket_state_id = sd.id ".
-        " AND ".
-        " sa.ticket_id = $TicketID ".
-        " AND ".
-        " sdt.name in ( ${\(join ', ', @{$Self->{ViewableSenderTypes}})} ) ".
-        " ORDER BY sa.create_time DESC ";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
-    while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-        my $Age = time() - $$Data{create_time_unix};
-        my $TicketOverTime = ''; 
-        if ($$Data{escalation_time} && !$$Data{ticket_answered}) {
-            $TicketOverTime = (($$Data{incoming_time} + ($$Data{escalation_time}*60)) - time()); 
-        }
-        if ($$Data{a_content_type} && $$Data{a_content_type} =~ /charset=(.*)(| |\n)/i) {
-            $$Data{ContentCharset} = $1;
-        }
-        if ($$Data{a_content_type} && $$Data{a_content_type} =~ /^(.+?\/.+?)( |;)/i) {
-            $$Data{MimeType} = $1;
-        }
-
-        %Ticket = (
-            TicketNumber => $$Data{tn},
-            Priority => $$Data{name},
-            PriorityID => $$Data{priority_id},
-            State => $$Data{state},
-            TicketID => $$Data{id},
-            ArticleID => $$Data{article_id},
-            From => $$Data{a_from},
-            To => $$Data{a_to},
-            Cc => $$Data{a_cc},
-            Subject => $$Data{a_subject},
-            Body => $$Data{a_body},
-            ContentCharset => $$Data{ContentCharset},
-            MimeType => $$Data{MimeType},
-            Age => $Age,
-            TicketOverTime => $TicketOverTime,
-            Answered => $$Data{ticket_answered},
-            Created => $$Data{create_time},
-            StdResponses => \%StdResponses,
-            QueueID => $$Data{queue_id},
-            Queue => $$Data{queue},
-            MoveQueues => \%MoveQueues,
-            CustomerID => $$Data{customer_id},
-            CustomerUserID => $$Data{customer_user_id},
-            ArticleFreeKey1 => $$Data{a_freekey1},
-            ArticleFreeValue1 => $$Data{a_freetext1},
-            ArticleFreeKey2 => $$Data{a_freekey2},
-            ArticleFreeValue2 => $$Data{a_freetext2},
-            ArticleFreeKey3 => $$Data{a_freekey3},
-            ArticleFreeValue3 => $$Data{a_freetext3},
-            TicketFreeKey1 => $$Data{freekey1},
-            TicketFreeValue1 => $$Data{freetext1},
-            TicketFreeKey2 => $$Data{freekey2},
-            TicketFreeValue2 => $$Data{freetext2},
-            # view type
-            ViewType => $Self->{UserQueueView},
-        );
-        push (@ShownViewableTicket, $$Data{id});
-    }
+    # get article
+    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
+    # get last article
+    my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID); 
     # --
     # customer info
     # --
@@ -321,31 +241,110 @@ sub ShowTicket {
     # --
     # build ticket view
     # --
-    $Output .= $Self->{LayoutObject}->TicketView(
-        %Ticket,
-        QueueViewQueueID => $Self->{QueueID},
-        CustomerData => \%CustomerData,
+    # do some strips && quoting
+    foreach (qw(From To Cc Subject Body)) {
+        $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+            Text => $Article{$_},
+            From => $Article{ContentCharset},
+        );
+    }
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ');
+    # --
+    # prepare escalation time
+    # --
+    if ($Ticket{Answered}) {
+      $Param{TicketOverTime} = '$Text{"none - answered"}';
+    }
+    elsif ($Ticket{TicketOverTime}) {
+      $Param{TicketOverTimeSuffix} = '';
+      # colloring  
+      $Param{TicketOverTimeFont} = '';
+      $Param{TicketOverTimeFontEnd} = '';
+      if ($Ticket{TicketOverTime} <= -60*20) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+      elsif ($Ticket{TicketOverTime} <= -60*40) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+      # create string
+      $Ticket{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+          Age => $Ticket{TicketOverTime},
+          Space => '<br>',
+      );
+      $Ticket{TicketOverTime} = $Param{TicketOverTimeFont}.
+        $Ticket{TicketOverTime}.$Param{TicketOverTimeFontEnd};
+    }
+    else {
+      $Ticket{TicketOverTime} = '$Text{"none"}';
+    }
+    # --
+    # customer info string 
+    # --
+    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+        Data => \%CustomerData,
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
     );
-    # if there is no customer article avalible! Error!
-    my $Hit = 0;
-    foreach (@ShownViewableTicket) {
-        if ($_ == $TicketID) {
-            $Hit = 1;
+    # --
+    # check if just a only html email
+    # --
+    if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Article, Action => 'AgentZoom')) {
+        $Article{BodyNote} = $MimeTypeText;
+        $Article{Body} = '';
+    }
+    else {
+         # html quoting
+        $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
+            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+            Text => $Article{Body},
+            VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
+        );
+        # do link quoting
+        $Article{Body} = $Self->{LayoutObject}->LinkQuote(Text => $Article{Body});
+        $Article{Body} =~ s/\n/<br>\n/g;
+        # do charset check
+        if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+            Action => 'AgentZoom',
+            ContentCharset => $Article{ContentCharset},
+            TicketID => $Article{TicketID},
+            ArticleID => $Article{ArticleID} )) {
+            $Article{BodyNote} = $CharsetText;
         }
     }
-    if ($Hit == 0) {
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => "No customer article found!! (TicketID=$TicketID)",
-            Comment => 'Please contact your admin',
-        );
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "No customer article found!! (TicketID=$TicketID)",
-            Comment => 'Please contact your admin',
+    # get MoveQueuesStrg
+    if ($Self->{ConfigObject}->Get('MoveType') =~ /^form$/i) {
+        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Name => 'DestQueueID',
+            Data => \%MoveQueues,
+            SelectedID => $Param{QueueID},
         );
     }
-    # return page
-    return $Output;
+    if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Ticket{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+        $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentZoomAgentIsCustomer',
+            Data => \%Param,
+        );
+    }
+    else {
+        $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentZoomAnswer',
+            Data => \%Param,
+        );
+    }
+    # create & return output
+    if (!$Self->{UserQueueView} || $Self->{UserQueueView} ne 'TicketViewLite') {
+        return $Self->{LayoutObject}->Output(
+            TemplateFile => 'TicketView', 
+            Data => {%Param, %Ticket, %Article},
+        );
+    }
+    else {
+        return $Self->{LayoutObject}->Output(
+            TemplateFile => 'TicketViewLite', 
+            Data => {%Param, %Ticket, %Article},
+        );
+    }
 }
 # --
 sub BuildQueueView {

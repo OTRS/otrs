@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.29 2003-05-21 13:44:19 martin Exp $
+# $Id: TicketView.dtl,v 1.30 2003-07-07 22:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@
   <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Close"}</a>
   </td>
   <td align="right" width="40%" class="table2">
-  <b>$Text{"Created"}:</b> $Data{"Created"}
+  <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}
   </td>
 </tr>
 </table>
@@ -47,34 +47,34 @@
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> $Data{"From"}</td>
+      <td width="85%"> $Quote{"$Data{"From"}","80"}</td>
     </tr>
     <tr>
       <td valign="top"><b>$Text{"To"}:</b></td>
-      <td> $Data{"To"}</td>
+      <td> $Quote{"$Data{"To"}","80"}</td>
     </tr>
 # --
 # show cc?
 # --
-    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Data{"Cc"}</td></tr>"; }>
+    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Quote{"$Data{"Cc"}","80"}</td></tr>"; }>
     $Data{"ArticleCcString"}
 
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> $Data{"Subject"}</td>
+      <td> $Quote{"$Data{"Subject"}","80"}</td>
     </tr>
 # --
-# show ArticleFreeKey1-3 and ArticleFreeValue1-3
+# show FreeKey1-3 and FreeText1-3
 # --
-<dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey1"}:</b></td><td> $Data{"ArticleFreeValue1"}</td></tr>"; }>
-<dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey2"}:</b></td><td> $Data{"ArticleFreeValue2"}</td></tr>"; }>
-<dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey3"}:</b></td><td> $Data{"ArticleFreeValue3"}</td></tr>"; }>
+<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"FreeKey1"}:</b></td><td> $Data{"FreeText1"}</td></tr>"; }>
+<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"FreeKey2"}:</b></td><td> $Data{"FreeText2"}</td></tr>"; }>
+<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"FreeKey3"}:</b></td><td> $Data{"FreeText3"}</td></tr>"; }>
      $Data{"ArticleFreeString1"}
      $Data{"ArticleFreeString2"}
      $Data{"ArticleFreeString3"}
 # --
   </table>
-$Data{"TextNote"}
+$Data{"BodyNote"}
 <div class="message">
 $Data{"Body"}
 </div>
@@ -84,29 +84,29 @@ $Data{"Body"}
     <table border="0">
     <tr>
       <td><b>$Text{"State"}:</b></td>
-      <td><font color="red">$Data{"State"}</font></td>
+      <td><font color="red">$Quote{"$Text{"$Data{"State"}"}","18"}</font></td>
     </tr>
     <tr>
       <td><b>$Text{"Priority"}:</b></td>
-      <td><font color="red">$Data{"Priority"}</font></td>
+      <td><font color="red">$Quote{"$Text{"$Data{"Priority"}"}","18"}</font></td>
     </tr>
     <tr>
       <td><b>$Text{"Queue"}:</b></td>
-      <td><font color="red">$Data{"Queue"}</font></td>
+      <td><font color="red">$Quote{"$Data{"Queue"}","18"}</font></td>
     </tr>
     <tr>
       <td><b>$Text{"CustomerID"}:</b></td>
-      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td>
+      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></td>
     </tr>
     <tr>
       <td><b>$Text{"Escalation in"}:</b></td>
       <td>$Data{"TicketOverTime"}</td>
     </tr>
 # --
-# show TicketFreeKey1-2 and TicketFreeValue1-2
+# show TicketFreeKey1-2 and TicketFreeText1-2
 # --
-<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeText1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeText2"}</td></tr>"; }>
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
 # --
