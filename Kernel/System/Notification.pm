@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.2 2004-01-23 02:22:55 martin Exp $
+# $Id: Notification.pm,v 1.3 2004-02-01 21:02:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Notification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -75,6 +75,8 @@ sub NotificationGet {
     }
     my %Data = ();
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        # fix some bad stuff from some browsers (Opera)!
+        $Data[5] =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
         %Data = ( 
             Type => $Data[1],
             Charset => $Data[2],
@@ -152,6 +154,8 @@ sub NotificationUpdate {
         return;
       }
     }
+    # fix some bad stuff from some browsers (Opera)!
+    $Param{Body} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
