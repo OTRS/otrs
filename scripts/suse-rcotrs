@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.13 2002-06-09 22:00:23 martin Exp $
+# $Id: suse-rcotrs,v 1.14 2002-06-15 17:10:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -46,6 +46,12 @@ test -s /etc/rc.status && . /etc/rc.status
 # 
 DB_RUNNING=1
 HTTP_RUNNING=1
+CRON_RUNNING=1
+
+# 
+# OpenTRS home (root) directory
+#
+OTRS_ROOT=/opt/OpenTRS
 
 # 
 # Used database [mysql|postgresql]
@@ -62,22 +68,29 @@ USED_DB_RCSCRIPT=rcmysql
 USED_WEBSERVER=Apache
 USED_WEBSERVER_RCSCRIPT=rcapache
 
+#
+# cron stuff
+# 
+CRON_DIR=$OTRS_ROOT/var/cron
+CRON_TMP_FILE=$OTRS_ROOT/var/tmp/cron
+CRON_USER=" -u otrs "
+
 # 
 # check needed files
 # 
-OTRS_POSTMASTER=/opt/OpenTRS/bin/PostMaster.pl
+OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
 if ! test -r $OTRS_POSTMASTER; then
     echo "Error: $OTRS_POSTMASTER not found!"
     exit 5
 fi
 
-OTRS_SPOOLDIR=/opt/OpenTRS/var/spool
+OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
 if ! test -d $OTRS_SPOOLDIR; then
     echo "Error: $OTRS_SPOOLDIR not found!"
     exit 5
 fi
 
-OTRS_CHECKDB=/opt/OpenTRS/bin/CheckDB.pl
+OTRS_CHECKDB=$OTRS_ROOT/bin/CheckDB.pl
 if ! test -r $OTRS_CHECKDB; then
     echo "Error: $OTRS_CHECKDB not found!"
     exit 5
@@ -88,6 +101,13 @@ fi
 # get host name
 #
 HOST=`hostname -f`
+# 
+# OpenTRS location - means http://host/$OTRS_HTTP_LOCATION/index.pl
+# 
+OTRS_HTTP_LOCATION="otrs"
+# 
+# program name
+# 
 PROG="OpenTRS"
 
 # reset status of this service
@@ -157,7 +177,7 @@ case "$1" in
           echo " Try the web installer to configure your database: "
           echo ""
           echo ""
-          echo "     -->> http://$HOST/otrs/installer.pl <<-- "
+          echo "     -->> http://$HOST/$OTRS_HTTP_LOCATION/installer.pl <<-- "
           echo ""                               
           echo ""
           echo "----------------------------------------------------------------------------"
@@ -172,7 +192,7 @@ case "$1" in
       fi
 
       # --
-      # disable PostMaster.pl
+      # enable PostMaster.pl
       # --
       echo -n " Enable $OTRS_POSTMASTER ..."
       if chmod 755 $OTRS_POSTMASTER; then
@@ -197,9 +217,25 @@ case "$1" in
       done
       echo " done."
       rc_status
-     
+    
+      # --
+      # start cron stuff
+      # --
+      if test $CRON_RUNNING -gt 0; then
+        if mkdir -p CRON_DIR; cat $CRON_DIR/* > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE ; then
+          echo " Creating cronjobs (source $CRON_DIR/*) ... done."
+          rc_status
+        else
+          echo " Creating cronjobs (source $CRON_DIR/*) ... failed!"
+          rc_failed
+          exit 1
+        fi
+      else
+          echo " Disabled: cronjobs!"
+      fi
+
       echo ""
-      echo "  -->> http://$HOST/otrs/index.pl <<-- "
+      echo "  -->> http://$HOST/$OTRS_HTTP_LOCATION/index.pl <<-- "
 
       # show status
       rc_status -v
@@ -219,6 +255,22 @@ case "$1" in
           rc_status
       else
           echo " failed."
+      fi
+
+      # --
+      # stop cron stuff
+      # --
+      if test $CRON_RUNNING -gt 0; then
+        if crontab $CRON_USER -r ; then
+          echo " Shutting down cronjobs ... done."
+          rc_status
+        else
+          echo " Shutting down cronjobs ... failed!"
+          rc_failed
+          exit 1
+        fi
+      else
+          echo " Disabled: cronjobs!"
       fi
 
       # show status
@@ -336,6 +388,28 @@ case "$1" in
       rc_status
     ;;
     # ------------------------------------------------------
+    # cleanup
+    # ------------------------------------------------------
+    cleanup) 
+      # --
+      # check otrs spool dir
+      # --
+      echo -n " Checking otrs spool dir... "
+      for i in $OTRS_SPOOLDIR/* ; do
+          # process old emails
+          echo $i | grep -v '*' >> /dev/null && \
+            echo "" && \
+            echo -n "   Starting otrs PostMaster... ($i) " && \
+            cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 && \
+            echo -n "remove email... " && \
+            (rm $i || rc_failed) 
+      done
+      echo " done."
+      rc_status
+      # Remember status and be quiet
+      rc_status
+    ;;
+    # ------------------------------------------------------
     # status
     # ------------------------------------------------------
     status) 
@@ -385,7 +459,7 @@ case "$1" in
       echo "done."
     ;;
     *)
-    echo "Usage: $0 {start|stop|stop-force|start-force|status|restart|restart-force}"
+    echo "Usage: $0 {start|stop|stop-force|start-force|status|restart|restart-force|cleanup}"
     exit 1
 esac
 
