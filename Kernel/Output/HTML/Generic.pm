@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.138 2004-08-10 15:09:17 martin Exp $
+# $Id: Generic.pm,v 1.139 2004-08-11 14:04:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.138 $';
+$VERSION = '$Revision: 1.139 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1275,6 +1275,63 @@ sub PageNavBar {
         SiteNavBar => $Param{SearchNavBar},
         Link => $Param{Link},
     );
+}
+# --
+sub WindowTabStart {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    if (!$Param{Tab} || ($Param{Tab} && ref($Param{Tab}) ne 'ARRAY')) {
+        $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need Tab as ARRAY ref in WindowTabStart()!",
+        );
+        $Self->FatalError();
+    }
+    foreach my $Hash (@{$Param{Tab}}) {
+        if ($Hash->{Ready}) {
+            $Hash->{Image} = 'ready.png';
+        }
+        else {
+            $Hash->{Image} = 'notready.png';
+        }
+        $Self->Block(
+             Name => 'Tab',
+             Data => {
+                 %{$Hash},
+             },
+         );
+    }
+    $Output .= $Self->Output(TemplateFile => 'AgentWindowTabStart', Data => \%Param);
+    return $Output;
+}
+# --
+sub WindowTabStop {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    if ($Param{"Layer0Footer"}) {
+        foreach my $Hash (@{$Param{"Layer0Footer"}}) {
+            $Self->Block(
+                 Name => 'Layer0Footer',
+                 Data => {
+                     %{$Hash},
+                 },
+             );
+        }
+    }
+    if ($Param{"Layer1Footer"}) {
+        foreach my $Hash (@{$Param{"Layer1Footer"}}) {
+            $Self->Block(
+                 Name => 'Layer1Footer',
+                 Data => {
+                     %{$Hash},
+                 },
+             );
+        }
+    }
+    $Output .= $Self->Output(TemplateFile => 'AgentWindowTabStop', Data => \%Param);
+    return $Output;
 }
 # --
 sub BuildDateSelection {
