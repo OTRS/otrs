@@ -1,0 +1,71 @@
+#!/usr/bin/perl -w
+# --
+# otrs.addStdResponse2Queue - Add Resposes to Queue from CLI
+# Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
+# $Id $
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+
+BEGIN{
+   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../");
+   unless ($ARGV[1]){
+      print "$FindBin::Script  queue_id std_response_id";
+      print "\n";
+      exit;
+   }
+}
+
+
+
+
+# use lib '/opt/OpenTRS/'; Not neccesarry. @INC already fixed in BEGIN routine
+
+use strict;
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::DB;
+use Kernel::System::Queue;
+
+
+
+# --
+# create common objects 
+# --
+
+my %CommonObject = ();
+$CommonObject{LogObject}    =  Kernel::System::Log->new();
+$CommonObject{ConfigObject} =  Kernel::Config->new(%CommonObject);
+$CommonObject{DBObject}     =  Kernel::System::DB->new(%CommonObject);
+$CommonObject{QueueObject}   = Kernel::System::Queue->new(%CommonObject);
+
+
+
+
+
+
+
+
+
+my %Param;
+undef %Param;
+
+#user id of the person adding the queue?
+$Param{UserID}='1';
+
+
+#Validrecord
+$Param{ValidID}='1';
+
+$Param{QueueID}=$ARGV[0];
+$Param{ResponseID}=$ARGV[1];
+
+
+   
+$CommonObject{QueueObject}->SetQueueStdResponse(%Param);
+exit (0);
+
+__END__
+
