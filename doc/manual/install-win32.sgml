@@ -395,20 +395,6 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 </note>
 </section>
 
-<section>
-<title>VALID.PM</title>
-<para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>, <emphasis>dig.exe</emphasis> and/or <emphasis>host.exe</emphasis>. In <emphasis>d:\otrs\Kernel\cpan-lib\email\Valid.pm</emphasis> we change the following lines:</para>
-<para><screen>17:
-  @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin c:/winnt/system32 );
-96:
-  return &quot;$path/nslookup.exe&quot; if -x &quot;$path/nslookup.exe&quot; and !-d _;
-99:
-  return &quot;$path/dig.exe&quot; if -x &quot;$path/dig.exe&quot; and !-d _;
-102:
-  return &quot;$path/host.exe&quot; if -x &quot;$path/host.exe&quot; and !-d _;</screen></para>
-<para>Now <emphasis>Valid.pm</emphasis> is suitable for Win32 *only*, but that's ok for us :)</para>
-</section>
-
 </section>
 
 </section>
