@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.8 2004-12-04 14:56:26 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.9 2004-12-04 16:14:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -177,6 +177,7 @@ sub Run {
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
             File => $File,
+            Source => $Source,
         );
         # check
         if (!$Package) {
