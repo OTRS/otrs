@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.16 2002-10-31 21:54:04 martin Exp $
+# $Id: PostMaster.pm,v 1.17 2002-10-31 23:55:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -77,9 +77,9 @@ sub new {
     if (-d $Path) {
         File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
     }
-    if (mkdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
-        if (!rmdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
-            die "Can't remove $Self->{ArticleDataDir}/check_permissons_$$: $!\n";
+    if (mkdir("$ArticleDataDir/check_permissons_$$")) {
+        if (!rmdir("$ArticleDataDir/check_permissons_$$")) {
+            die "Can't remove $ArticleDataDir/check_permissons_$$: $!\n";
         }
         if (File::Path::mkpath([$Path], 0, 0775)) {
             File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
@@ -89,10 +89,10 @@ sub new {
         my $Error = $!;
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Can't create $Path: $Error, Try: \$OTRS_HOME/bin/SetPermissions.sh !",
+            Message => "Can't create $ArticleDataDir/check_permissons_$$: $Error, Try: \$OTRS_HOME/bin/SetPermissions.sh !",
         );
         print STDERR "\n";
-        print STDERR " -->> Can't create $Path: $Error <<--\n";
+        print STDERR " -->> Can't create $ArticleDataDir/check_permissons_$$: $Error <<--\n";
         print STDERR "\n";
         print STDERR " Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n";
         print STDERR "\n";
