@@ -18,7 +18,7 @@ Copy an existing translation file (e. g. Kernel/Language/German.pm) and translat
 
 <listitem>
 <para>
-Change the package name (z. g. "package Kernel::Language::German;" to "package Kernel::Language::French;").
+Change the package name (z. g. "package Kernel::Language::German;" to "package Kernel::Language::French;") and translate the words.
 </para>
 </listitem>
 
@@ -36,7 +36,7 @@ Add the new language translation to the system via the admin interface (AdminAre
 
 <listitem>
 <para>
-Send the new translation file to feedback@otrs.org - Thanks!
+Send the new translation file to feedback at otrs.org - Thanks!
 </para>
 </listitem>
 
@@ -46,13 +46,13 @@ Now you can select the new language in your preferences screen.
 </para>
 
 <example>
-<title>Old file (Kernel/Language/German.pm)</title>
+<title>Kernel/Language/German.pm - Old file</title>
 <programlisting>
 # --
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
 # --
-# $Id: language-translation.sgml,v 1.1 2002-05-09 23:44:32 martin Exp $
+# $Id: language-translation.sgml,v 1.2 2002-05-11 16:36:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -63,7 +63,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -88,13 +88,13 @@ To:
 </para>
 
 <example>
-<title>New file (Kernel/Language/French.pm)</title>
+<title>Kernel/Language/French.pm - New file</title>
 <programlisting>
 # --
 # French.pm - provides french language translations
 # Copyright (C) 2002 Martin Scherbaum (maddin at exsuse.de)
 # --
-# $Id: language-translation.sgml,v 1.1 2002-05-09 23:44:32 martin Exp $
+# $Id: language-translation.sgml,v 1.2 2002-05-11 16:36:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -105,7 +105,7 @@ package Kernel::Language::French;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --

@@ -9,10 +9,8 @@ The config file (Kernel/Config.pm) is quite simple to read. So you should have a
 Your can configure the value of the TicketHook which is the first part of the subject of each e-mail (e.g. [MyTicket: 007]).
 </para>
 <example>
-<title>TicketHook</title>
+<title>Kernel/Config.pm - TicketHook</title>
 <programlisting>
-[...]
-Kernel/Config.pm
 [...]
 
     # TicketHook
@@ -31,10 +29,8 @@ Kernel/Config.pm
 OpenTRS is able to send automatically email replay. So it's possibe to create an email loop (of course we check bulk headers but other some strange systems not!). 
 </para>
 <example>
-<title>MaxPostMasterEmails</title>
+<title>Kernel/Config.pm - MaxPostMasterEmails</title>
 <programlisting>
-[...]
-Kernel/Config.pm
 [...]
 
     # MaxPostMasterEmails
@@ -50,10 +46,8 @@ Kernel/Config.pm
 <sect1 id="dbstuff">
 <title>Database settings</title>
 <example>
-<title>Database settings</title>
+<title>Kernel/Config.pm - Database settings</title>
 <programlisting>
-[...]
-Kernel/Config.pm
 [...]
 
    # DatabaseHost
@@ -89,10 +83,8 @@ Should the agent be able to move tickets into queue which it isn't member of the
 (Helpfully if you use OpenTRS in ASP (Application Service Provider) mode).
 </para>
 <example>
-<title>Move into any queue</title>
+<title>Kernel/Config.pm - Move into any queue</title>
 <programlisting>
-[...]
-Kernel/Config.pm
 [...]
 
     # MoveInToAllQueues
@@ -111,10 +103,8 @@ Kernel/Config.pm
 Some people want to set the "Custom Queue" name (The queue of your favorite queues).
 </para>
 <example>
-<title>Custom Queue</title>
+<title>Kernel/Config.pm - Custom Queue</title>
 <programlisting>
-[...]
-Kernel/Config.pm
 [...]
 
     # CustomQueue
