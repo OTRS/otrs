@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.4 2005-02-07 16:40:51 martin Exp $
+# $Id: XML.pm,v 1.5 2005-02-07 17:36:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -318,7 +318,7 @@ sub _ElementBuild {
 
 parse a xml file and return a hash/array structur
 
-    my @XMLStructur = $XMLObject->XMLParse2Hash(String => $FileString);
+    my @XMLStructur = $XMLObject->XMLParse2XMLHash(String => $FileString);
 
     XML: 
     <Contact role="admin" type="organization">
@@ -381,7 +381,7 @@ sub XMLParse2XMLHash {
 
 return a hash with long hash key and content 
 
-    my %Hash = $XMLObject->XMLHashSearch(XMLStructur => \@XMLStructur);
+    my %Hash = $XMLObject->XMLHashValue(XMLStructur => \@XMLStructur);
 
     for example:
 
@@ -410,7 +410,7 @@ sub XMLHashValue {
     foreach my $Item (@{$Param{XMLStructur}}) {
         if (ref($Item) eq 'HASH') {
             foreach (keys %{$Item}) {
-                $Self->_TTT(Key => $_, Item => $Item->{$_});
+                $Self->_TTT(Key => $Item->{Tag}, Item => $Item);
             }
         }
     }
@@ -422,7 +422,7 @@ sub XMLHashValue {
 
 update a @XMLStructur with current TagKey param
 
-    my @@XMLStructur = $XMLObject->XMLHashSearch(XMLStructur => \@XMLStructur);
+    my @XMLStructur = $XMLObject->XMLHashUpdate(XMLStructur => \@XMLStructur);
 
     for example:
 
@@ -441,16 +441,17 @@ sub XMLHashUpdate {
         return;
       }
     }
-
+    $Self->{Tll} = 0;
     $Self->{XMLLevel} = 0;
     $Self->{XMLTagCount} = 0;
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
     foreach my $Item (@{$Param{XMLStructur}}) {
         if (ref($Item) eq 'HASH') {
-            foreach (keys %{$Item}) {
-                $Self->_TTT(Key => $_, Item => $Item->{$_});
-            }
+#            foreach (keys %{$Item}) {
+                $Self->_TTT(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
+#                $Self->_TTT(Key => $_, Item => $Item->{$_});
+#            }
         }
     }
     return @{$Param{XMLStructur}};
@@ -463,20 +464,27 @@ sub _TTT {
         return;
     }
     elsif (ref($Param{Item}) eq 'HASH') {
+        if ($Param{Item}->{TagType} eq 'End') {
+            return;
+        }
         $S->{XMLLevel}++;
         $S->{XMLTagCount}++;
-        $S->{XMLLevelTag}->{$S->{XMLLevel}} = $Param{Key};
+#        $S->{XMLLevelTag}->{$S->{XMLLevel}} = $Param{Key};
+        $S->{XMLLevelTag}->{$Param{Item}->{TagLevel}} = $Param{Key};
+#print STDERR "++++++++ $S->{XMLLevel} $Param{Key}\n";
         if ($S->{Tll} && $S->{Tll} > $S->{XMLLevel}) {
             foreach (($S->{XMLLevel}+1)..30) {
                 undef $S->{XMLLevelCount}->{$_}; #->{$Element} = 0;
             }
         }
-        $S->{XMLLevelCount}->{$S->{XMLLevel}}->{$Param{Key}}++;
+        $S->{XMLLevelCount}->{$Param{Item}->{TagLevel}}->{$Param{Key}}++;
         # remember old level
         $S->{Tll} = $S->{XMLLevel};
     
         my $Key = '';
-        foreach (1..($S->{XMLLevel})) {
+#        foreach (1..($S->{XMLLevel})) {
+        foreach (1..$Param{Item}->{TagLevel}) {
+#print STDERR "############### $_ $Param{Item}->{TagLevel} $Param{Key}\n";
             $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
             $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
         }
@@ -487,7 +495,9 @@ sub _TTT {
             }
             $Self->_TTT(Key => $_, Item => $Param{Item}->{$_});
         }
-        $S->{XMLLevel} = $S->{XMLLevel} - 1;
+        if (!$Param{Type}) {
+            $S->{XMLLevel} = $S->{XMLLevel} - 1;
+        }
     } 
     elsif (ref($Param{Item}) eq 'ARRAY') {
         foreach (@{$Param{Item}}) {
@@ -612,6 +622,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2005-02-07 16:40:51 $
+$Revision: 1.5 $ $Date: 2005-02-07 17:36:40 $
 
 =cut
