@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.7 2003-03-06 22:11:59 martin Exp $
+# $Id: AgentPending.pm,v 1.8 2003-03-10 21:27:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,7 +72,20 @@ sub Run {
         # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    
+    else {
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+            TicketID => $Self->{TicketID},
+        );
+        if ($OwnerID != $Self->{UserID}) {
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => "Sorry, the current owner is $OwnerLogin",
+                Comment => 'Please change the owner first.',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+    } 
     my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
     
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.21 2003-03-06 22:11:58 martin Exp $
+# $Id: AgentClose.pm,v 1.22 2003-03-10 21:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -125,6 +125,19 @@ sub Run {
             )) {
                 # show lock state
                 $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+            }
+        }
+        else {
+            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+                TicketID => $Self->{TicketID},
+            );
+            if ($OwnerID != $Self->{UserID}) {
+                $Output .= $Self->{LayoutObject}->Error(
+                    Message => "Sorry, the current owner is $OwnerLogin",
+                    Comment => 'Please change the owner first.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
             }
         }
         # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.16 2003-03-06 22:11:58 martin Exp $
+# $Id: AgentCustomer.pm,v 1.17 2003-03-10 21:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,6 +65,21 @@ sub Run {
     }
 
     if ($Self->{Subaction} eq 'Update') {
+        # --
+        # check owner
+        # --
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+                TicketID => $Self->{TicketID},
+        );
+        if ($OwnerID != $Self->{UserID}) {
+                $Output = $Self->{LayoutObject}->Header(Title => "Error");
+                $Output .= $Self->{LayoutObject}->Error(
+                    Message => "Sorry, the current owner is $OwnerLogin",
+                    Comment => 'Please change the owner first.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+        }
         # --
 		# set customer id
         # --
