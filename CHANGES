@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.118 2004-04-15 11:58:20 martin Exp $
+# $Id: CHANGES,v 1.119 2004-04-20 09:58:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,6 +11,12 @@
 
 CVS head 
 
+ - (2004/04/20) added PreApplicationModule (index.pl) and 
+    CustomerPanelPreApplicationModule (customer.pl) This interface 
+    use useful to check some user options or to redirect not accept 
+    new application news.
+ - (2004/04/19) added MaxSessionIdleTime for session managment 
+    to check/delete idle sessions
  - (2004/04/15) added file size info to article attachments
     (DBUpdate-to-1.3.*.sql is required!).
  - (2004/04/14) ticket history rewritten and added i18n feature
