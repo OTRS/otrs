@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.151 2004-11-07 15:01:29 martin Exp $
+# $Id: Ticket.pm,v 1.152 2004-11-27 01:52:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.151 $';
+$VERSION = '$Revision: 1.152 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -481,6 +481,74 @@ sub TicketNumberLookup {
     }
 
 }
+
+=item TicketSubjectBuild()
+
+rebuild a new ticket subject
+
+  my $NewSubject = $TicketObject->TicketSubjectBuild(
+      TicketNumber => '2004040510440485',
+      Subject => $OldSubject,
+  );
+
+=cut
+
+sub TicketSubjectBuild {
+    my $Self = shift;
+    my %Param = @_;
+    my $Subject = $Param{Subject} || '';
+    # check needed stuff
+    foreach (qw(TicketNumber)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    $Subject = $Self->TicketSubjectClean(%Param);
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+    my $TicketHookDivider = $Self->{ConfigObject}->Get('TicketHookDivider');
+    $Subject = "[$TicketHook$TicketHookDivider$Param{TicketNumber}] Re: " . $Subject;
+    return $Subject;
+}
+
+=item TicketSubjectClean()
+
+strip/clean up a ticket subject
+
+  my $NewSubject = $TicketObject->TicketSubjectClean(
+      TicketNumber => '2004040510440485',
+      Subject => $OldSubject,
+  );
+
+=cut
+
+sub TicketSubjectClean {
+    my $Self = shift;
+    my %Param = @_;
+    my $Subject = $Param{Subject} || '';
+    # check needed stuff
+    foreach (qw(TicketNumber)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # get ticket data
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+    my $TicketHookDivider = $Self->{ConfigObject}->Get('TicketHookDivider');
+    my $TicketSubjectSize = $Self->{ConfigObject}->Get('TicketSubjectSize') || 80;
+    $Subject =~ s/^..: //;
+    $Subject =~ s/^..\[\d+\]: //;
+    $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
+    $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\] //g;
+    $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\] //g;
+    $Subject =~ s/$TicketHook: $Param{TicketNumber} //g;
+    $Subject =~ s/$TicketHook:$Param{TicketNumber} //g;
+    $Subject =~ s/$TicketHook$TicketHookDivider$Param{TicketNumber} //g;
+    $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
+    return $Subject;
+}
+
 
 =item TicketGet()
 
@@ -2725,7 +2793,7 @@ sub HistoryTicketStatusGet {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    my $SQL = "SELECT DISTINCT(th.ticket_id) FROM ".
+    my $SQL = "SELECT DISTINCT(th.ticket_id), th.create_time FROM ".
         "ticket_history th ".
         "WHERE ".
         "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ".
@@ -3500,6 +3568,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.151 $ $Date: 2004-11-07 15:01:29 $
+$Revision: 1.152 $ $Date: 2004-11-27 01:52:08 $
 
 =cut
