@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.40 2004-02-02 23:27:23 martin Exp $
+# $Id: Queue.pm,v 1.41 2004-02-04 09:28:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -289,17 +289,11 @@ sub GetAllQueues {
             Result => 'ID',
         );
         if (@GroupIDs) {
-          my $SQL = "SELECT sq.id, sq.name FROM queue sq, group_user sug, groups sg ".
+          my $SQL = "SELECT id, name FROM queue".
             " WHERE ".
-            " sug.user_id = $Param{UserID}".
+            " group_id IN ( ${\(join ', ', @GroupIDs)} )".
             " AND ".
-            " sug.group_id = sg.id".
-            " AND ".
-            " sq.group_id = sg.id".
-            " AND ".
-            " sg.id IN ( ${\(join ', ', @GroupIDs)} )".
-            " AND ".
-            " sq.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+            " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
             $Self->{DBObject}->Prepare(SQL => $SQL);
         }
         else {
@@ -313,18 +307,11 @@ sub GetAllQueues {
             Result => 'ID',
         );
         if (@GroupIDs) {
-          my $SQL = "SELECT sq.id, sq.name FROM queue sq, group_customer_user".
-            " sug, groups sg ".
+          my $SQL = "SELECT id, name FROM queue".
             " WHERE ".
-            " sug.user_id = '$Param{CustomerUserID}'".
+            " group_id IN ( ${\(join ', ', @GroupIDs)} )".
             " AND ".
-            " sug.group_id = sg.id".
-            " AND ".
-            " sq.group_id = sg.id".
-            " AND ".
-            " sg.id IN ( ${\(join ', ', @GroupIDs)} )".
-            " AND ".
-            " sq.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+            " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
             $Self->{DBObject}->Prepare(SQL => $SQL);
         }
         else {
@@ -908,6 +895,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2004-02-02 23:27:23 $
+$Revision: 1.41 $ $Date: 2004-02-04 09:28:40 $
 
 =cut
