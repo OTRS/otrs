@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.11 2005-02-15 06:37:39 tr Exp $
+# $Id: XML.pm,v 1.12 2005-02-15 13:25:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -212,9 +212,18 @@ search  elete a xml hash from database
 
     my @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
-        What => {
-            "[%]{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%content%',
-        }
+        What => [
+            # each array element is a and condition
+            {
+                # or condition in hash
+                "[%]{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%contentA%',
+                "[%]{'ElementA'}[%]{'ElementC'}[%]{'Content'}" => '%contentA%',
+            },
+            {
+                "[%]{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%contentB%',
+                "[%]{'ElementA'}[%]{'ElementC'}[%]{'Content'}" => '%contentB%',
+            }
+        ],
     );
 
 =cut
@@ -231,13 +240,22 @@ sub XMLHashSearch {
         return;
       }
     }
-    foreach my $Key (sort keys %{$Param{What}}) {
+
+    foreach my $And (@{$Param{What}}) {
         if ($SQL) {
             $SQL .= " AND ";
         }
-        my $Value = $Self->{DBObject}->Quote($Param{What}->{$Key});        
-        $Key = $Self->{DBObject}->Quote($Key);
-        $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
+        my $AndSQL = '';
+        foreach my $Key (sort keys %{$And}) {
+            if ($AndSQL) {
+                $AndSQL .= " OR ";
+            }
+            my $Value = $Self->{DBObject}->Quote($And->{$Key});
+            $Key = $Self->{DBObject}->Quote($Key);
+            $AndSQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
+        }
+        $AndSQL = '('.$AndSQL.')';
+        $SQL .= $AndSQL;
     }
     # db quote
     foreach (keys %Param) {
@@ -249,7 +267,6 @@ sub XMLHashSearch {
     }
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         push (@Keys, $Data[0]);
-        
     }
     return @Keys;
 }
@@ -696,6 +713,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2005-02-15 06:37:39 $
+$Revision: 1.12 $ $Date: 2005-02-15 13:25:14 $
 
 =cut
