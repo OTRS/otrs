@@ -1,7 +1,10 @@
 # --
-# Group.pm - All Groups related function should be here eventually
+# Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: Group.pm,v 1.1 2002-06-08 22:49:52 atif Exp $
+#               2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: Group.pm,v 1.2 2002-07-21 16:47:59 martin Exp $
+# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -12,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -25,96 +28,91 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (
-       'DBObject', 
-       'ConfigObject',
-       'LogObject',
-    ) {
+    foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     return $Self;
 }
-
-
-# --
-sub GetGroups {
-    my $Self = shift;
-    my %Param = @_;
-    my $UserID = $Param{UserID} || return;
-    my %Groups = ();
-
-    my $SQL = "SELECT g.id, g.name " .
-    " FROM " .
-    " groups g, group_user gu".
-    " WHERE " .
-    " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
-    " AND ".
-    " gu.user_id = $UserID".
-    " AND " .
-    " g.id = gu.group_id ";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-         $Groups{$RowTmp[0]} = $RowTmp[1];
-    }
-
-    return %Groups;
-} 
-
-
 # --
 sub GetGroupIdByName {
     my $Self = shift;
     my %Param = @_;
-    my $UserID = $Param{UserID} || return;
-    my $id;
-
+    my $ID;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{Group}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Group!");
+        return;
+    }
+    # --
+    # sql 
+    # --
     my $SQL = sprintf ("SELECT id from groups where name='%s'" , $Param{Group});
-    
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-       $id=$RowTmp[0];
+       $ID=$RowTmp[0];
     }
-
-    return $id;
+    return $ID;
 } 
 # --
-
 sub MemberAdd {
-   my $Self = shift;
-   my %Param = @_;
-   my $UserID = $Param{UserID} || return;
-   return unless ($Param{UID} && $Param{GID});
-   my $SQL="";
-   my $count;
+    my $Self = shift;
+    my %Param = @_;
+    my $count;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(UID GID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # sql
+    # --
+    my $SQL = sprintf("select count(*) from group_user where user_id=%s and group_id=%s", $Param{UID} , $Param{GID});
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+       while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+          $count=$Row[0];
+       }
+       return 1 if $count;
 
-
-   $SQL = sprintf("select count(*) from group_user where user_id=%s and group_id=%s", $Param{UID} , $Param{GID});
-   $Self->{DBObject}->Prepare(SQL => $SQL);
-   while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-      $count=$RowTmp[0];
-   }
-   return if $count;
-
-
-   $SQL = "INSERT INTO group_user (user_id, group_id, create_time, create_by, " .
-   " change_time, change_by)" .
-   " VALUES " .
-   " ( $Param{UID}, $Param{GID}, current_timestamp, $UserID, current_timestamp, $UserID)";
-   
-   $Self->{DBObject}->Do(SQL => $SQL);
+       $SQL = "INSERT INTO group_user (user_id, group_id, create_time, create_by, " .
+           " change_time, change_by)" .
+           " VALUES " .
+           " ( $Param{UID}, $Param{GID}, ".
+           " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+       if ($Self->{DBObject}->Do(SQL => $SQL)) {
+           return 1;
+       }
+       else { 
+           return;
+       }
+    }
+    else {
+       return;
+    }
 } 
 # --
-
 sub GroupAdd {
     my $Self = shift;
     my %Param = @_;
-    
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Name ValidID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
     # --
     # qoute params
     # -- 
-    my @Params = ('Name', 'Comment', 'ValidID');
-    foreach (@Params) {
+    foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     my $SQL = "INSERT INTO groups (name, comment, valid_id, ".
@@ -136,8 +134,8 @@ sub GroupAdd {
       
       my $GroupID = '';
       $Self->{DBObject}->Prepare(SQL => $SQL);
-      while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $GroupID = $RowTmp[0];
+      while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $GroupID = $Row[0];
       }
       
       # --
@@ -149,6 +147,73 @@ sub GroupAdd {
       );
 
       return $GroupID; 
+    }
+    else {
+        return;
+    }
+}
+# --
+sub GroupGet {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
+    }
+    # --
+    # sql 
+    # --
+    my $SQL = "SELECT name, valid_id, comment " .
+        " FROM " .
+        " groups " .
+        " WHERE " .
+        " id = $Param{ID}";
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        my @Data = $Self->{DBObject}->FetchrowArray();
+        my %GroupData = (
+                ID => $Param{ID},
+                Name => $Data[0],
+                Comment => $Data[2],
+                ValidID => $Data[1],
+        );
+        return %GroupData;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub GroupUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(ID Name ValidID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # db quote
+    # --
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    # --
+    # sql
+    # --
+    my $SQL = "UPDATE groups SET name = '$Param{Name}', " .
+          " comment = '$Param{Comment}', " .
+          " valid_id = $Param{ValidID}, " .
+          " change_time = current_timestamp, change_by = $Param{UserID} " .
+          " WHERE id = $Param{ID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
     }
     else {
         return;
