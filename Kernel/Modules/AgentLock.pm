@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.4 2002-07-13 12:21:43 martin Exp $
+# $Id: AgentLock.pm,v 1.5 2002-07-15 00:28:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -99,7 +99,7 @@ sub Run {
           return $Output;
         } 
     }
-    elsif ($Self->{Subaction} eq 'Lock') {
+    else {
         # set lock
         if ($Self->{TicketObject}->SetLock(
           TicketID => $Self->{TicketID},
