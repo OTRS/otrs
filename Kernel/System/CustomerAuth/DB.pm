@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.6 2003-04-03 13:14:20 martin Exp $
+# $Id: DB.pm,v 1.7 2003-07-13 11:01:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::System::CustomerAuth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -29,20 +29,32 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # --
     # check needed objects
-    # --
-    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+    foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
  
-    # --
     # Debug 0=off 1=on
-    # --
     $Self->{Debug} = 0;
 
     return $Self;
 }
+# --
+sub GetOption {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{What}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need What!");
+        return;
+    }
+    # module options
+    my %Option = (
+        PreAuth => 0,
+    );
+    # return option
+    return $Option{$Param{What}};
+}   
 # --
 sub Auth {
     my $Self = shift;
@@ -135,7 +147,7 @@ sub Auth {
           Priority => 'notice',
           Message => "CustomerUser: $User logged in (REMOTE_ADDR: $RemoteAddr).",
         );
-        return 1;
+        return $User;
     }
     # --
     # just a note

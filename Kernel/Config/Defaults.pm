@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.77 2003-07-07 22:07:43 martin Exp $
+# $Id: Defaults.pm,v 1.78 2003-07-13 11:01:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -189,6 +189,17 @@ sub LoadDefaults {
     # anonymous user do NOT have permission to read from the LDAP tree 
 #    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
 #    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
+
+
+    # This is an example configuration for an apache ($ENV{REMOTE_USER})
+    # auth. backend. Use it if you want to have a singe login through
+    # apache http-basic-auth
+#   $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
+    # Note:
+    # If you use this module, you should use as fallback the following
+    # config settings if user isn't login through apache ($ENV{REMOTE_USER})
+#   $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
+#   $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
 
     # --------------------------------------------------- #
     # default agent settings                              #
@@ -418,15 +429,15 @@ sub LoadDefaults {
     # choose your backend TicketViewAccelerator module
 
     # RuntimeDB 
-    # (generate each queue view on the fly from ticket table
-    # you will not have performance trouble till ~ 50.000 tickets 
+    # (generate each queue view on the fly from ticket table you will not 
+    # have performance trouble till ~ 60.000 tickets (till 6.000 open tickets)
     # in your system)
     $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
 
     # StaticDB
-    # (the most powerfull module, it should be used over 80.000 
-    # tickets in a system - use a extra ticket_index table, works like a view -
-    # use bin/RebuildTicketIndex.pl for initial index update)
+    # (the most powerfull module, it should be used over 80.000 (more the 6.000 
+    # open tickets) tickets in a system - use a extra ticket_index table, works 
+    # like a view - use bin/RebuildTicketIndex.pl for initial index update)
 #    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB';
 
     # --------------------------------------------------- #
@@ -1351,11 +1362,21 @@ Your OTRS Notification Master
     # for non ldap posixGroups objectclass (full user dn)
 #    $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'DN';
 
-
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree 
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
+
+
+    # This is an example configuration for an apache ($ENV{REMOTE_USER})
+    # auth. backend. Use it if you want to have a singe login through
+    # apache http-basic-auth
+#   $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
+    # Note:
+    # If you use this module, you should use as fallback the following
+    # config settings if user isn't login through apache ($ENV{REMOTE_USER})
+#    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
+#    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
 
     # --------------------------------------------------- #
     #                                                     #
@@ -1647,9 +1668,7 @@ Your OTRS Notification Master
     $Self->{'Module::Permission'}->{'AdminUser'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminUserGroup'} = 'admin';
 
-    $Self->{'Module::Permission'}->{'SystemStats'} = 'stats';
-
-    $Self->{'Module::Permission'}->{'AgentQueueView'}= ['admin', 'faq-editor'];
+    $Self->{'Module::Permission'}->{'SystemStats'} = ['admin', 'stats'];
 
     # --------------------------------------------------- #
 }

@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.8 2003-03-24 13:12:34 martin Exp $
+# $Id: LDAP.pm,v 1.9 2003-07-13 11:01:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,6 +58,22 @@ sub new {
     $Self->{UserAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserAttr') || 'DN';
    
     return $Self;
+}
+# --
+sub GetOption {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{What}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need What!");
+        return;
+    }
+    # module options
+    my %Option = (
+        PreAuth => 0,
+    );
+    # return option
+    return $Option{$Param{What}};
 }
 # --
 sub Auth {
@@ -216,7 +232,7 @@ sub Auth {
         # take down session
         # --
         $LDAP->unbind;
-        return 1;
+        return $Param{User};
     }
 }
 # --

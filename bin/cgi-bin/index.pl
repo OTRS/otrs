@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.59 2003-07-07 18:49:53 martin Exp $
+# $Id: index.pl,v 1.60 2003-07-13 11:01:21 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -172,17 +172,17 @@ if ($Param{Action} eq "Login") {
     # --
     # get params
     # --
-    my $User = $CommonObject{ParamObject}->GetParam(Param => 'User') || '';
-    my $Pw = $CommonObject{ParamObject}->GetParam(Param => 'Password') || '';
+    my $PostUser = $CommonObject{ParamObject}->GetParam(Param => 'User') || '';
+    my $PostPw = $CommonObject{ParamObject}->GetParam(Param => 'Password') || '';
     # --
     # create AuthObject
     # --
     my $AuthObject = Kernel::System::Auth->new(%CommonObject);
-
     # --
     # check submited data
     # --
-    if ( $AuthObject->Auth(User => $User, Pw => $Pw) ) {
+    my $User = $AuthObject->Auth(User => $PostUser, Pw => $PostPw);
+    if ($User) {
         # --
         # get user data
         # --
@@ -203,20 +203,20 @@ if ($Param{Action} eq "Login") {
                 # --
                 # show login screen
                 # ---
-		if ($CommonObject{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
+                if ($CommonObject{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
                     print $CommonObject{LayoutObject}->Login(
                         Title => 'First Visit?',
                         Message => 'Useraccount activated, retry.',
                         %Param,
                     );
-		}
-		else {
+                }
+                else {
                     print $CommonObject{LayoutObject}->Login(
                         Title => 'Panic!',
                         Message => 'Panic! No UserData!!!',
                         %Param,
                     );
-		};
+                }
                 exit (0);
             }
         }
@@ -305,7 +305,7 @@ if ($Param{Action} eq "Login") {
 # Logout
 # --
 elsif ($Param{Action} eq "Logout"){
-    if ( $CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
+    if ($CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID})) {
         # --
         # get session data
         # --
@@ -330,7 +330,7 @@ elsif ($Param{Action} eq "Logout"){
         # --
         # remove session id
         # --
-        if ( $CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID}) ) {
+        if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID})) {
             if ($CommonObject{ConfigObject}->Get('LogoutURL')) {
                 # --
                 # redirect to alternate login
@@ -460,7 +460,18 @@ elsif ($Param{Action} eq "LostPassword"){
 # show login site
 # --
 elsif (!$Param{SessionID}) {
-    if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+    # --
+    # create AuthObject
+    # --
+    my $AuthObject = Kernel::System::Auth->new(%CommonObject);
+    if ($AuthObject->GetOption(What => 'PreAuth')) {
+        # automatic login
+        $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
+        print $CommonObject{LayoutObject}->Redirect(
+            OP => "Action=Login&RequestedURL=$Param{RequestedURL}",
+        );
+    }
+    elsif ($CommonObject{ConfigObject}->Get('LoginURL')) {
         # --
         # redirect to alternate login
         # --
@@ -503,7 +514,22 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
           %CommonObject,
           %Param,
         );
-        if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+        # --
+        # create AuthObject
+        # --
+        my $AuthObject = Kernel::System::Auth->new(%CommonObject);
+        if ($AuthObject->GetOption(What => 'PreAuth')) {
+            # automatic re-login
+            $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
+print STDERR $CommonObject{LayoutObject}->Redirect(
+                  OP => "?Action=Login&RequestedURL=$Param{RequestedURL}",
+             );
+;
+             print $CommonObject{LayoutObject}->Redirect(
+                  OP => "?Action=Login&RequestedURL=$Param{RequestedURL}",
+             );
+        }
+        elsif ($CommonObject{ConfigObject}->Get('LoginURL')) {
             # --
             # redirect to alternate login
             # --

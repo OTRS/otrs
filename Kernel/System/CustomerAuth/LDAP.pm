@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.5 2003-03-24 13:12:34 martin Exp $
+# $Id: LDAP.pm,v 1.6 2003-07-13 11:01:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,21 +30,15 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # --
     # check needed objects
-    # --
-    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+    foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
-    # --
     # Debug 0=off 1=on
-    # --
     $Self->{Debug} = 0;
 
-    # --
     # get ldap preferences
-    # --
     $Self->{Host} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Host')
      || die "Need Customer::AuthModule::LDAPHost in Kernel/Config.pm";
     $Self->{BaseDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::BaseDN')
@@ -59,6 +53,22 @@ sub new {
  
     return $Self;
 }
+# --
+sub GetOption {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{What}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need What!");
+        return;
+    }
+    # module options
+    my %Option = (
+        PreAuth => 0,
+    );
+    # return option
+    return $Option{$Param{What}};
+}   
 # --
 sub Auth {
     my $Self = shift;
@@ -216,10 +226,9 @@ sub Auth {
         # take down session
         # --
         $LDAP->unbind;
-        return 1;
+        return $Param{User};
     }
 }
 # --
 
 1;
-
