@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.132 2003-12-19 01:06:21 martin Exp $
+# $Id: Agent.pm,v 1.133 2003-12-19 01:34:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.132 $';
+$VERSION = '$Revision: 1.133 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -416,6 +416,7 @@ sub AgentQueueListOption {
         $Param{'MoveQueuesStrg'} = $Self->OptionStrgHashRef(
             %Param,
             HTMLQuote => 0,
+            OnChangeSubmit => 1,
         );
         return $Param{MoveQueuesStrg};
     }
