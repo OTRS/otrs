@@ -2,13 +2,36 @@
 # CustomerMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.dtl,v 1.10 2004-04-29 10:51:36 martin Exp $
+# $Id: CustomerMessage.dtl,v 1.11 2004-04-29 11:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+
+<!-- This java script is just for nice to have funktions! -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else if (document.compose.Body.value == "") {
+        alert('$Text{"A message should have a body!"}');
+        document.compose.Body.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" class="table0"> 
@@ -20,7 +43,7 @@
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
@@ -45,7 +68,7 @@
 #
   </table>
 <br>
-<input class="button" type="submit" value="$Text{"submit"}">
+<input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
 </form>
 
 </p>

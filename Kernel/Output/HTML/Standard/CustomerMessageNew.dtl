@@ -2,7 +2,7 @@
 # CustomerMessageNew.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessageNew.dtl,v 1.12 2004-04-29 10:51:36 martin Exp $
+# $Id: CustomerMessageNew.dtl,v 1.13 2004-04-29 11:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,9 +20,9 @@ function submit_compose()
         document.compose.Subject.focus();
         return false;
     }
-    else if (document.compose.Note.value == "") {
+    else if (document.compose.Body.value == "") {
         alert('$Text{"A message should have a body!"}');
-        document.compose.Note.focus();
+        document.compose.Body.focus();
         return false;
     }
     else {
