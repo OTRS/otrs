@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.35 2003-03-11 17:45:36 martin Exp $
+# $Id: Admin.pm,v 1.36 2003-03-13 15:40:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -929,10 +929,10 @@ sub AdminUserGroupForm {
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{Baselink} . "Action=AdminUserGroup&";
 
-    foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
+    foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp){
       $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
     }
-    foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
+    foreach (sort {uc($GroupDataTmp{$a}) cmp uc($GroupDataTmp{$b})} keys %GroupDataTmp){
       $Param{GroupStrg} .= "<A HREF=\"$BaseLink"."Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
     }
     # return output
@@ -956,7 +956,7 @@ sub AdminUserGroupChangeForm {
     $Param{OptionStrg0} .= "<br>\n";
     $Param{OptionStrg0} .= "<table>\n";
     $Param{OptionStrg0} .= "<tr><th>$NeType</th><th>ro</th><th>rw</th></tr>\n";
-    foreach (sort keys %{$Param{Data}}) {
+    foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data){
         $Param{OptionStrg0} .= '<tr><td>';
         $Param{OptionStrg0} .= $Param{Data}->{$_};
         my $RoSelected = '';
