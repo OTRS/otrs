@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.14 2004-09-20 19:22:41 martin Exp $
+# $Id: SystemStats.pm,v 1.15 2004-09-30 23:30:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $ ';
+$VERSION = '$Revision: 1.15 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,11 +50,7 @@ sub Run {
         my %Config = %{$Self->{ConfigObject}->Get('SystemStatsMap')};
         foreach my $Stats (sort keys %Config) {
           if (eval "require $Config{$Stats}->{Module}") {
-            my $StatsModule = $Config{$Stats}->{Module}->new(
-                DBObject => $Self->{DBObject},
-                ConfigObject => $Self->{ConfigObject},
-                LogObject => $Self->{LogObject},
-            );
+            my $StatsModule = $Config{$Stats}->{Module}->new(%{$Self});
             my @Params = $StatsModule->Param();
             my $ParamString = '';
             foreach my $ParamItem (@Params) {
