@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.15 2003-04-30 15:18:40 martin Exp $
+# $Id: AgentMove.pm,v 1.16 2003-05-13 15:37:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,6 +41,7 @@ sub new {
     # get DestQueueID 
     $Self->{DestQueueID} = $Self->{ParamObject}->GetParam(Param => 'DestQueueID');
     $Self->{QueueViewQueueID} = $Self->{ParamObject}->GetParam(Param => 'QueueViewQueueID');
+    $Self->{UnlockTicket} = $Self->{ParamObject}->GetParam(Param => 'UnlockTicket');
 
     return $Self;
 }
@@ -104,9 +105,11 @@ sub Run {
             )) {
                 # show lock state
                 $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+                $Self->{TicketUnlock} = 1;
             }
         }
         else {
+            $Self->{TicketUnlock} = 0;
             my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
                 TicketID => $Self->{TicketID},
             );
@@ -178,6 +181,7 @@ sub Run {
             OwnerList => \%ShownUsers,
             TicketID => $Self->{TicketID},
             NextStates => \%NextStates,
+            TicketUnlock => $Self->{TicketUnlock},
             %Ticket,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -221,11 +225,13 @@ sub Run {
         }
         else {
             # unlock
-            $Self->{TicketObject}->SetLock(
-                TicketID => $Self->{TicketID},
-                Lock => 'unlock',
-                UserID => $Self->{UserID},
-            );
+            if ($Self->{UnlockTicket}) {
+                $Self->{TicketObject}->SetLock(
+                    TicketID => $Self->{TicketID},
+                    Lock => 'unlock',
+                    UserID => $Self->{UserID},
+                );
+            }
         }
         if ($Comment) {
             # add note
