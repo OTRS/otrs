@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection/FS.pm - backend module of LoopProtection
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FS.pm,v 1.3 2003-02-08 15:09:40 martin Exp $
+# $Id: FS.pm,v 1.3.2.1 2003-06-01 19:19:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::LoopProtection::FS;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.3.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -110,10 +110,10 @@ sub Check {
         return;
     }
     else {
-        $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Sent email to '$To'! The count is '$Count' today!",
-        );
+#        $Self->{LogObject}->Log(
+#          Priority => 'notice',
+#          Message => "Sent email to '$To'! The count is '$Count' today!",
+#        );
         return 1;
     }
 }
