@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.11 2003-11-20 22:57:11 martin Exp $
+# $Id: Group.pm,v 1.12 2003-11-20 23:00:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -84,7 +84,6 @@ to add a member to a group
           create => 1,
           owner => 1,
           priority => 0,
-          state => 1,
           rw => 0,
       },
       UserID => 123,
@@ -383,6 +382,6 @@ sub GroupMemberList {
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2003-11-20 22:57:11 $
+$Revision: 1.12 $ $Date: 2003-11-20 23:00:55 $
 
 =cut
