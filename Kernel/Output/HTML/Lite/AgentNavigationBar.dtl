@@ -2,18 +2,28 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.4 2002-05-10 00:12:35 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.5 2002-06-13 22:04:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+# --
+# check if the admin link should be shown
+# --
+<dtl if ($Env{"UserIsAdmin"} eq "Yes") { $Data{"AdminLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}&Action=Admin">$Text{"AdminArea"}</a>$Env{"Box1"}"; }>
+# --
+# check if the stats link should be shown
+# --
+<dtl if ($Env{"UserIsStats"} eq "Yes") { $Data{"StatsLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}&Action=SystemStats">$Text{"Stats"}</a>$Env{"Box1"}"; }>
+
 <!-- start NavigationBar -->
 <table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td valign="top" align="left" width="30%">
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=Logout">$Text{"Logout"}</a>$Env{"Box1"} 
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=Admin">$Text{"AdminArea"}</a>$Env{"Box1"}
+    $Data{"AdminLink"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentQueueView">$Text{"QueueView"}</a>$Env{"Box1"}
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentPhone">$Text{"PhoneView"}</a>$Env{"Box1"}
@@ -21,7 +31,7 @@
   <td align="right" width="70%">
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentUtilities">$Text{"Utilities"}</a>$Env{"Box1"}
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentPreferences">$Text{"Preferences"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=SystemStats">$Text{"Stats"}</a>$Env{"Box1"}
+    $Data{"StatsLink"}
     $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentFAQ">$Text{"FAQ"}</a>$Env{"Box1"} 
