@@ -1,5 +1,5 @@
 # --
-# $Id: CREDITS,v 1.8 2003-01-05 23:45:23 martin Exp $
+# $Id: CREDITS,v 1.9 2003-01-14 23:31:22 martin Exp $
 # --
 
 This is at least a partial credits-file of people that have
@@ -33,6 +33,11 @@ N: Fred van Dijk
 E: fvandijk at marklin.nl
 D: Maintainer of Durch translation
 S: Netherlands
+--
+N: Jorge Becerra
+E: jorge at icc-cuba.com
+D: Maintainer of Spanich translation
+S: Cuba
 --
 N: Martin Scherbaum
 E: maddin at scherbaum.org
