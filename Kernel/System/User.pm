@@ -2,7 +2,7 @@
 # User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.8 2002-07-02 22:42:52 martin Exp $
+# $Id: User.pm,v 1.9 2002-07-13 03:40:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -27,11 +27,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (
-       'DBObject', 
-       'ConfigObject',
-       'LogObject',
-    ) {
+    foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -225,7 +221,7 @@ sub GetUserData {
     if (! exists $Data{UserID} && ! $UserID) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "Panic! No UserData for user: '$User'!!!",
+          Message => "Panic! No UserData for user: '$User'!!!",
         );
         return;
     }
@@ -378,13 +374,19 @@ sub SetPassword {
     }
 }
 # --
-
 sub GetUserIdByName {
     my $Self = shift;
     my %Param = @_;
-    my $UserID = $Param{UserID} || return;
-    my $id;
-
+    my $ID;
+    # check needed stuff
+    if (!$Param{User}) {
+      $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message => "Need User!",
+      );
+      return;
+    }
+    # build sql query
     my $SQL = sprintf (
     "select %s from %s where %s='%s'", 
        $Self->{UserTableUserID},
@@ -395,13 +397,57 @@ sub GetUserIdByName {
     
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-       $id = $RowTmp[0];
+       $ID = $RowTmp[0];
     }
-    return $id;
+    # return
+    if ($ID) {
+      return $ID;
+    }
+    else {
+      $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message => "No UserID found with User $Param{User}!",
+      );
+      return;
+    }
 } 
 # --
-
-
-
+sub GetUserByID {
+    my $Self = shift;
+    my %Param = @_;
+    my $User = '';
+    # check needed stuff
+    if (!$Param{UserID}) {
+      $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message => "Need UserID!",
+      );
+      return;
+    }
+    # build sql query
+    my $SQL = sprintf (
+    "select %s from %s where %s='%s'", 
+       $Self->{UserTableUser},
+       $Self->{UserTable},
+      $Self->{UserTableUserID},
+      $Param{UserID}
+      );
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+       $User = $RowTmp[0];
+    }
+    # return
+    if ($User) {
+      return $User;
+    }
+    else {
+      $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message => "No User found with ID $Param{UserID}!",
+      );
+      return;
+    }
+} 
+# --
 
 1;
