@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.2 2002-08-03 11:53:32 martin Exp $
+# $Id: DB.pm,v 1.3 2002-08-05 04:02:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -183,11 +183,13 @@ sub CreateSessionID {
     # --
     my $DataToStore = '';
     foreach (keys %Param) {
-        $DataToStore .= "$_:".encode_base64($Param{$_}).";" if ($Param{$_});
+      if ($Param{$_}) {
+        $DataToStore .= "$_:".encode_base64($Param{$_}, '').":;";
+      }
     }
-    $DataToStore .= "UserSessionStart:" . encode_base64(time()) . ";";
-    $DataToStore .= "UserRemoteAddr:" . encode_base64($RemoteAddr) . ";";
-    $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent) . ";";
+    $DataToStore .= "UserSessionStart:" . encode_base64(time(), '') .":;";
+    $DataToStore .= "UserRemoteAddr:" . encode_base64($RemoteAddr, '') .":;";
+    $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') .":;";
 
     # --
     # store SessionID + data
@@ -242,7 +244,7 @@ sub UpdateSessionID {
     # -- 
     my $NewDataToStore = '';
     foreach (keys %SessionData) {
-        $NewDataToStore .= "$_:".encode_base64($SessionData{$_}).";";
+        $NewDataToStore .= "$_:".encode_base64($SessionData{$_}, '').":;";
         # Debug
         if ($Self->{Debug}) {
             $Self->{LogObject}->Log(

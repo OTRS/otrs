@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.1 2002-08-03 11:52:53 martin Exp $
+# $Id: IPC.pm,v 1.2 2002-08-05 04:02:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -141,7 +141,6 @@ sub GetSessionIDData {
     if (!$String) {
         return;
     }
-    chomp $String;
     # --
     # split data
     # --
@@ -190,19 +189,18 @@ sub CreateSessionID {
     my $DataToStore = '';
     foreach (keys %Param) {
         if ($Param{$_}) {
-            $Param{$_} = encode_base64($Param{$_});
-            $DataToStore .= "$SessionID:$_:". $Param{$_} ."";
+            $Param{$_} = encode_base64($Param{$_}, '');
+            $DataToStore .= "$SessionID:$_:". $Param{$_} ."\n";
         }
     }
-    $DataToStore .= "$SessionID:UserSessionStart:". encode_base64(time()) ."";
-    $DataToStore .= "$SessionID:UserRemoteAddr:". encode_base64($RemoteAddr) ."";
-    $DataToStore .= "$SessionID:UserRemoteUserAgent:". encode_base64($RemoteUserAgent) ."";
+    $DataToStore .= "$SessionID:UserSessionStart:". encode_base64(time(), '') ."\n";
+    $DataToStore .= "$SessionID:UserRemoteAddr:". encode_base64($RemoteAddr, '') ."\n";
+    $DataToStore .= "$SessionID:UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') ."\n";
     # --
     # read old session data (the rest)
     # --
     my $String = '';
     shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
-    chomp $String;
     # --
     # split data
     # --
@@ -233,7 +231,6 @@ sub RemoveSessionID {
     my $DataToStore = '';
     my $String = '';
     shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
-    chomp $String;
     # --
     # split data
     # --
@@ -281,8 +278,8 @@ sub UpdateSessionID {
     # -- 
     my $NewDataToStore = '';
     foreach (keys %SessionData) {
-        $SessionData{$_} = encode_base64($SessionData{$_});
-        $NewDataToStore .= "$SessionID:$_:$SessionData{$_}";
+        $SessionData{$_} = encode_base64($SessionData{$_}, '');
+        $NewDataToStore .= "$SessionID:$_:$SessionData{$_}\n";
         # Debug
         if ($Self->{Debug}) {
             $Self->{LogObject}->Log(
@@ -296,7 +293,6 @@ sub UpdateSessionID {
     # --
     my $String = '';
     shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
-    chomp $String;
     # --
     # split data
     # --
@@ -329,7 +325,6 @@ sub GetAllSessionIDs {
     if (!$String) {
         return;
     }
-    chomp $String;
     # --
     # split data
     # --
