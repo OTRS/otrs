@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.20 2003-10-13 20:37:51 martin Exp $
+# $Id: Customer.pm,v 1.21 2003-11-26 00:53:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -231,7 +231,7 @@ sub CustomerTicketZoom {
         # --
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= ">><B>";
+            $ThreadStrg .= ">><b><i>";
         }
         # --
         # the full part thread string
@@ -239,14 +239,14 @@ sub CustomerTicketZoom {
         $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=CustomerZoom&ArticleID=$Article{ArticleID}\" ";
         $ThreadStrg .= 'onmouseover="window.status=\'$Text{"Zoom"}\'; return true;" onmouseout="window.status=\'\';">';
         $ThreadStrg .= "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</A> ";
-        $ThreadStrg .= " $Article{CreateTime}";
+        $ThreadStrg .= " $Article{Created}";
         $ThreadStrg .= "<BR>";
         # --
         # if this is the shown article -=> add </b>
         # --
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= "</B>";
+            $ThreadStrg .= "</i></b>";
         }
       }
     }
@@ -462,6 +462,20 @@ sub CustomerWarning {
     } 
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerWarning', Data => \%Param);
+}
+# --
+sub CustomerNoPermission {
+    my $Self = shift;
+    my %Param = @_;
+    my $WithHeader = $Param{WithHeader} || 'yes';
+    my $Output = '';
+    $Param{Message} = 'Please go away!' if (!$Param{Message});
+    # create output
+    $Output = $Self->CustomerHeader(Title => 'No Permission') if ($WithHeader eq 'yes');
+    $Output .= $Self->Output(TemplateFile => 'NoPermission', Data => \%Param);
+    $Output .= $Self->CustomerFooter() if ($WithHeader eq 'yes');
+    # return output
+    return $Output;
 }
 # --
 
