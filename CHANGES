@@ -2,14 +2,26 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.3 2002-05-21 21:47:05 martin Exp $
+# $Id: CHANGES,v 1.4 2002-05-27 07:27:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-0.5 BETA5 (2002-05-??)
+0.5 BETA5 (2002-05-27)
+ - added ticket escalation - if a ticket is to old, only this ticket will be shown
+    till somebody is working in it
+     * added new row (ticket_answered) on ticket table
+     * updated Kernel/Output/HTML/<THEME>/AdminQueueForm.dtl
+ - added auto ticket unlock for locked old not answered tickets
+     * added new row (ticket_answered) on ticket table
+     * modified Kernel::System::Ticket::Lock::SetLock() 
+     * added bin/UnlockTickets.pl with --timeout and --all options
+ - added command line tool (bin/DeleteSessionIDs.pl) to delete expired or all session 
+    ids via command line or cron - options are --help, --expired and --all (martin)
+ - fixed bug[7] (http://bugs.otrs.org/show_bug.cgi?id=7 - space in Installer.pm 
+    lets creating of database otrs in MySQL fail) by Stefan Schmidt. (martin)
  - added URL (screen) recovery after session timeout and possibility to send 
     links without session id. Example: Shows you the ticket after OpenTRS 
     login - http://host.example.com/otrs/index.pl?AgentZoom&TicketID=9 (martin) 
@@ -20,14 +32,15 @@
  - added french translation (thanks to Martin Scherbaum)
  - added 'Send follow up notification' and 'Send new ticket notification' to agent 
     feature (martin)
-    * added new values to initial_insert.sql for agent notifications, table: 
-      ticket_history_type, value: SendAgentNotification
-    * modified Kernel/Output/HTML/<THEME>/AgentPreferencesForm.dtl 
-    * required "new" options in Kernel::Config.pm!
+     * added new values to initial_insert.sql for agent notifications, table: 
+       ticket_history_type, value: SendAgentNotification
+     * modified Kernel/Output/HTML/<THEME>/AgentPreferencesForm.dtl 
+     * required "new" options in Kernel::Config.pm!
  - fixed suse-rcotrs script (thanks to Martin Scherbaum)
-    * added "INIT INFO"
-    * just check httpd and mysqld - no restart 
-    * added stop-force|start-force option to restart httpd and mysqld
+     * added "INIT INFO"
+     * just check httpd and mysqld - no restart 
+     * added stop-force|start-force option to restart httpd and mysqld
+ - added help texts to the admin screens (martin)
 
 0.5 BETA4 (2002-05-07)
  - changed login screen and added motd feature (Kernel/Output/HTML/Standard/Motd.dtl
