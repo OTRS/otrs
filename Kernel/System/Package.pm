@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.15 2005-01-12 17:34:56 martin Exp $
+# $Id: Package.pm,v 1.16 2005-01-14 07:15:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -542,6 +542,37 @@ sub PackageInstall {
         foreach my $SQL (@SQLPost) {
             print STDERR "Notice: $SQL\n";
             $Self->{DBObject}->Do(SQL => $SQL);
+        }
+    }
+    return 1;
+}
+
+=item PackageReinstall()
+
+reinstall files of a package
+
+    $PackageObject->PackageReinstall(String => $FileString);
+
+=cut
+
+sub PackageReinstall {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(String)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    # parse source file
+    my %Structur = $Self->PackageParse(%Param);
+    # install files
+    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
+        foreach my $File (@{$Structur{Filelist}}) {
+            # install file
+#            print STDERR "Notice: Reinstall $File->{Location}!\n";
+            $Self->_FileInstall(%{$File});
         }
     }
     return 1;
@@ -1300,6 +1331,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2005-01-12 17:34:56 $
+$Revision: 1.16 $ $Date: 2005-01-14 07:15:40 $
 
 =cut
