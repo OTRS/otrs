@@ -2,7 +2,7 @@
 # Ticket/Number/Random.pm - a ticket number random generator
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Random.pm,v 1.9 2004-11-27 01:56:16 martin Exp $
+# $Id: Random.pm,v 1.10 2004-12-06 22:22:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::Random;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
@@ -62,14 +62,16 @@ sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
     # get needed config options
-    my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    # check ticket number
-    if ($String =~ /$TicketHook+.{0,2}($SystemID\d{2,20})-FW/i) {
+    my $TicketHookDivider = $Self->{ConfigObject}->Get('TicketHookDivider');
+    my $SystemID = $Self->{ConfigObject}->Get('SystemID');
+    # check current setting
+    if ($String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{2,20})/i) {
         return $1;
     }
     else {
-        if ($String =~ /$TicketHook+.{0,2}($SystemID\d{2,20})/i) {
+        # check default setting
+        if ($String =~ /\Q$TicketHook\E:+.{0,1}($SystemID\d{2,20})/i) {
             return $1;
         }
         else {
