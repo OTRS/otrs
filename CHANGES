@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.110.2.6 2004-06-11 06:38:06 martin Exp $
+# $Id: CHANGES,v 1.110.2.7 2004-06-29 11:08:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,6 +11,8 @@
 
 1.2.4 (2004-??-??)
 
+ - (2004/06/29) fixed bug [456] not existing queue_auto_response 
+    references in scripts/database/initial_insert.sql
  - (2004/06/11) added Hungarian translation. Thanks to Gáncs Gábor!  
  - (2004/04/10) fixed not shown "this message is written in an 
     other charset as your own" link in agent zoom
