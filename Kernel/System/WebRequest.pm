@@ -2,7 +2,7 @@
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.11 2003-04-08 21:36:22 martin Exp $
+# $Id: WebRequest.pm,v 1.12 2003-04-14 22:23:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.12 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -129,6 +129,13 @@ sub GetUploadAll {
                 print OUTFILE $_;
             }
             close (OUTFILE);
+        }
+        # --
+        # check if content is there, IE is always sending file uploades 
+        # without content
+        # --
+        if (!$Param{UploadFilename}) {
+            return;
         }
         if ($Param{UploadFilename}) { 
           $Param{UploadContentType} = $Self->GetUploadInfo(
