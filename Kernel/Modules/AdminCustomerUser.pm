@@ -2,10 +2,10 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.24 2004-07-08 11:42:01 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.25 2004-09-10 09:21:41 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,18 +15,18 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $ ';
+$VERSION = '$Revision: 1.25 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-    
+
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     # allocate new hash for objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
@@ -50,7 +50,29 @@ sub Run {
     my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || 'CustomerUser';
     my $Search = $Self->{ParamObject}->GetParam(Param => 'Search');
     my $AddedUID = $Self->{ParamObject}->GetParam(Param => 'AddedUID') || '';
-
+    my $Screen = $Self->{ParamObject}->GetParam(Param => 'Screen') || '';
+    if ($Screen eq 'Remember' && $Self->{LastScreenEdit}) {
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'CustomerEditReturn',
+            Value => $Self->{LastScreenEdit},
+        );
+        $Self->{LayoutObject}->SetEnv(
+            Key => 'CustomerEditReturn',
+            Value => $Self->{LastScreenEdit},
+        );
+    }
+    elsif ($Screen eq 'Return') {
+        # redirect
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'CustomerEditReturn',
+            Value => '',
+        );
+        return $Self->{LayoutObject}->Redirect(
+                OP => $Self->{CustomerEditReturn},
+        );
+    }
     my %UserList = ();
     # check nav bar
     if (!$Nav) {
@@ -204,7 +226,7 @@ sub Run {
         my $Output .= $NavBar.$Self->{LayoutObject}->AdminCustomerUserForm(
             Nav => $Nav,
             UserLinkList => $Link,
-            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()}, 
+            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()},
             Search => $Search,
             Source => $Source,
         );
@@ -277,7 +299,7 @@ sub Run {
         my $Output .= $NavBar.$Self->{LayoutObject}->AdminCustomerUserForm(
             Nav => $Nav,
             UserLinkList => $Link,
-            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()}, 
+            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()},
             Search => $Search,
             Source => $Source,
         );
