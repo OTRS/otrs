@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerHeader.dtl,v 1.13 2005-03-11 10:01:28 martin Exp $
+# $Id: CustomerHeader.dtl,v 1.14 2005-03-28 20:28:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@ $Include{"Copyright"}
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>$Config{"ProductName"} :: $Text{"Customer Panel"} :: $Text{"$Data{"Title"}"}</title>
+    <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 # include customer-css.dtl file
 $Include{"customer-css"}
 </head>
@@ -42,22 +42,13 @@ $Include{"customer-css"}
 <body>
 
 <!-- start CI layout -->
-<table border="0" width="100%" cellspacing="0" cellpadding="8">
+<table border="0" width="800" cellspacing="0" cellpadding="8">
 <tr>
   <td width="120" class="header"> LOGO </td>
   <td class="header"> <a href="" class="headeritem">COMPANY NAME</a> </td>
 </tr>
 <tr>
-  <td class="navbar" valign="top">
-    <p>
-    <li>$Text{"Home"}</li>
-    <li>$Text{"Products"}</li>
-    <li>$Text{"Support"}</li>
-    <li><b><a href="">$Text{"Online-Support"}</a></b></li>
-    <li>$Text{"Contact"}</li>
-    </p>
-  </td>
-  <td>
+  <td colspan="2">
 <!-- end CI layout -->
 
 <!-- end header -->
