@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.8 2003-01-14 16:11:44 martin Exp $
+# $Id: fr.pm,v 1.9 2003-01-14 17:03:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -791,7 +791,7 @@ sub Data {
       'You have to be in the admin group!' => 'Il est n&eacute;cessaire d\'être dans le groupe d\'administration&nbsp;!',
       'You have to be in the stats group!' => 'Il est n&eacute;cessaire d\'être dans le groupe des statistiques&nbsp;!',
       'You need a email address (e. g. customer@example.com) in From:!' => '',
-      'auto responses set' => 'R&eacute;ponse automatique positionn&eacute;
+      'auto responses set' => 'R&eacute;ponse automatique positionn&eacute;',
     );
 
     # $$STOP$$
