@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.12 2002-07-24 00:39:11 atif Exp $
+# $Id: Queue.pm,v 1.13 2002-07-24 00:56:38 atif Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -116,6 +116,9 @@ sub SetQueueStdResponse {
        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID and QueueID!");
        return;
    }
+   if ($Self->QueueHasStdResponse(%Param)){
+      return;
+   }
    # --
    # sql 
    # --
@@ -127,6 +130,26 @@ sub SetQueueStdResponse {
    } else {
       return 0;
    }
+}
+# --
+sub QueueHasStdResponse {
+   my $Self = shift;
+   my %Param = @_;
+   unless  ($Param{ResponseID} && $Param{QueueID}) {
+       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID and QueueID!");
+       return;
+   }
+   # --
+   # sql 
+   # --
+   my $SQL = sprintf("select count(*) from  queue_standard_response  where queue_id=%s and standard_response_id=%s" ,  $Param{QueueID}, $Param{ResponseID});
+   print "SQL was\n$SQL\n\n";
+   $Self->{DBObject}->Prepare(SQL => $SQL);
+   my $Count;
+   while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+       $Count = $Row[0];
+   }
+   return $Count;
 }
 # --
 sub GetStdResponses {
