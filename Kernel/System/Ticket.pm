@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.85 2004-04-16 12:39:29 martin Exp $
+# $Id: Ticket.pm,v 1.86 2004-04-17 14:32:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.85 $';
+$VERSION = '$Revision: 1.86 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -851,11 +851,16 @@ sub SetCustomerData {
 
 =item TicketFreeTextGet()
 
-get possible  ticket free text
+get possible ticket free text options
 
   my $HashRef = $TicketObject->TicketFreeTextGet(
      Type => 'TicketFreeText3',
      TicketID => 123,
+     UserID => 123,
+  );
+
+  my $HashRef = $TicketObject->TicketFreeTextGet(
+     Type => 'TicketFreeText3',
      UserID => 123,
   );
 
@@ -867,12 +872,26 @@ sub TicketFreeTextGet {
     my $Value = $Param{Value} || '';
     my $Key = $Param{Key} || '';
     # check needed stuff
-    foreach (qw(TicketID UserID Type)) {
+    foreach (qw(UserID Type)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
+    my %Data = ();
+    if (ref($Self->{ConfigObject}->Get($Param{Type})) eq 'HASH') {
+        %Data = %{$Self->{ConfigObject}->Get($Param{Type})};
+    }
+    # workflow
+    if ($Self->TicketWorkflow(
+        %Param,
+        Type => $Param{Type},
+        Data => \%Data,
+    )) {
+        my %Hash = $Self->TicketWorkflowData();
+        return \%Hash;
+    }
+    # /workflow
     return $Self->{ConfigObject}->Get($Param{Type});
 }
 # --
@@ -2903,6 +2922,12 @@ sub TicketWorkflow {
                 foreach my $NewPriority (@{$Step{Possible}->{Ticket}->{$Param{Type}}}) {
                     if ($Data{$PriorityID} eq $NewPriority) {
                         $NewData{$PriorityID} = $Data{$PriorityID};
+                        if ($Self->{Debug} > 4) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'debug',
+                                Message => "Workflow '$StepT' param '$Data{$PriorityID}' used with '$Param{Type}'",
+                            );
+                        }
                     }
                 }
             }
@@ -2931,6 +2956,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2004-04-16 12:39:29 $
+$Revision: 1.86 $ $Date: 2004-04-17 14:32:53 $
 
 =cut
