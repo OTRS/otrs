@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.139.2.1 2004-11-04 06:46:46 martin Exp $
+# $Id: Ticket.pm,v 1.139.2.2 2005-01-07 22:35:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,6 +23,7 @@ use Kernel::System::User;
 use Kernel::System::Group;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
+use Kernel::System::Encode;
 use Kernel::System::Email;
 use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
@@ -31,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.139.2.1 $';
+$VERSION = '$Revision: 1.139.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -89,6 +90,12 @@ sub new {
     }
     else {
         $Self->{TimeObject} = $Param{TimeObject};
+    }
+    if (!$Param{EncodeObject}) {
+        $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    }
+    else {
+        $Self->{EncodeObject} = $Param{EncodeObject};
     }
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     if (!$Param{GroupObject}) {
@@ -1305,6 +1312,8 @@ sub GetSubscribedUserIDsByQueueID {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
+    # get group of queue
+    my %Queue = $Self->{QueueObject}->QueueGet(ID => $Param{QueueID});
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -1316,15 +1325,23 @@ sub GetSubscribedUserIDsByQueueID {
             " WHERE ".
             " queue_id = $Param{QueueID} ",
     );
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        push (@UserIDs, $RowTmp[0]);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push (@UserIDs, $Row[0]);
     }
     # check if user is valid and check permissions
     my @CleanUserIDs = ();
     foreach (@UserIDs) {
         my %User = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
         if (%User) {
-            push (@CleanUserIDs, $_);
+            # just send emails to permitted agents
+            my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+                UserID => $_,
+                Type => 'ro',
+                Result => 'HASH',
+            );
+            if ($GroupMember{$Queue{GroupID}}) {
+                push (@CleanUserIDs, $_);
+            }
         }
     }
     return @CleanUserIDs;
@@ -2317,6 +2334,7 @@ to set the ticket owner (notification to the new owner will be sent)
 sub OwnerSet {
     my $Self = shift;
     my %Param = @_;
+    my $OldOwnerID = 0;
     # check needed stuff
     foreach (qw(TicketID UserID)) {
       if (!$Param{$_}) {
@@ -2337,9 +2355,13 @@ sub OwnerSet {
       $Param{NewUser} = $Self->{UserObject}->GetUserByID(UserID => $Param{NewUserID})||return;
     }
     # check if update is needed!
-    if ($Self->OwnerCheck(TicketID => $Param{TicketID}, UserID => $Param{NewUserID})) {
+    my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
+    if ($Ticket{OwnerID} eq $Param{NewUserID}) {
         # update is "not" needed!
         return 1;
+    }
+    else {
+        $OldOwnerID = $Ticket{OwnerID};
     }
     # db quote
     foreach (keys %Param) {
@@ -2360,14 +2382,14 @@ sub OwnerSet {
       # clear ticket cache
       $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
       # send agent notify
-      if ($Param{UserID} ne $Param{NewUserID} && 
+      if ($Param{UserID} ne $Param{NewUserID} &&
            $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
         if (!$Param{Comment}) {
             $Param{Comment} = '';
         }
-        # get user data
+        # get user data of new owner
         my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
-        # send agent notification
+        # send agent notification to new owner
         $Self->SendAgentNotification(
             Type => 'OwnerUpdate',
             UserData => \%Preferences,
@@ -3479,6 +3501,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.139.2.1 $ $Date: 2004-11-04 06:46:46 $
+$Revision: 1.139.2.2 $ $Date: 2005-01-07 22:35:31 $
 
 =cut
