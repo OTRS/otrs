@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.13 2004-09-23 08:26:52 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.14 2004-09-24 15:07:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -121,16 +121,33 @@ sub Run {
     }
     # genterate output
     $Output .= $Self->{LayoutObject}->PrintHeader(Title => $Ticket{TicketNumber});
-    $Output .= $Self->_MaskHeader(
-        %UserInfo,
-        %Ticket,
-        CustomerTable => $Param{CustomerTable} || '',
-    );
+    # do some html quoting
+    $Ticket{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Ticket{Age}, Space => ' ');
+    if ($Ticket{UntilTime}) {
+        $Ticket{PendingUntil} = $Self->{LayoutObject}->CustomerAge(Age => $Ticket{UntilTime}, Space => ' ');
+    }
+    else {
+        $Ticket{PendingUntil} = '-';
+    }
+    # prepare escalation time (if needed)
+    if ($Ticket{Answered}) {
+        $Ticket{TicketOverTime} = '$Text{"none - answered"}';
+    }
+    elsif ($Ticket{TicketOverTime}) {
+      $Ticket{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+          Age => $Ticket{TicketOverTime},
+          Space => ' ',
+      );
+    }
+    else {
+        $Ticket{TicketOverTime} = '-';
+    }
     # show ticket
     $Output .= $Self->_Mask(
         TicketID => $Self->{TicketID},
         QueueID => $QueueID,
         ArticleBox => \@ArticleBox,
+        %Param,
         %UserInfo,
         %Ticket,
     );
@@ -202,38 +219,14 @@ sub _Mask {
 
         # select the output template
         if ($Article{ArticleType} ne 'email-notification-int') {
-            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPrint', Data => {%Param,%Article});
+            $Self->{LayoutObject}->Block(
+                Name => 'Article',
+                Data => {%Param,%Article},
+            );
         }
     }
     # return output
-    return $Output;
-}
-# --
-sub _MaskHeader {
-    my $Self = shift;
-    my %Param = @_;
-    # do some html quoting
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    if ($Param{UntilTime}) {
-        $Param{PendingUntil} = $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => ' ');
-    }
-    else {
-        $Param{PendingUntil} = '-';
-    }
-    # prepare escalation time (if needed)
-    if ($Param{Answered}) {
-        $Param{TicketOverTime} = '$Text{"none - answered"}';
-    }
-    elsif ($Param{TicketOverTime}) {
-      $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
-          Age => $Param{TicketOverTime},
-          Space => ' ',
-      );
-    }
-    else {
-        $Param{TicketOverTime} = '-';
-    }
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPrintHeader', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPrint', Data => {%Param});
 }
 # --
 1;
