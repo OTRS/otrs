@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.5 2002-11-27 14:30:52 martin Exp $
+# $Id: Article.pm,v 1.6 2002-11-28 14:11:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,6 +16,7 @@ use strict;
 use File::Path;
 use File::Basename;
 use MIME::Parser;
+use MIME::Words qw(:all);
 
 # --
 # to get it writable for the otrs group (just in case)
@@ -23,7 +24,7 @@ use MIME::Parser;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -466,6 +467,7 @@ sub WriteArticleParts {
     else {
         my %PartData = ();
         $PartData{Filename} = $Param{Part}->head()->recommended_filename() || "file-$Self->{PartCounter}";
+        $PartData{Filename} = decode_mimewords($PartData{Filename});
         $PartData{ContentType} = $Param{Part}->effective_type();
         $PartData{Content} = $Param{Part}->bodyhandle()->as_string();
 
