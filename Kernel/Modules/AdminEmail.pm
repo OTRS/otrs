@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.19 2004-09-30 22:13:15 martin Exp $
+# $Id: AdminEmail.pm,v 1.20 2004-10-18 19:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AdminEmail;
 
 use strict;
+use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,7 +46,9 @@ sub Run {
     foreach (qw(From Subject Body Bcc GroupPermission)) {
         $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || $Param{$_} || '';
     }
+    # ------------------------------------------------------------ #
     # send email(s)
+    # ------------------------------------------------------------ #
     if ($Self->{Subaction} eq 'Send') {
         # check needed stuff
         foreach (qw(From Subject Body GroupPermission)) {
@@ -108,13 +111,13 @@ sub Run {
             Charset => $Self->{LayoutObject}->{UserCharset},
             Body => $Param{Body},
         )) {
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Self->{LayoutObject}->Block(
                 Name => 'Sent',
                 Data => { %Param },
             );
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmail', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -123,10 +126,10 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
+    # ------------------------------------------------------------ #
+    # show mask
+    # ------------------------------------------------------------ #
     else {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Param{'UserOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {$Self->{UserObject}->UserList(Valid => 1)},
             Name => 'UserIDs',
@@ -143,6 +146,9 @@ sub Run {
                 Name => 'Form',
                 Data => { %Param },
         );
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmail', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

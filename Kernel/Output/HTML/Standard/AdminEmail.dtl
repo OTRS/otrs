@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.dtl,v 1.8 2004-09-30 22:13:15 martin Exp $
+# $Id: AdminEmail.dtl,v 1.9 2004-10-18 19:16:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -72,17 +72,17 @@
 <dtl if ($Data{"Subject"} eq "") { $Data{"Subject"} = "$Text{"OTRS-Admin Info!"}"; }>
     <tr>
       <td class="contentkey">$Text{"Subject"}:</td>
-      <td class="contentvalue"><input type="Text" name="Subject" value="$Data{"Subject"}" size="40"></td>
+      <td class="contentvalue"><input type="Text" name="Subject" value="$Data{"Subject"}" size="76"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Body"}:</td>
-      <td class="contentvalue"><textarea name="Body" rows="10" cols="60">$QData{"Body"}</textarea></td>
-    </tr>
-    <tr>
-      <td colspan="2" class="contentkey"><input class="button" type="submit" value="$Text{"send"}"></td>
+      <td class="contentvalue"><textarea name="Body" rows="10" cols="76">$QData{"Body"}</textarea></td>
     </tr>
     </table>
     </td>
+  </tr>
+  <tr>
+    <td class="contentfooter"><input class="button" type="submit" value="$Text{"send"}"></td>
   </tr>
   </table>
   </form>
