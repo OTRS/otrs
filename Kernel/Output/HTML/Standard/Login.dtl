@@ -1,0 +1,45 @@
+# --
+# Login.dtl - provides HTML login screen
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: Login.dtl,v 1.1 2001-12-16 01:35:42 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<center>
+
+<p>
+<font color="red">$Data{"Message"}</font>
+</p>
+
+<p>
+<table border="0" width="280">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="center"><font color="$Env{"FontColor1"}">$Text{"Login"}</font></td>
+</tr>
+<tr>
+  <td align="center" bgcolor="$Env{"BGTableColor1"}">
+  <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+  <input type="hidden" name="Action" value="Login">
+    <table>
+    <tr>
+      <td>User:</td>
+      <td><input type="text" name="User"></td>
+    </tr>
+    <tr>
+      <td>Password:</td>
+      <td><input type="password" name="Password"></td>
+    </tr>
+    </table>
+  <input type="submit" value="$Text{"Login"}">
+  </form>
+  </td>
+</tr>
+</table>
+
+</p>
+
+</center>
