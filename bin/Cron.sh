@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # Cron.sh - start|stop OTRS Cronjobs
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Cron.sh,v 1.10 2004-09-03 16:08:06 martin Exp $
+# $Id: Cron.sh,v 1.11 2005-01-11 23:22:45 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,8 +43,8 @@ fi
 CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
 
-echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.10 $> "
-echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
+echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.11 $> "
+echo "Copyright (c) 2001-2005 Martin Edenhofer <martin@otrs.org>"
 
 #
 # main part
