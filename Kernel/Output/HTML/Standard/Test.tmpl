@@ -3,6 +3,38 @@
 
 <hr>
 
+<b>dynamic test</b><br>
+
+<p>
+# --
+# you can use '#' for comment of dynamic pages
+# --
+
+<otrs $Data{"Test1"} = "English">
+a) Set $Data{\"Test1\"} = "$Data{"Test1"}"
+<br>
+
+<otrs if ($Text{"Lock"} eq "Ziehen") { $Data{"Test1"} = "Deutsch"; }>
+b) if ($Text{\"Lock\"} eq "Ziehen") { $Data{\"Test:\"} = "Deutsch"; }<br>
+
+Result: $Data{"Test1"}
+</p>
+
+<p>
+<otrs $Data{"Test1"} = "lala">
+c) Set $Data{\"Test1\"} = "$Data{"Test1"}"
+<br>
+
+<otrs if ($Data{"Test1"} ne "hallo!") { $Data{"Test1"} = "hallo!!"; }>
+d) if ($Data{\"Test1\"} ne "hallo!") { $Data{\"Test1\"} = "hallo!!"; }
+<br>
+
+Result: $Data{"Test1"}
+</p>
+
+<hr>
+
+
 <b>test translations</b><br>
 <table>
 <tr>

@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.3 2001-12-05 20:32:47 martin Exp $
+# $Id: Generic.pm,v 1.4 2001-12-09 18:35:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Words qw(:all);
 use Kernel::Language;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -81,54 +81,114 @@ sub Output {
     open (IN, "< $Self->{TemplateDir}/$Param{TemplateFile}")  
          ||  die "Can't read $Param{TemplateFile}: $!";
     while (<IN>) {
+      # filtering of comment lines
+      if ($_ !~ /^#/) {
         $Output .= $_;
-    }
 
-    # text translation
-    $Output =~ s{
+        # do template set dynamic
+        $Output =~ s{
+          <otrs\W\$Data\{\"(.*)\"\}\W=\W\"(.*)\">
+        }
+        {
+          $Data{$1} = $2;
+          "";
+        }egx;
+
+        # do template if dynamic
+        $Output =~ s{
+          <otrs\Wif\W\((\$.*)\{\"(.*)\"\}\W(..)\W\"(.*)\"\)\W\{\W\$(.*)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
+        }
+        {
+          if ($3 eq "eq") {
+            if ($1 eq "\$Text") {
+              if ($Self->{LanguageObject}->Get($2) eq $4) {
+                  $Data{"$6"} = $7;
+                  "";
+              }
+            }
+            elsif ($1 eq "\$Data") {
+              if ((exists $Data{"$2"}) && $Data{"$2"} eq $4) {
+                  $Data{"$6"} = $7;
+                  "";
+              }
+            }
+            else {
+                "Parser Error! '$1' is unknown!";
+            }
+         }
+         elsif ($3 eq "ne") {
+           if ($1 eq "\$Text") {
+             if ($Self->{LanguageObject}->Get($2) ne $4) {
+                 $Data{"$6"} = $7;
+                 "";
+             }
+           }
+           elsif ($1 eq "\$Data") {
+              if (!exists $Data{"$2"}) {
+                 $Data{"$6"} = $7;
+                 "";
+              }
+              elsif ($Data{"$2"} ne $4) {
+                 $Data{"$6"} = $7;
+                 "";
+              }
+           }
+           else {
+               "Parser Error! '$1' is unknown!";
+           }
+         }
+         else {
+              "";
+         }
+      }egx;
+
+      # text translation
+      $Output =~ s{
         \$Text{"(.*)"}         # find a TEXT sign
-    }
-    {
+      }
+      {
         $Self->{LanguageObject}->Get($1)   # do translation
-    }egx;
+      }egx;
 
 
-    # config replacement
-    $Output =~ s{
+      # config replacement
+      $Output =~ s{
         \$Config{"(.*)"}         # find a TEXT sign
-    }
-    {
+      }
+      {
         $Self->{ConfigObject}->Get($1)   # replace with
-    }egx;
+      }egx;
 
 
-    # variable replace
-    $Output =~ s{
+      # variable replace
+      $Output =~ s{
         \$Data{"(.*)"}
-    }
-    {
+      }
+      {
         if ($Data{$1}) {
             $Data{$1};
         }
         else {
             "<i>\$$1 isn't true!</i>";
         }
-    }egx;
+      }egx;
 
 
-    # env replace
-    $Output =~ s{
+      # env replace
+      $Output =~ s{
         \$Env{"(.*)"}
-    }
-    {
+      }
+      {
         if ($Env{$1}) {
             $Env{$1};
         }
         else {
             "<i>\$$1 isn't true!</i>";
         }
-    }egx;
+      }egx;
 
+      }
+    }
 
     # return output
     return $Output;
