@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.74 2004-09-16 22:03:59 martin Exp $
+# $Id: index.pl,v 1.75 2004-09-16 22:38:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.74 $';
+$VERSION = '$Revision: 1.75 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -676,6 +676,10 @@ else {
     }
     # if there is no file, show not found error
     else {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message => "File 'Kernel/Modules/$Param{Action}.pm' not found!",
+        );
         $Error = "File 'Kernel/Modules/$Param{Action}.pm' not found!";
     }
     # print error
