@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.104 2004-02-02 23:28:05 martin Exp $
+# $Id: Defaults.pm,v 1.105 2004-02-06 13:48:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.104 $';
+$VERSION = '$Revision: 1.105 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -784,7 +784,10 @@ $Data{"Signature"}
       'Resent-From',
       'Precedence',
       'Mailing-List',
+      'References',
+      'In-Reply-To',
       'X-Loop',
+      'X-Spam-Flag',
       'X-No-Loop',
       'X-OTRS-Loop',
       'X-OTRS-Info',
