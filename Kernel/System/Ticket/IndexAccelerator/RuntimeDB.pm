@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.11 2003-03-31 19:17:05 martin Exp $
+# $Id: RuntimeDB.pm,v 1.12 2003-04-22 22:19:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -83,6 +83,12 @@ sub TicketAcceleratorIndex {
     }
     # check if user is in min. one group! if not, return here
     if (!@GroupIDs) {
+        my %Hashes;
+        $Hashes{QueueID} = 0;
+        $Hashes{Queue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
+        $Hashes{MaxAge} = 0;
+        $Hashes{Count} = 0;
+        push (@{$Queues{Queues}}, \%Hashes);
         return %Queues;
     }
     # --

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.10 2003-03-27 07:20:05 martin Exp $
+# $Id: StaticDB.pm,v 1.11 2003-04-22 22:19:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -268,6 +268,18 @@ sub TicketAcceleratorIndex {
     # --
     $Queues{MaxAge} = 0;
     # --
+    # check if user is in min. one group! if not, return here
+    # --
+    if (!@GroupIDs) {
+        my %Hashes;
+        $Hashes{QueueID} = 0;
+        $Hashes{Queue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
+        $Hashes{MaxAge} = 0;
+        $Hashes{Count} = 0;
+        push (@{$Queues{Queues}}, \%Hashes);
+        return %Queues;
+    }
+    # --
     # CustomQueue add on
     # --
     my $SQL = "SELECT count(*) FROM ".
@@ -291,10 +303,6 @@ sub TicketAcceleratorIndex {
             $Queues{TicketsShown} = $Row[0];
             $Queues{TicketsAvail} = $Row[0];
         }
-    }
-    # check if user is in min. one group! if not, return here
-    if (!@GroupIDs) {
-        return %Queues;
     }
     # prepar the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT queue_id, queue, min(create_time_unix), count(*) as count ".
