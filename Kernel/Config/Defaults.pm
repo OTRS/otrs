@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.81 2003-09-29 21:01:43 martin Exp $
+# $Id: Defaults.pm,v 1.82 2003-10-14 13:37:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.81 $';
+$VERSION = '$Revision: 1.82 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -745,6 +745,14 @@ $Data{"Signature"}
     ];
 
     # --------------------------------------------------- #
+    # PostMaster Modules                                  #
+    # --------------------------------------------------- #
+    # PostMaster::PreFilterModule 
+    # (filtering and manipulaiting of incoming emails)
+    $Self->{'PostMaster::PreFilterModule'} = [
+        'Kernel::System::PostMaster::FilterIgnore',
+    ];
+    # --------------------------------------------------- #
     # Auto Response                                       #
     # --------------------------------------------------- #
 
@@ -1213,6 +1221,10 @@ Your OTRS Notification Master
 #    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerZoom';
     $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketOverView';
 
+    # CustomerViewableTickets
+    # (The default viewable tickets a page in customer panel.)
+    $Self->{CustomerViewableTickets} = 25;
+
     # --------------------------------------------------- #
     # customer message settings                           #
     # --------------------------------------------------- #
@@ -1601,13 +1613,15 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewArticleType} = 'phone';
     $Self->{PhoneDefaultNewSenderType} = 'customer';
     # default note subject
-    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
+#    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
+    $Self->{PhoneDefaultNewSubject} = '';
     # default note text
-    $Self->{PhoneDefaultNewNoteText} = 'New ticket via call.';
+#    $Self->{PhoneDefaultNewNoteText} = 'New ticket via call.';
+    $Self->{PhoneDefaultNewNoteText} = '';
     # default next state [default: open]
     $Self->{PhoneDefaultNewNextState} = 'open';
-    # default lock (lock|unlock) [default: lock] 
-    $Self->{PhoneDefaultNewLock} = 'lock';
+    # default lock (lock|unlock) [default: unlock] 
+    $Self->{PhoneDefaultNewLock} = 'unlock';
     # default priority [default: 3 normal]
     $Self->{PhoneDefaultPriority} = '3 normal';
     # default history type
