@@ -31,6 +31,7 @@ use Kernel::Config::ModulesCustomerPanel;
 
 use Kernel::System::WebRequest;
 use Kernel::System::DB;
+use Kernel::System::Encode;
 use Kernel::System::Auth;
 use Kernel::System::Auth::DB;
 #use Kernel::System::Auth::LDAP;
@@ -63,11 +64,13 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 #use Kernel::System::CustomerUser::DB;
 #use Kernel::System::CustomerUser::LDAP;
+use Kernel::System::CustomerGroup;
 use Kernel::System::CustomerAuth;
 #use Kernel::System::CustomerAuth::DB;
 #use Kernel::System::CustomerAuth::LDAP;
 use Kernel::System::CheckItem;
 use Kernel::System::AutoResponse;
+use Kernel::System::Notification;
 
 use Kernel::Output::HTML::Generic;
 
@@ -78,6 +81,7 @@ use Kernel::Modules::AgentMove;
 use Kernel::Modules::AgentZoom;
 use Kernel::Modules::AgentAttachment;
 use Kernel::Modules::AgentTicketPrint;
+use Kernel::Modules::AgentTicketLink;
 use Kernel::Modules::AgentPlain;
 use Kernel::Modules::AgentNote;
 use Kernel::Modules::AgentLock;
@@ -117,6 +121,7 @@ use Kernel::Modules::AdminUserGroup;
 use Kernel::Modules::AdminSystemAddress;
 use Kernel::Modules::AdminPOP3;
 use Kernel::Modules::AdminState;
+use Kernel::Modules::AdminNotification;
 use Kernel::Modules::AdminEmail;
 use Kernel::Modules::AdminCustomerUser;
 
