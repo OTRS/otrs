@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.7 2002-06-23 09:54:03 martin Exp $
+# $Id: PostMaster.pm,v 1.8 2002-07-02 08:47:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -287,7 +287,10 @@ sub GetEmailParams {
              || $GetParam{'X-No-Loop'} || $GetParam{'X-OTRS-Loop'}) {
         $GetParam{'X-OTRS-Loop'} = 'yes';
     }
-    $GetParam{Body} = $Self->{ParseObject}->GetMessageBody();
+    $GetParam{'Body'} = $Self->{ParseObject}->GetMessageBody();
+    $GetParam{'Content-Type'} = $Self->{ParseObject}->GetContentType(
+        $Self->{ParseObject}->GetParam(WHAT => 'Content-Type'),
+    );
     return %GetParam;
 }
 # --

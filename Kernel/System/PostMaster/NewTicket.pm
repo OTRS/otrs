@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.11 2002-06-14 20:06:14 martin Exp $
+# $Id: NewTicket.pm,v 1.12 2002-07-02 08:47:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -132,6 +132,7 @@ sub Run {
         Cc => $GetParam{Cc},
         Subject => $GetParam{Subject},
         MessageID => $GetParam{'Message-ID'},
+        ContentType => $GetParam{'Content-Type'},
         Body => $GetParam{Body},
         CreateUserID => $InmailUserID,
     );
@@ -250,6 +251,7 @@ sub Run {
             Email => $Data{Address},
             To => $GetParam{From},
             RealName => $Data{Realname},
+            Charset => $Data{Charset},
             Subject => $Subject,
             UserID => $InmailUserID,
             Body => $Body,

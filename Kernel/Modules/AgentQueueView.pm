@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.14 2002-06-22 22:13:36 martin Exp $
+# $Id: AgentQueueView.pm,v 1.15 2002-07-02 08:49:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -221,7 +221,7 @@ sub ShowTicket {
         " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, " .
         " st.freetext1, st.freetext2, st.customer_id, sq.name as queue, sa.id as article_id, " .
         " st.id, st.tn, sp.name, sd.name as state, st.queue_id, st.create_time, ".
-        " sa.incoming_time, sq.escalation_time, st.ticket_answered " .
+        " sa.incoming_time, sq.escalation_time, st.ticket_answered, sa.a_content_type " .
         " FROM " .
         " article sa, ticket st, ticket_priority sp, ticket_state sd, article_sender_type sdt, queue sq " .
         " WHERE " .
@@ -246,6 +246,13 @@ sub ShowTicket {
         if ($$Data{escalation_time} && !$$Data{ticket_answered}) {
             $TicketOverTime = (time() - ($$Data{incoming_time} + ($$Data{escalation_time}*60))); 
         }
+        if ($$Data{a_content_type} && $$Data{a_content_type} =~ /charset=(.*)(| |\n)/i) {
+            $$Data{ContentCharset} = $1;
+        }
+        if ($$Data{a_content_type} && $$Data{a_content_type} =~ /^(.+?\/.+?)( |;)/i) {
+            $$Data{MimeType} = $1;
+        }
+
         $Output .= $Self->{LayoutObject}->TicketView(
             TicketNumber => $$Data{tn},
             Priority => $$Data{name},
@@ -257,6 +264,8 @@ sub ShowTicket {
             Cc => $$Data{a_cc},
             Subject => $$Data{a_subject},
             Text => $$Data{a_body},
+            ContentCharset => $$Data{ContentCharset},
+            MimeType => $$Data{MimeType},
             Age => $Age,
             TicketOverTime => $TicketOverTime,
             Answered => $$Data{ticket_answered},

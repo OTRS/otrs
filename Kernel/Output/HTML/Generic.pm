@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.36 2002-06-15 19:50:58 martin Exp $
+# $Id: Generic.pm,v 1.37 2002-07-02 08:48:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -560,6 +560,58 @@ sub NoPermission {
     return $Output;
 }
 # --
+sub CheckCharset {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+
+    # with utf-8 can everything be shown
+    if ($Self->{UserCharset} !~ /utf/i) {
+      # if the content charset is different to the user charset
+      if ($Param{ContentCharset} && $Self->{UserCharset} !~ /^$Param{ContentCharset}$/i) {
+        # if the content charset is us-ascii it is always shown correctly
+        if ($Param{ContentCharset} !~ /us-ascii/i) { 
+            $Output = '<p><i class="small">'.
+              '$Text{"This message was written in a character set other than your own."}'.
+              '$Text{"If it is not displayed correctly,"} '.
+              "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=$Param{TicketID}".
+              "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\">".
+              '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
+        }
+      }
+    }
+    # return note string
+    return $Output;
+}
+# --
+sub CheckMimeType {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    # --
+    # check if it is a text/plain email
+    # --
+    if ($Param{MimeType} && $Param{MimeType} !~ /text\/plain/i) {
+         $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
+           ' $Text{"email"}, '. 
+           "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
+           "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
+           'target="HTMLeMail">$Text{"click here"}</a> '.
+           '$Text{"to open it in a new window."}</i></p>';
+    }
+    # just to be compat
+    elsif ($Param{Text} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
+         $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
+           ' $Text{"email"}, '.
+           "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
+           "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
+           'target="HTMLeMail">$Text{"click here"}</a> '.
+           '$Text{"to open it in a new window."}</i></p>';
+    }
+    # return note string
+    return $Output;
+}
+# --
 sub GetRelease {
     my $Self = shift;
     my %Param = @_;
@@ -579,6 +631,7 @@ sub GetRelease {
       }
     }
     close (PRODUCT);
+    # return data
     return %Param;
 }
 # --

@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.14 2002-06-13 22:09:11 martin Exp $
+# $Id: AgentCompose.pm,v 1.15 2002-07-02 08:49:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -237,7 +237,6 @@ sub SendEmail {
     my $QueueID = $Self->{QueueID};
     my $TicketID = $Self->{TicketID};
     my $NextScreen = $Self->{NextScreen} || '';
-    my $Charset = $Self->{UserCharset} || '';
     my $NextStateID = $Self->{NextStateID} || '??';
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
     my $UserID = $Self->{UserID};
@@ -267,7 +266,7 @@ sub SendEmail {
         UserID => $UserID,
         Body => $Self->{Body},
         InReplyTo => $Self->{InReplyTo},
-        Charset => $Charset,
+        Charset => $Self->{UserCharset},
     )) {
 
         # --

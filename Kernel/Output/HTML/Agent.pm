@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.36 2002-06-27 11:05:49 martin Exp $
+# $Id: Agent.pm,v 1.37 2002-07-02 08:48:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -129,13 +129,11 @@ sub TicketView {
     }
 
     # --
-    # check if just a html email
+    # check if just a only html email
     # --
-    if ($Param{Text} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
-         $Param{Text} = "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
-          "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
-          "target=\"HTMLeMail\"><i>\$Text{\"This is a HTML email. Click here to show it.\"}".
-          "</i></a>";
+    if (my $MimeTypeText = $Self->CheckMimeType(%Param)) {
+        $Param{TextNote} = $MimeTypeText;
+        $Param{Text} = '';
     }
     else {
         # --
@@ -153,6 +151,15 @@ sub TicketView {
         $Param{Text} = $Self->LinkQuote(
             Text => $Param{Text},
         );
+        # --
+        # do charset check
+        # --
+        if (my $CharsetText = $Self->CheckCharset(
+            ContentCharset => $Param{ContentCharset},
+            TicketID => $Param{TicketID},
+            ArticleID => $Param{ArticleID} )) {
+            $Param{TextNote} = $CharsetText;
+        } 
     }
 
     # --
@@ -343,22 +350,20 @@ sub TicketZoom {
     # just body if html email
     # --
     if ($Param{"ShowHTMLeMail"}) {
-        (my $Output = <<EOF);
-Content-Type: text/html
-
-$Article{"Text"}
-EOF
+        my $Output = "Content-Disposition: attachment; filename=";
+        $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
+        $Output .= "$Param{TicketID}-$Article{ArticleID}\n";
+        $Output .= "Content-Type: $Article{MimeType}; charset=$Article{ContentCharset}\n";
+        $Output .= "\n";
+        $Output .= $Article{"Text"};
         return $Output;
     }
-
     # --
-    # check if just a html email
+    # check if just a only html email
     # --
-    if ($Article{"Text"} =~ /^<.DOCTYPE html PUBLIC|^<html>/i) {
-         $Param{"Article::Text"} = "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
-          "$Param{TicketID}&ArticleID=$Article{ArticleID}&Subaction=ShowHTMLeMail\" ".
-          "target=\"HTMLeMail\"><i>\$Text{\"This is a HTML email. Click here to show it.\"}".
-          "</i></a>";
+    if (my $MimeTypeText = $Self->CheckMimeType(%Param, %Article)) {
+        $Param{"Article::TextNote"} = $MimeTypeText;
+        $Param{"Article::Text"} = '';
     }
     else {
         # --
@@ -375,6 +380,15 @@ EOF
         $Param{"Article::Text"} = $Self->LinkQuote(
             Text => $Param{"Article::Text"},
         );
+        # --
+        # do charset check
+        # --
+        if (my $CharsetText = $Self->CheckCharset(
+            ContentCharset => $Article{ContentCharset},
+            TicketID => $Param{TicketID},
+            ArticleID => $Article{ArticleID} )) {
+            $Param{"Article::TextNote"} = $CharsetText;
+        }
     }
 
     # get article id

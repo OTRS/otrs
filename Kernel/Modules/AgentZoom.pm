@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.10 2002-06-08 20:34:29 martin Exp $
+# $Id: AgentZoom.pm,v 1.11 2002-07-02 08:49:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -87,7 +87,8 @@ sub Run {
     " sq.name as queue, st.create_time as ticket_create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
-    " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time ".
+    " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time, ".
+    " sa.a_content_type ".
     " FROM ".
     " article sa, ticket st, article_sender_type stt, article_type at, ".
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
@@ -165,6 +166,13 @@ sub Run {
         $Article{FreeValue2} = $$Data{a_freetext2};
         $Article{FreeKey3} = $$Data{a_freekey3};
         $Article{FreeValue3} = $$Data{a_freetext3};
+        if ($$Data{a_content_type} && $$Data{a_content_type} =~ /charset=(.*)(| |\n)/i) {
+            $Article{ContentCharset} = $1;
+        }
+        if ($$Data{a_content_type} && $$Data{a_content_type} =~ /^(.+?\/.+?)( |;)/i) {
+            $Article{MimeType} = $1;
+        }
+
         push (@ArticleBox, \%Article);
     }
    
