@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.58 2004-02-12 00:39:09 martin Exp $
+# $Id: AgentCompose.pm,v 1.59 2004-03-11 14:34:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,18 +46,15 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-
-    # --
+    # anyway, we need to check the email syntax
+    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # get params
-    # --
     foreach (qw(From To Cc Bcc Subject Body InReplyTo ResponseID ComposeStateID 
       Answered ArticleID TimeUnits Year Month Day Hour Minute)) {
         my $Value = $Self->{ParamObject}->GetParam(Param => $_);
         $Self->{$_} = defined $Value ? $Value : '';
     }
-    # -- 
     # get response format
-    # --
     $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('ResponseFormat') ||
       '$Data{"Salutation"}
 $Data{"OrigFrom"} $Text{"wrote"}:
@@ -262,9 +259,7 @@ sub Form {
         }
         $Data{Salutation} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
     }
-    # --
     # prepare signature
-    # --
     $Data{Signature} = $Self->{QueueObject}->GetSignature(%Ticket);
     foreach (qw(Signature Salutation)) {
         $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
@@ -272,6 +267,22 @@ sub Form {
         $Data{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
         $Data{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
     }
+    # replace customer data 
+    foreach (keys %Customer) {
+        if ($Customer{$_}) {
+            $Data{Signature} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$_}/gi;
+            $Data{Salutation} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$_}/gi;
+            $Data{StdResponse} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$_}/gi;
+        }
+    }
+    # cleanup all not needed <OTRS_CUSTOMER_ tags
+    $Data{Signature} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+    $Data{Salutation} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+    $Data{StdResponse} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+    # replace config options
+    $Data{Signature} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Data{Salutation} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Data{StdResponse} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     # --
     # check some values
     # --
