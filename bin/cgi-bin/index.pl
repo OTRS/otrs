@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.32 2002-08-01 02:33:52 martin Exp $
+# $Id: index.pl,v 1.33 2002-08-03 12:02:33 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,19 +20,25 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-# use ../ as lib location
-use lib '../..';
+# use ../../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../..";
 
 use strict;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+use vars qw($VERSION @INC);
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 # 0=off;1=on;
 # --
-my $Debug = 0;
+my $Debug = 0; 
+
+# --
+# check @INC for mod_perl (add lib path for "require module"!)
+# --
+$ENV{MOD_PERL} && push (@INC, "$Bin/../..");
 
 # --
 # all framework needed  modules 
@@ -114,12 +120,21 @@ my $FramworkPrams = {
     SessionID => '',
     Action => '',
     Subaction => '',
-    NextScreen => '',
     RequestedURL => $QueryString,
 };
 foreach my $Key (keys %{$FramworkPrams}) {
     $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
       || $FramworkPrams->{$Key};
+}
+# --
+# Check if the brwoser sends the SessionID cookie and set the SessionID-cookie 
+# as SessionID! GET or POST SessionID have the lowest priority.
+# --
+if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
+  $Param{SessionIDCookie} = $CommonObject{ParamObject}->GetCookie(Key => 'SessionID');
+  if ($Param{SessionIDCookie}) {
+    $Param{SessionID} = $Param{SessionIDCookie};
+  }
 }
 # --
 # get common application and add on application params
@@ -136,10 +151,14 @@ foreach ('$Kernel::Config::Modules::Param', '$Kernel::Config::ModulesCustom::Par
 # check request type
 # --
 if ($Param{Action} eq "Login") {
+    # --
     # get params
+    # --
     my $User = $CommonObject{ParamObject}->GetParam(Param => 'User') || '';
     my $Pw = $CommonObject{ParamObject}->GetParam(Param => 'Password') || '';
+    # --
     # create AuthObject
+    # --
     my $AuthObject = Kernel::System::Auth->new(%CommonObject);
 
     # --
@@ -156,9 +175,21 @@ if ($Param{Action} eq "Login") {
             );
             exit (0);
         }
+        # --
         # create new session id
+        # --
         my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(%UserData);
+        # --
+        # create a new LayoutObject with SessionIDCookie
+        # --
         my $LayoutObject = Kernel::Output::HTML::Generic->new(
+          SetCookies => {
+              SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
+                               Key => 'SessionID',
+                               Value => $NewSessionID,
+                               Expires => '+24h',
+                             ),
+          },
           SessionID => $NewSessionID, 
           %CommonObject,
         );
@@ -170,7 +201,9 @@ if ($Param{Action} eq "Login") {
         if ($Param{RequestedURL} =~ /Action=(Logout|Login)/) {
             $Param{RequestedURL} = '';
         }
+        # --
         # redirect with new session id
+        # --
         print $LayoutObject->Redirect(OP => $Param{RequestedURL});
     }
     # --
@@ -200,6 +233,13 @@ elsif ($Param{Action} eq "Logout"){
         # create new LayoutObject with new '%Param' and '%UserData'
         # --
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+          SetCookies => {
+              SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
+                               Key => 'SessionID',
+                               Value => '',
+                               Expires => '-24d',
+                             ),
+          },
           %CommonObject,
           %Param,
           %UserData,
@@ -335,6 +375,8 @@ if ($Debug) {
         MSG => 'Global handle stopped.',
     );
 }
-
 # --
+# undef %CommonObject
+# --
+undef %CommonObject;
 
