@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.67 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentQueueView.pm,v 1.68 2004-10-06 19:52:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,6 +56,7 @@ sub new {
     # --
     # get params
     # --
+    $Self->{ViewAll} = $Self->{ParamObject}->GetParam(Param => 'ViewAll') || 0;
     $Self->{Start} = $Self->{ParamObject}->GetParam(Param => 'Start') || 1;
     # viewable tickets a page
     $Self->{Limit} =  $Self->{ViewableTickets} + $Self->{Start} - 1;
@@ -85,27 +86,17 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     # store last queue screen
-    if (!$Self->{SessionObject}->UpdateSessionID(
+    $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key => 'LastScreenOverview',
         Value => $Self->{RequestedURL},
-    )) {
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error();
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
+    );
     # store last screen
-    if (!$Self->{SessionObject}->UpdateSessionID(
+    $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key => 'LastScreenView',
         Value => $Self->{RequestedURL},
-    )) {
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error();
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
+    );
     # starting with page ...
     my $Refresh = '';
     if ($Self->{UserRefreshTime}) {
@@ -181,10 +172,12 @@ sub Run {
           " sq.id = st.queue_id ".
           " AND ".
           " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
-          " AND ".
-          " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
-          " AND ".
-          " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) ".
+          " AND ";
+        if (!$Self->{ViewAll}) {
+          $SQL .= " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
+          " AND ";
+        }
+        $SQL .= " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) ".
           " AND ".
           " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
           " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
@@ -454,11 +447,18 @@ sub BuildQueueView {
         # set max shown
         $Data{TicketsAvail} = $Self->{MaxLimit};
     }
+    # show available tickets
+    if ($Self->{ViewAll}) {
+        $Data{TicketsAvailAll} = $Data{AllTickets};
+    }
+    else {
+        $Data{TicketsAvailAll} = $Data{TicketsAvail};
+    }
     # check start option, if higher then tickets available, set
     # it to the last ticket page (Thanks to Stefan Schmidt!)
-    if ($Self->{Start} > $Data{TicketsAvail}) {
+    if ($Self->{Start} > $Data{TicketsAvailAll}) {
            my $PageShown = $Self->{ViewableTickets};
-           my $Pages = int(($Data{TicketsAvail} / $PageShown) + 0.99999);
+           my $Pages = int(($Data{TicketsAvailAll} / $PageShown) + 0.99999);
            $Self->{Start} = (($Pages - 1) * $PageShown) + 1;
     }
     # build output ...
@@ -570,20 +570,20 @@ sub _MaskQueueView {
            # build Page Navigator for AgentQueueView
            # --
            $Param{PageShown} = $Param{'ViewableTickets'};
-           if ($Param{TicketsAvail} == 1 || $Param{TicketsAvail} == 0) {
-               $Param{Result} = $Param{TicketsAvail};
+           if ($Param{TicketsAvailAll} == 1 || $Param{TicketsAvailAll} == 0) {
+               $Param{Result} = $Param{TicketsAvailAll};
            }
-           elsif ($Param{TicketsAvail} >= ($Param{Start}+$Param{PageShown})) {
+           elsif ($Param{TicketsAvailAll} >= ($Param{Start}+$Param{PageShown})) {
                $Param{Result} = $Param{Start}."-".($Param{Start}+$Param{PageShown}-1);
            }
            else {
-               $Param{Result} = "$Param{Start}-$Param{TicketsAvail}";
+               $Param{Result} = "$Param{Start}-$Param{TicketsAvailAll}";
            }
-           my $Pages = int(($Param{TicketsAvail} / $Param{PageShown}) + 0.99999);
+           my $Pages = int(($Param{TicketsAvailAll} / $Param{PageShown}) + 0.99999);
            my $Page = int(($Param{Start} / $Param{PageShown}) + 0.99999);
            for (my $i = 1; $i <= $Pages; $i++) {
                $Param{PageNavBar} .= " <a href=\"$Self->{LayoutObject}->{Baselink}Action=\$Env{\"Action\"}".
-                '&QueueID=$Data{"QueueID"}&Start='. (($i-1)*$Param{PageShown}+1) .= '">';
+                '&QueueID=$Data{"QueueID"}&ViewAll='.$Self->{ViewAll}.'&Start='. (($i-1)*$Param{PageShown}+1) .= '">';
                if ($Page == $i) {
                    $Param{PageNavBar} .= '<b>'.($i).'</b>';
                }
