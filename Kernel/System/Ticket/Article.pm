@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.4 2002-10-28 18:18:52 martin Exp $
+# $Id: Article.pm,v 1.5 2002-11-27 14:30:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -23,9 +23,60 @@ use MIME::Parser;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
+# --
+sub ArticleInit {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # ArticleDataDir
+    # --
+    $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
+       || die "Got no ArticleDir!";
+    # --
+    # get time
+    # --
+    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
+    $Self->{Year} = $Year+1900;
+    $Self->{Month} = $Month+1;
+    $Self->{Month}  = "0$Self->{Month}" if ($Self->{Month} <10);
+    $Self->{Day} = $Day;
+    $Self->{ArticleContentPath} = $Self->{Year}.'/'.$Self->{Month}.'/'. $Self->{Day};
+
+
+    if ($Self->{ConfigObject}->Get('ArticlePlainStorage') eq 'fs' || 
+        $Self->{ConfigObject}->Get('ArticleAttachmentStorage') eq 'fs') {
+        # --
+        # check fs write permissions!
+        # --
+        my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/check_permissons.$$";
+        if (-d $Path) {
+            File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
+        }
+        if (mkdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
+            if (!rmdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
+                die "Can't remove $Self->{ArticleDataDir}/check_permissons_$$: $!\n";
+            }
+            if (File::Path::mkpath([$Path], 0, 0775)) {
+                File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
+            }
+        }
+        else {
+            my $Error = $!;
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Can't create $Self->{ArticleDataDir}/check_permissons_$$: $Error, ".
+                  "Try: \$OTRS_HOME/bin/SetPermissions.sh !",
+            );
+            die "Error: Can't create $Self->{ArticleDataDir}/check_permissons_$$: $Error \n\n ".
+                "Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n";
+        }
+
+    }
+    return 1;
+}
 # --
 sub CreateArticle {
     my $Self = shift;
@@ -57,18 +108,6 @@ sub CreateArticle {
         return;
       }
     }
-    # --
-    # DB Quoting
-    # --
-    foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
-        if ($Param{$_}) {
-            # qb quoting
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-        }
-        else {
-            $Param{$_} = '';
-        }
-    }
     if (!$Param{Body}) {
         # add 'no body found!' if there is no body there!
         $Param{Body} = 'no body found!';
@@ -76,6 +115,19 @@ sub CreateArticle {
     else {
         # fix some bad stuff from browsers!
         $Param{Body} =~ s/(\n\r|\r\n)/\n/g;
+    }
+    # --
+    # DB Quoting
+    # --
+    my %DBParam = ();
+    foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
+        if ($Param{$_}) {
+            # qb quoting
+            $DBParam{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
+        else {
+            $DBParam{$_} = '';
+        }
     }
     # --
     # do db insert
@@ -86,8 +138,9 @@ sub CreateArticle {
     " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
 	" VALUES ".
     " ($Param{TicketID}, $Param{ArticleTypeID}, $Param{SenderTypeID}, ".
-    " '$Param{From}', '$Param{ReplyTo}', '$Param{To}', '$Param{Cc}', '$Param{Subject}', ". 
-	" '$Param{MessageID}', '$Param{Body}', '$Param{ContentType}', ".
+    " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
+    " '$DBParam{Subject}', ". 
+	" '$DBParam{MessageID}', '$DBParam{Body}', '$DBParam{ContentType}', ".
     "'".$Self->{DBObject}->Quote($Self->{ArticleContentPath})."', $ValidID,  $IncomingTime, " .
 	" current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     if (!$Self->{DBObject}->Do(SQL => $SQL)) {
@@ -98,15 +151,19 @@ sub CreateArticle {
     # --
     my $ArticleID = $Self->GetIdOfArticle(
         TicketID => $Param{TicketID},
-        MessageID => $Param{MessageID},
-        From => $Param{From},
-        Subject => $Param{Subject},
+        MessageID => $DBParam{MessageID},
+        From => $DBParam{From},
+        Subject => $DBParam{Subject},
         IncomingTime => $IncomingTime
     ); 
     # --
     # return if there is not article created
     # --
     if (!$ArticleID) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't get ArticleID from INSERT!",
+        );
         return;
     }
     # --
@@ -222,6 +279,53 @@ sub CreateArticle {
     return $ArticleID;
 }
 # --
+sub DeleteArticleOfTicket {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # delete attachments and plain emails
+    # --
+    my @Articles = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+    foreach (@Articles) {    
+        # --
+        # delete from fs
+        # --
+        my $ContentPath = $Self->GetArticleContentPath(ArticleID => $_);
+        system("rm -rf $Self->{ArticleDataDir}/$ContentPath/$_/*");
+        # --
+        # delete from db
+        # --
+        $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $_");
+        $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $_");
+    } 
+    # --
+    # delete articles
+    # --
+    if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
+        # --
+        # delete history´
+        # --
+        if ($Self->DeleteHistoryOfTicket(TicketID => $Param{TicketID})) {
+            return 1;
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        return;
+    }
+}
+# --
 sub WriteArticle {
     my $Self = shift;
     my %Param = @_;
@@ -234,7 +338,10 @@ sub WriteArticle {
         return;
       }
     }
-    my @Plain = @{$Param{Email}};
+    my $PlainString = '';
+    foreach (@{$Param{Email}}) {
+        $PlainString .= $_;
+    }
     my $Path = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
     # --
     # debug
@@ -242,34 +349,80 @@ sub WriteArticle {
     if ($Self->{Debug} > 1) {
         print STDERR '->WriteArticle: ' . $Path . "\n";
     }
-    # --
-    # mk dir
-    # --
-    # test for bert preiss!
-#    File::Path::mkpath([$Path], 0, 0775);
-    if (! File::Path::mkpath([$Path], 0, 0775)) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Path: $!");
-        return;
+    if (!$Param{UserID}) {
+        $Param{UserID} = 1;
     }
     # --
-    # write article to fs 1:1
+    # store article to db or fs
     # --
-    if (open (DATA, "> $Path/plain.txt")) { 
-        print DATA @Plain;
-        close (DATA);
-        # store atms.
-        my $Parser = new MIME::Parser;
-        $Parser->output_to_core("ALL");
-        my $Data;
-        eval { $Data = $Parser->parse_open("$Path/plain.txt") };
-        foreach my $Part ($Data->parts()) {
-            $Self->WriteArticleParts(Part => $Part, Path => $Path);
+    if ($Self->{ConfigObject}->Get('ArticlePlainStorage') eq 'fs') {
+        # --
+        # write article to fs 1:1
+        # --
+        # mk dir
+        # test for bert preiss!
+   #    File::Path::mkpath([$Path], 0, 0775);
+        if (! File::Path::mkpath([$Path], 0, 0775)) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Path: $!");
+            return;
         }
-        return 1;
+        # --
+        # write article to fs 
+        # --
+        if (open (DATA, "> $Path/plain.txt")) { 
+            print DATA $PlainString;
+            close (DATA);
+            # store atms.
+            my $Parser = new MIME::Parser;
+            $Parser->output_to_core("ALL");
+            my $Data = $Parser->parse_data($PlainString);
+
+            foreach my $Part ($Data->parts()) {
+                $Self->WriteArticleParts(
+                    Part => $Part, 
+                    Path => $Path, 
+                    ArticleID => $Param{ArticleID},
+                    UserID => $Param{UserID},
+                );
+            }
+            return 1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "Can't write: $Path/plain.txt: $!",
+            );
+            return;
+        }
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write: $Path/plain.txt: $!");
-        return;
+        # --
+        # write article to db 1:1
+        # --
+        my $SQL = "INSERT INTO article_plain ".
+          " (article_id, body, create_time, create_by, change_time, change_by) " .
+          " VALUES ".
+          " ($Param{ArticleID}, '".$Self->{DBObject}->Quote($PlainString)."', ".
+          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+        if ($Self->{DBObject}->Do(SQL => $SQL)) {
+            # store atms.
+            my $Parser = new MIME::Parser;
+            $Parser->output_to_core("ALL");
+            my $Data = $Parser->parse_data($PlainString);
+
+            foreach my $Part ($Data->parts()) {
+                $Self->WriteArticleParts(
+                    Part => $Part, 
+                    Path => $Path, 
+                    ArticleID => $Param{ArticleID},
+                    UserID => $Param{UserID},
+                );
+            }
+            return 1;
+        }
+        else {
+            return;
+        }
     }
 }
 # --
@@ -279,7 +432,7 @@ sub WriteArticleParts {
     # --
     # check needed stuff
     # --
-    foreach (qw(Part Path)) {
+    foreach (qw(UserID Part Path ArticleID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -305,28 +458,57 @@ sub WriteArticleParts {
                 Part => $_, 
                 PartCounter => $Self->{PartCounter}, 
                 Path => $Param{Path},
+                ArticleID => $Param{ArticleID},
+                UserID => $Param{UserID},
             );
         }
     }
     else {
-        my $Filename = $Param{Part}->head()->recommended_filename() || "file-$Self->{PartCounter}";
-        # --
-        # debug
-        # --
-        if ($Self->{Debug} > 0) {
-          $Self->{LogObject}->Log(Message => '->GotArticle::Atm->Filename:' . $Filename);
-        }
-        # --
-        # write attachment to fs
-        # --
-        if (open (DATA, "> $Param{Path}/$Filename")) {
-          print DATA $Param{Part}->effective_type() . "\n";
-          print DATA $Param{Part}->bodyhandle()->as_string();
-          close (DATA);
+        my %PartData = ();
+        $PartData{Filename} = $Param{Part}->head()->recommended_filename() || "file-$Self->{PartCounter}";
+        $PartData{ContentType} = $Param{Part}->effective_type();
+        $PartData{Content} = $Param{Part}->bodyhandle()->as_string();
+
+        if ($Self->{ConfigObject}->Get('ArticleAttachmentStorage') eq 'fs') {
+            # --
+            # write attachment to fs
+            # --
+            if (open (DATA, "> $Param{Path}/$PartData{Filename}")) {
+                print DATA "$PartData{ContentType}\n";
+                print DATA $PartData{Content};
+                close (DATA);
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error', 
+                    Message => "Can't write: $Param{Path}/$PartData{Filename}: $!",
+                );
+                return;
+            }
         }
         else {
-          $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write: $Param{Path}/$Filename: $!");
-          return;
+            # --
+            # write attachment to db
+            # --
+            foreach (keys %PartData) {
+                $PartData{$_} = $Self->{DBObject}->Quote($PartData{$_});
+            }
+            # --
+            # debug
+            # --
+            if ($Self->{Debug} > 0) {
+              $Self->{LogObject}->Log(
+                  Message => '->GotArticle::Atm->Filename:' . $PartData{Filename},
+              );
+            }
+            my $SQL = "INSERT INTO article_attachment ".
+              " (article_id, filename, content_type, content, ".
+              " create_time, create_by, change_time, change_by) " .
+              " VALUES ".
+              " ($Param{ArticleID}, '$PartData{Filename}', '$PartData{ContentType}', ".
+              " '$PartData{Content}', ".
+              " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+            $Self->{DBObject}->Do(SQL => $SQL);
         }
     }
     return 1;
@@ -355,11 +537,23 @@ sub GetArticleAtmIndex  {
     if (!$Param{ContentPath}) {
         $Param{ContentPath} = $Self->GetArticleContentPath(ArticleID => $Param{ArticleID});
     }
-    my @Index;
+    my @Index = ();
+    # try fs
     my @List = glob("$Self->{ArticleDataDir}/$Param{ContentPath}/$Param{ArticleID}/*");
     foreach (@List) {
         s!^.*/!!;
         push (@Index, $_) if ($_ ne 'plain.txt');
+    }
+    # try database
+    if (!@Index) {
+        my $SQL = "SELECT filename FROM article_attachment ".
+        " WHERE ".
+        " article_id = $Param{ArticleID}".
+        " ORDER BY id";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+            push (@Index, $RowTmp[0]);
+        }
     }
     return @Index;
 }
@@ -379,16 +573,29 @@ sub GetArticlePlain {
     # --
     # open plain article
     # --
+    my $Data = '';
     if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt")) {
         # can't open article
-        $Self->{LogObject}->Log(
-          Priority => 'error', 
-          Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
-        );
-        return;
+        # try database
+        my $SQL = "SELECT body FROM article_plain ".
+        " WHERE ".
+        " article_id = $Param{ArticleID}";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+            $Data = $RowTmp[0];
+        }
+        if ($Data) {
+            return $Data;
+        }
+        else {
+            $Self->{LogObject}->Log(
+              Priority => 'error', 
+              Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
+            );
+            return;
+        }
     }
     else {
-        my $Data = '';
         # --
         # read whole article
         # --
@@ -426,11 +633,27 @@ sub GetArticleAttachment {
         return %Data;
     }
     else {
-        $Self->{LogObject}->Log(
-          Priority => 'error', 
-          Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Param{File}!",
-        );
-        return;
+        # try database
+        my $SQL = "SELECT content_type, content FROM article_attachment ".
+        " WHERE ".
+        " article_id = $Param{ArticleID}".
+        " AND ".
+        " filename = '".$Self->{DBObject}->Quote($Param{File})."'";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+            $Data{Type} = $RowTmp[0]."\n";
+            $Data{Data} = $RowTmp[1];
+        }
+        if ($Data{Data}) {
+            return %Data;
+        }
+        else {
+            $Self->{LogObject}->Log(
+              Priority => 'error', 
+              Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Param{File}!",
+            );
+            return;
+        }
     }
 }
 # --
