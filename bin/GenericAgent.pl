@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.5 2002-08-27 23:37:11 martin Exp $
+# $Id: GenericAgent.pl,v 1.6 2002-10-03 17:37:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,14 +33,13 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
-use Kernel::System::Article;
 use Kernel::System::Queue;
 
 # --
@@ -61,7 +60,6 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{ArticleObject} = Kernel::System::Article->new(%CommonObject);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 
 foreach my $Job (keys %Jobs) {
@@ -89,7 +87,7 @@ foreach my $Job (keys %Jobs) {
         # --
         if ($Jobs{$Job}->{New}->{Note}->{Body}) {
           print "  - Add note\n";
-          $CommonObject{ArticleObject}->CreateArticle(
+          $CommonObject{TicketObject}->CreateArticle(
             TicketID => $_,
             ArticleType => 'note-internal',
             SenderType => 'agent',
