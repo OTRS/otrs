@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.9 2002-04-14 19:12:46 martin Exp $
+# $Id: German.pm,v 1.10 2002-05-09 23:42:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -23,9 +23,9 @@ sub Data {
 
     # some common words
     $Self->{Lock} = 'Ziehen';
-    $Self->{Unlock} = 'Frei geben';
-    $Self->{unlock} = 'frei geben';
-    $Self->{Zoom} = 'Genauer';
+    $Self->{Unlock} = 'Freigeben';
+    $Self->{unlock} = 'freigeben';
+    $Self->{Zoom} = 'Inhalt';
     $Self->{History} = 'History';
     $Self->{'Add Note'} = 'Notiz anheften';
     $Self->{Bounce} = 'Bounce';
@@ -38,7 +38,7 @@ sub Data {
     $Self->{Subject} = 'Betreff';
     $Self->{Move} = 'Verschieben';
     $Self->{Queues} = 'Queues';
-    $Self->{Close} = 'Schliesen';
+    $Self->{Close} = 'Schließen';
     $Self->{Compose} = 'Verfassen';
     $Self->{Pending} = 'Warten';
     $Self->{end} = 'runter';
@@ -55,7 +55,7 @@ sub Data {
     $Self->{Ticket} = 'Ticket';
     $Self->{Createtime} = 'Erstellt am';
     $Self->{Created} = 'Erstellt';
-    $Self->{View} = 'Sicht';
+    $Self->{View} = 'Ansicht';
     $Self->{Action} = 'Aktion';
     $Self->{User} = 'Benutzer';
     $Self->{Back} = 'zurück';
@@ -64,7 +64,7 @@ sub Data {
     $Self->{Customer} = 'Kunde';
     $Self->{'Customer info'} = 'Kunden Info';
     $Self->{'Set customer id of a ticket'} = 'Setze eine Kunden# zu einem Ticket';
-    $Self->{'All tickets of this customer'} = 'Alle Tickets zu diesem Kunden';
+    $Self->{'All tickets of this customer'} = 'Alle Tickets dieses Kunden';
     $Self->{'New CustomerID'} = 'Neue Kundennummer';
     $Self->{'for ticket'} = 'für Ticket';
     $Self->{'Start work'} = 'Start Arbeit';
@@ -95,8 +95,8 @@ sub Data {
     $Self->{'Language'} = 'Sprache';
     $Self->{'Salutation'} = 'Anrede';
     $Self->{'Signature'} = 'Signatur';
-    $Self->{'Standart Responses'} = 'Standart Antworten';
-    $Self->{'System Addresses'} = 'System Adressen';
+    $Self->{'Standart Responses'} = 'Standard-Antworten';
+    $Self->{'System Addresses'} = 'System-Adressen';
     $Self->{'Admin Area'} = 'Adminbereich';
     $Self->{'Preferences'} = 'Einstellungen';
     $Self->{'top'} = 'hoch';
@@ -116,18 +116,18 @@ sub Data {
     $Self->{'Change Salutation settings'} = 'Ändern einer Anrede';
     # nav bar
     $Self->{Logout} = 'Abmelden';
-    $Self->{QueueView} = 'QueueAnsicht';
-    $Self->{PhoneView} = 'PhoneAnsicht';
+    $Self->{QueueView} = 'Queue-Ansicht';
+    $Self->{PhoneView} = 'Telefon-Ansicht';
     $Self->{Utilities} = 'Werkzeug';
     $Self->{AdminArea} = 'AdminBereich';
     $Self->{Preferences} = 'Einstellungen';
     $Self->{'Locked tickets'} = 'Eigene Tickets';
-    $Self->{'new message'} = 'new Nachricht';
+    $Self->{'new message'} = 'neue Nachricht';
     # ticket history
     $Self->{'History of Ticket'} = 'History von Ticket';
     # ticket note
     $Self->{'Add note to ticket'} = 'Anheften einer Notiz an Ticket';
-    $Self->{'Note type'} = 'Notiz Type';
+    $Self->{'Note type'} = 'Notiz-Typ';
     # queue view
     $Self->{'Tickets shown'} = 'Tickets gezeigt';
     $Self->{'Ticket available'} = 'Ticket verfügbar';
@@ -141,8 +141,8 @@ sub Data {
     # util
     $Self->{'Hit'} = 'Treffer';
     $Self->{'Total hits'} = 'Treffer gesamt';
-    $Self->{'Seach again'} = 'Nochmal suchen';
-    $Self->{'max viewable hits'} = 'max Treffer sichtbar';
+    $Self->{'Search again'} = 'Nochmal suchen';
+    $Self->{'max viewable hits'} = 'max. Treffer sichtbar';
     $Self->{'Utilities/Search'} = 'Werkzeug/Suche';
     $Self->{'Ticket# search (e. g. 10*5155 or 105658*)'} = 'Ticket# Suche (z. B. 10*5155 or 105658*)';
     $Self->{'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")'} = 'Volltextsuche (z. B. "Mar*in" ode 
@@ -156,19 +156,19 @@ sub Data {
     $Self->{'Ticket locked!'} = 'Ticket gesperrt!';
     # forward
     $Self->{'Forward article of ticket'} = 'Weiterleitung des Artikels vom Ticket';
-    $Self->{'Article type'} = 'Artikle Type';
+    $Self->{'Article type'} = 'Artikel-Typ';
     $Self->{'Next ticket state'} = 'Nächster Status des Tickets';
 
     # preferences
     $Self->{'User Preferences'} = 'Benutzereinstellungen';
-    $Self->{'Change Password'} = 'Paßwort ändern';
-    $Self->{'New password'} = 'Neues Paßwort';
-    $Self->{'New password again'} = 'Neues Paßwort wiederholen';
-    $Self->{'Select your custom queues'} = 'Bitte wähle Deine bevorzugten Queues';
-    $Self->{'Select your frontend language'} = 'Bitte wähle Deine Oberflächen Sprache';
-    $Self->{'Select your frontend Charset'} = 'Bitte wähle Deinen Frontend Charset';
-    $Self->{'Select your frontend theme'} = 'Bitte wähle Dein Theme';
-    $Self->{'Frontend language'} = 'Frontend Sprache';
+    $Self->{'Change Password'} = 'Passwort ändern';
+    $Self->{'New password'} = 'Neues Passwort';
+    $Self->{'New password again'} = 'Neues Passwort wiederholen';
+    $Self->{'Select your custom queues'} = 'Bevorzugten Queues auswählen';
+    $Self->{'Select your frontend language'} = 'Oberflächen-Sprache auswählen';
+    $Self->{'Select your frontend Charset'} = 'Zeichensatz für Darstellung auswählen';
+    $Self->{'Select your frontend theme'} = 'Anzeigeschema auswählen';
+    $Self->{'Frontend language'} = 'Bedien-Sprache auswählen';
     # change priority
     $Self->{'Change priority of ticket'} = 'Priorität ändern für Ticket';
     # some other words ...
@@ -181,11 +181,11 @@ sub Data {
     $Self->{'new'} = 'neu';
     $Self->{'open'} = 'offen';
     $Self->{'closed succsessful'} = 'erfolgreich geschlossen';
-    $Self->{'closed unsuccsessful'} = 'unerfolgreich geschlossen';
-    $Self->{'removed'} = 'zurückgezogen';
+    $Self->{'closed unsuccsessful'} = 'erfolglos geschlossen';
+    $Self->{'removed'} = 'entfernt';
     # article types
-    $Self->{'email-external'} = 'Email für extern';
-    $Self->{'email-internal'} = 'Email für intern';
+    $Self->{'email-external'} = 'Email an extern';
+    $Self->{'email-internal'} = 'Email an intern';
     $Self->{'note-internal'} = 'Notiz für intern';
     $Self->{'note-external'} = 'Notiz für extern';
     $Self->{'note-report'} = 'Notiz für reporting';
