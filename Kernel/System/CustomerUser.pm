@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.1 2002-10-15 09:30:16 martin Exp $
+# $Id: CustomerUser.pm,v 1.2 2002-10-20 12:08:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -30,6 +30,16 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    # preferences table data
+    $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('CustomerPreferencesTable')
+      || 'customer_preferences';
+    $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('CustomerPreferencesTableKey')
+      || 'preferences_key';
+    $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('CustomerPreferencesTableValue')
+      || 'preferences_value';
+    $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('CustomerPreferencesTableUserID')
+      || 'user_id';
 
     return $Self;
 }
@@ -77,9 +87,13 @@ sub CustomerUserDataGet {
         );
         return;
     }
+    # --
+    # get preferences
+    # --
+    my %Preferences = $Self->GetPreferences(UserID => $Data{UserID});
 
     # return data
-    return (%Data);
+    return (%Data, %Preferences);
 }
 # --
 sub CustomerUserAdd {
@@ -88,7 +102,7 @@ sub CustomerUserAdd {
     # --
     # check needed stuff
     # --
-    foreach (qw(Salutation Firstname Lastname Login Pw ValidID CustomerID Email Comment UserID)) {
+    foreach (qw(Salutation Firstname Lastname Login Pw ValidID CustomerID Email UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -229,7 +243,7 @@ sub SetPassword {
     # --
     # crypt pw
     # --    
-    my $NewPw = crypt($Pw, $Param{UserLogin});
+    my $NewPw = $Self->{DBObject}->Quote(crypt($Pw, $Param{UserLogin}));
     # --
     # update db
     # --
@@ -256,6 +270,98 @@ sub SetPassword {
 # --
 sub GetGroups {
     return;
+}
+# --
+sub SetPreferences {
+    my $Self = shift;
+    my %Param = @_;
+    my $UserID = $Param{UserID} || return;
+    my $Key = $Param{Key} || return;
+    my $Value = $Param{Value} || '';
+
+    # delete old data
+    if (!$Self->{DBObject}->Do(
+       SQL => "DELETE FROM $Self->{PreferencesTable} ".
+              " WHERE ".
+              " $Self->{PreferencesTableUserID} = $UserID ".
+              " AND ".
+              " $Self->{PreferencesTableKey} = '$Key'",
+    )) {
+        $Self->{LogObject}->Log(
+          Priority => 'error',
+          Message => "Can't delete $Self->{PreferencesTable}!",
+        );
+        return;
+    }
+
+    # insert new data
+    if (!$Self->{DBObject}->Do(
+       SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, ".
+              " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
+              " VALUES ($UserID, '$Key', '$Value')",
+    )) {
+        $Self->{LogObject}->Log(
+          Priority => 'error',
+          Message => "Can't insert new $Self->{PreferencesTable}!",
+        );
+        return;
+    }
+    return 1;
+}
+# --
+sub GetPreferences {
+    my $Self = shift;
+    my %Param = @_;
+    my $UserID = $Param{UserID} || return;
+    my %Data;
+
+    # --
+    # get preferences
+    # --
+    my $SQL = "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} " .
+        " FROM " .
+        " $Self->{PreferencesTable} ".
+        " WHERE " .
+        " $Self->{PreferencesTableUserID} = $UserID";
+
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $Data{$RowTmp[0]} = $RowTmp[1];
+    }
+    # --
+    # check needed preferences
+    # --
+    if (!$Data{UserCharset}) {
+        $Data{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
+    }
+
+    # --
+    # return data
+    # --
+    return %Data;
+}
+# --
+sub GenerateRandomPassword {
+    my $Self = shift;
+    my %Param = @_;
+    # Generated passwords are eight characters long by default.
+    my $Size = $Param{Size} || 8;
+
+    # The list of characters that can appear in a randomly generated password.
+    # Note that users can put any character into a password they choose themselves.
+    my @PwChars = (0..9, 'A'..'Z', 'a'..'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*');
+
+    # The number of characters in the list.
+    my $PwCharsLen = scalar(@PwChars);
+
+    # Generate the password.
+    my $Password = '';
+    for ( my $i=0 ; $i<$Size ; $i++ ) {
+        $Password .= $PwChars[rand($PwCharsLen)];
+    }
+
+    # Return the password.
+    return $Password;
 }
 # --
 
