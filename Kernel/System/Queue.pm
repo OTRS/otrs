@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.9 2002-07-21 17:17:07 martin Exp $
+# $Id: Queue.pm,v 1.10 2002-07-21 18:01:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -89,13 +89,22 @@ sub GetStdResponse {
     my $Self = shift;
     my %Param = @_;
     my $String = '';
-    my $ID = $Param{ID};
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
+    }
+    # --
+    # sql 
+    # --
     my $SQL = "SELECT text FROM standard_response" .
         " WHERE " .
-        " id = $ID ";
+        " id = $Param{ID} ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $String = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $String = $Row[0];
     }
     return $String;
 }
@@ -103,14 +112,19 @@ sub GetStdResponse {
 sub GetStdResponses {
     my $Self = shift;
     my %Param = @_;
-    my $QueueID = $Param{QueueID} || return;
     my %StdResponses;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
+        return;
+    }
     # --
     # check if this result is present
     # --
-    if ($Self->{"StdResponses::$QueueID"}) {
-        my $StdResponsesTmp = $Self->{"StdResponses::$QueueID"};
-        %StdResponses = %$StdResponsesTmp;
+    if ($Self->{"StdResponses::$Param{QueueID}"}) {
+        %StdResponses = %{$Self->{"StdResponses::$Param{QueueID}"}};
         return %StdResponses;
     }
     # --
@@ -120,20 +134,20 @@ sub GetStdResponses {
         " FROM " .
         " standard_response as sr, queue_standard_response as qsr" .
         " WHERE " .
-        " qsr.queue_id in ($QueueID)" .
+        " qsr.queue_id in ($Param{QueueID})" .
         " AND " .
         " qsr.standard_response_id = sr.id" .
         " AND " .
         " sr.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )" .
         " ORDER BY sr.name";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $StdResponses{$RowTmp[0]} = $RowTmp[1];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $StdResponses{$Row[0]} = $Row[1];
     }
     # --
     # store std responses
     # --
-    $Self->{"StdResponses::$QueueID"} = \%StdResponses;
+    $Self->{"StdResponses::$Param{QueueID}"} = \%StdResponses;
     # --
     # return responses
     # --
@@ -144,7 +158,9 @@ sub GetAllQueues {
     my $Self = shift;
     my %Param = @_;
     my $UserID = $Param{UserID} || '';
+    # --
     # fetch all queues
+    # --
     my %MoveQueues;
     if ($UserID) {
         my $SQL = "SELECT sq.id, sq.name FROM queue as sq, group_user sug, groups as sg " .
@@ -162,8 +178,8 @@ sub GetAllQueues {
         $Self->{DBObject}->Prepare(SQL => "SELECT id, name FROM queue WHERE valid_id in " .
 	"( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )");
     }
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $MoveQueues{$RowTmp[0]} = $RowTmp[1];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $MoveQueues{$Row[0]} = $Row[1];
     }
     return %MoveQueues;
 }
@@ -171,13 +187,21 @@ sub GetAllQueues {
 sub GetAllCustomQueues {
     my $Self = shift;
     my %Param = @_;
-    my $UserID = $Param{UserID} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
+        return;
+    }
+    # --
     # fetch all queues
+    # --
     my @QueueIDs;
-    my $SQL = "SELECT queue_id FROM personal_queues WHERE user_id = $UserID";
+    my $SQL = "SELECT queue_id FROM personal_queues WHERE user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        push(@QueueIDs, $RowTmp[0]);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push(@QueueIDs, $Row[0]);
     }
     return @QueueIDs;
 }
@@ -185,36 +209,45 @@ sub GetAllCustomQueues {
 sub QueueLookup {
     my $Self = shift;
     my %Param = @_;
-    my $Queue = $Param{Queue} || '';
-    my $QueueID = $Param{QueueID} || '';
-
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{Queue} && !$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no Queue or QueueID!");
+        return;
+    }
+    # --
     # check if we ask the same request?
-    if (exists $Self->{"QueueLookup$QueueID"}) {
-        return $Self->{"QueueLookup$QueueID"};
+    # --
+    if (exists $Self->{"QueueLookup$Param{QueueID}"}) {
+        return $Self->{"QueueLookup$Param{QueueID}"};
     }
-    if (exists $Self->{"QueueLookup$Queue"}) {
-        return $Self->{"QueueLookup$Queue"};
+    if (exists $Self->{"QueueLookup$Param{Queue}"}) {
+        return $Self->{"QueueLookup$Param{Queue}"};
     }
-
+    # --
     # get data
+    # --
     my $SQL = '';
     my $Suffix = '';
-    if ($Queue) {
+    if ($Param{Queue}) {
         $Suffix = 'QueueID';
-        $SQL = "SELECT id FROM queue WHERE name = '$Queue'";
+        $SQL = "SELECT id FROM queue WHERE name = '$Param{Queue}'";
     }
     else {
         $Suffix = 'Queue';
-        $SQL = "SELECT name FROM queue WHERE id = $QueueID";
+        $SQL = "SELECT name FROM queue WHERE id = $Param{QueueID}";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
-        $Self->{"QueueLookup$Suffix"} = $RowTmp[0];
+        $Self->{"QueueLookup$Suffix"} = $Row[0];
     }
+    # --
     # check if data exists
+    # --
     if (!exists $Self->{"QueueLookup$Suffix"}) {
-        print STDERR "Queue->QueueLookup(!\$$Suffix|) \n";
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Found no \$$Suffix!");
         return;
     }
 
@@ -224,8 +257,16 @@ sub QueueLookup {
 sub GetFollowUpOption {
     my $Self = shift;
     my %Param = @_;
-    my $QueueID = $Param{QueueID} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
+        return;
+    }
+    # --
     # fetch queues data
+    # --
     my $Return = '';
     my $SQL = "SELECT sf.name " .
 		" FROM " .
@@ -233,10 +274,10 @@ sub GetFollowUpOption {
 		" WHERE " .
 		" sq.follow_up_id = sf.id " .
 		" AND " .
-		" sq.id = $QueueID";
+		" sq.id = $Param{QueueID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-		$Return = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+		$Return = $Row[0];
     }
     return $Return;
 }
@@ -244,14 +285,22 @@ sub GetFollowUpOption {
 sub GetFollowUpLockOption {
     my $Self = shift;
     my %Param = @_;
-    my $QueueID = $Param{QueueID} || '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
+        return;
+    }
+    # --
     # fetch queues data
+    # --
     my $Return = 0;
     my $SQL = "SELECT sq.follow_up_lock " .
         " FROM " .
         " queue sq " .
         " WHERE " .
-        " sq.id = $QueueID";
+        " sq.id = $Param{QueueID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Return = $RowTmp[0];
@@ -262,16 +311,25 @@ sub GetFollowUpLockOption {
 sub GetQueueGroupID {
     my $Self = shift;
     my %Param = @_;
-    my $QueueID = $Param{QueueID} || return;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
+        return;
+    }
+    # --
+    # sql 
+    # --
     my $GID = '';
         my $SQL = "SELECT group_id " .
         " FROM " .
         " queue " .
         " WHERE " .
-        " id = $QueueID";
+        " id = $Param{QueueID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $GID = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $GID = $Row[0];
     }
     return $GID;
 }
@@ -378,12 +436,16 @@ sub QueueAdd {
 sub GetTicketIDsByQueue {
     my $Self = shift;
     my %Param = @_;
-
+    # --
+    # check needed stuff
+    # --
     if (!$Param{Queue} && !$Param{QueueID}) {
-        print STDERR "Got no Queue or QueueID!\n";
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no Queue or QueueID!");
         return;
     }
-
+    # --
+    # sql
+    # --
     my $SQL = "SELECT st.id, st.tn FROM " .
     " ticket as st, queue as sq, ticket_state tsd, ticket_lock_type slt " .
     " WHERE " .
