@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.19 2003-02-08 15:05:11 martin Exp $
+# $Id: mkStats.pl,v 1.20 2003-04-12 22:07:29 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -106,7 +106,8 @@ my $Title  = "OTRS stats for $Month/$Year";
 
 my %States = GetHistoryTypes();
 my @PossibleStates;
-foreach (keys %States) {
+foreach (sort {$States{$a} cmp $States{$b}} keys %States) {
+    $States{$_} =~ s/^(.{18}).*$/$1\.\.\./;
     push (@PossibleStates, $States{$_});
 }
 # --
