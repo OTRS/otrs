@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.114 2004-03-05 11:35:09 martin Exp $
+# $Id: CHANGES,v 1.115 2004-03-25 10:44:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,7 +11,19 @@
 
 CVS head 
 
+ - (2004/03/12) added customer panel MyTickets and GroupTickets 
+    feature.
+ - (2004/03/11) added mulit serach options to customer serach e. g.
+    "name+phone" in customer search
+ - (2004/03/11) added customer search prefix (default '') and suffix 
+    (default '*') to CustomerUser as config options. 
+ - (2004/03/11) added <OTRS_CUSTOMER_*> tags for salutatuion, signateure
+    and std. responses
+ - (2004/03/08) added TimeZone feature - e. g. config option
+    "$Self->{TimeZone} = +5;" in Kernel/Config.pm
  - (2004/03/05) added Include funtion to dtl tags - Thanks to Bozhin Zafirov!
+    - moved to central css dtl file (Kernel/Output/HTML/*/css.dtl and
+      Kernel/Output/HTML/*/customer-css.dtl)
  - (2004/02/29) improved database handling of large objects (use DBI
     bind values now / saves memory)
  - (2004/02/27) replaced "CustomQueue" with "My Queues" in agent frontend
@@ -24,6 +36,8 @@ CVS head
 
 1.2.3
 
+ - (2004/03/08) fixed bug 341 Wrong results searching for time ranges 
+    http://bugs.otrs.org/show_bug.cgi?id=341
  - (2004/02/29) fixed language quoting in customer login screen
  - (2004/02/27) fixed missing "internal (agent)" agent search faq
  - (2004/02/27) fixed possible owner selection in AgentPhone/AgentEmaill
