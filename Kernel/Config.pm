@@ -1,8 +1,8 @@
 # --
-# Config.pm - Config file for OpenTRS kernel
+# Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.41 2002-06-23 09:51:57 martin Exp $
+# $Id: Config.pm,v 1.42 2002-07-21 22:56:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -73,11 +73,14 @@ sub Load {
     # (The name of custom queue.)
     $Self->{CustomQueue} = 'PersonalQueue';
 
-    # MoveInToAllQueues
+    # MoveInToAllQueues -> useful for ASP
     # (Possible to move in all queue? Not only queue which
     # the own groups) [1|0]
     $Self->{MoveInToAllQueues} = 1;
 
+    # ChangeOwnerToEveryone -> useful for ASP
+    # (Possible to change owner of ticket ot everyone) [0|1]
+    $Self->{ChangeOwnerToEveryone} = 0;
 
     # ----------------------------------------------------#
     # database settings                                   #
