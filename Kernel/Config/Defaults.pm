@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.107 2004-02-09 23:54:25 martin Exp $
+# $Id: Defaults.pm,v 1.108 2004-02-10 00:08:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.107 $';
+$VERSION = '$Revision: 1.108 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1680,7 +1680,7 @@ Your OTRS Notification Master
     $Self->{EmailDefaultNextStateType} = ['open', 'pending auto', 'pending reminder', 'closed'];
     
     # default next state
-    $Self->{EmailDefaultNextState} = 'closed successful';
+    $Self->{EmailDefaultNewNextState} = 'open';
 
 
     # --------------------------------------------------- #
