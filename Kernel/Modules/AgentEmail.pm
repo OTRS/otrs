@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.4 2004-02-10 00:51:13 martin Exp $
+# $Id: AgentEmail.pm,v 1.4.2.1 2004-02-29 16:27:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.4.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,7 +70,12 @@ sub Run {
             # --
             # get split article if given
             # --
-            my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText();
+            my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(
+                $Self->{UserObject}->GetUserData(
+                    UserID => $Self->{UserID}, 
+                    Cached => 1,
+                ),
+            );
             # html output
             $Output .= $Self->_MaskEmailNew(
               QueueID => $Self->{QueueID},
@@ -464,21 +469,16 @@ sub _GetUsers {
     if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
         %ShownUsers = %AllGroupsMembers;
     }
-    else {
-        my %Groups = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID},
+    # show all users who are rw in the queue group
+    elsif ($Param{QueueID}) {
+        my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Param{QueueID});
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            GroupID => $GID,
             Type => 'rw',
             Result => 'HASH',
         );
-        foreach (keys %Groups) {
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                    GroupID => $_,
-                    Type => 'rw',
-                    Result => 'HASH',
-            );
-            foreach (keys %MemberList) {
-                    $ShownUsers{$_} = $AllGroupsMembers{$_};
-            }
+        foreach (keys %MemberList) {
+            $ShownUsers{$_} = $AllGroupsMembers{$_};
         }
     }
     return \%ShownUsers;
