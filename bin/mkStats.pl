@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.6 2002-08-27 23:37:11 martin Exp $
+# $Id: mkStats.pl,v 1.7 2002-10-01 09:45:37 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,25 +33,36 @@ use Kernel::System::DB;
 use Kernel::Config;
 use Kernel::System::Log;
 
+use vars qw($VERSION);
+$VERSION = '$Revision: 1.7 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
 umask 022;
 
-my $ConfigObject = Kernel::Config->new();
-my $LogObject = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-mkStats',
-    ConfigObject => $ConfigObject,
-);
-my $DBObject = Kernel::System::DB->new(
-    ConfigObject => $ConfigObject,
-    LogObject => $LogObject,
-);
+print "mkStats.pl <Revision $VERSION> - unlock tickets\n";
+print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
+print "usage: mkStats.pl (for the current month) or mkStats.pl <YEAR> <MONTH> (for the past)\n";
 
-my $PicDataDir = $ConfigObject->Get('StatsPicDir') 
+# --
+# common objects
+# --
+my %CommonObject = ();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-mkStats',
+    %CommonObject,
+);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+
+my $PicDataDir = $CommonObject{ConfigObject}->Get('StatsPicDir') 
   || die 'No StatsPicDir in Kenrel::Config.pm!';
 
 my ($Year, $Month) = Today_and_Now();
 $Year = shift || $Year;
 $Month = shift || $Month;
 my $Day = Days_in_Month($Year,$Month) + 1;
+
+print "->> creating stats for $Year/$Month <<-\n";
 
 #my $graph = GD::Graph::lines->new(600, 400);
 my $graph = GD::Graph::lines->new(500, 300);
@@ -120,7 +131,7 @@ foreach (keys %States) {
 # plot graph
 $graph->plot(\@Data);
 my $ext = $graph->export_format;
-print STDOUT "writing $PicDataDir/$Year-$Month.$ext\n";
+print STDOUT " writing $PicDataDir/$Year-$Month.$ext\n";
 open (OUT, "> $PicDataDir/$Year-$Month.$ext") || die $!;
 binmode OUT;
 print OUT $graph->gd->$ext();
@@ -143,8 +154,8 @@ sub GetDBDataPerMonth {
         " change_time >= '$Year-$Month-$StartDate'" .
         " AND " .
         " change_time <= '$Year-$Month-$EndDate'";
-        $DBObject->Prepare(SQL => $SQL);
-        while (my @RowTmp = $DBObject->FetchrowArray()) {
+        $CommonObject{DBObject}->Prepare(SQL => $SQL);
+        while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
             $DayData= $RowTmp[0];
         }
 #		print $State . " ($Year-$Month-$StartDate) " . $DayData . "\n";
@@ -159,8 +170,8 @@ sub GetHistoryTypes {
     my $SQL = "SELECT id, name FROM ticket_history_type " .
     " WHERE " .
     " valid_id = 1";
-    $DBObject->Prepare(SQL => $SQL);
-    while (my @RowTmp = $DBObject->FetchrowArray()) {
+    $CommonObject{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
         $Stats{$RowTmp[0]} = $RowTmp[1];
     }
     return %Stats;
