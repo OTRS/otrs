@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.16 2005-02-15 12:22:25 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.17 2005-02-23 10:02:39 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.mysql.sql | mysql -f -u root otrs
@@ -195,6 +195,14 @@ CREATE TABLE package_repository (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
+
+--
+-- ticket history type for new system tickets
+--
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('SystemRequest', 1, 1, current_timestamp, 1, current_timestamp);
 
 --
 -- remove all old notifications
