@@ -2,7 +2,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.1 2002-01-12 15:27:24 martin Exp $
+# $Id: suse-rcotrs,v 1.2 2002-01-16 22:33:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -44,7 +44,7 @@ test "$START_OTRS" = yes || exit 0
 # if one of this is false, it will not be checked at the startup!
 # Note: (may be the database isn't on the same host! --> DB_RUNNING=0) 
 # 
-DB_RUNNING=1
+DB_RUNNING=0
 HTTP_RUNNING=1
 
 # 
@@ -124,28 +124,25 @@ case "$1" in
       # --
       # check otrs spool dir
       # --
-      echo -n " Checking otrs spool dir... ("
-      if ls -f $OTRS_SPOOLDIR/ | grep otrs ; then
-          echo ") Found !!"
-          echo -n " Starting otrs PostMaster... "
-          if ls $OTRS_SPOOLDIR/otrs* | xargs cat | $OTRS_POSTMASTER ; then
-              # FIXME!
-              echo -n "remove emails... "
-              rm -rf $OTRS_SPOOLDIR/otrs*
-              echo "done."
-          else 
-              echo "faild."
-              rc_failed
-          fi
-      else
-          echo "clean)."
-          rc_status
-      fi
+      echo -n " Checking otrs spool dir... "
+      for i in $OTRS_SPOOLDIR/* ; do
+          # process old emails
+          echo $i | grep -v '*' >> /dev/null && \
+            echo "" && \
+            echo -n "   Starting otrs PostMaster... ($i) " && \
+            cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 && \
+            echo -n "remove email... " && \
+            (rm $i || rc_failed) 
+      done
+      echo " done."
+      rc_status
 
       # --
       # check apache
       # --
       if test $HTTP_RUNNING -gt 0; then 
+        # stop old apache daemons
+        rcapache stop 2>&1 > /dev/null
         if  $HTTPD_BIN -f $OTRS_HTTPD_CONF ; then
           echo " Starting httpd ... done."
           rc_status 
@@ -213,13 +210,14 @@ case "$1" in
       # --
       # spool dir
       # --
-      echo -n "Checking otrs spool dir... ("
-      if ls -f $OTRS_SPOOLDIR/ | grep otrs ; then
-          echo ") Found !!"
-      else 
-          echo "clean)."
-      fi
-
+      echo -n "Checking otrs spool dir... "
+      for i in $OTRS_SPOOLDIR/* ; do
+          # echo old emails
+          echo $i | grep -v '*' > /dev/null && \
+            echo ""
+            echo -n " (message:$i) found! " 
+      done
+      echo "done."
     ;;
     *)
     echo "Usage: $0 {start|stop|status|restart}"
