@@ -2,7 +2,7 @@
 # TODO - to do list of OpenTRS
 # Copyright (C) 2001 Martin Edenhofer
 # --
-# $Id: TODO,v 1.4 2001-12-26 20:11:05 martin Exp $
+# $Id: TODO,v 1.5 2001-12-27 14:25:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,15 +10,10 @@
 # --
 
 immediately:
-- AdminSalutation
-- AdminSignature
 - AdminSystemAddresses
 - AdminCharsets
 - AdminStatus
 - AdminLanguages
-- AdminUser
-- AdminGroups
-- AdminUserGroups
 
 - AgentPhoneView
 - AgentPreferences
@@ -30,6 +25,8 @@ immediately:
 - KnowlageFAQ
 
 - SystemStats
+
+- set db time type to human readable string!
 
 later:
 - rework the db scheme indexes 
