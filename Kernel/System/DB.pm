@@ -1,8 +1,8 @@
 # --
 # DB.pm - the global database wrapper to support different databases 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.4 2001-12-30 00:41:04 martin Exp $
+# $Id: DB.pm,v 1.5 2002-01-12 14:11:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -30,7 +30,7 @@ sub new {
     $Self->{Debug} = 0;
     
     # get config data
-    my $ConfigObject = $Param{ConfigObject};
+    my $ConfigObject = $Param{ConfigObject} || die "Got no ConfigObject!";;
     $Self->{HOST} = $ConfigObject->Get('DatabaseHost');
     $Self->{DB}   = $ConfigObject->Get('Database');
     $Self->{USER} = $ConfigObject->Get('DatabaseUser');
@@ -58,7 +58,7 @@ sub Connect {
     }
     
     # db connect
-    $Self->{dbh} = DBI->connect("$Self->{DSN}:$Self->{DB}", $Self->{USER}, $Self->{PW});
+    $Self->{dbh} = DBI->connect("$Self->{DSN}:$Self->{DB}", $Self->{USER}, $Self->{PW}) || return;
 
     return $Self->{dbh};
 }
@@ -136,8 +136,8 @@ sub Prepare {
     }
 
     # do
-    $Self->{Curser} = $Self->{dbh}->prepare($SQL);
-    $Self->{Curser}->execute();
+    $Self->{Curser} = $Self->{dbh}->prepare($SQL) || return;
+    $Self->{Curser}->execute() || return;
     return 1;
 }
 # --
