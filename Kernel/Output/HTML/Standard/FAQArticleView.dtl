@@ -1,0 +1,59 @@
+# --
+# FAQArticleView.dtl - provides HTML view for faq articles
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: FAQArticleView.dtl,v 1.1 2004-01-05 20:05:07 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr> 
+  <td align="left" colspan="2" class="table0">
+  <b>$Env{"Box0"}$Text{"FAQ Article"}: $Quote{"$Data{"Subject"}"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr align="left" valign="top">
+  <td width="100%" class="table2">
+    <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Change&ID=$Data{"ID"}">$Text{"edit"}</a> -
+    <a href="$Env{"Baselink"}Action=FAQ&Subaction=Print&ID=$Data{"ID"}" target="print">$Text{"print"}</a> -
+    <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Change&ID=$Data{"ID"}">$Text{"delete"}</a>
+  </td>
+</tr>
+<tr align="left" valign="top">
+  <td width="100%" class="table1">
+    <font size="+1">$Quote{"$Data{"Subject"}"}</font> 
+    <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="table1">$Text{"Category"}: </td>
+      <td class="table1"> $Quote{"$Data{"Category"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"State"}: </td>
+      <td class="table1"> $Quote{"$Data{"State"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Language"}: </td>
+      <td class="table1"> $Quote{"$Data{"Language"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1" valign="top">$Text{"Sympthom"}: </td>
+      <td class="table1"><pre>$Data{"Field1"}</pre>
+    </tr>
+    <tr>
+      <td class="table1" valign="top">$Text{"Problem"}: </td>
+      <td class="table1"><pre>$Data{"Field2"}</pre>
+      </td> 
+    </tr>
+    <tr>
+      <td class="table1" valign="top">$Text{"Solution"}: </td>
+      <td class="table1"><pre>$Data{"Field3"}</pre>
+      </td>
+    </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<!-- end form -->

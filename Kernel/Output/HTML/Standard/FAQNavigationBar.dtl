@@ -1,0 +1,51 @@
+# --
+# FAQNavigationBar.dtl - provides global HTML FAQNavigationBar
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: FAQNavigationBar.dtl,v 1.1 2004-01-05 20:05:07 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+# --
+# check if the admin link should be shown
+# --
+<dtl if ($Env{"UserIsGroup[admin]"} eq "Yes") { $Data{"AdminLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=Admin" onmouseover="window.status='$Text{"Admin-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}admin.png" alt="$Text{"Admin-Area"}"><br>$Text{"Admin-Area"}</a></td>"; }>
+# --
+# check if the faq category link should be shown
+# --
+<dtl if ($Env{"UserIsGroup[faq]"} eq "Yes") { $Data{"FAQCategoryLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=FAQCategory" onmouseover="window.status='$Text{"Category"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}fileopen.png" alt="$Text{"Category"}"><br>$Text{"Category"}</a></td>"; }>
+# --
+# check if the faq article link should be shown
+# --
+<dtl if ($Env{"UserIsGroup[faq]"} eq "Yes") { $Data{"FAQArticleLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=FAQArticle" onmouseover="window.status='$Text{"New Article"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}create.png" alt="$Text{"New Article"}"><br>$Text{"New Article"}</a></td>"; }>
+
+<!-- start NavigationBar -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td valign="top" align="left" width="70%" class="nav">
+    <table cellspacing="1" cellpadding="3">
+    <tr>
+      <td valign="top" align="center" class="nav">
+        <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}exit.png" alt="$Text{"Logout"}"><br>$Text{"Logout"}</a>
+      </td>
+      <td valign="top" align="center" class="nav"> 
+        <a href="$Env{"Baselink"}Action=FAQ" onmouseover="window.status='$Text{"Search"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}search.png" alt="$Text{"Search"}"><br>$Text{"Search"}</a>
+      </td>
+      $Data{"FAQArticleLink"}
+      $Data{"FAQCategoryLink"}
+      <td valign="top" align="center" class="nav"> 
+        <a href="$Env{"Baselink"}Action=" onmouseover="window.status='$Text{"Agent-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}desktop.png" alt="$Text{"Agent-Area"}"><br>$Text{"Agent-Area"}</a>
+      </td>
+      $Data{"AdminLink"}
+    </tr>
+    </table>
+  </td>
+  <td valign="top" align="right" width="30%" class="nav">   
+  -
+  </td>
+</tr>
+</table>
+<!-- end NavigationBar -->

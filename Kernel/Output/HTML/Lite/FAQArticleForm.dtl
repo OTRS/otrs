@@ -1,0 +1,68 @@
+# --
+# FAQArticleForm.dtl - provides HTML form for faq articles
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: FAQArticleForm.dtl,v 1.1 2004-01-05 20:05:07 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr> 
+  <td align="left" colspan="2" class="table0">
+  <b>$Env{"Box0"}$Text{"FAQ Article"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr align="left" valign="top">
+  <td width="100%" class="table1">
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+    <input type="hidden" name="ID" value="$Data{"ID"}">
+    <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="table1">$Text{"Category"}: </td>
+      <td class="table1"> $Data{"CategoryOption"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"State"}: </td>
+      <td class="table1"> $Data{"StateOption"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Short name"}: </td>
+      <td class="table1"> <input type="text" name="Name" value="$Data{"Name"}" size="50" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Language"}: </td>
+      <td class="table1"> <input type="text" name="Language" value="$Data{"Language"}" size="2" maxlength="80"></td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Short Description"}: </td>
+      <td class="table1"> <input type="text" name="Subject" value="$Data{"Subject"}" size="75" maxlength="120"></td>
+    </tr>
+    <tr>
+      <td class="table1" valign="top">$Text{"Sympthom"}: </td>
+      <td class="table1">
+<textarea name="Field1" rows="12" cols="75">$Data{"Field1"}</textarea>
+    </tr>
+    <tr>
+      <td class="table1" valign="top">$Text{"Problem"}: </td>
+      <td class="table1">
+<textarea name="Field2" rows="12" cols="75">$Data{"Field2"}</textarea>
+      </td> 
+    </tr>
+    <tr>
+      <td class="table1" valign="top">$Text{"Solution"}: </td>
+      <td class="table1">
+<textarea name="Field3" rows="12" cols="75">$Data{"Field3"}</textarea>
+      </td>
+    </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"submit"}"> 
+    </form>
+  </td>
+</tr>
+</table>
+<!-- end form -->
