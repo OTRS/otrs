@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.38 2004-01-09 12:44:27 martin Exp $
+# $Id: PostMaster.pm,v 1.39 2004-01-14 23:24:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -306,6 +306,7 @@ sub GetEmailParams {
         $GetParam{$_} = $Self->{ParseObject}->GetParam(WHAT => $_);
       }
     }
+    # set compat. headers
     if ($GetParam{'Message-Id'}) {
         $GetParam{'Message-ID'} = $GetParam{'Message-Id'};
     }
@@ -316,7 +317,33 @@ sub GetEmailParams {
              || $GetParam{'X-No-Loop'} || $GetParam{'X-OTRS-Loop'}) {
         $GetParam{'X-OTRS-Loop'} = 'yes';
     }
+    # set sender type if not given
+    if (!$GetParam{'X-OTRS-SenderType'}) {
+        $GetParam{'X-OTRS-SenderType'} = 'customer';
+    }
+    # check if X-OTRS-SenderType exists, if not, set customer
+    if (!$Self->{TicketObject}->ArticleSenderTypeLookup(SenderType => $GetParam{'X-OTRS-SenderType'})) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't find sender type '$GetParam{'X-OTRS-SenderType'}' in db, take 'customer'",
+        );
+        $GetParam{'X-OTRS-SenderType'} = 'customer';
+    }
+    # set article type f not given
+    if (!$GetParam{'X-OTRS-ArticleType'}) {
+        $GetParam{'X-OTRS-ArticleType'} = 'email-external';
+    }
+    # check if X-OTRS-ArticleType exists, if not, set 'email'
+    if (!$Self->{TicketObject}->ArticleTypeLookup(ArticleType => $GetParam{'X-OTRS-ArticleType'})) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't find article type '$GetParam{'X-OTRS-ArticleType'}' in db, take 'email-external'",
+        );
+        $GetParam{'X-OTRS-ArticleType'} = 'email-external';
+    }
+    # get body
     $GetParam{'Body'} = $Self->{ParseObject}->GetMessageBody();
+    # get content type
     $GetParam{'Content-Type'} = $Self->{ParseObject}->GetReturnContentType();
     return \%GetParam;
 }

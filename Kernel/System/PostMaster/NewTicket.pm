@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.42 2004-01-08 11:43:17 martin Exp $
+# $Id: NewTicket.pm,v 1.43 2004-01-14 23:24:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -205,8 +205,8 @@ sub Run {
     # --
     my $ArticleID = $Self->{TicketObject}->CreateArticle(
         TicketID => $TicketID,
-        ArticleType => 'email-external',
-        SenderType => 'customer',
+        ArticleType => $GetParam{'X-OTRS-ArticleType'},
+        SenderType => $GetParam{'X-OTRS-SenderType'},
         From => $GetParam{From},
         ReplyTo => $GetParam{ReplyTo},
         To => $GetParam{To},
@@ -249,6 +249,8 @@ sub Run {
         print "Subject: $GetParam{Subject}\n";
         print "MessageID: $GetParam{'Message-ID'}\n";
         print "Queue: $Queue\n";
+        print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
+        print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
     }
     # --
     # set free article text

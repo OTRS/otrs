@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.28 2003-05-18 20:23:09 martin Exp $
+# $Id: FollowUp.pm,v 1.29 2004-01-14 23:24:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,8 +61,8 @@ sub Run {
     # do db insert
     my $ArticleID = $Self->{TicketObject}->CreateArticle(
         TicketID => $Param{TicketID},
-        ArticleType => 'email-external',
-        SenderType => 'customer',
+        ArticleType => $GetParam{'X-OTRS-ArticleType'},
+        SenderType => $GetParam{'X-OTRS-SenderType'},
         From => $GetParam{From},
         ReplyTo => $GetParam{ReplyTo},
         To => $GetParam{To},
@@ -90,6 +90,8 @@ sub Run {
         print "Cc: $GetParam{Cc}\n" if ($GetParam{Cc});
         print "Subject: $GetParam{Subject}\n";
         print "MessageID: $GetParam{'Message-ID'}\n";
+        print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
+        print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
     }
     # --    
     # write plain email to the storage
