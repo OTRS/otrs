@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.32 2003-04-24 20:00:52 martin Exp $
+# $Id: Header.dtl,v 1.32.2.1 2003-05-19 15:07:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -80,6 +80,8 @@ Pragma: no-cache
   .table0 { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;}
   .table1 { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
   .table2 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
+# message 
+  .message { color:#000000;font-size:12px;font-family:monospace, fixed; } 
 # article type color 
   .agent-email-external { background-color:#ccffcc; }
   .agent-note-internal { background-color:#ffcccc; }
