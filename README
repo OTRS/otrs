@@ -1,8 +1,8 @@
 # --
 # README - readme file of OTRS
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.19 2003-05-21 15:30:38 martin Exp $
+# $Id: README,v 1.20 2004-01-22 11:49:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -25,8 +25,10 @@ What is OTRS?
     - Admin web interface for changing system things
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
-    - Multi language support (Brazilian Portuguese, Bulgarian, Dutch, English, 
-       Finnish, French, German, Italian, Russian and Spanish)
+    - Webinterface with Single sign on (e. g. HTTPBasicAuth or LogonTickets)
+    - Multi language support (Brazilian Portuguese, Bulgarian, Czech, Dutch, 
+       English, Finnish, French, German, Italian, Polish, Portuguese, Russian 
+       and Spanish)
     - customize the output templates (dtl) release independently 
     - Webinterface with attachment support
     - easy and logical to use
@@ -56,7 +58,11 @@ What is OTRS?
 
    System:
     - ASP (activ service providing) support
+    - Customer Source can be used from a SQL databases or LDAP 
+        (e. g. eDirectory, AD, OpenLDAP)
+    - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
     - Ticket number format free setable
+    - utf-8 support for frontend and backend
     - creation and configuration of user accounts, and groups 
     - creation of standard responses
     - creation of sub queue
@@ -119,6 +125,7 @@ Software requirements?
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Apache 1.3.23 (incl. mod_perl 1.26).
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Roxen-Webserver 2.2.252
     * SuSE Linux 8.0 (i386) interfacing with Exchange 5.5 via fetchmail and postfix   
+    * Debian (i386), Postfix, Apache 1.3.19 with mod_perl
     * Redhat 7.3 (i386) (no detail description available)
     * Redhat 8.0 (i386), Perl 5.8, MySQL 4, Apache2 and mod_perl2.
     * Mandrake 8.2 server (i386) interfacing with Lotus Notes mail server via fetchmail and sendmail
@@ -164,7 +171,7 @@ $HOME (e. g. /opt/otrs/)
 |           |--- /Log.pm        (log module)
 |           |--- /User.pm       (user module)
 |           |--- /Group.pm      (group module)
-|           |--- /WebTool.pm    (e. g. get param)
+|           |--- /WebParam.pm   (e. g. get param)
 |           |--- /Queue.pm      (informations about queues. e. g. responses, ...)
 |           |--- /Ticket.pm     (ticket and article funktions)
 |  
@@ -180,7 +187,7 @@ $HOME (e. g. /opt/otrs/)
 |  (tools stuff)
 |--/scripts/
 |   |----  /database/
-|           |--- /OpenTRS-schema.(mysql|postgrsql).sql (create database script)
+|           |--- /otrs-schema.(mysql|postgrsql).sql (create database script)
 |           |--- /install/database/initial_insert.sql (all inital sql data - e. g. root user)
 |  
 
