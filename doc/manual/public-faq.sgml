@@ -8,7 +8,9 @@
 <bookinfo>
 <title>otrs FAQ</title>
 
+<!-- 
 &authorgroup;
+-->
 
 <copyright><year>2002</year><holder>OTRS Team</holder></copyright>
 </bookinfo>
