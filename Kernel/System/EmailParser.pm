@@ -1,8 +1,8 @@
 # --
 # EmailParser.pm - the global email parser module
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.2 2002-07-02 08:46:06 martin Exp $
+# $Id: EmailParser.pm,v 1.3 2002-07-17 22:30:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Internet;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
