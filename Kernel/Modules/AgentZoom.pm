@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.47 2004-02-09 23:44:15 martin Exp $
+# $Id: AgentZoom.pm,v 1.48 2004-02-10 00:07:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -422,6 +422,13 @@ sub MaskAgentZoom {
                 TemplateFile => 'AgentZoomArticle',
                 Data => {%Param, %Article},
             );
+            # show also compose link if customer user is there
+            if ($Article{CustomerUserID}) {
+                $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentZoomAnswer',
+                    Data => {%Param, %Article},
+                );
+            }
             $BodyOutput .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentZoomBody', 
                 Data => {%Param, %Article},
