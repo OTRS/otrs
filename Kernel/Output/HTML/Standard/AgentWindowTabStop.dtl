@@ -1,0 +1,43 @@
+# --
+# AgentWindowTabStop.dtl - provides HTML form for window tabs
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentWindowTabStop.dtl,v 1.1 2004-08-11 14:04:17 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+                    </div>
+                    <br>
+                    <table border="0" cellpadding="5" cellspacing="0" width="100%">
+                      <tr>
+                        <td>&nbsp;</td>
+                        <td align="right">
+<!-- dtl:block:Layer1Footer -->
+                          <input type="button" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}">
+<!-- dtl:block:Layer1Footer -->
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <table border="0" cellpadding="5" cellspacing="0" width="100%">
+                <tr>
+<!-- dtl:block:Layer0Footer -->
+                  <td>
+                    <input type="button" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}">
+                  </td>
+<!-- dtl:block:Layer0Footer -->
+                </tr>
+              </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+<!-- end form -->
