@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.18 2004-01-09 16:46:06 martin Exp $
+# $Id: GenericAgent.pl,v 1.19 2004-01-19 23:48:54 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use strict;
 
-use vars qw($VERSION);
+use vars qw($VERSION $Debug $Limit);
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,17 +48,31 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.18 $';
+    $VERSION = '$Revision: 1.19 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
-    getopt('hc', \%Opts);
+    getopt('hcdl', \%Opts);
     if ($Opts{'h'}) {
         print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
         print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
-        print "usage: GenericAgent.pl (-c 'Kernel::Config::GenericAgentJobModule') \n";
+        print "usage: GenericAgent.pl (-c 'Kernel::Config::GenericAgentJobModule') (-d 1) (-l <limit>)\n";
         exit 1;
     }
+    # set debug 
+    if (!$Opts{'d'}) {
+        $Debug = 0; 
+    }
+    else {
+        $Debug = $Opts{'d'};
+    }  
+    # set limit 
+    if (!$Opts{'l'}) {
+        $Limit = 3000; 
+    }
+    else {
+        $Limit = $Opts{'l'};
+    }  
     # get generic agent config (job file)
     if (!$Opts{'c'}) {
         $Opts{'c'} = 'Kernel::Config::GenericAgent';
@@ -82,7 +96,10 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(
+    %CommonObject,
+    Debug => $Debug, 
+);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 
 # --
@@ -96,12 +113,20 @@ foreach my $Job (sort keys %Jobs) {
     my %Tickets = ();
     if (! $Jobs{$Job}->{Escalation}) {
         my %PartJobs = %{$Jobs{$Job}};
-        if (ref($PartJobs{Queue}) eq 'ARRAY') {
+        if (!$PartJobs{Queue}) {
+            print " For all Queues: \n";
+            %Tickets = $CommonObject{TicketObject}->SearchTicket(
+                %{$Jobs{$Job}},
+                Limit => $Limit,
+            );
+        }
+        elsif (ref($PartJobs{Queue}) eq 'ARRAY') {
             foreach (@{$PartJobs{Queue}}) {
                 print " For Queue: $_\n";
                 %Tickets = $CommonObject{TicketObject}->SearchTicket(
                     %{$Jobs{$Job}},
                     Queues => [$_],
+                    Limit => $Limit,
                 );
             }
         }
@@ -109,6 +134,7 @@ foreach my $Job (sort keys %Jobs) {
             %Tickets = $CommonObject{TicketObject}->SearchTicket(
                 %{$Jobs{$Job}},
                 Queues => [$PartJobs{Queue}],
+                Limit => $Limit,
             );
         }
     }
@@ -258,6 +284,10 @@ sub Run {
     # --
     if ($Jobs{$Job}->{New}->{Delete}) {
         print "  - delete ticket_id $TicketID\n";
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Delete Ticket [$TicketNumber], TicketID [$TicketID].",
+        );
         $CommonObject{TicketObject}->DeleteTicket(
             UserID => $UserIDOfGenericAgent, 
             TicketID => $TicketID,
@@ -268,6 +298,10 @@ sub Run {
     # --
     if ($Jobs{$Job}->{New}->{CMD}) {
         print "  - call cmd ($Jobs{$Job}->{New}->{CMD}) for ticket_id $_\n";
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Execut '$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID'.",
+        );
         system("$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID ");
     }
 }
