@@ -3,7 +3,7 @@
 # scripts/backup.sh - a backup script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.sh,v 1.9 2003-03-07 13:02:45 wiktor Exp $
+# $Id: backup.sh,v 1.10 2003-09-23 11:50:45 wiktor Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "backup.sh - a backup script for OTRS <\$Revision: 1.9 $>"
+echo "backup.sh - a backup script for OTRS <\$Revision: 1.10 $>"
 
 REMOVE_OLD=0
 COMPRESS=0
@@ -102,7 +102,7 @@ if [ $REMOVE_OLD == 1 ]; then
     # delete old backup
     # --
 
-    OLDBACKUPFOLDER="$(date +%Y)-$(( $(date +%m) - 1))-$(date +%d)*"
+    OLDBACKUPFOLDER="$(date +%Y)-$(expr $(date +%m) - 1)-$(date +%d)*"
     echo "deleting old backups in ${BACKUPDIR}/${OLDBACKUPFOLDER}"
     rm -Rf ${BACKUPDIR}/${OLDBACKUPFOLDER}
 fi
