@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.18 2002-04-24 22:53:48 martin Exp $
+# $Id: Agent.pm,v 1.19 2002-05-01 17:33:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -429,6 +429,7 @@ sub AgentCompose {
         Name => 'ComposeStateID'
     );
 
+    # prepare 
     foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
         $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
         $Param{$_} =~ s/"//g;

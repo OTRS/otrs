@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.7 2002-04-14 19:04:53 martin Exp $
+# $Id: AgentCompose.pm,v 1.8 2002-05-01 17:33:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -147,19 +147,25 @@ sub Form {
         );
     }
 
+    # --
     # prepare body ...
+    # --
     my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
     $Data{Body} =~ s/(.{$NewLine}.+?\s)/$1\n/g;
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
 
+    # --
     # prepare subject ...
+    # --
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
     $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
     $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
     $Data{Subject} = "[$TicketHook: $Tn] " . $Data{Subject};
 
-    # prepare to ...
+    # --
+    # prepare to (ReplyTo!) ...
+    # --
     if ($Data{ReplyTo}) {
         $Data{To} = $Data{ReplyTo};
     }
@@ -167,16 +173,33 @@ sub Form {
         $Data{To} = $Data{From};
     }
 
+    # --
+    # prepare salutation
+    # --
+    my $Salutation = $QueueObject->GetSalutation();
+
+    # prepare customer realname
+    if ($Salutation =~ /<OTRS_CUSTOMER_REALNAME>/) {
+        # get realname 
+        $Data{From} =~ s/<.*>|\(.*\)|\"|;|,//g;
+        $Data{From} =~ s/( $)|(  $)//g;
+        $Salutation =~ s/<OTRS_CUSTOMER_REALNAME>/$Data{From}/g;
+    }
+
+    # --
+    # prepare signature
+    # --
+    my $Signature = $QueueObject->GetSignature();
+    $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+    $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+
+    # --
     # prepare from ...
+    # --
     my %Address = $QueueObject->GetSystemAddress();
     $Data{From} = "$Address{RealName} <$Address{Email}>";
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
-
-    # prepare signature
-    my $Signature = $QueueObject->GetSignature();
-    $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-    $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
 
     # get next states
     my %NextStates;
@@ -191,7 +214,7 @@ sub Form {
     # build view ...
     $Output .= $Self->{LayoutObject}->AgentCompose(
         TicketNumber => $Tn,
-        Salutation => $QueueObject->GetSalutation(),
+        Salutation => $Salutation,
         Signature => $Signature,
         StdResponse => $QueueObject->GetStdResponse(ID => $Self->{ResponseID}),
         TicketID => $TicketID,
