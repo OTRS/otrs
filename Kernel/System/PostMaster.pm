@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.25 2003-03-12 10:56:58 wiktor Exp $
+# $Id: PostMaster.pm,v 1.26 2003-03-17 17:48:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -107,7 +107,7 @@ sub Run {
            Message => "Droped Email (From: $GetParam{'From'}, Message-ID: $GetParam{'Message-ID'}) " .
            "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam{'X-OTRS-Ignore'})."
        );
-       exit (0);
+       return 1;
    }
    # --
    # ticket section
@@ -178,7 +178,7 @@ sub Run {
             Comment => "Because the old ticket [$Tn] is '$State'",
             AutoResponseType => 'auto reply/new ticket',
           );
-          exit (0);
+          return 1;
         }
         # reject follow up
         elsif ($FollowUpPossible =~ /reject/i && $State =~ /^close/i) {
@@ -197,7 +197,7 @@ sub Run {
             Comment => 'Follow up rejected.',
             AutoResponseType => 'auto reject',
           );
-          exit (0);
+          return 1;
         }
         # create normal follow up
         else {
