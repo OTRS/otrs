@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.38 2002-10-20 12:11:50 martin Exp $
+# $Id: index.pl,v 1.39 2002-10-20 15:29:52 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -344,9 +344,22 @@ elsif ($Param{Action} eq "Logout"){
     }
 }
 # --
-# customer lost password
+# user lost password
 # --
 elsif ($Param{Action} eq "LostPassword"){
+    # --
+    # check feature
+    # --
+    if (! $CommonObject{ConfigObject}->Get('LostPassword')) {
+        # --
+        # show normal login
+        # --
+        print $CommonObject{LayoutObject}->Login(
+           Title => 'Login',
+           Message => 'Feature not acitv!',
+        );
+        exit 0;
+    }
     # --
     # get params
     # --
@@ -356,12 +369,15 @@ elsif ($Param{Action} eq "LostPassword"){
     # --
     my %UserData = $CommonObject{UserObject}->GetUserData(User => $User);
     if (! $UserData{UserID}) {
-        print $CommonObject{LayoutObject}->Header(Title => 'Error');
-        print $CommonObject{LayoutObject}->Warning(
-                Message => 'There is no account with that login name.',
-                Comment => 'Please press Back and try again.'
+        # --
+        # show normal login
+        # --
+        print $CommonObject{LayoutObject}->Login(
+           Title => 'Login',          
+           Message => 'There is no account with that login name.',
+           %Param,
         );
-        print $CommonObject{LayoutObject}->Footer();
+        exit 0;
     }
     else {
         # get new password
@@ -381,16 +397,19 @@ elsif ($Param{Action} eq "LostPassword"){
               To => $UserData{UserEmail},
               Subject => $Subject, 
               Body => $Body)) {
-            print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Lost Password');
-            print $CommonObject{LayoutObject}->CustomerLostPasswordSent(
-                UserEmail => $UserData{UserEmail},
+            print $CommonObject{LayoutObject}->Login(
+                Title => 'Login',          
+                Message => "Sent new password to: ".$UserData{"UserEmail"},
+                User => $User,
+                %Param,
             );
-            print $CommonObject{LayoutObject}->CustomerFooter();
+            exit 0;
         }
         else {
-            print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
-            print $CommonObject{LayoutObject}->CustomerError();
-            print $CommonObject{LayoutObject}->CustomerFooter();
+            print $CommonObject{LayoutObject}->Header(Title => 'Error');
+            print $CommonObject{LayoutObject}->Error();
+            print $CommonObject{LayoutObject}->Footer();
+            exit 0;
         }
     }
 }
@@ -473,7 +492,7 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
                 # --
                 # show login screen
                 # ---
-                print $CommonObject{LayoutObject}->CustomerLogin(
+                print $CommonObject{LayoutObject}->Login(
                     Title => 'Panic!',
                     Message => 'Panic! Invalid Session!!!',
                     %Param,
