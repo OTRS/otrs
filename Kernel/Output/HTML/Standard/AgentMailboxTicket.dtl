@@ -2,7 +2,7 @@
 # AgentMailboxTicket.dtl - provides HTML form for agent mailbox 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailboxTicket.dtl,v 1.5 2002-10-20 21:56:31 martin Exp $
+# $Id: AgentMailboxTicket.dtl,v 1.6 2002-10-21 13:24:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}" width="80%">
+<tr bgcolor="$Env{"BGTableColor2"}" width="70%">
   <td width="70%">
     <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}">$Text{"Zoom"}</a> -
     <a href="$Env{"Baselink"}Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}">$Text{"Unlock"}</a> -
@@ -32,7 +32,7 @@
     <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}">$Text{"Customer"}</a> -
     <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}">$Text{"Close"}</a>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor2"}" width="20%">
+  <td align="right" bgcolor="$Env{"BGTableColor2"}" width="30%">
     <b>$Text{"Created"}:</b> $Data{"Created"}
   </td>
 </tr>
