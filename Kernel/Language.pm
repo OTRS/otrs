@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.13 2002-12-20 19:08:21 martin Exp $
+# $Id: Language.pm,v 1.14 2002-12-26 21:52:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -195,16 +195,45 @@ sub Time {
         return;
       }
     }
-    if ($Param{Action} =~ /^GET$/) {
-        my $ReturnString = $Self->{$Param{Format}} || 'Need to be translated!';
+    my $ReturnString = $Self->{$Param{Format}} || 'Need to be translated!';
+    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst);
+    # --
+    # set or get time
+    # --
+    if ($Param{Action} =~ /^GET$/i) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-        my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+        ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
         $Y = $Y+1900;
         $M++;
-        my $Time = sprintf("%02d:%02d:%02d", $h,$m,$s);
-        $D = sprintf("%02d", $D);
-        $M = sprintf("%02d", $M);
+    }
+    elsif ($Param{Action} =~ /^RETURN$/i) {
+        $m = $Param{Minute} || 0;
+        $h = $Param{Hour} || 0;
+        $D = $Param{Day} || 0;
+        $M = $Param{Month} || 0;
+        $Y = $Param{Year} || 0;
+    }
+    # --
+    # do replace
+    # --
+    if ($Param{Action} =~ /^(GET|RETURN)$/i) {
+        my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
+        my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
+        my $Time = '';
+        if ($Param{Mode} && $Param{Mode} =~ /^NotNumeric$/i) {
+            if (!$s) {
+                $Time = "$h:$m";
+            }
+            else {
+                $Time = "$h:$m:$s";
+            }
+        }
+        else {
+            $Time = sprintf("%02d:%02d:%02d", $h,$m,$s);
+            $D = sprintf("%02d", $D);
+            $M = sprintf("%02d", $M);
+        }
         $ReturnString =~ s/\%T/$Time/g;
         $ReturnString =~ s/\%D/$D/g;
         $ReturnString =~ s/\%M/$M/g;
@@ -213,7 +242,11 @@ sub Time {
         $ReturnString =~ s{(\%A)}{$Self->Get($DAYS[$wd]);}egx;
         $ReturnString =~ s{(\%B)}{$Self->Get($MONS[$M-1]);}egx;
         return $ReturnString;
-    }
+    } 
+    # --
+    # return
+    # --
+    return $ReturnString;
 }
 # --
 sub DESTROY {
@@ -237,7 +270,9 @@ sub DESTROY {
         $Data .= "];\n".
                  "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n".
                  "    \$Self->{DateFormat} = '$Self->{DateFormat}';\n".
-                 "    \$Self->{DateFormatLong} = '$Self->{DateFormatLong}';\n";
+                 "    \$Self->{DateFormatLong} = '$Self->{DateFormatLong}';\n".
+                 "    \$Self->{DateInputFormat} = '$Self->{DateInputFormat}';\n\n".
+                 "    \%Hash = (";
 
         foreach my $Screen (sort keys %Screens) {
             my %Words = %{$Screens{$Screen}};
@@ -254,7 +289,7 @@ sub DESTROY {
                         else {
                             $Words{$Key} = '';
                         }
-                        $Data .= "    \$Hash{'$QuoteKey'} = '$Words{$Key}';\n";
+                        $Data .= "      '$QuoteKey' => '$Words{$Key}',\n";
                     }
                 }
             }
@@ -272,9 +307,10 @@ sub DESTROY {
                 else {
                     $Self->{Translation}->{$Key} = '';
                 }
-                $Data .= "    \$Hash{'$QuoteKey'} = '$Self->{Translation}->{$Key}';\n";
+                $Data .= "      '$QuoteKey' => '$Self->{Translation}->{$Key}',\n";
             }
         }
+        $Data .= "    );\n";
         return $Data;
     }
 }
