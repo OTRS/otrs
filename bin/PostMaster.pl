@@ -3,7 +3,7 @@
 # PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.16.6.1 2004-09-16 07:50:47 martin Exp $
+# $Id: PostMaster.pl,v 1.16.6.2 2004-10-06 08:40:22 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,11 +35,12 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16.6.1 $';
+$VERSION = '$Revision: 1.16.6.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::PostMaster;
@@ -65,20 +66,24 @@ if (!$Opts{'q'}) {
     $Opts{'q'} = '';
 }
 
+# --
+# create common objects
+# --
+my %CommonObject = ();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{TimeObject} = Kernel::System::Time->new(
+    %CommonObject,
+);
+$CommonObject{LogObject} = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-PM',
+    %CommonObject,
+);
 # Wrap the majority of the script in an "eval" block so that any
 # unexpected (but probably transient) fatal errors (such as the
 # database being unavailable) can be trapped without causing a
 # bounce
 eval {
-    # --
-    # create common objects
-    # --
-    my %CommonObject = ();
-    $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{LogObject} = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-PM',
-        %CommonObject,
-    );
+    # create needed objects
     $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
     # debug info
     if ($Opts{'d'}) {
@@ -123,6 +128,10 @@ if ($@) {
     # it; see sysexits.h. Most mail programs will retry an
     # EX_TEMPFAIL delivery for about four days, then bounce the
     # message.)
+    $CommonObject{LogObject}->Log(
+        Priority => 'error',
+        Message => $@,
+    );
     exit 75;
 }
 
