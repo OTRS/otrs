@@ -1,0 +1,28 @@
+# --
+# README.database - database description of OpenTRS
+# Copyright (C) 2001 Martin Edenhofer
+# --
+# $Id: README.database,v 1.1 2001-12-01 20:39:12 martin Exp $
+# --
+
+Where can I find the database description files?
+================================================
+
+XML:
+====
+$HOME_OTRS/install/database/OpenTRS-schema.xml
+
+The XML description files for torque which generate the SQL for your 
+target database e. g. MySQL, PostgreSQL, DB2, Oracle, ...)
+
+More Infos: http://jakarta.apache.org/turbine/turbine-2/howto/torque-howto.html 
+
+MySQL (in future):
+==================
+$HOME_OTRS/install/database/OpenTRS-schema.mysql.sql
+
+PostgreSQL (in future):
+=======================
+$HOME_OTRS/install/database/OpenTRS-schema.postgresql.sql
+
+
