@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.70 2005-03-09 15:23:31 tr Exp $
+# $Id: de.pm,v 1.71 2005-04-01 08:37:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1202,6 +1202,8 @@ sub Data {
     'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
     'Ticket Object' => 'Ticket Objekt',
     'Vendor' => 'Anbieter',
+    'Password is already in use! Please use an other password!' => 'Dieses Password wird bereits benutzt, es kann nicht verwendet werden!',
+    'Password is already used! Please use an other password!' => 'Dieses Password wurde bereits benutzt, es kann nicht verwendet werden!',
     'Package Manager' => 'Paket Verwaltung',
     'Install' => 'Installieren',
     'Package' => 'Paket',
