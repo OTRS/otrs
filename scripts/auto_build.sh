@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.20 2004-01-23 01:20:08 martin Exp $
+# $Id: auto_build.sh,v 1.21 2004-02-16 03:11:23 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.20 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.21 $>"
 echo "Copyright (c) 2002-2004 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
@@ -119,8 +119,8 @@ cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 # --
 RELEASEFILE=$PACKAGE_BUILD_DIR/$ARCHIVE_DIR/RELEASE
 echo "PRODUCT = $PRODUCT" > $RELEASEFILE 
-#echo "VERSION = $VERSION" >> $RELEASEFILE 
-echo "VERSION = $VERSION $RELEASE" >> $RELEASEFILE 
+echo "VERSION = $VERSION" >> $RELEASEFILE 
+#echo "VERSION = $VERSION $RELEASE" >> $RELEASEFILE 
 echo "BUILDDATE = `date`" >> $RELEASEFILE 
 echo "BUILDHOST = `hostname -f`" >> $RELEASEFILE 
 
@@ -157,14 +157,9 @@ rm -rf Kernel/System/Ticket/Compress
 rm -rf Kernel/System/Ticket/Crypt
 
 # build html docu
-#$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC > /dev/null
-#mkdir doc/manual
-#mkdir doc/manual/html
-#mkdir doc/manual/pdf
-#mkdir doc/manual/sgml
-#cp -R /tmp/OTRSDOC-package/html/* doc/manual/html/
-#cp -R /tmp/OTRSDOC-package/pdf/* doc/manual/pdf/
-#cp -R /tmp/OTRSDOC-package/sgml/* doc/manual/sgml/
+$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC/../doc/ > /dev/null
+mkdir doc/manual
+cp -R /tmp/OTRSDOC-package/* doc/manual/
 
 # --
 # create tar
