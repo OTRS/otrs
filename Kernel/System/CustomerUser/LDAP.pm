@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.12 2003-05-20 20:08:59 martin Exp $
+# $Id: LDAP.pm,v 1.13 2003-07-04 11:12:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,7 +47,7 @@ sub new {
     $Self->{SScope} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'SSCOPE'}
      || die "Need CustomerUser->Params->SSCOPE in Kernel/Config.pm";
     $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserDN'} || '';
-    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserPW'} || '';
+    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserPw'} || '';
 
     $Self->{CustomerKey} = $Self->{ConfigObject}->Get('CustomerUser')->{'CustomerKey'}
      || die "Need CustomerUser->CustomerKey in Kernel/Config.pm";
@@ -162,7 +162,10 @@ sub CustomerSearch {
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
         foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}}) {
-            $CustomerString .= $entry->get_value($_).' ';
+            my $Value = $entry->get_value($_);
+            if ($Value) {
+                $CustomerString .= $Value.' ';
+            }
         }
         $CustomerString =~ s/^(.*\s)(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
         $Users{$entry->get_value($Self->{CustomerKey})} = $CustomerString;
