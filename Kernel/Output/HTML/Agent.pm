@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.39 2002-07-10 18:22:02 martin Exp $
+# $Id: Agent.pm,v 1.40 2002-07-11 07:09:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -477,8 +477,7 @@ sub AgentBounce {
     # prepare 
     # --
     foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
-        $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
-        $Param{$_} =~ s/"//g;
+        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}) || '';
     }
     # create FromHTML (to show)
     $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70, MIME => 1);
