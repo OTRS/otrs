@@ -1,8 +1,8 @@
 # --
 # AgentCompose.pm - to compose and send a message
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.5 2002-04-08 15:56:00 martin Exp $
+# $Id: AgentCompose.pm,v 1.6 2002-04-14 13:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,9 @@ package Kernel::Modules::AgentCompose;
 
 use strict;
 use Kernel::System::EmailSend;
-use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +33,14 @@ sub new {
     }
 
     # check all needed objects
-    foreach ('ParamObject', 'DBObject', 'QueueObject', 'LayoutObject', 'ConfigObject', 'LogObject') {
+    foreach (
+      'ParamObject', 
+      'DBObject', 
+      'QueueObject', 
+      'LayoutObject', 
+      'ConfigObject', 
+      'LogObject',
+    ) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -130,12 +136,7 @@ sub Form {
     # get last customer article or selecte article ...
     my %Data = ();
     if ($Self->{ArticleID}) {
-        my $ArticleObject = Kernel::System::Article->new(
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-            LogObject => $Self->{LogObject},
-        );
-        %Data = $ArticleObject->GetArticle(
+        %Data = $Self->{ArticleObject}->GetArticle(
             ArticleID => $Self->{ArticleID},
         );
     }
@@ -218,14 +219,9 @@ sub SendEmail {
     my $UserID = $Self->{UserID};
     
     # save article
-    my $ArticleObject = Kernel::System::Article->new(
-        DBObject => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        LogObject => $Self->{LogObject},
-    );
-    my $ArticleID = $ArticleObject->CreateArticleDB(
+    my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
         TicketID => $TicketID,
-        ArticleType => 'email',
+        ArticleType => 'email-external',
         SenderType => 'agent',
         From => $Self->{From},
         To => $Self->{To},
