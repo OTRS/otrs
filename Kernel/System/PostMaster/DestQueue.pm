@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DestQueue.pm,v 1.14 2003-12-19 21:14:30 martin Exp $
+# $Id: DestQueue.pm,v 1.15 2003-12-20 06:22:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -70,7 +70,7 @@ sub GetQueueID {
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message => "Matched email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
+                        Message => "Match email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
                     );
                 }
                 $QueueID = $SystemAddresses{$_};
@@ -79,7 +79,7 @@ sub GetQueueID {
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message => "Doesn't matched email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
+                        Message => "Does not match email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
                     );
                 }
             }
