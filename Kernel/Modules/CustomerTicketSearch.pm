@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.4 2004-06-25 15:36:15 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.5 2004-09-10 13:04:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,18 +16,19 @@ use Kernel::System::CustomerUser;
 use Kernel::System::User;
 use Kernel::System::Priority;
 use Kernel::System::State;
-    
+use Kernel::System::SearchProfile;
+
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-    
+
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -42,6 +43,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
 
     return $Self;
 }
@@ -67,56 +69,39 @@ sub Run {
     }
     # get signle params
     my %GetParam = ();
-    foreach (qw(TicketNumber From To Cc Subject Body CustomerID ResultForm TimeSearchType
-      TicketCreateTimePointFormat TicketCreateTimePoint 
-      TicketCreateTimePointStart
-      TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth 
-      TicketCreateTimeStartYear
-      TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth 
-      TicketCreateTimeStopYear 
-    )) {
-        # load profiles string params (press load profile)
-        if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
-            my $SQL = "SELECT profile_value FROM search_profile".
-              " WHERE ".
-              " profile_name = '".$Self->{DBObject}->Quote($Self->{Profile})."' AND ".
-              " profile_key = '$_' AND ".
-              " login = 'Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
-            $Self->{DBObject}->Prepare(SQL => $SQL);
-            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-                $GetParam{$_} = $Row[0];
-            }
-        }
-        # get search string params (get submitted params)
-        else {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-            # remove white space on the end
-            if ($GetParam{$_}) {
-                $GetParam{$_} =~ s/\s$//g;
-            }
-        }
+    # load profiles string params (press load profile)
+    if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
+        %GetParam = $Self->{SearchProfileObject}->SearchProfileGet(
+            Base => 'CustomerTicketSearch',
+            Name => $Self->{Profile},
+            UserLogin => $Self->{UserLogin},
+        );
     }
-    # get array params
-    foreach (qw(StateIDs StateTypeIDs PriorityIDs)) { 
-        # load profile array params (press load profile)
-        if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
-            my $SQL = "SELECT profile_value FROM search_profile".
-              " WHERE ".
-              " profile_name = '".$Self->{DBObject}->Quote($Self->{Profile})."' AND ".
-              " profile_key = '$_' AND ".
-              " login = 'Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
-            $Self->{DBObject}->Prepare(SQL => $SQL);
-            my @Array = ();
-            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-                push(@{$GetParam{$_}}, $Row[0]);
+    # get search string params (get submitted params)
+    else {
+        foreach (qw(TicketNumber From To Cc Subject Body CustomerID ResultForm TimeSearchType
+          TicketCreateTimePointFormat TicketCreateTimePoint
+          TicketCreateTimePointStart
+          TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
+          TicketCreateTimeStartYear
+          TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
+          TicketCreateTimeStopYear
+        )) {
+            # get search string params (get submitted params)
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+            # remove white space on the start and end
+            if ($GetParam{$_}) {
+                $GetParam{$_} =~ s/\s+$//g;
+                $GetParam{$_} =~ s/^\s+//g;
             }
         }
+        # get array params
+        foreach (qw(StateIDs StateTypeIDs PriorityIDs)) {
         # get search array params (get submitted params)
-        else {
-            if ($Self->{ParamObject}->GetArray(Param => $_)) {
-                if ($Self->{ParamObject}->GetArray(Param => $_)) {
-                    @{$GetParam{$_}} = $Self->{ParamObject}->GetArray(Param => $_);
-                }
+            # get search array params (get submitted params)
+            my @Array = $Self->{ParamObject}->GetArray(Param => $_);
+            if (@Array) {
+                $GetParam{$_} = \@Array;
             }
         }
     }
@@ -135,7 +120,7 @@ sub Run {
         $GetParam{ResultForm} = '';
     }
     if ($GetParam{ResultForm} eq 'Print' || $GetParam{ResultForm} eq 'CSV') {
-        $Self->{SearchPageShown} = $Self->{SearchLimit}; 
+        $Self->{SearchPageShown} = $Self->{SearchLimit};
     }
     # show result site
     if ($Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate}) {
@@ -148,30 +133,35 @@ sub Run {
         # remember last search values
         if ($Self->{SaveProfile} && $Self->{Profile}) {
             # remove old profile stuff
-            my $SQL = "DELETE FROM search_profile WHERE ".
-                  "profile_name = '".$Self->{DBObject}->Quote($Self->{Profile}).
-                  "' AND login = 'Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
-            $Self->{DBObject}->Do(SQL => $SQL);
+            $Self->{SearchProfileObject}->SearchProfileDelete(
+                Base => 'CustomerTicketSearch',
+                Name => $Self->{Profile},
+                UserLogin => $Self->{UserLogin},
+            );
             # insert new profile params
             foreach my $Key (keys %GetParam) {
               if ($GetParam{$Key}) {
                 if (ref($GetParam{$Key}) eq 'ARRAY') {
                     foreach (@{$GetParam{$Key}}) {
-                      my $SQL = "INSERT INTO search_profile (login, profile_name, ".
-                        "profile_key, profile_value) VALUES ".
-                        " ('Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."', '".
-                        $Self->{DBObject}->Quote($Self->{Profile})."', '$Key', '".
-                        $Self->{DBObject}->Quote($_)."')";
-                      $Self->{DBObject}->Do(SQL => $SQL);
+                        $Self->{SearchProfileObject}->SearchProfileAdd(
+                            Base => 'CustomerTicketSearch',
+                            Name => $Self->{Profile},
+                            Type => 'ARRAY',
+                            Key => $Key,
+                            Value => $_,
+                            UserLogin => $Self->{UserLogin},
+                        );
                     }
                 }
                 else {
-                    my $SQL = "INSERT INTO search_profile (login, profile_name, ".
-                      "profile_key, profile_value) VALUES ".
-                      " ('Customer::".$Self->{DBObject}->Quote($Self->{UserLogin})."', '".
-                        $Self->{DBObject}->Quote($Self->{Profile})."', '$Key', '".
-                        $Self->{DBObject}->Quote($GetParam{$Key})."')";
-                    $Self->{DBObject}->Do(SQL => $SQL);
+                    $Self->{SearchProfileObject}->SearchProfileAdd(
+                        Base => 'TicketSearch',
+                        Name => $Self->{Profile},
+                        Type => 'SCALAR',
+                        Key => $Key,
+                        Value => $GetParam{$Key},
+                        UserLogin => $Self->{UserLogin},
+                    );
                 }
               }
             }
@@ -292,7 +282,7 @@ sub Run {
                     $Data{$_} =~ s/"/""/g if ($Data{$_});
                 }
                 $Param{StatusTable} .= $Self->MaskCSVResult(
-                    %Data, 
+                    %Data,
                     %UserInfo,
                     AccountedTime => $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $_),
                 );
@@ -304,7 +294,7 @@ sub Run {
                 $Subject =~ s/^RE://i;
                 $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Data{Age}, Space => ' ');
-                # customer info string 
+                # customer info string
                 $Data{CustomerName} = '('.$Data{CustomerName}.')' if ($Data{CustomerName});
                 foreach (qw(From To Cc Subject)) {
                     $Data{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
@@ -344,10 +334,10 @@ sub Run {
                 $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
             }
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'CustomerTicketSearchResultPrint', 
+                TemplateFile => 'CustomerTicketSearchResultPrint',
                 Data => \%Param,
             );
-            # add footer 
+            # add footer
             $Output .= $Self->{LayoutObject}->PrintFooter();
             # return output
             return $Output;
@@ -370,7 +360,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'CustomerTicketSearchResultShort', 
+                TemplateFile => 'CustomerTicketSearchResultShort',
                 Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
         }
@@ -382,10 +372,11 @@ sub Run {
     else {
         # delete profile
         if ($Self->{EraseTemplate} && $Self->{Profile}) {
-            $Self->{DBObject}->Do(
-                SQL => "DELETE FROM search_profile WHERE ".
-                  "profile_name = '".$Self->{DBObject}->Quote($Self->{Profile}).
-                  "' AND login = '".$Self->{DBObject}->Quote($Self->{UserLogin})."'",
+            # remove old profile stuff
+            $Self->{SearchProfileObject}->SearchProfileDelete(
+                Base => 'CustomerTicketSearch',
+                Name => $Self->{Profile},
+                UserLogin => $Self->{UserLogin},
             );
             %GetParam = ();
             $Self->{Profile} = '';
@@ -398,8 +389,8 @@ sub Run {
         my $Output = $Self->{LayoutObject}->CustomerHeader(Area => 'Customer', Title => 'Search');
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output .= $Self->MaskForm(
-            %GetParam, 
-            Profile => $Self->{Profile}, 
+            %GetParam,
+            Profile => $Self->{Profile},
         );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
@@ -420,9 +411,9 @@ sub MaskForm {
     );
     $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{StateObject}->StateList(
-             UserID => $Self->{UserID}, 
+             UserID => $Self->{UserID},
              Action => $Self->{Action},
-             ) 
+             )
         },
         Name => 'StateIDs',
         Multiple => 1,
@@ -441,30 +432,30 @@ sub MaskForm {
         SelectedIDRefArray => $Param{PriorityIDs},
     );
     $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
-            1 => 1, 
-            2 => 2, 
-            3 => 3, 
-            4 => 4, 
-            5 => 5, 
-            6 => 6, 
-            7 => 7, 
-            8 => 8, 
-            9 => 9, 
+        Data => {
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            4 => 4,
+            5 => 5,
+            6 => 6,
+            7 => 7,
+            8 => 8,
+            9 => 9,
         },
         Name => 'TicketCreateTimePoint',
         SelectedID => $Param{TicketCreateTimePoint},
     );
     $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
-            'Last' => 'last', 
-            'Before' => 'before', 
+        Data => {
+            'Last' => 'last',
+            'Before' => 'before',
         },
         Name => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
     $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
+        Data => {
             day => 'day(s)',
             week => 'week(s)',
             month => 'month(s)',
@@ -486,7 +477,7 @@ sub MaskForm {
     );
     # html search mask output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerTicketSearch', 
+        TemplateFile => 'CustomerTicketSearch',
         Data => \%Param,
     );
 }
@@ -495,11 +486,11 @@ sub MaskCSVResult {
     my $Self = shift;
     my %Param = @_;
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # customer info string 
+    # customer info string
     $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
     # create & return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerTicketSearchResultCSV', 
+        TemplateFile => 'CustomerTicketSearchResultCSV',
         Data => \%Param,
     );
 }
@@ -508,11 +499,11 @@ sub MaskPrintResult {
     my $Self = shift;
     my %Param = @_;
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # customer info string 
+    # customer info string
     $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
     # create & return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerTicketSearchResultPrintTable', 
+        TemplateFile => 'CustomerTicketSearchResultPrintTable',
         Data => \%Param,
     );
 }

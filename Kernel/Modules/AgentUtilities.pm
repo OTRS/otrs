@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.59 2004-08-30 14:55:54 martin Exp $
+# $Id: AgentUtilities.pm,v 1.60 2004-09-10 13:04:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use Kernel::System::CustomerUser;
 use Kernel::System::Priority;
 use Kernel::System::State;
+use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,6 +41,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
 
     # if we need to do a fultext search on an external mirror database
     if ($Self->{ConfigObject}->Get('AgentUtil::DB::DSN')) {
@@ -83,29 +85,27 @@ sub Run {
     }
     # get signle params
     my %GetParam = ();
-    foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
-      Agent ResultForm TimeSearchType
-      TicketCreateTimePointFormat TicketCreateTimePoint
-      TicketCreateTimePointStart
-      TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
-      TicketCreateTimeStartYear
-      TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
-      TicketCreateTimeStopYear
-    )) {
-        # load profiles string params (press load profile)
-        if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
-            my $SQL = "SELECT profile_value FROM search_profile".
-              " WHERE ".
-              " profile_name = '".$Self->{DBObject}->Quote($Self->{Profile})."' AND ".
-              " profile_key = '$_' AND ".
-              " login = '".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
-            $Self->{DBObject}->Prepare(SQL => $SQL);
-            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-                $GetParam{$_} = $Row[0];
-            }
-        }
-        # get search string params (get submitted params)
-        else {
+
+    # load profiles string params (press load profile)
+    if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
+        %GetParam = $Self->{SearchProfileObject}->SearchProfileGet(
+            Base => 'TicketSearch',
+            Name => $Self->{Profile},
+            UserLogin => $Self->{UserLogin},
+        );
+    }
+    # get search string params (get submitted params)
+    else {
+        foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
+          Agent ResultForm TimeSearchType
+          TicketCreateTimePointFormat TicketCreateTimePoint
+          TicketCreateTimePointStart
+          TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
+          TicketCreateTimeStartYear
+          TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
+          TicketCreateTimeStopYear
+        )) {
+            # get search string params (get submitted params)
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
             # remove white space on the start and end
             if ($GetParam{$_}) {
@@ -113,28 +113,13 @@ sub Run {
                 $GetParam{$_} =~ s/^\s+//g;
             }
         }
-    }
-    # get array params
-    foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs
-      TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
-      TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
-      TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
-      TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8)) {
-        # load profile array params (press load profile)
-        if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
-            my $SQL = "SELECT profile_value FROM search_profile".
-              " WHERE ".
-              " profile_name = '".$Self->{DBObject}->Quote($Self->{Profile})."' AND ".
-              " profile_key = '$_' AND ".
-              " login = '".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
-            $Self->{DBObject}->Prepare(SQL => $SQL);
-            my @Array = ();
-            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-                push(@{$GetParam{$_}}, $Row[0]);
-            }
-        }
-        # get search array params (get submitted params)
-        else {
+        # get array params
+        foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs
+          TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
+          TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
+          TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
+          TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8)) {
+            # get search array params (get submitted params)
             my @Array = $Self->{ParamObject}->GetArray(Param => $_);
             if (@Array) {
                 $GetParam{$_} = \@Array;
@@ -181,36 +166,39 @@ sub Run {
         # remember last search values
         if ($Self->{SaveProfile} && $Self->{Profile}) {
             # remove old profile stuff
-            my $SQL = "DELETE FROM search_profile WHERE ".
-                  "profile_name = '".$Self->{DBObject}->Quote($Self->{Profile}).
-                  "' AND login = '".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
-            $Self->{DBObject}->Do(SQL => $SQL);
+            $Self->{SearchProfileObject}->SearchProfileDelete(
+                Base => 'TicketSearch',
+                Name => $Self->{Profile},
+                UserLogin => $Self->{UserLogin},
+            );
             # insert new profile params
             foreach my $Key (keys %GetParam) {
-              if ($GetParam{$Key}) {
-                if (ref($GetParam{$Key}) eq 'ARRAY') {
+                if ($GetParam{$Key}) {
+                  if (ref($GetParam{$Key}) eq 'ARRAY') {
                     foreach (@{$GetParam{$Key}}) {
-                      my $SQL = "INSERT INTO search_profile (login, profile_name, ".
-                        "profile_key, profile_value) VALUES ".
-                        " ('".$Self->{DBObject}->Quote($Self->{UserLogin})."', '".
-                        $Self->{DBObject}->Quote($Self->{Profile})."', '$Key', '".
-                        $Self->{DBObject}->Quote($_)."')";
-                      $Self->{DBObject}->Do(SQL => $SQL);
+                        $Self->{SearchProfileObject}->SearchProfileAdd(
+                            Base => 'TicketSearch',
+                            Name => $Self->{Profile},
+                            Type => 'ARRAY',
+                            Key => $Key,
+                            Value => $_,
+                            UserLogin => $Self->{UserLogin},
+                        );
                     }
+                  }
+                  else {
+                    $Self->{SearchProfileObject}->SearchProfileAdd(
+                        Base => 'TicketSearch',
+                        Name => $Self->{Profile},
+                        Type => 'SCALAR',
+                        Key => $Key,
+                        Value => $GetParam{$Key},
+                        UserLogin => $Self->{UserLogin},
+                    );
+                  }
                 }
-                else {
-                    my $SQL = "INSERT INTO search_profile (login, profile_name, ".
-                      "profile_key, profile_value) VALUES ".
-                      " ('".$Self->{DBObject}->Quote($Self->{UserLogin})."', '".
-                        $Self->{DBObject}->Quote($Self->{Profile})."', '$Key', '".
-                        $Self->{DBObject}->Quote($GetParam{$Key})."')";
-                    $Self->{DBObject}->Do(SQL => $SQL);
-                }
-              }
             }
         }
-
-#        foreach (qw(email-notification-int email-notification-ext)) {
 
         # get time settings
         if (!$GetParam{TimeSearchType}) {
@@ -528,10 +516,11 @@ sub Run {
     else {
         # delete profile
         if ($Self->{EraseTemplate} && $Self->{Profile}) {
-            $Self->{DBObject}->Do(
-                SQL => "DELETE FROM search_profile WHERE ".
-                  "profile_name = '".$Self->{DBObject}->Quote($Self->{Profile}).
-                  "' AND login = '".$Self->{DBObject}->Quote($Self->{UserLogin})."'",
+            # remove old profile stuff
+            $Self->{SearchProfileObject}->SearchProfileDelete(
+                Base => 'TicketSearch',
+                Name => $Self->{Profile},
+                UserLogin => $Self->{UserLogin},
             );
             %GetParam = ();
             $Self->{Profile} = '';
@@ -601,11 +590,11 @@ sub MaskForm {
         SelectedID => $Param{ResultForm} || 'Normal',
     );
     $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { '', '-', $Self->{DBObject}->GetTableData(
-                      What => 'profile_name, profile_name',
-                      Table => 'search_profile',
-                      Where => "login = '$Self->{UserLogin}'",
-                    ) },
+        Data => { '', '-', $Self->{SearchProfileObject}->SearchProfileList(
+            Base => 'TicketSearch',
+            UserLogin => $Self->{UserLogin},
+          ),
+        },
         Name => 'Profile',
         SelectedID => $Param{Profile},
     );
