@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.dtl,v 1.1 2004-04-01 09:13:17 martin Exp $
+# $Id: AgentBulk.dtl,v 1.1.2.1 2004-10-26 11:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -88,6 +88,10 @@ $Data{"TicketIDHidden"}
     <td>$Text{"New Queue"}:</td>
     <td>$Data{"MoveQueuesStrg"}</td>
   </tr>
+  <tr>
+    <td>$Text{"Unlock Tickets"}:</td>
+    <td>$Data{"UnlockYesNoOption"}</td>
+  </tr>
   </table>
 <br>
 <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
@@ -102,7 +106,7 @@ $Data{"TicketIDHidden"}
 </form>
 
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->

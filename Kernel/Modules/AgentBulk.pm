@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.8 2004-08-24 08:07:10 martin Exp $
+# $Id: AgentBulk.pm,v 1.8.2.1 2004-10-26 11:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.8.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,6 +164,14 @@ sub Run {
                             );
                         }
                     }
+					# Should I unlock tickets at user request?
+					if ($Self->{ParamObject}->GetParam(Param => 'Unlock')) {
+						$Self->{TicketObject}->LockSet(
+							TicketID => $_,
+							Lock => 'unlock',
+							UserID => $Self->{UserID},
+						);
+					}
                 }
             }
         }
@@ -222,6 +230,11 @@ sub _Mask {
         Name => 'QueueID',
 #       SelectedID => $Self->{DestQueueID},
         OnChangeSubmit => 0,
+    );
+    $Param{'UnlockYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'Unlock',
+        SelectedID => 1,
     );
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBulk', Data => \%Param);
