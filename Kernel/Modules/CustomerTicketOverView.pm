@@ -1,8 +1,8 @@
 # --   
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2002 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.5 2002-12-19 23:49:00 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.6 2003-01-03 16:17:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerTicketOverView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --

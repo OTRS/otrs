@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # instaler.pl - the OTRS Installer
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.10 2002-12-20 12:28:31 martin Exp $
+# $Id: installer.pl,v 1.11 2003-01-03 16:17:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -151,6 +151,4 @@ sub GenericModules {
     }
 
 }
-
-
 
