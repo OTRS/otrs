@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.23 2004-01-24 18:43:03 martin Exp $
+# $Id: Customer.pm,v 1.24 2004-02-03 22:53:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -165,19 +165,6 @@ sub CustomerPreferencesForm {
               HTMLQuote => 0,
             );
           } 
-          elsif ($PrefKey eq 'UserCharset') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'charset, charset',
-                      Table => 'charset',
-                      Valid => 1,
-                    )
-                  },
-                  Name => 'GenericTopic',
-                  Selected => $Self->{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
-              );
-          }
           elsif ($PrefKey eq 'UserTheme') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                   Data => {
