@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.47 2004-04-15 08:41:02 martin Exp $
+# $Id: NewTicket.pm,v 1.48 2004-06-22 09:04:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -196,6 +196,10 @@ sub Run {
                 Counter => $CounterTmp,
                 UserID => $Param{InmailUserID},
             );
+            if ($Self->{Debug} > 0) {
+                print "TicketKey$CounterTmp: ".$GetParam{"$Values[0]$CounterTmp"}."\n";
+                print "TicketValue$CounterTmp: ".$GetParam{"$Values[1]$CounterTmp"}."\n";
+            }
         }
     }
     # -- 
