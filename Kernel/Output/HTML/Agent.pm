@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.33 2002-06-14 19:56:25 martin Exp $
+# $Id: Agent.pm,v 1.34 2002-06-16 20:44:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -433,7 +433,7 @@ sub ArticlePlain {
     return $Self->Output(TemplateFile => 'AgentPlain', Data => \%Param);
 }
 # --
-sub Note {
+sub AgentNote {
     my $Self = shift;
     my %Param = @_;
 
@@ -445,6 +445,35 @@ sub Note {
 
     # get output back
     return $Self->Output(TemplateFile => 'AgentNote', Data => \%Param);
+}
+# --
+sub AgentBounce {
+    my $Self = shift;
+    my %Param = @_;
+
+    # --
+    # build next states string
+    # --
+    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'BounceStateID',
+        Selected => $Self->{ConfigObject}->Get('DefaultNextBounceType'),
+    );
+
+    # --
+    # prepare 
+    # --
+    foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
+        $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
+        $Param{$_} =~ s/"//g;
+    }
+    # create FromHTML (to show)
+    $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70, MIME => 1);
+    # email quoted print decode
+    $Param{Body} = MIME::QuotedPrint::decode($Param{Body});
+
+    # get output back
+    return $Self->Output(TemplateFile => 'AgentBounce', Data => \%Param);
 }
 # --
 sub AgentPhone {
