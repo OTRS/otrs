@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.5 2003-02-08 15:05:11 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.5.4.1 2004-04-11 16:47:39 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.5.4.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -79,13 +79,13 @@ if (!$Opts{'f'}) {
     print "INFO: no -f <FileLocation>! Use '/tmp'!\n";
 }
 
+$CommonObject{ConfigObject}->Set(Key => 'WriteNewTranslationFile', Value => 1);
+
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
     UserLanguage => $Opts{'l'},
     UserTheme => 'Standard',
     %CommonObject,
 );
-
-$CommonObject{ConfigObject}->Set(Key => 'WriteNewTranslationFile', Value => 1);
 
 my $Theme = $CommonObject{ConfigObject}->Get('DefaultTheme') || 'Standard';
 my $TemplateDir = '../Kernel/Output/HTML/'. $Theme;
