@@ -1,0 +1,71 @@
+#!/usr/bin/perl -w
+# --
+# $Id: otrs.checkModules,v 1.1 2003-01-16 20:11:02 martin Exp $
+# --
+# This programm is based on pminst from Tom Christiansen.
+# This is free software.  You may modify it and distribute it 
+# under Perl's Artistic Licence.  Modified versions must be
+# clearly indicated.
+# --
+
+# use ../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../";
+use lib "$Bin/../Kernel/cpan-lib";
+
+use File::Find;
+
+if (@ARGV == 0) {
+    @ARGV = ('.');
+} 
+
+my @NeededModules = (qw(
+    CGI 
+    Date::Pcalc 
+    DBI DBD::mysql 
+    Digest::MD5 
+    Email::Valid 
+    IO::Scalar IO::Wrap 
+    MIME::Base64 MIME::Tools Mail::Internet
+    Net::DNS Net::POP3
+    GD GD::Text GD::Graph GD::Graph::lines GD::Text::Align
+));
+
+my %InstalledModules = ();
+
+no lib '.';
+
+for $startdir (@INC) { 
+    find(\&wanted, $startdir);
+}
+
+sub wanted {
+    if (-d && /^[a-z]/) { 
+        # this is so we don't go down site_perl etc too early
+        $File::Find::prune = 1;
+        return;
+    }
+    return unless /\.pm$/;
+    local $_ = $File::Find::name;
+    $tmpname = $_; 
+    $tmpname =~ s{^\Q$startdir/}{};
+    s{^\Q$startdir/}{};  
+    s/\.pm$//;
+    s{/}{::}g;
+    $InstalledModules{lc($_)} = 1;
+}
+
+foreach (@NeededModules) {
+    if ($InstalledModules{lc($_)}) {
+        print sprintf(" %20s %s\n", $_, '... ok');
+    }
+    else {
+        if ($_ =~ /^GD/) {
+            print sprintf(" %20s %s\n", $_, '... not installed! (for stats - not required)');
+        }
+        else {
+            print sprintf(" %20s %s\n", $_, '... not installed! (required)');
+        }
+    }
+}
+
