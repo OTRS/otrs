@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides HTML form for Installer
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerSystem.dtl,v 1.4 2003-01-14 23:24:50 martin Exp $
+# $Id: InstallerSystem.dtl,v 1.5 2003-02-03 21:18:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@
   </tr>
   <tr>
     <td width="20%">$Text{"SystemID"}:</td>
-    <td width="40%"><input type="text" name="SystemID" value="$Config{"SystemID"}" size="2"></td>
+    <td width="40%">$Data{"SystemIDString"}</td>
     <td>$Text{"(The identify of the system. Each ticket number and each http session id starts with this number)"}</td>
   </tr>
   <tr>
