@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-200 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.2 2003-01-09 20:46:01 martin Exp $
+-- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.3 2003-01-20 13:03:51 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.postgresql.sql | psql otrs 
@@ -66,6 +66,11 @@ CREATE TABLE pop3_account
     UNIQUE (login)
 );
 -- update states
+DELETE FROM ticket_state WHERE name = 'waiting_for_closed+';
+DELETE FROM ticket_state WHERE name = 'waiting_for_closed-';
+DELETE FROM ticket_state WHERE name = 'waiting_for_customer';
+DELETE FROM ticket_state WHERE name = 'waiting_for_info';
+DELETE FROM ticket_state WHERE name = 'waiting_for_reminder';
 DELETE FROM ticket_history_type WHERE name = 'WatingForClose-';
 DELETE FROM ticket_history_type WHERE name = 'WatingForClose+';
 DELETE FROM ticket_history_type WHERE name = 'WatingForReminder';
