@@ -2,13 +2,69 @@
 # Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.132 2004-10-07 14:16:03 martin Exp $
+# $Id: CHANGES,v 1.133 2004-12-23 11:51:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2004/12/04) moved PGP and SMIME stuff to Kernel/System/Email.pm
+    to be more generic
+ - (2004/11/27) added config option TicketHookDivider
+    [Kernel/Config.pm]
+    # (the divider between TicketHook# and number)
+    $Self->{TicketHookDivider} = ': ';
+#    $Self->{TicketHookDivider} = '';
+    [...]
+ - (2004/11/24) renamed from bin/SendStats.pl to bin/mkStats.pl and added
+    fs output e. g.
+    shell> bin/mkStats.pl -m NewTickets -p 'Month=1&Year=2003' -r me@host.com -b text
+    NOTICE: Email sent to 'me@host.com'
+    shell> bin/mkStats.pl -m NewTickets -p 'Month=1&Year=2003'  -o /data/dir
+    NOTICE: Writing file /data/dir/NewTickets_2004-11-24_14-38.csv
+    shell>
+ - (2004/11/24) added postmaster filter to
+ - (2004/11/16) a xml 2 sql processor which is using Kernel/System/DB.pm
+    and Kernel/System/DB/*.pm' bin/xml2sql.pl to generate database based
+    sql syntax
+ - (2004/11/16) moved database settings from Kernel/System/DB.pm to
+    Kernel/System/DB/*.pm (mysql|postgresql|maxdb|oracle|db2)
+ - (2004/11/16) added fast cgi (fcgi) handle to (bin/fcgi-bin/*.pl)
+ - (2004/11/16) splited cgi-handle to handle (bin/cgi-bin/*.pl) and
+    modules (Kernel/System/Web/Interface*.pm)
+ - (2004/11/16) renamed Kernel/System/WebUploadCache.pm to
+    Kernel/System/Web/UploadCache.pm
+ - (2004/11/16) renamed Kernel/System/WebRequest.pm to
+    Kernel/System/Web/Request.pm
+ - (2004/11/07) added LOWER() in sql like queries to search, now searches
+    are case insensitive in postgresql and maxdb
+ - (2004/11/04) added new feature so show ticket history reverse
+    [Kernel/Config.pm]
+    # Agent::HistoryOrder
+    # (show history order reverse) [normal|reverse]
+    $Self->{'Agent::HistoryOrder'} = 'normal';
+#    $Self->{'Agent::HistoryOrder'} = 'reverse';
+    [...]
+ - (2004/11/04) added "show no escalation" group feature
+    [Kernel/Config.pm]
+    # AgentNoEscalationGroup
+    # (don't show escalated tickets in frontend for agents who are writable
+    # in this group)
+    $Self->{AgentNoEscalationGroup} = 'some_group';
+    [...]
+ - (2004/11/04) renamed session to sessions table (oracle compat.)
+ - (2004/11/04) updated to CGI 3.05
+ - (2004/11/04) switched to session db module as default because
+   of compat. of operating systems
+ - (2004/11/04) added new dtl tag $LQData{} to quote html links
+ - (2004/11/02) added ticket free text feature to agent compose
+ - (2004/11/02) added ticket free text feature to agent close
+ - (2004/11/01) added auto generated table-sql scripts for mysql, postgresql,
+    sapdb and oracle based on scripts/database/otrs-schema.xml
+ - (2004/10/31) added database foreign-keys
+ - (2004/10/08) fixed 544 - E-mail address check with query timeout causes
+     Premature end of script headers
  - (2004/10/06) reworked all agent and customer notifications in database
     (use scripts/DBUpdate-to-2.0.*.sql)
  - (2004/10/06) added new config options for email address check
@@ -107,7 +163,29 @@ CVS head
  - (2004/09/09) added role/profile feature
  - (2004/09/09) added ticket title support
 
-1.3.2 (2004-xx-xx)
+1.3.3 (200?-??-??)
+ - (2004/11/26) fixed remove of ticket link if just one exists
+ - (2004/11/24) fixed new owner list in Kernel/Modules/AgentMove.pm
+    (show just user with rw permission to selected queue)
+ - (2004/11/07) fixed utf8-problem with postgres and non utf-8 emails in
+    article_plain
+ - (2004/11/05) updated Kernel/Language/hu.pm Thanks to Czakó Krisztián!
+ - (2004/11/04) fixed loop if now theme directory is found
+ - (2004/11/04) fixed upper queue rename with () or + chars
+ - (2004/11/04) fixed bug 604 - Typo in AgentStatusView.pm
+ - (2004/10/29) spell check rewritten
+ - (2004/10/26) added unlock option to bulk feature
+ - (2004/10/18) fixed bug 551 - FAQ on E-mail new only takes over the
+    subject and not the text
+
+1.3.2 (2004-10-15)
+ - (2004/10/14) fixed bug 570 - Stat generation script fails under postgres
+ - (2004/10/14) fixed bug 573 - Clicked link to check ticket status and here's
+    what I got
+ - (2004/10/12) replaced COUNTER with DATA in Kernel/System/Ticket/Number/*.pm
+    (because of win32 systems and use strict mode)
+ - (2004/10/12) fixed agent can be customer modus
+ - (2004/10/10) fixed wrong lable attachments in db backend
  - (2004/10/07) fixed bug 562 Content-Transfer-Encoding: 7bit and german umlaut
  - (2004/10/07) fixed bug 565 HighlightColor* in AgentMailbox
  - (2004/10/06) fixed link quote of https links
