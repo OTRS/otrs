@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.50 2002-07-31 23:17:22 martin Exp $
+# $Id: Config.pm,v 1.51 2002-08-01 02:34:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -262,11 +262,12 @@ sub Load {
     # session settings                                    #
     # ----------------------------------------------------#
 
-    # SessionDriver
-    # (How should be the session-data stored? [sql|fs]
-    # Advantage of sql is that you can split the 
+    # SessionModule (replace old SessionDriver!!!)
+    # (How should be the session-data stored? 
+    # Advantage of DB is that you can split the 
     # Frontendserver from the DB-Server. fs is faster.)
-    $Self->{SessionDriver} = 'sql';
+    $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
+#    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
 
     # SessionCheckRemoteIP 
     # (If the application is used via a proxy-farm then the 
