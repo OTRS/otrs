@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.6 2002-05-10 00:17:20 martin Exp $
+# $Id: TicketView.dtl,v 1.7 2002-05-12 22:07:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -115,4 +115,5 @@ $Data{"Text"}
   </td>
 </tr>
 </table>
+<hr>
 <!-- end ticket -->
