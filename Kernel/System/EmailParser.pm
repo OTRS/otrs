@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.5 2002-08-04 23:29:11 martin Exp $
+# $Id: EmailParser.pm,v 1.6 2002-09-19 22:09:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use Mail::Internet;
 use MIME::Parser;
 use MIME::QuotedPrint;
+use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -122,6 +123,9 @@ sub GetMessageBody {
         # --
         if ($Self->GetParam(WHAT => 'Content-Transfer-Encoding') =~ /quoted-printable/i) {
             $BodyStrg = MIME::QuotedPrint::decode($BodyStrg);
+        }
+        elsif ($Self->GetParam(WHAT => 'Content-Transfer-Encoding') =~ /base64/i) {
+            $BodyStrg = decode_base64($BodyStrg);
         }
         return $BodyStrg;
     }
