@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerTicketOverView.pm,v 1.31 2004-07-07 07:08:28 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.32 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,7 +57,7 @@ sub Run {
     # store last screen
     if (!$Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastScreen',
+        Key => 'LastScreenView',
         Value => $Self->{RequestedURL},
     )) {
         my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');

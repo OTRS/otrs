@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.37 2004-08-19 15:44:53 martin Exp $
+# $Id: AgentClose.pm,v 1.38 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,6 +96,7 @@ sub Run {
         );
         # html header
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Close');
+#        $Output .= $Self->{LayoutObject}->NavigationBar();
         # get lock state
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             $Self->{TicketObject}->LockSet(
@@ -194,10 +195,10 @@ sub Run {
               ID => $StateID,
           );
           if ($StateData{TypeName} =~ /^close/i) {
-              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
+              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
           }
           else {
-              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
           }
         }
         else {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.17 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentHistory.pm,v 1.18 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
       );
       $Output .= $Self->{LayoutObject}->Footer();
       return $Output;
-    } 
+    }
     # --
     # check permissions
     # --
@@ -83,7 +83,6 @@ sub Run {
         my %Data = %{$DataTmp};
         # replace text
         if ($Data{Name} && $Data{Name} =~ /^%%/) {
-#print STDERR "lll $Data{Name} - $Data{HistoryType}\n";
             my %Info = ();
             $Data{Name} =~ s/^%%//g;
             my @Values = split(/%%/, $Data{Name});
@@ -97,21 +96,19 @@ sub Run {
             if (!$Data{Name}) {
                 $Data{Name} = '" ';
             }
-#print STDERR "asdasd $Data{Name} asd \n";
             $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get('History::'.$Data{HistoryType}.'", '.$Data{Name});
         }
-        $Table .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentHistoryRow', 
+        $Self->{LayoutObject}->Block(
+            Name => "Row",
             Data => {%Data},
         );
     }
     # get output
     $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentHistoryForm', 
+            TemplateFile => 'AgentHistoryForm',
             Data => {
-                TicketNumber => $Tn, 
+                TicketNumber => $Tn,
                 TicketID => $Self->{TicketID},
-                History => $Table,
             },
         );
     # add footer

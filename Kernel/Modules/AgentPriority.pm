@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.22 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentPriority.pm,v 1.23 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,7 +88,7 @@ sub Run {
             UserID => $Self->{UserID},
         )) {
             # print redirect
-            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Warning');

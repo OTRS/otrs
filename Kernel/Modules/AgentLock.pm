@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.15 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentLock.pm,v 1.16 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,10 +22,10 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -99,7 +99,7 @@ sub Run {
              return $Self->{LayoutObject}->Redirect(OP => "QueueID=$Self->{QueueID}");
           }
           else {
-             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
           }
         }
         else {
@@ -107,7 +107,7 @@ sub Run {
           $Output .= $Self->{LayoutObject}->Error();
           $Output .= $Self->{LayoutObject}->Footer();
           return $Output;
-        } 
+        }
     }
     else {
         # check if the agent is ablee to lock
@@ -140,15 +140,13 @@ sub Run {
              return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
           }
           else {
-             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
           }
         }
         else {
           $Output = $Self->{LayoutObject}->Header(Title => 'Error');
           $Output .= $Self->{LayoutObject}->Error();
           $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
-        } 
     }
 }
 # --

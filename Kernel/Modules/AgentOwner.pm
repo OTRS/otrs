@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.28 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentOwner.pm,v 1.29 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,8 +34,8 @@ sub new {
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-   
-    # get params    
+
+    # get params
     $Self->{NewUserID} = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
     $Self->{OldUserID} = $Self->{ParamObject}->GetParam(Param => 'OldUserID') || '';
     $Self->{UserSelection} = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
@@ -113,7 +113,7 @@ sub Run {
               );
             }
           # redirect
-          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
         }
         else {
           $Output = $Self->{LayoutObject}->Header(Title => "Error");
@@ -168,11 +168,11 @@ sub Run {
 sub MaskOwner {
     my $Self = shift;
     my %Param = @_;
-    # build string 
+    # build string
     $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{OptionStrg},
         Selected => $Param{OwnerID},
-        Name => 'NewUserID', 
+        Name => 'NewUserID',
         Size => 10,
         OnClick => "change_selected(0)",
     );
@@ -192,9 +192,9 @@ sub MaskOwner {
     if (!%UserHash) {
         $UserHash{''} = '-';
     }
-    # build string 
+    # build string
     $Param{'OldUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%UserHash, 
+        Data => \%UserHash,
         SelectedID => $Param{OldUser}->[0]->{UserID}.'1',
         Name => 'OldUserID',
         OnClick => "change_selected(2)",
@@ -202,7 +202,7 @@ sub MaskOwner {
     );
     # create & return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentOwner', 
+        TemplateFile => 'AgentOwner',
         Data => \%Param,
     );
 }

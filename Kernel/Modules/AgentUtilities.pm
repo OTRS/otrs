@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.62 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentUtilities.pm,v 1.63 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -153,12 +153,12 @@ sub Run {
         my $URL = "Action=AgentUtilities&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key => 'LastScreenQueue',
+            Key => 'LastScreenOverview',
             Value => $URL,
         );
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key => 'LastScreen',
+            Key => 'LastScreenView',
             Value => $URL,
         );
         # save search profile (under last-search or real profile name)

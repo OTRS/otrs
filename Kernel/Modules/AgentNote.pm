@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.38 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentNote.pm,v 1.39 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::WebUploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -187,7 +187,7 @@ sub Run {
             # remove pre submited attachments
             $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
             # redirect
-            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();

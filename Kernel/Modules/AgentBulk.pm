@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.8 2004-08-24 08:07:10 martin Exp $
+# $Id: AgentBulk.pm,v 1.9 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -170,7 +170,7 @@ sub Run {
     }
     if ($Self->{Subaction} eq 'Do') {
         # redirect
-        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
     }
     else {
         $Output .= $Self->_Mask(%Param);

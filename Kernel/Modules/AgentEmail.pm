@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.38 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentEmail.pm,v 1.39 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,10 +67,10 @@ sub Run {
     my $Output;
 
     # store last queue screen
-    if ($Self->{LastScreenQueue} !~ /Action=AgentEmail/) {
+    if ($Self->{LastScreenOverview} !~ /Action=AgentEmail/) {
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key => 'LastScreenQueue',
+            Key => 'LastScreenOverview',
             Value => $Self->{RequestedURL},
         );
     }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.73 2004-09-20 11:14:05 martin Exp $
+# $Id: AgentZoom.pm,v 1.74 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,7 +91,7 @@ sub Run {
     if ($Self->{Subaction} ne 'ShowHTMLeMail') {
       if (!$Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastScreen',
+        Key => 'LastScreenView',
         Value => $Self->{RequestedURL},
       )) {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');

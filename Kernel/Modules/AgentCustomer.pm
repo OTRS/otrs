@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.34 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentCustomer.pm,v 1.35 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,7 +124,7 @@ sub Run {
             UserID => $Self->{UserID},
         )) {
             # redirect
-            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
         }
         else {
             # error?!
@@ -143,7 +143,7 @@ sub Form {
     my $Output;
     # print header
     $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer');
-    $Output .= $Self->{LayoutObject}->NavigationBar(); 
+    $Output .= $Self->{LayoutObject}->NavigationBar();
     my $TicketCustomerID = $Self->{CustomerID};
     # --
     # print change form if ticket id is given
@@ -158,14 +158,11 @@ sub Form {
             );
         }
         $TicketCustomerID = $TicketData{CustomerID};
+        $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable(Data => \%CustomerUserData);
         # print change form
         $Output .= $Self->_Mask(
             %TicketData,
             %Param,
-        );
-        $Output .= $Self->{LayoutObject}->AgentCustomerView(
-            %TicketData,
-            Data => \%CustomerUserData,
         );
     }
     # --

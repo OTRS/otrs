@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.66 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentQueueView.pm,v 1.67 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,7 +87,7 @@ sub Run {
     # store last queue screen
     if (!$Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastScreenQueue',
+        Key => 'LastScreenOverview',
         Value => $Self->{RequestedURL},
     )) {
         my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
@@ -98,7 +98,7 @@ sub Run {
     # store last screen
     if (!$Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key => 'LastScreen',
+        Key => 'LastScreenView',
         Value => $Self->{RequestedURL},
     )) {
         my $Output = $Self->{LayoutObject}->Header(Title => 'Error');

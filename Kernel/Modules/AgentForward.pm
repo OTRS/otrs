@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.40 2004-09-16 22:24:04 martin Exp $
+# $Id: AgentForward.pm,v 1.41 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -342,10 +342,10 @@ sub SendEmail {
       }
       # redirect
       if ($StateData{TypeName} =~ /^close/i) {
-          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
+          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
       }
       else {
-          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
       }
     }
     else {

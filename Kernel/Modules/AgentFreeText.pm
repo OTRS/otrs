@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentText.pm - to set the ticket free text
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.pm,v 1.10 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentFreeText.pm,v 1.11 2004-09-27 13:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,7 +101,7 @@ sub Run {
             }
         }
         # print redirect
-        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
     }
     else {
         # print form
