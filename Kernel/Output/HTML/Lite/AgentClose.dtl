@@ -2,7 +2,7 @@
 # AgentClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.22 2003-11-19 22:24:43 martin Exp $
+# $Id: AgentClose.dtl,v 1.23 2004-01-23 02:22:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -68,7 +68,7 @@ function SpellCheckSubmit()
   <table border="0" width="100%">
   <tr>
     <td width="20%">$Text{"Subject"}:</td>
-    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="60"></td>
+    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="70"></td>
   </tr>
   <tr>
     <td>$Text{"Options"}:</td>
