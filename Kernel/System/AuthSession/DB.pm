@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.4 2002-10-15 09:23:19 martin Exp $
+# $Id: DB.pm,v 1.5 2002-10-28 00:47:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -125,7 +125,6 @@ sub GetSessionIDData {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no SessionID!!");
         return;
     }
-
     # --
     # read data
     # --
@@ -138,14 +137,18 @@ sub GetSessionIDData {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Strg = $RowTmp[0];
     } 
-
     # --
     # split data
     # --
     my @StrgData = split(/;/, $Strg); 
     foreach (@StrgData) {
          my @PaarData = split(/:/, $_);
-         $Data{$PaarData[0]} = decode_base64($PaarData[1]) || '';
+         if ($PaarData[1]) {
+              $Data{$PaarData[0]} = decode_base64($PaarData[1]) || '';
+         }
+         else {
+              $Data{$PaarData[0]} = '';
+         }
          # Debug
          if ($Self->{Debug}) {
              $Self->{LogObject}->Log(
@@ -154,7 +157,9 @@ sub GetSessionIDData {
              );
          } 
     }
-
+    # --
+    # return data
+    # --
     return %Data;
 }
 # --
@@ -177,7 +182,6 @@ sub CreateSessionID {
         (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
     );
     $SessionID = $Self->{SystemID} . $md5->hexdigest;
-
     # --
     # data 2 strg
     # --
@@ -190,7 +194,6 @@ sub CreateSessionID {
     $DataToStore .= "UserSessionStart:" . encode_base64(time(), '') .":;";
     $DataToStore .= "UserRemoteAddr:" . encode_base64($RemoteAddr, '') .":;";
     $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') .":;";
-
     # --
     # store SessionID + data
     # --
@@ -209,7 +212,6 @@ sub RemoveSessionID {
     my $Self = shift;
     my %Param = @_;
     my $SessionID = $Param{SessionID};
-
     # --
     # delete db recode
     # -- 
@@ -233,12 +235,17 @@ sub UpdateSessionID {
     my $Value = $Param{Value} || '';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
-
+    # --
+    # check needed update! (no changes)
+    # --
+    if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value)
+      || (!exists $SessionData{$Key} && !$Value)) {
+        return 1;
+    }
     # --
     # update the value 
     # --
     $SessionData{$Key} = $Value; 
-   
     # --
     # set new data sting
     # -- 
@@ -253,7 +260,6 @@ sub UpdateSessionID {
             );
         }
     }
-
     # --
     # update db enrty
     # --
@@ -262,8 +268,7 @@ sub UpdateSessionID {
             " $Self->{SQLSessionTableValue} = '$NewDataToStore' ".
             " WHERE ".
             " $Self->{SQLSessionTableID} = '$SessionID'";
-    $Self->{DBObject}->Do(SQL => $SQL) 
-           || die "Can't update session table!";
+    $Self->{DBObject}->Do(SQL => $SQL) || die "Can't update session table!";
 
     return 1;
 }
