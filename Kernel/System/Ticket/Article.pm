@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.66 2004-08-06 06:31:24 martin Exp $
+# $Id: Article.pm,v 1.67 2004-08-10 06:42:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -92,7 +92,7 @@ sub ArticleCreate {
         $Param{AttachContentType} = $Param{ContentType};
         $Param{AttachBody} = $Param{Body};
         $Param{ContentType} = 'text/plain';
-        $Param{Body} = 'no text/plain body => see attachment';
+        $Param{Body} = "## no text/plain body => see attachment ($Param{ContentType}) ##";
     }
     else {
         # fix some bad stuff from some browsers (Opera)!
@@ -734,7 +734,6 @@ sub ArticleIndex {
     # return data
     return @Index;
 }
-# --
 
 =item ArticleContentIndex()
 
@@ -824,14 +823,14 @@ sub ArticleGet {
         " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
         " sa.a_freekey3, sa.a_freetext3, st.ticket_answered, ".
         " sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,".
-        " st.freekey3, st.freetext3, st.freekey4, st.freetext4,". 
-        " st.freekey5, st.freetext5, st.freekey6, st.freetext6,". 
-        " st.freekey7, st.freetext7, st.freekey8, st.freetext8, st.ticket_lock_id". 
+        " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
+        " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
+        " st.freekey7, st.freetext7, st.freekey8, st.freetext8, st.ticket_lock_id".
         " FROM ".
         " article sa, ticket st, ".
         " $Self->{ConfigObject}->{DatabaseUserTable} su ".
         " where ";
-    if ($Param{ArticleID}) { 
+    if ($Param{ArticleID}) {
         $SQL .= " sa.id = $Param{ArticleID}";
     }
     else {
@@ -979,7 +978,61 @@ sub ArticleGet {
         return @Content;
     }
 }
-# --
+
+=item ArticleUpdate()
+
+update a article item
+
+Note: Key "Body", "Subject", "From", "To" and "Cc" is implemented.
+
+  $TicketObject->ArticleUpdate(
+      ArticleID => 123,
+      Key => 'Body',
+      Value => 'New Body',
+      UserID => 123,
+  );
+
+=cut
+
+sub ArticleUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(ArticleID UserID Key)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # check needed stuff
+    if (!defined($Param{Value})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Value!");
+        return;
+    }
+    # map
+    my %Map = (
+        Body => 'a_body',
+        Subject => 'a_subject',
+        From => 'a_from',
+        To => 'a_to',
+        Cc => 'a_cc',
+    );
+    # db quote for key an value
+    $Param{Value} = $Self->{DBObject}->Quote($Param{Value});
+    $Param{Key} = $Self->{DBObject}->Quote($Param{Key});
+    # db update
+    if ($Self->{DBObject}->Do(
+        SQL => "UPDATE article SET $Map{$Param{Key}} = '$Param{Value}', ".
+          " change_time = current_timestamp, change_by = $Param{UserID} " .
+          " WHERE id = $Param{ArticleID}",
+    )) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
 
 =item ArticleSend()
 
@@ -1218,7 +1271,9 @@ sub ArticleSend {
         }
         else {
             # addach sign to email
-            $Entity->attach(Data => $Sign,
+            $Entity->attach(
+                Filename => 'pgp_sign.asc',
+                Data => $Sign,
                 Type => "application/pgp-signature",
                 Encoding => "7bit",
             );
@@ -1277,6 +1332,7 @@ sub ArticleSend {
       }
     }
     # crypt it!
+#my $NotCryptedBody = $Entity->body_as_string();
     if ($Param{Crypt}->{Type} eq 'PGP') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
@@ -1350,7 +1406,7 @@ sub ArticleSend {
         # crypt it
         my $Crypt = $CryptObject->Crypt(
             Message => $Entity->parts(0)->as_string(),
-            Key => $Param{Crypt}->{Key},
+            Hash => $Param{Crypt}->{Key},
         );
         use MIME::Parser;
         my $Parser = new MIME::Parser;
@@ -1381,6 +1437,7 @@ sub ArticleSend {
         if (!$Self->ArticleWritePlain(
             ArticleID => $Param{ArticleID},
             Email => $head->as_string."\n".$Entity->body_as_string,
+#            Email => $head->as_string."\n".$NotCryptedBody,
             UserID => $Param{UserID})
         ) {
             return;
@@ -1402,7 +1459,6 @@ sub ArticleSend {
          return;
     }
 }
-# --
 
 =item ArticleBounce()
 
@@ -1476,7 +1532,6 @@ sub BounceArticle {
     );
     return 1;
 }
-# --
 
 =item SendAgentNotification()
 
@@ -1659,7 +1714,6 @@ sub SendAgentNotification {
 
     return 1;
 }
-# --
 
 =item SendCustomerNotification()
 
@@ -1823,7 +1877,6 @@ sub SendCustomerNotification {
 
     return 1;
 }
-# --
 
 =item SendAutoResponse()
 
@@ -2001,10 +2054,30 @@ sub SendAutoResponse {
 
 =item ArticleDelete()
 
-delete all article of an ticket
+delete all article, attachments and plain message of a ticket
 
   $TicketObject->ArticleDelete(
       TicketID => 123,
+      UserID => 123,
+  );
+
+
+=item ArticleDeletePlain()
+
+delete a artile plain message
+
+  $TicketObject->ArticleDeletePlain(
+      ArticleID => 123,
+      UserID => 123,
+  );
+
+
+=item ArticleDeleteAttachment()
+
+delete all attachments of an article
+
+  $TicketObject->ArticleDeleteAttachment(
+      ArticleID => 123,
       UserID => 123,
   );
 
