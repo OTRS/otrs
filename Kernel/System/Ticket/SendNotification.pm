@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendNotification.pm - send notifications to agent
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.5 2003-12-15 20:23:32 martin Exp $
+# $Id: SendNotification.pm,v 1.6 2004-01-07 12:05:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendNotification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,10 +50,26 @@ sub SendNotification {
       || "No NotificationSubject$Param{Type} found in Config.pm!";
     $Param{Body} = $Self->{ConfigObject}->Get("NotificationBody$Param{Type}")
       || "No NotificationBody$Param{Type} found in Config.pm!";
-    # --
     # get old article for quoteing
-    # --
     my %Article = $Self->GetLastCustomerArticle(TicketID => $Param{TicketID});
+    # get customer data
+    if ($Article{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        # replace customer stuff with tags 
+        foreach (keys %CustomerUser) {
+            if ($CustomerUser{$_}) {
+                $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+                $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+            }
+        }
+    }
+    # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
+    $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>//gi;
+    $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>//gi;
+
+    # replace article stuff with tags 
     foreach (qw(From To Cc Subject Body)) {
         if (!$GetParam{$_}) {
             $GetParam{$_} = $Article{$_} || '';
