@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.21 2004-02-02 23:56:39 martin Exp $
+# $Id: bg.pm,v 1.22 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:40:38 2004 by 
+    # Last translation Tue Feb 10 01:07:04 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -190,14 +190,14 @@ sub Data {
       'PhoneView' => 'Преглед на телефоните',
       'Preferences updated successfully!' => 'Предпочитанията са обновени успешно',
       'QueueView refresh time' => 'Време за обновяване на изгледът на опашката',
-      'Screen after new phone ticket' => '',
+      'Screen after new ticket' => '',
       'Select your default spelling dictionary.' => '',
       'Select your frontend Charset.' => 'Изберете Вашият символен набор.',
       'Select your frontend language.' => 'Изберете Вашият език.',
       'Select your frontend QueueView.' => 'Изберете език за визуализация съдържанието на опашката.',
       'Select your frontend Theme.' => 'Изберете Вашата потребителска тема',
       'Select your QueueView refresh time.' => 'Изберете Вашето време за обновяване за изгледа на опашката.',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Изпратете ми известие, ако клиентът изпрати заявка за следене на отговора и аз съм собственик на билета',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Изпратете ми известие, ако билетът е преместен в някаква потребителска опашка.',
       'Send me a notification if a ticket is unlocked by the system.' => 'Изпратете ми известие, ако билетът е отключен от системата.',
@@ -307,6 +307,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Управление на клиент-потребители',
       'Customer user will be needed to to login via customer panels.' => 'Ще Ви е необходим предварително създаден потребител за достъп до потребителския панел',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -559,6 +561,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Данни за потребителя',
 
+    # Template: AgentEmailNew
+      'All Agents' => '',
+      'Clear From' => '',
+      'Compose Email' => '',
+      'Lock Ticket' => '',
+      'new ticket' => 'нов билет',
+
     # Template: AgentForward
       'Article type' => 'Клауза тип',
       'Date' => 'Дата',
@@ -595,7 +604,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => '',
       'Move Ticket' => '',
       'New Owner' => '',
       'New Queue' => '',
@@ -628,9 +636,6 @@ sub Data {
       'Phone call at %s' => 'Телефонно обаждане в %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => '',
-      'Lock Ticket' => '',
-      'new ticket' => 'нов билет',
 
     # Template: AgentPlain
       'ArticleID' => 'Идентификатор на клауза',
@@ -997,7 +1002,9 @@ sub Data {
       'New state' => 'Ново състояние',
       'New ticket via call.' => 'Нов билет чрез обаждане',
       'New user' => 'Нов потребител',
+      'Screen after new phone ticket' => '',
       'Search in' => 'Търсене в',
+      'Select your screen after creating a new ticket via PhoneView.' => '',
       'Set customer id of a ticket' => 'Задаване на потребителски индикатив на билета',
       'Show all' => 'Показване на всички',
       'Status defs' => 'Дефиниции на състояния',

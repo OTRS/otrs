@@ -4,7 +4,7 @@
 # Maintenance responsibility taken over by Hans Bakker (h.bakker@a-net.nl)
 # Copyright (C) 2003 A-NeT Internet Services bv
 # --
-# $Id: nl.pm,v 1.18 2004-02-02 23:56:39 martin Exp $
+# $Id: nl.pm,v 1.19 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:42:52 2004 by 
+    # Last translation Tue Feb 10 01:08:01 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -192,14 +192,14 @@ sub Data {
       'PhoneView' => 'Telefoon weergave',
       'Preferences updated successfully!' => 'Voorkeuren zijn gewijzigd!',
       'QueueView refresh time' => 'Verversingstijd wachtrij',
-      'Screen after new phone ticket' => '',
+      'Screen after new ticket' => '',
       'Select your default spelling dictionary.' => 'Selekteer uw standaard spelling bibliotheek.',
       'Select your frontend Charset.' => 'Karakterset kiezen',
       'Select your frontend language.' => 'Kies een taal',
       'Select your frontend QueueView.' => 'Wachtrij weergave kiezen',
       'Select your frontend Theme.' => 'thema kiezen',
       'Select your QueueView refresh time.' => 'Verversingstijd kiezen',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Stuur een bericht als een klant een vervolgvraag stelt en ik de eigenaar van het ticket ben.',
       'Send me a notification if a ticket is moved into a custom queue.' => ' Stuur mij een bericht als een bericht wordt verplaatst in een aangepaste wachtrij',
       'Send me a notification if a ticket is unlocked by the system.' => 'Stuur  me een bericht als een ticket wordt ontgrendeld door het systeem.',
@@ -309,6 +309,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'klantgebruiker beheer',
       'Customer user will be needed to to login via customer panels.' => 'klantgebruiker moet inloggen via klant-menus.',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -561,6 +563,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Klantgegevens',
 
+    # Template: AgentEmailNew
+      'All Agents' => '',
+      'Clear From' => 'Wis Van',
+      'Compose Email' => '',
+      'Lock Ticket' => '',
+      'new ticket' => 'nieuw ticket',
+
     # Template: AgentForward
       'Article type' => 'Artikel-type',
       'Date' => 'Datum',
@@ -597,7 +606,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => '',
       'Move Ticket' => 'Verplaats Bericht',
       'New Owner' => '',
       'New Queue' => 'Nieuwe Wachtrij',
@@ -630,9 +638,6 @@ sub Data {
       'Phone call at %s' => 'Gebeld om %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => 'Wis Van',
-      'Lock Ticket' => '',
-      'new ticket' => 'nieuw ticket',
 
     # Template: AgentPlain
       'ArticleID' => 'Artikel #',
@@ -1000,7 +1005,9 @@ sub Data {
       'New state' => 'Nieuwe status',
       'New ticket via call.' => 'Nieuw ticket vanaf een telefoongeprek',
       'New user' => 'Nieuwe gebruiker',
+      'Screen after new phone ticket' => '',
       'Search in' => 'Zoeken in',
+      'Select your screen after creating a new ticket via PhoneView.' => '',
       'Set customer id of a ticket' => 'Stel het klantnummer in van een ticket',
       'Show all' => 'Alle getoond',
       'Status defs' => 'Status definities',

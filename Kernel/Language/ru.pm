@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.6 2004-02-02 23:56:39 martin Exp $
+# $Id: ru.pm,v 1.7 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:44:18 2004 by 
+    # Last translation Tue Feb 10 01:08:40 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -190,14 +190,14 @@ sub Data {
       'PhoneView' => 'Заявка по телефону',
       'Preferences updated successfully!' => 'Настройки успешно обновлены',
       'QueueView refresh time' => 'Время обновления монитора очередей',
-      'Screen after new phone ticket' => '',
+      'Screen after new ticket' => '',
       'Select your default spelling dictionary.' => '',
       'Select your frontend Charset.' => 'Выберите вашу кодировку.',
       'Select your frontend language.' => 'Выберите ваш язык.',
       'Select your frontend QueueView.' => 'Выберите язык для монитора очередей.',
       'Select your frontend Theme.' => 'Выберите тему интерфейса',
       'Select your QueueView refresh time.' => 'Выберите время обновления монитора очередей.',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Прислать мне уведомление, если клиент прислал обновление и я собственник заявки.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Прислать мне уведомление, если заявка перемещена в дополнительную очередь',
       'Send me a notification if a ticket is unlocked by the system.' => 'Прислать мне уведомление, если заявка освобождена системой.',
@@ -307,6 +307,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Управление пользователями (для клиентов)',
       'Customer user will be needed to to login via customer panels.' => 'Пользователь (клиент) должен войти в систему через клиентский интерфейс',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -559,6 +561,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Учетные данные клиента',
 
+    # Template: AgentEmailNew
+      'All Agents' => '',
+      'Clear From' => '',
+      'Compose Email' => '',
+      'Lock Ticket' => '',
+      'new ticket' => 'новая Заявка',
+
     # Template: AgentForward
       'Article type' => 'Тип статьи',
       'Date' => 'Дата',
@@ -595,7 +604,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => '',
       'Move Ticket' => '',
       'New Owner' => '',
       'New Queue' => '',
@@ -628,9 +636,6 @@ sub Data {
       'Phone call at %s' => 'Телефонный звонок в %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => '',
-      'Lock Ticket' => '',
-      'new ticket' => 'новая Заявка',
 
     # Template: AgentPlain
       'ArticleID' => 'ID заметки',
@@ -999,7 +1004,9 @@ sub Data {
       'New state' => 'новое состояние',
       'New ticket via call.' => 'новая Заявка через звонок',
       'New user' => 'Новый пользователь',
+      'Screen after new phone ticket' => '',
       'Search in' => 'Искать в',
+      'Select your screen after creating a new ticket via PhoneView.' => '',
       'Set customer id of a ticket' => 'Задать ID клиента заявки',
       'Show all' => 'Показать все',
       'Status defs' => 'Определение статуса',

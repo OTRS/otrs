@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Yann Richard <ze at nawak-online.org>
 # --
-# $Id: fr.pm,v 1.27 2004-02-02 23:56:39 martin Exp $
+# $Id: fr.pm,v 1.28 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:42:14 2004 by 
+    # Last translation Tue Feb 10 01:07:42 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -191,14 +191,14 @@ sub Data {
       'PhoneView' => 'Vue téléphone',
       'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours',
       'QueueView refresh time' => 'Temps de rafraîchissement de la vue des files',
-      'Screen after new phone ticket' => 'Ecran après un nouveau ticket téléphonique',
+      'Screen after new ticket' => 'Ecran après un nouveau ticket',
       'Select your default spelling dictionary.' => 'Sélectionnez votre correcteur orthographique par défaut',
       'Select your frontend Charset.' => 'Choix du jeu de caractères de l\'interface',
       'Select your frontend language.' => 'Choix de la langue de l\'interface',
       'Select your frontend QueueView.' => 'Choisissez votre interface de vue des files',
       'Select your frontend Theme.' => 'Choix du thème de l\'interface',
       'Select your QueueView refresh time.' => 'Choix du délai de rafraîchissement de la vue des files',
-      'Select your screen after creating a new ticket via PhoneView.' => 'Choix de l\'écran affiché apres avoir creé un ticket via la vue téléphone',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Me prévenir si un client envoie un suivi (follow-up) et que je suis le propriétaire du ticket.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Me prévenir si un ticket est déplacé dans une file personnallisé',
       'Send me a notification if a ticket is unlocked by the system.' => 'Me prévenir si un ticket est dévérouillé par le système',
@@ -308,6 +308,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestion des clients utilisateurs',
       'Customer user will be needed to to login via customer panels.' => 'Les clients utilisateurs seront invité à se connecter par la page client.',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -560,6 +562,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Données client',
 
+    # Template: AgentEmailNew
+      'All Agents' => 'Tout les techniciens',
+      'Clear From' => 'Vider le formulaire',
+      'Compose Email' => '',
+      'Lock Ticket' => 'Prendre le Ticket',
+      'new ticket' => 'nouveau ticket',
+
     # Template: AgentForward
       'Article type' => 'Type d\'article',
       'Date' => 'Date',
@@ -596,7 +605,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => 'Tout les techniciens',
       'Move Ticket' => 'Changer la file du ticket',
       'New Owner' => 'Nouveau Propiétaire',
       'New Queue' => 'Nouvelle File',
@@ -629,9 +637,6 @@ sub Data {
       'Phone call at %s' => 'Appel téléphonique à %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => 'Vider le formulaire',
-      'Lock Ticket' => 'Prendre le Ticket',
-      'new ticket' => 'nouveau ticket',
 
     # Template: AgentPlain
       'ArticleID' => 'Identifiant de l\'Article',
@@ -995,6 +1000,7 @@ sub Data {
       'New ticket via call.' => 'Nouveau ticket par téléphone',
       'New user' => 'Nouvel utilisateur',
       'Search in' => 'Recherche dans',
+      'Select your screen after creating a new ticket via PhoneView.' => 'Choix de l\'écran affiché apres avoir creé un ticket via la vue téléphone',
       'Set customer id of a ticket' => 'Définir le numéro de client d\'un ticket',
       'Show all' => 'Tout montrer',
       'Status defs' => 'Définitions des Status',

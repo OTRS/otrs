@@ -3,7 +3,7 @@
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.6 2004-02-02 23:56:39 martin Exp $
+# $Id: pl.pm,v 1.7 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:43:23 2004 by 
+    # Last translation Tue Feb 10 01:08:12 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -192,14 +192,14 @@ sub Data {
       'PhoneView' => 'Widok telefonow',
       'Preferences updated successfully!' => 'Ustawienia zapisano pomyslnie!',
       'QueueView refresh time' => 'Czas odswierzania widoku kolejki',
-      'Screen after new phone ticket' => '',
+      'Screen after new ticket' => '',
       'Select your default spelling dictionary.' => 'Wybierz domyslny slownik.',
       'Select your frontend Charset.' => 'Wybierz charset dla Twojej pracy w OTRS.',
       'Select your frontend language.' => 'Wybierz jezyk.',
       'Select your frontend QueueView.' => 'Wybierz widok kolejki.',
       'Select your frontend Theme.' => 'Wybierz schemat dla OTRS.',
       'Select your QueueView refresh time.' => 'Wybierz czas odswierzania widoku kolejki.',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Wyslij mi wiadomosc gdy klient odpowie na zgloszenie, a ja jestem wlascicielem tego zgloszenia.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Wyslij mi wiadomosc gdy zgloszenie zostanie przesuniete do custom kolejki.',
       'Send me a notification if a ticket is unlocked by the system.' => 'Wyslij mi wiadomosc gdy zgloszenie zostanie odblokowane przez system.',
@@ -309,6 +309,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Konfiguracja uzytkownikow',
       'Customer user will be needed to to login via customer panels.' => 'Klient bedzie musial logowac sie poprzez interfejs klienta.',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -561,6 +563,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Data klienta',
 
+    # Template: AgentEmailNew
+      'All Agents' => '',
+      'Clear From' => 'Wyczysc pole Od:',
+      'Compose Email' => '',
+      'Lock Ticket' => '',
+      'new ticket' => 'nowe zgloszenie',
+
     # Template: AgentForward
       'Article type' => 'Typ artykulu',
       'Date' => 'Data',
@@ -597,7 +606,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => '',
       'Move Ticket' => 'Przesun zgloszenie',
       'New Owner' => '',
       'New Queue' => 'Nowa kolejka',
@@ -630,9 +638,6 @@ sub Data {
       'Phone call at %s' => 'Telefon o %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => 'Wyczysc pole Od:',
-      'Lock Ticket' => '',
-      'new ticket' => 'nowe zgloszenie',
 
     # Template: AgentPlain
       'ArticleID' => 'ID Artykulu',
@@ -1002,7 +1007,9 @@ sub Data {
       'New state' => 'Nowy status',
       'New ticket via call.' => 'Nowe zgloszenie telefoniczne.',
       'New user' => 'Nowy uzytkownik',
+      'Screen after new phone ticket' => '',
       'Search in' => 'Szukaj w',
+      'Select your screen after creating a new ticket via PhoneView.' => '',
       'Set customer id of a ticket' => 'Ustaw ID klienta dla zgloszenia',
       'Show all' => 'Pokaz wszystko',
       'System Charset Management' => 'Konfiguracja systemowego charsetu',

@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.7 2004-02-02 23:56:39 martin Exp $
+# $Id: it.pm,v 1.8 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:42:30 2004 by 
+    # Last translation Tue Feb 10 01:07:52 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -192,14 +192,14 @@ sub Data {
       'PhoneView' => 'Inserisci ticket',
       'Preferences updated successfully!' => 'Preferenze modificate con successo!',
       'QueueView refresh time' => 'Tempo di aggiornamento lista ticket',
-      'Screen after new phone ticket' => '',
+      'Screen after new ticket' => '',
       'Select your default spelling dictionary.' => 'Seleziona il dizionario',
       'Select your frontend Charset.' => 'Seleziona il set di caratteri da usare.',
       'Select your frontend language.' => 'Scegli la lingua per la tua interfaccia.',
       'Select your frontend QueueView.' => 'Scegli l\'interfaccia per la lista messaggi.',
       'Select your frontend Theme.' => 'Scegli il tema per la tua interfaccia.',
       'Select your QueueView refresh time.' => 'Scegli il tempo di aggiornamento della lista ticket.',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Mandami una notifica se un cliente risponde ad un ticket che ho io in gestione.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Mandami una notifica se un ticket viene spostato in una delle code visualizzate nella mia coda personale.',
       'Send me a notification if a ticket is unlocked by the system.' => 'Mandami una notifica se un ticket viene sbloccato dal sistema.',
@@ -309,6 +309,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestione clienti',
       'Customer user will be needed to to login via customer panels.' => 'Qui è possibile inserire gli utenti che possono fare il login nel pannello clienti.',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -561,6 +563,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Dati del cliente',
 
+    # Template: AgentEmailNew
+      'All Agents' => '',
+      'Clear From' => 'Cancella il campo mittente',
+      'Compose Email' => '',
+      'Lock Ticket' => '',
+      'new ticket' => 'Nuovo Ticket',
+
     # Template: AgentForward
       'Article type' => 'Tipo articolo',
       'Date' => 'Data',
@@ -597,7 +606,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => '',
       'Move Ticket' => 'Sposta il ticket',
       'New Owner' => '',
       'New Queue' => 'Nuova coda ',
@@ -630,9 +638,6 @@ sub Data {
       'Phone call at %s' => 'Chiamata telefonica di %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => 'Cancella il campo mittente',
-      'Lock Ticket' => '',
-      'new ticket' => 'Nuovo Ticket',
 
     # Template: AgentPlain
       'ArticleID' => 'Codice articolo',
@@ -999,7 +1004,9 @@ sub Data {
       'New state' => 'Nuovo stato',
       'New ticket via call.' => 'Nuovo ticket via telefono.',
       'New user' => 'Nuovo operatore',
+      'Screen after new phone ticket' => '',
       'Search in' => 'Cerca in',
+      'Select your screen after creating a new ticket via PhoneView.' => '',
       'Set customer id of a ticket' => 'Imposta il cliente associato al ticket',
       'Show all' => 'Mostra tutti i',
       'System Charset Management' => 'Gestione del set di caratteri di sistema',

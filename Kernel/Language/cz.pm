@@ -2,7 +2,7 @@
 # Kernel/Language/cz.pm - provides cz language translation
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # --
-# $Id: cz.pm,v 1.6 2004-02-02 23:56:39 martin Exp $
+# $Id: cz.pm,v 1.7 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -191,14 +191,14 @@ sub Data {
       'PhoneView' => 'Vložit Tiket',
       'Preferences updated successfully!' => 'Nastavení probìhlo uspìšnì!',
       'QueueView refresh time' => 'Èas obnovení pøehledu zpráv',
-      'Screen after new phone ticket' => '',
+      'Screen after new ticket' => '',
       'Select your default spelling dictionary.' => 'Vyberte si slovník',
       'Select your frontend Charset.' => 'Vyberte si znakovou sadu.',
       'Select your frontend language.' => 'Vyberte si jazyk.',
       'Select your frontend QueueView.' => 'Vyberte si typ pøehledu zpráv.',
       'Select your frontend Theme.' => 'Vyberte si vzhled.',
       'Select your QueueView refresh time.' => 'Vyberte si èas obnovy pøehledu zpráv.',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Poslat zprávu, pokud klient pošle následující zprávu a já jsem správce jeho Ticketu.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Poslat zprávu, pokud je Ticket pøesunut do Vlastního pøehledu.',
       'Send me a notification if a ticket is unlocked by the system.' => 'Poslat zprávu, pokud je Ticket odemknut systémem.',

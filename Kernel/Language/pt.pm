@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.6 2004-02-09 15:23:57 martin Exp $
+# $Id: pt.pm,v 1.7 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  8 18:43:42 2004 by Filipe Henriques
+    # Last translation Tue Feb 10 01:08:21 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -191,14 +191,14 @@ sub Data {
       'PhoneView' => 'Chamada',
       'Preferences updated successfully!' => 'Preferências actualizadas com sucesso!',
       'QueueView refresh time' => 'Tempo de refresh da QueueView',
-      'Screen after new phone ticket' => 'Ecrã após novo ticket',
+      'Screen after new ticket' => 'Ecrã após novo ticket',
       'Select your default spelling dictionary.' => 'Seleccionar o seu corrector ortográfico',
       'Select your frontend Charset.' => 'Selecionar o Conjunto de Caracteres da sua Interface .',
       'Select your frontend language.' => 'Selecionar o Idioma da sua Interface.',
       'Select your frontend QueueView.' => 'Selecionar o seu Interface da QueueView.',
       'Select your frontend Theme.' => 'Selecionar o Tema do seu Interface.',
       'Select your QueueView refresh time.' => 'Selecionar o tempo de refresh da QueueView',
-      'Select your screen after creating a new ticket via PhoneView.' => 'Seleccionar ecrã após criação de novo ticket via Chamada.',
+      'Select your screen after creating a new ticket.' => 'Seleccionar ecrã após criação de novo ticket.',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notificar se um cliente enviar um follow up e sou o owner desse ticket.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Notificar se um ticket for movido para uma Queue personalizada',
       'Send me a notification if a ticket is unlocked by the system.' => 'Notificar se um ticket for desbloqueado pelo sistema.',
@@ -308,6 +308,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestão de Users de Clientes',
       'Customer user will be needed to to login via customer panels.' => 'Um user de cliente é necessário para se logar pelo painel de clientes',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -560,6 +562,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Dados do Cliente',
 
+    # Template: AgentEmailNew
+      'All Agents' => 'Todos os Agentes',
+      'Clear From' => 'Limpar "De:"',
+      'Compose Email' => '',
+      'Lock Ticket' => 'Bloquear Ticket',
+      'new ticket' => 'novo ticket',
+
     # Template: AgentForward
       'Article type' => 'Tipo de artigo',
       'Date' => 'Data',
@@ -596,7 +605,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => 'Todos os Agentes',
       'Move Ticket' => 'Mover Ticket',
       'New Owner' => 'Novo Proprietário',
       'New Queue' => 'Nova Queue',
@@ -629,9 +637,6 @@ sub Data {
       'Phone call at %s' => 'Chamada telefónica ás %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => 'Limpar "De:"',
-      'Lock Ticket' => 'Bloquear Ticket',
-      'new ticket' => 'novo ticket',
 
     # Template: AgentPlain
       'ArticleID' => 'Id.do artigo',

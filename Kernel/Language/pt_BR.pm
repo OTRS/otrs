@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.13 2004-02-02 23:56:39 martin Exp $
+# $Id: pt_BR.pm,v 1.14 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:44:00 2004 by 
+    # Last translation Tue Feb 10 01:08:31 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -191,14 +191,14 @@ sub Data {
       'PhoneView' => 'Chamada',
       'Preferences updated successfully!' => 'Preferências atualizadas com sucesso!',
       'QueueView refresh time' => 'Tempo de atualização das Filas',
-      'Screen after new phone ticket' => '',
+      'Screen after new ticket' => '',
       'Select your default spelling dictionary.' => '',
       'Select your frontend Charset.' => 'Selecione o Conjunto de Caracteres da sua Interface .',
       'Select your frontend language.' => 'Selecione o Idioma da sua Interface.',
       'Select your frontend QueueView.' => 'Selecione a Visão da Fila da sua Interface.',
       'Select your frontend Theme.' => 'Selecione o Tema da sua Interface.',
       'Select your QueueView refresh time.' => 'Selecione o tempo de atualização das Filas',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifique me se um cliente enviar uma continuação e sou o dono do bilhete.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Notifique me se um bilhete é movido para uma fila personalizada',
       'Send me a notification if a ticket is unlocked by the system.' => 'Notifique me se um bilhete é desbloqueado pelo sistema.',
@@ -308,6 +308,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gerênciamento de Clientes',
       'Customer user will be needed to to login via customer panels.' => 'Um cliente é necessário para se conectar pelo painel de clientes',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -560,6 +562,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Dados do Cliente',
 
+    # Template: AgentEmailNew
+      'All Agents' => '',
+      'Clear From' => '',
+      'Compose Email' => '',
+      'Lock Ticket' => '',
+      'new ticket' => 'novo bilhete',
+
     # Template: AgentForward
       'Article type' => 'Tipo de artigo',
       'Date' => 'Data',
@@ -596,7 +605,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => '',
       'Move Ticket' => '',
       'New Owner' => '',
       'New Queue' => '',
@@ -629,9 +637,6 @@ sub Data {
       'Phone call at %s' => 'Chamada telefônica em %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => '',
-      'Lock Ticket' => '',
-      'new ticket' => 'novo bilhete',
 
     # Template: AgentPlain
       'ArticleID' => 'Id.do artigo',
@@ -995,7 +1000,9 @@ sub Data {
       'New state' => 'Novo estado',
       'New ticket via call.' => 'Novo bilhete via chamada telefônica.',
       'New user' => 'Novo usuário',
+      'Screen after new phone ticket' => '',
       'Search in' => 'Buscar em',
+      'Select your screen after creating a new ticket via PhoneView.' => '',
       'Set customer id of a ticket' => 'Definir a identificação do cliente de um bilhete',
       'Show all' => 'Mostrar todos os',
       'Status defs' => 'Estados',

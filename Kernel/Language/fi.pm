@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti K‰m‰r‰inen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.20 2004-02-02 23:56:39 martin Exp $
+# $Id: fi.pm,v 1.21 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:41:49 2004 by 
+    # Last translation Tue Feb 10 01:07:29 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -190,14 +190,14 @@ sub Data {
       'PhoneView' => 'Puhelu / Uusi tiketti',
       'Preferences updated successfully!' => 'Asetukset tallennettu onnistuneesti',
       'QueueView refresh time' => 'Jonotusn‰kym‰n p‰ivitysaika',
-      'Screen after new phone ticket' => '',
+      'Screen after new ticket' => '',
       'Select your default spelling dictionary.' => '',
       'Select your frontend Charset.' => 'Valitse k‰yttˆliittym‰n kirjaisinasetukset',
       'Select your frontend language.' => 'Valitse k‰yttˆliittym‰n kieli',
       'Select your frontend QueueView.' => 'Valitse k‰yttˆliittym‰si jonotusn‰kym‰',
       'Select your frontend Theme.' => 'Valitse k‰yttˆliittym‰si ulkoasu',
       'Select your QueueView refresh time.' => 'Valitse jonotusn‰kym‰n p‰ivitysaika',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'L‰het‰ ilmoitus jatkokysymyksist‰, jos olen kyseisen tiketin omistaja',
       'Send me a notification if a ticket is moved into a custom queue.' => 'L‰het‰ minulle ilmoitus, jos tikettej‰ siirret‰‰n valitsemiini jonoihin',
       'Send me a notification if a ticket is unlocked by the system.' => 'L‰het‰ minulle ilmoitus, jos j‰rjestelm‰ poistaa tiketin lukituksen.',
@@ -307,6 +307,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Asiakas-k‰ytt‰jien hallinta',
       'Customer user will be needed to to login via customer panels.' => 'Asiakas-k‰ytt‰j‰n pit‰‰ kirjautua Asiakas-liittym‰st‰',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -559,6 +561,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => '',
 
+    # Template: AgentEmailNew
+      'All Agents' => '',
+      'Clear From' => '',
+      'Compose Email' => '',
+      'Lock Ticket' => '',
+      'new ticket' => 'Uusi tiketti',
+
     # Template: AgentForward
       'Article type' => 'Huomautustyyppi',
       'Date' => 'P‰iv‰m‰‰r‰',
@@ -595,7 +604,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => '',
       'Move Ticket' => '',
       'New Owner' => '',
       'New Queue' => '',
@@ -628,9 +636,6 @@ sub Data {
       'Phone call at %s' => 'Puhelu %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => '',
-      'Lock Ticket' => '',
-      'new ticket' => 'Uusi tiketti',
 
     # Template: AgentPlain
       'ArticleID' => '',
@@ -991,7 +996,9 @@ sub Data {
       'New state' => 'Uusi tila',
       'New ticket via call.' => 'Uusi ',
       'New user' => 'Uusi k‰ytt‰j‰',
+      'Screen after new phone ticket' => '',
       'Search in' => 'Etsi seuraavista:',
+      'Select your screen after creating a new ticket via PhoneView.' => '',
       'Set customer id of a ticket' => 'Aseta tiketin asiakasnumero#',
       'Show all' => 'Yhteens‰',
       'Status defs' => 'Tikettien tilam‰‰ritykset',

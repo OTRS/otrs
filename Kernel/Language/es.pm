@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.15 2004-02-02 23:56:39 martin Exp $
+# $Id: es.pm,v 1.16 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:41:31 2004 by 
+    # Last translation Tue Feb 10 01:07:18 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -191,14 +191,14 @@ sub Data {
       'PhoneView' => 'Vista telefónica',
       'Preferences updated successfully!' => 'Las preferencia fueron actualizadas',
       'QueueView refresh time' => 'Tiempo de actualización de la vista de colas',
-      'Screen after new phone ticket' => 'Pantalla posterior a nuevo ticket telefonico',
+      'Screen after new ticket' => 'Pantalla posterior a nuevo ticket',
       'Select your default spelling dictionary.' => 'Seleccione su diccionario por defecto',
       'Select your frontend Charset.' => 'Seleccione su juego de caracteres',
       'Select your frontend language.' => 'Seleccione su idioma de trabajo',
       'Select your frontend QueueView.' => 'Seleccione su Vista de cola de trabajo',
       'Select your frontend Theme.' => 'Seleccione su tema',
       'Select your QueueView refresh time.' => 'Seleccione su tiempo de actualizacion de la vista de colas',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifiqueme si un cliente envia un seguimiento y yo soy el dueño del ticket.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Notifiqueme si un ticket es colocado en una cola personalizada',
       'Send me a notification if a ticket is unlocked by the system.' => 'Notifiqueme si un ticket es desbloqueado por el sistema',
@@ -308,6 +308,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestion clientes',
       'Customer user will be needed to to login via customer panels.' => 'El cliente necesita conectarse usando el panel de clientes',
+      'Select source:' => '',
+      'Source' => '',
 
     # Template: AdminCustomerUserGeneric
 
@@ -560,6 +562,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Información del cliente',
 
+    # Template: AgentEmailNew
+      'All Agents' => 'Todos los Agentes',
+      'Clear From' => 'Borrar From',
+      'Compose Email' => '',
+      'Lock Ticket' => 'Bloquear Ticket',
+      'new ticket' => 'nuevo ticket',
+
     # Template: AgentForward
       'Article type' => 'Tipo de artículo',
       'Date' => 'Fecha',
@@ -596,7 +605,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => 'Todos los Agentes',
       'Move Ticket' => 'Mover Ticket',
       'New Owner' => 'Nuevo Propietario',
       'New Queue' => 'Nueva Cola',
@@ -629,9 +637,6 @@ sub Data {
       'Phone call at %s' => 'Llamada telefónica a %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => 'Borrar From',
-      'Lock Ticket' => 'Bloquear Ticket',
-      'new ticket' => 'nuevo ticket',
 
     # Template: AgentPlain
       'ArticleID' => 'Identificador de articulo',

@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.37 2004-02-02 23:56:39 martin Exp $
+# $Id: de.pm,v 1.38 2004-02-10 00:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:39:39 2004 by 
+    # Last translation Tue Feb 10 01:02:02 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -191,14 +191,14 @@ sub Data {
       'PhoneView' => 'Telefon-Ansicht',
       'Preferences updated successfully!' => 'Benutzereinstellungen erfolgreich aktualisiert!',
       'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
-      'Screen after new phone ticket' => 'Fenster nach neuem Anruf Ticket',
+      'Screen after new ticket' => 'Fenster nach neuem Ticket',
       'Select your default spelling dictionary.' => 'Standard Rechtschreib-Wörterbuch auswählen.',
       'Select your frontend Charset.' => 'Zeichensatz für Darstellung auswählen.',
       'Select your frontend language.' => 'Oberflächen-Sprache auswählen.',
       'Select your frontend QueueView.' => 'Queue-Ansicht auswählen.',
       'Select your frontend Theme.' => 'Anzeigeschema auswählen.',
       'Select your QueueView refresh time.' => 'Queue-Ansicht Aktualisierungszeit auswählen.',
-      'Select your screen after creating a new ticket via PhoneView.' => 'Wählen Sie das Fenster nach der Erstellung eines neuen Anruf Tickets.',
+      'Select your screen after creating a new ticket.' => 'Wählen Sie das Fenster nach der Erstellung eines neuen Tickets.',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Zusenden einer Mitteilung, wenn ein Kunde eine Nachfrage stellt und ich der Besitzer bin.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Zusenden einer Mitteilung beim Verschieben eines Tickets in meine bevorzugten Queues.',
       'Send me a notification if a ticket is unlocked by the system.' => 'Zusenden einer Mitteilung, wenn ein Ticket vom System freigegeben (unlocked) wird.',
@@ -308,6 +308,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Kunden-Benutzer-Verwaltung',
       'Customer user will be needed to to login via customer panels.' => 'Kunden-Benutzer werden für die Kunden-Weboberfläche benötigt',
+      'Select source:' => 'Quellen Auswahl',
+      'Source' => 'Quelle',
 
     # Template: AdminCustomerUserGeneric
 
@@ -369,7 +371,7 @@ sub Data {
       'User <-> Groups' => 'Benutzer <-> Gruppen',
 
     # Template: AdminNotificationForm
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Kongig Optionen (z. B. &lt;OTRS_CONFIG_HttpType&gt;)',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfig Optionen (z. B. &lt;OTRS_CONFIG_HttpType&gt;)',
       'Notification Management' => '',
       'Notifications are sent to an agent or a customer.' => 'Notifications werden zu Agenten und Kunden gesendet.',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Optionen der Kunden Benutzer Daten (z. B. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
@@ -560,6 +562,13 @@ sub Data {
     # Template: AgentCustomerView
       'Customer Data' => 'Kunden-Daten',
 
+    # Template: AgentEmailNew
+      'All Agents' => 'Alle Agents',
+      'Clear From' => 'Von: löschen',
+      'Compose Email' => 'Email Erstellen',
+      'Lock Ticket' => 'Ticket Sperren',
+      'new ticket' => 'Neues Ticket',
+
     # Template: AgentForward
       'Article type' => 'Artikeltyp',
       'Date' => 'Datum',
@@ -596,7 +605,6 @@ sub Data {
       '"}","14' => '',
 
     # Template: AgentMove
-      'All Agents' => 'Alle Agents',
       'Move Ticket' => 'Ticket Verschieben',
       'New Owner' => 'Neuer Besitzer',
       'New Queue' => 'Neue Queue',
@@ -629,9 +637,6 @@ sub Data {
       'Phone call at %s' => 'Anruf am %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => 'Von: löschen',
-      'Lock Ticket' => 'Ticket Sperren',
-      'new ticket' => 'Neues Ticket',
 
     # Template: AgentPlain
       'ArticleID' => '',
@@ -672,8 +677,8 @@ sub Data {
     # Template: AgentStatusViewTableNotAnswerd
 
     # Template: AgentTicketLink
-      'Link' => '',
-      'Link to' => '',
+      'Link' => 'Verknüpfung',
+      'Link to' => 'Verknüpfung zu',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket gesperrt!',
@@ -771,7 +776,7 @@ sub Data {
 
     # Template: CustomerFAQArticleHistory
       'Edit' => 'Bearbeiten',
-      'FAQ History' => '',
+      'FAQ History' => 'FAQ Historie',
 
     # Template: CustomerFAQArticlePrint
       'Category' => 'Kategorie',
@@ -782,10 +787,10 @@ sub Data {
       'Symptom' => '',
 
     # Template: CustomerFAQArticleSystemHistory
-      'FAQ System History' => '',
+      'FAQ System History' => 'FAQ System Historie',
 
     # Template: CustomerFAQArticleView
-      'FAQ Article' => '',
+      'FAQ Article' => 'FAQ Artikel',
       'Modified' => 'Verändert',
 
     # Template: CustomerFAQOverview
@@ -876,7 +881,7 @@ sub Data {
     # Template: FAQSearchResult
 
     # Template: FAQStateForm
-      'FAQ State' => '',
+      'FAQ State' => 'FAQ Status',
 
     # Template: Footer
       'Top of Page' => 'Seitenanfang',
@@ -985,7 +990,6 @@ sub Data {
       'Addressbook' => 'Adressbuch',
       'AgentFrontend' => 'Agent-Oberfläche',
       'Article free text' => 'Artikel-Freitext',
-      'Backend' => '',
       'BackendMessage' => 'Backend-Nachricht',
       'Bottom of Page' => 'Seitenende',
       'Charset' => 'Zeichensatz',
@@ -998,7 +1002,6 @@ sub Data {
       'Search in' => 'Suche in',
       'Show all' => 'Alle anzeigen',
       'Shown Tickets' => 'Angezeigte Tickets',
-      'Sympthom' => '',
       'System Charset Management' => 'Zeichensatz-Verwaltung',
       'Time till escalation' => 'Zeit bis zur Eskalation',
       'With Priority' => 'Mit Priotität',
