@@ -2,7 +2,7 @@
 # Config.pl - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.2 2001-12-02 18:26:25 martin Exp $
+# $Id: Config.pm,v 1.3 2001-12-05 20:32:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -70,6 +70,10 @@ sub Load {
 
     # directory for all sessen id informations
     $Self->{SessionDir} = $Self->{Home} . '/var/sessions';
+
+    # -web stuff-
+    # global CGI handle
+    $Self->{CGIHandle} = 'index.pl';
 
 }
 # --
