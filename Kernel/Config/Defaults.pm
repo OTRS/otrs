@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.182 2005-01-22 10:33:33 martin Exp $
+# $Id: Defaults.pm,v 1.183 2005-01-22 10:38:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.182 $';
+$VERSION = '$Revision: 1.183 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2583,7 +2583,7 @@ Your OTRS Notification Master
 #            Image => 'fileopen.png',
 #            Link => 'Action=FAQState',
 #            NavBar => 'FAQ',
-#            Prio => 1706,
+#            Prio => 920,
 #          },
 #        ],
 #    };
@@ -2615,7 +2615,7 @@ Your OTRS Notification Master
             Image => 'fileopen.png',
             Link => 'Action=FAQLanguage',
             NavBar => 'FAQ',
-            Prio => 901,
+            Prio => 910,
           },
         ],
     };
@@ -3005,14 +3005,14 @@ Your OTRS Notification Master
             Name => 'MyTickets',
             Image => 'ticket.png',
             Link => 'Action=CustomerTicketOverView&Type=MyTickets',
-            Prio => 100,
+            Prio => 110,
           },
           {
             Description => 'CompanyTickets',
             Name => 'CompanyTickets',
             Image => 'tickets.png',
             Link => 'Action=CustomerTicketOverView&Type=CompanyTickets',
-            Prio => 110,
+            Prio => 120,
           },
         ],
     };
@@ -3024,7 +3024,7 @@ Your OTRS Notification Master
             Name => 'New Ticket',
             Image => 'new.png',
             Link => 'Action=CustomerMessage',
-            Prio => 200,
+            Prio => 100,
           },
         ],
     };
@@ -3190,6 +3190,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.182 $ $Date: 2005-01-22 10:33:33 $
+$Revision: 1.183 $ $Date: 2005-01-22 10:38:07 $
 
 =cut
