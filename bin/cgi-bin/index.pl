@@ -1,8 +1,10 @@
 #! /usr/bin/perl -w
 # --
-# index.pl - global handle file for OpenTRS
+# index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
-# 
+# --
+# $Id: index.pl,v 1.2 2001-12-02 18:29:00 martin Exp $
+# --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -16,9 +18,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
-# --
-# $Id: index.pl,v 1.1 2001-12-02 14:37:13 martin Exp $
 # --
 
 use lib '/opt/OpenTRS/';
@@ -34,17 +33,36 @@ use strict;
 use Kernel::Config;
 use Kernel::System::Syslog;
 use Kernel::System::WebRequest;
+use Kernel::System::DB;
+use Kernel::System::Auth;
+use Kernel::System::AuthSession;
 
 # --
 # create common objects 
 # --
 my $LogObject = Kernel::System::Syslog->new();
 # debug info
-$LogObject->Log(Priority=>'debug', MSG=>'Gloable OpenTRS handle started...');
+$LogObject->Log( Priority => 'debug', MSG => 'Global OpenTRS handle started...');
 
-my $ConfigObject = Kernel::Config->new(LogObject=>$LogObject);
+my $ConfigObject = Kernel::Config->new( LogObject => $LogObject );
 my $WebObject = Kernel::System::WebRequest->new();
+my $DBObject = Kernel::System::DB->new(
+    LogObject => $LogObject, 
+    ConfigObject => $ConfigObject,
+);
+my $SessionObject = Kernel::System::AuthSession->new(
+    LogObject => $LogObject,
+    ConfigObject => $ConfigObject,
+);
+
+
+### for later
+my $AuthObject = Kernel::System::Auth->new(DBObject => $DBObject, LogObject => $LogObject);
 
 
 
+
+
+# debug info
+$LogObject->Log(Priority => 'debug', MSG => 'Global OpenTRS handle stopped.');
 
