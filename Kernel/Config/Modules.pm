@@ -2,7 +2,7 @@
 # Kernel/Config/Modules.pm - config file of all used application modules
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Modules.pm,v 1.20 2003-03-06 10:40:07 martin Exp $
+# $Id: Modules.pm,v 1.21 2003-03-06 22:15:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::Modules;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,6 @@ use Kernel::Config::ModulesCustom;
 use Kernel::System::Queue;
 use Kernel::System::Ticket;
 use Kernel::System::Email;
-use Kernel::System::CustomerUser;
 
 # --
 # Note: Removed Kernel::Modules::* because pure cgi is faster!
