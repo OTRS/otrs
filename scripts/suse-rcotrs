@@ -2,7 +2,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.4 2002-02-03 22:48:20 martin Exp $
+# $Id: suse-rcotrs,v 1.5 2002-04-22 22:27:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,11 @@
 #
 # load the configuration
 #
-. /etc/rc.config
+test -r /etc/rc.config && . /etc/rc.config
+
+OTRS_CONFIG=/etc/sysconfig/otrs
+test -r $OTRS_CONFIG || exit 6
+. $OTRS_CONFIG
 
 # Shell functions sourced from /etc/rc.status:
 #      rc_check         check and set local and overall rc status
@@ -27,18 +31,6 @@
 #      rc_exit          exit appropriate to overall rc status
 test -s /etc/rc.status && \
     . /etc/rc.status
-
-#
-# Determine the base and follow a runlevel link name.
-#
-base=${0##*/}
-link=${base#*[SK][0-9][0-9]}
-
-#
-# Force execution if not called by a runlevel directory.
-#
-test $link = $base && START_OTRS="yes"
-test "$START_OTRS" = yes || exit 0
 
 # 
 # if one of this is false, it will not be checked at the startup!
@@ -62,6 +54,10 @@ if ! test -d $OTRS_SPOOLDIR; then
     exit 5
 fi
  
+# 
+# get host name
+#
+HOST=`hostname -f`
 
 # reset status of this service
 rc_reset
@@ -99,7 +95,7 @@ case "$1" in
       # check mysql
       # --
       if test $DB_RUNNING -gt 0; then
-        if rcmysql start > /dev/null 2>&1 ; then 
+        if rcmysql restart > /dev/null 2>&1 ; then 
           echo " Starting mysql ... done."
           rc_status 
         else 
@@ -116,11 +112,21 @@ case "$1" in
       # database connect
       # --
       echo -n " Checking database connect... ("
-      if ! /opt/OpenTRS/bin/CheckDB.pl ; then
-          echo ") Error!!"
+      if ! /opt/OpenTRS/bin/CheckDB.pl; then
+          echo ") "
           echo "----------------------------------------------------------------------------"
-          echo "May the database isn't configured yet? Try http://yourhost/otrs/installer.pl"
-          echo "             or configure your database with README.database"
+          echo " Error: May your database isn't configured yet? "
+          echo "----------------------------------------------------------------------------"
+          echo ""
+          echo ""
+          echo " Try the web installer to configure your database: "
+          echo ""
+          echo ""
+          echo "     -->> http://$HOST/otrs/installer.pl <<-- "
+          echo ""                               
+          echo ""
+          echo "----------------------------------------------------------------------------"
+          echo " or configure your database with README.database (DB - Setup Example)    "
           echo "----------------------------------------------------------------------------"
           rc_failed 
           rc_status -v
@@ -145,6 +151,8 @@ case "$1" in
       done
       echo " done."
       rc_status
+
+      echo "  -->> http://$HOST/otrs/index.pl <<-- "
 
       # show status
       rc_status -v
