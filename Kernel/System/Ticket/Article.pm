@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.30 2003-06-18 22:40:41 martin Exp $
+# $Id: Article.pm,v 1.31 2003-07-07 14:07:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -511,18 +511,27 @@ sub GetArticleIndex {
     # --
     # db query
     # --
-    my $SQL = "SELECT at.id" .
-        " FROM " .
-        " article at, article_sender_type ast " .
-        " WHERE " .
-        " at.ticket_id = $Param{TicketID} " .
-        " AND " .
-        " at.article_sender_type_id = ast.id ";
+    my $SQL = '';
+
     if ($Param{SenderType}) {
-        $SQL .= " AND ";
-        $SQL .= " ast.name = '$Param{SenderType}' ";
+        $SQL .= "SELECT at.id".
+          " FROM ".
+          " article at, article_sender_type ast ".
+          " WHERE ".
+          " at.ticket_id = $Param{TicketID} ".
+          " AND ".
+          " at.article_sender_type_id = ast.id ".
+          " AND ".
+          " ast.name = '$Param{SenderType}' ";
     }
-    $SQL .= " ORDER BY at.incoming_time";
+    else {
+        $SQL = "SELECT at.id".
+          " FROM ".
+          " article at ".
+          " WHERE ".
+          " at.ticket_id = $Param{TicketID} ";
+    }
+    $SQL .= " ORDER BY at.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         push (@Index, $Row[0]);
