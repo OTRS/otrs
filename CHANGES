@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.92 2003-09-16 08:10:04 martin Exp $
+# $Id: CHANGES,v 1.93 2003-09-28 13:33:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD
+ - (2003/09/28) added <OTRS_TICKET_STATE> to agent compose answer screen
+    as variable for new ticket state in composed message.
  - (2003/08/28) improved GenericAgent to use From, To, Cc, Subject and
     Body for ticket selection - example:
    [...]

@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseForm.dtl,v 1.10 2003-02-08 15:40:41 martin Exp $
+# $Id: AdminResponseForm.dtl,v 1.11 2003-09-28 13:33:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
     <input type="hidden" name="Subaction" value="Change">
     $Data{"ResponseOption"}
     <br>
-    <input type="submit" value="$Text{"change"}">
+    <input class="button" type="submit" value="$Text{"change"}">
     </form>
   </td> 
   <td width="70%" class="table1">
@@ -64,7 +64,7 @@
       <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
-    <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
+    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
   </td>
 </tr>
 </table>
@@ -85,6 +85,23 @@
   <p>
   $Text{"Attention"}: <a href="$Env{"CGIHandle"}?Action=AdminQueueResponses">$Text{"Don't forget to add a new response a queue!"}</a>
   </p>
+  <hr>
+  <p>
+  $Text{"Useable options"}:
+    <table>
+     <tr>
+      <td><b>&lt;OTRS_TICKET_STATE&gt;</b></td>
+      <td>$Text{"Next state"}</td>
+     </tr>
+    </table>
+   </p>
+    <p>
+    $Text{"Example"}:
+    <pre>
+$Text{"The current ticket state is"}: "&lt;OTRS_TICKET_STATE&gt;"
+    </pre>
+    </p>
+
   </td>
 </tr>
 </table>

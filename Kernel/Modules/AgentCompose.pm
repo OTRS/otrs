@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.48 2003-07-10 22:34:28 martin Exp $
+# $Id: AgentCompose.pm,v 1.49 2003-09-28 13:33:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -369,9 +369,11 @@ sub SendEmail {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output; 
     }
-    # --
+    # replace <OTRS_TICKET_STATE> with next ticket state name
+    if ($NextState) {
+        $Self->{Body} =~ s/<OTRS_TICKET_STATE>/$NextState/g;
+    }
     # send email
-    # --
     if (my $ArticleID = $Self->{TicketObject}->SendArticle(
         Attach => [\%UploadStuff],
         ArticleType => 'email-external',
