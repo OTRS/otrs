@@ -3,7 +3,7 @@
 # module of the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerIDCheck.pm,v 1.5 2004-10-02 08:14:58 martin Exp $
+# $Id: CustomerIDCheck.pm,v 1.6 2004-10-02 08:31:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::CustomerPermission::CustomerIDCheck;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,8 +49,13 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
     # check customer id
     my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $Param{UserID});
-    # check customer id
+    # get customer ids
     my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $Param{UserID});
+    # add own customer id
+    if ($CustomerData{UserCustomerID}) {
+        push (@CustomerIDs, $CustomerData{UserCustomerID});
+    }
+    # check customer id s
     foreach my $CustomerID (@CustomerIDs) {
         if ($Ticket{CustomerID} && $Ticket{CustomerID} =~ /^\Q$CustomerID\E$/i) {
             return 1;
