@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.68 2004-05-11 10:13:42 martin Exp $
+# $Id: AgentZoom.pm,v 1.69 2004-07-08 13:17:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,18 +15,18 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -35,7 +35,7 @@ sub new {
       QueueObject ConfigObject UserObject SessionObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-    # get params 
+    # get params
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
     $Self->{ZoomExpand} = $Self->{ParamObject}->GetParam(Param => 'ZoomExpand');
     $Self->{ZoomExpandSort} = $Self->{ParamObject}->GetParam(Param => 'ZoomExpandSort');
@@ -206,6 +206,7 @@ sub MaskAgentZoom {
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
     # age design
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Param{SLAAge} = $Self->{LayoutObject}->CustomerAge(Age => $Param{SLAAge}, Space => ' ');
     if ($Param{UntilTime}) {
         if ($Param{UntilTime} < -1) {
             $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
@@ -420,12 +421,89 @@ sub MaskAgentZoom {
              $Article{"ATM"} .= "</td><td align='right'> $File{Filesize}</td></tr>";
         }
         $Article{"ATM"} .= '</table>';
+        if (%AtmIndex) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleAttachment',
+                Data => {
+                    Key => 'Attachment',
+                    Value => $Article{"ATM"},
+                },
+            );
+        }
         # do some strips && quoting
         foreach (qw(From To Cc Subject Body)) {
             $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
                 Text => $Article{$_},
                 From => $Article{ContentCharset},
             );
+        }
+        foreach (qw(From To Cc Subject)) {
+            if ($Article{$_}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        Key => $_,
+                        Value => $Article{$_},
+                    },
+                );
+            }
+        }
+        foreach (qw(1 2 3 4 5)) {
+            if ($Article{"FreeText$_"}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleFreeText',
+                    Data => {
+                        Key => $Article{"FreeKey$_"},
+                        Value => $Article{"FreeText$_"},
+                    },
+                );
+            }
+        }
+        # run article modules
+        if (ref($Self->{ConfigObject}->Get('Frontend::ArticleModule')) eq 'HASH') {
+            my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleModule')};
+            foreach my $Job (sort keys %Jobs) {
+                # log try of load module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    );
+                }
+                if (eval "require $Jobs{$Job}->{Module}") {
+                    my $Object = $Jobs{$Job}->{Module}->new(
+                        ConfigObject => $Self->{ConfigObject},
+                        LogObject => $Self->{LogObject},
+                        DBObject => $Self->{DBObject},
+                        LayoutObject => $Self->{LayoutObject},
+                        TicketObject => $Self->{TicketObject},
+                        TicketID => $Article{TicketID},
+                        UserID => $Self->{UserID},
+                        Debug => $Self->{Debug},
+                    );
+                    # log loaded module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                        );
+                    }
+                    # run module
+                    my %Data = $Object->Run(Article=> \%Article, %Param, Config => $Jobs{$Job});
+                    if (%Data) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ArticleOption',
+                            Data => \%Data,
+                        );
+                    }
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't load module $Jobs{$Job}->{Module}!",
+                    );
+                }
+            }
         }
         # check if just a only html email
         if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article)) {
