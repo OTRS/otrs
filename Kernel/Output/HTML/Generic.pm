@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.17 2002-02-19 22:30:25 martin Exp $
+# $Id: Generic.pm,v 1.18 2002-03-10 18:56:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::Installer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -310,7 +310,7 @@ sub Ascii2Html {
 
     # max width
     if ($Max) {
-        $Text =~ s/^(.{$Max}).*$/$1 [...]/;
+        $Text =~ s/^(.{$Max}).*$/$1 [...]/gs;
     }
 
     # newline
