@@ -1,11 +1,11 @@
-<chapter id="notification">
+<chapter id="system-notification">
 <title>System-Email-Notifications</title>
 <para>
 This chapter will show you more details about the system notifications for agents
 and customers.
 </para>
 
-<sect1 id="notification-agent">
+<sect1 id="system-notification-agent">
 <title>Agent-Notifications</title>
 <para>
 A agent can get notifications about 'new ticket, 'ticket follow up', 
@@ -44,7 +44,7 @@ Notification to the agent if the OTRS system unlocked a unanswered ticket.
 </sect2>
 </sect1>
 
-<sect1 id="notification-customer">
+<sect1 id="system-notification-customer">
 <title>Customer-Notifications (min 1.1)</title>
 <para>
 There are three types of (auto) customer notifications to give more transparency 
