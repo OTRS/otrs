@@ -2,7 +2,7 @@
 # Kernel/System/Stats/StateAction.pm - stats module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StateAction.pm,v 1.1 2004-06-29 10:42:23 martin Exp $
+# $Id: StateAction.pm,v 1.2 2004-10-18 07:27:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,16 +119,16 @@ sub Run {
         push (@PossibleStates, $States{$_});
     }
     # build x_lable
-    my $DayCounter = 1;
+    my $DayCounter = 0;
     my @Data;
     my @Days = ();
     my %StateDate = ();
-    while ($Day >= $DayCounter) {
+    while ($Day >= $DayCounter+1) {
+      $DayCounter++;
       my $Dow = Day_of_Week($Year, $Month, $DayCounter);
       $Dow = Day_of_Week_Abbreviation($Dow);
       my $Text = $DayCounter;
       $Text = "$Dow $DayCounter";
-      $DayCounter++;
       push (@Days, $Text);
       my @Row = ();
       foreach (sort {$States{$a} cmp $States{$b}} keys %States) {
