@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.86 2003-02-09 20:56:28 martin Exp $
+# $Id: Agent.pm,v 1.87 2003-02-14 13:53:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.86 $';
+$VERSION = '$Revision: 1.87 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1333,6 +1333,7 @@ sub AgentPreferencesForm {
         if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
           my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
           my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
+          my $DataSelected = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{DataSelected} || '';
           my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
           my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
           if ($Data) {
@@ -1340,7 +1341,7 @@ sub AgentPreferencesForm {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                 Data => $Data, 
                 Name => 'GenericTopic',
-                SelectedID => $Self->{$PrefKey}, 
+                SelectedID => $Self->{$PrefKey} || $DataSelected, 
               );
             }
             else {
@@ -1364,6 +1365,13 @@ sub AgentPreferencesForm {
               }
               $PrefItem{'Option'} .= "<OPTION VALUE=\"$ID\">$QueueDataTmp{$ID}\n" if (!$Mach);
             }
+          }
+          elsif ($PrefKey eq 'UserLanguage') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+                  Name => "GenericTopic",
+                  SelectedID => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
+              );
           }
           elsif ($PrefKey eq 'UserCharset') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
@@ -1610,11 +1618,10 @@ sub AgentSpelling {
     # --
     # dict language selection
     # --
-    my %Languages = ( 'English' => 'English', 'German' => 'German' );
     $Param{SpellLanguageString}  .= $Self->OptionStrgHashRef(
-        Data => \%Languages,
+        Data => $Self->{ConfigObject}->Get('SpellCheckerDict'),
         Name => "SpellLanguage",
-        Selected => $Param{SpellLanguage}, 
+        SelectedID => $Param{SpellLanguage},
     );
     # --
     # create & return output
