@@ -1,36 +1,41 @@
 # --
 # NoPermission.dtl.dtl - provides HTML NoPermission screen
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NoPermission.dtl,v 1.3 2003-02-08 15:40:42 martin Exp $
+# $Id: NoPermission.dtl,v 1.4 2004-10-14 10:52:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+<script type="text/javascript">
+<!--
+ function AbGehts()
+ {
+  history.back();
+ }
+ window.setTimeout("AbGehts()",60000);
+//-->
+</script>
+
 <center>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td class="table2">
+  <td class="contenthead">
   <p>
     <font color="red" size="+1">$Text{"No Permission"}!</font>
   </p>
   </td>
 </tr>
 <tr>
-  <td class="table1">
+  <td class="mainbody">
     <table>
         <tr>
-            <td class="table1" valign="top"><b>$Text{"Message"}:</b></td>
-            <td class="table1" valign="top">$Text{"$Data{"Message"}"}</td>
+            <td class="mainkey">$Text{"Message"}:</td>
+            <td class="mainvalue">$Text{"$Data{"Message"}"}</td>
         </tr>
-<!--
-        <tr>
-            <td class="table1" valign="top"><b>$Text{"Comment"}:</b></td>
-            <td class="table1" valign="top">$Data{"Comment"}</td>
-        </tr>
--->
     </table>
+    <a href="$Env{"Baselink"}" onclick="history.back(); return false;">$Text{"Back"}</a>
   </td>
 </tr>
 </table>
