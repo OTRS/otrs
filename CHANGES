@@ -2,7 +2,7 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.16 2002-07-24 21:19:09 martin Exp $
+# $Id: CHANGES,v 1.17 2002-08-03 12:03:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,12 +10,15 @@
 # --
 
 0.5 BETA7 (2002-07-??)
+ - improved screen session management (next screen, last screen)
  - improved Ticket and article lib funktions (Kernel::System::Ticket::* and
     Kernel..System::Article)
  - improved fulltext search 
  - added "Std. Response on creating a queue" feature
     (http://lists.otrs.org/pipermail/otrs/2002-July/000114.html)
- - added module support for auth. LDAP and DB is available (Kernel/Config.pm)
+ - added module support for auth. (Kernel/Config.pm --> $Self->{AuthModule})
+     * "Kernel::System::Auth::DB" against OpenTRS DB (default)
+     * "Kernel::System::Auth::LDAP" against a LDAP directory
  - added "ChangeOwnerToEveryone" feature fot AgentOwner (useful for ASP)
     Kernel/Config.pm -> $Self->{ChangeOwnerToEveryone} = [0|1]
  - added AgentCustomer module (set a customer id to a ticket and get a customer
@@ -28,6 +31,14 @@
     to dispatch it with procmail (used for feedback forms) 
  - added content_type col. to article table to handle differen charsets correctly
     (use script/DBUpdate.(mysql|postgresql).sql to upgrate existing databases).
+ - added generic session storage management (Kernel/Config.pm --> $Self->{SessionModule})
+     * "Kernel::System::AuthSession::DB" (default) --> db storage 
+     * "Kernel::System::AuthSession::FS" --> filesystem storage
+     * "Kernel::System::AuthSession::IPC" --> ram storage
+ - added http cookie support for session management - it's more comfortable to 
+    send links -==> if you have a valid session, you don't have to login again -
+    If the client browser disabled html cookies, otrs will work as usual, append 
+    SessionID to links! (Kernel/Config.pm --> $Self->{SessionUseCookie})
  - added generic ticket number generator (Kernel/Config.pm --> $Self->{TicketNumberGenerator})
      * "Kernel::System::Ticket::Number::AutoIncrement" (default) --> auto increment 
         ticket numbers "SystemID.Counter" like 1010138 and 1010139. 
