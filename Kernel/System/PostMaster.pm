@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.15 2002-10-31 21:49:34 martin Exp $
+# $Id: PostMaster.pm,v 1.16 2002-10-31 21:54:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -86,9 +86,13 @@ sub new {
         }
     }
     else {
+        my $Error = $!;
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Can't create $Path: $Error, Try: \$OTRS_HOME/bin/SetPermissions.sh !",
+        );
         print STDERR "\n";
-        print STDERR "\n";
-        print STDERR " -->> Can't create $Path: $! <<--\n";
+        print STDERR " -->> Can't create $Path: $Error <<--\n";
         print STDERR "\n";
         print STDERR " Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n";
         print STDERR "\n";
