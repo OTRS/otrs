@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.30 2002-05-27 21:04:08 martin Exp $
+# $Id: Agent.pm,v 1.31 2002-06-05 22:48:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -88,8 +88,7 @@ sub QueueView {
 sub TicketView {
     my $Self = shift;
     my %Param = @_;
-    my $StdResponsesTmp = $Param{StdResponses};
-    my %StdResponses = %$StdResponsesTmp;
+    my %StdResponses = %{$Param{StdResponses}};
 
     # do some html quoting
     foreach ('From', 'To', 'Cc', 'Subject', 'Priority', 'State') {
@@ -130,18 +129,36 @@ sub TicketView {
       $Param{TicketOverTime} = '$Text{"none"}';
     }
 
-    # do some text quoting
-    $Param{Text} = $Self->Ascii2Html(
-        NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-        Text => $Param{Text}, 
-        VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
-    );
-    # do link quoting
-    $Param{Text} = $Self->LinkQuote(
-        Text => $Param{Text},
-    );
+    # --
+    # check if just a html email
+    # --
+    if ($Param{Text} =~ /^<.DOCTYPE html PUBLIC/) {
+         $Param{Text} = "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
+          "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
+          "target=\"HTMLeMail\"><i>\$Text{\"This is a HTML email. Click here to show it.\"}".
+          "</i></a>";
+    }
+    else {
+        # --
+        # do some text quoting
+        # --
+        $Param{Text} = MIME::QuotedPrint::decode($Param{Text});
+        $Param{Text} = $Self->Ascii2Html(
+            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+            Text => $Param{Text}, 
+            VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
+        );
+        # --
+        # do link quoting
+        # ---
+        $Param{Text} = $Self->LinkQuote(
+            Text => $Param{Text},
+        );
+    }
 
+    # --
     # get MoveQueuesStrg
+    # --
     $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
         Name => 'DestQueueID',
         SelectedID => $Param{QueueID},
@@ -149,15 +166,17 @@ sub TicketView {
         OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit'),
     );
 
+    # --
     # get StdResponsesStrg
+    # --
     foreach (keys %StdResponses) {
-       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&ResponseID=$_&".
-       "TicketID=$Param{TicketID}\">" .
-          "$StdResponses{$_}</A></li>\n";
+       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&".
+           "ResponseID=$_&TicketID=$Param{TicketID}\">$StdResponses{$_}</A></li>\n";
     }
 
-
+    # --
     # create & return output
+    # --
     return $Self->Output(TemplateFile => 'TicketView', Data => \%Param);
 }
 # --
@@ -165,21 +184,27 @@ sub TicketZoom {
     my $Self = shift;
     my %Param = @_;
 
+    # --
     # do some html quoting
+    # --
     foreach ('Priority', 'State') {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50, MIME => 1) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     $Param{Owner} = $Self->Ascii2Html(Text => $Param{Owner}, Max => 20) || ''; 
 
-    # prepare escalation time
+    # --
+    # prepare escalation time (if needed)
+    # --
     if ($Param{Answered}) {
       $Param{TicketOverTime} = 'none - answered';
     }
     elsif ($Param{TicketOverTime}) { 
       $Param{TicketOverTimeSuffix} = '';
 
+      # --
       # colloring  
+      # --
       $Param{TicketOverTimeFont} = '';
       $Param{TicketOverTimeFontEnd} = '';
       if ($Param{TicketOverTime} >= -60*20) {
@@ -205,7 +230,9 @@ sub TicketZoom {
       $Param{TicketOverTime} = 'none';
     }
 
+    # --
     # get MoveQueuesStrg
+    # --
     $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
         Name => 'DestQueueID',
         SelectedID => $Param{QueueID},
@@ -213,15 +240,15 @@ sub TicketZoom {
         OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit'),
     );
 
+    # --
     # build article stuff
+    # --
     $Param{ArticleStrg} = '';
     my $ArticleID = $Param{ArticleID} || '';
     my $BaseLink = $Self->{Baselink} . "&TicketID=$Self->{TicketID}&QueueID=$Self->{QueueID}";
-    my $ArticleBoxTmp = $Param{ArticleBox};
-    my @ArticleBox = @$ArticleBoxTmp;
+    my @ArticleBox = @{$Param{ArticleBox}};
     my $MoveQueues = $Param{MoveQueues};
-    my $StdResponsesTmp = $Param{StdResponses};
-    my %StdResponses = %$StdResponsesTmp;
+    my %StdResponses = %{$Param{StdResponses}};
     my $ThreadStrg = '<FONT SIZE="-1">';
     my $Counter = '';
     my $Space = '';
@@ -309,19 +336,47 @@ sub TicketZoom {
         $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300, MIME => 1);
     }
     # --
-    # html quoting
+    # quoted print decode 
     # --
-    $Param{"Article::Text"} = $Self->Ascii2Html(
-        NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-        Text => $Article{Text},
-        VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
-    );
+    $Article{"Text"} = MIME::QuotedPrint::decode($Article{"Text"});
+
     # --
-    # link quoting
+    # just body if html email
     # --
-    $Param{"Article::Text"} = $Self->LinkQuote(
-        Text => $Param{"Article::Text"},
-    );
+    if ($Param{"ShowHTMLeMail"}) {
+        (my $Output = <<EOF);
+Content-Type: text/html
+
+$Article{"Text"}
+EOF
+        return $Output;
+    }
+
+    # --
+    # check if just a html email
+    # --
+    if ($Article{"Text"} =~ /^<.DOCTYPE html PUBLIC/) {
+         $Param{"Article::Text"} = "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
+          "$Param{TicketID}&ArticleID=$Article{ArticleID}&Subaction=ShowHTMLeMail\" ".
+          "target=\"HTMLeMail\"><i>\$Text{\"This is a HTML email. Click here to show it.\"}".
+          "</i></a>";
+    }
+    else {
+        # --
+        # html quoting
+        # --
+        $Param{"Article::Text"} = $Self->Ascii2Html(
+            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+            Text => $Article{Text},
+            VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+        );
+        # --
+        # link quoting
+        # --
+        $Param{"Article::Text"} = $Self->LinkQuote(
+            Text => $Param{"Article::Text"},
+        );
+    }
 
     # get article id
     $Param{"Article::ArticleID"} = $Article{ArticleID};
