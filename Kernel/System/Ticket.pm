@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.106 2004-05-02 04:18:37 martin Exp $
+# $Id: Ticket.pm,v 1.107 2004-05-02 10:57:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.106 $';
+$VERSION = '$Revision: 1.107 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1471,6 +1471,7 @@ To find tickets in your system.
       Result => 'ARRAY' || 'HASH',
 
       # ticket properties (optional)
+      TicketNumber => '%123546%',
       Queue => 'system queue',
       States => ['new', 'open'],
       StateIDs => [3, 4],
@@ -1814,7 +1815,7 @@ sub TicketSearch {
     my %Tickets = ();
     my @TicketIDs = ();
     $Self->{DBObject}->Prepare(SQL => $SQL.$SQLExt, Limit => $Limit);
-print STDERR "SQL: $SQL$SQLExt\n";
+#print STDERR "SQL: $SQL$SQLExt\n";
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Tickets{$Row[0]} = $Row[1];
         push (@TicketIDs, $Row[0]);
@@ -3024,6 +3025,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.106 $ $Date: 2004-05-02 04:18:37 $
+$Revision: 1.107 $ $Date: 2004-05-02 10:57:27 $
 
 =cut
