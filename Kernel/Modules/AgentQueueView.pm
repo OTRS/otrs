@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.47 2003-12-08 20:56:17 martin Exp $
+# $Id: AgentQueueView.pm,v 1.48 2003-12-17 18:26:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -122,16 +122,18 @@ sub Run {
     # --
     # check old tickets, show it and return if needed
     # --
-    if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
-        # show over time ticket's
-        print $Self->{LayoutObject}->TicketEscalation(
-            Message => 'Please answer this ticket(s) to get back to the normal queue view!',
-        );
-        foreach (@ViewableTickets) {
-            print $Self->ShowTicket(TicketID => $_);
+    if ($Self->{UserID} ne '1') {
+        if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
+            # show over time ticket's
+            print $Self->{LayoutObject}->TicketEscalation(
+                Message => 'Please answer this ticket(s) to get back to the normal queue view!',
+            );
+            foreach (@ViewableTickets) {
+                print $Self->ShowTicket(TicketID => $_);
+            }
+            # get page footer
+            return $Self->{LayoutObject}->Footer();
         }
-        # get page footer
-        return $Self->{LayoutObject}->Footer();
     }
     # --
     # build queue view ...
