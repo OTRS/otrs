@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.100 2003-04-08 20:10:48 martin Exp $
+# $Id: Agent.pm,v 1.101 2003-04-12 09:06:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.100 $';
+$VERSION = '$Revision: 1.101 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -140,9 +140,40 @@ sub QueueView {
                $QueueStrg .= '<b>';
             }
         }
+        # --
+        # remember to selected queue info
+        # --
         if ($QueueID eq $Queue{QueueID}) {
            $Param{SelectedQueue} = $Queue{Queue};
-           $Param{AllTickets} = $Counter{$Queue{Queue}};
+           $Param{AllSubTickets} = $Counter{$Queue{Queue}};
+           # --
+           # build Page Navigator for AgentQueueView
+           # --
+           $Param{PageShown} = $Self->{ConfigObject}->Get('ViewableTickets');
+           if ($Param{TicketsAvail} == 1 || $Param{TicketsAvail} == 0) {
+               $Param{Result} = $Param{TicketsAvail};
+           }
+           elsif ($Param{TicketsAvail} >= ($Param{Start}+$Param{PageShown})) {
+               $Param{Result} = $Param{Start}."-".($Param{Start}+$Param{PageShown}-1);
+           }
+           else {
+               $Param{Result} = "$Param{Start}-$Param{TicketsAvail}";
+           }
+           my $Pages = int(($Param{TicketsAvail} / $Param{PageShown}) + 0.99999);
+           my $Page = int(($Param{Start} / $Param{PageShown}) + 0.99999);
+#print STDERR "Page: $Page Pages: $Pages\n";
+           for (my $i = 1; $i <= $Pages; $i++) {
+               $Self->{UtilSearchResultCounter}++;
+               $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=\$Env{\"Action\"}".
+                '&QueueID=$Data{"QueueID"}&Start='. (($i-1)*$Param{PageShown}+1) .= '">';
+               if ($Page == $i) {
+                   $Param{PageNavBar} .= '<b>'.($i).'</b>';
+               }
+               else {
+                   $Param{PageNavBar} .= ($i);
+               }
+               $Param{PageNavBar} .= '</a> ';
+           }
         }
         $QueueStrg .= "<a href=\"$Self->{Baselink}Action=AgentQueueView&QueueID=$Queue{QueueID}\"";
         $QueueStrg .= ' onmouseover="window.status=\'$Text{"Queue"}: '.$Queue{Queue}.'\'; return true;" onmouseout="window.status=\'\';">';
@@ -860,13 +891,20 @@ sub ArticlePlain {
 sub AgentNote {
     my $Self = shift;
     my %Param = @_;
-
+    # --
     # build ArticleTypeID string
+    # --
     $Param{'NoteStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NoteTypes},
         Name => 'NoteID',
     );
-
+    # --
+    # build next states string
+    # -- 
+    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'NewStateID',
+    );
     # get output back
     return $Self->Output(TemplateFile => 'AgentNote', Data => \%Param);
 }
@@ -1386,18 +1424,26 @@ sub AgentUtilSearchCouter {
     my %Param = @_;
     my $Limit = $Param{Limit} || 0;
     $Param{AllHits} = 0 if (!$Param{AllHits});
-    $Param{Results} = ($Param{StartHit}+1)."-".($Param{StartHit}+$Self->{UtilSearchResultCounter});
+    my $Pages = int(($Param{AllHits} / $Param{SearchPageShown}) + 0.99999);
+    my $Page = int(($Param{StartHit} / $Param{SearchPageShown}) + 0.99999);
+    # build Results (1-5 or 16-30)
+    if ($Param{AllHits} >= ($Param{StartHit}+$Param{SearchPageShown})) {
+        $Param{Results} = $Param{StartHit}."-".($Param{StartHit}+$Param{SearchPageShown}-1);
+    }
+    else {
+        $Param{Results} = "$Param{StartHit}-$Param{AllHits}";
+    }
+    # check total hits
     if ($Limit == $Param{AllHits}) {
        $Param{TotalHits} = "<font color=red>$Param{AllHits}</font>";
     }
     else {
        $Param{TotalHits} = $Param{AllHits};
     }
-
-    my $Pages = $Param{AllHits} / $Param{SearchPageShown};
-    for (my $i = 1; $i < ($Pages+1); $i++) {
+    # build page nav bar
+    for (my $i = 1; $i <= $Pages; $i++) {
         $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}Action=AgentUtilities&Subaction=".
-         "$Self->{Subaction}&StartHit=". (($i-1)*$Param{SearchPageShown});
+         "$Self->{Subaction}&StartHit=". ((($i-1)*$Param{SearchPageShown})+1);
          foreach (@{$Param{WhatFields}}) {
              $Param{SearchNavBar} .= "&What=$_";
          }
@@ -1420,7 +1466,7 @@ sub AgentUtilSearchCouter {
              $Param{SearchNavBar} .= '&Want='.$Self->LinkEncode($Param{Want});
          }
          $Param{SearchNavBar} .= '">';
-         if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{SearchPageShown}) == ($i)) {
+         if ($Page == $i) {
              $Param{SearchNavBar} .= '<b>'.($i).'</b>';
          }
          else {
@@ -1776,7 +1822,7 @@ sub AgentMove {
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NewStateID',
-        Selected => $Param{State},
+#        Selected => $Param{State},
     );
     # --
     # build owner string
