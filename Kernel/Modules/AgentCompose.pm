@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.28 2002-12-18 16:45:29 martin Exp $
+# $Id: AgentCompose.pm,v 1.29 2002-12-19 23:54:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -250,39 +250,7 @@ sub SendEmail {
     # --
     # get attachment
     # -- 
-    my $Upload = $Self->{ParamObject}->GetUpload(Filename => 'file_upload');
-    if ($Upload) {
-        $Param{UploadFilenameOrig} = $Self->{ParamObject}->GetParam(Param => 'file_upload') || 'unkown';
-        # --
-        # delete upload dir if exists
-        # --
-        my $Path = "/tmp/$$";
-        if (-d $Path) {
-            File::Path::rmtree([$Path]);
-        }
-        # --
-        # create upload dir
-        # --
-        File::Path::mkpath([$Path], 0, 0700);
-        # --
-        # replace all devices like c: or d: and dirs for IE!
-        # --
-        my $NewFileName = $Param{UploadFilenameOrig};
-        $NewFileName =~ s/.:\\(.*)/$1/g;
-        $NewFileName =~ s/.*\\(.+?)/$1/g;
-        $Param{UploadFilename} = "$Path/$NewFileName";
-        open (OUTFILE,"> $Param{UploadFilename}") || die $!;
-        while (<$Upload>) {
-            print OUTFILE $_;
-        }
-        close (OUTFILE);
-        if ($Param{UploadFilename}) {
-          $Param{UploadContentType} = $Self->{ParamObject}->GetUploadInfo( 
-            Filename => $Param{UploadFilenameOrig},  
-            Header => 'Content-Type',
-          ) || '';
-        }
-    }
+    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(Param => 'file_upload');
     # --
     # check some values
     # --
@@ -324,8 +292,7 @@ sub SendEmail {
     # send email
     # --
     if (my $ArticleID = $Self->{EmailObject}->Send(
-        UploadFilename => $Param{UploadFilename},
-        UploadContentType => $Param{UploadContentType},
+        %UploadStuff,
         ArticleType => 'email-external',
         SenderType => 'agent',
         TicketID => $TicketID,
