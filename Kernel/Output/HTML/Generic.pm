@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.77 2003-02-19 17:06:47 martin Exp $
+# $Id: Generic.pm,v 1.78 2003-02-23 22:20:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -577,6 +577,8 @@ sub Error {
     foreach (qw(Message Traceback)) {
       $Param{'Backend'.$_} = $Self->{LogObject}->Error($_) || '';
       $Param{'Backend'.$_} = $Self->Ascii2Html(Text => $Param{'Backend'.$_});
+      $Param{'Backend'.$_} =~ s/\n/<br>\n/g;
+      $Param{'Backend'.$_} =~ s/  / &nbsp;/g;
     }
     if (!$Param{Message}) {
       $Param{Message} = $Param{BackendMessage};
@@ -773,8 +775,7 @@ sub OptionStrgHashRef {
     my $Output = '';
     my $Name = $Param{Name} || '';
     my $Max = $Param{Max} || 80;
-    my $Multiple = $Param{Multiple} || '';
-    $Multiple = 'multiple' if ($Multiple);
+    my $Multiple = $Param{Multiple} ? 'multiple' : '';
     my $Selected = $Param{Selected} || '';
     my $SelectedID = $Param{SelectedID} || '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';

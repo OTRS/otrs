@@ -2,7 +2,7 @@
 # Error.dtl - provides HTML Error screen
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Error.dtl,v 1.7 2003-02-19 17:06:47 martin Exp $
+# $Id: Error.dtl,v 1.8 2003-02-23 22:20:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,9 +20,9 @@
 </tr>
 <tr>
   <td class="table1">
-    <table cellspacing="0" cellpadding="2">
+    <table cellspacing="0" cellpadding="2" width="100%">
         <tr>
-            <td class="table1" valign="top"><b>$Text{"Comment"}:</b></td>
+            <td class="table1" valign="top" width="100"><b>$Text{"Comment"}:</b></td>
             <td class="table1" valign="top">$Data{"Comment"}</td>
         </tr>
         <tr>
@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td class="table1" valign="top"><b>$Text{"Traceback"}:</b></td>
-            <td class="table1" valign="top"><pre>$Data{"BackendTraceback"}</pre></TD>
+            <td class="table1" valign="top">$Data{"BackendTraceback"}</td>
         </tr>
     </table>
   </td>
