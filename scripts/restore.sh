@@ -3,7 +3,7 @@
 # scripts/restore.sh - a restore script for OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: restore.sh,v 1.1 2002-08-13 15:03:19 martin Exp $
+# $Id: restore.sh,v 1.2 2002-08-13 15:20:12 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "restore.sh - a restore script for OpenTRS <\$Revision: 1.1 $>"
+echo "restore.sh - a restore script for OpenTRS <\$Revision: 1.2 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # --
@@ -41,7 +41,7 @@ if ! test $1 || ! test $2 || ! test $3; then
     echo ""
     echo "Usage: restore.sh <OTRS_BIN_DIR> <OTRS_CONFIG_DIR> <BACKUP_DIR> [Config.pm]"
     echo ""
-    echo "  Try: restore.sh /opt/OpenTRS/bin /opt/OpenTRS/var /data/otrs-backup/<TIME>/"
+    echo "  Try: restore.sh /opt/OpenTRS/bin /opt/OpenTRS/Kernel/ /data/otrs-backup/<TIME>/"
     echo ""
     exit 1;
 fi

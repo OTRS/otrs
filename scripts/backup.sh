@@ -3,7 +3,7 @@
 # scripts/backup.sh - a backup script for OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.sh,v 1.1 2002-08-13 15:03:19 martin Exp $
+# $Id: backup.sh,v 1.2 2002-08-13 15:20:12 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "backup.sh - a backup script for OpenTRS <\$Revision: 1.1 $>"
+echo "backup.sh - a backup script for OpenTRS <\$Revision: 1.2 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # --
@@ -40,7 +40,7 @@ if ! test $1 || ! test $2 || ! test $3; then
     echo ""
     echo "Usage: backup.sh <OTRS_BIN_DIR> <OTRS_CONFIG.PM> <BACKUP_DIR> "
     echo ""
-    echo "  Try: backup.sh /opt/OpenTRS/bin /opt/OpenTRS/var /data/otrs-backup"
+    echo "  Try: backup.sh /opt/OpenTRS/bin /opt/OpenTRS/Kernel/Config.pm /data/otrs-backup"
     echo ""
     exit 1;
 fi
