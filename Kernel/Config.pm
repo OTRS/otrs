@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.10 2002-01-20 22:20:52 martin Exp $
+# $Id: Config.pm,v 1.11 2002-01-23 23:01:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -178,6 +178,36 @@ sub Load {
       'X-OTRS-TicketValue1',
       'X-OTRS-TicketValue2',
     ];
+
+    # --
+    # default values
+    # --
+    # default valid
+    $Self->{DefaultValid} = 'valid';
+    # default charset
+    $Self->{DefaultCharset} = 'iso-8859-1';
+    # default langauge
+    $Self->{DefaultLanguage} = 'German';
+    # default theme
+    $Self->{DefaultTheme} = 'Standard';
+
+    # default note type
+    $Self->{DefaultNoteType} = 'note-internal';
+    # default note subject
+    $Self->{DefaultNoteSubject} = 'Note!';
+    # default note text
+    $Self->{DefaultNoteText} = '';
+
+    # CloseNoteType
+    $Self->{DefaultCloseNoteType} = 'note-internal';
+    # CloseNoteSubject
+    $Self->{DefaultCloseNoteSubject} = 'Close!';
+    # CloseNoteText
+    $Self->{DefaultCloseNoteText} = '';
+    # CloseType
+    $Self->{DefaultCloseType} = 'closed succsessful';
+
+
 }
 # --
 sub Get {
