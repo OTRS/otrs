@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketViewLite.dtl - provides HTML TicketView for AgentTicketQueue
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.1 2005-02-17 07:02:25 martin Exp $
+# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.2 2005-04-01 08:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -59,15 +59,15 @@ $Text{"$QData{"Name"}"}</a>
 # From:, To:, Cc:
 <!-- dtl:block:Row -->
     <tr>
-      <td valign="top" width="15%" class="table1"><b>$Text{"$Data{"Key"}"}:</b></td>
-      <td width="85%" class="table1"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
+      <td valign="top" width="15%" class="contentkey">$Text{"$Data{"Key"}"}:</td>
+      <td width="85%" class="contentvalue"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
     </tr>
 <!-- dtl:block:Row -->
 # show the Article::FreeKey1-3 and Article::FreeText1-3
 <!-- dtl:block:ArticleFreeText -->
     <tr>
-      <td valign="top" width="15%" class="table1"><b>$QData{"Key"}:</b></td>
-      <td width="85%" class="table1"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
+      <td valign="top" width="15%" class="contentkey">$QData{"Key"}:</td>
+      <td width="85%" class="contentvalue"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
     </tr>
 <!-- dtl:block:ArticleFreeText -->
 # --
@@ -134,7 +134,7 @@ $Text{"$QData{"Name"}"}</a>
 </tr>
 # use the following if you want also a change queue option in this view
 #<tr>
-#  <td valign="top" class="table1">&nbsp;</td>
+#  <td valign="top" class="contentkey">&nbsp;</td>
 #  <td valign="top" class="PriorityID-$Data{"PriorityID"}"><b>$Text{"Change queue"}:</b></td>
 #  <td valign="top" class="PriorityID-$Data{"PriorityID"}">
 #       <form action="$Env{"CGIHandle"}" method="get">
