@@ -1,8 +1,8 @@
 # --
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.dtl,v 1.11 2004-10-29 12:55:45 martin Exp $
+# $Id: AgentSpelling.dtl,v 1.12 2005-02-15 12:06:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -95,7 +95,7 @@ function change_selected(sel)
 </table>
 
 <pre>
-<textarea name="Body" rows="22" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
+<textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
 </pre>
 
 <input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"> 

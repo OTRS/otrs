@@ -2,7 +2,7 @@
 # AgentPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.dtl,v 1.15 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentPending.dtl,v 1.16 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ function submit_compose()
         return false;
     }
 <!-- dtl:block:TimeUnitsJs -->
-    else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
+    else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
@@ -84,7 +84,7 @@ $Include{"AgentTicketLocked"}
       <tr>
         <td class="contentkey">$Text{"Note Text"}:</td>
         <td class="contentvalue">
-        <textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea> <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+        <textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea> <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
         </td>
       </tr>
       <tr>
@@ -105,7 +105,7 @@ $Include{"AgentTicketLocked"}
 #     </tr>
 <!-- dtl:block:TimeUnits -->
       <tr>
-        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
         <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
       </tr>
 <!-- dtl:block:TimeUnits -->

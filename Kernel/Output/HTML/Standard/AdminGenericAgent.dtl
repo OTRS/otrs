@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.11 2005-02-10 11:48:09 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.12 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -135,14 +135,14 @@
 </tr>
 
 <tr>
-  <td class="contenthead">$Config{"TicketHook"} $Text{"and"} $Text{"CustomerID"}</td>
+  <td class="contenthead">$Config{"Ticket::Hook"} $Text{"and"} $Text{"CustomerID"}</td>
   <td class="contenthead">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
 </tr>
 <tr>
 <td class="contentbody">
   <table width="100%" border="0" cellspacing="1" cellpadding="1">
   <tr align="left">
-    <td width="50%">$Config{"TicketHook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
+    <td width="50%">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
     <td width="50%"><input type="text" name="TicketNumber" size="20" value="$QData{"TicketNumber"}"></td>
   </tr>
   <tr align="left">

@@ -1,9 +1,9 @@
 # --
 # AgentZoomBody.dtl - provides HTML AgentZoom for AgentZoom.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.16 2004-11-26 13:20:40 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.17 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

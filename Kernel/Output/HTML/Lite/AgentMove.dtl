@@ -2,7 +2,7 @@
 # AgentMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.dtl,v 1.10 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentMove.dtl,v 1.11 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -99,16 +99,20 @@ $Include{"AgentTicketLocked"}
   <tr>
     <td class="contentkey">$Text{"Note"}:</td>
     <td class="contentvalue"></td>
-    <td class="contentvalue"><textarea name="Comment" rows="8" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}</textarea>
+    <td class="contentvalue"><textarea name="Comment" rows="8" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}</textarea>
     </td>
   </tr>
 
 # --
 # use ticket is move
 # --
-<dtl if ($Config{"MoveSetState"} eq "1") { $Data{"NextStatesString"} = "<tr><td width="20%" class="contentkey">$Text{"Next ticket state"}:</td><td></td><td width="80%">$Data{"NextStatesStrg"}</td></tr>"; }>
-    $Data{"NextStatesString"}
-#
+<!-- dtl:block:State -->
+  <tr>
+    <td width="20%" class="contentkey">$Text{"Next ticket state"}:</td>
+    <td></td>
+    <td width="80%">$Data{"NextStatesStrg"}</td>
+</tr>
+<!-- dtl:block:State -->
   </table>
   <input class="button" type="submit" value="$Text{"Move"}" onclick="return submit_compose();">
   </form>

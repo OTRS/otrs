@@ -1,8 +1,8 @@
 # --
 # AgentHistoryForm.dtl - provides HTML form for history
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistoryForm.dtl,v 1.8 2004-09-27 13:21:44 martin Exp $
+# $Id: AgentHistoryForm.dtl,v 1.9 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
   <td class="mainhead">
-    $Env{"Box0"}$Text{"History of"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}
+    $Env{"Box0"}$Text{"History of"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
 <tr>

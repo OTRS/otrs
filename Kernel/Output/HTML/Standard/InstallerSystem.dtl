@@ -1,8 +1,8 @@
 # --
 # InstallerSystem.dtl - provides HTML form for Installer
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerSystem.dtl,v 1.7 2004-01-22 20:12:53 martin Exp $
+# $Id: InstallerSystem.dtl,v 1.8 2005-02-15 12:06:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,12 +62,12 @@
   </tr>
   <tr>
     <td>$Text{"Ticket Hook"}:</td>
-    <td><input type="text" name="TicketHook" value="$Config{"TicketHook"}" size="20"></td>
+    <td><input type="text" name="Ticket::Hook" value="$Config{"Ticket::Hook"}" size="20"></td>
     <td>$Text{"(Ticket identifier. Some people want toset this to e. g. 'Ticket#', 'Call#' or 'MyTicket#')"}</td>
   </tr>
   <tr>
     <td>$Text{"Ticket Number Generator"}:</td>
-    <td><select name="TicketNumberGenerator">
+    <td><select name="Ticket::NumberGenerator">
           <option value="Kernel::System::Ticket::Number::AutoIncrement">AutoIncrement</option>
           <option value="Kernel::System::Ticket::Number::Random">Random</option>
           <option value="Kernel::System::Ticket::Number::DateChecksum" selected>DateChecksum</option>

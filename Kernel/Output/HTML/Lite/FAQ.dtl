@@ -1,8 +1,8 @@
 # --
 # FAQ.dtl - provides HTML view for faq articles
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.dtl,v 1.1 2004-10-13 12:44:42 martin Exp $
+# $Id: FAQ.dtl,v 1.2 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -158,7 +158,7 @@ function updateMessage()
     }
 
     parent.opener.document.compose.Body.value = document.spelling.Body.value
-    parent.opener.document.compose.Subject.value = document.spelling.Subject.value
+    parent.opener.document.compose.Subject.value = document.spelling.Title.value
 
     this.close();
 }
@@ -214,11 +214,11 @@ function updateMessage()
     </tr>
     <tr>
       <td colspan="2">
-<input type="hidden" name="Subject" value="$Quote{"$Data{"Subject"}"}">
+<input type="hidden" name="Title" value="$QData{"Title"}">
 #      <td class="contentvalue" valign="top">$Text{"$Config{"FAQ::Field1"}"}: </td>
 #      <td class="contentvalue"><pre>$Data{"Field1"}</pre>
 <pre>
-<textarea name="Body" rows="14" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="14" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
 $Data{"Field1"}
 $Data{"Field2"}
 $Data{"Field3"}

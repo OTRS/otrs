@@ -1,8 +1,8 @@
 # --
 # FAQ.dtl - provides HTML view for faq articles
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.dtl,v 1.2 2004-11-07 15:25:41 martin Exp $
+# $Id: FAQ.dtl,v 1.3 2005-02-15 12:06:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -218,7 +218,7 @@ function updateMessage()
 #      <td class="contentvalue" valign="top">$Text{"$Config{"FAQ::Field1"}"}: </td>
 #      <td class="contentvalue"><pre>$Data{"Field1"}</pre>
 <pre>
-<textarea name="Body" rows="14" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="14" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
 $Data{"Field1"}
 $Data{"Field2"}
 $Data{"Field3"}

@@ -1,9 +1,9 @@
 # --
 # AgentMailboxTicket.dtl - provides HTML form for agent mailbox
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentMailboxTicket.dtl,v 1.22 2004-10-06 19:48:12 martin Exp $
+# $Id: AgentMailboxTicket.dtl,v 1.23 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,15 @@
 <!-- start ticket -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-# check if bulk feature is aktiv
-<dtl if ($Config{"FrontendBulkFeature"} eq "1") { $Data{"BulkLink"} = "<td width="1%" class="mainhead"><form name="abulk$Data{"Counter"}"><input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"></form></td>"; }>
-  $Data{"BulkLink"}
+
+<!-- dtl:block:Bulk -->
+  <td width="1%" class="mainhead">
+    <form name="abulk$Data{"Counter"}"><input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"></form>
+  </td>
+<!-- dtl:block:Bulk -->
+
   <td align="left" width="65%" class="mainhead">
-    $Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</b> <font color="red">$Text{"$Data{"Message"}"}
+    $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}</b> <font color="red">$Text{"$Data{"Message"}"}
   </td>
   <td align="right" width="34%" class="mainhead">
     $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
@@ -26,25 +30,17 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
 <tr>
   <td width="65%" class="menu">
-  <a href="$Env{"Baselink"}Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Unlock"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Unlock this ticket!"}">$Text{"Unlock"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the detail view of this ticket!"}">$Text{"Zoom"}</a>
-# shoule we show the priority action
-<dtl if ($Data{"AgentPriority"} ne "0") { $Data{"AgentPriorityStrg"} = " - <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket priority!"}">$Text{"Priority"}</a>"; }>
-$Data{"AgentPriorityStrg"}
-# shoule we show the history action
-<dtl if ($Data{"AgentHistory"} ne "0") { $Data{"AgentHistoryStrg"} = " - <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the ticket history!"}">$Text{"History"}</a>"; }>
-# shoule we show the owner action
-<dtl if ($Data{"AgentOwner"} ne "0") { $Data{"AgentOwnerStrg"} = " - <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket owner!"}">$Text{"Owner"}</a>"; }>
-$Data{"AgentOwnerStrg"}
-# shoule we show the note action
-<dtl if ($Data{"AgentNote"} ne "0") { $Data{"AgentNoteStrg"} = " - <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Add a note to this ticket!"}">$Text{"Note"}</a>"; }>
-$Data{"AgentNoteStrg"}
-# shoule we show the customer action
-<dtl if ($Data{"AgentCustomer"} ne "0") { $Data{"AgentCustomerStrg"} = " - <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket customer!"}">$Text{"Customer"}</a>"; }>
-$Data{"AgentCustomerStrg"}
-# shoule we show the close action
-<dtl if ($Data{"AgentClose"} ne "0") { $Data{"AgentCloseStrg"} = " - <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Close this ticket!"}">$Text{"Close"}</a>"; }>
-$Data{"AgentCloseStrg"}
+
+<!-- dtl:block:Menu -->
+<!-- dtl:block:MenuItemSplit -->
+ - 
+<!-- dtl:block:MenuItemSplit -->
+<!-- dtl:block:MenuItem -->
+<a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
+$Text{"$QData{"Name"}"}</a>
+<!-- dtl:block:MenuItem -->
+<!-- dtl:block:Menu -->
+
   </td>
   <td align="right" width="34%" class="menu">
     <table border="0" cellspacing="0" cellpadding="0">

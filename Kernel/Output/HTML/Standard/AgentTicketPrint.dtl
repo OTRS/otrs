@@ -1,7 +1,7 @@
 
 <table border="0" cellspacing="1" cellpadding="0" width="100%">
   <tr>
-    <td class="mainhead">$Config{"TicketHook"}: $QData{"TicketNumber"}</td>
+    <td class="mainhead">$Config{"Ticket::Hook"}: $QData{"TicketNumber"}</td>
   </td>
 </table>
 <table border="0" cellspacing="1" cellpadding="10" width="100%">

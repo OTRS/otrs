@@ -2,7 +2,7 @@
 # NoteBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.dtl,v 1.10 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentBounce.dtl,v 1.11 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -67,23 +67,23 @@ $Include{"AgentTicketLocked"}
   </tr>
   <tr>
     <td class="contentkey">$Text{"From"}:</td>
-    <td class="contentvalue">$Data{"FromHTML"}</td>
+    <td class="contentvalue">$QData{"From"}</td>
   </tr>
   <tr>
     <td class="contentkey">$Text{"To"}:</td>
-    <td class="contentvalue"><input type="text" name="To" value="$Data{"To"}" size="60"></td>
+    <td class="contentvalue"><input type="text" name="To" value="$QData{"To"}" size="60"></td>
   </tr>
   <tr>
     <td class="contentkey">$Text{"Subject"}:</td>
-    <td class="contentvalue"><input type="text" name="Subject" value="$Data{"Subject"}" size="60"></td>
+    <td class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
   </tr>
   <tr>
     <td class="contentkey">$Text{"Text"}:</td>
     <td class="contentvalue">
-<textarea name="Body" rows="15" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
 $Data{"Salutation"}
 
-$Text{"$Config{"DefaultBounceText"}"}
+$Text{"$Config{"Ticket::Frontend::BounceText"}"}
 
 $Data{"Signature"}
 

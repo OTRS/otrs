@@ -2,7 +2,7 @@
 # AgentClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.29 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentClose.dtl,v 1.30 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ function submit_compose()
         return false;
     }
 <!-- dtl:block:TimeUnitsJs -->
-    else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
+    else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
@@ -73,7 +73,7 @@ $Include{"AgentTicketLocked"}
       <table border="0" width="100%">
       <tr>
         <td class="contentkey" width="20%">$Text{"Subject"}:</td>
-        <td class="contentvalue" width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="70"></td>
+        <td class="contentvalue" width="80%"><input type="text" name="Subject" value="$Text{"$Config{"Ticket::Frontend::CloseSubject"}"}" size="70"></td>
       </tr>
       <tr>
         <td class="contentkey">$Text{"Options"}:</td>
@@ -84,7 +84,7 @@ $Include{"AgentTicketLocked"}
       <tr>
         <td class="contentkey">$Text{"Note Text"}:</td>
         <td class="contentvalue">
-        <textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"DefaultCloseNoteText"}"}</textarea>
+        <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"Ticket::Frontend::CloseText"}"}</textarea>
         </td>
       </tr>
       <tr>
@@ -133,7 +133,7 @@ $Include{"AgentTicketLocked"}
 #     </tr>
 <!-- dtl:block:TimeUnits -->
       <tr>
-        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
         <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
       </tr>
 <!-- dtl:block:TimeUnits -->

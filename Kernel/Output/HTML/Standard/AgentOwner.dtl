@@ -1,8 +1,8 @@
 # --
 # AgentOwner.dtl - provides HTML for AgentOwner mask
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.dtl,v 1.17 2004-12-20 10:42:39 martin Exp $
+# $Id: AgentOwner.dtl,v 1.18 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -72,7 +72,7 @@ function change_selected(sel)
       <tr>
         <td class="contentkey">$Text{"Message for new Owner"}:</td>
         <td class="contentvalue"></td>
-        <td class="contentvalue"><textarea name="Comment" rows="12" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}"></textarea></td>
+        <td class="contentvalue"><textarea name="Comment" rows="12" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}"></textarea></td>
       </tr>
     </table>
       </td>

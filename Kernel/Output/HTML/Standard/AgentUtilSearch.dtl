@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearch.dtl,v 1.12 2005-02-11 06:50:25 martin Exp $
+# $Id: AgentUtilSearch.dtl,v 1.13 2005-02-15 12:06:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,10 +48,10 @@
 
 <table width="700" border="0" cellspacing="0" cellpadding="3">
 <tr>
-  <td colspan="2" class="contenthead">$Config{"TicketHook"} $Text{"and"} $Text{"CustomerID"}</td>
+  <td colspan="2" class="contenthead">$Config{"Ticket::Hook"} $Text{"and"} $Text{"CustomerID"}</td>
 </tr>
 <tr>
-  <td width="50%" class="contentbody">$Config{"TicketHook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
+  <td width="50%" class="contentbody">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
   <td width="50%" class="contentbody"><input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"></td>
 </tr>
 <tr>

@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResultPrint.dtl,v 1.4 2004-09-24 15:25:20 martin Exp $
+# $Id: AgentUtilSearchResultPrint.dtl,v 1.5 2005-02-15 12:06:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@
  <td class="contentbody">
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
 <tr>
- <td width="15%" class="contentkey">$Config{"TicketHook"}</td>
+ <td width="15%" class="contentkey">$Config{"Ticket::Hook"}</td>
  <td width="15%" class="contentkey">$Text{"Created"}</td>
  <td width="25%" class="contentkey">$Text{"From"}/$Text{"Subject"}</td>
  <td width="15%" class="contentkey">$Text{"State"}/$Text{"Queue"}</td>

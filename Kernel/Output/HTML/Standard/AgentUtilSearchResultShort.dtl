@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResultShort.dtl,v 1.5 2004-10-06 19:43:05 martin Exp $
+# $Id: AgentUtilSearchResultShort.dtl,v 1.6 2005-02-15 12:06:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
   <td class="mainbody">
   <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="7">
   <tr valign="top" align="left">
-  <th width="15%">$Config{"TicketHook"}<br>
+  <th width="15%">$Config{"Ticket::Hook"}<br>
   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="15%">$Text{"Age"}<br>

@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.4 2004-11-05 15:23:28 martin Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.5 2005-02-15 12:06:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,10 +24,10 @@
 
 <table width="700" border="0" cellspacing="1" cellpadding="3">
 <tr align="left">
-  <td colspan="2" class="table2">$Config{"TicketHook"}</td>
+  <td colspan="2" class="table2">$Config{"Ticket::Hook"}</td>
 </tr>
 <tr align="left">
-  <td width="50%">$Config{"TicketHook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
+  <td width="50%">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
   <td width="50%"><input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"></td>
 </tr>
 <tr align="left">

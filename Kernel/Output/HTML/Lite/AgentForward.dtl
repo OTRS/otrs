@@ -2,7 +2,7 @@
 # AgentForward.dtl - provides HTML form for AgentForward
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.dtl,v 1.15 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentForward.dtl,v 1.16 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,13 +25,13 @@ function submit_compose()
         document.compose.Subject.focus();
         return false;
     }
-    else if (document.spelling.was_spell_checked != true && $Config{"FrontendNeedSpellCheck"}) {
+    else if (document.spelling.was_spell_checked != true && $Config{"Ticket::Frontend::NeedSpellCheck"}) {
         alert('$Text{"A message must be spell checked!"}');
         document.compose.Body.focus();
         return false;
     }
 <!-- dtl:block:TimeUnitsJs -->
-    else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
+    else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.Subject.focus();
         return false;
@@ -99,23 +99,23 @@ $Include{"AgentTicketLocked"}
   <table border="0" width="100%">
     <tr>
       <td class="contentkey" width="20%">$Text{"From"}:</td>
-      <td class="contentvalue" width="80%">$Data{"From"} <input type="hidden" name="From" value="$Data{"From"}"> <font color="red" size="-2">$Data{"From invalid"}</font></td>
+      <td class="contentvalue" width="80%">$QData{"From"} <input type="hidden" name="From" value="$Data{"From"}"> <font color="red" size="-2">$Data{"From invalid"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"To"}:</td>
-      <td class="contentvalue"><input type="text" name="To" value="$Data{"To"}" size="80"> <font color="red" size="-2">$Data{"To invalid"}</font></td>
+      <td class="contentvalue"><input type="text" name="To" value="$QData{"To"}" size="80"> <font color="red" size="-2">$Data{"To invalid"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Cc"}:</td>
-      <td class="contentvalue"><input type="text" name="Cc" value="$Data{"Cc"}" size="80"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
+      <td class="contentvalue"><input type="text" name="Cc" value="$QData{"Cc"}" size="80"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Bcc"}:</td>
-      <td class="contentvalue"><input type="text" name="Bcc" value="$Data{"Bcc"}" size="80"> <font color="red" size="-2">$Data{"Bcc invalid"}</font></td>
+      <td class="contentvalue"><input type="text" name="Bcc" value="$QData{"Bcc"}" size="80"> <font color="red" size="-2">$Data{"Bcc invalid"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Subject"}:</td>
-      <td class="contentvalue"><input type="text" name="Subject" value="$Data{"Subject"}" size="80"></td>
+      <td class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="80"></td>
     </tr>
 <!-- dtl:block:Option -->
     <tr>
@@ -137,8 +137,8 @@ $Include{"AgentTicketLocked"}
       <td class="contentkey">$Text{"Text"}:</td>
       <td class="contentvalue">
 <pre>
-<textarea name="Body" rows="25" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
-$Data{"Body"}
+<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+$QData{"Body"}
 </textarea>
 </pre>
       </td>
@@ -202,7 +202,7 @@ $Data{"Body"}
 #   </tr>
 <!-- dtl:block:TimeUnits -->
     <tr>
-      <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+      <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
       <td class="contentvalue"><input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
     </tr>
 <!-- dtl:block:TimeUnits -->

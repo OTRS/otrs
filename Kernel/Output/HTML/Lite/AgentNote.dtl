@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.32 2005-02-10 22:10:58 martin Exp $
+# $Id: AgentNote.dtl,v 1.33 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ function submit_compose()
         return false;
     }
 <!-- dtl:block:TimeUnitsJs -->
-    else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
+    else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
@@ -103,7 +103,7 @@ function SpellCheckSubmit()
       <tr>
         <td class="contentkey">$Text{"Text"}:</td>
         <td class="contentvalue">
-        <textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+        <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
         </td>
       </tr>
       <tr>
@@ -135,7 +135,7 @@ function SpellCheckSubmit()
       </tr>
 <!-- dtl:block:TimeUnits -->
       <tr>
-        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
         <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
       </tr>
 <!-- dtl:block:TimeUnits -->

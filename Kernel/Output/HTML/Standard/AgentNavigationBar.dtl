@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.48 2005-02-07 12:12:22 tr Exp $
+# $Id: AgentNavigationBar.dtl,v 1.49 2005-02-15 12:06:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,8 +93,9 @@ function BulkChangeSelected(x,c)
     c = c + 7;
     if (!document.bulk.elements[c].value) {
         document.bulk.elements[c].value = x;
-<dtl if ($Config{"FrontendBulkFeatureJavaScriptAlert"} eq "1") { $Data{"BulkAlert"} = "alert('$Text{"Ticket selected for bulk action!"}');"; }>
-        $Data{"BulkAlert"}
+        if ($Config{"Ticket::Frontend::BulkFeatureJavaScriptAlert"}) {
+            alert('$Text{"Ticket selected for bulk action!"}');
+        }
 #        alert(document.bulk.elements[c].value);
         Check = true;
     }
