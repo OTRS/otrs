@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.40 2004-09-27 17:03:49 martin Exp $
+# $Id: AgentNote.pm,v 1.41 2004-11-07 15:16:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::WebUploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,10 +42,10 @@ sub new {
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam(Param => 'FormID');
-    my @NewUserID = $Self->{ParamObject}->GetArray(Param => 'NewUserID');
-    $Self->{NewUserID} = \@NewUserID;
-    my @OldUserID = $Self->{ParamObject}->GetArray(Param => 'OldUserID');
-    $Self->{OldUserID} = \@OldUserID;
+    my @InformUserID = $Self->{ParamObject}->GetArray(Param => 'InformUserID');
+    $Self->{InformUserID} = \@InformUserID;
+    my @InvolvedUserID = $Self->{ParamObject}->GetArray(Param => 'InvolvedUserID');
+    $Self->{InvolvedUserID} = \@InvolvedUserID;
     # create form id
     if (!$Self->{FormID}) {
         $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
@@ -82,6 +82,7 @@ sub Run {
     my %GetParam = ();
     foreach (qw(
         NewStateID TimeUnits ArticleTypeID Body Subject
+        Year Month Day Hour Minute
         AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
@@ -96,6 +97,19 @@ sub Run {
     if ($Self->{Subaction} eq 'Store') {
         # store action
         my %Error = ();
+        # check needed stuff
+        foreach (qw(Year Month Day Hour Minute)) {
+            if (!defined($GetParam{$_})) {
+                $Error{"Date invalid"} = '* invalid';
+            }
+        }
+        # check date
+        if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
+            $Error{"Date invalid"} = '* invalid';
+        }
+        if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
+            $Error{"Date invalid"} = '* invalid';
+        }
         # attachment delete
         foreach (1..10) {
             if ($GetParam{"AttachmentDelete$_"}) {
@@ -132,6 +146,7 @@ sub Run {
                 TicketNumber => $Tn,
                 Attachments => \@Attachments,
                 %GetParam,
+                %Error,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -145,7 +160,7 @@ sub Run {
             UserID => $Self->{UserID},
             HistoryType => 'AddNote',
             HistoryComment => '%%Note',
-            ForceNotificationToUserID => [@{$Self->{NewUserID}}, @{$Self->{OldUserID}}, ],
+            ForceNotificationToUserID => [@{$Self->{InformUserID}}, @{$Self->{InvolvedUserID}}, ],
             %GetParam,
         )) {
             # time accounting
@@ -187,6 +202,26 @@ sub Run {
                     StateID => $GetParam{NewStateID},
                     UserID => $Self->{UserID},
                 );
+                # unlock the ticket after close
+                my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                    ID => $GetParam{NewStateID},
+                );
+                # set unlock on close
+                if ($StateData{TypeName} =~ /^close/i) {
+                    $Self->{TicketObject}->LockSet(
+                        TicketID => $Self->{TicketID},
+                        Lock => 'unlock',
+                        UserID => $Self->{UserID},
+                    );
+                }
+                # set pending time
+                elsif ($StateData{TypeName} =~ /^pending/i) {
+                    $Self->{TicketObject}->TicketPendingTimeSet(
+                        UserID => $Self->{UserID},
+                        TicketID => $Self->{TicketID},
+                        %GetParam,
+                    );
+                }
             }
             # remove pre submited attachments
             $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
@@ -222,6 +257,7 @@ sub Run {
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
     $Param{FormID} = $Self->{FormID};
     # build ArticleTypeID string
     my %ArticleType = ();
@@ -249,19 +285,30 @@ sub _Mask {
         %ArticleType,
     );
     # get next states
-    my %NextStates = $Self->{TicketObject}->StateList(
-        Type => 'DefaultNextNote',
-        Action => $Self->{Action},
-        TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID},
-    );
-    $NextStates{''} = '-';
-    # build next states string
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%NextStates,
-        Name => 'NewStateID',
-        SelectedID => $Param{NewStateID},
-    );
+    if ($Self->{ConfigObject}->Get('NoteSetState')) {
+        my %NextStates = $Self->{TicketObject}->StateList(
+            Type => 'DefaultNextNote',
+            Action => $Self->{Action},
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID},
+        );
+        $NextStates{''} = '-';
+        # build next states string
+        $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%NextStates,
+            Name => 'NewStateID',
+            SelectedID => $Param{NewStateID},
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'NextState',
+            Data => \%Param,
+        );
+        $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+            Format => 'DateInputFormatLong',
+            DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
+            %Param,
+        );
+    }
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {
         $Self->{LayoutObject}->Block(
@@ -270,51 +317,60 @@ sub _Mask {
         );
     }
     # agent list
-    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-    my %ShownUsers = ();
-    my %AllGroupsMembers = $Self->{UserObject}->UserList(
-        Type => 'Long',
-        Valid => 1,
-    );
-    my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
-    my %MemberList = $Self->{GroupObject}->GroupMemberList(
-        GroupID => $GID,
-        Type => 'rw',
-        Result => 'HASH',
-        Cached => 1,
-    );
-    foreach (keys %MemberList) {
-        $ShownUsers{$_} = $AllGroupsMembers{$_};
-    }
-    $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%ShownUsers,
-        SelectedIDRefArray => $Self->{NewUserID},
-        Name => 'NewUserID',
-        Multiple => 1,
-        Size => 6,
-    );
-    # get old owner
-    my @OldUserInfo = $Self->{TicketObject}->OwnerList(TicketID => $Self->{TicketID});
-    my %UserHash = ();
-    my $Counter = 0;
-    foreach my $User (reverse @OldUserInfo) {
-        if ($Counter) {
-            if (!$UserHash{$User->{UserID}}) {
-                $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                  "$User->{UserFirstname} ($User->{UserLogin})";
-            }
+    if ($Self->{ConfigObject}->Get('NoteInformAgent')) {
+        my %ShownUsers = ();
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type => 'Long',
+            Valid => 1,
+        );
+        my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            GroupID => $GID,
+            Type => 'rw',
+            Result => 'HASH',
+            Cached => 1,
+        );
+        foreach (keys %MemberList) {
+            $ShownUsers{$_} = $AllGroupsMembers{$_};
         }
-        $Counter++;
+        $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%ShownUsers,
+            SelectedIDRefArray => $Self->{InformUserID},
+            Name => 'InformUserID',
+            Multiple => 1,
+            Size => 3,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'InformAgent',
+            Data => \%Param,
+        );
     }
-
-    $Param{'OldUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%UserHash,
-        SelectedIDRefArray => $Self->{OldUserID},
-        Name => 'OldUserID',
-        Multiple => 1,
-        Size => 4,
-    );
-
+    # get involved
+    if ($Self->{ConfigObject}->Get('NoteInformInvolvedAgent')) {
+        my @UserIDs = $Self->{TicketObject}->InvolvedAgents(TicketID => $Self->{TicketID});
+        my %UserHash = ();
+        my $Counter = 0;
+        foreach my $User (reverse @UserIDs) {
+            if ($Counter) {
+                if (!$UserHash{$User->{UserID}}) {
+                    $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
+                      "$User->{UserFirstname} ($User->{UserLogin})";
+                }
+            }
+            $Counter++;
+        }
+        $Param{'InvolvedAgentStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%UserHash,
+            SelectedIDRefArray => $Self->{InvolvedUserID},
+            Name => 'InvolvedUserID',
+            Multiple => 1,
+            Size => 3,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'InvolvedAgent',
+            Data => \%Param,
+        );
+    }
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentNote', Data => \%Param);
 }
