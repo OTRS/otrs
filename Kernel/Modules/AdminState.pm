@@ -2,7 +2,7 @@
 # AdminState.pm - to add/update/delete system states 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminState.pm,v 1.1 2002-05-05 12:59:38 martin Exp $
+# $Id: AdminState.pm,v 1.2 2002-05-14 00:14:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminState;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -73,8 +73,8 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AdminStateForm(
                 ID => $ID,
                 Name => $Data[0],
-                Comment => $Data[2], 
-                ValidID => $Data[3],
+                Comment => $Data[1], 
+                ValidID => $Data[2],
             );
         $Output .= $Self->{LayoutObject}->Footer();
     }

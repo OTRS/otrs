@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.10 2002-05-12 22:03:49 martin Exp $
+# $Id: Admin.pm,v 1.11 2002-05-14 00:13:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -199,7 +199,7 @@ sub AdminQueueForm {
           $Self->{DBObject}->GetTableData(
             What => 'id, name',
             Table => 'groups',
-            Valid => 0,
+            Valid => 1,
           )
         },
         Name => 'GroupID',
@@ -210,7 +210,6 @@ sub AdminQueueForm {
         Data => {
           $Self->{DBObject}->GetTableData(
             What => 'id, name, id',
-            Valid => 1,
             Clamp => 1,
             Table => 'queue',
           )
@@ -535,7 +534,7 @@ sub AdminUserForm {
     $Param{'LanguageOption'} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'Language, language',
+            What => 'language, language',
             Table => 'language',
             Valid => 1,
           )
@@ -543,6 +542,19 @@ sub AdminUserForm {
         Name => 'Language',
         Selected => $Param{UserLanguage},
     );
+
+    $Param{'SendFollowUpNotificationYesNoOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'UserSendFollowUpNotification',
+        SelectedID => $Param{UserSendFollowUpNotification},
+    );
+
+    $Param{'SendNewTicketNotificationYesNoOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'UserSendNewTicketNotification',
+        SelectedID => $Param{UserSendNewTicketNotification},
+    );
+
 
     return $Self->Output(TemplateFile => 'AdminUserForm', Data => \%Param);
 }
