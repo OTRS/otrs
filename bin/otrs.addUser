@@ -1,0 +1,91 @@
+#!/usr/bin/perl -w
+# --
+# otrs.addUser - Add User from CLI
+# Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
+# $Id: otrs.addUser,v 1.1 2002-06-08 22:51:34 atif Exp $
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+BEGIN{
+   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../");
+   use vars qw (%opts);
+   use Getopt::Std;
+   getopt('flpg',  \%opts);
+   unless ($ARGV[0]){
+      print "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] username\n";
+      print "\tif you define -g with a valid group name then the user will be added that group\n";
+      print "\n";
+      exit;
+   }
+}
+
+
+
+
+use lib '/opt/OpenTRS/';
+use strict;
+
+
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::DB;
+use Kernel::System::User;
+
+# --
+# create common objects 
+# --
+
+my %CommonObject = ();
+$CommonObject{LogObject}     = Kernel::System::Log->new();
+$CommonObject{ConfigObject}  = Kernel::Config->new(%CommonObject);
+$CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}    = Kernel::System::User->new(%CommonObject);
+
+
+
+my %Param;
+undef %Param;
+
+#user id of the person adding the record
+$Param{UserID}='1';
+
+
+#Validrecord
+$Param{ValidID}='1';
+
+
+
+$Param{Firstname}=$opts{'f'};
+$Param{Lastname}=$opts{'l'};
+$Param{Pw}=$opts{'p'};
+$Param{Login}=$ARGV[0];
+
+if ( $Param{UID}=$CommonObject{UserObject}->UserAdd(%Param) ){
+   print "User added. user  id is $Param{UID}\n";
+}
+
+if ($opts{'g'}) {
+   # bring in the groups module
+   require Kernel::System::Group;
+   import  Kernel::System::Group;
+   $CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
+   
+   
+   $Param{Group}=$opts{'g'};
+   
+   if ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
+      print "Found Group.. GID is $Param{GID}" , "\n";
+   } else {
+      print "Failed to get Group ID. Perhaps non-existent group..\n";
+   }
+   if ($CommonObject{GroupObject}->MemberAdd(%Param)) {
+      print "User added to group\n";
+   } else {
+      print "Failed to add user to group\n";
+   }
+}
+
+# --
+exit (0);
