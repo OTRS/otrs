@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.140 2004-09-09 11:01:51 martin Exp $
+# $Id: Ticket.pm,v 1.141 2004-09-09 12:08:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.140 $';
+$VERSION = '$Revision: 1.141 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1445,6 +1445,7 @@ To find tickets in your system.
 
       # ticket properties (optional)
       TicketNumber => '%123546%',
+      Title => '%SomeText%',
       Queues => ['system queue', 'other queue'],
       States => ['new', 'open'],
       StateIDs => [3, 4],
@@ -1511,6 +1512,7 @@ sub TicketSearch {
         CustomerID => 'st.customer_id',
         State => 'st.ticket_state_id',
         Ticket => 'st.tn',
+        Title => 'st.title',
         Queue => 'sq.name',
         Priority => 'st.ticket_priority_id',
         Age => 'st.create_time_unix',
@@ -1660,7 +1662,7 @@ sub TicketSearch {
     }
     # other ticket stuff
     my %FieldSQLMap = (
-#        CustomerID => 'st.customer_id',
+        Title => 'st.title',
         CustomerUserLogin => 'st.customer_user_id',
     );
     foreach my $Key (keys %FieldSQLMap) {
@@ -1705,7 +1707,7 @@ sub TicketSearch {
             $Param{"TicketFreeKey$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND st.freekey$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeKey$_"})."'";
         }
-        elsif ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq 'ARRAY') { 
+        elsif ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq 'ARRAY') {
             my $SQLExtSub = ' AND (';
             my $Counter = 0;
             foreach my $Key (@{$Param{"TicketFreeKey$_"}}) {
@@ -3342,6 +3344,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.140 $ $Date: 2004-09-09 11:01:51 $
+$Revision: 1.141 $ $Date: 2004-09-09 12:08:41 $
 
 =cut
