@@ -2,7 +2,7 @@
 # AgentPlain.pm - to get a plain view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.3 2002-04-13 15:47:16 martin Exp $
+# $Id: AgentPlain.pm,v 1.4 2002-05-14 01:38:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -75,17 +75,25 @@ sub Run {
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
 
-        my $Text = $Self->{ArticleObject}->GetPlain(ArticleID => $ArticleID);
+        my $Text = $Self->{ArticleObject}->GetPlain(ArticleID => $ArticleID) || '';
         $Output .= $Self->{LayoutObject}->Header(Title => "Plain Article");
         my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
-        $Output .= $Self->{LayoutObject}->ArticlePlain(
+        if ($Text) {
+            $Output .= $Self->{LayoutObject}->ArticlePlain(
                 Backscreen => $Self->{BackScreen},
                 Text => $Text,
                 TicketID => $Self->{TicketID},
                 ArticleID => $ArticleID,
-        );
+            );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => "No Article (ArticleID=$ArticleID) found! Maybe there is no plain email in filesystem!",
+                Comment => 'Please contact your admin!',
+            );
+        }
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
