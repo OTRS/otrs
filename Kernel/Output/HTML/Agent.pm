@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.40 2002-07-11 07:09:09 martin Exp $
+# $Id: Agent.pm,v 1.41 2002-07-17 22:34:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -553,6 +553,37 @@ sub AgentPriority {
     return $Self->Output(TemplateFile => 'AgentPriority', Data => \%Param);
 }
 # --
+sub AgentCustomer {
+    my $Self = shift;
+    my %Param = @_;
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentCustomer', Data => \%Param);
+}
+# --
+sub AgentCustomerHistory {
+    my $Self = shift;
+    my %Param = @_;
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentCustomerHistory', Data => \%Param);
+}
+# --
+sub AgentCustomerHistoryTable {
+    my $Self = shift;
+    my %Param = @_;
+    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
+    # do html quoteing
+    foreach (qw(State Queue Owner Lock)) {
+        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}, Max => 16);
+    }
+    foreach (qw(From Subject)) {
+        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}, Max => 20);
+    }
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentCustomerHistoryTable', Data => \%Param);
+}
+# --
 sub AgentOwner {
     my $Self = shift;
     my %Param = @_;
@@ -590,15 +621,32 @@ sub AgentClose {
 sub AgentUtilForm {
     my $Self = shift;
     my %Param = @_;
+    my $Output = '';
     # create & return output
-    return $Self->Output(TemplateFile => 'AgentUtilForm', Data => \%Param);
+    foreach (qw(From Subject Body)){
+        $Param{$_.'CheckBox'} = 'checked';
+    }
+    $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByTicketNumber', Data => \%Param);
+    $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
+    return $Output;
 }
 # --
 sub AgentUtilSearchAgain {
     my $Self = shift;
     my %Param = @_;
+    my $Output = '';
     # create & return output
-    return $Self->Output(TemplateFile => 'AgentUtilSearchAgain', Data => \%Param);
+    if ($Self->{Subaction} eq 'SearchByTn') {
+      $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByTicketNumber', Data => \%Param);
+    }
+    else {
+      my @WhatFields = @{$Param{WhatFields}};
+      foreach (@WhatFields) {
+          $Param{$_.'CheckBox'} = 'checked';
+      }
+      $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
+    }
+    return $Output;
 }
 # --
 sub AgentUtilSearchResult {
