@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.32 2003-07-07 22:13:55 martin Exp $
+# $Id: Article.pm,v 1.33 2003-07-07 22:56:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -596,7 +596,7 @@ sub GetArticle {
         " st.until_time, sp.id, st.customer_user_id, st.user_id, ".
         " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, at.name, ".
         " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
-        " sa.a_freekey3, sa.a_freetext3 ".
+        " sa.a_freekey3, sa.a_freetext3, st.ticket_answered".
         " FROM ".
         " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq, ".
         " article_sender_type ast, $Self->{ConfigObject}->{DatabaseUserTable} su, ".
@@ -657,6 +657,7 @@ sub GetArticle {
         $Data{FreeText2} = $Row[28];
         $Data{FreeKey3} = $Row[29];
         $Data{FreeText3} = $Row[30];
+        $Data{Answered} = $Row[31];
         $Data{RealTillTimeNotUsed} = $Row[19];
     }
     # --
