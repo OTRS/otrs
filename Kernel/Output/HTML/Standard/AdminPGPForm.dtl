@@ -2,7 +2,7 @@
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGPForm.dtl,v 1.1 2004-08-04 13:12:17 martin Exp $
+# $Id: AdminPGPForm.dtl,v 1.2 2004-08-06 06:15:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,11 +55,11 @@
 #    </tr>
     <tr>
       <td>$Text{"File"}: </td>
-      <td> <input name="file_upload" type="file" size="40" class="fixed"></td>
+      <td> <input name="file_upload" type="file" size="35" class="fixed"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"Add"}">
-    </from>
+    </form>
 
     </td>
   </tr>
