@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.104 2004-02-26 21:43:50 martin Exp $
+# $Id: Generic.pm,v 1.105 2004-03-05 11:37:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.104 $';
+$VERSION = '$Revision: 1.105 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -310,7 +310,7 @@ sub Output {
     # --
     foreach (1..3) {
         $Output =~ s{
-            \$(Data|Env|Config){"(.+?)"}
+            \$(Data|Env|Config|Include){"(.+?)"}
         }
         {
             if ($1 eq "Data" || $1 eq "Env") {
@@ -331,6 +331,11 @@ sub Output {
                     # output replace with nothing!
                     "";
                 }
+            }
+            # include dtl files
+            elsif ($1 eq "Include") {
+                $Param{TemplateFile} = $2;
+                $Self->Output(%Param); 
             }
         }egx;
     }
@@ -570,6 +575,7 @@ sub Header {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+    my $Type = $Param{Type} || '';
     # add cookies if exists
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
@@ -582,16 +588,16 @@ sub Header {
         $Param{'Title'} = '';
     }
     # create & return output
-    $Output .= $Self->Output(TemplateFile => 'Header', Data => \%Param);
+    $Output .= $Self->Output(TemplateFile => "Header$Type", Data => \%Param);
     return $Output;
 }
 # --
 sub Footer {
     my $Self = shift;
     my %Param = @_;
-
+    my $Type = $Param{Type} || '';
     # create & return output
-    return $Self->Output(TemplateFile => 'Footer', Data => \%Param);
+    return $Self->Output(TemplateFile => "Footer$Type", Data => \%Param);
 }
 # --
 sub PrintHeader {
