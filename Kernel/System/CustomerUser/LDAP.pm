@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.23 2004-10-07 15:17:05 martin Exp $
+# $Id: LDAP.pm,v 1.24 2004-10-18 17:48:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,6 +81,8 @@ sub new {
     if (!defined($Self->{SearchSuffix})) {
         $Self->{SearchSuffix} = '*';
     }
+    # get valid filter if used
+    $Self->{ValidFilter} = $Self->{CustomerUserMap}->{'CustomerUserValidFilter'} || '';
 
     return $Self;
 }
@@ -104,12 +106,12 @@ sub CustomerName {
     my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
-        filter => $Filter, 
+        filter => $Filter,
         sizelimit => $Self->{UserSearchListLimit},
     );
     foreach my $entry ($Result->all_entries) {
         foreach (@{$Self->{CustomerUserMap}->{CustomerUserNameFields}}) {
-            if (defined($entry->get_value($_))) { 
+            if (defined($entry->get_value($_))) {
                 if (!$Name) {
                     $Name = $Self->_Convert($entry->get_value($_));
                 }
@@ -120,7 +122,7 @@ sub CustomerName {
         }
     }
     return $Name;
-}   
+}
 # --
 sub CustomerSearch {
     my $Self = shift;
@@ -172,14 +174,18 @@ sub CustomerSearch {
     if ($Self->{AlwaysFilter}) {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
     }
+    # add valid filter
+    if ($Self->{ValidFilter}) {
+        $Filter = "(&$Filter$Self->{ValidFilter})";
+    }
     # perform user search
     my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
-        filter => $Filter, 
+        filter => $Filter,
         sizelimit => $Self->{UserSearchListLimit},
     );
-    # log ldap errors 
+    # log ldap errors
     if ($Result->code()) {
         $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
     }
@@ -201,7 +207,7 @@ sub CustomerSearch {
         }
     }
     return %Users;
-}   
+}
 # --
 sub CustomerUserList {
     my $Self = shift;
@@ -212,6 +218,10 @@ sub CustomerUserList {
     if ($Self->{AlwaysFilter}) {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
     }
+    # add valid filter
+    if ($Self->{ValidFilter} && $Valid) {
+        $Filter = "(&$Filter$Self->{ValidFilter})";
+    }
     # perform user search
     my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
@@ -219,7 +229,7 @@ sub CustomerUserList {
         filter => $Filter,
         sizelimit => $Self->{UserSearchListLimit},
     );
-    # log ldap errors 
+    # log ldap errors
     if ($Result->code()) {
         $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
     }
@@ -302,10 +312,10 @@ sub CustomerUserDataGet {
     my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
-        filter => $Filter, 
+        filter => $Filter,
         attrs => $attrs,
     );
-    # log ldap errors 
+    # log ldap errors
     if ($Result->code()) {
         $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
         return;
@@ -359,7 +369,7 @@ sub CustomerUserUpdate {
     my %Param = @_;
     $Self->{LogObject}->Log(Priority => 'error', Message => "Not supported for this module!");
     return;
-}   
+}
 # --
 sub SetPassword {
     my $Self = shift;
@@ -400,7 +410,7 @@ sub _Convert {
     if (!defined($Text)) {
         return;
     }
-    else { 
+    else {
         return $Self->{EncodeObject}->Convert(
             Text => $Text,
             From => $Self->{SourceCharset},
@@ -418,7 +428,7 @@ sub _ConvertTo {
     if (!defined($Text)) {
         return;
     }
-    else { 
+    else {
         return $Self->{EncodeObject}->Convert(
             Text => $Text,
             To => $Self->{SourceCharset},
