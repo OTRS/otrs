@@ -1,8 +1,8 @@
 # --
 # AdminGroup.pm - to add/update/delete groups 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGroup.pm,v 1.2 2002-02-07 00:01:58 martin Exp $
+# $Id: AdminGroup.pm,v 1.3 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
     # get user data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Group change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data TODO: comment!!! 
         my $SQL = "SELECT name, valid_id, comment " .
@@ -127,7 +127,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Group add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminGroupForm();
         $Output .= $Self->{LayoutObject}->Footer();

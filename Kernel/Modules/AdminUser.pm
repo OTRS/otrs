@@ -1,8 +1,8 @@
 # --
 # AdminUser.pm - to add/update/delete user
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.1 2001-12-27 14:17:09 martin Exp $
+# $Id: AdminUser.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
     # get user data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'User ändern');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data
         my $SQL = "SELECT salutation, first_name, last_name, login, pw, language_id, " .
@@ -193,7 +193,7 @@ sub Run {
     }
     # else ! print form
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'User add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminUserForm();
         $Output .= $Self->{LayoutObject}->Footer();

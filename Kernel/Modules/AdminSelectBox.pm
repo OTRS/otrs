@@ -1,8 +1,8 @@
 # --
 # AdminSelectBox.pm - provides a SelectBox for admins
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -52,14 +52,14 @@ sub Run {
 
     # print form
     if ($Subaction eq '' || !$Subaction) {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Select box');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminSelectBoxForm();
         $Output .= $Self->{LayoutObject}->Footer();
     }
     # do select
     elsif ($Subaction eq 'Select') {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Select box');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my $SQL = $Self->{ParamObject}->GetParam(Param => 'SQL') || '';
         my $Max = $Self->{ParamObject}->GetParam(Param => 'Max') || '';
@@ -73,7 +73,7 @@ sub Run {
     }
     # else! error!
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
                 Message => 'No Subaction!!',
                 Comment => 'Please contact your admin');

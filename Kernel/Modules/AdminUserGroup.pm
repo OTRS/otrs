@@ -1,8 +1,8 @@
 # --
 # AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroup.pm,v 1.1 2001-12-27 14:17:09 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -55,7 +55,7 @@ sub Run {
 
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'User') {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'User <-> Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{DBObject}->GetTableData(
@@ -81,7 +81,7 @@ sub Run {
     }
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Group') {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'User <-> Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{DBObject}->GetTableData(
@@ -150,7 +150,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'User <-> Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{DBObject}->GetTableData(

@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.4 2002-02-03 20:05:04 martin Exp $
+# $Id: AgentClose.pm,v 1.5 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -78,6 +78,9 @@ sub Run {
                 delete $NoteTypes{$_};
             }
         }
+ 
+        # html header
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Close');
 
         # get lock state
         my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
@@ -87,14 +90,17 @@ sub Run {
                 Lock => 'lock',
                 UserID => $UserID
             );
-            $Self->{TicketObject}->SetOwner(
+            if ($Self->{TicketObject}->SetOwner(
                 TicketID => $TicketID,
                 UserID => $UserID,
                 UserLogin => $UserLogin,
-            );
+            )) {
+                # show lock state
+                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);
+            }
+
         }
         # print form ...
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Close');
         $Output .= $Self->{LayoutObject}->AgentClose(
             TicketID => $TicketID,
             BackScreen => $Self->{BackScreen},

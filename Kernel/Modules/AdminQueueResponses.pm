@@ -1,8 +1,8 @@
 # --
 # AdminQueueResponses.pm - queue <-> responses
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponses.pm,v 1.1 2001-12-26 20:03:08 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub Run {
 
     # user <-> group 1:n
     if ($Subaction eq 'Response') {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Response <-> Queue');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
@@ -84,7 +84,7 @@ sub Run {
     }
     # group <-> user n:1
     elsif ($Subaction eq 'Queue') {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Response <-> Queue');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
@@ -142,7 +142,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Response <-> Queue');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(

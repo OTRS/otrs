@@ -2,7 +2,7 @@
 # AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.3 2002-02-03 20:05:04 martin Exp $
+# $Id: AgentNote.pm,v 1.4 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub Run {
             }
         }
         # print form ...
-        $Output .= $Self->{LayoutObject}->Header(Tilte => 'Add Note');
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Add Note');
         $Output .= $Self->{LayoutObject}->Note(
             TicketID => $TicketID,
             QueueID => $QueueID,
@@ -109,7 +109,7 @@ sub Run {
         );
     }
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
             MSG => 'No Subaction!!',
             REASON => 'Please contact your admin',

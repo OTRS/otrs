@@ -2,7 +2,7 @@
 # AdminSession.pm - to control all session ids
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.2 2002-04-08 14:17:11 martin Exp $
+# $Id: AdminSession.pm,v 1.3 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -55,7 +55,7 @@ sub Run {
 
     # print session screen
     if ($Subaction eq '' || !$Subaction) {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Sessions');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
 
 #        my @List = glob("$Self->{SessionDir}/*");
@@ -74,7 +74,7 @@ sub Run {
     }
     # else ! error!
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
                 Message => 'No Subaction!!',
                 Comment => 'Please contact your admin');

@@ -1,14 +1,19 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.6 2002-04-08 16:18:47 martin Exp $
+# $Id: Header.dtl,v 1.7 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+# http headers
+# --
 Content-Type: text/html; charset=$Env{"Charset"}; 
+X-Powered-By: OpenTRS - Open Ticket Request System (http://otrs.org)
+X-Wanted: I think you are smart. I'm looking for smart people! 
+
 
 # --
 # html comment
@@ -26,8 +31,8 @@ Content-Type: text/html; charset=$Env{"Charset"};
 <dtl set $Env{"BGTableColor2"} = "#EEEEEE">
 <dtl set $Env{"FontColor0"} = "#000000">
 <dtl set $Env{"FontColor1"} = "#FFFFFF">
-<dtl set $Env{"Box0"} = "[">
-<dtl set $Env{"Box1"} = "]">
+<dtl set $Env{"Box0"} = "[ ">
+<dtl set $Env{"Box1"} = " ]">
 # --
 # check refresh
 # --
@@ -36,23 +41,28 @@ Content-Type: text/html; charset=$Env{"Charset"};
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>$Text{"$Data{"Title"}"}</title>
+    <title>OTRS :: $Text{"$Data{"Title"}"}</title>
 
-<STYLE TYPE="text/css">
+<style type="text/css">
 <!--
   p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i
                 { font-family: Helvetica, Arial; }
   pre
                  { font-family: Courier; }
 //-->
-</STYLE>
+</style>
 </head>
 <a name="top"></a>
 <body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
 <table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left"><font color="$Env{"FontColor1"}"><b>OpenTRS</b></font></td>
-  <td align="right"><font color="$Env{"FontColor1"}">$Env{"UserFirstname"} $Env{"UserLastname"} $Env{"UserLoginTop"} $Env{"Time"}</font> </td>
+  <td align="left">
+   <font color="$Env{"FontColor1"}"><b>$Env{"Box0"}OTRS :: </b></font>
+   <a href="$Env{"CGIHandle"}?SessionID=$Env{"SessionID"}">home</a> <font color="$Env{"FontColor1"}"><b>$Env{"Box1"}</b></font>
+  </td>
+  <td align="right">
+   <font color="$Env{"FontColor1"}">$Env{"UserFirstname"} $Env{"UserLastname"} $Env{"UserLoginTop"} $Env{"Time"}</font> 
+  </td>
 </tr>
 </table>
 <!-- end header -->

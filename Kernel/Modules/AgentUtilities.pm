@@ -1,8 +1,8 @@
 # --
 # AgentUtilities.pm - Utilities for tickets
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.3 2002-02-21 22:11:29 martin Exp $
+# $Id: AgentUtilities.pm,v 1.4 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -82,7 +82,7 @@ sub SearchByTn {
     my $Want = $Self->{Want};
     my $UserID = $Self->{UserID};
     
-    $Output .= $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
     my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
@@ -153,7 +153,7 @@ sub SearchByText {
     my $Output;
     my $Want = $Self->{Want};
     my $UserID = $Self->{UserID};
-    $Output .= $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
     my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(

@@ -1,8 +1,8 @@
 # --
 # AdminSignature.pm - to add/update/delete  signatures
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSignature.pm,v 1.1 2001-12-27 14:17:09 martin Exp $
+# $Id: AdminSignature.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSignature;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
     # get user data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Signature change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my $SQL = "SELECT name, valid_id, comment, text " .
            " FROM " .
@@ -89,7 +89,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
                 MSG => 'DB Error!!',
                 REASON => 'Please contact your admin');
@@ -114,7 +114,7 @@ sub Run {
              $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
@@ -124,7 +124,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Signature add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminSignatureForm();
         $Output .= $Self->{LayoutObject}->Footer();

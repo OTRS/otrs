@@ -1,8 +1,8 @@
 # --
 # AdminSystemAddress.pm - to add/update/delete system addresses 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddress.pm,v 1.1 2001-12-30 00:33:14 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
     # get queue data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'System address change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my $SQL = "SELECT value0, value1, comment, valid_id, queue_id " .
            " FROM " .
@@ -90,7 +90,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
           $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin');
@@ -115,7 +115,7 @@ sub Run {
              $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
@@ -125,7 +125,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'System address add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminSystemAddressForm();
         $Output .= $Self->{LayoutObject}->Footer();
