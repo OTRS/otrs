@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.35 2004-01-22 19:54:30 martin Exp $
+# $Id: DB.pm,v 1.36 2004-02-02 23:20:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -317,10 +317,6 @@ sub Do {
     if ($Self->{'DB::CurrentTimestamp'}) {
         $SQL =~ s/current_timestamp/$Self->{'DB::CurrentTimestamp'}/g;
     }
-    # oracle workaround (if needed) 
-    if ($Self->{'DB::Type'} eq 'oracle') {
-        $SQL =~ s/comment(,| )/comments$1/g;
-    }
     # debug
     if ($Self->{Debug} > 0) {
         $Self->{DoCounter}++;
@@ -372,10 +368,6 @@ sub Prepare {
         else {
             $Self->{Limit} = $Limit;
         }
-    }
-    # oracle workaround (if needed) 
-    if ($Self->{'DB::Type'} eq 'oracle') {
-        $SQL =~ s/comment(,| )/comments$1/g;
     }
     # debug
     if ($Self->{Debug} > 1) {
@@ -557,7 +549,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2004-01-22 19:54:30 $
+$Revision: 1.36 $ $Date: 2004-02-02 23:20:15 $
 
 =cut
 
