@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.79 2004-04-23 07:34:42 martin Exp $
+# $Id: AgentPhone.pm,v 1.80 2004-04-27 12:29:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.79 $';
+$VERSION = '$Revision: 1.80 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -262,6 +262,18 @@ sub Run {
               TimeUnit => $TimeUnits,
               UserID => $Self->{UserID},
             );
+          }
+          # get attachment
+          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+              Param => 'file_upload',
+              Source => 'String',
+          );
+          if (%UploadStuff) {
+              $Self->{TicketObject}->ArticleWriteAttachment(
+                  %UploadStuff,
+                  ArticleID => $ArticleID,
+                  UserID => $Self->{UserID},
+              );
           }
           # set state
           $Self->{TicketObject}->StateSet(
@@ -598,6 +610,18 @@ sub Run {
                   TicketID => $TicketID,
                   ArticleID => $ArticleID,
                   TimeUnit => $TimeUnits,
+                  UserID => $Self->{UserID},
+              );
+          }
+          # get attachment
+          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+              Param => 'file_upload',
+              Source => 'String',
+          );
+          if (%UploadStuff) {
+              $Self->{TicketObject}->ArticleWriteAttachment(
+                  %UploadStuff,
+                  ArticleID => $ArticleID,
                   UserID => $Self->{UserID},
               );
           }
