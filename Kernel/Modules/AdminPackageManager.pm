@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.2 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.3 2004-12-02 12:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -162,6 +162,43 @@ sub Run {
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $Package)) {
                 return $Self->{LayoutObject}->ErrorScreen(Message => 'Installed');
+            }
+            else {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
+        }
+    }
+    # ------------------------------------------------------------ #
+    # upgrade remote package
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'UpgradeRemote') {
+        my $File = $Self->{ParamObject}->GetParam(Param => 'File') || '';
+        my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || '';
+        my %Frontend = ();
+        # download package
+        my $Package = $Self->{PackageObject}->PackageOnlineGet(
+            Source => $Source,
+            File => $File,
+        );
+        # check
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        # add package to repository
+        if (!$Self->{PackageObject}->RepositoryAdd(String => $Package)) {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
+        # get package
+#        $Package = $Self->{PackageObject}->RepositoryGet(
+#            Name => $Name,
+#            Version => $Version,
+#        );
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        else {
+            if ($Self->{PackageObject}->PackageUpgrade(String => $Package)) {
+                return $Self->{LayoutObject}->ErrorScreen(Message => 'Upgraded');
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
