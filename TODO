@@ -2,15 +2,15 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.56 2004-04-28 06:34:37 martin Exp $
+# $Id: TODO,v 1.57 2004-07-30 09:23:41 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-1.3
-- Compose Email -> Signatur
+2.0
+- add "--please select--" in queue selection of customer panel
 - disable form multi submit
 - prevent unauthorized person submit ticket via email via PostMaster*.pl
 - change time column format of time_accounting table from int to
@@ -20,10 +20,8 @@
    http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
 - delete option for records (martin)
 - add info that a ticket is already closed!
-
-2.0
+- admin option for configure agent-custom-queues
 - master ticket feature
-- Multiple Attachements on http://localhost/otrs/index.pl?Action=AgentCompose
 - user info backend (LDAP and DB)
 - allow users to add or change stored replies for their queue without giving them full admin rights
 
@@ -48,11 +46,11 @@ ideas (just ideas - nobody is working on it)
 - imap service (queue view as imap service)
 - add icon in QueueView to show if there is a note on it or it's a new ticket
 - module feature on set state, owner, lock and queue
-- QueueView: Additional drop-down to set ticket owner 
+- QueueView: Additional drop-down to set ticket owner
    http://bugs.otrs.org/show_bug.cgi?id=129
 - web editor for Kernel/Config.pm (Kernel/Config/Defaults.pm)
 - read/unread highlighting of articles
-- show agent name in CustomerTicketOverView 
+- show agent name in CustomerTicketOverView
 - GenericAgent with forward full message tree to other email address
 - improve fulltext search with 'article-type'
 - drop html Content-Type: multipart/alternative parts if text/plain extists
@@ -62,5 +60,4 @@ ideas (just ideas - nobody is working on it)
   <GENERIC_BRUSH_OFF_RESPONSE>
   <SIGNATURE>
   <QUOTED_MESSAGE>
-  
 
