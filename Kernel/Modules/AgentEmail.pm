@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.9 2004-03-11 14:35:42 martin Exp $
+# $Id: AgentEmail.pm,v 1.10 2004-03-11 22:09:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -156,7 +156,7 @@ sub Run {
             # search customer 
             my %CustomerUserList = ();
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                Search => $To.'*',
+                Search => $To,
             );
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID

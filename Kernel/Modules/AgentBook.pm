@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBook.pm - spelling module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBook.pm,v 1.3 2004-01-27 09:26:06 martin Exp $
+# $Id: AgentBook.pm,v 1.4 2004-03-11 22:09:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub Run {
     my %CustomerUserList = ();
     if ($Search) {
         %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-            Search => $Search.'*',
+            Search => $Search,
         );
     }
     my %AddressList = ();

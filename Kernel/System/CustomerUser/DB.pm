@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.23 2004-03-01 13:13:46 martin Exp $
+# $Id: DB.pm,v 1.24 2004-03-11 22:09:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,6 +41,15 @@ sub new {
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID} 
       || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
     $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly}; 
+    $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
+    if (!defined($Self->{SearchPrefix})) {
+        $Self->{SearchPrefix} = '';
+    }
+    $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{'CustomerUserSearchSuffix'}; 
+    if (!defined($Self->{SearchSuffix})) {
+        $Self->{SearchSuffix} = '*';
+    }
+
     # create new db connect if DSN is given
     if ($Self->{CustomerUserMap}->{Params}->{DSN}) {
         $Self->{DBObject} = Kernel::System::DB->new(
@@ -120,7 +129,9 @@ sub CustomerSearch {
     " $Self->{CustomerTable} ".
     " WHERE ";
     if ($Param{Search}) { 
+        $Param{Search} = $Self->{SearchPrefix}.$Param{Search}.$Self->{SearchSuffix};
         $Param{Search} =~ s/\*/%/g;
+        $Param{Search} =~ s/%%/%/g;
         if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
             my $SQLExt = '';
             foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
