@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UPGRADING,v 1.3 2002-08-25 01:07:47 martin Exp $
+# $Id: UPGRADING,v 1.4 2002-10-20 22:32:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ These instructions are for people upgrading OTRS to a newer release.
 
 *) Stop all your services (e. g. rcotrs stop-force)
 
-*) Backup everything (database, Kernel/Config.pm, var/*)
+*) Backup everything (database, Kernel/Config.pm, Kernel/Config/*.pm, var/*)
 
 *) Make sure that you have backed up everything ,-)
 
@@ -28,8 +28,8 @@ These instructions are for people upgrading OTRS to a newer release.
     PostgreSQL:
       cat $OTRS_HOME/scripts/DBUpdate.postgresql.sql | psql otrs
 
-*) Update the new Kernel/Config.pm with your setting (use the newer 
-   Kernel/Config.pm - normally new releases have more config settings)
+*) Update the new Kernel/Config.pm (and Kernel/Config/*.pm) with your setting 
+   (use the newer Kernel/Config.pm - normally new releases have more config settings)
 
 *) Restart your services (e. g. rcotrs restart-force or each service manually)
  
