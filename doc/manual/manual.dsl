@@ -68,10 +68,10 @@
 ;; set font size
 (define %bf-size%
   (case %visual-acuity%
-    (("tiny") 8pt)
-    (("normal") 11pt)
-    (("presbyopic") 9pt)
-    (("large-type") 22pt)))
+    (("tiny") 7pt)
+    (("normal") 9pt)
+    (("presbyopic") 8pt)
+    (("large-type") 16pt)))
 
 
 </style-specification-body>
