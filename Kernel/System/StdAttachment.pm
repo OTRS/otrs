@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.2 2003-01-03 00:30:28 martin Exp $
+# $Id: StdAttachment.pm,v 1.3 2003-01-03 16:15:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -52,7 +52,12 @@ sub StdAttachmentAdd {
         return;
       }
     }
-    $Param{Content} = encode_base64($Param{Content});
+    # --
+    # encode attachemnt if it's a postgresql backend!!!
+    # --
+    if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+        $Param{Content} = encode_base64($Param{Content});
+    }
     # --
     # db quote
     # --
@@ -107,7 +112,12 @@ sub StdAttachmentGet {
         return;
     }
     if (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        $Data[2] = decode_base64($Data[2]);
+        # --
+        # decode attachemnt if it's a postgresql backend!!!
+        # --
+        if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+            $Data[2] = decode_base64($Data[2]);
+        }
         my %Data = ( 
             ID => $Param{ID},
             Name => $Data[0],
@@ -136,7 +146,12 @@ sub StdAttachmentUpdate {
         return;
       }
     }
-    $Param{Content} = encode_base64($Param{Content});
+    # --
+    # encode attachemnt if it's a postgresql backend!!!
+    # --
+    if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+        $Param{Content} = encode_base64($Param{Content});
+    }
     # --
     # db quote
     # --
@@ -226,11 +241,17 @@ sub StdAttachmentsByResponseID {
     # --
     # return data
     # --
-    return $Self->{DBObject}->GetTableData(
+    my %Relation = $Self->{DBObject}->GetTableData(
         Table => 'standard_response_attachment',
         What => 'standard_attachment_id, standard_response_id',
         Where => "standard_response_id = $Param{ID}",
     );
+    my %AllStdAttachments = $Self->GetAllStdAttachments(Valid => 1);
+    my %Data = ();
+    foreach (keys %Relation) {
+        $Data{$_} = $AllStdAttachments{$_};
+    }
+    return %Data;
 }
 # --
 sub GetAllStdAttachments {
