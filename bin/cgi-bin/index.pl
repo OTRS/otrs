@@ -3,18 +3,18 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.72 2004-06-28 07:41:41 martin Exp $
+# $Id: index.pl,v 1.73 2004-08-18 08:48:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -28,13 +28,13 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.72 $';
+$VERSION = '$Revision: 1.73 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 # 0=off;1=on;
 # --
-my $Debug = 0; 
+my $Debug = 0;
 
 # --
 # check @INC for mod_perl (add lib path for "require module"!)
@@ -42,13 +42,14 @@ my $Debug = 0;
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
 # --
-# all framework needed  modules 
+# all framework needed  modules
 # (if you use mod_perl with startup.pl, drop this "use Kernel::.." and add
-# this to your startup.pl) 
+# this to your startup.pl)
 # --
 use Kernel::Config;
 use Kernel::Config::Modules;
 use Kernel::System::Log;
+use Kernel::System::Time;
 use Kernel::System::WebRequest;
 use Kernel::System::DB;
 use Kernel::System::Auth;
@@ -67,13 +68,14 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => $CommonObject{ConfigObject}->Get('CGILogPrefix'),
     %CommonObject,
 );
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{ParamObject} = Kernel::System::WebRequest->new(%CommonObject);
 # --
 # debug info
 # --
 if ($Debug) {
     $CommonObject{LogObject}->Log(
-        Priority => 'debug', 
+        Priority => 'debug',
         Message => 'Global handle started...',
     );
 }
@@ -95,11 +97,11 @@ my $FramworkPrams = {
     RequestedURL => $QueryString,
 };
 foreach my $Key (keys %{$FramworkPrams}) {
-    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
+    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key)
       || $FramworkPrams->{$Key};
 }
 # --
-# Check if the brwoser sends the SessionID cookie and set the SessionID-cookie 
+# Check if the brwoser sends the SessionID cookie and set the SessionID-cookie
 # as SessionID! GET or POST SessionID have the lowest priority.
 # --
 if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
@@ -112,7 +114,7 @@ if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
 # create common framework objects 2/3
 # --
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-    %CommonObject, 
+    %CommonObject,
     Lang => $Param{Lang},
 );
 # --
@@ -160,7 +162,7 @@ foreach ('$Kernel::Config::Modules::CommonObject', '$Kernel::Config::ModulesCust
 foreach ('$Kernel::Config::Modules::Param', '$Kernel::Config::ModulesCustom::Param') {
   my $Param = eval $_;
   foreach my $Key (keys %{$Param}) {
-    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
+    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key)
       || $Param->{$Key};
   }
 }
@@ -190,7 +192,7 @@ if ($Param{Action} eq "Login") {
                         print $CommonObject{LayoutObject}->Redirect(
                             ExtURL => $CommonObject{ConfigObject}->Get('LoginURL')."?Reason=AccountActivated",
                         );
-                    } 
+                    }
                     else {
                         # show error login screen
                         print $CommonObject{LayoutObject}->Login(
@@ -206,7 +208,7 @@ if ($Param{Action} eq "Login") {
                         print $CommonObject{LayoutObject}->Redirect(
                             ExtURL => $CommonObject{ConfigObject}->Get('LoginURL')."?Reason=SystemError",
                         );
-                    } 
+                    }
                     else {
                         # show error login screen
                         print $CommonObject{LayoutObject}->Login(
@@ -234,11 +236,11 @@ if ($Param{Action} eq "Login") {
                 exit (0);
             }
         }
-        # last login preferences update 
+        # last login preferences update
         $CommonObject{UserObject}->SetPreferences(
             UserID => $UserData{UserID},
             Key => 'UserLastLogin',
-            Value => time(),
+            Value => $CommonObject{TimeObject}->SystemTime(),
         );
         # get groups rw
         my %GroupData = $CommonObject{GroupObject}->GroupMemberList(
@@ -260,9 +262,9 @@ if ($Param{Action} eq "Login") {
         }
         # create new session id
         my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(
-            %UserData, 
-            UserLastRequest => time(), 
-            UserType => 'User', 
+            %UserData,
+            UserLastRequest => $CommonObject{TimeObject}->SystemTime(),
+            UserType => 'User',
         );
         # create a new LayoutObject with SessionIDCookie
         my $Expires = '+'.$CommonObject{ConfigObject}->Get('SessionMaxTime').'s';
@@ -277,7 +279,7 @@ if ($Param{Action} eq "Login") {
                   Expires => $Expires,
               ),
           },
-          SessionID => $NewSessionID, 
+          SessionID => $NewSessionID,
           SessionName => $Param{SessionName},
           %CommonObject,
         );
@@ -302,9 +304,9 @@ if ($Param{Action} eq "Login") {
         else {
             # show normal login
             print $CommonObject{LayoutObject}->Login(
-                Title => 'Login',          
+                Title => 'Login',
                 Message => $CommonObject{LogObject}->GetLogEntry(
-                    Type => 'Info', 
+                    Type => 'Info',
                     What => 'Message',
                     ) || 'Login failed! Your username or password was entered incorrectly.',
                 User => $User,
@@ -350,7 +352,7 @@ elsif ($Param{Action} eq "Logout"){
                     %Param,
                 );
             }
-        }  
+        }
         else {
             print $CommonObject{LayoutObject}->Header(Title => 'Logout');
             print $CommonObject{LayoutObject}->Error(
@@ -403,7 +405,7 @@ elsif ($Param{Action} eq "LostPassword"){
     if (! $UserData{UserID}) {
         # show normal login
         print $CommonObject{LayoutObject}->Login(
-           Title => 'Login',          
+           Title => 'Login',
            Message => 'There is no account with that login name.',
            %Param,
         );
@@ -425,10 +427,12 @@ elsif ($Param{Action} eq "LostPassword"){
         }
         if ($EmailObject->Send(
               To => $UserData{UserEmail},
-              Subject => $Subject, 
+              Subject => $Subject,
+              Charset => 'iso-8859-15',
+              Type => 'text/plain',
               Body => $Body)) {
             print $CommonObject{LayoutObject}->Login(
-                Title => 'Login',          
+                Title => 'Login',
                 Message => "Sent new password to: ".$UserData{"UserEmail"},
                 User => $User,
                 %Param,
@@ -479,7 +483,7 @@ elsif (!$Param{SessionID}) {
 elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && (eval '$Param{Action} =~ /$Kernel::Config::Modules::Allow/' || eval '$Param{Action} =~ /$Kernel::Config::ModulesCustom::Allow/')){
     # check session id
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
-        # create new LayoutObject with new '%Param' 
+        # create new LayoutObject with new '%Param'
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
@@ -519,7 +523,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
     # --
     # run module
     # --
-    else { 
+    else {
         # get session data
         my %UserData = $CommonObject{SessionObject}->GetSessionIDData(
             SessionID => $Param{SessionID},
@@ -544,8 +548,8 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
         }
         # create new LayoutObject with new '%Param' and '%UserData'
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-            %CommonObject, 
-            %Param, 
+            %CommonObject,
+            %Param,
             %UserData,
         );
         # module permisson check
@@ -585,7 +589,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
         $CommonObject{SessionObject}->UpdateSessionID(
             SessionID => $Param{SessionID},
             Key => 'UserLastRequest',
-            Value => time(), 
+            Value => $CommonObject{TimeObject}->SystemTime(),
         );
         # pre application module
         my $PreModule = $CommonObject{ConfigObject}->Get('PreApplicationModule');
@@ -637,14 +641,14 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
 # --
 # else print an error screen
 # --
-else { 
+else {
     # create new LayoutObject with '%Param'
     my %Data = $CommonObject{SessionObject}->GetSessionIDData(
         SessionID => $Param{SessionID},
     );
     $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-        %CommonObject, 
-        %Param, 
+        %CommonObject,
+        %Param,
         %Data,
     );
     # check if file name exists
@@ -662,14 +666,14 @@ else {
         $CommonObject{LogObject}->Log(Priority => 'error', Message => "$@");
         $Error = "Syntax error in 'Kernel::Modules::$Param{Action}'!";
     }
-    # if there is no file, show not found error 
+    # if there is no file, show not found error
     else {
         $Error = "File 'Kernel/Modules/$Param{Action}.pm' not found!";
     }
     # print error
     print $CommonObject{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
     print $CommonObject{LayoutObject}->Error(
-        Message => $Error, 
+        Message => $Error,
     );
     print $CommonObject{LayoutObject}->Footer();
 }
