@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.12 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminQueue.pm,v 1.13 2003-07-13 19:09:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,7 +66,6 @@ sub Run {
         'Comment', 
         'ValidID'
     );
-
     # --
     # get data
     # --
@@ -87,9 +86,18 @@ sub Run {
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
-        # --
+        # check queue name
+        if ($GetParam{Name} =~ /::/) {
+            $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => 'Don\'t use :: in queue name!',
+                Comment => 'Click back and change it!',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
         # get long queue name
-        # --
         if ($GetParam{ParentQueueID}) {
             $GetParam{Name} = $Self->{QueueObject}->QueueLookup(
                 QueueID => $GetParam{ParentQueueID},
@@ -114,17 +122,24 @@ sub Run {
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
-        # --
+        # check queue name
+        if ($GetParam{Name} =~ /::/) {
+            $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => 'Don\'t use :: in queue name!',
+                Comment => 'Click back and change it!',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
         # get long queue name
-        # --
         if ($GetParam{ParentQueueID}) {
             $GetParam{Name} = $Self->{QueueObject}->QueueLookup(
                 QueueID => $GetParam{ParentQueueID},
             ) .'::'. $GetParam{Name};
         }
-        # --
         # create new queue
-        # --
         if (my $Id = $Self->{QueueObject}->QueueAdd(%GetParam, UserID => $Self->{UserID})) {
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=AdminQueueResponses&Subaction=Queue&ID=$Id",
