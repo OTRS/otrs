@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.156 2004-09-16 22:03:59 martin Exp $
+# $Id: Defaults.pm,v 1.157 2004-09-17 10:02:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.156 $';
+$VERSION = '$Revision: 1.157 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -567,6 +567,7 @@ sub LoadDefaults {
 #    $Self->{'LogModule::LogFile::Date'} = 0;
 
     # system log cache size for admin system log (default 4k)
+    # Note: use bin/CleanUp.pl before you change this
 #    $Self->{LogSystemCacheSize} = 4*1024;
     # --------------------------------------------------- #
     # web stuff                                           #
@@ -2199,6 +2200,7 @@ Your OTRS Notification Master
           },
         ],
     };
+
     $Self->{'Frontend::Module'}->{'AgentQueueView'} = {
         Description => 'Overview of all open Tickets',
         NavBar => [
@@ -2207,32 +2209,33 @@ Your OTRS Notification Master
             Name => 'QueueView',
             Image => 'queue.png',
             Link => 'Action=AgentQueueView',
-            NavBar => 'Agent',
+            NavBar => 'Ticket',
             Prio => 10,
           },
           {
-            Description => 'Agent-Area',
+            Description => 'Ticket-Area',
             Block => 'ItemArea',
-            Name => 'Agent-Area',
+            Name => 'Ticket-Area',
             Image => 'desktop.png',
             Link => 'Action=AgentQueueView',
             NavBar => '',
-            NavBarNotShown => 'Agent',
+            NavBarNotShown => 'Ticket',
             Prio => 1900,
           },
         ],
     };
     $Self->{'Frontend::Module'}->{'AgentPhone'} = {
         Description => 'Create new Phone Ticket',
-        NavBar => [{
+        NavBar => [
+          {
             Description => 'Create new Phone Ticket',
             Name => 'Phone-Ticket',
             Image => 'new.png',
             Link => 'Action=AgentPhone',
-            NavBar => 'Agent',
+            NavBar => 'Ticket',
             Prio => 20,
-         },
-       ],
+          },
+        ],
     };
     $Self->{'Frontend::Module'}->{'AgentEmail'} = {
         Description => 'Create new Email Ticket',
@@ -2242,8 +2245,8 @@ Your OTRS Notification Master
             Name => 'Email-Ticket',
             Image => 'mail_new.png',
             Link => 'Action=AgentEmail',
-            NavBar => 'Agent',
-            Prio => 30,
+            NavBar => 'Ticket',
+            Prio => 21,
           },
         ],
     };
@@ -2254,7 +2257,7 @@ Your OTRS Notification Master
             Name => 'Search',
             Image => 'search.png',
             Link => 'Action=AgentUtilities',
-            NavBar => 'Agent',
+            NavBar => 'Ticket',
             Prio => 30,
          },
        ],
@@ -2266,7 +2269,7 @@ Your OTRS Notification Master
             Name => 'Preferences',
             Image => 'prefer.png',
             Link => 'Action=AgentPreferences',
-            NavBar => 'Agent',
+            NavBar => 'Ticket',
             Prio => 80,
          },
        ],
@@ -2347,7 +2350,7 @@ Your OTRS Notification Master
             Name => 'Stats-Area',
             Image => 'stats.png',
             Link => 'Action=SystemStats',
-            NavBar => 'Agent',
+            NavBar => 'Ticket',
             Prio => 85,
           },
         ],
@@ -2578,7 +2581,7 @@ Your OTRS Notification Master
             Name => 'Customer User',
             Image => 'folder_yellow.png',
             Link => 'Action=AdminCustomerUser',
-            NavBar => 'Agent',
+            NavBar => 'Ticket',
             Prio => 86,
           }
         ],

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.150 2004-09-16 22:03:59 martin Exp $
+# $Id: Generic.pm,v 1.151 2004-09-17 10:04:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.150 $';
+$VERSION = '$Revision: 1.151 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1542,7 +1542,7 @@ sub PageNavBar {
 sub NavigationBar {
     my $Self = shift;
     my %Param = @_;
-    my $Type = $Param{Type} || 'Agent';
+    my $Type = $Param{Type} || 'Ticket';
     my $Output = '';
     # run notification modules
     if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
@@ -1628,15 +1628,18 @@ sub NavigationBar {
                         }
                     }
                     if ($Shown) {
+                        my $Key = ($Item->{Block}||'').sprintf("%07d", $Item->{Prio});
                         foreach (1..51) {
-                            if ($NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                            if ($NavBarModule{$Key}) {
                                 $Item->{Prio}++;
+                                $Key = ($Item->{Block}||'').sprintf("%07d", $Item->{Prio});
                             }
-                            if (!$NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                            if (!$NavBarModule{$Key}) {
                                 last;
                             }
                         }
-                        $NavBarModule{sprintf("%07d", $Item->{Prio})} = $Item;
+                        $NavBarModule{$Key} = $Item;
+#print STDERR "$Item->{Block}-$Item->{Prio}\n";
                     }
                 }
             }
@@ -1682,7 +1685,6 @@ sub NavigationBar {
         }
     }
 
-#    foreach (sort {$NavBarModule{$a} <=> $NavBarModule{$b}} keys %NavBarModule) {
     foreach (sort keys %NavBarModule) {
 #print STDERR "$_ ööö\n";
         $Self->Block(
