@@ -49,7 +49,7 @@ Notification to the agent if the OTRS system unlocked a unanswered ticket.
 <para>
 There are three types of (auto) customer notifications to give more transparency 
 to the customer.
-This notifications (if used or not) can be defined for each queue. 
+This notifications (if used or not) can be defined for each queue (admin area). 
 The notification text can be defined in Kernel/Config.pm.
 </para>
 <sect2>
