@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.140 2004-06-16 05:30:52 martin Exp $
+# $Id: Defaults.pm,v 1.141 2004-06-22 10:33:01 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.140 $';
+$VERSION = '$Revision: 1.141 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,7 +45,8 @@ sub LoadDefaults {
     $Self->{TicketHook} = 'Ticket#';
 
     # TicketDivider
-    $Self->{TicketDivider} = ':';
+    # (The part between TicketHook and TicketNumber)
+    $Self->{TicketDivider} = ': ';
 
     # FQDN
     # (Full qualified domain name of your system.)
@@ -700,7 +701,7 @@ sub LoadDefaults {
             fr => 'Fran&ccedil;ais',
             bg => 'Bulgarian',
             fi => 'Suomi',
-            es => 'Espaniol',
+            es => 'Espa&ntilde;ol',
             pt_BR => 'Portugu&ecirc;s Brasileiro',
             pt => 'Portugu&ecirc;s',
             it => 'Italiano',
