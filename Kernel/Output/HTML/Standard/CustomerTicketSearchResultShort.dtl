@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.6 2005-03-11 06:00:09 martin Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.7 2005-03-27 11:38:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,7 +47,7 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
 
 <tr valign="top">
- <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=CustomerZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
+ <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=CustomerTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
  <td class="$Env{"Color"}">$Quote{"$Data{"Age"}"}</td>
  <td class="$Env{"Color"}">
    <div title="$QData{"From"}">$QData{"From","30"}</div>
