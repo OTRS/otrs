@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.102 2004-02-01 21:31:26 martin Exp $
+# $Id: Generic.pm,v 1.103 2004-02-23 23:33:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.102 $';
+$VERSION = '$Revision: 1.103 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -490,13 +490,6 @@ sub Redirect {
         }
         return $Output;
     }
-}
-# --
-sub Test {
-    my $Self = shift;
-    my %Param = @_;
-    # create & return output
-    return $Self->Output(TemplateFile => 'Test', Data => \%Param);
 }
 # --
 sub Login {
