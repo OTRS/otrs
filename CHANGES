@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.21 2002-09-05 09:38:39 martin Exp $
+# $Id: CHANGES,v 1.22 2002-09-23 14:51:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,8 +10,14 @@
 # --
 
 0.5 BETA8 (2002-09-??)
+ - added /etc/sysconfig/otrs file for rcscripts
+ - added rpm for Red Hat Linux 7.3
+ - added email notify on ownership change feature - see
+    http://lists.otrs.org/pipermail/otrs/2002-September/000213.html
+ - added ReplyTo patch for PostMaster.pl of Phil Davis - Thanks Phil!
+    - http://lists.otrs.org/pipermail/otrs/2002-September/000203.html
  - created config file (Kernel/Config/GenericAgent.pm) for bin/GenericAgent.pl
- - split Kernel/Config.pm info Kernel/Config.pm, Kernel/Config/Postmaster.pm 
+ - splited Kernel/Config.pm info Kernel/Config.pm, Kernel/Config/Postmaster.pm 
     and Kernel/Config/Notification.pm to get a better overview.
  - added new/current french translation - Thanks to Bernard Choppy! 
  - added module support for log (Kernel/Config.pm --> $Self->{LogModule})
@@ -21,6 +27,11 @@
     $Self->{LoginURL}, $Self->{LogoutURL}) and added two example alternate 
     login pages scripts/login.pl (Perl) and scripts/login.php (PHP)
  - added backup and restore script (scripts/(backup|restore).sh)
+ - fixed Bug [30] Kernel/System/DB.pm - DB quoting http://bugs.otrs.org/show_bug.cgi?id=30
+    Thanks to Marc Scheuffler!
+ - fixed Bug [28] Base64 Encoded mail fails - http://bugs.otrs.org/show_bug.cgi?id=28
+    Thanks to Christoph Kaulich!
+ - fixed rpm bug for SuSE Linux 7.3 (Installer) - Thanks to Schirott Frank!
 
 0.5 BETA7 (2002-08-06)
  - improved screen session management (next screen, last screen) added back 
