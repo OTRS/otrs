@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPlain.pm - to get a plain view
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.18 2004-04-14 15:56:13 martin Exp $
+# $Id: AgentPlain.pm,v 1.19 2004-08-10 06:47:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -31,7 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
       ConfigObject UserObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -44,7 +44,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $Limit = 50;
 
     # --
     # check needed stuff
@@ -65,9 +64,7 @@ sub Run {
         Type => 'ro',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
@@ -77,28 +74,39 @@ sub Run {
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
     if ($Text) {
-    # Ascii2Html
-        $Text = $Self->{LayoutObject}->Ascii2Html(
-            Text => $Text, 
-            HTMLResultMode => 1,
-        );
-        # do some highlightings
-        $Text =~ s/^((From|To|Cc|Bcc|Subject|Reply-To|Organization|X-Company):.*)/<font color=\"red\">$1<\/font>/gmi;
-        $Text =~ s/^(Date:.*)/<FONT COLOR=777777>$1<\/font>/m;
-        $Text =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<blink>$1<\/blink>/gmi;
-        $Text =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<font color=\"blue\">$1$2<\/font>/gmi;
-        $Text =~ s/^((Resent-.*):.*)/<font color=\"green\">$1<\/font>/gmi;
-        $Text =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
-        $Text =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
-
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentPlain', 
-            Data => {
+        if ($Self->{Subaction} eq 'Download') {
+            # return new page
+            return $Self->{LayoutObject}->Attachment(
+#                Type => 'attached',
+                Filename => "TicketID-$Self->{TicketID}-ArticleID-$Self->{ArticleID}.eml",
+                ContentType => 'text/plain',
+                Content => $Text,
+           );
+        }
+        else {
+            # Ascii2Html
+            $Text = $Self->{LayoutObject}->Ascii2Html(
                 Text => $Text,
-                TicketID => $Self->{TicketID},
-                ArticleID => $Self->{ArticleID},
-            }
-        );
+                HTMLResultMode => 1,
+            );
+            # do some highlightings
+            $Text =~ s/^((From|To|Cc|Bcc|Subject|Reply-To|Organization|X-Company):.*)/<font color=\"red\">$1<\/font>/gmi;
+            $Text =~ s/^(Date:.*)/<FONT COLOR=777777>$1<\/font>/m;
+            $Text =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<blink>$1<\/blink>/gmi;
+            $Text =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<font color=\"blue\">$1$2<\/font>/gmi;
+            $Text =~ s/^((Resent-.*):.*)/<font color=\"green\">$1<\/font>/gmi;
+            $Text =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
+            $Text =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
+
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentPlain',
+                Data => {
+                    Text => $Text,
+                    TicketID => $Self->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+                }
+            );
+        }
     }
     else {
         $Output .= $Self->{LayoutObject}->Error(
@@ -112,4 +120,3 @@ sub Run {
 # --
 
 1;
-
