@@ -3,7 +3,7 @@
 # PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterDaemon.pl,v 1.1 2002-01-02 00:41:42 martin Exp $
+# $Id: PostMasterDaemon.pl,v 1.2 2002-12-08 13:27:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,11 +20,22 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+# use ../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../";
+use lib "$Bin/../Kernel/cpan-lib";
+
+my $Debug = 1;
+
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::PostMaster;
+
 use strict;
 use IO::Socket;
 
-my $PreForkedServer = 6;
-my $MaxConnects = 2;
+my $PreForkedServer = 1;
+my $MaxConnects = 30;
 
 $SIG{CHLD} = \&StopChild;
 
@@ -43,6 +54,7 @@ my %Children = ();
 
 my $Server = IO::Socket::INET->new(
     LocalPort => 5555,
+    LocalHost => 'localhost',
     Type => SOCK_STREAM,
     Reuse => 1,
     Listen => 10,
@@ -73,9 +85,29 @@ sub MakeNewChild {
       my $MaxConnectsCount = 0;
       while (my $Client = $Server->accept()) {
           $MaxConnectsCount ++;
-          print $Client "lala ($PID/$$)\n";
-          my $Input = <$Client>;
-          print $Input."\n";
+          print $Client "* --OK-- ($PID/$$)\n";
+          my @Input = ();
+          my $Data = 0;
+          while (my $Line = <$Client>) {
+              if ($Line =~ /^\* --END EMAIL--$/) {
+                  $Data = 0;
+                  if (@Input) { 
+                      PipeEmail(@Input);
+                      print $Client "* --DONE--\n";
+                  }
+                  else {
+                      print $Client "* --ERROR-- Got no data!\n";
+                      exit 1;
+                  } 
+              }
+              if ($Data) {
+                  push (@Input, $Line);
+              }
+              if ($Line =~ /^\* --SEND EMAIL--$/) {
+                  $Data = 1;
+              } 
+          }
+          # check max connects
           if ($MaxConnects <= $MaxConnectsCount) {
               exit;
           }
@@ -84,12 +116,43 @@ sub MakeNewChild {
 }
 
 # --
-
 sub StopChild {
     my $PID = wait;
     print STDERR "($$)StopChild ($PID) (Current Children $Children)\n";
     $Children --;
     delete $Children{$$};
 }
-
 # --
+sub PipeEmail {
+    my @Email = @_;
+
+    # --
+    # create common objects 
+    # --
+    my %CommonObject = ();
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{LogObject} = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-PMD',
+        %CommonObject,
+    ); 
+    # debug info
+    if ($Debug) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'debug',
+            Message => 'Email handle (PostMasterDaemon.pl) started...',
+        );
+    }
+    # ... common objects ...
+    $CommonObject{PostMaster} = Kernel::System::PostMaster->new(%CommonObject, Email => \@Email);
+    $CommonObject{PostMaster}->Run();
+
+    # debug info
+    if ($Debug) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'debug',
+            Message => 'Email handle (PostMasterDaemon.pl) stoped.',
+        );
+    }
+}
+# --
+

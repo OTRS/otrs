@@ -3,7 +3,7 @@
 # PostMasterClient.pl - the PostMasterDaemon.pl client 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterClient.pl,v 1.1 2002-01-02 00:41:42 martin Exp $
+# $Id: PostMasterClient.pl,v 1.2 2002-12-08 13:27:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,17 +24,33 @@ use strict;
 
 use IO::Socket;
 
-my $Client = IO::Socket::UNIX->new(
-    PeerAddr => "/tmp/Postmaster.sock",
-    Type => SOCK_DGRAM,
-    Timeout => 10,
+my $Client = IO::Socket::INET->new(
+   PeerHost => 'localhost',
+   PeerPort => '5555',
 ) || die $@;
-
-
-print $Client "hallo\n";
-
+# get email
+my @Email = <STDIN>;
+# check handshake
+my $Line = <$Client>;
+if ($Line !~ /^\* --OK--/i) {
+    print "Got no OK from daemon! Exiting!\n";
+    close ($Client);
+    exit 1;
+} 
+print "handshake ok!\n";
+# send email
+print $Client "* --SEND EMAIL--\n";
+print $Client @Email; 
+print $Client "* --END EMAIL--\n";
+# return
 my $Answer = <$Client>;
-
-print $Answer."\n";
-
-close ($Client);
+if ($Answer =~ /^\* --DONE--/) {
+    print "email processed!\n";
+    close ($Client);
+    exit;
+}
+else {
+    print "email not processed\n";
+    close ($Client);
+    exit 1;
+}
