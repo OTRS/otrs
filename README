@@ -1,35 +1,35 @@
 # --
 # README - readme file of OTRS
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.21 2004-02-27 21:57:26 martin Exp $
+# $Id: README,v 1.22 2005-02-17 20:17:15 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
 What is OTRS?
 =============
 
-  OTRS is an Open source Ticket Request System with many features to manage 
-  customer telephone calls and e-mails. It is distributed under the GNU 
+  OTRS is an Open source Ticket Request System with many features to manage
+  customer telephone calls and e-mails. It is distributed under the GNU
   General Public License (GPL) and tested on Linux, Solaris, AIX, FreeBSD,
-  OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to answer them 
+  OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to answer them
   with a team of agents? You're going to love the OTRS!
 
   Feature list:
 
-   Web-Interface: 
+   Web-Interface:
     - Agent web interface for viewing and working on all customer requests
     - Admin web interface for changing system things
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
     - Webinterface with Single sign on (e. g. HTTPBasicAuth or LogonTickets)
-    - Multi language support (Brazilian Portuguese, Bulgarian, Czech, Dutch, 
-       English, Finnish, French, German, Italian, Polish, Portuguese, Russian 
+    - Multi language support (Brazilian Portuguese, Bulgarian, Czech, Dutch,
+       English, Finnish, French, German, Italian, Polish, Portuguese, Russian
        and Spanish)
-    - customize the output templates (dtl) release independently 
+    - customize the output templates (dtl) release independently
     - Webinterface with attachment support
     - easy and logical to use
 
@@ -48,7 +48,7 @@ What is OTRS?
     - abaility to add notes (with different note types) to a ticket
     - Ticket zoom feature
     - Tickets can be bounced or forwarded to other email addresses
-    - Ticket can be moved to a different queue (this is helpful if emails are 
+    - Ticket can be moved to a different queue (this is helpful if emails are
        for a specific subject)
     - Ticket priority
     - Ticket time accounting
@@ -58,30 +58,30 @@ What is OTRS?
 
    System:
     - ASP (activ service providing) support
-    - Customer Source can be used from a SQL databases or LDAP 
+    - Customer Source can be used from a SQL databases or LDAP
         (e. g. eDirectory, AD, OpenLDAP)
     - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
     - Ticket number format free setable
     - utf-8 support for frontend and backend
-    - creation and configuration of user accounts, and groups 
+    - creation and configuration of user accounts, and groups
     - creation of standard responses
     - creation of sub queue
     - signature configuration per queue
     - salutation configuration per queue
     - email-notification of administrators
-    - email-notification sent to problem reporter (by create, locked, deleted, 
+    - email-notification sent to problem reporter (by create, locked, deleted,
        moved and closed)
     - submitting update-info (via email or webinterface)
     - deadlines for trouble tickets
     - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
-    - different levels of permissions/access-rights 
+    - different levels of permissions/access-rights
     - central database, Support of different SQL databases (e. g. MySQL, PostgeSQL, ...)
     - user authentication agains database or ldap directory
     - easy to develope you own addon's (OTRS API)
     - easy to write different frontends (e. g. X11, console, ...)
     - a fast and usefull application
 
-Todo: 
+Todo:
     - API to other ticket systems like Paregrine
     - XML interface
 
@@ -103,9 +103,9 @@ On what hardware does it run?
   For more then ~150.000 or ~400 tickets a day please ask the list about the
   requirements.
 
-  The biggest OTRS setup (where we got feedback) is ~750.000 tickets, ~4.200.000 
-  articles and ~12.000.000 ticket-history database table records. This system is 
-  running with MySQL, Apache and mod_perl on a Linux box with Pentium III 800 Mhz, 
+  The biggest OTRS setup (where we got feedback) is ~750.000 tickets, ~4.200.000
+  articles and ~12.000.000 ticket-history database table records. This system is
+  running with MySQL, Apache and mod_perl on a Linux box with Pentium III 800 Mhz,
   256 MB RAM, SCSI.
 
 Software requirements?
@@ -124,12 +124,12 @@ Software requirements?
     * SuSE Linux 7.3 (s390), Perl 5.6.0, MySQL 3.23.48 and Apache 1.3.22.
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Apache 1.3.23 (incl. mod_perl 1.26).
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Roxen-Webserver 2.2.252
-    * SuSE Linux 8.0 (i386) interfacing with Exchange 5.5 via fetchmail and postfix   
+    * SuSE Linux 8.0 (i386) interfacing with Exchange 5.5 via fetchmail and postfix
     * Debian (i386), Postfix, Apache 1.3.19 with mod_perl
     * Redhat 7.3 (i386) (no detail description available)
     * Redhat 8.0 (i386), Perl 5.8, MySQL 4, Apache2 and mod_perl2.
     * Mandrake 8.2 server (i386) interfacing with Lotus Notes mail server via fetchmail and sendmail
-    * FreeBSD (i386), Sendmail, Perl 5.6.1, MySQL and Apache. 
+    * FreeBSD (i386), Sendmail, Perl 5.6.1, MySQL and Apache.
     ... and you? ;-)
 
 Directories & Files:
@@ -139,15 +139,16 @@ $HOME (e. g. /opt/otrs/)
 |  (all executables)
 |--/bin/             (all system programs)
 |   |--/PostMaster.pl      (email2db)
+|   |--/PostMasterPOP3.pl  (email2db)
 |   |--/cgi-bin/
 |   |   |----- /index.pl        (Global Agent & Admin handel)
 |   |   |----- /customer.pl     (Global Customer handel)
 |   |   |----- /installer.pl    (Global Installer handel)
-|    
+|
 |  (all modules)
 |--/Kernel/
 |   |---- /Output/        (all output generating modules)
-|   |      |---- /html/
+|   |      |---- /HTML/
 |   |             |--- /Standard/*.dtl (all dtl files for Standard-Theme)
 |   |             |--- /Lite/*.dtl (all dtl files for Lite-Theme)
 |   |      |---- /wml/
@@ -156,7 +157,7 @@ $HOME (e. g. /opt/otrs/)
 |   |
 |   |---- /Languages/      (all translation modules)
 |   |
-|   |---- /Modules/        (all action modules e. g. QueueView, Move, ...) 
+|   |---- /Modules/        (all action modules e. g. QueueView, Move, ...)
 |   |      |----- /Agent*      (all modules for the agent interface)
 |   |      |----- /Admin*      (all modules for the admin interface)
 |   |      |----- /Customer*   (all modules for the customer interface)
@@ -174,7 +175,7 @@ $HOME (e. g. /opt/otrs/)
 |           |--- /WebParam.pm   (e. g. get param)
 |           |--- /Queue.pm      (informations about queues. e. g. responses, ...)
 |           |--- /Ticket.pm     (ticket and article funktions)
-|  
+|
 |  (data stuff)
 |--/var/
 |   |--/log/                    (log files)
@@ -188,7 +189,7 @@ $HOME (e. g. /opt/otrs/)
 |--/scripts/
 |   |----  /database/
 |           |--- /otrs-schema.(mysql|postgrsql).sql (create database script)
-|           |--- /install/database/initial_insert.sql (all inital sql data - e. g. root user)
-|  
+|           |--- /initial_insert.sql (all inital sql data - e. g. root user)
+|
 
 EOF
