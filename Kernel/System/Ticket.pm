@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.157 2005-02-10 20:37:26 martin Exp $
+# $Id: Ticket.pm,v 1.158 2005-02-11 06:50:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.157 $';
+$VERSION = '$Revision: 1.158 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1603,6 +1603,7 @@ To find tickets in your system.
       TicketNumber => '%123546%',
       Title => '%SomeText%',
       Queues => ['system queue', 'other queue'],
+      QueueIDs => [1, 42, 512],
       States => ['new', 'open'],
       StateIDs => [3, 4],
       StateType => 'Open', # Open|Closed tickets or other types
@@ -1614,6 +1615,15 @@ To find tickets in your system.
       # CustomerID as ARRAY or more as ARRAYREF
       CustomerID => '123',
       CustomerUserLogin => 'uid123',
+
+      # create ticket properties (optional)
+      CreatedUserIDs => [1, 12, 455, 32]
+      CreatedPriorities => ['1 very low', '2 low', '3 normal'],
+      CreatedPriorityIDs => [1, 2, 3],
+      CreatedStates => ['new', 'open'],
+      CreatedStateIDs => [3, 4],
+      CreatedQueues => ['system queue', 'other queue'],
+      CreatedQueueIDs => [1, 42, 512],
 
       # 1..8 (optional)
       TicketFreeKey1 => 'Product',
@@ -1687,21 +1697,25 @@ sub TicketSearch {
     my $SQLExt = '';
     my $SQL = "SELECT DISTINCT st.id, st.tn, $SortOptions{$SortBy} FROM ".
     " ticket st, queue sq ";
-    # use also article table it required
-    my $UseArticleTable = 0;
+    # use also article table if required
     foreach (qw(From To Cc Subject Body)) {
-        if ($Param{$_} && !$UseArticleTable) {
+        if ($Param{$_}) {
             $SQL .= ", article at ";
-            $UseArticleTable = 1;
+            $SQLExt .= " AND st.id = at.ticket_id";
+            last;
         }
     }
-    $SQL .= " WHERE sq.id = st.queue_id";
-
-    # if article table used
-    if ($UseArticleTable) {
-        $SQLExt .= " AND st.id = at.ticket_id";
+    # use also history table if required
+    foreach (keys %Param) {
+        if ($_ =~ /^Created/) {
+            $SQL .= ", ticket_history th ";
+            $SQLExt .= " AND st.id = th.ticket_id";
+            last;
+        }
     }
-    # ticket states
+    $SQLExt = " WHERE sq.id = st.queue_id".$SQLExt;
+
+    # current ticket states
     if ($Param{States}) {
         foreach (@{$Param{States}}) {
             my %State = $Self->{StateObject}->StateGet(Name => $_, Cache => 1);
@@ -1716,6 +1730,26 @@ sub TicketSearch {
     if ($Param{StateIDs}) {
         $SQLExt .= " AND st.ticket_state_id IN (${\(join ', ' , @{$Param{StateIDs}})})";
     }
+    # created ticket states
+    if ($Param{CreatedStates}) {
+        foreach (@{$Param{CreatedStates}}) {
+            my %State = $Self->{StateObject}->StateGet(Name => $_, Cache => 1);
+            if ($State{ID}) {
+                push (@{$Param{StateIDs}}, $State{ID});
+            }
+            else {
+                return;
+            }
+        }
+    }
+    if ($Param{CreatedStateIDs}) {
+        my $ID = $Self->HistoryTypeLookup(Type => 'NewTicket');
+        if ($ID) {
+            $SQLExt .= " AND th.state_id IN (${\(join ', ' , @{$Param{CreatedStateIDs}})})";
+            $SQLExt .= " AND th.history_type_id = $ID ";
+        }
+    }
+    # current ticket state type
     if ($Param{StateType} && $Param{StateType} eq 'Open') {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
             Type => 'Viewable',
@@ -1740,7 +1774,7 @@ sub TicketSearch {
         $SQLExt .= " AND ";
         $SQLExt .= " st.ticket_state_id IN ( ${\(join ', ', @StateIDs)} ) ";
     }
-    # ticket locks
+    # current ticket locks
     if ($Param{Locks}) {
         foreach (@{$Param{Locks}}) {
             if ($Self->{LockObject}->LockLookup(Type => $_)) {
@@ -1755,11 +1789,19 @@ sub TicketSearch {
     if ($Param{LockIDs}) {
         $SQLExt .= " AND st.ticket_lock_id IN (${\(join ', ' , @{$Param{LockIDs}})})";
     }
-    # add user ids
+    # current owners user ids
     if ($Param{UserIDs}) {
         $SQLExt .= " AND st.user_id IN (${\(join ', ' , @{$Param{UserIDs}})})";
     }
-    # ticket queues
+    # created owner user ids
+    if ($Param{CreatedUserIDs}) {
+        my $ID = $Self->HistoryTypeLookup(Type => 'NewTicket');
+        if ($ID) {
+            $SQLExt .= " AND th.create_by IN (${\(join ', ' , @{$Param{CreatedUserIDs}})})";
+            $SQLExt .= " AND th.history_type_id = $ID ";
+        }
+    }
+    # current ticket queues
     if ($Param{Queues}) {
         foreach (@{$Param{Queues}}) {
             if ($Self->{QueueObject}->QueueLookup(Queue => $_)) {
@@ -1772,6 +1814,24 @@ sub TicketSearch {
     }
     if ($Param{QueueIDs}) {
         $SQLExt .= " AND st.queue_id IN (${\(join ', ' , @{$Param{QueueIDs}})})";
+    }
+    # created in ticket queues
+    if ($Param{CreatedQueues}) {
+        foreach (@{$Param{CreatedQueues}}) {
+            if ($Self->{QueueObject}->QueueLookup(Queue => $_)) {
+                push (@{$Param{CreatedQueueIDs}}, $Self->{QueueObject}->QueueLookup(Queue => $_));
+            }
+            else {
+                return;
+            }
+        }
+    }
+    if ($Param{CreatedQueueIDs}) {
+        my $ID = $Self->HistoryTypeLookup(Type => 'NewTicket');
+        if ($ID) {
+            $SQLExt .= " AND th.queue_id IN (${\(join ', ' , @{$Param{CreatedQueueIDs}})})";
+            $SQLExt .= " AND th.history_type_id = $ID ";
+        }
     }
     # user groups
     my @GroupIDs = ();
@@ -1812,13 +1872,7 @@ sub TicketSearch {
     else {
         return;
     }
-    # ticket number
-    if ($Param{TicketNumber}) {
-        my $TicketNumber = $Param{TicketNumber};
-        $TicketNumber =~ s/\*/%/gi;
-        $SQLExt .= " AND st.tn LIKE '".$Self->{DBObject}->Quote($TicketNumber)."'";
-    }
-    # ticket priorities
+    # current ticket priorities
     if ($Param{Priorities}) {
         foreach (@{$Param{Priorities}}) {
             my $ID = $Self->PriorityLookup(Type => $_);
@@ -1830,8 +1884,30 @@ sub TicketSearch {
             }
         }
     }
-    if ($Param{PriorityIDs}) {
-        $SQLExt .= " AND st.ticket_priority_id IN (${\(join ', ' , @{$Param{PriorityIDs}})})";
+    # created ticket priorities
+    if ($Param{CreatedPriorities}) {
+        foreach (@{$Param{CreatedPriorities}}) {
+            my $ID = $Self->PriorityLookup(Type => $_);
+            if ($ID) {
+                push (@{$Param{CreatedPriorityIDs}}, $ID);
+            }
+            else {
+                return;
+            }
+        }
+    }
+    if ($Param{CreatedPriorityIDs}) {
+        my $ID = $Self->HistoryTypeLookup(Type => 'NewTicket');
+        if ($ID) {
+            $SQLExt .= " AND th.priority_id IN (${\(join ', ' , @{$Param{CreatedPriorityIDs}})})";
+            $SQLExt .= " AND th.history_type_id = $ID ";
+        }
+    }
+    # ticket number
+    if ($Param{TicketNumber}) {
+        my $TicketNumber = $Param{TicketNumber};
+        $TicketNumber =~ s/\*/%/gi;
+        $SQLExt .= " AND st.tn LIKE '".$Self->{DBObject}->Quote($TicketNumber)."'";
     }
     # other ticket stuff
     my %FieldSQLMap = (
@@ -3537,6 +3613,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.157 $ $Date: 2005-02-10 20:37:26 $
+$Revision: 1.158 $ $Date: 2005-02-11 06:50:06 $
 
 =cut
