@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.pm,v 1.6 2003-03-13 17:48:03 martin Exp $
+# $Id: AgentSpelling.pm,v 1.7 2003-04-12 20:31:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -74,8 +74,10 @@ sub Run {
     # --
     foreach (keys %Words) {
         if ($Words{$_} && $Self->{ParamObject}->GetParam(Param => "SpellCheck::$_") eq "Replace") {
-            $Param{Body} =~ s/^$_ /$Words{$_} /g;
+            $Param{Body} =~ s/^$_$/$Words{$_}/g;
+            $Param{Body} =~ s/^$_( |\n|\r|\s)/$Words{$_}$1/g;
             $Param{Body} =~ s/ $_$/ $Words{$_}/g;
+            $Param{Body} =~ s/(\s)$_(\n|\r)/$1$Words{$_}$2/g;
             $Param{Body} =~ s/(\s)$_(\s|:|;|<|>|\/|\\|\.|\!|%|&|\?)/$1$Words{$_}$2/gs;
         }
     }
