@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentAttachment.pm - to get the attachments 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.10 2003-03-08 08:49:17 martin Exp $
+# $Id: AgentAttachment.pm,v 1.11 2003-04-23 17:43:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,15 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject',
-      'DBObject',
-      'TicketObject',
-      'LayoutObject',
-      'LogObject',
-      'ConfigObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -70,7 +62,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-
     # --
     # check permissions
     # --
@@ -119,11 +110,10 @@ sub Run {
     else {
         # --
         # error screen
+        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 }
 # --
 
 1;
-
-
