@@ -5,7 +5,6 @@
 <!ENTITY install-cli SYSTEM "install-cli.sgml">
 <!ENTITY config-file SYSTEM "config-file.sgml">
 <!ENTITY first-steps SYSTEM "first-steps.sgml">
-<!ENTITY first-ticket SYSTEM "first-ticket.sgml">
 <!ENTITY troubleshooting SYSTEM "troubleshooting.sgml">
 <!ENTITY faq SYSTEM "faq.sgml">
 <!ENTITY bibliography SYSTEM "bibliography.sgml">
@@ -15,7 +14,7 @@
 <!ENTITY rfc1297 SYSTEM "rfc1297.sgml">
 <!ENTITY online-resources SYSTEM "online-resources.sgml">
 <!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
-<!ENTITY procmail SYSTEM "procmail.sgml">
+<!ENTITY receiving_email SYSTEM "receiving_email.sgml">
 <!ENTITY language-translation SYSTEM "language-translation.sgml">
 <!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
 <!ENTITY performance-tuning SYSTEM "performance-tuning.sgml">
@@ -97,9 +96,7 @@ or implied warranty.
 
 &ticket-topics;
 
-&first-ticket;
-
-&procmail;
+&receiving_email;
 
 &config-file;
 
