@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.40 2003-10-13 20:50:46 martin Exp $
+# $Id: AgentPhone.pm,v 1.41 2003-10-15 21:02:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,14 +56,10 @@ sub Run {
     my $NextScreen = $Self->{NextScreen} || 'AgentZoom';
     my $UserLogin = $Self->{UserLogin};
     
-    if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
-        # --
+    if (!$Self->{Subaction}) {
         # header
-        # --
         $Output .= $Self->{LayoutObject}->Header(Title => 'Phone call');
-        # --
         # if there is no ticket id!
-        # --
         if (!$Self->{TicketID}) {
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
@@ -78,9 +74,7 @@ sub Run {
                 %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleID);
                 my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
                 $Article{Subject} =~ s/\[${TicketHook}:\s*\d+\](\s|)//;
-                # --
                 # check if original content isn't text/plain or text/html, don't use it
-                # --
                 if ($Article{'ContentType'}) {
                     if($Article{'ContentType'} =~ /text\/html/i) {
                         $Article{Body} =~ s/\<.+?\>//gs;
@@ -89,9 +83,7 @@ sub Run {
                         $Article{Body} = "-> no quotable message <-";
                     }
                 }
-                # --
                 # show customer info
-                # --
                 if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
                   if ($Article{CustomerUserID}) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -105,9 +97,7 @@ sub Run {
                   }
                 }
             }
-            # --
             # html output
-            # --
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
               QueueID => $Self->{QueueID},
               NextScreen => $NextScreen,
@@ -125,21 +115,16 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        # --
-        # get ticket info
-        # --
+        # get ticket info if ticket id is given
         my %TicketData = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+        # check it it's a agent-customer ticket
         if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $TicketData{CustomerUserID} && $TicketData{CustomerUserID} eq $Self->{UserLogin}) {
-            # --
-            # redirect
-            # --
+            # redirect for agent follow up screen
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=AgentCustomerFollowUp&TicketID=$Self->{TicketID}",
             );
         }
-        # --
-        # check permissions
-        # --
+        # check permissions if it's a existing ticket
         if (!$Self->{TicketObject}->Permission(
             Type => 'rw',
             TicketID => $Self->{TicketID},
@@ -147,9 +132,7 @@ sub Run {
             # error screen, don't show ticket
             return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
         }
-        # --
         # get ticket info
-        # --
         my $Tn = $TicketData{TicketNumber};
         my %CustomerData = ();
         if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
@@ -164,21 +147,15 @@ sub Run {
                 );
             }
         }
-        # --
         # get lock state && permissions
-        # --
         if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
-          # --
           # set owner
-          # --
           $Self->{TicketObject}->SetOwner(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             NewUserID => $Self->{UserID},
           );
-          # --
           # set lock
-          # --
           if ($Self->{TicketObject}->SetLock(
             TicketID => $Self->{TicketID},
             Lock => 'lock',
@@ -202,9 +179,7 @@ sub Run {
             return $Output;
           }
         }
-        # --
         # print form ...
-        # --
         $Output .= $Self->{LayoutObject}->AgentPhone(
             TicketID => $Self->{TicketID},
             QueueID => $Self->{QueueID},
@@ -216,6 +191,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+    # save new phone article to existing ticket
     elsif ($Self->{Subaction} eq 'Store') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body');
@@ -244,9 +220,7 @@ sub Run {
             HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultHistoryComment'),
         )) {
-          # --
           # time accounting
-          # --
           if ($TimeUnits) {
             $Self->{TicketObject}->AccountTime(
               TicketID => $Self->{TicketID},
@@ -255,33 +229,29 @@ sub Run {
               UserID => $Self->{UserID},
             );
           }
-          # --
           # set state
-          # --
           $Self->{TicketObject}->SetState(
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             State => $NextState,
             UserID => $Self->{UserID},
           );
-          # --
           # set answerd
-          # --
           $Self->{TicketObject}->SetAnswered(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Answered => $Answered,
          );
-         # should i set an unlock?
+         # should i set an unlock? yes if the ticket is closed
          my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
          if ($StateData{TypeName} =~ /^close/i) {
-           $Self->{TicketObject}->SetLock(
-             TicketID => $Self->{TicketID},
-             Lock => 'unlock',
-             UserID => $Self->{UserID},
-           );
+             $Self->{TicketObject}->SetLock(
+                 TicketID => $Self->{TicketID},
+                 Lock => 'unlock',
+                 UserID => $Self->{UserID},
+             );
          }
-         # set pending time
+         # set pending time if next state is a pending state
          elsif ($StateData{TypeName} =~ /^pending/i) {
              $Self->{TicketObject}->SetPendingTime(
                  UserID => $Self->{UserID},
@@ -289,7 +259,8 @@ sub Run {
                  %GetParam,
              );
          }
-         # redirect to zoom view
+         # redirect to last screen (e. g. zoom view) and to queue view if 
+         # the ticket is closed (move to the next task).
          if ($StateData{TypeName} =~ /^close/i) {
              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
          }
@@ -298,12 +269,14 @@ sub Run {
          }
       }
       else {
+        # show error of creating article
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error();
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
       }
     }
+    # create new ticket and article
     elsif ($Self->{Subaction} eq 'StoreNew') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
@@ -328,9 +301,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
         my %Error = ();
-        # --
         # Expand Customer Name
-        # -- 
         my %CustomerUserData = ();
         if ($ExpandCustomerName == 1) {
             # search customer 
@@ -368,9 +339,7 @@ sub Run {
                 $Error{"ExpandCustomerName"} = 1;
             }
         }
-        # --
         # get from and customer id if customer user is given
-        # --
         elsif ($ExpandCustomerName == 2) {
             %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $CustomerUser,
