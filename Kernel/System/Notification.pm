@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.1 2004-01-23 00:37:58 martin Exp $
+# $Id: Notification.pm,v 1.2 2004-01-23 02:22:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Notification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,7 +60,7 @@ sub NotificationGet {
     my $SQL = "SELECT id, notification_type, notification_charset, ".
         " notification_language, subject, text ".
         " FROM ".
-        " notification_translations ".
+        " notifications ".
         " WHERE ";
     if ($Param{ID}) {
         $SQL .= " id = $Param{ID}";
@@ -109,7 +109,7 @@ sub NotificationList {
     my $SQL = "SELECT id, notification_type, notification_charset, ".
         " notification_language ".
         " FROM ".
-        " notification_translations";
+        " notifications";
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
     }
@@ -157,9 +157,9 @@ sub NotificationUpdate {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     # sql
-    $Self->{DBObject}->Prepare(SQL => "DELETE FROM notification_translations WHERE notification_type = '$Param{Type}' AND notification_language = '$Param{Language}'");
+    $Self->{DBObject}->Prepare(SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' AND notification_language = '$Param{Language}'");
     # sql
-    my $SQL = "INSERT INTO notification_translations ".
+    my $SQL = "INSERT INTO notifications ".
         " (notification_type, notification_charset, notification_language, subject, text, ".
         " create_time, create_by, change_time, change_by)".
         " VALUES ".
