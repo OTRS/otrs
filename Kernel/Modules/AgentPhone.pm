@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.44 2003-11-05 22:53:51 martin Exp $
+# $Id: AgentPhone.pm,v 1.45 2003-11-19 01:32:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -437,7 +437,25 @@ sub Run {
               Subject => $Subject,
               Errors => \%Error,
               %GetParam,
-           );
+            );
+            # show customer tickets
+            my @TicketIDs = (1 .. 3);
+            #$CustomerID
+                my $OutputTables = '';
+    foreach my $TicketID (@TicketIDs) {
+        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
+        my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
+        $OutputTables .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentCustomerHistoryTable',
+            Data => {
+                %Ticket,
+                %Article,
+                Age => $Self->{LayoutObject}->CustomerAge(Age => $Ticket{Age}, Space => ' '),
+            }
+        );
+
+    }
+$Output .= $OutputTables;
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
@@ -605,7 +623,7 @@ sub _GetUsers {
         %ShownUsers = %AllGroupsMembers;
     }
     else {
-        my %Groups = $Self->{GroupObject}->GroupUserList(
+        my %Groups = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID},
             Type => 'rw',
             Result => 'HASH',
@@ -664,22 +682,17 @@ sub _GetTos {
             );
         }
         # --
-        # ASP? Just options where the user is in!
+        # get create permission queues
         # --
-        if ($Self->{ConfigObject}->Get('PhoneViewASP')) {
-            my %UserGroups = $Self->{GroupObject}->GroupUserList(
-                UserID => $Self->{UserID}, 
-                Type => 'rw', 
-                Result => 'HASH',
-            );
-            foreach (keys %Tos) {
-                if ($UserGroups{$Self->{QueueObject}->GetQueueGroupID(QueueID => $_)}) {
-                    $NewTos{$_} = $Tos{$_};
-                }
+        my %UserGroups = $Self->{GroupObject}->GroupMemberList(
+            UserID => $Self->{UserID}, 
+            Type => 'create', 
+            Result => 'HASH',
+        );
+        foreach (keys %Tos) {
+            if ($UserGroups{$Self->{QueueObject}->GetQueueGroupID(QueueID => $_)}) {
+                $NewTos{$_} = $Tos{$_};
             }
-        }
-        else {
-            %NewTos = %Tos;
         }
         # --
         # build selection string

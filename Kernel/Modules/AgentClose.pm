@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.27 2003-09-28 13:53:55 martin Exp $
+# $Id: AgentClose.pm,v 1.28 2003-11-19 01:32:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -89,16 +89,10 @@ sub Run {
         my $SelectedMoveQueue = $Self->{TicketObject}->GetQueueIDOfTicketID(
             TicketID => $Self->{TicketID},
         );
-        my %MoveQueues = ();
-        if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
-            %MoveQueues = $Self->{QueueObject}->GetAllQueues();
-        }
-        else {
-            %MoveQueues = $Self->{QueueObject}->GetAllQueues(
-                UserID => $Self->{UserID},
-                Type => 'rw',
-            );
-        }
+        my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type => 'move',
+        );
         # -- 
         # html header
         # --

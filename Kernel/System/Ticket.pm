@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.58 2003-07-14 12:28:51 martin Exp $
+# $Id: Ticket.pm,v 1.59 2003-11-19 01:32:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -65,9 +65,9 @@ sub new {
     # --
     # create common needed module objects
     # --
-    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
     $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
@@ -699,7 +699,7 @@ sub Permission {
     }
     my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
     # get user groups 
-    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
         UserID => $Param{UserID},
         Type => $Param{Type},
         Result => 'ID',

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.44 2003-10-08 23:13:36 martin Exp $
+# $Id: AgentQueueView.pm,v 1.45 2003-11-19 01:32:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,7 +151,7 @@ sub Run {
     if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
         $Type = 'ro';
     }
-    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
         UserID => $Self->{UserID},
         Type => $Type,
         Result => 'ID',
@@ -204,16 +204,10 @@ sub ShowTicket {
     my $TicketID = $Param{TicketID} || return;
     my $Output = '';
     $Param{QueueViewQueueID} = $Self->{QueueID};
-    my %MoveQueues = ();
-    if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
-        %MoveQueues = $Self->{QueueObject}->GetAllQueues();
-    }
-    else {
-        %MoveQueues = $Self->{QueueObject}->GetAllQueues(
-            UserID => $Self->{UserID},
-            Type => 'rw',
-        );
-    }
+    my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+        UserID => $Self->{UserID},
+        Type => 'move',
+    );
     # get last article
     my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID); 
     # fetch all std. responses ...

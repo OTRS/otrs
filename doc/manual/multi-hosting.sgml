@@ -15,11 +15,6 @@ Nobody the one department can access to a queue of the others.
 <para>
 Add the following to Kernel/Config.pm
 <programlisting>
-    # MoveInToAllQueues -> useful for ASP
-    # (Possible to move in all queue? Not only queue which
-    # the own groups) [1|0]
-    $Self->{MoveInToAllQueues} = 0;
-
     # ChangeOwnerToEveryone -> useful for ASP
     # (Possible to change owner of ticket ot everyone) [0|1]
     $Self->{ChangeOwnerToEveryone} = 0;
@@ -28,11 +23,6 @@ Add the following to Kernel/Config.pm
     # (show customer selection in phone and change customer view
     # - disable this for ASP!) [0|1]
     $Self->{ShowCustomerSelection} = 0;
-
-    # PhoneViewASP -> useful for ASP
-    # (Possible to create in all queue? Not only queue which 
-    # the own groups) [0|1]
-    $Self->{PhoneViewASP} = 1;
 </programlisting>
 </para>
 

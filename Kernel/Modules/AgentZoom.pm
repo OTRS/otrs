@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.39 2003-08-22 15:19:12 martin Exp $
+# $Id: AgentZoom.pm,v 1.40 2003-11-19 01:32:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -130,16 +130,10 @@ sub Run {
     # else show normal ticket zoom view
     # --
     # fetch all move queues
-    my %MoveQueues = ();
-    if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
-        %MoveQueues = $Self->{QueueObject}->GetAllQueues();
-    }
-    else {
-        %MoveQueues = $Self->{QueueObject}->GetAllQueues(
-            UserID => $Self->{UserID},
-            Type => 'rw',
-        );
-    }
+    my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+        UserID => $Self->{UserID},
+        Type => 'move',
+    );
     # fetch all std. responses
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $Ticket{QueueID});
     # user info

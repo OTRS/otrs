@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.16 2003-06-01 18:08:09 martin Exp $
+# $Id: AgentStatusView.pm,v 1.17 2003-11-19 01:32:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -107,7 +107,7 @@ sub Run {
     # to get the output faster!
     print $Output; $Output = '';
     # get user groups 
-    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
         UserID => $Self->{UserID},
         Type => 'ro',
         Result => 'ID',

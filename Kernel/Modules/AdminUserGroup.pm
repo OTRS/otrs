@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroup.pm,v 1.12 2003-11-17 00:23:49 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.13 2003-11-19 01:32:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,7 +55,7 @@ sub Run {
         # get group data
         my %GroupData = $Self->{GroupObject}->GroupList(Valid => 1);
         my %Types = ();
-        foreach my $Type (qw(ro move priority state rw)) {
+        foreach my $Type (qw(ro move create owner priority state rw)) {
             my %Data = $Self->{GroupObject}->GroupMemberList(
                 UserID => $ID,
                 Type => $Type,
@@ -87,7 +87,7 @@ sub Run {
         }
         # get permission list users
         my %Types = ();
-        foreach my $Type (qw(ro move priority state rw)) {
+        foreach my $Type (qw(ro move create owner priority state rw)) {
             my %Data = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $ID,
                 Type => $Type,
@@ -110,7 +110,7 @@ sub Run {
     elsif ($Self->{Subaction} eq 'ChangeGroup') {
         # get new groups
         my %Permissions = ();
-        foreach (qw(ro move priority state rw)) {
+        foreach (qw(ro move create owner priority state rw)) {
             my @IDs = $Self->{ParamObject}->GetArray(Param => $_);
             $Permissions{$_} = \@IDs;
         }
@@ -124,9 +124,11 @@ sub Run {
                 foreach my $ID (@Array) {
                     if ($_ == $ID) {
                         $NewPermission{$Permission} = 1;
+print STDERR "$_: $Permission = 1\n";
                     }
                 }
             }
+print STDERR "$_:$ID \n";
             $Self->{GroupObject}->GroupMemberAdd(
                 UID => $_,
                 GID => $ID,
@@ -140,7 +142,7 @@ sub Run {
     elsif ($Self->{Subaction} eq 'ChangeUser') {
         # get new groups
         my %Permissions = ();
-        foreach (qw(ro move priority state rw)) {
+        foreach (qw(ro move create owner priority state rw)) {
             my @IDs = $Self->{ParamObject}->GetArray(Param => $_);
             $Permissions{$_} = \@IDs;
         }
@@ -206,7 +208,7 @@ sub MaskAdminUserGroupChangeForm {
 
     $Param{OptionStrg0} .= "<br>\n";
     $Param{OptionStrg0} .= "<table>\n";
-    $Param{OptionStrg0} .= "<tr><th>\$Text{\"$NeType\"}</th><th>ro</th><th>move</th><th>priority</th><th>state</th><th>-</th><th>rw</th></tr>\n";
+    $Param{OptionStrg0} .= "<tr><th>\$Text{\"$NeType\"}</th><th>ro</th><th>move</th><th>create</th><th>owner</th><th>priority</th><th>state</th><th>-</th><th>rw</th></tr>\n";
     foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data){
         $Param{OptionStrg0} .= '<tr><td>';
         $Param{OptionStrg0} .= "<a href=\"$BaseLink"."Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a>";
@@ -222,6 +224,18 @@ sub MaskAdminUserGroupChangeForm {
         }
         $Param{OptionStrg0} .= '</td><td align="center">';
         $Param{OptionStrg0} .= '<input type="checkbox" name="move" value="'.$_."\"$MoveSelected>";
+        my $CreateSelected = '';
+        if ($Param{create}->{$_}) {
+            $CreateSelected = ' checked';
+        }
+        $Param{OptionStrg0} .= '</td><td align="center">';
+        $Param{OptionStrg0} .= '<input type="checkbox" name="create" value="'.$_."\"$CreateSelected>";
+        my $OwnerSelected = '';
+        if ($Param{owner}->{$_}) {
+            $OwnerSelected = ' checked';
+        }
+        $Param{OptionStrg0} .= '</td><td align="center">';
+        $Param{OptionStrg0} .= '<input type="checkbox" name="owner" value="'.$_."\"$OwnerSelected>";
         my $PrioritySelected = '';
         if ($Param{priority}->{$_}) {
             $PrioritySelected = ' checked';

@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.97 2003-11-13 19:52:50 martin Exp $
+# $Id: CHANGES,v 1.98 2003-11-19 01:32:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD
+ - (2003/11/19) improved group sub system, added create, move, owner,
+    priority and state permissions to groups.
  - (2003/11/05) added agent preferences option "Screen after new phone
     ticket". So you can select the next screen after creating a new
     phone ticket.

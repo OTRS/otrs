@@ -115,6 +115,11 @@ CREATE TABLE group_user
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     permission_read SMALLINT NOT NULL,
+    permission_move SMALLINT NOT NULL,
+    permission_create SMALLINT NOT NULL,
+    permission_owner SMALLINT NOT NULL,
+    permission_state SMALLINT NOT NULL,
+    permission_priority SMALLINT NOT NULL,
     permission_write SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -819,5 +824,25 @@ CREATE TABLE search_profile
     profile_name varchar (200) NOT NULL,
     profile_key varchar (200) NOT NULL,
     profile_value varchar (200) NOT NULL
+);
+
+# -----------------------------------------------------------------------
+# notification_translations
+# -----------------------------------------------------------------------
+drop table if exists notification_translations;
+
+CREATE TABLE notification_translations
+(
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    notification_type varchar (200) NOT NULL,
+    notification_charset varchar (200) NOT NULL,
+    notification_language varchar (200) NOT NULL,
+    subject varchar (250) NOT NULL,
+    text MEDIUMTEXT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by integer NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by integer NOT NULL,
+    PRIMARY KEY(id)
 );
 

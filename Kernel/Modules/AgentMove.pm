@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.22 2003-11-05 23:06:32 martin Exp $
+# $Id: AgentMove.pm,v 1.23 2003-11-19 01:32:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,16 +124,10 @@ sub Run {
         # --
         # fetch all queues
         # --
-        my %MoveQueues = ();
-        if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
-            %MoveQueues = $Self->{QueueObject}->GetAllQueues();
-        }
-        else {
-            %MoveQueues = $Self->{QueueObject}->GetAllQueues(
-                UserID => $Self->{UserID},
-                Type => 'rw',
-            );
-        }
+        my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type => 'move',
+        );
         # --
         # build header
         # --
@@ -406,7 +400,7 @@ sub _GetUsers {
         %ShownUsers = %AllGroupsMembers;
     }
     else {
-        my %Groups = $Self->{GroupObject}->GroupUserList(
+        my %Groups = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID},
             Type => 'rw',
             Result => 'HASH',

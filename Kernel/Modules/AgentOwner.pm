@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.18 2003-07-14 12:15:34 martin Exp $
+# $Id: AgentOwner.pm,v 1.19 2003-11-19 01:32:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub Run {
     my $Output;
     # check permissions
     if (!$Self->{TicketObject}->Permission(
-        Type => 'rw',
+        Type => 'owner',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
@@ -91,8 +91,8 @@ sub Run {
           UserID => $Self->{UserID},
         ) &&
           $Self->{TicketObject}->SetOwner(
-			TicketID => $Self->{TicketID},
-			UserID => $Self->{UserID},
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID},
             NewUserID => $Self->{NewUserID},
             Comment => $Self->{Comment},
 		)) {
@@ -139,7 +139,7 @@ sub Run {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my %Groups = $Self->{GroupObject}->GroupUserList(
+            my %Groups = $Self->{GroupObject}->GroupMemberList(
                 UserID => $Self->{UserID},
                 Type => 'rw',
                 Result => 'HASH',

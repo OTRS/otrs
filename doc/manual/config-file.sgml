@@ -224,21 +224,6 @@ Should the agent be able to move tickets into queue which it isn't member of the
 (Helpfully if you use OTRS in ASP (Application Service Provider) mode).
 </para>
 <example>
-<title>Kernel/Config.pm - MoveInToAllQueues</title>
-<programlisting>
-[...]
-    # MoveInToAllQueues
-    # (Possible to move in all queue? Not only queue which
-    # the own groups) [1|0]
-    $Self->{MoveInToAllQueues} = 1;
-[...]
-</programlisting>
-</example>
-<para>
-Should the agent be able to change the ticket owner to everyone? 
-(Helpfully if you use OTRS in ASP (Application Service Provider) mode).
-</para>
-<example>
 <title>Kernel/Config.pm - ChangeOwnerToEveryone</title>
 <programlisting>
 [...]
