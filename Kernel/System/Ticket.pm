@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.91 2004-04-18 13:59:02 martin Exp $
+# $Id: Ticket.pm,v 1.92 2004-04-18 14:18:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.91 $';
+$VERSION = '$Revision: 1.92 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2867,7 +2867,7 @@ sub TicketWorkflow {
     # check workflow config
     my %Workflow = %{$Self->{ConfigObject}->Get('TicketWorkflow')};
     my %NewData = ();
-    my $UseNewParams = 0;
+    my $UseNewMasterParams = 0;
     foreach my $StepT (sort keys %Workflow) {
         my %Step = %{$Workflow{$StepT}};
         # check force match
@@ -2878,6 +2878,7 @@ sub TicketWorkflow {
         # set match params
         my $Match = 1;
         my $Match3 = 0;
+        my $UseNewParams = 0;
         foreach my $Key (keys %Checks) {
 #print STDERR "($StepT)Key: $Key\n";
           foreach my $Data (keys %{$Step{Properties}->{$Key}}) {
@@ -2922,8 +2923,8 @@ sub TicketWorkflow {
             $Match3 = 1;
         }
         # debug log
+        my %NewTmpData = ();
         if ($Match && $Match3) {
-            %NewData = ();
             if ($Self->{Debug} > 2) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
@@ -2945,7 +2946,7 @@ sub TicketWorkflow {
             foreach my $ID (keys %Data) {
                 foreach my $New (@{$Step{Possible}->{Ticket}->{$Param{Type}}}) {
                     if ($Data{$ID} eq $New) {
-                        $NewData{$ID} = $Data{$ID};
+                        $NewTmpData{$ID} = $Data{$ID};
                         if ($Self->{Debug} > 4) {
                             $Self->{LogObject}->Log(
                                 Priority => 'debug',
@@ -2974,7 +2975,7 @@ sub TicketWorkflow {
                     }
                 }
                 if ($Match) {
-                    $NewData{$ID} = $Data{$ID};
+                    $NewTmpData{$ID} = $Data{$ID};
                     if ($Self->{Debug} > 4) {
                         $Self->{LogObject}->Log(
                             Priority => 'debug',
@@ -2984,13 +2985,18 @@ sub TicketWorkflow {
                 }
             }
         }
-        # return new params
+        # remember to new params if given
+        if ($UseNewParams) {
+            %NewData = %NewTmpData;
+            $UseNewMasterParams = 1;
+        }
+        # return new params if stop after this step
         if ($UseNewParams && $Step{StopAfterMatch}) {
             $Self->{TicketWorkflowData} = \%NewData;
             return 1;
         }
     }
-    if ($UseNewParams) {
+    if ($UseNewMasterParams) {
         $Self->{TicketWorkflowData} = \%NewData;
         return 1;
     }
@@ -3015,6 +3021,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2004-04-18 13:59:02 $
+$Revision: 1.92 $ $Date: 2004-04-18 14:18:14 $
 
 =cut
