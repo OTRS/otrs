@@ -2,13 +2,19 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.38 2002-12-08 22:10:46 martin Exp $
+# $Id: CHANGES,v 1.39 2002-12-18 22:07:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 0.5 BETA9 (2002-??-??)
+ - (2002/12/18) added config option CheckEmailAddresses and CheckMXRecord.
+    CheckMXRecord is useful for pre checks of valid/invalid senders (reduce
+    Postmaster emails). Disable CheckEmailAddresses if you work with 
+    customers which don't have email addresses! 
+ - (2002/12/18) added more error handling to AgentPhone
+ - (2002/12/12) added finnish translation - Thanks to Antti Kämäräinen! 
  - (2002/12/08) added TicketCryptModule feature - crypt plain emails and
     attachments with backend modules Kernel::System::Ticket::Crypt::Plain
     (not crypted - default) or Kernel::System::Ticket::Crypt::Blowfish
@@ -82,7 +88,7 @@
  - (2002/11/01) added file permission check for PostMaster.pl on startup!
     -=> Will help to get setup faster working!
  - (2002/10/31) added email valid check (incl. mx) on CreateAccount (customer 
-    panel) -=> Config option: $Self->{CustomerPanelMXCheck}!
+    panel) -=> Config option: $Self->{CheckMXRecord}!
 
 0.5 BETA8 (2002-10-25)
  - (2002/10/24) improved web installer - added system settings
