@@ -2,7 +2,7 @@
 # AgentEmailNew.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmailNew.dtl,v 1.10 2004-10-18 15:38:18 martin Exp $
+# $Id: AgentEmailNew.dtl,v 1.11 2004-11-05 07:08:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -181,7 +181,7 @@ function clear_field()
   <tr>
     <td class="contentkey">$Text{"Attachment"}:</td>
     <td class="contentvalue">
-     <table cellspacing="0" cellpadding="0" width="300">
+     <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
        <tr>
         <td>$QData{"Filename"}</td>
@@ -190,7 +190,7 @@ function clear_field()
       </tr>
 <!-- dtl:block:Attachment -->
       <tr>
-        <td colspan="2"><input name="file_upload" type="file" size="30" class="fixed"></td>
+        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
         <td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
       </tr>
       </table>

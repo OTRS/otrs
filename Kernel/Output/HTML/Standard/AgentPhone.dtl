@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.22 2004-10-06 19:44:35 martin Exp $
+# $Id: AgentPhone.dtl,v 1.23 2004-11-05 07:08:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -87,7 +87,7 @@ function SpellCheckSubmit()
   <tr>
     <td class="contentkey">$Text{"Attachment"}:</td>
     <td class="contentvalue">
-     <table cellspacing="0" cellpadding="0" width="300">
+     <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
        <tr>
          <td>$QData{"Filename"}</td>
@@ -96,7 +96,7 @@ function SpellCheckSubmit()
        </tr>
 <!-- dtl:block:Attachment -->
        <tr>
-         <td colspan="2"><input name="file_upload" type="file" size="30" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
+         <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
        </tr>
      </table>
     </td>

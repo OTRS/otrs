@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.33 2004-10-12 13:53:38 martin Exp $
+# $Id: AgentCompose.dtl,v 1.34 2004-11-05 07:08:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -96,36 +96,36 @@ function FAQSubmit()
   <input type="hidden" name="FormID" value="$QData{"FormID"}">
   <table border="0" width="100%">
     <tr>
-      <td width="20%">$Text{"From"}:</td>
-      <td width="80%">$Data{"From"} <input type="hidden" name="From" value="$Data{"From"}"> <font color="red" size="-2">$Data{"From invalid"}</font></td>
+      <td class="contentkey" width="20%">$Text{"From"}:</td>
+      <td class="contentvalue" width="80%">$Data{"From"} <input type="hidden" name="From" value="$Data{"From"}"> <font color="red" size="-2">$Data{"From invalid"}</font></td>
     </tr>
     <tr>
-      <td>$Text{"To"}:</td>
-      <td><input type="text" name="To" value="$Data{"To"}" size="80"> <font color="red" size="-2">$Data{"To invalid"}</font></td>
+      <td class="contentkey">$Text{"To"}:</td>
+      <td class="contentvalue"><input type="text" name="To" value="$Data{"To"}" size="80"> <font color="red" size="-2">$Data{"To invalid"}</font></td>
     </tr>
     <tr>
-      <td>$Text{"Cc"}:</td>
-      <td><input type="text" name="Cc" value="$Data{"Cc"}" size="80"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
+      <td class="contentkey">$Text{"Cc"}:</td>
+      <td class="contentvalue"><input type="text" name="Cc" value="$Data{"Cc"}" size="80"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
     </tr>
     <tr>
-      <td>$Text{"Bcc"}:</td>
-      <td><input type="text" name="Bcc" value="$Data{"Bcc"}" size="80"> <font color="red" size="-2">$Data{"Bcc invalid"}</font></td>
+      <td class="contentkey">$Text{"Bcc"}:</td>
+      <td class="contentvalue"><input type="text" name="Bcc" value="$Data{"Bcc"}" size="80"> <font color="red" size="-2">$Data{"Bcc invalid"}</font></td>
     </tr>
     <tr>
-      <td>$Text{"Subject"}:</td>
-      <td><input type="text" name="Subject" value="$Data{"Subject"}" size="80"></td>
+      <td class="contentkey">$Text{"Subject"}:</td>
+      <td class="contentvalue"><input type="text" name="Subject" value="$Data{"Subject"}" size="80"></td>
     </tr>
 <!-- dtl:block:Option -->
     <tr>
-      <td>$Text{"$QData{"Key"}"}:</td>
-      <td>
+      <td class="contentkey">$Text{"$QData{"Key"}"}:</td>
+      <td class="contentvalue">
       $Data{"Value"} <font color="red" size="-2">$Data{"Invalid"}</font>
       </td>
     </tr>
 <!-- dtl:block:Option -->
     <tr>
-      <td>$Text{"Options"}:</td>
-      <td>
+      <td class="contentkey">$Text{"Options"}:</td>
+      <td class="contentvalue">
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
        $Env{"Box0"}<a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$Text{"Address Book"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}contents.png">$Text{"Address Book"}</a>$Env{"Box1"}
        $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
@@ -137,8 +137,8 @@ function FAQSubmit()
       </td>
     </tr>
     <tr>
-      <td valign="top">$Text{"Text"}:</td>
-      <td>
+      <td class="contentkey">$Text{"Text"}:</td>
+      <td class="contentvalue">
 <pre>
 <textarea name="Body" rows="25" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
 $Data{"ResponseFormat"}
@@ -153,32 +153,65 @@ $Data{"ResponseFormat"}
     $Data{"StdAttachmentsTable"}
 #
     <tr>
-      <td valign="top">$Text{"Attachment"}:</td><td>
-     <table cellspacing="0" cellpadding="0" width="300">
+      <td class="contentkey">$Text{"Attachment"}:</td>
+      <td class="contentvalue">
+       <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
-       <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
+         <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
 <!-- dtl:block:Attachment -->
-       <tr><td colspan="2">
-       <input name="file_upload" type="file" size="30" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
+         <tr><td colspan="2">
+         <input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
        </td></tr>
        </table>
       </td>
     </tr>
     <tr>
-      <td>$Text{"Next ticket state"}:</td>
-      <td>$Data{"NextStatesStrg"}</td>
+      <td class="contentkey">$Text{"Next ticket state"}:</td>
+      <td class="contentvalue">$Data{"NextStatesStrg"}</td>
     </tr>
     <tr>
-      <td>$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
-      <td>$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+      <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+      <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+    </tr>
+#    <tr>
+#      <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#      <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#    </tr>
+#   <tr>
+#      <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#      <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#   </tr>
+#   <tr>
+#      <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
+#      <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
+#   </tr>
+#   <tr>
+#      <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
+#      <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
+#   </tr>
+#   <tr>
+#      <td class="contentkey">$Data{"TicketFreeKeyField5"}:</td>
+#      <td class="contentvalue">$Data{"TicketFreeTextField5"}</td>
+#   </tr>
+#   <tr>
+#      <td class="contentkey">$Data{"TicketFreeKeyField6"}:</td>
+#      <td class="contentvalue">$Data{"TicketFreeTextField6"}</td>
+#   </tr>
+#   <tr>
+#      <td class="contentkey">$Data{"TicketFreeKeyField7"}:</td>
+#      <td class="contentvalue">$Data{"TicketFreeTextField7"}</td>
+#   </tr>
+#   <tr>
+#      <td class="contentkey">$Data{"TicketFreeKeyField8"}:</td>
+#      <td class="contentvalue">$Data{"TicketFreeTextField8"}</td>
+#   </tr>
+    <tr>
+      <td class="contentkey">$Text{"Is the ticket answered"}:</td>
+      <td class="contentvalue">$Data{"AnsweredYesNoOption"}</td>
     </tr>
     <tr>
-      <td>$Text{"Is the ticket answered"}:</td>
-      <td>$Data{"AnsweredYesNoOption"}</td>
-    </tr>
-    <tr>
-      <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
-      <td><input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
+      <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+      <td class="contentvalue"><input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
     </tr>
   </table>
   <br>
