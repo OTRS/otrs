@@ -2,13 +2,41 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.2 2002-07-31 23:17:23 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.3 2002-08-04 14:43:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+
+<!-- This java script is just for nice to have funktions! -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.From.value == "") {
+        alert('$Text{"A message should have a From: recipient!"}');
+        document.compose.From.focus();
+        return false;
+    }
+    else if (document.compose.From.value.indexOf('@') == -1) {
+        alert('$Text{"You need a email address (e. g. customer@example.com) in From:!"}');
+        document.compose.From.focus();
+        return false;
+    }
+    else if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left"> 
@@ -23,7 +51,7 @@
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="post" name="compose">
 <input type="hidden" name="Action" value="AgentPhone">
 <input type="hidden" name="Subaction" value="StoreNew">
 <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
@@ -55,7 +83,7 @@ $Text{"$Config{"DefaultPhoneNewNoteText"}"}
   </tr>
   </table>
 <br>
-<input type="submit" value="$Text{"store"}">
+<input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
 </form>
 
 </p>
