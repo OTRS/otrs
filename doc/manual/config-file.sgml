@@ -43,8 +43,9 @@ Your can configure the value of the TicketHook which is the first part of the su
 </programlisting>
 </example>
 <para>
-Note: Don't use 'TN', because MS Outlook is replacing "TN: 54968797" with "RE: 54968797" 
-and then you will run in trouble. 
+Note: Don't use only 2-character like 'TN', because MS Outlook is replacing 
+"TN: 54968797" with "RE: 54968797" (any 2-character with :) and then you 
+will run in trouble. 
 </para>
 </sect1>
 
