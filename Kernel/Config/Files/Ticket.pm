@@ -1064,7 +1064,7 @@ $Data{"Signature"}
     $Self->{CustomerPanelDefaultNextComposeType} = 'open';
     $Self->{CustomerPanelNextComposeState} = 1;
     # next possible states for compose message
-    $Self->{CustomerPanelDefaultNextComposeStateType} = ['open', 'closed'];
+    $Self->{'Ticket::CustomerPanelDefaultNextComposeStateType'} = ['open', 'closed'];
 
     # default article type
     $Self->{CustomerPanelNewArticleType} = 'webrequest';
