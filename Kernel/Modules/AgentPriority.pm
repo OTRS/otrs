@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.18 2004-01-09 16:49:02 martin Exp $
+# $Id: AgentPriority.pm,v 1.19 2004-04-01 09:18:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -111,7 +111,12 @@ sub MaskPriority {
     my %Param = @_;
     # get and priority priority states
     $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{TicketObject}->PriorityList(UserID => $Self->{UserID}) },
+        Data => { 
+            $Self->{TicketObject}->PriorityList(
+                UserID => $Self->{UserID}, 
+                TicketID => $Self->{TicketID},
+            ) 
+        },
         Name => 'PriorityID',
         SelectedID => $Param{PriorityID},
     );
