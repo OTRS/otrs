@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.5 2004-02-02 23:56:39 martin Exp $
+# $Id: pt.pm,v 1.6 2004-02-09 15:23:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb  3 00:43:42 2004 by 
+    # Last translation Tue Feb  8 18:43:42 2004 by Filipe Henriques
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -38,7 +38,7 @@ sub Data {
       ' 2 minutes' => ' 2 minutos',
       ' 5 minutes' => ' 5 minutos',
       ' 7 minutes' => ' 7 minutos',
-      '(Click here to add)' => '',
+      '(Click here to add)' => '(Clique aqui para adicionar)',
       '10 minutes' => '10 minutos',
       '15 minutes' => '15 minutos',
       'AddLink' => 'Adicionar link',
@@ -48,7 +48,7 @@ sub Data {
       'all' => 'todos',
       'All' => 'Todos',
       'Attention' => 'Atenção',
-      'before' => '',
+      'before' => 'antes',
       'Bug Report' => 'Relatório de Erros',
       'Cancel' => 'Cancelar',
       'change' => 'alterar',
@@ -60,7 +60,7 @@ sub Data {
       'customer' => 'cliente',
       'Customer Info' => 'Informação do Cliente',
       'day' => 'dia',
-      'day(s)' => '',
+      'day(s)' => 'dia(s)',
       'days' => 'dias',
       'description' => 'descrição',
       'Description' => 'Descrição',
@@ -88,7 +88,7 @@ sub Data {
       'Invalid SessionID!' => 'Identificador de Sessão Inválido',
       'Language' => 'Idioma',
       'Languages' => 'Idiomas',
-      'last' => '',
+      'last' => 'ultimo',
       'Line' => 'Linha',
       'Lite' => 'Lite',
       'Login failed! Your username or password was entered incorrectly.' => 'Login inválido! O utilizador ou password foram introduzidos incorrectamente.',
@@ -98,7 +98,7 @@ sub Data {
       'minutes' => 'minutos',
       'Module' => 'Módulo',
       'Modulefile' => 'Ficheiro de Módulo',
-      'month(s)' => '',
+      'month(s)' => 'mes(ses)',
       'Name' => 'Nome',
       'New Article' => 'Novo Artigo',
       'New message' => 'Nova mensagem',
@@ -110,7 +110,7 @@ sub Data {
       'none' => 'Nada',
       'none - answered' => 'nada  - respondido',
       'none!' => 'Nada!',
-      'Normal' => '',
+      'Normal' => 'Normal',
       'Off' => 'Desligado',
       'off' => 'desligado',
       'On' => 'Ligado',
@@ -122,7 +122,7 @@ sub Data {
       'please do not edit!' => 'por favor não editar!',
       'Please go away!' => 'Sair, por favor',
       'possible' => 'possível',
-      'Preview' => '',
+      'Preview' => 'Ver antes',
       'QueueView' => 'QueueView',
       'reject' => 'rejeitar',
       'replace with' => 'substituir por',
@@ -146,17 +146,17 @@ sub Data {
       'To: (%s) replaced with database email!' => 'Para: (%s) substituido pelo email da base de dados',
       'top' => 'início',
       'update' => 'actualizar',
-      'Update' => '',
+      'Update' => 'Actualizar',
       'update!' => 'actualizar!',
       'User' => 'Utilizador',
       'Username' => 'Nome de Utilizador',
       'Valid' => 'Válido',
       'Warning' => 'Aviso',
-      'week(s)' => '',
+      'week(s)' => 'semana(s)',
       'Welcome to OTRS' => 'Bem-vindo ao OTRS',
       'Word' => 'Palavra',
       'wrote' => 'escreveu',
-      'year(s)' => '',
+      'year(s)' => 'ano(s)',
       'yes' => 'sim',
       'Yes' => 'Sim',
       'You got new message!' => 'Recebeu uma mensagem nova',
@@ -358,8 +358,8 @@ sub Data {
       'Logout' => 'Sair',
       'Misc' => 'Variedades',
       'Notifications' => 'Notificações',
-      'PostMaster Filter' => '',
-      'PostMaster POP3 Account' => '',
+      'PostMaster Filter' => 'Filtro do PostMaster',
+      'PostMaster POP3 Account' => 'Conta de POP3 do PostMaster',
       'Responses' => 'Respostas',
       'Responses <-> Queue' => 'Respostas <-> Queues',
       'Select Box' => 'Caixa de Seleção',
@@ -369,12 +369,12 @@ sub Data {
       'User <-> Groups' => 'Utilizador <-> Grupos',
 
     # Template: AdminNotificationForm
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opções de Configuração (Ex. &lt;OTRS_CONFIG_HttpType&gt;)',
       'Notification Management' => 'Gestão de Notificação',
-      'Notifications are sent to an agent or a customer.' => '',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+      'Notifications are sent to an agent or a customer.' => 'Notificações são enviadas para o agente ou o cliente',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opçoes do Cliente corrente (Ex. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opções do utilizador que requereu a acção (Ex. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opções do dono do Ticket',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Todos os emails de entrada com uma conta será despachado na Queue selecionada!',
@@ -386,9 +386,9 @@ sub Data {
       'Trusted' => 'Confiável',
 
     # Template: AdminPostMasterFilterForm
-      'Match' => '',
-      'PostMasterFilter Management' => '',
-      'Set' => '',
+      'Match' => 'Igual',
+      'PostMasterFilter Management' => 'Gestão do filtro do PostMaster',
+      'Set' => 'Selecciona',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Gestão de Queues <-> Auto-Resposta',
@@ -456,7 +456,7 @@ sub Data {
       'SQL' => 'SQL',
 
     # Template: AdminSession
-      'Agent' => '',
+      'Agent' => 'Agente',
       'kill all sessions' => 'Finalizar todas as sessões',
       'Overview' => 'Overview',
       'Sessions' => 'Sessões',
@@ -489,14 +489,14 @@ sub Data {
       'User will be needed to handle tickets.' => 'Será necessário um user para manipular os tickets.',
 
     # Template: AdminUserGroupChangeForm
-      'create' => 'Criar',
-      'move_into' => 'Mover para',
-      'owner' => 'Dono',
-      'Permissions to change the ticket owner in this group/queue.' => '',
-      'Permissions to change the ticket priority in this group/queue.' => '',
-      'Permissions to create tickets in this group/queue.' => '',
-      'Permissions to move tickets into this group/queue.' => '',
-      'priority' => '',
+      'create' => 'criar',
+      'move_into' => 'mover para',
+      'owner' => 'dono',
+      'Permissions to change the ticket owner in this group/queue.' => 'Permissões para modificar o dono do Ticket neste grupo/queue',
+      'Permissions to change the ticket priority in this group/queue.' => 'Permissões para modificar a prioridade do Ticket neste grupo/queue',
+      'Permissions to create tickets in this group/queue.' => 'Permisses para criar Tickets neste grupo/queue',
+      'Permissions to move tickets into this group/queue.' => 'Permissões para mover Tickets neste grupo/queue',
+      'priority' => 'prioridade',
       'User <-> Group Management' => 'Users <-> Gestão de Grupos',
 
     # Template: AdminUserGroupForm
@@ -504,10 +504,10 @@ sub Data {
     # Template: AdminUserPreferencesGeneric
 
     # Template: AgentBook
-      'Address Book' => '',
+      'Address Book' => 'Lista de Endereços',
       'Discard all changes and return to the compose screen' => 'Descartar todas as modificações e retornar para o ecrã de composição',
       'Return to the compose screen' => 'Retornar para o ecrã de composição',
-      'Search' => '',
+      'Search' => 'Procura',
       'The message being composed has been closed.  Exiting.' => 'A mensagem sendo composta foi fechada. Saindo.',
       'This window must be called from compose window' => 'Esta janela deve ser chamada da janela de composição',
 
@@ -523,8 +523,8 @@ sub Data {
 
     # Template: AgentClose
       ' (work units)' => ' (unidades de trabalho)',
-      'A message should have a body!' => '',
-      'A message should have a subject!' => 'Uma mensagem deve conter um assunto!',
+      'A message should have a body!' => 'A mensagem deve conter um texto!',
+      'A message should have a subject!' => 'A mensagem deve conter um assunto!',
       'Close ticket' => 'Fechar ticket',
       'Close type' => 'Tipo de fecho',
       'Close!' => 'Fechar!',
@@ -533,10 +533,10 @@ sub Data {
       'Options' => 'Opções',
       'Spell Check' => 'Checar Ortografia',
       'Time units' => 'Unidades de tempo',
-      'You need to account time!' => '',
+      'You need to account time!' => 'É necessário o tempo dispendido',
 
     # Template: AgentCompose
-      'A message must be spell checked!' => '',
+      'A message must be spell checked!' => 'Tem de verificar a ortografia da mensagem',
       'Attach' => 'Anexo',
       'Compose answer for ticket' => 'Compôr uma resposta para o ticket',
       'for pending* states' => 'em estado pendente*',
@@ -548,7 +548,7 @@ sub Data {
       'Change customer of ticket' => 'Modificar o cliente do ticket',
       'CustomerID' => 'Id.do Cliente',
       'Search Customer' => 'Procurar cliente',
-      'Set customer user and customer id of a ticket' => '',
+      'Set customer user and customer id of a ticket' => 'É necessário o utilizador e o ID do cliente do Ticket',
 
     # Template: AgentCustomerHistory
       'All customer tickets.' => 'Todos os Tickets do utilizador',
@@ -570,7 +570,7 @@ sub Data {
 
     # Template: AgentFreeText
       'Change free text of ticket' => 'Alterar Texto livre do Ticket',
-      'Value' => '',
+      'Value' => 'Valor',
 
     # Template: AgentHistoryForm
       'History of' => 'Histórico de',
@@ -600,7 +600,7 @@ sub Data {
       'Move Ticket' => 'Mover Ticket',
       'New Owner' => 'Novo Proprietário',
       'New Queue' => 'Nova Queue',
-      'Previous Owner' => 'Pro+rietário Anterior',
+      'Previous Owner' => 'Proprietário Anterior',
       'Queue ID' => 'ID da Queue',
 
     # Template: AgentNavigationBar
@@ -673,7 +673,7 @@ sub Data {
 
     # Template: AgentTicketLink
       'Link' => '',
-      'Link to' => '',
+      'Link to' => 'Link para',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket bloqueado!',
@@ -703,7 +703,7 @@ sub Data {
       'Ticket created' => 'Ticket criado',
       'Ticket created between' => 'Ticket criado entre',
       'Ticket Search' => 'Procura de Tickets',
-      'TicketFreeText' => 'Texto liver do Ticket',
+      'TicketFreeText' => 'Texto livre do Ticket',
       'Times' => 'Vezes',
       'Yes, save it with name' => 'Sim, guardar com o nome',
 
@@ -849,7 +849,7 @@ sub Data {
       'You really want to delete this article?' => 'Deseja mesmo eliminar este artigo?',
 
     # Template: FAQArticleForm
-      'Comment (internal)' => '',
+      'Comment (internal)' => 'Comentário (interno)',
       'Filename' => 'Nome do Ficheiro',
       'Short Description' => 'Pequena Descrição',
 
@@ -876,7 +876,7 @@ sub Data {
     # Template: FAQSearchResult
 
     # Template: FAQStateForm
-      'FAQ State' => '',
+      'FAQ State' => 'Estado da FAQ',
 
     # Template: Footer
       'Top of Page' => 'Topo da Página',
@@ -896,7 +896,7 @@ sub Data {
       'Have a lot of fun!' => 'Divirta-se!',
       'Restart your webserver' => 'Reinicie o seu servidor Web',
       'Start page' => 'Página Inicial',
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Para usar o OTRS tem de introduzir o seguinte comando na linha de comandos (Terminal/Shell) como root',
       'Your OTRS Team' => 'A sua Equipa OTRS',
 
     # Template: InstallerLicense
@@ -926,7 +926,7 @@ sub Data {
       '(Full qualified domain name of your system)' => '(Nome completo do domínio do seu sistema)',
       '(Logfile just needed for File-LogModule!)' => '(Ficheiro de registo para File-LogModule)',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(A identidade do sistema. Cada número de Ticket e cada id. da sessão http, inicia com este número)',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificação do Ticket. Algumas pessoas usam \'Ticket#\', \'Chamada#\' or \'MeuTicket#\')',
       '(Used default language)' => '(Idioma padrão utilizado)',
       '(Used log backend)' => '()',
       '(Used ticket number format)' => '(Formato de Ticket utilizado)',
@@ -940,7 +940,7 @@ sub Data {
       'SystemID' => 'ID do sistema',
       'Ticket Hook' => 'Identificador do Ticket',
       'Ticket Number Generator' => 'Gerador de Números de Tickets',
-      'Use utf-8 it your database supports it!' => '',
+      'Use utf-8 it your database supports it!' => 'Usar utf-8 se a base de dados suportar',
       'Webfrontend' => 'Interface Web',
 
     # Template: Login
