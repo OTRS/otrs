@@ -1,8 +1,8 @@
 # --
-# Kernel/Config.pm - Config file for OpenTRS kernel
+# Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.56 2002-08-26 22:03:23 martin Exp $
+# $Id: Config.pm,v 1.57 2002-08-27 23:41:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,22 +13,19 @@
 #         -->> Config options see below -- line 30 <<--
 # 
 # -- 
-
 package Kernel::Config;
 
 use strict;
+use Kernel::Config::Postmaster;
+use Kernel::Config::Notification;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.56 $';
+@ISA = qw(Kernel::Config::Postmaster Kernel::Config::Notification);
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub Load {
     my $Self = shift;
-    # debug
-    if ($Self->{Debug} > 0) {
-        print STDERR "Debug: Config.pm Kernel::Config->Load()\n";
-    }
-
     # ----------------------------------------------------#
     # ----------------------------------------------------#
     #                                                     #
@@ -40,7 +37,6 @@ sub Load {
     # ----------------------------------------------------#
     # system data                                         #
     # ----------------------------------------------------#
-
     # SecureMode
     # (Enable this so you can't use the installer.pl)
     $Self->{SecureMode} = 0;
@@ -90,7 +86,6 @@ sub Load {
     # ----------------------------------------------------#
     # database settings                                   #
     # ----------------------------------------------------#
-
     # DatabaseHost
     # (The database host.)
     $Self->{DatabaseHost} = 'localhost';
@@ -113,7 +108,6 @@ sub Load {
 
     # (The database DSN for PostgrSQL ==> more: "man DBD::Pg") 
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};";
-
 
     # SessionTable 
     $Self->{DatabaseSessionTable} = 'session';
@@ -139,7 +133,6 @@ sub Load {
     # (enable what you need, auth against otrs db or      #
     # against a LDAP directory)                           #
     # ----------------------------------------------------#
-
     # This is the auth. module againt the otrs db
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
 
@@ -155,54 +148,8 @@ sub Load {
 #    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
 
     # ----------------------------------------------------#
-    # user preferences settings                           #
-    # (allow you to add simply more user preferences)     #
-    # ----------------------------------------------------#
-
-    $Self->{UserPreferences} = {
-      # key => value
-      # key is usable with $Env{"UserCharset"} in dtl.
-      UserEmail => 'Email',
-      UserCharset => 'Charset',
-      UserTheme => 'Theme',
-      UserLanguage => 'Language',
-      UserComment => 'Comment',
-      UserSendFollowUpNotification => 'UserSendFollowUpNotification',
-      UserSendNewTicketNotification => 'UserSendNewTicketNotification',
-    };
-
-    $Self->{UserPreferencesMaskUse} = [
-      # keys
-      # html params in dtl files
-      'ID',
-      'Salutation',
-      'Login',
-      'Firstname',
-      'Lastname',
-      'ValidID',
-      'Pw',
-    ];
-    
-    # ----------------------------------------------------#
-    #  default queue  settings                            #
-    #  these settings are used by the CLI version         #
-    # ----------------------------------------------------#
-
-    $Self->{QueueDefaults} = {
-      UnlockTimeout => 0,
-      EscalationTime => 0,
-      FollowUpLock => 0,
-      SystemAddressID => 1,
-      SalutationID => 1,
-      SignatureID => 1,
-      FollowUpID => 1,
-      FollowUpLock => 0,
-    };
-
-    # ----------------------------------------------------#
     # default agent settings                              #
     # ----------------------------------------------------#
-
     # ViewableTickets
     # (The default viewable tickets a page.)
     $Self->{ViewableTickets} = 15;
@@ -245,11 +192,9 @@ sub Load {
     $Self->{HighlightAge2} = 2880;
     $Self->{HighlightColor2} = 'red';
 
-
     # ----------------------------------------------------#
     # AgentUtil                                           #
     # ----------------------------------------------------#
-
     # default limit for Tn search
     # [default: 20]
     $Self->{SearchLimitTn} = 20;
@@ -262,12 +207,9 @@ sub Load {
     # [default: 15]
     $Self->{ViewableTicketLinesBySearch} = 15;
 
-
     # ----------------------------------------------------#
-    # session settings                                    #
+    # SessionModule (replace old SessionDriver!!!)        #
     # ----------------------------------------------------#
-
-    # SessionModule (replace old SessionDriver!!!)
     # (How should be the session-data stored? 
     # Advantage of DB is that you can split the 
     # Frontendserver from the DB-Server. fs is faster.)
@@ -321,10 +263,8 @@ sub Load {
 #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # ----------------------------------------------------#
-    # log settings                                        #
+    # LogModule                                           #
     # ----------------------------------------------------#
-    
-    # LogModule
     # (log backend module)
     $Self->{LogModule} = 'Kernel::System::Log::SysLog';
 #    $Self->{LogModule} = 'Kernel::System::Log::File';
@@ -335,13 +275,12 @@ sub Load {
     # ----------------------------------------------------#
     # web stuff                                           #
     # ----------------------------------------------------#
-
     # CGIHandle
     # (Global CGI handle.)
     $Self->{CGIHandle} = 'index.pl';
     
     # CGILogPrefix
-    $Self->{CGILogPrefix} = 'OpenTRS-CGI';
+    $Self->{CGILogPrefix} = 'OTRS-CGI';
 
     # ----------------------------------------------------#
     # directories                                         #
@@ -376,13 +315,9 @@ sub Load {
     #  default:  ["'customer'"]
     $Self->{ViewableSenderTypes} = ["'customer'"];
 
-
     # ----------------------------------------------------#
-    # PostMaster stuff                                    #
+    # TicketNumberGenerator                               # 
     # ----------------------------------------------------#
-  
-    # TicketNumberGenerator 
-    # 
     # Kernel::System::Ticket::Number::AutoIncrement (default) --> auto increment 
     #   ticket numbers "SystemID.Counter" like 1010138 and 1010139.
     #
@@ -400,117 +335,28 @@ sub Load {
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Random';
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
  
-    # MaxPostMasterEmails
-    # (Max post master daemon email to own email-address a day.
-    # Loop-Protection!) [default: 20]
-    $Self->{MaxPostMasterEmails} = 20;
-
-    # PostmasterUserID
-    # (The post master db-uid.) [default: 1]
-    $Self->{PostmasterUserID} = 1;
-
-    # DefaultQueue
-    # (The default queue of all.) [default: Raw]
-    $Self->{DefaultQueue} = 'Raw';
-
-    # DefaultPriority
-    # (The default priority of new tickets.) [default: normal]
-    $Self->{DefaultPriority} = 'normal';
-
-    # DefaultState
-    # (The default state of new tickets.) [default: new]
-    $Self->{DefaultState} = 'new';
-
-    # X-Header
-    # (All scanned x-headers.)
-    $Self->{"X-Header"} = [
-      'From',
-      'To',
-      'Cc',
-      'Reply-To',
-      'ReplyTo',
-      'Subject',
-      'Message-ID',
-      'Message-Id',
-      'Precedence',
-      'Mailing-List',
-      'X-Loop',
-      'X-No-Loop',
-      'X-OTRS-Loop',
-      'X-OTRS-Info',
-      'X-OTRS-Priority',
-      'X-OTRS-Queue',
-      'X-OTRS-Ignore',
-      'X-OTRS-State',
-      'X-OTRS-CustomerNo',
-      'X-OTRS-ArticleKey1',
-      'X-OTRS-ArticleKey2',
-      'X-OTRS-ArticleKey3',
-      'X-OTRS-ArticleValue1',
-      'X-OTRS-ArticleValue2',
-      'X-OTRS-ArticleValue3',
-      'X-OTRS-TicketKey1',
-      'X-OTRS-TicketKey2',
-      'X-OTRS-TicketValue1',
-      'X-OTRS-TicketValue2',
-    ];
-
     # ----------------------------------------------------#
-    # notification stuff                                  #
+    # TicketViewAccelerator                               #
     # ----------------------------------------------------#
-    # notification sender
-    $Self->{NotificationSenderName} = 'OpenTRS Notification Master';
-    $Self->{NotificationSenderEmail} = 'otrs@'.$Self->{FQDN};
-    # --
-    # new ticket in queue
-    # --
-    $Self->{NotificationSubjectNewTicket} = 'New ticket notification! (<OTRS_CUSTOMER_SUBJECT[10]>)';
-    $Self->{NotificationBodyNewTicket} = "
-Hi,
+    # choose your backend TicketViewAccelerator module
 
-there is a new ticket in '<OTRS_QUEUE>'!
+    # RuntimeDB 
+    # (generate each queue view on the fly from ticket table
+    # you will not have performance trouble till ~ 50.000 tickets 
+    # in your system)
+    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
 
-<snip>
-<OTRS_CUSTOMER_EMAIL[6]>
-<snip>
+    # FS
+    # (write the shown tickets in a file - use bin/RebuildTicketIndex.pl for initial
+    # index update)
+#    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::FS';
+#    $Self->{'TicketIndexModule::IndexFile'} = $Self->{Home} . '/var/tmp/ticket-index'; 
 
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
-
-Your OpenTRS Notification Master
-
-";
-    # --
-    # ticket follow up from customer
-    # --
-    $Self->{NotificationSubjectFollowUp} = 'You got follow up! (<OTRS_CUSTOMER_SUBJECT[10]>)';
-    $Self->{NotificationBodyFollowUp} = "
-Hi <OTRS_USER_FIRSTNAME>,
-
-you got a follow up!
-
-<snip>
-<OTRS_CUSTOMER_EMAIL[6]>
-<snip>
-
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
-
-Your OpenTRS Notification Master
-
-";
-    # --
-    # ticket lock timeout my system
-    # --
-    $Self->{NotificationSubjectLockTimeout} = 'Lock Timeout! (<OTRS_CUSTOMER_SUBJECT[10]>)';
-    $Self->{NotificationBodyLockTimeout} = "
-Hi <OTRS_USER_FIRSTNAME>,
-
-unlocked your locked ticket [<OTRS_TICKET_NUMBER>].
-
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
-
-Your OpenTRS Notification Master
-
-";
+    # StaticDB
+    # (the most powerfull module, it should be used over 80.000 
+    # tickets in a system - use a extra ticket_index table, works like a view -
+    # use bin/RebuildTicketIndex.pl for initial index update)
+#    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB';
 
     # ----------------------------------------------------#
     # default values                                      #
@@ -550,7 +396,6 @@ Your OpenTRS Notification Master
     # default note text
     $Self->{DefaultNoteText} = '';
 
-
     # ----------------------------------------------------#
     # defaults for close ticket                           #
     # ----------------------------------------------------#
@@ -562,7 +407,6 @@ Your OpenTRS Notification Master
     $Self->{DefaultCloseNoteText} = '';
     # CloseType
     $Self->{DefaultCloseType} = 'closed succsessful';
-
 
     # ----------------------------------------------------#
     # defaults for compose message                        #
@@ -659,27 +503,48 @@ Your OpenTRS Notification Master
     ];
 
     # ----------------------------------------------------#
-    # TicketViewAccelerator                               #
+    # user preferences settings                           #
+    # (allow you to add simply more user preferences)     #
     # ----------------------------------------------------#
-    # chose your backend TicketViewAccelerator module
+    $Self->{UserPreferences} = {
+      # key => value
+      # key is usable with $Env{"UserCharset"} in dtl.
+      UserEmail => 'Email',
+      UserCharset => 'Charset',
+      UserTheme => 'Theme',
+      UserLanguage => 'Language',
+      UserComment => 'Comment',
+      UserSendFollowUpNotification => 'UserSendFollowUpNotification',
+      UserSendNewTicketNotification => 'UserSendNewTicketNotification',
+    };
 
-    # RuntimeDB 
-    # (generate each queue view on the fly from ticket table
-    # you will not have performance trouble till ~ 50.000 tickets 
-    # in your system)
-    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+    $Self->{UserPreferencesMaskUse} = [
+      # keys
+      # html params in dtl files
+      'ID',
+      'Salutation',
+      'Login',
+      'Firstname',
+      'Lastname',
+      'ValidID',
+      'Pw',
+    ];
+    
+    # ----------------------------------------------------#
+    #  default queue  settings                            #
+    #  these settings are used by the CLI version         #
+    # ----------------------------------------------------#
 
-    # FS
-    # (write the shown tickets in a file - use bin/RebuildTicketIndex.pl for initial
-    # index update)
-#    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::FS';
-#    $Self->{'TicketIndexModule::IndexFile'} = $Self->{Home} . '/var/tmp/ticket-index'; 
-
-    # StaticDB
-    # (the most powerfull module, it should be used over 80.000 
-    # tickets in a system - use a extra ticket_index table, works like a view -
-    # use bin/RebuildTicketIndex.pl for initial index update)
-#    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB';
+    $Self->{QueueDefaults} = {
+      UnlockTimeout => 0,
+      EscalationTime => 0,
+      FollowUpLock => 0,
+      SystemAddressID => 1,
+      SalutationID => 1,
+      SignatureID => 1,
+      FollowUpID => 1,
+      FollowUpLock => 0,
+    };
 
     # ----------------------------------------------------#
     # misc                                                #
@@ -708,6 +573,13 @@ sub new {
 
     # load config
     $Self->Load();
+
+    # load postmaster config
+    $Self->LoadPostmaster();
+
+    # load notification config
+    $Self->LoadNotification();
+
     return $Self;
 }
 # --
