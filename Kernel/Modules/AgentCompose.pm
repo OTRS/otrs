@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.30 2002-12-25 09:34:11 martin Exp $
+# $Id: AgentCompose.pm,v 1.31 2003-01-03 16:14:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::Modules::AgentCompose;
 use strict;
 use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
+use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -42,6 +43,7 @@ sub new {
     $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
     $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
+    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
 
     # --
     # get params
@@ -230,6 +232,12 @@ sub Form {
         }
     }
     # --
+    # get std attachments
+    # --
+    my %AllStdAttachments = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
+        ID => $Self->{ResponseID},
+    );
+    # --
     # build view ...
     # --
     $Output .= $Self->{LayoutObject}->AgentCompose(
@@ -239,6 +247,7 @@ sub Form {
         NextStates => $Self->_GetNextStates(),
         ResponseFormat => $Self->{ResponseFormat},
         Errors => \%Error,
+        StdAttachments => \%AllStdAttachments,
         %Data,
     );
     $Output .= $Self->{LayoutObject}->Footer();
@@ -271,6 +280,13 @@ sub SendEmail {
             }
         }
     }
+    # --
+    # get std attachment ids
+    # --
+    my @StdAttachmentIDs = $Self->{ParamObject}->GetArray(Param => 'StdAttachmentID');
+    # --
+    # check if there is an error
+    # --
     if (%Error) {
         my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
         my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
@@ -314,6 +330,7 @@ sub SendEmail {
         Body => $Self->{Body},
         InReplyTo => $Self->{InReplyTo},
         Charset => $Self->{UserCharset},
+        StdAttachmentIDs => \@StdAttachmentIDs,
     )) {
         # --
         # time accounting

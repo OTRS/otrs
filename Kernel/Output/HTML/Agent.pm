@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.72 2003-01-03 00:14:32 martin Exp $
+# $Id: Agent.pm,v 1.73 2003-01-03 16:14:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.72 $';
+$VERSION = '$Revision: 1.73 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -993,6 +993,20 @@ sub AgentCompose {
         Name => 'ComposeStateID',
         Selected => $Param{NextState}
     );
+    # --
+    # build select string
+    # --
+    my %Data = %{$Param{StdAttachments}};
+    if (%Data) {
+      $Param{'StdAttachmentsStrg'} = "<select name=\"StdAttachmentID\" size=2 multiple>\n";
+      foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        if ((defined($_)) && ($Data{$_})) {
+            $Param{'StdAttachmentsStrg'} .= '    <option selected value="'.$Self->Ascii2Html(Text => $_).'">'.
+                  $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_})) ."</option>\n";
+        }
+      }
+      $Param{'StdAttachmentsStrg'} .= "</select>\n";
+    }
     # --
     # answered strg
     # --

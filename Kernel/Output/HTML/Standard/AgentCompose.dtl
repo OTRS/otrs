@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.17 2003-01-03 00:21:24 martin Exp $
+# $Id: AgentCompose.dtl,v 1.18 2003-01-03 16:14:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,6 +93,12 @@ $Data{"ResponseFormat"}
 </pre>
       </td>
     </tr>
+# --
+# use there are std. attachments for this response 
+# --
+<dtl if ($Data{"StdAttachmentsStrg"} ne "") { $Data{"StdAttachmentsTable"} = "<tr><td>$Text{"Std. Attachment"}:</td><td>$Data{"StdAttachmentsStrg"}</td></tr>"; }>
+    $Data{"StdAttachmentsTable"}
+#
     <tr>
       <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<!--<input type="button" class="button" onclick="attach()" value="$Text{"Attach"}">--><a name="attachment"></td>
     </tr>

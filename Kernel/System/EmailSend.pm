@@ -2,7 +2,7 @@
 # Kernel/System/EmailSend.pm - the global email send module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.18 2003-01-03 00:30:28 martin Exp $
+# $Id: EmailSend.pm,v 1.19 2003-01-03 16:14:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::System::EmailSend;
 use strict;
 use MIME::Words qw(:all);
 use Mail::Internet;
+use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -48,6 +49,8 @@ sub new {
     $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
     $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
     $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
+
+    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
 
     return $Self;
 }
@@ -139,6 +142,30 @@ sub Send {
             Type     => $Param{UploadContentType},
             Encoding => "base64",
         );
+    }
+    # --
+    # std attachments
+    # --
+    if ($Param{StdAttachmentIDs}) {
+        foreach my $ID (@{$Param{StdAttachmentIDs}}) {
+            my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(ID => $ID);
+            foreach (qw(FileName ContentType Content)) {
+                if (!$Data{$_}) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error', 
+                        Message => "No $_ found for std. attachment id $ID!",
+                    );
+                }
+            }
+            open(TMPOUT, "> /tmp/$Data{FileName}");
+            print TMPOUT $Data{Content};
+            close (TMPOUT);
+            $Entity->attach(
+                Path     => "/tmp/$Data{FileName}",
+                Type     => $Data{ContentType},
+                Encoding => "base64",
+            );
+        }
     }
     # --
     # add In-Reply-To header
@@ -297,5 +324,3 @@ sub SendNormal {
 # --
 
 1;
-
- 
