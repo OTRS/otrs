@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceAgent.pm,v 1.3 2005-02-15 12:00:33 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.4 2005-02-17 11:56:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,14 +14,13 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 # all framework needed modules
 # --
 use Kernel::Config;
-use Kernel::Config::Modules;
 use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::Main;
@@ -177,22 +176,25 @@ sub Run {
     # --
     # application and add on application common objects
     # --
-    foreach ('$Kernel::Config::Modules::CommonObject', '$Kernel::Config::ModulesCustom::CommonObject') {
-        my $ModuleCommonObject = eval $_;
-        foreach my $Key (keys %{$ModuleCommonObject}) {
-            # create
-            $Self->{$Key} = $ModuleCommonObject->{$Key}->new(%{$Self});
+    my %CommonObject = %{$Self->{ConfigObject}->Get('Frontend::CommonObject')};
+    foreach my $Key (keys %CommonObject) {
+        if ($Self->{MainObject}->Require($CommonObject{$Key})) {
+            $Self->{$Key} = $CommonObject{$Key}->new(%{$Self});
+        }
+        else {
+            # print error
+            print $Self->{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
+            print $Self->{LayoutObject}->Error();
+            print $Self->{LayoutObject}->Footer();
+            exit;
         }
     }
     # --
     # get common application and add on application params
     # --
-    foreach ('$Kernel::Config::Modules::Param', '$Kernel::Config::ModulesCustom::Param') {
-      my $Param = eval $_;
-      foreach my $Key (keys %{$Param}) {
-        $Param{$Key} = $Self->{ParamObject}->GetParam(Param => $Key)
-          || $Param->{$Key};
-      }
+    my %CommonObjectParam = %{$Self->{ConfigObject}->Get('Frontend::CommonParam')};
+    foreach my $Key (keys %CommonObjectParam) {
+        $Param{$Key} = $Self->{ParamObject}->GetParam(Param => $Key) || $CommonObjectParam{$Key};
     }
     # security check Action Param (replace non word chars)
     $Param{Action} =~ s/\W//g;
@@ -733,6 +735,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2005-02-15 12:00:33 $
+$Revision: 1.4 $ $Date: 2005-02-17 11:56:08 $
 
 =cut
