@@ -2,10 +2,10 @@
 # AgentUtilSearchResult.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResultCSV.dtl,v 1.5 2004-03-11 14:38:27 martin Exp $
+# $Id: AgentUtilSearchResultCSV.dtl,v 1.6 2004-04-13 16:27:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-$Data{"TicketNumber"};$Data{"Age"};$TimeLong{"$Data{"Created"}"};$Text{"$Data{"State"}"};$Data{"Priority"};$Data{"Queue"};$Data{"Lock"};$Data{"Owner"};$Data{"UserFirstname"} $Data{"UserLastname"};$Data{"CustomerID"};$Data{"CustomerName"};$Data{"From"};$Data{"Subject"};$Data{"AccountedTime"};$Data{"TicketFreeKey1"};$Data{"TicketFreeText1"};$Data{"TicketFreeKey2"};$Data{"TicketFreeText2"};$Data{"TicketFreeKey3"};$Data{"TicketFreeText3"};$Data{"TicketFreeKey4"};$Data{"TicketFreeText4"};$Data{"TicketFreeKey5"};$Data{"TicketFreeText5"};$Data{"TicketFreeKey6"};$Data{"TicketFreeText6"};$Data{"TicketFreeKey7"};$Data{"TicketFreeText7"};$Data{"TicketFreeKey8"};$Data{"TicketFreeText8"};
+$Data{"TicketNumber"};$Data{"Age"};"$TimeLong{"$Data{"Created"}"}";$Text{"$Data{"State"}"};$Data{"Priority"};"$Data{"Queue"}";$Data{"Lock"};"$Data{"Owner"}";"$Data{"UserFirstname"} $Data{"UserLastname"}";"$Data{"CustomerID"}";"$Data{"CustomerName"}";"$Data{"From"}";"$Data{"Subject"}";$Data{"AccountedTime"};$Data{"TicketFreeKey1"};$Data{"TicketFreeText1"};$Data{"TicketFreeKey2"};$Data{"TicketFreeText2"};$Data{"TicketFreeKey3"};$Data{"TicketFreeText3"};$Data{"TicketFreeKey4"};$Data{"TicketFreeText4"};$Data{"TicketFreeKey5"};$Data{"TicketFreeText5"};$Data{"TicketFreeKey6"};$Data{"TicketFreeText6"};$Data{"TicketFreeKey7"};$Data{"TicketFreeText7"};$Data{"TicketFreeKey8"};$Data{"TicketFreeText8"};"$Data{"ArticleTree"}";

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.40 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentUtilities.pm,v 1.41 2004-04-13 16:27:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -252,7 +252,20 @@ sub Run {
           $Counter++;
           # build search result
           if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
+            # get whole article (if configured!)
+            if ($Self->{ConfigObject}->Get('AgentUtilArticleTreeCSV') && $GetParam{ResultForm} eq 'CSV') {
+                my @Article = $Self->{TicketObject}->GetArticle(
+                    TicketID => $_
+                );
+                foreach my $Articles (@Article) {
+                    if ($Articles->{Body}) {
+                        $Data{ArticleTree} .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||".$Articles->{Created}."||<--------------\n".$Articles->{Body};
+                    }
+                }
+            }
+            # get first article data
             my %Data = $Self->{TicketObject}->GetFirstArticle(TicketID => $_);
+
             # customer info
             my %CustomerData = ();
             if ($Data{CustomerUserID}) {
@@ -293,6 +306,10 @@ sub Run {
                 );
             }
             elsif ($GetParam{ResultForm} eq 'CSV') {
+                # csv quote
+                foreach (keys %Data) {
+                    $Data{$_} =~ s/"/""/g if ($Data{$_});
+                }
                 $Param{StatusTable} .= $Self->MaskCSVResult(
                     %Data, 
                     %UserInfo,
