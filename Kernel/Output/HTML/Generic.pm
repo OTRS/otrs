@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.161 2004-11-28 11:19:23 martin Exp $
+# $Id: Generic.pm,v 1.162 2004-12-02 00:37:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.161 $';
+$VERSION = '$Revision: 1.162 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -152,12 +152,6 @@ sub new {
             $Self->{Browser} = "Unknown - $ENV{'HTTP_USER_AGENT'}";
         }
     }
-    # --
-    # get release data
-    # --
-    my %ReleaseData = $Self->GetRelease();
-    $Self->{Product} = $ReleaseData{Product} || '???';
-    $Self->{Version} = $ReleaseData{Version} || '???';
     # --
     # load theme
     # --
@@ -1459,43 +1453,6 @@ sub ReturnValue {
     my $Self = shift;
     my $What = shift;
     return $Self->{$What};
-}
-# --
-sub GetRelease {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # chekc if this is already done
-    # --
-    if ($Self->{ReleaseHash}) {
-        return %{$Self->{ReleaseHash}};
-    }
-    # --
-    # open release data file
-    # --
-    my %Release = ();
-    $Release{File} = $Self->{ConfigObject}->Get('Home').'/RELEASE';
-    open (PRODUCT, "< $Release{File}") || print STDERR "Can't read $Release{File}: $!";
-    while (<PRODUCT>) {
-      # filtering of comment lines
-      if ($_ !~ /^#/) {
-        if ($_ =~ /^PRODUCT.=(.*)$/i) {
-            $Release{Product} = $1;
-        }
-        elsif ($_ =~ /^VERSION.=(.*)$/i) {
-            $Release{Version} = $1;
-        }
-      }
-    }
-    close (PRODUCT);
-    # --
-    # store data
-    # --
-    $Self->{ReleaseHash} = \%Release;
-    # --
-    # return data
-    # --
-    return %Release;
 }
 # --
 sub Attachment {
