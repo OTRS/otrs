@@ -2,13 +2,61 @@
 -- Update an existing OTRS database from 1.0 to 1.1 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.2 2003-02-25 18:48:28 martin Exp $
+-- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.3 2003-03-03 23:30:35 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
 --
 -- --
 
+-- 
+-- add ticket_state_type table
+--
+CREATE TABLE ticket_state_type
+(
+    id serial,
+    name VARCHAR (120) NOT NULL,
+    comment VARCHAR (250), 
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL, 
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL, 
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);  
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('new', 'all new state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('open', 'all open state types (default: viewable)', 1, current_timestamp, 1, current_timestamp); 
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('closed', 'all closed state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('pending reminder', 'all "pending reminder" state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('pending auto', 'all "pending auto *" state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('removed', 'all "removed" state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
+--
+-- add ticket_state_type to ticket_state
+--
+ALTER TABLE ticket_state ADD type_id -- SMALLINT NOT NULL;
+-- 
+-- update ticket_state table
+--
+UPDATE ticket_state SET type_id = 1 WHERE name = 'new';
+UPDATE ticket_state SET type_id = 2 WHERE name = 'open';
+UPDATE ticket_state SET type_id = 3 WHERE name = 'closed successful';
+UPDATE ticket_state SET type_id = 3 WHERE name = 'closed unsuccessful';
+UPDATE ticket_state SET type_id = 6 WHERE name = 'removed';
+UPDATE ticket_state SET type_id = 4 WHERE name = 'pending reminder';
+UPDATE ticket_state SET type_id = 5 WHERE name = 'pending auto close+';
+UPDATE ticket_state SET type_id = 5 WHERE name = 'pending auto close-';
 -- 
 -- delete not needed queue (important for sub queue)
 --
