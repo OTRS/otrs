@@ -1,28 +1,4 @@
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V4.2//EN"
-          "d:\docbook\docbook.dtd">
-
-<chapter label="1.3" id="install-win32" lang="en">
-
-<chapterinfo>
-<author>
-  <firstname>Robert</firstname>
-  <surname>Kehl</surname>
-  <email>otrs-win32@robertkehl.de</email>
-</author>
-<keywordset>
-  <keyword>win32</keyword>
-  <keyword>installation</keyword>
-  <keyword>sambar</keyword>
-  <keyword>cygwin</keyword>
-  <keyword>exim</keyword>
-  <keyword>activeperl</keyword>
-  <keyword>windows</keyword>
-  <keyword>win2k</keyword>
-  <keyword>XP</keyword>
-</keywordset>
-</chapterinfo>
 <title>Install OTRS 1.0 RC1 on Win32</title>
-
 <sect1>
 <title>Preamble</title>
 <para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0 RC1</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
@@ -383,5 +359,3 @@ copy Config.pm.dist Config.pm
 <para>Surely this chapter will follow the development of <ulink url="http://otrs.org">OTRS</ulink>. OTRS on Win32 can be done with Apache, too, and I will soon include a part on it.</para>
 <para>Have fun using your OUTR on Sambar!</para>
 </sect1>
-
-</chapter>
