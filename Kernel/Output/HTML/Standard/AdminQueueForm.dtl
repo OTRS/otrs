@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.15 2003-03-23 21:42:14 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.16 2003-11-02 00:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@
 </tr>
 <tr align="center" valign="top">
   <td width="30%" class="table1">
-    $Text{"Change queue settings"}:
+    $Text{"Change"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -31,8 +31,8 @@
 # --
 # check subaction
 # --
-<dtl set $Data{"Headline"} = "Add queue">
-<dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update queue"; }>
+<dtl set $Data{"Headline"} = "Add">
+<dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # check add link
 <dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a queue)"; }>
 # --
@@ -107,6 +107,7 @@
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
+    </form>
   </td>
 </tr>
 </table>

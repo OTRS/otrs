@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.13 2003-05-08 06:17:14 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.14 2003-11-02 00:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,22 +17,22 @@
 </tr>
 <tr align="center" valign="top">
   <td width="30%" class="table1">
-    $Text{"Change user settings"}:
+    $Text{"Change"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
     $Data{"UserOption"}
     <br>
-    <input type="submit" value="$Text{"change"}">
+    <input class="button" type="submit" value="$Text{"change"}">
     </form>
   </td> 
   <td width="70%" class="table1">
 # --
 # check subaction
 # --
-<dtl set $Data{"Headline"} = "Add user">
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update user"; }>
+<dtl set $Data{"Headline"} = "Add">
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # set subaction!
 <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
 # check add link
@@ -75,7 +75,8 @@
     </tr>
     $Data{"Preferences"}
     </table>
-    <input type="submit" value="$Text{"$Data{"Headline"}"}">
+    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+    </form>
   </td>
 </tr>
 </table>
