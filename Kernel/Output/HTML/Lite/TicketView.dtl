@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.14 2002-09-23 13:43:59 martin Exp $
+# $Id: TicketView.dtl,v 1.15 2002-09-23 20:22:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,17 +55,15 @@
       <td> $Data{"Subject"}</td>
     <tr>
 # --
-# use this if you want to show the ArticleFreeKey1-3 and ArticleFreeValue1-3
+# show ArticleFreeKey1-3 and ArticleFreeValue1-3
 # --
-#    <tr>
-#      <td valign="top"><b>$Data{"ArticleFreeKey1"}:</b></td><td> $Data{"ArticleFreeValue1"}</td>
-#    </tr>
-#    <tr>
-#      <td valign="top"><b>$Data{"ArticleFreeKey2"}:</b></td><td> $Data{"ArticleFreeValue2"}</td>
-#    </tr>
-#    <tr>
-#      <td valign="top"><b>$Data{"ArticleFreeKey3"}:</b></td><td> $Data{"ArticleFreeValue3"}</td>
-#    </tr>
+<dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey1"}:</b></td><td> $Data{"ArticleFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey2"}:</b></td><td> $Data{"ArticleFreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey3"}:</b></td><td> $Data{"ArticleFreeValue3"}</td></tr>"; }>
+     $Data{"ArticleFreeString1"}
+     $Data{"ArticleFreeString2"}
+     $Data{"ArticleFreeString3"}
+# --
   </table>
 $Data{"TextNote"}
   <pre>
@@ -81,10 +79,13 @@ $Data{"Text"}
     <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" target="cdb">$Data{"CustomerID"}</a></td></tr>
     <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
 # --
-# use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
+# show TicketFreeKey1-2 and TicketFreeValue1-2
 # --
-#    <tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>
-#    <tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
+    $Data{"TicketFreeString1"}
+    $Data{"TicketFreeString2"}
+# --
     <tr><td colspan="2"></td></tr>
     <tr><td colspan="2">   
    <p align="left">
