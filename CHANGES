@@ -2,13 +2,20 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.57 2003-02-08 16:11:34 martin Exp $
+# $Id: CHANGES,v 1.58 2003-02-09 21:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2003/02/09) updated priotity options with number prefix for sort of 
+    html select fields - e. g. "normal" is "3 normal" and "high" is 
+    "4 high" - use "scripts/DBUpdate-to-1.1.(mysql|postgresql).sql"
+ - (2003/02/09) added ShowCustomerInfo(Queue|Zoom|Phone) config options
+    for shown CustomerInfo (e. g. company-name, phone, ...) on 
+    AgentQueueView, AgentZoom and AgentPhone.
+ - (2003/02/08) improved fulltext search with queue and priority option
  - (2003/02/08) added html color highlighting for ticket article type
     e. g. to highlight internal and external notes in TicketZoom -=>
     article tree.
