@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.29 2003-05-07 05:33:04 martin Exp $
+# $Id: Queue.pm,v 1.30 2003-07-07 13:49:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ sub GetSystemAddress {
     my %Param = @_;
     my %Adresss;
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
-    my $SQL = "SELECT sa.value0, sa.value1 FROM system_address as sa, queue as sq ".
+    my $SQL = "SELECT sa.value0, sa.value1 FROM system_address sa, queue sq ".
 	" WHERE ".
 	" sq.id = $QueueID ".
 	" and ".
@@ -63,7 +63,7 @@ sub GetSalutation {
     my $Self = shift;
     my %Param = @_;
     my $String = '';
-    my $SQL = "SELECT text FROM salutation as sa, queue as sq ".
+    my $SQL = "SELECT text FROM salutation sa, queue sq ".
         " WHERE ".
         " sq.id = $Self->{QueueID} ".
         " and ".
@@ -79,7 +79,7 @@ sub GetSignature {
     my $Self = shift;
     my %Param = @_;
     my $String = '';
-    my $SQL = "SELECT text FROM signature as si, queue as sq ".
+    my $SQL = "SELECT text FROM signature si, queue sq ".
         " WHERE ".
         " sq.id = $Self->{QueueID} ".
         " and ".
@@ -590,7 +590,7 @@ sub GetTicketIDsByQueue {
     # sql
     # --
     my $SQL = "SELECT st.id, st.tn FROM ".
-    " ticket as st, queue as sq, ticket_state tsd, ticket_lock_type slt ".
+    " ticket st, queue sq, ticket_state tsd, ticket_lock_type slt ".
     " WHERE ".
     " st.ticket_state_id = tsd.id ".
     " AND ".

@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.12 2003-04-22 22:19:23 martin Exp $
+# $Id: RuntimeDB.pm,v 1.13 2003-07-07 13:48:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -67,7 +67,7 @@ sub TicketAcceleratorIndex {
     # prepar "All tickets: ??" in Queue
     # --
     if (@QueueIDs) {
-        my $SQL = "SELECT count(*) as count ".
+        my $SQL = "SELECT count(*) ".
           " FROM ".
           " ticket st ".
           " WHERE ".
@@ -95,7 +95,7 @@ sub TicketAcceleratorIndex {
     # CustomQueue add on
     # --
     my $SQL = "SELECT count(*) FROM ".
-    " ticket as st, queue as sq, personal_queues as suq ".
+    " ticket st, queue sq, personal_queues suq ".
     " WHERE ".
     " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
     " AND ".
@@ -126,9 +126,9 @@ sub TicketAcceleratorIndex {
         }
     }
     # prepar the tickets in Queue bar (all data only with my/your Permission)
-    $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) as count ".
+    $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) ".
     " FROM " .
-    " ticket as st, queue as sq " .
+    " ticket st, queue sq " .
     " WHERE " .
     " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
@@ -140,18 +140,18 @@ sub TicketAcceleratorIndex {
     " GROUP BY st.queue_id,sq.name " .
     " ORDER BY sq.name";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store the data into a array
         my %Hashes;
-        $Hashes{QueueID} = $RowTmp[0];
-        $Hashes{Queue} = $RowTmp[1];
-        $Hashes{MaxAge} = time() - $RowTmp[2];
-        $Hashes{Count} = $RowTmp[3];
+        $Hashes{QueueID} = $Row[0];
+        $Hashes{Queue} = $Row[1];
+        $Hashes{MaxAge} = time() - $Row[2];
+        $Hashes{Count} = $Row[3];
         push (@{$Queues{Queues}}, \%Hashes);
         # set some things
-        if ($Param{QueueID} eq $RowTmp[0]) {
-            $Queues{TicketsShown} = $RowTmp[3];
-            $Queues{TicketsAvail} = $RowTmp[3];
+        if ($Param{QueueID} eq $Row[0]) {
+            $Queues{TicketsShown} = $Row[3];
+            $Queues{TicketsAvail} = $Row[3];
         }
         # get the oldes queue id
         if ($Hashes{MaxAge} > $Queues{MaxAge}) {
