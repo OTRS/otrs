@@ -1,8 +1,8 @@
 # --
 # Footer.dtl - provides global HTML footer
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Footer.dtl,v 1.14 2004-12-02 00:40:22 martin Exp $
+# $Id: Footer.dtl,v 1.15 2005-02-17 07:11:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,9 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="0" cols="2">
 <tr>
   <td align="left" class="footer">
-   &nbsp;&nbsp;<a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"QueueView"}</a>
+   &nbsp;&nbsp;<a href="$Env{"Baselink"}Action=AgentTicketQueue" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"QueueView"}</a>
    -
-   <a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"PhoneView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"PhoneView"}</a>
+   <a href="$Env{"Baselink"}Action=AgentTicketPhone" onmouseover="window.status='$Text{"PhoneView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"PhoneView"}</a>
   </td>
   <td align="right" class="footer">
   <table border="0">
