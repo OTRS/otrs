@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.21 2003-02-15 12:08:45 martin Exp $
+# $Id: Installer.pm,v 1.22 2003-04-12 20:11:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    my $Subaction = $Self->{Subaction} || ''; 
     # --
     # get sql source
     # --
@@ -99,7 +98,39 @@ sub Run {
     # --
     # print form
     # --
-    if ($Subaction eq '' || !$Subaction) {
+    if (!$Self->{Subaction}) {
+        if (!open (IN, "< $Self->{Path}/../../COPYING")) {
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Warning(
+               Message => "Can't open $Self->{Path}/../../COPYING: $!!",
+               Comment => 'Contact your Admin!',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Header(Title => 'License');
+            my $License;
+            while (<IN>) {
+                $License .= $_;
+            }
+            close (IN);
+            $Output .= $Self->{LayoutObject}->InstallerBody(
+                Item => 'License',
+                Step => '1/4',
+                Body => $Self->{LayoutObject}->Output(
+                    TemplateFile => 'InstallerLicense', 
+                    Data => {License => $License},
+                ),
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+    }
+    # --
+    # do dem settings
+    # --
+    elsif ($Self->{Subaction} eq 'Start') {
         if ($Self->ReConfigure()) {
            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
            $Output .= $Self->{LayoutObject}->Warning(
@@ -111,9 +142,16 @@ sub Run {
         }
         else { 
            $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
-           $Output .= $Self->{LayoutObject}->InstallerStart(
-               Item => 'create database',
-               Step => '1/3',
+           $Output .= $Self->{LayoutObject}->InstallerBody(
+                    Item => 'create database',
+                    Step => '2/4',
+                    Body => $Self->{LayoutObject}->Output(
+                        TemplateFile => 'InstallerStart',
+                        Data => {
+                           Item => 'create database', 
+                           Step => '2/4',
+                        },
+                    ),
            );
            $Output .= $Self->{LayoutObject}->Footer();
         }
@@ -121,7 +159,7 @@ sub Run {
     # --
     # do dem settings
     # --
-    elsif ($Subaction eq 'DB') {
+    elsif ($Self->{Subaction} eq 'DB') {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
         # get params
         my %DB = ();
@@ -168,7 +206,7 @@ sub Run {
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
                     Item => 'create database',
-                    Step => '1/3',
+                    Step => '2/4',
                     Body => $SetupOutput,
                 ); 
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -192,7 +230,7 @@ sub Run {
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
                     Item => 'create database',
-                    Step => '1/3',
+                    Step => '2/4',
                     Body => $SetupOutput,
                 ); 
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -217,7 +255,7 @@ sub Run {
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
                     Item => 'create database',
-                    Step => '1/3',
+                    Step => '2/4',
                     Body => $SetupOutput,
                 ); 
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -242,7 +280,7 @@ sub Run {
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
                     Item => 'create database',
-                    Step => '1/3',
+                    Step => '2/4',
                     Body => $SetupOutput,
                 ); 
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -270,7 +308,7 @@ sub Run {
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
                     Item => 'create database',
-                    Step => '1/3',
+                    Step => '2/4',
                     Body => $SetupOutput,
                 ); 
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -299,7 +337,7 @@ sub Run {
                 $SetupOutput .= "<p><a href='installer.pl?Subaction=System'>Next Step</a></p>";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
                     Item => 'create database',
-                    Step => '1/3',
+                    Step => '2/4',
                     Body => $SetupOutput,
                 ); 
             }
@@ -317,7 +355,7 @@ sub Run {
                 $SetupOutput .= "<font color='red'><b>false</b>.</font>";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
                     Item => 'drop database',
-                    Step => '3/3',
+                    Step => '4/4',
                     Body => $SetupOutput,
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -328,7 +366,7 @@ sub Run {
             }
            $Output .= $Self->{LayoutObject}->InstallerBody(
                Item => 'drop database',
-               Step => '3/3',
+               Step => '4/4',
                Body => $SetupOutput,
            );
         }
@@ -342,11 +380,11 @@ sub Run {
     # --
     # do system settings
     # --
-    elsif ($Subaction eq 'System') {
+    elsif ($Self->{Subaction} eq 'System') {
            $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
            $Output .= $Self->{LayoutObject}->InstallerBody(
                Item => 'system settings',
-               Step => '2/3',
+               Step => '3/4',
                Body => $Self->{LayoutObject}->InstallerSystem(),
            );
            $Output .= $Self->{LayoutObject}->Footer();
@@ -354,7 +392,7 @@ sub Run {
     # --
     # do system settings action
     # --
-    elsif ($Subaction eq 'Finish') {
+    elsif ($Self->{Subaction} eq 'Finish') {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
         # --
         # ReConfigure Config.pm
@@ -380,12 +418,13 @@ sub Run {
            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
            $Output .= $Self->{LayoutObject}->InstallerBody(
                Item => 'finish',
-               Step => '3/3',
-               Body => $Self->{LayoutObject}->InstallerFinish(
-#                   SetPermission => $SetPermission,
-#                   BaseDir => $BaseDir,
-                   OTRSHandle => $OTRSHandle,
-                   %Dist,
+               Step => '4/4',
+               Body => $Self->{LayoutObject}->Output(
+                   TemplateFile => 'InstallerFinish',
+                   Data => {
+                       OTRSHandle => $OTRSHandle,
+                       %Dist,
+                   },
                ),
            );
         }
@@ -397,7 +436,7 @@ sub Run {
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
-                Message => "Unknown Subaction $Subaction!",
+                Message => "Unknown Subaction $Self->{Subaction}!",
                 Comment => 'Please contact your admin');
         $Output .= $Self->{LayoutObject}->Footer();
     }
