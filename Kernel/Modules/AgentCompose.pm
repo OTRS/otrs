@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.78 2004-12-04 18:27:11 martin Exp $
+# $Id: AgentCompose.pm,v 1.79 2005-02-10 16:20:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.78 $';
+$VERSION = '$Revision: 1.79 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -316,13 +316,7 @@ sub Form {
                 }
                 if (eval "require $Jobs{$Job}->{Module}") {
                     my $Object = $Jobs{$Job}->{Module}->new(
-                        ConfigObject => $Self->{ConfigObject},
-                        LogObject => $Self->{LogObject},
-                        DBObject => $Self->{DBObject},
-                        LayoutObject => $Self->{LayoutObject},
-                        TicketObject => $Self->{TicketObject},
-                        ParamObject => $Self->{ParamObject},
-                        UserID => $Self->{UserID},
+                        %{$Self},
                         Debug => $Self->{Debug},
                     );
                     # log loaded module
@@ -497,13 +491,7 @@ sub SendEmail {
                 }
                 if (eval "require $Jobs{$Job}->{Module}") {
                     my $Object = $Jobs{$Job}->{Module}->new(
-                        ConfigObject => $Self->{ConfigObject},
-                        LogObject => $Self->{LogObject},
-                        DBObject => $Self->{DBObject},
-                        LayoutObject => $Self->{LayoutObject},
-                        TicketObject => $Self->{TicketObject},
-                        ParamObject => $Self->{ParamObject},
-                        UserID => $Self->{UserID},
+                        %{$Self},
                         Debug => $Self->{Debug},
                     );
                     # log loaded module

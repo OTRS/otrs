@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.49 2004-12-04 18:27:11 martin Exp $
+# $Id: AgentEmail.pm,v 1.50 2005-02-10 16:20:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -133,13 +133,7 @@ sub Run {
                 }
                 if (eval "require $Jobs{$Job}->{Module}") {
                     my $Object = $Jobs{$Job}->{Module}->new(
-                        ConfigObject => $Self->{ConfigObject},
-                        LogObject => $Self->{LogObject},
-                        DBObject => $Self->{DBObject},
-                        LayoutObject => $Self->{LayoutObject},
-                        TicketObject => $Self->{TicketObject},
-                        ParamObject => $Self->{ParamObject},
-                        UserID => $Self->{UserID},
+                        %{$Self},
                         Debug => $Self->{Debug},
                     );
                     # log loaded module
@@ -437,13 +431,7 @@ sub Run {
                 }
                 if (eval "require $Jobs{$Job}->{Module}") {
                     my $Object = $Jobs{$Job}->{Module}->new(
-                        ConfigObject => $Self->{ConfigObject},
-                        LogObject => $Self->{LogObject},
-                        DBObject => $Self->{DBObject},
-                        LayoutObject => $Self->{LayoutObject},
-                        TicketObject => $Self->{TicketObject},
-                        ParamObject => $Self->{ParamObject},
-                        UserID => $Self->{UserID},
+                        %{$Self},
                         Debug => $Self->{Debug},
                     );
                     # log loaded module
@@ -508,9 +496,9 @@ sub Run {
             my @TicketIDs = ();
             if ($CustomerUser) {
                 # get secondary customer ids
-                my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUser);          
+                my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUser);
                 # get own customer id
-                my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $CustomerUser);       
+                my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $CustomerUser);
                 if ($CustomerData{UserCustomerID}) {
                     push (@CustomerIDs, $CustomerData{UserCustomerID});
                 }
