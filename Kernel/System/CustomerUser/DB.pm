@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.5 2003-01-19 16:35:35 martin Exp $
+# $Id: DB.pm,v 1.6 2003-02-03 19:33:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,6 +46,47 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     
     return $Self;
+}
+# --
+sub CustomerSearch {
+    my $Self = shift;
+    my %Param = @_;
+    my %Users = ();
+    # --
+    # build SQL string
+    # --
+    $Param{UserLogin} =~ s/\*/%/g;
+    my $SQL = "SELECT $Self->{CustomerKey} ";
+    if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFileds}) {
+        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFileds}}) {
+            $SQL .= ", $Entry";
+        }
+    }
+    else {
+        $SQL .= " , first_name, last_name, email ";
+    }
+    # --
+    # get data
+    # --
+    $SQL .= " FROM " .
+    " $Self->{CustomerTable} ".
+    " WHERE " .
+    " $Self->{CustomerKey} LIKE '$Param{UserLogin}' ";
+    # add valid option
+    if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerValid}) {
+        $SQL .= "AND ".$Self->{ConfigObject}->Get('CustomerUser')->{CustomerValid}.
+        " in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
+    }
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+         foreach (1..8) {
+             if ($Row[$_]) {
+                  $Users{$Row[0]} .= $Row[$_].' ';
+             }
+         }
+         $Users{$Row[0]} =~ s/^(.*\s)(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+    }
+    return %Users;
 }
 # --
 sub CustomerList {

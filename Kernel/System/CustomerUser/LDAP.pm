@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # --
-# $Id: LDAP.pm,v 1.1 2003-01-19 15:57:22 martin Exp $
+# $Id: LDAP.pm,v 1.2 2003-02-03 19:33:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -49,23 +49,16 @@ sub new {
     $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserDN'} || '';
     $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserPW'} || '';
 
-    $Self->{UserID} = $Self->{ConfigObject}->Get('CustomerUser')->{'CustomerKey'}
+    $Self->{CustomerKey} = $Self->{ConfigObject}->Get('CustomerUser')->{'CustomerKey'}
      || die "Need CustomerUser->CustomerKey in Kernel/Config.pm";
     $Self->{CustomerID} = $Self->{ConfigObject}->Get('CustomerUser')->{'CustomerID'}
      || die "Need CustomerUser->CustomerID in Kernel/Config.pm";
 
-    return $Self;
-}
-# --
-sub CustomerList {
-    my $Self = shift;
-    my %Param = @_;
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
     # --
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
     # --
-    my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
-    if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+    $Self->{LDAP} = Net::LDAP->new($Self->{Host}) or die "$@";
+    if (!$Self->{LDAP}->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
         $Self->{LogObject}->Log(
           Priority => 'error',
           Message => "First bind failed!",
@@ -73,14 +66,46 @@ sub CustomerList {
         return;
     }
 
+    return $Self;
+}
+# --
+sub CustomerSearch {
+    my $Self = shift;
+    my %Param = @_;
     # --
     # perform user search
     # FIXME: check for valid customers
     # --
-    my $Result = $LDAP->search (
+    my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
-        filter => "($Self->{UserID}=*)",
+        filter => "($Self->{CustomerKey}=$Param{UserLogin})",
+    );
+    $Result->code && die $Result->error;
+    my %Users = ();
+    foreach my $entry ($Result->all_entries) {
+        my $CustomerString = '';
+        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFileds}}) {
+            $CustomerString .= $entry->get_value($_).' ';
+        }
+        $CustomerString =~ s/^(.*\s)(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        $Users{$entry->get_value($Self->{CustomerKey})} = $CustomerString;
+    }
+    return %Users;
+}   
+# --
+sub CustomerList {
+    my $Self = shift;
+    my %Param = @_;
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    # --
+    # perform user search
+    # FIXME: check for valid customers
+    # --
+    my $Result = $Self->{LDAP}->search (
+        base => $Self->{BaseDN},
+        scope => $Self->{SScope},
+        filter => "($Self->{CustomerKey}=*)",
     );
     $Result->code && die $Result->error;
     my %Users = ();
@@ -91,11 +116,6 @@ sub CustomerList {
         }
         $Users{$entry->get_value($Self->{CustomerID})} = $CustomerString;
     }
-    # --
-    # take down session
-    # --
-    $LDAP->unbind;
-
     return %Users;
 }
 # --
@@ -104,24 +124,13 @@ sub CustomerUserList {
     my %Param = @_;
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
     # --
-    # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    # --
-    my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
-    if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "First bind failed!",
-        );
-        return;
-    }
-    # --
     # perform user search
     # FIXME: check for valid customers
     # --
-    my $Result = $LDAP->search (
+    my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
-        filter => "($Self->{UserID}=*)",
+        filter => "($Self->{CustomerKey}=*)",
     );
     $Result->code && die $Result->error;
     my %Users = ();
@@ -130,13 +139,8 @@ sub CustomerUserList {
         foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFileds}}) {
             $CustomerString .= $entry->get_value($_).' ';
         }
-        $Users{$entry->get_value($Self->{UserID})} = $CustomerString;
+        $Users{$entry->get_value($Self->{CustomerKey})} = $CustomerString;
     }
-    # --
-    # take down session
-    # --
-    $LDAP->unbind;
-
     return %Users;
 }
 # --
@@ -152,18 +156,6 @@ sub CustomerUserDataGet {
         return;
     }
     # --
-    # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    # --
-    my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
-    if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "First bind failed!",
-        );
-        return;
-    }
-
-    # --
     # perform user search
     # FIXME: check for valid customers
     # --
@@ -177,20 +169,31 @@ sub CustomerUserDataGet {
         $Filter = "($Self->{CustomerID}=$Param{CustomerID})";
     }
     else {
-        $Filter = "($Self->{UserID}=$Param{User})";
+        $Filter = "($Self->{CustomerKey}=$Param{User})";
     }
-    my $Result = $LDAP->search (
+    my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
         filter => $Filter, 
         attrs => $attrs,
     );
-    my $result2 = $Result->entry(0);
-
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
-        $Data{$Entry->[0]} = $result2->get_value($Entry->[2]) || '';
+    if ($Result->code) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
+        return;
     }
-
+    # --
+    # get first entry
+    # --
+    my $Result2 = $Result->entry(0);
+    if (!$Result2) {
+        return;
+    }
+    # --
+    # get customer user info
+    # --
+    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+        $Data{$Entry->[0]} = $Result2->get_value($Entry->[2]) || '';
+    }
     # --
     # check data
     # --
@@ -199,10 +202,6 @@ sub CustomerUserDataGet {
           Priority => 'notice',
           Message => "Panic! No UserData for customer user: '$Param{User}'!!!",
         );
-        # --
-        # take down session
-        # --
-        $LDAP->unbind;
         return;
     }
     if (! exists $Data{UserLogin} && $Param{CustomerID}) {
@@ -210,10 +209,6 @@ sub CustomerUserDataGet {
           Priority => 'notice',
           Message => "Panic! No UserData for customer id: '$Param{CustomerID}'!!!",
         );
-        # --
-        # take down session
-        # --
-        $LDAP->unbind;
         return;
     }
     # compat!
@@ -222,10 +217,6 @@ sub CustomerUserDataGet {
     # get preferences
     # --
     my %Preferences = $Self->{PreferencesObject}->GetPreferences(UserID => $Data{UserID});
-    # --
-    # take down session
-    # --
-    $LDAP->unbind;
 
     # return data
     return (%Data, %Preferences);
@@ -277,6 +268,16 @@ sub GenerateRandomPassword {
 
     # Return the password.
     return $Password;
+}
+# --
+sub Destroy {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # take down session
+    # --
+    $LDAP->unbind;
+    return 1;
 }
 # --
 
