@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.34 2004-07-16 22:56:01 martin Exp $
+# $Id: AgentNote.pm,v 1.35 2004-07-17 21:31:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::WebUploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,9 +54,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    # --
     # check needed stuff
-    # --
     if (!$Self->{TicketID}) {
         # error page
         my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
@@ -76,21 +74,16 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
-    my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
-
     my %Error = ();
-    my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
-    my $Text = $Self->{ParamObject}->GetParam(Param => 'Note') ||
-            $Self->{ParamObject}->GetParam(Param => 'Body');
-    my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
-    my $NewStateID = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
-    my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
+    my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     # get params
     my %GetParam = ();
-    foreach (qw(AttachmentUpload
-            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-            AttachmentDelete9 AttachmentDelete10 )) {
+    foreach (qw(
+        NewStateID TimeUnits ArticleTypeID Body Subject
+        AttachmentUpload
+        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+        AttachmentDelete9 AttachmentDelete10 )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # attachment delete
@@ -121,8 +114,12 @@ sub Run {
     );
     if ($Self->{Subaction} ne 'Store' || %Error) {
         if ($Self->{Subaction} ne 'Store' && !%Error) {
-            $Subject = $Self->{ConfigObject}->Get('DefaultNoteSubject');
-            $Text = $Self->{ConfigObject}->Get('DefaultNoteText');
+            if ($Self->{ConfigObject}->Get('DefaultNoteSubject')) {
+                $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultNoteSubject'));
+            }
+            if ($Self->{ConfigObject}->Get('DefaultNoteText')) {
+                $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultNoteText'));
+            }
         }
         # print form ...
         $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Add Note');
@@ -152,14 +149,10 @@ sub Run {
             TicketID => $Self->{TicketID},
             QueueID => $Self->{QueueID},
             TicketNumber => $Tn,
-            NoteSubject => $Self->{ConfigObject}->Get('DefaultNoteSubject'),
             NoteTypes => \%NoteTypes,
-            NoteTypeID => $ArticleTypeID,
             NextStates => \%NextStates,
-            NextStateID => $NewStateID,
-            Body => $Text,
-            Subject => $Subject,
             Attachments => \@Attachments,
+            %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -168,22 +161,20 @@ sub Run {
     else {
         if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $Self->{TicketID},
-            ArticleTypeID => $ArticleTypeID,
             SenderType => 'agent',
             From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-            Subject => $Subject,
-            Body => $Text,
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID},
             HistoryType => 'AddNote',
             HistoryComment => '%%Note',
+            %GetParam,
         )) {
           # time accounting
-          if ($TimeUnits) {
+          if ($GetParam{TimeUnits}) {
             $Self->{TicketObject}->TicketAccountTime(
               TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
-              TimeUnit => $TimeUnits,
+              TimeUnit => $GetParam{TimeUnits},
               UserID => $Self->{UserID},
             );
           }
@@ -211,10 +202,10 @@ sub Run {
               );
           }
           # set state
-          if ($Self->{ConfigObject}->Get('NoteSetState') && $NewStateID) {
+          if ($Self->{ConfigObject}->Get('NoteSetState') && $GetParam{NewStateID}) {
               $Self->{TicketObject}->StateSet(
                   TicketID => $Self->{TicketID},
-                  StateID => $NewStateID,
+                  StateID => $GetParam{NewStateID},
                   UserID => $Self->{UserID},
               );
           }
@@ -239,14 +230,14 @@ sub _Mask {
     # build ArticleTypeID string
     $Param{'NoteStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NoteTypes},
-        Name => 'NoteID',
-        SelectedID => $Param{NoteTypeID},
+        Name => 'ArticleTypeID',
+        SelectedID => $Param{ArticleTypeID},
     );
     # build next states string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NewStateID',
-        SelectedID => $Param{NextStateID},
+        SelectedID => $Param{NewStateID},
     );
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {
