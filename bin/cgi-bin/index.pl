@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.66 2004-02-13 00:33:58 martin Exp $
+# $Id: index.pl,v 1.67 2004-04-07 11:05:44 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -280,11 +280,16 @@ if ($Param{Action} eq "Login") {
         # --
         # create a new LayoutObject with SessionIDCookie
         # --
+        my $Expires = '+'.$CommonObject{ConfigObject}->Get('SessionMaxTime').'s';
+        if (!$CommonObject{ConfigObject}->Get('SessionUseCookieAfterBrowserClose')) {
+            $Expires = '';
+        }
         my $LayoutObject = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
                   Key => $Param{SessionName},
                   Value => $NewSessionID,
+                  Expires => $Expires,
               ),
           },
           SessionID => $NewSessionID, 
@@ -549,10 +554,6 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
         if ($AuthObject->GetOption(What => 'PreAuth')) {
             # automatic re-login
             $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
-print STDERR $CommonObject{LayoutObject}->Redirect(
-                  OP => "?Action=Login&RequestedURL=$Param{RequestedURL}",
-             );
-;
              print $CommonObject{LayoutObject}->Redirect(
                   OP => "?Action=Login&RequestedURL=$Param{RequestedURL}",
              );
