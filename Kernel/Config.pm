@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.16 2002-02-05 21:05:13 martin Exp $
+# $Id: Config.pm,v 1.17 2002-02-05 21:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -115,6 +115,14 @@ sub Load {
     # ViewableTickets
     # (The default viewable tickets a page.)
     $Self->{ViewableTickets} = 25;
+
+    # ViewableTicketLines
+    # (Max viewable ticket lines in the QueueView.)
+    $Self->{ViewableTicketLines} = 25;
+
+    # ViewableTicketLinesZoom
+    # (Max viewable ticket lines in the QueueZoom.)
+    $Self->{ViewableTicketLinesZoom} = 5000;
 
     # MaxLimit
     # (Max viewable tickets a page.)
