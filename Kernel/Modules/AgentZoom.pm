@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.4 2002-04-13 15:47:16 martin Exp $
+# $Id: AgentZoom.pm,v 1.5 2002-04-24 22:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -59,7 +59,13 @@ sub Run {
     my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
     my $UserID = $Self->{UserID};
     # fetch all queues
-    my %MoveQueues = $Self->{QueueObject}->GetAllQueues(QUEUEID => $QueueID);
+    my %MoveQueues = ();
+    if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
+        %MoveQueues = $Self->{QueueObject}->GetAllQueues();
+    }
+    else {
+        %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $UserID);
+    }
     # fetch all std. responses
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $QueueID);
     

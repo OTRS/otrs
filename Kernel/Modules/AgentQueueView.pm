@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.6 2002-04-14 19:04:17 martin Exp $
+# $Id: AgentQueueView.pm,v 1.7 2002-04-24 22:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -91,14 +91,23 @@ sub Run {
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $QueueID);
 
     # fetch all queues ...
-    my %MoveQueues = $Self->{QueueObject}->GetAllQueues();
+    my %MoveQueues = ();
+    if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
+        %MoveQueues = $Self->{QueueObject}->GetAllQueues();
+    }
+    else {
+        %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $UserID);
+    }
 
     # starting with page ...
     my $Output = $Self->{LayoutObject}->Header(
         Title => 'QueueView',
         Refresh => $Self->{Refresh},
     );
+
+    # get user lock data
     my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+
     # build NavigationBar 
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 

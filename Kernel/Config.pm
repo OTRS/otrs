@@ -2,18 +2,23 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.23 2002-04-14 13:37:34 martin Exp $
+# $Id: Config.pm,v 1.24 2002-04-24 22:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
- 
+#
+#  Note: 
+#         -->> Config options see below -- line 60 <<--
+# 
+# -- 
+
 package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -43,9 +48,18 @@ sub Load {
         $Self->{LogObject}->Log(Priority=>'debug', MSG=>'Kernel::Config->Load()');
     }
 
-    # ----------------------------------------------------
-    # system data
-    # ----------------------------------------------------
+    # ----------------------------------------------------#
+    # ----------------------------------------------------#
+    #                                                     #
+    #             Start of config options!!!              #
+    #                                                     #
+    # ----------------------------------------------------#
+    # ----------------------------------------------------#
+
+
+    # ----------------------------------------------------#
+    # system data                                         #
+    # ----------------------------------------------------#
 
     # SecureMode
     # (Enable this so you can't use the installer.pl)
@@ -79,40 +93,15 @@ sub Load {
     # (The name of custom queue.)
     $Self->{CustomQueue} = 'PersonalQueue';
 
-
-    # ----------------------------------------------------
-    # session settings
-    # ----------------------------------------------------
-
-    # SessionDriver
-    # (How should be the session-data stored? [sql|fs]
-    # Advantage of sql ist that you can split the 
-    # Frontendserver from the DB-Server.)
-    $Self->{SessionDriver} = 'sql';
-
-    # SessionCheckRemoteIP 
-    # (If the application is used via a proxy-farm then the 
-    # remote ip address is mostly different. In this case,
-    # turn of the CheckRemoteID. ) [1|0] 
-    $Self->{SessionCheckRemoteIP} = 1;
-
-    # SessionDeleteIfNotRemoteID
-    # (Delete session if the session id is used with an 
-    # invalied remote IP?) [0|1]
-    $Self->{SessionDeleteIfNotRemoteID} = 1;
-
-    # SessionMaxTime
-    # (Max valid time of one session id in second (8h = 28800).)
-    $Self->{SessionMaxTime} = 28800;
-
-    # SessionDeleteIfTimeToOld
-    # (Delete session's witch are requested and to old?) [0|1]
-    $Self->{SessionDeleteIfTimeToOld} = 1;
+    # MoveInToAllQueues
+    # (Possible to move in all queue? Not only queue which
+    # the own groups) [1|0]
+    $Self->{MoveInToAllQueues} = 1;
 
 
-    # ----------------------------------------------------
-    # DB settings
-    # ----------------------------------------------------
+    # ----------------------------------------------------#
+    # database settings                                   #
+    # ----------------------------------------------------#
 
     # DatabaseHost
     # (The database host.)
@@ -154,9 +143,10 @@ sub Load {
     $Self->{DatabasePreferencesTableValue} = 'preferences_value';
     $Self->{DatabasePreferencesTableUserID} = 'user_id';
 
-    # ----------------------------------------------------
-    # default agent settings
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # default agent settings                              #
+    # ----------------------------------------------------#
 
     # ViewableTickets
     # (The default viewable tickets a page.)
@@ -184,7 +174,7 @@ sub Load {
     $Self->{Refresh} = 180;
 
     # Highligh*
-    # (Set the age and the collor for highlighting of old queues
+    # (Set the age and the collor for highlighting of old queue
     # in the QueueView.)
     # highlight age1 in min
     $Self->{HighlightAge1} = 1440;
@@ -193,9 +183,10 @@ sub Load {
     $Self->{HighlightAge2} = 2880;
     $Self->{HighlightColor2} = 'red';
 
-    # ----------------------------------------------------
-    # AgentUtil
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # AgentUtil                                           #
+    # ----------------------------------------------------#
     # default limit for Tn search
     $Self->{SearchLimitTn} = 20;
     # default limit for Txt search
@@ -203,9 +194,49 @@ sub Load {
     # viewable ticket lines by search util
     $Self->{ViewableTicketLinesBySearch} = 15;
 
-    # ----------------------------------------------------
-    # directories
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # session settings                                    #
+    # ----------------------------------------------------#
+
+    # SessionDriver
+    # (How should be the session-data stored? [sql|fs]
+    # Advantage of sql ist that you can split the 
+    # Frontendserver from the DB-Server.)
+    $Self->{SessionDriver} = 'sql';
+
+    # SessionCheckRemoteIP 
+    # (If the application is used via a proxy-farm then the 
+    # remote ip address is mostly different. In this case,
+    # turn of the CheckRemoteID. ) [1|0] 
+    $Self->{SessionCheckRemoteIP} = 1;
+
+    # SessionDeleteIfNotRemoteID
+    # (Delete session if the session id is used with an 
+    # invalied remote IP?) [0|1]
+    $Self->{SessionDeleteIfNotRemoteID} = 1;
+
+    # SessionMaxTime
+    # (Max valid time of one session id in second (8h = 28800).)
+    $Self->{SessionMaxTime} = 28800;
+
+    # SessionDeleteIfTimeToOld
+    # (Delete session's witch are requested and to old?) [0|1]
+    $Self->{SessionDeleteIfTimeToOld} = 1;
+
+
+    # ----------------------------------------------------#
+    # web stuff                                           #
+    # ----------------------------------------------------#
+
+    # CGIHandle
+    # (Global CGI handle.)
+    $Self->{CGIHandle} = 'index.pl';
+
+
+    # ----------------------------------------------------#
+    # directories                                         #
+    # ----------------------------------------------------#
     # root directory
     $Self->{Home} = '/opt/OpenTRS';
     # directory for all sessen id informations (just needed if 
@@ -218,17 +249,10 @@ sub Load {
     # loop protection Log
     $Self->{LoopProtectionLog} = $Self->{Home} . '/var/log/LoopProtection';
 
-    # ----------------------------------------------------
-    # web stuff
-    # ----------------------------------------------------
 
-    # CGIHandle
-    # (Global CGI handle.)
-    $Self->{CGIHandle} = 'index.pl';
-
-    # ----------------------------------------------------
-    # Ticket stuff
-    # ----------------------------------------------------
+    # ----------------------------------------------------#
+    # Ticket stuff                                        #
+    # ----------------------------------------------------#
     # ViewableLocks
     $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
 
@@ -238,9 +262,10 @@ sub Load {
     # ViewableSenderTypes
     $Self->{ViewableSenderTypes} = ["'customer'"];
 
-    # ----------------------------------------------------
-    # PostMaster stuff
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # PostMaster stuff                                    #
+    # ----------------------------------------------------#
    
     # MaxPostMasterEmails
     # (Max post master daemon email to own email-address a day.
@@ -297,10 +322,11 @@ sub Load {
       'X-OTRS-TicketValue2',
     ];
 
-    # ----------------------------------------------------
-    # default values
-    # (default values for GUIs)
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # default values                                      #
+    # (default values for GUIs)                           #
+    # ----------------------------------------------------#
     # default valid
     $Self->{DefaultValid} = 'valid';
     # default charset
@@ -310,9 +336,10 @@ sub Load {
     # default theme
     $Self->{DefaultTheme} = 'Standard';
 
-    # ----------------------------------------------------
-    # defaults for add note
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # defaults for add note                               #
+    # ----------------------------------------------------#
     # default note type
     $Self->{DefaultNoteType} = 'note-internal';
     # default note subject
@@ -320,9 +347,10 @@ sub Load {
     # default note text
     $Self->{DefaultNoteText} = '';
 
-    # ----------------------------------------------------
-    # defaults for close ticket
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # defaults for close ticket                           #
+    # ----------------------------------------------------#
     # CloseNoteType
     $Self->{DefaultCloseNoteType} = 'note-internal';
     # CloseNoteSubject
@@ -332,9 +360,10 @@ sub Load {
     # CloseType
     $Self->{DefaultCloseType} = 'closed succsessful';
 
-    # ----------------------------------------------------
-    # defaults for compose message
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # defaults for compose message                        #
+    # ----------------------------------------------------#
     # default compose next state
     $Self->{DefaultNextComposeType} = 'open';
     # new line after x chars and onew word
@@ -346,9 +375,10 @@ sub Load {
         'closed unsuccsessful',
     ];
 
-    # ----------------------------------------------------
-    # defaults for forward message
-    # ----------------------------------------------------
+
+    # ----------------------------------------------------#
+    # defaults for forward message                        #
+    # ----------------------------------------------------#
     # next possible states for compose message
     $Self->{DefaultNextForwardTypePossible} = [
         'open', 
