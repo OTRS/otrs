@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.4 2003-02-08 15:07:29 martin Exp $
+# $Id: pt_BR.pm,v 1.5 2003-02-08 21:09:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -176,11 +176,11 @@ sub Data {
       'Ticket lock timeout notification' => 'Notificação de bloqueio por tempo expirado',
 
     # Template: AAATicket
-      '1 very low' => 'muito baixo',
-      '2 low' => 'baixo',
-      '3 normal' => 'normal',
-      '4 high' => 'alto',
-      '5 very high' => 'muito alto',
+      '1 very low' => '1 muito baixo',
+      '2 low' => '2 baixo',
+      '3 normal' => '3 normal',
+      '4 high' => '4 alto',
+      '5 very high' => '5 muito alto',
       'Action' => 'Ação',
       'Age' => 'Idade',
       'Article' => 'Artigo',

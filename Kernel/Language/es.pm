@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.5 2003-02-08 15:07:29 martin Exp $
+# $Id: es.pm,v 1.6 2003-02-08 21:09:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -176,11 +176,11 @@ sub Data {
       'Ticket lock timeout notification' => 'Notificaci&oacute;n de bloqueo de tickets por tiempo',
 
     # Template: AAATicket
-      '1 very low' => 'muy bajo',
-      '2 low' => 'bajo',
-      '3 normal' => 'normal',
-      '4 high' => 'alto',
-      '5 very high' => 'muy alto',
+      '1 very low' => '1 muy bajo',
+      '2 low' => '2 bajo',
+      '3 normal' => '3 normal',
+      '4 high' => '4 alto',
+      '5 very high' => '5 muy alto',
       'Action' => 'Acci&oacute;n',
       'Age' => 'Antiguedad',
       'Article' => 'Art&iacute;culo',
