@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.17 2002-11-15 14:58:50 martin Exp $
+# $Id: Admin.pm,v 1.18 2002-11-25 00:19:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -552,14 +552,7 @@ sub AdminCustomerUserForm {
           }
           elsif ($PrefKey eq 'UserLanguage') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'language, language',
-                      Valid => 1,
-                      Clamp => 0,
-                      Table => 'language',
-                    )
-                  },
+                  Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
                   Name => "GenericTopic::$PrefKey",
                   Selected => $Param{UserLanguage},
               );
@@ -655,14 +648,7 @@ sub AdminUserForm {
           }
           elsif ($PrefKey eq 'UserLanguage') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'language, language',
-                      Valid => 1,
-                      Clamp => 0,
-                      Table => 'language',
-                    )
-                  },
+                  Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'), 
                   Name => "GenericTopic::$PrefKey",
                   Selected => $Param{UserLanguage},
               );
@@ -879,40 +865,6 @@ sub AdminCharsetForm {
     );
 
     return $Self->Output(TemplateFile => 'AdminCharsetForm', Data => \%Param);
-}
-# --
-sub AdminLanguageForm {
-    my $Self = shift;
-    my %Param = @_;
-
-    # build ValidID string
-    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
-        },
-        Name => 'ValidID',
-        SelectedID => $Param{ValidID},
-    );
-
-    $Param{LanguageOption} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, language, id',
-            Valid => 0,
-            Clamp => 1,
-            Table => 'language',
-          )
-        },
-        Size => 15,
-        Name => 'ID',
-        SelectedID => $Param{ID},
-    );
-
-    return $Self->Output(TemplateFile => 'AdminLanguageForm', Data => \%Param);
 }
 # --
 sub AdminStateForm {
