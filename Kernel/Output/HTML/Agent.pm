@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.75 2003-01-07 00:36:51 martin Exp $
+# $Id: Agent.pm,v 1.76 2003-01-09 20:43:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -149,11 +149,11 @@ sub TicketView {
       # colloring  
       $Param{TicketOverTimeFont} = '';
       $Param{TicketOverTimeFontEnd} = '';
-      if ($Param{TicketOverTime} >= -60*20) {
+      if ($Param{TicketOverTime} <= -60*20) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
-      elsif ($Param{TicketOverTime} >= -60*40) {
+      elsif ($Param{TicketOverTime} <= -60*40) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
@@ -269,11 +269,11 @@ sub TicketZoom {
       # --
       $Param{TicketOverTimeFont} = '';
       $Param{TicketOverTimeFontEnd} = '';
-      if ($Param{TicketOverTime} >= -60*20) {
+      if ($Param{TicketOverTime} <= -60*20) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
-      elsif ($Param{TicketOverTime} >= -60*40) {
+      elsif ($Param{TicketOverTime} <= -60*40) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
@@ -387,7 +387,6 @@ sub TicketZoom {
     my $ArticleOB = $ArticleBox[$LastCustomerArticle];
     my %Article = %$ArticleOB;
 
-    my $ArticleArray = 0;
     foreach my $ArticleTmp (@ArticleBox) {
         my %ArticleTmp1 = %$ArticleTmp;
         if ($ArticleID eq $ArticleTmp1{ArticleID}) {
@@ -477,6 +476,120 @@ sub TicketZoom {
     else {
         # without all!
         $Output = $Self->Output(TemplateFile => 'TicketZoom', Data => \%Param);
+    }
+    # return output
+    return $Output;
+}
+# --
+sub AgentTicketPrintHeader {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # do some html quoting
+    # --
+    foreach (qw(State Priority Lock)) {
+        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
+    }
+    foreach (qw(Priority State Owner Queue CustomerID Lock)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 25) || '';
+    }
+    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+    if ($Param{UntilTime}) {
+        $Param{PendingUntil} = $Self->CustomerAge(Age => $Param{UntilTime}, Space => ' ');
+    }
+    else {
+        $Param{PendingUntil} = '-';
+    }
+    # --
+    # prepare escalation time (if needed)
+    # --
+    if ($Param{Answered}) {
+        $Param{TicketOverTime} = '$Text{"none - answered"}';
+    }
+    elsif ($Param{TicketOverTime}) { 
+      $Param{TicketOverTime} = $Self->CustomerAge(
+          Age => $Param{TicketOverTime}, 
+          Space => ' ',
+      );
+    }
+    else {
+        $Param{TicketOverTime} = '-';
+    }
+    return $Self->Output(TemplateFile => 'AgentTicketPrintHeader', Data => \%Param);
+}
+# --
+sub AgentTicketPrint {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # build article stuff
+    # --
+    my $SelectedArticleID = $Param{ArticleID} || '';
+    my @ArticleBox = @{$Param{ArticleBox}};
+    # --
+    # get last customer article
+    # --
+    my $Output = '';
+    foreach my $ArticleTmp (@ArticleBox) {
+        my %Article = %{$ArticleTmp};
+        # --
+        # get attacment string
+        # --
+        my %AtmIndex = ();
+        if ($Article{Atms}) {
+            %AtmIndex = %{$Article{Atms}};
+        }
+        my $ATMStrg = '';
+        foreach (keys %AtmIndex) {
+          $AtmIndex{$_} = $Self->Ascii2Html(Text => $AtmIndex{$_});
+          $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
+            "ArticleID=$Article{ArticleID}&FileID=$_\" target=\"attachment\" ".
+            "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
+             ' return true;" onmouseout="window.status=\'\';">'.
+             $AtmIndex{$_}.'</a><br> ';
+        }
+        # --
+        # do some strips && quoting
+        # --
+        foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
+          FreeValue3 CreateTime SenderType ArticleType)) {
+          $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
+        }
+        # --
+        # check if just a only html email
+        # --
+        if (my $MimeTypeText = $Self->CheckMimeType(%Param, %Article, Action => 'AgentZoom')) {
+            $Param{"Article::TextNote"} = $MimeTypeText;
+            $Param{"Article::Text"} = '';
+        }
+        else {
+            # --
+            # html quoting
+            # --
+            $Param{"Article::Text"} = $Self->Ascii2Html(
+                NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+                Text => $Article{Text},
+                VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+            );
+            # --
+            # do charset check
+            # --
+            if (my $CharsetText = $Self->CheckCharset(
+                Action => 'AgentZoom',
+                ContentCharset => $Article{ContentCharset},
+                TicketID => $Param{TicketID},
+                ArticleID => $Article{ArticleID} )) {
+                $Param{"Article::TextNote"} = $CharsetText;
+            }
+        }
+
+        # get article id
+        $Param{"Article::ArticleID"} = $Article{ArticleID};
+
+        # select the output template
+        if ($Article{ArticleType} ne 'email-notification-int') {
+            $Output .= $Self->Output(TemplateFile => 'AgentTicketPrint', Data => \%Param);
+        }
     }
     # return output
     return $Output;
