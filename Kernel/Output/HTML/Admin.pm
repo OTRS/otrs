@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.9 2002-05-05 13:45:15 martin Exp $
+# $Id: Admin.pm,v 1.10 2002-05-12 22:03:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -366,7 +366,7 @@ sub AdminQueueAutoResponseTable {
         "Change&ID=$ResponseData{ID}\">$ResponseData{Name}</A> ($ResponseData{Type}) <BR>";
     }
     if (@Data == 0) {
-      $Param{DataStrg}.= "Sorry, <FONT COLOR=\"RED\">no</FONT> auto responses set!\n";
+      $Param{DataStrg}.= '$Text{"Sorry"}, <FONT COLOR="RED">$Text{"no"}</FONT> $Text{"auto responses set"}!';
     }
 
     return $Self->Output(TemplateFile => 'AdminQueueAutoResponseTable', Data => \%Param);
@@ -596,8 +596,7 @@ sub AdminUserGroupForm {
     foreach (sort keys %GroupDataTmp){
       $Param{GroupStrg} .= "<A HREF=\"$BaseLink&Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
     }
-
-
+    # return output
     return $Self->Output(TemplateFile => 'AdminUserGroupForm', Data => \%Param);
 }
 # --
@@ -617,12 +616,12 @@ sub AdminUserGroupChangeForm {
 
 
     foreach (sort keys %FirstDataTmp){
-        $Param{OptionStrg0} .= "<B>$Type:</B> <A HREF=\"$BaseLink&Action=Admin$Type&Subaction=Change&ID=$_\">" .
+        $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink&Action=Admin$Type&Subaction=Change&ID=$_\">" .
           "$FirstDataTmp{$_}</A> (id=$_)<BR>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }
 
-    $Param{OptionStrg0} .= "<B>$NeType:</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
+    $Param{OptionStrg0} .= "<B>\$Text{\"$NeType:\"}</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
     foreach my $ID (sort keys %SecondDataTmp){
         $Param{OptionStrg0} .= "<OPTION ";
         foreach (sort keys %DataTmp){
