@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.44 2002-11-15 13:10:49 martin Exp $
+# $Id: index.pl,v 1.45 2002-11-19 18:32:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -66,6 +66,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => $CommonObject{ConfigObject}->Get('CGILogPrefix'),
     %CommonObject,
 );
+$CommonObject{ParamObject} = Kernel::System::WebRequest->new();
 # --
 # debug info
 # --
@@ -76,10 +77,43 @@ if ($Debug) {
     );
 }
 # --
+# get common framework params
+# --
+my %Param = ();
+# get session id
+$Param{SessionName} = $CommonObject{ConfigObject}->Get('SessionName') || 'SessionID';
+$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => $Param{SessionName}) || '';
+# drop old session id (if exists)
+my $QueryString = $ENV{"QUERY_STRING"};
+$QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/;
+# definde frame work params
+my $FramworkPrams = {
+    Lang => '',
+    Action => '',
+    Subaction => '',
+    RequestedURL => $QueryString,
+};
+foreach my $Key (keys %{$FramworkPrams}) {
+    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
+      || $FramworkPrams->{$Key};
+}
+# --
+# Check if the brwoser sends the SessionID cookie and set the SessionID-cookie 
+# as SessionID! GET or POST SessionID have the lowest priority.
+# --
+if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
+  $Param{SessionIDCookie} = $CommonObject{ParamObject}->GetCookie(Key => $Param{SessionName});
+  if ($Param{SessionIDCookie}) {
+    $Param{SessionID} = $Param{SessionIDCookie};
+  }
+}
+# --
 # create common framework objects 2/3
 # --
-$CommonObject{ParamObject} = Kernel::System::WebRequest->new();
-$CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
+$CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+    %CommonObject, 
+    Lang => $Param{Lang},
+);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 # --
 # check common db objects
@@ -107,37 +141,6 @@ foreach ('$Kernel::Config::Modules::CommonObject', '$Kernel::Config::ModulesCust
   foreach my $Key (keys %{$ModuleCommonObject}) {
     # create
     $CommonObject{$Key} = $ModuleCommonObject->{$Key}->new(%CommonObject);
-  }
-}
-
-# --
-# get common framework params
-# --
-my %Param = ();
-# get session id
-$Param{SessionName} = $CommonObject{ConfigObject}->Get('SessionName') || 'SessionID';
-$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => $Param{SessionName}) || '';
-# drop old session id (if exists)
-my $QueryString = $ENV{"QUERY_STRING"};
-$QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/;
-# definde frame work params
-my $FramworkPrams = {
-    Action => '',
-    Subaction => '',
-    RequestedURL => $QueryString,
-};
-foreach my $Key (keys %{$FramworkPrams}) {
-    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
-      || $FramworkPrams->{$Key};
-}
-# --
-# Check if the brwoser sends the SessionID cookie and set the SessionID-cookie 
-# as SessionID! GET or POST SessionID have the lowest priority.
-# --
-if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
-  $Param{SessionIDCookie} = $CommonObject{ParamObject}->GetCookie(Key => $Param{SessionName});
-  if ($Param{SessionIDCookie}) {
-    $Param{SessionID} = $Param{SessionIDCookie};
   }
 }
 # --
