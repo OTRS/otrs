@@ -1,13 +1,52 @@
 # --
 # Login.dtl - provides HTML login screen
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# $Id: Login.dtl,v 1.2 2002-05-26 18:16:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+# --
+# http headers
+# --
+Content-Type: text/html; charset=$Env{"Charset"};
+X-Powered-By: OpenTRS - Open Ticket Request System (http://otrs.org)
+X-Wanted: I think you are smart. I'm looking for smart people!
+# --
+# html comment
+# --
+
+
+<!-- OpenTRS: Copyright 2002, OpenTRS Project. This Software is under the GPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
+<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt           -->
+
+# --
+# set some html variables
+# --
+<dtl set $Env{"BGCOLOR"} = "#BBDDFF">
+<dtl set $Env{"BGTableColor0"} = "#000000">
+<dtl set $Env{"BGTableColor1"} = "#FFFFFF">
+<dtl set $Env{"BGTableColor2"} = "#EEEEEE">
+<dtl set $Env{"FontColor0"} = "#000000">
+<dtl set $Env{"FontColor1"} = "#FFFFFF">
+# --
+<html>
+<head>
+    <title>OpenTRS :: $Text{"$Data{"Title"}"}</title>
+<style type="text/css">
+<!--
+  p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;}
+  pre
+    { font-family:Courier;font-size:12px; }
+//-->
+</style>
+</head>
+<!-- end header -->
+<body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
 
 <center>
 
@@ -16,30 +55,42 @@
 </p>
 
 <p>
-<table border="0" width="280">
+<form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="Action" value="Login">
+<input type="hidden" name="RequestedURL" value="$Data{"RequestedURL"}">
+
+<table border="0" cellspacing="0" cellpadding="3" width="240">
 <tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="center"><font color="$Env{"FontColor1"}">$Text{"Login"}</font></td>
+  <td align="center"><font color="$Env{"FontColor1"}"><b>$Text{"Welcome to OpenTRS"}</b></font></td>
 </tr>
 <tr>
   <td align="center" bgcolor="$Env{"BGTableColor1"}">
-  <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-  <input type="hidden" name="Action" value="Login">
-    <table>
+    <table cellspacing="8" cellpadding="2">
     <tr>
-      <td>User:</td>
-      <td><input type="text" name="User"></td>
+      <td>Username:</td>
+      <td><input type="text" name="User" value="$Data{"User"}" size="18"></td>
     </tr>
     <tr>
       <td>Password:</td>
-      <td><input type="password" name="Password"></td>
+      <td><input type="password" name="Password" size="18"></td>
     </tr>
     </table>
   <input type="submit" value="$Text{"Login"}">
-  </form>
   </td>
 </tr>
 </table>
-
+</form>
 </p>
 
+# --
+# Message of the day data!
+# --
+$Data{"Motd"}
+
 </center>
+
+<!-- start footer -->
+</body>
+</html>
+<!-- end footer -->
+

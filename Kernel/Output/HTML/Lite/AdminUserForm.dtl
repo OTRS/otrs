@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.4 2002-05-12 15:06:27 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.5 2002-05-26 18:16:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -83,6 +83,14 @@
       <td> $Data{"ThemeOption"}</td>
     </tr>
     <tr>
+      <td>$Text{"Send follow up notification"}: </td>
+      <td> $Data{"SendFollowUpNotificationYesNoOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Send new ticket notification"}: </td>
+      <td> $Data{"SendNewTicketNotificationYesNoOption"}</td>
+    </tr>
+    <tr>
       <td>$Text{"Valid"}: </td>
       <td> $Data{"ValidOption"}</td>
     </tr>
@@ -96,4 +104,24 @@
 </tr>
 </table>
 <!-- end form -->
+
+<!-- start note -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor2"}" valign="top">
+  <td>
+    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" valign="top">
+  <td>
+  <p>
+  $Text{"User will be needed to handle tickets."}
+  </p>
+  <p>
+  $Text{"Attention"}: <a href="$Env{"CGIHandle"}?SessionID=$Env{"SessionID"}&Action=AdminUserGroup">$Text{"Don't forget to add a new user to groups!"}</a>
+  </p>
+  </td>
+</tr>
+</table>
+<!-- end note -->
 
