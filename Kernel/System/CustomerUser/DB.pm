@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.25 2004-03-11 23:04:59 martin Exp $
+# $Id: DB.pm,v 1.26 2004-03-22 13:10:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # max shown user a search list
-    $Self->{UserSearchListLimit} = 250;
+    $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 250;
     # config options
     $Self->{CustomerTable} = $Self->{CustomerUserMap}->{Params}->{Table} 
       || die "Need CustomerUser->Params->Table in Kernel/Config.pm!";
