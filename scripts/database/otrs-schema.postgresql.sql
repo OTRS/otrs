@@ -467,6 +467,7 @@ CREATE TABLE article
     PRIMARY KEY(id)
 );
 create INDEX article_ticket_id ON article (ticket_id);
+create INDEX article_message_id ON article (a_message_id);
 
 -----------------------------------------------------------------------------
 -- article_attachment

@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.24 2004-07-18 00:53:14 martin Exp $
+  $Id: otrs-schema.xml,v 1.25 2004-07-30 09:08:53 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.24  2004/07/18 00:53:14  martin
+  added schedule for generic agent
+
   Revision 1.23  2004/05/10 12:57:02  martin
   added postmaster_filter table
 
@@ -591,6 +594,9 @@
   <column name="change_by" required="true" type="INTEGER"/>
   <index name="article_ticket_id">
     <index-column name="ticket_id"/>
+  </index>
+  <index name="article_message_id">
+    <index-column name="a_message_id"/>
   </index>
 </table>
 

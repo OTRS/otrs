@@ -516,8 +516,8 @@ CREATE TABLE article
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    INDEX article_ticket_id (ticket_id)
-   
+    INDEX article_ticket_id (ticket_id),
+    INDEX article_message_id (a_message_id)
 );
 
 # -----------------------------------------------------------------------
