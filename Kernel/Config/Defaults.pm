@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.105 2004-02-06 13:48:06 martin Exp $
+# $Id: Defaults.pm,v 1.106 2004-02-09 01:42:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.105 $';
+$VERSION = '$Revision: 1.106 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1408,6 +1408,7 @@ Your OTRS Notification Master
     # CustomerUser 
     # (customer user database backend and settings)
     $Self->{CustomerUser} = {
+        Name => 'Database Backend',
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
             # if you want to use an external database, add the
@@ -1448,6 +1449,7 @@ Your OTRS Notification Master
     # CustomerUser 
     # (customer user ldap backend and settings)
 #    $Self->{CustomerUser} = {
+#        Name => 'LDAP Backend',
 #        Module => 'Kernel::System::CustomerUser::LDAP',
 #        Params => {
 #            # ldap host
