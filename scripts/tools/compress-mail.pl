@@ -3,7 +3,7 @@
 # scripts/tools/compress-mail.pl - compress email, zip attachments
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: compress-mail.pl,v 1.3 2004-12-07 14:33:34 martin Exp $
+# $Id: compress-mail.pl,v 1.4 2004-12-10 08:49:57 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,7 +70,7 @@ my $Entity;
 my $Header = $CommonObject{ParseObject}->{HeaderObject}->header_hashref();
 # check if this mail can be modified (not touch signed or crypted emails)
 foreach my $Attachment (@Attachments) {
-    if ($Attachment->{MimeType} =~ /$CompressAttachmentNoTouch/i) {
+    if ($Attachment->{MimeType} && $Attachment->{MimeType} =~ /$CompressAttachmentNoTouch/i) {
         $NoTouch = 1;
     }
 }
