@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.48 2002-07-25 12:00:39 martin Exp $
+# $Id: Config.pm,v 1.49 2002-07-25 21:45:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -583,7 +583,11 @@ Your OpenTRS Notification Master
     # ----------------------------------------------------#
     # array of std responses
     $Self->{StdResponse2QueueByCreating} = [
-        'empty answer',
+         'empty answer',
+    ];
+    # array of std response ids
+    $Self->{StdResponseID2QueueByCreating} = [
+#        1,
     ];
 
     # ----------------------------------------------------#
