@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.37 2004-08-11 14:06:23 martin Exp $
+# $Id: EmailParser.pm,v 1.38 2004-11-26 10:58:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -90,6 +90,7 @@ sub new {
         # create MIME::Parser object and get message body or body of first attachemnt
         my $Parser = new MIME::Parser;
         $Parser->output_to_core("ALL");
+#        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
         $Self->{ParserParts} = $Parser->parse_data($Self->{Email}->as_string());
     }
     else {
@@ -284,7 +285,7 @@ sub GetCharset {
 Returns the new message body (or from the first attachment) "ContentType" header
 (maybe the message is converted to utf-8).
 
-    my $Charset = $ParseObject->GetReturnContentType();
+    my $ContentType = $ParseObject->GetReturnContentType();
 
 (e. g. 'text/plain; charset="utf-8"')
 
@@ -314,6 +315,28 @@ sub GetReturnContentType {
             );
         }
         return $ContentType;
+    }
+}
+
+=item GetReturnCharset()
+
+Returns the charset of the new message body "Charset"
+(maybe the message is converted to utf-8).
+
+    my $Charset = $ParseObject->GetReturnCharset();
+
+(e. g. 'text/plain; charset="utf-8"')
+
+=cut
+
+sub GetReturnCharset {
+    my $Self = shift;
+    my $ContentType = $Self->GetContentType();
+    if ($Self->{EncodeObject}->EncodeInternalUsed()) {
+        return $Self->{EncodeObject}->EncodeInternalUsed();
+    }
+    else {
+        return $Self->GetCharset();
     }
 }
 
@@ -653,6 +676,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2004-08-11 14:06:23 $
+$Revision: 1.38 $ $Date: 2004-11-26 10:58:34 $
 
 =cut
