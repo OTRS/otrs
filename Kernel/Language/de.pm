@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.18 2003-03-11 16:47:15 martin Exp $
+# $Id: de.pm,v 1.19 2003-03-11 23:28:11 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Mar 11 00:40:04 2003 by 
+    # Last translation Tue Mar 11 00:40:04 2003 by
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -107,7 +107,7 @@ sub Data {
       'on' => 'ein',
       'Password' => 'Passwort',
       'Pending till' => 'Warten bis',
-      'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket um in die normale Queue-Ansicht zurück zu kommen!',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket, um in die normale Queue-Ansicht zurück zu kommen!',
       'Please contact your admin' => 'Bitte kontaktieren Sie Ihren Admin',
       'please do not edit!' => 'Bitte nicht verändern!',
       'possible' => 'möglich',
@@ -346,7 +346,7 @@ sub Data {
       'Change POP3 Account setting' => 'POP3 Account ändern',
       'Dispatching' => 'Verteilung',
       'Host' => 'Rechner',
-      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Ist der Account trusted, werden die x-otrs Header benutzt!',
+      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Ist der Account vertraut, werden die x-otrs Header benutzt!',
       'Login' => '',
       'POP3 Account Management' => '',
       'Trusted' => 'Vertraut',
@@ -358,11 +358,11 @@ sub Data {
 
     # Template: AdminQueueForm
       '0 = no escalation' => '0 = keine Eskalation',
-      '0 = no unlock' => '0 = kein Unlock',
+      '0 = no unlock' => '0 = keine Freigabe',
       'Add queue' => 'Queue hinzufügen',
       'Change queue settings' => 'Ändern einer Queue',
       'Customer Move Notify' => 'Kunden-Info Move',
-      'Customer Owner Notify' => 'Kunden-Info Beitzer',
+      'Customer Owner Notify' => 'Kunden-Info Besitzer',
       'Customer State Notify' => 'Kunden-Info Status',
       'Escalation time' => 'Eskalationszeit',
       'Follow up Option' => 'Nachfolge Option',
@@ -370,9 +370,9 @@ sub Data {
       'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in jener Zeit beantwortet, wird nur noch dieses Ticket gezeigt.',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gesperrt, jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch freigegeben.',
       'Key' => 'Schlüssel',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet Info-E-Mails an Kunden beim verschieben des Tickets.',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet Info-E-Mails an Kunden beim ändern des Besitzers.',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sendet Info E-Mails an Kunden beim ändern des Status.',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet Info-E-Mails an Kunden beim Verschieben des Tickets.',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet Info-E-Mails an Kunden beim Ändern des Besitzers.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sendet Info E-Mails an Kunden beim Ändern des Status.',
       'Queue Management' => 'Queue Verwaltung',
       'Sub-Queue of' => 'Unter-Queue von',
       'Systemaddress' => 'System-Adresse',
