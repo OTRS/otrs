@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.48 2003-03-05 19:45:54 martin Exp $
+# $Id: Ticket.pm,v 1.49 2003-03-06 10:40:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,13 +27,14 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 use Kernel::System::Queue;
 use Kernel::System::User;
+use Kernel::System::Email;
 use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -65,6 +66,7 @@ sub new {
     # --
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     $Self->{UserObject} = Kernel::System::User->new(%Param);
+    $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
     $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);

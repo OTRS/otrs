@@ -1,8 +1,8 @@
 # --
 # README.dtl - dtl (dynamic template language) description of OTRS
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.dtl,v 1.5 2002-08-25 01:07:47 martin Exp $
+# $Id: README.dtl,v 1.6 2003-03-06 10:40:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -60,7 +60,7 @@ Used Syntax:
 
   To get config options:
   ======================
-    e. g. $Config{"Sendmail"} 
+    e. g. $Config{"Sendmail::Module"} 
 
   Common $Env{} variables:
   ========================

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.17 2003-03-05 19:21:20 martin Exp $
+# $Id: AgentBounce.pm,v 1.18 2003-03-06 10:40:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -141,24 +141,24 @@ sub Run {
         # --
         # get article data 
         # --
-        my %Data = $Self->{TicketObject}->GetArticle(
+        my %Article = $Self->{TicketObject}->GetArticle(
             ArticleID => $Self->{ArticleID},
         );
         # --
         # prepare subject ...
         # --
         my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-        $Data{Subject} =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
-        $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
-        $Data{Subject} = "[$TicketHook: $Param{TicketNumber}] RE: " . $Data{Subject};
+        $Article{Subject} =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
+        $Article{Subject} =~ s/^(.{30}).*$/$1 [...]/;
+        $Article{Subject} = "[$TicketHook: $Param{TicketNumber}] RE: " . $Article{Subject};
         # --
         # prepare to (ReplyTo!) ...
         # --
-        if ($Data{ReplyTo}) {
-            $Data{To} = $Data{ReplyTo};
+        if ($Article{ReplyTo}) {
+            $Article{To} = $Article{ReplyTo};
         }
         else {
-            $Data{To} = $Data{From};
+            $Article{To} = $Article{From};
         }
         # --
         # prepare salutation
@@ -168,11 +168,11 @@ sub Run {
         if ($Param{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
             # get realname 
             my $From = '';
-            if ($Ticket{CustomerUserID}) {
-                $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Ticket{CustomerUserID});
+            if ($Article{CustomerUserID}) {
+                $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Article{CustomerUserID});
             }
             if (!$From) {
-                $From = $Data{From} || '';
+                $From = $Article{From} || '';
                 $From =~ s/<.*>|\(.*\)|\"|;|,//g;
                 $From =~ s/( $)|(  $)//g;
             }
@@ -191,21 +191,21 @@ sub Run {
         # prepare body ...
         # --
         my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
-        $Data{Body} =~ s/(.{$NewLine}.+?\s)/$1\n/g;
-        $Data{Body} =~ s/\n/\n> /g;
-        $Data{Body} = "\n> " . $Data{Body};
-        my @Body = split(/\n/, $Data{Body});
-        $Data{Body} = '';
+        $Article{Body} =~ s/(.{$NewLine}.+?\s)/$1\n/g;
+        $Article{Body} =~ s/\n/\n> /g;
+        $Article{Body} = "\n> " . $Article{Body};
+        my @Body = split(/\n/, $Article{Body});
+        $Article{Body} = '';
         foreach (1..4) {
-            $Data{Body} .= $Body[$_]."\n" if ($Body[$_]);
+            $Article{Body} .= $Body[$_]."\n" if ($Body[$_]);
         }
         # --
         # prepare from ...
         # --
         my %Address = $QueueObject->GetSystemAddress();
-        $Data{From} = "$Address{RealName} <$Address{Email}>";
-        $Data{Email} = $Address{Email};
-        $Data{RealName} = $Address{RealName};
+        $Article{From} = "$Address{RealName} <$Address{Email}>";
+        $Article{Email} = $Address{Email};
+        $Article{RealName} = $Address{RealName};
 
         # get next states
         my %NextStates = $Self->{StateObject}->StateGetStatesByType(
@@ -215,7 +215,7 @@ sub Run {
         # print form ...
         $Output .= $Self->{LayoutObject}->AgentBounce(
             %Param,
-            %Data,
+            %Article,
             TicketID => $Self->{TicketID},
             ArticleID => $Self->{ArticleID},
             NextStates => \%NextStates,

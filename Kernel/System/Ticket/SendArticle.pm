@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.3 2003-02-08 15:09:40 martin Exp $
+# $Id: SendArticle.pm,v 1.4 2003-03-06 10:40:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -177,10 +177,16 @@ sub SendArticle {
     # --
     # send mail
     # --
-    if (open( MAIL, "|$Self->{Sendmail} '$RetEmail' " )) {
+    if ($Self->{SendmailObject}->Send(
+        From => $Param{From},
+        To => $Param{To},
+        Cc => $Param{Cc},
+        Bcc => $Self->{SendmailBcc},
+        Subject => $Param{Subject},
+        Header => $head->as_string(),
+        Body => $Entity->body_as_string(),
+    )) {
         my @Mail = ($head->as_string, "\n", $Entity->body_as_string);
-        print MAIL @Mail;
-        close(MAIL);
         # -- 
         # write article to fs
         # -- 
@@ -202,16 +208,12 @@ sub SendArticle {
         # log
         # -- 
         $Self->{LogObject}->Log(
-          Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
+            Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
         );
-
         return $Param{ArticleID};
     }
     else {
-         $Self->{LogObject}->Log(
-           Priority => 'error', 
-           Message => "Can't use $Self->{Sendmail}: $!!",
-         );
+         # error
          return;
     }
 }
@@ -221,13 +223,21 @@ sub BounceArticle {
     my %Param = @_;
     my $Time = time();
     my $Random = rand(999999);
-    my $UserID = $Param{UserID} || 0;
     my $From = $Param{From} || '';
     my $To = $Param{To} || '';
     my $ToOrig = $To;
     my $Cc = $Param{Cc} || '';
     my $HistoryType = $Param{HistoryType} || 'Bounce';
     my $RetEmail = $Param{Email};
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(From To UserID Email)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
     # --
     # build bounce mail ...
     # --
@@ -236,35 +246,34 @@ sub BounceArticle {
     # split body && header
     my @EmailPlain = split(/\n/, $Email);
     my $EmailObject = new Mail::Internet(\@EmailPlain);
-
     # --
     # add ReSent header
     # --
     my $HeaderObject = $EmailObject->head();
-    my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$UserID\@$Self->{FQDN}>";
+    my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$Self->{FQDN}>";
     my $OldMessageID = $HeaderObject->get('Message-ID') || '??';
     $HeaderObject->replace('Message-ID', $NewMessageID);
     $HeaderObject->replace('ReSent-Message-ID', $OldMessageID);
     $HeaderObject->replace('Resent-To', $To);
     $HeaderObject->replace('Resent-From', $From);
     my $Body = $EmailObject->body();
-
+    my $BodyAsSting = '';
+    foreach (@{$Body}) {
+        $BodyAsSting .= $_."\n";
+    }
     # --
     # pipe all into sendmail
     # --
-    if (open( MAIL, "|$Self->{Sendmail} '$RetEmail' " )) {
-        print MAIL $HeaderObject->as_string;
-        print MAIL "\n";
-        foreach (@{$Body}) {
-            print MAIL $_."\n";
-        }
-        close(MAIL);
-    }
-    else {
-        print STDERR "$!\n";
+    if (!$Self->{SendmailObject}->Send(
+        From => $Param{From},
+        To => $Param{To},
+        Cc => $Param{Cc},
+        Bcc => $Self->{SendmailBcc},
+        Header => $HeaderObject->as_string(),
+        Body => $BodyAsSting,
+    )) {
         return;
     }
-
     # --
     # write history
     # --
@@ -273,7 +282,7 @@ sub BounceArticle {
         ArticleID => $Param{ArticleID},
         HistoryType => $HistoryType,
         Name => "Bounced email to '$To'.",
-        CreateUserID => $UserID,
+        CreateUserID => $Param{UserID},
     );
     return 1;
 }

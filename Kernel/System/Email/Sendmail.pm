@@ -1,45 +1,40 @@
 # --
-# Kernel/System/EmailSend.pm - the global email send module
+# Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.21 2003-02-08 15:09:38 martin Exp $
+# $Id: Sendmail.pm,v 1.1 2003-03-06 10:40:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::EmailSend;
+package Kernel::System::Email::Sendmail;
 
 use strict;
 use MIME::Words qw(:all);
-use Mail::Internet;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-
     # allocate new hash for object
     my $Self = {}; 
     bless ($Self, $Type);
-
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-
     # check all needed objects
-    foreach (qw(ConfigObject LogObject DBObject)) {
+    foreach (qw(ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
-
     # get config data
-    $Self->{Sendmail} = $Self->{ConfigObject}->Get('Sendmail');
+    $Self->{Sendmail} = $Self->{ConfigObject}->Get('SendmailModule::CMD');
     $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
     $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
     $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
@@ -47,13 +42,13 @@ sub new {
     return $Self;
 }
 # --
-sub SendNormal {
+sub Send {
     my $Self = shift;
     my %Param = @_;
     # --
     # check needed stuff
     # --
-    foreach (qw(Subject Body)) {
+    foreach (qw(Body)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -66,21 +61,39 @@ sub SendNormal {
     if (!$Param{From}) {
         $Param{From} = $Self->{ConfigObject}->Get('AdminEmail') || 'otrs@localhost';
     }
+    if (!$Param{Header}) {
+        $Param{Header} = "From: $Param{From}\n";
+        foreach (qw(To Cc Bcc)) {
+            $Param{Header} .= "$_: $Param{$_}\n" if ($Param{$_});
+        }
+        $Param{Header} .= "Subject: $Param{Subject}\n";
+        $Param{Header} .= "X-Mailer: OTRS Mail Service ($VERSION)\n";
+        $Param{Header} .= "X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org/)\n";
+    }
+    my $To = '';
+    foreach (qw(To Cc Bcc)) {
+        if (!$To) {
+            $To .= "$Param{$_}" if ($Param{$_});
+        }
+        else {
+            $To .= ", $Param{$_}" if ($Param{$_});
+        }
+    }
     # --
     # send mail
     # --
     if (open( MAIL, "|".$Self->{ConfigObject}->Get('Sendmail')." '$Param{From}' " )) {
-            print MAIL "From: $Param{From}\n";
-            foreach (qw(To Cc Bcc)) {
-                print MAIL "$_: $Param{$_}\n" if ($Param{$_});
-            }
-            print MAIL "Subject: $Param{Subject}\n";
-            print MAIL "X-Mailer: OTRS Mail Service ($VERSION)\n";
-            print MAIL "X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org/)\n";
-            print MAIL "\n";
-            print MAIL "$Param{Body}\n";
-            close(MAIL);
-            return 1;
+        print MAIL $Param{Header};
+        print MAIL "\n";
+        print MAIL $Param{Body};
+        close(MAIL);
+        # -- 
+        # log
+        # -- 
+        $Self->{LogObject}->Log(
+            Message => "Sent email to '$To' from '$Param{From}'. Subject => $Param{Subject};",
+        );
+        return 1;
     }
     else {
         $Self->{LogObject}->Log(

@@ -2,7 +2,7 @@
 # Kernel/Config/ModulesCustomerPanel.pm - config file of all used application modules
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ModulesCustomerPanel.pm,v 1.6 2003-02-08 15:12:56 martin Exp $
+# $Id: ModulesCustomerPanel.pm,v 1.7 2003-03-06 10:40:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::ModulesCustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,7 @@ $Kernel::Config::ModulesCustomerPanel::Allow = "^(Customer).+?";
 # system basic lib modules
 use Kernel::System::Queue;
 use Kernel::System::Ticket;
-use Kernel::System::EmailSend;
+use Kernel::System::Email;
 
 # --
 # Note: Removed Kernel::Modules::* because pure cgi is faster!

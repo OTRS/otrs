@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.46 2003-03-05 19:48:11 martin Exp $
+# $Id: Defaults.pm,v 1.47 2003-03-06 10:41:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,15 +61,21 @@ sub LoadDefaults {
     # (Email of the system admin.)
     $Self->{AdminEmail} = 'admin@example.com';
 
-    # Sendmail
+    # SendmailModule
     # (Where is sendmail located and some options.
-    # See 'man sendmail' for details.) 
-    $Self->{Sendmail} = '/usr/sbin/sendmail -t -i -f ';
+    # See 'man sendmail' for details. Or use the SMTP backend.) 
+    $Self->{'SendmailModule'} = 'Kernel::System::Email::Sendmail';
+    $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -t -i -f ';
+
+#    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
+#    $Self->{'SendmailModule::Host'} = 'mail.example.com';
+#    $Self->{'SendmailModule::AuthUser'} = '';
+#    $Self->{'SendmailModule::AuthPassword'} = '';
 
     # SendmailBcc
     # (Send all outgoing email via bcc to... 
     # Warning: use it only for external archive funktions)
-    $Self->{SendmailBcc} = '';
+    $Self->{'SendmailBcc'} = '';
 
     # Organization
     # (If this is anything other than '', then the email will have an
@@ -425,7 +431,7 @@ sub LoadDefaults {
     # (the default html theme) [default: Standard]
     $Self->{DefaultTheme} = 'Standard';
     # OnChangeSubmit 
-    # (Use the onchange=submit() funktion for ticket move in
+    # (Use the onchange=submit() function for ticket move in
     # QueueView and TicketZoom) [default: 1] [0|1]
     $Self->{OnChangeSubmit} = 1;
     # StdResponsesMethod
