@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.36 2003-02-17 18:31:16 martin Exp $
+# $Id: Defaults.pm,v 1.37 2003-02-18 22:30:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1362,6 +1362,8 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewNoteText} = 'New ticket via call.';
     # default next state
     $Self->{PhoneDefaultNewNextState} = 'open';
+    # default lock
+    $Self->{PhoneDefaultNewLock} = 'lock';
     # default history type
     $Self->{PhoneDefaultNewHistoryType} = 'PhoneCallCustomer';
     $Self->{PhoneDefaultNewHistoryComment} = 'Customer called us.';

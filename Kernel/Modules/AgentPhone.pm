@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.24 2003-02-14 13:54:42 martin Exp $
+# $Id: AgentPhone.pm,v 1.25 2003-02-18 22:30:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,6 @@ sub Run {
     my $QueueID = $Self->{QueueID};
     my $Subaction = $Self->{Subaction};
     my $NextScreen = $Self->{NextScreen} || 'AgentZoom';
-    my $UserID = $Self->{UserID};
     my $UserLogin = $Self->{UserLogin};
     
     if ($Subaction eq '' || !$Subaction) {
@@ -68,7 +67,7 @@ sub Run {
         # if there is no ticket id!
         # --
         if (!$TicketID) {
-            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --
             # html output
@@ -112,8 +111,8 @@ sub Run {
           # --
           $Self->{TicketObject}->SetOwner(
             TicketID => $TicketID,
-            UserID => $UserID,
-            NewUserID => $UserID,
+            UserID => $Self->{UserID},
+            NewUserID => $Self->{UserID},
           );
           # --
           # set lock
@@ -121,7 +120,7 @@ sub Run {
           if ($Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
             Lock => 'lock',
-            UserID => $UserID
+            UserID => $Self->{UserID},
           )) {
             # show lock state
             $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);
@@ -132,7 +131,7 @@ sub Run {
               TicketID => $TicketID,
           );
 
-          if ($OwnerID != $UserID) {
+          if ($OwnerID != $Self->{UserID}) {
             $Output .= $Self->{LayoutObject}->Error(
                 Message => "Sorry, the current owner is $OwnerLogin",
                 Comment => 'Please change the owner first.',
@@ -176,7 +175,7 @@ sub Run {
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
-            UserID => $UserID, 
+            UserID => $Self->{UserID},
             HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultHistoryComment'),
         )) {
@@ -188,7 +187,7 @@ sub Run {
               TicketID => $TicketID,
               ArticleID => $ArticleID,
               TimeUnit => $TimeUnits,
-              UserID => $UserID,
+              UserID => $Self->{UserID},
             );
           }
           # --
@@ -198,14 +197,14 @@ sub Run {
             TicketID => $TicketID,
             ArticleID => $ArticleID,
             State => $NextState,
-            UserID => $UserID,
+            UserID => $Self->{UserID},
           );
           # --
           # set answerd
           # --
           $Self->{TicketObject}->SetAnswered(
             TicketID => $TicketID,
-            UserID => $UserID,
+            UserID => $Self->{UserID},
             Answered => $Answered,
          );
          # --
@@ -215,7 +214,7 @@ sub Run {
            $Self->{TicketObject}->SetLock(
              TicketID => $TicketID,
              Lock => 'unlock',
-             UserID => $UserID,
+             UserID => $Self->{UserID},
            );
          }
          # --
@@ -337,7 +336,7 @@ sub Run {
             # header
             # --
             $Output .= $Self->{LayoutObject}->Header(Title => 'Phone call');
-            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --
             # html output
@@ -392,7 +391,7 @@ sub Run {
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
-            UserID => $UserID,
+            UserID => $Self->{UserID},
             HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryComment'),
             AutoResponseType => 'auto reply',
@@ -405,6 +404,14 @@ sub Run {
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
           # --
+          # set lock
+          # --
+          $Self->{TicketObject}->SetLock(
+              TicketID => $TicketID,
+              Lock => $Self->{ConfigObject}->Get('PhoneDefaultNewLock') || 'lock',
+              UserID => $Self->{UserID},
+          );
+          # --
           # time accounting
           # --
           if ($TimeUnits) {
@@ -412,7 +419,7 @@ sub Run {
                   TicketID => $TicketID,
                   ArticleID => $ArticleID,
                   TimeUnit => $TimeUnits,
-                  UserID => $UserID,
+                  UserID => $Self->{UserID},
               );
           }
           # --
@@ -423,7 +430,7 @@ sub Run {
                   TicketID => $TicketID,
                   No => $CustomerID, 
                   User => $SelectedCustomerUser,
-                  UserID => $UserID,
+                  UserID => $Self->{UserID},
               );
           }
           # --
@@ -433,7 +440,7 @@ sub Run {
               $Self->{TicketObject}->SetLock(
                   TicketID => $TicketID,
                   Lock => 'unlock',
-                  UserID => $UserID,
+                  UserID => $Self->{UserID},
               );
           }
           # --
@@ -446,7 +453,6 @@ sub Run {
                   %GetParam,
               );
           }
-
           # --
           # redirect
           # --
