@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.84 2004-05-02 10:26:13 martin Exp $
+# $Id: AgentPhone.pm,v 1.85 2004-05-04 08:26:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.84 $';
+$VERSION = '$Revision: 1.85 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -466,9 +466,9 @@ sub Run {
         # --
         my %CustomerData = ();
         if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
-            if ($CustomerUser) {
+            if ($CustomerUser || $SelectedCustomerUser) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    User => $CustomerUser,
+                    User => $CustomerUser || $SelectedCustomerUser,
                 );
             }
             elsif ($CustomerID) {
