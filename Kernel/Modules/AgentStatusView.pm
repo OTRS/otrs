@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.12 2003-04-15 21:00:07 martin Exp $
+# $Id: AgentStatusView.pm,v 1.13 2003-04-17 21:53:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -176,7 +176,7 @@ sub Run {
     my $Counter = 0;
     foreach my $DataTmp (@ViewableTickets) {
         $Counter++;
-        if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{PageShown}+$Self->{StartHit})) {
+        if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{PageShown}+$Self->{StartHit})) {
             $OutputTable .= ShowTicketStatus(
                $Self,
                %{$DataTmp}, 
