@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.154 2004-12-06 22:23:29 martin Exp $
+# $Id: Ticket.pm,v 1.155 2005-01-07 22:28:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,6 +22,7 @@ use Kernel::System::User;
 use Kernel::System::Group;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
+use Kernel::System::Encode;
 use Kernel::System::Email;
 use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
@@ -30,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.154 $';
+$VERSION = '$Revision: 1.155 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -94,6 +95,12 @@ sub new {
     }
 
     # create common needed module objects
+    if (!$Param{EncodeObject}) {
+        $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    }
+    else {
+        $Self->{EncodeObject} = $Param{EncodeObject};
+    }
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     if (!$Param{GroupObject}) {
         $Self->{GroupObject} = Kernel::System::Group->new(%Param);
@@ -881,10 +888,16 @@ sub MoveList {
 
 =item MoveTicket()
 
-to move a ticket (send notification to agentsw of selected my queues)
+to move a ticket (send notification to agents of selected my queues)
 
-  $TicketObject->MoveList(
+  $TicketObject->MoveTicket(
       QueueID => 123,
+      TicketID => 123,
+      UserID => 123,
+  );
+
+  $TicketObject->MoveTicket(
+      Queue => 'Some Queue Name',
       TicketID => 123,
       UserID => 123,
   );
@@ -1554,6 +1567,8 @@ sub GetSubscribedUserIDsByQueueID {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
+    # get group of queue
+    my %Queue = $Self->{QueueObject}->QueueGet(ID => $Param{QueueID});
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -1565,15 +1580,23 @@ sub GetSubscribedUserIDsByQueueID {
             " WHERE ".
             " queue_id = $Param{QueueID} ",
     );
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        push (@UserIDs, $RowTmp[0]);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push (@UserIDs, $Row[0]);
     }
     # check if user is valid and check permissions
     my @CleanUserIDs = ();
     foreach (@UserIDs) {
         my %User = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
         if (%User) {
-            push (@CleanUserIDs, $_);
+            # just send emails to permitted agents
+            my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+                UserID => $_,
+                Type => 'ro',
+                Result => 'HASH',
+            );
+            if ($GroupMember{$Queue{GroupID}}) {
+                push (@CleanUserIDs, $_);
+            }
         }
     }
     return @CleanUserIDs;
@@ -3577,6 +3600,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.154 $ $Date: 2004-12-06 22:23:29 $
+$Revision: 1.155 $ $Date: 2005-01-07 22:28:52 $
 
 =cut
