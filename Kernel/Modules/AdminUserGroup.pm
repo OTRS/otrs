@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroup.pm,v 1.9 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.10 2003-05-19 16:00:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -80,11 +80,20 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);
+        foreach (keys %UserData) {
+            # get user data 
+            my %User = $Self->{UserObject}->GetUserData(UserID => $_, Cached => 1);
+            if ($User{UserFirstname} && $User{UserLastname}) {
+                $UserData{$_} .= " ($User{UserFirstname} $User{UserLastname})";
+            }
+        }
+        # get ro list users
         my %Read = $Self->{GroupObject}->GroupMemberList(
             GroupID => $ID,
             Type => 'ro',
             Result => 'HASH',
         );
+        # get rw list users
         my %Write = $Self->{GroupObject}->GroupMemberList(
             GroupID => $ID,
             Type => 'rw',

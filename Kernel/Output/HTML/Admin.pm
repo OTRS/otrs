@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.39 2003-05-01 20:41:17 martin Exp $
+# $Id: Admin.pm,v 1.40 2003-05-19 16:00:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -954,10 +954,10 @@ sub AdminUserGroupChangeForm {
 
     $Param{OptionStrg0} .= "<br>\n";
     $Param{OptionStrg0} .= "<table>\n";
-    $Param{OptionStrg0} .= "<tr><th>$NeType</th><th>ro</th><th>rw</th></tr>\n";
+    $Param{OptionStrg0} .= "<tr><th>\$Text{\"$NeType\"}</th><th>ro</th><th>rw</th></tr>\n";
     foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data){
         $Param{OptionStrg0} .= '<tr><td>';
-        $Param{OptionStrg0} .= $Param{Data}->{$_};
+        $Param{OptionStrg0} .= "<a href=\"$BaseLink"."Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a>";
         my $RoSelected = '';
         if ($Param{Ro}->{$_}) {
             $RoSelected = ' checked';
