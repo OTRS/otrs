@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.6 2003-01-03 19:54:46 martin Exp $
+# $Id: fi.pm,v 1.7 2003-01-09 21:32:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Fri Jan  3 20:39:54 2003 by 
+    # Last translation Thu Jan  9 22:09:41 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -54,8 +54,10 @@ sub Data {
       'Customer info' => 'Tietoa asiakkaasta',
       'day' => 'päivä',
       'days' => 'päivää',
-      'Description' => 'Selitys',
       'description' => 'Selitys',
+      'Description' => 'Selitys',
+      'Dispatching by email From field.' => '',
+      'Dispatching by selected Queue.' => '',
       'Don\'t work with UserID 1 (System account)! Create new users!' => '',
       'Done' => '',
       'end' => 'Loppuun',
@@ -94,10 +96,10 @@ sub Data {
       'none' => 'ei mitään',
       'none - answered' => 'ei mitään - vastattu',
       'none!' => 'ei mitään!',
-      'off' => 'pois',
       'Off' => 'Pois',
-      'On' => 'Päällä',
+      'off' => 'pois',
       'on' => 'päällä',
+      'On' => 'Päällä',
       'Password' => 'Salasana',
       'Pending till' => '',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Vastaa tähän viestiin saadaksesi se takaisin normaalille jonotuslistalle',
@@ -330,6 +332,7 @@ sub Data {
       'Add POP3 Account' => '',
       'All incoming emails with one account will be dispatched in the selected queue!' => '',
       'Change POP3 Account setting' => '',
+      'Dispatching' => '',
       'Host' => '',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => '',
       'Login' => '',
@@ -590,6 +593,14 @@ sub Data {
       'Ticket locked!' => 'Tiketti lukittu!',
       'unlock' => 'poista lukitus',
 
+    # Template: AgentTicketPrint
+      'by' => '',
+
+    # Template: AgentTicketPrintHeader
+      'Accounted time' => '',
+      'Escalation in' => '',
+      'printed by' => '',
+
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Asiakashistoriahaku',
       'Customer history search (e. g. "ID342425").' => 'Asiakashistoriahaku (Esim. "ID342425").',
@@ -601,6 +612,7 @@ sub Data {
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Tekstihaku("Etsi esimerkiksi "Mi*a" tai "Petr+Tekrat"',
       'Search in' => '',
       'Ticket free text' => '',
+      'With State' => '',
 
     # Template: AgentUtilSearchByTicketNumber
       'search' => 'Etsi',
@@ -669,7 +681,6 @@ sub Data {
     # Template: CustomerStatusViewTable
 
     # Template: CustomerTicketZoom
-      'Accounted time' => '',
 
     # Template: CustomerWarning
 
@@ -712,6 +723,12 @@ sub Data {
     # Template: Notify
       'Info' => '',
 
+    # Template: PrintFooter
+      'URL' => '',
+
+    # Template: PrintHeader
+      'Print' => '',
+
     # Template: QueueView
       'All tickets' => 'Tikettejä yhteensä',
       'Queues' => 'Jonotuslista',
@@ -733,7 +750,6 @@ sub Data {
       'Change queue' => 'Vaihda jonotuslistaa',
       'Compose Answer' => 'Vastaa',
       'Contact customer' => 'Ota yhteyttä asiakkaaseen',
-      'Escalation in' => '',
       'phone call' => 'Puhelut',
 
     # Template: TicketViewLite

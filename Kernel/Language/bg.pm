@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.9 2003-01-06 16:57:59 martin Exp $
+# $Id: bg.pm,v 1.10 2003-01-09 21:32:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan  6 17:51:54 2003 by 
+    # Last translation Thu Jan  9 22:08:36 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -54,8 +54,10 @@ sub Data {
       'Customer info' => 'Потребителски данни',
       'day' => 'ден',
       'days' => 'дни',
-      'Description' => 'Описание',
       'description' => 'описание',
+      'Description' => 'Описание',
+      'Dispatching by email From field.' => '',
+      'Dispatching by selected Queue.' => '',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Не работете с UserID 1 (Системен акаунт)! Създайте нов потребители',
       'Done' => 'Готово.',
       'end' => 'Край',
@@ -94,10 +96,10 @@ sub Data {
       'none' => 'няма',
       'none - answered' => 'няма - отговорен',
       'none!' => 'няма!',
-      'off' => 'изключено',
       'Off' => 'Изключено',
-      'On' => 'Включено',
+      'off' => 'изключено',
       'on' => 'включено',
+      'On' => 'Включено',
       'Password' => 'Парола',
       'Pending till' => 'В очакване до',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!',
@@ -330,6 +332,7 @@ sub Data {
       'Add POP3 Account' => 'Добавяне на POP3 акаунт',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Всички входящи писма с един акаунт ще се разпределят в избраната опашка!',
       'Change POP3 Account setting' => 'Променете POP3 настройките за акаунта',
+      'Dispatching' => '',
       'Host' => 'Хост',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Ако Вашият акаунт е доверен, ще се използва хедър x-otrs (за приоритетност, и т.н.)!',
       'Login' => 'Вход',
@@ -590,6 +593,14 @@ sub Data {
       'Ticket locked!' => 'Билетът е заключен!',
       'unlock' => 'отключи',
 
+    # Template: AgentTicketPrint
+      'by' => '',
+
+    # Template: AgentTicketPrintHeader
+      'Accounted time' => 'Отброено време',
+      'Escalation in' => 'Улеличение на приоритета в',
+      'printed by' => '',
+
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Търсене в хрониката на клиента',
       'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
@@ -670,7 +681,6 @@ sub Data {
     # Template: CustomerStatusViewTable
 
     # Template: CustomerTicketZoom
-      'Accounted time' => 'Отброено време',
 
     # Template: CustomerWarning
 
@@ -713,6 +723,12 @@ sub Data {
     # Template: Notify
       'Info' => 'Информация',
 
+    # Template: PrintFooter
+      'URL' => '',
+
+    # Template: PrintHeader
+      'Print' => '',
+
     # Template: QueueView
       'All tickets' => 'Всички билети',
       'Queues' => 'Опашки',
@@ -734,7 +750,6 @@ sub Data {
       'Change queue' => 'Промяна на опашката',
       'Compose Answer' => 'Създаване на отговор',
       'Contact customer' => 'Контакт с клиента',
-      'Escalation in' => 'Улеличение на приоритета в',
       'phone call' => 'телефонно обаждане',
 
     # Template: TicketViewLite

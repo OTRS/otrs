@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.6 2003-01-05 23:32:52 martin Exp $
+# $Id: de.pm,v 1.7 2003-01-09 21:32:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Fri Jan  3 20:39:15 2003 by 
+    # Last translation Thu Jan  9 22:09:30 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -55,8 +55,10 @@ sub Data {
       'Customer info' => 'Kunden Info',
       'day' => 'Tag',
       'days' => 'Tage',
-      'Description' => 'Beschreibung',
       'description' => 'Beschreibung',
+      'Description' => 'Beschreibung',
+      'Dispatching by email From field.' => 'Verteilung nach From Feld.',
+      'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Arbeite nicht mit UserID 1 (System Account)! Erstelle neue Benutzer!',
       'Done' => 'Fertig',
       'end' => 'runter',
@@ -64,7 +66,7 @@ sub Data {
       'Example' => 'Beispiel',
       'Examples' => 'Beispiele',
       'Facility' => 'Einrichtung',
-      'Feature not acitv!' => '',
+      'Feature not acitv!' => 'Feature nicht aktiviert!',
       'go' => 'start',
       'go!' => 'start!',
       'Group' => 'Gruppe',
@@ -73,7 +75,7 @@ sub Data {
       'hour' => 'Stunde',
       'hours' => 'Stunden',
       'Ignore' => 'Ignorieren',
-      'invalid' => '',
+      'invalid' => 'ungültig',
       'Invalid SessionID!' => 'Invalid SessionID!',
       'Language' => 'Sprache',
       'Languages' => 'Sprachen',
@@ -95,10 +97,10 @@ sub Data {
       'none' => 'keine',
       'none - answered' => 'keine - beantwortet',
       'none!' => 'keine Angabe!',
-      'off' => 'aus',
       'Off' => 'Aus',
-      'On' => 'Ein',
+      'off' => 'aus',
       'on' => 'ein',
+      'On' => 'Ein',
       'Password' => 'Passwort',
       'Pending till' => 'Warten bis',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket um in die normale queue view zurück zu kommen!',
@@ -133,7 +135,7 @@ sub Data {
       'wrote' => 'schrieb',
       'yes' => 'ja',
       'Yes' => 'Ja',
-      'You got new message!' => '',
+      'You got new message!' => 'Du hast eine Neue Nachricht bekommen!',
       'You have %s new message(s)!' => 'Du hast %s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => 'Du hast %s Erinnerungs-Ticket(s)!',
 
@@ -152,7 +154,7 @@ sub Data {
       'Sep' => '',
 
     # Template: AAAPreferences
-      'Custom Queue' => '',
+      'Custom Queue' => 'Persönliche Queue',
       'Follow up notification' => 'Mitteilung bei Nachfragen',
       'Frontend' => '',
       'Mail Management' => '',
@@ -247,9 +249,9 @@ sub Data {
       'Wed' => 'Mit',
 
     # Template: AdminAttachmentForm
-      'Add attachment' => '',
-      'Attachment Management' => '',
-      'Change attachment settings' => '',
+      'Add attachment' => 'Anhang hinzufügen',
+      'Attachment Management' => 'Anhang Management',
+      'Change attachment settings' => 'Ändern der Anhang Einstellungen',
 
     # Template: AdminAutoResponseForm
       'Add auto response' => 'Auto-Antwort hinzufügen',
@@ -261,9 +263,9 @@ sub Data {
       'Response' => 'Antwort',
       'to get the first 20 character of the subject' => 'Um die ersten 20 Zeichen des Betreffs zu bekommen',
       'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der eMail zu bekommen',
-      'to get the from line of the email' => '',
-      'to get the realname of the sender (if given)' => '',
-      'to get the ticket number of the ticket' => '',
+      'to get the from line of the email' => 'Um die From Zeile zu bekommen',
+      'to get the realname of the sender (if given)' => 'Um den Realname des Senders zu bekommen (wenn möglich)',
+      'to get the ticket number of the ticket' => 'Um die Tickernummer des Ticket zu bekommen',
       'Type' => '',
       'Useable options' => 'Benutzbare Optionen',
 
@@ -331,11 +333,12 @@ sub Data {
       'Add POP3 Account' => 'POP3 Account hinzufügen',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Einkommende emails von POP3 Accounts werden in die ausgewählte Queue einsortiert!',
       'Change POP3 Account setting' => 'POP3 Account ändern',
+      'Dispatching' => 'Verteilung',
       'Host' => 'Rechner',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Ist der Account trusted, werden die x-otrs Header benutzt!',
       'Login' => '',
       'POP3 Account Management' => '',
-      'Trusted' => '',
+      'Trusted' => 'Vertraut',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Queue <-> Auto-Antworten Verwaltung',
@@ -591,6 +594,14 @@ sub Data {
       'Ticket locked!' => 'Ticket gesperrt!',
       'unlock' => 'freigeben',
 
+    # Template: AgentTicketPrint
+      'by' => 'von',
+
+    # Template: AgentTicketPrintHeader
+      'Accounted time' => 'Zugewiesene Zeit',
+      'Escalation in' => 'Eskalation in',
+      'printed by' => 'gedruckt von',
+
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Kunden-History-Suche',
       'Customer history search (e. g. "ID342425").' => 'Kunden History Suche (z. B. "ID342425").',
@@ -671,7 +682,6 @@ sub Data {
     # Template: CustomerStatusViewTable
 
     # Template: CustomerTicketZoom
-      'Accounted time' => 'Zugewiesene Zeit',
 
     # Template: CustomerWarning
 
@@ -685,19 +695,19 @@ sub Data {
       'next step' => 'Nächster Schritt',
 
     # Template: InstallerSystem
-      '(Email of the system admin)' => '',
-      '(Full qualified domain name of your system)' => '',
-      '(Logfile just needed for File-LogModule!)' => '',
-      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-      '(Used default language)' => '',
-      '(Used log backend)' => '',
-      '(Used ticket number format)' => '',
-      'Default Charset' => '',
-      'Default Language' => '',
+      '(Email of the system admin)' => '(eMail des System Admins)',
+      '(Full qualified domain name of your system)' => '(Foller Domain-Name des Systems)',
+      '(Logfile just needed for File-LogModule!)' => '(Logfile nur benötigt für File-LogModule!)',
+      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Das Kennzeichnen des Systems. Jede Ticket Nummer und http Sitzung beginnt mit dieser ID)',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z. B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
+      '(Used default language)' => '(Standardwert für die Sprache)',
+      '(Used log backend)' => '(Benutztes Log Backend)',
+      '(Used ticket number format)' => '(Benutztes Ticket-Nummer Format)',
+      'Default Charset' => 'Standard Charset',
+      'Default Language' => 'Standard Sprache',
       'Logfile' => '',
       'LogModule' => '',
-      'Organization' => '',
+      'Organization' => 'Organisation',
       'System FQDN' => '',
       'SystemID' => '',
       'Ticket Hook' => '',
@@ -713,6 +723,12 @@ sub Data {
 
     # Template: Notify
       'Info' => '',
+
+    # Template: PrintFooter
+      'URL' => '',
+
+    # Template: PrintHeader
+      'Print' => 'Drücken',
 
     # Template: QueueView
       'All tickets' => 'Alle Tickets',
@@ -735,7 +751,6 @@ sub Data {
       'Change queue' => 'Wechsle Queue',
       'Compose Answer' => 'Antwort erstellen',
       'Contact customer' => 'Kunden kontaktieren',
-      'Escalation in' => 'Eskalation in',
       'phone call' => 'Anrufen',
 
     # Template: TicketViewLite

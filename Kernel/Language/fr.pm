@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.6 2003-01-03 19:54:46 martin Exp $
+# $Id: fr.pm,v 1.7 2003-01-09 21:32:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Fri Jan  3 20:40:04 2003 by 
+    # Last translation Thu Jan  9 22:09:48 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -55,8 +55,10 @@ sub Data {
       'Customer info' => 'Information client',
       'day' => 'jour',
       'days' => 'jours',
-      'Description' => 'Description',
       'description' => 'description',
+      'Description' => 'Description',
+      'Dispatching by email From field.' => '',
+      'Dispatching by selected Queue.' => '',
       'Don\'t work with UserID 1 (System account)! Create new users!' => '',
       'Done' => 'Fait',
       'end' => 'fin',
@@ -95,10 +97,10 @@ sub Data {
       'none' => 'aucun',
       'none - answered' => 'aucun - répondu',
       'none!' => 'aucun&nbsp;!',
-      'off' => 'éteint',
       'Off' => 'Éteint',
-      'On' => 'Allumé',
+      'off' => 'éteint',
       'on' => 'allumé',
+      'On' => 'Allumé',
       'Password' => 'Mot de Passe',
       'Pending till' => '',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre à ce(s) ticket(s) pour revenir à la vue normale de la file.',
@@ -331,6 +333,7 @@ sub Data {
       'Add POP3 Account' => '',
       'All incoming emails with one account will be dispatched in the selected queue!' => '',
       'Change POP3 Account setting' => '',
+      'Dispatching' => '',
       'Host' => '',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => '',
       'Login' => 'Login',
@@ -591,6 +594,14 @@ sub Data {
       'Ticket locked!' => 'Ticket verrouillé&nbsp;!',
       'unlock' => 'déverrouiller',
 
+    # Template: AgentTicketPrint
+      'by' => '',
+
+    # Template: AgentTicketPrintHeader
+      'Accounted time' => '',
+      'Escalation in' => '',
+      'printed by' => '',
+
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => '',
       'Customer history search (e. g. "ID342425").' => '',
@@ -602,6 +613,7 @@ sub Data {
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Recherche en texte intégral (exemple&nbsp;: "Mar*in" ou "Constru*" ou "martin+bonjour")',
       'Search in' => '',
       'Ticket free text' => '',
+      'With State' => '',
 
     # Template: AgentUtilSearchByTicketNumber
       'search' => '',
@@ -670,7 +682,6 @@ sub Data {
     # Template: CustomerStatusViewTable
 
     # Template: CustomerTicketZoom
-      'Accounted time' => '',
 
     # Template: CustomerWarning
 
@@ -713,6 +724,12 @@ sub Data {
     # Template: Notify
       'Info' => '',
 
+    # Template: PrintFooter
+      'URL' => '',
+
+    # Template: PrintHeader
+      'Print' => '',
+
     # Template: QueueView
       'All tickets' => 'tous les tickets',
       'Queues' => 'Files',
@@ -734,7 +751,6 @@ sub Data {
       'Change queue' => 'Changer de file',
       'Compose Answer' => 'Composer une réponse',
       'Contact customer' => 'Contacter le client',
-      'Escalation in' => '',
       'phone call' => '',
 
     # Template: TicketViewLite

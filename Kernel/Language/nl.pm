@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: nl.pm,v 1.5 2003-01-03 19:54:46 martin Exp $
+# $Id: nl.pm,v 1.6 2003-01-09 21:32:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Fri Jan  3 20:40:13 2003 by 
+    # Last translation Thu Jan  9 22:09:56 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -54,8 +54,10 @@ sub Data {
       'Customer info' => 'Klanten info',
       'day' => 'dag',
       'days' => 'dagen',
-      'Description' => 'Omschrijving',
       'description' => 'omschrijving',
+      'Description' => 'Omschrijving',
+      'Dispatching by email From field.' => '',
+      'Dispatching by selected Queue.' => '',
       'Don\'t work with UserID 1 (System account)! Create new users!' => '',
       'Done' => '',
       'end' => 'Onderkant',
@@ -94,10 +96,10 @@ sub Data {
       'none' => 'geen',
       'none - answered' => 'geen - beantwoord',
       'none!' => 'niet ingevoerd!',
-      'off' => 'uit',
       'Off' => 'Uit',
-      'On' => 'Aan',
+      'off' => 'uit',
       'on' => 'aan',
+      'On' => 'Aan',
       'Password' => 'Wachtwoord',
       'Pending till' => '',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'A.u.b. geëscaleerde tickets beantwoorden om terug tekomen in de normale wachtwij',
@@ -330,6 +332,7 @@ sub Data {
       'Add POP3 Account' => '',
       'All incoming emails with one account will be dispatched in the selected queue!' => '',
       'Change POP3 Account setting' => '',
+      'Dispatching' => '',
       'Host' => '',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => '',
       'Login' => '',
@@ -590,6 +593,14 @@ sub Data {
       'Ticket locked!' => 'Ticket vergrendeld!',
       'unlock' => 'vrijgeven',
 
+    # Template: AgentTicketPrint
+      'by' => '',
+
+    # Template: AgentTicketPrintHeader
+      'Accounted time' => '',
+      'Escalation in' => '',
+      'printed by' => '',
+
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'zoeken in klantgeschiednis',
       'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
@@ -601,6 +612,7 @@ sub Data {
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Zoeken in tekst (bijv. "Mar*in" of "Boe*" of "Martin+hallo")',
       'Search in' => '',
       'Ticket free text' => '',
+      'With State' => '',
 
     # Template: AgentUtilSearchByTicketNumber
       'search' => 'zoeken',
@@ -669,7 +681,6 @@ sub Data {
     # Template: CustomerStatusViewTable
 
     # Template: CustomerTicketZoom
-      'Accounted time' => '',
 
     # Template: CustomerWarning
 
@@ -712,6 +723,12 @@ sub Data {
     # Template: Notify
       'Info' => '',
 
+    # Template: PrintFooter
+      'URL' => '',
+
+    # Template: PrintHeader
+      'Print' => '',
+
     # Template: QueueView
       'All tickets' => 'Alle tickets',
       'Queues' => 'Wachtrij',
@@ -733,7 +750,6 @@ sub Data {
       'Change queue' => 'Wachtrij wisselen',
       'Compose Answer' => 'Antwoord opstellen',
       'Contact customer' => 'Klant contacteren',
-      'Escalation in' => '',
       'phone call' => 'telefoongesprek',
 
     # Template: TicketViewLite
