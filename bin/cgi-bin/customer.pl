@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.14 2003-01-09 15:06:08 martin Exp $
+# $Id: customer.pl,v 1.15 2003-01-29 18:54:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -257,8 +257,8 @@ if ($Param{Action} eq "Login") {
             # --
             $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $CommonObject{LayoutObject}->Redirect(
-		 ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
-		   "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+                ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
+                  "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
             );
         }
         else {
@@ -266,10 +266,10 @@ if ($Param{Action} eq "Login") {
             # show normal login
             # --
             print $CommonObject{LayoutObject}->CustomerLogin(
-		Title => 'Login',          
-		Message => 'Login failed! Your username or password was entered incorrectly.',
-		User => $User,
-		%Param,
+                Title => 'Login',          
+                Message => 'Login failed! Your username or password was entered incorrectly.',
+                User => $User,
+                %Param,
             );
         }
     }
@@ -524,6 +524,19 @@ elsif (eval "require Kernel::Modules::$Param{Action}" &&
     # check session id
     # --
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
+        # --
+        # create new LayoutObject with new '%Param' 
+        # --
+        $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+          SetCookies => {
+              SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
+                  Key => $Param{SessionName},
+                  Value => '',
+              ),
+          },
+          %CommonObject,
+          %Param,
+        );
         if ($CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')) {
             # --
             # redirect to alternate login
