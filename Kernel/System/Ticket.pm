@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.77 2004-04-05 17:17:40 martin Exp $
+# $Id: Ticket.pm,v 1.78 2004-04-05 17:19:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -642,7 +642,7 @@ to move a ticket (send notification to agentsw of selected my queues)
       TicketID => 123,
       UserID => 123,
   );
-    
+
 =cut
 
 sub MoveTicket {
@@ -761,7 +761,7 @@ sub MoveQueueList {
 =item SetCustomerData()
 
 Set customer data of ticket.
-  
+
   $TicketObject->SetCustomerData(
       No => 'client123',
       User => 'client-user-123',
@@ -830,7 +830,7 @@ sub SetCustomerData {
 =item TicketFreeTextSet()
 
 Set ticket free text.
-  
+
   $TicketObject->TicketFreeTextSet(
       Counter => 1,
       Key => 'Planet',
@@ -888,7 +888,7 @@ sub TicketFreeTextSet {
 =item SetAnswered()
 
 Set if ticket is answered.
-  
+
   $TicketObject->SetAnswered(TicketID => 123, UserID => 23);
 
 =cut
@@ -1116,7 +1116,7 @@ sub CustomerPermission {
 =item GetLockedTicketIDs()
 
 Get locked ticket ids for an agent.
-  
+
   my @TicketIDs = $TicketObject->GetLockedTicketIDs(UserID => 23);
 
 =cut
@@ -1181,7 +1181,7 @@ sub GetLockedTicketIDs {
 =item TicketPendingTimeSet()
 
 set ticket pending time
-  
+
   $TicketObject->TicketPendingTimeSet(
       Year => 2003,
       Month => 08,
@@ -1340,7 +1340,7 @@ sub GetCustomerTickets {
 =item TicketLinkGet()
 
 Get ticket links.
-  
+
   $TicketObject->TicketLinkGet(
       TicketID => 1422,
       UserID => 23,
@@ -1391,7 +1391,7 @@ sub TicketLinkGet {
 =item TicketLinkAdd()
 
 Add a ticket link.
-  
+
   $TicketObject->TicketLinkAdd(
       MasterTicketID => 3541,
       SlaveTicketID => 1422,
@@ -1430,7 +1430,7 @@ sub TicketLinkAdd {
 =item TicketLinkDelete()
 
 Delete a ticket link.
-  
+
   $TicketObject->TicketLinkDelete(
       MasterTicketID => 3541,
       SlaveTicketID => 1422,
@@ -2571,6 +2571,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2004-04-05 17:17:40 $
+$Revision: 1.78 $ $Date: 2004-04-05 17:19:01 $
 
 =cut
