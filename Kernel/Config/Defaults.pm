@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.2 2002-11-15 14:48:03 martin Exp $
+# $Id: Defaults.pm,v 1.3 2002-11-18 14:29:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1001,7 +1001,7 @@ Your OTRS Notification Master
     # against a LDAP directory)                           #
     # ----------------------------------------------------#
     # This is the auth. module againt the otrs db
-    $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::DB';
+    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
@@ -1104,7 +1104,7 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultArticleType} = 'phone';
     $Self->{PhoneDefaultSenderType} = 'agent'; 
     # default note subject
-    $Self->{PhoneDefaultSubject} = '$Text{"Phone call at"} \''. localtime() ."'";
+    $Self->{PhoneDefaultSubject} = '$Text{"Phone call at %s", "'.localtime().'"}';
     # default note text
     $Self->{PhoneDefaultNoteText} = 'Customer called ';
     # next possible states after phone
@@ -1124,7 +1124,7 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewArticleType} = 'phone';
     $Self->{PhoneDefaultNewSenderType} = 'customer';
     # default note subject
-    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at"} \''. localtime() ."'";
+    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "'.localtime().'"}';
     # default note text
     $Self->{PhoneDefaultNewNoteText} = 'New ticket via call. ';
     # default next state
@@ -1174,6 +1174,22 @@ sub Get {
         print STDERR "Error: Config.pm No value for '$What' in Config.pm found!\n";
     }
     return $Self->{$What};
+}
+# --
+sub Set {
+    my $Self = shift;
+    my %Param = @_;
+    foreach (qw(Key Value)) {
+        if (!defined $Param{$_}) {
+            $Param{$_} = ''; 
+        }
+    }
+    # debug
+    if ($Self->{Debug} > 1) {
+        print STDERR "Debug: Config.pm ->Set(Key => $Param{Key}, Value => $Param{Value})\n";
+    }
+    $Self->{$Param{Key}} = $Param{Value};
+    return 1;
 }
 # --
 sub new {
