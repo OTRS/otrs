@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.20 2003-04-12 22:07:29 martin Exp $
+# $Id: mkStats.pl,v 1.21 2003-06-04 16:35:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -169,11 +169,10 @@ while ($Day >= $DayCounter) {
 # --
 my @Data = (\@Days); 
 my %AHash;
-foreach (keys %States) {
+foreach (sort {$States{$a} cmp $States{$b}} keys %States) {
     my @TmpData = GetDBDataPerMonth($Day, $_);
     push (@Data, \@TmpData);
 }
-
 # --
 # plot graph
 # --
@@ -223,7 +222,7 @@ sub GetDBDataPerMonth {
         # debug
         # --
         if ($Opts{'d'}) {
-            print $State . " ($Year-$Month-$StartDate) " . $DayData . "\n";
+            print $State." ($Year-$Month-$StartDate) ".$DayData."\n";
         }
         push (@Data, $DayData);
         $Counter++;
@@ -235,8 +234,8 @@ sub GetDBDataPerMonth {
 # --
 sub GetHistoryTypes {
     my %Stats;
-    my $SQL = "SELECT id, name FROM ticket_history_type " .
-    " WHERE " .
+    my $SQL = "SELECT id, name FROM ticket_history_type ".
+    " WHERE ".
     " valid_id = 1";
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
