@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.69 2004-09-04 21:53:11 martin Exp $
+# $Id: Article.pm,v 1.70 2004-09-08 11:34:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -41,20 +41,21 @@ create an article
   my $ArticleID = $TicketObject->ArticleCreate(
       TicketID => 123,
       ArticleType => 'note-internal' # email-external|email-internal|phone|fax|...
-      SenderType => 'agent', # agent|system|customer
-      From => 'Some Agent <email@example.com>', # not required but useful
+      SenderType => 'agent',         # agent|system|customer
+      From => 'Some Agent <email@example.com>',   # not required but useful
       To => 'Some Customer A <customer-a@example.com>', # not required but useful
       Cc => 'Some Customer B <customer-b@example.com>', # not required but useful
       ReplyTo => 'Some Customer B <customer-b@example.com>', # not required
-      Subject => 'some short description', # required
-      Body => 'the message text', # required
+      Subject => 'some short description',        # required
+      Body => 'the message text',                 # required
       MessageID => '<asdasdasd.123@example.com>', # not required but useful
       ContentType => 'text/plain; charset=ISO-8859-15',
-      HistoryType => 'OwnerUpdate', # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+      HistoryType => 'OwnerUpdate',  # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
       HistoryComment => 'Some free text!',
       UserID => 123,
 
-      NoAgentNotify => 0, # if you don't want to send agent notifications
+      NoAgentNotify => 0,            # if you don't want to send agent notifications
+      ForceNotificationToUserID => [1,43,56],     # if you want to force somebody
   );
 
 =cut
@@ -303,6 +304,23 @@ MessageID => $Param{MessageID},
                     CustomerMessageParams => \%Param,
                     TicketID => $Param{TicketID},
                     Queue => $Param{Queue},
+                    UserID => $Param{UserID},
+                );
+            }
+        }
+    }
+    if ($Param{ForceNotificationToUserID} && ref($Param{ForceNotificationToUserID}) eq 'ARRAY') {
+        my %AlreadySent = ();
+        foreach (@{$Param{ForceNotificationToUserID}}) {
+            if (!$AlreadySent{$_}) {
+                $AlreadySent{$_} = 1;
+                my %Preferences = $Self->{UserObject}->GetUserData(UserID => $_);
+                # send notification
+                $Self->SendAgentNotification(
+                    Type => $Param{HistoryType},
+                    UserData => \%Preferences,
+                    CustomerMessageParams => \%Param,
+                    TicketID => $Param{TicketID},
                     UserID => $Param{UserID},
                 );
             }
@@ -1347,6 +1365,7 @@ sub ArticleSend {
         use MIME::Parser;
         my $Parser = new MIME::Parser;
         $Parser->output_to_core("ALL");
+#        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
         $Entity = $Parser->parse_data($Header.$Sign);
         # add history entry
         $Self->HistoryAdd(
@@ -1438,6 +1457,7 @@ sub ArticleSend {
         use MIME::Parser;
         my $Parser = new MIME::Parser;
         $Parser->output_to_core("ALL");
+#        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
         $Entity = $Parser->parse_data($Header.$Crypt);
         # add history entry
         $Self->HistoryAdd(
