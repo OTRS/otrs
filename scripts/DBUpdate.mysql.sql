@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.10 2002-11-15 14:12:13 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.11 2002-11-27 10:33:54 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -12,14 +12,10 @@
 -- --
 -- 0.5 BETA 9 upgrate
 -- --
-INSERT INTO language
-    (language, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO charset
+    (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Dutch', 3, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO language
-    (language, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('Bulgarian', 3, 1, current_timestamp, 1, current_timestamp);
+    ('Cyrillic Charset (Windows-1251)', 'Windows-1251', 'Windows-1251 - cp1251', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- --
 -- 0.5 BETA 8 upgrate
