@@ -2,7 +2,7 @@
 # Auth.pm - provides the authentification and user data
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.7 2002-04-24 16:31:23 martin Exp $
+# $Id: Auth.pm,v 1.8 2002-05-12 19:16:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -51,7 +51,7 @@ sub Auth {
     my $Self = shift;
     my %Param = @_;
     my $User = $Param{User} || return;
-    my $Pw = $Param{Pw} || return;
+    my $Pw = $Param{Pw} || '';
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     my $UserID = '';
     my $GetPw = '';
@@ -59,6 +59,8 @@ sub Auth {
       " FROM ".
       " $Self->{UserTable} ".
       " WHERE ". 
+      " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+      " AND ".
       " $Self->{UserTableUser} = '$User'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) { 
@@ -99,10 +101,20 @@ sub Auth {
     # --
     # just a note
     # --
-    else {
+    elsif (($UserID) && ($GetPw)) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
           MSG => "User: $User with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+        ); 
+        return;
+    }
+    # --
+    # just a note
+    # --
+    else {
+        $Self->{LogObject}->Log(
+          Priority => 'notice',
+          MSG => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         ); 
         return;
     }
