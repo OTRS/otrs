@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.126 2004-08-04 09:32:29 martin Exp $
+# $Id: CHANGES,v 1.127 2004-08-12 14:59:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,23 @@
 
 CVS head
 
+ - (2004/08/11) added feature to send fulltext reqests to a
+    mirror database
+    [Kernel/Config.pm]
+    # AgentUtil::DB::*
+    # (if you want to use a mirror database for agent ticket fulltext search)
+    $Self->{'AgentUtil::DB::DSN'} = "DBI:mysql:database=mirrordb;host=mirrordbhost";
+    $Self->{'AgentUtil::DB::User'} = "some_user";
+    $Self->{'AgentUtil::DB::Password'} = "some_password";
+    [...]
+
+ - (2004/08/10) added Radius auth modules for agent and customer
+    interface
+ - (2004/08/10) improved Kernel::System::CustomerAuth::DB to use
+    an external database
+ - (2004/08/10) added email 1:1 download option inf AgentPlain
+ - (2004/08/08) added owner_id, priority_id and state_id to
+    ticket_history table.
  - (2004/08/04) moved customer notifications from Kernel/Config.pm to
     database and added multi language support
  - (2004/08/02) fixed bug 466 - Error in managing very long Message-IDs
