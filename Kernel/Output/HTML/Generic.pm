@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.40 2002-07-17 22:33:26 martin Exp $
+# $Id: Generic.pm,v 1.41 2002-08-01 02:42:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -584,6 +584,8 @@ sub CheckCharset {
 
     # with utf-8 can everything be shown
     if ($Self->{UserCharset} !~ /utf/i) {
+      # replace ' or "
+      $Param{ContentCharset} && $Param{ContentCharset} =~ s/'|"//gi;
       # if the content charset is different to the user charset
       if ($Param{ContentCharset} && $Self->{UserCharset} !~ /^$Param{ContentCharset}$/i) {
         # if the content charset is us-ascii it is always shown correctly
