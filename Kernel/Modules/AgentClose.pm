@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: AgentClose.pm,v 1.2 2002-01-02 00:44:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -142,7 +142,7 @@ sub Run {
     }
     else {
         # error screen
-        $Output .= $Self->{LayoutObject}->NormalHeader();
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->Error(
             MSG => 'No Subaction!!',
             REASON => 'Please contact your admin'
@@ -151,7 +151,7 @@ sub Run {
             MSG => 'No Subaction!!',
             REASON => 'Please contact your admin'
         );
-        $Output .= $Self->{LayoutObject}->NormalFooter();
+        $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
 }
