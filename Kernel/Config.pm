@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.43 2002-07-22 21:57:16 martin Exp $
+# $Id: Config.pm,v 1.44 2002-07-23 22:55:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -324,8 +324,9 @@ sub Load {
     # Kernel::System::Ticket::Number::Date --> ticket numbers with date 
     #   "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
     #
-    # Kernel::System::Ticket::Number::DateChecksum --> ticket numbers with date 
-    #   "Year.Month.Day.SystemID.Counter.Checksum" like 2002062310100019.
+    # Kernel::System::Ticket::Number::DateChecksum --> ticket numbers with date and 
+    #   check sum and the counter will be rotated daily (my favorite)
+    #   "Year.Month.Day.SystemID.Counter.CheckSum" like 2002070110101520 and 2002070110101535.
     #
     # Kernel::System::Ticket::Number::Random -->
     #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
