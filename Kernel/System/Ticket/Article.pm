@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.72 2004-09-10 15:01:38 martin Exp $
+# $Id: Article.pm,v 1.73 2004-09-16 07:39:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.72 $';
+$VERSION = '$Revision: 1.73 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1164,7 +1164,7 @@ sub ArticleSend {
     $Param{Body} =~ s/\r/\n/g;
 
     # get sign options for inline
-    if ($Param{Sign} && $Param{Sign}->{SubType} eq 'Inline') {
+    if ($Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Inline') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
@@ -1227,9 +1227,14 @@ sub ArticleSend {
         Organization => $Self->{Organization},
         Type => 'text/plain',
         Charset=> $Charset,
-        Encoding => "7bit",
-#        Encoding => '8bit',
     };
+    if ($Charset && $Charset =~ /utf(8|-8)/i) {
+        $Header->{Encoding} = '8bit';
+#        $Header->{'Encoding'} = 'base64';
+    }
+    else {
+        $Header->{Encoding} = '7bit';
+    }
     if ($Loop) {
         $$Header{'Precedence:'} = 'bulk';
         $$Header{'X-Loop'} = 'bulk';
@@ -1314,7 +1319,7 @@ sub ArticleSend {
 
 # sign it
     # get sign options for detached
-    if ($Param{Sign} && $Param{Sign}->{SubType} eq 'Detached') {
+    if ($Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Detached') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
@@ -1409,7 +1414,7 @@ sub ArticleSend {
     }
     # crypt detached!
 #my $NotCryptedBody = $Entity->body_as_string();
-    if ($Param{Crypt} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Detached') {
+    if ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Detached') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
@@ -1460,7 +1465,7 @@ sub ArticleSend {
             );
         }
     }
-    elsif ($Param{Crypt}->{Type} eq 'SMIME') {
+    elsif ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{Type} eq 'SMIME') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
