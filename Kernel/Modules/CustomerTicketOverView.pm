@@ -1,8 +1,8 @@
 # --   
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.19 2003-12-07 23:54:43 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.20 2004-02-16 01:43:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,14 +36,10 @@ sub new {
     # state object
     $Self->{StateObject} = Kernel::System::State->new(%Param);
 
-    # --
     # all static variables
-    # --
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
           || die 'No Config entry "ViewableSenderTypes"!';
-    # --
     # get params 
-    # --
     $Self->{ShowClosedTickets} = $Self->{ParamObject}->GetParam(Param => 'ShowClosedTickets') || 0;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
@@ -59,9 +55,7 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    # --
     # store last screen
-    # --
     if (!$Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key => 'LastScreen',
@@ -72,18 +66,14 @@ sub Run {
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
-    # --
     # check needed CustomerID
-    # --
     if (!$Self->{UserCustomerID}) {
         my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
         $Output .= $Self->{LayoutObject}->CustomerError(Message => 'Need CustomerID!!!');
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
-    # --
     # starting with page ...
-    # --
     my $Refresh = '';
     if ($Self->{UserRefreshTime}) {
         $Refresh = 60 * $Self->{UserRefreshTime};
@@ -96,9 +86,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
     # to get the output faster!
     print $Output; $Output = '';
-    # --
     # check if just open tickets should be shown
-    # --
     my $SQLExt = '';
     my $ShowClosed = 0;
     if ((defined($Self->{UserShowClosedTickets}) && !$Self->{UserShowClosedTickets}) 
@@ -116,9 +104,7 @@ sub Run {
         $SQLExt .= " AND ";
         $SQLExt .= " st.ticket_state_id in ( ${\(join ', ', @ViewableStateIDs)} ) ";
     }
-    # --
     # get data (viewable tickets...)
-    # --
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
         UserID => $Self->{UserID},
         Type => 'ro',
@@ -228,59 +214,18 @@ sub ShowTicketStatus {
     my $Self = shift;
     my %Param = @_;
     my $TicketID = $Param{TicketID} || return;
-    my $Output = '';
-    # --   
-    # get last customer articles
-    # --
-    my @ShownViewableTicket = ();
-    my @ArticleIndex = $Self->{TicketObject}->GetArticleIndex(
-        TicketID => $TicketID, 
-        SenderType => 'customer',
-    );
-    # --
-    # check article index
-    # --
-    if (!@ArticleIndex) {
-        $Self->{LogObject}->Log(
-           Priority => 'error',
-           Message => "No customer article found!! (TicketID=$TicketID)",
-           Comment => 'Please contact your admin',
-        ); 
-        return;
-    }
-    # --
     # get last article
-    # --
-    my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleIndex[$#ArticleIndex]);
-    # Condense down the subject
+    my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
+    # condense down the subject
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     my $Subject = $Article{Subject};
     $Subject =~ s/^RE://i;
-    $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
-    if (%Article) {
-        $Output .= $Self->{LayoutObject}->CustomerStatusViewTable(
-            %Article,
-            Subject => $Subject,
-        );
-    }
-    else {
-        # --
-        # if there is no customer article avalible! Error!
-        # --
-        $Output .= $Self->{LayoutObject}->Error(
-           Message => "No customer article found!! (TicketID=$TicketID)",
-           Comment => 'Please contact your admin',
-        );
-        $Self->{LogObject}->Log(
-           Priority => 'error',
-           Message => "No customer article found!! (TicketID=$TicketID)",
-           Comment => 'Please contact your admin',
-        );
-    }
-    # --
+    $Subject =~ s/\[${TicketHook}:.*\]//;
     # return ticket
-    # --
-    return $Output;
+    return $Self->{LayoutObject}->CustomerStatusViewTable(
+        %Article,
+        Subject => $Subject,
+    );
 }
 # --
 
