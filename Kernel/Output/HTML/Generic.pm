@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.9 2001-12-30 00:35:38 martin Exp $
+# $Id: Generic.pm,v 1.10 2002-01-02 00:45:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::Admin;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -113,15 +113,17 @@ sub Output {
   
     # read template
     my $Output = '';
-    open (IN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
+    open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
          ||  die "Can't read $Param{TemplateFile}.dtl: $!";
-    while (<IN>) {
+    while (<TEMPLATEIN>) {
       # filtering of comment lines
       if ($_ !~ /^#/) {
         $Output .= $_;
 
+        # --
         # do template set (<dtl set $Data{"adasd"} = "lala">) 
         # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
+        # --
         $Output =~ s{
           <dtl\W(system-call|set)\W\$(Data|Env)\{\"(.+?)\"\}\W=\W\"(.+?)\">
         }
@@ -139,12 +141,14 @@ sub Output {
           }
 
           $GlobalRef->{"$2Ref"}->{$3} = $Data;
+          # output replace with nothing!
           "";
 
         }egx;
 
-
+        # --
         # do template if dynamic
+        # --
         $Output =~ s{
           <dtl\Wif\W\(\$(Env|Data|Text)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
         }
@@ -165,50 +169,59 @@ sub Output {
                   "";
               }
             }
-         }
-         elsif ($3 eq "ne") {
-           # --
-           # do ne actions
-           # --
-           if ($1 eq "Text") {
-             if ($Self->{LanguageObject}->Get($2) ne $4) {
+        }
+        elsif ($3 eq "ne") {
+            # --
+            # do ne actions
+            # --
+            if ($1 eq "Text") {
+              if ($Self->{LanguageObject}->Get($2) ne $4) {
                  $GlobalRef->{"$5Ref"}->{$6} = $7;
+                 # output replace with nothing!
                  "";
-             }
-           }
-           elsif ($1 eq "Env" || $1 eq "Data") {
+              }
+            }
+            elsif ($1 eq "Env" || $1 eq "Data") {
               if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
+                  # output replace with nothing!
                   "";
               }
-           }
-         }
-      }egx;
-
-
-      # variable & env & config replacement & text translation
-      $Output =~ s{
-        \$(Data|Env|Config|Text){"(.+?)"}
-      }
-      {
-        if ($1 eq "Data" || $1 eq "Env") {
-          if (defined $GlobalRef->{"$1Ref"}->{$2}) {
-               $GlobalRef->{"$1Ref"}->{$2};
+            }
           }
-          else {
-               "";
-          }
-        }
-        # replace with
-        elsif ($1 eq "Config") {
-          $Self->{ConfigObject}->Get($2); 
-        }
-        # do translation
-        elsif ($1 eq "Text") {
-          $Self->{LanguageObject}->Get($2);
-        }
-      }egx;
+        }egx;
 
+        # --
+        # variable & env & config replacement 
+        # --
+        $Output =~ s{
+          \$(Data|Env|Config){"(.+?)"}
+        }
+        {
+          if ($1 eq "Data" || $1 eq "Env") {
+            if (defined $GlobalRef->{"$1Ref"}->{$2}) {
+                 $GlobalRef->{"$1Ref"}->{$2};
+            }
+            else {
+                 # output replace with nothing!
+                 "";
+            }
+          }
+          # replace with
+          elsif ($1 eq "Config") {
+            $Self->{ConfigObject}->Get($2); 
+          }
+       }egx;
+
+       # --
+       # do translation
+       # --
+       $Output =~ s{
+          \$Text({"(.+?)"}|{""})
+       }
+       { 
+          $Self->{LanguageObject}->Get($2 || '');
+       }egx;
 
       }
     }
