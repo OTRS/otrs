@@ -2,10 +2,10 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.48 2004-06-22 09:04:09 martin Exp $
+# $Id: NewTicket.pm,v 1.49 2004-09-09 11:19:25 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -16,16 +16,16 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
    
     $Self->{Debug} = $Param{Debug} || 0;
@@ -149,18 +149,19 @@ sub Run {
     # --
     # if there is no customer user found!
     # --
-    if (!$GetParam{'X-OTRS-CustomerUser'}) { 
+    if (!$GetParam{'X-OTRS-CustomerUser'}) {
         $GetParam{'X-OTRS-CustomerUser'} = $GetParam{'SenderEmailAddress'};
     }
-    # -- 
+    # --
     # create new ticket
     # --
     my $NewTn = $Self->{TicketObject}->CreateTicketNr();
-    # -- 
+    # --
     # do db insert
     # --
     my $TicketID = $Self->{TicketObject}->TicketCreate(
         TN => $NewTn,
+        Subject => $GetParam{Subject},
         QueueID => $QueueID,
         Lock => 'unlock',
         GroupID => 1,
@@ -202,7 +203,7 @@ sub Run {
             }
         }
     }
-    # -- 
+    # --
     # do article db insert
     # --
     my $ArticleID = $Self->{TicketObject}->ArticleCreate(
@@ -275,20 +276,20 @@ sub Run {
             }
         }
     }
-    # --    
+    # --
     # write plain email to the storage
     # --
     $Self->{TicketObject}->ArticleWritePlain(
-        ArticleID => $ArticleID, 
+        ArticleID => $ArticleID,
         Email => $Self->{ParseObject}->GetPlainEmail(),
         UserID => $Param{InmailUserID},
     );
-    # --    
+    # --
     # write attachments to the storage
     # --
     foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
         $Self->{TicketObject}->ArticleWriteAttachment(
-            Content => $Attachment->{Content}, 
+            Content => $Attachment->{Content},
             Filename => $Attachment->{Filename},
             ContentType => $Attachment->{ContentType},
             ArticleID => $ArticleID,
@@ -301,7 +302,7 @@ sub Run {
         Message => "New Ticket [$NewTn] created (TicketID=$TicketID, " .
         "ArticleID=$ArticleID). $Comment"
     );
-    
+
     return 1;
 }
 # --
