@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.9 2002-04-08 13:38:12 martin Exp $
+# $Id: AuthSession.pm,v 1.10 2002-04-08 14:16:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -322,7 +322,46 @@ sub UpdateSessionID {
     return 1;
 }
 # --
+sub GetAllSessionIDs {
+    my $Self = shift;
+    my %Param = @_;
+    my @SessionIDs = ();
+    # --
+    # read data
+    # --
+    if ($Self->{ConfigObject}->Get('SessionDriver') eq 'sql') {
+        # --
+        # db driver
+        # --
+        my $SQL = "SELECT $Self->{SQLSessionTableID} ".
+          " FROM ".
+          " $Self->{SQLSessionTable} ";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+             push (@SessionIDs,  $RowTmp[0]);
+        }
+        return @SessionIDs;
+    }
+    elsif ($Self->{ConfigObject}->Get('SessionDriver') eq 'fs') {
+        # --
+        # fs driver
+        # --
+        my @List = glob("$Self->{SessionSpool}/*");
+        foreach my $SessionID (@List) {
+          $SessionID =~ s!^.*/!!;
+          push (@SessionIDs, $SessionID);
+        }
+        return @SessionIDs;
+    }
+    else {
+        # --
+        # else!? Panic!
+        # --
+        die "Unknown SessionDriver (".$Self->{ConfigObject}->Get('SessionDriver').")!";
+    }
+
+}
+# --
 
 1;
-
 
