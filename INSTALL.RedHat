@@ -1,0 +1,38 @@
+# --
+# INSTALL.RedHat description of OTRS installation for Red Hat Linux with RPM
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: INSTALL.RedHat,v 1.1 2002-10-15 09:14:22 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+Installation:
+=============
+
+1. Install the latest OTRS-RPM for Red Hat Linux (http://otrs.org/) and all required 
+   software packages (if needed, Apache, MySQL, ...) with YaST or "rpm -i otrs-xxx.rpm".
+
+2. Start (or restart) the webserver (service httpd restart).
+  
+3. Start the database server (service mysqld start)
+ 
+4. Setup the database via "http://yourhost/otrs/installer.pl" (just for MySQL, 
+   SuSE-RPMs and Red Hat-RPMs)
+
+5. Restart the webserver (service httpd restart). 
+
+6. Installation finished, login ("http://yourhost/otrs/index.pl") as user "root@localhost" 
+   with password "root"
+
+   --> goto AdminArea and set some config settings (UserAdd, Queues, ...).
+
+Remark: For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
+
+Have a lot of fun.
+
+ Your OTRS Team
+
+EOF
