@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.104 2005-02-10 20:37:27 martin Exp $
+# $Id: AgentPhone.pm,v 1.105 2005-02-10 20:46:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.104 $';
+$VERSION = '$Revision: 1.105 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1043,7 +1043,7 @@ sub _MaskPhone {
     my %Param = @_;
     $Param{FormID} = $Self->{FormID};
     # build next states string
-    %Selected = ();
+    my %Selected = ();
     if ($Param{NextStateID}) {
         $Selected{SelectedID} = $Param{NextStateID};
     }
