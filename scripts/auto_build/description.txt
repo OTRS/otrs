@@ -12,6 +12,7 @@ Authors:
     Gilberto Cezar de Almeida <gilberto at visaonet.com.br>
     Jorge Becerra <jorge at icc-cuba.com>
     Nicolas Goralski <ngoralski at oceanet-technology.com>
+    Remo Catelotti <Remo.Catelotti at bull.it>
     Stefan Wintermeyer <stefan at wintermeyer.de>
     Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
     Martin Edenhofer <martin at otrs.org>
@@ -30,7 +31,7 @@ Authors:
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
     - Multi language support (Brazilian Portuguese, Bulgarian, Dutch, English,
-       Finnish, French, German and Spanish)
+       Finnish, French, German, Italian and Spanish)
     - customize the output templates (dtl) release independently
     - Webinterface with attachment support
     - easy and logical to use
