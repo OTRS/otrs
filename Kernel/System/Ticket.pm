@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.105 2004-05-01 18:22:43 martin Exp $
+# $Id: Ticket.pm,v 1.106 2004-05-02 04:18:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.105 $';
+$VERSION = '$Revision: 1.106 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1650,10 +1650,13 @@ sub TicketSearch {
         my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $Param{CustomerUserID});
         $SQLExt .= " AND st.customer_id IN ('${\(join '\', ' , @CustomerIDs)}') ";
     }
-    if (@GroupIDs) {
+    if ($Param{UserID} && $Param{UserID} == 1) {
+        $Self->{LogObject}->Log(Priority => 'info', Message => "It's a admin search, no groups are used!");
+    }
+    elsif (@GroupIDs) {
         $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
     }
-    elsif (!$Param{UserID} || $Param{UserID} != 0 ) {
+    else {
         return;
     }
     # ticket number
@@ -3021,6 +3024,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.105 $ $Date: 2004-05-01 18:22:43 $
+$Revision: 1.106 $ $Date: 2004-05-02 04:18:37 $
 
 =cut
