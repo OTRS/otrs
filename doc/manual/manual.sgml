@@ -15,6 +15,7 @@
 <!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
 <!ENTITY procmail SYSTEM "procmail.sgml">
 <!ENTITY language-translation SYSTEM "language-translation.sgml">
+<!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
 ]>
 
 <book id="index">
@@ -74,13 +75,15 @@ or implied warranty.
 
 &preamble;
 
+&basics_about_tt;
+
 &install;
 
 &first-steps;
 
-&first-ticket;
+&ticket-topics;
 
-&basics_about_tt;
+&first-ticket;
 
 &procmail;
 
