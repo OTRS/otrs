@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.3 2002-08-13 15:20:35 martin Exp $
+# $Id: GenericAgent.pl,v 1.4 2002-08-27 23:24:29 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,6 +20,12 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+
+# --                                              -- #
+# Config file is under Kernel/Config/GenericAgent.pm #
+# --                                              -- #
+
+
 # use ../ as lib location
 use FindBin qw($Bin);
 use lib "$Bin/../";
@@ -27,7 +33,7 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -41,53 +47,8 @@ use Kernel::System::Queue;
 # config
 # --
 my $UserIDOfGenericAgent = 1;
-my %Jobs = (
-   # --
-   # [name of job] -> close all tickets in queue spam
-   # --
-   'close spam' => {
-      # get all tickets with this properties  
-      Queue => 'spam',
-      States => ['new', 'open'],
-      Locks => ['unlock'],
-      # new ticket properties (no option is required, use just the options
-      # witch should be changed!)
-      New => {
-        # new queue
-        Queue => 'spam',
-        # possible states (closed succsessful|closed unsuccsessful|open|new|removed) 
-        State => 'closed succsessful',
-        # new ticket owner (if needed)
-        Owner => 'root@localhost',
-        # if you want to add a Note
-        Note => {
-          From => 'GenericAgent',
-          Subject => 'spam!',
-          Body => 'Closed by GenericAgent.pl because it is spam!',
-       },
-       # new lock state
-       Lock => 'unlock',
-     },
-   },
-   # --
-   # [name of job] -> move all tickets from tricky to experts
-   # --
-   'move tickets from tricky to experts' => {
-      # get all tickets with this properties  
-      Queue => 'tricky',
-      States => ['new', 'open'],
-      Locks => ['unlock'],
-      # new ticket properties
-      New => {
-        Queue => 'experts',
-        Note => {
-          From => 'GenericAgent',
-          Subject => 'Moved!',
-          Body => 'Moved vrom "tricky" to "experts" because it was not possible to find a sollution!',
-       },
-     },
-   },
-);
+# import %jobs 
+use Kernel::Config::GenericAgent qw(%Jobs);
 
 # --
 # common objects
