@@ -3,7 +3,7 @@
 # instaler.pl - the OTRS Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.9 2002-11-24 23:51:35 martin Exp $
+# $Id: installer.pl,v 1.10 2002-12-20 12:28:31 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -64,7 +64,7 @@ if ($Debug) {
     );
 }
 # ... common objects ...
-$CommonObject{ParamObject} = Kernel::System::WebRequest->new();
+$CommonObject{ParamObject} = Kernel::System::WebRequest->new(%CommonObject);
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
 
 # --
