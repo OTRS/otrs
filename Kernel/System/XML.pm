@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.8 2005-02-08 14:14:37 martin Exp $
+# $Id: XML.pm,v 1.9 2005-02-08 17:40:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -88,7 +88,7 @@ add a XMLHash to storage
     $XMLObject->XMLHashAdd(
         Type => 'SomeType',
         Key => '123',
-        Hash => \@XMLHash,
+        XMLHash => \@XMLHash,
     );
 
 =cut
@@ -334,7 +334,7 @@ parse a xml file and return a XMLHash structur
 
     ARRAY:
     ======
-    $XMLHash = [
+    $XMLHash = (
       {
         Contact => [
           {
@@ -370,7 +370,7 @@ parse a xml file and return a XMLHash structur
           }
         ],
       }
-    ];
+    );
 
     $XMLHash[1]{Contact}[1]{TagKey} = "[1]{'Contact'}[1]";
     $XMLHash[1]{Contact}[1]{role} = "admin";
@@ -453,23 +453,18 @@ sub _XMLHash2D {
     elsif (ref($Param{Item}) eq 'HASH') {
         $S->{XMLLevel}++;
         $S->{XMLTagCount}++;
-#        $S->{XMLLevelTag}->{$S->{XMLLevel}} = $Param{Key};
-        my $TagLevel = $Param{Item}->{TagLevel} || 0;
-        $S->{XMLLevelTag}->{$TagLevel} = $Param{Key};
-#print STDERR "++++++++ $S->{XMLLevel} $Param{Key}\n";
+        $S->{XMLLevelTag}->{$S->{XMLLevel}} = $Param{Key};
         if ($S->{Tll} && $S->{Tll} > $S->{XMLLevel}) {
             foreach (($S->{XMLLevel}+1)..30) {
                 undef $S->{XMLLevelCount}->{$_}; #->{$Element} = 0;
             }
         }
-        $S->{XMLLevelCount}->{$TagLevel}->{$Param{Key}}++;
+        $S->{XMLLevelCount}->{$S->{XMLLevel}}->{$Param{Key}}++;
         # remember old level
         $S->{Tll} = $S->{XMLLevel};
     
         my $Key = "[$Param{Counter}]";
-#        foreach (1..($S->{XMLLevel})) {
-        foreach (1..$TagLevel) {
-#print STDERR "############### $_ $Param{Item}->{TagLevel} $Param{Key}\n";
+        foreach (2..($S->{XMLLevel})) {
             $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
             $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
         }
@@ -480,9 +475,7 @@ sub _XMLHash2D {
             }
             $Self->_XMLHash2D(Key => $_, Item => $Param{Item}->{$_}, Counter => $Param{Counter});
         }
-        if (!$Param{Type}) {
-            $S->{XMLLevel} = $S->{XMLLevel} - 1;
-        }
+        $S->{XMLLevel} = $S->{XMLLevel} - 1;
     } 
     elsif (ref($Param{Item}) eq 'ARRAY') {
         foreach (@{$Param{Item}}) {
@@ -560,10 +553,10 @@ sub _XMLStructur2XMLHash {
             $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
             $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
         }
-        $Param{Item}->{TagKey} = $Key;
+#        $Param{Item}->{TagKey} = $Key;
         foreach (keys %{$Param{Item}}) {
-#            if (defined($Param{Item}->{$_}) && $_ !~ /^Tag/) {
-            if (defined($Param{Item}->{$_})) {
+            if (defined($Param{Item}->{$_}) && $_ !~ /^Tag/) {
+#            if (defined($Param{Item}->{$_})) {
                 my $I = $Param{Item}->{$_};
                 $I =~ s/'/\\'/g;
                 $Output .= '$Self->{XMLHash}->'.$Key."{'$_'} = '$I';\n";
@@ -692,6 +685,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2005-02-08 14:14:37 $
+$Revision: 1.9 $ $Date: 2005-02-08 17:40:25 $
 
 =cut
