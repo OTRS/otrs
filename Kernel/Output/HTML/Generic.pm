@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.43 2002-08-04 23:31:19 martin Exp $
+# $Id: Generic.pm,v 1.44 2002-08-13 15:05:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -319,7 +319,12 @@ sub Redirect {
     # --
     # create & return output
     # --
-    $Param{Redirect} = $Self->{Baselink} . $Param{OP};
+    if ($Param{ExtURL}) {
+        $Param{Redirect} = $Param{ExtURL};
+    }
+    else {
+        $Param{Redirect} = $Self->{Baselink} . $Param{OP};
+    }
     $Output .= $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
     return $Output;
 }
@@ -453,6 +458,15 @@ sub LinkQuote {
     $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
 
     return $Text;
+}
+# --
+sub LinkEncode {
+    my $Self = shift;
+    my $Link = shift || return;
+    $Link =~ s/&/%26/g;
+    $Link =~ s/=/%3D/g;
+    $Link =~ s/"/%22/g;
+    return $Link;
 }
 # --
 sub CustomerAge {
