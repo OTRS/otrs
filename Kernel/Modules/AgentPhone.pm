@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.28 2003-03-02 08:34:43 martin Exp $
+# $Id: AgentPhone.pm,v 1.29 2003-03-02 10:12:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -323,6 +323,22 @@ sub Run {
             $Error{"ExpandCustomerName"} = 1;
         }
         # --
+        # show customer info
+        # --
+        my %CustomerData = ();
+        if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
+            if ($CustomerUser) {
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $CustomerUser,
+                ); 
+            }
+            elsif ($CustomerID) {
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    CustomerID => $CustomerID,
+                );
+            }
+        }
+        # --
         # check some values
         # --
         my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $From);
@@ -331,7 +347,7 @@ sub Run {
                 $Error{"From invalid"} .= $Self->{CheckItemObject}->CheckError();
             }
         }
-        if (!$From) {
+        if (!$From && $ExpandCustomerName != 1) {
             $Error{"From invalid"} = 'invalid';
         }
         if (!$Subject) {
@@ -356,6 +372,7 @@ sub Run {
               PriorityID => $PriorityID,
               CustomerID => $CustomerID,
               CustomerUser => $CustomerUser,
+              CustomerData => \%CustomerData,
               TimeUnits => $TimeUnits,
               From => $From,
               FromOptions => $Param{"FromOptions"},
