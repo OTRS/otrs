@@ -1,0 +1,61 @@
+# --
+# Header.dtl - provides global HTML header
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: PrintHeader.dtl,v 1.1 2003-01-09 20:48:18 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+# http headers
+# --
+Content-Type: text/html; charset=$Env{"UserCharset"}; 
+X-Powered-By: $Env{"Product"} $Env{"Version"} - Open Ticket Request System (http://otrs.org)
+X-Wanted: I think you are smart. I'm looking for smart people!
+Expires: Tue, 1 Jan 1980 12:00:00 GMT
+Cache-Control: no-cache
+Pragma: no-cache
+
+
+# --
+# html comment
+# --
+
+<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
+<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
+<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
+# --
+# set some html variables
+# --
+<dtl set $Env{"BGCOLOR"} = "#FFFFFF">
+<dtl set $Env{"FontColor0"} = "#000000">
+<dtl set $Env{"FontColor1"} = "#000000">
+
+# --
+<html>
+<head>
+    <title>OTRS :: $Text{"Print"} :: $Text{"$Data{"Title"}"}</title>
+<style type="text/css">
+<!--
+  p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px; }
+  pre
+    { font-family:Courier;font-size:12px; }
+  a:hover 
+    { color: #002244; text-decoration: none; }
+  .small
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+//-->
+</style>
+</head>
+<a name="top"></a>
+<body onLoad="window.print();" bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
+<!-- end header -->
+<table border="0" width="640" cellpadding="0" cellspacing="1" bgcolor="#000000">
+<tr>
+  <td>
+  <table border="0" width="640" cellpadding="20" cellspacing="1" bgcolor="#ffffff">
+  <tr>
+    <td>
+
