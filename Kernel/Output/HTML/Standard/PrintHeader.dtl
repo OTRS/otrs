@@ -1,8 +1,8 @@
 # --
 # PrintHeader.dtl - provides global print header
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.11 2004-12-01 13:20:07 martin Exp $
+# $Id: PrintHeader.dtl,v 1.12 2005-01-07 16:23:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,14 +62,16 @@ $Include{"Copyright"}
 <body onLoad="window.print();">
 <!-- end header -->
 <table border="0" width="$Data{"Width"}" cellpadding="0" cellspacing="0" bgcolor="#000000" class="container">
-<tr>
-  <td>
-  <table border="0" width="$Data{"Width"}" cellpadding="12" cellspacing="4" bgcolor="#ffffff">
   <tr>
     <td>
-<table border="0" cellspacing="1" cellpadding="0" width="100%">
-  <tr>
-    <td align="right" valign="top"><font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"}) $Env{"Time"}</font></td>
-  </td>
-</table>
+      <table border="0" width="$Data{"Width"}" cellpadding="12" cellspacing="4" bgcolor="#ffffff">
+        <tr>
+          <td>
+            <table border="0" cellspacing="1" cellpadding="0" width="100%">
+              <tr>
+                <td align="right" valign="top">
+                  <font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"}) $Env{"Time"}</font>
+                </td>
+              </tr>
+            </table>
 
