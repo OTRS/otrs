@@ -1,5 +1,5 @@
 <chapter id="configfile">
-<title>Config Files</title>
+<title>Config File</title>
 <para>
 The config file (Kernel/Config.pm) is quite simple to read. So you should have any problems. But just in case we will descripe some features in this chapter.
 </para>
