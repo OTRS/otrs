@@ -2,7 +2,7 @@
 # AdminSMIMEForm.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIMEForm.dtl,v 1.7 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminSMIMEForm.dtl,v 1.8 2004-11-04 11:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@
   </td>
 </tr>
 <tr>
-  <td width="40%" class="mainbody">
+  <td width="30%" class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -57,11 +57,11 @@
     <table border="0" cellspacing="0" cellpadding="3">
 #    <tr>
 #      <td class="contentkey">$Text{"Ascii"}: </td>
-#      <td class="contentvalue"> <textarea name="String" rows="6" cols="70" wrap="$Env{"BrowserWrap"}"></textarea></td>
+#      <td class="contentvalue"> <textarea name="String" rows="6" cols="40" wrap="$Env{"BrowserWrap"}"></textarea></td>
 #    </tr>
     <tr>
       <td class="contentkey">$Text{"File"}: </td>
-      <td class="contentvalue"> <input name="file_upload" type="file" size="35" class="fixed"></td>
+      <td class="contentvalue"> <input name="file_upload" type="file" size="14" class="fixed"></td>
     </tr>
     </table>
     </td>
@@ -88,16 +88,16 @@
 
     <table border="0" cellspacing="0" cellpadding="3">
 #    <tr>
-#      <td>$Text{"Ascii"}: </td>
-#      <td> <textarea name="String" rows="6" cols="70" wrap="$Env{"BrowserWrap"}"></textarea></td>
+#      <td class="contentkey">$Text{"Ascii"}: </td>
+#      <td class="contentvalue"> <textarea name="String" rows="6" cols="40" wrap="$Env{"BrowserWrap"}"></textarea></td>
 #    </tr>
     <tr>
-      <td>$Text{"File"}: </td>
-      <td> <input name="file_upload" type="file" size="35" class="fixed"></td>
+      <td class="contentkey">$Text{"File"}: </td>
+      <td class="contentvalue"> <input name="file_upload" type="file" size="14" class="fixed"></td>
     </tr>
     <tr>
-      <td>$Text{"Secret"}: </td>
-      <td><input type="password" name="Secret" value="$QData{"Secret"}" size="20"></td>
+      <td class="contentkey">$Text{"Secret"}: </td>
+      <td class="contentvalue"><input type="password" name="Secret" value="$QData{"Secret"}" size="20"></td>
     </tr>
     </table>
 
@@ -112,7 +112,7 @@
   </form>
 
   </td>
-  <td width="60%" class="mainbody">
+  <td width="70%" class="mainbody">
 
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
