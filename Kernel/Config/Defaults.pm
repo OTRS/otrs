@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.139 2004-06-11 06:41:16 martin Exp $
+# $Id: Defaults.pm,v 1.140 2004-06-16 05:30:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.139 $';
+$VERSION = '$Revision: 1.140 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,14 +64,8 @@ sub LoadDefaults {
     # (Email of the system admin.)
     $Self->{AdminEmail} = 'admin@example.com';
 
-    # MIME-Viewer for online to html converter 
-    # (e. g. xlhtml (xls2html), http://chicago.sourceforge.net/xlhtml/)
+    # MIME-Viewer for online to html converter (e. g. xls2html)
 #    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
-    # MIME-Viewer for online to html converter 
-    # (e. g. wv (word2html), http://wvware.sourceforge.net/)
-#    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
-    # (e. g. pdftohtml (pdf2html), http://pdftohtml.sourceforge.net/)
-#    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
 
     # SendmailModule
     # (Where is sendmail located and some options.
@@ -100,6 +94,70 @@ sub LoadDefaults {
     # (set the system time zone, default is local time) 
 #    $Self->{TimeZone} = 0;
 #    $Self->{TimeZone} = +9;
+
+    # TimeWeekdaysCounted
+    # (counted days for sla time used)
+    $Self->{TimeWeekdaysCounted} = {
+        Mon => 1,
+        Tue => 1,
+        Wed => 1,
+        Thu => 1,
+        Fri => 1,
+        Sat => 0,
+        Sun => 0, 
+    };
+
+    # TimeWorkingHours
+    # (counted hours for sla time used)
+    $Self->{TimeWorkingHours} = {
+        Mon => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Tue => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Wed => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Thu => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Fri => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Sat => [  ],
+        Sun => [  ],
+    };
+
+    # TimeVacationDays
+    # adde new own days with:
+    # "$Self->{TimeVacationDays}->{10}->{27} = 'Some Info';"  
+
+    $Self->{TimeVacationDays} = {
+        1 => {
+            01 => 'New Year\'s Eve!',
+        },
+        5 => {
+            1 => '1 St. May',
+        },
+        12 => {
+            24 => 'Christmas',
+            25 => 'First Christmas Day',
+            26 => 'Second Christmas Day',
+            31 => 'Silvester',
+        },
+    };
+
+    # TimeVacationDaysOneTime
+    # adde new own days with:
+    # "$Self->{TimeVacationDaysOneTime}->{1977}-{10}->{27} = 'Some Info';"  
+
+    $Self->{TimeVacationDaysOneTime} = {
+#        2004 => {
+#          6 => {
+#              07 => 'Some Day',
+#          },
+#          12 => {
+#              24 => 'Some A Day',
+#              31 => 'Some B Day',
+#          },
+#        },
+#        2005 => {
+#          1 => {
+#              11 => 'Some Day',
+#          },
+#        },
+    };
 
     # CustomQueue
     # (The name of custom queue.)
@@ -308,9 +366,9 @@ sub LoadDefaults {
 
     # Frontend::Output::PostFilter
     # (a output filter for application html output, e. g. to filter
-    # javascript)   
-#    $Self->{'Frontend::Output::PostFilter'}->{'JavaScriptFilter'} = {
-#        Module => 'Kernel::Output::HTML::OutputFilterJavaScript',
+    # java script, java applets, ...)   
+#    $Self->{'Frontend::Output::PostFilter'}->{'ActiveElementFilter'} = {
+#        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
 #        Debug => 0,
 #    };
 
@@ -642,7 +700,7 @@ sub LoadDefaults {
             fr => 'Fran&ccedil;ais',
             bg => 'Bulgarian',
             fi => 'Suomi',
-            es => 'Espa&ntilde;ol',
+            es => 'Espaniol',
             pt_BR => 'Portugu&ecirc;s Brasileiro',
             pt => 'Portugu&ecirc;s',
             it => 'Italiano',
@@ -1059,7 +1117,7 @@ $Data{"Signature"}
 
     # SessionMaxTime
     # (Max valid time of one session id in second (8h = 28800).)
-    $Self->{SessionMaxTime} = 8*60*60;
+    $Self->{SessionMaxTime} = 28800;
 
     # SessionMaxIdleTime
     # (After this time (in seconds) without new http request, then 
