@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.22 2003-02-25 18:47:00 martin Exp $
+# $Id: Queue.pm,v 1.23 2003-03-02 11:05:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -592,8 +592,8 @@ sub QueueGet {
     # --
     # check needed stuff
     # --
-    if (!$Param{ID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+    if (!$Param{ID} && !$Param{Name}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID or Name!");
         return;
     }
     # --
@@ -601,18 +601,23 @@ sub QueueGet {
     # --
      my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, " .
         " q.system_address_id, q.salutation_id, q.signature_id, q.comment, q.valid_id, " .
-        " q.escalation_time, q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1 " .
+        " q.escalation_time, q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id " .
         " FROM " .
         " queue q, system_address sa" .
         " WHERE " .
         " q.system_address_id = sa.id " .
-        " AND " .
-        " q.id = $Param{ID}";
+        " AND ";
+    if ($Param{ID}) {
+        $SQL .= " q.id = $Param{ID}";
+    }
+    else {
+        $SQL .= " q.name = '$Param{Name}'";
+    }
     my %QueueData = ();
     $Self->{DBObject}->Prepare(SQL => $SQL); 
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         %QueueData = (
-            QueueID => $Param{ID},
+            QueueID => $Data[13],
             Name => $Data[0],
             GroupID => $Data[1],
             UnlockTimeout => $Data[2],
@@ -646,31 +651,73 @@ sub QueueUpdate {
     # --
     # db quote
     # --
+    my %DB = ();
     foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $DB{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     # check !!!
-    $Param{UnlockTimeout} = 0 if (!$Param{UnlockTimeout});
-    $Param{EscalationTime} = 0 if (!$Param{EscalationTime});
-    $Param{FollowUpLock} = 0 if (!$Param{FollowUpLock});
+    $DB{UnlockTimeout} = 0 if (!$Param{UnlockTimeout});
+    $DB{EscalationTime} = 0 if (!$Param{EscalationTime});
+    $DB{FollowUpLock} = 0 if (!$Param{FollowUpLock});
+    # --
+    # check if queue name exists
+    # --
+    my %AllQueue = $Self->{DBObject}->GetTableData(
+        Table => 'queue',
+        What => 'id, name',
+    );
+    my %OldQueue = $Self->QueueGet(ID => $Param{QueueID});
+    foreach (keys %AllQueue) {
+        if ($AllQueue{$_} =~ /^$Param{Name}$/i && $_ != $Param{QueueID}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "Queue '$Param{Name}' exists! Can't updated queue '$OldQueue{Name}'.",
+            );
+            return;
+        }
+    }
     # --
     # sql
     # --
-    my $SQL = "UPDATE queue SET name = '$Param{Name}', " .
-        " comment = '$Param{Comment}', " .
-        " group_id = $Param{GroupID}, " .
-        " unlock_timeout = $Param{UnlockTimeout}, " .
-        " escalation_time = $Param{EscalationTime}, " .
-        " follow_up_id = $Param{FollowUpID}, " .
-        " follow_up_lock = $Param{FollowUpLock}, " .
-        " system_address_id = $Param{SystemAddressID}, " .
-        " salutation_id = $Param{SalutationID}, " .
-        " signature_id = $Param{SignatureID}, " .
-        " valid_id = $Param{ValidID}, " .
+    my $SQL = "UPDATE queue SET name = '$DB{Name}', " .
+        " comment = '$DB{Comment}', " .
+        " group_id = $DB{GroupID}, " .
+        " unlock_timeout = $DB{UnlockTimeout}, " .
+        " escalation_time = $DB{EscalationTime}, " .
+        " follow_up_id = $DB{FollowUpID}, " .
+        " follow_up_lock = $DB{FollowUpLock}, " .
+        " system_address_id = $DB{SystemAddressID}, " .
+        " salutation_id = $DB{SalutationID}, " .
+        " signature_id = $DB{SignatureID}, " .
+        " valid_id = $DB{ValidID}, " .
         " change_time = current_timestamp, " .
-        " change_by = $Param{UserID} " .
-        " WHERE id = $Param{QueueID}";
+        " change_by = $DB{UserID} " .
+        " WHERE id = $DB{QueueID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # --
+        # updated all sub queue names
+        # --
+        my @ParentQueue = split(/::/, $OldQueue{Name});
+        my %AllQueue = $Self->{DBObject}->GetTableData(
+            Table => 'queue',
+            What => 'id, name',
+        );
+        foreach (keys %AllQueue) {
+            my @SubQueue = split(/::/, $AllQueue{$_});
+            if ($#SubQueue > $#ParentQueue) {
+                if ($AllQueue{$_} =~ /^$OldQueue{Name}::/i) { 
+                    my $NewQueueName = $AllQueue{$_};
+                    $NewQueueName =~ s/$OldQueue{Name}/$Param{Name}/;
+                    $NewQueueName = $Self->{DBObject}->Quote($NewQueueName);
+                    my $SQL = "UPDATE queue SET ".
+                        " name = '$NewQueueName', ".
+                        " change_time = current_timestamp, " .
+                        " change_by = $DB{UserID} " .
+                        " WHERE id = $_";
+                    $Self->{DBObject}->Do(SQL => $SQL);
+                }
+            } 
+        }
         return 1;
     }
     else {
