@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/SystemStats.pm - show stats of otrs
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.16 2004-09-30 23:34:51 martin Exp $
+# $Id: SystemStats.pm,v 1.17 2005-02-10 20:42:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $ ';
+$VERSION = '$Revision: 1.17 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -386,11 +386,14 @@ sub WriteResultCache {
     $Y = $Y+1900;
     $M++;
     if ($GetParam{Year} && $GetParam{Month}) {
-        if ($GetParam{Year} <= $Y && $GetParam{Month} <= $M) {
+        if ($Y > $GetParam{Year}) {
+            $Cache = 1;
+        }
+        elsif ($GetParam{Year} == $Y && $GetParam{Month} <= $M) {
             if ($GetParam{Month} < $M) {
                 $Cache = 1;
             }
-            if ($GetParam{Year} == $Y && $GetParam{Month} == $M && $GetParam{Day} && $GetParam{Day} < $D) {
+            if ($GetParam{Month} == $M && $GetParam{Day} && $GetParam{Day} < $D) {
                 $Cache = 1;
             }
         }
