@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.20 2003-12-07 23:59:41 martin Exp $
+# $Id: CustomerMessage.pm,v 1.21 2003-12-15 00:10:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -233,14 +233,6 @@ sub Run {
       }
     }
     elsif ($Self->{Subaction} eq 'StoreNew') {
-        # check permissions
-        if (!$Self->{TicketObject}->CustomerPermission(
-            Type => 'create',
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID})) {
-            # error screen, don't show ticket
-            return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
-        }
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest);
         if (!$To) {
