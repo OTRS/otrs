@@ -2,60 +2,65 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.6 2002-05-30 14:25:34 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.7 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start NavigationBar -->
+<table bgcolor="$Env{"BGTableColor2"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
+<tr valign="top">
+  <td align="left">
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout">$Text{"Logout"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentQueueView">$Text{"AgentFrontend"}</a>$Env{"Box1"}
+  </td>
+  <td align="right">
+    $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
+  </td>
+</table> 
 <table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
 <tr valign="top" align="left">
   <td>
-  <font color="$Env{"FontColor0"}">
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=Logout">$Text{"Logout"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUser">$Text{"User"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentQueueView">$Text{"AgentFrontend"}</a>$Env{"Box1"}
-  </font>
-  </td>
-  <td>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminUser">$Text{"User"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminGroup">$Text{"Groups"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminGroup">$Text{"Groups"}</a>$Env{"Box1"}
-    <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminUserGroup">$Text{"User <-> Groups"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUserGroup">$Text{"User <-> Groups"}</a>$Env{"Box1"}
   </td>
   <td> 
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminQueue">$Text{"Queue"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueue">$Text{"Queue"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminResponse">$Text{"Responses"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSystemAddress">$Text{"Email Addresses"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminQueueResponses">$Text{"Responses <-> Queue"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminResponse">$Text{"Responses"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminAutoResponse">$Text{"Auto Responses"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueueResponses">$Text{"Responses <-> Queue"}</a>$Env{"Box1"} 
+  </td>
+  <td> 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSalutation">$Text{"Salutation"}</a>$Env{"Box1"} 
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSignature">$Text{"Signature"}</a>$Env{"Box1"} 
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminAutoResponse">$Text{"Auto Responses"}</a>$Env{"Box1"}
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueueAutoResponse">$Text{"Auto Response <-> Queue"}</a>$Env{"Box1"}
   </td>
   <td>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSalutation">$Text{"Salutation"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCharset">$Text{"Charsets"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSignature">$Text{"Signature"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminState">$Text{"Status defs"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminQueueAutoResponse">$Text{"Queue <-> Auto Response"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminLanguage">$Text{"Languages"}</a>$Env{"Box1"}
   </td>
   <td>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSystemAddress">$Text{"Email Addresses"}</a>$Env{"Box1"} 
-    <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminCharset">$Text{"Charsets"}</a>$Env{"Box1"} 
-    <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminState">$Text{"Status defs"}</a>$Env{"Box1"}
-    <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminLanguage">$Text{"Languages"}</a>$Env{"Box1"}
-  </td>
-  <td>
-    $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminEmail">$Text{"AdminEmail"}</a>$Env{"Box1"} 
     <br> 
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSession">$Text{"Session Management"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCustomerUser">$Text{"CustomerUser"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSelectBox">$Text{"Select Box"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSession">$Text{"Session Management"}</a>$Env{"Box1"} 
+    <br>
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSelectBox">$Text{"Select Box"}</a>$Env{"Box1"} 
   </td>
 </tr>
 </table>

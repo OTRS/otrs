@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.5 2002-10-03 21:13:56 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.6 2002-10-15 09:51:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,12 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}">
+<tr bgcolor="$Env{"BGTableColor0"}">
   <td align="left">
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Select Box"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Select Box"}$Env{"Box1"}</font></b>
   </td>
   <td align="right">
-  <b><font color="$Env{"FontColor0"}">-</font></b>
+  <b><font color="$Env{"FontColor1"}">-</font></b>
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}">
@@ -26,7 +26,6 @@
 <form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Select">
-<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
 <textarea name="SQL" rows="10" cols="60">
 SELECT * FROM 
 </textarea>

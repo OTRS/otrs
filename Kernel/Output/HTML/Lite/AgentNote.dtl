@@ -2,7 +2,7 @@
 # NoteForm.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.9 2002-08-05 00:20:51 martin Exp $
+# $Id: AgentNote.dtl,v 1.10 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,6 @@
 <form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="AgentNote">
 <input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">

@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseForm.dtl,v 1.5 2002-05-26 18:16:43 martin Exp $
+# $Id: AdminResponseForm.dtl,v 1.6 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,13 +10,13 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}">
+<tr bgcolor="$Env{"BGTableColor0"}">
   <td align="left" width="30%">
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Response Management"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Response Management"}$Env{"Box1"}</font></b>
   </font>
   </td>
   <td align="right" width="70%">
-  <b><font color="$Env{"FontColor0"}">-</font></b>
+  <b><font color="$Env{"FontColor1"}">-</font></b>
   </font>
   </td>
 </tr>
@@ -27,7 +27,6 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
-    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
     $Data{"ResponseOption"}
     <br>
     <input type="submit" value="$Text{"change"}">
@@ -42,12 +41,11 @@
 # check add link
 <dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a response)"; }>
 # --
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}&Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
-    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
     <input type="hidden" name="ID" value="$Data{"ID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
@@ -86,7 +84,7 @@
   $Text{"A response is default text to write faster answer (with default text) to customers."}
   </p>
   <p>
-  $Text{"Attention"}: <a href="$Env{"CGIHandle"}?SessionID=$Env{"SessionID"}&Action=AdminQueueResponses">$Text{"Don't forget to add a new response a queue!"}</a>
+  $Text{"Attention"}: <a href="$Env{"CGIHandle"}?Action=AdminQueueResponses">$Text{"Don't forget to add a new response a queue!"}</a>
   </p>
   </td>
 </tr>

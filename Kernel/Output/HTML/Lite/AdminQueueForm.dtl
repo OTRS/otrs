@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.7 2002-05-30 14:41:24 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.8 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,13 +10,13 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}">
+<tr bgcolor="$Env{"BGTableColor0"}">
   <td align="left" width="30%">
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Queue Management"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Queue Management"}$Env{"Box1"}</font></b>
   </font>
   </td>
   <td align="right" width="70%">
-  <b><font color="$Env{"FontColor0"}">-</font></b>
+  <b><font color="$Env{"FontColor1"}">-</font></b>
   </font>
   </td>
 </tr>
@@ -27,7 +27,6 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
-    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
     $Data{"QueueOption"}
     <br>
     <input type="submit" value="$Text{"change"}">
@@ -42,12 +41,11 @@
 # check add link
 <dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a queue)"; }>
 # --
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}&Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
-    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
     <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>

@@ -2,7 +2,7 @@
 # AdminEmailSent.dtl - provides global HTML AdminEmailSent
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmailSent.dtl,v 1.1 2002-10-03 21:10:13 martin Exp $
+# $Id: AdminEmailSent.dtl,v 1.2 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,9 +10,9 @@
 # --
 <!-- start -->
 <table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr valign="top" align="left" bgcolor="$Env{"BGTableColor2"}">
+<tr valign="top" align="left" bgcolor="$Env{"BGTableColor0"}">
   <td>
-  <font color="$Env{"FontColor0"}">
+  <font color="$Env{"FontColor1"}">
     <b>$Env{"Box0"}$Text{"Admin-Email"}$Env{"Box1"}</b>
   </font>
   </td>

@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.10 2002-07-23 22:19:53 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.11 2002-10-15 09:51:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,12 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}">
+<tr bgcolor="$Env{"BGTableColor0"}">
   <td align="left" width="30%">
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"User Management"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"User Management"}$Env{"Box1"}</font></b>
   </td>
   <td align="right" width="70%">
-  <b><font color="$Env{"FontColor0"}">-</font></b>
+  <b><font color="$Env{"FontColor1"}">-</font></b>
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
@@ -25,7 +25,6 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
-    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
     $Data{"UserOption"}
     <br>
     <input type="submit" value="$Text{"change"}">
@@ -42,12 +41,11 @@
 # check add link
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a user)"; }>
 # --
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}&Action=AdminUser">$Text{"$Data{"AddLink"}"}</a>: 
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminUser">$Text{"$Data{"AddLink"}"}</a>: 
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
     <input type="hidden" name="ID" value="$Data{"UserID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
@@ -122,7 +120,7 @@
   $Text{"User will be needed to handle tickets."}
   </p>
   <p>
-  $Text{"Attention"}: <a href="$Env{"CGIHandle"}?SessionID=$Env{"SessionID"}&Action=AdminUserGroup">$Text{"Don't forget to add a new user to groups!"}</a>
+  $Text{"Attention"}: <a href="$Env{"Baselink"}Action=AdminUserGroup">$Text{"Don't forget to add a new user to groups!"}</a>
   </p>
   </td>
 </tr>

@@ -2,7 +2,7 @@
 # AdminSessionTable.dtl - provides global HTML AdminSessionTable
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSessionTable.dtl,v 1.2 2002-05-01 17:33:43 martin Exp $
+# $Id: AdminSessionTable.dtl,v 1.3 2002-10-15 09:51:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
     <p>
     $Data{"Output"}
     </p>
-    <a href="$Env{"Baselink"}&Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">$Text{"kill session"}</a>
+    <a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">$Text{"kill session"}</a>
   </font>
   </td>
 </tr>

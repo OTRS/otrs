@@ -2,20 +2,17 @@
 # systemStats.dtl - provides HTML stats 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.dtl,v 1.1 2002-04-30 00:16:50 martin Exp $
+# $Id: SystemStats.dtl,v 1.2 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}">
-  <td align="left"> 
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Stats"}$Env{"Box1"}</font></b>
-  </td>
-  <td align="right">
-  <b><font color="$Env{"FontColor0"}">-</font></b>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="center"> 
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Stats"}$Env{"Box1"}</font></b>
   </td>
 </tr>
 </table>

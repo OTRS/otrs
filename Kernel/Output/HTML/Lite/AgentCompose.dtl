@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.7 2002-10-03 17:58:30 martin Exp $
+# $Id: AgentCompose.dtl,v 1.8 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,6 @@ function submit_compose()
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
   <input type="hidden" name="Action" value="AgentCompose">
   <input type="hidden" name="Subaction" value="SendEmail">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
   <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
   <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
   <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">

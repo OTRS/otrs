@@ -1,0 +1,69 @@
+# --
+# InstallerStart.dtl - provides HTML form for Installer
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: InstallerStart.dtl,v 1.1 2002-10-15 09:51:47 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td valign="top"">
+
+<h2>Web-Installer (create database)</h2>
+<p>
+
+<form action="installer.pl" method="post">
+<input type="hidden" name="Action" value="Installer">
+<input type="hidden" name="Subaction" value="DB">
+<table cols="2" width="100%">
+  <tr>
+    <td width="20%">DB Admin User:</td><td><input type="text" name="DBUser" value="root"></td>
+  </tr>
+  <tr>
+    <td>DB Admin Password:</td><td><input type="password" name="DBPassword" value=""><font color="red"> (* your MySQL DB should have a root password! Default is empty!)</font></td>
+  </tr>
+  <tr>
+    <td>DB Host:</td><td><input type="text" name="DBHost" value="$Config{"DatabaseHost"}"></td>
+  </tr>
+  <tr>
+    <td>DB Type:</td><td>
+          <select name="DBType">
+            <option value="MySQL" selected="selected">MySQL</option>
+          </select>
+   </td>
+  </tr>
+  <tr>
+    <td>OTRS DB Name:</td><td><input type="text" name="DBName" value="$Config{"Database"}"></td>
+  </tr>
+  <tr>
+    <td>OTRS DB User:</td><td><input type="text" name="OTRSDBUser" value="$Config{"DatabaseUser"}"></td>
+  </tr>
+  <tr>
+    <td>OTRS DB Password:</td><td><input type="password" name="OTRSDBPassword" value="hot"> <font color="red">(default 'hot')</font></td>
+  </tr>
+  <tr>
+    <td>OTRS DB connect host:</td><td><input type="text" name="OTRSDBConnectHost" value="localhost"></td>
+  </tr>
+
+  <tr>
+    <td>Create new database:</td><td><input type="radio" name="DBAction" checked value="Create"></td>
+  </tr>
+  <tr>
+    <td>Delete old database:</td><td><input type="radio" name="DBAction" value="Delete"></td>
+  </tr>
+</table>
+<br>
+<input type="submit" value="$Text{"submit"}">
+</form>
+
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+

@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.dtl,v 1.6 2002-07-31 23:17:23 martin Exp $
+# $Id: AgentForward.dtl,v 1.7 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -50,7 +50,6 @@ function submit_forward()
   <form action="$Env{"CGIHandle"}" method="post" name="forward">
   <input type="hidden" name="Action" value="AgentForward">
   <input type="hidden" name="Subaction" value="SendEmail">
-  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
   <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
   <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
   <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">

@@ -2,7 +2,7 @@
 # AgentHistoryForm.dtl - provides HTML form for history
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistoryForm.dtl,v 1.4 2002-08-05 00:20:51 martin Exp $
+# $Id: AgentHistoryForm.dtl,v 1.5 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

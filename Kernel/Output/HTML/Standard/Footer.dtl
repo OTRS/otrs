@@ -2,7 +2,7 @@
 # Footer.dtl - provides global HTML footer 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Footer.dtl,v 1.6 2002-06-04 22:56:09 martin Exp $
+# $Id: Footer.dtl,v 1.7 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,9 @@
 <table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left">
-  <font color="$Env{"FontColor1"}">$Env{"Box0"}</font><a href="$Env{"Baselink"}&Action=AgentQueueView"><font color="$Env{"FontColor1"}">$Text{"QueueView"}</font></a><font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
+  <font color="$Env{"FontColor1"}">$Env{"Box0"}</font><a href="$Env{"Baselink"}Action=AgentQueueView"><font color="$Env{"FontColor1"}">$Text{"QueueView"}</font></a><font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
    - 
-  <font color="$Env{"FontColor1"}">$Env{"Box0"}</font><a href="$Env{"Baselink"}&Action=AgentPhone"><font color="$Env{"FontColor1"}">$Text{"PhoneView"}</font></a><font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
+  <font color="$Env{"FontColor1"}">$Env{"Box0"}</font><a href="$Env{"Baselink"}Action=AgentPhone"><font color="$Env{"FontColor1"}">$Text{"PhoneView"}</font></a><font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
   </font>
   </td>
   <td align="right">

@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.5 2002-08-27 21:36:13 martin Exp $
+# $Id: Login.dtl,v 1.6 2002-10-15 09:51:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,12 +26,13 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 # --
 # set some html variables
 # --
-<dtl set $Env{"BGCOLOR"} = "#BBDDFF">
-<dtl set $Env{"BGTableColor0"} = "#000000">
-<dtl set $Env{"BGTableColor1"} = "#FFFFFF">
-<dtl set $Env{"BGTableColor2"} = "#EEEEEE">
+<dtl set $Env{"BGCOLOR"} = "#BEC3BE">
+<dtl set $Env{"BGTableColor0"} = "#BEC3BE">
+<dtl set $Env{"BGTableColor1"} = "#BEC3BE">
+<dtl set $Env{"BGTableColor2"} = "#BEC3BE">
 <dtl set $Env{"FontColor0"} = "#000000">
-<dtl set $Env{"FontColor1"} = "#FFFFFF">
+<dtl set $Env{"FontColor1"} = "#000000">
+
 # --
 <html>
 <head>
@@ -42,6 +43,10 @@ X-Wanted: I think you are smart. I'm looking for smart people!
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;}
   pre
     { font-family:Courier;font-size:12px; }
+  a:hover
+    { color: #002244; text-decoration: none; }
+  .small
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:8px; }
 //-->
 </style>
 </head>
@@ -61,7 +66,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 
 <table border="0" cellspacing="0" cellpadding="3" width="240">
 <tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="center"><font color="$Env{"FontColor1"}"><b>$Text{"Welcome to ORS"}</b></font></td>
+  <td align="center"><font color="$Env{"FontColor1"}"><b>$Text{"Welcome to OTRS"}</b></font></td>
 </tr>
 <tr>
   <td align="center" bgcolor="$Env{"BGTableColor1"}">

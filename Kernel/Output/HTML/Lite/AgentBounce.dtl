@@ -2,13 +2,37 @@
 # NoteBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.dtl,v 1.1 2002-06-16 20:46:16 martin Exp $
+# $Id: AgentBounce.dtl,v 1.2 2002-10-15 09:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- start bounce form -->
+
+<!-- This java script is just for nice to have funktions! -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_bounce()
+{
+    if (document.bounce.BounceTo.value == "") {
+        alert('$Text{"A message should have a To: recipient!"}');
+        document.compose.To.focus();
+        return false;
+    }
+    else if (document.bounce.BounceTo.value.indexOf('@') == -1) {
+        alert('$Text{"You need a email address (e. g. customer@example.com) in To:!"}');
+        document.compose.BounceTo.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left"> 
@@ -23,10 +47,9 @@
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="post" name="bounce">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="ArticleID" value="$Data{"ArticleID"}">
@@ -65,12 +88,12 @@ $Data{"Signature"}
 
   </table>
 <br>
-<input type="submit" value="$Text{"store"}">
+<input type="submit" value="$Text{"Send mail!"}" onclick="return submit_bounce();">
 </form>
 
 </p>
   </td> 
 </tr>
 </table>
-<!-- end form -->
+<!-- end bounce form -->
 

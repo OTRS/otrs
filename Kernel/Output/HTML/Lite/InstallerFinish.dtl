@@ -1,0 +1,32 @@
+# --
+# InstallerFinish.dtl - provides HTML form for Installer
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: InstallerFinish.dtl,v 1.1 2002-10-15 09:51:47 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td valign="top">
+
+<h2>Web-Installer (Finish)</h2>
+<p>
+$Data{"Setup"}
+</p>
+
+
+<dtl set $Data{"Wishes"} = "-">
+<dtl if ($Data{"Ready"} eq "1") { $Data{"Wishes"} = " <table> <tr> <td><b>Start page:</b></td> <td><a href="http://$Env{"HTTP_HOST"}/otrs/index.pl">http://$Env{"HTTP_HOST"}/otrs/index.pl</a></td> </tr><tr> <td><b>admin-user:</b></td> <td>root@localhost</td> </tr><tr> <td><b>password:</b></td> <td>root</td> </tr> </table> <br> <b>Have a lot of fun!<br> Your OTRS Team</b> "; }>
+<p>
+$Data{"Wishes"}
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
