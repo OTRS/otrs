@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerAttachment.pm - to get the attachments 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerAttachment.pm,v 1.2 2002-12-17 18:09:02 martin Exp $
+# $Id: CustomerAttachment.pm,v 1.3 2002-12-19 23:56:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -58,8 +58,8 @@ sub Run {
     # check params
     # --
     if (!$Self->{File} || !$Self->{ArticleID}) {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->CustomerError(
             Message => 'File and ArticleID are needed!',
             Comment => 'Please contact your admin'
         );
@@ -67,7 +67,7 @@ sub Run {
             Message => 'File and ArticleID are needed!',
             Priority => 'error',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
 
@@ -76,8 +76,8 @@ sub Run {
     # --
     my %ArticleData = $Self->{TicketObject}->GetArticle(ArticleID => $Self->{ArticleID});
     if (!$ArticleData{TicketID}) {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->CustomerError(
             Message => "No TicketID for ArticleID ($Self->{ArticleID})!",
             Comment => 'Please contact your admin'
         );
@@ -85,7 +85,7 @@ sub Run {
             Message => "No TicketID for ArticleID ($Self->{ArticleID})!",
             Priority => 'error',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
 
@@ -103,8 +103,8 @@ sub Run {
             return $Self->{LayoutObject}->Attachment(%Data);  
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->CustomerError(
               Message => "No such attacment ($Self->{File})!",
               Comment => 'Please contact your admin'
             );
@@ -112,14 +112,18 @@ sub Run {
               Message => "No such attacment ($Self->{File})! May be an attack!!!",
               Priority => 'error',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
         }
     }
     else {
         # --
         # error screen
-        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+        # --
+        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->CustomerError(Message => 'No permission!');
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
     }
 }
 # --
