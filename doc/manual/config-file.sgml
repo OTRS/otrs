@@ -3,7 +3,7 @@
 <para>
 OTRS has many config options. There are two config files. Kernel/Config.pm and
 Kernel/Config/Defaults.pm. 
-<para>
+</para>
 
 <para>
 Kernel/Config/Defaults.pm is the default config file which should not be changed. 
@@ -107,7 +107,7 @@ There are two options to check the used emails in the OTRS frontend.
 [...]
 </programlisting>
 </example>
-<para>
+
 <example>
 <title>Kernel/Config.pm - CheckMXRecord</title>
 <programlisting>
