@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.16 2004-01-09 16:41:19 martin Exp $
+# $Id: Group.pm,v 1.17 2004-01-22 19:31:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -34,7 +34,7 @@ All group functions. E. g. to add groups or to get a member list of a group.
 
 =item new()
 
-create a language object 
+create a object 
  
   use Kernel::Config;
   use Kernel::System::Log;
@@ -432,6 +432,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2004-01-09 16:41:19 $
+$Revision: 1.17 $ $Date: 2004-01-22 19:31:02 $
 
 =cut
