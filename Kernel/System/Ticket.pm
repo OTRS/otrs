@@ -1,8 +1,8 @@
 # --
-# Ticket.pm - the global ticket handle
+# Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.14 2002-07-13 03:31:16 martin Exp $
+# $Id: Ticket.pm,v 1.15 2002-07-13 12:31:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Queue;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -392,11 +392,21 @@ sub SetAnswered {
 sub Permission {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID} || return;
-    my $UserID = $Param{UserID} || return;
-    my $QueueID = $Self->GetQueueIDOfTicketID(TicketID => $TicketID);
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # check if the user is in the same group as the ticket
+    # --
+    my $QueueID = $Self->GetQueueIDOfTicketID(TicketID => $Param{TicketID});
     my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $QueueID);
-    my %Groups = $Self->{UserObject}->GetGroups(UserID => $UserID);
+    my %Groups = $Self->{UserObject}->GetGroups(UserID => $Param{UserID});
     foreach (keys %Groups) {
         if ($_ eq $GID) {
             return 1;
