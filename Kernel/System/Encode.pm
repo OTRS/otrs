@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.7 2004-02-01 21:30:56 martin Exp $
+# $Id: Encode.pm,v 1.8 2004-03-01 13:12:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -39,7 +39,7 @@ return string is still the same charset.
 create a language object 
  
   use Kernel::Config;
-  use Kernel::Encode;
+  use Kernel::System::Encode;
 
   my $ConfigObject = Kernel::Config->new();
 
@@ -317,6 +317,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2004-02-01 21:30:56 $
+$Revision: 1.8 $ $Date: 2004-03-01 13:12:56 $
 
 =cut
