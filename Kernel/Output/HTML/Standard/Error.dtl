@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Error.dtl,v 1.1 2001-12-16 01:35:42 martin Exp $
+# $Id: Error.dtl,v 1.2 2001-12-30 00:36:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <center>
 
 <p>
-<table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="1" cellpadding="1">
+<table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="1" cellpadding="3">
 <tr bgcolor="$Env{"BGTableColor0"}">
   <td>
   <p>
@@ -24,8 +24,12 @@
   <td>
     <table>
         <tr>
+            <td valign="top"><b>$Text{"Comment"}:</b></td>
+            <td valign="top">$Data{"Comment"}</td>
+        </tr>
+        <tr>
             <td valign="top"><b>$Text{"Handle"}:</b></td>
-            <td valign="top">$Data{"Filename1"}</td>
+            <td valign="top">$Data{"Filename2"}</td>
         </tr>
         <tr>
             <td valign="top"><b>$Text{"Modulefile"}:</b></td>
@@ -42,10 +46,6 @@
         <tr>
             <td valign="top"><b>$Text{"Line"}:</b></td>
             <td valign="top">$Data{"Line"}</TD>
-        </tr>
-        <tr>
-            <td valign="top"><b>$Text{"Comment"}:</b></td>
-            <td valign="top">$Data{"Comment"}</td>
         </tr>
     </table>
   </td>
