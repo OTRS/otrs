@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.52 2003-03-24 09:20:24 martin Exp $
+# $Id: Ticket.pm,v 1.53 2003-04-12 22:04:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -330,7 +330,7 @@ sub GetTicket {
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
         " st.customer_id, st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
         " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, st.ticket_answered, st.until_time, ".
-        " st.customer_user_id ".
+        " st.customer_user_id, st.freetext1, st.freetext2, st.freekey1, st.freekey2 ".
         " FROM ".
         " ticket st, ticket_state tsd, ticket_lock_type slt, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -369,6 +369,10 @@ sub GetTicket {
         $Ticket{Owner} = $Row[16];
         $Ticket{Answered} = $Row[17];
         $Ticket{RealTillTimeNotUsed} = $Row[18];
+        $Ticket{TicketFreeText1} = $Row[20] || '';
+        $Ticket{TicketFreeText2} = $Row[21] || '';
+        $Ticket{TicketFreeKey1} = $Row[22] || '';
+        $Ticket{TicketFreeKey2} = $Row[23] || '';
     }
     # --
     # check ticket
@@ -579,18 +583,33 @@ sub SetTicketFreeText {
       }
     }
     # --
+    # check if update is needed
+    # --
+    my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
+    if ($Value eq $Ticket{"TicketFreeText$Param{Counter}"} && 
+        $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}) {
+        return 1;
+    }
+    # --
     # db quote
     # --
-    $Value = $Self->{DBObject}->Quote($Value);
-    $Key = $Self->{DBObject}->Quote($Key);
+    my $DBValue = $Self->{DBObject}->Quote($Value);
+    my $DBKey = $Self->{DBObject}->Quote($Key);
     # --
     # db update
     # --
-    my $SQL = "UPDATE ticket SET freekey$Param{Counter} = '$Key', " .
-    " freetext$Param{Counter} = '$Value', " .
+    my $SQL = "UPDATE ticket SET freekey$Param{Counter} = '$DBKey', " .
+    " freetext$Param{Counter} = '$DBValue', " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # history insert
+        $Self->AddHistoryRow(
+            TicketID => $Param{TicketID},
+            HistoryType => 'TicketFreeTextUpdate',
+            Name => "FreeKey$Param{Counter}: '$Key' FreeText$Param{Counter}: '$Value'", 
+            CreateUserID => $Param{UserID},
+        );
         return 1;
     }
     else {
