@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.65 2004-02-05 15:57:44 martin Exp $
+# $Id: index.pl,v 1.66 2004-02-13 00:33:58 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,7 +164,8 @@ foreach ('$Kernel::Config::Modules::Param', '$Kernel::Config::ModulesCustom::Par
       || $Param->{$Key};
   }
 }
-
+# security check Action Param (replace non word chars)
+$Param{Action} =~ s/\W//g;
 # --
 # check request type
 # --
