@@ -4,25 +4,25 @@
 <sect1 id="login_and_new_user">
 <title>Login as root and create a new account</title>
 <para>
-Let's presume that you have an installed OpenTRS system on your system and of course you do not want to waste to much time and see quick results.
+Let's presume that you have an installed OpenTRS system on your system and of course you do not want to waste too much time and see results quickly.
 </para>
 <para>
-First you have to start your favorate webbrowser and have a look at <ulink url="http://localhost/otrs/index.pl"><citetitle>http://localhost/otrs/index.pl</citetitle></ulink>
+First you have to start your favourite webbrowser and have a look at <ulink url="http://localhost/otrs/index.pl"><citetitle>http://localhost/otrs/index.pl</citetitle></ulink>
 <screenshot>
 <screeninfo>login screen</screeninfo>
 <graphic srccredit="login screen - screenshot" scale="40" fileref="screenshots/login.png"></graphic>
 </screenshot>
-Login as root@localhost who has the password root. Please change this in the admin part asap (of course it is totaly independent from your normal root account).
+Login as root@localhost who by default has assigned the password root. Please change this in the admin part asap (of course it is totally independent from your normal linux root account).
 </para>
 <para>
-You are the root of OpenTRS know. That means you can do everything! You have the power you are admin of the system. Normaly you don't want to work as root and of course you need an account for all <link linkend="faq_agent">agents</link>. So the first thing is to go into the admin interface.
+You are the root user of OpenTRS now. That means that you can do everything! You have the power, you are admin of the system. Normally you will not want to work as root and of course you need an account for all <link linkend="faq_agent">agents</link>. So the first thing is to go into the admin interface.
 <screenshot>
 <screeninfo>admin interface</screeninfo>
 <graphic srccredit="admin interface" scale="40" fileref="screenshots/admin-interface.png"></graphic>
 </screenshot>
 </para>
 <para>
-The admin interface is the central of your power. You can create and delete users, groups, queues and all sort of usefull stuff here. Browse around and give it a try. But for know we want to create a new user.
+The admin interface is the central of your power. You can create and delete users, groups, queues and all sort of usefull stuff here. Browse around and give it a try. But for now we want to create a new user at once.
 <screenshot>
 <screeninfo>add new user interface</screeninfo>
 <graphic srccredit="add new user interface" scale="40" fileref="screenshots/add-new-user.png"></graphic>
@@ -40,7 +40,7 @@ After you created the new user we ask you to logout and to login again as this n
 </screenshot>
 </para>
 <para>
-Between the second and third black bar (in this example) the user has access to the different queues. He/she can browser the queue by simply clicking on the link with the queue name.
+Between the second and third black bar (in this example) the user has access to the different queues. He/she can browse the queue by simply clicking on the link with the queue name.
 <screenshot>
 <screeninfo>raw queue</screeninfo>
 <graphic srccredit="raw queue" scale="40" fileref="screenshots/raw-queue.png"></graphic>

@@ -4,7 +4,7 @@
 <sect1 id="what_e-mail_address">
 <title>How can somebody write e-mails to the OpenTRS?</title>
 <para>
-The default installation will accept e-mails to the e-mail address <email>otrs@localhost</email>. This is good to start a little playing. Use your favorate e-mail client and send an e-mail to this address (of course you have to be on this system). Or you can have a look in the admin section of OpenTRS to add different e-mail addresses like <email>info@foo.org</email>. But please take care that these e-mails will be delivered to the local otrs account! In case you are not familiar with the configuration of your sendmail or postfix have a look in the man-pages or send an e-mail to the <link linkend="mailinglists">mailinglist</link> <email>otrs@otrs.org</email>.
+The default installation will accept e-mails to the e-mail address <email>otrs@localhost</email>. This is good to start a little playing. Use your favourite e-mail client and send an e-mail to this address (of course you have to be on this system). Or you can have a look in the admin section of OpenTRS to add different e-mail addresses like <email>info@foo.org</email>. But please take care that these e-mails will be delivered to the local otrs account! In case you are not familiar with the configuration of your sendmail or postfix have a look in the man-pages or send an e-mail to the <link linkend="mailinglists">mailinglist</link> <email>otrs@otrs.org</email>.
 </para>
 
 <para><emphasis role='bold'>Config of sendmail in SuSE Linux</emphasis></para>
@@ -62,10 +62,10 @@ Reload service sendmail                                done
 </screen>
 </para>
 <para>
-Now all incoming e-mails to info@example.com will be delivers to the local user otrs.
+Now all incoming e-mail to info@example.com will be delivered to the local user otrs.
 </para>
 <para>
-Every e-mail to the user otrs will be handled by the procmail-rule of otrs which pipes the e-mail to the system. You will find the e-mail in the RAW queue. 
+Every e-mail message to the user otrs will be handled by the procmail-rule of otrs which pipes the e-mail to the system. You will find the e-mail in the RAW queue. 
 </para>
 </sect1>
 </chapter>
