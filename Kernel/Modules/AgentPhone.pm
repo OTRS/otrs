@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.83 2004-05-01 14:29:31 martin Exp $
+# $Id: AgentPhone.pm,v 1.84 2004-05-02 10:26:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.83 $';
+$VERSION = '$Revision: 1.84 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -355,7 +355,7 @@ sub Run {
         }
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || '';
-        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || '';
+        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') ||  $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
@@ -396,7 +396,7 @@ sub Run {
             # search customer 
             my %CustomerUserList = ();
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                Search => $From.'*',
+                Search => $From,
             );
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
@@ -422,9 +422,14 @@ sub Run {
             # if more the one customer user exists, show list
             # and clean CustomerUserID and CustomerID
             else {
-                $From = '';
+                # don't check email syntax on multi customer select
+                $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 0);
                 $CustomerID = '';
                 $Param{"FromOptions"} = \%CustomerUserList;
+                # clear from if there is no customer found
+                if (!%CustomerUserList) {
+                    $From = '';
+                }
                 $Error{"ExpandCustomerName"} = 1;
             }
         }
@@ -451,6 +456,10 @@ sub Run {
         elsif ($ExpandCustomerName == 3) {
             $Error{NoSubmit} = 1;
             $CustomerUser = $SelectedCustomerUser;
+        }
+        # 'just' no submit
+        elsif ($ExpandCustomerName == 4) {
+            $Error{NoSubmit} = 1;
         }
         # --
         # show customer info
