@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.7 2001-12-26 20:05:42 martin Exp $
+# $Id: Config.pm,v 1.8 2001-12-30 00:34:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,10 +12,8 @@
 package Kernel::Config;
 
 use strict;
-
 use vars qw(@ISA $VERSION);
-
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -23,15 +21,14 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # get Log Object
     $Self->{LogObject} = $Param{LogObject};
-
-    # 0=off; 1=on;
+    # 0=off; 1=log if there exists no entry; 2=log all;
     $Self->{Debug} = 0;
-
     # load config
     $Self->Load();
     return $Self;
@@ -57,8 +54,8 @@ sub Load {
     $Self->{Sendmail} = '/usr/sbin/sendmail -t -f ';
     # send all outgoing email via bcc to
     $Self->{SendmailBcc} = '';
-    # default queue of all
-    $Self->{DefaultQueue} = 'Raw';
+    # name of custom queues
+    $Self->{CustomQueue} = 'PersonalQueue';
 
     # --
     # DB settings
@@ -84,11 +81,11 @@ sub Load {
     $Self->{MaxLimit} = 150;
     # default reload time
     $Self->{Refresh} = 180;
-    # highlight age 1 in min
-    $Self->{HighlightAge1} = 27500;
+    # highlight age1 in min
+    $Self->{HighlightAge1} = 1440;
     $Self->{HighlightColor1} = 'orange';
-    # highlight age 2 in min
-    $Self->{HighlightAge2} = 29160;
+    # highlight age2 in min
+    $Self->{HighlightAge2} = 2880;
     $Self->{HighlightColor2} = 'red';
 
     # --
@@ -98,7 +95,6 @@ sub Load {
     $Self->{SearchLimitTn} = 20;
     # default limit for Txt search
     $Self->{SearchLimitTxt} = 20;
-
 
     # --
     # directories
@@ -111,6 +107,8 @@ sub Load {
     $Self->{CounterLog} = $Self->{Home} . '/var/log/TicketCounter.log';
     # article fs dir
     $Self->{ArticleDir} = $Self->{Home} . '/var/article';
+    # loop protection Log
+    $Self->{LoopProtectionLog} = $Self->{Home} . '/var/log/LoopProtection';
 
     # --
     # web stuff
@@ -118,21 +116,77 @@ sub Load {
     # global CGI handle
     $Self->{CGIHandle} = 'index.pl';
 
+    # --
+    # Ticket stuff
+    # --
+    # ViewableLocks
+    $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
+
+    # ViewableStats
+    $Self->{ViewableStats} = ["'open'", "'new'"];
+
+    # ViewableSenderTypes
+    $Self->{ViewableSenderTypes} = ["'customer'"];
+
+    # --
+    # PostMaster stuff
+    # --
+    # max post master daemon email to own email-address a day
+    $Self->{MaxPostMasterEmails} = 20;
+    # post master id
+    $Self->{PostmasterUserID} = 1;
+    # default queue of all
+    $Self->{DefaultQueue} = 'Raw';
+    # default priority
+    $Self->{DefaultPriority} = 'normal';
+    # default state 
+    $Self->{DefaultState} = 'new';
+    # scanned x-headers
+    $Self->{"X-Header"} = [
+      'From',
+      'To',
+      'Cc',
+      'Reply-To',
+      'ReplyTo',
+      'Subject',
+      'Message-ID',
+      'Message-Id',
+      'Precedence',
+      'Mailing-List',
+      'X-Loop',
+      'X-No-Loop',
+      'X-OTRS-Loop',
+      'X-OTRS-Info',
+      'X-OTRS-Priority',
+      'X-OTRS-Queue',
+      'X-OTRS-Ignore',
+      'X-OTRS-State',
+      'X-OTRS-CustomerNo',
+      'X-OTRS-ArticleKey1',
+      'X-OTRS-ArticleKey2',
+      'X-OTRS-ArticleKey3',
+      'X-OTRS-ArticleValue1',
+      'X-OTRS-ArticleValue2',
+      'X-OTRS-ArticleValue3',
+      'X-OTRS-TicketKey1',
+      'X-OTRS-TicketKey2',
+      'X-OTRS-TicketValue1',
+      'X-OTRS-TicketValue2',
+    ];
 }
 # --
 sub Get {
     my $Self = shift;
     my $What = shift;
     # debug
-    if ($Self->{Debug} > 0) {
+    if ($Self->{Debug} > 1) {
         $Self->{LogObject}->Log(
           Priority=>'debug', 
           MSG=>"->Get('$What') --> $Self->{$What}"
         );
     }
-
     # warn if the value is not def
-    if (!$Self->{$What}) {
+    if (!$Self->{$What} && $Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority=>'error',
           MSG=>"No value for '$What' in Config.pm found!"
