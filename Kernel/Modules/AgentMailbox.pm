@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.21 2003-09-28 13:53:55 martin Exp $
+# $Id: AgentMailbox.pm,v 1.22 2003-10-08 23:13:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,9 +49,18 @@ sub Run {
     my $SortBy = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'CreateTime';
     my $OrderBy = $Self->{ParamObject}->GetParam(Param => 'OrderBy') || 'Up';
 
-    # --
     # store last screen
-    # --
+    if (!$Self->{SessionObject}->UpdateSessionID(
+      SessionID => $Self->{SessionID},
+      Key => 'LastScreen',
+      Value => $Self->{RequestedURL},
+    )) {
+      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error();
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }  
+    # store last queue screen
     if (!$Self->{SessionObject}->UpdateSessionID(
       SessionID => $Self->{SessionID},
       Key => 'LastScreenQueue',
