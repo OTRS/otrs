@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.70 2002-12-25 09:27:39 martin Exp $
+# $Id: Agent.pm,v 1.71 2002-12-27 18:37:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -38,20 +38,20 @@ sub NavigationBar {
     # --
     # check lock count
     # --
-    my %LockData = %{$Param{LockData}};
-    $Param{LockCount} = $LockData{Count} || 0;
-    $Param{LockToDo} = $LockData{ToDo} || 0;
-    if ($LockData{ToDo}) {
+    foreach (keys %{$Param{LockData}}) {
+        $Param{$_} = $Param{LockData}->{$_} || 0; 
+    }
+    if ($Param{New}) {
         $Output .= $Self->Notify(
           Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New">'.
-            $Self->{LanguageObject}->Get('You have %s new message(s)!", "'.$LockData{ToDo}).'</a>'
+            $Self->{LanguageObject}->Get('You have %s new message(s)!", "'.$Param{New}).'</a>'
         );
     }
-    if ($LockData{OverTime}) {
+    if ($Param{Reminder}) {
         $Output .= $Self->Notify(
           Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Reminder">'.
            $Self->{LanguageObject}->Get('You have %s reminder ticket(s)!", "'.
-           $LockData{OverTime}).'</a>',
+           $Param{Reminder}).'</a>',
         );
     }
     # create & return output
@@ -1133,24 +1133,15 @@ sub AgentMailboxTicket {
     my $Self = shift;
     my %Param = @_;
     # --
-    # put all tickets to ToDo where last sender type is customer or ! UserID
+    # 
     # --
-    if ($Param{ViewType} eq 'New' && 
-           ($Param{LastSenderID} eq $Param{UserID} && $Param{LastSenderType} ne 'customer')) {
-        return '';
-    }
-    if ($Param{LastSenderID} ne $Param{UserID} || $Param{LastSenderType} eq 'customer') {
-        $Param{Message} = $Self->{LanguageObject}->Get('New message!').' ';
-    }
+    $Param{Message} = $Self->{LanguageObject}->Get($Param{Message}).' ';
     # --
     # check if the pending ticket is Over Time
     # --
     if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
         $Param{Message} .= $Self->{LanguageObject}->Get('Over Time').' '.
           $Self->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
-    }
-    elsif ($Param{ViewType} eq 'Reminder') {
-        return '';
     }
     # --
     # create PendingUntil string if UntilTime is < -1
@@ -1178,6 +1169,21 @@ sub AgentMailboxTicket {
     # create & return output
     # --
     return $Self->Output(TemplateFile => 'AgentMailboxTicket', Data => \%Param);
+}
+# --
+sub AgentMailboxNavBar {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check lock count
+    # --
+    foreach (keys %{$Param{LockData}}) {
+        $Param{$_} = $Param{LockData}->{$_} || 0;
+    }
+    # --
+    # create & return output
+    # --
+    return $Self->Output(TemplateFile => 'AgentMailboxNavBar', Data => \%Param);
 }
 # --
 sub AgentHistory {
