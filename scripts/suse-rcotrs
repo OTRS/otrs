@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.14 2002-06-15 17:10:28 martin Exp $
+# $Id: suse-rcotrs,v 1.15 2002-06-24 12:50:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -222,7 +222,7 @@ case "$1" in
       # start cron stuff
       # --
       if test $CRON_RUNNING -gt 0; then
-        if mkdir -p CRON_DIR; cat $CRON_DIR/* > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE ; then
+        if mkdir -p $CRON_DIR; cat $CRON_DIR/* > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE ; then
           echo " Creating cronjobs (source $CRON_DIR/*) ... done."
           rc_status
         else
