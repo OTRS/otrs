@@ -2,7 +2,7 @@
 # User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.3 2002-04-13 11:12:29 martin Exp $
+# $Id: User.pm,v 1.4 2002-05-04 20:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -27,7 +27,11 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach ('DBObject', 'ConfigObject') {
+    foreach (
+       'DBObject', 
+       'ConfigObject',
+       'LogObject',
+    ) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -115,8 +119,8 @@ sub SetPreferences {
     my $Self = shift;
     my %Param = @_;
     my $UserID = $Param{UserID} || return;
-    my $Key = $Param{Key};
-    my $Value = $Param{Value};
+    my $Key = $Param{Key} || return;
+    my $Value = $Param{Value} || '';
 
     # delete old data
     if (!$Self->{DBObject}->Do(
@@ -179,28 +183,38 @@ sub GetUserData {
     my $Self = shift;
     my %Param = @_;
     my $User = $Param{User};
+    my $UserID = $Param{UserID};
     my %Data;
     
     # --
     # get inital data
     # --
-    my $SQL = "SELECT su.$Self->{UserTableUserID}, su.salutation, su.first_name, su.last_name ".
+    my $SQL = "SELECT $Self->{UserTableUserID}, $Self->{UserTableUser}, ".
+        " salutation, first_name, last_name, $Self->{UserTableUserPW}, valid_id ".
         " FROM " .
-        " $Self->{UserTable} as su " .
-        " WHERE " .
-        " su.$Self->{UserTableUser} = '$User'";
+        " $Self->{UserTable} " .
+        " WHERE ";
+    if ($User) {
+        $SQL .= " $Self->{UserTableUser} = '$User'";
+    }
+    else {
+        $SQL .= " $Self->{UserTableUserID} = '$UserID'";
+    }
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Data{UserID} = $RowTmp[0];
-        $Data{UserLogin} = $User;
-        $Data{UserFirstname} = $RowTmp[2];
-        $Data{UserLastname} = $RowTmp[3];
+        $Data{UserLogin} = $RowTmp[1];
+        $Data{UserSalutation} = $RowTmp[2];
+        $Data{UserFirstname} = $RowTmp[3];
+        $Data{UserLastname} = $RowTmp[4];
+        $Data{UserPw} = $RowTmp[5];
+        $Data{ValidID} = $RowTmp[6];
     }
     # --
     # check data
     # --
-    if (! exists $Data{UserID}) {
+    if (! exists $Data{UserID} && ! $UserID) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
           MSG => "Panic! No UserData for user: '$User'!!!",
@@ -216,6 +230,145 @@ sub GetUserData {
     return (%Data, %Preferences);
 }
 # --
+sub UserAdd {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # qoute params
+    # -- 
+    my $UserParamsTmp = $Self->{ConfigObject}->{UserPreferencesMaskUse};
+    foreach (my @UserParams = @$UserParamsTmp) {
+       $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    $Param{Pw} = crypt($Param{Pw}, $Param{Login});
+    my $SQL = "INSERT INTO $Self->{UserTable} " .
+       "(salutation, " .
+       " first_name, " .
+       " last_name, " .
+       " $Self->{UserTableUser}, " .
+       " $Self->{UserTableUserPW}, " .
+       " valid_id, create_time, create_by, change_time, change_by)" .
+       " VALUES " .
+       " ('$Param{Salutation}', " .
+       " '$Param{Fristname}', " .
+       " '$Param{Lastname}', " .
+       " '$Param{Login}', " .
+       " '$Param{Pw}', " .
+       " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
+       " current_timestamp, $Param{UserID})";
 
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # --
+      # get new user id
+      # --
+      $SQL = "SELECT $Self->{UserTableUserID} ".
+        " FROM " .
+        " $Self->{UserTable} " .
+        " WHERE " .
+        " $Self->{UserTableUser} = '$Param{Login}'";
+      my $UserID = '';
+      $Self->{DBObject}->Prepare(SQL => $SQL);
+      while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $UserID = $RowTmp[0];
+      }
+      # --
+      # log notice
+      # --
+      $Self->{LogObject}->Log(
+          Priority => 'notice',
+          Message => "User: '$Param{Login}' ID: '$UserID' created successfully ($Param{UserID})!",
+      );
+
+      return $UserID; 
+    }
+    else {
+        return;
+    }
+}
+# --
+sub UserUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # qoute params
+    # -- 
+    my $UserParamsTmp = $Self->{ConfigObject}->{UserPreferencesMaskUse};
+    foreach (my @UserParams = @$UserParamsTmp) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $Param{$_} = '' if (!exists $Param{$_});
+    }
+
+    # get old pw
+    my %UserData = $Self->GetUserData(UserID => $Param{ID});
+        # --
+        # check pw
+        # --
+        my $GetPw = $UserData{UserPw} || '';
+        if ($GetPw ne $Param{Pw}) {
+            $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
+        }
+
+        # -- 
+        # update db
+        # --
+        my $SQL = "UPDATE $Self->{UserTable} SET " .
+        " salutation = '$Param{Salutation}', " .
+        " first_name = '$Param{Fristname}'," .
+        " last_name = '$Param{Lastname}', " .
+        " $Self->{UserTableUser} = '$Param{Login}', " .
+        " valid_id = $Param{ValidID}, " .
+        " change_time = current_timestamp, " .
+        " change_by = $Param{UserID} " .
+        " WHERE $Self->{UserTableUserID} = $Param{ID}";
+  
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # --
+        # log notice
+        # --
+        $Self->{LogObject}->Log(
+          Priority => 'notice',
+          Message => "User: '$Param{Login}' updated successfully ($Param{UserID})!",
+        );
+        return 1;
+    }
+    else {
+        return; 
+    }
+}   
+# --
+sub SetPassword {
+    my $Self = shift;
+    my %Param = @_;
+    my $Pw = $Param{PW} || '';
+    my $UserLogin = $Param{UserLogin} || return;
+
+    # --
+    # crypt pw
+    # --    
+    my $NewPw = crypt($Pw, $UserLogin);
+    # --
+    # update db
+    # --
+    if ($Self->{DBObject}->Do(
+            SQL => "UPDATE $Self->{UserTable} ".
+               " SET ".
+               " $Self->{UserTableUserPW} = '$NewPw' ".
+               " WHERE ".
+               " $Self->{UserTableUser} = '$UserLogin'",
+    )) {
+        # --
+        # log notice
+        # --
+        $Self->{LogObject}->Log(
+          Priority => 'notice',
+          Message => "User: '$UserLogin' changed password successfully!",
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
 
 1;
