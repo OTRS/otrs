@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.35 2003-03-28 18:47:56 martin Exp $
+# $Id: AgentPhone.pm,v 1.36 2003-04-08 21:40:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,7 +53,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $QueueID = $Self->{QueueID};
     my $NextScreen = $Self->{NextScreen} || 'AgentZoom';
     my $UserLogin = $Self->{UserLogin};
     
@@ -69,10 +68,37 @@ sub Run {
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --
+            # get split article if given
+            # --
+            # get ArticleID
+            my $ArticleID = $Self->{ParamObject}->GetParam(Param => 'ArticleID'); 
+            my %Article = ();
+            my %CustomerData = ();
+            if ($ArticleID) {
+                %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleID);
+                my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+                $Article{Subject} =~ s/\[${TicketHook}:\s*\d+\](\s|)//;
+                # --
+                # show customer info
+                # --
+                if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
+                  if ($Article{CustomerUserID}) {
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                         User => $Article{CustomerUserID},
+                    );
+                  }
+                  elsif ($Article{CustomerID}) {
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        CustomerID => $Article{CustomerID},
+                    );
+                  }
+                }
+            }
+            # --
             # html output
             # --
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
-              QueueID => $QueueID,
+              QueueID => $Self->{QueueID},
               NextScreen => $NextScreen,
               NextStates => $Self->_GetNextStates(),
               Priorities => $Self->_GetPriorities(), 
@@ -80,6 +106,13 @@ sub Run {
               Body => '$Text{"$Config{"PhoneDefaultNewNoteText"}"}',
               Subject => '$Config{"PhoneDefaultNewSubject"}',
               To => $Self->_GetTos(),
+              From => $Article{From},
+              Subject => $Article{Subject},
+              Body => $Article{Body},
+              CustomerID => $Article{CustomerID},
+              CustomerUser => $Article{CustomerUserID},
+              CustomerData => \%CustomerData,
+
            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -168,7 +201,7 @@ sub Run {
         # --
         $Output .= $Self->{LayoutObject}->AgentPhone(
             TicketID => $Self->{TicketID},
-            QueueID => $QueueID,
+            QueueID => $Self->{QueueID},
             NextScreen => $NextScreen,
             TicketNumber => $Tn,
             NextStates => $Self->_GetNextStates(),
@@ -255,7 +288,7 @@ sub Run {
          # redirect to zoom view
          # --        
          return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$NextScreen&QueueID=$QueueID&TicketID=$Self->{TicketID}",
+            OP => "Action=$NextScreen&QueueID=$Self->{QueueID}&TicketID=$Self->{TicketID}",
          );
       }
       else {
@@ -388,7 +421,7 @@ sub Run {
             # html output
             # --
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
-              QueueID => $QueueID,
+              QueueID => $Self->{QueueID},
               NextScreen => $NextScreen,
               Users => $Self->_GetUsers(),
               UserSelected => $NewUserID,
@@ -528,7 +561,7 @@ sub Run {
           # redirect
           # --
           return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
+            OP => "Action=$NextScreen&QueueID=$Self->{QueueID}&TicketID=$TicketID",
           );
       }
       else {
