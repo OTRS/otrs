@@ -2,7 +2,7 @@
 # AdminUser.pm - to add/update/delete user
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.4 2002-04-13 11:16:23 martin Exp $
+# $Id: AdminUser.pm,v 1.5 2002-05-01 17:31:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $ ';
+$VERSION = '$Revision: 1.5 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -66,8 +66,8 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header(Title => 'User ändern');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data
-        my $SQL = "SELECT salutation, first_name, last_name, login, pw, language_id, " .
-        " charset_id, theme_id, comment, valid_id, create_time, create_by, change_time, change_by" .
+        my $SQL = "SELECT salutation, first_name, last_name, login, pw, " .
+        " comment, valid_id, create_time, create_by, change_time, change_by" .
         " FROM " .
         " user " .
         " WHERE " .
@@ -82,9 +82,6 @@ sub Run {
             Lastname => $Data[2],
             Login => $Data[3],
             Pw => $Data[4],
-            LanguageID => $Data[5],
-            CharsetID => $Data[6],
-            ThemeID => $Data[7],
             Comment => $Data[8],
             ValidID => $Data[9],
             %PreferencesData,
