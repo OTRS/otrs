@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.3 2003-02-08 15:09:40 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.4 2003-03-05 19:42:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,9 +59,15 @@ sub SendAutoResponse {
     # prepare customer realname
     if ($Param{Body} =~ /<OTRS_CUSTOMER_REALNAME>/) {
         # get realname 
-        my $From = $GetParam{From} || '';
-        $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-        $From =~ s/( $)|(  $)//g;
+        my $From = '';
+        if ($Article{CustomerUserID}) {
+            $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Article{CustomerUserID});
+        }
+        if (!$From) {
+            $From = $GetParam{From} || '';
+            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+            $From =~ s/( $)|(  $)//g;
+        }
         $Param{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
     }
 
