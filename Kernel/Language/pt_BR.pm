@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.18 2004-06-15 09:16:34 martin Exp $
+# $Id: pt_BR.pm,v 1.19 2004-08-24 08:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,13 +23,12 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb 10 01:08:31 2004 by 
+    # Last translation Tue Aug 24 10:11:30 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
-    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
@@ -40,8 +39,10 @@ sub Data {
       ' 5 minutes' => ' 5 minutos',
       ' 7 minutes' => ' 7 minutos',
       '(Click here to add)' => '',
+      '...Back' => '',
       '10 minutes' => '10 minutos',
       '15 minutes' => '15 minutos',
+      'Added User "%s"' => '',
       'AddLink' => 'Adicionar link',
       'Admin-Area' => 'Área de Administração',
       'agent' => '',
@@ -49,14 +50,19 @@ sub Data {
       'all' => 'todos',
       'All' => 'Todos',
       'Attention' => 'Atenção',
+      'Back' => 'Retornar',
       'before' => '',
       'Bug Report' => 'Relatório de Erros',
+      'Calendar' => '',
       'Cancel' => 'Cancelar',
       'change' => 'alterar',
       'Change' => 'Alterar',
       'change!' => 'alterar!',
       'click here' => 'clique aqui',
       'Comment' => 'Comentário',
+      'Contract' => '',
+      'Crypt' => '',
+      'Crypted' => '',
       'Customer' => 'Cliente',
       'customer' => '',
       'Customer Info' => 'Informáção do Cliente',
@@ -65,6 +71,7 @@ sub Data {
       'days' => 'dias',
       'description' => 'descrição',
       'Description' => 'Descrição',
+      'Directory' => '',
       'Dispatching by email To: field.' => 'Despachar pelo campo de email To:',
       'Dispatching by selected Queue.' => 'Despachar pela fila selecionada',
       'Don\'t show closed Tickets' => '',
@@ -80,6 +87,37 @@ sub Data {
       'go' => 'ir',
       'go!' => 'ir!',
       'Group' => 'Grupo',
+      'History::AddNote' => 'Added note (%s)',
+      'History::Bounce' => 'Bounced to "%s".',
+      'History::CustomerUpdate' => 'Updated: %s',
+      'History::EmailAgent' => 'Email sent to customer.',
+      'History::EmailCustomer' => 'Added email. %s',
+      'History::FollowUp' => 'FollowUp for [%s]. %s',
+      'History::Forward' => 'Forwarded to "%s".',
+      'History::Lock' => 'Locked ticket.',
+      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
+      'History::Misc' => '%s',
+      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
+      'History::PhoneCallAgent' => 'Agent called customer.',
+      'History::PhoneCallCustomer' => 'Customer called us.',
+      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
+      'History::Remove' => '%s',
+      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
+      'History::SendAnswer' => 'Email sent to "%s".',
+      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
+      'History::SendAutoReject' => 'AutoReject sent to "%s".',
+      'History::SendAutoReply' => 'AutoReply sent to "%s".',
+      'History::SendCustomerNotification' => 'Notification sent to "%s".',
+      'History::SetPendingTime' => 'Updated: %s',
+      'History::StateUpdate' => 'Old: "%s" New: "%s"',
+      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
+      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
+      'History::Unlock' => 'Unlocked ticket.',
+      'History::WebRequestCustomer' => 'Customer request via web.',
       'Hit' => 'Hit',
       'Hits' => 'Hits',
       'hour' => 'hora',
@@ -104,24 +142,30 @@ sub Data {
       'New Article' => '',
       'New message' => 'Nova mensagem',
       'New message!' => 'Nova mensagem!',
+      'Next' => '',
+      'Next...' => '',
       'No' => 'Não',
       'no' => 'nenhuma',
       'No entry found!' => '',
+      'No Permission!' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => '',
       'No suggestions' => 'Sem sugestões',
       'none' => 'nada',
       'none - answered' => 'nada  - respondido',
       'none!' => 'nada!',
       'Normal' => '',
-      'Off' => 'Desligado',
       'off' => 'desligado',
+      'Off' => 'Desligado',
       'On' => 'Ligado',
       'on' => 'ligado',
+      'Online Agent: %s' => '',
+      'Online Customer: %s' => '',
       'Password' => 'Senha',
+      'Passwords dosn\'t match! Please try it again!' => '',
       'Pending till' => 'Gaveta pendente',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Por favor, responda este(s) bilhete(s) para retornar para visão normal da fila!',
       'Please contact your admin' => 'Por favor, contate seu administrador',
       'please do not edit!' => 'Por favor, não edite!',
-      'Please go away!' => '',
       'possible' => 'possível',
       'Preview' => '',
       'QueueView' => 'Fila',
@@ -131,24 +175,31 @@ sub Data {
       'Salutation' => 'Saudação',
       'Session has timed out. Please log in again.' => '',
       'Show closed Tickets' => '',
+      'Sign' => '',
       'Signature' => 'Assinatura',
+      'Signed' => '',
+      'Size' => '',
       'Sorry' => 'Desculpe',
       'Stats' => 'Estatísticas',
       'Subfunction' => 'Sub-função',
       'submit' => 'Enviar',
       'submit!' => 'Enviar!',
       'system' => '',
+      'Take this Customer' => '',
       'Take this User' => '',
       'Text' => 'Texto',
       'The recommended charset for your language is %s!' => 'O conjunto de caracteres recomendado para o seu idioma é %s!',
       'Theme' => 'Tema',
       'There is no account with that login name.' => 'Não existe conta com este nome de usuário',
+      'Ticket Number' => '',
       'Timeover' => 'Tempo esgotado',
       'To: (%s) replaced with database email!' => '',
       'top' => 'início',
+      'Type' => 'Tipo',
       'update' => 'atualizar',
       'Update' => '',
       'update!' => 'atualizar!',
+      'Upload' => '',
       'User' => 'Usuário',
       'Username' => 'Nome de Usuário',
       'Valid' => 'Válido',
@@ -158,8 +209,8 @@ sub Data {
       'Word' => 'Palavra',
       'wrote' => 'escreveu',
       'year(s)' => '',
-      'yes' => 'sim',
       'Yes' => 'Sim',
+      'yes' => 'sim',
       'You got new message!' => 'Você recebeu uma nova mensagem',
       'You have %s new message(s)!' => 'Você tem %s nova(s) mensagem(s)!',
       'You have %s reminder ticket(s)!' => 'Você tem %s bilhete(s) remanescente(s)',
@@ -180,6 +231,7 @@ sub Data {
 
     # Template: AAAPreferences
       'Closed Tickets' => '',
+      'CreateTicket' => '',
       'Custom Queue' => 'Fila Personalizada',
       'Follow up notification' => 'Notificação de continuação',
       'Frontend' => 'Interface',
@@ -201,9 +253,9 @@ sub Data {
       'Select your QueueView refresh time.' => 'Selecione o tempo de atualização das Filas',
       'Select your screen after creating a new ticket.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifique me se um cliente enviar uma continuação e sou o dono do bilhete.',
-      'Send me a notification if a ticket is moved into a custom queue.' => 'Notifique me se um bilhete é movido para uma fila personalizada',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
       'Send me a notification if a ticket is unlocked by the system.' => 'Notifique me se um bilhete é desbloqueado pelo sistema.',
-      'Send me a notification if there is a new ticket in my custom queues.' => 'Notifique me se há um novo bilhete em minhas filas personalizadas.',
+      'Send me a notification if there is a new ticket in "My Queues".' => '',
       'Show closed tickets.' => '',
       'Spelling Dictionary' => '',
       'Ticket lock timeout notification' => 'Notificação de bloqueio por tempo expirado',
@@ -224,6 +276,7 @@ sub Data {
       'Bounce' => 'Devolver',
       'Cc' => 'Cópia ',
       'Close' => 'Fechar',
+      'closed' => '',
       'closed successful' => 'fechado com êxito',
       'closed unsuccessful' => 'fechado sem êxito',
       'Compose' => 'Compôr',
@@ -269,8 +322,8 @@ sub Data {
       'Ticket "%s" created!' => '',
       'To' => 'Para',
       'to open it in a new window.' => 'para abri-lo em uma nova janela.',
-      'unlock' => 'desbloquear',
       'Unlock' => 'Desbloquear',
+      'unlock' => 'desbloquear',
       'very high' => 'muito alto',
       'very low' => 'muito baixo',
       'View' => 'Ver',
@@ -291,10 +344,8 @@ sub Data {
       'Attachment Management' => 'Gerênciamento de Anexos',
 
     # Template: AdminAutoResponseForm
-      'Add auto response' => 'Adicionar uma auto-resposta',
       'Auto Response From' => 'Auto-Resposta De',
       'Auto Response Management' => 'Gerênciamento de Auto-Respostas',
-      'Change auto response settings' => 'Modificar as configurações da auto-resposta',
       'Note' => 'Nota',
       'Response' => 'Resposta',
       'to get the first 20 character of the subject' => 'para obter os 20 primeiros caracteres do assunto',
@@ -303,16 +354,20 @@ sub Data {
       'to get the realname of the sender (if given)' => 'para obter o nome do remetente (se possuir no email)',
       'to get the ticket id of the ticket' => '',
       'to get the ticket number of the ticket' => 'para obter o número do bilhete',
-      'Type' => 'Tipo',
       'Useable options' => 'Opções acessíveis',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gerênciamento de Clientes',
-      'Customer user will be needed to to login via customer panels.' => 'Um cliente é necessário para se conectar pelo painel de clientes',
-      'Select source:' => '',
+      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
+      'Result' => '',
+      'Search' => '',
+      'Search for' => '',
+      'Select Source (for add)' => '',
       'Source' => '',
-
-    # Template: AdminCustomerUserGeneric
+      'The message being composed has been closed.  Exiting.' => 'A mensagem sendo composta foi fechada. Saindo.',
+      'This values are read only.' => '',
+      'This values are required.' => '',
+      'This window must be called from compose window' => 'Esta janela deve ser chamada da janela de composição',
 
     # Template: AdminCustomerUserGroupChangeForm
       'Change %s settings' => 'Modificar %s configurações',
@@ -328,8 +383,6 @@ sub Data {
     # Template: AdminCustomerUserGroupForm
       'Change user <-> group settings' => 'Modificar as configurações de usuários <-> grupos',
 
-    # Template: AdminCustomerUserPreferencesGeneric
-
     # Template: AdminEmail
       'Admin-Email' => 'Email do Admin.',
       'Body' => 'Corpo',
@@ -340,6 +393,55 @@ sub Data {
     # Template: AdminEmailSent
       'Message sent to' => 'Mensagem enviada para',
 
+    # Template: AdminGenericAgent
+      '(e. g. 10*5155 or 105658*)' => '',
+      '(e. g. 234321)' => '',
+      '(e. g. U5150)' => '',
+      '-' => '',
+      'Add Note' => 'Adicionar Nota',
+      'Agent' => '',
+      'and' => '',
+      'CMD' => '',
+      'Customer User Login' => '',
+      'CustomerID' => 'Id.do Cliente',
+      'CustomerUser' => 'Usuário Cliente',
+      'Days' => '',
+      'Delete' => '',
+      'Delete tickets' => '',
+      'Edit' => '',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
+      'GenericAgent' => '',
+      'Hours' => '',
+      'Job-List' => '',
+      'Jobs' => '',
+      'Last run' => '',
+      'Minutes' => '',
+      'Modules' => '',
+      'New Agent' => '',
+      'New Customer' => '',
+      'New Owner' => '',
+      'New Priority' => '',
+      'New Queue' => '',
+      'New State' => '',
+      'New Ticket Lock' => '',
+      'No time settings.' => '',
+      'Param 1' => '',
+      'Param 2' => '',
+      'Param 3' => '',
+      'Param 4' => '',
+      'Param 5' => '',
+      'Param 6' => '',
+      'Save' => '',
+      'Save Job as?' => '',
+      'Schedule' => '',
+      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
+      'Ticket created' => '',
+      'Ticket created between' => '',
+      'Ticket Lock' => '',
+      'TicketFreeText' => '',
+      'Times' => '',
+      'Warning! This tickets will be removed from the database! This tickets are lost!' => '',
+
     # Template: AdminGroupForm
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Crie novos grupos para manipular as permissões de acesso para diferentes grupos de agentes (exemplos: departamento de compras, departamento de suporte, departamento de vendas, etc...).',
       'Group Management' => 'Gerênciamento de Grupos',
@@ -348,6 +450,7 @@ sub Data {
 
     # Template: AdminLog
       'System Log' => 'Registro do Sistema',
+      'Time' => '',
 
     # Template: AdminNavigationBar
       'AdminEmail' => 'Email do Administrador',
@@ -361,12 +464,18 @@ sub Data {
       'Logout' => 'Desconectar-se',
       'Misc' => 'Variedades',
       'Notifications' => '',
+      'PGP Keys' => '',
       'PostMaster Filter' => '',
       'PostMaster POP3 Account' => 'PostMaster Conta POP3',
       'Responses' => 'Respostas',
       'Responses <-> Queue' => 'Respostas <-> Filas',
+      'Role' => '',
+      'Role <-> Group' => '',
+      'Role <-> User' => '',
+      'Roles' => '',
       'Select Box' => 'Caixa de Seleção',
       'Session Management' => 'Gerênciamento de Sessões',
+      'SMIME Certificates' => '',
       'Status' => '',
       'System' => 'Sistema',
       'User <-> Groups' => 'Usuários <-> Grupos',
@@ -379,19 +488,34 @@ sub Data {
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
 
+    # Template: AdminPGPForm
+      'Bit' => '',
+      'Expires' => '',
+      'File' => '',
+      'Fingerprint' => '',
+      'FIXME: WHAT IS PGP?' => '',
+      'Identifier' => '',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Key' => 'Chave',
+      'PGP Key Management' => '',
+
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Todos os emails de entrada com uma conta será despachado na fila selecionada!',
       'Dispatching' => 'Despachando',
       'Host' => '',
-      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Se sua conta é confiável, os cabeçalhos x-otrs (para prioridade, ...) serão utilizados!',
-      'Login' => '',
+      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
       'POP3 Account Management' => 'Gerênciamento de Contas POP3',
       'Trusted' => 'Confiável',
 
-    # Template: AdminPostMasterFilterForm
+    # Template: AdminPostMasterFilter
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
+      'Filtername' => '',
+      'Header' => '',
+      'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
       'Match' => '',
-      'PostMasterFilter Management' => '',
+      'PostMaster Filter Management' => '',
       'Set' => '',
+      'Value' => '',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Gerênciamento de Filas <-> Auto-Resposta',
@@ -409,7 +533,6 @@ sub Data {
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Se um bilhete está fechado e um cliente envia uma continuação, este mesmo bilhete será bloqueado para o antigo proprietário.',
       'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Se um bilhete não foi respondido dentro deste tempo, apenas os bilhetes com este tempo vencido serão exibidos.',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Se um agente bloqueia um bilhete e ele não envia uma resposta dentro deste tempo, o bilhete será desbloqueado automaticamente. Então o bilhete será visível para todos os outros agentes.',
-      'Key' => 'Chave',
       'OTRS sends an notification email to the customer if the ticket is moved.' => '',
       'OTRS sends an notification email to the customer if the ticket owner has changed.' => '',
       'OTRS sends an notification email to the customer if the ticket state has changed.' => '',
@@ -427,20 +550,56 @@ sub Data {
 
     # Template: AdminQueueResponsesForm
       'Answer' => 'Resposta',
-      'Change answer <-> queue settings' => 'Modificar as configurações de respostas <-> filas',
 
     # Template: AdminResponseAttachmentChangeForm
       'Std. Responses <-> Std. Attachment Management' => 'Gerênciamento de Respostas Padrões <-> Anexos',
 
     # Template: AdminResponseAttachmentForm
-      'Change Response <-> Attachment settings' => 'Modificar as configurações de Respostas <-> Anexos',
 
     # Template: AdminResponseForm
       'A response is default text to write faster answer (with default text) to customers.' => 'Uma resposta é um texto padrão para compôr respostas rápidas (com texto padrão) para clientes.',
+      'All Customer variables like defined in config option CustomerUser.' => '',
       'Don\'t forget to add a new response a queue!' => 'Não se esqueça de adicionar a nova resposta a uma fila!',
       'Next state' => '',
       'Response Management' => 'Gerênciamento de Respostas',
       'The current ticket state is' => '',
+      'Your email address is new' => '',
+
+    # Template: AdminRoleForm
+      'Create a role and put groups in it. Then add the role to the users.' => '',
+      'It\'s useful for a lot of users and groups.' => '',
+      'Role Management' => '',
+
+    # Template: AdminRoleGroupChangeForm
+      'create' => '',
+      'move_into' => '',
+      'owner' => '',
+      'Permissions to change the ticket owner in this group/queue.' => '',
+      'Permissions to change the ticket priority in this group/queue.' => '',
+      'Permissions to create tickets in this group/queue.' => '',
+      'Permissions to move tickets into this group/queue.' => '',
+      'priority' => '',
+      'Role <-> Group Management' => '',
+
+    # Template: AdminRoleGroupForm
+      'Change role <-> group settings' => '',
+
+    # Template: AdminRoleUserChangeForm
+      'Active' => '',
+      'Role <-> User Management' => '',
+      'Select the role:user relations.' => '',
+
+    # Template: AdminRoleUserForm
+      'Change user <-> role settings' => '',
+
+    # Template: AdminSMIMEForm
+      'Add Certificate' => '',
+      'Add Private Key' => '',
+      'FIXME: WHAT IS SMIME?' => '',
+      'Hash' => '',
+      'In this way you can directly edit the certification and private keys in file system.' => '',
+      'Secret' => '',
+      'SMIME Certificate Management' => '',
 
     # Template: AdminSalutationForm
       'customer realname' => 'Nome do cliente',
@@ -451,23 +610,19 @@ sub Data {
       'Salutation Management' => 'Gerênciamento de Saudações',
 
     # Template: AdminSelectBoxForm
-      'Max Rows' => 'Número máximo de linhas',
-
-    # Template: AdminSelectBoxResult
       'Limit' => 'Limite',
-      'Select Box Result' => 'Selecione a Caixa de Resultado',
       'SQL' => 'SQL',
 
+    # Template: AdminSelectBoxResult
+      'Select Box Result' => 'Selecione a Caixa de Resultado',
+
     # Template: AdminSession
-      'Agent' => '',
       'kill all sessions' => 'Finalizar todas as sessões',
+      'kill session' => 'Finalizar sessão',
       'Overview' => '',
+      'Session' => '',
       'Sessions' => '',
       'Uniq' => '',
-
-    # Template: AdminSessionTable
-      'kill session' => 'Finalizar sessão',
-      'SessionID' => 'Identificação da sessão',
 
     # Template: AdminSignatureForm
       'Signature Management' => 'Gerênciamento de Assinaturas',
@@ -492,27 +647,14 @@ sub Data {
       'User will be needed to handle tickets.' => 'Será necessário um usuário para manipular os bilhetes.',
 
     # Template: AdminUserGroupChangeForm
-      'create' => '',
-      'move_into' => '',
-      'owner' => '',
-      'Permissions to change the ticket owner in this group/queue.' => '',
-      'Permissions to change the ticket priority in this group/queue.' => '',
-      'Permissions to create tickets in this group/queue.' => '',
-      'Permissions to move tickets into this group/queue.' => '',
-      'priority' => '',
       'User <-> Group Management' => 'Gerênciamento de Usuários <-> Grupos',
 
     # Template: AdminUserGroupForm
-
-    # Template: AdminUserPreferencesGeneric
 
     # Template: AgentBook
       'Address Book' => '',
       'Discard all changes and return to the compose screen' => 'Descartar todas as modificações e retornar para a tela de composição',
       'Return to the compose screen' => 'Retornar para a tela de composição',
-      'Search' => '',
-      'The message being composed has been closed.  Exiting.' => 'A mensagem sendo composta foi fechada. Saindo.',
-      'This window must be called from compose window' => 'Esta janela deve ser chamada da janela de composição',
 
     # Template: AgentBounce
       'A message should have a To: recipient!' => 'Uma mensagem deve possuir um To: destinatário!',
@@ -524,17 +666,22 @@ sub Data {
       'You need a email address (e. g. customer@example.com) in To:!' => 'Você precisa de um endereço de email (exemplo: cliente@exemplo.com.br) no To:!',
       'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Seu email com o número de bilhete "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
 
+    # Template: AgentBulk
+      '$Text{"Note!' => '',
+      'A message should have a subject!' => 'Uma mensagem deve conter um assunto!',
+      'Note type' => 'Tipo de nota',
+      'Note!' => 'Nota!',
+      'Options' => 'Opções',
+      'Spell Check' => 'Checar Ortografia',
+      'Ticket Bulk Action' => '',
+
     # Template: AgentClose
       ' (work units)' => ' (unidades de trabalho)',
       'A message should have a body!' => '',
-      'A message should have a subject!' => 'Uma mensagem deve conter um assunto!',
       'Close ticket' => 'Fechar o bilhete',
       'Close type' => 'Tipo de fechamento',
       'Close!' => 'Fechar!',
       'Note Text' => 'Nota',
-      'Note type' => 'Tipo de nota',
-      'Options' => 'Opções',
-      'Spell Check' => 'Checar Ortografia',
       'Time units' => 'Unidades de tempo',
       'You need to account time!' => '',
 
@@ -546,10 +693,10 @@ sub Data {
       'Is the ticket answered' => 'O bilhete foi respondido',
       'Pending Date' => 'Data de Pendência',
 
+    # Template: AgentCrypt
+
     # Template: AgentCustomer
-      'Back' => 'Retornar',
       'Change customer of ticket' => 'Modificar o cliente do bilhete',
-      'CustomerID' => 'Id.do Cliente',
       'Search Customer' => 'Busca do cliente',
       'Set customer user and customer id of a ticket' => '',
 
@@ -565,9 +712,8 @@ sub Data {
 
     # Template: AgentEmailNew
       'All Agents' => '',
-      'Clear From' => '',
+      'Clear To' => '',
       'Compose Email' => '',
-      'Lock Ticket' => '',
       'new ticket' => 'novo bilhete',
 
     # Template: AgentForward
@@ -580,10 +726,17 @@ sub Data {
 
     # Template: AgentFreeText
       'Change free text of ticket' => '',
-      'Value' => '',
 
     # Template: AgentHistoryForm
       'History of' => 'Histórico de',
+
+    # Template: AgentHistoryRow
+
+    # Template: AgentInfo
+      'Info' => 'Informação',
+
+    # Template: AgentLookup
+      'Lookup' => '',
 
     # Template: AgentMailboxNavBar
       'All messages' => 'Todas as mensagens',
@@ -604,23 +757,37 @@ sub Data {
     # Template: AgentMailboxTicket
       '"}' => '',
       '"}","14' => '',
+      'Add a note to this ticket!' => '',
+      'Change the ticket customer!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket priority!' => '',
+      'Close this ticket!' => '',
+      'Shows the detail view of this ticket!' => '',
+      'Unlock this ticket!' => '',
 
     # Template: AgentMove
       'Move Ticket' => '',
-      'New Owner' => '',
-      'New Queue' => '',
       'Previous Owner' => '',
       'Queue ID' => '',
 
     # Template: AgentNavigationBar
+      'Agent Preferences' => '',
+      'Bulk Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Create new Email Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Email-Ticket' => '',
       'Locked tickets' => 'Bilhetes bloqueados',
       'new message' => 'Nova mensagem',
+      'Overview of all open Tickets' => '',
+      'Phone-Ticket' => '',
       'Preferences' => 'Preferências',
-      'Utilities' => 'Utilitários',
+      'Search Tickets' => '',
+      'Ticket selected for bulk action!' => '',
+      'You need min. one selected Ticket!' => '',
 
     # Template: AgentNote
       'Add note to ticket' => 'Adicionar nota ao bilhete',
-      'Note!' => 'Nota!',
 
     # Template: AgentOwner
       'Change owner of ticket' => 'Modificar o proprietário do bilhete',
@@ -629,23 +796,24 @@ sub Data {
     # Template: AgentPending
       'Pending date' => 'Data da pendência',
       'Pending type' => 'Tipo de pendência',
-      'Pending!' => '',
       'Set Pending' => 'Marcar Pendente',
 
     # Template: AgentPhone
-      'Customer called' => 'Cliente chamado',
       'Phone call' => 'Chamada telefônica',
-      'Phone call at %s' => 'Chamada telefônica em %s',
 
     # Template: AgentPhoneNew
+      'Clear From' => '',
 
     # Template: AgentPlain
       'ArticleID' => 'Id.do artigo',
+      'Download' => '',
       'Plain' => 'Texto',
       'TicketID' => 'Id.do Bilhete',
 
     # Template: AgentPreferencesCustomQueue
-      'Select your custom queues' => 'Seleciona sua fila personalizada',
+      'My Queues' => '',
+      'You also get notified about this queues via email if enabled.' => '',
+      'Your queue selection of your favorite queues.' => '',
 
     # Template: AgentPreferencesForm
 
@@ -673,45 +841,28 @@ sub Data {
       'Ticket Status' => 'Estado do Bilhete',
       'U' => 'C',
 
-    # Template: AgentStatusViewTable
-
-    # Template: AgentStatusViewTableNotAnswerd
-
     # Template: AgentTicketLink
+      'Delete Link' => '',
       'Link' => '',
       'Link to' => '',
-      'Delete Link' => '',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Bilhete bloqueado!',
       'Ticket unlock!' => '',
 
     # Template: AgentTicketPrint
-      'by' => 'por',
 
     # Template: AgentTicketPrintHeader
       'Accounted time' => 'Tempo contabilizado',
       'Escalation in' => 'Escalado em',
 
     # Template: AgentUtilSearch
-      '(e. g. 10*5155 or 105658*)' => '',
-      '(e. g. 234321)' => '',
-      '(e. g. U5150)' => '',
-      'and' => '',
-      'Customer User Login' => '',
-      'Delete' => '',
-      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
-      'No time settings.' => '',
       'Profile' => '',
       'Result Form' => '',
       'Save Search-Profile as Template?' => '',
       'Search-Template' => '',
       'Select' => '',
-      'Ticket created' => '',
-      'Ticket created between' => '',
       'Ticket Search' => '',
-      'TicketFreeText' => '',
-      'Times' => '',
       'Yes, save it with name' => '',
 
     # Template: AgentUtilSearchByCustomerID
@@ -719,25 +870,15 @@ sub Data {
       'Customer history search (e. g. "ID342425").' => 'Busca no Histórico do cliente (exemplo: "ID342425")',
       'No * possible!' => 'Não são possíveis *!',
 
-    # Template: AgentUtilSearchNavBar
+    # Template: AgentUtilSearchResult
       'Change search options' => '',
       'Results' => 'Resultados',
       'Search Result' => '',
       'Total hits' => 'Total de acertos',
 
-    # Template: AgentUtilSearchResult
-      '"}","15' => '',
-
     # Template: AgentUtilSearchResultPrint
 
-    # Template: AgentUtilSearchResultPrintTable
-      '"}","30' => '',
-
     # Template: AgentUtilSearchResultShort
-
-    # Template: AgentUtilSearchResultShortTable
-
-    # Template: AgentUtilSearchResultShortTableNotAnswered
 
     # Template: AgentUtilTicketStatus
       'All closed tickets' => '',
@@ -764,20 +905,33 @@ sub Data {
       'Change queue' => 'Modificar Fila',
 
     # Template: AgentZoomHead
+      'Change the ticket free fields!' => '',
       'Free Fields' => '',
+      'Link this ticket to an other one!' => '',
+      'Lock it to work on it!' => '',
       'Print' => 'Imprimir',
+      'Print this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Shows the ticket history!' => '',
 
     # Template: AgentZoomStatus
       '"}","18' => '',
+      'Locked' => '',
+      'SLA Age' => '',
+
+    # Template: Copyright
+      'printed by' => 'impresso por',
+
+    # Template: CustomerAccept
 
     # Template: CustomerCreateAccount
       'Create Account' => 'Criar Conta',
+      'Login' => '',
 
     # Template: CustomerError
       'Traceback' => '',
 
     # Template: CustomerFAQArticleHistory
-      'Edit' => '',
       'FAQ History' => '',
 
     # Template: CustomerFAQArticlePrint
@@ -809,15 +963,6 @@ sub Data {
     # Template: CustomerFooter
       'Powered by' => 'Movido à',
 
-    # Template: CustomerHeader
-      'Contact' => 'Contato',
-      'Home' => 'Início',
-      'Online-Support' => 'Suporte-Online',
-      'Products' => 'Produtos',
-      'Support' => 'Suporte',
-
-    # Template: CustomerLogin
-
     # Template: CustomerLostPassword
       'Lost your password?' => 'Esqueceu sua senha?',
       'Request new password' => 'Solicitar uma nova senha',
@@ -827,10 +972,11 @@ sub Data {
     # Template: CustomerMessageNew
 
     # Template: CustomerNavigationBar
+      'CompanyTickets' => '',
       'Create new Ticket' => 'Criar um novo bilhete',
       'FAQ' => 'FAQ',
+      'MyTickets' => '',
       'New Ticket' => 'Novo Bilhete',
-      'Ticket-Overview' => 'Resumo do Bilhete',
       'Welcome %s' => 'Bem-vindo %s',
 
     # Template: CustomerPreferencesForm
@@ -840,9 +986,12 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
-      'My Tickets' => 'Meus Bilhetes',
 
-    # Template: CustomerStatusViewTable
+    # Template: CustomerTicketSearch
+
+    # Template: CustomerTicketSearchResultPrint
+
+    # Template: CustomerTicketSearchResultShort
 
     # Template: CustomerTicketZoom
 
@@ -856,9 +1005,10 @@ sub Data {
       'You really want to delete this article?' => '',
 
     # Template: FAQArticleForm
+      'A article should have a title!' => '',
       'Comment (internal)' => '',
       'Filename' => '',
-      'Short Description' => '',
+      'Title' => '',
 
     # Template: FAQArticleHistory
 
@@ -868,8 +1018,11 @@ sub Data {
 
     # Template: FAQArticleView
 
+    # Template: FAQArticleViewSmall
+
     # Template: FAQCategoryForm
       'FAQ Category' => '',
+      'Name is required!' => '',
 
     # Template: FAQLanguageForm
       'FAQ Language' => '',
@@ -882,13 +1035,10 @@ sub Data {
 
     # Template: FAQSearchResult
 
-    # Template: FAQStateForm
-      'FAQ State' => '',
-
     # Template: Footer
       'Top of Page' => '',
 
-    # Template: Header
+    # Template: FooterSmall
 
     # Template: InstallerBody
       'Create Database' => '',
@@ -949,21 +1099,15 @@ sub Data {
       'Use utf-8 it your database supports it!' => '',
       'Webfrontend' => 'Interface Web',
 
-    # Template: Login
-
     # Template: LostPassword
 
     # Template: NoPermission
       'No Permission' => 'Sem Permissão',
 
     # Template: Notify
-      'Info' => 'Informação',
 
     # Template: PrintFooter
       'URL' => 'URL',
-
-    # Template: PrintHeader
-      'printed by' => 'impresso por',
 
     # Template: QueueView
       'All tickets' => 'Todos bilhetes',
@@ -973,7 +1117,6 @@ sub Data {
       'Tickets shown' => 'Bilhetes mostrados',
 
     # Template: SystemStats
-      'Graphs' => 'Gráficos',
 
     # Template: Test
       'OTRS Test Page' => 'Página de Teste do OTRS',
@@ -984,77 +1127,79 @@ sub Data {
     # Template: TicketView
 
     # Template: TicketViewLite
-      'Add Note' => 'Adicionar Nota',
 
     # Template: Warning
 
+    # Template: css
+      'Home' => 'Início',
+
+    # Template: customer-css
+      'Contact' => 'Contato',
+      'Online-Support' => 'Suporte-Online',
+      'Products' => 'Produtos',
+      'Support' => 'Suporte',
+
     # Misc
+      '"}","15' => '',
+      '"}","30' => '',
       'A message should have a From: recipient!' => 'Uma mensagem deve conter um From: remetente!',
+      'Add auto response' => 'Adicionar uma auto-resposta',
       'AgentFrontend' => 'Interface do Agente',
       'Article free text' => 'Texto livre do artigo',
+      'Change Response <-> Attachment settings' => 'Modificar as configurações de Respostas <-> Anexos',
+      'Change answer <-> queue settings' => 'Modificar as configurações de respostas <-> filas',
+      'Change auto response settings' => 'Modificar as configurações da auto-resposta',
       'Charset' => 'Conjunto de Caracteres',
       'Charsets' => 'Conjunto de Caracteres',
       'Create' => 'Criar',
-      'CustomerUser' => 'Usuário Cliente',
+      'Customer called' => 'Cliente chamado',
+      'Customer user will be needed to to login via customer panels.' => 'Um cliente é necessário para se conectar pelo painel de clientes',
+      'FAQ State' => '',
       'Fulltext search' => 'Busca completa de texto',
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Busca completa em todo texto (exemplo: "Mar*in" ou "Constru*" ou "martin+bonjour")',
+      'Graphs' => 'Gráficos',
       'Handle' => 'Manipular',
+      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Se sua conta é confiável, os cabeçalhos x-otrs (para prioridade, ...) serão utilizados!',
+      'Lock Ticket' => '',
+      'Max Rows' => 'Número máximo de linhas',
+      'My Tickets' => 'Meus Bilhetes',
       'New state' => 'Novo estado',
       'New ticket via call.' => 'Novo bilhete via chamada telefônica.',
       'New user' => 'Novo usuário',
+      'Pending!' => '',
+      'Phone call at %s' => 'Chamada telefônica em %s',
+      'Please go away!' => '',
+      'PostMasterFilter Management' => '',
       'Screen after new phone ticket' => '',
       'Search in' => 'Buscar em',
+      'Select source:' => '',
+      'Select your custom queues' => 'Seleciona sua fila personalizada',
       'Select your screen after creating a new ticket via PhoneView.' => '',
+      'Send me a notification if a ticket is moved into a custom queue.' => 'Notifique me se um bilhete é movido para uma fila personalizada',
+      'Send me a notification if there is a new ticket in my custom queues.' => 'Notifique me se há um novo bilhete em minhas filas personalizadas.',
+      'SessionID' => 'Identificação da sessão',
       'Set customer id of a ticket' => 'Definir a identificação do cliente de um bilhete',
+      'Short Description' => '',
       'Show all' => 'Mostrar todos os',
       'Status defs' => 'Estados',
       'System Charset Management' => 'Gerênciamento de Conjunto de Caracteres do Sistema',
       'System Language Management' => 'Gerênciamento de Idiomas do Sistema',
       'Ticket free text' => 'Texto livre do bilhete',
       'Ticket limit:' => 'Limite do Bilhete:',
+      'Ticket-Overview' => 'Resumo do Bilhete',
       'Time till escalation' => 'Tempo para escalação',
+      'Utilities' => 'Utilitários',
       'With State' => 'Com Estado',
       'You have to be in the admin group!' => 'Você tem que estar no grupo admin!',
       'You have to be in the stats group!' => 'Você tem que estar no grupo stats!',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Você precisa de um endereço de email (ex:cliente@exemplo.com.br) no From:!',
       'auto responses set' => 'auto-respostas ativadas',
+      'by' => 'por',
       'search' => 'buscar',
       'search (e. g. 10*5155 or 105658*)' => 'buscar (exemplo: 1055155 ou 105658*)',
       'store' => 'armazenar',
       'tickets' => 'bilhetes',
       'valid' => 'válido',
-
-      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
-      'History::FollowUp' => 'FollowUp for [%s]. %s',
-      'History::SendAutoReject' => 'AutoReject sent to "%s".',
-      'History::SendAutoReply' => 'AutoReply sent to "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
-      'History::Forward' => 'Forwarded to "%s".',
-      'History::Bounce' => 'Bounced to "%s".',
-      'History::SendAnswer' => 'Email sent to "%s".',
-      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
-      'History::SendCustomerNotification' => 'Notification sent to "%s".',
-      'History::EmailAgent' => 'Email sent to customer.',
-      'History::EmailCustomer' => 'Added email. %s',
-      'History::PhoneCallAgent' => 'Agent called customer.',
-      'History::PhoneCallCustomer' => 'Customer called us.',
-      'History::AddNote' => 'Added note (%s)',
-      'History::Lock' => 'Locked ticket.',
-      'History::Unlock' => 'Unlocked ticket.',
-      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
-      'History::Remove' => '%s',
-      'History::CustomerUpdate' => 'Updated: %s',
-      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
-      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
-      'History::Misc' => '%s',
-      'History::SetPendingTime' => 'Updated: %s',
-      'History::StateUpdate' => 'Old: "%s" New: "%s"',
-      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
-      'History::WebRequestCustomer' => 'Customer request via web.',
-      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
-      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
     );
 
     # $$STOP$$
