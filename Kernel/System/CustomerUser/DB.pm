@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.2 2002-12-07 21:03:42 martin Exp $
+# $Id: DB.pm,v 1.3 2002-12-18 17:26:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,10 @@
 package Kernel::System::CustomerUser::DB;
 
 use strict;
-#use Email::Valid;
+use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -37,6 +37,8 @@ sub new {
     # --
     $Self->{CustomerTable} = $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{Table} 
       || die "Got not customer table!";
+
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     
     return $Self;
 }
@@ -156,13 +158,11 @@ sub CustomerUserAdd {
     # --
     # check email address
     # --
-    if (!Email::Valid->address( 
-        -address => $Param{UserEmail}, 
-        -mxcheck => $Self->{ConfigObject}->Get('CustomerPanelMXCheck') || 1,
-     )) {
+    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CkeckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error', 
-            Message => "Email address ($Param{Email}) not valid ($Email::Valid::Details)!",
+            Message => "Email address ($Param{UserEmail}) not valid (".
+              $Self->{CheckItemObject}->CheckError().")!",
         );
         return;
     }
@@ -221,13 +221,11 @@ sub CustomerUserUpdate {
     # --
     # check email address
     # --
-    if (!Email::Valid->address( 
-        -address => $Param{UserEmail}, 
-        -mxcheck => $Self->{ConfigObject}->Get('CustomerPanelMXCheck') || 1,
-     )) {
+    if ($Param{UserEmail} && !$Self->{CheckItemObject}->CkeckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error', 
-            Message => "Email address ($Param{Email}) not valid ($Email::Valid::Details)!",
+            Message => "Email address ($Param{UserEmail}) not valid (".
+                $Self->{CheckItemObject}->CheckError().")!",
         );
         return;
     }
