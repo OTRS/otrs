@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.21 2003-02-08 15:09:38 martin Exp $
+# $Id: Queue.pm,v 1.22 2003-02-25 18:47:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -452,6 +452,15 @@ sub QueueAdd {
       $Param{$_} = $Self->{ConfigObject}{QueueDefaults}{$_} || 0  unless ($Param{$_});
    };
 
+   # --
+   # check needed stuff
+   # --
+   foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID)) {
+      if (!$Param{$_}) { 
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+   }
 
    my $SQL = "INSERT INTO queue ".
        "(name, ".
