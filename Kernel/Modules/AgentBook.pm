@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBook.pm - spelling module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBook.pm,v 1.4 2004-03-11 22:09:16 martin Exp $
+# $Id: AgentBook.pm,v 1.5 2004-03-24 15:42:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,12 +67,12 @@ sub Run {
         $AddressList{$CustomerUserData{UserEmail}} = $CustomerUserList{$_};
     }
     # start with page ...
-    $Output .= $Self->{LayoutObject}->Header(Title => 'Address Book');
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Address Book', Type => 'Small');
     $Output .= $Self->_Mask(
         List => \%AddressList,
         %Param,
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer(Type => 'Small');
     return $Output;
 }
 # --
