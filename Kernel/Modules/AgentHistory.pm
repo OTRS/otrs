@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.15 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentHistory.pm,v 1.16 2004-04-15 08:35:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,9 +46,7 @@ sub Run {
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-      # --
       # error page
-      # --
       $Output = $Self->{LayoutObject}->Header(Title => 'Error');
       $Output .= $Self->{LayoutObject}->Error(
           Message => "Can't show history, no TicketID is given!",
@@ -64,9 +62,7 @@ sub Run {
         Type => 'ro',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     # -- 
@@ -77,32 +73,11 @@ sub Run {
     # build NavigationBar 
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
-    my @Lines;
+    my @Lines = $Self->{TicketObject}->HistoryGet(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID},
+    );
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
-    my $SQL = "SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ".
-        " ht.name, su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
-        " FROM ".
-        " ticket_history sh, ticket_history_type ht, ".
-        " $Self->{ConfigObject}->{DatabaseUserTable} su ".
-        " WHERE ".
-        " sh.ticket_id = $Self->{TicketID} ".
-        " AND ".
-        " ht.id = sh.history_type_id".
-        " AND ".
-        " sh.create_by = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}".
-        " ORDER BY sh.id";
-#        " ORDER BY create_time";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
-          my %Data;
-          $Data{TicketID} = $Self->{TicketID};
-          $Data{ArticleID} = $Row[1]; 
-          $Data{Name} = $Row[0];
-          $Data{CreateBy} = $Row[5];
-          $Data{CreateTime} = $Row[2]; 
-          $Data{HistoryType} = $Row[4];
-          push (@Lines, \%Data);
-    }
     # get shown user info
     my @NewLines = ();
     my $Table = '';
@@ -110,26 +85,26 @@ sub Run {
         my %Data = %{$DataTmp};
         # replace text 
         if ($Data{Name} && $Data{Name} =~ /^%%/) {
-print STDERR "lll $Data{Name}\n";
+#print STDERR "lll $Data{Name} - $Data{HistoryType}\n";
             my %Info = ();
-            my @Values = split(/\%\%/, $Data{Name});
+            $Data{Name} =~ s/^%%//g;
+            my @Values = split(/%%/, $Data{Name});
+            $Data{Name} = '';
             foreach (@Values) {
-                my @Value = split(/\$\$/, $_);
-                $Info{$Value[0]} = $Value[1];
-print STDERR "rrrr $Value[0] - $Value[1]\n";
+                if ($Data{Name}) {
+                    $Data{Name} .= "\", ";
+                }
+                $Data{Name} .= "\"$_";
             }
-            $Data{Name} = $Self->{LayoutObject}->Output(
-                Template => "\$Text{\"HistoryType::$Data{HistoryType}\"}",
-                Data => { %Info },
-            );
+            if (!$Data{Name}) {
+                $Data{Name} = '" ';
+            }
+#print STDERR "asdasd $Data{Name} asd \n";
+            $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get('History::'.$Data{HistoryType}.'", '.$Data{Name});
         }
-        my %UserInfo = $Self->{UserObject}->GetUserData(
-            User => $Data{CreateBy}, 
-            Cached => 1
-        );
         $Table .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentHistoryRow', 
-            Data => {%Data, %UserInfo},
+            Data => {%Data},
         );
     }
     # get output
