@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.37 2003-07-07 22:05:25 martin Exp $
+# $Id: AgentQueueView.pm,v 1.38 2003-07-08 00:02:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -218,8 +218,6 @@ sub ShowTicket {
     }
     # fetch all std. responses ...
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $TicketQueueID);
-    # get article
-    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
     # get last article
     my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID); 
     # --
@@ -227,14 +225,14 @@ sub ShowTicket {
     # --
     my %CustomerData = (); 
     if ($Self->{ConfigObject}->Get('ShowCustomerInfoQueue')) {
-        if ($Ticket{CustomerUserID}) { 
+        if ($Article{CustomerUserID}) { 
             %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $Ticket{CustomerUserID},
+                User => $Article{CustomerUserID},
             );
         }
-        elsif ($Ticket{CustomerID}) { 
+        elsif ($Article{CustomerID}) { 
             %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                CustomerID => $Ticket{CustomerID},
+                CustomerID => $Article{CustomerID},
             );
         }
     }
@@ -252,39 +250,44 @@ sub ShowTicket {
     # --
     # prepare escalation time
     # --
-    if ($Ticket{Answered}) {
-      $Param{TicketOverTime} = '$Text{"none - answered"}';
+print STDERR "$Article{Answered} ... $Article{UntilTime} ..\n";
+    if ($Article{Answered}) {
+      $Param{UntilTime} = '$Text{"none - answered"}';
     }
-    elsif ($Ticket{TicketOverTime}) {
+    elsif ($Article{UntilTime}) {
       $Param{TicketOverTimeSuffix} = '';
       # colloring  
       $Param{TicketOverTimeFont} = '';
       $Param{TicketOverTimeFontEnd} = '';
-      if ($Ticket{TicketOverTime} <= -60*20) {
+      if ($Article{TicketOverTime} <= -60*20) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
-      elsif ($Ticket{TicketOverTime} <= -60*40) {
+      elsif ($Article{UntilTime} <= -60*40) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
       # create string
-      $Ticket{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
-          Age => $Ticket{TicketOverTime},
+      $Article{UntilTime} = $Self->{LayoutObject}->CustomerAge(
+          Age => $Article{UntilTime},
           Space => '<br>',
       );
-      $Ticket{TicketOverTime} = $Param{TicketOverTimeFont}.
-        $Ticket{TicketOverTime}.$Param{TicketOverTimeFontEnd};
+      $Article{UntilTime} = $Param{TicketOverTimeFont}.
+        $Article{UntilTime}.$Param{TicketOverTimeFontEnd};
     }
     else {
-      $Ticket{TicketOverTime} = '$Text{"none"}';
+      $Article{UntilTime} = '$Text{"none"}';
     }
-    # --
     # customer info string 
-    # --
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
         Data => \%CustomerData,
         Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
+    );
+    # get StdResponsesStrg
+    $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
+        StdResponsesRef => \%StdResponses,
+        TicketID => $Article{TicketID},
+        ArticleID => $Article{ArticleID},
     );
     # --
     # check if just a only html email
@@ -320,7 +323,7 @@ sub ShowTicket {
             SelectedID => $Param{QueueID},
         );
     }
-    if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Ticket{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+    if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
         $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentZoomAgentIsCustomer',
             Data => \%Param,
@@ -336,13 +339,13 @@ sub ShowTicket {
     if (!$Self->{UserQueueView} || $Self->{UserQueueView} ne 'TicketViewLite') {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'TicketView', 
-            Data => {%Param, %Ticket, %Article},
+            Data => {%Param, %Article},
         );
     }
     else {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'TicketViewLite', 
-            Data => {%Param, %Ticket, %Article},
+            Data => {%Param, %Article},
         );
     }
 }
