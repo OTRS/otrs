@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.7 2003-03-11 18:34:34 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.8 2003-03-13 09:48:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,6 +42,27 @@ sub SendAutoResponse {
             $GetParam{$_} = $Article{$_} || '';
         }
         chomp $GetParam{$_};
+    }
+    # --
+    # check reply to for auto response recipient
+    # --
+    if ($GetParam{ReplyTo}) {
+        $GetParam{From} = $GetParam{ReplyTo};
+    }
+    # --
+    # check if sender is e. g. MAILDER-DAEMON or Postmaster
+    # --
+    my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
+    if ($GetParam{From} =~ /$NoAutoRegExp/i) {
+        # --
+        # log
+        # --
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Sent not auto reply to '$GetParam{From}' because config".
+             " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) is matching!",
+        );
+        return 1;
     }
     # --
     # replace all scaned email x-headers with <OTRS_CUSTOMER_X-HEADER>
@@ -83,7 +104,6 @@ sub SendAutoResponse {
         $SubRep =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
         $Param{Body} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$SubRep/g;
     }
-    
     # --
     # Arnold Ligtvoet - otrs@ligtvoet.org
     # get OTRS_EMAIL_DATE from body and replace with received date
@@ -94,13 +114,6 @@ sub SendAutoResponse {
         my $TimeZone = $1;
         $EmailDate .= "($TimeZone)";
         $Param{Body} =~ s/<OTRS_EMAIL_DATE\[.*\]>/$EmailDate/g;
-    }
-
-    # --
-    # check reply to
-    # --
-    if ($GetParam{ReplyTo}) {
-        $GetParam{From} = $GetParam{ReplyTo};
     }
     # --
     # prepare subject (insert old subject)

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.54 2003-03-12 05:43:05 martin Exp $
+# $Id: Defaults.pm,v 1.55 2003-03-13 09:48:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -99,6 +99,9 @@ sub LoadDefaults {
     # MoveType
     # (Show form drop down of show new page of new queues) [form|link]
     $Self->{MoveType} = 'form';
+    $Self->{MoveSetState} = 0;
+    # default move next state
+    $Self->{DefaultNextMoveStateType} = ['new', 'open', 'closed', 'pending auto', 'pending reminder'];
 
     # ChangeOwnerToEveryone -> useful for ASP
     # (Possible to change owner of ticket ot everyone) [0|1]
@@ -677,6 +680,16 @@ $Data{"Signature"}
       'X-OTRS-TicketValue1',
       'X-OTRS-TicketValue2',
     ];
+
+    # --------------------------------------------------- #
+    # Auto Response                                       #
+    # --------------------------------------------------- #
+
+    # SendNoAutoResponseRegExp
+    # (if this regexp is matching on senders From or ReplyTo, not
+    # auto response will be sent)
+    $Self->{SendNoAutoResponseRegExp} = '(MAILDER-DAEMON|postmaster|abuse)@.+?\..+?';
+
 
     # --------------------------------------------------- #
     #                                                     #
