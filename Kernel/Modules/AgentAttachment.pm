@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentAttachment.pm - to get the attachments 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.9 2003-02-08 15:16:29 martin Exp $
+# $Id: AgentAttachment.pm,v 1.10 2003-03-08 08:49:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -89,6 +89,7 @@ sub Run {
         return $Output;
     }
     elsif ($Self->{TicketObject}->Permission(
+        Type => 'ro',
         TicketID => $ArticleData{TicketID},
         UserID => $Self->{UserID})) {
 
