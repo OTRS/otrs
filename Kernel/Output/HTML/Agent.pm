@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.16 2002-04-14 19:06:54 martin Exp $
+# $Id: Agent.pm,v 1.17 2002-04-16 07:09:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -322,6 +322,22 @@ sub AgentPriority {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AgentPriority', Data => \%Param);
+}
+# --
+sub AgentOwner {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build string
+    $Param{'OptionStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{OptionStrg},
+        Selected => $Param{OwnerID},
+        Name => 'NewUserID', 
+        Size => 15,
+    );
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentOwner', Data => \%Param);
 }
 # --
 sub AgentClose {
