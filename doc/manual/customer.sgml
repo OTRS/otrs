@@ -66,6 +66,12 @@ This is an example for a database backend.
     $Self->{CustomerUser} = {
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
+            # if you want to use an external database, add the
+            # required settings 
+#            DSN => 'DBI:odbc:yourdsn',
+#            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
+#            User => '',
+#            Password => '',
             Table => 'customer_user',
         },
         # customer uniq id
