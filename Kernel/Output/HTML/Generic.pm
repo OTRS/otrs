@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.148 2004-09-09 14:52:32 martin Exp $
+# $Id: Generic.pm,v 1.149 2004-09-10 09:20:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.148 $';
+$VERSION = '$Revision: 1.149 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -178,6 +178,19 @@ sub new {
         }
     }
     return $Self;
+}
+# --
+sub SetEnv {
+    my $Self = shift;
+    my %Param = @_;
+    foreach (qw(Key Value)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            $Self->FatalError();
+        }
+    }
+    $Self->{EnvNewRef}->{$Param{Key}} = $Param{Value};
+    return 1;
 }
 # --
 sub Block {
@@ -356,6 +369,13 @@ sub Output {
     else {
         # get %Env from $Self->{EnvRef}
         %Env = %{$Self->{EnvRef}};
+    }
+    # use new env
+    if ($Self->{EnvNewRef}) {
+        foreach (%{$Self->{EnvNewRef}}) {
+            $Env{$_} = $Self->{EnvNewRef}->{$_};
+        }
+        undef $Self->{EnvNewRef};
     }
     # --
     # create refs
@@ -807,6 +827,7 @@ sub Redirect {
     }
     else {
         # internal redirect
+        $Param{OP} =~ s/^.*\?(.+?)$/$1/;
         $Param{Redirect} = $Self->{Baselink} . $Param{OP};
         $Output .= $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
         if (!$Self->{SessionIDCookie}) {
