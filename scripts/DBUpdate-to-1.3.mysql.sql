@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.2 to 1.3
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.3.mysql.sql,v 1.11 2004-08-17 20:03:30 martin Exp $
+-- $Id: DBUpdate-to-1.3.mysql.sql,v 1.12 2004-09-08 05:35:07 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.3.mysql.sql | mysql -f -u root otrs
@@ -83,7 +83,7 @@ ALTER TABLE article ADD INDEX article_message_id (a_message_id(255));
 --
 -- ticket_history
 --
-ALTER TABLE ticket_history ADD queue_id INTEGER NOT NULL;
+ALTER TABLE ticket_history CHANGE system_queue_id queue_id INTEGER NOT NULL;
 ALTER TABLE ticket_history ADD owner_id INTEGER NOT NULL;
 ALTER TABLE ticket_history ADD priority_id SMALLINT NOT NULL;
 ALTER TABLE ticket_history ADD state_id SMALLINT NOT NULL;
