@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.54 2003-04-14 23:23:51 martin Exp $
+# $Id: Ticket.pm,v 1.55 2003-04-17 22:38:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -525,14 +525,14 @@ sub SetCustomerData {
         return;
       }
     }
-    if (!$Param{No} && !$Param{User}) {
+    if (!defined($Param{No}) && !defined($Param{User})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or No for update!");
         return;
     }
     # --
     # db customer id update
     # --
-    if ($Param{No}) {
+    if (defined($Param{No})) {
         $Param{No} = $Self->{DBObject}->Quote(lc($Param{No}));
         my $SQL = "UPDATE ticket SET customer_id = '$Param{No}', " .
           " change_time = current_timestamp, change_by = $Param{UserID} " .
@@ -544,7 +544,7 @@ sub SetCustomerData {
     # --
     # db customer user update
     # --
-    if ($Param{User}) {
+    if (defined($Param{User})) {
         $Param{User} = $Self->{DBObject}->Quote(lc($Param{User}));
         my $SQL = "UPDATE ticket SET customer_user_id = '$Param{User}', " .
           " change_time = current_timestamp, change_by = $Param{UserID} " .
