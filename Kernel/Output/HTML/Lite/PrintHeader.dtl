@@ -1,8 +1,8 @@
 # --
-# Header.dtl - provides global HTML header
+# PrintHeader.dtl - provides global print header
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.8 2004-07-08 11:25:20 martin Exp $
+# $Id: PrintHeader.dtl,v 1.9 2004-09-24 15:07:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,6 @@
 Content-Type: text/html; charset=$Env{"UserCharset"};
 Content-Disposition: $Data{"ContentDisposition"}
 X-Powered-By: $Env{"Product"} $Env{"Version"} - Open Ticket Request System (http://otrs.org)
-X-Wanted: I think you are smart. I'm looking for smart people!
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
@@ -27,16 +26,21 @@ $Include{"Copyright"}
     <title>OTRS :: $Text{"Print"} :: $Text{"$Data{"Title"}"}</title>
 <style type="text/css">
 <!--
-  p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr
-    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px; }
-  pre
-    { font-family:Courier;font-size:12px; }
-  a:hover 
-    { color: #002244; text-decoration: none; }
-  .item
-    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11px;color:#ffffff;background-color:#000000;font-weight:bold; }
-  .small
-    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+  body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#ffffff;color:black; }
+  pre { font-family:Courier;font-size:12px; }
+  a { color:#787878; }
+  a:hover { color: #002244; text-decoration: none; }
+  .mainhead { color:#ffffff;background-color:#00000c;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
+  .mainhead2 { color:#000000;background-color:#dedede;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
+  .mainbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .mainkey { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .mainvalue { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+# content
+  .contenthead { color:#ffffff;background-color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+  .contentbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .contentkey { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .contentvalue { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .small { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
   .container {
     color: #333;
     margin-top: 0px;
@@ -52,7 +56,7 @@ $Include{"Copyright"}
 </style>
 </head>
 <a name="top"></a>
-<body onLoad="window.print();" bgcolor="#ffffff" text="#000000" Link="#557799" ALink="#557799" VLink="#557799">
+<body onLoad="window.print();">
 <!-- end header -->
 <table border="0" width="$Data{"Width"}" cellpadding="0" cellspacing="0" bgcolor="#000000" class="container">
 <tr>
