@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.23 2004-01-09 12:43:14 martin Exp $
+# $Id: Language.pm,v 1.24 2004-01-20 00:03:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -295,12 +295,12 @@ Returns a time string in language formate (based on translation file).
         Format => 'DateFormat',
     );
 
-    $TimeLong = $Self->{LanguageObject}->Time(
+    $TimeLong = $LanguageObject->Time(
         Action => 'GET',
         Format => 'DateFormatLong',
     );
  
-    $TimeLong = $Self->{LanguageObject}->Time(
+    $TimeLong = $LanguageObject->Time(
         Action => 'RETURN',
         Format => 'DateFormatLong',
         Year => 1977,
@@ -475,6 +475,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2004-01-09 12:43:14 $
+$Revision: 1.24 $ $Date: 2004-01-20 00:03:35 $
 
 =cut
