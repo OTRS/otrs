@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.18 2003-03-14 08:24:19 martin Exp $
+# $Id: AgentCompose.dtl,v 1.19 2003-10-13 20:52:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -78,21 +78,21 @@ function SpellCheckSubmit()
     </tr>
     <tr>
       <td>$Text{"To"}:</td>
-      <td><input type="text" name="To" value="$Data{"To"}" size="65"> <font color="red" size="-2">$Data{"To invalid"}</font></td>
+      <td><input type="text" name="To" value="$Data{"To"}" size="80"> <font color="red" size="-2">$Data{"To invalid"}</font></td>
     </tr>
     <tr>
       <td>$Text{"Cc"}:</td>
-      <td><input type="text" name="Cc" value="$Data{"Cc"}" size="65"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
+      <td><input type="text" name="Cc" value="$Data{"Cc"}" size="80"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
     </tr>
     <tr>
       <td>$Text{"Subject"}:</td>
-      <td><input type="text" name="Subject" value="$Data{"Subject"}" size="65"></td>
+      <td><input type="text" name="Subject" value="$Data{"Subject"}" size="80"></td>
     </tr>
     <tr>
       <td>$Text{"Options"}:</td>
       <td>
-       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';">$Text{"Spell Check"}</a>$Env{"Box1"}
-       $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>$Env{"Box1"}
+       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+       $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
       </td>
     </tr>
     <tr>
@@ -132,7 +132,7 @@ $Data{"ResponseFormat"}
     </tr>
   </table>
   <br>
-  <input type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
+  <input class="button" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
   </form>
 
   <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
