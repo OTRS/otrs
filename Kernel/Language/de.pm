@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.30 2003-09-28 15:47:35 martin Exp $
+# $Id: de.pm,v 1.31 2004-01-05 16:48:27 bs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -161,7 +161,7 @@ sub Data {
       'Sep' => '',
 
     # Template: AAAPreferences
-      'Closed Tickets' => 'geschlossene Tickets',
+      'Closed Tickets' => 'Geschlossene Tickets',
       'Custom Queue' => 'Bevorzugte Queue',
       'Follow up notification' => 'Mitteilung bei Nachfragen',
       'Frontend' => 'Oberfläche',
@@ -184,6 +184,10 @@ sub Data {
       'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
       'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
       'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Sperrzeit',
+      'Shown Tickets' => 'Angezeigte Tickets'
+      'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets in der Queue-Ansicht'
+      'Screen after new phone ticket' => 'Fenster nach neuem Anruf Ticket'
+      'Select your screen after creating a new ticket via PhoneView.' => 'Wählen Sie das Fenster nach der Erstellung eines neuen Anruf Tickets.'
 
     # Template: AAATicket
       '1 very low' => '1 sehr niedrig',
