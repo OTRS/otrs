@@ -227,7 +227,7 @@ There are OTRS installations which handle 20,000 tickets (e-mails) a day and don
 </question>
 <answer>
 <para>
-At the moment we only support <ulink url="http://www.mysql.com">MySQL</ulink> as the default database. Frankly we do trust in a <ulink url="http://www.mysql.com">MySQL</ulink> as much as in a DB2 (for this application). Anybody who is willing to spend some time to port it to other databases is more than welcome to the OTRS team!
+At the moment we only support <ulink url="http://www.mysql.com/">MySQL</ulink> as the default database and additionally <ulink url="http://www.postgresql.org/">PostGreSQL</ulink>. Frankly we do trust in the two as much as in a DB2 (for this application). Anybody who is willing to spend some time to port it to other databases is more than welcome to the OTRS team!
 </para>
 <para>
 Note: The code is designed to support different databases! 
@@ -262,7 +262,7 @@ Of course it is a very good idea to change this default password!
 
 <qandaentry>
 <question>
-<para>Works OTRS with <ulink url="http://perl.apache.org//">mod_perl</ulink>?</para>
+<para>Does OTRS work with <ulink url="http://perl.apache.org//">mod_perl</ulink>?</para>
 </question>
 <answer>
 <para>
@@ -377,6 +377,38 @@ Yes, you can do that. Just install the second, third, ... in different paths (
 e.g. /opt/otrs01, /opt/otrs02, /opt/otrs03, ...). And configure the webserver 
 like README.webserver.
 </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Which changes are made to my system when using the otrs4win32 installer?</para>
+</question>
+<answer>
+<para>
+NO file outside the root directory holding all files will be written or even modified. Your system's registry will only be touched when installing some or all of the servers as a system service. Remember, only CRONw requires this.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Should I install the servers as system services on Win32?</para>
+</question>
+<answer>
+<para>
+We strongly recommend this when using OTRS. During your evaluation period, you may benefit from the ability to easy setup and shutdown the whole system without modifying the rest of your box at all. If you decide to use OTRS regularly, it is very convenient to have the servers running in the background without the annoying control windows. Additionally, no user has to be logged in on the machine when services are used!
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Is it wise to keep all files under one directory on Win32?</para>
+</question>
+<answer>
+<para>
+There is nothing wrong with that. Some of you do not even think about those circumstances, but: There are people out there to be taken seriously when saying a mail server should reside on it's own partition, a database server should store on a RAID, a busy webserver requires a mirrored partition and so on. <emphasis>You're absolutely right</emphasis> - go on, use Windows' facilities to build all of these and other scenarios. The keywords are <emphasis>Dynamic Disks</emphasis> and <emphasis>DFS</emphasis> here. In other words, you may certainly move the subdirectories of the root directory of otrs4win32 to partitions, RAIDs or whatever you like and you are hereby encouraged to. You just have to configure your box to do it. Feel free to contact us if you need assistance whith generally setting up the Windows operating system on your box.</para>
 </answer>
 </qandaentry>
 
