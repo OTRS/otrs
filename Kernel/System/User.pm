@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.10 2002-07-15 22:20:45 martin Exp $
+# $Id: User.pm,v 1.11 2002-07-21 19:14:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -238,13 +238,24 @@ sub UserAdd {
     my $Self = shift;
     my %Param = @_;
     # --
-    # qoute params
+    # check needed stuff
+    # --
+    foreach (qw(Firstname Lastname Login Pw ValidID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # quote params
     # -- 
-    my $UserParamsTmp = $Self->{ConfigObject}->{UserPreferencesMaskUse};
-    foreach (my @UserParams = @$UserParamsTmp) {
+    $Param{Pw} = crypt($Param{Pw}, $Param{Login});
+    foreach (keys %Param) {
        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    $Param{Pw} = crypt($Param{Pw}, $Param{Login});
+    # --
+    # sql
+    # -- 
     my $SQL = "INSERT INTO $Self->{UserTable} " .
        "(salutation, " .
        " first_name, " .
@@ -294,28 +305,35 @@ sub UserUpdate {
     my $Self = shift;
     my %Param = @_;
     # --
-    # qoute params
-    # -- 
-    my $UserParamsTmp = $Self->{ConfigObject}->{UserPreferencesMaskUse};
-    foreach (my @UserParams = @$UserParamsTmp) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-        $Param{$_} = '' if (!exists $Param{$_});
+    # check needed stuff
+    # --
+    foreach (qw(ID Firstname Lastname Login Pw ValidID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
     }
-
+    # --
     # get old pw
+    # --
     my %UserData = $Self->GetUserData(UserID => $Param{ID});
-        # --
-        # check pw
-        # --
-        my $GetPw = $UserData{UserPw} || '';
-        if ($GetPw ne $Param{Pw}) {
-            $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
-        }
-
-        # -- 
-        # update db
-        # --
-        my $SQL = "UPDATE $Self->{UserTable} SET " .
+    # --
+    # check pw
+    # --
+    my $GetPw = $UserData{UserPw} || '';
+    if ($GetPw ne $Param{Pw}) {
+        $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
+    }
+    # --
+    # quote params
+    # -- 
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    # -- 
+    # update db
+    # --
+    my $SQL = "UPDATE $Self->{UserTable} SET " .
         " salutation = '$Param{Salutation}', " .
         " first_name = '$Param{Firstname}'," .
         " last_name = '$Param{Lastname}', " .
@@ -344,12 +362,17 @@ sub SetPassword {
     my $Self = shift;
     my %Param = @_;
     my $Pw = $Param{PW} || '';
-    my $UserLogin = $Param{UserLogin} || return;
-
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{UserLogin}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
+        return;
+    }
     # --
     # crypt pw
     # --    
-    my $NewPw = crypt($Pw, $UserLogin);
+    my $NewPw = crypt($Pw, $Param{UserLogin});
     # --
     # update db
     # --
@@ -358,14 +381,14 @@ sub SetPassword {
                " SET ".
                " $Self->{UserTableUserPW} = '$NewPw' ".
                " WHERE ".
-               " $Self->{UserTableUser} = '$UserLogin'",
+               " $Self->{UserTableUser} = '$Param{UserLogin}'",
     )) {
         # --
         # log notice
         # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: '$UserLogin' changed password successfully!",
+          Message => "User: '$Param{UserLogin}' changed password successfully!",
         );
         return 1;
     }
@@ -378,15 +401,16 @@ sub GetUserIdByName {
     my $Self = shift;
     my %Param = @_;
     my $ID;
+    # --
     # check needed stuff
+    # --
     if (!$Param{User}) {
-      $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message => "Need User!",
-      );
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
+        return;
     }
+    # --
     # build sql query
+    # --
     my $SQL = sprintf (
     "select %s from %s where %s='%s'", 
        $Self->{UserTableUserID},
@@ -396,8 +420,8 @@ sub GetUserIdByName {
       );
     
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-       $ID = $RowTmp[0];
+    while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+       $ID = $Row[0];
     }
     # return
     if ($ID) {
@@ -416,15 +440,16 @@ sub GetUserByID {
     my $Self = shift;
     my %Param = @_;
     my $User = '';
+    # --
     # check needed stuff
+    # --
     if (!$Param{UserID}) {
-      $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message => "Need UserID!",
-      );
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
+        return;
     }
+    # -- 
     # build sql query
+    # --
     my $SQL = sprintf (
     "select %s from %s where %s='%s'", 
        $Self->{UserTableUser},
@@ -433,8 +458,8 @@ sub GetUserByID {
       $Param{UserID}
       );
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-       $User = $RowTmp[0];
+    while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+       $User = $Row[0];
     }
     # return
     if ($User) {
