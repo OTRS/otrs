@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PGP.pm,v 1.1 2004-07-30 09:54:11 martin Exp $
+# $Id: PGP.pm,v 1.2 2004-08-04 13:11:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,29 +12,16 @@
 package Kernel::System::Crypt::PGP;
 
 use strict;
-use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
-sub new {
-    my $Type = shift;
+sub Init {
+    my $Self = shift;
     my %Param = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless ($Self, $Type);
-
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # get needed opbjects
-    foreach (qw(ConfigObject LogObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
 
     $Self->{GPGBin} = $Self->{ConfigObject}->Get('PGP::Bin') || 'Uusr/bin/gpg';
     $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';

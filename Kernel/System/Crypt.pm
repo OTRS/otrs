@@ -2,7 +2,7 @@
 # Kernel/System/Crypt.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Crypt.pm,v 1.1 2004-07-30 09:54:11 martin Exp $
+# $Id: Crypt.pm,v 1.2 2004-08-04 13:10:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::Crypt;
 
 use strict;
+use Kernel::System::FileTemp;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+use vars qw($VERSION @ISA);
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,63 +33,17 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject CryptType)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
 
-    # load generator auth module
+    # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
     if (!eval "require $Self->{GenericModule}") {
         die "Can't load crypt backend module $Self->{GenericModule}! $@";
     }
-    $Self->{Backend} = $Self->{GenericModule}->new(%Param);
-
+    # add generator crypt functions
+    @ISA = ("$Self->{GenericModule}");
+    # call init()
+    $Self->Init();
     return $Self;
-}
-# crypt
-sub Crypt {
-    my $Self = shift;
-    return $Self->{Backend}->Crypt(@_);
-
-}
-# decrypt
-sub Decrypt {
-    my $Self = shift;
-    return $Self->{Backend}->Decrypt(@_);
-}
-# sign
-sub Sign {
-    my $Self = shift;
-    return $Self->{Backend}->Sign(@_);
-}
-# verify_sign
-sub Verify {
-    my $Self = shift;
-    return $Self->{Backend}->Verify(@_);
-}
-# search key
-sub SearchKey {
-    my $Self = shift;
-    return $Self->{Backend}->SearchKey(@_);
-}
-sub SearchPrivateKey {
-    my $Self = shift;
-    return $Self->{Backend}->SearchPrivateKey(@_);
-}
-sub SearchPublicKey {
-    my $Self = shift;
-    return $Self->{Backend}->SearchPublicKey(@_);
-}
-# get key
-sub GetKey {
-    my $Self = shift;
-    return $Self->{Backend}->GetKey(@_);
-}
-# delete key
-sub DeleteKey {
-    my $Self = shift;
-    return $Self->{Backend}->DeleteKey(@_);
-}
-# add key
-sub AddKey {
-    my $Self = shift;
-    return $Self->{Backend}->AddKey(@_);
 }
 

@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMIME.pm,v 1.1 2004-07-30 09:54:11 martin Exp $
+# $Id: SMIME.pm,v 1.2 2004-08-04 13:11:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,35 +12,24 @@
 package Kernel::System::Crypt::SMIME;
 
 use strict;
-use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
-sub new {
-    my $Type = shift;
+sub Init {
+    my $Self = shift;
     my %Param = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless ($Self, $Type);
-
-    $Self->{Debug} = $Param{Debug} || 0;
-
-    # get needed opbjects
-    foreach (qw(ConfigObject LogObject DBObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
 
     $Self->{Bin} = $Self->{ConfigObject}->Get('SMIME::Bin') || '/usr/bin/openssl';
     $Self->{CertPath} = $Self->{ConfigObject}->Get('SMIME::CertPath');
 
     if ($Self->{CertPath}) {
-        $Self->{CertPath} = " -CApath $Self->{CertPath}";
+        $Self->{CertPathArg} = " -CApath $Self->{CertPath}";
+    }
+    else {
+        $Self->{CertPathArg} = '';
     }
 
     return $Self;
@@ -180,7 +169,7 @@ sub Verify {
     }
 #    open (VERIFY, "openssl smime -verify -in $Param{Sign} -CAfile $File 2>&1 |");
 #    open (VERIFY, "openssl smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput -CAfile /etc/ssl/certs/bsi.pem 2>&1 |");
-    open (VERIFY, "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput $Self->{CertPath} 2>&1 |");
+    open (VERIFY, "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput $Self->{CertPathArg} 2>&1 |");
 #    open (VERIFY, "openssl rsautl -verify -in $Filename -inkey $FilenameSign -out /tmp/signedtext.txt 2>&1 |");
     while (<VERIFY>) {
         $MessageLong .= $_;
@@ -211,14 +200,180 @@ sub Verify {
     }
     return %Return;
 }
-# add key
+# serarch public certificate
+sub CertificateSearch {
+    my $Self = shift;
+    my %Param = @_;
+    my $Search = $Param{Search} || '';
+    my @Result = ();
+    my @Hash = $Self->CertificateList();
+    foreach (@Hash) {
+        my $Certificate = $Self->CertificateGet(Hash => $_);
+        my %Attributes = $Self->CertificateAttributes(Certificate => $Certificate);
+        my $Hit = 0;
+        if ($Search) {
 
-# remove key
-
-# list key
+        }
+        else {
+            $Hit = 1;
+        }
+        if ($Hit) {
+            push (@Result, \%Attributes);
+        }
+    }
+    return @Result;
+}
 
 # add certificate
+sub CertificateAdd {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{Certificate}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Certificate!");
+        return;
+    }
+    my %Attributes = $Self->CertificateAttributes(%Param);
+    if ($Attributes{Hash}) {
+        my $File = "$Self->{CertPath}/$Attributes{Hash}.0";
+        if (open (OUT, "> $File")) {
+            print OUT $Param{Certificate};
+            close (OUT);
+            return "Certificate uploaded!";
+        }
+        else {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $File: $!!");
+            return;
+        }
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't add invalid certificat!");
+        return;
+    }
+}
+# get certificate
+sub CertificateGet {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{Hash}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Hash!");
+        return;
+    }
+    my $File = "$Self->{CertPath}/$Param{Hash}.0";
+    if (open (IN, "< $File")) {
+        my $Certificate = '';
+        while (<IN>) {
+            $Certificate .= $_;
+        }
+        close (IN);
+        return $Certificate;
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't open $File: $!!");
+        return;
+    }
+}
 
 # remove certificate
+sub CertificateRemove {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{Hash}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Hash!");
+        return;
+    }
+    unlink "$Self->{CertPath}/$Param{Hash}.0" || return $!;
+    return;
+}
 
 # list certificate
+sub CertificateList {
+    my $Self = shift;
+    my %Param = @_;
+    my @Hash = ();
+    my @List = glob("$Self->{CertPath}/*.0");
+    foreach my $File (@List) {
+       $File =~ s!^.*/!!;
+       $File =~ s/(.*)\.0/$1/;
+       push (@Hash, $File);
+    }
+    return @Hash;
+}
+
+sub CertificateAttributes {
+    my $Self = shift;
+    my %Param = @_;
+    my %Attributes = ();
+    if (!$Param{Certificate}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Certificate!");
+        return;
+    }
+    my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
+    print $FH $Param{Certificate};
+
+    open (VERIFY, "$Self->{Bin} x509 -in $Filename -noout -hash -issuer -fingerprint -serial -subject -startdate -enddate -email |");
+    my $Line = 0;
+    while (my $LineIn = <VERIFY>) {
+        $Line++;
+        chomp($LineIn);
+        if ($Line == 1) {
+            $Attributes{Hash} = $LineIn;
+        }
+        elsif ($Line == 2) {
+            $Attributes{Issuer} = $LineIn;
+            $Attributes{Issuer} =~ s/\//\/ /g;
+        }
+        elsif ($Line == 3) {
+            $Attributes{Fingerprint} = $LineIn;
+            $Attributes{Fingerprint} =~ s/MD5 Fingerprint=//g;
+        }
+        elsif ($Line == 4) {
+            $Attributes{Serial} = $LineIn;
+        }
+        elsif ($Line == 5) {
+            $Attributes{Subject} = $LineIn;
+        }
+        elsif ($Line == 6) {
+            $Attributes{StartDate} = $LineIn;
+            $Attributes{StartDate} =~ s/notBefore=//g;
+        }
+        elsif ($Line == 7) {
+            $Attributes{EndDate} = $LineIn;
+            $Attributes{EndDate} =~ s/notAfter=//g;
+        }
+        elsif ($Line == 8) {
+            $Attributes{Email} = $LineIn;
+        }
+    }
+    close (VERIFY);
+    return %Attributes;
+}
+
+# serach private
+sub PrivatSearch {
+    my $Self = shift;
+    my %Param = @_;
+
+}
+# serach private
+sub PrivatAdd {
+    my $Self = shift;
+    my %Param = @_;
+
+}
+# serach private
+sub PrivatGet {
+    my $Self = shift;
+    my %Param = @_;
+
+}
+# serach private
+sub PrivatRemove {
+    my $Self = shift;
+    my %Param = @_;
+
+}
+
+1;
