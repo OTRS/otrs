@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.2 2002-12-15 00:58:23 martin Exp $
+# $Id: de.pm,v 1.3 2002-12-20 19:08:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,18 +13,25 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
+
 # --
 sub Data {
     my $Self = shift;
     my %Param = @_;
     my %Hash = ();
 
+    # $$START$$
+    # Last translation Fri Dec 20 19:14:36 2002 by Martin Edenhofer 
+
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
+    # date formats
+    $Self->{DateFormat} = '%D.%M.%Y %T';
+    $Self->{DateFormatLong} = '%A %D %B %T %Y';
 
-    # Template: AAABasics
+    # Template: AAABase
     $Hash{' 2 minutes'} = ' 2 Minuten';
     $Hash{' 5 minutes'} = ' 5 Minuten';
     $Hash{' 7 minutes'} = ' 7 Minuten';
@@ -37,8 +44,8 @@ sub Data {
     $Hash{'Attention'} = 'Achtung';
     $Hash{'Bug Report'} = 'Fehler berichten';
     $Hash{'Cancel'} = 'Abbrechen';
-    $Hash{'change'} = 'ändern';
     $Hash{'Change'} = 'Ändern';
+    $Hash{'change'} = 'ändern';
     $Hash{'change!'} = 'ändern!';
     $Hash{'click here'} = 'klick hier';
     $Hash{'Comment'} = 'Kommentar';
@@ -53,6 +60,7 @@ sub Data {
     $Hash{'Error'} = 'Fehler';
     $Hash{'Example'} = 'Beispiel';
     $Hash{'Examples'} = 'Beispiele';
+    $Hash{'Feature not acitv!'} = '';
     $Hash{'go'} = 'start';
     $Hash{'go!'} = 'start!';
     $Hash{'Group'} = 'Gruppe';
@@ -61,9 +69,12 @@ sub Data {
     $Hash{'hour'} = 'Stunde';
     $Hash{'hours'} = 'Stunden';
     $Hash{'Ignore'} = 'Ignorieren';
+    $Hash{'Invalid SessionID!'} = 'Invalid SessionID!';
     $Hash{'Language'} = 'Sprache';
     $Hash{'Languages'} = 'Sprachen';
     $Hash{'Line'} = 'Zeile';
+    $Hash{'Lite'} = 'Einfach';
+    $Hash{'Login failed! Your username or password was entered incorrectly.'} = 'Login fehlgeschlagen! Benutzername oder Passwort falsch.';
     $Hash{'Logout successful. Thank you for using OTRS!'} = 'Abmelden erfolgreich! Danke für die Benutzung von OTRS!';
     $Hash{'Message'} = 'Nachricht';
     $Hash{'minute'} = 'Minute';
@@ -73,18 +84,19 @@ sub Data {
     $Hash{'Name'} = 'Name';
     $Hash{'New message'} = 'Neue Nachricht';
     $Hash{'New message!'} = 'Neue Nachricht!';
-    $Hash{'no'} = 'kein';
     $Hash{'No'} = 'Nein';
+    $Hash{'no'} = 'kein';
     $Hash{'No suggestions'} = 'Keine Vorschläge';
     $Hash{'none'} = 'keine';
     $Hash{'none - answered'} = 'keine - beantwortet';
     $Hash{'none!'} = 'keine Angabe!';
-    $Hash{'Off'} = 'Aus';
     $Hash{'off'} = 'aus';
+    $Hash{'Off'} = 'Aus';
     $Hash{'on'} = 'ein';
     $Hash{'On'} = 'Ein';
     $Hash{'Password'} = 'Passwort';
     $Hash{'Please answer this ticket(s) to get back to the normal queue view!'} = 'Bitte beantworten Sie dieses Ticket um in die normale queue view zurück zu kommen!';
+    $Hash{'Please contact your admin'} = 'Bitte kontaktieren Sie Ihren Admin';
     $Hash{'please do not edit!'} = 'Bitte nicht verändern!';
     $Hash{'QueueView'} = 'Queue-Ansicht';
     $Hash{'replace with'} = 'ersetzen mit';
@@ -97,6 +109,9 @@ sub Data {
     $Hash{'submit'} = 'übermitteln';
     $Hash{'submit!'} = 'übermitteln!';
     $Hash{'Text'} = '';
+    $Hash{'The recommended charset for your language is %s!'} = 'Der empfohlene Charset für Ihre Sprache ist %s!';
+    $Hash{'Theme'} = '';
+    $Hash{'There is no account with that login name.'} = 'Es existiert kein Login mit diesen Namen.';
     $Hash{'top'} = 'hoch';
     $Hash{'update'} = 'aktualisieren';
     $Hash{'update!'} = 'aktualisieren!';
@@ -107,14 +122,23 @@ sub Data {
     $Hash{'Welcome to OTRS'} = 'Willkommen zu OTRS';
     $Hash{'Word'} = 'Wort';
     $Hash{'wrote'} = 'schrieb';
-    $Hash{'yes'} = 'ja';
     $Hash{'Yes'} = 'Ja';
+    $Hash{'yes'} = 'ja';
     $Hash{'You got new message!'} = 'Neue Nachricht bekommen!';
-    $Hash{'The recommended charset for your language is %s!'} = 'Der empfohlene Charset für Ihre Sprache ist %s!';
-    $Hash{'There is no account with that login name.'} = 'Es existiert kein Login mit diesen Namen.';
-    $Hash{'Login failed! Your username or password was entered incorrectly.'} = 'Login fehlgeschlagen! Benutzername oder Passwort falsch.';
-    $Hash{'Please contact your admin'} = 'Bitte kontaktieren Sie Ihren Admin';
-    $Hash{'Invalid SessionID'} = 'Ungültige SessionID';
+
+    # Template: AAAMonth
+    $Hash{'Apr'} = '';
+    $Hash{'Aug'} = '';
+    $Hash{'Dec'} = 'Dez';
+    $Hash{'Feb'} = '';
+    $Hash{'Jan'} = '';
+    $Hash{'Jul'} = '';
+    $Hash{'Jun'} = '';
+    $Hash{'Mar'} = 'Mär';
+    $Hash{'May'} = 'Mai';
+    $Hash{'Nov'} = '';
+    $Hash{'Oct'} = 'Okt';
+    $Hash{'Sep'} = '';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = '';
@@ -152,8 +176,8 @@ sub Data {
     $Hash{'Compose'} = 'Verfassen';
     $Hash{'Created'} = 'Erstellt';
     $Hash{'Createtime'} = 'Erstellt am';
-    $Hash{'eMail'} = '';
     $Hash{'email'} = 'eMail';
+    $Hash{'eMail'} = '';
     $Hash{'email-external'} = 'Email an extern';
     $Hash{'email-internal'} = 'Email an intern';
     $Hash{'Forward'} = 'Weiterleiten';
@@ -194,6 +218,15 @@ sub Data {
     $Hash{'webrequest'} = 'Webanfrage';
     $Hash{'Zoom'} = 'Inhalt';
 
+    # Template: AAAWeekDay
+    $Hash{'Fri'} = 'Fre';
+    $Hash{'Mon'} = 'Mon';
+    $Hash{'Sat'} = 'Sam';
+    $Hash{'Sun'} = 'Son';
+    $Hash{'Thu'} = 'Don';
+    $Hash{'Tue'} = 'Die';
+    $Hash{'Wed'} = 'Mit';
+
     # Template: AdminAutoResponseForm
     $Hash{'Add auto response'} = 'Auto-Antwort hinzufügen';
     $Hash{'Auto Response From'} = 'Auto-Antwort Form';
@@ -204,6 +237,9 @@ sub Data {
     $Hash{'Response'} = 'Antwort';
     $Hash{'to get the first 20 character of the subject'} = 'Um die ersten 20 Zeichen des Betreffs zu bekommen';
     $Hash{'to get the first 5 lines of the email'} = 'Um die ersten 5 Zeilen der eMail zu bekommen';
+    $Hash{'to get the from line of the email'} = '';
+    $Hash{'to get the realname of the sender (if given)'} = '';
+    $Hash{'to get the ticket number of the ticket'} = '';
     $Hash{'Type'} = '';
     $Hash{'Useable options'} = 'Benutzbare Optionen';
 
@@ -217,11 +253,8 @@ sub Data {
     $Hash{'Change customer user settings'} = 'Ämdern der Kunden-Benutzers einstellungen';
     $Hash{'Customer User Management'} = 'Kunden-Benutzer Management';
     $Hash{'Customer user will be needed to to login via customer panels.'} = 'Kunden-Benutzer werden für das Kunden-Webfrontend benötigt';
-    $Hash{'CustomerID'} = 'Kunden#';
-    $Hash{'Email'} = 'eMail';
-    $Hash{'Firstname'} = 'Vorname';
-    $Hash{'Lastname'} = 'Nachname';
-    $Hash{'Login'} = '';
+
+    # Template: AdminCustomerUserGeneric
 
     # Template: AdminCustomerUserPreferencesGeneric
 
@@ -247,22 +280,36 @@ sub Data {
     $Hash{'Change system language setting'} = 'Ändere System-Sprache';
     $Hash{'System Language Management'} = 'System-Sprache Verwaltung';
 
+    # Template: AdminLog
+    $Hash{'System Log'} = '';
+
     # Template: AdminNavigationBar
     $Hash{'AdminEmail'} = '';
     $Hash{'AgentFrontend'} = 'AgentOberfläche';
     $Hash{'Auto Response <-> Queue'} = 'Auto-Antworten <-> Queues';
     $Hash{'Auto Responses'} = 'Auto-Antworten';
     $Hash{'Charsets'} = '';
-    $Hash{'CustomerUser'} = 'Kunden-Benutzer';
+    $Hash{'Customer User'} = 'Kunden Benutzer';
     $Hash{'Email Addresses'} = 'Email-Adressen';
     $Hash{'Groups'} = 'Gruppen';
     $Hash{'Logout'} = 'Abmelden';
+    $Hash{'POP3 Account'} = '';
     $Hash{'Responses'} = 'Antworten';
     $Hash{'Responses <-> Queue'} = 'Antworten <-> Queues';
     $Hash{'Select Box'} = '';
     $Hash{'Session Management'} = 'Sitzungs Verwaltung';
     $Hash{'Status defs'} = '';
     $Hash{'User <-> Groups'} = 'Benutzer <-> Gruppen';
+
+    # Template: AdminPOP3Form
+    $Hash{'Add POP3 Account'} = 'POP3 Account hinzufügen';
+    $Hash{'All incoming emails with one account will be dispatched in the selected queue!'} = 'Einkommende emails von POP3 Accounts werden in die ausgewählte Queue einsortiert!';
+    $Hash{'Change POP3 Account setting'} = 'POP3 Account ändern';
+    $Hash{'Host'} = 'Rechner';
+    $Hash{'If your account is trusted, the x-otrs header (for priority, ...) will be used!'} = 'Ist der Account trusted, werden die x-otrs Header benutzt!';
+    $Hash{'Login'} = '';
+    $Hash{'POP3 Account Management'} = '';
+    $Hash{'Trusted'} = '';
 
     # Template: AdminQueueAutoResponseForm
     $Hash{'Queue <-> Auto Response Management'} = 'Queue <-> Auto-Antworten Verwaltung';
@@ -340,6 +387,7 @@ sub Data {
     $Hash{'Add system address'} = 'System-Email-Adresse hinzufügen';
     $Hash{'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!'} = 'Alle eingehenden Emails mit dem "To:" werden in die ausgewählte Queue einsortiert.';
     $Hash{'Change system address setting'} = 'Ändere System-Adresse';
+    $Hash{'Email'} = 'eMail';
     $Hash{'Realname'} = '';
     $Hash{'System Email Addresses Management'} = 'System-Email-Adressen Verwaltung';
 
@@ -347,6 +395,8 @@ sub Data {
     $Hash{'Add user'} = 'Benutzer hinzufügen';
     $Hash{'Change user settings'} = 'Ändern der Benutzereinstellung';
     $Hash{'Don\'t forget to add a new user to groups!'} = 'Eine neuer Benutzer muss auch einer Gruppe zugewiesen werden!';
+    $Hash{'Firstname'} = 'Vorname';
+    $Hash{'Lastname'} = 'Nachname';
     $Hash{'User Management'} = 'Benutzer Verwaltung';
     $Hash{'User will be needed to handle tickets.'} = 'Benutzer werden benötigt um Tickets zu bearbeietn.';
 
@@ -370,7 +420,7 @@ sub Data {
     $Hash{'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.'} = '';
 
     # Template: AgentClose
-    $Hash{' (work units)'} = '';
+    $Hash{' (work units)'} = ' (arbeits Einheiten)';
     $Hash{'Close ticket'} = 'Ticket schließen';
     $Hash{'Close type'} = 'Schließen Type';
     $Hash{'Close!'} = 'Schließen!';
@@ -397,6 +447,9 @@ sub Data {
 
     # Template: AgentCustomerHistoryTable
 
+    # Template: AgentCustomerView
+    $Hash{'Customer Data'} = 'Kunden Daten';
+
     # Template: AgentForward
     $Hash{'Article type'} = 'Artikel-Typ';
     $Hash{'Date'} = 'Datum';
@@ -410,6 +463,7 @@ sub Data {
 
     # Template: AgentMailboxTicket
     $Hash{'Add Note'} = 'Notiz anheften';
+    $Hash{'CustomerID'} = 'Kunden#';
 
     # Template: AgentNavigationBar
     $Hash{'FAQ'} = '';
@@ -434,10 +488,7 @@ sub Data {
     $Hash{'Phone call at %s'} = 'Anruf um %s';
 
     # Template: AgentPhoneNew
-    $Hash{'A message should have a From: recipient!'} = 'Eine Nachricht sollte einen Absender im Von: haben!';
     $Hash{'new ticket'} = 'neues Ticket';
-    $Hash{'New ticket via call.'} = 'Neues Ticket durch Anruf.';
-    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = 'Im From-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!';
 
     # Template: AgentPlain
     $Hash{'ArticleID'} = '';
@@ -491,11 +542,11 @@ sub Data {
     $Hash{'No * possible!'} = 'Kein * möglich!';
 
     # Template: AgentUtilSearchByText
-    $Hash{'Article free text'} = '';
+    $Hash{'Article free text'} = 'Artikel frei Text';
     $Hash{'Fulltext search'} = 'Volltext-Suche';
     $Hash{'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")'} = 'Volltextsuche (z. B. "Mar*in" oder "Baue*" oder "martin+hallo")';
     $Hash{'Search in'} = 'Suche in';
-    $Hash{'Ticket free text'} = '';
+    $Hash{'Ticket free text'} = 'Ticket frei Text';
 
     # Template: AgentUtilSearchByTicketNumber
     $Hash{'search'} = 'Suchen';
@@ -520,7 +571,7 @@ sub Data {
 
     # Template: CustomerError
     $Hash{'Backend'} = '';
-    $Hash{'BackendMessage'} = '';
+    $Hash{'BackendMessage'} = 'Backend-Nachricht';
     $Hash{'Click here to report a bug!'} = 'Klicken Sie hier um einen Fehler zu berichten!';
     $Hash{'Handle'} = '';
 
@@ -528,6 +579,11 @@ sub Data {
     $Hash{'Powered by'} = '';
 
     # Template: CustomerHeader
+    $Hash{'Contact'} = 'Kontakt';
+    $Hash{'Home'} = '';
+    $Hash{'Online-Support'} = '';
+    $Hash{'Products'} = 'Produkt';
+    $Hash{'Support'} = '';
 
     # Template: CustomerLogin
 
@@ -554,6 +610,7 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
+    $Hash{'of'} = 'von';
 
     # Template: CustomerStatusViewTable
 
@@ -567,12 +624,30 @@ sub Data {
     # Template: Footer
 
     # Template: Header
-    $Hash{'Home'} = '';
 
     # Template: InstallerStart
     $Hash{'next step'} = 'Nächster Schritt';
 
     # Template: InstallerSystem
+    $Hash{'(Email of the system admin)'} = '';
+    $Hash{'(Full qualified domain name of your system)'} = '';
+    $Hash{'(Logfile just needed for File-LogModule!)'} = '';
+    $Hash{'(The identify of the system. Each ticket number and each http session id starts with this number)'} = '';
+    $Hash{'(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')'} = '';
+    $Hash{'(Used default language)'} = '';
+    $Hash{'(Used log backend)'} = '';
+    $Hash{'(Used ticket number format)'} = '';
+    $Hash{'Default Charset'} = '';
+    $Hash{'Default Language'} = '';
+    $Hash{'Logfile'} = '';
+    $Hash{'LogModule'} = '';
+    $Hash{'Organization'} = '';
+    $Hash{'System'} = '';
+    $Hash{'System FQDN'} = '';
+    $Hash{'SystemID'} = '';
+    $Hash{'Ticket Hook'} = '';
+    $Hash{'Ticket Number Generator'} = '';
+    $Hash{'Webfrontend'} = '';
 
     # Template: Login
 
@@ -631,6 +706,9 @@ sub Data {
     $Hash{'(Click here to add charset)'} = '(Hier klicken - Charset hinzufügen';
     $Hash{'(Click here to add language)'} = '(Hier klicken - Sprache hinzufügen)';
     $Hash{'(Click here to add state)'} = '(Hier klicken - state hinzufügen)';
+    $Hash{'A message should have a From: recipient!'} = 'Eine Nachricht sollte einen Absender im Von: haben!';
+    $Hash{'CustomerUser'} = 'Kunden-Benutzer';
+    $Hash{'New ticket via call.'} = 'Neues Ticket durch Anruf.';
     $Hash{'Update auto response'} = 'Auto-Antwort aktualisieren';
     $Hash{'Update charset'} = 'Charset aktualisieren';
     $Hash{'Update group'} = 'Gruppe aktualisieren';
@@ -644,10 +722,12 @@ sub Data {
     $Hash{'Update user'} = 'Benutzer aktualisieren';
     $Hash{'You have to be in the admin group!'} = 'Sie müssen hierfür in der Admin-Gruppe sein!';
     $Hash{'You have to be in the stats group!'} = 'Sie müssen hierfür in der Statistik-Gruppe sein!';
+    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = 'Im From-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!';
     $Hash{'auto responses set'} = 'Auto-Antworten gesetzt';
 
-    $Self->{Translation} = \%Hash;
+    # $$STOP$$
 
+    $Self->{Translation} = \%Hash;
 }
 # --
 1;

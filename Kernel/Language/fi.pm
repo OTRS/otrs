@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.3 2002-12-15 01:15:07 martin Exp $
+# $Id: fi.pm,v 1.4 2002-12-20 19:08:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -21,8 +21,14 @@ sub Data {
     my %Param = @_;
     my %Hash = ();
 
+    # $$START$$
+    # Last translation Fri Dec 20 19:47:16 2002 by Antti Kämäräinen
+
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    $Self->{DateFormat} = '%D.%M.%Y %T';
+    $Self->{DateFormatLong} = '%A %D %B %T %Y';
 
     # Template: AAABase
     $Hash{' 2 minutes'} = ' 2 Minuuttia';
@@ -62,6 +68,7 @@ sub Data {
     $Hash{'hour'} = 'tunti';
     $Hash{'hours'} = 'tuntia';
     $Hash{'Ignore'} = '';
+    $Hash{'invalid'} = '';
     $Hash{'Invalid SessionID!'} = '';
     $Hash{'Language'} = 'Kieli';
     $Hash{'Languages'} = 'Kielet';
@@ -77,14 +84,14 @@ sub Data {
     $Hash{'Name'} = 'Nimi';
     $Hash{'New message'} = 'Uusi viesti';
     $Hash{'New message!'} = 'Uusi viesti!';
-    $Hash{'No'} = 'Ei';
     $Hash{'no'} = 'ei';
+    $Hash{'No'} = 'Ei';
     $Hash{'No suggestions'} = '';
     $Hash{'none'} = 'ei mitään';
     $Hash{'none - answered'} = 'ei mitään - vastattu';
     $Hash{'none!'} = 'ei mitään!';
-    $Hash{'off'} = 'pois';
     $Hash{'Off'} = 'Pois';
+    $Hash{'off'} = 'pois';
     $Hash{'on'} = 'päällä';
     $Hash{'On'} = 'Päällä';
     $Hash{'Password'} = 'Salasana';
@@ -115,9 +122,23 @@ sub Data {
     $Hash{'Welcome to OTRS'} = '';
     $Hash{'Word'} = '';
     $Hash{'wrote'} = 'kirjoittaa';
-    $Hash{'Yes'} = 'Kyllä';
     $Hash{'yes'} = 'kyllä';
+    $Hash{'Yes'} = 'Kyllä';
     $Hash{'You got new message!'} = '';
+
+    # Template: AAAMonth
+    $Hash{'Apr'} = '';
+    $Hash{'Aug'} = '';
+    $Hash{'Dec'} = '';
+    $Hash{'Feb'} = '';
+    $Hash{'Jan'} = '';
+    $Hash{'Jul'} = '';
+    $Hash{'Jun'} = '';
+    $Hash{'Mar'} = '';
+    $Hash{'May'} = '';
+    $Hash{'Nov'} = '';
+    $Hash{'Oct'} = '';
+    $Hash{'Sep'} = '';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = '';
@@ -155,8 +176,8 @@ sub Data {
     $Hash{'Compose'} = 'uusia viesti';
     $Hash{'Created'} = 'Luotu';
     $Hash{'Createtime'} = 'Luontiaika';
-    $Hash{'eMail'} = '';
     $Hash{'email'} = 'sähköposti';
+    $Hash{'eMail'} = '';
     $Hash{'email-external'} = 'Sähköposti-sisäinen';
     $Hash{'email-internal'} = 'Sähköposti - julkinen';
     $Hash{'Forward'} = 'Välitä';
@@ -196,6 +217,15 @@ sub Data {
     $Hash{'View'} = 'Katso';
     $Hash{'webrequest'} = '';
     $Hash{'Zoom'} = 'Katso';
+
+    # Template: AAAWeekDay
+    $Hash{'Fri'} = '';
+    $Hash{'Mon'} = '';
+    $Hash{'Sat'} = '';
+    $Hash{'Sun'} = '';
+    $Hash{'Thu'} = '';
+    $Hash{'Tue'} = '';
+    $Hash{'Wed'} = '';
 
     # Template: AdminAutoResponseForm
     $Hash{'Add auto response'} = 'Lisää automaattivastaus';
@@ -250,22 +280,36 @@ sub Data {
     $Hash{'Change system language setting'} = 'Muokkaa järjestelmän kieliasetuksua';
     $Hash{'System Language Management'} = 'Järjestelmän kielen hallinta';
 
+    # Template: AdminLog
+    $Hash{'System Log'} = '';
+
     # Template: AdminNavigationBar
     $Hash{'AdminEmail'} = '';
     $Hash{'AgentFrontend'} = 'Tukinäkymä';
     $Hash{'Auto Response <-> Queue'} = 'Automaattivastaukset <-> Jonotuslista';
     $Hash{'Auto Responses'} = 'Automaattivastaukset';
     $Hash{'Charsets'} = '';
-    $Hash{'CustomerUser'} = '';
+    $Hash{'Customer User'} = '';
     $Hash{'Email Addresses'} = 'Sähköpostiosoitteet';
     $Hash{'Groups'} = 'Ryhmät';
     $Hash{'Logout'} = 'Kirjaudu ulos';
+    $Hash{'POP3 Account'} = '';
     $Hash{'Responses'} = 'Vastaukset';
     $Hash{'Responses <-> Queue'} = 'Vastaukset <-> Jonotuslista';
     $Hash{'Select Box'} = '';
     $Hash{'Session Management'} = 'Istuntojen hallinta';
     $Hash{'Status defs'} = '';
     $Hash{'User <-> Groups'} = '';
+
+    # Template: AdminPOP3Form
+    $Hash{'Add POP3 Account'} = '';
+    $Hash{'All incoming emails with one account will be dispatched in the selected queue!'} = '';
+    $Hash{'Change POP3 Account setting'} = '';
+    $Hash{'Host'} = '';
+    $Hash{'If your account is trusted, the x-otrs header (for priority, ...) will be used!'} = '';
+    $Hash{'Login'} = '';
+    $Hash{'POP3 Account Management'} = '';
+    $Hash{'Trusted'} = '';
 
     # Template: AdminQueueAutoResponseForm
     $Hash{'Queue <-> Auto Response Management'} = 'Jonotuslista <-> Automaattivastaushallinta';
@@ -353,7 +397,6 @@ sub Data {
     $Hash{'Don\'t forget to add a new user to groups!'} = 'Älä unohda lisätä käyttäjää ryhmiin!';
     $Hash{'Firstname'} = 'Etunimi';
     $Hash{'Lastname'} = 'Sukunimi';
-    $Hash{'Login'} = '';
     $Hash{'User Management'} = 'Käyttäjähallinta';
     $Hash{'User will be needed to handle tickets.'} = 'Käyttäjä tarvitaan tikettien käsittelemiseen.';
 
@@ -445,10 +488,7 @@ sub Data {
     $Hash{'Phone call at %s'} = '';
 
     # Template: AgentPhoneNew
-    $Hash{'A message should have a From: recipient!'} = '';
     $Hash{'new ticket'} = 'Uusi tiketti';
-    $Hash{'New ticket via call.'} = '';
-    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = '';
 
     # Template: AgentPlain
     $Hash{'ArticleID'} = '';
@@ -539,6 +579,11 @@ sub Data {
     $Hash{'Powered by'} = '';
 
     # Template: CustomerHeader
+    $Hash{'Contact'} = '';
+    $Hash{'Home'} = '';
+    $Hash{'Online-Support'} = '';
+    $Hash{'Products'} = '';
+    $Hash{'Support'} = '';
 
     # Template: CustomerLogin
 
@@ -565,6 +610,7 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
+    $Hash{'of'} = '';
 
     # Template: CustomerStatusViewTable
 
@@ -578,7 +624,6 @@ sub Data {
     # Template: Footer
 
     # Template: Header
-    $Hash{'Home'} = '';
 
     # Template: InstallerStart
     $Hash{'next step'} = '';
@@ -661,6 +706,8 @@ sub Data {
     $Hash{'(Click here to add charset)'} = 'Klikkaa tästä lisätäksesi kirjaisinasetuksen';
     $Hash{'(Click here to add language)'} = '(Klikkaa tästä lisätäksesi uusi kieli)';
     $Hash{'(Click here to add state)'} = '(Klikkaa tästä lisätäksesi uusi status)';
+    $Hash{'A message should have a From: recipient!'} = '';
+    $Hash{'New ticket via call.'} = '';
     $Hash{'Update auto response'} = '';
     $Hash{'Update charset'} = 'Päivitä kirjaisinasetukset';
     $Hash{'Update group'} = 'Päivitä ryhmätiedot';
@@ -674,10 +721,12 @@ sub Data {
     $Hash{'Update user'} = 'Päivitä käyttäjätiedot';
     $Hash{'You have to be in the admin group!'} = '';
     $Hash{'You have to be in the stats group!'} = '';
+    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = '';
     $Hash{'auto responses set'} = '';
 
-    $Self->{Translation} = \%Hash;
+    # $$STOP$$
 
+    $Self->{Translation} = \%Hash;
 }
 # --
 1;

@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.12 2002-12-01 14:16:05 martin Exp $
+# $Id: Language.pm,v 1.13 2002-12-20 19:08:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -183,6 +183,39 @@ sub GetPossibleCharsets {
     }
 }
 # --
+sub Time {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Action Format)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if ($Param{Action} =~ /^GET$/) {
+        my $ReturnString = $Self->{$Param{Format}} || 'Need to be translated!';
+        my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
+        my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
+        my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+        $Y = $Y+1900;
+        $M++;
+        my $Time = sprintf("%02d:%02d:%02d", $h,$m,$s);
+        $D = sprintf("%02d", $D);
+        $M = sprintf("%02d", $M);
+        $ReturnString =~ s/\%T/$Time/g;
+        $ReturnString =~ s/\%D/$D/g;
+        $ReturnString =~ s/\%M/$M/g;
+        $ReturnString =~ s/\%Y/$Y/g;
+        $ReturnString =~ s/\%Y/$Y/g;
+        $ReturnString =~ s{(\%A)}{$Self->Get($DAYS[$wd]);}egx;
+        $ReturnString =~ s{(\%B)}{$Self->Get($MONS[$M-1]);}egx;
+        return $ReturnString;
+    }
+}
+# --
 sub DESTROY {
     my $Self = shift;
 
@@ -192,46 +225,24 @@ sub DESTROY {
 
     if ($Self->{UsedWords}) {
         my %UniqWords = ();
+        my $Data = '';
         my %Screens = %{$Self->{UsedWords}};
-        print STDERR "Write /tmp/$Self->{UserLanguage}.pm!\n";
-        open (TEMPLATEOUT, "> /tmp/$Self->{UserLanguage}.pm") || die "Can't write .pm: $!";
-        print TEMPLATEOUT "# --\n";
-        print TEMPLATEOUT "# Kernel/Language/$Self->{UserLanguage}.pm - provides $Self->{UserLanguage} language translation\n";
-        print TEMPLATEOUT "# Copyright (C) 2002 ??? <???>\n";
-        print TEMPLATEOUT "# --\n";
-        print TEMPLATEOUT "# \$Id: Language.pm,v 1.12 2002-12-01 14:16:05 martin Exp $\n";
-        print TEMPLATEOUT "# --\n";
-        print TEMPLATEOUT "# This software comes with ABSOLUTELY NO WARRANTY. For details, see\n";
-        print TEMPLATEOUT "# the enclosed file COPYING for license information (GPL). If you\n";
-        print TEMPLATEOUT "# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.\n";
-        print TEMPLATEOUT "# --\n";
-        print TEMPLATEOUT "package Kernel::Language::$Self->{UserLanguage};\n";
-        print TEMPLATEOUT "\n";
-        print TEMPLATEOUT "use strict;\n";
-        print TEMPLATEOUT "\n";
-        print TEMPLATEOUT "use vars qw(\$VERSION);\n";
-        print TEMPLATEOUT "\$VERSION = '\$Revision: 1.12 $';\n";
-        print TEMPLATEOUT '$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;';
-        print TEMPLATEOUT "\n";
-        print TEMPLATEOUT "# --\n";
-        print TEMPLATEOUT "sub Data {\n";
-        print TEMPLATEOUT "    my \$Self = shift;\n";
-        print TEMPLATEOUT "    my \%Param = \@_;\n";
-        print TEMPLATEOUT "    my \%Hash = ();\n";
-        print TEMPLATEOUT "\n";
-        print TEMPLATEOUT "    # possible charsets\n";
-        print TEMPLATEOUT "    \$Self->{Charset} = [";
+        $Data .= "    # possible charsets\n".
+                 "    \$Self->{Charset} = [";
         if ($Self->{Charset}) {
             foreach (@{$Self->{Charset}}) {
-                print TEMPLATEOUT "'$_', ";
+                $Data .= "'$_', ";
             }
         }
-        print TEMPLATEOUT "];\n";
+        $Data .= "];\n".
+                 "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n".
+                 "    \$Self->{DateFormat} = '$Self->{DateFormat}';\n".
+                 "    \$Self->{DateFormatLong} = '$Self->{DateFormatLong}';\n";
 
         foreach my $Screen (sort keys %Screens) {
             my %Words = %{$Screens{$Screen}};
             if ($Screen) {
-                print TEMPLATEOUT "\n    # Template: $Screen\n";
+                $Data .= "\n    # Template: $Screen\n";
                 foreach my $Key (sort {uc($a) cmp uc($b)} keys %Words) {
                     if (!$UniqWords{$Key} && $Key) {
                         $UniqWords{$Key} = 1;
@@ -243,13 +254,13 @@ sub DESTROY {
                         else {
                             $Words{$Key} = '';
                         }
-                        print TEMPLATEOUT "    \$Hash{'$QuoteKey'} = '$Words{$Key}';\n";
+                        $Data .= "    \$Hash{'$QuoteKey'} = '$Words{$Key}';\n";
                     }
                 }
             }
         }
 
-        print TEMPLATEOUT "\n    # Misc\n";
+        $Data .= "\n    # Misc\n";
         foreach my $Key (sort keys %{$Self->{Translation}}) {
             if (!$UniqWords{$Key} && $Key && $Self->{Translation}->{$Key} !~ /HASH\(/) {
                 $UniqWords{$Key} = 1;
@@ -261,21 +272,12 @@ sub DESTROY {
                 else {
                     $Self->{Translation}->{$Key} = '';
                 }
-                print TEMPLATEOUT "    \$Hash{'$QuoteKey'} = '$Self->{Translation}->{$Key}';\n";
+                $Data .= "    \$Hash{'$QuoteKey'} = '$Self->{Translation}->{$Key}';\n";
             }
         }
-
-        print TEMPLATEOUT "\n";
-        print TEMPLATEOUT "    \$Self->{Translation} = \\\%Hash;\n";
-        print TEMPLATEOUT "\n";
-        print TEMPLATEOUT "}\n";
-        print TEMPLATEOUT "# --\n";
-        print TEMPLATEOUT "1;\n";
-        close (TEMPLATEOUT);
+        return $Data;
     }
- 
 }
 # --
 
 1;
-

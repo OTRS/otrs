@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: nl.pm,v 1.2 2002-12-15 00:58:23 martin Exp $
+# $Id: nl.pm,v 1.3 2002-12-20 19:08:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -21,10 +21,16 @@ sub Data {
     my %Param = @_;
     my %Hash = ();
 
+    # $$START$$
+    # Last translation Fri Dec 20 19:52:30 2002 by 
+
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    $Self->{DateFormat} = '%D.%M.%Y %T';
+    $Self->{DateFormatLong} = '%A %D %B %T %Y';
 
-    # Template: AAABasics
+    # Template: AAABase
     $Hash{' 2 minutes'} = ' 2 minuten';
     $Hash{' 5 minutes'} = ' 5 minuten';
     $Hash{' 7 minutes'} = ' 7 minuten';
@@ -32,13 +38,13 @@ sub Data {
     $Hash{'15 minutes'} = '15 minuten';
     $Hash{'AddLink'} = 'Link toevoegen';
     $Hash{'AdminArea'} = 'Administratiegedeelte';
-    $Hash{'all'} = 'alle';
     $Hash{'All'} = 'Alle';
+    $Hash{'all'} = 'alle';
     $Hash{'Attention'} = 'Let op';
     $Hash{'Bug Report'} = 'Foutrapport';
     $Hash{'Cancel'} = '';
-    $Hash{'change'} = 'veranderen';
     $Hash{'Change'} = 'Veranderen';
+    $Hash{'change'} = 'veranderen';
     $Hash{'change!'} = 'veranderen!';
     $Hash{'click here'} = 'klik hier';
     $Hash{'Comment'} = 'Commentaar';
@@ -46,13 +52,14 @@ sub Data {
     $Hash{'Customer info'} = 'Klanten info';
     $Hash{'day'} = 'dag';
     $Hash{'days'} = 'dagen';
-    $Hash{'Description'} = 'Omschrijving';
     $Hash{'description'} = 'omschrijving';
+    $Hash{'Description'} = 'Omschrijving';
     $Hash{'Done'} = '';
     $Hash{'end'} = 'Onderkant';
     $Hash{'Error'} = 'Fout';
     $Hash{'Example'} = 'Voorbeeld';
     $Hash{'Examples'} = 'Voorbeelden';
+    $Hash{'Feature not acitv!'} = '';
     $Hash{'go'} = 'start';
     $Hash{'go!'} = 'start!';
     $Hash{'Group'} = 'Groep';
@@ -61,9 +68,13 @@ sub Data {
     $Hash{'hour'} = 'uur';
     $Hash{'hours'} = 'uren';
     $Hash{'Ignore'} = '';
+    $Hash{'invalid'} = '';
+    $Hash{'Invalid SessionID!'} = '';
     $Hash{'Language'} = 'Taal';
     $Hash{'Languages'} = 'Talen';
     $Hash{'Line'} = 'Regel';
+    $Hash{'Lite'} = '';
+    $Hash{'Login failed! Your username or password was entered incorrectly.'} = '';
     $Hash{'Logout successful. Thank you for using OTRS!'} = 'Afgemeld! Wij danken u voor het gebruikeen van OTRS!';
     $Hash{'Message'} = 'Bericht';
     $Hash{'minute'} = 'minuut';
@@ -79,12 +90,13 @@ sub Data {
     $Hash{'none'} = 'geen';
     $Hash{'none - answered'} = 'geen - beantwoord';
     $Hash{'none!'} = 'niet ingevoerd!';
-    $Hash{'off'} = 'uit';
     $Hash{'Off'} = 'Uit';
-    $Hash{'On'} = 'Aan';
+    $Hash{'off'} = 'uit';
     $Hash{'on'} = 'aan';
+    $Hash{'On'} = 'Aan';
     $Hash{'Password'} = 'Wachtwoord';
     $Hash{'Please answer this ticket(s) to get back to the normal queue view!'} = 'A.u.b. geëscaleerde tickets beantwoorden om terug tekomen in de normale wachtwij';
+    $Hash{'Please contact your admin'} = '';
     $Hash{'please do not edit!'} = 'A.u.b. niet wijzigen!';
     $Hash{'QueueView'} = 'Wachtrij weergave';
     $Hash{'replace with'} = '';
@@ -99,6 +111,7 @@ sub Data {
     $Hash{'Text'} = '';
     $Hash{'The recommended charset for your language is %s!'} = '';
     $Hash{'Theme'} = '';
+    $Hash{'There is no account with that login name.'} = '';
     $Hash{'top'} = 'Bovenkant';
     $Hash{'update'} = 'verversen';
     $Hash{'update!'} = 'verversen!';
@@ -112,6 +125,20 @@ sub Data {
     $Hash{'yes'} = 'ja';
     $Hash{'Yes'} = 'Ja';
     $Hash{'You got new message!'} = 'Nieuw bericht binnen!';
+
+    # Template: AAAMonth
+    $Hash{'Apr'} = '';
+    $Hash{'Aug'} = '';
+    $Hash{'Dec'} = '';
+    $Hash{'Feb'} = '';
+    $Hash{'Jan'} = '';
+    $Hash{'Jul'} = '';
+    $Hash{'Jun'} = '';
+    $Hash{'Mar'} = '';
+    $Hash{'May'} = '';
+    $Hash{'Nov'} = '';
+    $Hash{'Oct'} = '';
+    $Hash{'Sep'} = '';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = '';
@@ -149,8 +176,8 @@ sub Data {
     $Hash{'Compose'} = 'Maken';
     $Hash{'Created'} = 'Gemaakt';
     $Hash{'Createtime'} = 'Gemaakt op';
-    $Hash{'eMail'} = '';
     $Hash{'email'} = 'email';
+    $Hash{'eMail'} = '';
     $Hash{'email-external'} = 'Email naar extern';
     $Hash{'email-internal'} = 'Email naar intern';
     $Hash{'Forward'} = 'Doorsturen';
@@ -191,6 +218,15 @@ sub Data {
     $Hash{'webrequest'} = '';
     $Hash{'Zoom'} = 'Inhoud';
 
+    # Template: AAAWeekDay
+    $Hash{'Fri'} = '';
+    $Hash{'Mon'} = '';
+    $Hash{'Sat'} = '';
+    $Hash{'Sun'} = '';
+    $Hash{'Thu'} = '';
+    $Hash{'Tue'} = '';
+    $Hash{'Wed'} = '';
+
     # Template: AdminAutoResponseForm
     $Hash{'Add auto response'} = 'Automatisch antwoord toevoegen';
     $Hash{'Auto Response From'} = '';
@@ -201,6 +237,9 @@ sub Data {
     $Hash{'Response'} = 'Antwoord';
     $Hash{'to get the first 20 character of the subject'} = '';
     $Hash{'to get the first 5 lines of the email'} = '';
+    $Hash{'to get the from line of the email'} = '';
+    $Hash{'to get the realname of the sender (if given)'} = '';
+    $Hash{'to get the ticket number of the ticket'} = '';
     $Hash{'Type'} = '';
     $Hash{'Useable options'} = 'Te gebruiken opties';
 
@@ -214,11 +253,8 @@ sub Data {
     $Hash{'Change customer user settings'} = '';
     $Hash{'Customer User Management'} = '';
     $Hash{'Customer user will be needed to to login via customer panels.'} = '';
-    $Hash{'CustomerID'} = 'Klant #';
-    $Hash{'Email'} = 'Email';
-    $Hash{'Firstname'} = 'Voornaam';
-    $Hash{'Lastname'} = 'Achternaam';
-    $Hash{'Login'} = '';
+
+    # Template: AdminCustomerUserGeneric
 
     # Template: AdminCustomerUserPreferencesGeneric
 
@@ -244,22 +280,36 @@ sub Data {
     $Hash{'Change system language setting'} = 'Andere Systeemtaal';
     $Hash{'System Language Management'} = 'Systeemtaal beheer';
 
+    # Template: AdminLog
+    $Hash{'System Log'} = '';
+
     # Template: AdminNavigationBar
     $Hash{'AdminEmail'} = '';
     $Hash{'AgentFrontend'} = 'Agent weergave';
     $Hash{'Auto Response <-> Queue'} = 'Automatische antwoorden <-> Wachtrijen';
     $Hash{'Auto Responses'} = 'Automatische antwoorden';
     $Hash{'Charsets'} = '';
-    $Hash{'CustomerUser'} = '';
+    $Hash{'Customer User'} = '';
     $Hash{'Email Addresses'} = 'Email-adressen';
     $Hash{'Groups'} = 'Groepen';
     $Hash{'Logout'} = 'Afmelden';
+    $Hash{'POP3 Account'} = '';
     $Hash{'Responses'} = 'Antwoorden';
     $Hash{'Responses <-> Queue'} = 'Antwoorden <-> Wachtrijen';
     $Hash{'Select Box'} = '';
     $Hash{'Session Management'} = 'Sessiebeheer';
     $Hash{'Status defs'} = '';
     $Hash{'User <-> Groups'} = 'Gebruikers <-> Groepen';
+
+    # Template: AdminPOP3Form
+    $Hash{'Add POP3 Account'} = '';
+    $Hash{'All incoming emails with one account will be dispatched in the selected queue!'} = '';
+    $Hash{'Change POP3 Account setting'} = '';
+    $Hash{'Host'} = '';
+    $Hash{'If your account is trusted, the x-otrs header (for priority, ...) will be used!'} = '';
+    $Hash{'Login'} = '';
+    $Hash{'POP3 Account Management'} = '';
+    $Hash{'Trusted'} = '';
 
     # Template: AdminQueueAutoResponseForm
     $Hash{'Queue <-> Auto Response Management'} = 'Wachtrij<-> Automatisch antwoorden toekenning';
@@ -337,6 +387,7 @@ sub Data {
     $Hash{'Add system address'} = 'Systeem emailadres toevoegen';
     $Hash{'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!'} = 'Alle binnenkomede emails met deze "To:" worden in de gekozen wachtrij geplaatst.';
     $Hash{'Change system address setting'} = 'Systeemadres wijzigen';
+    $Hash{'Email'} = 'Email';
     $Hash{'Realname'} = '';
     $Hash{'System Email Addresses Management'} = 'Email systeemadressen beheer';
 
@@ -344,6 +395,8 @@ sub Data {
     $Hash{'Add user'} = 'Gebruiker toevoegen';
     $Hash{'Change user settings'} = 'Wijzigen van gebruikersinstellingen';
     $Hash{'Don\'t forget to add a new user to groups!'} = 'Vergeet niet om groepen aan deze gebruiker toe te kennen!';
+    $Hash{'Firstname'} = 'Voornaam';
+    $Hash{'Lastname'} = 'Achternaam';
     $Hash{'User Management'} = 'Gebruikersbeheer';
     $Hash{'User will be needed to handle tickets.'} = 'Gebruikers zijn nodig om Tickets te behandelen.';
 
@@ -394,6 +447,9 @@ sub Data {
 
     # Template: AgentCustomerHistoryTable
 
+    # Template: AgentCustomerView
+    $Hash{'Customer Data'} = '';
+
     # Template: AgentForward
     $Hash{'Article type'} = 'Artikel-type';
     $Hash{'Date'} = '';
@@ -407,6 +463,7 @@ sub Data {
 
     # Template: AgentMailboxTicket
     $Hash{'Add Note'} = 'Notitie toevoegen';
+    $Hash{'CustomerID'} = 'Klant #';
 
     # Template: AgentNavigationBar
     $Hash{'FAQ'} = '';
@@ -431,10 +488,7 @@ sub Data {
     $Hash{'Phone call at %s'} = '';
 
     # Template: AgentPhoneNew
-    $Hash{'A message should have a From: recipient!'} = 'Een bericht moet een Van: afzender hebben!';
     $Hash{'new ticket'} = 'nieuw ticket';
-    $Hash{'New ticket via call.'} = '';
-    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = 'In het Van-veld hebben we een Email-adres nodig!';
 
     # Template: AgentPlain
     $Hash{'ArticleID'} = '';
@@ -525,6 +579,11 @@ sub Data {
     $Hash{'Powered by'} = '';
 
     # Template: CustomerHeader
+    $Hash{'Contact'} = '';
+    $Hash{'Home'} = '';
+    $Hash{'Online-Support'} = '';
+    $Hash{'Products'} = '';
+    $Hash{'Support'} = '';
 
     # Template: CustomerLogin
 
@@ -551,6 +610,7 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
+    $Hash{'of'} = '';
 
     # Template: CustomerStatusViewTable
 
@@ -564,12 +624,30 @@ sub Data {
     # Template: Footer
 
     # Template: Header
-    $Hash{'Home'} = '';
 
     # Template: InstallerStart
     $Hash{'next step'} = '';
 
     # Template: InstallerSystem
+    $Hash{'(Email of the system admin)'} = '';
+    $Hash{'(Full qualified domain name of your system)'} = '';
+    $Hash{'(Logfile just needed for File-LogModule!)'} = '';
+    $Hash{'(The identify of the system. Each ticket number and each http session id starts with this number)'} = '';
+    $Hash{'(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')'} = '';
+    $Hash{'(Used default language)'} = '';
+    $Hash{'(Used log backend)'} = '';
+    $Hash{'(Used ticket number format)'} = '';
+    $Hash{'Default Charset'} = '';
+    $Hash{'Default Language'} = '';
+    $Hash{'Logfile'} = '';
+    $Hash{'LogModule'} = '';
+    $Hash{'Organization'} = '';
+    $Hash{'System'} = '';
+    $Hash{'System FQDN'} = '';
+    $Hash{'SystemID'} = '';
+    $Hash{'Ticket Hook'} = '';
+    $Hash{'Ticket Number Generator'} = '';
+    $Hash{'Webfrontend'} = '';
 
     # Template: Login
 
@@ -628,6 +706,8 @@ sub Data {
     $Hash{'(Click here to add charset)'} = '(Hier klikken - karakterset toevoegen';
     $Hash{'(Click here to add language)'} = '(Hier klikken - taal toevoegen)';
     $Hash{'(Click here to add state)'} = '(Hier klikken - Status toevoegen)';
+    $Hash{'A message should have a From: recipient!'} = 'Een bericht moet een Van: afzender hebben!';
+    $Hash{'New ticket via call.'} = '';
     $Hash{'Update auto response'} = 'Automatisch antwoord aktualiseren';
     $Hash{'Update charset'} = 'Karakterset actualiseren';
     $Hash{'Update group'} = 'Groep aktualiseren';
@@ -641,10 +721,12 @@ sub Data {
     $Hash{'Update user'} = 'Gebruiker actualiseren';
     $Hash{'You have to be in the admin group!'} = 'U moet hiervoor in de admin-groep staan!';
     $Hash{'You have to be in the stats group!'} = 'U moet hiervoor in de statisiek groep staan!';
+    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = 'In het Van-veld hebben we een Email-adres nodig!';
     $Hash{'auto responses set'} = 'Automatische antwoorden ingesteld';
 
-    $Self->{Translation} = \%Hash;
+    # $$STOP$$
 
+    $Self->{Translation} = \%Hash;
 }
 # --
 1;

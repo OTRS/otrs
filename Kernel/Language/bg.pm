@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.5 2002-12-15 00:58:22 martin Exp $
+# $Id: bg.pm,v 1.6 2002-12-20 19:08:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -21,8 +21,14 @@ sub Data {
     my %Param = @_;
     my %Hash = ();
 
+    # $$START$$
+    # Last translation Fri Dec 20 19:37:59 2002 by Vladimir Gerdjikov
+
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    $Self->{DateFormat} = '%D.%M.%Y %T';
+    $Self->{DateFormatLong} = '%A %D %B %T %Y';
 
     # Template: AAABase
     $Hash{' 2 minutes'} = ' 2 Минути';
@@ -66,6 +72,7 @@ sub Data {
     $Hash{'Language'} = 'Език';
     $Hash{'Languages'} = 'Езици';
     $Hash{'Line'} = 'Линия';
+    $Hash{'Lite'} = '';
     $Hash{'Login failed! Your username or password was entered incorrectly.'} = '';
     $Hash{'Logout successful. Thank you for using OTRS!'} = 'Изходът е успешен. Благодарим Ви, че използвахте системата.';
     $Hash{'Message'} = 'Съобщение';
@@ -76,16 +83,16 @@ sub Data {
     $Hash{'Name'} = 'Име';
     $Hash{'New message'} = 'Ново съобщение';
     $Hash{'New message!'} = 'Ново съобщение!';
-    $Hash{'no'} = 'не';
     $Hash{'No'} = 'Не';
+    $Hash{'no'} = 'не';
     $Hash{'No suggestions'} = 'Няма предположения';
     $Hash{'none'} = 'няма';
     $Hash{'none - answered'} = 'няма - отговорен';
     $Hash{'none!'} = 'няма!';
-    $Hash{'Off'} = 'Изключено';
     $Hash{'off'} = 'изключено';
-    $Hash{'On'} = 'Включено';
+    $Hash{'Off'} = 'Изключено';
     $Hash{'on'} = 'включено';
+    $Hash{'On'} = 'Включено';
     $Hash{'Password'} = 'Парола';
     $Hash{'Please answer this ticket(s) to get back to the normal queue view!'} = 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!';
     $Hash{'Please contact your admin'} = '';
@@ -117,6 +124,20 @@ sub Data {
     $Hash{'Yes'} = 'Да';
     $Hash{'yes'} = 'да';
     $Hash{'You got new message!'} = 'Вие получихте ново съобщение!';
+
+    # Template: AAAMonth
+    $Hash{'Apr'} = '';
+    $Hash{'Aug'} = '';
+    $Hash{'Dec'} = '';
+    $Hash{'Feb'} = '';
+    $Hash{'Jan'} = '';
+    $Hash{'Jul'} = '';
+    $Hash{'Jun'} = '';
+    $Hash{'Mar'} = '';
+    $Hash{'May'} = '';
+    $Hash{'Nov'} = '';
+    $Hash{'Oct'} = '';
+    $Hash{'Sep'} = '';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = 'Потребителска опашка';
@@ -154,8 +175,8 @@ sub Data {
     $Hash{'Compose'} = 'Създаване';
     $Hash{'Created'} = 'Създаден';
     $Hash{'Createtime'} = 'време на създаване';
-    $Hash{'eMail'} = 'еМейл';
     $Hash{'email'} = 'еМейл';
+    $Hash{'eMail'} = 'еМейл';
     $Hash{'email-external'} = 'външен еМейл';
     $Hash{'email-internal'} = 'вътрешен еМейл';
     $Hash{'Forward'} = 'Препратете';
@@ -196,6 +217,15 @@ sub Data {
     $Hash{'webrequest'} = 'заявка по web';
     $Hash{'Zoom'} = 'Подробно';
 
+    # Template: AAAWeekDay
+    $Hash{'Fri'} = '';
+    $Hash{'Mon'} = '';
+    $Hash{'Sat'} = '';
+    $Hash{'Sun'} = '';
+    $Hash{'Thu'} = '';
+    $Hash{'Tue'} = '';
+    $Hash{'Wed'} = '';
+
     # Template: AdminAutoResponseForm
     $Hash{'Add auto response'} = 'Добавяне на автоматичен отговор';
     $Hash{'Auto Response From'} = 'Автоматичен отговор от';
@@ -222,11 +252,8 @@ sub Data {
     $Hash{'Change customer user settings'} = 'Смяна на потребителските настройки';
     $Hash{'Customer User Management'} = 'Управление на потребители';
     $Hash{'Customer user will be needed to to login via customer panels.'} = 'Ще Ви е необходим предварително създаден потребител за достъп до потребителския панел';
-    $Hash{'CustomerID'} = 'Потребителски индикатив';
-    $Hash{'Email'} = 'еМейл';
-    $Hash{'Firstname'} = 'Име';
-    $Hash{'Lastname'} = 'Фамилия';
-    $Hash{'Login'} = 'Вход';
+
+    # Template: AdminCustomerUserGeneric
 
     # Template: AdminCustomerUserPreferencesGeneric
 
@@ -252,22 +279,36 @@ sub Data {
     $Hash{'Change system language setting'} = 'Промяна на настройките на системният език';
     $Hash{'System Language Management'} = 'Управление на езиковите настройки';
 
+    # Template: AdminLog
+    $Hash{'System Log'} = '';
+
     # Template: AdminNavigationBar
     $Hash{'AdminEmail'} = 'Admin еМейл';
     $Hash{'AgentFrontend'} = 'Зона-потребител';
     $Hash{'Auto Response <-> Queue'} = 'Автоматичен отговор <-> Опашки';
     $Hash{'Auto Responses'} = 'Автоматичен отговор';
     $Hash{'Charsets'} = 'Символен набор';
-    $Hash{'CustomerUser'} = 'Потребител';
+    $Hash{'Customer User'} = '';
     $Hash{'Email Addresses'} = 'еМейл адреси';
     $Hash{'Groups'} = 'Групи';
     $Hash{'Logout'} = 'Изход';
+    $Hash{'POP3 Account'} = '';
     $Hash{'Responses'} = 'Отговори';
     $Hash{'Responses <-> Queue'} = 'Отговори <-> Опашки';
     $Hash{'Select Box'} = 'Изберете кутия';
     $Hash{'Session Management'} = 'Управление на сесята';
     $Hash{'Status defs'} = 'Дефиниции на състояния';
     $Hash{'User <-> Groups'} = 'Потребител <-> Групи';
+
+    # Template: AdminPOP3Form
+    $Hash{'Add POP3 Account'} = '';
+    $Hash{'All incoming emails with one account will be dispatched in the selected queue!'} = '';
+    $Hash{'Change POP3 Account setting'} = '';
+    $Hash{'Host'} = '';
+    $Hash{'If your account is trusted, the x-otrs header (for priority, ...) will be used!'} = '';
+    $Hash{'Login'} = 'Вход';
+    $Hash{'POP3 Account Management'} = '';
+    $Hash{'Trusted'} = '';
 
     # Template: AdminQueueAutoResponseForm
     $Hash{'Queue <-> Auto Response Management'} = 'Опашка <-> Управление на автоматичният отговор';
@@ -345,6 +386,7 @@ sub Data {
     $Hash{'Add system address'} = 'Добавяне на нов системен адрес';
     $Hash{'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!'} = 'Всички входящи адреси от този еМейл (До:) ще се разпределят в избраната опашка';
     $Hash{'Change system address setting'} = 'Промяна на настройките на системният адрес';
+    $Hash{'Email'} = 'еМейл';
     $Hash{'Realname'} = 'Истинско име';
     $Hash{'System Email Addresses Management'} = 'Управление на системния еМейл адрес';
 
@@ -352,6 +394,8 @@ sub Data {
     $Hash{'Add user'} = 'Добавяне на потребител';
     $Hash{'Change user settings'} = 'Промяна на потребителските настройки';
     $Hash{'Don\'t forget to add a new user to groups!'} = 'Не забравяйте да добавите новият потребител в някаква група!';
+    $Hash{'Firstname'} = 'Име';
+    $Hash{'Lastname'} = 'Фамилия';
     $Hash{'User Management'} = 'Управление на потребители';
     $Hash{'User will be needed to handle tickets.'} = 'Ще е необходим потребител, за да може билетът да се обработи';
 
@@ -402,6 +446,9 @@ sub Data {
 
     # Template: AgentCustomerHistoryTable
 
+    # Template: AgentCustomerView
+    $Hash{'Customer Data'} = '';
+
     # Template: AgentForward
     $Hash{'Article type'} = 'Клауза тип';
     $Hash{'Date'} = 'Дата';
@@ -415,6 +462,7 @@ sub Data {
 
     # Template: AgentMailboxTicket
     $Hash{'Add Note'} = 'Добавяне на бележка';
+    $Hash{'CustomerID'} = 'Потребителски индикатив';
 
     # Template: AgentNavigationBar
     $Hash{'FAQ'} = 'Често задавани въпроси';
@@ -439,10 +487,7 @@ sub Data {
     $Hash{'Phone call at %s'} = 'Телефонно обаждане в %s';
 
     # Template: AgentPhoneNew
-    $Hash{'A message should have a From: recipient!'} = 'Съобщението трябва да има попълнено поле ОТ:';
     $Hash{'new ticket'} = 'нов билет';
-    $Hash{'New ticket via call.'} = 'Нов билет чрез обаждане';
-    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = 'Трябва да имате еМейл адрес (примерно customer@example.com) в поле ОТ:';
 
     # Template: AgentPlain
     $Hash{'ArticleID'} = 'Идентификатор на клауза';
@@ -533,6 +578,11 @@ sub Data {
     $Hash{'Powered by'} = 'С помощта на';
 
     # Template: CustomerHeader
+    $Hash{'Contact'} = '';
+    $Hash{'Home'} = 'Начало';
+    $Hash{'Online-Support'} = '';
+    $Hash{'Products'} = '';
+    $Hash{'Support'} = '';
 
     # Template: CustomerLogin
 
@@ -559,6 +609,7 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
+    $Hash{'of'} = '';
 
     # Template: CustomerStatusViewTable
 
@@ -572,12 +623,30 @@ sub Data {
     # Template: Footer
 
     # Template: Header
-    $Hash{'Home'} = 'Начало';
 
     # Template: InstallerStart
     $Hash{'next step'} = 'следваща стъпка';
 
     # Template: InstallerSystem
+    $Hash{'(Email of the system admin)'} = '';
+    $Hash{'(Full qualified domain name of your system)'} = '';
+    $Hash{'(Logfile just needed for File-LogModule!)'} = '';
+    $Hash{'(The identify of the system. Each ticket number and each http session id starts with this number)'} = '';
+    $Hash{'(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')'} = '';
+    $Hash{'(Used default language)'} = '';
+    $Hash{'(Used log backend)'} = '';
+    $Hash{'(Used ticket number format)'} = '';
+    $Hash{'Default Charset'} = '';
+    $Hash{'Default Language'} = '';
+    $Hash{'Logfile'} = '';
+    $Hash{'LogModule'} = '';
+    $Hash{'Organization'} = '';
+    $Hash{'System'} = '';
+    $Hash{'System FQDN'} = '';
+    $Hash{'SystemID'} = '';
+    $Hash{'Ticket Hook'} = '';
+    $Hash{'Ticket Number Generator'} = '';
+    $Hash{'Webfrontend'} = '';
 
     # Template: Login
 
@@ -636,6 +705,9 @@ sub Data {
     $Hash{'(Click here to add charset)'} = '(Натиснете тук, за да добавите нов символен набор)';
     $Hash{'(Click here to add language)'} = '(Натиснете тук, за да добавите нов език)';
     $Hash{'(Click here to add state)'} = '(Натиснете тук, за да добавите ново системно състояние )';
+    $Hash{'A message should have a From: recipient!'} = 'Съобщението трябва да има попълнено поле ОТ:';
+    $Hash{'CustomerUser'} = 'Потребител';
+    $Hash{'New ticket via call.'} = 'Нов билет чрез обаждане';
     $Hash{'Update auto response'} = 'Обновяване на автоматичният отговор';
     $Hash{'Update charset'} = 'Обновяване на символен набор';
     $Hash{'Update group'} = 'Обновяване на група';
@@ -649,8 +721,10 @@ sub Data {
     $Hash{'Update user'} = 'Обновяване на потребител';
     $Hash{'You have to be in the admin group!'} = 'Трябва да сте член на admin групата!';
     $Hash{'You have to be in the stats group!'} = 'Трябва да сте член на stat групата!';
+    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = 'Трябва да имате еМейл адрес (примерно customer@example.com) в поле ОТ:';
     $Hash{'auto responses set'} = 'набор автоматични отговори';
 
+    # $$STOP$$
     $Self->{Translation} = \%Hash;
 
 }
