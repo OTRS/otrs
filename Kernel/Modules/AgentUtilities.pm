@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.31 2003-10-21 23:31:37 martin Exp $
+# $Id: AgentUtilities.pm,v 1.32 2003-12-03 22:57:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -211,7 +211,7 @@ sub Run {
             } 
         }
         # get users groups
-        my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID},
             Type => 'ro',
             Result => 'ID',
@@ -456,7 +456,7 @@ sub MaskForm {
         %ShownUsers = %AllGroupsMembers;
     }
     else {
-        my %Groups = $Self->{GroupObject}->GroupUserList(
+        my %Groups = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID},
             Type => 'rw',
             Result => 'HASH',
@@ -519,16 +519,10 @@ sub MaskForm {
         Size => 5,
         SelectedIDRefArray => $Param{StateTypeID},
     );
-    my %MoveQueues = ();
-    if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
-        %MoveQueues = $Self->{QueueObject}->GetAllQueues();
-    }
-    else {
-        %MoveQueues = $Self->{QueueObject}->GetAllQueues(
-            UserID => $Self->{UserID},
-            Type => 'rw',
-        );
-    }
+    my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+        UserID => $Self->{UserID},
+        Type => 'move',
+    );
     $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => \%MoveQueues,
         Size => 5,
