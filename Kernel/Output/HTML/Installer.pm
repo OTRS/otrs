@@ -2,7 +2,7 @@
 # HTML/Installer.pm - provides installer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.5 2003-02-03 21:18:29 martin Exp $
+# $Id: Installer.pm,v 1.6 2003-02-08 15:43:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,8 @@ package Kernel::Output::HTML::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.6 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub InstallerStart {
