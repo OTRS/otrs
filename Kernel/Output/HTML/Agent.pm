@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.113 2003-05-21 13:47:54 martin Exp $
+# $Id: Agent.pm,v 1.114 2003-05-26 18:17:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.113 $';
+$VERSION = '$Revision: 1.114 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -508,7 +508,7 @@ sub AgentZoom {
         $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
         if ($LastSenderType ne $Article{SenderType}) {
             $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-            $Space = "$Counter |-->";
+            $Space = "$Counter |--&gt;";
         }
         $LastSenderType = $Article{SenderType};
         $ThreadStrg .= "$Space";
@@ -517,7 +517,7 @@ sub AgentZoom {
         # --
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= '>><B>';
+            $ThreadStrg .= '&gt;&gt;<i><b>';
         }
         # --
         # the full part thread string
@@ -532,14 +532,12 @@ sub AgentZoom {
              '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
         $ThreadStrg .= ' '.$Self->{LanguageObject}->FormatTimeString($Article{CreateTime});
-
-#        $ThreadStrg .= "</table><BR>";
         # --
         # if this is the shown article -=> add </b>
         # --
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= '</B>';
+            $ThreadStrg .= '</b></i>';
         }
         $ThreadStrg .= '</td></tr>';
       }
