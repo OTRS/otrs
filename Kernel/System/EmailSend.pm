@@ -2,7 +2,7 @@
 # Kernel/System/EmailSend.pm - the global email send module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.12 2002-08-15 22:36:41 martin Exp $
+# $Id: EmailSend.pm,v 1.13 2002-09-10 23:16:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,11 @@ package Kernel::System::EmailSend;
 use strict;
 use MIME::Words qw(:all);
 use Mail::Internet;
+use Kernel::System::Article;
+use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -38,6 +40,9 @@ sub new {
         die "Got no $_" if (!$Self->{$_});
     }
 
+    $Self->{ArticleObject} = Kernel::System::Article->new(%Param);
+    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
+
     # get config data
     $Self->{Sendmail} = $Self->{ConfigObject}->Get('Sendmail');
     $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
@@ -54,7 +59,6 @@ sub Send {
     my $Random = rand(999999);
     my $ToOrig = $Param{To} || '';
     my $Charset = $Param{Charset} || 'iso-8859-1';
-    my $TicketObject = $Param{TicketObject} || '';
     my $InReplyTo = $Param{InReplyTo} || '';
     my $RetEmail = $Param{Email};
     my $Loop = $Param{Loop} || 0;
@@ -63,7 +67,7 @@ sub Send {
     # --
     # check needed stuff
     # --
-    foreach (qw(TicketID UserID ArticleObject TicketObject From Body Email)) {
+    foreach (qw(TicketID UserID From Body Email)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -86,7 +90,7 @@ sub Send {
     # create article
     # --
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
-    if ($Param{ArticleID} = $Param{ArticleObject}->CreateArticle(
+    if ($Param{ArticleID} = $Self->{ArticleObject}->CreateArticle(
         %Param,
         MessageID => $MessageID, 
     )) {
@@ -112,8 +116,8 @@ sub Send {
         Subject => $Param{Subject},
         'Message-ID' => $MessageID,
         'In-Reply-To' => $InReplyTo,
-        'X-Mailer' => "Open-Ticket-Request-System Mail Service ($VERSION)",
-        'X-Powered-By' => 'OpenTRS (http://otrs.org/)',
+        'X-Mailer' => "OTRS Mail Service ($VERSION)",
+        'X-Powered-By' => 'OTRS - Open Ticket Request System (http://otrs.org/)',
         'X-MimeTools' => MIME::Tools->version,
         Organization => $Self->{Organization},
         Type => 'text/plain; charset='.$Charset,
@@ -149,7 +153,7 @@ sub Send {
         # -- 
         # write article to fs
         # -- 
-        if (!$Param{ArticleObject}->WriteArticle(ArticleID => $Param{ArticleID}, Email => \@Mail)) {
+        if (!$Self->{ArticleObject}->WriteArticle(ArticleID => $Param{ArticleID}, Email => \@Mail)) {
             return; 
         }
         # --
@@ -186,7 +190,6 @@ sub Bounce {
     my $To = $Param{To} || '';
     my $ToOrig = $To;
     my $Cc = $Param{Cc} || '';
-    my $TicketObject = $Param{TicketObject} || '';
     my $HistoryType = $Param{HistoryType} || 'Bounce';
     my $RetEmail = $Param{Email};
     # --
@@ -229,8 +232,8 @@ sub Bounce {
     # --
     # write history
     # --
-    if ($TicketObject) {
-        $TicketObject->AddHistoryRow(
+    if ($Self->{TicketObject}) {
+        $Self->{TicketObject}->AddHistoryRow(
           TicketID => $Param{TicketID},
           ArticleID => $Param{ArticleID},
           HistoryType => $HistoryType,
