@@ -1,8 +1,8 @@
 # --
-# Admin.pm - provides admin main page 
+# Kernel/Modules/Admin.pm - provides admin main page 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.2 2002-05-14 02:19:35 martin Exp $
+# $Id: Admin.pm,v 1.3 2002-07-21 19:17:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'DBObject', 'TicketObject', 'LayoutObject', 'LogObject', 'QueueObject', 'ConfigObject') {
+    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject PermissionObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 

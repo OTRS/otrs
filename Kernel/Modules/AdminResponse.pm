@@ -1,8 +1,8 @@
 # --
-# AdminResponse.pm - provides admin std response module
+# Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
+# $Id: AdminResponse.pm,v 1.3 2002-07-21 19:17:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -100,7 +100,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
-    # add new user
+    # add new response
     elsif ($Param{Subaction} eq 'AddAction') {
         my %GetParam;
         $GetParam{Pw} = '';
