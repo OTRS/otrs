@@ -1,0 +1,114 @@
+# --
+# Kernel/Config/GenericAgent.pm - config file of generic agent
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: GenericAgent.pm.examples,v 1.1 2003-01-05 13:59:55 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+package Kernel::Config::GenericAgent;
+
+use strict;
+use vars qw($VERSION @ISA @EXPORT %Jobs);
+require Exporter;
+@ISA = qw(Exporter);
+@EXPORT = qw(%Jobs);  
+
+$VERSION = '$Revision: 1.1 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+# -----------------------------------------------------------------------
+# config options
+# -----------------------------------------------------------------------
+%Jobs = (
+   # --
+   # [name of job] -> close all tickets in queue spam
+   # --
+   'close spam' => {
+      # get all tickets with this properties  
+      Queue => 'spam',
+      States => ['new', 'open'],
+      Locks => ['unlock'],
+      # new ticket properties (no option is required, use just the options
+      # witch should be changed!)
+      New => {
+        # new queue
+        Queue => 'spam',
+        # possible states (closed successful|closed unsuccessful|open|new|removed) 
+        State => 'closed successful',
+        # new ticket owner (if needed)
+        Owner => 'root@localhost',
+        # if you want to add a Note
+        Note => {
+          From => 'GenericAgent',
+          Subject => 'spam!',
+          Body => 'Closed by GenericAgent.pl because it is spam!',
+       },
+       # new lock state
+       Lock => 'unlock',
+     },
+   },
+   # --
+   # [name of job] -> close and delete all tickets in queue delete
+   # --
+   'delete' => {
+      # get all tickets with this properties  
+      Queue => 'delete',
+      States => ['new', 'open'],
+      Locks => ['unlock'],
+      # new ticket properties (no option is required, use just the options
+      # witch should be changed!)
+      New => {
+        # possible states (closed successful|closed unsuccessful|open|new|removed) 
+        State => 'closed successful',
+        # new ticket owner (if needed)
+        Owner => 'root@localhost',
+        # DELETE!
+        Delete => 1,
+     },
+   },
+   # --
+   # [name of job] -> move all tickets from tricky to experts
+   # --
+   'move tickets from tricky to experts' => {
+      # get all tickets with this properties  
+      Queue => 'tricky',
+      States => ['new', 'open'],
+      Locks => ['unlock'],
+      # new ticket properties
+      New => {
+        Queue => 'experts',
+        Note => {
+          From => 'GenericAgent',
+          Subject => 'Moved!',
+          Body => 'Moved from "tricky" to "experts" because it was not possible to find a sollution!',
+          ArticleType => 'note-internal', # note-internal|note-external|note-report
+        },
+      },
+   },
+   # --
+   # [name of job] -> move all tickets from xyz to experts
+   # --
+   'move escalation ticket to experts and execute CMD' => {
+      # get all tickets with this properties  
+      Queue => 'xyz',
+      Escalation => 1,
+      # new ticket properties
+      New => {
+        Queue => 'experts',
+        # "/path/to/your/program $TicketNumber $TicketID"
+        # ARG[0] will be the ticket number and ARG[1] the ticket id
+        CMD => '/path/to/your/program',
+      },
+   },
+   # --
+);
+
+# -----------------------------------------------------------------------
+# end of config options
+# -----------------------------------------------------------------------
+
+1;
