@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.9 2003-03-06 22:11:58 martin Exp $
+# $Id: AgentHistory.pm,v 1.10 2003-04-12 17:24:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,16 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-       'ParamObject', 
-       'DBObject', 
-       'TicketObject', 
-       'LayoutObject', 
-       'LogObject', 
-       'QueueObject', 
-       'ConfigObject',
-       'UserObject',
-    ) {
+    foreach (qw(DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -51,14 +42,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
-    my $QueueID = $Self->{QueueID};
-    my $Subaction = $Self->{Subaction};
-    my $NextScreen = $Self->{NextScreen} || '';
-    my $BackScreen = $Self->{BackScreen};
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
-   
     # --
     # check needed stuff
     # --
@@ -86,56 +69,49 @@ sub Run {
         # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
- 
-    if ($Subaction eq '' || !$Subaction) {
-        # build header
-        $Output .= $Self->{LayoutObject}->Header(Title => 'History');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
-        # build NavigationBar 
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    # -- 
+    # build header
+    # --
+    $Output .= $Self->{LayoutObject}->Header(Title => 'History');
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+    # build NavigationBar 
+    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
-        my @Lines;
-        my $Tn;
-        my $SQL = "SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, st.tn, " .
-        " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ht.name as type " .
-        " FROM " .
-        " ticket_history as sh, ticket as st, ".
-        " $Self->{ConfigObject}->{DatabaseUserTable} as su, ticket_history_type as ht" .
-        " WHERE " .
-        " sh.ticket_id = $TicketID " .
-        " AND " .
-        " sh.ticket_id = st.id" .
-        " AND " .
-        " sh.create_by = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}" .
-        " AND " .
-        " ht.id = sh.history_type_id" .
+    my @Lines;
+    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+    my $SQL = "SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ".
+        " ht.name, su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
+        " FROM ".
+        " ticket_history sh, ticket_history_type ht, ".
+        " $Self->{ConfigObject}->{DatabaseUserTable} su ".
+        " WHERE ".
+        " sh.ticket_id = $Self->{TicketID} ".
+        " AND ".
+        " ht.id = sh.history_type_id".
+        " AND ".
+        " sh.create_by = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}".
         " ORDER BY sh.id";
 #        " ORDER BY create_time";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
           my %Data;
-          $Data{Tn} = $$Data{tn};
-          $Data{TicketID} = $TicketID;
-          $Data{ArticleID} = $$Data{article_id};
-          $Data{Name} = $$Data{name};
-          $Data{CreateBy} = $$Data{login};
-          $Data{CreateTime} = $$Data{create_time};
-          $Data{HistoryType} = $$Data{type},
+          $Data{TicketID} = $Self->{TicketID};
+          $Data{ArticleID} = $Row[1]; 
+          $Data{Name} = $Row[0];
+          $Data{CreateBy} = $Row[5];
+          $Data{CreateTime} = $Row[2]; 
+          $Data{HistoryType} = $Row[4];
           push (@Lines, \%Data);
-          $Tn = $$Data{tn};
-        }
-
-        # get output
-        $Output .= $Self->{LayoutObject}->AgentHistory(
-          TicketNumber => $Tn, 
-          BackScreen => $Self->{BackScreen},
-          QueueID => $QueueID,
-          TicketID => $TicketID,
-          Data => \@Lines,
-        );
-        # add footer
-        $Output .= $Self->{LayoutObject}->Footer();
     }
+    # get output
+    $Output .= $Self->{LayoutObject}->AgentHistory(
+        TicketNumber => $Tn, 
+        TicketID => $Self->{TicketID},
+        Data => \@Lines,
+    );
+    # add footer
+    $Output .= $Self->{LayoutObject}->Footer();
+
     return $Output;
 }
 # --
