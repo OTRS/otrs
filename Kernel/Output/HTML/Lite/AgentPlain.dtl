@@ -2,7 +2,7 @@
 # ArticlePlain.dtl - provides HTML plain articles 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.dtl,v 1.7 2003-01-03 00:21:22 martin Exp $
+# $Id: AgentPlain.dtl,v 1.8 2003-01-12 19:58:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@
 </tr>
 <tr>
   <td align="left" bgcolor="$Env{"BGTableColor2"}" colspan="2">
-    <a href="$Env{"Baselink"}$Env{"LastScreen"}">$Text{"Back"}</a>
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';">$Text{"Back"}</a>
   </font>
   </td>
 </tr>

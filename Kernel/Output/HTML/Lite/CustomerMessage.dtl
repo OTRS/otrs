@@ -2,7 +2,7 @@
 # CustomerMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.dtl,v 1.3 2003-01-03 00:21:23 martin Exp $
+# $Id: CustomerMessage.dtl,v 1.4 2003-01-12 19:59:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
@@ -38,6 +38,9 @@
 <textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
 </textarea>
     </td>
+  </tr>
+  <tr>
+    <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></td>
   </tr>
   </table>
 <br>

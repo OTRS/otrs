@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.2 2003-01-03 00:21:23 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.3 2003-01-12 19:59:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -73,7 +73,7 @@ $Data{"Article::Text"}
 
 <hr>
 
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="Action" value="CustomerMessage">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
@@ -84,9 +84,12 @@ $Data{"Article::Text"}
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td> 
-<textarea name="Note" rows="15" cols="60">
+<textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
 </textarea>
     </td>
+  </tr>
+  <tr>
+    <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></td>
   </tr>
   </table>
 <br>

@@ -2,7 +2,7 @@
 # AdminPOP3Form.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3Form.dtl,v 1.4 2003-01-06 21:36:22 martin Exp $
+# $Id: AdminPOP3Form.dtl,v 1.5 2003-01-12 19:58:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,15 +11,12 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left" width="30%">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"POP3 Account Management"}$Env{"Box1"}</font></b>
-  </td>
-  <td align="right" width="70%">
-  <b><font color="$Env{"FontColor1"}">-</font></b>
+  <td align="left" colspan="2">
+    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"POP3 Account Management"}$Env{"Box1"}</font></b>
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
-  <td>
+  <td width="30%">
     $Text{"Change POP3 Account setting"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
@@ -30,7 +27,7 @@
     <input type="submit" value="$Text{"change"}">
     </form>
   </td> 
-  <td>
+  <td width="70%">
 # --
 # check subaction
 # --

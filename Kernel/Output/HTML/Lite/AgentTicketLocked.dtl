@@ -2,7 +2,7 @@
 # AgentTicketLocked.dtl - provides HTML form for AgentTicketLocked info
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketLocked.dtl,v 1.5 2003-01-03 00:21:23 martin Exp $
+# $Id: AgentTicketLocked.dtl,v 1.6 2003-01-12 19:58:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table bgcolor="$Env{"BGTableColor2"}" border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
   <td align="left"><b>
-  $Env{"Box0"}$Text{"Ticket locked!"} (</b><a href="$Env{"CGIHandle"}?Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}&QueueID=$Env{"QueueID"}">$Text{"unlock"}</a><b>)$Env{"Box1"}
+  $Env{"Box0"}$Text{"Ticket locked!"} (</b><a href="$Env{"CGIHandle"}?Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}&QueueID=$Env{"QueueID"}" onmouseover="window.status='$Text{"unlock"}'; return true;" onmouseout="window.status='';">$Text{"unlock"}</a><b>)$Env{"Box1"}
   </b></td>
 </tr>
 </table>

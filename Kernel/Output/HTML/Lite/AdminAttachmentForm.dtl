@@ -2,7 +2,7 @@
 # AdminAttachmentForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.1 2003-01-03 00:11:09 martin Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.2 2003-01-12 19:58:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,17 +11,12 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left" width="30%">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Attachment Management"}$Env{"Box1"}</font></b>
-  </font>
-  </td>
-  <td align="right" width="70%">
-  <b><font color="$Env{"FontColor1"}">-</font></b>
-  </font>
+  <td align="left" colspan="2">
+    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Attachment Management"}$Env{"Box1"}</font></b>
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
-  <td>
+  <td width="30%">
     $Text{"Change attachment settings"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
@@ -32,7 +27,7 @@
     <input type="submit" value="$Text{"change"}">
     </form>
   </td> 
-  <td>
+  <td width="70%">
 # --
 # check subaction
 # --

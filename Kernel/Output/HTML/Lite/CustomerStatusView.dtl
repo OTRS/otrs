@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerStatusView.dtl,v 1.2 2003-01-03 00:21:23 martin Exp $
+# $Id: CustomerStatusView.dtl,v 1.3 2003-01-12 19:59:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,19 +21,9 @@
  </font>
  </td>
 </tr>
-</table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor2"}">
-  <td width="80">
-    $Text{"Ticket limit:"}
-  </td>
-  <td>
-    <form action="$Env{"CGIHandle"}" method="Get">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="SortBy" value="$Data{"SortBy"}">
-    <input type="hidden" name="Order" value="$Data{"Order"}">
-    <input type="text" name="Limit" value="$Data{"Limit"}" size="5">
-    </form>
+  <td colspan="2">
+    $Text{"Ticket"} <b>$Data{"Result"}</b> $Text{"of"} $Data{"AllHits"} - $Text{"Site"}: $Data{"PageNavBar"}
   </td>
 </tr>
 </table>
@@ -43,24 +33,24 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="5">
 <tr>
  <th width="15%">$Config{"TicketHook"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Ticket&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Ticket&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Ticket&Order=Up&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Ticket&Order=Down&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="35%">$Text{"Age"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Up&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Down&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="60%">$Text{"Subject"}</th>
  <th width="10%">$Text{"State"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=State&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=State&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=State&Order=Up&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=State&Order=Down&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="15%">$Text{"Queue"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Queue&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Queue&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Queue&Order=Up&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Queue&Order=Down&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="15%">$Text{"Owner"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Up&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Down&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="10%">$Text{"CustomerID"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Up&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Down&Limit=$Data{"Limit"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
 </tr>
 $Data{"StatusTable"}
 </table>
