@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.41 2003-12-15 19:05:35 martin Exp $
+# $Id: NewTicket.pm,v 1.42 2004-01-08 11:43:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,33 +73,6 @@ sub Run {
     my $Priority = $Self->{ConfigObject}->Get('PostmasterDefaultPriority') || '3 normal';
     if ($GetParam{'X-OTRS-Priority'}) {
         $Priority = $GetParam{'X-OTRS-Priority'}; 
-    }
-    # -- 
-    # create new ticket
-    # --
-    my $NewTn = $Self->{TicketObject}->CreateTicketNr();
-    # -- 
-    # do db insert
-    # --
-    my $TicketID = $Self->{TicketObject}->CreateTicketDB(
-        TN => $NewTn,
-        QueueID => $QueueID,
-        Lock => 'unlock',
-        GroupID => 1,
-        Priority => $Priority,
-        State => $State,
-        UserID => $Param{InmailUserID},
-        CreateUserID => $Param{InmailUserID},
-    );
-    # --
-    # debug
-    # --
-    if ($Self->{Debug} > 0) {
-        print "New Ticket created!\n";
-        print "TicketNumber: $NewTn\n";
-        print "TicketID: $TicketID\n";
-        print "Priority: $Priority\n";
-        print "State: $State\n";
     }
     # --    
     # get sender email 
@@ -179,21 +152,36 @@ sub Run {
     if (!$GetParam{'X-OTRS-CustomerUser'}) { 
         $GetParam{'X-OTRS-CustomerUser'} = $GetParam{'SenderEmailAddress'};
     }
-    # --    
-    # set customer no
+    # -- 
+    # create new ticket
     # --
-    if ($GetParam{'X-OTRS-CustomerNo'} || $GetParam{'X-OTRS-CustomerUser'}) {
-        $Self->{TicketObject}->SetCustomerData(
-            TicketID => $TicketID,
-            No => $GetParam{'X-OTRS-CustomerNo'},
-            User => $GetParam{'X-OTRS-CustomerUser'},
-            UserID => $Param{InmailUserID},
-        );
-        # debug
-        if ($Self->{Debug} > 0) {
-            print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
-            print "CustomerUser: $GetParam{'X-OTRS-CustomerUser'}\n";
-        }
+    my $NewTn = $Self->{TicketObject}->CreateTicketNr();
+    # -- 
+    # do db insert
+    # --
+    my $TicketID = $Self->{TicketObject}->CreateTicketDB(
+        TN => $NewTn,
+        QueueID => $QueueID,
+        Lock => 'unlock',
+        GroupID => 1,
+        Priority => $Priority,
+        State => $State,
+        CustomerNo => $GetParam{'X-OTRS-CustomerNo'},
+        CustomerUser => $GetParam{'X-OTRS-CustomerUser'},
+        UserID => $Param{InmailUserID},
+        CreateUserID => $Param{InmailUserID},
+    );
+    # --
+    # debug
+    # --
+    if ($Self->{Debug} > 0) {
+        print "New Ticket created!\n";
+        print "TicketNumber: $NewTn\n";
+        print "TicketID: $TicketID\n";
+        print "Priority: $Priority\n";
+        print "State: $State\n";
+        print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
+        print "CustomerUser: $GetParam{'X-OTRS-CustomerUser'}\n";
     }
     # --
     # set free ticket text
@@ -228,8 +216,8 @@ sub Run {
         ContentType => $GetParam{'Content-Type'},
         Body => $GetParam{Body},
         UserID => $Param{InmailUserID},
-        HistoryType => 'NewTicket',
-        HistoryComment => "New Ticket [$NewTn] created (Q=$Queue;P=$Priority;S=$State). $Comment",
+        HistoryType => 'EmailCustomer',
+        HistoryComment => "Added email. $Comment",
         OrigHeader => \%GetParam,
         AutoResponseType => $AutoResponseType,
         Queue => $Queue,

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.23 2004-01-08 10:17:15 martin Exp $
+# $Id: CustomerMessage.pm,v 1.24 2004-01-08 11:47:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -263,12 +263,8 @@ sub Run {
             $Priority = $Self->{ConfigObject}->Get('CustomerDefaultPriority');
         }
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
-        # create new ticket
-        my $NewTn = $Self->{TicketObject}->CreateTicketNr();
-
-        # do db insert
+        # create new ticket, do db insert
         my $TicketID = $Self->{TicketObject}->CreateTicketDB(
-            TN => $NewTn,
             QueueID => $NewQueueID,
             Lock => 'unlock',
             # FIXME !!!
@@ -276,18 +272,11 @@ sub Run {
             State => 'new',
             Priority => $Priority,
             PriorityID => $PriorityID, 
+            CustomerNo => $Self->{UserCustomerID},
+            CustomerUser => $Self->{UserLogin},
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             CreateUserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
         );
-        # set Customer ID
-        if ($Self->{UserCustomerID} || $Self->{UserLogin}) {
-            $Self->{TicketObject}->SetCustomerData(
-                TicketID => $TicketID,
-                No => $Self->{UserCustomerID},
-                User => $Self->{UserLogin},
-                UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            );
-        }
       # create article
       if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,

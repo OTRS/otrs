@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.50 2004-01-07 14:08:36 martin Exp $
+# $Id: AgentPhone.pm,v 1.51 2004-01-08 11:47:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -476,11 +476,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        # create new ticket
-        my $NewTn = $Self->{TicketObject}->CreateTicketNr();
-        # do db insert
+        # create new ticket, do db insert
         my $TicketID = $Self->{TicketObject}->CreateTicketDB(
-            TN => $NewTn,
             QueueID => $NewQueueID,
             Lock => 'unlock',
             # FIXME !!!
@@ -488,6 +485,8 @@ sub Run {
             StateID => $NextStateID,
             PriorityID => $PriorityID,
             UserID => $Self->{UserID},
+            CustomerNo => $CustomerID, 
+            CustomerUser => $SelectedCustomerUser,
             CreateUserID => $Self->{UserID},
         );
         # set ticket free text
@@ -501,15 +500,6 @@ sub Run {
                     UserID => $Self->{UserID},
                 );
             }
-        }
-        # set custoemr id
-        if ($CustomerID || $SelectedCustomerUser) {
-            $Self->{TicketObject}->SetCustomerData(
-                TicketID => $TicketID,
-                No => $CustomerID, 
-                User => $SelectedCustomerUser,
-                UserID => $Self->{UserID},
-            );
         }
         # check if new owner is given (then send no agent notify)
         my $NoAgentNotify = 0;
