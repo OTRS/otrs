@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.30 2004-04-04 11:50:08 martin Exp $
+# $Id: EmailParser.pm,v 1.31 2004-04-04 13:40:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -564,6 +564,17 @@ sub CheckMessageBody {
         # remember to be an mime email now
         $Self->{MimeEmail} = 1;
         # html2text filter for message body
+        my $LinkList = '';
+        my $Counter = 0;
+        $Self->{MessageBody} =~ s{
+            <a\Whref=("|')((http|https|ftp):\/\/.*?)("|')>
+        } 
+        {
+            $Counter++;
+            $LinkList .= "[$Counter] $2\n";
+            "[$Counter]";
+        }egxi;
+        $Self->{MessageBody} .= $LinkList;
         $Self->{MessageBody} =~ s/\<.+?\>//gs;
         $Self->{MessageBody} =~ s/&amp;/&/g;
         $Self->{MessageBody} =~ s/&lt;/</g;
@@ -593,6 +604,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2004-04-04 11:50:08 $
+$Revision: 1.31 $ $Date: 2004-04-04 13:40:40 $
 
 =cut
