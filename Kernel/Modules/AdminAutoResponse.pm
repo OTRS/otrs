@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponse.pm,v 1.4 2002-07-21 16:31:28 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.5 2002-07-24 21:12:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -102,7 +102,7 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {
-            $Output = $Self->{LayoutObject}->Header();
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->AdminNavigationBar();
             $Output .= $Self->{LayoutObject}->Error();
             $Output .= $Self->{LayoutObject}->Footer();
