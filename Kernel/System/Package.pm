@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.17 2005-01-19 14:07:20 martin Exp $
+# $Id: Package.pm,v 1.18 2005-01-22 16:06:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1001,7 +1001,7 @@ sub PackageBuild {
     foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS PackageRequired)) {
         if (ref($Param{$Tag}) eq 'HASH') {
             my %OldParam = ();
-            foreach (qw(Content Encode TagType Tag)) {
+            foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                 $OldParam{$_} = $Param{$Tag}->{$_};
                 delete $Param{$Tag}->{$_};
             }
@@ -1016,7 +1016,7 @@ sub PackageBuild {
           foreach (@{$Param{$Tag}}) {
             my %Hash = %{$_};
             my %OldParam = ();
-            foreach (qw(Content Encode TagType Tag)) {
+            foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                 $OldParam{$_} = $Hash{$_};
                 delete $Hash{$_};
             }
@@ -1046,14 +1046,14 @@ sub PackageBuild {
         $XML .= "  <Filelist>\n";
         foreach my $File (@{$Param{Filelist}}) {
             my %OldParam = ();
-            foreach (qw(Encode Content)) {
+            foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
                 $OldParam{$_} = $File->{$_} || '';
                 delete $File->{$_};
             }
 
             $XML .= "    <File";
             foreach (sort keys %{$File}) {
-                if ($_ ne 'Tag' && $_ ne 'Level' && $_ ne 'Content' && $_ ne 'TagType') {
+                if ($_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType') {
                     $XML .= " $_=\"$File->{$_}\"";
                 }
             }
@@ -1088,7 +1088,7 @@ sub PackageBuild {
                     }
                     $XML .= $Space."<$Tag->{Tag}";
                     foreach (sort keys %{$Tag}) {
-                        if ($_ ne 'Tag' && $_ ne 'Level' && $_ ne 'Content' && $_ ne 'TagType') {
+                        if ($_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType' && $_ ne 'TagLevel' && $_ ne 'TagCount' && $_ ne 'TagKey' && $_ ne 'TagLastLevel') {
                             if (defined($Tag->{$_})) {
                                 $XML .= " $_=\"$Tag->{$_}\"";
                             }
@@ -1331,6 +1331,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2005-01-19 14:07:20 $
+$Revision: 1.18 $ $Date: 2005-01-22 16:06:56 $
 
 =cut
