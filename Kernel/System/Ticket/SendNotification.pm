@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendNotification.pm - send notifications to agent
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.9 2004-01-23 01:21:17 martin Exp $
+# $Id: SendNotification.pm,v 1.10 2004-01-23 03:55:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendNotification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -90,10 +90,11 @@ sub SendNotification {
         }
     }
     # get current user data
+    my %CurrentUser = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
     foreach (keys %User) {
-        if ($User{$_}) {
-            $Param{Body} =~ s/<OTRS_CURRENT_$_>/$User{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$User{$_}/gi;
+        if ($CurrentUser{$_}) {
+            $Param{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
         }
     }
     # get ticket hook
