@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.36 2004-02-18 21:56:28 martin Exp $
+# $Id: AgentUtilities.pm,v 1.36.2.1 2004-03-08 10:51:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.36.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -196,13 +196,13 @@ sub Run {
               }
           }
           if ($GetParam{TicketCreateTimeStartDay} && $GetParam{TicketCreateTimeStartMonth} && $GetParam{TicketCreateTimeStartYear}) {
-              $GetParam{TicketCreateTimeOlderDate} = $GetParam{TicketCreateTimeStartYear}.
+              $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStartYear}.
                 '-'.$GetParam{TicketCreateTimeStartMonth}.
                 '-'.$GetParam{TicketCreateTimeStartDay}.
                 ' 00:00:01';
           }
           if ($GetParam{TicketCreateTimeStopDay} && $GetParam{TicketCreateTimeStopMonth} && $GetParam{TicketCreateTimeStopYear}) {
-              $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStopYear}.
+              $GetParam{TicketCreateTimeOlderDate} = $GetParam{TicketCreateTimeStopYear}.
                 '-'.$GetParam{TicketCreateTimeStopMonth}.
                 '-'.$GetParam{TicketCreateTimeStopDay}.
                 ' 23:59:59';
@@ -233,7 +233,7 @@ sub Run {
         }
         # focus of "From To Cc Subject Body"
         foreach (qw(From To Cc Subject Body)) {
-            if (defined($GetParam{$_})) {
+            if (defined($GetParam{$_}) && $GetParam{$_} ne '') {
                 $GetParam{$_} = "*$GetParam{$_}*";
             }
         }
@@ -526,12 +526,12 @@ sub MaskForm {
         %Param,
         Prefix => 'TicketCreateTimeStart',
         Format => 'DateInputFormat',
+        DiffTime => -((60*60*24)*30),
     );
     $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix => 'TicketCreateTimeStop',
         Format => 'DateInputFormat',
-        DiffTime => -((60*60*24)*30),
     );
     # html search mask output
     my $Output = $Self->{LayoutObject}->Output(
@@ -623,7 +623,7 @@ sub MaskShortResult {
         $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
             Text => $Param{$_},
             From => $Param{ContentCharset},
-        );
+        ) || '-';
     }
     # create & return output
     if (!$Param{Answered}) {
