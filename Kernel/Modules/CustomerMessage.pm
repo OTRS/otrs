@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.7 2003-02-08 15:16:30 martin Exp $
+# $Id: CustomerMessage.pm,v 1.8 2003-02-08 21:10:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -109,7 +109,7 @@ sub Run {
             # get priority
             # --
             my %Priorities = $Self->{DBObject}->GetTableData(
-                What => 'id, id, name',
+                What => 'id, name',
                 Table => 'ticket_priority',
             );
             # --

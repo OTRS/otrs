@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.20 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentPhone.pm,v 1.21 2003-02-08 21:10:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -494,7 +494,7 @@ sub _GetPriorities {
     # get priority
     # --
     my %Priorities = $Self->{DBObject}->GetTableData(
-        What => 'id, id, name',
+        What => 'id, name',
         Table => 'ticket_priority',
     );
     return \%Priorities;
