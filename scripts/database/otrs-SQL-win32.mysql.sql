@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Erstellungszeit: 07. Januar 2003 um 23:02
+# Erstellungszeit: 14. April 2003 um 15:45
 # Server Version: 3.23.54
 # PHP-Version: 4.2.1
-# Datenbank: `otrs`
+# Datenbank: `otrs_test`
 # --------------------------------------------------------
 
 #
@@ -377,6 +377,8 @@ CREATE TABLE group_user (
   create_by int(11) NOT NULL default '0',
   change_time datetime NOT NULL default '0000-00-00 00:00:00',
   change_by int(11) NOT NULL default '0',
+  permission_read smallint(6) NOT NULL default '0',
+  permission_write smallint(6) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -384,9 +386,9 @@ CREATE TABLE group_user (
 # Daten für Tabelle `group_user`
 #
 
-INSERT INTO group_user VALUES (1, 1, 1, '2003-01-07 23:01:01', 1, '2003-01-07 23:01:01', 1);
-INSERT INTO group_user VALUES (2, 1, 2, '2003-01-07 23:01:01', 1, '2003-01-07 23:01:01', 1);
-INSERT INTO group_user VALUES (3, 1, 3, '2003-01-07 23:01:01', 1, '2003-01-07 23:01:01', 1);
+INSERT INTO group_user VALUES (1, 1, 1, '2003-01-07 23:01:01', 1, '2003-01-07 23:01:01', 1, 1, 1);
+INSERT INTO group_user VALUES (2, 1, 2, '2003-01-07 23:01:01', 1, '2003-01-07 23:01:01', 1, 1, 1);
+INSERT INTO group_user VALUES (3, 1, 3, '2003-01-07 23:01:01', 1, '2003-01-07 23:01:01', 1, 1, 1);
 # --------------------------------------------------------
 
 #
@@ -484,6 +486,10 @@ CREATE TABLE queue (
   create_by int(11) NOT NULL default '0',
   change_time datetime NOT NULL default '0000-00-00 00:00:00',
   change_by int(11) NOT NULL default '0',
+  move_notify smallint(6) NOT NULL default '0',
+  lock_notify smallint(6) NOT NULL default '0',
+  state_notify smallint(6) NOT NULL default '0',
+  owner_notify smallint(6) NOT NULL default '0',
   PRIMARY KEY  (id),
   UNIQUE KEY name (name)
 ) TYPE=MyISAM;
@@ -492,10 +498,10 @@ CREATE TABLE queue (
 # Daten für Tabelle `queue`
 #
 
-INSERT INTO queue VALUES (1, 'Postmaster', 1, 0, 0, 1, 1, 1, 1, 1, 'master queue', 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1);
-INSERT INTO queue VALUES (2, 'Raw', 1, 0, 0, 1, 1, 1, 1, 1, 'all incoming tickets', 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1);
-INSERT INTO queue VALUES (3, 'Junk', 1, 0, 0, 1, 1, 1, 1, 1, 'all junk tickets', 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1);
-INSERT INTO queue VALUES (4, 'Misc', 1, 0, 0, 1, 1, 1, 1, 1, 'all misk tickets', 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1);
+INSERT INTO queue VALUES (1, 'Postmaster', 1, 0, 0, 1, 1, 1, 1, 1, 'master queue', 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1, 0, 0, 0, 0);
+INSERT INTO queue VALUES (2, 'Raw', 1, 0, 0, 1, 1, 1, 1, 1, 'all incoming tickets', 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1, 0, 0, 0, 0);
+INSERT INTO queue VALUES (3, 'Junk', 1, 0, 0, 1, 1, 1, 1, 1, 'all junk tickets', 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1, 0, 0, 0, 0);
+INSERT INTO queue VALUES (4, 'Misc', 1, 0, 0, 1, 1, 1, 1, 1, 'all misk tickets', 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1, 0, 0, 0, 0);
 # --------------------------------------------------------
 
 #
@@ -816,6 +822,7 @@ CREATE TABLE ticket (
   create_by int(11) NOT NULL default '0',
   change_time datetime NOT NULL default '0000-00-00 00:00:00',
   change_by int(11) NOT NULL default '0',
+  customer_user_id varchar(250) default NULL,
   PRIMARY KEY  (id),
   UNIQUE KEY tn (tn),
   KEY index_ticket_queue_view (ticket_state_id,group_id,ticket_lock_id,group_id),
@@ -827,7 +834,7 @@ CREATE TABLE ticket (
 # Daten für Tabelle `ticket`
 #
 
-INSERT INTO ticket VALUES (1, '1010001', 2, 1, 0, 1, 1, 3, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1012757943, '2003-01-07 23:02:16', 1, '2003-01-07 23:02:16', 1);
+INSERT INTO ticket VALUES (1, '1010001', 2, 1, 0, 1, 1, 3, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1012757943, '2003-01-07 23:02:16', 1, '2003-01-07 23:02:16', 1, NULL);
 # --------------------------------------------------------
 
 #
@@ -912,6 +919,7 @@ INSERT INTO ticket_history_type VALUES (28, 'LoopProtection', NULL, 1, '2003-01-
 INSERT INTO ticket_history_type VALUES (29, 'Misc', NULL, 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1);
 INSERT INTO ticket_history_type VALUES (30, 'SetPendingTime', NULL, 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1);
 INSERT INTO ticket_history_type VALUES (31, 'SetPending', NULL, 1, '2003-01-07 23:01:50', 1, '2003-01-07 23:01:50', 1);
+INSERT INTO ticket_history_type VALUES (32, 'SendCustomerNotification', NULL, 1, '2003-04-14 15:44:48', 1, '2003-04-14 15:44:48', 1);
 # --------------------------------------------------------
 
 #
@@ -1000,11 +1008,11 @@ CREATE TABLE ticket_priority (
 # Daten für Tabelle `ticket_priority`
 #
 
-INSERT INTO ticket_priority VALUES (1, 'very low', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
-INSERT INTO ticket_priority VALUES (2, 'low', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
-INSERT INTO ticket_priority VALUES (3, 'normal', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
-INSERT INTO ticket_priority VALUES (4, 'high', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
-INSERT INTO ticket_priority VALUES (5, 'very high', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
+INSERT INTO ticket_priority VALUES (1, '1 very low', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
+INSERT INTO ticket_priority VALUES (2, '2 low', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
+INSERT INTO ticket_priority VALUES (3, '3 normal', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
+INSERT INTO ticket_priority VALUES (4, '4 high', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
+INSERT INTO ticket_priority VALUES (5, '5 very high', '2003-01-07 22:58:57', 1, '2003-01-07 22:58:57', 1);
 # --------------------------------------------------------
 
 #
@@ -1021,6 +1029,7 @@ CREATE TABLE ticket_state (
   create_by int(11) NOT NULL default '0',
   change_time datetime NOT NULL default '0000-00-00 00:00:00',
   change_by int(11) NOT NULL default '0',
+  type_id smallint(6) NOT NULL default '0',
   PRIMARY KEY  (id),
   UNIQUE KEY name (name)
 ) TYPE=MyISAM;
@@ -1029,14 +1038,43 @@ CREATE TABLE ticket_state (
 # Daten für Tabelle `ticket_state`
 #
 
-INSERT INTO ticket_state VALUES (1, 'new', 'ticket is new', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1);
-INSERT INTO ticket_state VALUES (2, 'closed successful', 'ticket is closed successful', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1);
-INSERT INTO ticket_state VALUES (3, 'closed unsuccessful', 'ticket is closed unsuccessful', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1);
-INSERT INTO ticket_state VALUES (4, 'open', 'ticket is open', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1);
-INSERT INTO ticket_state VALUES (5, 'removed', 'customer removed ticket (can reactivate)', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1);
-INSERT INTO ticket_state VALUES (6, 'pending reminder', 'ticket is pending for agent reminder', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1);
-INSERT INTO ticket_state VALUES (7, 'pending auto close+', 'ticket is pending for automatic close', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1);
-INSERT INTO ticket_state VALUES (8, 'pending auto close-', 'ticket is pending for automatic close', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1);
+INSERT INTO ticket_state VALUES (1, 'new', 'ticket is new', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1, 1);
+INSERT INTO ticket_state VALUES (2, 'closed successful', 'ticket is closed successful', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1, 3);
+INSERT INTO ticket_state VALUES (3, 'closed unsuccessful', 'ticket is closed unsuccessful', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1, 3);
+INSERT INTO ticket_state VALUES (4, 'open', 'ticket is open', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1, 2);
+INSERT INTO ticket_state VALUES (5, 'removed', 'customer removed ticket (can reactivate)', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1, 6);
+INSERT INTO ticket_state VALUES (6, 'pending reminder', 'ticket is pending for agent reminder', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1, 4);
+INSERT INTO ticket_state VALUES (7, 'pending auto close+', 'ticket is pending for automatic close', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1, 5);
+INSERT INTO ticket_state VALUES (8, 'pending auto close-', 'ticket is pending for automatic close', 1, '2003-01-07 23:01:22', 1, '2003-01-07 23:01:22', 1, 5);
+# --------------------------------------------------------
+
+#
+# Tabellenstruktur für Tabelle `ticket_state_type`
+#
+
+DROP TABLE IF EXISTS ticket_state_type;
+CREATE TABLE ticket_state_type (
+  id smallint(6) NOT NULL auto_increment,
+  name varchar(120) NOT NULL default '',
+  comment varchar(250) default NULL,
+  create_time datetime NOT NULL default '0000-00-00 00:00:00',
+  create_by int(11) NOT NULL default '0',
+  change_time datetime NOT NULL default '0000-00-00 00:00:00',
+  change_by int(11) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY name (name)
+) TYPE=MyISAM;
+
+#
+# Daten für Tabelle `ticket_state_type`
+#
+
+INSERT INTO ticket_state_type VALUES (1, 'new', 'all new state types (default: viewable)', '2003-04-14 15:44:48', 1, '2003-04-14 15:44:48', 1);
+INSERT INTO ticket_state_type VALUES (2, 'open', 'all open state types (default: viewable)', '2003-04-14 15:44:48', 1, '2003-04-14 15:44:48', 1);
+INSERT INTO ticket_state_type VALUES (3, 'closed', 'all closed state types (default: not viewable)', '2003-04-14 15:44:48', 1, '2003-04-14 15:44:48', 1);
+INSERT INTO ticket_state_type VALUES (4, 'pending reminder', 'all "pending reminder" state types (default: viewable)', '2003-04-14 15:44:48', 1, '2003-04-14 15:44:48', 1);
+INSERT INTO ticket_state_type VALUES (5, 'pending auto', 'all "pending auto *" state types (default: viewable)', '2003-04-14 15:44:48', 1, '2003-04-14 15:44:48', 1);
+INSERT INTO ticket_state_type VALUES (6, 'removed', 'all "removed" state types (default: not viewable)', '2003-04-14 15:44:48', 1, '2003-04-14 15:44:48', 1);
 # --------------------------------------------------------
 
 #
