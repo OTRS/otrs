@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.22 2003-04-12 20:11:41 martin Exp $
+# $Id: Installer.pm,v 1.23 2003-04-12 20:30:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -141,16 +141,13 @@ sub Run {
            $Output .= $Self->{LayoutObject}->Footer();
         }
         else { 
-           $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
+           $Output .= $Self->{LayoutObject}->Header(Title => 'Create Database');
            $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'create database',
+                    Item => 'Create Database',
                     Step => '2/4',
                     Body => $Self->{LayoutObject}->Output(
                         TemplateFile => 'InstallerStart',
-                        Data => {
-                           Item => 'create database', 
-                           Step => '2/4',
-                        },
+                        Data => { },
                     ),
            );
            $Output .= $Self->{LayoutObject}->Footer();
@@ -205,7 +202,7 @@ sub Run {
                 $SetupOutput .= "</table>";
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'create database',
+                    Item => 'Create Database',
                     Step => '2/4',
                     Body => $SetupOutput,
                 ); 
@@ -229,7 +226,7 @@ sub Run {
                 $SetupOutput .= "</table>";
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'create database',
+                    Item => 'Create Database',
                     Step => '2/4',
                     Body => $SetupOutput,
                 ); 
@@ -254,7 +251,7 @@ sub Run {
                 $SetupOutput .= "</table>";
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'create database',
+                    Item => 'Create Database',
                     Step => '2/4',
                     Body => $SetupOutput,
                 ); 
@@ -279,7 +276,7 @@ sub Run {
                 $SetupOutput .= "</table>";
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'create database',
+                    Item => 'Create Database',
                     Step => '2/4',
                     Body => $SetupOutput,
                 ); 
@@ -307,7 +304,7 @@ sub Run {
                 $SetupOutput .= "</table>";
                 $SetupOutput .= "$CMDReturn";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'create database',
+                    Item => 'Create Database',
                     Step => '2/4',
                     Body => $SetupOutput,
                 ); 
@@ -336,7 +333,7 @@ sub Run {
                 $SetupOutput .= "<p><b><font color='green'>Database setup successful!</font></b></p>";
                 $SetupOutput .= "<p><a href='installer.pl?Subaction=System'>Next Step</a></p>";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'create database',
+                    Item => 'Create Database',
                     Step => '2/4',
                     Body => $SetupOutput,
                 ); 
@@ -354,7 +351,7 @@ sub Run {
             if (!$Self->{$CMD}) {
                 $SetupOutput .= "<font color='red'><b>false</b>.</font>";
                 $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'drop database',
+                    Item => 'Drop Database',
                     Step => '4/4',
                     Body => $SetupOutput,
                 );
@@ -365,7 +362,7 @@ sub Run {
                 $SetupOutput .= "<b>done.</b><br><br> <b>Database deleted.</b>";
             }
            $Output .= $Self->{LayoutObject}->InstallerBody(
-               Item => 'drop database',
+               Item => 'Drop Database',
                Step => '4/4',
                Body => $SetupOutput,
            );
@@ -381,9 +378,9 @@ sub Run {
     # do system settings
     # --
     elsif ($Self->{Subaction} eq 'System') {
-           $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
+           $Output .= $Self->{LayoutObject}->Header(Title => 'System Settings');
            $Output .= $Self->{LayoutObject}->InstallerBody(
-               Item => 'system settings',
+               Item => 'System Settings',
                Step => '3/4',
                Body => $Self->{LayoutObject}->InstallerSystem(),
            );
@@ -393,7 +390,7 @@ sub Run {
     # do system settings action
     # --
     elsif ($Self->{Subaction} eq 'Finish') {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Finished');
         # --
         # ReConfigure Config.pm
         # --
@@ -417,7 +414,7 @@ sub Run {
            my $OTRSHandle = $ENV{SCRIPT_NAME};
            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
            $Output .= $Self->{LayoutObject}->InstallerBody(
-               Item => 'finish',
+               Item => 'Finished',
                Step => '4/4',
                Body => $Self->{LayoutObject}->Output(
                    TemplateFile => 'InstallerFinish',
