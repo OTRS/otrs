@@ -416,7 +416,7 @@ CREATE TABLE ticket_history
     history_type_id SMALLINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
-    system_queue_id SMALLINT,
+    system_queue_id INTEGER,
     owner_id INTEGER NOT NULL,
     priority_id SMALLINT NOT NULL,
     state_id SMALLINT NOT NULL,

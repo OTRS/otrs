@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.28 2004-08-12 08:11:07 martin Exp $
+  $Id: otrs-schema.xml,v 1.29 2004-08-13 05:42:30 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.28  2004/08/12 08:11:07  martin
+  added default_sign_key to queue for default sign key selection based on queue
+
   Revision 1.27  2004/08/10 06:39:45  martin
   added priority_id, owner_id and state_id to ticket_history table
 
@@ -287,6 +290,43 @@
   <column name="change_by" required="true" type="INTEGER"/>
 </table>
 
+<!-- role - all roles -->
+<table name="roles">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
+  <column name="comments" required="false" size="250" type="VARCHAR"/>
+  <column name="valid_id" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- role_group - relation role<->group -->
+<table name="role_group">
+  <column name="role_id" required="true" type="INTEGER"/>
+  <column name="group_id" required="true" type="INTEGER"/>
+  <column name="permission_key" required="true" size="20" type="VARCHAR"/>
+  <column name="permission_value" required="true" type="SMALLINT"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
+<!-- role_user - relation role<->user -->
+<table name="role_user">
+  <column name="user_id" required="true" type="INTEGER"/>
+  <column name="role_id" required="true" type="INTEGER"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
 <!-- personal_queues - there should stored all personal_queues -->
 <table name="personal_queues">
   <column name="user_id" required="true" type="INTEGER"/>
@@ -516,7 +556,7 @@
   <column name="history_type_id" required="true" type="SMALLINT"/>
   <column name="ticket_id" required="true" type="BIGINT"/>
   <column name="article_id" required="false" type="BIGINT"/>
-  <column name="system_queue_id" required="false" type="SMALLINT"/>
+  <column name="system_queue_id" required="true" type="INTEGER"/>
   <column name="owner_id" required="true" type="INTEGER"/>
   <column name="priority_id" required="true" type="SMALLINT"/>
   <column name="state_id" required="true" type="SMALLINT"/>
