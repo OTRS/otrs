@@ -2,13 +2,35 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.103 2003-12-08 00:06:58 martin Exp $
+# $Id: CHANGES,v 1.104 2004-01-09 16:49:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD 
+ - (2004/01/09) improved GenericAgent.pl to work also with more ticket
+    properties see also for all options: 
+    http://doc.otrs.org/cvs/en/html/generic-agent-example.html
+ - (2004/01/09) removed charset selection from perferences (agent and
+    customer interface). Take the charset form translation file.
+ - (2004/01/09) added utf-8 support for mail frontend (min. Perl 5.8.0 
+    required)
+ - (2004/01/08) added address book feature on compose answer
+    screen.
+ - (2004/01/07) added OTRS_CUSTOMER_DATA_* tags for info of 
+    existing customer in CustomerMap in Kernel/Config.pm in
+    Agent notification config options.
+ - (2003/12/23) added lock/unlock option to phone view / create 
+    ticket.
+ - (2003/12/15) changed recipents of customer notifications 
+    (change queue, update owner, update state, ...) to current 
+    customer user, based on customer user source.
+ - (2003/12/15) added customer user cc by creating a new ticket 
+    with different sender email addresses.
+ - (2003/12/11) added more ticket free text options for tickets
+    now we have 8 (not only 2) - improved also GenericAgent and
+    Web-Frontend!
  - (2003/12/07) added SUSE 9.0 support and added RPM spec file 
     for SUSE 9.0.
  - (2003/12/07) moved Kernel/Output/HTML/Agent|Admin|Customer.pm
