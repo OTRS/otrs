@@ -3,13 +3,36 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.9 2004-04-01 10:38:19 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.10 2004-04-29 11:18:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start ticket $Data{"TicketNumber"} -->
+
+<!-- This java script is just for nice to have funktions! -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else if (document.compose.Body.value == "") {
+        alert('$Text{"A message should have a body!"}');
+        document.compose.Body.focus();
+        return false;
+    }
+    else {
+        return true; 
+    }
+}
+//-->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" width="50%" class="table0">
@@ -72,7 +95,7 @@ $Data{"Article::Text"}
 
 <hr>
 
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
 <input type="hidden" name="Action" value="CustomerMessage">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
@@ -83,10 +106,9 @@ $Data{"Article::Text"}
     <td width="85%"><input type="text" name="Subject" value="$QData{"Article::Subject"}" size="60"></td>
   </tr>
   <tr>
-    <td>$Text{"Text"}:</td>
+    <td valign="top">$Text{"Text"}:</td>
     <td> 
-<textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
-</textarea>
+<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
     </td>
   </tr>
   <tr>
@@ -99,7 +121,7 @@ $Data{"Article::Text"}
 #
   </table>
 <br>
-<input class="button" type="submit" value="$Text{"submit"}">
+<input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
 </form>
 
   </td> 
