@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.97 2004-04-20 09:31:28 martin Exp $
+# $Id: Ticket.pm,v 1.98 2004-04-22 13:11:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.97 $';
+$VERSION = '$Revision: 1.98 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -656,12 +656,13 @@ sub MoveList {
     my %Queues = $Self->{QueueObject}->GetAllQueues(%Param);
 #delete $Queues{315};
     # workflow
-    if ($Self->TicketWorkflow(
+    if ($Self->TicketAcl(
         %Param,
-        Type => 'Move',
+        ReturnType => 'Ticket',
+        ReturnSubType => 'Queue',
         Data => \%Queues,
     )) { 
-        return $Self->TicketWorkflowData();
+        return $Self->TicketAclData();
     }
     # /workflow
     return %Queues;
@@ -915,12 +916,13 @@ sub TicketFreeTextGet {
         %Data = %{$Self->{ConfigObject}->Get($Param{Type})};
     }
     # workflow
-    if ($Self->TicketWorkflow(
+    if ($Self->TicketAcl(
         %Param,
-        Type => $Param{Type},
+        ReturnType => 'Ticket',
+        ReturnSubType => $Param{Type},
         Data => \%Data,
     )) {
-        my %Hash = $Self->TicketWorkflowData();
+        my %Hash = $Self->TicketAclData();
         return \%Hash;
     }
     # /workflow
@@ -1605,6 +1607,8 @@ To find tickets in your system.
       Cc => '%client@example.com%',
       Subject => '%VIRUS 32%',
       Body => '%VIRUS 32%', 
+      # content search (AND or OR) (optional)
+      ContentSearch => 'AND',
 
       # tickets older the 60 minutes (optional)
       TicketCreateTimeOlderMinutes => 60,
@@ -1630,6 +1634,7 @@ sub TicketSearch {
     my $OrderBy = $Param{OrderBy} || 'Down';
     my $SortBy = $Param{SortBy} || 'Age';
     my $Limit = $Param{Limit} || 10000;
+    my $ContentSearch = $Param{ContentSearch} || 'AND';
     my %SortOptions = (
         Owner => 'st.user_id',
         CustomerID => 'st.customer_id',
@@ -1770,11 +1775,18 @@ sub TicketSearch {
         Subject => 'at.a_subject',
         Body => 'at.a_body',
     );
+    my $FullTextSQL = '';
     foreach my $Key (keys %FieldSQLMapFullText) {
         if ($Param{$Key}) {
             $Param{$Key} =~ s/\*/%/gi;
-            $SQLExt .= " AND $FieldSQLMapFullText{$Key} LIKE '".$Self->{DBObject}->Quote($Param{$Key})."'";
+            if ($FullTextSQL) {
+                $FullTextSQL .= " $ContentSearch ";
+            }
+            $FullTextSQL .= " $FieldSQLMapFullText{$Key} LIKE '".$Self->{DBObject}->Quote($Param{$Key})."'";
         }
+    }
+    if ($FullTextSQL) {
+        $SQLExt .= ' AND ('.$FullTextSQL.')';
     }
     # ticket free text
     foreach (1..8) {
@@ -2173,12 +2185,13 @@ sub StateList {
     }
 #delete $States{4}; # remove open!
     # workflow
-    if ($Self->TicketWorkflow(
+    if ($Self->TicketAcl(
         %Param,
-        Type => 'State',
+        ReturnType => 'Ticket',
+        ReturnSubType => 'State',
         Data => \%States,
     )) { 
-        return $Self->TicketWorkflowData();
+        return $Self->TicketAclData();
     }
     # /workflow
     return %States;
@@ -2563,12 +2576,13 @@ sub PriorityList {
     my %Data = $Self->{PriorityObject}->PriorityList(%Param);
 #delete $Data{2};
     # workflow
-    if ($Self->TicketWorkflow(
+    if ($Self->TicketAcl(
         %Param,
-        Type => 'Priority',
+        ReturnType => 'Ticket',
+        ReturnSubType => 'Priority',
         Data => \%Data,
     )) {
-        return $Self->TicketWorkflowData();
+        return $Self->TicketAclData();
     }
     # /workflow
     return %Data;
@@ -2840,22 +2854,32 @@ sub TicketAccountTime {
     }
 }
 # --
-sub TicketWorkflow {
+sub TicketAcl {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(UserID Type Data)) {
+    foreach (qw(ReturnSubType ReturnType Data UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
     # check if workflows are configured, if not, just return
-    if (!$Self->{ConfigObject}->Get('TicketWorkflow') || $Param{UserID} == 1) {
+    if (!$Self->{ConfigObject}->Get('TicketAcl') || $Param{UserID} == 1) {
         return;
     }
-    my %Data = %{$Param{Data}};
+    # get used data
+    my %Data = ();
+    if (ref($Param{Data})) {
+        undef $Self->{TicketAclActionData};
+        %Data = %{$Param{Data}};
+    }
     my %Checks = ();
+    # match also frontend options
+    if ($Param{Action}) {
+        undef $Self->{TicketAclActionData};
+        $Checks{Frontend} = {Action => $Param{Action},};
+    }
     # use ticket data if ticket id is given
     if ($Param{TicketID}) {
         my %Ticket = $Self->TicketGet(%Param);
@@ -2881,11 +2905,11 @@ sub TicketWorkflow {
         $Checks{Queue} = \%Queue;
     }
     # check workflow config
-    my %Workflow = %{$Self->{ConfigObject}->Get('TicketWorkflow')};
+    my %Acls = %{$Self->{ConfigObject}->Get('TicketAcl')};
     my %NewData = ();
     my $UseNewMasterParams = 0;
-    foreach my $StepT (sort keys %Workflow) {
-        my %Step = %{$Workflow{$StepT}};
+    foreach my $Acl (sort keys %Acls) {
+        my %Step = %{$Acls{$Acl}};
         # check force match
         my $ForceMatch = 1;
         foreach (keys %{$Step{Properties}}) {
@@ -2897,7 +2921,7 @@ sub TicketWorkflow {
         my $UseNewParams = 0;
 #        foreach my $Key (keys %Checks) {
         foreach my $Key (keys %{$Step{Properties}}) {
-#print STDERR "($StepT)Key: $Key\n";
+#print STDERR "($Acl)Key: $Key\n";
           foreach my $Data (keys %{$Step{Properties}->{$Key}}) {
             my $Match2 = 0;
             foreach (@{$Step{Properties}->{$Key}->{$Data}}) {
@@ -2905,12 +2929,12 @@ sub TicketWorkflow {
                     foreach my $Array (@{$Checks{$Key}->{$Data}}) {
                         if ($_ eq $Array) {
                             $Match2 = 1;
-#print STDERR "Workflow '$StepT/$Key/$Data' MatchedARRAY ($_ eq $Array)\n";
+#print STDERR "Workflow '$Acl/$Key/$Data' MatchedARRAY ($_ eq $Array)\n";
                             # debug log
                             if ($Self->{Debug} > 4) {
                                 $Self->{LogObject}->Log(
                                     Priority => 'debug',
-                                    Message => "Workflow '$StepT/$Key/$Data' MatchedARRAY ($_ eq $Array)",
+                                    Message => "Workflow '$Acl/$Key/$Data' MatchedARRAY ($_ eq $Array)",
                                 );
                             }
                         }
@@ -2923,7 +2947,7 @@ sub TicketWorkflow {
                         if ($Self->{Debug} > 4) {
                             $Self->{LogObject}->Log(
                                     Priority => 'debug',
-                                    Message => "Workflow '$StepT/$Key/$Data' Matched ($_ eq $Checks{$Key}->{$Data})",
+                                    Message => "Workflow '$Acl/$Key/$Data' Matched ($_ eq $Checks{$Key}->{$Data})",
                             );
                         }
                     }
@@ -2935,62 +2959,70 @@ sub TicketWorkflow {
             $Match3 = 1;
           }
         }
-#print STDERR "Match: $Match '$StepT'->'$Param{Type}'\n";
+#print STDERR "Match:   $Match '$Acl'->ReturnType:'$Param{ReturnType}'->ReturnSubType:'$Param{ReturnSubType}'\n";
         # check force option
         if ($ForceMatch) {
-#print STDERR "Matched FWorkflow '$StepT'->'$Param{Type}'\n";
+#print STDERR "Matched FWorkflow '$Acl'\n";
             $Match = 1;
             $Match3 = 1;
         }
         # debug log
         my %NewTmpData = ();
         if ($Match && $Match3) {
-print STDERR "Matched Workflow '$StepT'->'$Param{Type}'\n";
+print STDERR "Matched: $Match '$Acl'->ReturnType:'$Param{ReturnType}'->ReturnSubType:'$Param{ReturnSubType}'\n";
             if ($Self->{Debug} > 2) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "Matched Workflow '$StepT'->'$Param{Type}'",
+                    Message => "Matched Workflow '$Acl'->'$Param{ReturnSubType}'",
                 );
             }
         }
-        # build new data hash 
-        if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{Type}}) {
+        # build new action data hash 
+        if (%Checks && $Match && $Match3 && $Param{ReturnType} eq 'Action' && $Step{Possible}->{$Param{ReturnType}}) {
+            $Self->{TicketAclActionData} = {
+                %{$Self->{ConfigObject}->Get('TicketACL::Default::Action')},
+                %{$Step{Possible}->{$Param{ReturnType}}},
+            };
+            return 1;
+        }
+        # build new ticket data hash 
+        if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{ReturnSubType}}) {
             $UseNewParams = 1;
             # debug log
             if ($Self->{Debug} > 3) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "Workflow '$StepT' used with Possible:'$Param{Type}'",
+                    Message => "Workflow '$Acl' used with Possible:'$Param{ReturnType}:$Param{ReturnSubType}'",
                 );
             }
             # possible list
             foreach my $ID (keys %Data) {
-                foreach my $New (@{$Step{Possible}->{Ticket}->{$Param{Type}}}) {
+                foreach my $New (@{$Step{Possible}->{Ticket}->{$Param{ReturnSubType}}}) {
                     if ($Data{$ID} eq $New) {
                         $NewTmpData{$ID} = $Data{$ID};
                         if ($Self->{Debug} > 4) {
                             $Self->{LogObject}->Log(
                                 Priority => 'debug',
-                                Message => "Workflow '$StepT' param '$Data{$ID}' used with Possible:'$Param{Type}'",
+                                Message => "Workflow '$Acl' param '$Data{$ID}' used with Possible:'$Param{ReturnType}:$Param{ReturnSubType}'",
                             );
                         }
                     }
                 }
             }
         }
-        if (%Checks && $Match && $Match3 && $Step{PossibleNot}->{Ticket}->{$Param{Type}}) {
+        if (%Checks && $Match && $Match3 && $Step{PossibleNot}->{Ticket}->{$Param{ReturnSubType}}) {
             $UseNewParams = 1;
             # debug log
             if ($Self->{Debug} > 3) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "Workflow '$StepT' used with PossibleNot:'$Param{Type}'",
+                    Message => "Workflow '$Acl' used with PossibleNot:'$Param{ReturnType}:$Param{ReturnSubType}'",
                 );
             }
             # not possible list
             foreach my $ID (keys %Data) {
                 my $Match = 1;
-                foreach my $New (@{$Step{PossibleNot}->{Ticket}->{$Param{Type}}}) {
+                foreach my $New (@{$Step{PossibleNot}->{Ticket}->{$Param{ReturnSubType}}}) {
                     if ($Data{$ID} eq $New) {
                         $Match = 0;
                     }
@@ -3000,7 +3032,7 @@ print STDERR "Matched Workflow '$StepT'->'$Param{Type}'\n";
                     if ($Self->{Debug} > 4) {
                         $Self->{LogObject}->Log(
                             Priority => 'debug',
-                            Message => "Workflow '$StepT' param '$Data{$ID}' in not used with PossibleNot:'$Param{Type}'",
+                            Message => "Workflow '$Acl' param '$Data{$ID}' in not used with PossibleNot:'$Param{ReturnType}:$Param{ReturnSubType}'",
                         );
                     }
                 }
@@ -3008,27 +3040,38 @@ print STDERR "Matched Workflow '$StepT'->'$Param{Type}'\n";
         }
         # remember to new params if given
         if ($UseNewParams) {
-#print STDERR "$StepT -- \n";
+#print STDERR "$Acl -- \n";
             %NewData = %NewTmpData;
             $UseNewMasterParams = 1;
         }
         # return new params if stop after this step
         if ($UseNewParams && $Step{StopAfterMatch}) {
-            $Self->{TicketWorkflowData} = \%NewData;
+            $Self->{TicketAclData} = \%NewData;
             return 1;
         }
     }
     if ($UseNewMasterParams) {
-        $Self->{TicketWorkflowData} = \%NewData;
+        $Self->{TicketAclData} = \%NewData;
         return 1;
     }
     return;
 }
 # --
-sub TicketWorkflowData {
+sub TicketAclData {
     my $Self = shift;
     my %Param = @_;
-    return %{$Self->{TicketWorkflowData}};
+    return %{$Self->{TicketAclData}};
+}
+# --
+sub TicketAclActionData {
+    my $Self = shift;
+    my %Param = @_;
+    if ($Self->{TicketAclActionData}) {
+        return %{$Self->{TicketAclActionData}};
+    }
+    else {
+        return %{$Self->{ConfigObject}->Get('TicketACL::Default::Action')};
+    }
 }
 # --
 1; 
@@ -3043,6 +3086,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2004-04-20 09:31:28 $
+$Revision: 1.98 $ $Date: 2004-04-22 13:11:00 $
 
 =cut
