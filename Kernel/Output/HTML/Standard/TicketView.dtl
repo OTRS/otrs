@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.49 2004-07-09 06:46:18 martin Exp $
+# $Id: TicketView.dtl,v 1.50 2004-07-16 13:07:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -90,6 +90,10 @@ $Data{"AgentCloseStrg"}
 #     $Data{"ArticleFreeString3"}
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption-->
+<dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
+<dtl if ($Data{"Successful"} eq "0") { $Data{"StopFont"} = "</font>"; }>
+<dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
+<dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
     <tr>
       <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
       <td width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","80"}$Data{"StopFont"}</div></div></td>
