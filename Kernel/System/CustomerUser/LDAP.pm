@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.19 2004-03-22 13:10:35 martin Exp $
+# $Id: LDAP.pm,v 1.20 2004-03-27 13:42:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -392,7 +392,9 @@ sub Destroy {
     my $Self = shift;
     my %Param = @_;
     # take down session
-    $Self->{LDAP}->unbind;
+    if ($Self->{LDAP}) {
+        $Self->{LDAP}->unbind;
+    }
     return 1;
 }
 # --
