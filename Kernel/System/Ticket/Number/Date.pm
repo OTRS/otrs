@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Date.pm,v 1.2 2002-07-02 20:41:24 martin Exp $
+# $Id: Date.pm,v 1.3 2002-12-15 12:39:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::Date;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub CreateTicketNr {
@@ -48,7 +48,7 @@ sub CreateTicketNr {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'debug',
-          MSG => "Read counter: $Count",
+          Message => "Read counter: $Count",
         );
     }
 
@@ -68,14 +68,14 @@ sub CreateTicketNr {
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
               Priority => 'debug',
-              MSG => "Write counter: $Count",
+              Message => "Write counter: $Count",
             );
         }
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            MSG => "Can't open $Self->{CounterLog}: $!",
+            Message => "Can't open $Self->{CounterLog}: $!",
         );
         die;
     }
@@ -93,7 +93,7 @@ sub CreateTicketNr {
           # loop protection
           $Self->{LogObject}->Log(
             Priority => 'error',
-            MSG => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
+            Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
                    " Stoped CreateTicketNr()!",
           );
           return;
@@ -103,7 +103,7 @@ sub CreateTicketNr {
         # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "Tn ($Tn) exists! Creating new one.",
+          Message => "Tn ($Tn) exists! Creating new one.",
         );
         $Tn = $Self->CreateTicketNr($Self->{LoopProtectionCounter});
     }

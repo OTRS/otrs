@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete  signatures
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSignature.pm,v 1.5 2002-10-25 11:46:00 martin Exp $
+# $Id: AdminSignature.pm,v 1.6 2002-12-15 12:39:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSignature;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -91,8 +91,8 @@ sub Run {
         else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
-                MSG => 'DB Error!!',
-                REASON => 'Please contact your admin');
+                Message => 'DB Error!!',
+                Comment => 'Please contact your admin');
         $Output .= $Self->{LayoutObject}->Footer();
         }
     }

@@ -3,7 +3,7 @@
 # bin/RebuildTicketIndex.pl - rebuild ticket index for queue view
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RebuildTicketIndex.pl,v 1.4 2002-11-10 23:02:18 martin Exp $
+# $Id: RebuildTicketIndex.pl,v 1.5 2002-12-15 12:39:22 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -42,7 +42,7 @@ use Kernel::System::Ticket;
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-RebuildTicketIndex.pl',
+    LogPrefix => 'OTRS-RebuildTicketIndex',
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
@@ -50,5 +50,11 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 # --
 # rebuild
 # --
-$CommonObject{TicketObject}->TicketAcceleratorRebuild();
+if ($CommonObject{TicketObject}->TicketAcceleratorRebuild()) {
+    exit;
+}
+else {
+    $CommonObject{LogObject}->Log(Priority => 'error');
+    exit 1;
+}
 
