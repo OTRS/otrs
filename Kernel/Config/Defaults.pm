@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.55 2003-03-13 09:48:19 martin Exp $
+# $Id: Defaults.pm,v 1.56 2003-03-13 15:29:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -686,7 +686,7 @@ $Data{"Signature"}
     # --------------------------------------------------- #
 
     # SendNoAutoResponseRegExp
-    # (if this regexp is matching on senders From or ReplyTo, not
+    # (if this regexp is matching on senders From or ReplyTo, no
     # auto response will be sent)
     $Self->{SendNoAutoResponseRegExp} = '(MAILDER-DAEMON|postmaster|abuse)@.+?\..+?';
 
@@ -1185,7 +1185,7 @@ Your OTRS Notification Master
 #    };
     
     # --------------------------------------------------- #
-    # notification email for new password                 #
+    # notification email about new password               #
     # --------------------------------------------------- #
     $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS Password!';
     $Self->{CustomerPanelBodyLostPassword} = "
@@ -1195,6 +1195,23 @@ you or someone impersonating you has requested to change your OTRS
 password.  
 
 New Password: <OTRS_NEWPW>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl
+
+Your OTRS Notification Master
+";
+    # --------------------------------------------------- #
+    # notification email about new account                #
+    # --------------------------------------------------- #
+    $Self->{CustomerPanelSubjectNewAccount} = 'New OTRS Account!';
+    $Self->{CustomerPanelBodyNewAccount} = "
+Hi <OTRS_USERFIRSTNAME>,
+
+you or someone impersonating you has created a new OTRS account for
+you (<OTRS_USERFIRSTNAME> <OTRS_USERLASTNAME>).
+
+Login: <OTRS_USERLOGIN>
+Password: <OTRS_USERPASSWORD>
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl
 

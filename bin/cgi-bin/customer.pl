@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.18 2003-03-06 10:40:12 martin Exp $
+# $Id: customer.pl,v 1.19 2003-03-13 15:30:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -455,6 +455,10 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
         $GetParams{UserLogin} = $GetParams{UserEmail};
     }
     # --
+    # get new password
+    # --
+    $GetParams{UserPassword} = $CommonObject{UserObject}->GenerateRandomPassword();
+    # --
     # get user data
     # --
     my %UserData = $CommonObject{UserObject}->CustomerUserDataGet(User => $GetParams{UserLogin});
@@ -473,6 +477,33 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
             ValidID => 1,
             UserID => $CommonObject{ConfigObject}->Get('CustomerPanelUserID'),
         )) {
+            # --
+            # send notify email
+            # --
+            my $EmailObject = Kernel::System::Email->new(%CommonObject);
+            my $Body = $CommonObject{ConfigObject}->Get('CustomerPanelBodyNewAccount')
+              || "No Config Option found!";
+            my $Subject = $CommonObject{ConfigObject}->Get('CustomerPanelSubjectNewAccount')
+              || 'New OTRS Account!';
+            foreach (keys %GetParams) {
+                $Body =~ s/<OTRS_$_>/$GetParams{$_}/gi;
+            }
+            # --
+            # send account info
+            # --
+            if (!$EmailObject->Send(
+              To => $GetParams{UserEmail},
+              Subject => $Subject,
+              Body => $Body)) {
+                print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
+                print $CommonObject{LayoutObject}->CustomerWarning(
+                    Comment => 'Can\' send account info!'
+                );
+                print $CommonObject{LayoutObject}->CustomerFooter();
+            }
+            # -- 
+            # show sent account info
+            # --
             if ($CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')) {
                 # --
                 # redirect to alternate login
@@ -481,7 +512,7 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
                 print $CommonObject{LayoutObject}->Redirect(
                     ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
                      "?RequestedURL=$Param{RequestedURL}&User=$GetParams{UserLogin}&".
-                     "Reason=NewAccountCreated",
+                     "&Email=$GetParams{UserEmail}&Reason=NewAccountCreated",
                 );
             }
             else {
@@ -490,8 +521,7 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
                 # --
                 print $CommonObject{LayoutObject}->CustomerLogin(
                     Title => 'Login',
-                    Message => "New account created. Login as '$GetParams{UserLogin}'",
-
+                    Message => "New account created. Sent Login-Account to '$GetParams{UserEmail}'",
                     User => $GetParams{UserLogin},
                 );
             }

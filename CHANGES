@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.69 2003-03-13 09:48:19 martin Exp $
+# $Id: CHANGES,v 1.70 2003-03-13 15:30:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2003/03/13) improved create customer account - send account login
+    via email to requester (added config text for email)
  - (2003/03/13) added SendNoAutoResponseRegExp config option to send no 
     auto responses if regexp is matching. (Default is
     '(MAILDER-DAEMON|postmaster|abuse)@.+?\..+?')

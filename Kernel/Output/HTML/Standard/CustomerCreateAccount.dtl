@@ -2,7 +2,7 @@
 # CustomerCreateAccount.dtl - provides customer HTML CustomerCreateAccount screen
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerCreateAccount.dtl,v 1.6 2003-03-11 13:41:38 martin Exp $
+# $Id: CustomerCreateAccount.dtl,v 1.7 2003-03-13 15:29:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,10 +39,6 @@
     <tr>
       <td>$Text{"Email"}/$Text{"Login"}: </td>
       <td> <input type="text" name="Email" value="$Data{"UserEmail"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"Password"}: </td>
-      <td> <input type="password" name="Password" value="$Data{"UserPw"}" size="35" maxlength="50"></td>
     </tr>
 #    <tr>
 #      <td>$Text{"CustomerID"}: </td>
