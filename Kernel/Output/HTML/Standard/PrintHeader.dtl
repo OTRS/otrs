@@ -2,7 +2,7 @@
 # PrintHeader.dtl - provides global print header
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.10 2004-10-23 08:30:28 martin Exp $
+# $Id: PrintHeader.dtl,v 1.11 2004-12-01 13:20:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 # --
 Content-Type: text/html; charset=$Env{"UserCharset"};
 Content-Disposition: $Data{"ContentDisposition"}
-X-Powered-By: $Env{"Product"} $Env{"Version"} - Open Ticket Request System (http://otrs.org)
+X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
@@ -41,6 +41,8 @@ $Include{"Copyright"}
   .contentfooter { color:#000000;background-color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
   .contentkey { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .contentvalue { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+# message
+  .message { color:#000000;font-size:12px;font-family:monospace, fixed; }
   .small { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
   .container {
     color: #333;
