@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.127 2004-04-23 07:54:20 martin Exp $
+# $Id: Defaults.pm,v 1.128 2004-04-28 06:38:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.127 $';
+$VERSION = '$Revision: 1.128 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -372,6 +372,9 @@ sub LoadDefaults {
     # (log backend module)
     $Self->{LogModule} = 'Kernel::System::Log::SysLog';
 #    $Self->{LogModule} = 'Kernel::System::Log::File';
+
+    # param for LogModule Kernel::System::Log::SysLog 
+#    $Self->{'LogModule::SysLog::Facility'} = 'user'; 
 
     # param for LogModule Kernel::System::Log::File (required!)
     $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
@@ -1022,7 +1025,7 @@ $Data{"Signature"}
     # SessionMaxIdleTime
     # (After this time (in seconds) without new http request, then 
     # the user get loged off)
-    $Self->{SessionMaxIdleTime} = 2*60*60;
+    $Self->{SessionMaxIdleTime} = 4*60*60;
 
     # SessionDeleteIfTimeToOld
     # (Delete session's witch are requested and to old?) [0|1]
@@ -1857,7 +1860,6 @@ Your OTRS Notification Master
     
     # default next state
     $Self->{EmailDefaultNewNextState} = 'open';
-
 
     # --------------------------------------------------- #
     # system permissions
