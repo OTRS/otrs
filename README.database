@@ -2,7 +2,7 @@
 # README.database - database description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.database,v 1.9 2002-08-25 01:07:47 martin Exp $
+# $Id: README.database,v 1.10 2002-10-23 12:08:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -51,8 +51,12 @@ Insert inital data:
 shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/initial_insert.sql
 
 Create an database user:
-------------------------
+-----------------------
 shell> mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY "some-pass" WITH GRANT OPTION;'
+
+Reload the grant tables of your mysql-daemon:
+---------------------------------------------
+shell> mysqladmin -u root -p reload
 
 **************************************************************
 *                                                            *

@@ -98,6 +98,13 @@ otrs@localhost IDENTIFIED BY "some-pass" WITH GRANT OPTION;'
 </para>
 
 <para>
+Reload the grant tables of your mysql-daemon:
+<screen>
+shell> mysqladmin -u root -p reload
+</screen>
+</para>
+
+<para>
 Change the DB-Settings (host, database, user and password) in $OTRS_HOME/Kernel/Config.pm
 <screen>
    [...]                                                    
