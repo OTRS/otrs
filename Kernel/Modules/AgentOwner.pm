@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.10 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentOwner.pm,v 1.11 2003-02-21 07:11:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,6 +79,24 @@ sub Run {
             NewUserID => $Self->{NewUserID},
             Comment => $Self->{Comment},
 		)) {
+            # --
+            # add note
+            # --
+            if ($Self->{Comment}) {
+              my $ArticleID = $Self->{TicketObject}->CreateArticle(
+                TicketID => $TicketID,
+                ArticleType => 'note-internal',
+                SenderType => 'agent',
+                From => $Self->{UserLogin},
+                To => $Self->{UserLogin},
+                Subject => 'Owner Update',
+                Body => $Self->{Comment},
+                ContentType => "text/plain; charset=$Self->{'UserCharset'}",
+                UserID => $Self->{UserID},
+                HistoryType => 'AddNote',
+                HistoryComment => 'Note added.',
+              );
+            }
           # --
           # redirect
           # --
