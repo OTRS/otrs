@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.124 2004-06-16 13:09:29 martin Exp $
+# $Id: Generic.pm,v 1.125 2004-06-25 07:56:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.124 $';
+$VERSION = '$Revision: 1.125 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -168,6 +168,16 @@ sub new {
     return $Self;
 }
 # --
+sub Block {
+    my $Self = shift;
+    my %Param = @_;
+    if (!$Param{Name}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
+        return;
+    }
+    push (@{$Self->{Block}->{$Param{Name}}}, $Param{Data});
+}
+# --
 sub Output {
     my $Self = shift;
     my %Param = @_;
@@ -180,21 +190,15 @@ sub Output {
     # --
     my %Env = ();
     if (!$Self->{EnvRef}) {
-        # --
         # build OTRS env
-        # --
         %Env = %ENV;
-        # --
         # all $Self->{*}
-        # --
         foreach (keys %{$Self}) {
             $Env{$_} = $Self->{$_} || '';
         }
     }  
     else {
-        # --
         # get %Env from $Self->{EnvRef} 
-        # --
         %Env = %{$Self->{EnvRef}};
     }
     # -- 
@@ -210,24 +214,49 @@ sub Output {
     # -- 
     # read template from filesystem
     # --
-    my @Template = ();
+    my $TemplateString = '';
     if ($Param{Template} && ref($Param{Template}) eq 'ARRAY') {
-         @Template = @{$Param{Template}};
+         foreach (@{$Param{Template}}) {
+             $TemplateString .= $_;
+         }
     }
     elsif ($Param{Template}) {
-         @Template = join("\n", split(/\n/, $Param{Template}));
+         $TemplateString = $Param{Template};
     }
     else {
         open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
            ||  die "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!";
         while (my $Line = <TEMPLATEIN>) {
-            push (@Template, $Line);
+            $TemplateString .= $Line;
         }
         close (TEMPLATEIN);
     }
 
+    # parse/get text blocks   
+    $TemplateString =~ s{
+        <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
+    }
+    {
+        my $BlockName = $1;
+        my $Template = $2;
+        my $New = '';
+        if ($Self->{Block}->{$BlockName}) {
+            foreach (@{$Self->{Block}->{$BlockName}}) {
+                $New .= $Self->Output(
+                    Template => "<!--start $BlockName-->".$Template."<!--stop $BlockName-->", 
+                    Data => $_,
+                );
+            }
+        }
+        $New;
+    }segxim;
+
+    # process template
+    my @Template = split(/\n/, $TemplateString);
     my $Output = '';
     foreach my $Line (@Template) {
+      # add missing new line (striped from split)
+      $Line .= "\n";
       # filtering of comment lines
       if ($Line !~ /^#/) {
         if ($Line =~ /<dtl/) {
