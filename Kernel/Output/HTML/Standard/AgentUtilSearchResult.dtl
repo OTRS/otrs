@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchResult.dtl - provides HTML form for AgentUtilities.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResult.dtl,v 1.15 2003-07-14 12:12:52 martin Exp $
+# $Id: AgentUtilSearchResult.dtl,v 1.16 2004-02-12 00:26:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -59,19 +59,19 @@ $Data{"Body"}
     <table border="0">
     <tr>
       <td><b>$Text{"State"}:</b></td>
-      <td><font color="red">$Quote{"$Text{"$Data{"State"}"}","15"}</font></td>
+      <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","15"}</div></font></td>
     </tr>
     <tr>
       <td><b>$Text{"Priority"}:</b></td>
-      <td><font color="red">$Quote{"$Text{"$Data{"Priority"}"}","15"}</font></td>
+      <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","15"}</div></font></td>
     </tr>
     <tr>
       <td><b>$Text{"Queue"}:</b></td>
-      <td><font color="red">$Quote{"$Data{"Queue"}","15"}</font></td>
+      <td><font color="red"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","15"}</div></font></td>
     </tr>
     <tr>
       <td><b>$Text{"CustomerID"}:</b></td>
-      <td>$Quote{"$Data{"CustomerID"}","15"}</td>
+      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","15"}</a></td>
     </tr>
     </table>
     <p align="left"><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>
