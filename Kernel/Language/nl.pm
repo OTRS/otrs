@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: nl.pm,v 1.8 2003-02-03 22:53:09 martin Exp $
+# $Id: nl.pm,v 1.9 2003-02-08 15:07:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,8 +13,8 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
+$VERSION = '$Revision: 1.9 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
     my $Self = shift;

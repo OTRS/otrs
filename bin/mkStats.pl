@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.18 2003-01-23 22:50:08 martin Exp $
+# $Id: mkStats.pl,v 1.19 2003-02-08 15:05:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.18 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.19 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 # get opts
