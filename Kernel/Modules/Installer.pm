@@ -2,7 +2,7 @@
 # Installer.pm - provides the DB installer
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.7 2002-05-06 00:00:33 martin Exp $
+# $Id: Installer.pm,v 1.8 2002-05-23 21:02:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -81,7 +81,7 @@ sub Run {
 
         my $SetupOutput = '';
         my $MYCMD = "mysql -u $DB{User} ";
-        $MYCMD .= " -p $DB{Password} " if ($DB{Password});
+        $MYCMD .= " -p$DB{Password} " if ($DB{Password});
         $MYCMD .= " -h $DB{DatabaseHost}  ";
 
         if ($DB{DBAction} eq 'Create') {
