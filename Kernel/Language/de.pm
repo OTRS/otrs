@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.23 2003-04-12 23:03:36 martin Exp $
+# $Id: de.pm,v 1.24 2003-04-14 14:38:17 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -311,7 +311,7 @@ sub Data {
     # Template: AdminGroupForm
       'Add group' => 'Gruppe hinzufügen',
       'Change group settings' => 'Gruppe ändern',
-      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschieden Agent-Gruppen zu definieren (z.B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung, ...).',
+      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschiedene Agenten-Gruppen zu definieren (z.B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung, ...).',
       'Group Management' => 'Gruppen-Verwaltung',
       'It\'s useful for ASP solutions.' => 'Sehr nützlich für ASP-Lösungen.',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Die \'admin\'-Gruppe wird für den Admin-Bereich benötigt, die \'stats\'-Gruppe für den Statistik-Bereich.',
@@ -346,7 +346,7 @@ sub Data {
       'Change POP3 Account setting' => 'POP3-Konto ändern',
       'Dispatching' => 'Verteilung',
       'Host' => 'Rechner',
-      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Ist das Konto vertraut, werden die X-OTRS Header benutzt!',
+      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Wird dem Konto vertraut, werden die X-OTRS Header benutzt!',
       'Login' => '',
       'POP3 Account Management' => 'POP3-Konten-Verwaltung',
       'Trusted' => 'Vertraut',
@@ -367,7 +367,7 @@ sub Data {
       'Escalation time' => 'Eskalationszeit',
       'Follow up Option' => '',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wenn ein Ticket geschlossen ist und der Kunde ein Follow-Up sendet, wird das Ticket für den alten Besitzer gesperrt.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in jener Zeit beantwortet, wird nur noch dieses Ticket gezeigt.',
+      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in dieser Zeit beantwortet, wird nur noch dieses Ticket gezeigt.',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gesperrt, jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch freigegeben.',
       'Key' => 'Schlüssel',
       'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet Info-E-Mails an Kunden beim Verschieben des Tickets.',
@@ -397,7 +397,7 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Ändere Antwort <-> Anlage Einstellungen',
 
     # Template: AdminResponseForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Eine Antwort ist ein vorgegebener Text um Kunden schneller antworten zu können.',
+      'A response is default text to write faster answer (with default text) to customers.' => 'Eine Antwort ist ein vorgegebener Text, um Kunden schneller antworten zu können.',
       'Add response' => 'Antwort hinzufügen',
       'Change response settings' => 'Antwort ändern',
       'Don\'t forget to add a new response a queue!' => 'Eine neue Antwort muss einer Queue zugewiesen werden!',
@@ -450,11 +450,11 @@ sub Data {
     # Template: AdminUserForm
       'Add user' => 'Benutzer hinzufügen',
       'Change user settings' => 'Benutzereinstellungen ändern',
-      'Don\'t forget to add a new user to groups!' => 'Eine neuer Benutzer muss einer Gruppe zugewiesen werden!',
+      'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
       'Firstname' => 'Vorname',
       'Lastname' => 'Nachname',
       'User Management' => 'Benutzer-Verwaltung',
-      'User will be needed to handle tickets.' => 'Benutzer werden benötigt um Tickets zu bearbeiten.',
+      'User will be needed to handle tickets.' => 'Benutzer werden benötigt, um Tickets zu bearbeiten.',
 
     # Template: AdminUserGroupChangeForm
       'Change  settings' => '',
