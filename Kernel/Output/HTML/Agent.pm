@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.45 2002-08-06 20:08:31 martin Exp $
+# $Id: Agent.pm,v 1.46 2002-08-15 22:37:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -368,10 +368,10 @@ sub TicketZoom {
     my @ATMs = ();
     @ATMs = @$ATMsTmp if ($ATMsTmp);
     my $ATMStrg = '';
-    # FIXME!!! filename and html quoting!!!
     foreach (@ATMs) {
+        my $FileName = $Self->LinkEncode($_) || '???';
         $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}&Action=AgentAttachment&'.
-          'ArticleID='.$Article{ArticleID}.'&File='.$_.'">'. $_ .'</a><br> ';
+          'ArticleID='.$Article{ArticleID}.'&File='.$FileName.'" target="attachment">'.$_.'</a><br> ';
     }
 
     # --
