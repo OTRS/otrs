@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.42 2003-10-16 21:06:45 martin Exp $
+# $Id: AgentPhone.pm,v 1.43 2003-10-24 07:51:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -290,6 +290,10 @@ sub Run {
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest); 
+        my $AllUsers = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || '';
+        if (!$NewQueueID) {
+            $AllUsers = 1;
+        }
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || '';
         my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || '';
@@ -358,6 +362,7 @@ sub Run {
             } 
             $Error{"ExpandCustomerName"} = 1;
         }
+        # if a new destination queue is selected
         elsif ($ExpandCustomerName == 3) {
             $Error{NoSubmit} = 1;
             $CustomerUser = $SelectedCustomerUser;
@@ -408,7 +413,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
               QueueID => $Self->{QueueID},
               NextScreen => $NextScreen,
-              Users => $Self->_GetUsers(QueueID => $NewQueueID),
+              Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
               UserSelected => $NewUserID,
               NextStates => $Self->_GetNextStates(),
               NextState => $NextState,
@@ -587,7 +592,7 @@ sub _GetUsers {
         Valid => 1,
     );
     # just show only users with selected custom queue
-    if ($Param{QueueID}) {
+    if ($Param{QueueID} && !$Param{AllUsers}) {
         my @UserIDs = $Self->{QueueObject}->GetAllUserIDsByQueueID(%Param);
         foreach (keys %AllGroupsMembers) {
             my $Hit = 0;
