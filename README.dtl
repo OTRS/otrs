@@ -1,8 +1,8 @@
 # --
 # README.dtl - dtl (dynamic template language) description of OpenTRS
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.dtl,v 1.1 2001-12-30 00:33:14 martin Exp $
+# $Id: README.dtl,v 1.2 2002-02-03 22:48:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ How can I use dtl?
 It's easy to use. Have a look at "$HOME_OTRS/Kernel/Output/HTML/Standard/Test.dtl" 
 to get a overview of the funktions.
 
-Note: The customized .dtl files can used for all further OpenTRS releases.
+Note: The customized .dtl files can used for all further OpenTRS releases (more or less).
 
 Used Syntax:
 ============

@@ -2,7 +2,7 @@
 # Installer.pm - provides the DB installer
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.3 2002-02-03 18:23:35 martin Exp $
+# $Id: Installer.pm,v 1.4 2002-02-03 22:48:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -158,7 +158,9 @@ sub Run {
             }
             else {
                 $SetupOutput .= "Config.pm updated.<br>";
-                $SetupOutput .= "Your config ist finished. Pleace run shell> /opt/OpenTRS/bin/CheckPerm.sh";
+                $SetupOutput .= "Your config ist finished. Please run shell> ". 
+                      "<b>/opt/OpenTRS/bin/SetPermissions.sh.sh</b><br>";
+                $SetupOutput .= "Security - Security - Security - Security - Security";
             }
 
             $Output .= $Self->{LayoutObject}->InstallerFinish(Ready => 1, Setup => $SetupOutput, %DB);
@@ -226,14 +228,14 @@ sub ReConfigure {
         $Config .= $_;
     }
     close (IN);
-    $Config =~ s/(\$Self->{DatabaseHost}.*=.*');/\$Self->{DatabaseHost} = '$Param{DatabaseHost}';/g;  
-    $Config =~ s/(\$Self->{Database}.*=.*');/\$Self->{Database} = '$Param{Database}';/g;
-    $Config =~ s/(\$Self->{DatabaseUser}.*=.*');/\$Self->{DatabaseUser} = '$Param{DatabaseUser}';/g;
-    $Config =~ s/(\$Self->{DatabasePw}.*=.*');/\$Self->{DatabasePw} = '$Param{DatabasePw}';/g;
-    $Config =~ s/(\$Self->{SecureMode}.*=.*);/\$Self->{SecureMode} = 1;/g;
+    $Config =~ s/(\$Self->{DatabaseHost} =.*');/\$Self->{DatabaseHost} = '$Param{DatabaseHost}';/g;  
+    $Config =~ s/(\$Self->{Database} =.*');/\$Self->{Database} = '$Param{Database}';/g;
+    $Config =~ s/(\$Self->{DatabaseUser} =.*');/\$Self->{DatabaseUser} = '$Param{DatabaseUser}';/g;
+    $Config =~ s/(\$Self->{DatabasePw} =.*');/\$Self->{DatabasePw} = '$Param{DatabasePw}';/g;
+    $Config =~ s/(\$Self->{SecureMode} =.*);/\$Self->{SecureMode} = 1;/g;
 
     open (OUT, "> ../../Kernel/Config.pm") || return "Can't open ../../Kernel/Config.pm: $!";
-    print $Config;
+    print OUT $Config;
     close (OUT); 
 
     return;

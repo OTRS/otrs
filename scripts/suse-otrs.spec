@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.4 2002-01-30 21:57:28 martin Exp $
+# $Id: suse-otrs.spec,v 1.5 2002-02-03 22:48:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@
 # --
 Summary:      The Open Ticket Request System. 
 Name:         otrs
-Version:      1.0
+Version:      0.5
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs 
@@ -72,21 +72,20 @@ ln -s ../../etc/init.d/otrs $RPM_BUILD_ROOT/usr/sbin/rcotrs
 
 
 %post
-# rpm -i
-export OTRSUSER=otrs
-export OTRSDEST=/opt/OpenTRS
 # useradd
+export OTRSUSER=otrs
 echo -n "Check OpenTRS user (/etc/passwd)... " 
 if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
     echo "$OTRSUSER exists."
 else
     useradd $OTRSUSER -d /opt/OpenTRS/ -s /bin/false && echo "$OTRSUSER added."
 fi
+
 # set permission
-echo -n "Setting file permissions... "
-if chown -R root $OTRSDEST && chown -R $OTRSUSER $OTRSDEST/var/ ; then 
-    echo "(chown -R root $OTRSDEST && chown -R $OTRSUSER $OTRSDEST/var/) "
-fi
+/opt/OpenTRS/bin/SetPermissions.sh
+# set Config.pm permission to be writable for the webserver 
+chown wwwrun /opt/OpenTRS/Kernel/Config.pm
+
 # rc.config
 sbin/insserv etc/init.d/otrs
 echo "Updating etc/rc.config..."
@@ -96,23 +95,33 @@ else
   echo "ERROR: fillup not found. This should not happen. Please compare"
   echo "/etc/rc.config and /var/adm/fillup-templates/rc.config.mysql and update by hand."
 fi
+
+# add suse-httpd.include.conf to apache.rc.config
+APACHERC=/etc/rc.config.d/apache.rc.config
+OTRSINCLUDE=/opt/OpenTRS/scripts/suse-httpd.include.conf
+sed 's+^HTTPD_CONF_INCLUDE_FILES=.*$+HTTPD_CONF_INCLUDE_FILES='$OTRSINCLUDE'+' \
+$APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC 
+
 # note
-echo "Note: You have to create a MySQL database and tables (see README.database "
-echo " or follow the short setup description)"
 echo ""
-echo "[short database setup]"
+echo "Next steps: "
+echo ""
+echo "[SuSEconfig]"
+echo " To create the apache config start SuSEconfig. --> Restart the Webserver (rcapache restart)."
+echo ""
+echo "[Database Setup]"
 echo " Create a database:"
-echo "  shell> mysql -u root -p -e 'create database OpenTRS'"
-echo " Create the OpenTRS tables"
-echo "  shell> mysql -u root -p OpenTRS < /usr/share/doc/packages/otrs/install/database/OpenTRS-schema.sql"
-echo " Insert inital data:"
-echo "  shell> mysql -u root -p OpenTRS < /usr/share/doc/packages/otrs/install/database/initial_insert.sql"
-echo " Create an database user:"
-echo "  shell> mysql -u root -p -e 'GRANT ALL PRIVILEGES ON OpenTRS.* TO otrs@localhost " 
-echo "     IDENTIFIED BY \"some_pass\" WITH GRANT OPTION;'"
+echo "  Follow http://yourhost/otrs/installer.pl (for details see README.database)." 
+echo ""
+echo "[Finish Installation]"
+echo " Run the SetPermissions.sh script:"
+echo "  shell> /opt/OpenTRS/bin/SetPermissions.sh"
 echo ""
 echo "[OpenTRS services]"
-echo " use rcotrs {start|stop|status|restart} to manage your OpenTRS system."
+echo " Use rcotrs {start|stop|status|restart} to manage your OpenTRS system."
+echo ""
+echo "[Start Page]"
+echo " Follow http://yourhost/otrs/index.pl"
 echo ""
 echo "Have fun!"
 echo ""
@@ -160,6 +169,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog 
+* Sun Feb 03 2002 - martin+rpm@otrs.org
+- added SuSE-Apache support
 * Wed Jan 30 2002 - martin+rpm@otrs.org
 - added to useradd bash=/bin/false
 * Sat Jan 12 2002 - martin+rpm@otrs.org
