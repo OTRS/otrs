@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.139.2.2 2005-01-07 22:35:31 martin Exp $
+# $Id: Ticket.pm,v 1.139.2.3 2005-01-19 21:53:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.139.2.2 $';
+$VERSION = '$Revision: 1.139.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -3016,10 +3016,6 @@ sub HistoryAdd {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
       return;
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # lookup!
     if ((!$Param{HistoryTypeID}) && ($Param{HistoryType})) {
         $Param{HistoryTypeID} = $Self->HistoryTypeLookup(Type => $Param{HistoryType});
@@ -3056,6 +3052,14 @@ sub HistoryAdd {
     if (!$Param{StateID}) {
         my %Ticket = $Self->TicketGet(%Param);
         $Param{StateID} = $Ticket{StateID};
+    }
+    # limit name to 200 chars
+    if ($Param{Name}) {
+        $Param{Name} = substr($Param{Name}, 0, 200);
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db insert
     my $SQL = "INSERT INTO ticket_history " .
@@ -3501,6 +3505,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.139.2.2 $ $Date: 2005-01-07 22:35:31 $
+$Revision: 1.139.2.3 $ $Date: 2005-01-19 21:53:35 $
 
 =cut
