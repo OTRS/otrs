@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.2 2004-01-09 16:41:34 martin Exp $
+# $Id: Encode.pm,v 1.3 2004-01-14 01:41:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -39,17 +39,12 @@ return string is still the same charset.
 create a language object 
  
   use Kernel::Config;
-  use Kernel::System::Log;
   use Kernel::Encode;
 
   my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
 
   my $EncodeObject = Kernel::System::Encode->new( 
       ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
   );
 
 =cut
@@ -67,7 +62,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
-    foreach (qw(ConfigObject LogObject)) {
+    foreach (qw(ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     } 
     # 0=off; 1=on; 
@@ -76,13 +71,11 @@ sub new {
     # check if Perl 5.8.0 encode is available
     if (eval "require Encode") {
         $Self->{CharsetEncodeSupported} = 1;
+        $Self->SetIO(\*STDOUT, \*STDERR);
     }
     else {
         if ($Self->{Debug}) {
-          $Self->{LogObject}->Log(
-            Priority => 'debug',
-            Message => "Charset encode not supported withyour perl version!",
-          );
+            print STDERR "Charset encode not supported withyour perl version!\n";
         }
     }
     return $Self;
@@ -121,7 +114,7 @@ used.
 
 sub EncodeInternalUsed {
     my $Self = shift;
-    if ($Self->{CharsetEncodeSupported} && $Self->{ConfigObject}->Get('DefaultCharset') eq 'utf-8') {
+    if ($Self->{CharsetEncodeSupported} && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
         return 'utf-8';
     }
     else {
@@ -143,7 +136,7 @@ used (then the translation charset (from translation file) will be used).
 
 sub EncodeFrontendUsed {
     my $Self = shift;
-    if ($Self->{CharsetEncodeSupported} && $Self->{ConfigObject}->Get('DefaultCharset') eq 'utf-8') {
+    if ($Self->{CharsetEncodeSupported} && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
         return 'utf-8';
     }
     else {
@@ -173,40 +166,105 @@ Convert one charset to an other charset.
 sub Convert {
     my $Self = shift;
     my %Param = @_;
-    my $Text = defined $Param{Text} ? $Param{Text} : return;
+    if (!defined($Param{Text}) || $Param{Text} eq '') {
+        return;
+    }
     # check needed stuff
     foreach (qw(From To)) {
       if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        print STDERR "Need $_!\n";
         return;
       }
     }
     # if there is no charset encode supported (min. Perl 5.8.0)
     if (!$Self->{CharsetEncodeSupported}) {
-        return $Text;
+        return $Param{Text};
     }
     # if no encode is needed
     if ($Param{From} =~ /^$Param{To}$/i) {
-        return $Text;
+        if ($Param{To} =~ /^utf(-8|8)/i) {
+            Encode::_utf8_on($Param{Text});
+        }
+        return $Param{Text};
     }
     # encode is needed
     else {
-        if ($Text ne '' && !eval{Encode::from_to($Text, $Param{From}, $Param{To})}) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Charset encode '$Param{From}' -=> '$Param{To}' ($Text) not supported",
-            );
+        if (! Encode::from_to($Param{Text}, $Param{From}, $Param{To})) {
+            print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
         }
         else {
+          # set utf-8 flag
+          if ($Param{To} =~ /^utf(8|-8)$/i) {
+                Encode::encode_utf8($Param{Text});
+                Encode::_utf8_on($Param{Text});
+          }
           if ($Self->{Debug}) {
-            $Self->{LogObject}->Log(
-              Priority => 'debug',
-              Message => "Charset encode '$Param{From}' -=> '$Param{To}' ($Text)",
-            );
+              print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text})!\n";
           }
         }
-        return $Text;
+        return $Param{Text};
     }
+}
+# --
+
+=item SetIO()
+
+Set array of file handles to utf-8 output.
+
+  $EncodeObject->SetIO(\*STDOUT, \*STDERR);
+
+=cut
+
+sub SetIO {
+    my $Self = shift;
+    my @Array = @_;
+    if ($Self->{CharsetEncodeSupported} && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
+        foreach (@Array) {
+            if (defined($_) && ref($_) eq 'GLOB') {
+                binmode($_, ":utf8");
+            }
+        }        
+    }
+    return;
+}
+
+# --
+
+=item Encode()
+
+Convert internal used charset (e. g. utf-8) into given charset (utf-8), if 
+"EncodeInternalUsed()" returns one. Should be used on all I/O interfaces
+if data is already utf-8.
+
+  $EncodeObject->Encode(\$String); 
+
+=cut
+
+sub Encode {
+    my $Self = shift;
+    my $What = shift;
+    # internel charset
+    if ($Self->{CharsetEncodeSupported} && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
+        if (defined ($What) && ref($What) eq 'ARRAY') {
+            foreach (@{$What}) {
+                if (defined($_)) {
+                    Encode::encode_utf8($_);
+                    Encode::_utf8_on($_);
+                }
+            }
+        }
+        elsif (defined ($What) && ref($What) eq 'SCALAR') {
+            if (defined(${$What})) {
+                Encode::encode_utf8(${$What});
+                Encode::_utf8_on(${$What});
+            }
+        }
+        elsif (defined($What)) {
+            Encode::encode_utf8($What);
+            Encode::_utf8_on($What);
+        }
+    }
+    return 1;
 }
 # --
 
@@ -225,11 +283,13 @@ Convert given charset into the internal used charset (utf-8), if
 sub Decode {
     my $Self = shift;
     my %Param = @_;
-    my $Text = defined $Param{Text} ? $Param{Text} : return;
+    if (!defined $Param{Text}) {
+        return;
+    }
     # check needed stuff
     foreach (qw(From)) {
       if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        print STDERR "Need $_!\n";
         return;
       }
     }
@@ -238,7 +298,7 @@ sub Decode {
         return $Self->Convert(%Param, To => $Self->EncodeInternalUsed());
     }
     else {
-        return $Text;
+        return $Param{Text};
     }
 }
 # --
@@ -256,6 +316,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2004-01-09 16:41:34 $
+$Revision: 1.3 $ $Date: 2004-01-14 01:41:19 $
 
 =cut
