@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.18 2003-03-06 22:11:58 martin Exp $
+# $Id: AgentMailbox.pm,v 1.19 2003-04-24 20:13:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,9 +72,14 @@ sub Run {
     # --
     # starting with page ...
     # --
+    my $Refresh = '';
+    if ($Self->{UserRefreshTime}) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+    }
     $Output .= $Self->{LayoutObject}->Header(
         Refresh => $Self->{Refresh},
         Title => 'Locked Tickets',
+        Refresh => $Refresh,
     );
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
