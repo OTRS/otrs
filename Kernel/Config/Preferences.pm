@@ -2,7 +2,7 @@
 # Kernel/Config/Preferences.pm - Preferences config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Preferences.pm,v 1.1 2002-10-15 09:18:55 martin Exp $
+# $Id: Preferences.pm,v 1.2 2002-10-22 13:12:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Preferences;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,7 @@ sub LoadPreferences {
             'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify',
         ],
         Frontend => [
-            'RefreshTime', 'Language', 'Charset', 'Theme', 
+            'RefreshTime', 'Language', 'Charset', 'Theme', 'QueueView', 
         ],
         'Other Options' => [
             'Password', 'CustomQueue',
@@ -130,6 +130,18 @@ sub LoadPreferences {
         Desc => 'Select your frontend Theme.', 
         Type => 'Generic',
         PrefKey => 'UserTheme',
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{QueueView} = {
+        Colum => 'Frontend', 
+        Label => 'Frontend QueueView',
+        Desc => 'Select your frontend QueueView.', 
+        Type => 'Generic',
+        Data => {
+            TicketView => 'Standard',
+            TicketViewLite => 'Lite', 
+        },
+        PrefKey => 'UserQueueView',
         Activ => 1,
     };
 

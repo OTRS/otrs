@@ -1,0 +1,104 @@
+# --
+# TicketView.dtl - provides HTML TicketView for AgentQueueView.pm
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
+# --
+# $Id: TicketViewLite.dtl,v 1.1 2002-10-22 13:12:03 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start ticket -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="50%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="50%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor2"}" width="60%">
+  <a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Lock"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}">$Text{"Zoom"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}">$Text{"Priority"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}">$Text{"History"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}">$Text{"Add Note"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}">$Text{"Close"}</a>
+  </td>
+  <td align="right" bgcolor="$Env{"BGTableColor2"}" width="40%">
+  <b>$Text{"Created"}:</b> $Data{"Created"}
+  </td>
+</tr>
+</table>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td valign="top" width="60%">
+  <table border="0" width="100%" cellspacing="0" cellpadding="1">
+    <tr>
+      <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
+      <td width="85%"> $Data{"From"}</td>
+    <tr>
+    <tr>
+      <td valign="top"><b>$Text{"To"}:</b></td>
+      <td> $Data{"To"}</td>
+    <tr>
+# --
+# show cc?
+# --
+    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Data{"Cc"}</td></tr>"; }>
+    $Data{"ArticleCcString"}
+
+    <tr>
+      <td valign="top"><b>$Text{"Subject"}:</b></td>
+      <td> $Data{"Subject"}</td>
+    <tr>
+# --
+# show ArticleFreeKey1-3 and ArticleFreeValue1-3
+# --
+<dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey1"}:</b></td><td> $Data{"ArticleFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey2"}:</b></td><td> $Data{"ArticleFreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey3"}:</b></td><td> $Data{"ArticleFreeValue3"}</td></tr>"; }>
+     $Data{"ArticleFreeString1"}
+     $Data{"ArticleFreeString2"}
+     $Data{"ArticleFreeString3"}
+# --
+  </table>
+  </td> 
+  <td width="20%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
+   <p align="left">
+    <table border="0">
+    <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
+    <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
+    <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
+    </table>
+  </td>
+  <td width="20%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
+    <table border="0">
+    <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" target="cdb">$Data{"CustomerIDHTML"}</a></td></tr>
+    <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+# --
+# show TicketFreeKey1-2 and TicketFreeValue1-2
+# --
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
+    $Data{"TicketFreeString1"}
+    $Data{"TicketFreeString2"}
+# --
+   </tr>
+   </table>
+   </p>  
+
+
+
+  </td>
+</tr>
+</table>
+<!-- end ticket -->

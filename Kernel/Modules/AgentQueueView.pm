@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.20 2002-10-01 13:52:02 martin Exp $
+# $Id: AgentQueueView.pm,v 1.21 2002-10-22 13:12:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -297,6 +297,8 @@ sub ShowTicket {
             TicketFreeValue1 => $$Data{freetext1},
             TicketFreeKey2 => $$Data{freekey2},
             TicketFreeValue2 => $$Data{freetext2},
+            # view type
+            ViewType => $Self->{UserQueueView},
         );
         push (@ShownViewableTicket, $$Data{id});
     }

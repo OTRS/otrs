@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.56 2002-10-21 15:55:02 martin Exp $
+# $Id: Agent.pm,v 1.57 2002-10-22 13:12:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -197,7 +197,15 @@ sub TicketView {
     # --
     # create & return output
     # --
-    return $Self->Output(TemplateFile => 'TicketView', Data => \%Param);
+    if (!$Param{ViewType}) {
+        return $Self->Output(TemplateFile => 'TicketView', Data => \%Param);
+    }
+    elsif ($Param{ViewType} eq 'TicketViewLite') {
+        return $Self->Output(TemplateFile => 'TicketViewLite', Data => \%Param);
+    }
+    else {
+        return $Self->Output(TemplateFile => 'TicketView', Data => \%Param);
+    }
 }
 # --
 sub TicketZoom {
