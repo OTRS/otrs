@@ -1,4 +1,24 @@
-#/bin/bash
+#!/bin/sh
+# --
+# scripts/sync_node.sh - to sync a otrs web server node with rsync
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: sync_node.sh,v 1.1.2.1 2004-11-12 09:56:46 martin Exp $
+# --
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# --
 
 if ! test $1; then
     echo "Usage: $0 dest_node.host /opt/dest_note_otrs/ /opt/local_otrs/ '/etc/init.d/apache restart' remote_user"
