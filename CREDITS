@@ -1,16 +1,16 @@
 # --
-# $Id: CREDITS,v 1.12 2004-05-28 21:45:41 robert Exp $
+# $Id: CREDITS,v 1.13 2004-10-18 09:52:31 martin Exp $
 # --
 
 This is at least a partial credits-file of people that have
 contributed to the OTRS project. It is sorted by name.
-The fields are: name (N), email (E), web-address (W), 
+The fields are: name (N), email (E), web-address (W),
 PGP key ID and fingerprint (P), description (D), and
 snail-mail address (S).
 
 Thanks,
 
-       Martin 
+       Martin
 
 --
 N: Mats Eric Olausson
@@ -18,7 +18,7 @@ E: mats at synergy.se
 D: initial Swedish translation
 S: Sweden
 --
-N: Antti Kämäräinen 
+N: Antti Kämäräinen
 E: antti at seu.net
 D: Maintainer of Finnish translation
 S: Finland
@@ -36,6 +36,12 @@ S: Germany
 --
 N: Fred van Dijk
 E: fvandijk at marklin.nl
+D: Maintainer of Dutch translation
+S: Netherlands
+--
+N: Martijn Lohmeijer
+E: martijn.lohmeijer at sogeti.nl
+W: http://www.sogeti.nl/
 D: Maintainer of Dutch translation
 S: Netherlands
 --
@@ -72,6 +78,11 @@ W: http://www.wintermeyer.de/
 D: Webpage, Documentation and Coder
 S: Germany
 --
+N: Thomas Raith
+E: thomas.raith at freesign.de
+D: Module development, creation of coding style guide, dtl block feature.
+S: Germany
+--
 N: Vladimir Gerdjikov
 E: gerdjikov at gerdjikovs.net
 D: Maintainer of Bulgarian translation
@@ -83,4 +94,3 @@ W: http://martin.edenhofer.de/
 D: Fonder and Coder
 S: Germany
 --
-
