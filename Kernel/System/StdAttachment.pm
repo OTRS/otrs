@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.5 2003-04-08 21:38:46 martin Exp $
+# $Id: StdAttachment.pm,v 1.6 2003-04-12 14:00:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,7 +55,7 @@ sub StdAttachmentAdd {
     # --
     # encode attachemnt if it's a postgresql backend!!!
     # --
-    if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+    if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
         $Param{Content} = encode_base64($Param{Content});
     }
     # --
@@ -115,7 +115,7 @@ sub StdAttachmentGet {
         # --
         # decode attachemnt if it's a postgresql backend!!!
         # --
-        if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+        if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
             $Data[2] = decode_base64($Data[2]);
         }
         my %Data = ( 
@@ -149,7 +149,7 @@ sub StdAttachmentUpdate {
     # --
     # encode attachemnt if it's a postgresql backend!!!
     # --
-    if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+    if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
         $Param{Content} = encode_base64($Param{Content});
     }
     # --

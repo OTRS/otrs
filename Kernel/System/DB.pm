@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.24 2003-03-10 17:13:58 martin Exp $
+# $Id: DB.pm,v 1.25 2003-04-12 14:00:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,6 +49,34 @@ sub new {
     $Self->{USER} = $Self->{ConfigObject}->Get('DatabaseUser');
     $Self->{PW}   = $Self->{ConfigObject}->Get('DatabasePw');
     $Self->{DSN}  = $Self->{ConfigObject}->Get('DatabaseDSN');
+    # --
+    # get database type and functions
+    # --
+    if ($Self->{DSN} =~ /mysql/i) {
+        $Self->{'DB::Type'} = 'mysql';
+        $Self->{'DB::Limit'} = 'limit';
+        $Self->{'DB::DirectBlob'} = 1;
+    }
+    elsif ($Self->{DSN} =~ /:Pg:/i) {
+        $Self->{'DB::Type'} = 'postgresql';
+        $Self->{'DB::Limit'} = 'limit';
+        $Self->{'DB::DirectBlob'} = 0;
+    }
+    elsif ($Self->{DSN} =~ /db2/i) {
+        $Self->{'DB::Type'} = 'db2';
+        $Self->{'DB::Limit'} = 'fetch';
+        $Self->{'DB::DirectBlob'} = 0;
+    }
+    elsif ($Self->{DSN} =~ /odbc/i) {
+        $Self->{'DB::Type'} = 'odbc';
+        $Self->{'DB::Limit'} = 0;
+        $Self->{'DB::DirectBlob'} = 0;
+    }
+    else {
+        $Self->{'DB::Type'} = 'unknown';
+        $Self->{'DB::Limit'} = 0;
+        $Self->{'DB::DirectBlob'} = 0;
+    }
     # --
     # do db connect 
     # --
@@ -105,6 +133,13 @@ sub Disconnect {
     return 1;
 }
 # --
+sub GetDatabaseFunction {
+    my $Self = shift;
+    my $What = shift;
+    # warn if the value is not def
+    return $Self->{'DB::'.$What};
+}
+# --
 sub Quote {
     my $Self = shift;
     my $Text = shift;
@@ -153,18 +188,20 @@ sub Prepare {
     my %Param = @_;
     my $SQL = $Param{SQL};
     my $Limit = $Param{Limit} || '';
+    $Self->{Limit} = 0;
+    $Self->{LimitCounter} = 0;
     # --
     # build finally select query
     # --
     if ($Limit) {
-        if ($Self->{DSN} =~ /mysql/i || $Self->{DSN} =~ /:Pg:/i) {
+        if ($Self->{'DB::Limit'} eq 'limit') {
             $SQL .= " LIMIT $Limit";
         }
-        elsif ($Self->{DSN} =~ /db2/i) {
+        elsif ($Self->{'DB::Limit'} eq 'fetch') {
             $SQL .= " fetch $Limit first row";
         }
         else {
-            $SQL .= " LIMIT $Limit";
+            $Self->{Limit} = $Limit;
         }
     }
     # --
@@ -202,14 +239,31 @@ sub Prepare {
 # --
 sub FetchrowArray {
     my $Self = shift;
-    my @RowTmp = $Self->{Curser}->fetchrow_array();
-    return @RowTmp;
+    # work with cursers if database don't support limit
+    if (!$Self->{'DB::Limit'} && $Self->{Limit}) {
+        if ($Self->{Limit} <= $Self->{LimitCounter}) {
+            $Self->{Curser}->finish();
+            return;
+        }
+        $Self->{LimitCounter}++;
+    }
+    # return 
+    return $Self->{Curser}->fetchrow_array();
 }
 # --
+# not used becaus of database incompat.
 sub FetchrowHashref {
     my $Self = shift;
-    my $Data = $Self->{Curser}->fetchrow_hashref();
-    return $Data;
+    # work with cursers if database don't support limit
+    if (!$Self->{'DB::Limit'} && $Self->{Limit}) {
+        if ($Self->{Limit} <= $Self->{LimitCounter}) {
+            $Self->{Curser}->finish();
+            return;
+        }
+        $Self->{LimitCounter}++;
+    }
+    # return 
+    return $Self->{Curser}->fetchrow_hashref();
 }
 # --
 sub Error {
