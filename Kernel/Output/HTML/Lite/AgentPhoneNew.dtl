@@ -1,8 +1,8 @@
 # --
-# NoteForm.dtl - provides HTML form for note mask
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# AgentPhoneNew.dtl - provides HTML form for phone
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.7 2002-05-10 00:12:35 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.1 2002-05-10 00:12:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,37 +12,43 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left"> 
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Add note to ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Phone call"} / $Text{"new ticket"}$Env{"Box1"}</font></b>
   </td>
   <td align="right">
   <b><font color="$Env{"FontColor0"}">-</font></b>
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top" colspan="2">
+  <td align="left" valign="top" colspan="2">
 
 <p>
 
 <form action="$Env{"CGIHandle"}" method="post">
-<input type="hidden" name="Action" value="AgentNote">
-<input type="hidden" name="Subaction" value="Store">
+<input type="hidden" name="Action" value="AgentPhone">
+<input type="hidden" name="Subaction" value="StoreNew">
 <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0">
   <tr>
-    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Text{"$Config{"DefaultNoteSubject"}"}" size="60"></td>
+    <td>$Text{"From"}:</td><td><input type="text" name="From" value="" size="60"></td>
+  </tr>
+  <tr>
+    <td>$Text{"To"}:</td><td>$Data{"ToStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Text{"$Config{"DefaultPhoneNewSubject"}"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
 <textarea name="Note" rows="15" cols="60">
-$Text{"$Config{"DefaultNoteText"}"}
+$Text{"$Config{"DefaultPhoneNewNoteText"}"}
 </textarea>
     </td>
   </tr>
   <tr>
-    <td>$Text{"Note type"}:</td><td>$Data{"NoteStrg"}</td>
+    <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
   </tr>
   </table>
 <br>
