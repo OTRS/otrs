@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.27 2003-02-09 21:02:35 martin Exp $
+# $Id: AgentQueueView.pm,v 1.28 2003-02-23 22:23:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -367,9 +367,11 @@ sub BuildQueueView {
     # --
     # build output ...
     # --
+    my %AllQueues = $Self->{QueueObject}->GetAllQueues();
     $Output .= $Self->{LayoutObject}->QueueView(
         %Data,
         QueueID => $QueueID,
+        AllQueues => \%AllQueues,
     );
 
     return $Output;

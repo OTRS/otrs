@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.87 2003-02-14 13:53:50 martin Exp $
+# $Id: Agent.pm,v 1.88 2003-02-23 22:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.87 $';
+$VERSION = '$Revision: 1.88 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,19 +67,81 @@ sub NavigationBar {
 sub QueueView {
     my $Self = shift;
     my %Param = @_;
-    my $QueueStrg = '';
     my $QueueID = $Param{QueueID} || 0;
     my @QueuesNew = @{$Param{Queues}};
     my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || -1;
- 
-    # build queue string
+    my %AllQueues = %{$Param{AllQueues}};
+    my %Counter = (); 
+    my %UsedQueue = (); 
+    my @ListedQueues = ();
+    my $Level = 0;
+    $Param{SelectedQueue} = $AllQueues{$QueueID} || $Self->{ConfigObject}->Get('CustomQueue');
+    my @MetaQueue = split(/::/, $Param{SelectedQueue});
+    $Level = $#MetaQueue+2; 
+    # --
+    # prepare shown queues (short names)
+    # - get queue total count -
+    # --
     foreach my $QueueRef (@QueuesNew) {
+        push (@ListedQueues, $QueueRef);
         my %Queue = %$QueueRef;
+        my @Queue = split(/::/, $Queue{Queue});
+        # --
+        # remember counted/used queues
+        # --
+        $UsedQueue{$Queue{Queue}} = 1;
+        # --
+        # move to short queue names
+        # --
+        my $QueueName = '';
+        foreach (0..$#Queue) {
+            if (!$QueueName) {
+                $QueueName .= $Queue[$_];
+            }
+            else {
+                $QueueName .= '::'.$Queue[$_];
+            }
+            if (!$Counter{$QueueName}) {
+                $Counter{$QueueName} = 0;
+            }
+            $Counter{$QueueName} = $Counter{$QueueName}+$Queue{Count};
+            if ($Counter{$QueueName} && !$Queue{$QueueName} && !$UsedQueue{$QueueName}) {
+                my %Hash = ();
+                $Hash{Queue} = $QueueName; 
+                $Hash{Count} = $Counter{$QueueName};
+                foreach (keys %AllQueues) {
+                    if ($AllQueues{$_} eq $QueueName) { 
+                        $Hash{QueueID} = $_;
+                    }
+                }
+                $Hash{MaxAge} = 0;
+                push (@ListedQueues, \%Hash);
+                $UsedQueue{$QueueName} = 1;
+            }
+        }
+    }
+    # build queue string
+    foreach my $QueueRef (@ListedQueues) {
+        my $QueueStrg = '';
+        my %Queue = %$QueueRef;
+        my @QueueName = split(/::/, $Queue{Queue});
+        my $ShortQueueName = $QueueName[$#QueueName];
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
         # should i highlight this queue
+        if ($Param{SelectedQueue} =~ /^$QueueName[0]/ && $Level-1 >= $#QueueName) {
+            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^$MetaQueue[0]$/) {
+                $QueueStrg .= '<b>';
+            }
+            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]$/) {
+               $QueueStrg .= '<b>';
+            }
+            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
+               $QueueStrg .= '<b>';
+            }
+        }
         if ($QueueID eq $Queue{QueueID}) {
-           $QueueStrg .= '<b>';
            $Param{SelectedQueue} = $Queue{Queue};
+           $Param{AllTickets} = $Counter{$Queue{Queue}};
         }
         $QueueStrg .= "<a href=\"$Self->{Baselink}Action=AgentQueueView&QueueID=$Queue{QueueID}\"";
         $QueueStrg .= ' onmouseover="window.status=\'$Text{"Queue"}: '.$Queue{Queue}.'\'; return true;" onmouseout="window.status=\'\';">';
@@ -95,7 +157,7 @@ sub QueueView {
             $QueueStrg .= "<blink>";
         }
         # QueueStrg
-        $QueueStrg .= "$Queue{Queue} ($Queue{Count})";
+        $QueueStrg .= "$ShortQueueName ($Counter{$Queue{Queue}})";
         # the oldest queue
         if ($Queue{QueueID} == $QueueIDOfMaxAge) {
             $QueueStrg .= "</blink>";
@@ -107,13 +169,43 @@ sub QueueView {
         }
         $QueueStrg .= "</a>";
         # should i highlight this queue
-        if ($QueueID eq $Queue{QueueID}) {
-           $QueueStrg .= '</b>';
+        if ($Param{SelectedQueue} =~ /^$QueueName[0]/ && $Level >= $#QueueName) {
+            if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^$MetaQueue[0]$/) {
+                $QueueStrg .= '</b>';
+            }
+            if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]$/) {
+               $QueueStrg .= '</b>';
+            }
+            if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
+               $QueueStrg .= '</b>';
+            }
         }
-        $QueueStrg .= ' - ';
-    }
-    $Param{QueueStrg} = $QueueStrg;
 
+        if ($#QueueName == 0) {
+            if ($Param{QueueStrg}) {
+                $QueueStrg = ' - '.$QueueStrg;
+            }
+            $Param{QueueStrg} .= $QueueStrg;
+        }
+        elsif ($#QueueName == 1 && $Level >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::/) {
+            if ($Param{QueueStrg1}) {
+                $QueueStrg = ' - '.$QueueStrg;
+            }
+            $Param{QueueStrg1} .= $QueueStrg;
+        }
+        elsif ($#QueueName == 2 && $Level >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::/) {
+            if ($Param{QueueStrg2}) {
+                $QueueStrg = ' - '.$QueueStrg;
+            }
+            $Param{QueueStrg2} .= $QueueStrg;
+        }
+    }
+    if ($Param{QueueStrg1}) {
+        $Param{QueueStrg} .= '<br>'.$Param{QueueStrg1};
+    }
+    if ($Param{QueueStrg2}) {
+        $Param{QueueStrg} .= '<br>'.$Param{QueueStrg2};
+    }
     # create & return output
     return $Self->Output(TemplateFile => 'QueueView', Data => \%Param);
 }
@@ -209,12 +301,13 @@ sub TicketView {
     # --
     # get MoveQueuesStrg
     # --
-    $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
-        Name => 'DestQueueID',
-        SelectedID => $Param{QueueID},
-        Data => $Param{MoveQueues},
-        OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit'),
-    );
+    if ($Self->{ConfigObject}->Get('MoveType') =~ /^form$/i) {
+        $Param{MoveQueuesStrg} = $Self->AgentQueueListOption(
+            Name => 'DestQueueID',
+            Data => $Param{MoveQueues},
+            SelectedID => $Param{QueueID},
+        );
+    }
     # --
     # get StdResponsesStrg
     # --
@@ -298,12 +391,13 @@ sub TicketZoom {
     # --
     # get MoveQueuesStrg
     # --
-    $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
-        Name => 'DestQueueID',
-        SelectedID => $Param{QueueID},
-        Data => $Param{MoveQueues},
-        OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit'),
-    );
+    if ($Self->{ConfigObject}->Get('MoveType') =~ /^form$/i) {
+        $Param{MoveQueuesStrg} = $Self->AgentQueueListOption(
+            Name => 'DestQueueID',
+            Data => $Param{MoveQueues},
+            SelectedID => $Param{QueueID},
+        );
+    }
     # --
     # customer info string 
     # --
@@ -1027,16 +1121,18 @@ sub AgentUtilForm {
         Size => 5,
         SelectedIDRefArray => ['open', 'new'],
     );
-    $Param{'QueuesStrg'} = $Self->OptionStrgHashRef(
-        Data => { $Self->{DBObject}->GetTableData(
-                      What => 'id, name',
-                      Table => 'queue',
-                      Valid => 1,
-                    ) }, 
-        Name => 'QueueID',
-        Multiple => 1,
+    $Param{'QueuesStrg'} = $Self->AgentQueueListOption(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'queue',
+            Valid => 1,
+          )
+        },
         Size => 5,
-        SelectedIDRefArray => [1],
+        Name => 'QueueID',
+        SelectedID => 1,
+        OnChangeSubmit => 0,
     );
     $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
         Data => { $Self->{DBObject}->GetTableData(
@@ -1082,17 +1178,32 @@ sub AgentUtilSearchAgain {
         Size => 5,
         SelectedIDRefArray => $Param{SelectedStates},
       );
-    $Param{'QueuesStrg'} = $Self->OptionStrgHashRef(
-        Data => { $Self->{DBObject}->GetTableData(
-                      What => 'id, name',
-                      Table => 'queue',
-                      Valid => 1,
-                    ) }, 
-        Name => 'QueueID',
-        Multiple => 1,
+    $Param{'QueuesStrg'} = $Self->AgentQueueListOption(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'queue',
+            Valid => 1,
+          )
+        },
         Size => 5,
+        Multiple => 1,
+        Name => 'QueueID',
+#FIXME
         SelectedIDRefArray => $Param{SelectedQueueIDs},
+        OnChangeSubmit => 0,
     );
+#    $Param{'QueuesStrg'} = $Self->OptionStrgHashRef(
+#        Data => { $Self->{DBObject}->GetTableData(
+#                      What => 'id, name',
+#                      Table => 'queue',
+#                      Valid => 1,
+#                    ) }, 
+#        Name => 'QueueID',
+#        Multiple => 1,
+#        Size => 5,
+#        SelectedIDRefArray => $Param{SelectedQueueIDs},
+#    );
     $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
         Data => { $Self->{DBObject}->GetTableData(
                       What => 'id, name',
@@ -1350,21 +1461,15 @@ sub AgentPreferencesForm {
             }
           } 
           elsif ($Type eq 'CustomQueue') {
-            my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
             # prepar custom selection
-            my @CustomQueueIDsTmp = @{$Param{CustomQueueIDs}};
-            my %QueueDataTmp = %{$Param{QueueData}}; 
-            $PrefItem{'Option'} = '';
-            foreach my $ID (sort keys %QueueDataTmp) {
-              my $Mach = 0;
-              foreach (@CustomQueueIDsTmp) {
-                if ($_ eq $ID) {
-                  $PrefItem{'Option'} .= "<OPTION selected VALUE=\"$ID\">$QueueDataTmp{$ID}\n";
-                  $Mach = 1;
-                }
-              }
-              $PrefItem{'Option'} .= "<OPTION VALUE=\"$ID\">$QueueDataTmp{$ID}\n" if (!$Mach);
-            }
+            $PrefItem{'Option'} = $Self->AgentQueueListOption(
+                Data => $Param{QueueData},
+                Size => 12,
+                Name => 'QueueID',
+                SelectedIDRefArray => $Param{CustomQueueIDs},
+                Multiple => 1,
+                OnChangeSubmit => 0,
+            );
           }
           elsif ($PrefKey eq 'UserLanguage') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
@@ -1512,6 +1617,23 @@ sub TicketLocked {
     return $Self->Output(TemplateFile => 'AgentTicketLocked', Data => \%Param);
 }
 # --
+sub AgentMove {
+    my $Self = shift;
+    my %Param = @_;
+    my %Data = %{$Param{MoveQueues}};
+    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        my @Queue = split(/::/, $Data{$_});
+        $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
+        my $Space = '';
+        for (my $i = 0; $i < $#Queue; $i++) {
+            $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+        $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$_\">".
+                $Queue[$#Queue].'</a><br>';
+    }
+    return $Self->Output(TemplateFile => 'AgentMove', Data => \%Param);
+}
+# --
 sub AgentStatusView {
     my $Self = shift;
     my %Param = @_;
@@ -1629,5 +1751,53 @@ sub AgentSpelling {
     return $Self->Output(TemplateFile => 'AgentSpelling', Data => \%Param);
 }
 # --  
+sub AgentQueueListOption {
+    my $Self = shift;
+    my %Param = @_;
+    my $Size = defined($Param{Size}) ? "size='$Param{Size}'" : ''; 
+    my $MaxLevel = defined($Param{MaxLevel}) ? $Param{MaxLevel} : 10;
+    my $SelectedID = defined($Param{SelectedID}) ? $Param{SelectedID} : '';
+    my $Selected = defined($Param{Selected}) ? $Param{Selected} : '';
+    my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
+    my $Multiple = $Param{Multiple} ? 'multiple' : '';
+    my $OnChangeSubmit = defined($Param{OnChangeSubmit}) ? $Param{OnChangeSubmit} : 
+     $Self->{ConfigObject}->Get('OnChangeSubmit');
+    if ($OnChangeSubmit) {
+        $OnChangeSubmit = " onchange=\"submit()\"";
+    }
+    $Param{MoveQueuesStrg} = '<select name="'.$Param{Name}."\" $Size $Multiple $OnChangeSubmit>";
+    my %Data = %{$Param{Data}};
+    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        my @Queue = split(/::/, $Param{Data}->{$_});
+      if (! $Queue[$MaxLevel]) {
+        $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
+        my $Space = '';
+        for (my $i = 0; $i < $#Queue; $i++) {
+            $Space .= '&nbsp;&nbsp;';
+        }
+        # check if SelectedIDRefArray exists
+        if ($SelectedIDRefArray) {
+            foreach my $ID (@{$SelectedIDRefArray}) {
+                if ($ID eq $_) {
+                    $Param{SelectedIDRefArrayOK}->{$_} = 1;
+                }
+            }
+        }
+        # build select string
+        if ($SelectedID eq $_ || $Selected eq $Param{Data}->{$_} || $Param{SelectedIDRefArrayOK}->{$_}) {
+            $Param{MoveQueuesStrg} .= '<option selected value="'.$_.'">'.
+                $Space.$Queue[$#Queue].'</option>';
+        }
+        else {
+            $Param{MoveQueuesStrg} .= '<option value="'.$_.'">'.
+                $Space.$Queue[$#Queue].'</option>';
+        }
+      }
+    }
+    $Param{MoveQueuesStrg} .= '</select>';
+
+    return $Param{MoveQueuesStrg};
+}
+# --
 
 1;

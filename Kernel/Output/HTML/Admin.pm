@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.28 2003-02-14 13:57:31 martin Exp $
+# $Id: Admin.pm,v 1.29 2003-02-23 22:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -349,18 +349,44 @@ sub AdminQueueForm {
         Name => 'GroupID',
         SelectedID => $Param{GroupID},
     );
-
-    $Param{'QueueOption'} = $Self->OptionStrgHashRef(
+    my $ParentQueue = '';
+    if ($Param{Name}) {
+        my @Queue = split(/::/, $Param{Name});
+        for (my $i = 0; $i < $#Queue; $i++) {
+            if ($ParentQueue) {
+                $ParentQueue .= '::';
+            }
+            $ParentQueue .= $Queue[$i];
+        }
+        $Param{Name} = $Queue[$#Queue];
+    }
+    $Param{'QueueOption'} = $Self->AgentQueueListOption(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Clamp => 1,
-            Table => 'queue',
+            What => 'id, name',
+            Table => 'queue', 
+            Valid => 1,
+          ), 
+          '' => '-',
+        },
+        Name => 'ParentQueueID',
+        Selected => $ParentQueue,
+        MaxLevel => 2,
+        OnChangeSubmit => 0,
+    );
+
+    $Param{'QueueLongOption'} = $Self->AgentQueueListOption(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'queue', 
+            Valid => 0,
           )
         },
         Name => 'QueueID',
         Size => 15,
         SelectedID => $Param{QueueID},
+        OnChangeSubmit => 0,
     );
 
     $Param{'SignatureOption'} = $Self->OptionStrgHashRef(
@@ -963,17 +989,17 @@ sub AdminPOP3Form {
         SelectedID => $Param{DispatchingBy},
     );
 
-    $Param{'QueueOption'} = $Self->OptionStrgHashRef(
+    $Param{'QueueOption'} = $Self->AgentQueueListOption(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Valid => 1,
-            Clamp => 1,
+            What => 'id, name',
             Table => 'queue',
+            Valid => 1,
           )
         },
         Name => 'QueueID',
         SelectedID => $Param{QueueID},
+        OnChangeSubmit => 0,
     );
 
     $Param{POP3AccountOption} = $Self->OptionStrgHashRef(
@@ -1003,17 +1029,17 @@ sub AdminSystemAddressForm {
         SelectedID => $Param{ValidID},
     );
 
-    $Param{'QueueOption'} = $Self->OptionStrgHashRef(
+    $Param{'QueueOption'} = $Self->AgentQueueListOption(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
-            Valid => 1,
-            Clamp => 1,
+            What => 'id, name',
             Table => 'queue',
+            Valid => 1,
           )
         },
         Name => 'QueueID',
         SelectedID => $Param{QueueID},
+        OnChangeSubmit => 0,
     );
 
     $Param{SystemAddressOption} = $Self->OptionStrgHashRef(

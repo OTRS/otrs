@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.9 2003-02-08 15:16:29 martin Exp $
+# $Id: AdminQueue.pm,v 1.10 2003-02-23 22:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,6 +63,7 @@ sub Run {
 
     my @Params = (
         'QueueID',
+        'ParentQueueID',
         'Name',
         'GroupID',
         'UnlockTimeout',
@@ -97,6 +98,14 @@ sub Run {
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
+        # --
+        # get long queue name
+        # --
+        if ($GetParam{ParentQueueID}) {
+            $GetParam{Name} = $Self->{QueueObject}->QueueLookup(
+                QueueID => $GetParam{ParentQueueID},
+            ) .'::'. $GetParam{Name};
+        }
         if ($Self->{QueueObject}->QueueUpdate(%GetParam, UserID => $Self->{UserID})) {
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
@@ -115,6 +124,14 @@ sub Run {
         my %GetParam;
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+        }
+        # --
+        # get long queue name
+        # --
+        if ($GetParam{ParentQueueID}) {
+            $GetParam{Name} = $Self->{QueueObject}->QueueLookup(
+                QueueID => $GetParam{ParentQueueID},
+            ) .'::'. $GetParam{Name};
         }
         # --
         # create new queue

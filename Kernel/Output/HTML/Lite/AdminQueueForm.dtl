@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.11 2003-02-08 15:40:41 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.12 2003-02-23 22:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
-    $Data{"QueueOption"}
+    $Data{"QueueLongOption"}
     <br>
     <input type="submit" value="$Text{"change"}">
     </form>
@@ -50,6 +50,10 @@
     <tr>
       <td>$Text{"Group"}: </td>
       <td> $Data{"GroupOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Sub-Queue of"}: </td>
+      <td> $Data{"QueueOption"}</td>
     </tr>
     <tr>
       <td>$Text{"Unlock timeout"} ($Text{"minutes"}): </td>

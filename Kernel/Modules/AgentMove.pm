@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.8 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentMove.pm,v 1.9 2003-02-23 22:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMove;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub Run {
     # --
     # check needed stuff
     # --
-    foreach (qw(DestQueueID TicketID)) {
+    foreach (qw(TicketID)) {
       if (!$Self->{$_}) {
         # --
         # error page
@@ -75,11 +75,36 @@ sub Run {
         # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-
     # --	
     # move queue
     # --
-    if ($Self->{TicketObject}->MoveByTicketID(
+    if (!$Self->{DestQueueID}) {
+        # --
+        # fetch all queues
+        # --
+        my %MoveQueues = ();
+        if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
+            %MoveQueues = $Self->{QueueObject}->GetAllQueues();
+        }
+        else {
+            %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $Self->{UserID});
+        }
+        # --
+        # build header
+        # --
+        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Move Ticket');
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->{LayoutObject}->AgentMove(
+            MoveQueues => \%MoveQueues,
+            TicketID => $Self->{TicketID},
+            %Ticket,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    elsif ($Self->{TicketObject}->MoveByTicketID(
           QueueID => $Self->{DestQueueID},
           UserID => $Self->{UserID},
           TicketID => $Self->{TicketID},
@@ -108,4 +133,3 @@ sub Run {
 # --
 
 1;
-
