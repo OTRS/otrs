@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.7 2001-12-23 13:28:17 martin Exp $
+# $Id: Generic.pm,v 1.8 2001-12-26 20:07:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::Admin;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -41,12 +41,13 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    if (!$Self->{ConfigObject}) {
-        die "Got no ConfigObject!";
-    }
+    # check needed objects
+    foreach ('ConfigObject', 'LogObject') {
+        die "Got no $_!" if (!$Self->{$_});
+    } 
 
+    # get/set some common params
     $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
-
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{Baselink}  = "$Self->{CGIHandle}?SessionID=$Self->{SessionID}";
     $Self->{Time}      = localtime();
@@ -59,12 +60,6 @@ sub new {
 
     # locate template files
     $Self->{TemplateDir} = '../../Kernel/Output/HTML/'. $Theme;
-
-    # get log object
-    $Self->{LogObject} = $Param{LogObject} || die "Got no LogObject!";
-
-    # get config object
-    $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no Config!";
 
     # create language object
     $Self->{LanguageObject} = Kernel::Language->new(
@@ -98,13 +93,20 @@ sub Output {
         $Env{UserLastname} = $Self->{UserLastname};
         $Env{UserLogin} = $Self->{UserLogin};
         $Env{UserLoginTop} = '('. $Self->{UserLogin} .')' if ($Env{UserLogin});
+        $Env{Action} = $Self->{Action};
+        $Env{Subaction} = $Self->{Subaction};
     }  
     else {
         # get %Env from $Self->{EnvRef} 
         my $Tmp = $Self->{EnvRef};
         %Env = %$Tmp;
     }
-
+ 
+    # create refs
+    my $EnvRef = \%Env;
+    my $DataRef = \%Data;
+    my $GlobalRef = {EnvRef=> $EnvRef, DataRef => $DataRef},
+  
     # read template
     my $Output = '';
     open (IN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
@@ -132,61 +134,50 @@ sub Output {
             close (SYSTEM);      
           }
 
-          if ($2 eq 'Data') {
-              $Data{$3} = $Data;
-          }
-          elsif ($2 eq 'Env') {
-              $Env{$3} = $Data;
-          }
+          $GlobalRef->{"$2Ref"}->{$3} = $Data;
           "";
+
         }egx;
 
 
         # do template if dynamic
         $Output =~ s{
-          <dtl\Wif\W\((\$.*)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(.*)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
+          <dtl\Wif\W\(\$(Env|Data|Text)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
         }
         {
           if ($3 eq "eq") {
-            if ($1 eq "\$Text") {
+            # --
+            # do eq actions
+            # --
+            if ($1 eq "Text") {
               if ($Self->{LanguageObject}->Get($2) eq $4) {
-                  $Data{"$6"} = $7;
+                  $GlobalRef->{"$5Ref"}->{$6} = $7;
                   "";
               }
             }
-            elsif ($1 eq "\$Data") {
-              if ((exists $Data{"$2"}) && $Data{"$2"} eq $4) {
-                  $Data{"$6"} = $7;
+            elsif ($1 eq "Env" || $1 eq "Data") {
+              if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} eq $4) {
+                  $GlobalRef->{"$5Ref"}->{$6} = $7;
                   "";
               }
-            }
-            else {
-                "Parser Error! '$1' is unknown!";
             }
          }
          elsif ($3 eq "ne") {
-           if ($1 eq "\$Text") {
+           # --
+           # do ne actions
+           # --
+           if ($1 eq "Text") {
              if ($Self->{LanguageObject}->Get($2) ne $4) {
-                 $Data{"$6"} = $7;
+                 $GlobalRef->{"$5Ref"}->{$6} = $7;
                  "";
              }
            }
-           elsif ($1 eq "\$Data") {
-              if (!exists $Data{"$2"}) {
-                 $Data{"$6"} = $7;
-                 "";
-              }
-              elsif ($Data{"$2"} ne $4) {
-                 $Data{"$6"} = $7;
-                 "";
+           elsif ($1 eq "Env" || $1 eq "Data") {
+              if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
+                  $GlobalRef->{"$5Ref"}->{$6} = $7;
+                  "";
               }
            }
-           else {
-               "Parser Error! '$1' is unknown!";
-           }
-         }
-         else {
-              "";
          }
       }egx;
 
@@ -196,31 +187,21 @@ sub Output {
         \$(Data|Env|Config|Text){"(.+?)"}
       }
       {
-        if ($1 eq "Data") {
-          if (defined $Data{$2}) {
-              $Data{$2};
+        if ($1 eq "Data" || $1 eq "Env") {
+          if (defined $GlobalRef->{"$1Ref"}->{$2}) {
+               $GlobalRef->{"$1Ref"}->{$2};
           }
           else {
-#              "<i>\$$1 {$2} isn't true!</i>";
                "";
-          }
-        }
-        elsif ($1 eq "Env") {
-          if (defined $Env{$2}) {
-              $Env{$2};
-          }
-          else {
-#              "<i>\$$1 {$2} isn't true!</i>";
-              "";
           }
         }
         # replace with
         elsif ($1 eq "Config") {
-          $Self->{ConfigObject}->Get($2) 
+          $Self->{ConfigObject}->Get($2); 
         }
         # do translation
         elsif ($1 eq "Text") {
-          $Self->{LanguageObject}->Get($2) 
+          $Self->{LanguageObject}->Get($2);
         }
       }egx;
 
@@ -229,7 +210,7 @@ sub Output {
     }
  
     # save %Env
-    $Self->{EnvRef} = \%Env;
+    $Self->{EnvRef} = $EnvRef;
 
     # return output
     return $Output;
@@ -251,24 +232,16 @@ sub Test {
     my $Self = shift;
     my %Param = @_;
 
-    # get output 
-    my $Output = $Self->Output(TemplateFile => 'Test', Data => \%Param);
-
-    # return output
-    return $Output;
-
+    # create & return output
+    return $Self->Output(TemplateFile => 'Test', Data => \%Param);
 }
 # --
 sub Login {
     my $Self = shift;
     my %Param = @_;
 
-    # get output 
-    my $Output = $Self->Output(TemplateFile => 'Login', Data => \%Param);
-
-    # return output
-    return $Output;
-
+    # create & return output
+    return $Self->Output(TemplateFile => 'Login', Data => \%Param);
 }
 # --
 sub Error {
@@ -281,34 +254,24 @@ sub Error {
     $Param{Version} = ("\$$Param{Package}". '::VERSION');
     $Param{Version} =~ s/(.*)/$1/ee;
 
-    # get output 
-    my $Output = $Self->Output(TemplateFile => 'Error', Data => \%Param);
-
-    # return output
-    return $Output;
-
+    # create & return output
+    return $Self->Output(TemplateFile => 'Error', Data => \%Param);
 }
 # --
 sub Header {
     my $Self = shift;
     my %Param = @_;
 
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'Header', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'Header', Data => \%Param);
 }
 # --
 sub Footer {
     my $Self = shift;
     my %Param = @_;
 
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'Footer', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'Footer', Data => \%Param);
 }
 # --
 sub Ascii2Html {
@@ -340,6 +303,14 @@ sub LinkQuote {
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
 
+    return $Text;
+}
+# --
+sub MimeWordDecode {
+    my $Self = shift;
+    my %Param = @_;
+    my $Text = $Param{Text} || return;
+    $Text = decode_mimewords($Text);
     return $Text;
 }
 # --
@@ -387,7 +358,7 @@ sub OptionStrgHashRef {
     my $Name = $Param{Name} || '';
     my $Multiple = $Param{Multiple} || '';
     $Multiple = 'multiple' if ($Multiple);
-    my $Selected = $Param{Selected} || 0;
+    my $Selected = $Param{Selected} || 1;
     my $Size = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
     my $DataTmp = $Param{Data};
