@@ -33,14 +33,14 @@ Kernel/Config.pm
 <para>
 Kernel::System::Ticket::IndexAccelerator::RuntimeDB (default), generate 
 each queue view on the fly from ticket table. You will not have performance 
-trouble till ~ 50.000 tickets in your system. 
+trouble till ~ 60.000 tickets (till 6.000 open tickets) in your system. 
 </para>
 </listitem>
 
 <listitem>
 <para>
 Kernel::System::Ticket::IndexAccelerator::StaticDB, the most powerfull module, it 
-should be used over 60.000 tickets in a system - use a extra ticket_index table, 
+should be used over 80.000 tickets (more the 6.000 open tickets) in a system - use a extra ticket_index table, 
 works like a view. Use bin/RebuildTicketIndex.pl for initial index build.
 </para>
 </listitem>
