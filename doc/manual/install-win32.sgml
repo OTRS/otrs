@@ -1,4 +1,3 @@
-<section>
 <title>Install OTRS 1.0 on Win32</title>
 <para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
 <section>
@@ -55,12 +54,7 @@
 <para>Last but least - the beast!</para>
 <para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/pages/index.pl?Site=Download">http://otrs.org/pages/index.pl?Site=Download</ulink>.</para>
 <para>We have to install this tarball manually, because there is a file &quot;INSTALL&quot; in it, who has the same name like the directory &quot;install&quot;, which is also contained. Un*x differentiates between the two - Windows doesn't. In addition, the two files .fetchmailrc and .procmailrc are doubled, your unzip program will complain about this. Future releases will allow automic unzipping.</para>
-<para>Open the tarball using WinRAR (<ulink url="http://www.rarlab.com">http://www.rarlab.com</ulink>), Winzip (<ulink url="http://www.winzip.com">http://www.winzip.com</ulink>) or a similar software. Unzip the files <computeroutput>.fetchmailrc</computeroutput>, <computeroutput>.procmailrc</computeroutput> and <computeroutput>INSTALL</computeroutput> to <emphasis>d:\otrs\</emphasis>. Rename <computeroutput>INSTALL</computeroutput> to <computeroutput>INSTALL.txt</computeroutput>. Now unzip the rest of the archive to <emphasis>d:\otrs\</emphasis>.</para>
-
-<section>
-<title>Download and install SQL-Code</title>
-<para>Download the <emphasis>SQL-Code for phpMyAdmin on Win-32</emphasis> from <emphasis>robertkehl.de</emphasis>. Save it here: <ulink url="http://www.robertkehl.de/downloads/OpenTRS-SQL-win32.mysql.sql">d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</ulink>.</para>
-</section>
+<para>Open the tarball using WinRAR (<ulink url="http://www.rarlab.com">http://www.rarlab.com</ulink>), Winzip (<ulink url="http://www.winzip.com">http://www.winzip.com</ulink>) or a similar software. Unzip the files <computeroutput>.fetchmailrc</computeroutput>, <computeroutput>.mailfilter</computeroutput>, <computeroutput>.procmailrc</computeroutput> and <computeroutput>INSTALL</computeroutput> to <emphasis>d:\otrs\</emphasis>. Rename <computeroutput>INSTALL</computeroutput> to <computeroutput>INSTALL.txt</computeroutput>. Now unzip the rest of the archive to <emphasis>d:\otrs\</emphasis>.</para>
 
 </section>
 
@@ -299,29 +293,21 @@ copy Config.pm.dist Config.pm
 <para>Now we have to uncomment five rows in <emphasis>d:\otrs\Kernel\System\Log.pm</emphasis>:</para>
 <para><screen>13:
   # use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
-58:
+60:
   #    $Self-&gt;{Key} = shmget($Self-&gt;{IPCKey}, $Self-&gt;{IPCSize}, 0777 | 0001000) || die $!;
-126,127:
+128,129:
   #        my $String = $Self-&gt;GetLog();
   #        shmwrite($Self-&gt;{Key}, $Data.$String, 0, $Self-&gt;{IPCSize}) || die $!;
-141:
+143:
   #    shmread($Self-&gt;{Key}, $String, 0, $Self-&gt;{IPCSize}) || die &quot;$!&quot;;</screen></para>
-</section>
-
-<section>
-<title>TICKET.PM</title>
-<para>We are now working with <emphasis>d:\Sambar\Kernel\System\Ticket.pm</emphasis>, open it and search for this row</para>
-<para><screen>use Kernel::System::Ticket::Article;</screen></para>
-<para>Add this line beneath:</para>
-<para><screen>use Kernel::System::Ticket::ArticleStorageDB;</screen></para>
 </section>
 
 <section>
 <title>VALID.PM</title>
 <para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>. In <emphasis>d:\otrs\Kernel\cpan-lib\Email\Valid.pm</emphasis> we change the following lines:</para>
-<para><screen>15:
+<para><screen>16:
   @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin c:/winnt/system32 );
-94:
+98:
   return &quot;$path/nslookup.exe&quot; if -x &quot;$path/nslookup.exe&quot; and !-d _;</screen></para>
 <para>Now <emphasis>Valid.pm</emphasis> is suitable for Win32 *only*, but that's ok for us :)</para>
 </section>
@@ -388,6 +374,5 @@ copy Config.pm.dist Config.pm
 <para>If s.th. still is not as clear as it should be or if you are getting nothing more than error messages instead of the interface of OTRS, don't hesitate to mail <ulink url="mailto:otrs-win32@robertkehl.de">otrs-win32 at robertkehl.de</ulink>. Hopefully you get a ticket back ;-)</para>
 <para>I would be more enlighted if you'd send some success stories!</para>
 <para>Surely this chapter will follow the development of <ulink url="http://otrs.org">OTRS</ulink>. OTRS on Win32 can be done with Apache, too, and I will soon include a part on it.</para>
-<para>Have fun using your OUTR on Sambar!</para>
-</section>
+<para>Have fun using your OTRS on Sambar!</para>
 </section>
