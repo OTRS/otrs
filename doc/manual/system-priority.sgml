@@ -28,7 +28,7 @@ mysql>
 Important: The "id" gives the order of the priority. -=> 1 = min, 5 (or higher) = highest 
 </para>
 <para>
-The number in front of the state name is to show the order correctly in the webinterface.
+The number in front of the priority name is to show the order correctly in the webinterface.
 </para>
 </listitem>
 
