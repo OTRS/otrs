@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.59 2002-10-28 18:16:20 martin Exp $
+# $Id: Agent.pm,v 1.60 2002-10-29 22:38:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -193,7 +193,7 @@ sub TicketView {
           Name => 'ResponseID',
           Data => \%StdResponses,
         );
-        $Param{StdResponsesStrg} .= '<input type="submit" value="$Text{"Compose"}">';
+        $Param{StdResponsesStrg} .= '<input type="submit" value="$Text{"Compose"}"></form>';
     }
     else {
        foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
@@ -314,7 +314,7 @@ sub TicketZoom {
           Name => 'ResponseID',
           Data => \%StdResponses,
         );
-        $Param{StdResponsesStrg} .= '<input type="submit" value="$Text{"Compose"}">';
+        $Param{StdResponsesStrg} .= '<input type="submit" value="$Text{"Compose"}"></form>';
     }
     else {
         foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
