@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.22 2003-03-10 21:27:13 martin Exp $
+# $Id: AgentClose.pm,v 1.23 2003-04-14 23:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,13 +83,14 @@ sub Run {
             Result => 'HASH',
         );
         # get possible notes
+        my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
         my %NoteTypes = $Self->{DBObject}->GetTableData(
             Table => 'article_type',
             Valid => 1,
             What => 'id, name'
         );
         foreach (keys %NoteTypes) {
-            if ($NoteTypes{$_} !~ /^note/i) {
+            if (!$DefaultNoteTypes{$NoteTypes{$_}}) {
                 delete $NoteTypes{$_};
             }
         }

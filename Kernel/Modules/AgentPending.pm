@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.8 2003-03-10 21:27:12 martin Exp $
+# $Id: AgentPending.pm,v 1.9 2003-04-14 23:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,13 +95,14 @@ sub Run {
             Result => 'HASH',
         );
         # get possible notes
+        my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
         my %NoteTypes = $Self->{DBObject}->GetTableData(
             Table => 'article_type',
             Valid => 1,
             What => 'id, name'
         );
         foreach (keys %NoteTypes) {
-            if ($NoteTypes{$_} !~ /^note/i) {
+            if (!$DefaultNoteTypes{$NoteTypes{$_}}) {
                 delete $NoteTypes{$_};
             }
         }
@@ -162,7 +163,7 @@ sub Run {
         # check needed stuff
         # --
         foreach (qw(Year Month Day Hour Minute)) {
-          if (!$GetParam{$_}) {
+          if (!defined($GetParam{$_})) {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Error(
               Message => "Need $_!",
