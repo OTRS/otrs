@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.pm,v 1.9 2004-01-08 22:09:51 martin Exp $
+# $Id: AgentSpelling.pm,v 1.10 2004-03-05 11:35:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -102,12 +102,16 @@ sub Run {
     # -- 
     # start with page ...
     # --
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Spell Checker');
+    $Output .= $Self->{LayoutObject}->Header(
+        Area => 'Agent', 
+        Title => 'Spell Checker',
+        Type => 'Small',
+    );
     $Output .= $Self->_Mask(
         SpellCheck => \%SpellCheck,
         %Param,
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer(Type => 'Small');
     return $Output;
 }
 # --

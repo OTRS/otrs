@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.113 2004-02-29 19:09:13 martin Exp $
+# $Id: CHANGES,v 1.114 2004-03-05 11:35:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,6 +11,7 @@
 
 CVS head 
 
+ - (2004/03/05) added Include funtion to dtl tags - Thanks to Bozhin Zafirov!
  - (2004/02/29) improved database handling of large objects (use DBI
     bind values now / saves memory)
  - (2004/02/27) replaced "CustomQueue" with "My Queues" in agent frontend

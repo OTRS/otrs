@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.22 2003-12-29 17:25:11 martin Exp $
+# $Id: AgentCustomer.pm,v 1.23 2004-03-05 11:35:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub Run {
 
     if ($Self->{Subaction} eq 'Update') {
         # --
-		# set customer id
+        # set customer id
         # --
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerUserOption = $Self->{ParamObject}->GetParam(Param => 'CustomerUserOption') || '';

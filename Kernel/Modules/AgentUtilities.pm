@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.36 2004-02-18 21:56:28 martin Exp $
+# $Id: AgentUtilities.pm,v 1.37 2004-03-05 11:35:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -233,7 +233,7 @@ sub Run {
         }
         # focus of "From To Cc Subject Body"
         foreach (qw(From To Cc Subject Body)) {
-            if (defined($GetParam{$_})) {
+            if (defined($GetParam{$_}) && $GetParam{$_} ne '') {
                 $GetParam{$_} = "*$GetParam{$_}*";
             }
         }
@@ -623,7 +623,7 @@ sub MaskShortResult {
         $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
             Text => $Param{$_},
             From => $Param{ContentCharset},
-        );
+        ) || '-';
     }
     # create & return output
     if (!$Param{Answered}) {

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/FAQState.pm - to add/update/delete faq categories
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQState.pm,v 1.1 2004-01-08 11:46:35 martin Exp $
+# $Id: FAQState.pm,v 1.2 2004-03-05 11:35:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,4 +119,3 @@ sub _Mask {
 }
 # --
 1;
-
