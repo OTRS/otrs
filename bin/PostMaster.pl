@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PostMaster.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.11 2003-01-23 22:50:08 martin Exp $
+# $Id: PostMaster.pl,v 1.12 2003-02-03 20:53:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,14 +35,33 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 1;
 
+use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::PostMaster;
+
+# --
+# get options
+# --
+my %Opts = ();
+getopt('hqt', \%Opts);
+if ($Opts{'h'}) {
+    print "PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
+    print "Copyright (c) 2001-2003 Martin Edenhofer <martin\@otrs.org>\n";
+    print "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> \n";
+    exit 1;
+}
+if (! defined($Opts{'t'})) {
+    $Opts{'t'} = 1;
+}
+if (!$Opts{'q'}) {
+    $Opts{'q'} = '';
+}
 
 # --
 # create common objects 
@@ -62,8 +81,14 @@ if ($Debug) {
 }
 # ... common objects ...
 my @Email = <STDIN>;
-$CommonObject{PostMaster} = Kernel::System::PostMaster->new(%CommonObject, Email => \@Email);
-$CommonObject{PostMaster}->Run();
+$CommonObject{PostMaster} = Kernel::System::PostMaster->new(
+    %CommonObject, 
+    Email => \@Email,
+    Trusted => $Opts{'t'},
+);
+$CommonObject{PostMaster}->Run(
+    Queue => $Opts{'q'},
+);
 
 # debug info
 if ($Debug) {
