@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.53 2004-07-16 12:55:56 martin Exp $
+# $Id: de.pm,v 1.54 2004-07-30 09:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -146,6 +146,7 @@ sub Data {
       'No Permission!' => 'Keine Zugriffsrechte!',
       'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" nicht gefunden! Ticket konnte nicht verknüpft werden!',
       'No suggestions' => 'Keine Vorschläge',
+      '-none-' => '-keine-',
       'none' => 'keine',
       'none - answered' => 'keine - beantwortet',
       'none!' => 'keine Angabe!',
@@ -454,6 +455,8 @@ sub Data {
       'Misc' => 'Sonstiges',
       'Notifications' => 'Nachrichten',
       'PGP Keys' => 'PGP Schlüssel',
+      'PGP Key' => 'PGP Schlüssel',
+      'PGP Key Upload' => 'PGP Schlüssel Übertragung',
       'PostMaster Filter' => '',
       'PostMaster POP3 Account' => 'PostMaster POP3-Konto',
       'Responses' => 'Antworten',
@@ -668,6 +671,7 @@ sub Data {
     # Template: AgentEmailNew
       'All Agents' => 'Alle Agenten',
       'Clear From' => 'Von: löschen',
+      'Clear To' => 'An: löschen',
       'Compose Email' => 'E-Mail erstellen',
       'new ticket' => 'Neues Ticket',
 
