@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.72 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentZoom.pm,v 1.73 2004-09-20 11:14:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.72 $';
+$VERSION = '$Revision: 1.73 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -102,55 +102,25 @@ sub Run {
     }
     # get content
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-    my %LinkObjects = $Self->{LinkObject}->LinkObjects();
-    foreach my $Object (keys %LinkObjects) {
-        $Self->{LinkObject}->LoadBackend(Module => $Object);
-        my %Linked = $Self->{LinkObject}->LinkedObjects(
-            LinkType => 'Child',
-            LinkObject1 => 'Ticket',
-            LinkID1 => $Self->{TicketID},
-            LinkObject2 => $Object,
-            UserID => $Self->{UserID},
-        );
-        foreach (keys %Linked) {
-            $Self->{LayoutObject}->Block(
-                Name => 'LinkChild',
-                Data => { %{$Linked{$_}} },
-            );
+    # get linked objects
+    my %Links = $Self->{LinkObject}->AllLinkedObjects(
+        Object => 'Ticket',
+        ObjectID => $Self->{TicketID},
+        UserID => $Self->{UserID},
+    );
+    foreach my $LinkType (sort keys %Links) {
+        my %ObjectType = %{$Links{$LinkType}};
+        foreach my $Object (sort keys %ObjectType) {
+            my %Data = %{$ObjectType{$Object}};
+            foreach my $Item (sort keys %Data) {
+                $Self->{LayoutObject}->Block(
+                    Name => "Link$LinkType",
+                    Data => $Data{$Item},
+                );
+            }
         }
     }
-    foreach my $Object (keys %LinkObjects) {
-        $Self->{LinkObject}->LoadBackend(Module => $Object);
-        my %Linked = $Self->{LinkObject}->LinkedObjects(
-            LinkType => 'Parent',
-            LinkObject2 => 'Ticket',
-            LinkID2 => $Self->{TicketID},
-            LinkObject1 => $Object,
-            UserID => $Self->{UserID},
-        );
-        foreach (keys %Linked) {
-            $Self->{LayoutObject}->Block(
-                Name => 'LinkParent',
-                Data => { %{$Linked{$_}} },
-            );
-        }
-    }
-    foreach my $Object (keys %LinkObjects) {
-        $Self->{LinkObject}->LoadBackend(Module => $Object);
-        my %Linked = $Self->{LinkObject}->LinkedObjects(
-            LinkType => 'Normal',
-            LinkObject1 => 'Ticket',
-            LinkID1 => $Self->{TicketID},
-            LinkObject2 => $Object,
-            UserID => $Self->{UserID},
-        );
-        foreach (keys %Linked) {
-            $Self->{LayoutObject}->Block(
-                Name => 'LinkNormal',
-                Data => { %{$Linked{$_}} },
-            );
-        }
-    }
+
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
     # --
     # return if HTML email
@@ -220,7 +190,7 @@ sub Run {
     # genterate output
     # --
     $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => "Zoom Ticket");
-    $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Agent');
+    $Output .= $Self->{LayoutObject}->NavigationBar();
     # --
     # show ticket
     # --
