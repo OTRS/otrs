@@ -109,11 +109,14 @@ Add the following to each Kernel/Config.pm
     # SystemID
     # (The identify of the system. Each ticket number and
     # each http session id starts with this number)
-    $Self->{SystemID} = n
+    $Self->{SystemID} = n;
 </programlisting>
 where n is a reasonable low integer that is unique across the system!
 
-Also note that you cannot run more than one OTRS System through mod_perl.
+Also note that you cannot run more than one OTRS System through mod_perl-1 
+(one httpd). In case you want more the one OTRS System on one machine with
+mod_perl-1, start a new httpd on an other ip-address or port. mod_perl-2 can
+handle this with one httpd.
 </para>
 </sect1>
 
