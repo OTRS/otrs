@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.10 2004-06-29 10:43:06 martin Exp $
+# $Id: SystemStats.pm,v 1.11 2004-06-30 12:42:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $ ';
+$VERSION = '$Revision: 1.11 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -141,7 +141,7 @@ sub Run {
             my $TitleArrayRef = shift (@Data);
             my $Title = $TitleArrayRef->[0];
             my $HeadArrayRef = shift (@Data);
-            if ($Format ne 'Graph') {
+            if ($Format !~ /^Graph/) {
                 # add sum y
                 if ($ConfigItem{SumRow}) {
                     push (@{$HeadArrayRef}, 'Sum');
@@ -201,11 +201,52 @@ sub Run {
                     Content => $Output,
                 );
             }
-            elsif ($Format eq 'Graph') {
-                require GD;
-                require GD::Graph;
-                require GD::Graph::lines;
-                require GD::Graph::bars;
+            # gd output
+            elsif ($Format =~ /^Graph(|Line|Bars|Pie)$/) {
+                my $GDBackend = '';
+                if ($1 eq 'Bars') {
+                    $GDBackend = 'GD::Graph::bars';
+                }
+                elsif ($1 eq 'Pie') {
+                    $GDBackend = 'GD::Graph::pie';
+                }
+                else { 
+                    $GDBackend = 'GD::Graph::lines';
+                }
+                # load gd modules
+                foreach my $Module ('GD', 'GD::Graph', $GDBackend) {
+                    if (!eval "require $Module;") {
+                        # check if file name exists
+                        my $Error = 0;
+                        my $FileTmp = $Module;
+                        $FileTmp =~ s/::/\//g;
+                        foreach my $Prefix (@INC) {
+                            my $File = "$Prefix/$FileTmp.pm";
+                            if (-f $File) {
+                                $Error = $File;
+                                last;
+                             }
+                        }
+                        if ($Error) {
+                            my $R = do $Error;
+                            $Self->{LogObject}->Log(Priority => 'error', Message => "$@");
+                            $Error = "Syntax error in '$Error'!";
+                        }
+                        # if there is no file, show not found error 
+                        else {
+                            $Self->{LogObject}->Log(Priority => 'error', Message => "Module $Module not found!");
+                            $Error = "Module $Module not found!";
+                        }
+
+                        my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
+                        $Output .= $Self->{LayoutObject}->Error(
+                            Message => $Error,
+                            Comment => 'Please contact your admin'
+                        );
+                        $Output .= $Self->{LayoutObject}->Footer();
+                        return $Output;
+                    }
+                }
                 # remove first y/x position
                 my $XLable = shift (@{$HeadArrayRef});
                 # get first col for legend
@@ -217,7 +258,7 @@ sub Run {
                 # build plot data
                 my @PData = ($HeadArrayRef, @Data);
                 my ($XSize, $YSize) = split(/x/, $GetParam{GraphSize});
-                my $graph = GD::Graph::lines->new($XSize || 550, $YSize || 350);
+                my $graph = $GDBackend->new($XSize || 550, $YSize || 350);
                 $graph->set(
                     x_label            => $XLable,
 #                    y_label            => 'YLable',
@@ -249,8 +290,9 @@ sub Run {
                     legend_marker_width => 12, legend_marker_height => 8,
                 );
                 # set legend (y-line)
-                $graph->set_legend(@YLine);
-
+                if ($Format ne 'GraphPie') {
+                    $graph->set_legend(@YLine);
+                }
                 # return csv to download
                 my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
                 $Y = $Y+1900;
@@ -279,6 +321,7 @@ sub Run {
                     Content => $graph->plot(\@PData)->$Ext(),
                 );
             }
+            # print output
             else {
                 my $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Stats', Title => $ConfigItem{Name});
                 $Output .= "$ConfigItem{Name}: $Title";
