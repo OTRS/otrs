@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.83 2003-02-08 21:20:05 martin Exp $
+# $Id: Agent.pm,v 1.84 2003-02-08 21:45:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.83 $';
+$VERSION = '$Revision: 1.84 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1534,6 +1534,9 @@ sub AgentStatusViewTable {
     my $Self = shift;
     my %Param = @_;
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
+    foreach (qw(State Lock)) {
+        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
+    }
     # do html quoteing
     foreach (qw(State Queue Owner Lock CustomerID)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 10) || '';

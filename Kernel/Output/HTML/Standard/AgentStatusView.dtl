@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: AgentStatusView.dtl,v 1.5 2003-02-08 21:09:04 martin Exp $
+# $Id: AgentStatusView.dtl,v 1.6 2003-02-08 21:45:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
   </td>
 </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<table border="0" width="100%" cellspacing="0" cellpadding="4">
 <tr> 
  <td class="table1" align="center" valign="top">
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="5">
