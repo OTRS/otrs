@@ -1,15 +1,15 @@
 # --
 # UPGRADING - upgrading OTRS
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UPGRADING,v 1.7 2002-10-28 18:19:36 martin Exp $
+# $Id: UPGRADING,v 1.8 2003-01-06 22:20:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-These instructions are for people upgrading OTRS to a newer release.
+These instructions are for people upgrading OTRS to a 1.0 release.
 
 *) Stop all your services (e. g. rcotrs stop-force)
 
@@ -22,17 +22,26 @@ These instructions are for people upgrading OTRS to a newer release.
 
 *) Install the new release (tar or RPM)
 
+*) Update home dir of otrs user (changed from /opt/OpenTRS to /opt/otrs).
+    $shell> usermod -d /opt/otrs otrs
+
 *) Update the database changes with:
     MySQL: 
-      cat $OTRS_HOME/scripts/DBUpdate.mysql.sql | mysql -p -f -u root otrs
+      cat $OTRS_HOME/scripts/DBUpdate-to-1.0.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-      cat $OTRS_HOME/scripts/DBUpdate.postgresql.sql | psql otrs
+      cat $OTRS_HOME/scripts/DBUpdate-to-1.0.postgresql.sql | psql otrs
 
    (Don't worry about the error messages, you can update all previous version
    with this script and in the most cases your database has already the most changes!)
 
-*) Update the new Kernel/Config.pm (and Kernel/Config/*.pm) with your setting 
-   (use the newer Kernel/Config.pm - normally new releases have more config settings)
+*) Add your config changes to the new Kernel/Config.pm (Kernel/Config.pm.dist). 
+    Note: it's important to use the new Kernel/Config.pm.dist because it's a new 
+    config mechanism! 
+
+*) Move old var data to new dir (changed from /opt/OpenTRS to /opt/otrs).
+   $shell> mv /opt/OpenTRS/var/article/* /opt/otrs/var/article/
+   $shell> mv /opt/OpenTRS/var/INBOX.Backup.* /opt/otrs/var/
+   $shell> mv /opt/OpenTRS/var/cron/* /opt/otrs/var/cron/
 
 *) Execute $OTRS_HOME/bin/SetPermissions.sh !
 
