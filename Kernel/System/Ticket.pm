@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.60 2003-11-26 00:41:27 martin Exp $
+# $Id: Ticket.pm,v 1.61 2003-12-08 00:06:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -542,9 +542,7 @@ sub GetMoveQueueList {
 sub SetCustomerData {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -555,9 +553,7 @@ sub SetCustomerData {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or No for update!");
         return;
     }
-    # --
     # db customer id update
-    # --
     if (defined($Param{No})) {
         $Param{No} = $Self->{DBObject}->Quote(lc($Param{No}));
         my $SQL = "UPDATE ticket SET customer_id = '$Param{No}', " .
@@ -567,9 +563,7 @@ sub SetCustomerData {
             $Param{History} = "CustomerID updated to '$Param{No}'. ";
         }
     }
-    # --
     # db customer user update
-    # --
     if (defined($Param{User})) {
         $Param{User} = $Self->{DBObject}->Quote(lc($Param{User}));
         my $SQL = "UPDATE ticket SET customer_user_id = '$Param{User}', " .
@@ -599,31 +593,23 @@ sub SetTicketFreeText {
     my %Param = @_;
     my $Value = $Param{Value} || '';
     my $Key = $Param{Key} || '';
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID Counter)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # check if update is needed
-    # --
     my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
     if ($Value eq $Ticket{"TicketFreeText$Param{Counter}"} && 
         $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}) {
         return 1;
     }
-    # --
     # db quote
-    # --
     my $DBValue = $Self->{DBObject}->Quote($Value);
     my $DBKey = $Self->{DBObject}->Quote($Key);
-    # --
     # db update
-    # --
     my $SQL = "UPDATE ticket SET freekey$Param{Counter} = '$DBKey', " .
     " freetext$Param{Counter} = '$DBValue', " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
@@ -647,18 +633,14 @@ sub SetAnswered {
     my $Self = shift;
     my %Param = @_;
     my $Answered = $Param{Answered} || 0;
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # db update
-    # --
     my $SQL = "UPDATE ticket SET ticket_answered = $Answered, " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID} ";
@@ -839,9 +821,7 @@ sub CustomerPermission {
 sub GetLockedTicketIDs {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{UserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return;
@@ -893,9 +873,7 @@ sub GetLockedTicketIDs {
 sub SetPendingTime {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Year Month Day Hour Minute TicketID UserID)) {
       if (!defined($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -903,9 +881,7 @@ sub SetPendingTime {
       }
     }
     my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year});
-    # --
     # db update
-    # --
     my $SQL = "UPDATE ticket SET until_time = $time, " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID} ";
@@ -928,5 +904,37 @@ sub SetPendingTime {
     }
 }
 # --
-
+sub GetCustomerTickets {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(CustomerID UserID)) {
+      if (!defined($Param{$_})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my @TicketIDs = ();
+    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+        UserID => $Param{UserID},
+        Type => 'ro',
+        Result => 'ID',
+    );
+    my $SQL = "SELECT st.id, st.tn ".
+        " FROM ".
+        " ticket st, queue q ".
+        " WHERE ".
+        " st.queue_id = q.id ".
+        " AND ".
+        " st.customer_id = '".$Self->{DBObject}->Quote($Param{CustomerID})."' ".
+        " AND ".
+        " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
+        " ORDER BY st.create_time_unix DESC ";
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 60);
+    while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push(@TicketIDs, $Row[0]);
+    }
+    return @TicketIDs;
+}
+# --
 1;
