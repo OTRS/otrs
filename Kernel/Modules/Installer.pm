@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.13 2002-09-19 18:04:41 martin Exp $
+# $Id: Installer.pm,v 1.14 2002-10-22 12:37:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,11 +46,14 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $Subaction = $Self->{Subaction} || ''; 
-    my $DirOfSQLFiles = '/usr/share/doc/packages/otrs/install/database';
+    my $DirOfSQLFiles = '../../install/database';
     if (! -d $DirOfSQLFiles) {
-        $DirOfSQLFiles = '/usr/share/doc/packages/otrs-7.3/install/database';
+        $DirOfSQLFiles = '/usr/share/doc/packages/otrs/install/database';
         if (! -d $DirOfSQLFiles) {
-            $DirOfSQLFiles = '/usr/share/doc/otrs/install/database';
+            $DirOfSQLFiles = '/usr/share/doc/packages/otrs-7.3/install/database';
+            if (! -d $DirOfSQLFiles) {
+                $DirOfSQLFiles = '/usr/share/doc/otrs/install/database';
+            }
         }
     }
 
