@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.24 2005-02-23 15:53:26 martin Exp $
+# $Id: Package.pm,v 1.25 2005-04-06 05:25:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -425,7 +425,7 @@ sub PackageInstall {
     foreach my $Package ($Self->RepositoryList()) {
         if ($Structur{Name}->{Content} eq $Package->{Name}->{Content}) {
           if ($Package->{Status} =~ /^installed$/i) {
-            if (!$Param{Force} && $Structur{Version}->{Content} eq $Package->{Version}->{Content}) {
+            if (!$Param{Force}) {
                 $Self->{LogObject}->Log(
                     Priority => 'notice',
                     Message => "Package already installed, try upgrade!",
@@ -1405,6 +1405,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2005-02-23 15:53:26 $
+$Revision: 1.25 $ $Date: 2005-04-06 05:25:02 $
 
 =cut
