@@ -1,14 +1,7 @@
 
 <table border="0" cellspacing="1" cellpadding="0" width="100%">
   <tr>
-    <td align="right" valign="top"><font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"})</font></td>
-  </td>
-</table>
-
-<table border="0" cellspacing="1" cellpadding="0" width="100%">
-  <tr>
     <td><font size="+2">$Config{"TicketHook"}: $Data{"TicketNumber"}</font></td>
-    <td align="right" valign="top"><font size="-2">$Env{"Time"}</font></td>
   </td>
 </table>
 <table border="0" cellspacing="1" cellpadding="10" width="100%">
