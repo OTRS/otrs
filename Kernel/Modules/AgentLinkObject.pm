@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.pm,v 1.6 2004-11-26 13:37:34 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.7 2004-11-28 08:24:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -206,7 +206,9 @@ sub Run {
         # show no own ticket
         my @DataResult = ();
         foreach my $Data (@DataResultRaw) {
-            if ($Self->{SourceObject} eq $Self->{DestinationObject} && $Self->{SourceID} ne $Data->{ID}) {
+            if ($Self->{SourceObject} eq $Self->{DestinationObject} && $Self->{SourceID} eq $Data->{ID}) {
+            }
+            else {
                 push(@DataResult, $Data);
             }
         }
