@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.28 2003-05-26 22:01:05 martin Exp $
+# $Id: Article.pm,v 1.29 2003-06-18 21:53:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -474,7 +474,6 @@ sub SetArticleFreeText {
 sub GetLastCustomerArticle {
     my $Self = shift;
     my %Param = @_;
-    my $ArticleID = '';
     # --
     # check needed stuff
     # --
@@ -489,7 +488,13 @@ sub GetLastCustomerArticle {
     # --
     # get article data   
     # --
-    return $Self->GetArticle(ArticleID => $Index[$#Index]);
+    if (@Index) {
+        return $Self->GetArticle(ArticleID => $Index[$#Index]);
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No last customer article found!");
+        return; 
+    }
 }
 # --
 sub GetArticleIndex {
