@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.5 2002-12-25 09:21:42 martin Exp $
+# $Id: fr.pm,v 1.6 2003-01-03 19:54:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Wed Dec 25 01:00:32 2002 by 
+    # Last translation Fri Jan  3 20:40:04 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -41,13 +41,13 @@ sub Data {
       '15 minutes' => '15 minutes',
       'AddLink' => 'Ajouter un lien',
       'AdminArea' => 'Zone d\'administration',
-      'All' => 'Tout',
       'all' => 'tout',
+      'All' => 'Tout',
       'Attention' => 'Attention',
       'Bug Report' => 'Rapport d\'anomalie',
       'Cancel' => '',
-      'change' => 'modifier',
       'Change' => 'Modifier',
+      'change' => 'modifier',
       'change!' => 'modifier&nbsp;!',
       'click here' => '',
       'Comment' => 'Commentaire',
@@ -55,13 +55,15 @@ sub Data {
       'Customer info' => 'Information client',
       'day' => 'jour',
       'days' => 'jours',
-      'description' => 'description',
       'Description' => 'Description',
+      'description' => 'description',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => '',
       'Done' => 'Fait',
       'end' => 'fin',
       'Error' => 'Erreur',
       'Example' => 'Exemple',
       'Examples' => 'Exemples',
+      'Facility' => '',
       'Feature not acitv!' => '',
       'go' => '',
       'go!' => 'c\'est parti&nbsp;!',
@@ -87,21 +89,24 @@ sub Data {
       'Name' => 'Nom',
       'New message' => 'Nouveau message',
       'New message!' => 'Nouveau message&nbsp;!',
-      'no' => 'aucun',
       'No' => 'Non',
+      'no' => 'aucun',
       'No suggestions' => 'Pas de suggestions',
       'none' => 'aucun',
       'none - answered' => 'aucun - répondu',
       'none!' => 'aucun&nbsp;!',
-      'Off' => 'Éteint',
       'off' => 'éteint',
+      'Off' => 'Éteint',
       'On' => 'Allumé',
       'on' => 'allumé',
       'Password' => 'Mot de Passe',
+      'Pending till' => '',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre à ce(s) ticket(s) pour revenir à la vue normale de la file.',
       'Please contact your admin' => '',
       'please do not edit!' => 'Ne pas modifier&nbsp;!',
+      'possible' => '',
       'QueueView' => 'Vue file',
+      'reject' => '',
       'replace with' => 'remplacer par',
       'Reset' => 'Remise à zéro',
       'Salutation' => 'Salutation',
@@ -115,6 +120,7 @@ sub Data {
       'The recommended charset for your language is %s!' => 'Les jeux de charactères pour votre langue est %s!',
       'Theme' => 'Thème',
       'There is no account with that login name.' => '',
+      'Timeover' => '',
       'top' => 'haut',
       'update' => 'Mise à jour',
       'update!' => 'actualiser&nbsp;!',
@@ -167,6 +173,11 @@ sub Data {
       'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou ',
 
     # Template: AAATicket
+      '1 very low' => '',
+      '2 low' => '',
+      '3 normal' => '',
+      '4 high' => '',
+      '5 very high' => '',
       'Action' => 'Action',
       'Age' => 'Vieillir',
       'Article' => 'Article',
@@ -201,6 +212,9 @@ sub Data {
       'open' => 'ouvrir',
       'Owner' => 'Propriétaire',
       'Pending' => 'En attente',
+      'pending auto close+' => '',
+      'pending auto close-' => '',
+      'pending reminder' => '',
       'phone' => 'téléphone',
       'plain' => 'tel quel',
       'Priority' => 'Priorité',
@@ -231,6 +245,11 @@ sub Data {
       'Thu' => '',
       'Tue' => '',
       'Wed' => '',
+
+    # Template: AdminAttachmentForm
+      'Add attachment' => '',
+      'Attachment Management' => '',
+      'Change attachment settings' => '',
 
     # Template: AdminAutoResponseForm
       'Add auto response' => 'Ajouter une réponse automatique',
@@ -298,12 +317,14 @@ sub Data {
       'Email Addresses' => 'Adresses courriel',
       'Groups' => 'Groupes',
       'Logout' => 'Déconnexion',
+      'Misc' => '',
       'POP3 Account' => '',
       'Responses' => 'Réponses',
       'Responses <-> Queue' => 'Réponses <-> Files',
       'Select Box' => 'Choisissez une boîte',
       'Session Management' => 'Gestion des sessions',
       'Status defs' => '',
+      'System' => '',
       'User <-> Groups' => 'Utilisateur <-> Groupes',
 
     # Template: AdminPOP3Form
@@ -347,6 +368,12 @@ sub Data {
     # Template: AdminQueueResponsesForm
       'Answer' => '',
       'Change answer <-> queue settings' => 'Modifier les paramètres de réponses <-> files',
+
+    # Template: AdminResponseAttachmentChangeForm
+      'Std. Responses <-> Std. Attachment Management' => '',
+
+    # Template: AdminResponseAttachmentForm
+      'Change Response <-> Attachment settings' => '',
 
     # Template: AdminResponseForm
       'A response is default text to write faster answer (with default text) to customers.' => 'Une réponse est un texte par défaut destiné à rédiger plus rapidement des réponses standard aux clients.',
@@ -468,9 +495,25 @@ sub Data {
     # Template: AgentHistoryForm
       'History of' => '',
 
+    # Template: AgentMailboxNavBar
+      'All messages' => '',
+      'CustomerID' => 'Numéro de client#',
+      'down' => '',
+      'Mailbox' => '',
+      'New' => '',
+      'New messages' => '',
+      'Open' => '',
+      'Open messages' => '',
+      'Order' => '',
+      'Pending messages' => '',
+      'Reminder' => '',
+      'Reminder messages' => '',
+      'Sort by' => '',
+      'Tickets' => '',
+      'up' => '',
+
     # Template: AgentMailboxTicket
       'Add Note' => 'Ajouter note',
-      'CustomerID' => 'Numéro de client#',
 
     # Template: AgentNavigationBar
       'FAQ' => '',
@@ -654,7 +697,6 @@ sub Data {
       'Logfile' => '',
       'LogModule' => '',
       'Organization' => '',
-      'System' => '',
       'System FQDN' => '',
       'SystemID' => '',
       'Ticket Hook' => '',
@@ -681,7 +723,6 @@ sub Data {
 
     # Template: SystemStats
       'Graphs' => 'Graphiques',
-      'Tickets' => '',
 
     # Template: Test
       'OTRS Test Page' => '',

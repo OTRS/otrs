@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.7 2002-12-25 09:21:42 martin Exp $
+# $Id: bg.pm,v 1.8 2003-01-03 19:58:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Wed Dec 25 00:58:33 2002 by 
+    # Last translation Fri Jan  3 20:39:38 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -40,13 +40,13 @@ sub Data {
       '15 minutes' => '15 Минути',
       'AddLink' => 'Добавяне на връзка',
       'AdminArea' => 'Зона-Администратор',
-      'All' => 'Всички',
       'all' => 'всички',
+      'All' => 'Всички',
       'Attention' => 'Внимание',
       'Bug Report' => 'Отчет за грешка',
       'Cancel' => 'Отказ',
-      'change' => 'променете',
       'Change' => 'Промяна',
+      'change' => 'променете',
       'change!' => 'променете!',
       'click here' => 'натиснете тук',
       'Comment' => 'Коментар',
@@ -54,13 +54,15 @@ sub Data {
       'Customer info' => 'Потребителски данни',
       'day' => 'ден',
       'days' => 'дни',
-      'description' => 'описание',
       'Description' => 'Описание',
+      'description' => 'описание',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => '',
       'Done' => 'Направено',
       'end' => 'Край',
       'Error' => 'Грешка',
       'Example' => 'Пример',
       'Examples' => 'Примери',
+      'Facility' => '',
       'Feature not acitv!' => '',
       'go' => 'ОК',
       'go!' => 'ОК!',
@@ -86,21 +88,24 @@ sub Data {
       'Name' => 'Име',
       'New message' => 'Ново съобщение',
       'New message!' => 'Ново съобщение!',
-      'no' => 'не',
       'No' => 'Не',
+      'no' => 'не',
       'No suggestions' => 'Няма предположения',
       'none' => 'няма',
       'none - answered' => 'няма - отговорен',
       'none!' => 'няма!',
-      'Off' => 'Изключено',
       'off' => 'изключено',
+      'Off' => 'Изключено',
       'On' => 'Включено',
       'on' => 'включено',
       'Password' => 'Парола',
+      'Pending till' => '',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!',
       'Please contact your admin' => '',
       'please do not edit!' => 'моля, не редактирайте!',
+      'possible' => '',
       'QueueView' => 'Преглед на опашката',
+      'reject' => '',
       'replace with' => 'замести с',
       'Reset' => 'Рестартирай',
       'Salutation' => 'Обръщение',
@@ -114,6 +119,7 @@ sub Data {
       'The recommended charset for your language is %s!' => '',
       'Theme' => 'Тема',
       'There is no account with that login name.' => '',
+      'Timeover' => '',
       'top' => 'към началото',
       'update' => 'обновяване',
       'update!' => 'обновяване!',
@@ -166,6 +172,11 @@ sub Data {
       'Ticket lock timeout notification' => 'Известие за продължителността на заключване на билетът',
 
     # Template: AAATicket
+      '1 very low' => '',
+      '2 low' => '',
+      '3 normal' => '',
+      '4 high' => '',
+      '5 very high' => '',
       'Action' => 'Действие',
       'Age' => 'Възраст',
       'Article' => 'Клауза',
@@ -200,6 +211,9 @@ sub Data {
       'open' => 'отворен',
       'Owner' => 'Собственик',
       'Pending' => 'В очакване',
+      'pending auto close+' => '',
+      'pending auto close-' => '',
+      'pending reminder' => '',
       'phone' => 'телефон',
       'plain' => 'обикновен',
       'Priority' => 'Приоритет',
@@ -230,6 +244,11 @@ sub Data {
       'Thu' => '',
       'Tue' => '',
       'Wed' => '',
+
+    # Template: AdminAttachmentForm
+      'Add attachment' => '',
+      'Attachment Management' => '',
+      'Change attachment settings' => '',
 
     # Template: AdminAutoResponseForm
       'Add auto response' => 'Добавяне на автоматичен отговор',
@@ -297,12 +316,14 @@ sub Data {
       'Email Addresses' => 'еМейл адреси',
       'Groups' => 'Групи',
       'Logout' => 'Изход',
+      'Misc' => '',
       'POP3 Account' => '',
       'Responses' => 'Отговори',
       'Responses <-> Queue' => 'Отговори <-> Опашки',
       'Select Box' => 'Изберете кутия',
       'Session Management' => 'Управление на сесята',
       'Status defs' => 'Дефиниции на състояния',
+      'System' => '',
       'User <-> Groups' => 'Потребител <-> Групи',
 
     # Template: AdminPOP3Form
@@ -346,6 +367,12 @@ sub Data {
     # Template: AdminQueueResponsesForm
       'Answer' => 'Отговор',
       'Change answer <-> queue settings' => 'Промяна на отговорът <-> Настройки на опашката',
+
+    # Template: AdminResponseAttachmentChangeForm
+      'Std. Responses <-> Std. Attachment Management' => '',
+
+    # Template: AdminResponseAttachmentForm
+      'Change Response <-> Attachment settings' => '',
 
     # Template: AdminResponseForm
       'A response is default text to write faster answer (with default text) to customers.' => 'Отговорът е текст по подразбиране, създанен предварително, с цел по-бърз отговор към клиента',
@@ -467,9 +494,25 @@ sub Data {
     # Template: AgentHistoryForm
       'History of' => 'Хроника на',
 
+    # Template: AgentMailboxNavBar
+      'All messages' => '',
+      'CustomerID' => 'Потребителски индикатив',
+      'down' => '',
+      'Mailbox' => '',
+      'New' => '',
+      'New messages' => '',
+      'Open' => '',
+      'Open messages' => '',
+      'Order' => '',
+      'Pending messages' => '',
+      'Reminder' => '',
+      'Reminder messages' => '',
+      'Sort by' => '',
+      'Tickets' => 'Билети',
+      'up' => '',
+
     # Template: AgentMailboxTicket
       'Add Note' => 'Добавяне на бележка',
-      'CustomerID' => 'Потребителски индикатив',
 
     # Template: AgentNavigationBar
       'FAQ' => 'Често задавани въпроси',
@@ -653,7 +696,6 @@ sub Data {
       'Logfile' => '',
       'LogModule' => '',
       'Organization' => '',
-      'System' => '',
       'System FQDN' => '',
       'SystemID' => '',
       'Ticket Hook' => '',
@@ -680,7 +722,6 @@ sub Data {
 
     # Template: SystemStats
       'Graphs' => 'Графики',
-      'Tickets' => 'Билети',
 
     # Template: Test
       'OTRS Test Page' => 'Тестова страница на OTRS',

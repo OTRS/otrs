@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.5 2002-12-25 09:21:42 martin Exp $
+# $Id: fi.pm,v 1.6 2003-01-03 19:54:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Wed Dec 25 00:53:49 2002 by 
+    # Last translation Fri Jan  3 20:39:54 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -40,13 +40,13 @@ sub Data {
       '15 minutes' => '15 Minuuttia',
       'AddLink' => 'Lisää linkki',
       'AdminArea' => 'Ylläpito',
-      'All' => 'Kaikki',
       'all' => 'kaikki',
+      'All' => 'Kaikki',
       'Attention' => 'Huomio',
       'Bug Report' => 'Lähetä bugiraportti',
       'Cancel' => '',
-      'change' => 'muuta',
       'Change' => 'Muuta',
+      'change' => 'muuta',
       'change!' => 'muuta!',
       'click here' => 'klikkaa tästä',
       'Comment' => 'Kommentti',
@@ -54,13 +54,15 @@ sub Data {
       'Customer info' => 'Tietoa asiakkaasta',
       'day' => 'päivä',
       'days' => 'päivää',
-      'description' => 'Selitys',
       'Description' => 'Selitys',
+      'description' => 'Selitys',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => '',
       'Done' => '',
       'end' => 'Loppuun',
       'Error' => 'Virhe',
       'Example' => 'Esimerkki',
       'Examples' => 'Esimerkit',
+      'Facility' => '',
       'Feature not acitv!' => '',
       'go' => 'mene',
       'go!' => 'mene!',
@@ -86,21 +88,24 @@ sub Data {
       'Name' => 'Nimi',
       'New message' => 'Uusi viesti',
       'New message!' => 'Uusi viesti!',
-      'no' => 'ei',
       'No' => 'Ei',
+      'no' => 'ei',
       'No suggestions' => '',
       'none' => 'ei mitään',
       'none - answered' => 'ei mitään - vastattu',
       'none!' => 'ei mitään!',
-      'Off' => 'Pois',
       'off' => 'pois',
+      'Off' => 'Pois',
       'On' => 'Päällä',
       'on' => 'päällä',
       'Password' => 'Salasana',
+      'Pending till' => '',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Vastaa tähän viestiin saadaksesi se takaisin normaalille jonotuslistalle',
       'Please contact your admin' => '',
       'please do not edit!' => 'Älä muokkaa, kiitos!',
+      'possible' => '',
       'QueueView' => 'Jonotuslistanäkymä',
+      'reject' => '',
       'replace with' => '',
       'Reset' => '',
       'Salutation' => 'Tervehdys',
@@ -114,6 +119,7 @@ sub Data {
       'The recommended charset for your language is %s!' => '',
       'Theme' => '',
       'There is no account with that login name.' => '',
+      'Timeover' => '',
       'top' => 'ylös',
       'update' => 'päivitä',
       'update!' => 'päivitä!',
@@ -166,6 +172,11 @@ sub Data {
       'Ticket lock timeout notification' => '',
 
     # Template: AAATicket
+      '1 very low' => '1 Erittäin alhainen',
+      '2 low' => '2 Alhainen',
+      '3 normal' => '3 Normaali',
+      '4 high' => '4 Kiireellinen',
+      '5 very high' => '5 Erittäin kiireellinen',
       'Action' => 'Hyväksy',
       'Age' => 'Ikä',
       'Article' => 'Artikkeli',
@@ -200,6 +211,9 @@ sub Data {
       'open' => 'avoin',
       'Owner' => 'Omistaja',
       'Pending' => 'Odottaa',
+      'pending auto close+' => '',
+      'pending auto close-' => '',
+      'pending reminder' => '',
       'phone' => 'puhelimitse',
       'plain' => 'pelkkä teksti',
       'Priority' => 'Prioriteetti',
@@ -230,6 +244,11 @@ sub Data {
       'Thu' => '',
       'Tue' => '',
       'Wed' => '',
+
+    # Template: AdminAttachmentForm
+      'Add attachment' => '',
+      'Attachment Management' => '',
+      'Change attachment settings' => '',
 
     # Template: AdminAutoResponseForm
       'Add auto response' => 'Lisää automaattivastaus',
@@ -297,12 +316,14 @@ sub Data {
       'Email Addresses' => 'Sähköpostiosoitteet',
       'Groups' => 'Ryhmät',
       'Logout' => 'Kirjaudu ulos',
+      'Misc' => '',
       'POP3 Account' => '',
       'Responses' => 'Vastaukset',
       'Responses <-> Queue' => 'Vastaukset <-> Jonotuslista',
       'Select Box' => '',
       'Session Management' => 'Istuntojen hallinta',
       'Status defs' => '',
+      'System' => '',
       'User <-> Groups' => '',
 
     # Template: AdminPOP3Form
@@ -346,6 +367,12 @@ sub Data {
     # Template: AdminQueueResponsesForm
       'Answer' => '',
       'Change answer <-> queue settings' => 'Vaihda vastaus <-> Jonotuslista',
+
+    # Template: AdminResponseAttachmentChangeForm
+      'Std. Responses <-> Std. Attachment Management' => '',
+
+    # Template: AdminResponseAttachmentForm
+      'Change Response <-> Attachment settings' => '',
 
     # Template: AdminResponseForm
       'A response is default text to write faster answer (with default text) to customers.' => 'Vastauspohja on oletusteksti, jonka avulla voit nopeuttaa vastaamista asiakkaille',
@@ -467,9 +494,25 @@ sub Data {
     # Template: AgentHistoryForm
       'History of' => '',
 
+    # Template: AgentMailboxNavBar
+      'All messages' => '',
+      'CustomerID' => 'AsiakasID#',
+      'down' => '',
+      'Mailbox' => '',
+      'New' => '',
+      'New messages' => '',
+      'Open' => '',
+      'Open messages' => '',
+      'Order' => '',
+      'Pending messages' => '',
+      'Reminder' => '',
+      'Reminder messages' => '',
+      'Sort by' => '',
+      'Tickets' => '',
+      'up' => '',
+
     # Template: AgentMailboxTicket
       'Add Note' => 'Lisää huomautus',
-      'CustomerID' => 'AsiakasID#',
 
     # Template: AgentNavigationBar
       'FAQ' => '',
@@ -653,7 +696,6 @@ sub Data {
       'Logfile' => '',
       'LogModule' => '',
       'Organization' => '',
-      'System' => '',
       'System FQDN' => '',
       'SystemID' => '',
       'Ticket Hook' => '',
@@ -680,7 +722,6 @@ sub Data {
 
     # Template: SystemStats
       'Graphs' => 'Grafiikat',
-      'Tickets' => '',
 
     # Template: Test
       'OTRS Test Page' => '',

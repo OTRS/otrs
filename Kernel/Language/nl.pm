@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: nl.pm,v 1.4 2002-12-25 09:21:42 martin Exp $
+# $Id: nl.pm,v 1.5 2003-01-03 19:54:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Wed Dec 25 01:01:05 2002 by 
+    # Last translation Fri Jan  3 20:40:13 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -40,13 +40,13 @@ sub Data {
       '15 minutes' => '15 minuten',
       'AddLink' => 'Link toevoegen',
       'AdminArea' => 'Administratiegedeelte',
-      'All' => 'Alle',
       'all' => 'alle',
+      'All' => 'Alle',
       'Attention' => 'Let op',
       'Bug Report' => 'Foutrapport',
       'Cancel' => '',
-      'change' => 'veranderen',
       'Change' => 'Veranderen',
+      'change' => 'veranderen',
       'change!' => 'veranderen!',
       'click here' => 'klik hier',
       'Comment' => 'Commentaar',
@@ -54,13 +54,15 @@ sub Data {
       'Customer info' => 'Klanten info',
       'day' => 'dag',
       'days' => 'dagen',
-      'description' => 'omschrijving',
       'Description' => 'Omschrijving',
+      'description' => 'omschrijving',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => '',
       'Done' => '',
       'end' => 'Onderkant',
       'Error' => 'Fout',
       'Example' => 'Voorbeeld',
       'Examples' => 'Voorbeelden',
+      'Facility' => '',
       'Feature not acitv!' => '',
       'go' => 'start',
       'go!' => 'start!',
@@ -86,21 +88,24 @@ sub Data {
       'Name' => 'Naam',
       'New message' => 'Nieuw bericht',
       'New message!' => 'Nieuw bericht!',
-      'no' => 'nee',
       'No' => 'Nee',
+      'no' => 'nee',
       'No suggestions' => '',
       'none' => 'geen',
       'none - answered' => 'geen - beantwoord',
       'none!' => 'niet ingevoerd!',
-      'Off' => 'Uit',
       'off' => 'uit',
+      'Off' => 'Uit',
       'On' => 'Aan',
       'on' => 'aan',
       'Password' => 'Wachtwoord',
+      'Pending till' => '',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'A.u.b. geëscaleerde tickets beantwoorden om terug tekomen in de normale wachtwij',
       'Please contact your admin' => '',
       'please do not edit!' => 'A.u.b. niet wijzigen!',
+      'possible' => '',
       'QueueView' => 'Wachtrij weergave',
+      'reject' => '',
       'replace with' => '',
       'Reset' => '',
       'Salutation' => 'Aanhef',
@@ -114,6 +119,7 @@ sub Data {
       'The recommended charset for your language is %s!' => '',
       'Theme' => '',
       'There is no account with that login name.' => '',
+      'Timeover' => '',
       'top' => 'Bovenkant',
       'update' => 'verversen',
       'update!' => 'verversen!',
@@ -166,6 +172,11 @@ sub Data {
       'Ticket lock timeout notification' => 'Bericht van tijdsoverschreiding van een vergrendeling',
 
     # Template: AAATicket
+      '1 very low' => '1 zeer laag',
+      '2 low' => '2 laag',
+      '3 normal' => '3 normaal',
+      '4 high' => '4 hoog',
+      '5 very high' => '5 zeer hoog',
       'Action' => 'Actie',
       'Age' => 'Leeftijd',
       'Article' => 'Artikel',
@@ -200,6 +211,9 @@ sub Data {
       'open' => 'open',
       'Owner' => 'Eigenaar',
       'Pending' => 'Wachtend',
+      'pending auto close+' => '',
+      'pending auto close-' => '',
+      'pending reminder' => '',
       'phone' => 'telefoon',
       'plain' => 'zonder opmaak',
       'Priority' => 'Prioriteit',
@@ -230,6 +244,11 @@ sub Data {
       'Thu' => '',
       'Tue' => '',
       'Wed' => '',
+
+    # Template: AdminAttachmentForm
+      'Add attachment' => '',
+      'Attachment Management' => '',
+      'Change attachment settings' => '',
 
     # Template: AdminAutoResponseForm
       'Add auto response' => 'Automatisch antwoord toevoegen',
@@ -297,12 +316,14 @@ sub Data {
       'Email Addresses' => 'Email-adressen',
       'Groups' => 'Groepen',
       'Logout' => 'Afmelden',
+      'Misc' => '',
       'POP3 Account' => '',
       'Responses' => 'Antwoorden',
       'Responses <-> Queue' => 'Antwoorden <-> Wachtrijen',
       'Select Box' => '',
       'Session Management' => 'Sessiebeheer',
       'Status defs' => '',
+      'System' => '',
       'User <-> Groups' => 'Gebruikers <-> Groepen',
 
     # Template: AdminPOP3Form
@@ -346,6 +367,12 @@ sub Data {
     # Template: AdminQueueResponsesForm
       'Answer' => '',
       'Change answer <-> queue settings' => 'Wijzigen van antwoorden <-> wachtrij toekenning',
+
+    # Template: AdminResponseAttachmentChangeForm
+      'Std. Responses <-> Std. Attachment Management' => '',
+
+    # Template: AdminResponseAttachmentForm
+      'Change Response <-> Attachment settings' => '',
 
     # Template: AdminResponseForm
       'A response is default text to write faster answer (with default text) to customers.' => 'Een antworord is een standaard-tekst om sneller antwoorden te kunnen opstellen.',
@@ -467,9 +494,25 @@ sub Data {
     # Template: AgentHistoryForm
       'History of' => '',
 
+    # Template: AgentMailboxNavBar
+      'All messages' => '',
+      'CustomerID' => 'Klant #',
+      'down' => '',
+      'Mailbox' => '',
+      'New' => '',
+      'New messages' => '',
+      'Open' => '',
+      'Open messages' => '',
+      'Order' => '',
+      'Pending messages' => '',
+      'Reminder' => '',
+      'Reminder messages' => '',
+      'Sort by' => '',
+      'Tickets' => '',
+      'up' => '',
+
     # Template: AgentMailboxTicket
       'Add Note' => 'Notitie toevoegen',
-      'CustomerID' => 'Klant #',
 
     # Template: AgentNavigationBar
       'FAQ' => '',
@@ -653,7 +696,6 @@ sub Data {
       'Logfile' => '',
       'LogModule' => '',
       'Organization' => '',
-      'System' => '',
       'System FQDN' => '',
       'SystemID' => '',
       'Ticket Hook' => '',
@@ -680,7 +722,6 @@ sub Data {
 
     # Template: SystemStats
       'Graphs' => 'Diagrammen',
-      'Tickets' => '',
 
     # Template: Test
       'OTRS Test Page' => '',

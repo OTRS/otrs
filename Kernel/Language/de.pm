@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/de.pm - provides de language translation
-# Copyright (C) 2002 Martin Edenhofer <martin at otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.4 2002-12-25 09:21:42 martin Exp $
+# $Id: de.pm,v 1.5 2003-01-03 19:54:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Wed Dec 25 00:55:45 2002 by 
+    # Last translation Fri Jan  3 20:39:15 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -41,13 +41,13 @@ sub Data {
       '15 minutes' => '15 Minuten',
       'AddLink' => 'Link hinzufügen',
       'AdminArea' => 'AdminBereich',
-      'All' => 'All',
       'all' => 'alle',
+      'All' => 'Alle',
       'Attention' => 'Achtung',
       'Bug Report' => 'Fehler berichten',
       'Cancel' => 'Abbrechen',
-      'change' => 'ändern',
       'Change' => 'Ändern',
+      'change' => 'ändern',
       'change!' => 'ändern!',
       'click here' => 'klick hier',
       'Comment' => 'Kommentar',
@@ -55,13 +55,15 @@ sub Data {
       'Customer info' => 'Kunden Info',
       'day' => 'Tag',
       'days' => 'Tage',
-      'description' => 'Beschreibung',
       'Description' => 'Beschreibung',
+      'description' => 'Beschreibung',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => '',
       'Done' => 'Fertig',
       'end' => 'runter',
       'Error' => 'Fehler',
       'Example' => 'Beispiel',
       'Examples' => 'Beispiele',
+      'Facility' => 'Einrichtung',
       'Feature not acitv!' => '',
       'go' => 'start',
       'go!' => 'start!',
@@ -87,21 +89,24 @@ sub Data {
       'Name' => 'Name',
       'New message' => 'Neue Nachricht',
       'New message!' => 'Neue Nachricht!',
-      'no' => 'kein',
       'No' => 'Nein',
+      'no' => 'kein',
       'No suggestions' => 'Keine Vorschläge',
       'none' => 'keine',
       'none - answered' => 'keine - beantwortet',
       'none!' => 'keine Angabe!',
-      'Off' => 'Aus',
       'off' => 'aus',
+      'Off' => 'Aus',
       'On' => 'Ein',
       'on' => 'ein',
       'Password' => 'Passwort',
+      'Pending till' => 'Warten bis',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket um in die normale queue view zurück zu kommen!',
       'Please contact your admin' => 'Bitte kontaktieren Sie Ihren Admin',
       'please do not edit!' => 'Bitte nicht verändern!',
+      'possible' => 'möglich',
       'QueueView' => 'Queue-Ansicht',
+      'reject' => 'ablehnen',
       'replace with' => 'ersetzen mit',
       'Reset' => 'Rücksetzen',
       'Salutation' => 'Anrede',
@@ -115,6 +120,7 @@ sub Data {
       'The recommended charset for your language is %s!' => 'Der empfohlene Charset für Ihre Sprache ist %s!',
       'Theme' => '',
       'There is no account with that login name.' => 'Es existiert kein Login mit diesen Namen.',
+      'Timeover' => 'Zeitüberschreitung',
       'top' => 'hoch',
       'update' => 'aktualisieren',
       'update!' => 'aktualisieren!',
@@ -167,6 +173,11 @@ sub Data {
       'Ticket lock timeout notification' => 'Mitteilung bei lock Zeitüberschreitung',
 
     # Template: AAATicket
+      '1 very low' => '1 sehr niedrig',
+      '2 low' => '2 niedrig',
+      '3 normal' => '3 normal',
+      '4 high' => '4 hoch',
+      '5 very high' => '5 sehr hoch',
       'Action' => 'Aktion',
       'Age' => 'Alter',
       'Article' => 'Artikel',
@@ -201,6 +212,9 @@ sub Data {
       'open' => 'offen',
       'Owner' => 'Besitzer',
       'Pending' => 'Warten',
+      'pending auto close+' => 'warten auf erfolgreich schließen',
+      'pending auto close-' => 'warten auf erfolglos schließen',
+      'pending reminder' => 'warten zur erinnerung',
       'phone' => 'Telefon',
       'plain' => 'klar',
       'Priority' => 'Priorität',
@@ -231,6 +245,11 @@ sub Data {
       'Thu' => 'Don',
       'Tue' => 'Die',
       'Wed' => 'Mit',
+
+    # Template: AdminAttachmentForm
+      'Add attachment' => '',
+      'Attachment Management' => '',
+      'Change attachment settings' => '',
 
     # Template: AdminAutoResponseForm
       'Add auto response' => 'Auto-Antwort hinzufügen',
@@ -298,12 +317,14 @@ sub Data {
       'Email Addresses' => 'Email-Adressen',
       'Groups' => 'Gruppen',
       'Logout' => 'Abmelden',
+      'Misc' => '',
       'POP3 Account' => '',
       'Responses' => 'Antworten',
       'Responses <-> Queue' => 'Antworten <-> Queues',
       'Select Box' => '',
       'Session Management' => 'Sitzungs Verwaltung',
       'Status defs' => '',
+      'System' => '',
       'User <-> Groups' => 'Benutzer <-> Gruppen',
 
     # Template: AdminPOP3Form
@@ -347,6 +368,12 @@ sub Data {
     # Template: AdminQueueResponsesForm
       'Answer' => 'Antwort',
       'Change answer <-> queue settings' => 'Ändern der Antworten <-> Queue Beziehung',
+
+    # Template: AdminResponseAttachmentChangeForm
+      'Std. Responses <-> Std. Attachment Management' => 'Std. Antwort <-> Std. Anhang Management',
+
+    # Template: AdminResponseAttachmentForm
+      'Change Response <-> Attachment settings' => 'Ändere Antwort <-> Anhang Einstellungen',
 
     # Template: AdminResponseForm
       'A response is default text to write faster answer (with default text) to customers.' => 'Eine Antwort ist ein vorgegebener Text um schneller Antworten an Kundern schreiben zu können.',
@@ -438,10 +465,10 @@ sub Data {
       'A message should have a subject!' => 'Eine Nachricht sollte ein Betreff haben!',
       'Attach' => 'Anhängen',
       'Compose answer for ticket' => 'Antwort erstellen für',
-      'for pending* states' => '',
+      'for pending* states' => 'für warten* Statie',
       'Is the ticket answered' => 'Ist das Ticket beantwortet',
       'Options' => 'Optionen',
-      'Pending Date' => '',
+      'Pending Date' => 'Warten Datum',
       'Spell Check' => 'Rechtschreibkontrolle',
 
     # Template: AgentCustomer
@@ -468,9 +495,25 @@ sub Data {
     # Template: AgentHistoryForm
       'History of' => 'History von',
 
+    # Template: AgentMailboxNavBar
+      'All messages' => 'Alle Nachrichten',
+      'CustomerID' => 'Kunden#',
+      'down' => 'abwärts',
+      'Mailbox' => '',
+      'New' => 'Neu',
+      'New messages' => 'Neue Nachrichten',
+      'Open' => 'Offen',
+      'Open messages' => 'Offene Nachrichten',
+      'Order' => '',
+      'Pending messages' => 'Wartende Nachrichten',
+      'Reminder' => 'Erinnernd',
+      'Reminder messages' => 'Erinnernde Nachrichten',
+      'Sort by' => 'Sortieren by',
+      'Tickets' => '',
+      'up' => 'aufwärts',
+
     # Template: AgentMailboxTicket
       'Add Note' => 'Notiz anheften',
-      'CustomerID' => 'Kunden#',
 
     # Template: AgentNavigationBar
       'FAQ' => '',
@@ -490,9 +533,9 @@ sub Data {
       'New user' => 'Neuer Eigner',
 
     # Template: AgentPending
-      'Pending date' => '',
-      'Pending type' => '',
-      'Set Pending' => '',
+      'Pending date' => 'Warten Datum',
+      'Pending type' => 'Warten Type',
+      'Set Pending' => 'Setze wartend',
 
     # Template: AgentPhone
       'Customer called' => 'Kunden angerufen',
@@ -654,7 +697,6 @@ sub Data {
       'Logfile' => '',
       'LogModule' => '',
       'Organization' => '',
-      'System' => '',
       'System FQDN' => '',
       'SystemID' => '',
       'Ticket Hook' => '',
@@ -681,7 +723,6 @@ sub Data {
 
     # Template: SystemStats
       'Graphs' => 'Diagramme',
-      'Tickets' => '',
 
     # Template: Test
       'OTRS Test Page' => 'OTRS Test Seite',
@@ -693,7 +734,7 @@ sub Data {
       'Change queue' => 'Wechsle Queue',
       'Compose Answer' => 'Antwort erstellen',
       'Contact customer' => 'Kunden kontaktieren',
-      'Escalation in' => 'Escalation in',
+      'Escalation in' => 'Eskalation in',
       'phone call' => 'Anrufen',
 
     # Template: TicketViewLite
@@ -721,7 +762,6 @@ sub Data {
       'A message should have a From: recipient!' => 'Eine Nachricht sollte einen Absender im Von: haben!',
       'CustomerUser' => 'Kunden-Benutzer',
       'New ticket via call.' => 'Neues Ticket durch Anruf.',
-      'Pending till' => 'Warten bis',
       'Time till escalation' => 'Zeit bis zur Escalation',
       'Update auto response' => 'Auto-Antwort aktualisieren',
       'Update charset' => 'Charset aktualisieren',
