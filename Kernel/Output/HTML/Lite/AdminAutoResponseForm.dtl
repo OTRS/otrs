@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.11 2003-02-08 15:40:40 martin Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.12 2004-01-23 00:45:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
     <input type="hidden" name="Subaction" value="Change">
     $Data{"AutoResponseOption"}
     <br>
-    <input type="submit" value="$Text{"change"}">
+    <input class="button" type="submit" value="$Text{"change"}">
     </form>
   </td> 
   <td width="70%" class="table1">
@@ -40,6 +40,7 @@
 # --
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
     <br>
+$Data{"Note"}
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
@@ -66,10 +67,6 @@
       <td> $Data{"SystemAddressOption"}</td>
     </tr>
     <tr>
-      <td>$Text{"Charset"}: </td>
-      <td> $Data{"CharsetOption"}</td>
-    </tr>
-    <tr>
       <td>$Text{"Valid"}: </td>
       <td> $Data{"ValidOption"}</td>
     </tr>
@@ -78,7 +75,7 @@
       <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
-    <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
+    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
   </td>
 </tr>
 </table>
