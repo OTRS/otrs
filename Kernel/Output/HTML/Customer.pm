@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.19 2003-05-29 11:23:15 martin Exp $
+# $Id: Customer.pm,v 1.20 2003-10-13 20:37:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -132,16 +132,6 @@ sub CustomerStatusViewTable {
     my $Self = shift;
     my %Param = @_;
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
-    # do html quoteing
-    foreach (qw(State Priority Lock)) {
-        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
-    }
-    foreach (qw(State Queue Owner Lock CustomerID)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 12);
-    }
-    foreach (qw(Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 25);
-    }
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerStatusViewTable', Data => \%Param);
 }
