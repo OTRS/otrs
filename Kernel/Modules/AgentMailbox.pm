@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.11 2002-12-25 09:33:39 martin Exp $
+# $Id: AgentMailbox.pm,v 1.12 2002-12-27 18:38:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,6 +46,9 @@ sub Run {
     my $Output;
     my $QueueID = $Self->{QueueID};
 
+    my $SortBy = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'CreateTime';
+    my $OrderBy = $Self->{ParamObject}->GetParam(Param => 'OrderBy') || 'Up';
+
     # --
     # store last screen
     # --
@@ -64,18 +67,27 @@ sub Run {
     # starting with page ...
     # --
     $Output .= $Self->{LayoutObject}->Header(
-      Refresh => $Self->{Refresh},
-      Title => 'Locked Tickets',
+        Refresh => $Self->{Refresh},
+        Title => 'Locked Tickets',
     );
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-
+    $Output .= $Self->{LayoutObject}->AgentMailboxNavBar(
+        LockData => \%LockedData,
+        SortBy => $SortBy,
+        OrderBy => $OrderBy,
+    );
     # --
     # get locked  viewable tickets...
     # --
-    my @ViewableTickets = $Self->{TicketObject}->GetLockedTicketIDs(UserID => $Self->{UserID});
-
+    my @ViewableTickets = $Self->{TicketObject}->GetLockedTicketIDs(
+        UserID => $Self->{UserID},
+        SortBy => $SortBy,
+        OrderBy => $OrderBy,
+    );
+    # --
     # get last sender type of article "LastSenderType"
+    # --
     my %LastSenderType;
     my %LastSenderID;
     foreach  (@ViewableTickets) {
@@ -96,18 +108,58 @@ sub Run {
              $LastSenderID{$_} = $RowTmp[1];
         }
     }
-
+    # --
     # get article data
+    # --
     foreach my $TicketID (@ViewableTickets) {
         my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID); 
-        $Output .= $Self->{LayoutObject}->AgentMailboxTicket(
-          %Article,
-          TicketNumber => $Self->{TicketObject}->GetTNOfId(ID => $TicketID), 
-          LastSenderType => $LastSenderType{$Article{TicketID}},
-          LastSenderID => $LastSenderID{$Article{TicketID}},
-          UserID => $Self->{UserID},
-          ViewType => $Self->{Subaction},
-        );
+        my $Shown = 0;
+        my $Message = '';
+        # --
+        # put all tickets to ToDo where last sender type is customer or ! UserID
+        # --
+        if ($LastSenderID{$Article{TicketID}} ne $Self->{UserID} || 
+              $LastSenderType{$Article{TicketID}} eq 'customer') {
+            $Message = 'New message!';
+        }
+        if ($Self->{Subaction} eq 'New') {
+            if (($LastSenderID{$Article{TicketID}} ne $Self->{UserID} &&
+               $LastSenderType{$Article{TicketID}} eq 'customer')) { 
+                 $Shown = 1;
+            }
+        }
+        elsif ($Self->{Subaction} eq 'Pending') {
+            if ($Article{State} =~ /^pending/i) {
+                $Shown = 1;
+            }
+        }
+        elsif ($Self->{Subaction} eq 'Reminder') {
+            if ($Article{UntilTime} < 1 && $Article{State} =~ /^pending/i &&
+                 $Article{State} !~ /^pending auto/i) {
+                $Shown = 1;
+            }
+        } 
+        elsif ($Self->{Subaction} eq 'All') {
+            $Shown = 1;
+        } 
+        else { 
+            $Shown = 1;
+            if ($Article{UntilTime} < 1 && $Article{State} =~ /^pending/i &&
+                 $Article{State} =~ /^pending auto/i) {
+                $Shown = 0;
+            }
+        } 
+        if ($Shown) {
+            $Output .= $Self->{LayoutObject}->AgentMailboxTicket(
+              %Article,
+              TicketNumber => $Self->{TicketObject}->GetTNOfId(ID => $TicketID), 
+              LastSenderType => $LastSenderType{$Article{TicketID}},
+              LastSenderID => $LastSenderID{$Article{TicketID}},
+              UserID => $Self->{UserID},
+              ViewType => $Self->{Subaction},
+              Message => $Message,
+            );
+        }
     }
 
     $Output .= $Self->{LayoutObject}->Footer();
