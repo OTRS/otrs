@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.49 2002-10-03 22:16:36 martin Exp $
+# $Id: Generic.pm,v 1.50 2002-10-05 16:07:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -600,11 +600,11 @@ sub OptionStrgHashRef {
         if ((defined($_)) && ($Data{$_})) {
             if ($_ eq $SelectedID || $Data{$_} eq $Selected) {
               $Output .= "    <option selected value=\"$_\">".
-                     $Self->{LanguageObject}->Get($Data{$_}) ."</option>\n";
+                  $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_})) ."</option>\n";
             }
             else {
               $Output .= "    <option VALUE=\"$_\">".
-                     $Self->{LanguageObject}->Get($Data{$_}) ."</option>\n";
+                  $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_})) ."</option>\n";
             }
         }
     }
