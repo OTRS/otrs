@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendNotification.pm - send notifications to agent
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.12 2004-02-01 23:10:14 martin Exp $
+# $Id: SendNotification.pm,v 1.13 2004-02-08 22:22:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,16 +14,14 @@ package Kernel::System::Ticket::SendNotification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub SendNotification {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(CustomerMessageParams TicketID UserID Type UserData)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -169,31 +167,31 @@ sub SendNotification {
         CreateUserID => $Param{UserID},
     );
 
+    # log event
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "Sent agent '$Param{Type}' notification to '$User{UserEmail}'.",
+    );
+
     return 1;
 }
 # --
 sub SendCustomerNotification {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(CustomerMessageParams TicketID UserID Type)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # get notify texts
-    # --
     $Param{Subject} = $Self->{ConfigObject}->Get("CustomerNotificationSubject$Param{Type}") 
       || "No CustomerNotificationSubject$Param{Type} found in Config.pm!";
     $Param{Body} = $Self->{ConfigObject}->Get("CustomerNotificationBody$Param{Type}")
       || "No CustomerNotificationBody$Param{Type} found in Config.pm!";
-    # --
     # get old article for quoteing
-    # --
     my %Article = $Self->GetLastCustomerArticle(TicketID => $Param{TicketID});
     foreach (keys %Article) {
         if ($Article{$_}) {
@@ -201,9 +199,7 @@ sub SendCustomerNotification {
             $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
         }
     }
-    # --
     # check if notification should be send
-    # --
     my %Queue = $Self->{QueueObject}->QueueGet(ID => $Article{QueueID});
     if ($Param{Type} =~/^StateUpdate$/ && !$Queue{StateNotify}) {
         # need not notification
@@ -221,9 +217,7 @@ sub SendCustomerNotification {
         # need not notification
         return;
     }
-    # --
     # get owner data
-    # --
     my ($OwnerID, $Owner) = $Self->CheckOwner(TicketID => $Param{TicketID});
     my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
     foreach (keys %Preferences) {
@@ -242,13 +236,9 @@ sub SendCustomerNotification {
             $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         }
     }
-    # --
     # get ticket hook
-    # --  
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    # --
     # prepare subject (insert old subject)
-    # --
     if ($Param{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
         my $SubjectChar = $1;
         $Article{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
@@ -256,9 +246,7 @@ sub SendCustomerNotification {
         $Param{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Article{Subject}/g;
     }
     $Param{Subject} = "[$TicketHook: $Article{TicketNumber}] $Param{Subject}";
-    # --
     # prepare body (insert old email)
-    # -- 
     $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
     $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
     $Param{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/g if ($Param{Queue});
@@ -276,9 +264,7 @@ sub SendCustomerNotification {
         chomp $NewOldBody;
         $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
-    # --
     # get ref of email params
-    # --
     my %GetParam = %{$Param{CustomerMessageParams}};
     foreach (keys %GetParam) {
         if ($GetParam{$_}) {
@@ -286,9 +272,7 @@ sub SendCustomerNotification {
             $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
         }
     }
-    # --
     # set new To address if customer user id is used
-    # --
     if ($Article{CustomerUserID}) {
         my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Article{CustomerUserID},
@@ -297,9 +281,7 @@ sub SendCustomerNotification {
             $Article{From} = $CustomerUser{UserEmail};
         }
     }
-    # --
     # send notify 
-    # --
     my %Address = $Self->{QueueObject}->GetSystemAddress(QueueID => $Article{QueueID});
     $Self->SendArticle(
             ArticleType => 'email-notification-ext',
@@ -313,6 +295,12 @@ sub SendCustomerNotification {
             UserID => $Param{UserID},
             Body => $Param{Body},
             Loop => 1,
+    );
+
+    # log event
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "Sent customer '$Param{Type}' notification to '$Article{From}'.",
     );
 
     return 1;
