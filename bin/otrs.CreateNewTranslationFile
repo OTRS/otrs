@@ -1,0 +1,95 @@
+#!/usr/bin/perl -w
+# --
+# otrs.CreateNewTranslationFile - create new translation file 
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: otrs.CreateNewTranslationFile,v 1.1 2002-11-21 22:21:27 martin Exp $
+# --
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# --
+
+# use ../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../";
+use lib "$Bin/../Kernel/cpan-lib";
+
+use strict;
+
+use vars qw($VERSION %Opts);
+$VERSION = '$Revision: 1.1 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+use Getopt::Std;
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::Output::HTML::Generic;
+
+# --
+# get opts
+# --
+getopt('fl',  \%Opts);
+# --
+# print head
+# --
+print "otrs.CreateNewTranslationFile <Revision $VERSION> - create new translation file\n";
+print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
+print "usage: otrs.CreateNewTranslationFile -l <Language> -f <FileLocation> \n";
+
+# --
+# common objects
+# --
+my %CommonObject = ();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
+    LogPrefix => 'OTRS-CreateNewTranslationFile',
+    %CommonObject,
+);
+# --
+# check params
+# --
+if (!$Opts{'l'}) {
+    print "ERROR: -l <Language>!\n";
+    exit 1;
+}
+if (!$Opts{'f'}) {
+    $Opts{'f'} = '/tmp';
+    print "INFO: no -f <FileLocation>! Use '/tmp'!\n";
+}
+
+$CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+    UserLanguage => $Opts{'l'},
+    UserTheme => 'Standard',
+    %CommonObject,
+);
+
+$CommonObject{ConfigObject}->Set(Key => 'WriteNewTranslationFile', Value => 1);
+
+my $Theme = $CommonObject{ConfigObject}->Get('DefaultTheme') || 'Standard';
+my $TemplateDir = '../Kernel/Output/HTML/'. $Theme;
+# --
+# open .dtl files and write new translation file
+# --
+open (TEMPLATEOUT, "> $Opts{'f'}/$Opts{'l'}.pm") || die "Can't write $Opts{'f'}/$Opts{'l'}.pm: $!";
+close (TEMPLATEOUT);
+my %UsedWords = ();
+my @List = glob("$Bin/$TemplateDir/*.dtl");
+foreach my $File (@List) {
+    $File =~ s!^.*/(.+?)\.dtl!$1!;
+    my $Template = $CommonObject{LayoutObject}->Output(
+        TemplateFile => $File,
+        UserLanguage => $Opts{'l'},
+    );
+}
+
