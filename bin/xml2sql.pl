@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2sql.pl - a xml 2 sql processor
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2sql.pl,v 1.1 2004-11-16 17:24:39 martin Exp $
+# $Id: xml2sql.pl,v 1.2 2005-01-21 08:17:07 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,9 +34,9 @@ use Kernel::Config;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Log;
-use Kernel::System::Package;
+use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.1 $';
+my $VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
@@ -76,7 +76,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PackageObject} = Kernel::System::Package->new(%CommonObject);
+$CommonObject{XMLObject} = Kernel::System::XML->new(%CommonObject);
 
 my $LastTag;
 my @Table = ();
@@ -87,7 +87,7 @@ foreach (@File) {
 }
 
 # parse xml package
-my $XMLARRAY = $CommonObject{PackageObject}->ParseXML(String => $FileString);
+my @XMLARRAY = $CommonObject{XMLObject}->XMLParse(String => $FileString);
 
 # remember header
 my $Head = $CommonObject{DBObject}->{"DB::Comment"}."----------------------------------------------------------\n";
@@ -95,7 +95,7 @@ $Head .= $CommonObject{DBObject}->{"DB::Comment"}." database: $Opts{t}, generate
 $Head .= $CommonObject{DBObject}->{"DB::Comment"}."----------------------------------------------------------\n";
 
 # get database sql from parsed xml
-my @SQL = $CommonObject{DBObject}->SQLProcessor(Database => $XMLARRAY);
+my @SQL = $CommonObject{DBObject}->SQLProcessor(Database => \@XMLARRAY);
 # write create script
 open (OUT, "> $Opts{o}/$Opts{n}-schema.$Opts{t}.sql") || die "Can't write: $!";
 print "writing: $Opts{o}/$Opts{n}-schema.$Opts{t}.sql\n";
