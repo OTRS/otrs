@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.14 2002-06-13 14:56:26 martin Exp $
+# $Id: DB.pm,v 1.15 2002-06-15 19:51:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -189,6 +189,11 @@ sub FetchrowHashref {
     my $Self = shift;
     my $Data = $Self->{Curser}->fetchrow_hashref();
     return $Data;
+}
+# --
+sub Error {
+    my $Self = shift;
+    return $DBI::errstr;
 }
 # --
 sub GetTableData {
