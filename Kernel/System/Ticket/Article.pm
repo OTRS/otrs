@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.60 2004-05-24 21:05:48 martin Exp $
+# $Id: Article.pm,v 1.61 2004-06-16 05:36:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -810,6 +810,7 @@ sub ArticleGet {
         my %Data;
         $Data{ArticleID} = $Row[31];
         $Data{TicketID} = $Row[0];
+        $Ticket{TicketID} = $Data{TicketID};
         $Data{From} = $Row[1];
         $Data{To} = $Row[2];
         $Data{Cc} = $Row[3];
@@ -818,6 +819,8 @@ sub ArticleGet {
         $Data{InReplyTo} = $Row[6];
         $Data{Body} = $Row[7];
         $Data{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
+        $Ticket{CreateTimeUnix} = $Row[8];
+#        $Ticket{Age} = $Data{Age}, 
         $Data{PriorityID} = $Row[18];
         $Ticket{PriorityID} = $Row[18];
         $Data{StateID} = $Row[9];
@@ -882,9 +885,10 @@ sub ArticleGet {
         foreach (qw(From To Cc Subject)) {
             $Data{$_} =~ s/\n|\r//g if ($Data{$_});
         }
-        push (@Content, {%Data});
+        push (@Content, {%Data, %Ticket});
     }
-
+    # get SLA time
+#    $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Ticket{CreateTimeUnix});
     # get priority name
     $Ticket{Priority} = $Self->PriorityLookup(ID => $Ticket{PriorityID});
     # get queue name and other stuff
