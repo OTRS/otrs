@@ -2,7 +2,7 @@
 # customer-css.dtl - customer css 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer-css.dtl,v 1.3 2004-04-27 14:21:58 martin Exp $
+# $Id: customer-css.dtl,v 1.4 2004-04-27 14:41:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@
   pre { font-size:12px;font-family:Courier,monospace,fixed; }
   td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif; }
 # header
-  .header { color:#efefef;background-color:#cc0000;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  .header { color:#efefef;background-color:green;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   a.headeritem { color:#efefef;text-decoration:none; }
   a.headeritem:hover { color:#dedede;text-decoration:underline; }
 # nav bar
@@ -33,7 +33,7 @@
   a.menuitem { color:#557799;font-size:12px; }
   a.menuitem:hover { color:#002244;font-size:12px; }
 # footer
-  .footer { color:#efefef;background-color:#cc0000;font-weight:bold;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  .footer { color:#efefef;background-color:green;font-weight:bold;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   a.footeritem { color:#efefef; }
 # small
   .small { font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
