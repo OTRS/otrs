@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.9 2002-12-15 13:18:23 martin Exp $
+# $Id: Log.pm,v 1.10 2002-12-20 20:30:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $ ';
+$VERSION = '$Revision: 1.10 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -28,15 +28,16 @@ sub new {
     bless ($Self, $Type);
 
     # --
-    # check log prefix 
-    # --
-    $Self->{LogPrefix} = $Param{LogPrefix} || '?LogPrefix?';
-    # --
     # get config object 
     # --
     if (!$Param{ConfigObject}) {
         die "Got no ConfigObject!"; 
     }
+    # --
+    # check log prefix 
+    # --
+    $Self->{LogPrefix} = $Param{LogPrefix} || '?LogPrefix?';
+    $Self->{LogPrefix} .= '-'.$Param{ConfigObject}->Get('SystemID');
     # --
     # load log backend
     # --
