@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.21 2004-01-10 12:55:13 martin Exp $
+# $Id: EmailParser.pm,v 1.22 2004-01-10 12:56:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -292,7 +292,7 @@ sub GetReturnContentType {
 # --
 
 =item GetMessageBody()
-    
+
 Returns the message body (or from the first attachment) from the email.
  
     my $Body = $ParseObject->GetMessageBody();
@@ -363,7 +363,7 @@ sub GetMessageBody {
 # --
 
 =item GetAttachments()
-    
+
 Returns an array of the email attachments. 
  
     my @Attachments = $ParseObject->GetAttachments();
@@ -502,6 +502,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
     
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2004-01-10 12:55:13 $
+$Revision: 1.22 $ $Date: 2004-01-10 12:56:22 $
 
 =cut
