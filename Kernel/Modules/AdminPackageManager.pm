@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.3 2004-12-02 12:01:59 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.4 2004-12-02 12:24:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -188,6 +188,15 @@ sub Run {
         if (!$Self->{PackageObject}->RepositoryAdd(String => $Package)) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+        # delete old packages
+        if ($Self->{PackageObject}->RepositoryRemove(Name => $Name)) {
+            if (!$Self->{PackageObject}->RepositoryAdd(String => $Package)) {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
+        }
+        else {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
         # get package
 #        $Package = $Self->{PackageObject}->RepositoryGet(
 #            Name => $Name,
@@ -221,7 +230,12 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUninstall(String => $Package)) {
-                return $Self->{LayoutObject}->ErrorScreen(Message => 'Uninstalled');
+                if ($Self->{PackageObject}->RepositoryRemove(Name => $Name)) {
+                    return $Self->{LayoutObject}->ErrorScreen(Message => 'Uninstalled');
+                }
+                else {
+                    return $Self->{LayoutObject}->ErrorScreen();
+                }
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
