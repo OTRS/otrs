@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.6 2004-04-22 18:05:01 martin Exp $
+# $Id: AgentBulk.pm,v 1.7 2004-06-08 09:00:01 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -199,7 +199,7 @@ sub _Mask {
         Name => 'ArticleTypeID',
     );
     # build next states string
-    my %NextStates = $Self->{TicketObject}->StateList(
+    my %NextStates = $Self->{StateObject}->StateList(
         Type => 'DefaultNextNote',
         Action => $Self->{Action},
         UserID => $Self->{UserID},
@@ -227,6 +227,4 @@ sub _Mask {
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBulk', Data => \%Param);
 }   
 # --
-1;
-
 1;
