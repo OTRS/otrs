@@ -1,72 +1,78 @@
 # --
-# Changes of OTRS 
+# Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.124 2004-06-22 15:32:36 martin Exp $
+# $Id: CHANGES,v 1.125 2004-07-17 21:35:45 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-CVS head 
+CVS head
 
+ - (2004/07/16) added multi attachment support for attachments
+ - (2004/06/28) improved Kernel/Modules/AdminSelectBox.pm module
+ - (2004/06/27) added Block() feature to dtl files (removed a lot
+    of no longer needed templates)
+ - (2004/06/27) improved web handle (bin/cgi-bin/index.pl and
+    bin/cgi-bin/customer.pl) to show module syntax errors.
  - (2004/06/22) improved postmaster filter to use matched value as [***]
     in "Set =>" option.
  - (2004/06/22) added support for crypted database passwords (use
-    bin/CryptPassword.pl to crypt passwords). 
- - (2004/06/03) improved language translation with custom translation 
-    files: 
+    bin/CryptPassword.pl to crypt passwords).
+ - (2004/06/03) improved language translation with custom translation
+    files:
     Kernel/Language/$Locale.pm (default)
     Kernel/Language/$Locale_$Action.pm (translation for otrs modules like
      file manager, calendar, ...)
     Kernel/Language/$Locale_Custom.pm (own changes,updates)
  - (2004/05/18) added html application output filter option, e. g. to
-    filter java script of the application or to manipulate the html 
+    filter java script of the application or to manipulate the html
     output of the application.
-    (see alos Kernel/Config/Defaults.pm -> Frontend::Output::PostFilter) 
- - (2004/05/04) added ticket history log on ticket link update and 
+    (see alos Kernel/Config/Defaults.pm -> Frontend::Output::PostFilter)
+ - (2004/05/04) added ticket history log on ticket link update and
     notification info if link ticket number doesn't exists.
  - (2004/05/03) added PreApplicationModule examples to Kernel/Config.pm
  - (2004/04/30) added multi customer id support to Kernel/System/CustomerUser.pm,
-    Kernel/System/CustomerUser/DB.pm and Kernel/System/CustomerUser/LDAP.pm. 
+    Kernel/System/CustomerUser/DB.pm and Kernel/System/CustomerUser/LDAP.pm.
     So one customer can have more then one customer id.
- - (2004/04/22) added notification module for customer panel 
+ - (2004/04/22) added notification module for customer panel
     (customer.pl) like for existing agent (index.pl)
- - (2004/04/20) added PreApplicationModule (index.pl) and 
-    CustomerPanelPreApplicationModule (customer.pl) This interface 
-    use useful to check some user options or to redirect not accept 
+ - (2004/04/20) added PreApplicationModule (index.pl) and
+    CustomerPanelPreApplicationModule (customer.pl) This interface
+    use useful to check some user options or to redirect not accept
     new application news.
- - (2004/04/19) added MaxSessionIdleTime for session managment 
+ - (2004/04/19) added MaxSessionIdleTime for session managment
     to check/delete idle sessions
  - (2004/04/15) added file size info to article attachments
     (DBUpdate-to-1.3.*.sql is required!).
  - (2004/04/14) ticket history rewritten and added i18n feature
- - (2004/04/14) reworked/renamed Kernel::System::Ticket::Article 
-    and sub module functions and added added pod docu, see 
+ - (2004/04/14) reworked/renamed Kernel::System::Ticket::Article
+    and sub module functions and added added pod docu, see
     http://dev.otrs.org/
- 
-    Note: Kernel::System::Ticket are not longer compat. to OTRS 1.2 
+
+    Note: Kernel::System::Ticket are not longer compat. to OTRS 1.2
      or lower!
-   
+
  - (2004/04/07) added config option SessionUseCookieAfterBrowserClose
     for session config stuff to keep cookies in browser (after closing
-    the browser) till expiration of session (default is 0). 
+    the browser) till expiration of session (default is 0).
  - (2004/04/06) added missing priority options in TicketSeatch()
     of Kernel::System::Ticket.
- - (2004/04/05) reworked/renamed Kernel::System::Ticket functions and 
+ - (2004/04/05) reworked/renamed Kernel::System::Ticket functions and
     added added pod docu, see http://dev.otrs.org/
  - (2004/04/04) added auto convert of html only emails to text/plain,
     text/html will be attached as attachment (Kernel/System/EmailParser.pm)
  - (2004/04/01) fixed some html quote bugs
  - (2004/03/30) added ability to reverse the Queue sorting (added
     AgentQueueSort setting)
- - (2004/03/12) added customer panel MyTickets and CompanyTickets 
+ - (2004/03/12) added customer panel MyTickets and CompanyTickets
     feature.
  - (2004/03/11) added mulit serach options to customer serach e. g.
     "name+phone" in customer search
- - (2004/03/11) added customer search prefix (default '') and suffix 
-    (default '*') to CustomerUser as config options. 
+ - (2004/03/11) added customer search prefix (default '') and suffix
+    (default '*') to CustomerUser as config options.
  - (2004/03/11) added <OTRS_CUSTOMER_*> tags for salutatuion, signateure
     and std. responses
  - (2004/03/08) added TimeZone feature - e. g. config option
@@ -80,12 +86,14 @@ CVS head
  - (2004/02/27) fixed possible owner selection in AgentPhone/AgentEmail
  - (2004/02/23) improved FreeText feature look if just one key is
     defined.
- - (2004/02/23) improved otrs LDAP modules with AlwaysFilter and 
+ - (2004/02/23) improved otrs LDAP modules with AlwaysFilter and
     Charset options (see online documentation)
  - (2004/02/23) updated to CGI 3.04
 
-1.2.4 (2004-??-??)
+1.2.4 (2004-07-07)
 
+ - (2004/06/29) fixed bug [456] not existing queue_auto_response
+    references in scripts/database/initial_insert.sql
  - (2004/06/11) added Hungarian translation. Thanks to Gáncs Gábor!
  - (2004/04/10) fixed not shown "this message is written in an
     other charset as your own" link in agent zoom
@@ -101,7 +109,7 @@ CVS head
  - (2005/03/25) updated pl language translation, Thanks to Tomasz Melissa!
  - (2004/03/25) fixed quote bug in AgentPhoneView, AgentEmail and
     AgentCompose.
- - (2004/03/08) fixed bug 341 Wrong results searching for time ranges 
+ - (2004/03/08) fixed bug 341 Wrong results searching for time ranges
     http://bugs.otrs.org/show_bug.cgi?id=341
  - (2004/02/29) fixed language quoting in customer login screen
  - (2004/02/27) fixed missing "internal (agent)" agent search faq
@@ -110,16 +118,16 @@ CVS head
 1.2.2 (2004-02-23)
 
  - (2004/02/17) changed screen after moved ticket (like OTRS 1.1)
- - (2004/02/17) added null option to search options 
+ - (2004/02/17) added null option to search options
     http://bugs.otrs.org/show_bug.cgi?id=321
  - (2004/02/17) fixed double quote bug in GetIdOfArticle()/CreateArticle()
     http://bugs.otrs.org/show_bug.cgi?id=319
- - (2004/02/17) fixed bug 317 - Return Path set to invalid email 
+ - (2004/02/17) fixed bug 317 - Return Path set to invalid email
     http://bugs.otrs.org/show_bug.cgi?id=317
 
 1.2.1 (2004-02-14)
 
- - (2004/02/14) fixed escalation bug 290 - 
+ - (2004/02/14) fixed escalation bug 290 -
     http://bugs.otrs.org/show_bug.cgi?id=290
  - (2004/02/14) updated spanish translation. Thanks to Jorge Becerra!
  - (2004/02/14) updated czech translation. Thanks to Petr Ocasek
@@ -128,26 +136,26 @@ CVS head
     Thanks to Arne Georg Gleditsch!
  - (2004/02/12) fixed security bugs ins SQL quote()
  - (2004/02/12) fixed bin/PendingJobs.pl bug (Need User)
- - (2004/02/10) fixed CustomerUserAdd, added Source default map if 
+ - (2004/02/10) fixed CustomerUserAdd, added Source default map if
     no Source name is given
- - (2004/02/10) fixed missing translation in agent and customer 
+ - (2004/02/10) fixed missing translation in agent and customer
     preferences option selections.
 
 1.2.0 beta3 (2004-02-09)
 
- - (2004/02/09) fixed bug 249 Editing system e-mail addresses with 
+ - (2004/02/09) fixed bug 249 Editing system e-mail addresses with
     quotations in name field - http://bugs.otrs.org/show_bug.cgi?id=249
- - (2004/02/09) added contact customer (create ticket) feature 
+ - (2004/02/09) added contact customer (create ticket) feature
  - (2004/02/08) added multi customer map/source support
  - (2004/02/08) added GenericAgent module support
  - (2004/02/05) fixed bug in X-OTRS-Queue option if bin/PostMasterPOP3.pl
     is used.
  - (2004/02/04) fixed bug in customer interface (empty To selection)
- - (2004/02/03) fixed typo in template (wrong $Data{} for Field6) 
+ - (2004/02/03) fixed typo in template (wrong $Data{} for Field6)
     Kernel/Output/HTML/Standard/FAQArticleForm.dtl
 
 1.2.0 beta2 (2004-02-02)
- 
+
  - (2004/02/02) replaced column "comment" to "comments" of each table to
     be oracle compat.
  - (2004/02/02) added ticket link feature
@@ -171,12 +179,12 @@ CVS head
     # otherway, each user is ro/rw in each group!)
     $Self->{CustomerGroupSupport} = 0;
 
-    # CustomerGroupAlwaysGroups 
+    # CustomerGroupAlwaysGroups
     # (if CustomerGroupSupport is true and you don't want to manage
     # each customer user for this groups, then put the groups
     # for all customer user in there)
     $Self->{CustomerGroupAlwaysGroups} = ['users', 'info'];
- - (2004/01/23) changed Kernel::System::Ticket->SearchTicket() to 
+ - (2004/01/23) changed Kernel::System::Ticket->SearchTicket() to
     return false if on param (e. g. Queue or State) doesn't exist
     (problem was, that if a queue name dosn't exist, then the
     GenericAgent gets tickets from all queues!).
@@ -186,43 +194,43 @@ CVS head
     configurable over admin interface (attention, agent notificatins
     are not be longer stored as article, now just a history entry will
     be created, old articles will be removed/delete by update script!)
- - (2004/01/19) improve ticket search with date/time options 
- - (2004/01/14) added X-OTRS-SenderType and X-OTRS-ArticleType to 
+ - (2004/01/19) improve ticket search with date/time options
+ - (2004/01/14) added X-OTRS-SenderType and X-OTRS-ArticleType to
     possible email headers (see doc/X-OTRS-Headers.txt).
  - (2004/01/14) Updated Mail::Tools from 1.51 to 1.60.
  - (2004/01/12) added config option to send no pending notification in
     defined hours (SendNoPendingNotificationTime).
- - (2004/01/10) improved TicketStorageModule, now it's possible to 
+ - (2004/01/10) improved TicketStorageModule, now it's possible to
     switch from one to the other backend on the fly.
  - (2004/01/09) improved GenericAgent.pl to work also with more ticket
-    properties see also for all options: 
+    properties see also for all options:
     http://doc.otrs.org/cvs/en/html/generic-agent-example.html
  - (2004/01/09) removed charset selection from perferences (agent and
     customer interface). Take the charset form translation file.
- - (2004/01/09) added utf-8 support for mail frontend (min. Perl 5.8.0 
+ - (2004/01/09) added utf-8 support for mail frontend (min. Perl 5.8.0
     required)
  - (2004/01/08) added address book feature on compose answer
     screen.
- - (2004/01/07) added OTRS_CUSTOMER_DATA_* tags for info of 
+ - (2004/01/07) added OTRS_CUSTOMER_DATA_* tags for info of
     existing customer in CustomerMap in Kernel/Config.pm in
     Agent notification config options.
- - (2003/12/23) added lock/unlock option to phone view / create 
+ - (2003/12/23) added lock/unlock option to phone view / create
     ticket.
- - (2003/12/15) changed recipents of customer notifications 
-    (change queue, update owner, update state, ...) to current 
+ - (2003/12/15) changed recipents of customer notifications
+    (change queue, update owner, update state, ...) to current
     customer user, based on customer user source.
- - (2003/12/15) added customer user cc by creating a new ticket 
+ - (2003/12/15) added customer user cc by creating a new ticket
     with different sender email addresses.
  - (2003/12/11) added more ticket free text options for tickets
     now we have 8 (not only 2) - improved also GenericAgent and
     Web-Frontend!
- - (2003/12/07) added SUSE 9.0 support and added RPM spec file 
+ - (2003/12/07) added SUSE 9.0 support and added RPM spec file
     for SUSE 9.0.
  - (2003/12/07) moved Kernel/Output/HTML/Agent|Admin|Customer.pm
     stuff to Kernel/Modules/*.pm modules.
- - (2003/12/07) removed config option CustomerViewableTickets and 
+ - (2003/12/07) removed config option CustomerViewableTickets and
     added customer preferences option (15|20|25|30).
- - (2003/12/07) removed config option ViewableTickets and added 
+ - (2003/12/07) removed config option ViewableTickets and added
     agent preferences option (5|10|15|20|25).
  - (2003/12/03) added QueueListType config option [tree|list] to
     show the QueueSelection in a tree (default) or just in a list
@@ -248,14 +256,14 @@ CVS head
     };
     So it's alos possible to create your own agent notifications
     like motd od escalation infos.
- - (2003/11/26) added group <-> customer user support - so it's 
+ - (2003/11/26) added group <-> customer user support - so it's
     possible that you can define the customer queues for new tickets
- - (2003/11/26) added modules for ticket permission checks 
+ - (2003/11/26) added modules for ticket permission checks
     Kernel/System/Ticket/Permission/OwnerCheck.pm
     Kernel/System/Ticket/Permission/GroupCheck.pm
     Kernel/System/Ticket/CustomerPermission/CustomerIDCheck.pm
     Kernel/System/Ticket/CustomerPermission/GroupCheck.pm
-    So it's possible to write own perission check modules! 
+    So it's possible to write own perission check modules!
     Example: Don't allow agents to change the priority if the state
     of the ticket is 'open' and in a specific queue.
     Example ofKernel/Config.pm:
@@ -279,13 +287,13 @@ CVS head
     ticket". So you can select the next screen after creating a new
     phone ticket.
  - (2003/11/02) improved GenericAgent.pl to work also with ticket
-    priorities (search and change). 
+    priorities (search and change).
     Example for Kernel/Config/GenericAgent.pm:
     # --
     # [name of job] -> move all tickets from abc to experts and change priority
     # --
     'move all abc priority "3 normal" tickets to experts and change priority'=> {
-      # get all tickets with these properties  
+      # get all tickets with these properties
       Queue => 'abc',
       Priorities => ['3 normal'],
       # new ticket properties
@@ -295,9 +303,9 @@ CVS head
       },
     },
  - (2003/11/02) added delete option to Admin->StdAttachment menu
- - (2003/11/01) added PostMaster(POP3).pl filter options like procmail. 
+ - (2003/11/01) added PostMaster(POP3).pl filter options like procmail.
     Example for Kernel/Config.pm:
-    # Job Name: 1-Match 
+    # Job Name: 1-Match
     # (block/ignore all spam email with From: noreply@)
     $Self->{'PostMaster::PreFilterModule'}->{'1-Match'} = {
         Module => 'Kernel::System::PostMaster::Filter::Match',
@@ -308,14 +316,14 @@ CVS head
             'X-OTRS-Ignore' => 'yes',
         },
     };
-    Available modules are Kernel::System::PostMaster::Filter::Match 
+    Available modules are Kernel::System::PostMaster::Filter::Match
     and Kernel::System::PostMaster::Filter::CMD. See more to use it
     on http://doc.otrs.org/.
- - (2003/10/29) added bin/CleanUp.pl to clean up of all tmp data 
-    like ipc, database or fs session and log stuff (added CleanUp() 
+ - (2003/10/29) added bin/CleanUp.pl to clean up of all tmp data
+    like ipc, database or fs session and log stuff (added CleanUp()
     to Kernel::System::AuthSession::* and Kernel::System::Log).
  - (2003/10/27) added "-c Kernel::Config::GenericAgentJobModule"
-    option to GenericAgent.pl to use it with more then one 
+    option to GenericAgent.pl to use it with more then one
     (Kernel::Config::GenericAgent) job file. For example you will be
     able to have Kernel::Config::Delete and Kernel::Config::Move or
     other job files to execute it on different times.
@@ -329,7 +337,7 @@ CVS head
     Body for ticket selection - example:
    [...]
    'delete all tickets with subject "VIRUS 32" in queue abc' => {
-      # get all tickets with this properties  
+      # get all tickets with this properties
       Queue => 'abc',
       Subject => '%VIRUS%',
       # new ticket properties
@@ -340,26 +348,26 @@ CVS head
    },
    [...]
  - (2003/07/31) added "Show closed Ticket/Don't show closed Ticket" link
-    to customer panel show my tickets overview 
+    to customer panel show my tickets overview
  - (2003/07/14) added last owner selection to Kernel/Modules/AgentOwner.pm
- - (2003/07/13) add "single sign on" (pre-authentication) option for 
-    http-basic-auth (Kernel::System::Auth::HTTPBasicAuth and 
+ - (2003/07/13) add "single sign on" (pre-authentication) option for
+    http-basic-auth (Kernel::System::Auth::HTTPBasicAuth and
     Kernel::System::CustomerAuth::HTTPBasicAuth). Thanks to Phil Davis!
- - (2003/07/12) fixed bug 155 - in multiple page ticket view, start value 
-    might be too high 
+ - (2003/07/12) fixed bug 155 - in multiple page ticket view, start value
+    might be too high
  - (2003/07/12) improved ticket search, added also search profile option
  - (2003/07/05) improved module permission options, now it's possible
     to add more the one group
  - (2003/06/26) improved ticket search and added new search preferences
-    table (db update with scripts/DBUpdate-to-1.2.(mysql|postgres).sql) 
+    table (db update with scripts/DBUpdate-to-1.2.(mysql|postgres).sql)
     required!
- - (2003/05/29) added utf-8 support for webfrontends (min. Perl 5.8.0 
+ - (2003/05/29) added utf-8 support for webfrontends (min. Perl 5.8.0
     required)
  - (2003/05/20) added array for source queue selection to bin/GenericAgent.pl
     for example, use this job for more queues:
     [...]
     'move tickets from tricky to experts' => {
-      # get all tickets with this properties  
+      # get all tickets with this properties
       Queue => ['tricky', 'tricky1'],
       States => ['new', 'open'],
       Locks => ['unlock'],
@@ -386,15 +394,15 @@ CVS head
     -=> apache reload is still needed when perl modules changed on disk <=-
  - (2003/07/12) improved performance of Kernel/System/Ticket/ArticleStorageDB.pm
     with large objects
- - (2003/07/10) fixed bug 171 - No lock check if two Agents try to lock 
+ - (2003/07/10) fixed bug 171 - No lock check if two Agents try to lock
     ticket at same time (or later)
- - (2003/07/06) fixed bug 168 - The install script for POSTGRES contains wrong 
+ - (2003/07/06) fixed bug 168 - The install script for POSTGRES contains wrong
     datatypes (DATETIME instead of TIMESTAMP)
  - (2003/07/06) fixed bug 165 - Pop3 change - does not show the queue
  - (2003/07/03) fixed bug 178 - Authenticated customer LDAP requests don't work
  - (2003/07/02) updated Finnish translation, thanks to Antti Kämäräinen
  - (2003/07/01) added SMTP module port patch of Jeroen Boomgaardt
- - (2003/06/22) fixed bug 144 - PostMasterPOP3.pl is exiting 
+ - (2003/06/22) fixed bug 144 - PostMasterPOP3.pl is exiting
     "Attached .eml file causes bug in EmailParser.pm"
     http://bugs.otrs.org/show_bug.cgi?id=144
  - (2003/06/04) fixed legend colors of stats pics
@@ -404,14 +412,14 @@ CVS head
     generator modules) to work with non existing var/log/TicketCounter.log.
      -=> So var/log/TicketCounter.log will be removed from the CVS and
      tar.gz updates will be much easier! (TicketCounter.log will not be
-     reseted on tar-update of OTRS update) 
- - (2003/06/01) added Resent-To email header check for queue sorting of 
+     reseted on tar-update of OTRS update)
+ - (2003/06/01) added Resent-To email header check for queue sorting of
     new ticket - http://lists.otrs.org/pipermail/otrs/2003-May/001845.html
  - (2003/05/30) added "PerlInitHandler Apache::Reload" (Reload %INC files
     - perl modules) to scripts/apache2-httpd.include.conf
     -=> no apache reload is needed when perl modules is updated on disk <=-
  - (2003/05/30) added "PerlInitHandler Apache::StatINC" (Reload %INC files
-    - perl modules) to scripts/apache-httpd.include.conf   
+    - perl modules) to scripts/apache-httpd.include.conf
     -=> no apache reload is needed when perl modules is updated on disk <=-
  - (2003/05/29) fixed create ticket (without priority selection) via
     customer panel and changed priority names.
@@ -427,30 +435,30 @@ CVS head
  - (2003/05/13) added russian translation! Thanks to Serg V Kravchenko!
  - (2003/05/13) added config options for shown customer info size
     $Self->{ShowCustomerInfo(Zoom|Queue|Phone)MaxSize}
- - (2003/05/08) fixed ignored user comment in admin area 
- - (2003/05/04) added missing StateUpdate (table ticket_history_type) 
+ - (2003/05/08) fixed ignored user comment in admin area
+ - (2003/05/04) added missing StateUpdate (table ticket_history_type)
     to scripts/DBUpdate-to-1.1.postgresql.sql
  - (2003/05/02) removed unique option for the pop3_account column
     login! To be able to have more pop3 accounts with the same
     login name.
- - (2003/05/01) fixed bug 134 - Title shows "Select box" instead 
+ - (2003/05/01) fixed bug 134 - Title shows "Select box" instead
     of "Admin Log" - http://bugs.otrs.org/show_bug.cgi?id=134
- - (2003/05/01) fixed Kernel/System/AuthSession/*.pm to be able 
+ - (2003/05/01) fixed Kernel/System/AuthSession/*.pm to be able
     to store 0 values
 
 1.1.1 (2003-05-01)
  - (2003/04/30) removed agent notify about new note because new
     owner got ticket assigned to you notify!
- - (2003/04/29) fixed bug 131 - QueueView shows wrong queue in 
+ - (2003/04/29) fixed bug 131 - QueueView shows wrong queue in
     drop-downs - http://bugs.otrs.org/show_bug.cgi?id=131
- - (2003/04/29) added min. counter size option (default 5) for 
+ - (2003/04/29) added min. counter size option (default 5) for
     Kernel::System::Ticket::Number::AutoIncrement module.
- - (2003/04/25) removed shown customer id in 'MyTickets' from 
+ - (2003/04/25) removed shown customer id in 'MyTickets' from
     customer interface - added customer id to user name line
 
 1.1 RC1 (2003-04-24)
- - (2003/04/24) added refresh time to AgentMailbox screen (refresh 
-    time still exists for QueueView) 
+ - (2003/04/24) added refresh time to AgentMailbox screen (refresh
+    time still exists for QueueView)
  - (2003/04/24) fixed "show closed tickets" in customer interface
     (http://lists.otrs.org/pipermail/otrs/2003-April/001508.html)
  - (2003/04/24) fixed max shown tickets in QueueView (default now 1200)
@@ -467,25 +475,25 @@ CVS head
 1.1 RC1 (2003-04-15)
  - (2003/04/15) added Italian translation - Thanks to Remo Catelotti
  - (2003/04/14) improved performance of MIME parser (PostMaster)
- - (2003/04/13) added config option DefaultNoteTypes (used note 
+ - (2003/04/13) added config option DefaultNoteTypes (used note
     types) default is just note-internal because note-external and
     note-report is confusing.
- - (2003/04/11) added check if ticket state type is closed or 
+ - (2003/04/11) added check if ticket state type is closed or
     removed then send not 'auto reply' to customer.
     http://lists.otrs.org/pipermail/otrs/2003-April/001401.html
  - (2003/04/11) added check for quotable messages in auto response
- - (2003/04/11) added check and html2ascii convert for html only 
-    emails on std. responses, forwards or splits 
+ - (2003/04/11) added check and html2ascii convert for html only
+    emails on std. responses, forwards or splits
  - (2003/04/11) added Page Navigator for AgentQueueView -
     http://lists.otrs.org/pipermail/otrs/2003-February/000881.html
  - (2003/04/09) improved AdminEmail feature with group recipient
  - (2003/04/08) added ticket split option in article zoom.
- - (2003/04/08) fixed bug 109 - Attachments not being forwarded on 
+ - (2003/04/08) fixed bug 109 - Attachments not being forwarded on
     http://bugs.otrs.org/show_bug.cgi?id=109
- - (2003/04/08) fixed bug 111 - Inability to forward on anything from: 
+ - (2003/04/08) fixed bug 111 - Inability to forward on anything from:
     'agent email(external)' - http://bugs.otrs.org/show_bug.cgi?id=110
- - (2003/03/24) improved user-auth and customer-auth ldap interface 
-    with 'UserAttr' (UID for posixGroups objectclass and DN for non 
+ - (2003/03/24) improved user-auth and customer-auth ldap interface
+    with 'UserAttr' (UID for posixGroups objectclass and DN for non
     posixGroups objectclass) on group access check. Config options now:
     [...]
     $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
@@ -496,7 +504,7 @@ CVS head
     $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
     [...]
  - (2003/03/24) added agent feature to be also customer of one ticket
- - (2003/03/24) added UncountedUnlockTime config options - e.g. don't 
+ - (2003/03/24) added UncountedUnlockTime config options - e.g. don't
     count Fri 16:00 - Mon 8:00 as unlock time.
  - (2003/03/23) added generic module/group permission concept for
     Kernel/Modules/*.pm modules.
@@ -506,7 +514,7 @@ CVS head
     to let the users groups able to change the auto responses.
  - (2003/03/13) improved create customer account - send account login
     via email to requester (added config text for email)
- - (2003/03/13) added SendNoAutoResponseRegExp config option to send no 
+ - (2003/03/13) added SendNoAutoResponseRegExp config option to send no
     auto responses if regexp is matching. (Default is
     '(MAILER-DAEMON|postmaster|abuse)@.+?\..+?')
  - (2003/02/11) improved ticket search (merged fulltext and ticket number
@@ -517,15 +525,15 @@ CVS head
     http://lists.otrs.org/pipermail/dev/2002-June/000005.html
  - (2003/03/06) added ro/rw to group object. So the agent is able to search,
     zoom, ... in tickets but can't edit the tickets - added also new config
-    option 'QueueViewAllPossibleTickets' to show the ro queues in the queue 
-    (default 0 -=> not shown). 
+    option 'QueueViewAllPossibleTickets' to show the ro queues in the queue
+    (default 0 -=> not shown).
     Use "scripts/DBUpdate-to-1.1.(mysql|postgresql).sql".
  - (2003/03/05) added sendmail backends (Kernel::System::Email::Sendmail
     and Kernel::System::Email::SMTP) - for win32 user. New config options:
     [...]
       $Self->{'SendmailModule'} = 'Kernel::System::Email::Sendmail';
       $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -t -i -f ';
-  
+
       $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
       $Self->{'SendmailModule::Host'} = 'mail.example.com';
       $Self->{'SendmailModule::AuthUser'} = '';
@@ -534,31 +542,31 @@ CVS head
  - (2003/03/05) added "view all articles" config option for ticket zoom
     view (TicketZoomExpand default is 0) - new dtl templates for ticket
     zoom Kernel/Output/HTML/*/AgentZoom*.dtl (removed TicketZoom*.dtl)
-    http://lists.otrs.org/pipermail/otrs/2003-January/000784.html 
+    http://lists.otrs.org/pipermail/otrs/2003-January/000784.html
  - (2003/03/03) new ticket state implementation (added ticket_state_type
     table). Use "scripts/DBUpdate-to-1.1.(mysql|postgresql).sql".
-    State name is now free settable (because of the ticket state name). 
-    Added ticket state documentation. 
+    State name is now free settable (because of the ticket state name).
+    Added ticket state documentation.
  - (2003/02/25) rewrote scripts/backup.sh, update your cronjobs!
     http://lists.otrs.org/pipermail/dev/2003-February/000112.html
- - (2003/02/23) added sub-queue support 
+ - (2003/02/23) added sub-queue support
     http://lists.otrs.org/pipermail/otrs/2002-June/000065.html
  - (2003/02/17) added allowing the client to close a ticket via customer
     panel - http://lists.otrs.org/pipermail/otrs/2003-February/000891.html
  - (2003/02/15) fixed hanging login problem with mod_perl2
  - (2003/02/15) added mod_perl2 support for web installer
- - (2003/02/15) unfortunately there is a mod_perl2 bug on RH8 - added 
+ - (2003/02/15) unfortunately there is a mod_perl2 bug on RH8 - added
     check if crypt() is working correctly
  - (2003/02/14) fixed default Spelling Dictionary selection and added
     a preferences option
- - (2003/02/13) added PendingDiffTime config option (add this time to 
-    shown (selected) pending time) - 
+ - (2003/02/13) added PendingDiffTime config option (add this time to
+    shown (selected) pending time) -
     http://lists.otrs.org/pipermail/otrs/2003-February/000899.html
- - (2003/02/09) updated priotity options with number prefix for sort of 
-    html select fields - e. g. "normal" is "3 normal" and "high" is 
+ - (2003/02/09) updated priotity options with number prefix for sort of
+    html select fields - e. g. "normal" is "3 normal" and "high" is
     "4 high" - use "scripts/DBUpdate-to-1.1.(mysql|postgresql).sql"
  - (2003/02/09) added ShowCustomerInfo(Queue|Zoom|Phone) config options
-    for shown CustomerInfo (e. g. company-name, phone, ...) on 
+    for shown CustomerInfo (e. g. company-name, phone, ...) on
     AgentQueueView, AgentZoom and AgentPhone.
  - (2003/02/08) improved fulltext search with queue and priority option
  - (2003/02/08) added html color highlighting for ticket article type
@@ -567,92 +575,92 @@ CVS head
  - (2003/02/08) added html color highlighting for ticket priority
  - (2003/02/08) moved to 100% CSS support for Standard and Lite theme
  - (2003/02/08) improved VERSION regex for 1.x.x.x cvs revision
- - (2003/02/08) changed database script location from install/database 
+ - (2003/02/08) changed database script location from install/database
     to scripts/database
 
 1.0 RC3 (2003-02-03)
  - (2003/02/03) added customer user info on TicketView, TicketZoom and PhoneView
      dtl template (if wanted, uncomment it).
- - (2003/02/03) fixed java script stuff for Spell Check 
+ - (2003/02/03) fixed java script stuff for Spell Check
  - (2003/02/03) added customer user serach to PhoneView
  - (2003/02/02) added pending ticket notification - Thanks to Andreas Haase!
      http://lists.otrs.org/pipermail/otrs/2003-January/000839.html
  - (2003/01/27) fixed some doc typos - Thanks to Eddie Urenda!
- - (2003/01/27) added die string -=> better to find webserver user file 
-    write permission problems (var/log/TicketCounter.log)! 
+ - (2003/01/27) added die string -=> better to find webserver user file
+    write permission problems (var/log/TicketCounter.log)!
     Kernel/System/Ticket/Number/*.pm
- - (2003/01/23) added Brazilian Portuguese translation! Thanks to Gilberto 
+ - (2003/01/23) added Brazilian Portuguese translation! Thanks to Gilberto
     Cezar de Almeida!
 
 1.0 RC2 (2003-01-19)
  - (2003/01/19) added CustomerUser LDAP backend - Thanks to Wiktor Wodecki!
  - (2003/01/19) fixed CustomerUser backend (config options)
- - (2003/01/18) fixed bug 61 (ArticleStorageInit error ) - 
+ - (2003/01/18) fixed bug 61 (ArticleStorageInit error ) -
     http://bugs.otrs.org/show_bug.cgi?id=61
- - (2003/01/17) fixed bug 68 on FreeBSD 4.7 (trying to "compose email" from 
+ - (2003/01/17) fixed bug 68 on FreeBSD 4.7 (trying to "compose email" from
     the agent interface) - http://bugs.otrs.org/show_bug.cgi?id=68
  - (2003/01/16) fixed bug 62 (not working command line utilitity) -
     http://bugs.otrs.org/show_bug.cgi?id=62
- - (2003/01/16) added bin/otrs.checkModules to check installed and 
+ - (2003/01/16) added bin/otrs.checkModules to check installed and
     required cpan modules
  - (2003/01/15) updated finnish translation! Thanks to Antti Kämäräinen!
  - (2003/01/15) added CheckMXRecord option to webinstaller
- - (2003/01/14) fixed typos "preferneces != preferences typo" 
-    http://lists.otrs.org/pipermail/dev/2003-January/000074.html 
+ - (2003/01/14) fixed typos "preferneces != preferences typo"
+    http://lists.otrs.org/pipermail/dev/2003-January/000074.html
     Thanks to Wiktor Wodecki!
  - (2003/01/14) fixed bug 59 (Bug in SELECT statement on empty search form) -
     http://bugs.otrs.org/show_bug.cgi?id=59
  - (2003/01/14) updated french translation! Thanks to Nicolas Goralski!
  - (2003/01/12) added spanisch translation! Thanks to Jorge Becerra!
- - (2003/01/11) fixed AgentPhone bug of Time() in subject - 
+ - (2003/01/11) fixed AgentPhone bug of Time() in subject -
     Time(DateFormatLong) was shown
 
 1.0 RC1 (2003-01-09)
  - (2003/01/09) added AgentTicketPrint (Ticket Print View)
  - (2003/01/09) improved Kernel::System::Ticket::IndexAccelerator::RuntimeDB
     and StaticDB (for locked tickets).
- - (2003/01/09) removed Kernel::System::Ticket::IndexAccelerator::FS 
+ - (2003/01/09) removed Kernel::System::Ticket::IndexAccelerator::FS
     because RuntimeDB and StaticDB is enough
  - (2003/01/05) improved fulltext search (added ticket state search option)
  - (2003/01/05) added CMD option to bin/GenericAgent.pl (so you can
-    execute own programs on GenericAgent.pl actions - e. g. send 
+    execute own programs on GenericAgent.pl actions - e. g. send
     special admin emails)
- - (2003/01/02) added attachments support for std. responses  
- - (2002/12/27) added filters (All, Open, New, Pending, Reminder) to 
+ - (2003/01/02) added attachments support for std. responses
+ - (2002/12/27) added filters (All, Open, New, Pending, Reminder) to
     AgentMailbox (locked-ticket-view)
  - (2002/12/24) added pending feature for tickets
  - (2002/12/20) added Kernel::System::Ticket::ArticleStorage* modules
-    for attachments in database or fs (needs to update the database 
-    (scripts/DBUpdate.(mysql|postgesql).sql)! The main reason is a lot 
-    of people have problems with the file permissions of the local otrs 
-    and webserver user (often incoming emails are shown some times again). 
+    for attachments in database or fs (needs to update the database
+    (scripts/DBUpdate.(mysql|postgesql).sql)! The main reason is a lot
+    of people have problems with the file permissions of the local otrs
+    and webserver user (often incoming emails are shown some times again).
     TicketStorageModule in Kernel/Config.pm.
      * Kernel::System::Ticket::ArticleStorageDB -> (default)
-     * Kernel::System::Ticket::ArticleStorageFS -> (faster but webserver 
+     * Kernel::System::Ticket::ArticleStorageFS -> (faster but webserver
         user should be the otrs user - use it for larger setups!)
  - (2002/12/19) attachment support (send and view) for customer panel!
  - (2002/12/18) added config option CheckEmailAddresses and CheckMXRecord.
     CheckMXRecord is useful for pre checks of valid/invalid senders (
-    reduce Postmaster emails). Disable CheckEmailAddresses if you work 
-    with customers which don't have email addresses or your otrs system is 
-    in your lan! 
+    reduce Postmaster emails). Disable CheckEmailAddresses if you work
+    with customers which don't have email addresses or your otrs system is
+    in your lan!
  - (2002/12/18) added more error handling to AgentPhone
- - (2002/12/15) added bin/PostMasterPOP3.pl and AdminPOP3 interface for 
-    fetching emails without procmail, fetchmail and MDA 
- - (2002/12/12) added finnish translation - Thanks to Antti Kämäräinen! 
- - (2002/12/08) added working PostMasterDaemon.pl and PostMasterClient.pl, 
-    alternative to PostMaster.pl. How it works: If the PostMasterDaemon.pl 
+ - (2002/12/15) added bin/PostMasterPOP3.pl and AdminPOP3 interface for
+    fetching emails without procmail, fetchmail and MDA
+ - (2002/12/12) added finnish translation - Thanks to Antti Kämäräinen!
+ - (2002/12/08) added working PostMasterDaemon.pl and PostMasterClient.pl,
+    alternative to PostMaster.pl. How it works: If the PostMasterDaemon.pl
     is running, pipe email through PostMasterClient.pl like (PostMaster.pl)
     (e. g. "cat /tmp/some.box | bin/PostMasterClient.pl"). Pro: Speed, Contra
     needs more memory.
  - (2002/12/07) added customer-user-backend Kernel/System/CustomerUser/DB.pm.
  - (2002/12/07) added preferences-backend module for user and customer user
     (Kernel/System/ (User/Preferences/DB.pm and CustomerUser/Preferences/DB.pm)
- - (2002/12/04) moved from Date::Calc (Perl and C) to Date::Pcalc (Perl only) 
+ - (2002/12/04) moved from Date::Calc (Perl and C) to Date::Pcalc (Perl only)
     and added Date::Pcalc to Kernel/cpan-lib/ (OS independent!).
- - (2002/12/01) moved GenericAgent.pm to GenericAgent.pm.dist to have tarball 
-    updates easier. 
- - (2002/12/01) moved finally to new config file Kernel/Config.pm.dist! Learn 
+ - (2002/12/01) moved GenericAgent.pm to GenericAgent.pm.dist to have tarball
+    updates easier.
+ - (2002/12/01) moved finally to new config file Kernel/Config.pm.dist! Learn
     more -=> INSTALL -=> "Demo config files"!
  - (2002/12/01) added "enchant LDAP auth" patch from Wiktor Wodecki for
     Kernel/System/Auth/LDAP.pm and Kernel/System/CustomerAuth/LDAP.pm -
@@ -663,48 +671,48 @@ CVS head
  - (2002/11/27) added backend modules for loop protection of PostMaster.pl
     "LoopProtectionModule" in Kernel/Config.pm (default is DB) -
     Kernel::System::PostMaster::LoopProtection::(DB|FS).
- - (2002/11/24) added delete ticket feature for GenericAgent.pl (removes tickets 
+ - (2002/11/24) added delete ticket feature for GenericAgent.pl (removes tickets
     from db and fs) - http://lists.otrs.org/pipermail/dev/2002-October/000037.html.
  - (2002/11/23) removed Kernel::Modules::AdminLanguage! Moved used languages
     to config file (Kernel/Config.pm - DefaultUsedLanguages). Moved translation
-    files from long language names to short names like en, de, bg, nl, ... 
+    files from long language names to short names like en, de, bg, nl, ...
     (e. g. Kernel/Language/bg.pm). Updated docu.
- - (2002/11/21) moved var/cron/* to var/cron/*.dist (.dist is not used) to make 
+ - (2002/11/21) moved var/cron/* to var/cron/*.dist (.dist is not used) to make
     updates easier! Thanks to Bryan Fullerton!
- - (2002/11/15) moved %doc/install/* to /opt/OpenTRS/install in RPM-specs. 
-    because the web-installer needs this stuff in this location. %doc isn't 
+ - (2002/11/15) moved %doc/install/* to /opt/OpenTRS/install in RPM-specs.
+    because the web-installer needs this stuff in this location. %doc isn't
     consistent on different linux distributions!
- - (2002/11/15) fixed bug [48], custom modules don't work/load - 
+ - (2002/11/15) fixed bug [48], custom modules don't work/load -
     http://bugs.otrs.org/show_bug.cgi?id=48
  - (2002/11/15) added Dutch translation! Thanks to Fred van Dijk!
  - (2002/11/14) added Bulgarian translation! Thanks to Vladimir Gerdjikov!
  - (2002/11/11) added new config file as Kernel/Config.pm.dist (will be used
-    for >= OTRS 5.0 Beta9) if you want to test it with 0.5, use Kernel/Config.pm.dist 
+    for >= OTRS 5.0 Beta9) if you want to test it with 0.5, use Kernel/Config.pm.dist
     as Kernel/Config.pm (cp Kernel/Config.pm.dist Kernel/Config.pm)!
-    Kernel/Config/Defaults.pm is the config file with all defaults. If you want 
+    Kernel/Config/Defaults.pm is the config file with all defaults. If you want
     to change this settings, add the needed entry to Kernel/Config.pm(.dist)
-    and the Kernel/Config/Defaults.pm will be overwrite. Updates will be much  
+    and the Kernel/Config/Defaults.pm will be overwrite. Updates will be much
     easier! - http://lists.otrs.org/pipermail/otrs/2002-October/000315.html
  - (2002/11/11) added spell ckecker for agent interface (Kernel::Modules::AgentSpelling).
- - (2002/11/11) added browser window.status info for Standard Theme (Agent 
+ - (2002/11/11) added browser window.status info for Standard Theme (Agent
     and Customer frontend).
- - (2002/11/11) added some CPAN modules to Kernel/cpan-lib/ (CGI 2.89, 
+ - (2002/11/11) added some CPAN modules to Kernel/cpan-lib/ (CGI 2.89,
     MIME-tools-5.411 and MailTools-1.51).
  - (2002/11/09) fixed attachment filename for IE (not the whole path like
     c:\Documents\test.jpg) Kernel/Modules/AgentCompose.pm.
  - (2002/11/09) fixed bug in Kernel/System/EmailParser.pm if email headers
-    are longer then 64 characters. Thanks to Phil Davis! 
+    are longer then 64 characters. Thanks to Phil Davis!
  - (2002/11/01) added file permission check for PostMaster.pl on startup!
     -=> Will help to get setup faster working!
- - (2002/10/31) added email valid check (incl. mx) on CreateAccount (customer 
+ - (2002/10/31) added email valid check (incl. mx) on CreateAccount (customer
     panel) -=> Config option: $Self->{CheckMXRecord}!
 
 0.5 BETA8 (2002-10-25)
  - (2002/10/24) improved web installer - added system settings
  - (2002/10/22) added notify mail to agent by ticket move - configurable via preferences
  - (2002/10/22) added Lite QueueView - configurable via preferences
- - (2002/10/20) added customer web frontend (bin/cgi-bin/customer.pl, 
-     Kernel/Modules/Customer*.pm and Kernel/Output/HTML/*/Customer.dtl) 
+ - (2002/10/20) added customer web frontend (bin/cgi-bin/customer.pl,
+     Kernel/Modules/Customer*.pm and Kernel/Output/HTML/*/Customer.dtl)
  - (2002/10/20) added lost password feature
  - added config support for AgentPreferences module (Kernel/Config/Preferences.pm)
  - added AgentStatusView module (overview of all open tickets) - (Thanks to Phil Davis)!
@@ -715,12 +723,12 @@ CVS head
       # (Possible to create in all queue? Not only queue which
       # the own groups) [0|1]
       $Self->{PhoneViewASP} = 1;
-      # PhoneViewSelectionType 
-      # (To: section type. Queue => show all queues, SystemAddress => show all system 
+      # PhoneViewSelectionType
+      # (To: section type. Queue => show all queues, SystemAddress => show all system
       # addresses;) [Queue|SystemAddress]
        $Self->{PhoneViewSelectionType} = 'SystemAddress';
       # PhoneViewSelectionString
-      # (String for To: selection.) 
+      # (String for To: selection.)
       $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
       # PhoneViewOwnSelection
       # (If this is in use, "just this selection is valid" for the PhoneView.)
@@ -731,7 +739,7 @@ CVS head
       };
     [...]
  - added attachment support for agent compose answer
- - added Kernel::Modules::AdminEmail feature - a admin can send (via admin 
+ - added Kernel::Modules::AdminEmail feature - a admin can send (via admin
     interface) info to one or more agents.
  - added /etc/sysconfig/otrs file for rcscripts
  - added rpm for Red Hat Linux 7.3
@@ -740,21 +748,21 @@ CVS head
  - added ReplyTo patch for PostMaster.pl of Phil Davis - Thanks Phil!
     - http://lists.otrs.org/pipermail/otrs/2002-September/000203.html
  - created config file (Kernel/Config/GenericAgent.pm) for bin/GenericAgent.pl
- - splited Kernel/Config.pm info Kernel/Config.pm, Kernel/Config/Postmaster.pm 
-    Kernel/Config/Phone.pm and Kernel/Config/Notification.pm and renamed some 
+ - splited Kernel/Config.pm info Kernel/Config.pm, Kernel/Config/Postmaster.pm
+    Kernel/Config/Phone.pm and Kernel/Config/Notification.pm and renamed some
     config variables to get a better overview.
- - added new/current french translation - Thanks to Bernard Choppy! 
+ - added new/current french translation - Thanks to Bernard Choppy!
  - added module support for log (Kernel/Config.pm --> $Self->{LogModule})
      * "Kernel::System::Log::SysLog" for syslogd (default)
-     * "Kernel::System::Log::File" for log file 
- - added alternate login and logout URL feature (Kernel/Config.pm --> 
-    $Self->{LoginURL}, $Self->{LogoutURL}) and added two example alternate 
+     * "Kernel::System::Log::File" for log file
+ - added alternate login and logout URL feature (Kernel/Config.pm -->
+    $Self->{LoginURL}, $Self->{LogoutURL}) and added two example alternate
     login pages scripts/login.pl (Perl) and scripts/login.php (PHP)
  - added backup and restore script (scripts/(backup|restore).sh)
  - moved Kernel::System::Article to Kernel::System::Ticket::Article! The
     ArticleObject exists not longer in Kernel::Modules::*, use TicketObject.
  - fixed Bug [25] Error on bounce of ticket - http://bugs.otrs.org/show_bug.cgi?id=25
- - fixed Bug [27] Let the fields "new message" and "Locked tickets" be more visible - 
+ - fixed Bug [27] Let the fields "new message" and "Locked tickets" be more visible -
     http://bugs.otrs.org/show_bug.cgi?id=27
  - fixed Bug [23] little menu logic mistake - http://bugs.otrs.org/show_bug.cgi?id=23
  - fixed Bug [30] Kernel/System/DB.pm - DB quoting http://bugs.otrs.org/show_bug.cgi?id=30
@@ -764,14 +772,14 @@ CVS head
  - fixed rpm bug for SuSE Linux 7.3 (Installer) - Thanks to Schirott Frank!
 
 0.5 BETA7 (2002-08-06)
- - improved screen session management (next screen, last screen) added back 
+ - improved screen session management (next screen, last screen) added back
     buttons
  - improved ticket and article lib funktions (Kernel::System::Ticket::* and
     Kernel::System::Article)
- - improved fulltext search 
+ - improved fulltext search
  - added time accounting for tickets (added new database table - time_accounting!
     use scripts/DBUpdate.(mysql|postgresql).sql for database updates!)
- - added notify feature for ticket lock timeout by system 
+ - added notify feature for ticket lock timeout by system
  - added user preferences item email (so login and email can be different)
  - added "Std. Response on creating a queue" feature
     (http://lists.otrs.org/pipermail/otrs/2002-July/000114.html)
@@ -782,46 +790,46 @@ CVS head
     Kernel/Config.pm -> $Self->{ChangeOwnerToEveryone} = [0|1]
  - added AgentCustomer module (set a customer id to a ticket and get a customer
     history)
- - added a GenericAgent.pl! This program can do some generic actions on tickets 
+ - added a GenericAgent.pl! This program can do some generic actions on tickets
     (like SetLock, MoveTicket, AddNote, SetOwner and SetState). It was developed
-    to close (automatically via cron job) ticket in a specific queue, e. g. all 
+    to close (automatically via cron job) ticket in a specific queue, e. g. all
     tickets in the queue 'spam'. (Thanks to Gay Gilmore for the idea)
  - added a simple webform (scripts/webform.pl) to generate emails with X-OTRS-Header
-    to dispatch it with procmail (used for feedback forms) 
+    to dispatch it with procmail (used for feedback forms)
  - added content_type col. to article table to handle differen charsets correctly
     (use script/DBUpdate.(mysql|postgresql).sql to upgrate existing databases).
  - added generic session storage management (Kernel/Config.pm --> $Self->{SessionModule})
-     * "Kernel::System::AuthSession::DB" (default) --> db storage 
+     * "Kernel::System::AuthSession::DB" (default) --> db storage
      * "Kernel::System::AuthSession::FS" --> filesystem storage
      * "Kernel::System::AuthSession::IPC" --> ram storage
- - added http cookie support for session management - it's more comfortable to 
+ - added http cookie support for session management - it's more comfortable to
     send links -==> if you have a valid session, you don't have to login again -
-    If the client browser disabled html cookies, otrs will work as usual, append 
+    If the client browser disabled html cookies, otrs will work as usual, append
     SessionID to links! (Kernel/Config.pm --> $Self->{SessionUseCookie})
  - added generic ticket number generator (Kernel/Config.pm --> $Self->{TicketNumberGenerator})
-     * "Kernel::System::Ticket::Number::AutoIncrement" (default) --> auto increment 
-        ticket numbers "SystemID.Counter" like 1010138 and 1010139. 
-     * "Kernel::System::Ticket::Number::Date" --> ticket numbers with date 
+     * "Kernel::System::Ticket::Number::AutoIncrement" (default) --> auto increment
+        ticket numbers "SystemID.Counter" like 1010138 and 1010139.
+     * "Kernel::System::Ticket::Number::Date" --> ticket numbers with date
         "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
      * "Kernel::System::Ticket::Number::DateChecksum" --> ticket numbers with date and
         check sum and the counter will be rotated daily like 2002070110101520 and 2002070110101535.
-     * "Kernel::System::Ticket::Number::Random" --> random ticket numbers "SystemID.Random" 
+     * "Kernel::System::Ticket::Number::Random" --> random ticket numbers "SystemID.Random"
          like 100057866352 and 103745394596.
  - added UPGRADING file
  - updated redhat init script (Thanks to Pablo Ruiz Garcia)
  - fixed bug [21] " in email adresses are missing - http://bugs.otrs.org/show_bug.cgi?id=21
     (Thanks to Christoph Kaulich)
  - fixed bug [19] Responses sort randomly - http://bugs.otrs.org/show_bug.cgi?id=19
- - fixed SetPermissions.sh (permission for var/log/TicketCounter.log) (Thanks to 
+ - fixed SetPermissions.sh (permission for var/log/TicketCounter.log) (Thanks to
     Pablo Ruiz Garcia)
  - fixed bug [16] Attachment download - http://bugs.otrs.org/show_bug.cgi?id=16
     (Thanks to Christoph Kaulich)
- - fixed bug [15] typo in suse-rcotrs (redhat-rcotrs is not affected) - 
+ - fixed bug [15] typo in suse-rcotrs (redhat-rcotrs is not affected) -
     http://bugs.otrs.org/show_bug.cgi?id=15
 
 0.5 BETA6 (2002-06-17)
  - added AgentBounce module
- - moved from Unix::Syslog to Sys::Syslog (Kernel::System::Log) because Sys::Syslog 
+ - moved from Unix::Syslog to Sys::Syslog (Kernel::System::Log) because Sys::Syslog
     comes with Perl (not an additional CPAN module)!
  - added redhat-rcotrs script (thanks to Pablo Ruiz Garcia)
  - added OTRS cronjobs var/cron/[aaa_base|fetchmail|postmaster|session|unlock]
@@ -829,25 +837,25 @@ CVS head
      * fetchmail -> cronjob for fetchmail
      * postmaster -> cleanup for not processed email
      * session -> cleanup for old sessions
-     * unlock -> ticket unlock 
+     * unlock -> ticket unlock
  - added OTRS cronjobs support (start/stop) to scripts/suse-rcotrs
- - moved all OTRS application required modules to two new files, 
-     * Kernel/Config/Modules.pm (all used OTRS modules) 
-     * Kernel/Config/ModulesCustom.pm (all add-on application modules, written by 
-        someone else, e. g. customer db or accounting system) 
-    to be release independently with Third Party modules for OTRS. 
+ - moved all OTRS application required modules to two new files,
+     * Kernel/Config/Modules.pm (all used OTRS modules)
+     * Kernel/Config/ModulesCustom.pm (all add-on application modules, written by
+        someone else, e. g. customer db or accounting system)
+    to be release independently with Third Party modules for OTRS.
  - added $Env{"Product"} $Env{"Version"} (e. g. OTRS 0.5 Beta6) as dtl environment
-    variable. Source is $OTRS_HOME/RELEASE. 
- - added display support for HTML-only e-mails 
- - added generic database and webserver to scripts/suse-rcotrs script 
- - added PostgreSQL (7.2 or higher) support (use OpenTRS-schema.postgresql.sql) 
- - fixed bug[12] fetchmail lock problem - http://bugs.otrs.org/show_bug.cgi?id=12 
- - fixed bug[11] typos - http://bugs.otrs.org/show_bug.cgi?id=11 
- - fixed bug[10] user_preferences table  - http://bugs.otrs.org/show_bug.cgi?id=10 
- - fixed bug[9] LoopProtection!!! Can't open'/opt/OpenTRS/var/log/LoopProtection-xyz.log': 
+    variable. Source is $OTRS_HOME/RELEASE.
+ - added display support for HTML-only e-mails
+ - added generic database and webserver to scripts/suse-rcotrs script
+ - added PostgreSQL (7.2 or higher) support (use OpenTRS-schema.postgresql.sql)
+ - fixed bug[12] fetchmail lock problem - http://bugs.otrs.org/show_bug.cgi?id=12
+ - fixed bug[11] typos - http://bugs.otrs.org/show_bug.cgi?id=11
+ - fixed bug[10] user_preferences table  - http://bugs.otrs.org/show_bug.cgi?id=10
+ - fixed bug[9] LoopProtection!!! Can't open'/opt/OpenTRS/var/log/LoopProtection-xyz.log':
     No such file or directory! - http://bugs.otrs.org/show_bug.cgi?id=9
  - fixed HTML table bug in AdminArea::Queue (just with Netscape)
- - fixed SQL table preferences bug (use script/DBUpdate.mysql.sql) 
+ - fixed SQL table preferences bug (use script/DBUpdate.mysql.sql)
 
 0.5 BETA5 (2002-05-27)
  - added ticket escalation - if a ticket is to old, only this ticket will be shown
@@ -856,50 +864,50 @@ CVS head
      * updated Kernel/Output/HTML/<THEME>/AdminQueueForm.dtl
  - added auto ticket unlock for locked old not answered tickets
      * added new row (ticket_answered) to ticket table
-     * modified Kernel::System::Ticket::Lock::SetLock() 
+     * modified Kernel::System::Ticket::Lock::SetLock()
      * added bin/UnlockTickets.pl with --timeout and --all options
- - added command line tool (bin/DeleteSessionIDs.pl) to delete expired or all session 
-    ids via command line or cron - options are --help, --expired and --all 
- - fixed bug[7] (http://bugs.otrs.org/show_bug.cgi?id=7 - space in Installer.pm 
-    lets creating of database otrs in MySQL fail) by Stefan Schmidt. 
- - added URL (screen) recovery after session timeout and possibility to send 
-    links without session id. Example: Shows you the ticket after OTRS 
-    login - http://host.example.com/otrs/index.pl?AgentZoom&TicketID=9 
- - added http://bugs.otrs.org/ link to the Error.dtl template, to get an easier 
-    bug reporting 
- - added NoPermission.dtl screen 
- - added phone tool - Kernel::Modules::AgentPhone.pm 
+ - added command line tool (bin/DeleteSessionIDs.pl) to delete expired or all session
+    ids via command line or cron - options are --help, --expired and --all
+ - fixed bug[7] (http://bugs.otrs.org/show_bug.cgi?id=7 - space in Installer.pm
+    lets creating of database otrs in MySQL fail) by Stefan Schmidt.
+ - added URL (screen) recovery after session timeout and possibility to send
+    links without session id. Example: Shows you the ticket after OTRS
+    login - http://host.example.com/otrs/index.pl?AgentZoom&TicketID=9
+ - added http://bugs.otrs.org/ link to the Error.dtl template, to get an easier
+    bug reporting
+ - added NoPermission.dtl screen
+ - added phone tool - Kernel::Modules::AgentPhone.pm
  - added french translation (thanks to Martin Scherbaum)
- - added 'Send follow up notification' and 'Send new ticket notification' to agent 
-    feature 
-     * added new values to initial_insert.sql for agent notifications, table: 
+ - added 'Send follow up notification' and 'Send new ticket notification' to agent
+    feature
+     * added new values to initial_insert.sql for agent notifications, table:
        ticket_history_type, value: SendAgentNotification
-     * modified Kernel/Output/HTML/<THEME>/AgentPreferencesForm.dtl 
+     * modified Kernel/Output/HTML/<THEME>/AgentPreferencesForm.dtl
      * required "new" options in Kernel::Config.pm!
  - fixed suse-rcotrs script (thanks to Martin Scherbaum)
      * added "INIT INFO"
-     * just check httpd and mysqld - no restart 
+     * just check httpd and mysqld - no restart
      * added stop-force|start-force option to restart httpd and mysqld
- - added help texts to the admin screens 
+ - added help texts to the admin screens
 
 0.5 BETA4 (2002-05-07)
  - changed login screen and added motd feature (Kernel/Output/HTML/Standard/Motd.dtl
-   the motd file) 
- - added Kernel::Modules::AdminCharsets.pm 
- - added Kernel::Modules::AdminStatus.pm 
- - added Kernel::Modules::AdminLanguages.pm 
- - added mod_perl stuff to README.webserver and scripts/suse-httpd.include.conf 
- - fixed bug[6] (http://bugs.otrs.org/show_bug.cgi?id=6 - user is a reserved word in 
-    SQL) reported by Charles Wimmer. Added some variables for table names and columns 
-    to Kernel/Config.pm. Important: For existing installations you have to change the 
-    Config.pm or to rename the "user" table to "system_user"! 
- - added "kill all sessions" funktion to Kernel::Modules::AdminSession.pm 
- - added old subject ("subject snip") and old e-mail ("body snip") to auto reply 
+   the motd file)
+ - added Kernel::Modules::AdminCharsets.pm
+ - added Kernel::Modules::AdminStatus.pm
+ - added Kernel::Modules::AdminLanguages.pm
+ - added mod_perl stuff to README.webserver and scripts/suse-httpd.include.conf
+ - fixed bug[6] (http://bugs.otrs.org/show_bug.cgi?id=6 - user is a reserved word in
+    SQL) reported by Charles Wimmer. Added some variables for table names and columns
+    to Kernel/Config.pm. Important: For existing installations you have to change the
+    Config.pm or to rename the "user" table to "system_user"!
+ - added "kill all sessions" funktion to Kernel::Modules::AdminSession.pm
+ - added old subject ("subject snip") and old e-mail ("body snip") to auto reply
  - added stats support Kernel::Modules::SystemStats and bin/mkStats.pl (with GD)
- - fixed missing html quoting in Kernel::Output::HTML::Agent->AgentHistory 
+ - fixed missing html quoting in Kernel::Output::HTML::Agent->AgentHistory
  - update of html in AgentTicketView.dtl and AgentZoom.dtl
- - added MoveInToAllQueues [1|0] to Config.pm (allow to choose the move queues for 
-    ticket view and zoom [all|own]) 
+ - added MoveInToAllQueues [1|0] to Config.pm (allow to choose the move queues for
+    ticket view and zoom [all|own])
 
 0.5 BETA3 (2002-04-17)
  - added AgentOwner Module
