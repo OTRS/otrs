@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.21 2003-03-06 23:10:13 martin Exp $
+# $Id: AgentCompose.dtl,v 1.22 2003-03-10 23:39:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -46,7 +46,7 @@ function submit_compose()
 function SpellCheckSubmit()
 {
     document.spelling.Body.value = document.compose.Body.value;
-    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=650,height=550,left=100,top=100');
+    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
     document.spelling.was_spell_checked=true;
 }
@@ -99,7 +99,7 @@ function SpellCheckSubmit()
       <td valign="top">$Text{"Text"}:</td>
       <td>
 <pre>
-<textarea name="Body" rows="25" cols="80" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="25" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
 $Data{"ResponseFormat"}
 </textarea>
 </pre>

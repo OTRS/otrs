@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.18 2003-02-25 12:03:04 martin Exp $
+# $Id: AgentNote.dtl,v 1.19 2003-03-10 23:39:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ function submit_compose()
 function SpellCheckSubmit()
 {   
     document.spelling.Body.value = document.compose.Body.value;
-    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=650,height=550,left=100,top=100');
+    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
 }
 // -->
@@ -68,8 +68,8 @@ function SpellCheckSubmit()
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0" width="100%">
   <tr>
-    <td width="20%">$Text{"Subject"}:</td>
-    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultNoteSubject"}"}" size="60"></td>
+    <td width="15%">$Text{"Subject"}:</td>
+    <td width="85%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultNoteSubject"}"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Options"}:</td>
@@ -81,7 +81,7 @@ function SpellCheckSubmit()
   <tr>
     <td>$Text{"Text"}:</td>
     <td>
-<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
 $Text{"$Config{"DefaultNoteText"}"}
 </textarea>
     </td>
@@ -99,7 +99,7 @@ $Text{"$Config{"DefaultNoteText"}"}
   </tr>
   </table>
 <br>
-<input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
+<input type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
 </form>
 
 </p>
