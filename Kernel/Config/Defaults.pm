@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.96 2004-01-12 22:56:11 martin Exp $
+# $Id: Defaults.pm,v 1.97 2004-01-16 10:36:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.96 $';
+$VERSION = '$Revision: 1.97 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -423,7 +423,7 @@ sub LoadDefaults {
     };
 
     # SendNoPendingNotificationTime 
-    # (send no pending notification this times)
+    # (send no pending notification this hours)
     $Self->{SendNoPendingNotificationTime} = {
         Mon => [ 0,1,2,3,4,5,6 ],
         Tue => [ 0,1,2,3,4,5,6 ],
@@ -799,10 +799,24 @@ $Data{"Signature"}
       'X-OTRS-ArticleValue1',
       'X-OTRS-ArticleValue2',
       'X-OTRS-ArticleValue3',
+      'X-OTRS-SenderType',
+      'X-OTRS-ArticleType',
       'X-OTRS-TicketKey1',
       'X-OTRS-TicketKey2',
+      'X-OTRS-TicketKey3',
+      'X-OTRS-TicketKey4',
+      'X-OTRS-TicketKey5',
+      'X-OTRS-TicketKey6',
+      'X-OTRS-TicketKey7',
+      'X-OTRS-TicketKey8',
       'X-OTRS-TicketValue1',
       'X-OTRS-TicketValue2',
+      'X-OTRS-TicketValue3',
+      'X-OTRS-TicketValue4',
+      'X-OTRS-TicketValue5',
+      'X-OTRS-TicketValue6',
+      'X-OTRS-TicketValue7',
+      'X-OTRS-TicketValue8',
     ];
 
     # --------------------------------------------------- #
