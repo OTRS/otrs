@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.32 2003-01-04 03:42:46 martin Exp $
+# $Id: AgentCompose.pm,v 1.33 2003-01-09 15:07:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -180,9 +180,10 @@ sub Form {
     $Data{Body} = "\n> " . $Data{Body};
 
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
+    $Data{Subject} =~ s/^..: //;
     $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
+    $Data{Subject} =~ s/^..: //;
     $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
-    $Data{Subject} =~ s/^..: //ig;
     $Data{Subject} = "[$TicketHook: $Tn] Re: " . $Data{Subject};
 
     if ($Data{ReplyTo}) {
