@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.11 2002-05-14 00:13:30 martin Exp $
+# $Id: Admin.pm,v 1.12 2002-05-26 18:21:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -230,6 +230,12 @@ sub AdminQueueForm {
         },
         Name => 'SignatureID',
         SelectedID => $Param{SignatureID},
+    );
+
+    $Param{'FollowUpLockYesNoOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'FollowUpLock',
+        SelectedID => $Param{FollowUpLock},
     );
 
     $Param{'SystemAddressOption'} = $Self->OptionStrgHashRef(
