@@ -2,14 +2,15 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.dtl,v 1.4 2002-06-15 12:50:13 martin Exp $
+# $Id: AgentForward.dtl,v 1.5 2002-06-15 12:53:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- start forward form -->
 
+<!-- This java script is just for nice to have funktions! -->
 <script language="JavaScript" type="text/javascript">
 <!--
 function submit_forward()
@@ -105,5 +106,5 @@ $Data{"Body"}
   </td> 
 </tr>
 </table>
-<!-- end form -->
+<!-- end forward form -->
 

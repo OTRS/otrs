@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.7 2002-06-15 10:33:13 martin Exp $
+# $Id: AgentCompose.dtl,v 1.8 2002-06-15 12:53:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 <!-- start compose form -->
 
+<!-- This java script is just for nice to have funktions! -->
 <script language="JavaScript" type="text/javascript">
 <!--
 function submit_compose()
