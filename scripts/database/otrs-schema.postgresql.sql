@@ -177,9 +177,9 @@ CREATE TABLE ticket_state_type
     id serial,
     name VARCHAR (120) NOT NULL,
     comment VARCHAR (250),
-    create_time DATETIME NOT NULL,
+    create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
+    change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
