@@ -491,7 +491,7 @@ drop table if exists article;
 CREATE TABLE article
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    ticket_id INTEGER NOT NULL,
+    ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
     a_from MEDIUMTEXT,
