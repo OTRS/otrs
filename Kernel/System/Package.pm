@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.13 2005-01-06 09:46:19 martin Exp $
+# $Id: Package.pm,v 1.14 2005-01-11 22:06:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,12 +13,12 @@ package Kernel::System::Package;
 
 use strict;
 use MIME::Base64;
-use XML::Parser;
 use File::Copy;
 use LWP::UserAgent;
+use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1177,7 +1177,7 @@ sub ParseXML {
     # cleanup global vars
     undef $Self->{XMLARRAY};
     # parse package
-    my $p1 = new XML::Parser(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+    my $p1 = new XML::Parser::Lite(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
     my @Data = $p1->parse($Param{String});
     return $Self->{XMLARRAY};
 }
@@ -1197,7 +1197,7 @@ sub HS {
 
 sub CS {
     my ($Expat, $Element, $I, $II) = @_;
-    $Element = $Expat->recognized_string();
+#    $Element = $Expat->recognized_string();
 #    print "v:'$Element'\n";
     if ($S->{LastTag}) {
         # base64 encode
@@ -1366,6 +1366,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2005-01-06 09:46:19 $
+$Revision: 1.14 $ $Date: 2005-01-11 22:06:00 $
 
 =cut
