@@ -2,35 +2,43 @@
 # AdminQueueResponsesForm.dtl - provides HTML form for AdminQueueResponses
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroupForm.dtl,v 1.7 2003-02-08 15:40:43 martin Exp $
+# $Id: AdminUserGroupForm.dtl,v 1.8 2003-05-29 10:33:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" colspan="2" class="table0">
+  <td align="left" class="table0">
     <b>$Env{"Box0"}$Text{"User <-> Group Management"}$Env{"Box1"}</b>
   </td>
 </tr>
 <tr> 
-  <td align="center" valign="top" colspan="2" class="table1">
+  <td align="center" valign="top" class="table1">
   $Text{"Change user <-> group settings"}
   </td>
 </tr>
 <tr valign="top">
-  <td align="right" class="table1" width="50%">
+ <td class="table1" align="center">
+ <table border="0" cellspacing="0">
+  <th class="table1" width="50%">
     <b>$Text{"User"}:$Text{"Group"} (1:n)</b>
-    <br>
+  </th>
+  <th class="table1" width="50%">
+    <b>$Text{"User"}:$Text{"Group"} (n:1)</b>
+  </th>
+</tr>
+<tr>
+  <td align="left" valign="top"> 
     $Data{"UserStrg"}
   </td>
-  <td align="left" class="table1" width="50%">
-    <b>$Text{"User"}:$Text{"Group"} (n:1)</b>
-    <br>
+  <td align="left" valign="top">
     $Data{"GroupStrg"}
   </td> 
+ </table>
+ </td>
 </tr>
 </table>
 <!-- end form -->
