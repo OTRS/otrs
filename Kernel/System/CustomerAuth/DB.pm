@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.10 2004-08-10 10:07:15 martin Exp $
+# $Id: DB.pm,v 1.11 2004-08-10 10:31:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@
 package Kernel::System::CustomerAuth::DB;
 
 use strict;
-use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -37,9 +36,6 @@ sub new {
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
-
-    # get customer user object to validate customers
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # config options
     $Self->{Table} = $Self->{ConfigObject}->Get('Customer::AuthModule::DB::Table')
@@ -121,16 +117,6 @@ sub Auth {
         return;
     }
 
-    # if recorde exists, check if user is vaild
-    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $UserID);
-    if (defined($CustomerData{ValidID}) && $CustomerData{ValidID} ne 1) {
-        $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: '$User' is set to invalid (REMOTE_ADDR: $RemoteAddr)",
-        );
-        return;
-    }
-
     # crypt given pw
     my $CryptedPw = '';
     my $Salt = $GetPw;
@@ -163,7 +149,7 @@ sub Auth {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "CustomerUser: '$User' tried to login with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+          Message => "CustomerUser: '$User' tried to authentificate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
 
@@ -171,7 +157,7 @@ sub Auth {
     if (!$Pw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "CustomerUser: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+          Message => "CustomerUser: $User authentification without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -179,7 +165,7 @@ sub Auth {
     elsif ((($GetPw)&&($User)&&($UserID)) && $CryptedPw eq $GetPw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "CustomerUser: $User logged in (REMOTE_ADDR: $RemoteAddr).",
+          Message => "CustomerUser: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
@@ -187,7 +173,7 @@ sub Auth {
     elsif (($UserID) && ($GetPw)) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "CustomerUser: $User with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+          Message => "CustomerUser: $User authentification with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }

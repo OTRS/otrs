@@ -1,20 +1,21 @@
 # --
-# Kernel/System/CustomerAuth.pm - provides the authentification 
+# Kernel/System/CustomerAuth.pm - provides the authentification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerAuth.pm,v 1.5 2004-01-10 12:48:22 martin Exp $
+# $Id: CustomerAuth.pm,v 1.6 2004-08-10 10:31:56 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::CustomerAuth; 
+package Kernel::System::CustomerAuth;
 
 use strict;
+use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -33,8 +34,8 @@ The autentification module for the customer interface.
 
 =item new()
 
-create a object 
- 
+create a object
+
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::System::DB;
@@ -44,7 +45,7 @@ create a object
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
-  my $DBObject = Kernel::System::DB->new( 
+  my $DBObject = Kernel::System::DB->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
   );
@@ -62,13 +63,16 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # check needed objects
     foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
+
+    # get customer user object to validate customers
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # load generator auth module
     my $GeneratorModule = $Self->{ConfigObject}->Get('Customer::AuthModule')
@@ -114,14 +118,32 @@ The autentificaion function.
 sub Auth {
     my $Self = shift;
     my %Param = @_;
-    return $Self->{Backend}->Auth(%Param);
+    # auth. request against backend
+    my $User = $Self->{Backend}->Auth(%Param);
+    # if recorde exists, check if user is vaild
+    if ($User) {
+        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
+        if (defined($CustomerData{ValidID}) && $CustomerData{ValidID} ne 1) {
+            $Self->{LogObject}->Log(
+              Priority => 'notice',
+              Message => "CustomerUser: '$User' is set to invalid, can't login!",
+            );
+            return;
+        }
+        else {
+            return $User;
+        }
+    }
+    else {
+        return;
+    }
 }
 # --
 1;
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -131,6 +153,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2004-01-10 12:48:22 $
+$Revision: 1.6 $ $Date: 2004-08-10 10:31:56 $
 
 =cut
