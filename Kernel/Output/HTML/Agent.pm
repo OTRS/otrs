@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.144 2004-04-07 15:28:42 martin Exp $
+# $Id: Agent.pm,v 1.145 2004-04-17 14:34:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.144 $';
+$VERSION = '$Revision: 1.145 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -476,18 +476,26 @@ sub AgentFreeText {
     my %Param = @_;
     my %NullOption = ();
     my %SelectData = ();
+    my %Ticket = ();
+    my %Config = ();
     if ($Param{NullOption}) {
 #        $NullOption{''} = '-';
         $SelectData{Size} = 3;
         $SelectData{Multiple} = 1;
     } 
+    if ($Param{Ticket}) {
+        %Ticket = %{$Param{Ticket}};
+    }
+    if ($Param{Config}) {
+        %Config = %{$Param{Config}};
+    }
     my %Data = ();
     foreach (1..10) {
         # key
-        if (ref($Self->{ConfigObject}->Get("TicketFreeKey$_")) eq 'HASH' && %{$Self->{ConfigObject}->Get("TicketFreeKey$_")}) {
+        if (ref($Config{"TicketFreeKey$_"}) eq 'HASH' && %{$Config{"TicketFreeKey$_"}}) {
             my $Counter = 0;
             my $LastKey = '';
-            foreach (keys %{$Self->{ConfigObject}->Get("TicketFreeKey$_")}) {
+            foreach (keys %{$Config{"TicketFreeKey$_"}}) {
                 $Counter++;
                 $LastKey = $_;
             }
@@ -495,11 +503,11 @@ sub AgentFreeText {
                 $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
                     Data => { 
                         %NullOption, 
-                        %{$Self->{ConfigObject}->Get("TicketFreeKey$_")},
+                        %{$Config{"TicketFreeKey$_"}},
                     },
                     Name => "TicketFreeKey$_",
-                    SelectedID => $Param{"TicketFreeKey$_"},
-                    SelectedIDRefArray => $Param{"TicketFreeKey$_"},
+                    SelectedID => $Ticket{"TicketFreeKey$_"},
+                    SelectedIDRefArray => $Ticket{"TicketFreeKey$_"},
                     LanguageTranslation => 0,
                     HTMLQuote => 1,
                     %SelectData,
@@ -507,53 +515,53 @@ sub AgentFreeText {
             }
             else {
                 if ($LastKey) {
-                    $Data{"TicketFreeKeyField$_"} = $Self->{ConfigObject}->Get("TicketFreeKey$_")->{$LastKey}.
+                    $Data{"TicketFreeKeyField$_"} = $Config{"TicketFreeKey$_"}->{$LastKey}.
                       '<input type="hidden" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $LastKey).'">';
                 }
             }
         }
         else {
-            if (defined($Param{"TicketFreeKey$_"})) {
-                if (ref($Param{"TicketFreeKey$_"}) eq 'ARRAY') {
-                    if ($Param{"TicketFreeKey$_"}->[0]) {
-                        $Param{"TicketFreeKey$_"} = $Param{"TicketFreeKey$_"}->[0];
+            if (defined($Ticket{"TicketFreeKey$_"})) {
+                if (ref($Ticket{"TicketFreeKey$_"}) eq 'ARRAY') {
+                    if ($Ticket{"TicketFreeKey$_"}->[0]) {
+                        $Ticket{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"}->[0];
                     }
                     else {
-                       $Param{"TicketFreeKey$_"} = '';
+                       $Ticket{"TicketFreeKey$_"} = '';
                     } 
                 }
-                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Param{"TicketFreeKey$_"}).'" size="20">';
+                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeKey$_"}).'" size="20">';
             }
             else {
                 $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="" size="20">';
             }
         }
         # value
-        if (ref($Self->{ConfigObject}->Get("TicketFreeText$_")) eq 'HASH') {
+        if (ref($Config{"TicketFreeText$_"}) eq 'HASH') {
             $Data{"TicketFreeTextField$_"} = $Self->OptionStrgHashRef(
                 Data => { 
                     %NullOption, 
-                    %{$Self->{ConfigObject}->Get("TicketFreeText$_")},
+                    %{$Config{"TicketFreeText$_"}},
                 },
                 Name => "TicketFreeText$_",
-                SelectedID => $Param{"TicketFreeText$_"},
-                SelectedIDRefArray => $Param{"TicketFreeText$_"},
+                SelectedID => $Ticket{"TicketFreeText$_"},
+                SelectedIDRefArray => $Ticket{"TicketFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote => 1,
                 %SelectData,
             );
         }
         else {
-            if (defined($Param{"TicketFreeText$_"})) {
-                if (ref($Param{"TicketFreeText$_"}) eq 'ARRAY') {
-                    if ($Param{"TicketFreeText$_"}->[0]) {
-                        $Param{"TicketFreeText$_"} = $Param{"TicketFreeText$_"}->[0];
+            if (defined($Ticket{"TicketFreeText$_"})) {
+                if (ref($Ticket{"TicketFreeText$_"}) eq 'ARRAY') {
+                    if ($Ticket{"TicketFreeText$_"}->[0]) {
+                        $Ticket{"TicketFreeText$_"} = $Ticket{"TicketFreeText$_"}->[0];
                     }
                     else {
-                        $Param{"TicketFreeText$_"} = '';
+                        $Ticket{"TicketFreeText$_"} = '';
                     }
                 }
-                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Param{"TicketFreeText$_"}).'" size="30">';
+                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeText$_"}).'" size="30">';
             }
             else {
                 $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="" size="30">';

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.71 2004-04-16 12:39:55 martin Exp $
+# $Id: AgentPhone.pm,v 1.72 2004-04-17 14:34:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.72 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -107,12 +107,28 @@ sub Run {
                 $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
                 $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
             }
-            my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(
-                %TicketFreeDefault,
-                $Self->{UserObject}->GetUserData(
-                    UserID => $Self->{UserID}, 
-                    Cached => 1,
-                ),
+            # get free text config options
+            my %TicketFreeText = ();
+            foreach (1..8) {
+                $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                    TicketID => $Self->{TicketID},
+                    Type => "TicketFreeKey$_",
+                    UserID => $Self->{UserID},
+                );
+                $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                    TicketID => $Self->{TicketID},
+                    Type => "TicketFreeText$_",
+                    UserID => $Self->{UserID},
+                );
+            }
+            my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+                Config => \%TicketFreeText,
+                Ticket => { %TicketFreeDefault,
+                            $Self->{UserObject}->GetUserData(
+                                UserID => $Self->{UserID}, 
+                                Cached => 1,
+                            ),
+                },
             );
             # html output
             $Output .= $Self->_MaskPhoneNew(
@@ -127,7 +143,7 @@ sub Run {
               CustomerID => $Article{CustomerID},
               CustomerUser => $Article{CustomerUserID},
               CustomerData => \%CustomerData,
-              %TicketFreeText,
+              %TicketFreeTextHTML,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -329,12 +345,30 @@ sub Run {
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+        # get free text params
         my %TicketFree = ();
         foreach (1..8) {
             $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
         }
-        my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(%TicketFree);
+        # get free text config options
+        my %TicketFreeText = ();
+        foreach (1..8) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeKey$_",
+                UserID => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeText$_",
+                UserID => $Self->{UserID},
+            );
+        }
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            Config => \%TicketFreeText,
+            Ticket => \%TicketFree,
+        );
         my %GetParam = ();
         foreach (qw(Year Month Day Hour Minute)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
@@ -465,7 +499,7 @@ sub Run {
               Subject => $Self->{LayoutObject}->Ascii2Html(Text => $Subject),
               Errors => \%Error,
               %GetParam,
-              %TicketFreeText,
+              %TicketFreeTextHTML,
             );
             # show customer tickets
             my @TicketIDs = ();

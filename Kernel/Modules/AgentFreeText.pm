@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentText.pm - to set the ticket free text
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.pm,v 1.6 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentFreeText.pm,v 1.7 2004-04-17 14:34:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -108,15 +108,32 @@ sub Run {
     else {
         # print form
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+        # get free text config options
+        my %TicketFreeText = ();
+        foreach (1..8) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeKey$_",
+                UserID => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeText$_",
+                UserID => $Self->{UserID},
+            );
+        }
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Set Free Text');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(%Ticket);
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            Ticket => \%Ticket,
+            Config => \%TicketFreeText,
+        );
         # print change form
 	$Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentFreeText', 
             Data => {
-                %TicketFreeText,
+                %TicketFreeTextHTML,
                 %Ticket,
                 QueueID => $Self->{QueueID},
             },
