@@ -2,7 +2,7 @@
 # AgentOwner.dtl - provides HTML for AgentOwner mask
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.dtl,v 1.8 2003-02-08 15:40:43 martin Exp $
+# $Id: AgentOwner.dtl,v 1.9 2003-02-14 13:56:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,7 +44,7 @@
   <tr>
     <td valign="top">$Text{"Message for new Owner"}:</td>
     <td>
-<textarea name="Comment" rows="6" cols="50" wrap="$Env{"BrowserWrap"}">
+<textarea name="Comment" rows="10" cols="50" wrap="$Env{"BrowserWrap"}">
 </textarea>
     </td>
   </tr>
