@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.93 2004-04-18 14:39:19 martin Exp $
+# $Id: Ticket.pm,v 1.94 2004-04-18 15:01:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.93 $';
+$VERSION = '$Revision: 1.94 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2132,11 +2132,6 @@ sub StateList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID, TicketID!");
         return;
     }
-    # check needed stuff
-    if (!$Param{Type}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
-        return;
-    }
     # get states by type
     if ($Param{Type}) {
         %States = $Self->{StateObject}->StateGetStatesByType(
@@ -3027,6 +3022,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2004-04-18 14:39:19 $
+$Revision: 1.94 $ $Date: 2004-04-18 15:01:48 $
 
 =cut
