@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.20 2002-12-15 12:37:15 martin Exp $
+# $Id: Admin.pm,v 1.21 2002-12-15 23:19:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,14 +39,20 @@ sub AdminLog {
     my %Param = @_;
     # create table
     $Param{LogTable} = '<table border="0" width="100%">';
-    $Param{LogTable} .= '<tr><th width="15%">$Text{"Time"}</th><th>$Text{"Priority"}</th><th>$Text{"Facility"}</th><th>$Text{"Module"}</th><th>$Text{"Line"}</th><th width="40%">$Text{"Message"}</th></tr>';
+    $Param{LogTable} .= '<tr><th width="20%">$Text{"Time"}</th><th>$Text{"Priority"}</th><th>$Text{"Facility"}</th><th width="55%">$Text{"Message"}</th></tr>';
     my @Lines = split(/\n/, $Param{Log});
     foreach (@Lines) {
         my @Row = split(/;;/, $_);
         if ($Row[5]) {
-            $Row[3] = $Self->Ascii2Html(Text => $Row[3], Max => 35);
-            $Row[5] = $Self->Ascii2Html(Text => $Row[5], Max => 1000);
-            $Param{LogTable} .= "<tr><td>$Row[0]</td><td>$Row[1]</td><td>$Row[2]</td><td>$Row[3]</td><td>$Row[4]</td><td>$Row[5]</td></tr>"; 
+            $Row[2] = $Self->Ascii2Html(Text => $Row[2], Max => 20);
+            $Row[3] = $Self->Ascii2Html(Text => $Row[3], Max => 25);
+            $Row[5] = $Self->Ascii2Html(Text => $Row[5], Max => 500);
+            if ($Row[1] =~ /error/) {
+                $Param{LogTable} .= "<tr><td><font color='red'>$Row[0]</font></td><td align='center'><font color='red'>$Row[1]</font></td><td><font color='red'>$Row[2]</font></td><td><font color='red'>$Row[5]</font></td></tr>"; 
+            }
+            else {
+                $Param{LogTable} .= "<tr><td>$Row[0]</td><td align='center'>$Row[1]</td><td>$Row[2]</td><td>$Row[5]</td></tr>"; 
+            }
         }
     }
     $Param{LogTable} .= '</table>';
@@ -818,6 +824,53 @@ sub AdminUserGroupChangeForm {
 
 
     return $Self->Output(TemplateFile => 'AdminUserGroupChangeForm', Data => \%Param);
+}
+# --
+sub AdminPOP3Form {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+
+    $Param{'TrustedOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'Trusted',
+        SelectedID => $Param{Trusted},
+    );
+
+
+    $Param{'QueueOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 1,
+            Clamp => 1,
+            Table => 'queue',
+          )
+        },
+        Name => 'QueueID',
+        SelectedID => $Param{QueueID},
+    );
+
+    $Param{POP3AccountOption} = $Self->OptionStrgHashRef(
+        Data => $Param{POP3AccountList},
+        Size => 15,
+        Name => 'ID',
+        SelectedID => $Param{ID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminPOP3Form', Data => \%Param);
 }
 # --
 sub AdminSystemAddressForm {
