@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.3 2002-07-22 21:54:54 martin Exp $
+# $Id: DateChecksum.pm,v 1.4 2002-12-02 22:10:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub CreateTicketNr {
@@ -126,7 +126,9 @@ sub CreateTicketNr {
     }
     $chksum %= 10;
     $chksum = 10 - $chksum;
-
+    if ($chksum == 10) {
+        $chksum = 1;
+    }
     # --
     # add checksum to ticket number
     # --
