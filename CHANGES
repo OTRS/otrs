@@ -2,7 +2,7 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.8 2002-06-23 20:40:52 martin Exp $
+# $Id: CHANGES,v 1.9 2002-06-24 12:56:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,6 +19,8 @@
          like 100057866352 and 103745394596.
  - fixed SetPermissions.sh (permission for var/log/TicketCounter.log) (Thanks to 
     Pablo Ruiz Garcia)
+ - fixed bug [15] typo in suse-rcotrs (redhat-rcotrs is not affected) - 
+    http://bugs.otrs.org/show_bug.cgi?id=15
  - updated redhat init script (Thanks to Pablo Ruiz Garcia)
 
 0.5 BETA6 (2002-06-17)
