@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.6 2004-12-02 12:42:59 martin Exp $
+# $Id: Package.pm,v 1.7 2004-12-04 11:35:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::System::Package;
 use strict;
 use MIME::Base64;
 use XML::Parser;
+use File::Copy;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -398,7 +399,7 @@ sub PackageInstall {
     my $FileCheckOk = 1;
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         foreach my $File (@{$Structur{Filelist}}) {
-            if (-e $File->{Location}) {
+            if (-e $File->{Location} && ($File->{Type} && $File->{Type} !~ /^replace$/i)) {
                 $FileCheckOk = 0;
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -448,17 +449,8 @@ sub PackageInstall {
     # install files
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         foreach my $File (@{$Structur{Filelist}}) {
-            if (open(OUT, "> $Self->{Home}/$File->{Location}")) {
-                print STDERR "Notice: Install $File->{Location}!\n";
-                print OUT $File->{Content};
-                close(OUT);
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't write file: $Self->{Home}/$File->{Location}: $!",
-                );
-            }
+            # install file
+            $Self->_FileInstall(%{$File});
         }
     }
     # install config
@@ -576,20 +568,8 @@ sub PackageUpgrade {
     # install files
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         foreach my $File (@{$Structur{Filelist}}) {
-            if (-e "$Self->{Home}/$File->{Location}") {
-                print STDERR "Notice: Overwrite $File->{Location}!\n";
-            }
-            if (open(OUT, "> $Self->{Home}/$File->{Location}")) {
-                print STDERR "Notice: Install $File->{Location}!\n";
-                print OUT $File->{Content};
-                close(OUT);
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't write file: $Self->{Home}/$File->{Location}: $!",
-                );
-            }
+            # install file
+            $Self->_FileInstall(%{$File});
         }
     }
     # install config
@@ -634,26 +614,8 @@ sub PackageUninstall {
     my $FileCheckOk = 1;
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         foreach my $File (@{$Structur{Filelist}}) {
-            my $RealFile = "$Self->{Home}/$File->{Location}";
-            if (-e $RealFile) {
-                if (unlink $RealFile) {
-                    print STDERR "Notice: Removed file: $RealFile\n";
-                }
-                else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't remove file $RealFile: $!!",
-                    );
-                    $FileCheckOk = 0;
-                }
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "No such file: $RealFile!",
-                );
-                $FileCheckOk = 0;
-            }
+            # remove file
+            $Self->_FileRemove(%{$File});
         }
     }
     # remove old packages
@@ -708,7 +670,7 @@ sub PackageOnlineList {
         return;
       }
     }
-    my $XML = $Self->Download(URL => $Param{URL}.'/otrs.xml');
+    my $XML = $Self->_Download(URL => $Param{URL}.'/otrs.xml');
     if (!$XML) {
         return ();
     }
@@ -828,7 +790,7 @@ sub PackageOnlineGet {
         return;
       }
     }
-    return $Self->Download(URL => $Param{Source}."/$Param{File}");
+    return $Self->_Download(URL => $Param{Source}."/$Param{File}");
 }
 
 =item PackageBuild()
@@ -1137,7 +1099,7 @@ sub ES {
     push (@{$S->{XMLARRAY}}, {TagType => 'End', Tag => $Element});
 }
 
-sub Download {
+sub _Download {
     my $Self = shift;
     my %Param = @_;
     my $Content = '';
@@ -1172,6 +1134,76 @@ sub Download {
         return;
     }
 }
+sub _FileInstall {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Location)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    # backup old file
+    if (-e "$Self->{Home}/$Param{Location}") {
+        if ($Param{Type} && $Param{Type} =~ /^replace$/i) {
+             move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.orig");
+        }
+        else {
+             move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.save");
+        }
+    }
+    if (open(OUT, "> $Self->{Home}/$Param{Location}")) {
+        print STDERR "Notice: Install $Param{Location}!\n";
+        print OUT $Param{Content};
+        close(OUT);
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't write file: $Self->{Home}/$Param{Location}: $!",
+        );
+    }
+    return 1;
+}
+sub _FileRemove {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Location)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    my $RealFile = "$Self->{Home}/$Param{Location}";
+    # check if file exists
+    if (-e $RealFile) {
+        # remove old file
+        if (unlink $RealFile) {
+            print STDERR "Notice: Removed file: $RealFile\n";
+            # restore old file (if exists)
+            if (-e "$RealFile.orig") {
+                move("$RealFile.orig", $RealFile);
+            }
+            return 1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't remove file $RealFile: $!!",
+            );
+            return;
+        }
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such file: $RealFile!",
+        );
+        return;
+    }
+}
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -1186,6 +1218,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2004-12-02 12:42:59 $
+$Revision: 1.7 $ $Date: 2004-12-04 11:35:29 $
 
 =cut
