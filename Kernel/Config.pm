@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.19 2002-02-19 22:20:19 martin Exp $
+# $Id: Config.pm,v 1.20 2002-02-21 22:14:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -47,7 +47,7 @@ sub Load {
 
     # SecureMode
     # (Enable this so you can't use the installer.pl)
-    $Self->{SecureMode} = 0;
+    $Self->{SecureMode} = 1;
 
     # CheckRemoteIP 
     # (If the application is used via a proxy-farm then the 
@@ -154,6 +154,8 @@ sub Load {
     $Self->{SearchLimitTn} = 20;
     # default limit for Txt search
     $Self->{SearchLimitTxt} = 20;
+    # viewable ticket lines by search util
+    $Self->{ViewableTicketLinesBySearch} = 15;
 
     # ----------------------------------------------------
     # directories
@@ -291,6 +293,8 @@ sub Load {
     # ----------------------------------------------------
     # default compose next state
     $Self->{DefaultNextComposeType} = 'open';
+    # new line after x chars and onew word
+    $Self->{ComposeTicketNewLine} = 75;
     # next possible states for compose message
     $Self->{DefaultNextComposeTypePossible} = [
         'open', 
