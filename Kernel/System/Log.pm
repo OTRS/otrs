@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Log.pm - log wapper
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.27 2004-09-16 22:37:34 martin Exp $
+# $Id: Log.pm,v 1.28 2005-02-10 13:34:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $ ';
+$VERSION = '$Revision: 1.28 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -108,7 +108,6 @@ sub Log {
     # log backend
     $Self->{Backend}->Log(
         Priority => $Priority,
-        Caller => $Caller,
         Message => $Message,
         LogPrefix => $Self->{LogPrefix},
         Module => $Subroutine2,
@@ -212,6 +211,42 @@ sub CleanUp {
     return 1;
 }
 
+=item Dumper()
+
+dump a perl variable to log
+
+  $LogObject->Dumper(@Array);
+
+  or
+
+  $LogObject->Dumper(%Hash);
+
+=cut
+
+sub Dumper {
+    my $Self = shift;
+
+    require Data::Dumper;
+
+    my $Caller = 0;
+    # returns the context of the current subroutine and sub-subroutine!
+    my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+0);
+    my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+1);
+    if (!$Subroutine2) {
+      $Subroutine2 = $0;
+    }
+
+    # log backend
+    $Self->{Backend}->Log(
+        Priority => 'debug',
+        Message => substr(Data::Dumper::Dumper(@_), 0, 8000),
+        LogPrefix => $Self->{LogPrefix},
+        Module => $Subroutine2,
+        Line => $Line1,
+    );
+    return 1;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -224,6 +259,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2004-09-16 22:37:34 $
+$Revision: 1.28 $ $Date: 2005-02-10 13:34:12 $
 
 =cut
