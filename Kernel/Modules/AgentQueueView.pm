@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.38 2003-07-08 00:02:10 martin Exp $
+# $Id: AgentQueueView.pm,v 1.39 2003-07-12 08:15:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,6 +73,9 @@ sub new {
     my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(Type => 'ID');
     $Self->{ViewableLockIDs} = \@ViewableLockIDs;
 
+    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
+    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
+
     return $Self;
 }
 # --
@@ -105,23 +108,21 @@ sub Run {
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     # build NavigationBar 
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    # to get the output faster!
+    print $Output; $Output = '';
     # --
     # check old tickets, show it and return if needed
     # --
     if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
-        # --
-        # show ticket's
-        # --
-        $Output .= $Self->{LayoutObject}->TicketEscalation(
+        # show over time ticket's
+        print $Self->{LayoutObject}->TicketEscalation(
             Message => 'Please answer this ticket(s) to get back to the normal queue view!',
         );
-        foreach my $DataTmp (@ViewableTickets) {
-          my %Data = %$DataTmp;
-          $Output .= $Self->ShowTicket(%Data);
+        foreach (@ViewableTickets) {
+            print $Self->ShowTicket(TicketID => $_);
         }
         # get page footer
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        return $Self->{LayoutObject}->Footer();
     }
     # --
     # build queue view ...
@@ -135,12 +136,7 @@ sub Run {
     else {
         @ViewableQueueIDs = ($Self->{QueueID});
     }
-    $Output .= $Self->BuildQueueView(
-        QueueIDs => \@ViewableQueueIDs,
-    );
-
-    # to get the output faster!
-    print $Output; $Output = '';
+    print $Self->BuildQueueView(QueueIDs => \@ViewableQueueIDs);
     # get user groups
     my $Type = 'rw';
     if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
@@ -172,13 +168,9 @@ sub Run {
 
           $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
           my $Counter = 0;
-          while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-              my $Data = {
-                TicketID => $RowTmp[0],
-                TicketQueueID => $RowTmp[1],
-              };
+          while (my @Row = $Self->{DBObject}->FetchrowArray()) {
               if ($Counter >= ($Self->{Start}-1)) {
-                  push (@ViewableTickets, $Data);
+                  push (@ViewableTickets, $Row[0]);
               }
               $Counter++;
           }
@@ -186,11 +178,9 @@ sub Run {
     # --
     # show ticket's
     # --
-    foreach my $DataTmp (@ViewableTickets) {
-        my %Data = %$DataTmp;
-        print $Self->ShowTicket(%Data);
+    foreach (@ViewableTickets) {
+        print $Self->ShowTicket(TicketID => $_);
     }
-
     # get page footer
     $Output .= $Self->{LayoutObject}->Footer();
     # return page
@@ -203,7 +193,6 @@ sub ShowTicket {
     my $Self = shift;
     my %Param = @_;
     my $TicketID = $Param{TicketID} || return;
-    my $TicketQueueID = $Param{TicketQueueID} || '';
     my $Output = '';
     $Param{QueueViewQueueID} = $Self->{QueueID};
     my %MoveQueues = ();
@@ -216,10 +205,10 @@ sub ShowTicket {
             Type => 'rw',
         );
     }
-    # fetch all std. responses ...
-    my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $TicketQueueID);
     # get last article
     my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID); 
+    # fetch all std. responses ...
+    my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $Article{QueueID});
     # --
     # customer info
     # --
@@ -250,33 +239,30 @@ sub ShowTicket {
     # --
     # prepare escalation time
     # --
-print STDERR "$Article{Answered} ... $Article{UntilTime} ..\n";
     if ($Article{Answered}) {
-      $Param{UntilTime} = '$Text{"none - answered"}';
+        $Article{TicketOverTime} = '$Text{"none - answered"}';
     }
-    elsif ($Article{UntilTime}) {
-      $Param{TicketOverTimeSuffix} = '';
-      # colloring  
-      $Param{TicketOverTimeFont} = '';
-      $Param{TicketOverTimeFontEnd} = '';
+    elsif ($Article{TicketOverTime}) {
       if ($Article{TicketOverTime} <= -60*20) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
-      elsif ($Article{UntilTime} <= -60*40) {
+      elsif ($Article{TicketOverTime} <= -60*40) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
       # create string
-      $Article{UntilTime} = $Self->{LayoutObject}->CustomerAge(
-          Age => $Article{UntilTime},
+      $Article{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+          Age => $Article{TicketOverTime},
           Space => '<br>',
       );
-      $Article{UntilTime} = $Param{TicketOverTimeFont}.
-        $Article{UntilTime}.$Param{TicketOverTimeFontEnd};
+      if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
+        $Article{TicketOverTime} = $Param{TicketOverTimeFont}.
+            $Article{TicketOverTime}.$Param{TicketOverTimeFontEnd};
+      } 
     }
     else {
-      $Article{UntilTime} = '$Text{"none"}';
+        $Article{TicketOverTime} = '$Text{"none"}';
     }
     # customer info string 
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
