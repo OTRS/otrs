@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.63 2004-01-08 11:44:37 martin Exp $
+# $Id: Ticket.pm,v 1.64 2004-01-09 16:45:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -973,7 +973,7 @@ sub SearchTicket {
     my %SortOptions = (
         Owner => 'st.user_id',
         CustomerID => 'st.customer_id',
-        State => 'tsd.name', 
+        State => 'st.ticket_state_id', 
         Ticket => 'st.tn',
         Queue => 'sq.name', 
         Age => 'st.create_time_unix',
@@ -1104,7 +1104,7 @@ sub SearchTicket {
     my %Tickets = ();
     my @TicketIDs = ();
     $Self->{DBObject}->Prepare(SQL => $SQL.$SQLExt, Limit => $Limit);
-print STDERR "SQL: $SQL$SQLExt\n";
+#print STDERR "SQL: $SQL$SQLExt\n";
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Tickets{$Row[0]} = $Row[1];
         push (@TicketIDs, $Row[0]);

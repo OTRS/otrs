@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.37 2003-11-26 00:45:18 martin Exp $
+# $Id: Queue.pm,v 1.38 2004-01-09 16:45:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -705,80 +705,6 @@ sub QueueAdd {
 }
 #--
 
-=item GetTicketIDsByQueue()
-
-...
-
-    ... 
-
-=cut
-
-sub GetTicketIDsByQueue {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    if (!$Param{Queue} && !$Param{QueueID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no Queue or QueueID!");
-        return;
-    }
-    # sql
-    my $SQL = "SELECT st.id, st.tn FROM ".
-    " ticket st, ticket_state tsd ";
-    if ($Param{From} || $Param{To} || $Param{Cc} || $Param{Subject} ||$Param{Body}) {
-        $SQL .= ", article at ";
-    }
-    $SQL .= " WHERE ".
-    " st.ticket_state_id = tsd.id ";
-    if ($Param{From} || $Param{To} || $Param{Cc} || $Param{Subject} ||$Param{Body}) {
-        $SQL .= " AND st.id = at.ticket_id";
-    }
-    if ($Param{States}) { 
-        $SQL .= " AND ".
-          " tsd.name IN ('${\(join '\', \'' , @{$Param{States}})}') ";
-    }
-    if ($Param{LockIDs}) {
-        $SQL .= " AND ".
-          " st.ticket_lock_id IN (${\(join ', ' , @{$Param{LockIDs}})}) ";
-    }
-    if ($Param{Queue}) {
-        $SQL .= " AND st.queue_id = ". $Self->QueueLookup(Queue => $Param{Queue});
-    }
-    else {
-        $SQL .= " AND st.queue_id = $Param{QueueID} ";
-    }
-    if ($Param{PriorityIDs}) {
-        $SQL .= " AND ".
-          " st.ticket_priority_id IN (${\(join ', ', @{$Param{PriorityIDs}})}) ";
-    }
-    if ($Param{From}) {
-        $SQL .= " AND at.a_from like '".
-          $Self->{DBObject}->Quote($Param{From})."'";
-    }
-    if ($Param{To}) {
-        $SQL .= " AND at.a_to like '".
-          $Self->{DBObject}->Quote($Param{To})."'";
-    }
-    if ($Param{Cc}) {
-        $SQL .= " AND at.a_cc like '".
-          $Self->{DBObject}->Quote($Param{Cc})."'";
-    }
-    if ($Param{Subject}) {
-        $SQL .= " AND at.a_subject like '".
-          $Self->{DBObject}->Quote($Param{Subject})."'";
-    }
-    if ($Param{Body}) {
-        $SQL .= " AND at.a_body like '".
-          $Self->{DBObject}->Quote($Param{Body})."'";
-    }
-    my %Tickets = ();
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Tickets{$RowTmp[0]} = $RowTmp[1];
-    }
-    return %Tickets;
-}   
-# --
-
 =item QueueGet()
 
 ...
@@ -958,11 +884,20 @@ sub QueueUpdate {
     }
 }
 # --
-
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).  
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2003-11-26 00:45:18 $
+$Revision: 1.38 $ $Date: 2004-01-09 16:45:17 $
 
 =cut
