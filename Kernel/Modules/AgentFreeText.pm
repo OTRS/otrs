@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentText.pm - to set the ticket free text
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.pm,v 1.8 2004-04-23 07:34:42 martin Exp $
+# $Id: AgentFreeText.pm,v 1.9 2004-08-19 13:14:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,28 +14,28 @@ package Kernel::Modules::AgentFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
       ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-   
+
     return $Self;
 }
 # --
@@ -86,23 +86,21 @@ sub Run {
     }
 
     if ($Self->{Subaction} eq 'Update') {
-        # --
         # update ticket free text
-        # --
         foreach (1..8) {
-            my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_") || '';
-            my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_") || '';
-            $Self->{TicketObject}->TicketFreeTextSet(
-                Key => $FreeKey,
-                Value => $FreeValue,
-                Counter => $_,
-                TicketID => $Self->{TicketID},
-                UserID => $Self->{UserID},
-            );
+            my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+            my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+            if (defined($FreeKey) && defined($FreeValue)) {
+                $Self->{TicketObject}->TicketFreeTextSet(
+                    Key => $FreeKey,
+                    Value => $FreeValue,
+                    Counter => $_,
+                    TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
         }
-        # --
         # print redirect
-        # --
         return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
@@ -133,7 +131,7 @@ sub Run {
         );
         # print change form
 	$Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentFreeText', 
+            TemplateFile => 'AgentFreeText',
             Data => {
                 %TicketFreeTextHTML,
                 %Ticket,

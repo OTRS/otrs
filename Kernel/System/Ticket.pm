@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.132 2004-08-18 08:48:05 martin Exp $
+# $Id: Ticket.pm,v 1.133 2004-08-19 13:14:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.132 $';
+$VERSION = '$Revision: 1.133 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -530,22 +530,22 @@ sub TicketGet {
         $Ticket{Owner} = $Row[14];
         $Ticket{Answered} = $Row[15];
         $Ticket{RealTillTimeNotUsed} = $Row[16];
-        $Ticket{TicketFreeKey1} = $Row[18] || '';
-        $Ticket{TicketFreeText1} = $Row[19] || '';
-        $Ticket{TicketFreeKey2} = $Row[20] || '';
-        $Ticket{TicketFreeText2} = $Row[21] || '';
-        $Ticket{TicketFreeKey3} = $Row[22] || '';
-        $Ticket{TicketFreeText3} = $Row[23] || '';
-        $Ticket{TicketFreeKey4} = $Row[24] || '';
-        $Ticket{TicketFreeText4} = $Row[25] || '';
-        $Ticket{TicketFreeKey5} = $Row[26] || '';
-        $Ticket{TicketFreeText5} = $Row[27] || '';
-        $Ticket{TicketFreeKey6} = $Row[28] || '';
-        $Ticket{TicketFreeText6} = $Row[29] || '';
-        $Ticket{TicketFreeKey7} = $Row[30] || '';
-        $Ticket{TicketFreeText7} = $Row[31] || '';
-        $Ticket{TicketFreeKey8} = $Row[32] || '';
-        $Ticket{TicketFreeText8} = $Row[33] || '';
+        $Ticket{TicketFreeKey1} = defined($Row[18]) ? $Row[18] : '';
+        $Ticket{TicketFreeText1} = defined($Row[19]) ? $Row[19] : '';
+        $Ticket{TicketFreeKey2} = defined($Row[20]) ? $Row[20] : '';
+        $Ticket{TicketFreeText2} = defined($Row[21]) ? $Row[21] : '';
+        $Ticket{TicketFreeKey3} = defined($Row[22]) ? $Row[22] : '';
+        $Ticket{TicketFreeText3} = defined($Row[23]) ? $Row[23] : '';
+        $Ticket{TicketFreeKey4} = defined($Row[24]) ? $Row[24] : '';
+        $Ticket{TicketFreeText4} = defined($Row[25]) ? $Row[25] : '';
+        $Ticket{TicketFreeKey5} = defined($Row[26]) ? $Row[26] : '';
+        $Ticket{TicketFreeText5} = defined($Row[27]) ? $Row[27] : '';
+        $Ticket{TicketFreeKey6} = defined($Row[28]) ? $Row[28] : '';
+        $Ticket{TicketFreeText6} = defined($Row[29]) ? $Row[29] : '';
+        $Ticket{TicketFreeKey7} = defined($Row[30]) ? $Row[30] : '';
+        $Ticket{TicketFreeText7} = defined($Row[31]) ? $Row[31] : '';
+        $Ticket{TicketFreeKey8} = defined($Row[32]) ? $Row[32] : '';
+        $Ticket{TicketFreeText8} = defined($Row[33]) ? $Row[33] : '';
     }
     # check ticket
     if (!$Ticket{TicketID}) {
@@ -934,8 +934,8 @@ Set ticket free text.
 sub TicketFreeTextSet {
     my $Self = shift;
     my %Param = @_;
-    my $Value = $Param{Value} || '';
-    my $Key = $Param{Key} || '';
+    my $Value = defined($Param{Value}) ? $Param{Value} : '';
+    my $Key = defined($Param{Key}) ? $Param{Key} : '';
     # check needed stuff
     foreach (qw(TicketID UserID Counter)) {
       if (!$Param{$_}) {
@@ -3389,6 +3389,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.132 $ $Date: 2004-08-18 08:48:05 $
+$Revision: 1.133 $ $Date: 2004-08-19 13:14:20 $
 
 =cut
