@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.36 2004-07-08 18:52:17 robert Exp $
+# $Id: AgentForward.pm,v 1.37 2004-07-29 06:14:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,8 +164,8 @@ sub Form {
         }
     }
     # prepare body ...
-    my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
-    $Data{Body} =~ s/(.{$NewLine}.+?\s)/$1\n/g;
+    my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 72;
+    $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
 

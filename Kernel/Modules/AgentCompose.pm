@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.68 2004-07-22 05:43:07 martin Exp $
+# $Id: AgentCompose.pm,v 1.69 2004-07-29 06:14:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::WebUploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -204,7 +204,7 @@ sub Form {
     # prepare body, subject, ReplyTo ...
     # --
     my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
-    $Data{Body} =~ s/(.{$NewLine}.+?\s)/$1\n/g;
+    $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
 
