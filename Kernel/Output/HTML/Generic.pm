@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.122 2004-06-15 09:08:59 martin Exp $
+# $Id: Generic.pm,v 1.123 2004-06-16 13:07:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.122 $';
+$VERSION = '$Revision: 1.123 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1154,7 +1154,7 @@ sub BuildDateSelection {
     $M++;
     # year
     my %Year = ();
-    foreach ($Y-4..$Y+10) {
+    foreach ($Y-10..$Y+1) {
         $Year{$_} = $_;
     }
     $Param{Year} = $Self->OptionStrgHashRef(
