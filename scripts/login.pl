@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# login.pl - a simple external login page for OpenTRS
+# login.pl - a simple external login page for OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: login.pl,v 1.1 2002-08-13 15:04:07 martin Exp $
+# $Id: login.pl,v 1.2 2002-09-01 13:03:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ my $Reason = $CGI->param('Reason') || '';
 my $ReasonTranslation = {
     SystemError => 'System error! Contact your admin!',
     LoginFailed => 'Login failed! Your username or password was entered incorrectly.',
-    Logout => 'Logout successful. Thank you for using OpenTRS!',
+    Logout => 'Logout successful. Thank you for using OTRS!',
     InvalidSessionID => 'Invalid SessionID!',
     '' => '', 
 };

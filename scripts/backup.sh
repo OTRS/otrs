@@ -1,9 +1,9 @@
 #!/bin/bash
 # --
-# scripts/backup.sh - a backup script for OpenTRS 
+# scripts/backup.sh - a backup script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.sh,v 1.2 2002-08-13 15:20:12 martin Exp $
+# $Id: backup.sh,v 1.3 2002-09-01 13:03:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "backup.sh - a backup script for OpenTRS <\$Revision: 1.2 $>"
+echo "backup.sh - a backup script for OTRS <\$Revision: 1.3 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # --

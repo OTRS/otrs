@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 # --
-# pic.pl - the global pic handle for OpenTRS
+# pic.pl - the global pic handle for OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.5 2002-08-13 15:30:20 martin Exp $
+# $Id: pic.pl,v 1.6 2002-09-01 13:06:15 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,11 +26,11 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
-# all OpenTRS modules
+# all OTRS modules
 # --
 use Kernel::Config;
 use Kernel::System::Log;
@@ -48,7 +48,7 @@ use Kernel::System::Permission;
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OpenTRS-Pic',
+    LogPrefix => 'OTRS-Pic',
     %CommonObject,
 );
 # --
@@ -57,7 +57,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug', 
-        MSG => 'Global OpenTRS-PIC handle started...',
+        MSG => 'Global OTRS-PIC handle started...',
     );
 }
 # ... common objects ...
@@ -145,7 +145,7 @@ EOF
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => 'Global OpenTRS-PIC handle stopped.',
+        MSG => 'Global OTRS-PIC handle stopped.',
     );
 }
 

@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 # --
-# instaler.pl - the OpenTRS Installer
+# instaler.pl - the OTRS Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.4 2002-08-13 15:30:20 martin Exp $
+# $Id: installer.pl,v 1.5 2002-09-01 13:06:15 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,19 +20,19 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-# OpenTRS root directory
+# OTRS root directory
 #use lib '/opt/OpenTRS/';
 use lib '../../';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 1;
 
 # --
-# all OpenTRS Installer modules
+# all OTRS Installer modules
 # --
 use Kernel::Config;
 use Kernel::System::Log;
@@ -48,14 +48,14 @@ use Kernel::Output::HTML::Generic;
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OpenTRS-Installer',
+    LogPrefix => 'OTRS-Installer',
     %CommonObject,
 );
 # debug info
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug', 
-        MSG => 'OpenTRS installer handle started...',
+        MSG => 'OTRS installer handle started...',
     );
 }
 # ... common objects ...
@@ -106,7 +106,7 @@ else {
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => 'OpenTRS installer handle stopped.',
+        MSG => 'OTRS installer handle stopped.',
     );
 }
 

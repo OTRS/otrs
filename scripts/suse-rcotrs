@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.16 2002-08-20 14:08:39 stefan Exp $
+# $Id: suse-rcotrs,v 1.17 2002-09-01 13:03:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -49,7 +49,7 @@ HTTP_RUNNING=1
 CRON_RUNNING=1
 
 # 
-# OpenTRS home (root) directory
+# OTRS home (root) directory
 #
 OTRS_ROOT=/opt/OpenTRS
 
@@ -102,13 +102,13 @@ fi
 #
 HOST=`hostname -f`
 # 
-# OpenTRS location - means http://host/$OTRS_HTTP_LOCATION/index.pl
+# OTRS location - means http://host/$OTRS_HTTP_LOCATION/index.pl
 # 
 OTRS_HTTP_LOCATION="otrs"
 # 
 # program name
 # 
-PROG="OpenTRS"
+PROG="OTRS"
 
 # reset status of this service
 rc_reset

@@ -2,7 +2,7 @@
 # Kernel/Config/Notification.pm - Notification config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.1 2002-08-27 23:39:15 martin Exp $
+# $Id: Notification.pm,v 1.2 2002-09-01 13:04:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Notification;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -28,7 +28,7 @@ sub LoadNotification {
     # --  
     # notification sender
     # --
-    $Self->{NotificationSenderName} = 'OpenTRS Notification Master';
+    $Self->{NotificationSenderName} = 'OTRS Notification Master';
     $Self->{NotificationSenderEmail} = 'otrs@'.$Self->{FQDN};
     # --
     # new ticket in queue
@@ -45,7 +45,7 @@ there is a new ticket in '<OTRS_QUEUE>'!
 
 http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
-Your OpenTRS Notification Master
+Your OTRS Notification Master
 
 ";
     # --
@@ -63,7 +63,7 @@ you got a follow up!
 
 http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
-Your OpenTRS Notification Master
+Your OTRS Notification Master
 
 ";
     # --
@@ -77,7 +77,7 @@ unlocked your locked ticket [<OTRS_TICKET_NUMBER>].
 
 http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
-Your OpenTRS Notification Master
+Your OTRS Notification Master
 
 ";
 

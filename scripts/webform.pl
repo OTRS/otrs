@@ -1,10 +1,10 @@
 #!/usr/bin/perl -w
 # --
 # webform.pl - a simple web form script to generate email with
-# X-OTRS-Queue header for an OpenTRS system (x-headers for dispatching!).
+# X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: webform.pl,v 1.1 2002-07-08 20:54:09 martin Exp $
+# $Id: webform.pl,v 1.2 2002-09-01 13:03:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = '$Revision: 1.1 $';
+my $VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 
@@ -38,10 +38,10 @@ my $Ident = 'ahfiw2Fw32r230dddl2foeo3r';
 # sendmail location and options
 my $Sendmail = '/usr/sbin/sendmail -t -i -f ';
 # email where the emails of the form will send to
-my $OpenTRSEmail = 'otrs-system@example.com';
+my $OTRSEmail = 'otrs-system@example.com';
 # topics and dest. queues
 my %Topics = (
-    # topic => OpenTRS queue
+    # topic => OTRS queue
     'Info' => 'info',
     'Support' => 'support',
     'Bugs' => 'bugs',
@@ -197,7 +197,7 @@ sub SendMail {
     # build email
     # --
     my @Mail = ("From: $Param{From} <$Param{FromEmail}>\n");
-    push @Mail, "To: $Param{Topic} <$OpenTRSEmail>\n";
+    push @Mail, "To: $Param{Topic} <$OTRSEmail>\n";
     push @Mail, "Subject: $Param{Subject}\n";
     push @Mail, "X-OTRS-Ident: $Ident\n";
     push @Mail, "X-OTRS-Queue: $Param{Topic}\n";
@@ -205,8 +205,8 @@ sub SendMail {
     push @Mail, "X-OTRS-ArticleValue1: Webform\n";
     push @Mail, "X-OTRS-ArticleKey2: Orig. sort\n";
     push @Mail, "X-OTRS-ArticleValue2: $Param{Topic}\n";
-    push @Mail, "X-Mailer: OpenTRS WebForm ($VERSION)\n";
-    push @Mail, "X-Powered-By: OpenTRS (http://otrs.org/)\n";
+    push @Mail, "X-Mailer: OTRS WebForm ($VERSION)\n";
+    push @Mail, "X-Powered-By: OTRS (http://otrs.org/)\n";
     push @Mail, "\n";
     push @Mail, $Param{Body};
     push @Mail, "\n";

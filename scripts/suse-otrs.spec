@@ -1,8 +1,8 @@
 # --
-# RPM spec file for SuSE Linux of the OpenTRS package
+# RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.16 2002-08-20 14:31:37 stefan Exp $
+# $Id: suse-otrs.spec,v 1.17 2002-09-01 13:03:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -112,7 +112,7 @@ ln -s ../../etc/init.d/otrs $RPM_BUILD_ROOT/usr/sbin/rcotrs
 %post
 # useradd
 export OTRSUSER=otrs
-echo -n "Check OpenTRS user (/etc/passwd)... " 
+echo -n "Check OTRS user (/etc/passwd)... " 
 if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
     echo "$OTRSUSER exists."
 else
@@ -144,16 +144,16 @@ echo ""
 echo "[start Apache and MySQL]"
 echo " Execute 'rcapache start' and 'rcmysql start' in case they don't run."
 echo ""
-echo "[install the OpenTRS database]"
+echo "[install the OTRS database]"
 echo " Use a webbrowser and open this link:"
 echo " http://localhost/otrs/installer.pl"
 echo ""
-echo "[OpenTRS services]"
-echo " Start OpenTRS 'rcotrs start-force' (rcotrs {start|stop|status|restart|start-force|stop-force})."
+echo "[OTRS services]"
+echo " Start OTRS 'rcotrs start-force' (rcotrs {start|stop|status|restart|start-force|stop-force})."
 echo ""
 echo "Have fun!"
 echo ""
-echo " Your OpenTRS Team"
+echo " Your OTRS Team"
 echo " http://otrs.org/"
 echo ""
 

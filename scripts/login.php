@@ -59,7 +59,7 @@ function submit_login()
 
 <table align="center" border="0" width="260" cellspacing="4" cellpadding="2">
 <tr>
-  <td align="center" colspan="2">Welcome to OpenTRS</td>
+  <td align="center" colspan="2">Welcome to OTRS</td>
 </tr>
 <?
     //

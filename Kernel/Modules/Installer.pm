@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.11 2002-08-21 15:32:03 stefan Exp $
+# $Id: Installer.pm,v 1.12 2002-09-01 13:05:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -65,9 +65,9 @@ sub Run {
         $DB{Type} = $Self->{ParamObject}->GetParam(Param => 'DBType') || '';
         $DB{Database} = $Self->{ParamObject}->GetParam(Param => 'DBName') || ''; 
         $DB{DBAction} = $Self->{ParamObject}->GetParam(Param => 'DBAction') || '';
-        $DB{DatabaseUser} = $Self->{ParamObject}->GetParam(Param => 'OpenTRSDBUser') || '';
-        $DB{DatabasePw} = $Self->{ParamObject}->GetParam(Param => 'OpenTRSDBPassword') || '';
-        $DB{NewHost} = $Self->{ParamObject}->GetParam(Param => 'OpenTRSDBConnectHost') || '';
+        $DB{DatabaseUser} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBUser') || '';
+        $DB{DatabasePw} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBPassword') || '';
+        $DB{NewHost} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBConnectHost') || '';
         # check params
         foreach (keys %DB) {
             if (!$DB{$_} && $_ ne 'Password') {
@@ -168,10 +168,10 @@ sub Run {
 
             }
             else {
-                $SetupOutput .= "<br>To be able to use OpenTRS you have to enter the following two lines in your command line (Terminal/Shell):<br>"; 
+                $SetupOutput .= "<br>To be able to use OTRS you have to enter the following two lines in your command line (Terminal/Shell):<br>"; 
                 $SetupOutput .= "<b><font color='red'>/opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS otrs wwwrun<br>";
                 $SetupOutput .= "rcotrs restart-force</font></b><br>";
-                $SetupOutput .= "<br>After doing so your OpenTRS is up and running.";
+                $SetupOutput .= "<br>After doing so your OTRS is up and running.";
             }
 
             $Output .= $Self->{LayoutObject}->InstallerFinish(Ready => 1, Setup => $SetupOutput, %DB);

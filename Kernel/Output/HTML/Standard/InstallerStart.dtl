@@ -2,7 +2,7 @@
 # InstallerStart.dtl - provides HTML form for Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerStart.dtl,v 1.4 2002-08-21 15:32:04 stefan Exp $
+# $Id: InstallerStart.dtl,v 1.5 2002-09-01 13:05:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,16 +37,16 @@
    </td>
   </tr>
   <tr>
-    <td>OpenTRS DB Name:</td><td><input type="text" name="DBName" value="$Config{"Database"}"></td>
+    <td>OTRS DB Name:</td><td><input type="text" name="DBName" value="$Config{"Database"}"></td>
   </tr>
   <tr>
-    <td>OpenTRS DB User:</td><td><input type="text" name="OpenTRSDBUser" value="$Config{"DatabaseUser"}"></td>
+    <td>OTRS DB User:</td><td><input type="text" name="OTRSDBUser" value="$Config{"DatabaseUser"}"></td>
   </tr>
   <tr>
-    <td>OpenTRS DB Password:</td><td><input type="password" name="OpenTRSDBPassword" value="hot"> <font color="red">(default 'hot')</font></td>
+    <td>OTRS DB Password:</td><td><input type="password" name="OTRSDBPassword" value="hot"> <font color="red">(default 'hot')</font></td>
   </tr>
   <tr>
-    <td>OpenTRS DB connect host:</td><td><input type="text" name="OpenTRSDBConnectHost" value="localhost"></td>
+    <td>OTRS DB connect host:</td><td><input type="text" name="OTRSDBConnectHost" value="localhost"></td>
   </tr>
 
   <tr>

@@ -74,7 +74,7 @@ if ! test -r $OTRS_CHECKDB; then
 fi
  
 
-prog="OpenTRS"
+prog="OTRS"
 # 
 # main part
 # 
@@ -183,7 +183,7 @@ case "$1" in
     # stop
     # ------------------------------------------------------
     stop)
-      echo "Shutting down OpenTRS "
+      echo "Shutting down OTRS "
 
       # --
       # disable PostMaster.pl
