@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.1 2004-12-28 01:19:36 martin Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.2 2005-01-07 22:27:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesCustomQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,18 +83,27 @@ sub Run {
     $Self->{DBObject}->Do(
         SQL => "DELETE FROM personal_queues WHERE user_id = $Param{UserData}->{UserID}",
     );
-
+    # get ro groups of agent
+    my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+        UserID => $Param{UserData}->{UserID},
+        Type => 'ro',
+        Result => 'HASH',
+    );
     # add new custom queues
     foreach my $Key (keys %{$Param{GetParam}}) {
         my @Array = @{$Param{GetParam}->{$Key}};
         foreach my $ID (@Array) {
-            # db quote
-            $ID = $Self->{DBObject}->Quote($ID);
-
-            $Self->{DBObject}->Do(
-                SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
-                " VALUES ($ID, $Param{UserData}->{UserID})",
-            );
+            # get group of queue
+            my %Queue = $Self->{QueueObject}->QueueGet(ID => $ID);
+            # check permissions
+            if ($GroupMember{$Queue{GroupID}}) {
+                # db quote
+                $ID = $Self->{DBObject}->Quote($ID);
+                $Self->{DBObject}->Do(
+                    SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
+                      " VALUES ($ID, $Param{UserData}->{UserID})",
+                );
+            }
         }
     }
     $Self->{Message} = 'Preferences updated successfully!';
