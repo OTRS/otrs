@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.41 2002-08-01 02:42:51 martin Exp $
+# $Id: Generic.pm,v 1.42 2002-08-03 11:48:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -74,7 +74,16 @@ sub new {
     $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
-    $Self->{Baselink}  = "$Self->{CGIHandle}?SessionID=$Self->{SessionID}";
+    # --
+    # Check if the brwoser sends the SessionID cookie! 
+    # If yes, don't add the SessinID to the links
+    # --
+    if ($Self->{SessionIDCookie}) {
+        $Self->{Baselink}  = "$Self->{CGIHandle}?";
+    } 
+    else {
+        $Self->{Baselink}  = "$Self->{CGIHandle}?SessionID=$Self->{SessionID}";
+    } 
     $Self->{Time}      = localtime();
     $Self->{HistoryCounter} = 0;
     $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
@@ -172,8 +181,9 @@ sub Output {
         DataRef => $DataRef, 
         ConfigRef => $Self->{ConfigObject},
     };
-  
-    # read template
+    # -- 
+    # read template from filesystem
+    # --
     my $Output = '';
     open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
          ||  die "Can't read $Param{TemplateFile}.dtl: $!";
@@ -298,12 +308,21 @@ sub Output {
 sub Redirect {
     my $Self = shift;
     my %Param = @_;
-    my $ReUrl = $Self->{Baselink} . $Param{OP};
-    (my $Output = <<EOF);
-Content-Type: text/html
-location: $ReUrl
-
-EOF
+    my $SessionIDCookie = '';
+    my $Output = '';
+    # --
+    # add cookies if exists
+    # --
+    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
+        foreach (keys %{$Self->{SetCookies}}) {
+            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+        }
+    }
+    # --
+    # create & return output
+    # --
+    $Param{Redirect} = $Self->{Baselink} . $Param{OP};
+    $Output .= $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
     return $Output;
 }
 # --
@@ -318,12 +337,24 @@ sub Test {
 sub Login {
     my $Self = shift;
     my %Param = @_;
-
+    my $Output = '';
+    # --
+    # add cookies if exists
+    # --
+    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
+        foreach (keys %{$Self->{SetCookies}}) {
+            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+        }
+    }
+    # --
     # get message of the day
+    # --
     $Param{"Motd"} = $Self->Output(TemplateFile => 'Motd', Data => \%Param);
-
+    # --
     # create & return output
-    return $Self->Output(TemplateFile => 'Login', Data => \%Param);
+    # --
+    $Output .= $Self->Output(TemplateFile => 'Login', Data => \%Param);
+    return $Output;
 }
 # --
 sub Error {
@@ -351,9 +382,20 @@ sub Error {
 sub Header {
     my $Self = shift;
     my %Param = @_;
-
+    my $Output = '';
+    # --
+    # add cookies if exists
+    # --
+    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
+        foreach (keys %{$Self->{SetCookies}}) {
+            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+        }
+    }
+    # --
     # create & return output
-    return $Self->Output(TemplateFile => 'Header', Data => \%Param);
+    # --
+    $Output .= $Self->Output(TemplateFile => 'Header', Data => \%Param);
+    return $Output;
 }
 # --
 sub Footer {
@@ -635,23 +677,36 @@ sub GetRelease {
     my $Self = shift;
     my %Param = @_;
     # --
+    # chekc if this is already done
+    # --
+    if ($Self->{ReleaseHash}) {
+        return %{$Self->{ReleaseHash}};
+    }
+    # --
     # open release data file
     # --
+    my %Release = ();
     open (PRODUCT, "< ../../RELEASE") || print STDERR "Can't read ../../RELEASE: $!";
     while (<PRODUCT>) {
       # filtering of comment lines
       if ($_ !~ /^#/) {
         if ($_ =~ /^PRODUCT.=(.*)$/i) {
-            $Param{Product} = $1;
+            $Release{Product} = $1;
         }
         elsif ($_ =~ /^VERSION.=(.*)$/i) {
-            $Param{Version} = $1;
+            $Release{Version} = $1;
         }
       }
     }
     close (PRODUCT);
+    # --
+    # store data
+    # --
+    $Self->{ReleaseHash} = \%Release;
+    # --
     # return data
-    return %Param;
+    # --
+    return %Release;
 }
 # --
 

@@ -2,7 +2,7 @@
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.3 2002-07-15 22:21:28 martin Exp $
+# $Id: WebRequest.pm,v 1.4 2002-08-03 11:53:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.3 $ ';
+$VERSION = '$Revision: 1.4 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -48,6 +48,22 @@ sub GetArray {
     my %Param = @_;
     my @Value = $Self->{Query}->param($Param{Param});
     return @Value;
+}
+# --
+sub SetCookie {
+    my $Self = shift;
+    my %Param = @_;
+    return $Self->{Query}->cookie( 
+        -name=> $Param{Key},
+        -value=> $Param{Value},
+        -expires=> $Param{Expires},
+    );
+}
+# --
+sub GetCookie {
+    my $Self = shift;
+    my %Param = @_;
+    return $Self->{Query}->cookie($Param{Key}) || '';
 }
 # --
 
