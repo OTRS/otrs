@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPlain.pm - to get a plain view
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.20 2004-11-16 17:28:58 martin Exp $
+# $Id: AgentPlain.pm,v 1.21 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,13 +48,10 @@ sub Run {
     # check needed stuff
     # --
     if (!$Self->{ArticleID}) {
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => "No ArticleID!",
             Comment => 'Please contact your admin'
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # --
     # check permissions
@@ -77,6 +74,7 @@ sub Run {
                 Filename => "TicketID-$Self->{TicketID}-ArticleID-$Self->{ArticleID}.eml",
                 ContentType => 'text/plain',
                 Content => $Text,
+                Type => 'attachment',
            );
         }
         else {
@@ -94,7 +92,7 @@ sub Run {
             $Text =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
             $Text =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
 
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => "Plain Article");
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => "Plain Article");
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentPlain',

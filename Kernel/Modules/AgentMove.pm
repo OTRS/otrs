@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.40 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentMove.pm,v 1.41 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -97,7 +97,7 @@ sub Run {
     }
     # move queue
     if (!$Self->{DestQueueID} || $Self->{ExpandQueueUsers}) {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Move Ticket');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Move Ticket');
         # get lock state && write (lock) permissions
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             # set owner
@@ -178,12 +178,24 @@ sub Run {
           TicketID => $Self->{TicketID},
       ) ) {
         # set state
-        if ($Self->{ConfigObject}->{MoveSetState} && $Self->{NewStateID}) {
+        if ($Self->{ConfigObject}->Get('Ticket::AgentMoveSetState') && $Self->{NewStateID}) {
             $Self->{TicketObject}->StateSet(
                 TicketID => $Self->{TicketID},
                 StateID => $Self->{NewStateID},
                 UserID => $Self->{UserID},
             );
+            # unlock the ticket after close
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $Self->{NewStateID},
+            );
+            # set unlock on close
+            if ($StateData{TypeName} =~ /^close/i) {
+                $Self->{TicketObject}->LockSet(
+                    TicketID => $Self->{TicketID},
+                    Lock => 'unlock',
+                    UserID => $Self->{UserID},
+                );
+            }
         }
         # new owner!
         my $UserSelection = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
@@ -302,6 +314,13 @@ sub AgentMove {
     if ($LatestQueueID && $MoveQueues{$LatestQueueID}) {
         $Param{LatestQueue} = '$Text{"Latest Queue!"} "'.$MoveQueues{$LatestQueueID}.'"';
     }
+    # set state
+    if ($Self->{ConfigObject}->Get('Ticket::AgentMoveSetState')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'State',
+            Data => { %Param },
+        );
+    }
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Data => { %MoveQueues, '' => '-' },
             Multiple => 0,
@@ -341,7 +360,7 @@ sub _GetUsers {
     }
     $ShownUsers{''} = '-';
     # show all system users
-    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+    if ($Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone')) {
         %ShownUsers = %AllGroupsMembers;
     }
     # show all users who are rw in the queue group

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.81 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentCompose.pm,v 1.82 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.81 $';
+$VERSION = '$Revision: 1.82 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub new {
        }
     }
     # get response format
-    $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('ResponseFormat') ||
+    $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat') ||
       '$Data{"Salutation"}
 $Data{"OrigFrom"} $Text{"wrote"}:
 $Data{"Body"}
@@ -103,7 +103,7 @@ sub Form {
     my %Error = ();
     my %GetParam = %{$Self->{GetParam}};
     # start with page ...
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose');
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Compose');
     # check needed stuff
     if (!$Self->{TicketID}) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -113,7 +113,7 @@ sub Form {
     }
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-    if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
+    if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
         # redirect
         return $Self->{LayoutObject}->Redirect(
             OP => "Action=AgentCustomerFollowUp&TicketID=$Self->{TicketID}",
@@ -317,28 +317,15 @@ sub Form {
         ID => $GetParam{ResponseID},
     );
     # run compose modules
-    if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')};
+    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
         foreach my $Job (sort keys %Jobs) {
-                # log try of load module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                    );
-                }
-                if (eval "require $Jobs{$Job}->{Module}") {
+                # load module
+                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                     my $Object = $Jobs{$Job}->{Module}->new(
                         %{$Self},
                         Debug => $Self->{Debug},
                     );
-                    # log loaded module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                        );
-                    }
                     # get params
                     foreach ($Object->Option(%Data, %GetParam, Config => $Jobs{$Job})) {
                         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
@@ -349,10 +336,7 @@ sub Form {
                     %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
                 }
                 else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't load module $Jobs{$Job}->{Module}!",
-                    );
+                    return $Self->{LayoutObject}->FatalError();
                 }
         }
     }
@@ -460,7 +444,7 @@ sub SendEmail {
     );
     # rewrap body if exists
     if ($GetParam{Body}) {
-        my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
+        my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeTicketNewLine') || 75;
         $GetParam{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
     }
     # prepare free text
@@ -492,28 +476,15 @@ sub SendEmail {
 
     my %ArticleParam = ();
         # run compose modules
-        if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
-            my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')};
+        if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
+            my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
             foreach my $Job (sort keys %Jobs) {
-                # log try of load module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                    );
-                }
-                if (eval "require $Jobs{$Job}->{Module}") {
+                # load module
+                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                     my $Object = $Jobs{$Job}->{Module}->new(
                         %{$Self},
                         Debug => $Self->{Debug},
                     );
-                    # log loaded module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                        );
-                    }
                     # get params
                     foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
                         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
@@ -526,10 +497,7 @@ sub SendEmail {
                     %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
                 }
                 else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't load module $Jobs{$Job}->{Module}!",
-                    );
+                    return $Self->{LayoutObject}->FatalError();
                 }
             }
         }
@@ -538,7 +506,7 @@ sub SendEmail {
     # --
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Compose');
         $GetParam{StdResponse} = $GetParam{Body};
         $Output .= $Self->_Mask(
             TicketNumber => $Tn,
@@ -697,12 +665,6 @@ sub _Mask {
       }
       $Param{'StdAttachmentsStrg'} .= "</select>\n";
     }
-    # create FromHTML (to show)
-    $Param{FromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{From}, Max => 70);
-    # do html quoting
-    foreach (qw(ReplyTo From To Cc Bcc Subject Body)) {
-        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
-    }
     # prepare errors!
     if ($Param{Errors}) {
         foreach (keys %{$Param{Errors}}) {
@@ -713,10 +675,10 @@ sub _Mask {
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
         Format => 'DateInputFormatLong',
-        DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
+        DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
     # show time accounting box
-    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnitsJs',
             Data => \%Param,

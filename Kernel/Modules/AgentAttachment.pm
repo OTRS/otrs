@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentAttachment.pm - to get the attachments
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.16 2004-07-16 22:56:23 martin Exp $
+# $Id: AgentAttachment.pm,v 1.17 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -128,11 +128,11 @@ sub Run {
                 # remove tmp file
                 unlink ($TmpFile);
                 # return new page
-                return $Self->{LayoutObject}->Attachment(%Data, ContentType => 'text/html', Content => $Content);
+                return $Self->{LayoutObject}->Attachment(%Data, ContentType => 'text/html', Content => $Content, Type => 'inline');
             }
             # download it
             else {
-                return $Self->{LayoutObject}->Attachment(%Data, Type => $Self->{ConfigObject}->Get('Agent::DownloadType') || 'attachment');
+                return $Self->{LayoutObject}->Attachment(%Data);
             }
         }
         else {

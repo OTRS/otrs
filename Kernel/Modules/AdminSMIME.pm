@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.7 2004-12-02 09:29:53 martin Exp $
+# $Id: AdminSMIME.pm,v 1.8 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -217,6 +217,7 @@ sub Run {
             ContentType => 'text/plain',
             Content => $Attributes{Fingerprint},
             Filename => "$Hash.txt"
+            Type => 'inline',
         );
     }
     # download key
@@ -245,6 +246,7 @@ sub Run {
             ContentType => 'text/plain',
             Content => $Download,
             Filename => "$Hash.pem"
+            Type => 'attachment',
         );
     }
     # search key

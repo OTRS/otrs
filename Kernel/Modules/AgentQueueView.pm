@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.70 2005-02-10 20:37:27 martin Exp $
+# $Id: AgentQueueView.pm,v 1.71 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,9 +47,9 @@ sub new {
     # --
     # get config data
     # --
-    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
-           || die 'No Config entry "ViewableSenderTypes"!';
-    $Self->{CustomQueue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
+    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
+           || die 'No Config entry "Ticket::ViewableSenderTypes"!';
+    $Self->{CustomQueue} = $Self->{ConfigObject}->Get('Ticket::CustomQueue') || '???';
     # default viewable tickets a page
     $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 15;
 
@@ -61,7 +61,7 @@ sub new {
     # viewable tickets a page
     $Self->{Limit} =  $Self->{ViewableTickets} + $Self->{Start} - 1;
     # sure is sure!
-    $Self->{MaxLimit} = $Self->{ConfigObject}->Get('MaxLimit') || 1200;
+    $Self->{MaxLimit} = $Self->{ConfigObject}->Get('Ticket::AgentQueueViewMaxShown') || 1200;
     if ($Self->{Limit} > $Self->{MaxLimit}) {
         $Self->{Limit} = $Self->{MaxLimit};
     }
@@ -103,7 +103,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->Header(
-        Area => 'Agent',
+        Area => 'Ticket',
         Title => 'QueueView',
         Refresh => $Refresh,
     );
@@ -114,7 +114,7 @@ sub Run {
     # --
     # check old tickets, show it and return if needed
     # --
-    my $NoEscalationGroup = $Self->{ConfigObject}->Get('AgentNoEscalationGroup') || '';
+    my $NoEscalationGroup = $Self->{ConfigObject}->Get('Ticket::AgentNoEscalationGroup') || '';
     if ($Self->{UserID} eq '1' ||
         ($Self->{"UserIsGroup[$NoEscalationGroup]"} && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes')) {
         # do not show escalated tickets
@@ -147,7 +147,7 @@ sub Run {
     print $Self->BuildQueueView(QueueIDs => \@ViewableQueueIDs);
     # get user groups
     my $Type = 'rw';
-    if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
+    if ($Self->{ConfigObject}->Get('Ticket::QueueViewAllPossibleTickets')) {
         $Type = 'ro';
     }
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -160,17 +160,17 @@ sub Run {
     # get data (viewable tickets...)
     # --
     my @ViewableTickets = ();
-    my $Order = $Self->{ConfigObject}->Get('AgentQueueSortDefault') || 'ASC';
+    my $Order = $Self->{ConfigObject}->Get('Ticket::AgentQueueSortDefault') || 'ASC';
     if (@ViewableQueueIDs && @GroupIDs) {
         # if we have only one queue, check if there
         # is a setting in Config.pm for sorting
         if ($#ViewableQueueIDs == 0) {
             my $QueueID = $ViewableQueueIDs[0];
-            if ($Self->{ConfigObject}->Get('AgentQueueSort') && $Self->{ConfigObject}->Get('AgentQueueSort')->{$QueueID}) {
+            if ($Self->{ConfigObject}->Get('Ticket::AgentQueueSort') && $Self->{ConfigObject}->Get('Ticket::AgentQueueSort')->{$QueueID}) {
                 $Order = 'DESC';
             }
         }
-        # build query 
+        # build query
         my $SQL = "SELECT st.id, st.queue_id FROM ".
           " ticket st, queue sq ".
           " WHERE ".
@@ -227,17 +227,11 @@ sub ShowTicket {
     # get last article
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
     # run article modules
-    if (ref($Self->{ConfigObject}->Get('Frontend::ArticlePreViewModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticlePreViewModule')};
+    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule')};
         foreach my $Job (sort keys %Jobs) {
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                    );
-            }
-            if (eval "require $Jobs{$Job}->{Module}") {
+            # load module
+            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                 my $Object = $Jobs{$Job}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
                     LogObject => $Self->{LogObject},
@@ -248,13 +242,6 @@ sub ShowTicket {
                     UserID => $Self->{UserID},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                    );
-                }
                 # run module
                 my @Data = $Object->Check(Article=> \%Article, %Param, Config => $Jobs{$Job});
                 foreach my $DataRef (@Data) {
@@ -267,10 +254,7 @@ sub ShowTicket {
                 $Object->Filter(Article=> \%Article, %Param, Config => $Jobs{$Job});
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Jobs{$Job}->{Module}!",
-                );
+                return $Self->{LayoutObject}->FatalError();
             }
         }
     }
@@ -280,7 +264,7 @@ sub ShowTicket {
     # customer info
     # --
     my %CustomerData = ();
-    if ($Self->{ConfigObject}->Get('ShowCustomerInfoQueue')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue')) {
         if ($Article{CustomerUserID}) {
             %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $Article{CustomerUserID},
@@ -345,11 +329,17 @@ sub ShowTicket {
         $Article{TicketOverTime} = '$Text{"none"}';
     }
     # customer info string
-    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-        Data => \%CustomerData,
-        Type => 'Lite',
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
-    );
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue')) {
+        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data => \%CustomerData,
+            Type => 'Lite',
+            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueueMaxSize'),
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerTable',
+            Data => \%Param,
+        );
+    }
     # get StdResponsesStrg
     $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
         StdResponsesRef => \%StdResponses,
@@ -368,7 +358,7 @@ sub ShowTicket {
         $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Article{Body},
-            VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
+            VMax => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
             HTMLResultMode => 1,
         );
         # do link quoting
@@ -383,7 +373,7 @@ sub ShowTicket {
         }
     }
     # get MoveQueuesStrg
-    if ($Self->{ConfigObject}->Get('MoveType') =~ /^form$/i) {
+    if ($Self->{ConfigObject}->Get('Ticket::AgentMoveType') =~ /^form$/i) {
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => \%MoveQueues,
@@ -400,8 +390,33 @@ sub ShowTicket {
         UserID => $Self->{UserID},
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    # run ticket pre menu modules
+    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
+        my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
+        my $Counter = 0;
+        foreach my $Menu (sort keys %Menus) {
+            # load module
+            if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
+                my $Object = $Menus{$Menu}->{Module}->new(
+                    %{$Self},
+                    TicketID => $Self->{TicketID},
+                );
+                # run module
+                $Counter = $Object->Run(
+                    %Param,
+                    Ticket => \%Article,
+                    Counter => $Counter,
+                    ACL => \%AclAction,
+                    Config => $Menus{$Menu},
+                );
+            }
+            else {
+                return $Self->{LayoutObject}->FatalError();
+            }
+        }
+    }
     # create output
-    if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+    if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
         $Self->{LayoutObject}->Block(
             Name => 'AgentIsCustomer',
             Data => {%Param, %Article, %AclAction},
@@ -411,6 +426,13 @@ sub ShowTicket {
         $Self->{LayoutObject}->Block(
             Name => 'AgentAnswer',
             Data => {%Param, %Article, %AclAction},
+        );
+    }
+    # ticket bulk block
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')) {
+        $Self->{LayoutObject}->Block(
+            Name => "Bulk",
+            Data => { %Param, %Article },
         );
     }
     # create & return output
@@ -482,7 +504,7 @@ sub _MaskQueueView {
     $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
-    my $CustomQueue = $Self->{ConfigObject}->Get('CustomQueue');
+    my $CustomQueue = $Self->{ConfigObject}->Get('Ticket::CustomQueue');
     $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Get($CustomQueue);
 
     $Param{SelectedQueue} = $AllQueues{$QueueID} || $CustomQueue;

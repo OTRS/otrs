@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGP.pm,v 1.6 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminPGP.pm,v 1.7 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -175,6 +175,7 @@ sub Run {
             ContentType => 'text/plain',
             Content => $KeyString,
             Filename => "$Key.asc"
+            Type => 'inline',
         );
     }
     # download key
@@ -206,6 +207,7 @@ sub Run {
             ContentType => 'text/plain',
             Content => $Download,
             Filename => "$Key.txt"
+            Type => 'inline',
         );
     }
     # search key

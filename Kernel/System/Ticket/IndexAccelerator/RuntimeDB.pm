@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.25 2005-02-10 20:37:26 martin Exp $
+# $Id: RuntimeDB.pm,v 1.26 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -50,7 +50,7 @@ sub TicketAcceleratorIndex {
     }
     # get user groups
     my $Type = 'rw';
-    if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
+    if ($Self->{ConfigObject}->Get('Ticket::QueueViewAllPossibleTickets')) {
         $Type = 'ro';
     }
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -201,30 +201,45 @@ sub GetLockedCount {
               " ts.type_id = tst.id " .
               " ORDER BY ar.create_time DESC",
     );
+    my %TicketIDs = ();
     my %Data = ();
     $Data{'Reminder'} = 0;
     $Data{'Pending'} = 0;
     $Data{'All'} = 0;
     $Data{'New'} = 0;
-    $Data{'Open'} = 0;
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        if (!$Param{"ID$RowTmp[2]"}) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        if (!$Param{"ID$Row[2]"}) {
           $Data{'All'}++;
           # put all tickets to ToDo where last sender type is customer or ! UserID
-          if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
+          if ($Row[3] ne $Param{UserID} || $Row[1] eq 'customer') {
               $Data{'New'}++;
           }
-          if ($RowTmp[5] && $RowTmp[7] =~ /^pending/i) {
+          if ($Row[5] && $Row[7] =~ /^pending/i) {
               $Data{'Pending'}++;
-              if ($RowTmp[7] !~ /^pending auto/i && $RowTmp[5] <= $Self->{TimeObject}->SystemTime()) {
+              if ($Row[7] !~ /^pending auto/i && $Row[5] <= $Self->{TimeObject}->SystemTime()) {
                   $Data{'Reminder'}++;
               }
           }
         }
-        $Param{"ID$RowTmp[2]"} = 1;
-        $Data{"MaxAge"} = $RowTmp[4];
+        $Param{"ID$Row[2]"} = 1;
+        $Data{"MaxAge"} = $Row[4];
+        $TicketIDs{$Row[2]} = 1;
     }
-    $Data{'Open'} = $Data{'All'} - $Data{'Pending'};
+    # show just unseen tickets as new
+    if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
+        # reset new message count
+        $Data{'New'} = 0;
+        foreach my $TicketID (keys %TicketIDs) {
+            my %Article = $Self->ArticleLastCustomerArticle(TicketID => $TicketID);
+            my %Flag = $Self->ArticleFlagGet(
+                ArticleID => $Article{ArticleID},
+                UserID => $Param{UserID},
+            );
+            if (!$Flag{seen}) {
+                $Data{'New'}++;
+            }
+        }
+    }
     return %Data;
 }
 # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.106 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentPhone.pm,v 1.107 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.106 $';
+$VERSION = '$Revision: 1.107 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub Run {
 
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone-Ticket');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Phone-Ticket');
         # if there is no ticket id!
         if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -106,7 +106,7 @@ sub Run {
                     }
                 }
                 # show customer info
-                if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
+                if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
                   if ($Article{CustomerUserID}) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                          User => $Article{CustomerUserID},
@@ -166,8 +166,8 @@ sub Run {
               Users => $Self->_GetUsers(QueueID => $Self->{QueueID}),
               To => $Self->_GetTos(QueueID => $Self->{QueueID}),
               From => $Article{From},
-              Subject => $Article{Subject} || '$Config{"PhoneDefaultNewSubject"}',
-              Body => $Article{Body} || '$Text{"$Config{"PhoneDefaultNewNoteText"}"}',
+              Subject => $Article{Subject} || '$Config{"Ticket::Frontend::PhoneNewSubject"}',
+              Body => $Article{Body} || '$Text{"$Config{"Ticket::Frontend::PhoneNewNote"}"}',
               CustomerID => $Article{CustomerID},
               CustomerUser => $Article{CustomerUserID},
               CustomerData => \%CustomerData,
@@ -179,7 +179,7 @@ sub Run {
         # get ticket info if ticket id is given
         my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         # check it it's a agent-customer ticket
-        if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $TicketData{CustomerUserID} && $TicketData{CustomerUserID} eq $Self->{UserLogin}) {
+        if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $TicketData{CustomerUserID} && $TicketData{CustomerUserID} eq $Self->{UserLogin}) {
             # redirect for agent follow up screen
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=AgentCustomerFollowUp&TicketID=$Self->{TicketID}",
@@ -196,7 +196,7 @@ sub Run {
         # get ticket info
         my $Tn = $TicketData{TicketNumber};
         my %CustomerData = ();
-        if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
+        if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
             if ($TicketData{CustomerUserID}) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $TicketData{CustomerUserID},
@@ -262,8 +262,8 @@ sub Run {
             TicketNumber => $Tn,
             NextStates => $Self->_GetNextStates(TicketID => $Self->{TicketID}),
             CustomerData => \%CustomerData,
-            Subject => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('PhoneDefaultSubject')) || '',
-            Body => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('PhoneDefaultNoteText')) || '',
+            Subject => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneSubject')) || '',
+            Body => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNote')) || '',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -283,7 +283,7 @@ sub Run {
         }
         # rewrap body if exists
         if ($GetParam{Body}) {
-            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
+            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
         # attachment delete
         foreach (1..10) {
@@ -335,7 +335,7 @@ sub Run {
             # get ticket info
             my $Tn = $TicketData{TicketNumber};
             my %CustomerData = ();
-            if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
                 if ($TicketData{CustomerUserID}) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                         User => $TicketData{CustomerUserID},
@@ -348,7 +348,7 @@ sub Run {
                 }
             }
             # header
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone-Ticket');
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Phone-Ticket');
             # print form ...
             $Output .= $Self->_MaskPhone(
                 TicketID => $Self->{TicketID},
@@ -365,15 +365,15 @@ sub Run {
         else {
           if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $Self->{TicketID},
-            ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('PhoneDefaultSenderType'),
+            ArticleType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneArticleType'),
+            SenderType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneSenderType'),
             From => $Self->{UserLogin},
             Subject => $GetParam{Subject},
             Body => $GetParam{Body},
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID},
-            HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultHistoryComment') || '%%',
+            HistoryType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneHistoryType'),
+            HistoryComment => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneHistoryComment') || '%%',
           )) {
             # time accounting
             if ($GetParam{TimeUnits}) {
@@ -442,10 +442,7 @@ sub Run {
         }
         else {
           # show error of creating article
-          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-          $Output .= $Self->{LayoutObject}->Error();
-          $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
+          return $Self->{LayoutObject}->ErrorScreen();
         }
       }
     }
@@ -514,7 +511,7 @@ sub Run {
         }
         # rewrap body if exists
         if ($GetParam{Body}) {
-            $Text =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
+            $Text =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
         # check pending date
         if ($StateData{TypeName} && $StateData{TypeName} =~ /^pending/i) {
@@ -650,7 +647,7 @@ sub Run {
         # show customer info
         # --
         my %CustomerData = ();
-        if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
+        if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
             if ($CustomerUser || $SelectedCustomerUser) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $CustomerUser || $SelectedCustomerUser,
@@ -683,7 +680,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone-Ticket');
+            $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Phone-Ticket');
             $Output .= $Self->{LayoutObject}->NavigationBar();
             # --
             # html output
@@ -743,7 +740,31 @@ sub Run {
                     UserID => $Self->{UserID},
                 );
                 my %AclAction = $Self->{TicketObject}->TicketAclActionData();
-
+                # run ticket menu modules
+                if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
+                    my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
+                    my $Counter = 0;
+                    foreach my $Menu (sort keys %Menus) {
+                        # load module
+                        if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
+                            my $Object = $Menus{$Menu}->{Module}->new(
+                                %{$Self},
+                                TicketID => $Self->{TicketID},
+                            );
+                            # run module
+                            $Counter = $Object->Run(
+                                %Param,
+                                Ticket => \%Article,
+                                Counter => $Counter,
+                                ACL => \%AclAction,
+                                Config => $Menus{$Menu},
+                            );
+                        }
+                        else {
+                            return $Self->{LayoutObject}->FatalError();
+                        }
+                    }
+                }
                 foreach (qw(From To Cc Subject)) {
                     if ($Article{$_}) {
                         $Self->{LayoutObject}->Block(
@@ -812,16 +833,16 @@ sub Run {
         if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             NoAgentNotify => $NoAgentNotify,
             TicketID => $TicketID,
-            ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultNewArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('PhoneDefaultNewSenderType'),
+            ArticleType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewArticleType'),
+            SenderType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewSenderType'),
             From => $From,
             To => $To,
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID},
-            HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryComment') || '%%',
+            HistoryType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewHistoryType'),
+            HistoryComment => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewHistoryComment') || '%%',
             AutoResponseType => 'auto reply',
             OrigHeader => {
               From => $From,
@@ -904,20 +925,14 @@ sub Run {
           );
       }
       else {
-          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-          $Output .= $Self->{LayoutObject}->Error();
-          $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
+          return $Self->{LayoutObject}->ErrorScreen();
       }
     }
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No Subaction!!',
             Comment => 'Please contact your admin',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
 }
 # --
@@ -961,7 +976,7 @@ sub _GetUsers {
         }
     }
     # show all system users
-    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+    if ($Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone')) {
         %ShownUsers = %AllGroupsMembers;
     }
     # show all users who are rw in the queue group
@@ -1000,13 +1015,13 @@ sub _GetTos {
     my %Param = @_;
     # check own selection
     my %NewTos = ();
-    if ($Self->{ConfigObject}->{PhoneViewOwnSelection}) {
-        %NewTos = %{$Self->{ConfigObject}->{PhoneViewOwnSelection}};
+    if ($Self->{ConfigObject}->{'Ticket::Frontend::NewQueueOwnSelection'}) {
+        %NewTos = %{$Self->{ConfigObject}->{'Ticket::Frontend::NewQueueOwnSelection'}};
     }
     else {
         # SelectionType Queue or SystemAddress?
         my %Tos = ();
-        if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
+        if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue') {
             %Tos = $Self->{TicketObject}->MoveList(
                 Type => 'create',
                 Action => $Self->{Action},
@@ -1037,10 +1052,10 @@ sub _GetTos {
         # build selection string
         foreach (keys %NewTos) {
             my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
-            my $Srting = $Self->{ConfigObject}->Get('PhoneViewSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
+            my $Srting = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
             $Srting =~ s/<Queue>/$QueueData{Name}/g;
             $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
-            if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') ne 'Queue') {
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue') {
                 my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $NewTos{$_});
                 $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
                 $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
@@ -1063,7 +1078,7 @@ sub _MaskPhone {
         $Selected{SelectedID} = $Param{NextStateID};
     }
     else {
-        $Selected{Selected} = $Self->{ConfigObject}->Get('PhoneDefaultNextState');
+        $Selected{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNextState');
     }
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
@@ -1071,15 +1086,21 @@ sub _MaskPhone {
         %Selected,
     );
     # customer info string
-    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-        Data => $Param{CustomerData},
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoComposeMaxSize'),
-    );
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
+        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data => $Param{CustomerData},
+            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerTable',
+            Data => \%Param,
+        );
+    }
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
         Format => 'DateInputFormatLong',
-        DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
+        DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
     # do html quoting
     foreach (qw(From To Cc)) {
@@ -1092,7 +1113,7 @@ sub _MaskPhone {
         }
     }
     # show time accounting box
-    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnitsJs',
             Data => \%Param,
@@ -1128,7 +1149,7 @@ sub _MaskPhoneNew {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
-        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('PhoneDefaultNewNextState'),
+        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewNextState'),
     );
     # build from string
     if ($Param{FromOptions} && %{$Param{FromOptions}}) {
@@ -1145,7 +1166,7 @@ sub _MaskPhoneNew {
              $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
         }
     }
-    if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue') {
         $Param{'ToStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
             Data => \%NewTo,
             Multiple => 0,
@@ -1165,17 +1186,23 @@ sub _MaskPhoneNew {
         );
     }
     # customer info string
-    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-        Data => $Param{CustomerData},
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoComposeMaxSize'),
-    );
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
+        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data => $Param{CustomerData},
+            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerTable',
+            Data => \%Param,
+        );
+    }
     # do html quoting
     foreach (qw(From To Cc)) {
         $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
     }
     # build priority string
     if (!$Param{PriorityID}) {
-        $Param{Priority} = $Self->{ConfigObject}->Get('PhoneDefaultPriority');
+        $Param{Priority} = $Self->{ConfigObject}->Get('Ticket::Frontend::PhonePriority');
     }
     $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{Priorities},
@@ -1187,7 +1214,7 @@ sub _MaskPhoneNew {
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
         Format => 'DateInputFormatLong',
-        DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
+        DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
     # prepare errors!
     if ($Param{Errors}) {
@@ -1195,8 +1222,15 @@ sub _MaskPhoneNew {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
     }
+    # show owner selection
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewOwnerSelection')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OwnerSelection',
+            Data => \%Param,
+        );
+    }
     # show time accounting box
-    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnitsJs',
             Data => \%Param,

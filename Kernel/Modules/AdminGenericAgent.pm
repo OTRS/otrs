@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.14 2005-02-10 11:58:53 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.15 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,6 @@ sub Run {
     # get confid data
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
     $Self->{SearchLimit} = $Self->{ConfigObject}->Get('SearchLimit') || 200;
-    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('SearchPageShown') || 40;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
     $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';
@@ -92,7 +91,7 @@ sub Run {
     # get signle params
     my %GetParam = ();
     foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
-      Agent ResultForm TimeSearchType
+      Agent TimeSearchType
       TicketCreateTimePointFormat TicketCreateTimePoint
       TicketCreateTimePointStart
       TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
@@ -153,13 +152,6 @@ sub Run {
     }
     elsif ($GetParam{TimeSearchType} eq 'TimeSlot') {
         $GetParam{'TimeSearchType::TimeSlot'} = 'checked';
-    }
-    # set result form env
-    if (!$GetParam{ResultForm}) {
-        $GetParam{ResultForm} = '';
-    }
-    if ($GetParam{ResultForm} eq 'Print' || $GetParam{ResultForm} eq 'CSV') {
-        $Self->{SearchPageShown} = $Self->{SearchLimit};
     }
     # show result site
     if ($Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate}) {

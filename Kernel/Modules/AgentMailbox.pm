@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.30 2004-11-04 11:16:34 martin Exp $
+# $Id: AgentMailbox.pm,v 1.31 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -37,7 +37,6 @@ sub new {
         die "Got no $_" if (!$Self->{$_});
     }
 
-    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
 
     return $Self;
@@ -79,7 +78,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     $Output .= $Self->{LayoutObject}->Header(
-        Area => 'Agent',
+        Area => 'Ticket',
         Title => 'Locked Tickets',
         Refresh => $Refresh,
     );
@@ -133,17 +132,31 @@ sub Run {
         my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
         my $Shown = 0;
         my $Message = '';
+        my $NewMessage = 0;
         # --
         # put all tickets to ToDo where last sender type is customer or ! UserID
         # --
-        if ($LastSenderID{$Article{TicketID}} ne $Self->{UserID} || 
-              $LastSenderType{$Article{TicketID}} eq 'customer') {
-            $Message = 'New message!';
+        # show just unseen tickets as new
+        if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
+            my %Flag = $Self->{TicketObject}->ArticleFlagGet(
+                ArticleID => $Article{ArticleID},
+                UserID => $Self->{UserID},
+            );
+            if (!$Flag{seen}) {
+                $NewMessage = 1;
+                $Message = 'New message!';
+            }
+        }
+        else {
+            if ($LastSenderID{$Article{TicketID}} ne $Self->{UserID} ||
+               $LastSenderType{$Article{TicketID}} eq 'customer') {
+                $NewMessage = 1;
+                $Message = 'New message!';
+            }
         }
         if ($Self->{Subaction} eq 'New') {
-            if ($LastSenderID{$Article{TicketID}} ne $Self->{UserID} ||
-               $LastSenderType{$Article{TicketID}} eq 'customer') { 
-                 $Shown = 1;
+            if ($NewMessage) {
+                $Shown = 1;
             }
         }
         elsif ($Self->{Subaction} eq 'Pending') {
@@ -195,6 +208,31 @@ sub MaskMailboxTicket {
         UserID => $Self->{UserID},
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    # run ticket pre menu modules
+    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
+        my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
+        my $Counter = 0;
+        foreach my $Menu (sort keys %Menus) {
+            # load module
+            if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
+                my $Object = $Menus{$Menu}->{Module}->new(
+                    %{$Self},
+                    TicketID => $Self->{TicketID},
+                );
+                # run module
+                $Counter = $Object->Run(
+                    %Param,
+                    Ticket => \%Param,
+                    Counter => $Counter,
+                    ACL => \%AclAction,
+                    Config => $Menus{$Menu},
+                );
+            }
+            else {
+                return $Self->{LayoutObject}->FatalError();
+            }
+        }
+    }
     # check if the pending ticket is Over Time
     if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
         $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover').' '.
@@ -215,6 +253,13 @@ sub MaskMailboxTicket {
     }
     # do some strips && quoting
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    # ticket bulk block
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')) {
+        $Self->{LayoutObject}->Block(
+            Name => "Bulk",
+            Data => { %Param },
+        );
+    }
     # create & return output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentMailboxTicket',

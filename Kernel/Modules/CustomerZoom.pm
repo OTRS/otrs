@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.29 2004-11-04 11:13:41 martin Exp $
+# $Id: CustomerZoom.pm,v 1.30 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -247,7 +247,7 @@ sub _Mask {
     if ($Param{"ShowHTMLeMail"}) {
         # generate output
         return $Self->{LayoutObject}->Attachment(
-            Filename => $Self->{ConfigObject}->Get('TicketHook')."-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
+            Filename => $Self->{ConfigObject}->Get('Ticket::Hook')."-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
             Type => 'inline',
             ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
             Content => $Article{Body},
@@ -266,9 +266,9 @@ sub _Mask {
         );
         # html quoting
         $Param{"Article::Text"} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+            NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
             Text => $Article{Body},
-            VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+            VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
         );
         # link quoting
         $Param{"Article::Text"} = $Self->{LayoutObject}->LinkQuote(Text => $Param{"Article::Text"});

@@ -1,8 +1,8 @@
 # --
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoIncrement.pm,v 1.12 2004-12-06 22:22:53 martin Exp $
+# $Id: AutoIncrement.pm,v 1.13 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,16 +19,16 @@ package Kernel::System::Ticket::Number::AutoIncrement;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
     my $Self = shift;
     my $JumpCounter = shift || 0;
     # get needed config options
-    my $CounterLog = $Self->{ConfigObject}->Get('CounterLog');
+    my $CounterLog = $Self->{ConfigObject}->Get('Ticket::CounterLog');
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
-    my $MinSize = $Self->{ConfigObject}->Get('TicketNumberGenerator::AutoIncrement::MinCounterSize') || 5;
+    my $MinSize = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize') || 5;
     # read count
     my $Count = 0;
     if (-f $CounterLog) {
@@ -98,9 +98,9 @@ sub GetTNByString {
     my $String = shift || return;
     # get needed config options
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    my $TicketHookDivider = $Self->{ConfigObject}->Get('TicketHookDivider');
-    my $MinSize = $Self->{ConfigObject}->Get('TicketNumberGenerator::AutoIncrement::MinCounterSize') || 5;
+    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+    my $MinSize = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize') || 5;
     my $MaxSize = $MinSize + 5;
     # check ticket number
     if ($String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{$MinSize,$MaxSize})/i) {

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.23 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentPriority.pm,v 1.24 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,13 +49,10 @@ sub Run {
     # check needed stuff
     if (!$Self->{TicketID}) {
         # error page
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => "No TicketID is given!",
             Comment => 'Please contact the admin.',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # check permissions
     if (!$Self->{TicketObject}->Permission(
@@ -100,7 +97,7 @@ sub Run {
     else {
         # print form
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Set Priority');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Priority');
         $Output .= $Self->{LayoutObject}->NavigationBar();
         # print change form
 	$Output .= $Self->MaskPriority(

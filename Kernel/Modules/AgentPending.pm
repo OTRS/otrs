@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.26 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentPending.pm,v 1.27 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -80,7 +80,7 @@ sub Run {
     }
     # rewrap body if exists
     if ($GetParam{Body}) {
-        $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
+        $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
     }
 
     if ($Self->{Subaction} eq 'Store') {
@@ -110,7 +110,7 @@ sub Run {
         # check errors
         if (%Error) {
             # html header
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Pending');
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Pending');
             # print form ...
             $Output .= $Self->_Mask(
                 TicketID => $Self->{TicketID},
@@ -165,7 +165,7 @@ sub Run {
     }
     else {
         # html header
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Pending');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Pending');
         # get lock state
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             $Self->{TicketObject}->LockSet(
@@ -212,11 +212,11 @@ sub Run {
         }
 
         # fillup vars
-        if (!defined($GetParam{Body}) && $Self->{ConfigObject}->Get('DefaultPendingNoteText')) {
-            $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultPendingNoteText'));
+        if (!defined($GetParam{Body}) && $Self->{ConfigObject}->Get('Ticket::Frontend::PendingText')) {
+            $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingText'));
         }
-        if (!defined($GetParam{Subject}) && $Self->{ConfigObject}->Get('DefaultPendingNoteSubject')) {
-            $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultPendingNoteSubject'));
+        if (!defined($GetParam{Subject}) && $Self->{ConfigObject}->Get('Ticket::Frontend::PendingSubject')) {
+            $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingSubject'));
         }
         # print form ...
         $Output .= $Self->_Mask(
@@ -245,10 +245,10 @@ sub _Mask {
         $SelectedState{SelectedID} = $Param{StateID};
     }
     else {
-        $SelectedState{Selected} = $Self->{ConfigObject}->Get('DefaultPendingState');
+        $SelectedState{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PendingState');
     }
     # get possible notes
-    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
+    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('Ticket::Frontend::NoteTypes')};
     my %NoteTypes = $Self->{DBObject}->GetTableData(
         Table => 'article_type',
         Valid => 1,
@@ -273,11 +273,11 @@ sub _Mask {
     );
     $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
         Format => 'DateInputFormatLong',
-        DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
+        DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
         %Param,
     );
     # show time accounting box
-    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnitsJs',
             Data => \%Param,

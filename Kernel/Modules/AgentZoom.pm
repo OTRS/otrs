@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.82 2005-02-10 20:37:26 martin Exp $
+# $Id: AgentZoom.pm,v 1.83 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.82 $';
+$VERSION = '$Revision: 1.83 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,10 +43,10 @@ sub new {
     $Self->{ZoomExpand} = $Self->{ParamObject}->GetParam(Param => 'ZoomExpand');
     $Self->{ZoomExpandSort} = $Self->{ParamObject}->GetParam(Param => 'ZoomExpandSort');
     if (!defined($Self->{ZoomExpand})) {
-        $Self->{ZoomExpand} = $Self->{ConfigObject}->Get('TicketZoomExpand');
+        $Self->{ZoomExpand} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpand');
     }
     if (!defined($Self->{ZoomExpandSort})) {
-        $Self->{ZoomExpandSort} = $Self->{ConfigObject}->Get('TicketZoomExpandSort');
+        $Self->{ZoomExpandSort} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpandSort');
     }
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
@@ -65,13 +65,10 @@ sub Run {
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => "No TicketID is given!",
             Comment => 'Please contact the admin.',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # --
     # check permissions
@@ -89,16 +86,11 @@ sub Run {
     # store last screen
     # --
     if ($Self->{Subaction} ne 'ShowHTMLeMail') {
-      if (!$Self->{SessionObject}->UpdateSessionID(
-        SessionID => $Self->{SessionID},
-        Key => 'LastScreenView',
-        Value => $Self->{RequestedURL},
-      )) {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error();
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-      }
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'LastScreenView',
+            Value => $Self->{RequestedURL},
+        );
     }
     # get content
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
@@ -128,10 +120,7 @@ sub Run {
     if ($Self->{Subaction} eq 'ShowHTMLeMail') {
         # check needed ArticleID
         if (!$Self->{ArticleID}) {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(Message => 'Need ArticleID!');
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'Need ArticleID!');
         }
         # get article data
         my %Article = ();
@@ -142,14 +131,11 @@ sub Run {
         }
         # check if article data exists
         if (!%Article) {
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(Message => 'Invalid ArticleID!');
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'Invalid ArticleID!');
         }
         # if it is a html email, return here
         return $Self->{LayoutObject}->Attachment(
-            Filename => $Self->{ConfigObject}->Get('TicketHook')."-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
+            Filename => $Self->{ConfigObject}->Get('Ticket::Hook')."-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
             Type => 'inline',
             ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
             Content => $Article{Body},
@@ -174,7 +160,7 @@ sub Run {
     );
     # customer info
     my %CustomerData = ();
-    if ($Self->{ConfigObject}->Get('ShowCustomerInfoZoom')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
         if ($Ticket{CustomerUserID}) {
             %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $Ticket{CustomerUserID},
@@ -189,7 +175,7 @@ sub Run {
     # --
     # genterate output
     # --
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => "Zoom Ticket");
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Zoom');
     $Output .= $Self->{LayoutObject}->NavigationBar();
     # --
     # show ticket
@@ -212,7 +198,7 @@ sub Run {
 sub MaskAgentZoom {
     my $Self = shift;
     my %Param = @_;
-    # get ack actions 
+    # get ack actions
     $Self->{TicketObject}->TicketAcl(
         Data => '-',
         Action => $Self->{Action},
@@ -221,7 +207,33 @@ sub MaskAgentZoom {
         ReturnSubType => '-',
         UserID => $Self->{UserID},
     );
+
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    # run ticket menu modules
+    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule')) eq 'HASH') {
+        my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule')};
+        my $Counter = 0;
+        foreach my $Menu (sort keys %Menus) {
+            # load module
+            if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
+                my $Object = $Menus{$Menu}->{Module}->new(
+                    %{$Self},
+                    TicketID => $Self->{TicketID},
+                );
+                # run module
+                $Counter = $Object->Run(
+                    %Param,
+                    Ticket => \%Param,
+                    Counter => $Counter,
+                    ACL => \%AclAction,
+                    Config => $Menus{$Menu},
+                );
+            }
+            else {
+                return $Self->{LayoutObject}->FatalError();
+            }
+        }
+    }
     # age design
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
     $Param{SLAAge} = $Self->{LayoutObject}->CustomerAge(Age => $Param{SLAAge}, Space => ' ');
@@ -237,7 +249,7 @@ sub MaskAgentZoom {
     # --
     # get MoveQueuesStrg
     # --
-    if ($Self->{ConfigObject}->Get('MoveType') =~ /^form$/i) {
+    if ($Self->{ConfigObject}->Get('Ticket::AgentMoveType') =~ /^form$/i) {
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => $Param{MoveQueues},
@@ -245,12 +257,18 @@ sub MaskAgentZoom {
         );
     }
     # --
-    # customer info string 
+    # customer info string
     # --
-    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-        Data => $Param{CustomerData},
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoZoomMaxSize'),
-    );
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
+        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data => $Param{CustomerData},
+            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerTable',
+            Data => \%Param,
+        );
+    }
     # --
     # build article stuff
     # --
@@ -392,29 +410,16 @@ sub MaskAgentZoom {
     foreach my $ArticleTmp (@NewArticleBox) {
         my %Article = %$ArticleTmp;
         # run article modules
-        if (ref($Self->{ConfigObject}->Get('Frontend::ArticleModule')) eq 'HASH') {
-            my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleModule')};
+        if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule')) eq 'HASH') {
+            my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule')};
             foreach my $Job (sort keys %Jobs) {
-                # log try of load module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                    );
-                }
-                if (eval "require $Jobs{$Job}->{Module}") {
+                # load module
+                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                     my $Object = $Jobs{$Job}->{Module}->new(
                         %{$Self},
                         TicketID => $Self->{TicketID},
                         ArticleID => $Article{ArticleID},
                     );
-                    # log loaded module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                        );
-                    }
                     # run module
                     my @Data = $Object->Check(Article=> \%Article, %Param, Config => $Jobs{$Job});
                     foreach my $DataRef (@Data) {
@@ -427,10 +432,7 @@ sub MaskAgentZoom {
                     $Object->Filter(Article=> \%Article, %Param, Config => $Jobs{$Job});
                 }
                 else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't load module $Jobs{$Job}->{Module}!",
-                    );
+                    return $Self->{LayoutObject}->ErrorScreen();
                 }
             }
         }
@@ -468,29 +470,16 @@ sub MaskAgentZoom {
                 },
             );
              # run article attachment modules
-             if (ref($Self->{ConfigObject}->Get('Frontend::ArticleAttachmentModule')) eq 'HASH') {
-                my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleAttachmentModule')};
+             if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule')) eq 'HASH') {
+                my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleAttachmentModule')};
                 foreach my $Job (sort keys %Jobs) {
-                    # log try of load module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                        );
-                    }
-                    if (eval "require $Jobs{$Job}->{Module}") {
+                    # load module
+                    if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                         my $Object = $Jobs{$Job}->{Module}->new(
                             %{$Self},
                             TicketID => $Self->{TicketID},
                             ArticleID => $Article{ArticleID},
                         );
-                        # log loaded module
-                        if ($Self->{Debug} > 1) {
-                            $Self->{LogObject}->Log(
-                                Priority => 'debug',
-                                Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                            );
-                        }
                         # run module
                         my %Data = $Object->Run(
                             File => {%File, FileID => $FileID, },
@@ -504,10 +493,7 @@ sub MaskAgentZoom {
                         }
                     }
                     else {
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message => "Can't load module $Jobs{$Job}->{Module}!",
-                        );
+                        return $Self->{LayoutObject}->ErrorScreen();
                     }
                 }
              }
@@ -544,9 +530,9 @@ sub MaskAgentZoom {
         else {
             # html quoting
             $Article{"Body"} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
                 Text => $Article{Body},
-                VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+                VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
                 HTMLResultMode => 1,
             );
             # link quoting
@@ -564,7 +550,7 @@ sub MaskAgentZoom {
         # select the output template
         if ($Article{ArticleType} =~ /^note/i) {
             # without compose links!
-            if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+            if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
                 $Self->{LayoutObject}->Block(
                     Name => 'AgentIsCustomer',
                     Data => {%Param, %Article, %AclAction},
@@ -581,7 +567,7 @@ sub MaskAgentZoom {
         }
         else {
             # without all!
-            if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+            if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
                 $Self->{LayoutObject}->Block(
                     Name => 'AgentIsCustomer',
                     Data => {%Param, %Article, %AclAction},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.43 2005-02-10 22:10:58 martin Exp $
+# $Id: AgentNote.pm,v 1.44 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,7 +91,7 @@ sub Run {
     }
     # rewrap body if exists
     if ($GetParam{Body}) {
-        $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
+        $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
     }
 
     if ($Self->{Subaction} eq 'Store') {
@@ -147,7 +147,7 @@ sub Run {
         );
         # check errors
         if (%Error) {
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Add Note');
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Note');
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->_Mask(
                 TicketID => $Self->{TicketID},
@@ -205,7 +205,7 @@ sub Run {
                 );
             }
             # set state
-            if ($Self->{ConfigObject}->Get('NoteSetState') && $GetParam{NewStateID}) {
+            if ($Self->{ConfigObject}->Get('Ticket::AgentNoteSetState') && $GetParam{NewStateID}) {
                 $Self->{TicketObject}->StateSet(
                     TicketID => $Self->{TicketID},
                     StateID => $GetParam{NewStateID},
@@ -243,14 +243,14 @@ sub Run {
     }
     else {
         # fillup vars
-        if (!defined($GetParam{Body}) && $Self->{ConfigObject}->Get('DefaultNoteText')) {
-            $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultNoteText'));
+        if (!defined($GetParam{Body}) && $Self->{ConfigObject}->Get('Ticket::Frontend::NoteText')) {
+            $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::NoteText'));
         }
-        if (!defined($GetParam{Subject}) && $Self->{ConfigObject}->Get('DefaultNoteSubject')) {
-            $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultNoteSubject'));
+        if (!defined($GetParam{Subject}) && $Self->{ConfigObject}->Get('Ticket::Frontend::NoteSubject')) {
+            $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::NoteSubject'));
         }
         # print form ...
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Add Note');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Add Note');
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},
@@ -271,13 +271,13 @@ sub _Mask {
     # build ArticleTypeID string
     my %ArticleType = ();
     if (!$Param{ArticleTypeID}) {
-        $ArticleType{Selected} = $Self->{ConfigObject}->Get('DefaultNoteType');
+        $ArticleType{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::NoteType');
     }
     else {
         $ArticleType{SelectedID} = $Param{ArticleTypeID};
     }
     # get possible notes
-    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
+    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('Ticket::Frontend::NoteTypes')};
     my %NoteTypes = $Self->{DBObject}->GetTableData(
         Table => 'article_type',
         Valid => 1,
@@ -294,7 +294,7 @@ sub _Mask {
         %ArticleType,
     );
     # get next states
-    if ($Self->{ConfigObject}->Get('NoteSetState')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NoteSetState')) {
         my %NextStates = $Self->{TicketObject}->StateList(
             Type => 'DefaultNextNote',
             Action => $Self->{Action},
@@ -314,7 +314,7 @@ sub _Mask {
         );
         $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
             Format => 'DateInputFormatLong',
-            DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
+            DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
             %Param,
         );
     }
@@ -326,7 +326,7 @@ sub _Mask {
         );
     }
     # agent list
-    if ($Self->{ConfigObject}->Get('NoteInformAgent')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NoteInformAgent')) {
         my %ShownUsers = ();
         my %AllGroupsMembers = $Self->{UserObject}->UserList(
             Type => 'Long',
@@ -355,7 +355,7 @@ sub _Mask {
         );
     }
     # get involved
-    if ($Self->{ConfigObject}->Get('NoteInformInvolvedAgent')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NoteInformInvolvedAgent')) {
         my @UserIDs = $Self->{TicketObject}->InvolvedAgents(TicketID => $Self->{TicketID});
         my %UserHash = ();
         my $Counter = 0;
@@ -381,7 +381,7 @@ sub _Mask {
         );
     }
     # show time accounting box
-    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnitsJs',
             Data => \%Param,

@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.15 2005-01-23 19:09:20 martin Exp $
+# $Id: PendingJobs.pl,v 1.16 2005-02-15 11:58:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -83,7 +83,7 @@ if (@PendingAutoStateIDs) {
     foreach (@TicketIDs) {
       my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
       if ($Ticket{UntilTime} < 1) {
-        my %States = %{$CommonObject{ConfigObject}->Get('StateAfterPending')};
+        my %States = %{$CommonObject{ConfigObject}->Get('Ticket::StateAfterPending')};
         if ($States{$Ticket{State}}) {
             print " Update ticket state for ticket $Ticket{TicketNumber} ($_) to '$States{$Ticket{State}}'...";
             if ($CommonObject{TicketObject}->StateSet(TicketID => $_, State => $States{$Ticket{State}}, UserID => 1,)) {
@@ -102,7 +102,7 @@ if (@PendingAutoStateIDs) {
             }
         }
         else {
-            print STDERR "ERROR: No StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!\n";
+            print STDERR "ERROR: No Ticket::StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!\n";
         }
       }
     }

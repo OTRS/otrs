@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.16 2005-02-10 20:37:26 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.17 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -120,7 +120,7 @@ sub Run {
         );
     }
     # genterate output
-    $Output .= $Self->{LayoutObject}->PrintHeader(Title => $Ticket{TicketNumber});
+    $Output .= $Self->{LayoutObject}->PrintHeader(Area => 'Ticket', Title => $Ticket{TicketNumber});
     # do some html quoting
     $Ticket{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Ticket{Age}, Space => ' ');
     if ($Ticket{UntilTime}) {
@@ -195,9 +195,9 @@ sub _Mask {
         else {
             # html quoting
             $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
                 Text => $Article{Body},
-                VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+                VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
             );
             # do charset check
             if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(

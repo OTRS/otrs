@@ -1,8 +1,8 @@
 # --
 # Ticket/Number/Random.pm - a ticket number random generator
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Random.pm,v 1.10 2004-12-06 22:22:53 martin Exp $
+# $Id: Random.pm,v 1.11 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::Random;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
@@ -62,8 +62,8 @@ sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
     # get needed config options
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    my $TicketHookDivider = $Self->{ConfigObject}->Get('TicketHookDivider');
+    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     # check current setting
     if ($String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{2,20})/i) {

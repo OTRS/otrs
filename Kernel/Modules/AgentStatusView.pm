@@ -1,9 +1,9 @@
 # --
 # Kernel/Modules/AgentStatusView.pm - status for all open tickets
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStatusView.pm,v 1.23 2004-11-27 01:54:54 martin Exp $
+# $Id: AgentStatusView.pm,v 1.24 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub new {
     $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit') || 6000;
 
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{PageShown} = $Self->{ConfigObject}->Get('AgentStatusView::ViewableTicketsPage') || 50;
+    $Self->{PageShown} = $Self->{ConfigObject}->Get('Ticket::AgentStatusView::ViewableTicketsPage') || 50;
     $Self->{ViewType} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'Open';
     if ($Self->{ViewType} =~ /^close/i) {
         $Self->{ViewType} = 'Closed';
@@ -83,7 +83,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->Header(
-       Area => 'Agent',
+       Area => 'Ticket',
        Title => 'Status View',
        Refresh => $Refresh,
     );

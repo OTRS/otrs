@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.pm,v 1.7 2004-11-28 08:24:52 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.8 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     # start application page
-    my $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Link');
+    my $Output .= $Self->{LayoutObject}->Header(Area => 'Link');
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
     # check needed stuff

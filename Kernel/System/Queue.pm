@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue funktions
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.46 2004-10-14 08:13:04 martin Exp $
+# $Id: Queue.pm,v 1.47 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -53,6 +53,25 @@ sub new {
     $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
     $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+
+    # --------------------------------------------------- #
+    #  default queue  settings                            #
+    #  these settings are used by the CLI version         #
+    # --------------------------------------------------- #
+    $Self->{QueueDefaults} = {
+        UnlockTimeout => 0,
+        EscalationTime => 0,
+        FollowUpLock => 0,
+        SystemAddressID => 1,
+        SalutationID => 1,
+        SignatureID => 1,
+        FollowUpID => 1,
+        FollowUpLock => 0,
+        MoveNotify => 0,
+        LockNotify => 0,
+        StateNotify => 0,
+    };
+
     return $Self;
 }
 
@@ -582,7 +601,7 @@ sub QueueAdd {
    for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey)) {
       # these are coming from Config.pm
       # I added default values in the Load Routine
-      $Param{$_} = $Self->{ConfigObject}{QueueDefaults}{$_} || 0  unless ($Param{$_});
+      $Param{$_} = $Self->{QueueDefaults}{$_} || 0  unless ($Param{$_});
    };
 
    # check needed stuff
@@ -893,6 +912,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2004-10-14 08:13:04 $
+$Revision: 1.47 $ $Date: 2005-02-15 11:58:13 $
 
 =cut

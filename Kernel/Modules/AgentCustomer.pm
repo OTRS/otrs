@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.36 2004-10-02 09:14:15 martin Exp $
+# $Id: AgentCustomer.pm,v 1.37 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -142,7 +142,7 @@ sub Form {
     my %Param = @_;
     my $Output;
     # print header
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer');
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Customer');
     $Output .= $Self->{LayoutObject}->NavigationBar();
     my $TicketCustomerID = $Self->{CustomerID};
     # --
@@ -209,6 +209,31 @@ sub Form {
         );
         my %AclAction = $Self->{TicketObject}->TicketAclActionData();
         my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
+        # run ticket menu modules
+        if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
+            my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
+            my $Counter = 0;
+            foreach my $Menu (sort keys %Menus) {
+                # load module
+                if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
+                    my $Object = $Menus{$Menu}->{Module}->new(
+                        %{$Self},
+                        TicketID => $Self->{TicketID},
+                    );
+                    # run module
+                    $Counter = $Object->Run(
+                        %Param,
+                        Ticket => \%Article,
+                        Counter => $Counter,
+                        ACL => \%AclAction,
+                        Config => $Menus{$Menu},
+                    );
+                }
+                else {
+                    return $Self->{LayoutObject}->FatalError();
+                }
+            }
+        }
         foreach (qw(From To Cc Subject)) {
             if ($Article{$_}) {
                 $Self->{LayoutObject}->Block(

@@ -1,9 +1,9 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.12 2004-12-06 22:22:53 martin Exp $
+# $Id: DateChecksum.pm,v 1.13 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,14 +29,14 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
     my $Self = shift;
     my $JumpCounter = shift || 0;
     # get needed config options
-    my $CounterLog = $Self->{ConfigObject}->Get('CounterLog');
+    my $CounterLog = $Self->{ConfigObject}->Get('Ticket::CounterLog');
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     # get current time
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
@@ -138,8 +138,8 @@ sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
     # get needed config options
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    my $TicketHookDivider = $Self->{ConfigObject}->Get('TicketHookDivider');
+    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     # check current setting
     if ($String =~ /\Q$TicketHook$TicketHookDivider\E(\d{8,40})/i) {
         return $1;

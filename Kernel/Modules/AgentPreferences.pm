@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.27 2005-02-07 09:15:03 martin Exp $
+# $Id: AgentPreferences.pm,v 1.28 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,18 +57,11 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $Self->{UserID});
         my $Module = $Preferences{$Group}->{Module};
-        if (eval "require $Module") {
+        if ($Self->{MainObject}->Require($Module)) {
             my $Object = $Module->new(
                 %{$Self},
                 Debug => $Self->{Debug},
             );
-            # log loaded module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Module: $Module loaded!",
-                );
-            }
             my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
             my %GetParam = ();
             foreach my $ParamItem (@Params) {
@@ -86,6 +79,9 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=AgentPreferences&What=$Message",
             );
+        }
+        else {
+            return $Self->{LayoutObject}->FatalError();
         }
     }
     else {
@@ -168,25 +164,12 @@ sub AgentPreferencesForm {
                 next;
             }
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::PreferencesGeneric';
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load module: $Module!",
-                );
-            }
-            if (eval "require $Module") {
+            # load module
+            if ($Self->{MainObject}->Require($Module)) {
                 my $Object = $Module->new(
                     %{$Self},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Module loaded!",
-                    );
-                }
                 my @Params = $Object->Param(%Preference, UserData => $Param{UserData});
                 if (@Params) {
                     $Self->{LayoutObject}->Block(
@@ -218,10 +201,7 @@ sub AgentPreferencesForm {
                 }
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Module!",
-                );
+                return $Self->{LayoutObject}->FatalError();
             }
         }
     }

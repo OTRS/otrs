@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.40 2005-02-10 20:37:26 martin Exp $
+# $Id: CustomerMessage.pm,v 1.41 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,7 +60,7 @@ sub Run {
             # check own selection
             my %NewTos = ();
             my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule') || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
-            if (eval "require $Module") {
+            if ($Self->{MainObject}->Require($Module)) {
                 my $Object = $Module->new(
                     %{$Self},
                     Debug => $Self->{Debug},

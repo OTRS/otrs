@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.9 2004-11-27 01:54:54 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.10 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,8 +54,8 @@ sub Run {
     my $Output;
     # get confid data
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('SearchLimit') || 200;
-    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('SearchPageShown') || 40;
+    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchLimit') || 200;
+    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
     $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';

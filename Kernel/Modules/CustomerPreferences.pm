@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.7 2004-12-28 01:03:01 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.8 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,7 +60,7 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet(User => $Self->{UserLogin});
         my $Module = $Preferences{$Group}->{Module};
-        if (eval "require $Module") {
+        if ($Self->{MainObject}->Require($Module)) {
             my $Object = $Module->new(
                 %{$Self},
                 Debug => $Self->{Debug},
@@ -89,6 +89,9 @@ sub Run {
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=CustomerPreferences&What=$Message",
             );
+        }
+        else {
+            return $Self->{LayoutObject}->FatalError();
         }
     }
     else {
@@ -196,15 +199,9 @@ sub CustomerPreferencesForm {
             if (!$Preference{Activ}) {
                 next;
             }
-            # log try of load module
+            # load module
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load module: $Module!",
-                );
-            }
-            if (eval "require $Module") {
+            if ($Self->{MainObject}->Require($Module)) {
                 my $Object = $Module->new(
                     %{$Self},
                     Debug => $Self->{Debug},
@@ -241,10 +238,7 @@ sub CustomerPreferencesForm {
                 }
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Module!",
-                );
+                return $Self->{LayoutObject}->FatalError();
             }
         }
     }

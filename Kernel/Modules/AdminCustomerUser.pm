@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.31 2005-01-12 20:31:20 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.32 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $ ';
+$VERSION = '$Revision: 1.32 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -161,25 +161,18 @@ sub Run {
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
         my %Preferences = %{$Self->{ConfigObject}->Get('CustomerPreferencesGroups')};
         my $Module = $Preferences{$Group}->{Module};
-        if (eval "require $Module") {
+        if ($Self->{MainObject}->Require($Module)) {
             my $Object = $Module->new(
                 %{$Self},
                 UserObject => $Self->{CustomerUserObject},
                 Debug => $Self->{Debug},
             );
-            # log loaded module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Module: $Module loaded!",
-                );
-            }
             my %File = $Object->Download(%{$Preferences{$Group}}, UserData => \%UserData);
 
             return $Self->{LayoutObject}->Attachment(%File);
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen(Message => "Can't load module $Module: $!");
+            return $Self->{LayoutObject}->FatalError();
         }
     }
     # update action
@@ -202,19 +195,12 @@ sub Run {
                 # get user data
                 my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $GetParam{UserLogin});
                 my $Module = $Preferences{$Group}->{Module};
-                if (eval "require $Module") {
+                if ($Self->{MainObject}->Require($Module)) {
                     my $Object = $Module->new(
                         %{$Self},
                         UserObject => $Self->{CustomerUserObject},
                         Debug => $Self->{Debug},
                     );
-                    # log loaded module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Module: $Module loaded!",
-                        );
-                    }
                     my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
                     if (@Params) {
                         my %GetParam = ();
@@ -228,10 +214,7 @@ sub Run {
                     }
                 }
                 else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't load module $Module!",
-                    );
+                    return $Self->{LayoutObject}->FatalError();
                 }
             }
             # get user data and show screen again
@@ -280,19 +263,12 @@ sub Run {
                 # get user data
                 my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $GetParam{UserLogin});
                 my $Module = $Preferences{$Group}->{Module};
-                if (eval "require $Module") {
+                if ($Self->{MainObject}->Require($Module)) {
                     my $Object = $Module->new(
                         %{$Self},
                         UserObject => $Self->{CustomerUserObject},
                         Debug => $Self->{Debug},
                     );
-                    # log loaded module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Module: $Module loaded!",
-                        );
-                    }
                     my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
                     if (@Params) {
                         my %GetParam = ();
@@ -306,10 +282,7 @@ sub Run {
                     }
                 }
                 else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't load module $Module!",
-                    );
+                    return $Self->{LayoutObject}->FatalError();
                 }
             }
             # redirect
@@ -480,26 +453,13 @@ sub AdminCustomerUserForm {
                 next;
             }
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load module: $Module!",
-                );
-            }
-            if (eval "require $Module") {
+            # load module
+            if ($Self->{MainObject}->Require($Module)) {
                 my $Object = $Module->new(
                     %{$Self},
                     UserObject => $Self->{CustomerUserObject},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Module loaded!",
-                    );
-                }
                 my @Params = $Object->Param(%Preference, UserData => \%Param);
                 if (@Params) {
                     foreach my $ParamItem (@Params) {
@@ -525,10 +485,7 @@ sub AdminCustomerUserForm {
                 }
             }
             else {
-                $Self->{LayoutObject}->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Module!",
-                );
+                return $Self->{LayoutObject}->FatalError();
             }
         }
     }

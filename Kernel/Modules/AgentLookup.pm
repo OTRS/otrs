@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLookup.pm,v 1.4 2004-05-01 14:14:06 martin Exp $
+# $Id: AgentLookup.pm,v 1.5 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,18 +14,18 @@ package Kernel::Modules::AgentLookup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
@@ -43,36 +43,30 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    # check needed params 
+    # check needed params
     foreach (qw(What Source)) {
         $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         if (!$Param{$_}) {
             # error page
-            my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Need Param '$_'!",
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
     }
     # max shown entries in a search list
-    $Self->{Map} = $Self->{ConfigObject}->Get('DataLookup'); 
+    $Self->{Map} = $Self->{ConfigObject}->Get('DataLookup');
     if (!$Self->{Map}->{$Param{Source}}) {
         # error page
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => "Need '$Param{Source}' as DataLookup config option!",
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # config options
     $Self->{Limit} = $Self->{Map}->{$Param{Source}}->{ResultLimit} || 250;
     $Self->{Table} = $Self->{Map}->{$Param{Source}}->{Params}->{Table} || die "Need DataLookup->$Param{Source}->Params->Table in Kernel/Config.pm!";
     $Self->{KeyList} = $Self->{Map}->{$Param{Source}}->{KeyList} || die "Need DataLookup->$Param{Source}->KeyList in Kernel/Config.pm!";
     $Self->{ValueList} = $Self->{Map}->{$Param{Source}}->{ValueList} || die "Need DataLookup->$Param{Source}->ValueList in Kernel/Config.pm!";
-    $Self->{SearchPrefix} = $Self->{Map}->{$Param{Source}}->{SearchPrefix}; 
+    $Self->{SearchPrefix} = $Self->{Map}->{$Param{Source}}->{SearchPrefix};
     if (!defined($Self->{SearchPrefix})) {
         $Self->{SearchPrefix} = '';
     }
@@ -130,7 +124,7 @@ sub Run {
         }
     }
     # start with page ...
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Lookup', Type => 'Small');
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Lookup', Type => 'Small');
     $Output .= $Self->_Mask(
         List => \%Result,
         Search => $Search,
@@ -159,6 +153,6 @@ sub DESTROY {
     if ($Self->{NotParentDBObject}) {
         $Self->{DBObject}->Disconnect();
     }
-}   
+}
 # --
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.160 2005-02-11 07:25:55 martin Exp $
+# $Id: Ticket.pm,v 1.161 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.160 $';
+$VERSION = '$Revision: 1.161 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -154,7 +154,7 @@ sub new {
     # --
     # load ticket number generator
     # --
-    my $GeneratorModule = $Self->{ConfigObject}->Get('TicketNumberGenerator')
+    my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
       || 'Kernel::System::Ticket::Number::AutoIncrement';
     if (!eval "require $GeneratorModule") {
         die "Can't load ticket number generator backend module $GeneratorModule! $@";
@@ -163,7 +163,7 @@ sub new {
     # --
     # load ticket index generator
     # --
-    my $GeneratorIndexModule = $Self->{ConfigObject}->Get('TicketIndexModule')
+    my $GeneratorIndexModule = $Self->{ConfigObject}->Get('Ticket::IndexModule')
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
     if (!eval "require $GeneratorIndexModule") {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
@@ -171,7 +171,7 @@ sub new {
     # --
     # load article storage module
     # --
-    my $StorageModule = $Self->{ConfigObject}->Get('TicketStorageModule')
+    my $StorageModule = $Self->{ConfigObject}->Get('Ticket::StorageModule')
       || 'Kernel::System::Ticket::ArticleStorageDB';
     if (!eval "require $StorageModule") {
         die "Can't load ticket storage backend module $StorageModule! $@";
@@ -179,7 +179,7 @@ sub new {
     # --
     # load custom functions
     # --
-    my $CustomModule = $Self->{ConfigObject}->Get('TicketCustomModule');
+    my $CustomModule = $Self->{ConfigObject}->Get('Ticket::CustomModule');
     if ($CustomModule) {
         if (!eval "require $CustomModule") {
             die "Can't load ticket custom module $CustomModule! $@";
@@ -511,9 +511,9 @@ sub TicketSubjectBuild {
         }
     }
     $Subject = $Self->TicketSubjectClean(%Param);
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    my $TicketHookDivider = $Self->{ConfigObject}->Get('TicketHookDivider');
-    my $TicketSubjectRe = $Self->{ConfigObject}->Get('TicketSubjectRe');
+    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+    my $TicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
     $Subject = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     return $Subject;
 }
@@ -541,9 +541,9 @@ sub TicketSubjectClean {
         }
     }
     # get ticket data
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    my $TicketHookDivider = $Self->{ConfigObject}->Get('TicketHookDivider');
-    my $TicketSubjectSize = $Self->{ConfigObject}->Get('TicketSubjectSize') || 80;
+    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
+    my $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize') || 80;
     $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\] //g;
@@ -979,7 +979,7 @@ sub MoveTicket {
             UserID => $Param{UserID},
         );
         # should I unlock a ticket after move?
-        if ($Self->{ConfigObject}->Get('Move::ForceUnlockAfterMove')) {
+        if ($Self->{ConfigObject}->Get('Ticket::ForceUnlockAfterMove')) {
             $Self->LockSet(
                 TicketID => $Param{TicketID},
                 Lock => 'unlock',
@@ -1430,7 +1430,7 @@ sub GetLockedTicketIDs {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     my @ViewableTickets;
-    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
+    my @ViewableLocks = @{$Self->{ConfigObject}->Get('Ticket::ViewableLocks')};
     my $SQL = "SELECT ti.id " .
       " FROM " .
       " ticket ti, ticket_lock_type slt, queue sq" .
@@ -2201,8 +2201,8 @@ sub LockSet {
         }
         # should I unlock a ticket after move?
         if ($Param{Lock} =~ /^lock$/i) {
-          if ($Self->{ConfigObject}->Get('Lock::ForceNewStateAfterLock')) {
-            my %States = %{$Self->{ConfigObject}->Get('Lock::ForceNewStateAfterLock')};
+          if ($Self->{ConfigObject}->Get('Ticket::ForceNewStateAfterLock')) {
+            my %States = %{$Self->{ConfigObject}->Get('Ticket::ForceNewStateAfterLock')};
             my %Ticket = $Self->TicketGet(%Param);
             foreach (keys %States) {
               if ($_ eq $Ticket{State} && $States{$_}) {
@@ -3624,6 +3624,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.160 $ $Date: 2005-02-11 07:25:55 $
+$Revision: 1.161 $ $Date: 2005-02-15 11:58:13 $
 
 =cut

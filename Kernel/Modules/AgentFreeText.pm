@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentText.pm - to set the ticket free text
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.pm,v 1.11 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentFreeText.pm,v 1.12 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,16 +47,11 @@ sub Run {
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-        # --
         # error page
-        # --
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => "No TicketID is given!",
             Comment => 'Please contact the admin.',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # --
     # check permissions
@@ -75,13 +70,10 @@ sub Run {
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Sorry, the current owner is $OwnerLogin",
                 Comment => 'Please change the owner first.',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
     }
 
@@ -122,7 +114,7 @@ sub Run {
                 UserID => $Self->{UserID},
             );
         }
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Set Free Text');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Free Fields');
         $Output .= $Self->{LayoutObject}->NavigationBar();
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Ticket => \%Ticket,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.42 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentClose.pm,v 1.43 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,7 +73,7 @@ sub Run {
             UserID => $Self->{UserID},
         );
         # get possible notes
-        my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
+        my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('Ticket::Frontend::NoteTypes')};
         my %NoteTypes = $Self->{DBObject}->GetTableData(
             Table => 'article_type',
             Valid => 1,
@@ -95,7 +95,7 @@ sub Run {
             Type => 'move',
         );
         # html header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Close');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Close');
 #        $Output .= $Self->{LayoutObject}->NavigationBar();
         # get lock state
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
@@ -186,7 +186,7 @@ sub Run {
             $Self->{ParamObject}->GetParam(Param => 'Body');
         # rewrap body if exists
         if ($Text) {
-            $Text =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
+            $Text =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
 
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
@@ -294,7 +294,7 @@ sub _Mask {
         OnChangeSubmit => 0,
     );
     # show time accounting box
-    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnitsJs',
             Data => \%Param,

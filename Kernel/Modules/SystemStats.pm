@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.17 2005-02-10 20:42:06 martin Exp $
+# $Id: SystemStats.pm,v 1.18 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $ ';
+$VERSION = '$Revision: 1.18 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,7 @@ sub Run {
 
         my %Config = %{$Self->{ConfigObject}->Get('SystemStatsMap')};
         foreach my $Stats (sort keys %Config) {
-          if (eval "require $Config{$Stats}->{Module}") {
+          if ($Self->{MainObject}->Require($Config{$Stats}->{Module})) {
             my $StatsModule = $Config{$Stats}->{Module}->new(%{$Self});
             my @Params = $StatsModule->Param();
             my $ParamString = '';
@@ -81,6 +81,9 @@ sub Run {
                 },
             );
           }
+          else {
+              return $Self->{LayoutObject}->FatalError();
+          }
         }
         # create output
         $Output .= $Self->{LayoutObject}->Output(
@@ -109,7 +112,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        if (eval "require $Module") {
+        if ($Self->{MainObject}->Require($Module)) {
             my %GetParam = ();
             my $StatsModule = $Module->new(%{$Self});
             my @Params = $StatsModule->Param();
@@ -230,36 +233,8 @@ sub Run {
                 }
                 # load gd modules
                 foreach my $Module ('GD', 'GD::Graph', $GDBackend) {
-                    if (!eval "require $Module;") {
-                        # check if file name exists
-                        my $Error = 0;
-                        my $FileTmp = $Module;
-                        $FileTmp =~ s/::/\//g;
-                        foreach my $Prefix (@INC) {
-                            my $File = "$Prefix/$FileTmp.pm";
-                            if (-f $File) {
-                                $Error = $File;
-                                last;
-                             }
-                        }
-                        if ($Error) {
-                            my $R = do $Error;
-                            $Self->{LogObject}->Log(Priority => 'error', Message => "$@");
-                            $Error = "Syntax error in '$Error'!";
-                        }
-                        # if there is no file, show not found error
-                        else {
-                            $Self->{LogObject}->Log(Priority => 'error', Message => "Module $Module not found!");
-                            $Error = "Module $Module not found!";
-                        }
-
-                        my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
-                        $Output .= $Self->{LayoutObject}->Error(
-                            Message => $Error,
-                            Comment => 'Please contact your admin'
-                        );
-                        $Output .= $Self->{LayoutObject}->Footer();
-                        return $Output;
+                    if (!$Self->{MainObject}->Require($Module)) {
+                        return $Self->{LayoutObject}->FatalError();
                     }
                 }
                 # remove first y/x position
@@ -334,6 +309,7 @@ sub Run {
                     Filename => "$ConfigItem{Module}"."_"."$Y-$M-$D"."_"."$h-$m.$Ext",
                     ContentType => "image/$Ext",
                     Content => $graph->plot(\@PData)->$Ext(),
+                    Type => 'inline',
                 );
             }
             # print output
@@ -350,13 +326,7 @@ sub Run {
             }
         }
         else {
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => "Can't load module '$Module'!!",
-                Comment => 'Please contact your admin'
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->FatalError();
         }
     }
     else {

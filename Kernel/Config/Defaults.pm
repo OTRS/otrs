@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.184 2005-01-25 13:16:06 martin Exp $
+# $Id: Defaults.pm,v 1.185 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,15 @@
 #
 #   -->> All changes of this file will be lost after an update! <<--
 #
+#  Attention:
+#   -->> Ticket Settings are in Kernel/Config/Files/Ticket.pm <<--
 # --
 package Kernel::Config::Defaults;
 
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.184 $';
+$VERSION = '$Revision: 1.185 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,72 +42,22 @@ sub LoadDefaults {
     # each http session id starts with this number)
     $Self->{SystemID} = 10;
 
-    # TicketHook
-    # (To set the Ticket identifier. Some people want to
-    # set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.)
-    $Self->{TicketHook} = 'Ticket#';
-
-    # TicketHookDivider
-    # (the divider between TicketHook# and number)
-#    $Self->{TicketHookDivider} = ': ';
-    $Self->{TicketHookDivider} = '';
-
-    # TicketSubjectMaxSize
-    # (Max size of the subjects in a reply)
-    $Self->{TicketSubjectSize} = 60;
-
-    # TicketSubjectRe
-    # (The text at the beginning of the subject in a reply)
-    $Self->{TicketSubjectRe} = 'Re';
-
     # FQDN
     # (Full qualified domain name of your system.)
     $Self->{FQDN} = 'yourhost.example.com';
+
+    # HttpType
+    # In case you use https instead of plain http specify it here
+    $Self->{HttpType} = 'http';
 
     # ScriptAlias
     # Prefix to index.pl used as ScriptAlias in web config
     # (Used when emailing links to agents).
     $Self->{ScriptAlias} = 'otrs/';
 
-    # HttpType
-    # In case you use https instead of plain http specify it here
-    $Self->{HttpType} = 'http';
-
     # AdminEmail
     # (Email of the system admin.)
     $Self->{AdminEmail} = 'admin@example.com';
-
-    # ProductName
-    # (Shown application name in frontend.)
-    $Self->{ProductName} = 'OTRS';
-
-    # MIME-Viewer for online to html converter
-    # (e. g. xlhtml (xls2html), http://chicago.sourceforge.net/xlhtml/)
-#    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
-    # MIME-Viewer for online to html converter
-    # (e. g. wv (word2html), http://wvware.sourceforge.net/)
-#    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
-    # (e. g. pdftohtml (pdf2html), http://pdftohtml.sourceforge.net/)
-#    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
-    # (e. g. xml2html (xml2html))
-#    $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl';
-
-    # SendmailModule
-    # (Where is sendmail located and some options.
-    # See 'man sendmail' for details. Or use the SMTP backend.)
-    $Self->{'SendmailModule'} = 'Kernel::System::Email::Sendmail';
-    $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f ';
-
-#    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
-#    $Self->{'SendmailModule::Host'} = 'mail.example.com';
-#    $Self->{'SendmailModule::Port'} = '25';
-#    $Self->{'SendmailModule::AuthUser'} = '';
-#    $Self->{'SendmailModule::AuthPassword'} = '';
-
-    # SendmailBcc
-    # (Send all outgoing email via bcc to...
-    # Warning: use it only for external archive funktions)
-    $Self->{'SendmailBcc'} = '';
 
     # Organization
     # (If this is anything other than '', then the email will have an
@@ -113,133 +65,9 @@ sub LoadDefaults {
 #    $Self->{Organization} = 'Example Company';
     $Self->{Organization} = '';
 
-    # TimeZone
-    # (set the system time zone, default is local time)
-#    $Self->{TimeZone} = 0;
-#    $Self->{TimeZone} = +9;
-
-    # Time*
-    # (Used for ticket escalation and system unlock calculation)
-
-    # TimeWorkingHours
-    # (counted hours for working time used)
-    $Self->{TimeWorkingHours} = {
-        Mon => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Tue => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Wed => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Thu => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Fri => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
-        Sat => [  ],
-        Sun => [  ],
-    };
-
-    # TimeVacationDays
-    # adde new days with:
-    # "$Self->{TimeVacationDays}->{10}->{27} = 'Some Info';"
-
-    $Self->{TimeVacationDays} = {
-        1 => {
-            01 => 'New Year\'s Eve!',
-        },
-        5 => {
-            1 => '1 St. May',
-        },
-        12 => {
-            24 => 'Christmas',
-            25 => 'First Christmas Day',
-            26 => 'Second Christmas Day',
-            31 => 'Silvester',
-        },
-    };
-
-    # TimeVacationDaysOneTime
-    # adde new own days with:
-    # "$Self->{TimeVacationDaysOneTime}->{1977}-{10}->{27} = 'Some Info';"
-
-    $Self->{TimeVacationDaysOneTime} = {
-#        2004 => {
-#          6 => {
-#              07 => 'Some Day',
-#          },
-#          12 => {
-#              24 => 'Some A Day',
-#              31 => 'Some B Day',
-#          },
-#        },
-#        2005 => {
-#          1 => {
-#              11 => 'Some Day',
-#          },
-#        },
-    };
-
-    # SendNoPendingNotificationTime
-    # (send no pending notification this hours)
-    $Self->{SendNoPendingNotificationTime} = {
-        Mon => [ 0,1,2,3,4,5,6 ],
-        Tue => [ 0,1,2,3,4,5,6 ],
-        Wed => [ 0,1,2,3,4,5,6 ],
-        Thu => [ 0,1,2,3,4,5,6 ],
-        Fri => [ 0,1,2,3,4,5,6,21,22,23 ],
-        Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
-        Sun => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
-    };
-
-    # CustomQueue
-    # (The name of custom queue.)
-    $Self->{CustomQueue} = 'My Queues';
-
-    # QueueViewAllPossibleTickets
-    # (show all ro and rw queues - not just rw queues)
-    $Self->{QueueViewAllPossibleTickets} = 0;
-
-    # QueueListType
-    # (show queues in system as tree or as list) [tree|list]
-    $Self->{QueueListType} = 'tree';
-
-    # MoveType
-    # (Show form drop down of show new page of new queues) [form|link]
-    $Self->{MoveType} = 'form';
-    $Self->{MoveSetState} = 0;
-    # default move next state
-    $Self->{DefaultNextMoveStateType} = ['open', 'closed'];
-
-    # NoteSetState
-    # (possible to set ticket state via AgentNote)
-    $Self->{NoteSetState} = 0;
-    $Self->{NoteInformInvolvedAgent} = 0;
-    $Self->{NoteInformAgent} = 0;
-    # default note next state
-    $Self->{DefaultNextNoteStateType} = ['new', 'open', 'closed'];
-
-    # ChangeOwnerToEveryone -> useful for ASP
-    # (Possible to change owner of ticket ot everyone) [0|1]
-    $Self->{ChangeOwnerToEveryone} = 0;
-
-    # WebMaxFileUpload
-    # (Max size for browser file uploads - default 5 MB)
-    $Self->{WebMaxFileUpload} = 1024 * 1024 * 5;
-
-    # WebUploadCacheModule
-    # (select you WebUploadCacheModule module, default DB [DB|FS])
-    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::DB';
-#    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::FS';
-
-    # CheckEmailAddresses
-    # (Check syntax of used email addresses)
-    $Self->{CheckEmailAddresses} = 1;
-
-    # CheckMXRecord
-    # (Check mx recorde of used email addresses)
-    $Self->{CheckMXRecord} = 1;
-
-    # CheckEmailValidAddress
-    # (regexp of valid email addresses)
-    $Self->{CheckEmailValidAddress} = '^(root@localhost|admin@localhost)$';
-
-    # CheckEmailInvalidAddress
-    # (regexp of invalid email addresses)
-    $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$';
+    # ProductName
+    # (Shown application name in frontend.)
+    $Self->{ProductName} = 'OTRS';
 
     # --------------------------------------------------- #
     # database settings                                   #
@@ -283,11 +111,144 @@ sub LoadDefaults {
 #    $ENV{NLS_LANG} = "german_germany.we8iso8859p15";
 #    $ENV{NLS_LANG} = "american_america.we8iso8859p1";
 
-    # UserTable
-    $Self->{DatabaseUserTable} = 'system_user';
-    $Self->{DatabaseUserTableUserID} = 'id';
-    $Self->{DatabaseUserTableUserPW} = 'pw';
-    $Self->{DatabaseUserTableUser} = 'login';
+    # --------------------------------------------------- #
+    # default values                                      #
+    # (default values for GUIs)                           #
+    # --------------------------------------------------- #
+    # default valid
+    $Self->{DefaultValid} = 'valid';
+    # default charset
+    # (default frontend charset - "utf-8" is a multi chatset for all possible
+    # charsets - e. g. "iso-8859-1" is also possible for single charset)
+    # [default: iso-8859-1]
+    $Self->{DefaultCharset} = 'iso-8859-1';
+#    $Self->{DefaultCharset} = 'utf-8';
+    # default langauge
+    # (the default frontend langauge) [default: en]
+    $Self->{DefaultLanguage} = 'en';
+    # used langauges
+    # (short name = long name and file)
+    $Self->{DefaultUsedLanguages} = {
+#            bb => 'Bavarian',
+            en => 'English',
+            de => 'Deutsch',
+            nl => 'Nederlands',
+            fr => 'Fran&ccedil;ais',
+            bg => 'Bulgarian',
+            fi => 'Suomi',
+            es => 'Espa&ntilde;ol',
+            pt_BR => 'Portugu&ecirc;s Brasileiro',
+            pt => 'Portugu&ecirc;s',
+            it => 'Italiano',
+            ru => 'Russian',
+            cz => 'Czech',
+            pl => 'Polski',
+            nb_NO => 'Norsk bokm&aring;l',
+            sv => 'Svenska',
+            hu => 'Hungarian',
+#            ro => 'Romanian',
+#            hr => 'Croatian',
+#            sk => 'Slovak',
+#            sl => 'Slovenian',
+#            da => 'Dansk',
+#            tr => 'tr',
+#            jp => 'jp',
+    };
+    # default theme
+    # (the default html theme) [default: Standard]
+    $Self->{DefaultTheme} = 'Standard';
+
+    # DefaultViewNewLine
+    # (insert new line in text messages after max x chars and
+    # the next word)
+    $Self->{DefaultViewNewLine} = 85;
+
+    # DefaultPreViewLines
+    # (Max viewable lines in pre view text messages (like ticket
+    # lines in the QueueView)
+    $Self->{DefaultPreViewLines} = 18;
+
+    # DefaultViewLines
+    # (Max viewable lines in text messages (like ticket lines
+    # in QueueZoom)
+    $Self->{DefaultViewLines} = 6000;
+
+    # ShowAlwaysLongTime
+    # (show always time in long /days hours minutes/ or short
+    # /days hours/ format)
+    $Self->{ShowAlwaysLongTime} = 0;
+
+    # AttachmentDownloadType
+    # (if the tickets attachments will be opened in browser or just to
+    # force the download) [attachment|inline]
+    $Self->{'AttachmentDownloadType'} = 'inline';
+#    $Self->{'AttachmentDownloadType'} = 'attachment';
+
+    # --------------------------------------------------- #
+    # Check Settings
+    # --------------------------------------------------- #
+    # CheckEmailAddresses
+    # (Check syntax of used email addresses)
+    $Self->{CheckEmailAddresses} = 1;
+
+    # CheckMXRecord
+    # (Check mx recorde of used email addresses)
+    $Self->{CheckMXRecord} = 1;
+
+    # CheckEmailValidAddress
+    # (regexp of valid email addresses)
+    $Self->{CheckEmailValidAddress} = '^(root@localhost|admin@localhost)$';
+
+    # CheckEmailInvalidAddress
+    # (regexp of invalid email addresses)
+    $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$';
+
+    # --------------------------------------------------- #
+    # LogModule                                           #
+    # --------------------------------------------------- #
+    # (log backend module)
+    $Self->{'LogModule'} = 'Kernel::System::Log::SysLog';
+#    $Self->{'LogModule'} = 'Kernel::System::Log::File';
+
+    # param for LogModule Kernel::System::Log::SysLog
+#    $Self->{'LogModule::SysLog::Facility'} = 'user';
+
+    # param for LogModule Kernel::System::Log::SysLog
+    # (if syslog can't work with utf-8, force the log
+    # charset with this option, on other chars will be
+    # replaces with ?)
+    $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15';
+#    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
+
+    # param for LogModule Kernel::System::Log::File (required!)
+    $Self->{'LogModule::LogFile'} = '/tmp/otrs.log';
+
+    # param if the date (yyyy-mm) should be added as suffix to
+    # logfile [0|1]
+#    $Self->{'LogModule::LogFile::Date'} = 0;
+
+    # system log cache size for admin system log (default 4k)
+    # Note: use bin/CleanUp.pl before you change this
+#    $Self->{'LogSystemCacheSize'} = 4*1024;
+
+    # --------------------------------------------------- #
+    # SendmailModule
+    # --------------------------------------------------- #
+    # (Where is sendmail located and some options.
+    # See 'man sendmail' for details. Or use the SMTP backend.)
+    $Self->{'SendmailModule'} = 'Kernel::System::Email::Sendmail';
+    $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f ';
+
+#    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
+#    $Self->{'SendmailModule::Host'} = 'mail.example.com';
+#    $Self->{'SendmailModule::Port'} = '25';
+#    $Self->{'SendmailModule::AuthUser'} = '';
+#    $Self->{'SendmailModule::AuthPassword'} = '';
+
+    # SendmailBcc
+    # (Send all outgoing email via bcc to...
+    # Warning: use it only for external archive funktions)
+    $Self->{'SendmailBcc'} = '';
 
     # --------------------------------------------------- #
     # authentication settings                             #
@@ -360,222 +321,11 @@ sub LoadDefaults {
         Email => 'mail',
     };
 
-    # --------------------------------------------------- #
-    # default agent settings                              #
-    # --------------------------------------------------- #
-    # ViewableTicketLines
-    # (Max viewable ticket lines in the QueueView.)
-    $Self->{ViewableTicketLines} = 18;
-
-    # ViewableTicketNewLine
-    # (insert new line in ticket-article after max x chars and
-    # the next word)
-    $Self->{ViewableTicketNewLine} = 85;
-
-    # ViewableTicketLinesZoom
-    # (Max viewable ticket lines in the QueueZoom.)
-    $Self->{ViewableTicketLinesZoom} = 6000;
-
-    # MaxLimit
-    # (Max viewable tickets a page.)
-    $Self->{MaxLimit} = 1200;
-
-    # TextAreaEmailWindow
-    # (width of compose email windows)
-    $Self->{TextAreaEmailWindow} = 78;
-
-    # TextAreaNoteWindow
-    # (width of compose note windows)
-    $Self->{TextAreaNoteWindow} = 70;
-
-    # Highligh*
-    # (Set the age and the color for highlighting of old queue
-    # in the QueueView.)
-    # highlight age1 in min
-    $Self->{HighlightAge1} = 1440;
-    $Self->{HighlightColor1} = 'orange';
-    # highlight age2 in min
-    $Self->{HighlightAge2} = 2880;
-    $Self->{HighlightColor2} = 'red';
-
-
-    # agent interface notification module to check the used charset
-    $Self->{'Frontend::NavBarModule'}->{'1-LockedTickets'} = {
-        Module => 'Kernel::Output::HTML::NavBarLockedTickets',
-    };
-    # agent interface notification module for bulk action
-    $Self->{'Frontend::NavBarModule'}->{'2-TicketBulkAction'} = {
-        Module => 'Kernel::Output::HTML::NavBarTicketBulkAction',
-    };
-
-    # agent interface notification module to check the used charset
-    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
-        Module => 'Kernel::Output::HTML::NotificationCharsetCheck',
-    };
-    # agent interface notification module to check the admin user id
-    # (don't work with user id 1 notification)
-    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
-        Module => 'Kernel::Output::HTML::NotificationUIDCheck',
-    };
-    # agent interface notification module to show important agent tickets
-    $Self->{'Frontend::NotifyModule'}->{'999-TicketNotify'} = {
-        Module => 'Kernel::Output::HTML::NotificationAgentTicket',
-    };
-    # show online agents
-#    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
-#        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
-#    };
-    # show online customers
-#    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
-#        Module => 'Kernel::Output::HTML::NotificationCustomerOnline',
-#    };
-
-
-    # agent interface article notification module to check gpg
-    $Self->{'Frontend::ArticleModule'}->{'1-PGP'} = {
-        Module => 'Kernel::Output::HTML::ArticleCheckPGP',
-    };
-    # agent interface article notification module to check smime
-    $Self->{'Frontend::ArticleModule'}->{'1-SMIME'} = {
-        Module => 'Kernel::Output::HTML::ArticleCheckSMIME',
-    };
-
-    # agent interface article notification module to check gpg
-    $Self->{'Frontend::ArticlePreViewModule'}->{'1-PGP'} = {
-        Module => 'Kernel::Output::HTML::ArticleCheckPGP',
-    };
-    # agent interface article notification module to check smime
-    $Self->{'Frontend::ArticlePreViewModule'}->{'1-SMIME'} = {
-        Module => 'Kernel::Output::HTML::ArticleCheckSMIME',
-    };
-
-    $Self->{'Frontend::ArticleComposeModule'}->{'1-SignEmail'} = {
-        Module => 'Kernel::Output::HTML::ArticleComposeSign',
-    };
-    $Self->{'Frontend::ArticleComposeModule'}->{'2-CryptEmail'} = {
-        Module => 'Kernel::Output::HTML::ArticleComposeCrypt',
-    };
-
-    # links in agent zoom for attachments to download
-    $Self->{'Frontend::ArticleAttachmentModule'}->{'1-Download'} = {
-        Module => 'Kernel::Output::HTML::ArticleAttachmentDownload',
-    };
-    # links in agent zoom for attachments html online viewer
-    $Self->{'Frontend::ArticleAttachmentModule'}->{'2-HTML-Viewer'} = {
-        Module => 'Kernel::Output::HTML::ArticleAttachmentHTMLViewer',
-    };
-
-    # Frontend::Output::PostFilter
-    # (a output filter for application html output, e. g. to filter
-    # java script, java applets, ...)
-#    $Self->{'Frontend::Output::PostFilter'}->{'ActiveElementFilter'} = {
-#        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
-#        Debug => 0,
-#    };
-
-    # AgentNoEscalationGroup
-    # (don't show escalated tickets in frontend for agents who are writable
-    # in this group)
-    $Self->{AgentNoEscalationGroup} = 'some_group';
-
-    # AgentQueueSortDefault
-    # (default sort order of the queue view / after priority sort)
-    # ASC: oldest on top, default
-    # DESC: youngest on top
-    $Self->{AgentQueueSortDefault} = 'ASC';
-
-    # AgentQueueSort
-    # (sort a queue ascending or descending / after priority sort)
-    #
-    # assignment: QueueID -> Value
-    # where value is one of:
-    # 0: ascending (oldest on top, default)
-    # 1: descending (youngest on top)
-    #
-#    $Self->{AgentQueueSort} = {
-#        7 => 1,
-#        3 => 0,
-#    };
-
-    # --------------------------------------------------- #
-    # AgentStatusView (shows all open tickets)            #
-    # --------------------------------------------------- #
-    $Self->{'AgentStatusView::ViewableTicketsPage'} = 50;
-
-    # --------------------------------------------------- #
-    # AgentUtil                                           #
-    # --------------------------------------------------- #
-    # default limit for ticket search
-    # [default: 5000]
-    $Self->{SearchLimit} = 5000;
-
-    # defaut of shown article a page
-    # [default: 15]
-    $Self->{SearchPageShown} = 40;
-
-    # viewable ticket lines by search util
-    # [default: 10]
-    $Self->{ViewableTicketLinesBySearch} = 10;
-
-    # AgentUtilArticleTreeCSV
-    # export also whole article tree in search result export
-    # (take care of your performance!)
-    # [default: 0]
-    $Self->{AgentUtilArticleTreeCSV} = 0;
-
-    # AgentUtilCSVData
-    # (used csv data)
-    $Self->{AgentUtilCSVData} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8','ArticleTree',''];
-
-    # AgentUtil::DB::*
-    # (if you want to use a mirror database for agent ticket fulltext search)
-#    $Self->{'AgentUtil::DB::DSN'} = "DBI:mysql:database=mirrordb;host=mirrordbhost";
-#    $Self->{'AgentUtil::DB::User'} = "some_user";
-#    $Self->{'AgentUtil::DB::Password'} = "some_password";
-
-    # SystemStats
-    $Self->{SystemStatsMap}->{"OTRS::Stats1"} = {
-        Name => 'New Tickets',
-        Module => 'Kernel::System::Stats::NewTickets',
-        Desc => 'New created tickets for each queue in selected month.',
-        SumCol => 1,
-        SumRow => 1,
-#        UseResultCache => 1,
-#        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
-        Output => ['Print', 'CSV', 'Graph'],
-        OutputDefault => 'Print',
-    };
-    $Self->{SystemStatsMap}->{"OTRS::Stats2"} = {
-        Name => 'Ticket Overview',
-        Module => 'Kernel::System::Stats::TicketOverview',
-        Desc => 'Overview of the tickets in queue at the end of this month.',
-        SumCol => 1,
-        SumRow => 1,
-        UseResultCache => 1,
-#        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
-        Output => ['Print', 'CSV', 'Graph'],
-        OutputDefault => 'Print',
-    };
-    $Self->{SystemStatsMap}->{"OTRS::Stats4"} = {
-        Name => 'State Action Overview',
-        Module => 'Kernel::System::Stats::StateAction',
-        Desc => 'Trace system activities (Replacement of old bin/mkStats.pl).',
-        SumCol => 1,
-        SumRow => 1,
-#        UseResultCache => 1,
-#        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
-        Output => ['Print', 'CSV', 'Graph'],
-        OutputDefault => 'Graph',
-    };
-
-    $Self->{SystemStatsMap}->{"OTRS::Stats5"} = {
-        Name => 'Time Accounting',
-        Module => 'Kernel::System::Stats::AccountedTime',
-        Desc => 'A list about accounted time per customer.',
-#        UseResultCache => 1,
-        Output => ['Print', 'CSV'],
-        OutputDefault => 'Print',
-    };
+    # UserTable
+    $Self->{DatabaseUserTable} = 'system_user';
+    $Self->{DatabaseUserTableUserID} = 'id';
+    $Self->{DatabaseUserTableUserPW} = 'pw';
+    $Self->{DatabaseUserTableUser} = 'login';
 
     # --------------------------------------------------- #
     # URL login and logout settings                       #
@@ -608,697 +358,36 @@ sub LoadDefaults {
 #    $Self->{InfoFile} = 'AgentInfo';
 
     # --------------------------------------------------- #
-    # LogModule                                           #
+    # Notification Settings
     # --------------------------------------------------- #
-    # (log backend module)
-    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
-#    $Self->{LogModule} = 'Kernel::System::Log::File';
-
-    # param for LogModule Kernel::System::Log::SysLog
-#    $Self->{'LogModule::SysLog::Facility'} = 'user';
-
-    # param for LogModule Kernel::System::Log::SysLog
-    # (if syslog can't work with utf-8, force the log
-    # charset with this option, on other chars will be
-    # replaces with ?)
-    $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15';
-#    $Self->{'LogModule::SysLog::Charset'} = 'utf-8';
-
-    # param for LogModule Kernel::System::Log::File (required!)
-    $Self->{'LogModule::LogFile'} = '/tmp/otrs.log';
-
-    # param if the date (yyyy-mm) should be added as suffix to
-    # logfile [0|1]
-#    $Self->{'LogModule::LogFile::Date'} = 0;
-
-    # system log cache size for admin system log (default 4k)
-    # Note: use bin/CleanUp.pl before you change this
-#    $Self->{LogSystemCacheSize} = 4*1024;
-    # --------------------------------------------------- #
-    # web stuff                                           #
-    # --------------------------------------------------- #
-    # CGIHandle
-    # (Global CGI handle.)
-    # !!$Self->{CGIHandle} = 'index.pl';!!
-    # -=> CGIHandle not longer exists. CGIHandle is automatically the
-    #     script name (It is possible to rename index.pl to otrs.cgi!).
-
-    # CGILogPrefix
-    $Self->{CGILogPrefix} = 'OTRS-CGI';
-
-    # LostPassword
-    # (use lost password feature)
-    $Self->{LostPassword} = 1;
-
-    # ShowMotd
-    # (show message of the day in login screen)
-    $Self->{ShowMotd} = 0;
-
-    # SpellChecker
-    # (If ispell or aspell is available, then we will provide a spelling
-    # checker.)
-#    $Self->{SpellChecker} = '';
-    $Self->{SpellChecker} = '/usr/bin/ispell';
-    $Self->{SpellCheckerDictDefault} = 'english';
-
-    # SpellCheckerIgnore
-    # (A list of ignored words.)
-    $Self->{SpellCheckerIgnore} = ['www', 'webmail', 'https', 'http', 'html', 'rfc'];
-
-    # DemoSystem
-    # (If this is true, no agent preferences, like language and theme, via agent
-    # frontend can be updated! Just for the current session. Alow no password can
-    # be changed on agent frontend.)
-    $Self->{DemoSystem} = 0;
-
-    # AgentCanBeCustomer
-    # (use this if an agent can also be a customer via the agent interface)
-    $Self->{AgentCanBeCustomer} = 0;
-
-    # Agent::DownloadType
-    # (if the tickets attachments will be opened in browser or just to
-    # force the download) [attachment|inline]
-    $Self->{'Agent::DownloadType'} = 'inline';
-#    $Self->{'Agent::DownloadType'} = 'attachment';
-
-    # Agent::HistoryOrder
-    # (show history order reverse) [normal|reverse]
-    $Self->{'Agent::HistoryOrder'} = 'normal';
-#    $Self->{'Agent::HistoryOrder'} = 'reverse';
-
-    # --------------------------------------------------- #
-    # directories                                         #
-    # --------------------------------------------------- #
-    # root directory
-    $Self->{Home} = '/opt/otrs';
-    # counter log
-    $Self->{CounterLog} = '<OTRS_CONFIG_Home>/var/log/TicketCounter.log';
-    # article fs dir
-    $Self->{ArticleDir} = '<OTRS_CONFIG_Home>/var/article';
-    # stats dir
-    $Self->{StatsPicDir} = '<OTRS_CONFIG_Home>/var/pics/stats';
-    # html template dir
-    $Self->{TemplateDir} = '<OTRS_CONFIG_Home>/Kernel/Output';
-    # tmp dir
-    $Self->{TempDir} = '<OTRS_CONFIG_Home>/var/tmp';
-
-    # --------------------------------------------------- #
-    # Ticket stuff                                        #
-    # (Viewable tickets in queue view)                    #
-    # --------------------------------------------------- #
-    # ViewableSenderTypes
-    #  default:  ["'customer'"]
-    $Self->{ViewableSenderTypes} = ["'customer'"];
-
-    # ViewableLocks
-    # default: ["'unlock'", "'tmp_lock'"]
-    $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
-
-    # ViewableStateType
-    # (see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
-    $Self->{ViewableStateType} = ['new', 'open', 'pending reminder', 'pending auto'];
-
-    # UnlockStateType
-    # (Tickets which can be unlocked by bin/UnlockTickets.pl
-    # (see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
-    $Self->{UnlockStateType} = ['open', 'new'];
-
-    # PendingReminderStateType
-    # (used for reminder notifications
-    # see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
-    $Self->{PendingReminderStateType} = ['pending reminder'];
-
-    # PendingAutoStateType
-    # (used for pending states which changed state after reached pending time
-    # see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
-    $Self->{PendingAutoStateType} = ['pending auto'];
-
-    # state after pending
-    # (state after pending time has reached)
-    $Self->{StateAfterPending} = {
-        'pending auto close+' => 'closed successful',
-        'pending auto close-' => 'closed unsuccessful',
+    # agent interface notification module to check the used charset
+    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
+        Module => 'Kernel::Output::HTML::NotificationCharsetCheck',
     };
-
-    # TicketStorageModule (Don't use it for big emails/attachments!)
-    # (where attachments and co is stored - switch from fs -> db and
-    # db -> fs is possible)
-    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageDB';
-    # FS is faster but webserver user should be the otrs user)
-#    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
-
-    # TicketCustomModule
-    # (custom functions to redefine Kernel::System::Ticket functions)
-#    $Self->{TicketCustomModule} = 'Kernel::System::Ticket::Custom';
-
-    $Self->{'TicketACL::Default::Action'} = {
-        AgentLock => 1,
-        AgentZoom => 1,
-        AgentClose => 1,
-        AgentPending => 1,
-        AgentNote => 1,
-        AgentHistory => 1,
-        AgentPriority => 1,
-        AgentFreeText => 1,
-        AgentHistory => 1,
-        AgentCompose => 1,
-        AgentBounce => 1,
-        AgentTicketPrint => 1,
-        AgentForward => 1,
-        AgentTicketLink => 1,
-        AgentPrint => 1,
-        AgentPhone => 1,
-        AgentCustomer => 1,
-        AgentOwner => 1,
+    # agent interface notification module to check the admin user id
+    # (don't work with user id 1 notification)
+    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
+        Module => 'Kernel::Output::HTML::NotificationUIDCheck',
     };
-
-    # Lock::ForceNewStateAfterLock
-    # (force a new ticket state after lock action)
-#    $Self->{'Lock::ForceNewStateAfterLock'} = {
-#        'new' => 'open',
+    # show online agents
+#    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
+#        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
+#    };
+    # show online customers
+#    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
+#        Module => 'Kernel::Output::HTML::NotificationCustomerOnline',
 #    };
 
-    # Move::ForceUnlockAfterMove
-    # (force to unlock a ticket after move action)
-    $Self->{'Move::ForceUnlockAfterMove'} = 0;
-
     # --------------------------------------------------- #
-    # TicketNumberGenerator                               #
+    # Frontend::Output::PostFilter
     # --------------------------------------------------- #
-    # Kernel::System::Ticket::Number::AutoIncrement (default) --> auto increment
-    #   ticket numbers "SystemID.Counter" like 1010138 and 1010139.
-    #
-    # Kernel::System::Ticket::Number::Date --> ticket numbers with date
-    #   "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
-    #
-    # Kernel::System::Ticket::Number::DateChecksum --> ticket numbers with date and
-    #   check sum and the counter will be rotated daily (my favorite)
-    #   "Year.Month.Day.SystemID.Counter.CheckSum" like 2002070110101520 and 2002070110101535.
-    #
-    # Kernel::System::Ticket::Number::Random -->
-    #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
-#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Date';
-#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
-#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Random';
-#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
-
-    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
-
-    # further config option for Kernel::System::Ticket::Number::AutoIncrement
-    # (min ticket counter size)
-#    $Self->{'TicketNumberGenerator::AutoIncrement::MinCounterSize'} = 5;
-
-    # --------------------------------------------------- #
-    # TicketViewAccelerator                               #
-    # --------------------------------------------------- #
-    # choose your backend TicketViewAccelerator module
-
-    # RuntimeDB
-    # (generate each queue view on the fly from ticket table you will not
-    # have performance trouble till ~ 60.000 tickets (till 6.000 open tickets)
-    # in your system)
-    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-
-    # StaticDB
-    # (the most powerfull module, it should be used over 80.000 (more the 6.000
-    # open tickets) tickets in a system - use a extra ticket_index table, works
-    # like a view - use bin/RebuildTicketIndex.pl for initial index update)
-#    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB';
-
-    # --------------------------------------------------- #
-    # default values                                      #
-    # (default values for GUIs)                           #
-    # --------------------------------------------------- #
-    # default valid
-    $Self->{DefaultValid} = 'valid';
-    # default charset
-    # (default frontend charset - "utf-8" is a multi chatset for all possible
-    # charsets - e. g. "iso-8859-1" is also possible for single charset)
-    # [default: iso-8859-1]
-    $Self->{DefaultCharset} = 'iso-8859-1';
-#    $Self->{DefaultCharset} = 'utf-8';
-    # default langauge
-    # (the default frontend langauge) [default: en]
-    $Self->{DefaultLanguage} = 'en';
-    # used langauges
-    # (short name = long name and file)
-    $Self->{DefaultUsedLanguages} = {
-#            bb => 'Bavarian',
-            en => 'English',
-            de => 'Deutsch',
-            nl => 'Nederlands',
-            fr => 'Fran&ccedil;ais',
-            bg => 'Bulgarian',
-            fi => 'Suomi',
-            es => 'Espa&ntilde;ol',
-            pt_BR => 'Portugu&ecirc;s Brasileiro',
-            pt => 'Portugu&ecirc;s',
-            it => 'Italiano',
-            ru => 'Russian',
-            cz => 'Czech',
-            pl => 'Polski',
-            nb_NO => 'Norsk bokm&aring;l',
-            sv => 'Svenska',
-            hu => 'Hungarian',
-#            ro => 'Romanian',
-#            hr => 'Croatian',
-#            sk => 'Slovak',
-#            sl => 'Slovenian',
-#            da => 'Dansk',
-            tr => 'tr',
-#            jp => 'jp',
-    };
-    # default theme
-    # (the default html theme) [default: Standard]
-    $Self->{DefaultTheme} = 'Standard';
-    # OnChangeSubmit
-    # (Use the onchange=submit() function for ticket move in
-    # QueueView and TicketZoom) [default: 0] [0|1]
-    $Self->{OnChangeSubmit} = 0;
-    # StdResponsesMethod
-    # (should the standard responses selection be a form or links?) [Form|Link]
-    $Self->{StdResponsesMethod} = 'Link';
-    # TicketZoomExpand
-    # (show article expanded int ticket zoom)
-    $Self->{TicketZoomExpand} = 0;
-    # TicketZoomExpandSort
-    # (show article normal or in reverse order) [normal|reverse]
-#    $Self->{TicketZoomExpandSort} = 'reverse';
-    $Self->{TicketZoomExpandSort} = 'normal';
-    # TimeUnits
-    # (your choice of your used time units, minutes, hours, work units, ...)
-#    $Self->{TimeUnits} = ' (minutes)';
-#    $Self->{TimeUnits} = ' (hours)';
-    $Self->{TimeUnits} = ' (work units)';
-    # ShowAlwaysLongTime
-    # (show always time in long /days hours minutes/ or short
-    # /days hours/ format)
-    $Self->{ShowAlwaysLongTime} = 0;
-    # PendingDiffTime
-    # (Time in sec. which "pending date" shows per default) [default: 24*60*60 -=> 1d]
-    $Self->{PendingDiffTime} = 24*60*60;
-    # FrontendNeedAccountedTime
-    # (time must be accounted)
-    $Self->{FrontendNeedAccountedTime} = 0;
-    # FrontendNeedSpellCheck
-    # (compose message must be spell checked)
-    $Self->{FrontendNeedSpellCheck} = 0;
-    # FrontendBulkFeature
-    # (a agent frontend feature to work on more then one ticket
-    # at on time)
-    $Self->{FrontendBulkFeature} = 1;
-    # FrontendBulkFeatureJavaScriptAlert
-    # (enable/disable java script popup if a bulk ticket is selected)
-    $Self->{FrontendBulkFeatureJavaScriptAlert} = 1;
-    # --------------------------------------------------- #
-    # TicketFreeText                                      #
-    # (define free text options for frontend)             #
-    # --------------------------------------------------- #
-#    $Self->{"TicketFreeKey1"} = {
-#        '' => '-',
-#        'Product' => 'Product',
+    # Frontend::Output::PostFilter
+    # (a output filter for application html output, e. g. to filter
+    # java script, java applets, ...)
+#    $Self->{'Frontend::Output::PostFilter'}->{'ActiveElementFilter'} = {
+#        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
+#        Debug => 0,
 #    };
-#    $Self->{"TicketFreeText1"} = {
-#        '' => '-',
-#        'PC' => 'PC',
-#        'Notebook' => 'Notebook',
-#        'LCD' => 'LCD',
-#        'Phone' => 'Phone',
-#    };
-#    $Self->{"TicketFreeKey2"} = {
-#        '' => '-',
-#        'Support' => 'Support',
-#    };
-
-    # default selections (if wanted)
-    # $Self->{"TicketFreeText1::DefaultSelection"} = 'Notebook';
-
-    # --------------------------------------------------- #
-    # defaults for add note                               #
-    # --------------------------------------------------- #
-    # default note type
-    $Self->{DefaultNoteType} = 'note-internal';
-    $Self->{DefaultNoteTypes} = {
-        'note-internal' => 1,
-        'note-external' => 0,
-        'note-report' => 0,
-    };
-    # default note subject
-    $Self->{DefaultNoteSubject} = '$Text{"Note!"}';
-    # default note text
-    $Self->{DefaultNoteText} = '';
-
-    # --------------------------------------------------- #
-    # defaults for pending ticket                         #
-    # --------------------------------------------------- #
-    # PendingNoteSubject
-    $Self->{DefaultPendingNoteSubject} = 'Pending!';
-    # PendingNoteText
-    $Self->{DefaultPendingNoteText} = '';
-    # PendingState
-    $Self->{DefaultPendingState} = 'pending reminder';
-    # next possible states for pendinf screen
-    $Self->{DefaultPendingNextStateType} = ['pending reminder', 'pending auto'];
-
-    # --------------------------------------------------- #
-    # defaults for close ticket                           #
-    # --------------------------------------------------- #
-    # CloseNoteType
-    $Self->{DefaultCloseNoteType} = 'note-internal';
-    # CloseNoteSubject
-    $Self->{DefaultCloseNoteSubject} = 'Close!';
-    # CloseNoteText
-    $Self->{DefaultCloseNoteText} = '';
-    # CloseType
-    $Self->{DefaultCloseType} = 'closed successful';
-    # next possible states for close screen
-    $Self->{DefaultCloseNextStateType} = ['closed'];
-
-    # --------------------------------------------------- #
-    # defaults for compose message                        #
-    # --------------------------------------------------- #
-    # default compose next state
-    $Self->{DefaultNextComposeType} = 'open';
-    # new line after x chars and one word
-    $Self->{ComposeTicketNewLine} = 72;
-    # next possible states for compose message
-    $Self->{DefaultNextComposeStateType} = ['open', 'closed', 'pending auto', 'pending reminder'];
-    # unix_style
-    $Self->{ResponseFormat} = '$Data{"Salutation"}
-$Data{"OrigFrom"} $Text{"wrote"}:
-$Data{"Body"}
-
-$Data{"StdResponse"}
-
-$Data{"Signature"}
-';
-    # ms_style
-#    $Self->{ResponseFormat} = '$Data{"Salutation"}
-#
-#$Data{"StdResponse"}
-#
-#$Data{"Signature"}
-#
-#$Data{"OrigFrom"} $Text{"wrote"}:
-#$Data{"Body"}
-#';
-
-    # --------------------------------------------------- #
-    # defaults for bounce                                 #
-    # --------------------------------------------------- #
-    # default bounce next state
-    $Self->{DefaultNextBounceType} = 'closed successful';
-    # next possible states for bounce message
-    $Self->{DefaultNextBounceStateType} = ['open', 'closed'];
-    # default note text
-    $Self->{DefaultBounceText} = 'Your email with ticket number "<OTRS_TICKET>" '.
-      'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.';
-
-    # --------------------------------------------------- #
-    # defaults for forward message                        #
-    # --------------------------------------------------- #
-    # next possible states for forward message
-    $Self->{DefaultNextForwardStateType} = ['open', 'closed'];
-    # possible email type
-    $Self->{DefaultForwardEmailType} = [
-        'email-external',
-        'email-internal',
-    ];
-    $Self->{DefaultForwardEmailTypeSelected} = 'email-external';
-
-    # --------------------------------------------------- #
-    # add std responses when a new queue is created       #
-    # --------------------------------------------------- #
-    # array of std responses
-    $Self->{StdResponse2QueueByCreating} = [
-         'empty answer',
-    ];
-    # array of std response ids
-    $Self->{StdResponseID2QueueByCreating} = [
-#        1,
-    ];
-
-    # --------------------------------------------------- #
-    # user preferences settings                           #
-    # (allow you to add simply more user preferences)     #
-    # --------------------------------------------------- #
-    $Self->{UserPreferencesMaskUse} = [
-      # keys
-      # html params in dtl files
-      'ID',
-      'Salutation',
-      'Login',
-      'Firstname',
-      'Lastname',
-      'Email',
-      'ValidID',
-      'Pw',
-    ];
-
-    # --------------------------------------------------- #
-    #  default queue  settings                            #
-    #  these settings are used by the CLI version         #
-    # --------------------------------------------------- #
-    $Self->{QueueDefaults} = {
-        UnlockTimeout => 0,
-        EscalationTime => 0,
-        FollowUpLock => 0,
-        SystemAddressID => 1,
-        SalutationID => 1,
-        SignatureID => 1,
-        FollowUpID => 1,
-        FollowUpLock => 0,
-        MoveNotify => 0,
-        LockNotify => 0,
-        StateNotify => 0,
-    };
-
-    # --------------------------------------------------- #
-    # link object settings                                #
-    # what objects are known by the system                #
-    # --------------------------------------------------- #
-
-    $Self->{'LinkObject'}->{'Ticket'} = {
-        Name => 'Ticket Object',
-        Type => 'Object',
-        LinkObjects => ['Ticket', 'FAQ'],
-    };
-
-    $Self->{'LinkObject'}->{'FAQ'} = {
-        Name => 'FAQ Object',
-        Type => 'Object',
-        LinkObjects => ['Ticket', 'FAQ'],
-    };
-
-    # --------------------------------------------------- #
-    # external customer db settings                       #
-    # --------------------------------------------------- #
-#    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
-    $Self->{CustomerDBLink} = '$Env{"CGIHandle"}?Action=AgentCustomer&TicketID=$Data{"TicketID"}';
-#    $Self->{CustomerDBLink} = '';
-    $Self->{CustomerDBLinkTarget} = '';
-#    $Self->{CustomerDBLinkTarget} = 'target="cdb"';
-
-    # --------------------------------------------------- #
-    # misc                                                #
-    # --------------------------------------------------- #
-    # yes / no options
-    $Self->{YesNoOptions} = {
-        1 => 'Yes',
-        0 => 'No',
-    };
-
-    # --------------------------------------------------- #
-    #                                                     #
-    #             Start of config options!!!              #
-    #                 PostMaster stuff                    #
-    #                                                     #
-    # --------------------------------------------------- #
-
-    # PostmasterMaxEmails
-    # (Max post master daemon email to own email-address a day.
-    # Loop-Protection!) [default: 40]
-    $Self->{PostmasterMaxEmails} = 40;
-    # PostMasterPOP3MaxSize
-    # (max. email size)
-    $Self->{PostMasterPOP3MaxEmailSize} = 1024 * 6;
-    # PostMasterPOP3ReconnectMessage
-    # (bin/PostMasterPOP3.pl will reconnect to pop3 host after n
-    # messages)
-    $Self->{PostMasterPOP3ReconnectMessage} = 20;
-    # [Kernel::System::PostMaster::LoopProtection(FS|DB)] default is DB
-    $Self->{LoopProtectionModule} = 'Kernel::System::PostMaster::LoopProtection::DB';
-    # loop protection Log (just needed for FS module)
-    $Self->{LoopProtectionLog} = '<OTRS_CONFIG_Home>/var/log/LoopProtection';
-
-    # PostmasterAutoHTML2Text
-    # (sould OTRS convert html email only to text?)
-    $Self->{PostmasterAutoHTML2Text} = 1;
-
-    # PostmasterFollowUpSearchInReferences
-    # (If no ticket number in subject, otrs also looks in In-Reply-To
-    # and References for follow up checks)
-    $Self->{PostmasterFollowUpSearchInReferences} = 0;
-
-    # PostmasterUserID
-    # (The post master db-uid.) [default: 1]
-    $Self->{PostmasterUserID} = 1;
-
-    # PostmasterDefaultQueue
-    # (The default queue of all.) [default: Raw]
-    $Self->{PostmasterDefaultQueue} = 'Raw';
-
-    # PostmasterDefaultPriority
-    # (The default priority of new tickets.) [default: '3 normal']
-    $Self->{PostmasterDefaultPriority} = '3 normal';
-
-    # PostmasterDefaultState
-    # (The default state of new tickets.) [default: new]
-    $Self->{PostmasterDefaultState} = 'new';
-
-    # PostmasterFollowUpState
-    # (The state if a ticket got a follow up.) [default: open]
-    $Self->{PostmasterFollowUpState} = 'open';
-
-    # PostmasterFollowUpOnLockAgentNotifyOnlyToOwner
-    # (Send agent follow up notification just to the owner if a
-    # ticket is unlocked. Normally if a ticket is unlocked, the
-    # agent follow up notification get to all agents) [default: 0]
-    $Self->{PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner} = 0;
-
-    # X-Header
-    # (All scanned x-headers.)
-    $Self->{'PostmasterX-Header'} = [
-      'From',
-      'To',
-      'Cc',
-      'Reply-To',
-      'ReplyTo',
-      'Subject',
-      'Message-ID',
-      'Message-Id',
-      'Resent-To',
-      'Resent-From',
-      'Precedence',
-      'Mailing-List',
-      'List-Id',
-      'List-Archive',
-      'Errors-To',
-      'References',
-      'In-Reply-To',
-      'X-Loop',
-      'X-Spam-Flag',
-      'X-Spam-Status',
-      'X-No-Loop',
-      'X-Priority',
-      'Importance',
-      'X-Mailer',
-      'User-Agent',
-      'Organization',
-      'X-Original-To',
-      'Delivered-To',
-      'X-OTRS-Loop',
-      'X-OTRS-Info',
-      'X-OTRS-Priority',
-      'X-OTRS-Queue',
-      'X-OTRS-Ignore',
-      'X-OTRS-State',
-      'X-OTRS-CustomerNo',
-      'X-OTRS-CustomerUser',
-      'X-OTRS-ArticleKey1',
-      'X-OTRS-ArticleKey2',
-      'X-OTRS-ArticleKey3',
-      'X-OTRS-ArticleValue1',
-      'X-OTRS-ArticleValue2',
-      'X-OTRS-ArticleValue3',
-      'X-OTRS-SenderType',
-      'X-OTRS-ArticleType',
-      'X-OTRS-TicketKey1',
-      'X-OTRS-TicketKey2',
-      'X-OTRS-TicketKey3',
-      'X-OTRS-TicketKey4',
-      'X-OTRS-TicketKey5',
-      'X-OTRS-TicketKey6',
-      'X-OTRS-TicketKey7',
-      'X-OTRS-TicketKey8',
-      'X-OTRS-TicketValue1',
-      'X-OTRS-TicketValue2',
-      'X-OTRS-TicketValue3',
-      'X-OTRS-TicketValue4',
-      'X-OTRS-TicketValue5',
-      'X-OTRS-TicketValue6',
-      'X-OTRS-TicketValue7',
-      'X-OTRS-TicketValue8',
-    ];
-
-    # --------------------------------------------------- #
-    # PostMaster Filter Modules                           #
-    # --------------------------------------------------- #
-    # PostMaster::PreFilterModule
-    # (filtering and manipulaiting of incoming emails)
-
-    # Job Name: 1-Match
-    # (block/ignore all spam email with From: noreply@)
-#    $Self->{'PostMaster::PreFilterModule'}->{'1-Match'} = {
-#        Module => 'Kernel::System::PostMaster::Filter::Match',
-#        Match => {
-#            From => 'noreply@',
-#        },
-#        Set => {
-#            'X-OTRS-Ignore' => 'yes',
-#        },
-#    };
-    # Job Name: 2-Match
-    # (get a 4 digit number to ticket free text, use regex in Match
-    # e. g. From => '(.+?)@.+?', and use () as [***] in Set =>)
-#    $Self->{'PostMaster::PreFilterModule'}->{'2-Match'} = {
-#        Module => 'Kernel::System::PostMaster::Filter::Match',
-#        Match => {
-#            Subject => 'SomeNumber:(\d\d\d\d)',
-#        },
-#        Set => {
-#            'X-OTRS-TicketKey-1' => 'SomeNumber',
-#            'X-OTRS-TicketValue-1' => '[***]',
-#        },
-#    };
-    # Job Name: 5-SpamAssassin
-    # (SpamAssassin example setup, ignore spam emails)
-#    $Self->{'PostMaster::PreFilterModule'}->{'5-SpamAssassin'} = {
-#        Module => 'Kernel::System::PostMaster::Filter::CMD',
-#        CMD => '/usr/bin/spamassassin | grep -i "X-Spam-Status: yes"',
-#        Set => {
-#            'X-OTRS-Ignore' => 'yes',
-#        },
-#    };
-    # (SpamAssassin example setup, move it to spam queue)
-#    $Self->{'PostMaster::PreFilterModule'}->{'5-SpamAssassin'} = {
-#        Module => 'Kernel::System::PostMaster::Filter::CMD',
-#        CMD => '/usr/bin/spamassassin | grep -i "X-Spam-Status: yes"',
-#        Set => {
-#            'X-OTRS-Queue' => 'spam',
-#        },
-#    };
-
-    # module to use database filter storage (use it at first)
-    $Self->{'PostMaster::PreFilterModule'}->{'000-MatchDBSource'} = {
-        Module => 'Kernel::System::PostMaster::Filter::MatchDBSource',
-    };
-
-    # Job Name: 6-AgentInterface
-    # (a email agent interface)
-    $Self->{'PostMaster::PreFilterModule'}->{'999-AgentInterface'} = {
-        Module => 'Kernel::System::PostMaster::Filter::AgentInterface',
-#        AgentInterfaceAddress => 'otrs-agent@example.org',
-    };
-    # --------------------------------------------------- #
-    # Auto Response                                       #
-    # --------------------------------------------------- #
-
-    # SendNoAutoResponseRegExp
-    # (if this regexp is matching on senders From or ReplyTo, no
-    # auto response will be sent)
-    $Self->{SendNoAutoResponseRegExp} = '(MAILER-DAEMON|postmaster|abuse)@.+?\..+?';
-
 
     # --------------------------------------------------- #
     #                                                     #
@@ -1372,6 +461,187 @@ $Data{"Signature"}
     $Self->{SessionTableValue} = 'session_value';
 
     # --------------------------------------------------- #
+    # Time Settings
+    # --------------------------------------------------- #
+    # TimeZone
+    # (set the system time zone, default is local time)
+#    $Self->{'TimeZone'} = 0;
+#    $Self->{'TimeZone'} = +9;
+
+    # Time*
+    # (Used for ticket age, escalation and system unlock calculation)
+
+    # TimeWorkingHours
+    # (counted hours for working time used)
+    $Self->{'TimeWorkingHours'} = {
+        Mon => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Tue => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Wed => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Thu => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Fri => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
+        Sat => [  ],
+        Sun => [  ],
+    };
+
+    # TimeVacationDays
+    # adde new days with:
+    # "$Self->{TimeVacationDays}->{10}->{27} = 'Some Info';"
+
+    $Self->{'TimeVacationDays'} = {
+        1 => {
+            01 => 'New Year\'s Eve!',
+        },
+        5 => {
+            1 => '1 St. May',
+        },
+        12 => {
+            24 => 'Christmas',
+            25 => 'First Christmas Day',
+            26 => 'Second Christmas Day',
+            31 => 'Silvester',
+        },
+    };
+
+    # TimeVacationDaysOneTime
+    # adde new own days with:
+    # "$Self->{'TimeVacationDaysOneTime'}->{1977}-{10}->{27} = 'Some Info';"
+
+    $Self->{'TimeVacationDaysOneTime'} = {
+#        2004 => {
+#          6 => {
+#              07 => 'Some Day',
+#          },
+#          12 => {
+#              24 => 'Some A Day',
+#              31 => 'Some B Day',
+#          },
+#        },
+#        2005 => {
+#          1 => {
+#              11 => 'Some Day',
+#          },
+#        },
+    };
+
+    # --------------------------------------------------- #
+    # Web Settings
+    # --------------------------------------------------- #
+    # WebMaxFileUpload
+    # (Max size for browser file uploads - default 5 MB)
+    $Self->{WebMaxFileUpload} = 1024 * 1024 * 5;
+
+    # WebUploadCacheModule
+    # (select you WebUploadCacheModule module, default DB [DB|FS])
+    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::DB';
+#    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::FS';
+
+    # CGILogPrefix
+    $Self->{CGILogPrefix} = 'OTRS-CGI';
+
+    # --------------------------------------------------- #
+    # Agent Web Interface
+    # --------------------------------------------------- #
+    # LostPassword
+    # (use lost password feature)
+    $Self->{LostPassword} = 1;
+
+    # ShowMotd
+    # (show message of the day in login screen)
+    $Self->{ShowMotd} = 0;
+
+    # DemoSystem
+    # (If this is true, no agent preferences, like language and theme, via agent
+    # frontend can be updated! Just for the current session. Alow no password can
+    # be changed on agent frontend.)
+    $Self->{DemoSystem} = 0;
+
+    # --------------------------------------------------- #
+    # MIME-Viewer for online to html converter
+    # --------------------------------------------------- #
+    # (e. g. xlhtml (xls2html), http://chicago.sourceforge.net/xlhtml/)
+#    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
+    # MIME-Viewer for online to html converter
+    # (e. g. wv (word2html), http://wvware.sourceforge.net/)
+#    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
+    # (e. g. pdftohtml (pdf2html), http://pdftohtml.sourceforge.net/)
+#    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
+    # (e. g. xml2html (xml2html))
+#    $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl';
+
+    # --------------------------------------------------- #
+    # SpellChecker
+    # --------------------------------------------------- #
+    # (If ispell or aspell is available, then we will provide a spelling
+    # checker.)
+#    $Self->{SpellChecker} = '';
+    $Self->{SpellChecker} = '/usr/bin/ispell';
+    $Self->{SpellCheckerDictDefault} = 'english';
+
+    # SpellCheckerIgnore
+    # (A list of ignored words.)
+    $Self->{SpellCheckerIgnore} = ['www', 'webmail', 'https', 'http', 'html', 'rfc'];
+
+    # --------------------------------------------------- #
+    # directories                                         #
+    # --------------------------------------------------- #
+    # root directory
+    $Self->{'Home'} = '/opt/otrs';
+    # tmp dir
+    $Self->{'TempDir'} = '<OTRS_CONFIG_Home>/var/tmp';
+    # html template dir
+    $Self->{'TemplateDir'} = '<OTRS_CONFIG_Home>/Kernel/Output';
+
+    # --------------------------------------------------- #
+    #                                                     #
+    #            package management options               #
+    #                                                     #
+    # --------------------------------------------------- #
+
+    # Package::RepositoryRoot
+    # (get online repository list)
+    $Self->{'Package::RepositoryRoot'} = 'http://otrs.org/repository.xml';
+
+    # Package::RepositoryList
+    # (repository list)
+    $Self->{'Package::RepositoryList'} = {
+#        'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',
+    };
+
+    # Package::Timeout
+    # (http/ftp timeout to get packages)
+    $Self->{'Package::Timeout'} = 12;
+
+    # Package::Proxy
+    # (fetch packages via proxy)
+#    $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/';
+
+    # --------------------------------------------------- #
+    # PGP settings (supports gpg)                         #
+    # --------------------------------------------------- #
+    $Self->{'PGP'} = 0;
+    $Self->{'PGP::Bin'} = '/usr/bin/gpg';
+    $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes';
+#    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
+#    $Self->{'PGP::Key::Password::D2DF79FA'} = 1234;
+#    $Self->{'PGP::Key::Password::488A0B8F'} = 1234;
+
+    # --------------------------------------------------- #
+    # S/MIME settings (supports smime)                    #
+    # --------------------------------------------------- #
+    $Self->{'SMIME'} = 0;
+    # maybe openssl need a HOME env!
+    #$ENV{HOME} = '/var/lib/wwwrun';
+    $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
+#    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
+#    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private/private';
+
+    # --------------------------------------------------- #
+    # system permissions
+    # --------------------------------------------------- #
+    $Self->{'System::Permission'} = ['ro', 'rw'];
+    $Self->{'System::Customer::Permission'} = ['ro', 'rw'];
+
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #                 Preferences stuff                   #
@@ -1389,62 +659,11 @@ $Data{"Signature"}
     # (Order of shown items)
     $Self->{PreferencesView} = ['Frontend', 'Mail Management', 'Other Options'];
 
-    # PreferencesGroups
-    # (All possible items)
-    $Self->{PreferencesGroups}->{NewTicketNotify} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Mail Management',
-        Label => 'New ticket notification',
-        Desc => 'Send me a notification if there is a new ticket in "My Queues".',
-        Data => $Self->Get('YesNoOptions'),
-        PrefKey => 'UserSendNewTicketNotification',
-        Prio => 1000,
-        Activ => 1,
-    };
-    $Self->{PreferencesGroups}->{FollowUpNotify} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Mail Management',
-        Label => 'Follow up notification',
-        Desc => "Send me a notification if a customer sends a follow up and I'm the owner of this ticket.",
-        Data => $Self->Get('YesNoOptions'),
-        PrefKey => 'UserSendFollowUpNotification',
-        Prio => 2000,
-        Activ => 1,
-    };
-    $Self->{PreferencesGroups}->{LockTimeoutNotify} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Mail Management',
-        Label => 'Ticket lock timeout notification',
-        Desc => 'Send me a notification if a ticket is unlocked by the system.',
-        Data => $Self->Get('YesNoOptions'),
-        PrefKey => 'UserSendLockTimeoutNotification',
-        Prio => 3000,
-        Activ => 1,
-    };
-    $Self->{PreferencesGroups}->{MoveNotify} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Mail Management',
-        Label => 'Move notification',
-        Desc => 'Send me a notification if a ticket is moved into one of "My Queues".',
-        Data => $Self->Get('YesNoOptions'),
-        PrefKey => 'UserSendMoveNotification',
-        Prio => 4000,
-        Activ => 1,
-    };
-
     $Self->{PreferencesGroups}->{Password} = {
         Module => 'Kernel::Output::HTML::PreferencesPassword',
         Colum => 'Other Options',
         Label => 'Change Password',
         Prio => 1000,
-        Activ => 1,
-    };
-    $Self->{PreferencesGroups}->{CustomQueue} = {
-        Module => 'Kernel::Output::HTML::PreferencesCustomQueue',
-        Colum => 'Other Options',
-        Label => 'My Queues',
-        Desc => 'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.',
-        Prio => 2000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
@@ -1489,23 +708,6 @@ $Data{"Signature"}
 #        Activ => 1,
 #    };
 
-    $Self->{PreferencesGroups}->{RefreshTime} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Frontend',
-        Label => 'QueueView refresh time',
-        Desc => 'Select your QueueView refresh time.',
-        Data => {
-            '' => 'off',
-            2 => ' 2 minutes',
-            5 => ' 5 minutes',
-            7 => ' 7 minutes',
-            10 => '10 minutes',
-            15 => '15 minutes',
-        },
-        PrefKey => 'UserRefreshTime',
-        Prio => 3000,
-        Activ => 1,
-    };
     $Self->{PreferencesGroups}->{Language} = {
         Module => 'Kernel::Output::HTML::PreferencesLanguage',
         Colum => 'Frontend',
@@ -1522,51 +724,6 @@ $Data{"Signature"}
         Desc => 'Select your frontend Theme.',
         PrefKey => 'UserTheme',
         Prio => 2000,
-        Activ => 1,
-    };
-    $Self->{PreferencesGroups}->{QueueView} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Frontend',
-        Label => 'QueueView',
-        Desc => 'Select your frontend QueueView.',
-        Data => {
-            TicketView => 'Standard',
-            TicketViewLite => 'Lite',
-        },
-        DataSelected => 'TicketView',
-        Prio => 3000,
-        PrefKey => 'UserQueueView',
-        Activ => 1,
-    };
-    $Self->{PreferencesGroups}->{QueueViewShownTickets} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Frontend',
-        Label => 'Shown Tickets',
-        Desc => 'Max. shown Tickets a page in QueueView.',
-        Data => {
-            10 => 10,
-            15 => 15,
-            20 => 20,
-            25 => 25,
-        },
-        DataSelected => 15,
-        PrefKey => 'UserQueueViewShowTickets',
-        Prio => 4000,
-        Activ => 1,
-    };
-    $Self->{PreferencesGroups}->{CreateNextMask} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Frontend',
-        Label => 'Screen after new ticket',
-        Desc => 'Select your screen after creating a new ticket.',
-        Data => {
-            '' => 'CreateTicket',
-            AgentZoom => 'TicketZoom',
-        },
-        DataSelected => '',
-#        DataSelected => 'AgentZoom',
-        PrefKey => 'UserCreateNextMask',
-        Prio => 5000,
         Activ => 1,
     };
 
@@ -1649,12 +806,6 @@ Your OTRS Notification Master
     $Self->{CustomerPanelLogoutURL} = '';
 #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
-    # CustomerNotifyJustToRealCustomer
-    # (Send customer notifications just to mapped customer. Normally
-    # if no customer is mapped, the latest customer sender gets the
-    # notification.)
-    $Self->{CustomerNotifyJustToRealCustomer} = 0;
-
     # CustomerPanelPreApplicationModule
     # (Used for every request, if defined, the PreRun() function of
     # this module will be used. This interface use useful to check
@@ -1674,73 +825,6 @@ Your OTRS Notification Master
     # CustomerPanelCreateAccount
     # (use create cutomer account self feature)
     $Self->{CustomerPanelCreateAccount} = 1;
-
-    # CustomerPriority
-    # (If the customer can set the ticket priority)
-    $Self->{CustomerPriority} = 1;
-    # CustomerDefaultPriority
-    # (default priority of new customer tickets)
-    $Self->{CustomerDefaultPriority} = '3 normal';
-
-    # CustomerDefaultState
-    # (default state of new customer tickets)
-    $Self->{CustomerDefaultState} = 'new';
-
-    # CustomerNextScreenAfterNewTicket
-#    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerZoom';
-    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketOverView';
-
-    # --------------------------------------------------- #
-    # customer message settings                           #
-    # --------------------------------------------------- #
-    # default note type
-    $Self->{CustomerPanelArticleType} = 'webrequest';
-    $Self->{CustomerPanelSenderType} = 'customer';
-    # default history type
-    $Self->{CustomerPanelHistoryType} = 'FollowUp';
-    $Self->{CustomerPanelHistoryComment} = '';
-
-    # default compose follow up next state
-    $Self->{CustomerPanelDefaultNextComposeType} = 'open';
-    $Self->{CustomerPanelNextComposeState} = 1;
-    # next possible states for compose message
-    $Self->{CustomerPanelDefaultNextComposeStateType} = ['open', 'closed'];
-
-    # default article type
-    $Self->{CustomerPanelNewArticleType} = 'webrequest';
-    $Self->{CustomerPanelNewSenderType} = 'customer';
-    # default history type
-    $Self->{CustomerPanelNewHistoryType} = 'WebRequestCustomer';
-    $Self->{CustomerPanelNewHistoryComment} = '';
-
-    # CustomerPanelSelectionType
-    # (To: seection type. Queue => show all queues, SystemAddress => show all system
-    # addresses;) [Queue|SystemAddress]
-    $Self->{CustomerPanelSelectionType} = 'Queue';
-#    $Self->{CustomerPanelSelectionType} = 'SystemAddress';
-
-    # CustomerPanelSelectionString
-    # (String for To: selection.)
-    # use this for CustomerPanelSelectionType = Queue
-#    $Self->{CustomerPanelSelectionString} = 'Queue: <Queue> - <QueueComment>';
-    $Self->{CustomerPanelSelectionString} = '<Queue>';
-    # use this for CustomerPanelSelectionType = SystemAddress
-#    $Self->{CustomerPanelSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
-
-    # CustomerPanelOwnSelection
-    # (If this is in use, "just this selection is valid" for the CustomMessage.)
-#    $Self->{CustomerPanelOwnSelection} = {
-#        # Queue => Frontend-Name
-#        'Junk' => 'First Queue!',
-#        'Misc' => 'Second Queue!',
-#        # QueueID => Frontend-Name (or optional with QueueID)
-##        '1' => 'First Queue!',
-##        '2' => 'Second Queue!',
-#    };
-
-    # CustomerPanel::NewTicketQueueSelectionModule
-    # (own module layer for to selection in new ticket screen)
-    $Self->{'CustomerPanel::NewTicketQueueSelectionModule'} = 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
 
     # --------------------------------------------------- #
     # notification email about new password               #
@@ -1852,18 +936,6 @@ Your OTRS Notification Master
     #                                                     #
     # --------------------------------------------------- #
 
-    # ShowCustomerInfo*
-    # (show customer user info on Compose (Phone and Email), Zoom and Queue view)
-    $Self->{ShowCustomerInfoCompose} = 1;
-    $Self->{ShowCustomerInfoZoom} = 1;
-    $Self->{ShowCustomerInfoQueue} = 0;
-
-    # ShowCustomerInfo*MaxSize
-    # (max size (in characters) of customer info table)
-    $Self->{ShowCustomerInfoComposeMaxSize} = 22;
-    $Self->{ShowCustomerInfoZoomMaxSize} = 22;
-    $Self->{ShowCustomerInfoQueueMaxSize} = 18;
-
     # CustomerUser
     # (customer user database backend and settings)
     $Self->{CustomerUser} = {
@@ -1877,7 +949,7 @@ Your OTRS Notification Master
 #            User => '',
 #            Password => '',
             Table => 'customer_user',
-        }, 
+        },
         # customer uniq id
         CustomerKey => 'login',
         # customer #
@@ -2021,50 +1093,6 @@ Your OTRS Notification Master
         Prio => 1000,
         Activ => 1,
     };
-    $Self->{CustomerPreferencesGroups}->{ClosedTickets} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Other Options',
-        Label => 'Closed Tickets',
-        Desc => 'Show closed tickets.',
-        Data => $Self->Get('YesNoOptions'),
-        DataSelected => 1,
-        PrefKey => 'UserShowClosedTickets',
-        Prio => 2000,
-        Activ => 1,
-    };
-    $Self->{CustomerPreferencesGroups}->{ShownTickets} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Frontend',
-        Label => 'Shown Tickets',
-        Desc => 'Max. shown Tickets a page in Overview.',
-        Data => {
-            15 => 15,
-            20 => 20,
-            25 => 25,
-            30 => 30,
-        },
-        DataSelected => 25,
-        PrefKey => 'UserShowTickets',
-        Prio => 4000,
-        Activ => 1,
-    };
-    $Self->{CustomerPreferencesGroups}->{RefreshTime} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Frontend',
-        Label => 'QueueView refresh time',
-        Desc => 'Select your QueueView refresh time.',
-        Data => {
-            '' => 'off',
-            2 => ' 2 minutes',
-            5 => ' 5 minutes',
-            7 => ' 7 minutes',
-            10 => '10 minutes',
-            15 => '15 minutes',
-        },
-        PrefKey => 'UserRefreshTime',
-        Prio => 3000,
-        Activ => 1,
-    };
     $Self->{CustomerPreferencesGroups}->{Language} = {
         Module => 'Kernel::Output::HTML::PreferencesLanguage',
         Colum => 'Frontend',
@@ -2104,215 +1132,16 @@ Your OTRS Notification Master
     };
 
     # --------------------------------------------------- #
-    #                                                     #
-    #             Start of config options!!!              #
-    #                    Phone stuff                      #
-    #                                                     #
+    # misc                                                #
     # --------------------------------------------------- #
-
-    # --------------------------------------------------- #
-    # defaults for phone stuff                            #
-    # --------------------------------------------------- #
-    # default note type
-    $Self->{PhoneDefaultArticleType} = 'phone';
-    $Self->{PhoneDefaultSenderType} = 'agent';
-    # default note subject
-    $Self->{PhoneDefaultSubject} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
-    # default note text
-    $Self->{PhoneDefaultNoteText} = '$Text{"Customer called"}';
-    # next possible states after phone
-    $Self->{PhoneDefaultNextStateType} = ['open', 'pending auto', 'pending reminder', 'closed'];
-
-    # default next state
-    $Self->{PhoneDefaultNextState} = 'closed successful';
-    # default history type
-    $Self->{PhoneDefaultHistoryType} = 'PhoneCallAgent';
-    $Self->{PhoneDefaultHistoryComment} = '';
-
-
-    # default article type
-    $Self->{PhoneDefaultNewArticleType} = 'phone';
-    $Self->{PhoneDefaultNewSenderType} = 'customer';
-    # default note subject
-#    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
-    $Self->{PhoneDefaultNewSubject} = '';
-    # default note text
-#    $Self->{PhoneDefaultNewNoteText} = 'New ticket via call.';
-    $Self->{PhoneDefaultNewNoteText} = '';
-    # default next state [default: open]
-    $Self->{PhoneDefaultNewNextState} = 'open';
-    # default priority [default: 3 normal]
-    $Self->{PhoneDefaultPriority} = '3 normal';
-    # default history type
-    $Self->{PhoneDefaultNewHistoryType} = 'PhoneCallCustomer';
-    $Self->{PhoneDefaultNewHistoryComment} = '';
-
-    # PhoneViewOwnerSelection
-    $Self->{PhoneViewOwnerSelection} = 1;
-
-    # PhoneViewSelectionType 
-    # (To: seection type. Queue => show all queues, SystemAddress => show all system 
-    # addresses;) [Queue|SystemAddress]
-    $Self->{PhoneViewSelectionType} = 'Queue';
-#    $Self->{PhoneViewSelectionType} = 'SystemAddress';
-
-    # PhoneViewSelectionString
-    # (String for To: selection.) 
-    # use this for PhoneViewSelectionType = Queue
-#   $Self->{PhoneViewSelectionString} = 'Queue: <Queue> - <QueueComment>';
-   $Self->{PhoneViewSelectionString} = '<Queue>';
-    # use this for PhoneViewSelectionType = SystemAddress
-#    $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
-#    $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue>';
-
-    # PhoneViewOwnSelection
-    # (If this is in use, "just this selection is valid" for the PhoneView.)
-#    $Self->{PhoneViewOwnSelection} = {
-#        # QueueID => String
-#        '1' => 'First Queue!',
-#        '2' => 'Second Queue!',
-#    };
-
-    # --------------------------------------------------- #
-    # agent compose email stuff
-    # --------------------------------------------------- #
-    # default priority [default: 3 normal]
-    $Self->{EmailDefaultPriority} = '3 normal';
-
-    # default article type
-    $Self->{EmailDefaultNewArticleType} = 'email-external';
-    # default sender type
-    $Self->{EmailDefaultNewSenderType} = 'agent';
-
-    # history
-    $Self->{EmailDefaultNewHistoryType} = 'EmailAgent';
-    $Self->{EmailDefaultNewHistoryComment} = '';
-
-    # default note text
-    $Self->{EmailDefaultNoteText} = '';
-
-    # next possible states after phone
-    $Self->{EmailDefaultNextStateType} = ['open', 'pending auto', 'pending reminder', 'closed'];
-
-    # default next state
-    $Self->{EmailDefaultNewNextState} = 'open';
-
-    # --------------------------------------------------- #
-    # PGP settings (supports gpg)                         #
-    # --------------------------------------------------- #
-    $Self->{'PGP'} = 0;
-    $Self->{'PGP::Bin'} = '/usr/bin/gpg';
-    $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes';
-#    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
-#    $Self->{'PGP::Key::Password::D2DF79FA'} = 1234;
-#    $Self->{'PGP::Key::Password::488A0B8F'} = 1234;
-
-    # --------------------------------------------------- #
-    # S/MIME settings (supports smime)                    #
-    # --------------------------------------------------- #
-    $Self->{'SMIME'} = 0;
-    # maybe openssl need a HOME env!
-    #$ENV{HOME} = '/var/lib/wwwrun';
-    $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
-#    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
-#    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private/private';
-
-    # --------------------------------------------------- #
-    # system permissions
-    # --------------------------------------------------- #
-    $Self->{'System::Permission'} = ['ro', 'move_into', 'create', 'owner', 'priority', 'rw'];
-#    $Self->{'System::Permission'} = ['ro', 'move_into', 'create', 'note', 'close', 'pending', 'owner', 'priority', 'customer', 'freetext', 'forward', 'bounce', 'move', 'rw'];
-    $Self->{'System::Customer::Permission'} = ['ro', 'rw'];
-
-    # --------------------------------------------------- #
-    # agent ticket permissions
-    # --------------------------------------------------- #
-    # Module Name: 1-OwnerCheck
-    # (if the current owner is already the user, grant access)
-    $Self->{'Ticket::Permission'}->{'1-OwnerCheck'} = {
-        Module => 'Kernel::System::Ticket::Permission::OwnerCheck',
-        # if this check is needed
-        Required => 0,
-        # if this check is true, don't do more checks
-        Granted => 0,
-    };
-    # Module Name: 2-GroupCheck
-    # (if the user is in this group with type ro|rw|..., grant access)
-    $Self->{'Ticket::Permission'}->{'2-GroupCheck'} = {
-        Module => 'Kernel::System::Ticket::Permission::GroupCheck',
-        # if this check is needed
-        Required => 0,
-        # if this check is true, don't do more checks
-        Granted => 0,
+    # yes / no options
+    $Self->{YesNoOptions} = {
+        1 => 'Yes',
+        0 => 'No',
     };
 
     # --------------------------------------------------- #
-    # customer ticket permissions
-    # --------------------------------------------------- #
-    # Module Name: 1-CustomerIDGroupCheck
-    # (grant access, if customer id is the same and group is accessable)
-    $Self->{'CustomerTicket::Permission'}->{'1-CustomerUserIDCheck'} = {
-        Module => 'Kernel::System::Ticket::CustomerPermission::CustomerUserIDCheck',
-        # if this check is needed
-        Required => 0,
-        # if this check is true, don't do more checks
-        Granted => 1,
-    };
-    $Self->{'CustomerTicket::Permission'}->{'2-CustomerIDCheck'} = {
-        Module => 'Kernel::System::Ticket::CustomerPermission::CustomerIDCheck',
-        # if this check is needed
-        Required => 1,
-        # if this check is true, don't do more checks
-        Granted => 0,
-    };
-    $Self->{'CustomerTicket::Permission'}->{'3-GroupCheck'} = {
-        Module => 'Kernel::System::Ticket::CustomerPermission::GroupCheck',
-        # if this check is needed
-        Required => 1,
-        # if this check is true, don't do more checks
-        Granted => 0,
-    };
-
-    # --------------------------------------------------- #
-    # FAQ settings
-    # --------------------------------------------------- #
-
-    $Self->{'FAQ::FAQHook'} = 'FAQ#';
-    $Self->{'FAQ::Default::State'} = 'internal (agent)';
-
-    $Self->{'FAQ::Field1'} = 'Symptom';
-    $Self->{'FAQ::Field2'} = 'Problem';
-    $Self->{'FAQ::Field3'} = 'Solution';
-    $Self->{'FAQ::Field4'} = 'field4';
-    $Self->{'FAQ::Field5'} = 'field5';
-    $Self->{'FAQ::Field6'} = 'Comment (internal)';
-
-    # --------------------------------------------------- #
-    #                                                     #
-    #            package management options               #
-    #                                                     #
-    # --------------------------------------------------- #
-
-    # Package::RepositoryRoot
-    # (get online repository list)
-    $Self->{'Package::RepositoryRoot'} = 'http://otrs.org/repository.xml';
-
-    # Package::RepositoryList
-    # (repository list)
-    $Self->{'Package::RepositoryList'} = {
-#        'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',
-    };
-
-    # Package::Timeout
-    # (http/ftp timeout to get packages)
-    $Self->{'Package::Timeout'} = 12;
-
-    # Package::Proxy
-    # (fetch packages via proxy)
-#    $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/';
-
-    # --------------------------------------------------- #
-    # frontend module registry
+    # Frontend Module Registry (Agent)
     # --------------------------------------------------- #
     # Module (from Kernel/Modules/*.pm) => Group
 
@@ -2331,73 +1160,6 @@ Your OTRS Notification Master
         ],
     };
 
-    $Self->{'Frontend::Module'}->{'AgentQueueView'} = {
-        Description => 'Overview of all open Tickets',
-        NavBarName => 'Ticket',
-        NavBar => [
-          {
-            Description => 'Overview of all open Tickets',
-            Name => 'QueueView',
-            Image => 'overview.png',
-            Link => 'Action=AgentQueueView',
-            NavBar => 'Ticket',
-            Prio => 100,
-          },
-          {
-            Description => 'Ticket-Area',
-            Type => 'Menu',
-            Block => 'ItemArea',
-            Name => 'Agent',
-            Image => 'desktop.png',
-            Link => 'Action=AgentQueueView',
-            NavBar => 'Ticket',
-            Prio => 200,
-          },
-        ],
-    };
-    $Self->{'Frontend::Module'}->{'AgentPhone'} = {
-        Description => 'Create new Phone Ticket',
-        NavBarName => 'Ticket',
-        NavBar => [
-          {
-            Description => 'Create new Phone Ticket',
-            Name => 'Phone-Ticket',
-            Image => 'phone-new.png',
-            Link => 'Action=AgentPhone',
-            NavBar => 'Ticket',
-            Prio => 200,
-          },
-        ],
-    };
-    $Self->{'Frontend::Module'}->{'AgentEmail'} = {
-        Description => 'Create new Email Ticket',
-        NavBarName => 'Ticket',
-        NavBar => [
-          {
-#            Description => 'Create new Email Ticket',
-            Description => 'Send Email and create a new Ticket',
-            Name => 'Email-Ticket',
-            Image => 'mail_new.png',
-            Link => 'Action=AgentEmail',
-            NavBar => 'Ticket',
-            Prio => 210,
-          },
-        ],
-    };
-    $Self->{'Frontend::Module'}->{'AgentUtilities'} = {
-        Description => 'Search Tickets',
-        NavBarName => 'Ticket',
-        NavBar => [
-          {
-            Description => 'Search Tickets',
-            Name => 'Search',
-            Image => 'search.png',
-            Link => 'Action=AgentUtilities',
-            NavBar => 'Ticket',
-            Prio => 300,
-         },
-       ],
-    };
     $Self->{'Frontend::Module'}->{'AgentPreferences'} = {
         Description => 'Agent Preferences',
 #        NavBarName => 'Ticket',
@@ -2414,94 +1176,11 @@ Your OTRS Notification Master
          },
        ],
     };
-    $Self->{'Frontend::Module'}->{'AgentMailbox'} = {
-        Description => 'Agent Mailbox',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentStatusView'} = {
-        Description => 'Overview of all open tickets',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentZoom'} = {
-        Description => 'Ticket Zoom',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentAttachment'} = {
-        Description => 'To download attachments',
-    };
-    $Self->{'Frontend::Module'}->{'AgentPlain'} = {
-        Description => 'Ticket plain view of an email',
-        NavBarName => 'Ticket',
-    };
     $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
         Description => 'Spell checker',
     };
     $Self->{'Frontend::Module'}->{'AgentBook'} = {
         Description => 'Address book of CustomerUser sources',
-    };
-    $Self->{'Frontend::Module'}->{'AgentNote'} = {
-        Description => 'Ticket Note',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentPending'} = {
-        Description => 'Ticket Pending',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentPriority'} = {
-        Description => 'Ticket Priority',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentLock'} = {
-        Description => 'Ticket Lock',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentMove'} = {
-        Description => 'Ticket Move',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentHistory'} = {
-        Description => 'Ticket History',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentOwner'} = {
-        Description => 'Ticket Owner',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentCompose'} = {
-        Description => 'Ticket Compose Email Answer',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentCustomerFollowUp'} = {
-        Description => 'Used if a agent can also be a customer',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentBounce'} = {
-        Description => 'Ticket Compose Bounce Email',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentForward'} = {
-        Description => 'Ticket Forward Email',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentCustomer'} = {
-        Description => 'Ticket Customer',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentClose'} = {
-        Description => 'Ticket Close',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentFreeText'} = {
-        Description => 'Ticket FreeText',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentTicketPrint'} = {
-        Description => 'Ticket Print',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentBulk'} = {
-        Description => 'Ticket bulk module',
-        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentLinkObject'} = {
         Description => 'Link Object',
@@ -2524,102 +1203,6 @@ Your OTRS Notification Master
             Link => 'Action=SystemStats',
             NavBar => 'Ticket',
             Prio => 400,
-          },
-        ],
-    };
-    # faq interface
-    $Self->{'Frontend::Module'}->{'FAQ'} = {
-        Group => 'faq',
-        GroupRo => 'faq',
-        Description => 'FAQ-Area',
-        NavBarName => 'FAQ',
-        NavBar => [
-          {
-            GroupRo => 'faq',
-            Description => 'FAQ-Area',
-            Type => 'Menu',
-            Block => 'ItemArea',
-            Name => 'FAQ',
-            Image => 'help.png',
-            Link => 'Action=FAQ',
-            NavBar => 'FAQ',
-            Prio => 8300,
-          },
-          {
-            Group => 'faq',
-            Description => 'New Article',
-            Name => 'New Article',
-            Image => 'new.png',
-            Link => 'Action=FAQ&Subaction=Add',
-            NavBar => 'FAQ',
-            Prio => 200,
-          },
-          {
-            GroupRo => 'faq',
-            Description => 'FAQ-Search',
-            Name => 'Search',
-            Image => 'search.png',
-            Link => 'Action=FAQ&Subaction=Search',
-            NavBar => 'FAQ',
-            Prio => 300,
-          },
-          {
-            GroupRo => 'faq',
-            Description => 'History',
-            Name => 'History',
-            Image => 'list.png',
-            Link => 'Action=FAQ&Subaction=SystemHistory',
-            NavBar => 'FAQ',
-            Prio => 310,
-          },
-        ],
-    };
-
-#    $Self->{'Frontend::Module'}->{'FAQState'} = {
-#        GroupRo => '',
-#        Group => 'faq',
-#        Description => 'FAQ-State',
-#        NavBarName => 'FAQ',
-#        NavBar => [
-#          {
-#            Description => 'State',
-#            Name => 'State',
-#            Image => 'fileopen.png',
-#            Link => 'Action=FAQState',
-#            NavBar => 'FAQ',
-#            Prio => 920,
-#          },
-#        ],
-#    };
-    $Self->{'Frontend::Module'}->{'FAQCategory'} = {
-        GroupRo => '',
-        Group => 'faq',
-        Description => 'FAQ-Category',
-        NavBarName => 'FAQ',
-        NavBar => [
-          {
-            Description => 'Category',
-            Name => 'Category',
-            Image => 'fileopen.png',
-            Link => 'Action=FAQCategory',
-            NavBar => 'FAQ',
-            Prio => 900,
-          },
-        ],
-    };
-    $Self->{'Frontend::Module'}->{'FAQLanguage'} = {
-        GroupRo => '',
-        Group => 'faq',
-        Description => 'FAQ-Language',
-        NavBarName => 'FAQ',
-        NavBar => [
-          {
-            Description => 'Language',
-            Name => 'Language',
-            Image => 'fileopen.png',
-            Link => 'Action=FAQLanguage',
-            NavBar => 'FAQ',
-            Prio => 910,
           },
         ],
     };
@@ -2743,129 +1326,6 @@ Your OTRS Notification Master
             Prio => 700,
         },
     };
-
-
-    $Self->{'Frontend::Module'}->{'AdminQueue'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Queue',
-            Block => 'Block2',
-            Prio => 100,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminResponse'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Responses',
-            Block => 'Block2',
-            Prio => 200,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Responses <-> Queue',
-            Block => 'Block2',
-            Prio => 300,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Auto Response',
-            Block => 'Block2',
-            Prio => 400,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Auto Response <-> Queue',
-            Block => 'Block2',
-            Prio => 500,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Attachment',
-            Block => 'Block2',
-            Prio => 600,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Attachment <-> Response',
-            Block => 'Block2',
-            Prio => 700,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Salutation',
-            Block => 'Block3',
-            Prio => 100,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminSignature'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Signature',
-            Block => 'Block3',
-            Prio => 200,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Email Addresses',
-            Block => 'Block3',
-            Prio => 300,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminNotification'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Notifications',
-            Block => 'Block3',
-            Prio => 400,
-        },
-    };
     $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
         Group => ['admin'],
         Description => 'Admin',
@@ -2888,17 +1348,6 @@ Your OTRS Notification Master
             Prio => 600,
         },
     };
-    $Self->{'Frontend::Module'}->{'AdminState'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Status',
-            Block => 'Block3',
-            Prio => 700,
-        },
-    };
     $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
         Group => ['admin'],
         Description => 'Admin',
@@ -2919,17 +1368,6 @@ Your OTRS Notification Master
             Name => 'PostMaster Filter',
             Block => 'Block4',
             Prio => 200,
-        },
-    };
-    $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
-        Group => ['admin'],
-        Description => 'Admin',
-        NavBarName => 'Admin',
-        NavBarModule => {
-            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'GenericAgent',
-            Block => 'Block4',
-            Prio => 300,
         },
     };
     $Self->{'Frontend::Module'}->{'AdminEmail'} = {
@@ -2988,6 +1426,9 @@ Your OTRS Notification Master
         },
     };
 
+    # --------------------------------------------------- #
+    # Frontend Module Registry (Customer)
+    # --------------------------------------------------- #
     $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
         Description => 'Logout of customer panel.',
         NavBarName => '',
@@ -2998,67 +1439,6 @@ Your OTRS Notification Master
             Image => 'exit.png',
             Link => 'Action=Logout',
             Prio => 10,
-          },
-        ],
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketOverView'} = {
-        Description => 'Overview of customer tickets.',
-        NavBar => [
-          {
-            Description => 'MyTickets',
-            Name => 'MyTickets',
-            Image => 'ticket.png',
-            Link => 'Action=CustomerTicketOverView&Type=MyTickets',
-            Prio => 110,
-          },
-          {
-            Description => 'CompanyTickets',
-            Name => 'CompanyTickets',
-            Image => 'tickets.png',
-            Link => 'Action=CustomerTicketOverView&Type=CompanyTickets',
-            Prio => 120,
-          },
-        ],
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerMessage'} = {
-        Description => 'Create and updated tickets.',
-        NavBar => [
-          {
-            Description => 'Create new Ticket',
-            Name => 'New Ticket',
-            Image => 'new.png',
-            Link => 'Action=CustomerMessage',
-            Prio => 100,
-          },
-        ],
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerZoom'} = {
-        Description => 'Ticket zoom view',
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerAttachment'} = {
-        Description => 'To download attachments',
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketSearch'} = {
-        Description => 'Customer ticket search.',
-        NavBar => [
-          {
-            Description => 'Search',
-            Name => 'Search',
-            Image => 'search.png',
-            Link => 'Action=CustomerTicketSearch',
-            Prio => 300,
-          },
-        ],
-    };
-    $Self->{'CustomerFrontend::Module'}->{'CustomerFAQ'} = {
-        Description => 'Customer faq.',
-        NavBar => [
-          {
-            Description => 'FAQ-Area',
-            Name => 'FAQ-Area',
-            Image => 'help.png',
-            Link => 'Action=CustomerFAQ',
-            Prio => 400,
           },
         ],
     };
@@ -3164,7 +1544,7 @@ sub new {
             }
         }
         else {
-            print STDERR "Can't read $Self->{Home}/RELEASE: $!";
+            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $!";
         }
     }
     # load config (again)
@@ -3173,7 +1553,12 @@ sub new {
     # replace config variables in config variables
     foreach (keys %{$Self}) {
         if ($_) {
-           $Self->{$_} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
+            if (defined($Self->{$_})) {
+                $Self->{$_} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
+            }
+            else {
+                print STDERR "ERROR: $_ not defined!\n";
+            }
         }
     }
 
@@ -3194,6 +1579,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.184 $ $Date: 2005-01-25 13:16:06 $
+$Revision: 1.185 $ $Date: 2005-02-15 11:58:12 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/State.pm - All state related function should be here eventually
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.7 2004-02-13 00:51:22 martin Exp $
+# $Id: State.pm,v 1.8 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     # state params
     $Self->{StateParams} = ['ID', 'Name', 'Comment', 'ValidID', 'TypeID', 'UserID'];
     # check needed config options
-    foreach (qw(ViewableStateType UnlockStateType)) {
+    foreach (qw(Ticket::ViewableStateType Ticket::UnlockStateType)) {
         $Self->{ConfigObject}->Get($_) || die "Need $_ in Kernel/Config.pm!\n";
     }
 
@@ -60,13 +60,13 @@ sub StateAdd {
         " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # get new state id
-        my $SQL = "SELECT id FROM ticket_state WHERE name = '$Param{Name}'"; 
+        my $SQL = "SELECT id FROM ticket_state WHERE name = '$Param{Name}'";
         my $ID = '';
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $ID = $Row[0];
         }
-        return $ID; 
+        return $ID;
     }
     else {
         return;
@@ -90,7 +90,7 @@ sub StateGet {
             return %{$Self->{"StateGet::$Param{ID}"}};
         }
     }
-    # sql 
+    # sql
     my $SQL = "SELECT ts.id, ts.name, ts.valid_id, ts.comments, ts.type_id, tst.name ".
         " FROM ".
         " ticket_state ts, ticket_state_type tst ".
@@ -171,15 +171,15 @@ sub StateGetStatesByType {
         return;
       }
     }
-    # sql 
+    # sql
     my @StateType = ();
-    if ($Self->{ConfigObject}->Get($Param{Type}.'StateType')) {
-        @StateType = @{$Self->{ConfigObject}->Get($Param{Type}.'StateType')};
+    if ($Self->{ConfigObject}->Get('Ticket::'.$Param{Type}.'StateType')) {
+        @StateType = @{$Self->{ConfigObject}->Get('Ticket::'.$Param{Type}.'StateType')};
     }
     else {
         $Self->{LogObject}->Log(
-            Priority => 'error', 
-            Message => "Type '$Param{Type}StateType' not found in Kernel/Config.pm!",
+            Priority => 'error',
+            Message => "Type 'Ticket::$Param{Type}StateType' not found in Kernel/Config.pm!",
         );
         die;
     }
@@ -218,7 +218,7 @@ sub StateList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
         return;
     }
-    # sql 
+    # sql
     my $SQL = "SELECT id, name ".
         " FROM ".
         " ticket_state ".

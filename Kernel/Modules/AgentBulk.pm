@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.10 2004-10-26 11:27:21 martin Exp $
+# $Id: AgentBulk.pm,v 1.11 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -62,7 +62,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Bulk Action');
+    $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Bulk Action');
     # process tickets
     foreach (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);
@@ -191,7 +191,7 @@ sub _Mask {
     my $Self = shift;
     my %Param = @_;
     # build ArticleTypeID string
-    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
+    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('Ticket::Frontend::NoteTypes')};
     my %NoteTypes = $Self->{DBObject}->GetTableData(
         Table => 'article_type',
         Valid => 1,

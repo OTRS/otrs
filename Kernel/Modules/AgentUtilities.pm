@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.68 2005-02-11 06:50:25 martin Exp $
+# $Id: AgentUtilities.pm,v 1.69 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,13 +44,13 @@ sub new {
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
 
     # if we need to do a fultext search on an external mirror database
-    if ($Self->{ConfigObject}->Get('AgentUtil::DB::DSN')) {
+    if ($Self->{ConfigObject}->Get('Ticket::AgentUtil::DB::DSN')) {
         my $ExtraDatabaseObject = Kernel::System::DB->new(
             LogObject => $Param{LogObject},
             ConfigObject => $Param{ConfigObject},
-            DatabaseDSN => $Self->{ConfigObject}->Get('AgentUtil::DB::DSN'),
-            DatabaseUser => $Self->{ConfigObject}->Get('AgentUtil::DB::User'),
-            DatabasePw => $Self->{ConfigObject}->Get('AgentUtil::DB::Password'),
+            DatabaseDSN => $Self->{ConfigObject}->Get('Ticket::AgentUtil::DB::DSN'),
+            DatabaseUser => $Self->{ConfigObject}->Get('Ticket::AgentUtil::DB::User'),
+            DatabasePw => $Self->{ConfigObject}->Get('Ticket::AgentUtil::DB::Password'),
         ) || die $DBI::errstr;
         $Self->{TicketObjectSearch} = Kernel::System::Ticket->new(
             %Param,
@@ -70,8 +70,8 @@ sub Run {
     my $Output;
     # get confid data
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('SearchLimit') || 200;
-    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('SearchPageShown') || 40;
+    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::AgentUtil::SearchLimit') || 200;
+    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::AgentUtil::SearchPageShown') || 40;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
     $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';
@@ -263,7 +263,7 @@ sub Run {
             # get first article data
             my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle(TicketID => $_);
             # get whole article (if configured!)
-            if ($Self->{ConfigObject}->Get('AgentUtilArticleTreeCSV') && $GetParam{ResultForm} eq 'CSV') {
+            if ($Self->{ConfigObject}->Get('Ticket::AgentUtil::ArticleCSVTree') && $GetParam{ResultForm} eq 'CSV') {
                 my @Article = $Self->{TicketObjectSearch}->ArticleGet(
                     TicketID => $_
                 );
@@ -313,9 +313,9 @@ sub Run {
                 else {
                     # do some text quoting
                     $Data{Body} = $Self->{LayoutObject}->Ascii2Html(
-                        NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+                        NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
                         Text => $Data{Body},
-                        VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
+                        VMax => $Self->{ConfigObject}->Get('Ticket::AgentUtil::ViewableTicketLinesBySearch') || 15,
                         StripEmptyLines => 1,
                         HTMLResultMode => 1,
                     );
@@ -331,7 +331,7 @@ sub Run {
                 # customer info string
                 $UserInfo{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
                     Data => \%CustomerData,
-                    Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
+                    Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueueMaxSize'),
                 );
                 # do some html highlighting
                 my $HighlightStart = '<font color="orange"><b><i>';
@@ -382,7 +382,7 @@ sub Run {
                 );
                 # csv quote
                 if (!@CSVHead) {
-                    @CSVHead = @{$Self->{ConfigObject}->Get('AgentUtilCSVData')};
+                    @CSVHead = @{$Self->{ConfigObject}->Get('Ticket::AgentUtil::CSVData')};
                 }
                 my @Data = ();
                 foreach (@CSVHead) {
@@ -409,7 +409,7 @@ sub Run {
           }
         }
         # start html page
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Search');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Search');
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # build search navigation bar
@@ -429,7 +429,7 @@ sub Run {
             );
         }
         elsif ($GetParam{ResultForm} eq 'Print') {
-            $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Agent', Title => 'Result', Width => 800);
+            $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Ticket', Title => 'Result', Width => 800);
             if (@ViewableIDs == $Self->{SearchLimit}) {
                 $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
             }
@@ -490,7 +490,7 @@ sub Run {
 #            $Self->{Profile} = '';
         }
         # generate search mask
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Search');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Search');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         # get free text config options
         my %TicketFreeText = ();
@@ -533,7 +533,7 @@ sub MaskForm {
         Type => 'Long',
         Valid => 1,
     );
-    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+    if ($Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone')) {
         %ShownUsers = %AllGroupsMembers;
     }
     else {

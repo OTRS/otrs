@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleAttachmentDownload.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleAttachmentDownload.pm,v 1.1 2004-11-11 10:39:43 martin Exp $
+# $Id: ArticleAttachmentDownload.pm,v 1.2 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::ArticleAttachmentDownload;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,7 +44,7 @@ sub Run {
       }
     }
     # download type
-    my $Type = $Self->{ConfigObject}->Get('Agent::DownloadType') || 'attachment';
+    my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
     # if attachment will be forced to download, don't open a new download window!
     my $Target = '';
     if ($Type =~ /inline/i) {

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/test/CreateTickerNumber.pl - test script to generate a ticket number
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CreateTickerNumber.pl,v 1.2 2004-12-06 22:22:12 martin Exp $
+# $Id: CreateTickerNumber.pl,v 1.3 2005-02-15 11:58:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin).'/../Kernel/cpan-lib';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -54,9 +54,9 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 print "OTRS::TicketNumberGenerator::Test ($VERSION)\n";
 print "=================================\n";
 print "\n";
-my $Hook = $CommonObject{ConfigObject}->Get('TicketHook');
+my $Hook = $CommonObject{ConfigObject}->Get('Ticket::Hook');
 my $Tn = $CommonObject{TicketObject}->CreateTicketNr();
-print "Current TicketHook: $Hook\n";
+print "Current Ticket::Hook: $Hook\n";
 print "\n";
 print "CreateTicketNr():\n";
 print "-----------------\n";

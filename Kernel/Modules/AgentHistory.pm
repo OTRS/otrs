@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.19 2004-11-04 11:22:27 martin Exp $
+# $Id: AgentHistory.pm,v 1.20 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,13 +47,10 @@ sub Run {
     # --
     if (!$Self->{TicketID}) {
       # error page
-      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error(
+      return $Self->{LayoutObject}->ErrorScreen(
           Message => "Can't show history, no TicketID is given!",
           Comment => 'Please contact the admin.',
       );
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
     }
     # --
     # check permissions
@@ -68,7 +65,7 @@ sub Run {
     # --
     # build header
     # --
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'History');
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'History');
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
     my @Lines = $Self->{TicketObject}->HistoryGet(
@@ -78,7 +75,7 @@ sub Run {
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     # get shown user info
     my @NewLines = ();
-    if ($Self->{ConfigObject}->Get('Agent::HistoryOrder') eq 'reverse') {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::HistoryOrder') eq 'reverse') {
         @NewLines = reverse (@Lines);
     }
     else {

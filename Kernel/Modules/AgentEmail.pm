@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.51 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentEmail.pm,v 1.52 2005-02-15 11:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,7 +76,7 @@ sub Run {
     }
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Email-Ticket');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Email-Ticket');
         # if there is no ticket id!
         if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
             # navigation bar
@@ -121,28 +121,15 @@ sub Run {
                 }
             );
     # run compose modules
-    if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')};
+    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
         foreach my $Job (sort keys %Jobs) {
-                # log try of load module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                    );
-                }
-                if (eval "require $Jobs{$Job}->{Module}") {
+                # load module
+                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                     my $Object = $Jobs{$Job}->{Module}->new(
                         %{$Self},
                         Debug => $Self->{Debug},
                     );
-                    # log loaded module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                        );
-                    }
                     # get params
                     my %GetParam;
                     foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
@@ -154,10 +141,7 @@ sub Run {
 #                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
                 }
                 else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't load module $Jobs{$Job}->{Module}!",
-                    );
+                    return $Self->{LayoutObject}->FatalError();
                 }
         }
     }
@@ -172,7 +156,7 @@ sub Run {
               FromList => $Self->_GetTos(),
               To => '',
               Subject => '',
-              Body => $Self->{ConfigObject}->Get('EmailDefaultNoteText'),
+              Body => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewNote'),
               CustomerID => '',
               CustomerUser =>  '',
               CustomerData => {},
@@ -280,7 +264,7 @@ sub Run {
         }
         # rewrap body if exists
         if ($GetParam{Body}) {
-            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
+            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
         # attachment delete
         foreach (1..10) {
@@ -377,7 +361,7 @@ sub Run {
         }
         # show customer info
         my %CustomerData = ();
-        if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
+        if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
             if ($CustomerUser) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $CustomerUser,
@@ -419,28 +403,15 @@ sub Run {
         }
         # run compose modules
         my %ArticleParam = ();
-        if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
-            my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')};
+        if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
+            my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
             foreach my $Job (sort keys %Jobs) {
-                # log try of load module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                    );
-                }
-                if (eval "require $Jobs{$Job}->{Module}") {
+                # load module
+                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                     my $Object = $Jobs{$Job}->{Module}->new(
                         %{$Self},
                         Debug => $Self->{Debug},
                     );
-                    # log loaded module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                        );
-                    }
                     # get params
                     foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
                         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
@@ -453,10 +424,7 @@ sub Run {
                     %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
                 }
                 else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't load module $Jobs{$Job}->{Module}!",
-                    );
+                    return $Self->{LayoutObject}->FatalError();
                 }
             }
         }
@@ -465,7 +433,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Email-Ticket');
+            $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Email-Ticket');
             $Output .= $Self->{LayoutObject}->NavigationBar();
             # --
             # html output
@@ -522,7 +490,31 @@ sub Run {
                     UserID => $Self->{UserID},
                 );
                 my %AclAction = $Self->{TicketObject}->TicketAclActionData();
-
+                # run ticket menu modules
+                if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
+                    my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
+                    my $Counter = 0;
+                    foreach my $Menu (sort keys %Menus) {
+                        # load module
+                        if ($Self->{MainObject}->Require($Menus{$Menu}->{Module})) {
+                            my $Object = $Menus{$Menu}->{Module}->new(
+                                %{$Self},
+                                TicketID => $Self->{TicketID},
+                            );
+                            # run module
+                            $Counter = $Object->Run(
+                                %Param,
+                                Ticket => \%Article,
+                                Counter => $Counter,
+                                ACL => \%AclAction,
+                                Config => $Menus{$Menu},
+                            );
+                        }
+                        else {
+                            return $Self->{LayoutObject}->FatalError();
+                        }
+                    }
+                }
                 foreach (qw(From To Cc Subject)) {
                     if ($Article{$_}) {
                         $Self->{LayoutObject}->Block(
@@ -615,8 +607,8 @@ sub Run {
             ArticleType => 'email-external',
             SenderType => 'agent',
             TicketID => $TicketID,
-            ArticleType => $Self->{ConfigObject}->Get('EmailDefaultNewArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('EmailDefaultNewSenderType'),
+            ArticleType => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewArticleType'),
+            SenderType => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewSenderType'),
             From => "$Queue{RealName} <$Queue{Email}>",
             To => $GetParam{To},
             Cc => $GetParam{Cc},
@@ -626,8 +618,8 @@ sub Run {
             Charset => $Self->{LayoutObject}->{UserCharset},
             Type => 'text/plain',
             UserID => $Self->{UserID},
-            HistoryType => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryComment') || "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
+            HistoryType => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewHistoryType'),
+            HistoryComment => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewHistoryComment') || "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
             %ArticleParam,
         );
         if ($ArticleID) {
@@ -712,7 +704,7 @@ sub _GetNextStates {
         %NextStates = $Self->{TicketObject}->StateList(
             %Param,
             Action => $Self->{Action},
-            Type => 'PhoneDefaultNext',
+            Type => 'EmailDefaultNext',
             UserID => $Self->{UserID},
         );
     }
@@ -744,7 +736,7 @@ sub _GetUsers {
         }
     }
     # check show users
-    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+    if ($Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone')) {
         %ShownUsers = %AllGroupsMembers;
     }
     # show all users who are rw in the queue group
@@ -783,13 +775,13 @@ sub _GetTos {
     my %Param = @_;
     # check own selection
     my %NewTos = ();
-    if ($Self->{ConfigObject}->{PhoneViewOwnSelection}) {
-        %NewTos = %{$Self->{ConfigObject}->{PhoneViewOwnSelection}};
+    if ($Self->{ConfigObject}->{'Ticket::Frontend::NewQueueOwnSelection'}) {
+        %NewTos = %{$Self->{ConfigObject}->{'Ticket::Frontend::NewQueueOwnSelection'}};
     }
     else {
         # SelectionType Queue or SystemAddress?
         my %Tos = ();
-        if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
+        if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue') {
             %Tos = $Self->{TicketObject}->MoveList(
                 Type => 'create',
                 Action => $Self->{Action},
@@ -819,10 +811,10 @@ sub _GetTos {
         # build selection string
         foreach (keys %NewTos) {
             my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
-            my $Srting = $Self->{ConfigObject}->Get('PhoneViewSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
+            my $Srting = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
             $Srting =~ s/<Queue>/$QueueData{Name}/g;
             $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
-            if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') ne 'Queue') {
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue') {
                 my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $NewTos{$_});
                 $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
                 $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
@@ -850,7 +842,7 @@ sub _MaskEmailNew {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
-        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('EmailDefaultNewNextState'),
+        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewNextState'),
     );
     # build from string
     if ($Param{ToOptions} && %{$Param{ToOptions}}) {
@@ -867,7 +859,7 @@ sub _MaskEmailNew {
              $NewTo{"$_||$Param{FromList}->{$_}"} = $Param{FromList}->{$_};
         }
     }
-    if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue') {
         $Param{'FromStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
             Data => \%NewTo,
             Multiple => 0,
@@ -887,17 +879,23 @@ sub _MaskEmailNew {
         );
     }
     # customer info string
-    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-        Data => $Param{CustomerData},
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoComposeMaxSize'),
-    );
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
+        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data => $Param{CustomerData},
+            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerTable',
+            Data => \%Param,
+        );
+    }
     # do html quoting
     foreach (qw(From To Cc Bcc)) {
         $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
     }
     # build priority string
     if (!$Param{PriorityID}) {
-        $Param{Priority} = $Self->{ConfigObject}->Get('EmailDefaultPriority');
+        $Param{Priority} = $Self->{ConfigObject}->Get('Ticket::Frontend::EmailPriority');
     }
     $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{Priorities},
@@ -909,7 +907,7 @@ sub _MaskEmailNew {
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
         Format => 'DateInputFormatLong',
-        DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
+        DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
     # prepare errors!
     if ($Param{Errors}) {
@@ -917,8 +915,15 @@ sub _MaskEmailNew {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
     }
+    # show owner selection
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewOwnerSelection')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'OwnerSelection',
+            Data => \%Param,
+        );
+    }
     # show time accounting box
-    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnitsJs',
             Data => \%Param,

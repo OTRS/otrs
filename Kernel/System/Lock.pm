@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.4 2004-05-25 10:58:30 martin Exp $
+# $Id: Lock.pm,v 1.5 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Lock;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,8 +32,8 @@ sub new {
     }
 
     # get ViewableLocks
-    $Self->{ViewableLocks} = $Self->{ConfigObject}->Get('ViewableLocks')
-           || die 'No Config entry "ViewableLocks"!';
+    $Self->{ViewableLocks} = $Self->{ConfigObject}->Get('Ticket::ViewableLocks')
+           || die 'No Config entry "Ticket::ViewableLocks"!';
 
     return $Self;
 }

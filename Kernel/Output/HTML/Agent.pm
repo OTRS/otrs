@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.153 2004-12-28 01:06:17 martin Exp $
+# $Id: Agent.pm,v 1.154 2005-02-15 11:58:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.153 $';
+$VERSION = '$Revision: 1.154 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -28,7 +28,7 @@ sub TicketStdResponseString {
         }
     }
     # get StdResponsesStrg
-    if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::StdResponsesMode') eq 'Form') {
         # build html string
         $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">'.
           '<input type="hidden" name="Action" value="AgentCompose">'.
@@ -141,8 +141,7 @@ sub AgentQueueListOption {
     my $Selected = defined($Param{Selected}) ? $Param{Selected} : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $Multiple = $Param{Multiple} ? 'multiple' : '';
-    my $OnChangeSubmit = defined($Param{OnChangeSubmit}) ? $Param{OnChangeSubmit} :
-     $Self->{ConfigObject}->Get('OnChangeSubmit');
+    my $OnChangeSubmit = defined($Param{OnChangeSubmit}) ? $Param{OnChangeSubmit} : 0;
     if ($OnChangeSubmit) {
         $OnChangeSubmit = " onchange=\"submit()\"";
     }
@@ -151,7 +150,7 @@ sub AgentQueueListOption {
     }
 
     # just show a simple list
-    if ($Self->{ConfigObject}->Get('QueueListType') eq 'list') {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend:QueueListType') eq 'list') {
         $Param{'MoveQueuesStrg'} = $Self->OptionStrgHashRef(
             %Param,
             HTMLQuote => 0,
