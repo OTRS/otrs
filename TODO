@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.46 2003-08-23 13:27:13 martin Exp $
+# $Id: TODO,v 1.47 2003-11-13 19:55:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,11 +10,9 @@
 # --
 
 1.2
-- prevent unauthorized person submit ticket via email
+- prevent unauthorized person submit ticket via email via PostMaster*.pl
 - improve search with ticket-free-key (dropdown and free text field)!!
 - remove header/footer of spelling window
-- add pre-authentication patch of Phil Davis -
-   http://lists.otrs.org/pipermail/dev/2003-April/000142.html
 - add config option for Kernel/Modules/*.pm if ticket need to be locked,
    or will be unlocked, ...
 - change time column format of time_accounting table from int to
@@ -29,9 +27,10 @@
    http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
 - delete option for records (martin)
 - improve ticket search with between x and y
-- bin/PostMasterPOP3.pl + procmail/filter (martin)
 - add attachment option to phone view
 - contact customer -=> create ticket
+- customer group feature
+- add info that a ticket is already closed!
 
 2.0
 - Multiple Attachements on http://localhost/otrs/index.pl?Action=AgentCompose
@@ -65,3 +64,5 @@ ideas (just ideas - nobody is working on it)
    http://bugs.otrs.org/show_bug.cgi?id=129
 - web editor for Kernel/Config.pm (Kernel/Config/Defaults.pm)
 - read/unread highlighting of articles
+- show agent name in CustomerTicketOverView 
+- improve fulltext search with 'article-type'
