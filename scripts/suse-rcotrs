@@ -2,7 +2,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.2 2002-01-16 22:33:20 martin Exp $
+# $Id: suse-rcotrs,v 1.3 2002-01-16 22:53:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -214,7 +214,7 @@ case "$1" in
       for i in $OTRS_SPOOLDIR/* ; do
           # echo old emails
           echo $i | grep -v '*' > /dev/null && \
-            echo ""
+            echo "" && \
             echo -n " (message:$i) found! " 
       done
       echo "done."
