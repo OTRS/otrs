@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.4 2003-02-08 15:09:38 martin Exp $
+# $Id: StdAttachment.pm,v 1.5 2003-04-08 21:38:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -123,7 +123,7 @@ sub StdAttachmentGet {
             Name => $Data[0],
             ContentType => $Data[1],
             Content => $Data[2],
-            FileName => $Data[3],
+            Filename => $Data[3],
             ValidID => $Data[4],
             Comment => $Data[5],
         );
