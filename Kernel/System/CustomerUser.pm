@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.7 2002-12-07 18:57:08 martin Exp $
+# $Id: CustomerUser.pm,v 1.8 2002-12-07 21:03:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -50,6 +50,11 @@ sub new {
     );
 
     return $Self;
+}
+# --
+sub CustomerList {
+    my $Self = shift;
+    return $Self->{CustomerUserObject}->CustomerList(@_); 
 }
 # --
 sub CustomerUserList {

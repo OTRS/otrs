@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.1 2002-12-07 18:57:08 martin Exp $
+# $Id: DB.pm,v 1.2 2002-12-07 21:03:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 #use Email::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,6 +39,22 @@ sub new {
       || die "Got not customer table!";
     
     return $Self;
+}
+# --
+sub CustomerList {
+    my $Self = shift;
+    my %Param = @_;
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    # --
+    # get data
+    # --
+    my %Users = $Self->{DBObject}->GetTableData(
+        What => "customer_id, customer_id, comment ",
+        Table => $Self->{CustomerTable}, 
+        Clamp => 1,
+        Valid => $Valid,
+    ); 
+    return %Users;
 }
 # --
 sub CustomerUserList {
@@ -96,10 +112,17 @@ sub CustomerUserDataGet {
     # --
     # check data
     # --
-    if (! exists $Data{UserLogin} && ! $Param{User}) {
+    if (! exists $Data{UserLogin} && $Param{User}) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "Panic! No UserData for user: '$Param{User}'!!!",
+          Message => "Panic! No UserData for customer user: '$Param{User}'!!!",
+        );
+        return;
+    }
+    if (! exists $Data{UserLogin} && $Param{CustomerID}) {
+        $Self->{LogObject}->Log(
+          Priority => 'notice',
+          Message => "Panic! No UserData for customer id: '$Param{CustomerID}'!!!",
         );
         return;
     }
