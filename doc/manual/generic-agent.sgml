@@ -1,7 +1,7 @@
 <chapter id="generic-agent">
 <title>Generic-Agent</title>
 <para>
-The Generic-Agent is an command line program wich can do some actions 
+The Generic-Agent is a command line program wich can do some actions 
 (like move, add note, set state, set owner) on tickets.
 </para>
 
@@ -24,7 +24,7 @@ Now we want to go through a few examples. There is also a example config file
 Here all possible options:
 <programlisting>
    'name of job' => {
-      # get all tickets with this properties  
+      # get all tickets with these properties 
       Queue => 'system queue',
       States => ['new', 'open'],
       Locks => ['unlock'],
@@ -32,7 +32,7 @@ Here all possible options:
       Escalation => 1,
 
       # new ticket properties (no option is required, use just the options
-      # witch should be changed!)
+      # which should be changed!)
       New => {
         # new queue
         Queue => 'new system queue',
@@ -78,7 +78,7 @@ Exampe for Kernel/Config/GenericAgent.pm
       States => ['new', 'open'],
       Locks => ['unlock'],
       # new ticket properties (no option is required, use just the options
-      # witch should be changed!)
+      # which should be changed!)
       New => {
         # new queue
         Queue => 'spam',

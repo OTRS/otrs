@@ -1,13 +1,13 @@
 <chapter id="configfile">
 <title>Config File</title>
 <para>
-OTRS got a lot of config options. There are two config files. Kernel/Config.pm and
+OTRS has many config options. There are two config files. Kernel/Config.pm and
 Kernel/Config/Defaults.pm. 
 <para>
 
 <para>
 Kernel/Config/Defaults.pm is the default config file which should not be changed. 
-You will find all possible config option in this file. Is quite simple to read.
+You will find all possible config options in this file. Is quite simple to read.
 </para>
 
 <para>
@@ -126,7 +126,8 @@ The OTRS user authentication method.
 <sect1 id="configfile-postmaster"> 
 <title>Max. Postmaster email</title> 
 <para> 
-OTRS is able to send automatically email replay. So it's possibe to create an email loop (of course we check bulk headers but other some strange systems not!). 
+OTRS is able to send automatically email replies. So it's possibe to create 
+an email loop (of course we check bulk headers but other strange systems may not!). 
 </para>
 <example>
 <title>Kernel/Config.pm - PostmasterMaxEmails</title>
@@ -170,7 +171,7 @@ You can choose between four different OTRS formats. AutoIncrement is default.
 </programlisting>
 </example>
 <para>
-You can also create a new (your own) module. The module needs just two funktions  
+You can also create a new (your own) module. The module needs just two functions  
 (the whole abstraction). "CreateTicketNr()" to generate a new ticket number and  
 "GetTNByString()" to get a ticket number by string. 
 </para>

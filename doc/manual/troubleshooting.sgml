@@ -1,7 +1,7 @@
 <chapter id="troubleshooting">
 <title>Troubleshooting</title>
 <para>
-We split this section into different parts per distribution. Of course you can set up your own system with your own linux system. But please understand that we can not provide any support for that. OTRS is much to complecated and has to many links to other components of the system that we are lucky to have access to mechanisms like RPM. We will try to support as many platforms as possilbe but time is a valuable resource. ;-)
+We split this section into different parts per distribution. Of course you can set up your own system with your own linux system. But please understand that we can not provide any support for that. OTRS is much too complicated and has to many links to other components of the system that we are lucky to have access to mechanisms like RPM. We will try to support as many platforms as possilbe but time is a valuable resource. ;-)
 </para>
 <sect1 id="problems-with-suse">
 <title>General problems with OTRS on SuSE Linux</title>
@@ -55,7 +55,7 @@ Frankly we have not tried to install it on a Redhat yet. It should be a problem 
 <sect1 id="problems-with-apache">
 <title>Problems with Apache</title>
 <para>
-Most people who have problems with the Apache did build their own very special Apache. Of course you are welcome to do so but in case you run into trouble we suggest to your the vanilla version which is provided by your favorate distribution.
+Most people who have problems with the Apache did build their own very special Apache. Of course you are welcome to do so but in case you run into trouble we suggest to your the vanilla version which is provided by your favorite distribution.
 </para>
 
 <sect2>
@@ -120,7 +120,7 @@ a required shared library or dll isn't installed where expected at
 <para>
 To solve this problem, you can tell the Apache httpd.conf to include the
 environmental variable LD_LIBRARY_PATH= /usr/local/pgsql/lib. Put this line
-to httpd.confand then restart "SetEnv LD_LIBRARY_PATH /usr/local/pgsql/lib" 
+to httpd.conf and then restart "SetEnv LD_LIBRARY_PATH /usr/local/pgsql/lib" 
 and then restart (source http://lists.otrs.org/pipermail/otrs/2002-September/000248.html).
 </para>
 </sect2>
@@ -202,7 +202,7 @@ Example:
 shell:~ # cat /usr/share/doc/packages/otrs/test-email-1.box | /opt/otrs/bin/PostMaster.pl 
 shell:~ #
 </programlisting>
-May there is an error message, then you have to fix it. If not and you see this email in the postmaster queue, the procmail program isn't configured with your MTA (check the MTA log file, e. .g /var/log/mail) or the $HOME of the otrs user isn't correct (check $HOME and $HOME/.procmailrc).
+If there is an error message, then you will have to fix it. If not and you see this email in the postmaster queue, the procmail program isn't configured with your MTA (check the MTA log file, e. .g /var/log/mail) or the $HOME of the otrs user isn't correct (check $HOME and $HOME/.procmailrc).
 </para>
 </sect2>
 
