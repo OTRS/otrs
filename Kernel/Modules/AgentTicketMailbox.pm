@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMailbox.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.2 2005-03-03 15:56:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -138,6 +138,8 @@ sub Run {
         # --
         # show just unseen tickets as new
         if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
+            my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $TicketID);
+            my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[$#Index]);
             my %Flag = $Self->{TicketObject}->ArticleFlagGet(
                 ArticleID => $Article{ArticleID},
                 UserID => $Self->{UserID},

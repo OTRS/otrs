@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.26 2005-02-15 11:58:13 martin Exp $
+# $Id: RuntimeDB.pm,v 1.27 2005-03-03 15:56:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -230,7 +230,8 @@ sub GetLockedCount {
         # reset new message count
         $Data{'New'} = 0;
         foreach my $TicketID (keys %TicketIDs) {
-            my %Article = $Self->ArticleLastCustomerArticle(TicketID => $TicketID);
+            my @Index = $Self->ArticleIndex(TicketID => $TicketID);
+            my %Article = $Self->ArticleGet(ArticleID => $Index[$#Index]);
             my %Flag = $Self->ArticleFlagGet(
                 ArticleID => $Article{ArticleID},
                 UserID => $Param{UserID},
