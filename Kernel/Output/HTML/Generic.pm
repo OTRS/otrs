@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.80 2003-02-26 06:14:54 martin Exp $
+# $Id: Generic.pm,v 1.81 2003-03-05 15:34:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.80 $';
+$VERSION = '$Revision: 1.81 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -184,27 +184,6 @@ sub new {
     $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir')."/HTML/$Theme";
     if (!$Self->{TemplateDir}) {
         die "No templates found in '$Self->{TemplateDir}'! Check your Home in Kernel/Config.pm";
-    }
-
-    if ($Self->{PermissionObject}) {
-        # --
-        # should the admin link be shown?
-        # --
-        if ($Self->{PermissionObject}->Section(
-            UserID => $Self->{UserID},
-            Section => 'Admin')
-        ){
-          $Self->{UserIsAdmin}='Yes';
-        }
-        # --
-        # should the stats link be shown?
-        # --
-        if ($Self->{PermissionObject}->Section(
-            UserID => $Self->{UserID},
-            Section => 'Stats')
-        ){
-            $Self->{UserIsStats}='Yes';
-        }
     }
 
     return $Self;

@@ -91,6 +91,8 @@ $Config{"Sendmail"}
     $Env{"UserFirstname"} --> e. g. Dirk
     $Env{"UserLastname"} --> e. g. Hohndel
     $Env{"UserLogin"} --> e. g. mgg@x11.org
+    $Env{"UserIsGroup[users]"} = Yes --> user groups (useful for own links) 
+    $Env{"UserIsGroup[admin]"} = Yes 
     $Env{"Action"} --> the current action
     $Env{"Subaction"} --> the current subaction
 </programlisting>
