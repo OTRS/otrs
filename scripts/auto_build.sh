@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OpenTRS tar, rpm and src-rpm
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.1 2002-06-15 21:59:24 martin Exp $
+# $Id: auto_build.sh,v 1.2 2002-08-21 10:35:16 stefan Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,17 +20,17 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OpenTRS tar, rpm and src-rpm <\$Revision: 1.1 $>"
+echo "auto_build.sh - build automatically OpenTRS tar, rpm and src-rpm <\$Revision: 1.2 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
-if ! test $1 || ! test $2; then
+if ! test $1 || ! test $2 || ! test $3; then
     # --
     # build src needed
     # --
     echo ""
-    echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <RELEASE>"
+    echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <VERSION> <RELEASE>"
     echo ""
-    echo "  Try: auto_build.sh /home/max/src/otrs 0.5-BETA5"
+    echo "  Try: auto_build.sh /home/ernie/src/otrs 0.5 BETA42"
     echo ""
     exit 1;
 else
@@ -74,22 +74,32 @@ rm -rf doc/screenshots
 # create tar
 # --
 cd /tmp/otrs_build/ || exit 1;
-tar -czf /usr/src/packages/SOURCES/otrs-$2.tar.gz OpenTRS/ OpenTRS/.procm* OpenTRS/.fetch* || exit 1;
+tar -czf /usr/src/packages/SOURCES/otrs-$2-$3.tar.gz OpenTRS/ OpenTRS/.procm* OpenTRS/.fetch* || exit 1;
 
 # --
-# build rpms 
+# build SuSE 8.0 rpm 
 # --
-rpm -ba OpenTRS/scripts/suse-otrs.spec || exit 1;
-rpm -ba OpenTRS/scripts/suse-otrs-7.3.spec || exit 1;
+specfile=/tmp/specfile$$
+cat OpenTRS/scripts/suse-otrs.spec | sed "s/^Version:.*/Version:      $2/" | sed "s/^Release:.*/Release:      $3/" > $specfile
+rpm -ba --clean $specfile || exit 1;
+rm -f $specfile
+
+# --
+# build SuSE 7.3 rpm 
+# --
+specfile=/tmp/specfile$$
+cat OpenTRS/scripts/suse-otrs-7.3.spec | sed "s/^Version:.*/Version:      $2/" | sed "s/^Release:.*/Release:      $3/" > $specfile
+rpm -ba --clean $specfile || exit 1;
+rm -f $specfile
 
 # --
 # stats
 # --
-echo -n "Source code lines (*.sh): "
+echo -n "Source code lines (*.sh) : "
 find /tmp/otrs_build/OpenTRS/ -name *.sh | xargs cat | wc -l
-echo -n "Source code lines (*.pl): "
+echo -n "Source code lines (*.pl) : "
 find /tmp/otrs_build/OpenTRS/ -name *.pl | xargs cat | wc -l
-echo -n "Source code lines (*.pm): "
+echo -n "Source code lines (*.pm) : "
 find /tmp/otrs_build/OpenTRS/ -name *.pm | xargs cat | wc -l
 echo -n "Source code lines (*.dtl): "
 find /tmp/otrs_build/OpenTRS/ -name *.dtl | xargs cat | wc -l
