@@ -1,0 +1,55 @@
+#!/usr/bin/perl -w
+# --
+# otrs.getUserId - Returns numeric user id
+# Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
+# $Id: otrs.getUserID,v 1.1 2002-06-09 01:22:25 atif Exp $
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+BEGIN{
+   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../");
+   unless ($ARGV[0]){
+      print "Usage: $FindBin::Script username";
+      print "\n";
+      exit;
+   }
+}
+
+
+use strict;
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::DB;
+use Kernel::System::User;
+
+# --
+# create common objects 
+# --
+
+my %CommonObject = ();
+$CommonObject{LogObject}    = Kernel::System::Log->new();
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
+
+
+
+my %Param;
+undef %Param;
+
+
+#user id of the person making the query
+$Param{UserID}='1';
+
+$Param{User}=$ARGV[0];
+
+
+if (my $uid=$CommonObject{UserObject}->GetUserIdByName(%Param)){
+   print $uid , "\n";
+} else {
+   print "Failed to get User ID. Perhaps non-existent user..\n";
+}
+# --
+exit (0);
