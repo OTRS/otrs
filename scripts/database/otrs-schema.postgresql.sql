@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Thu Dec  2 10:28:32 2004
+--  database: postgresql, generated: Tue Feb 15 13:20:33 2005
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -420,6 +420,17 @@ CREATE TABLE article_sender_type (
     PRIMARY KEY(id),
     UNIQUE (name)
 );
+-- ----------------------------------------------------------
+--  create table article_flag
+-- ----------------------------------------------------------
+CREATE TABLE article_flag (
+    article_id INTEGER NOT NULL,
+    article_flag VARCHAR (50) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    PRIMARY KEY(article_id)
+);
+CREATE INDEX create_by ON article_flag (create_by);
 -- ----------------------------------------------------------
 --  create table article
 -- ----------------------------------------------------------
@@ -860,6 +871,18 @@ CREATE TABLE faq_attachment (
     PRIMARY KEY(id)
 );
 CREATE INDEX faq_id ON faq_attachment (faq_id);
+-- ----------------------------------------------------------
+--  create table xml_storage
+-- ----------------------------------------------------------
+CREATE TABLE xml_storage (
+    xml_type VARCHAR (200) NOT NULL,
+    xml_key VARCHAR (250) NOT NULL,
+    xml_content_key VARCHAR (250) NOT NULL,
+    xml_content_value TEXT NOT NULL
+);
+CREATE INDEX xml_content_key ON xml_storage (xml_content_key);
+CREATE INDEX xml_type ON xml_storage (xml_type);
+CREATE INDEX xml_key ON xml_storage (xml_key);
 -- ----------------------------------------------------------
 --  create table package_repository
 -- ----------------------------------------------------------

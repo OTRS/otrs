@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Wed Dec 22 22:10:27 2004
+#  database: mysql, generated: Tue Feb 15 13:21:04 2005
 # ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
@@ -90,6 +90,7 @@ ALTER TABLE article_type ADD FOREIGN KEY (valid_id) REFERENCES `valid(id)`;
 ALTER TABLE article_sender_type ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE article_sender_type ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE article_sender_type ADD FOREIGN KEY (valid_id) REFERENCES `valid(id)`;
+ALTER TABLE article_flag ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE article ADD FOREIGN KEY (article_sender_type_id) REFERENCES `article_sender_type(id)`;
 ALTER TABLE article ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE article ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;

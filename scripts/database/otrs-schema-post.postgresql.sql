@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Thu Dec  2 10:28:32 2004
+--  database: postgresql, generated: Tue Feb 15 13:20:33 2005
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
@@ -90,6 +90,7 @@ ALTER TABLE article_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
 ALTER TABLE article_sender_type ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE article_sender_type ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
 ALTER TABLE article_sender_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE article_flag ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE article ADD FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type(id);
 ALTER TABLE article ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE article ADD FOREIGN KEY (change_by) REFERENCES system_user(id);

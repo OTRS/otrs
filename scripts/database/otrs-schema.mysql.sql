@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Thu Dec  2 10:28:25 2004
+#  database: mysql, generated: Tue Feb 15 13:21:04 2005
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -419,6 +419,17 @@ CREATE TABLE article_sender_type (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
+);
+# ----------------------------------------------------------
+#  create table article_flag
+# ----------------------------------------------------------
+CREATE TABLE article_flag (
+    article_id BIGINT NOT NULL,
+    article_flag VARCHAR (50) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    PRIMARY KEY(article_id),
+    INDEX create_by (create_by)
 );
 # ----------------------------------------------------------
 #  create table article
@@ -859,6 +870,18 @@ CREATE TABLE faq_attachment (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     INDEX faq_id (faq_id)
+);
+# ----------------------------------------------------------
+#  create table xml_storage
+# ----------------------------------------------------------
+CREATE TABLE xml_storage (
+    xml_type VARCHAR (200) NOT NULL,
+    xml_key VARCHAR (250) NOT NULL,
+    xml_content_key VARCHAR (250) NOT NULL,
+    xml_content_value LONGBLOB NOT NULL,
+    INDEX xml_content_key (xml_content_key),
+    INDEX xml_type (xml_type),
+    INDEX xml_key (xml_key)
 );
 # ----------------------------------------------------------
 #  create table package_repository
