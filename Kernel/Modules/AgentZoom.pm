@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.38 2003-08-22 12:02:17 martin Exp $
+# $Id: AgentZoom.pm,v 1.39 2003-08-22 15:19:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -394,6 +394,7 @@ sub MaskAgentZoom {
                 NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
                 Text => $Article{Body},
                 VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+                HTMLResultMode => 1,
             );
             # link quoting
             $Article{"Body"} = $Self->{LayoutObject}->LinkQuote(

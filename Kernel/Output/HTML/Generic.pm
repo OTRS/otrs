@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.93 2003-08-22 12:02:17 martin Exp $
+# $Id: Generic.pm,v 1.94 2003-08-22 15:19:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.93 $';
+$VERSION = '$Revision: 1.94 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -561,7 +561,10 @@ sub Error {
     # get backend error messages
     foreach (qw(Message Traceback)) {
       $Param{'Backend'.$_} = $Self->{LogObject}->Error($_) || '';
-      $Param{'Backend'.$_} = $Self->Ascii2Html(Text => $Param{'Backend'.$_});
+      $Param{'Backend'.$_} = $Self->Ascii2Html(
+          Text => $Param{'Backend'.$_}, 
+          HTMLResultMode => 1,
+      );
     }
     if (!$Param{Message}) {
       $Param{Message} = $Param{BackendMessage};
@@ -643,6 +646,7 @@ sub Ascii2Html {
     my $Max  = $Param{Max} || '';
     my $VMax = $Param{VMax} || '';
     my $NewLine = $Param{NewLine} || '';
+    my $HTMLMode = $Param{HTMLResultMode} || '';
     my $StripEmptyLines = $Param{StripEmptyLines} || '';
     # max width
     if ($Max) {
@@ -674,8 +678,10 @@ sub Ascii2Html {
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
     # text -> html format quoting
-    $Text =~ s/\n/<br>\n/g;
-    $Text =~ s/  / &nbsp;/g;
+    if ($HTMLMode) {
+        $Text =~ s/\n/<br>\n/g;
+        $Text =~ s/  / &nbsp;/g;
+    }
     # return result
     return $Text;
 }
