@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.127 2004-06-28 12:20:49 martin Exp $
+# $Id: Generic.pm,v 1.128 2004-07-13 06:20:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.127 $';
+$VERSION = '$Revision: 1.128 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -35,9 +35,9 @@ sub new {
     my $Type = shift;
     my %Param = @_;
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
-    # get common objects 
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -46,15 +46,15 @@ sub new {
     # check needed objects
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_!" if (!$Self->{$_});
-    } 
+    }
     # get/set some common params
     if (!$Self->{UserTheme}) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
     }
     # get use language (from browser) if no language is there!
-    if (!$Self->{UserLanguage}) { 
+    if (!$Self->{UserLanguage}) {
         my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
-        my %Data = %{$Self->{ConfigObject}->Get('DefaultUsedLanguages')}; 
+        my %Data = %{$Self->{ConfigObject}->Get('DefaultUsedLanguages')};
         foreach (keys %Data) {
             if ($BrowserLang =~ /^$_/i) {
                 $Self->{UserLanguage} = $_;
@@ -77,15 +77,15 @@ sub new {
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
     $Self->{CGIHandle} = $ENV{'SCRIPT_NAME'} || 'No-$ENV{"SCRIPT_NAME"}';
     # --
-    # Baselink 
+    # Baselink
     # --
     $Self->{Baselink}  = "$Self->{CGIHandle}?";
     $Self->{Time}      = $Self->{LanguageObject}->Time(
-        Action => 'GET', 
+        Action => 'GET',
         Format => 'DateFormat',
     );
     $Self->{TimeLong}  = $Self->{LanguageObject}->Time(
-        Action => 'GET', 
+        Action => 'GET',
         Format => 'DateFormatLong',
     );
     # --
@@ -96,7 +96,7 @@ sub new {
     if (!$ENV{'HTTP_USER_AGENT'}) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
-    elsif ($ENV{'HTTP_USER_AGENT'}) { 
+    elsif ($ENV{'HTTP_USER_AGENT'}) {
         # msie
         if ($ENV{'HTTP_USER_AGENT'} =~ /MSIE ([0-9.]+)/i ||
             $ENV{'HTTP_USER_AGENT'} =~ /Internet Explorer\/([0-9.]+)/i) {
@@ -117,26 +117,26 @@ sub new {
             $Self->{Browser} = 'Netscape';
             $Self->{BrowserWrap} = 'hard';
         }
-        # konqueror 
+        # konqueror
         elsif ($ENV{'HTTP_USER_AGENT'} =~ /konqueror/i) {
             $Self->{Browser} = 'Konqueror';
             $Self->{BrowserWrap} = 'hard';
         }
-        # mozilla 
+        # mozilla
         elsif ($ENV{'HTTP_USER_AGENT'} =~ /^mozilla/i) {
             $Self->{Browser} = 'Mozilla';
             $Self->{BrowserWrap} = 'hard';
         }
-        # konqueror 
+        # konqueror
         elsif ($ENV{'HTTP_USER_AGENT'} =~ /^opera.*/i) {
             $Self->{Browser} = 'Opera';
             $Self->{BrowserWrap} = 'hard';
         }
-        # w3m 
+        # w3m
         elsif ($ENV{'HTTP_USER_AGENT'} =~ /^w3m.*/i) {
             $Self->{Browser} = 'w3m';
         }
-        # lynx 
+        # lynx
         elsif ($ENV{'HTTP_USER_AGENT'} =~ /^lynx.*/i) {
             $Self->{Browser} = 'Lynx';
         }
@@ -152,8 +152,8 @@ sub new {
     # get release data
     # --
     my %ReleaseData = $Self->GetRelease();
-    $Self->{Product} = $ReleaseData{Product} || '???'; 
-    $Self->{Version} = $ReleaseData{Version} || '???'; 
+    $Self->{Product} = $ReleaseData{Product} || '???';
+    $Self->{Version} = $ReleaseData{Version} || '???';
     # --
     # load theme
     # --
@@ -196,22 +196,22 @@ sub Output {
         foreach (keys %{$Self}) {
             $Env{$_} = $Self->{$_} || '';
         }
-    }  
+    }
     else {
-        # get %Env from $Self->{EnvRef} 
+        # get %Env from $Self->{EnvRef}
         %Env = %{$Self->{EnvRef}};
     }
-    # -- 
+    # --
     # create refs
     # --
     my $EnvRef = \%Env;
     my $DataRef = \%Data;
     my $GlobalRef = {
-        EnvRef => $EnvRef, 
-        DataRef => $DataRef, 
+        EnvRef => $EnvRef,
+        DataRef => $DataRef,
         ConfigRef => $Self->{ConfigObject},
     };
-    # -- 
+    # --
     # read template from filesystem
     # --
     my $TemplateString = '';
@@ -224,7 +224,7 @@ sub Output {
          $TemplateString = $Param{Template};
     }
     else {
-        open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
+        open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")
            ||  die "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!";
         while (my $Line = <TEMPLATEIN>) {
             $TemplateString .= $Line;
@@ -235,7 +235,7 @@ sub Output {
     # filtering of comment lines
     $TemplateString =~ s/^#.*\n//gm;
 
-    # parse/get text blocks   
+    # parse/get text blocks
     $TemplateString =~ s{
         <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
     }
@@ -246,10 +246,12 @@ sub Output {
         if ($Self->{Block}->{$BlockName}) {
             foreach (@{$Self->{Block}->{$BlockName}}) {
                 $New .= $Self->Output(
-                    Template => "<!--start $BlockName-->".$Template."<!--stop $BlockName-->", 
+                    Template => "<!--start $BlockName-->".$Template."<!--stop $BlockName-->",
                     Data => $_,
                 );
             }
+            # if used, remove it from ram
+            undef $Self->{Block}->{$BlockName};
         }
         $New;
     }segxim;
@@ -262,7 +264,7 @@ sub Output {
       $Line .= "\n";
       if ($Line =~ /<dtl/) {
           # --
-          # do template set (<dtl set $Data{"adasd"} = "lala">) 
+          # do template set (<dtl set $Data{"adasd"} = "lala">)
           # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
           # --
           $Line =~ s{
@@ -278,7 +280,7 @@ sub Output {
               while (<SYSTEM>) {
                 $Data .= $_;
               }
-              close (SYSTEM);      
+              close (SYSTEM);
             }
 
             $GlobalRef->{"$2Ref"}->{$3} = $Data;
@@ -701,6 +703,7 @@ sub Notify {
       }
       $Param{Info} = $Param{BackendMessage};
     }
+    $Param{Info} =~ s/\n//g if ($Param{Info});
     return $Self->Output(TemplateFile => 'Notify', Data => \%Param);
 }
 # --
@@ -800,7 +803,7 @@ sub Ascii2Html {
     # text -> html format quoting
     if ($HTMLMode) {
         $Text =~ s/\n/<br>\n/g;
-        $Text =~ s/  / &nbsp;/g;
+        $Text =~ s/  /&nbsp;&nbsp;/g;
     }
     # return result
     return $Text;
@@ -897,6 +900,7 @@ sub OptionStrgHashRef {
     my $SelectedID = defined($Param{SelectedID}) ? $Param{SelectedID} : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $PossibleNone = $Param{PossibleNone} || '';
+    my $SortBy = $Param{SortBy} || 'Value';
     my $Size = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
     if (!$Param{Data}) {
@@ -960,7 +964,19 @@ sub OptionStrgHashRef {
             delete $Data{$_};
         }
     }
-    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+
+    my @Order = ();
+    if ($SortBy eq 'Key') {
+         foreach (sort keys %Data) {
+             push (@Order, $_);
+         }
+    }
+    else {
+         foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+             push (@Order, $_);
+         }
+    }
+    foreach (@Order) {
         if ((defined($_)) && ($Data{$_})) {
             # check if SelectedIDRefArray exists
             if ($SelectedIDRefArray && ref($SelectedIDRefArray) eq 'ARRAY') {
