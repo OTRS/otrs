@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.18 2003-07-10 02:45:46 martin Exp $
+# $Id: CustomerMessage.pm,v 1.19 2003-11-26 00:52:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,51 +48,48 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $QueueID = $Self->{QueueID};
-    my $Subaction = $Self->{Subaction};
     my $NextScreen = $Self->{NextScreen} || $Self->{ConfigObject}->Get('CustomerNextScreenAfterNewTicket');
-    my $BackScreen = $Self->{BackScreen};
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
     
-    if ($Subaction eq '' || !$Subaction) {
-        # --
+    if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # header
-        # --
         $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Message');
 
-        # --
         # if there is no ticket id!
-        # --
         if (!$Self->{TicketID}) {
             $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-            # --
             # check own selection
-            # --
             my %NewTos = ();
             if ($Self->{ConfigObject}->{CustomerPanelOwnSelection}) {
                 %NewTos = %{$Self->{ConfigObject}->{CustomerPanelOwnSelection}};
             }
             else {
-                # --
                 # SelectionType Queue or SystemAddress?    
-                # --
                 my %Tos = ();
                 if ($Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue') {
-                    %Tos = $Self->{QueueObject}->GetAllQueues();
+                    %Tos = $Self->{QueueObject}->GetAllQueues(
+                        CustomerUserID => $Self->{UserID},
+                        Type => 'rw',
+                    );
                 }
                 else {
-                    %Tos = $Self->{DBObject}->GetTableData(
+                    my %Queues = $Self->{QueueObject}->GetAllQueues(
+                        CustomerUserID => $Self->{UserID},
+                        Type => 'rw',
+                    );
+                    my %SystemTos = $Self->{DBObject}->GetTableData(
                         Table => 'system_address',
                         What => 'queue_id, id',
                         Valid => 1,
                         Clamp => 1,
                     );
+                    foreach (keys %Queues) {
+                        if ($SystemTos{$_}) {
+                            $Tos{$_} = $Queues{$_};
+                        }
+                    }
                 }
                 %NewTos = %Tos;
-                # --
                 # build selection string
-                # --
                 foreach (keys %NewTos) {
                     my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
                     my $Srting = $Self->{ConfigObject}->Get('CustomerPanelSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
@@ -106,16 +103,12 @@ sub Run {
                     $NewTos{$_} = $Srting;
                 }
             }
-            # -- 
             # get priority
-            # --
             my %Priorities = $Self->{DBObject}->GetTableData(
                 What => 'id, name',
                 Table => 'ticket_priority',
             );
-            # --
             # html output
-            # --
             $Output .= $Self->{LayoutObject}->CustomerMessageNew(
                 To => \%NewTos,
                 Priorities => \%Priorities,
@@ -124,13 +117,20 @@ sub Run {
             return $Output;
         }
         else {
+            # check permissions
+            if (!$Self->{TicketObject}->CustomerPermission(
+                Type => 'update',
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID})) {
+                # error screen, don't show ticket
+                return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
+            }
+            # get ticket number
             my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
-            # --
             # print form ...
-            # --
             $Output .= $Self->{LayoutObject}->CustomerMessage(
                 TicketID => $Self->{TicketID},
-                QueueID => $QueueID,
+                QueueID => $Self->{QueueID},
                 TicketNumber => $Tn,
                 NextStates => $Self->_GetNextStates(),
             );
@@ -138,7 +138,15 @@ sub Run {
             return $Output;
         }
     }
-    elsif ($Subaction eq 'Store') {
+    elsif ($Self->{Subaction} eq 'Store') {
+        # check permissions
+        if (!$Self->{TicketObject}->CustomerPermission(
+            Type => 'update',
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID})) {
+            # error screen, don't show ticket
+            return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
+        }
         # check if it is possible to do the follow up
         my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(
             TicketID => $Self->{TicketID},
@@ -182,9 +190,7 @@ sub Run {
             HistoryType => $Self->{ConfigObject}->Get('CustomerPanelHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('CustomerPanelHistoryComment'),
         )) {
-          # --
           # set state
-          # --
           my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
               ID => $StateID,
           );
@@ -196,17 +202,13 @@ sub Run {
             State => $State,
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
           );
-          # --
           # set answerd
-          # --
           $Self->{TicketObject}->SetAnswered(
             TicketID => $Self->{TicketID},
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             Answered => 0,
           );
-          # --
           # get attachment
-          # -- 
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
               Param => 'file_upload', 
               Source => 'String',
@@ -218,9 +220,7 @@ sub Run {
                   UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
               );
           }
-         # --
          # redirect to zoom view
-         # --        
          return $Self->{LayoutObject}->Redirect(
               OP => "Action=$NextScreen&TicketID=$Self->{TicketID}",
          );
@@ -232,7 +232,15 @@ sub Run {
         return $Output;
       }
     }
-    elsif ($Subaction eq 'StoreNew') {
+    elsif ($Self->{Subaction} eq 'StoreNew') {
+        # check permissions
+        if (!$Self->{TicketObject}->CustomerPermission(
+            Type => 'create',
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID})) {
+            # error screen, don't show ticket
+            return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
+        }
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest);
         if (!$To) {
@@ -281,15 +289,13 @@ sub Run {
             AutoResponseType => 'auto reply',
             OrigHeader => {
                 From => $From,
-                To => $UserLogin,
+                To => $Self->{UserLogin},
                 Subject => $Subject,
                 Body => $Text,
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
-          # --
           # set Customer ID
-          # --
           if ($Self->{UserCustomerID} || $Self->{UserLogin}) {
               $Self->{TicketObject}->SetCustomerData(
                   TicketID => $TicketID,
@@ -298,9 +304,7 @@ sub Run {
                   UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                );
           }
-          # --
           # get attachment
-          # -- 
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
               Param => 'file_upload', 
               Source => 'String',
@@ -312,9 +316,7 @@ sub Run {
                   UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
               );
           }
-          # --
           # redirect
-          # --
           return $Self->{LayoutObject}->Redirect(
               OP => "Action=$NextScreen&TicketID=$TicketID",
           );
@@ -340,9 +342,7 @@ sub Run {
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
-    # --
     # get next states
-    # --
     my %NextStates = $Self->{StateObject}->StateGetStatesByType(
         Type => 'CustomerPanelDefaultNextCompose',
         Result => 'HASH',

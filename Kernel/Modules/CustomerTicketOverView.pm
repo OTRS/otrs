@@ -1,8 +1,8 @@
 # --   
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.17 2003-10-13 20:34:30 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.18 2003-11-26 00:52:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,10 +119,19 @@ sub Run {
     # --
     # get data (viewable tickets...)
     # --
+    my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
+        UserID => $Self->{UserID},
+        Type => 'ro',
+        Result => 'ID',
+    ); 
     my $AllTickets = 0; 
     my $SQL = "SELECT count(*) FROM ".
-       " ticket st ".
+       " ticket st, queue q ".
        " WHERE ".
+       " st.queue_id = q.id ".
+       " AND ".
+       " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
+       " AND ".
        " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'".
        $SQLExt;
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -139,6 +148,8 @@ sub Run {
        " st.user_id = u.". $Self->{ConfigObject}->Get('DatabaseUserTableUserID') .
        " AND ".
        " q.id = st.queue_id ".
+       " AND ".
+       " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
        " AND ".
        " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'".
        $SQLExt.
