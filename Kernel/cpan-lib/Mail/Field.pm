@@ -1,18 +1,19 @@
 # Mail::Field.pm
 #
 # Copyright (c) 1995-2001 Graham Barr. All rights reserved.
+# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 
 package Mail::Field;
 
-# $Id: Field.pm,v 1.1 2002-11-10 22:57:38 martin Exp $
+# $Id: Field.pm,v 1.2 2004-01-13 23:59:26 martin Exp $
 
 use Carp;
 use strict;
 use vars qw($AUTOLOAD $VERSION);
 
-$VERSION = "1.51";
+$VERSION = "1.60";
 
 unless(defined &UNIVERSAL::can) {
     *UNIVERSAL::can = sub {
@@ -228,10 +229,11 @@ sub tag
 
  $tag =~ s/.*:://o;
  $tag =~ s/_/-/og;
- $tag =~ s/\b([a-z]+)/\L\u$1/gio;
- $tag =~ s/\b([b-df-hj-np-tv-z]+)\b/\U$1/gio;
 
- $tag;
+ join('-',
+    map { /^[b-df-hj-np-tv-z]+$|^MIME$/i ? uc($_) : ucfirst(lc($_)) }
+       split('-', $tag)
+     );
 }
 
 ##
@@ -296,11 +298,11 @@ sub AUTOLOAD
    my $tag = $method;
 
    $tag =~ s/_/-/og;
-   $tag =~ s/\b([a-z]+)/\L\u$1/gio;
-   $tag =~ s/\b([b-df-hj-np-tv-z]+)\b/\U$1/gio;
+   $tag = join('-',
+             map { /^[b-df-hj-np-tv-z]+$|^MIME$/i ? uc($_) : ucfirst(lc($_)) }
+                split('-', $tag));
 
    no strict;
-
    @{$pkg . "::ISA"} = qw(Mail::Field::Generic);
    *{$pkg . "::tag"} = sub { $tag };
   }
@@ -500,9 +502,9 @@ so that C<Mail::*> and C<MIME::*> can be integrated together.
 
 =head1 COPYRIGHT
 
-Copyright (c) 1995-2001 Graham Barr. All rights reserved. This program is free
-software; you can redistribute it and/or modify it under the same terms
-as Perl itself.
+Copyright (c) 2002-2003 Mark Overmeer, 1995-2001 Graham Barr. All rights
+reserved. This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 =cut
 

@@ -1,6 +1,7 @@
 # Mail::Header.pm
 #
 # Copyright (c) 1995-2001 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 
@@ -19,7 +20,7 @@ use strict;
 use Carp;
 use vars qw($VERSION $FIELD_NAME);
 
-$VERSION = "1.51";
+$VERSION = "1.60";
 
 my $MAIL_FROM = 'KEEP';
 my %HDR_LENGTHS = ();
@@ -151,16 +152,12 @@ sub _fold_line
 sub _tag_case
 {
  my $tag = shift;
+ $tag =~ s/\:$//;
 
- $tag =~ s/:\Z//o;
-
- # Change the case of the tag
- # eq Message-Id
- $tag =~ s/\b([a-z]+)/\L\u$1/gio;
- $tag =~ s/\b([b-df-hj-np-tv-z]+|MIME)\b/\U$1/gio
-	if $tag =~ /-/;
-
- $tag;
+ join('-',
+     map { /^[b-df-hj-np-tv-z]+$|^(?:MIME|SWE|SOAP|LDAP)$/i
+         ? uc($_) : ucfirst(lc($_)) }
+              split('-', $tag));
 }
 
 # format a complete line
@@ -1008,8 +1005,8 @@ Graham Barr.  Maintained by Mark Overmeer <mailtools@overmeer.net>
 
 =head1 COPYRIGHT
 
-Copyright (c) 1995-2001 Graham Barr. All rights reserved. This program is free
-software; you can redistribute it and/or modify it under the same terms
-as Perl itself.
+Copyright (c) 2002-2003 Mark Overmeer, 1995-2001 Graham Barr. All rights
+reserved. This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 =cut

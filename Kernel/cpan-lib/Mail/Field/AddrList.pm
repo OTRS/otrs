@@ -40,6 +40,10 @@ Peter Orbaek <poe@cit.dk> 26-Feb-97
 Modified by Graham Barr <gbarr@pobox.com>
 Maintained by Mark Overmeer <mailtools@overmeer.net>
 
+Copyright (c) 2002-2003 Mark Overmeer. All rights
+reserved. This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
 =cut
 
 use strict;
@@ -49,7 +53,7 @@ use Carp;
 use Mail::Address;
 
 @ISA = qw(Mail::Field);
-$VERSION = '1.51';
+$VERSION = '1.60';
 
 # install header interpretation, see Mail::Field
 INIT: {

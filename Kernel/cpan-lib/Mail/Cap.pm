@@ -4,7 +4,7 @@ use strict;
 
 use vars qw($VERSION $useCache);
 
-$VERSION = "1.51";
+$VERSION = "1.60";
 sub Version { $VERSION; }
 
 =head1 NAME

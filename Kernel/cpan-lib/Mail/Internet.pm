@@ -1,6 +1,7 @@
 # Mail::Internet.pm
 #
 # Copyright (c) 1995-2001 Graham Barr <gbarr@pobox.com>. All rights reserved.
+# Copyright (c) 2002-2003 Mark Overmeer <mailtools@overmeer.net>
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 #
@@ -16,7 +17,7 @@ use Mail::Header;
 use vars qw($VERSION);
 
 BEGIN {
-    $VERSION = "1.51";
+    $VERSION = "1.60";
     *AUTOLOAD = \&AutoLoader::AUTOLOAD;
 
     unless(defined &UNIVERSAL::isa) {
@@ -570,6 +571,7 @@ use strict;
     my $src  = shift;
     my %opt = @_;
     my $host = $opt{Host};
+    my $envelope = $opt{MailFrom} || mailaddress();
     my $noquit = 0;
     my $smtp;
     my @hello = defined $opt{Hello} ? (Hello => $opt{Hello}) : ();
@@ -620,7 +622,7 @@ use strict;
 
     # Send it
 
-    my $ok = $smtp->mail( mailaddress() ) &&
+    my $ok = $smtp->mail( $envelope ) &&
 		$smtp->to(@addr) &&
 		$smtp->data(join("", @{$hdr->header},"\n",@{$src->body}));
 
@@ -756,7 +758,7 @@ features.  See http://perl.overmeer.net/mailbox.
 
 =item new ( [ ARG ], [ OPTIONS ] )
 
-C<ARG> is optiona and may be either a file descriptor (reference to a GLOB)
+C<ARG> is optional and may be either a file descriptor (reference to a GLOB)
 or a reference to an array. If given the new object will be
 initialized with headers and body either from the array of read from 
 the file descriptor.
@@ -795,9 +797,9 @@ also be given.
 Returns the body of the message. This is a reference to an array.
 Each entry in the array represents a single line in the message.
 
-If I<BODY> is given, it can be a referenc to an aray or an array, then
+If I<BODY> is given, it can be a reference to an array or an array, then
 the body will be replaced. If a reference is passed, it is used directly
-and not copied, so any sunsequent changes to the array will change the
+and not copied, so any subsequent changes to the array will change the
 contents of the body.
 
 =item print_header ( [ FILEHANDLE ] )
@@ -884,6 +886,11 @@ If C<Host> is not given then the SMTP host is found by attempting
 connections first to hosts specified in C<$ENV{SMTPHOSTS}>, a colon
 separated list, then C<mailhost> and C<localhost>.
 
+=item MailFrom
+
+The e-mail address which is used as sender.  By default, the mailaddress()
+method provides the address of the sender.
+
 =item To
 
 =item Cc
@@ -954,9 +961,9 @@ Graham Barr.  Maintained by Mark Overmeer <mailtools@overmeer.net>
 
 =head1 COPYRIGHT
 
-Copyright (c) 1995-2001 Graham Barr. All rights reserved. This program is free
-software; you can redistribute it and/or modify it under the same terms
-as Perl itself.
+Copyright (c) 2002-2003 Mark Overmeer, 1995-2001 Graham Barr. All rights
+reserved. This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 =cut
 
