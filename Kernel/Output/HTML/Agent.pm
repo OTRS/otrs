@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.143 2004-04-05 13:26:51 martin Exp $
+# $Id: Agent.pm,v 1.144 2004-04-07 15:28:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.143 $';
+$VERSION = '$Revision: 1.144 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -122,7 +122,7 @@ sub TicketEscalation {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    $Param{Message} = 'Please go away!' if (!$Param{Message});
+    $Param{Message} = 'No Permission!' if (!$Param{Message});
 
     # create output
     $Output .= $Self->Output(TemplateFile => 'TicketEscalation', Data => \%Param);

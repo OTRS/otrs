@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.30 2004-03-30 11:57:44 robert Exp $
+# $Id: Customer.pm,v 1.31 2004-04-07 15:28:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -220,7 +220,7 @@ sub CustomerNoPermission {
     my %Param = @_;
     my $WithHeader = $Param{WithHeader} || 'yes';
     my $Output = '';
-    $Param{Message} = 'Please go away!' if (!$Param{Message});
+    $Param{Message} = 'No Permission!' if (!$Param{Message});
     # create output
     $Output = $Self->CustomerHeader(Title => 'No Permission') if ($WithHeader eq 'yes');
     $Output .= $Self->Output(TemplateFile => 'NoPermission', Data => \%Param);
