@@ -12,7 +12,7 @@ $VERSION = '0.14';
 
 %AUTOLOAD = ( mxcheck => 1, fudge => 1, fqdn => 1, local_rules => 1 );
 #$NSLOOKUP_PAT = 'preference|serial|expire|mail\s+exchanger';
-$NSLOOKUP_PAT = 'IN MX';
+$NSLOOKUP_PAT = 'preference|mail\s+exchanger|IN\s+MX';
 @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin );
 $DNS_Method = '';
 
