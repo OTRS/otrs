@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.19 2003-01-03 00:30:28 martin Exp $
+# $Id: Queue.pm,v 1.20 2003-01-05 13:58:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,10 +46,10 @@ sub GetSystemAddress {
     my $Self = shift;
     my %Param = @_;
     my %Adresss;
-    my $SQL = "SELECT sa.value0, sa.value1 FROM system_address as sa, queue as sq " .
-	" WHERE " .
-	" sq.id = $Self->{QueueID} " .
-	" and " .
+    my $SQL = "SELECT sa.value0, sa.value1 FROM system_address as sa, queue as sq ".
+	" WHERE ".
+	" sq.id = $Self->{QueueID} ".
+	" and ".
 	" sa.id = sq.system_address_id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -63,10 +63,10 @@ sub GetSalutation {
     my $Self = shift;
     my %Param = @_;
     my $String = '';
-    my $SQL = "SELECT text FROM salutation as sa, queue as sq " .
-        " WHERE " .
-        " sq.id = $Self->{QueueID} " .
-        " and " .
+    my $SQL = "SELECT text FROM salutation as sa, queue as sq ".
+        " WHERE ".
+        " sq.id = $Self->{QueueID} ".
+        " and ".
         " sq.salutation_id = sa.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -79,10 +79,10 @@ sub GetSignature {
     my $Self = shift;
     my %Param = @_;
     my $String = '';
-    my $SQL = "SELECT text FROM signature as si, queue as sq " .
-        " WHERE " .
-        " sq.id = $Self->{QueueID} " .
-        " and " .
+    my $SQL = "SELECT text FROM signature as si, queue as sq ".
+        " WHERE ".
+        " sq.id = $Self->{QueueID} ".
+        " and ".
         " sq.signature_id = si.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -105,8 +105,8 @@ sub GetStdResponse {
     # --
     # sql 
     # --
-    my $SQL = "SELECT text FROM standard_response" .
-        " WHERE " .
+    my $SQL = "SELECT text FROM standard_response".
+        " WHERE ".
         " id = $Param{ID} ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -179,15 +179,15 @@ sub GetStdResponses {
     # --
     # get std. responses
     # --
-    my $SQL = "SELECT sr.id, sr.name " .
-        " FROM " .
-        " standard_response as sr, queue_standard_response as qsr" .
-        " WHERE " .
-        " qsr.queue_id in ($Param{QueueID})" .
-        " AND " .
-        " qsr.standard_response_id = sr.id" .
-        " AND " .
-        " sr.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )" .
+    my $SQL = "SELECT sr.id, sr.name ".
+        " FROM ".
+        " standard_response as sr, queue_standard_response as qsr".
+        " WHERE ".
+        " qsr.queue_id in ($Param{QueueID})".
+        " AND ".
+        " qsr.standard_response_id = sr.id".
+        " AND ".
+        " sr.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )".
         " ORDER BY sr.name";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -212,20 +212,22 @@ sub GetAllQueues {
     # --
     my %MoveQueues;
     if ($UserID) {
-        my $SQL = "SELECT sq.id, sq.name FROM queue as sq, group_user sug, groups as sg " .
-        " WHERE " .
-        " sug.user_id = $UserID" .
-        " AND " .
-        " sug.group_id = sg.id" .
-        " AND " .
-        " sq.group_id = sg.id" .
-        " AND " .
+        my $SQL = "SELECT sq.id, sq.name FROM queue as sq, group_user sug, groups as sg ".
+        " WHERE ".
+        " sug.user_id = $UserID".
+        " AND ".
+        " sug.group_id = sg.id".
+        " AND ".
+        " sq.group_id = sg.id".
+        " AND ".
         " sq.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
         $Self->{DBObject}->Prepare(SQL => $SQL);
     }
     else {
-        $Self->{DBObject}->Prepare(SQL => "SELECT id, name FROM queue WHERE valid_id in " .
-	"( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )");
+        $Self->{DBObject}->Prepare(
+          SQL => "SELECT id, name FROM queue WHERE valid_id in ".
+            "( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )",
+          );
     }
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $MoveQueues{$Row[0]} = $Row[1];
@@ -270,8 +272,8 @@ sub GetAllUserIDsByQueueID {
     # --
     my @UserIDs = ();
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT user_id FROM personal_queues " .
-            " WHERE " .
+        SQL => "SELECT user_id FROM personal_queues ".
+            " WHERE ".
             " queue_id = $Param{QueueID} ",
     );
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -342,12 +344,12 @@ sub GetFollowUpOption {
     # fetch queues data
     # --
     my $Return = '';
-    my $SQL = "SELECT sf.name " .
-		" FROM " .
-		" follow_up_possible sf, queue sq " .
-		" WHERE " .
-		" sq.follow_up_id = sf.id " .
-		" AND " .
+    my $SQL = "SELECT sf.name ".
+		" FROM ".
+		" follow_up_possible sf, queue sq ".
+		" WHERE ".
+		" sq.follow_up_id = sf.id ".
+		" AND ".
 		" sq.id = $Param{QueueID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -370,10 +372,10 @@ sub GetFollowUpLockOption {
     # fetch queues data
     # --
     my $Return = 0;
-    my $SQL = "SELECT sq.follow_up_lock " .
-        " FROM " .
-        " queue sq " .
-        " WHERE " .
+    my $SQL = "SELECT sq.follow_up_lock ".
+        " FROM ".
+        " queue sq ".
+        " WHERE ".
         " sq.id = $Param{QueueID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -396,10 +398,10 @@ sub GetQueueGroupID {
     # sql 
     # --
     my $GID = '';
-        my $SQL = "SELECT group_id " .
-        " FROM " .
-        " queue " .
-        " WHERE " .
+        my $SQL = "SELECT group_id ".
+        " FROM ".
+        " queue ".
+        " WHERE ".
         " id = $Param{QueueID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -451,37 +453,37 @@ sub QueueAdd {
    };
 
 
-   my $SQL = "INSERT INTO queue " .
-   "(name, " .
-       " group_id, " .
-       " unlock_timeout, " .
-       " system_address_id, " .
-       " salutation_id, " .
-       " signature_id, " .
-       " escalation_time, " .
-       " follow_up_id, " .
-       " follow_up_lock, " .
-       " valid_id, " .
-       " comment, " .
-       " create_time, " .
-       " create_by, " .
-       " change_time, " .
-       " change_by)" .
-       " VALUES " .
-       " ('$Param{Name}', " .
-       " $Param{GroupID}, " .
-       " $Param{UnlockTimeout}, " .
-       " $Param{SystemAddressID}, " .
-       " $Param{SalutationID}, " .
-       " $Param{SignatureID}, " .
-       " $Param{EscalationTime}, " .
-       " $Param{FollowUpID}, " .
-       " $Param{FollowUpLock}, " .
-       " $Param{ValidID}, " .
-       " '$Param{Comment}', " .
-       " current_timestamp, " .
-       " $Param{UserID}, " .
-       " current_timestamp, " .
+   my $SQL = "INSERT INTO queue ".
+       "(name, ".
+       " group_id, ".
+       " unlock_timeout, ".
+       " system_address_id, ".
+       " salutation_id, ".
+       " signature_id, ".
+       " escalation_time, ".
+       " follow_up_id, ".
+       " follow_up_lock, ".
+       " valid_id, ".
+       " comment, ".
+       " create_time, ".
+       " create_by, ".
+       " change_time, ".
+       " change_by)".
+       " VALUES ".
+       " ('$Param{Name}', ".
+       " $Param{GroupID}, ".
+       " $Param{UnlockTimeout}, ".
+       " $Param{SystemAddressID}, ".
+       " $Param{SalutationID}, ".
+       " $Param{SignatureID}, ".
+       " $Param{EscalationTime}, ".
+       " $Param{FollowUpID}, ".
+       " $Param{FollowUpLock}, ".
+       " $Param{ValidID}, ".
+       " '$Param{Comment}', ".
+       " current_timestamp, ".
+       " $Param{UserID}, ".
+       " current_timestamp, ".
        " $Param{UserID})";
    
    if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -489,9 +491,9 @@ sub QueueAdd {
       # get new queue id
       # --
       $SQL = "SELECT id ".
-       " FROM " .
-       " queue " .
-       " WHERE " .
+       " FROM ".
+       " queue ".
+       " WHERE ".
        " name = '$Param{Name}'";
       my $QueueID = '';
       $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -544,21 +546,21 @@ sub GetTicketIDsByQueue {
     # --
     # sql
     # --
-    my $SQL = "SELECT st.id, st.tn FROM " .
-    " ticket as st, queue as sq, ticket_state tsd, ticket_lock_type slt " .
-    " WHERE " .
-    " st.ticket_state_id = tsd.id " .
-    " AND " .
-    " st.queue_id = sq.id " .
-    " AND " .
+    my $SQL = "SELECT st.id, st.tn FROM ".
+    " ticket as st, queue as sq, ticket_state tsd, ticket_lock_type slt ".
+    " WHERE ".
+    " st.ticket_state_id = tsd.id ".
+    " AND ".
+    " st.queue_id = sq.id ".
+    " AND ".
     " st.ticket_lock_id = slt.id ";
     if ($Param{States}) { 
-        $SQL .= " AND ";
-        $SQL .= " tsd.name IN ('${\(join '\', \'' , @{$Param{States}})}') ";
+        $SQL .= " AND ".
+          " tsd.name IN ('${\(join '\', \'' , @{$Param{States}})}') ";
     }
     if ($Param{Locks}) {
-        $SQL .= " AND ";
-        $SQL .= " slt.name IN ('${\(join '\', \'' , @{$Param{Locks}})}') ";
+        $SQL .= " AND ".
+          " slt.name IN ('${\(join '\', \'' , @{$Param{Locks}})}') ";
     }
     $SQL .= " AND ";
     if ($Param{Queue}) {
