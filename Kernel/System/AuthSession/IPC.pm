@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.11 2003-04-08 21:43:46 martin Exp $
+# $Id: IPC.pm,v 1.11.2.1 2003-05-01 21:46:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.11.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -32,13 +32,13 @@ sub new {
     # --
     # check needed objects
     # --
-    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+    foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
     # --
     # Debug 0=off 1=on
     # --
-    $Self->{Debug} = 0;    
+    $Self->{Debug} = 0;
     # --
     # get more common params
     # --
@@ -145,7 +145,6 @@ sub CheckSessionID {
     # set default message
     # --
     $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
-
     # --
     # session id check
     # --
@@ -225,7 +224,7 @@ sub GetSessionIDData {
             if ($Item =~ /^SessionID:$SessionIDBase64;/) {
                 foreach (@PaarData) {
                     my ($Key, $Value) = split(/:/, $_);
-                    $Data{$Key} = decode_base64($Value) || ''; 
+                    $Data{$Key} = decode_base64($Value); 
                 }
                 # Debug
                 if ($Self->{Debug}) {
@@ -237,7 +236,6 @@ sub GetSessionIDData {
             }
         }
     }
-
     return %Data;
 }
 # --
@@ -266,7 +264,7 @@ sub CreateSessionID {
     # --
     my $DataToStore = "SessionID:". encode_base64($SessionID, '') .";";
     foreach (keys %Param) {
-        if ($Param{$_}) {
+        if (defined($Param{$_})) {
             $Param{$_} = encode_base64($Param{$_}, '');
             $DataToStore .= "$_:". $Param{$_} .";";
         }
@@ -317,13 +315,11 @@ sub RemoveSessionID {
     # update shm
     # --
     $Self->WriteSHM(Data => $DataToStore);
-
     # log event
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message => "Removed SessionID $Param{SessionID}."
     );
-
     return 1;
 }
 # --
@@ -331,20 +327,20 @@ sub UpdateSessionID {
     my $Self = shift;
     my %Param = @_;
     my $Key = $Param{Key} || die 'No Key!';
-    my $Value = $Param{Value} || '';
+    my $Value = defined($Param{Value}) ? $Param{Value} : '';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
     # --
     # check needed update! (no changes)
     # --
     if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value) 
-      || (!exists $SessionData{$Key} && !$Value)) {
+      || (!exists $SessionData{$Key} && $Value eq '')) {
         return 1;
     }
     # --
     # update the value 
     # --
-    if ($Value) {
+    if (defined($Value)) {
         $SessionData{$Key} = $Value; 
     }
     else {

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.5 2003-04-22 20:29:03 martin Exp $
+# $Id: DB.pm,v 1.5.2.1 2003-05-01 21:45:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser::Preferences::DB;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.5.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,7 @@ sub SetPreferences {
     my %Param = @_;
     my $UserID = $Param{UserID} || return;
     my $Key = $Param{Key} || return;
-    my $Value = $Param{Value} || '';
+    my $Value = defined($Param{Value}) ? $Param{Value} : '';
     # delete old data
     if (!$Self->{DBObject}->Do(
        SQL => "DELETE FROM $Self->{PreferencesTable} ".
