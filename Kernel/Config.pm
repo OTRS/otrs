@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.55 2002-08-13 15:08:10 martin Exp $
+# $Id: Config.pm,v 1.56 2002-08-26 22:03:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -68,6 +68,11 @@ sub Load {
     # (Send all outgoing email via bcc to... 
     # Warning: use it only for external archive funktions)
     $Self->{SendmailBcc} = '';
+
+    # Organization
+    # (If this is anything other than '', then the email will have an
+    # Organization X-Header)
+    $Self->{Organization} = 'Example Company';
 
     # CustomQueue
     # (The name of custom queue.)
@@ -142,7 +147,7 @@ sub Load {
     # (take care that Net::LDAP is installed!)
 #    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
 #    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
-#    $Self->{'AuthModule::LDAP::BaseDN'} = 'cn=Manager,dc=example,dc=com';
+#    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'AuthModule::LDAP::UID'} = 'uid';
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree 
