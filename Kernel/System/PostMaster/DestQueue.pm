@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DestQueue.pm,v 1.9 2003-02-20 13:51:47 wiktor Exp $
+# $Id: DestQueue.pm,v 1.10 2003-05-08 02:03:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -62,7 +62,7 @@ sub GetQueueID {
     foreach (@EmailAddresses) {
         my $Address = $ParseObject->GetEmailAddress(Email => $_);
         foreach (keys %SystemAddresses) {
-            if ($_ =~ /$Address/i) {
+            if ($_ =~ /\Q$Address/i) {
                 if ($Self->{Debug} > 0) {
                     print STDERR "* matched email: $_ (QueueID=$SystemAddresses{$_})\n";
                 }
