@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.134 2004-01-23 00:44:48 martin Exp $
+# $Id: Agent.pm,v 1.135 2004-02-03 23:07:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.134 $';
+$VERSION = '$Revision: 1.135 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -260,6 +260,7 @@ sub AgentPreferencesForm {
                 Data => $Data, 
                 Name => 'GenericTopic',
                 SelectedID => $Self->{$PrefKey} || $DataSelected, 
+                HTMLQuote => 0,
               );
             }
             else {
@@ -284,19 +285,6 @@ sub AgentPreferencesForm {
                   Name => "GenericTopic",
                   SelectedID => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
                   HTMLQuote => 0,
-              );
-          }
-          elsif ($PrefKey eq 'UserCharset') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'charset, charset',
-                      Table => 'charset',
-                      Valid => 1,
-                    )
-                  },
-                  Name => 'GenericTopic',
-                  Selected => $Self->{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
               );
           }
           elsif ($PrefKey eq 'UserTheme') {

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.46 2004-02-02 23:29:53 martin Exp $
+# $Id: Admin.pm,v 1.47 2004-02-03 23:07:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,19 +81,21 @@ sub AdminCustomerUserForm {
           my $DataSelected = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{DataSelected} || '';
           my $Type = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Type} || '';
           my %PrefItem = %{$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}};
-          if ($Data) {
+          if ($PrefKey eq 'UserLanguage') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+                  Name => "GenericTopic::$PrefKey",
+                  SelectedID => $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
+                  HTMLQuote => 0,
+              );
+          }
+          elsif ($Data) {
             $PrefItem{'Option'} = $Self->OptionStrgHashRef(
               Data => $Data,
               Name => "GenericTopic::$PrefKey",
               SelectedID => defined ($Param{$PrefKey}) ? $Param{$PrefKey} : $DataSelected,
+              HTMLQuote => 0,
             );
-          }
-          elsif ($PrefKey eq 'UserLanguage') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-                  Name => "GenericTopic::$PrefKey",
-                  Selected => $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
-              );
           }
           elsif ($PrefKey eq 'UserTheme') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
