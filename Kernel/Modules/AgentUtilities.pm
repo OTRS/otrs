@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.20 2003-03-11 22:13:07 martin Exp $
+# $Id: AgentUtilities.pm,v 1.21 2003-03-12 05:43:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -39,8 +39,7 @@ sub new {
     $Self->{Want} = $Self->{ParamObject}->GetParam(Param => 'Want') || '';
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0;
     # get confid data
-    $Self->{SearchLimitTn} = $Self->{ConfigObject}->Get('SearchLimitTn') || 200;
-    $Self->{SearchLimitTxt} = $Self->{ConfigObject}->Get('SearchLimitTxt') || 200;
+    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('SearchLimit') || 200;
     $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('SearchPageShown') || 15;
     return $Self;
 }
@@ -202,7 +201,7 @@ sub Search {
         TicketNumber => $TicketNumber,
         What => $Want,
         Kind => 'SearchByText',
-        Limit => $Self->{SearchLimitTxt},
+        Limit => $Self->{SearchLimit},
         WhatFields => \@WhatFields,
         SelectedStates => \@States,
         SelectedQueueIDs => \@QueueIDs,
@@ -210,10 +209,7 @@ sub Search {
         Users => \%ShownUsers,
         SelectedUserIDs => \@UserIDs,
     );
-    if (!@SParts && !$Self->{ConfigObject}->Get('SearchFulltextWithoutText')) {
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
+
     # --
     # build a spez. sql ext.
     # --
@@ -294,13 +290,22 @@ sub Search {
     # --
     my $OutputTables = '';
     my $Age = '?';
-    my $SQL = "SELECT sa.id as article_id, st.id ".
-      " FROM ".
-      " article sa, ticket st, queue sq ".
-      " WHERE ".
-      " sa.ticket_id = st.id ".
-      " AND ".
-      " sq.id = st.queue_id ".
+    my $SQL = "";
+    if ($SqlExt) {
+        $SQL = "SELECT st.id, sa.id as article_id ".
+          " FROM ".
+          " article sa, ticket st, queue sq ".
+          " WHERE ".
+          " sa.ticket_id = st.id ".
+          " AND ";
+    }
+    else {
+        $SQL = "SELECT st.id ".
+          " FROM ".
+          " ticket st, queue sq ".
+          " WHERE ";
+    }
+    $SQL .= " sq.id = st.queue_id ".
       " AND ".
       " sq.group_id IN ( ${\(join ', ', @GroupIDs)} )";
     if ($SqlTicketNumberExt) {
@@ -321,17 +326,15 @@ sub Search {
     if ($SqlExt) {
         $SQL .= " AND ($SqlExt) ";
     }
+    $SQL .= ""; 
     $SQL .= " ORDER BY st.id DESC";
+#    $SQL .= " GROUP BY st.id, sa.id ORDER BY st.id DESC";
 #    " ORDER BY sa.incoming_time DESC";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTxt});
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimit});
     my @ViewableArticleIDs = ();
     my $Counter = 0;
-    my %Shown = ();
-    while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-        if (!$Shown{$$Data{id}}) {
-            push (@ViewableArticleIDs, $$Data{article_id});
-        }
-        $Shown{$$Data{id}} = 1;
+    while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
+         push (@ViewableArticleIDs, $Row[0]);
     }
     foreach (@ViewableArticleIDs) {
       $Counter++;
@@ -339,10 +342,18 @@ sub Search {
       # build search result
       # --
       if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
-        my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $_);
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Article{TicketID});
+        my %Data = ();
+        my %Article = ();
+        if ($SqlExt) {
+            %Article = $Self->{TicketObject}->GetArticle(ArticleID => $_);
+            %Data = $Self->{TicketObject}->GetTicket(TicketID => $Article{TicketID});
+        }
+        else {
+            %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $_);
+            %Data = $Self->{TicketObject}->GetTicket(TicketID => $Article{TicketID});
+        }
         $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
-            %Ticket,
+            %Data,
             ArticleID => $_,
             From => $Article{From},
             To => $Article{To},
@@ -362,7 +373,8 @@ sub Search {
     # build search navigation bar
     # --
     my $SearchNavBar = $Self->{LayoutObject}->AgentUtilSearchCouter(
-        Limit => $Self->{SearchLimitTxt}, 
+        TicketNumber => $TicketNumber,
+        Limit => $Self->{SearchLimit}, 
         StartHit => $Self->{StartHit}, 
         SearchPageShown => $Self->{SearchPageShown},
         AllHits => $Counter,
@@ -371,6 +383,7 @@ sub Search {
         SelectedStates => \@States,
         SelectedQueueIDs => \@QueueIDs,
         SelectedPriorityIDs => \@PriorityIDs,
+        SelectedUserIDs => \@UserIDs,
     );
     $Output .= $SearchNavBar.$OutputTables;
     $Output .= $Self->{LayoutObject}->Footer();

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.93 2003-03-11 22:13:07 martin Exp $
+# $Id: Agent.pm,v 1.94 2003-03-12 05:43:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.93 $';
+$VERSION = '$Revision: 1.94 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1194,7 +1194,7 @@ sub AgentUtilForm {
         Size => 5,
     );
     $Output .= $Self->Output(TemplateFile => 'AgentUtilTicketStatus', Data => \%Param);
-    $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
+    $Output .= $Self->Output(TemplateFile => 'AgentUtilSearch', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByCustomerID', Data => \%Param);
     return $Output;
 }
@@ -1255,7 +1255,7 @@ sub AgentUtilSearchAgain {
         SelectedIDRefArray => $Param{SelectedUserIDs},
       );
 
-      $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
+      $Output .= $Self->Output(TemplateFile => 'AgentUtilSearch', Data => \%Param);
     }
     return $Output;
 }
@@ -1348,19 +1348,23 @@ sub AgentUtilSearchCouter {
     for (my $i = 1; $i < ($Pages+1); $i++) {
         $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}Action=AgentUtilities&Subaction=".
          "$Self->{Subaction}&StartHit=". (($i-1)*$Param{SearchPageShown});
-         if ($Param{WhatFields}) {
-             foreach (@{$Param{WhatFields}}) {
-                 $Param{SearchNavBar} .= "&What=$_";
-             }
-             foreach (@{$Param{SelectedStates}}) {
-                 $Param{SearchNavBar} .= "&State=$_";
-             }
-             foreach (@{$Param{SelectedQueueIDs}}) {
-                 $Param{SearchNavBar} .= "&QueueID=$_";
-             }
-             foreach (@{$Param{SelectedPriorityIDs}}) {
-                 $Param{SearchNavBar} .= "&PriorityID=$_";
-             }
+         foreach (@{$Param{WhatFields}}) {
+             $Param{SearchNavBar} .= "&What=$_";
+         }
+         foreach (@{$Param{SelectedStates}}) {
+             $Param{SearchNavBar} .= "&State=$_";
+         }
+         foreach (@{$Param{SelectedQueueIDs}}) {
+             $Param{SearchNavBar} .= "&QueueID=$_";
+         }
+         foreach (@{$Param{SelectedPriorityIDs}}) {
+             $Param{SearchNavBar} .= "&PriorityID=$_";
+         }
+         foreach (@{$Param{SelectedUserIDs}}) {
+             $Param{SearchNavBar} .= "&UserID=$_";
+         }
+         if ($Param{TicketNumber}) {
+             $Param{SearchNavBar} .= '&TicketNumber='.$Self->LinkEncode($Param{TicketNumber});
          }
          if ($Param{Want}) {
              $Param{SearchNavBar} .= '&Want='.$Self->LinkEncode($Param{Want});

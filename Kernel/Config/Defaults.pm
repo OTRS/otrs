@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.53 2003-03-10 23:40:42 martin Exp $
+# $Id: Defaults.pm,v 1.54 2003-03-12 05:43:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -223,21 +223,13 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # AgentUtil                                           #
     # --------------------------------------------------- #
-    # default limit for Tn search
-    # [default: 150]
-    $Self->{SearchLimitTn} = 150;
-
-    # default limit for Txt search
-    # [default: 150]
-    $Self->{SearchLimitTxt} = 150;
+    # default limit for ticket search
+    # [default: 250]
+    $Self->{SearchLimit} = 250;
 
     # defaut of shown article a page
     # [default: 15]
     $Self->{SearchPageShown} = 15;
-
-    # should it be possible to search on fulltext search without 
-    # text (just queue, priority, ...)?
-    $Self->{SearchFulltextWithoutText} = 1;
 
     # viewable ticket lines by search util
     # [default: 10]
