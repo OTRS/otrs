@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.30 2003-08-22 15:19:12 martin Exp $
+# $Id: AgentUtilities.pm,v 1.31 2003-10-21 23:31:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -519,14 +519,18 @@ sub MaskForm {
         Size => 5,
         SelectedIDRefArray => $Param{StateTypeID},
     );
+    my %MoveQueues = ();
+    if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
+        %MoveQueues = $Self->{QueueObject}->GetAllQueues();
+    }
+    else {
+        %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type => 'rw',
+        );
+    }
     $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'queue',
-            Valid => 1,
-          )
-        },
+        Data => \%MoveQueues,
         Size => 5,
         Multiple => 1,
         Name => 'QueueID',
