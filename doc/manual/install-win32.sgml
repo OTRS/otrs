@@ -106,10 +106,7 @@ D:\sambar\bin><userinput>net start Sambar</userinput>
 <section>
 <title>Install OTRS</title>
 <para>Last but least - the beast!</para>
-<para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/pages/index.pl?Site=Download">http://otrs.org/pages/index.pl?Site=Download</ulink>.</para>
-<para>We have to install this tarball manually, because there is a file &quot;INSTALL&quot; in it, who has the same name like the directory &quot;install&quot;, which is also contained. Un*x differentiates between the two - Windows doesn't. In addition, the thee files .fetchmailrc, .mailfilter and .procmailrc are doubled, your unzip program will complain about this. Future releases will allow automic unzipping.</para>
-<para>Open the tarball using WinRAR (<ulink url="http://www.rarlab.com">http://www.rarlab.com</ulink>), Winzip (<ulink url="http://www.winzip.com">http://www.winzip.com</ulink>) or a similar software. Unzip the files <computeroutput>.fetchmailrc</computeroutput>, <computeroutput>.mailfilter</computeroutput>, <computeroutput>.procmailrc</computeroutput> and <computeroutput>INSTALL</computeroutput> to <emphasis>d:\otrs\</emphasis>. Rename <computeroutput>INSTALL</computeroutput> to <computeroutput>INSTALL.txt</computeroutput>. Now unzip the rest of the archive to <emphasis>d:\otrs\</emphasis>.</para>
-
+<para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/pages/index.pl?Site=Download">http://otrs.org/pages/index.pl?Site=Download</ulink> and unzip it to <emphasis>d:\otrs\</emphasis>, directory structure preserved.</para>
 </section>
 
 </section>
