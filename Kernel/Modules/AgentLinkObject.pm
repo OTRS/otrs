@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.pm,v 1.3 2004-09-20 11:14:26 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.4 2004-10-12 11:31:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -255,6 +255,19 @@ sub Run {
                     }
                     else {
                         $Param{LinkedNormal} = 0;
+                    }
+
+                    if ($Param{LinkedNormal} == 1) {
+                        $Param{LinkedParent} = 2;
+                        $Param{LinkedChild} = 2;
+                    }
+                    if ($Param{LinkedParent} == 1) {
+                        $Param{LinkedNormal} = 2;
+                        $Param{LinkedChild} = 2;
+                    }
+                    if ($Param{LinkedChild} == 1) {
+                        $Param{LinkedParent} = 2;
+                        $Param{LinkedNormal} = 2;
                     }
 
                     if ($LinkedParent{$Data->{ID}}) {

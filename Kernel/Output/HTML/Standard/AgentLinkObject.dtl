@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.dtl,v 1.2 2004-09-27 13:26:33 martin Exp $
+# $Id: AgentLinkObject.dtl,v 1.3 2004-10-12 11:31:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -101,11 +101,14 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 <!-- dtl:block:SearchResultItem -->
 <dtl if ($Data{"Linked"} eq "1") { $Data{"Color"} = "bgcolor="red""; }>
 <dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkParent"} = "Unlink"; }>
-<dtl if ($Data{"LinkedParent"} ne "1") { $Data{"LinkParent"} = "Link"; }>
+<dtl if ($Data{"LinkedParent"} eq "0") { $Data{"LinkParent"} = "Link"; }>
+<dtl if ($Data{"LinkedParent"} eq "2") { $Data{"LinkParent"} = "-"; }>
 <dtl if ($Data{"LinkedChild"} eq "1") { $Data{"LinkChild"} = "Unlink"; }>
-<dtl if ($Data{"LinkedChild"} ne "1") { $Data{"LinkChild"} = "Link"; }>
+<dtl if ($Data{"LinkedChild"} eq "2") { $Data{"LinkChild"} = "-"; }>
+<dtl if ($Data{"LinkedChild"} eq "0") { $Data{"LinkChild"} = "Link"; }>
 <dtl if ($Data{"LinkedNormal"} eq "1") { $Data{"LinkNormal"} = "Unlink"; }>
-<dtl if ($Data{"LinkedNormal"} ne "1") { $Data{"LinkNormal"} = "Link"; }>
+<dtl if ($Data{"LinkedNormal"} eq "2") { $Data{"LinkNormal"} = "-"; }>
+<dtl if ($Data{"LinkedNormal"} eq "0") { $Data{"LinkNormal"} = "Link"; }>
 <dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkedParentLink"} = " (linked as Parent)"; }>
   <tr $Data{"Color"}>
       <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&PreviewID=$QData{"ID"}">$QData{"Number"}</a></td>
