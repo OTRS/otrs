@@ -2,17 +2,18 @@
 # --
 # otrs.addUser - Add User from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addUser,v 1.4 2002-11-10 23:02:18 martin Exp $
+# $Id: otrs.addUser,v 1.5 2002-11-29 14:04:59 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
 BEGIN{
-   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../", "$Bin/../Kernel/cpan-lib");
+   use FindBin qw($Bin);
+   unshift @INC, ($Bin , "$Bin/../", "$Bin/../Kernel/cpan-lib");
    use vars qw (%opts);
    use Getopt::Std;
-   getopt('flpg',  \%opts);
+   getopt('flpge',  \%opts);
    unless ($ARGV[0]){
       print "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] username\n";
       print "\tif you define -g with a valid group name then the user will be added that group\n";
@@ -56,6 +57,7 @@ $Param{Firstname}=$opts{'f'};
 $Param{Lastname}=$opts{'l'};
 $Param{Pw}=$opts{'p'};
 $Param{Login}=$ARGV[0];
+$Param{Email}=$opts{'e'};
 
 if ( $Param{UID}=$CommonObject{UserObject}->UserAdd(%Param) ){
    print "User added. user  id is $Param{UID}\n";
