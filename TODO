@@ -2,7 +2,7 @@
 # TODO - todo list of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.17 2002-07-24 09:34:14 martin Exp $
+# $Id: TODO,v 1.18 2002-07-24 21:19:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,6 @@
 - KnowlageFAQ
 - Add attachment support for AgentCompose.pm (http://bugs.otrs.org/show_bug.cgi?id=17)
 - Add filters to the locked-ticket-view!
-- Add default responses by creating a new queue!
 
 misc
 - check types of auto responses!
