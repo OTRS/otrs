@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.24 2004-12-10 08:37:53 martin Exp $
+# $Id: SetPermissions.sh,v 1.25 2004-12-22 21:53:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.24 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.25 $> - set OTRS file permissions"
 echo "Copyright (c) 2001-2004 Martin Edenhofer <martin@otrs.org>"
 
 if ! test $1 || ! test $2 || ! test $3; then
@@ -53,9 +53,11 @@ fi
 echo "Setting file permissions... "
 # set all files writeabel for webserver user (needed for package manager)
 echo "chown -R $WEBUSER:$OTRSGROUP $OTRSDEST"
+chown $WEBUSER:$OTRSGROUP $OTRSDEST
 chown -R $WEBUSER:$OTRSGROUP $OTRSDEST
-echo "chmod -R og+w $OTRSDEST"
-chmod -R og+w $OTRSDEST
+echo "chmod -R og+rw $OTRSDEST"
+chmod ug+wr $OTRSDEST
+chmod -R ug+wr $OTRSDEST
 
 # set the $HOME to the OTRS user
 echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST"
