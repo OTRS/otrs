@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.5 2004-01-10 15:36:14 martin Exp $
+# $Id: AgentCustomerFollowUp.pm,v 1.6 2004-04-01 08:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,12 +95,12 @@ sub Run {
         my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
             QueueID => $QueueID,
         );
-        # get ticket state 
-        my $State = $Self->{TicketObject}->GetState(
+        # get ticket data
+        my %Ticket = $Self->{TicketObject}->GetTicket(
             TicketID => $Self->{TicketID},
         );
-#$Self->{StateObject}->StateGetStatesByType
-        if ($FollowUpPossible =~ /(new ticket|reject)/i && $State =~ /^close/i) {
+
+        if ($FollowUpPossible =~ /(new ticket|reject)/i && $Ticekt{StateType} =~ /^close/i) {
             $Output = $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => 'Can\'t reopen ticket, not possible in this queue!',
@@ -140,10 +140,10 @@ sub Run {
           );
           my $NextState = $StateData{Name} ||
             $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType') || 'open';;
-          $Self->{TicketObject}->SetState(
+          $Self->{TicketObject}->StateSet(
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
-            State => $State,
+            State => $NextState,
             UserID => $Self->{UserID},
           );
           # --

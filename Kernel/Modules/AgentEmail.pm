@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.14 2004-03-24 15:43:20 martin Exp $
+# $Id: AgentEmail.pm,v 1.15 2004-04-01 08:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -448,9 +448,9 @@ sub Run {
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
-    my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+    my %NextStates = $Self->{TicketObject}->StateList(
         Type => 'EmailDefaultNext',
-        Result => 'HASH',
+        UserID => $Self->{UserID},
     );
     return \%NextStates;
 }
@@ -501,12 +501,9 @@ sub _GetUsers {
 sub _GetPriorities {
     my $Self = shift;
     my %Param = @_;
-    # -- 
     # get priority
-    # --
-    my %Priorities = $Self->{DBObject}->GetTableData(
-        What => 'id, name',
-        Table => 'ticket_priority',
+    my %Priorities = $Self->{TicketObject}->PriorityList(
+        UserID => $Self->{UserID},
     );
     return \%Priorities;
 }
@@ -523,7 +520,7 @@ sub _GetTos {
         # SelectionType Queue or SystemAddress?    
         my %Tos = ();
         if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
-            %Tos = $Self->{QueueObject}->GetAllQueues();
+            %Tos = $Self->{TicketObject}->MoveList(UserID => $Self->{UserID});
         }
         else {
             %Tos = $Self->{DBObject}->GetTableData(

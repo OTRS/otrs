@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.17 2004-02-13 00:50:36 martin Exp $
+# $Id: State.pm,v 1.18 2004-04-01 08:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,31 +13,11 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
-sub GetState {
-    my $Self = shift;
-    my %Param = @_;
-    my $State = '';
-    # --
-    # check needed stuff
-    # --
-    if (!$Param{TicketID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
-      return;
-    }
-    my %TicketData = $Self->GetTicket(%Param);
-    if ($TicketData{State}) {
-        return $TicketData{State};
-    }
-    else {
-        return;
-    }
-}
-# --
-sub SetState {
+sub StateSet {
     my $Self = shift;
     my %Param = @_;
     my $ArticleID = $Param{ArticleID} || '';
@@ -63,8 +43,8 @@ sub SetState {
         $Param{State} = $State{Name} || return;
     } 
     # check if update is needed
-    my $CurrentState = $Self->GetState(TicketID => $Param{TicketID});
-    if ($Param{State} eq $CurrentState) {
+    my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
+    if ($Param{State} eq $Ticket{State}) {
       # update is not needed
       return 1;
     }
@@ -78,6 +58,8 @@ sub SetState {
     " WHERE id = $Param{TicketID} ";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # clear ticket cache
+      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
       # update ticket view index
       $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
       # add history
@@ -85,7 +67,7 @@ sub SetState {
           TicketID => $Param{TicketID},
           ArticleID => $ArticleID,
           HistoryType => 'StateUpdate',
-          Name => "Old: '$CurrentState' New: '$Param{State}'",
+          Name => "Old: '$Ticket{State}' New: '$Param{State}'",
           CreateUserID => $Param{UserID},
       );
       # send customer notification email
@@ -102,5 +84,25 @@ sub SetState {
     }
 }
 # --
-
+sub StateList {
+    my $Self = shift;
+    my %Param = @_;
+    my %States = ();
+    # check needed stuff
+    if (!$Param{UserID} && !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
+        return;
+    }
+    # get states by type
+    if ($Param{Type}) {
+        %States = $Self->{StateObject}->StateGetStatesByType(
+            Type => $Param{Type}, 
+            Result => 'HASH',
+        );
+    }
+# TicketID!!!
+#delete $States{4}; # remove open!
+    return %States;
+}
+# --
 1;

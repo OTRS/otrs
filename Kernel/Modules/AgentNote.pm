@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.28 2004-01-10 15:36:14 martin Exp $
+# $Id: AgentNote.pm,v 1.29 2004-04-01 08:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,9 +95,10 @@ sub Run {
         # --
         # get next states
         # --
-        my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+        my %NextStates = $Self->{TicketObject}->StateList(
             Type => 'DefaultNextNote',
-            Result => 'HASH',
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID},
         );
         $NextStates{''} = '-';
         $Output .= $Self->_Mask(
@@ -159,7 +160,7 @@ sub Run {
           # --
           my $NewStateID = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
           if ($Self->{ConfigObject}->Get('NoteSetState') && $NewStateID) {
-              $Self->{TicketObject}->SetState(
+              $Self->{TicketObject}->StateSet(
                   TicketID => $Self->{TicketID},
                   StateID => $NewStateID,
                   UserID => $Self->{UserID},

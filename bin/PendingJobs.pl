@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.10 2004-02-13 00:33:24 martin Exp $
+# $Id: PendingJobs.pl,v 1.11 2004-04-01 08:58:52 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -84,7 +84,7 @@ if (@PendingAutoStateIDs) {
         my %States = %{$CommonObject{ConfigObject}->Get('StateAfterPending')};
         if ($States{$Ticket{State}}) {
             print " Update ticket state for ticket $Ticket{TicketNumber} ($_) to '$States{$Ticket{State}}'...";
-            if ($CommonObject{TicketObject}->SetState(TicketID => $_, State => $States{$Ticket{State}}, UserID => 1,)) {
+            if ($CommonObject{TicketObject}->StateSet(TicketID => $_, State => $States{$Ticket{State}}, UserID => 1,)) {
               if ($States{$Ticket{State}} =~ /^close/i) {
                 $CommonObject{TicketObject}->SetLock(
                     TicketID => $_,

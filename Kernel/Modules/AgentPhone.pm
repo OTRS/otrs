@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.66 2004-03-24 15:43:05 martin Exp $
+# $Id: AgentPhone.pm,v 1.67 2004-04-01 08:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -246,7 +246,7 @@ sub Run {
             );
           }
           # set state
-          $Self->{TicketObject}->SetState(
+          $Self->{TicketObject}->StateSet(
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             State => $NextState,
@@ -630,9 +630,10 @@ sub Run {
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
-    my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+    my %NextStates = $Self->{TicketObject}->StateList(
         Type => 'PhoneDefaultNext',
-        Result => 'HASH',
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID},
     );
     return \%NextStates;
 }
@@ -683,12 +684,9 @@ sub _GetUsers {
 sub _GetPriorities {
     my $Self = shift;
     my %Param = @_;
-    # -- 
     # get priority
-    # --
-    my %Priorities = $Self->{DBObject}->GetTableData(
-        What => 'id, name',
-        Table => 'ticket_priority',
+    my %Priorities = $Self->{TicketObject}->PriorityList(
+        UserID => $Self->{UserID},
     );
     return \%Priorities;
 }
@@ -705,7 +703,7 @@ sub _GetTos {
         # SelectionType Queue or SystemAddress?    
         my %Tos = ();
         if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
-            %Tos = $Self->{QueueObject}->GetAllQueues();
+            %Tos = $Self->{TicketObject}->MoveList(UserID => $Self->{UserID});
         }
         else {
             %Tos = $Self->{DBObject}->GetTableData(

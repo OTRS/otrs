@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentClose.pm - to close a ticket
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.31 2004-01-10 15:36:14 martin Exp $
+# $Id: AgentClose.pm,v 1.32 2004-04-01 08:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -69,9 +69,10 @@ sub Run {
     
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # get next states
-        my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+        my %NextStates = $Self->{TicketObject}->StateList(
             Type => 'DefaultCloseNext',
-            Result => 'HASH',
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID},
         );
         # get possible notes
         my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('DefaultNoteTypes')};
@@ -89,7 +90,8 @@ sub Run {
         my $SelectedMoveQueue = $Self->{TicketObject}->GetQueueIDOfTicketID(
             TicketID => $Self->{TicketID},
         );
-        my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+        my %MoveQueues = $Self->{TicketObject}->MoveList(
+            TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Type => 'move',
         );
@@ -174,7 +176,7 @@ sub Run {
             );
           }
           # set state
-          $Self->{TicketObject}->SetState(
+          $Self->{TicketObject}->StateSet(
             UserID => $Self->{UserID},
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,

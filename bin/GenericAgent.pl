@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.21 2004-02-08 22:21:02 martin Exp $
+# $Id: GenericAgent.pl,v 1.22 2004-04-01 08:58:52 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.21 $';
+    $VERSION = '$Revision: 1.22 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
@@ -206,7 +206,7 @@ sub Run {
     # --
     if ($Jobs{$Job}->{New}->{State}) {
         print "  - set state to '$Jobs{$Job}->{New}->{State}'\n";
-        $CommonObject{TicketObject}->SetState(
+        $CommonObject{TicketObject}->StateSet(
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             State => $Jobs{$Job}->{New}->{State}, 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.27 2004-02-17 22:49:14 martin Exp $
+# $Id: AgentMove.pm,v 1.28 2004-04-01 08:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -114,22 +114,24 @@ sub Run {
             }
         }
         # fetch all queues
-        my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+        my %MoveQueues = $Self->{TicketObject}->MoveList(
+            TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Type => 'move_into',
         );
         # build header
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
         # get next states
-        my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+        my %NextStates = $Self->{TicketObject}->StateList(
             Type => 'DefaultNextMove',
-            Result => 'HASH',
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID},
         );
         $NextStates{''} = '-';
         # get old owners
         my @OldUserInfo = $Self->{TicketObject}->GetOwnerList(TicketID => $Self->{TicketID});
         # get lod queues
-        my @OldQueue = $Self->{TicketObject}->GetMoveQueueList(TicketID => $Self->{TicketID});
+        my @OldQueue = $Self->{TicketObject}->MoveQueueList(TicketID => $Self->{TicketID});
         # print change form
         $Output .= $Self->AgentMove(
             OldQueue => \@OldQueue,
@@ -152,7 +154,7 @@ sub Run {
       ) ) {
         # set state
         if ($Self->{ConfigObject}->{MoveSetState} && $Self->{NewStateID}) {
-            $Self->{TicketObject}->SetState(
+            $Self->{TicketObject}->StateSet(
                 TicketID => $Self->{TicketID},
                 StateID => $Self->{NewStateID},
                 UserID => $Self->{UserID},

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.43 2004-01-14 23:24:17 martin Exp $
+# $Id: NewTicket.pm,v 1.44 2004-04-01 08:57:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -226,7 +226,7 @@ sub Run {
     # close ticket if article create failed!
     # --
     if (!$ArticleID) {
-        $Self->{TicketObject}->SetState(
+        $Self->{TicketObject}->StateSet(
             TicketID => $TicketID,
             UserID => $Param{InmailUserID},
             State => 'removed',
