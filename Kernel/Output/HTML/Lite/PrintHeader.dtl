@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.3 2003-02-26 06:15:29 martin Exp $
+# $Id: PrintHeader.dtl,v 1.4 2003-12-07 23:57:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -52,4 +52,9 @@ Pragma: no-cache
   <table border="0" width="$Data{"Width"}" cellpadding="20" cellspacing="1" bgcolor="#ffffff">
   <tr>
     <td>
+<table border="0" cellspacing="1" cellpadding="0" width="100%">
+  <tr>
+    <td align="right" valign="top"><font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"}) $Env{"Time"}</font></td>
+  </td>
+</table>
 
