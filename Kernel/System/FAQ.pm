@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.15 2004-05-01 15:05:07 martin Exp $
+# $Id: FAQ.pm,v 1.16 2004-09-27 13:41:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1091,7 +1091,7 @@ sub Search {
     if ($Param{Keyword}) { 
         $Ext .= " AND i.f_keywords LIKE '%".$Self->{DBObject}->Quote($Param{Keyword})."%'"; 
     }
-    $SQL .= $Ext." ORDER BY i.change_time, i.f_language_id";
+    $SQL .= $Ext." ORDER BY i.f_language_id DESC, i.change_time DESC";
     my @List = ();
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 500);
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -1114,6 +1114,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2004-05-01 15:05:07 $
+$Revision: 1.16 $ $Date: 2004-09-27 13:41:19 $
 
 =cut
