@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.1 2004-09-11 07:59:08 martin Exp $
+# $Id: Ticket.pm,v 1.2 2004-09-27 12:44:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject::Ticket;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -27,13 +27,13 @@ sub Init {
 sub FillDataMap {
     my $Self = shift;
     my %Param = @_;
-    foreach (qw(ID UserID)) {
+    foreach (qw(ID)) {
         if (!$Param{$_}) {
              $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
-    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{ID});
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{ID}, UserID => $Self->{UserID});
     return (
         Text => 'T:'.$Ticket{TicketNumber},
         Number => $Ticket{TicketNumber},
@@ -50,22 +50,22 @@ sub BackendLinkObject {
         # add ticket hostory
         my $SlaveTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID2},
-            UserID => $Param{UserID},
+            UserID => $Self->{UserID},
         );
         $Self->{TicketObject}->HistoryAdd(
             TicketID => $Param{LinkID1},
-            CreateUserID => $Param{UserID},
+            CreateUserID => $Self->{UserID},
             HistoryType => 'TicketLinkAdd',
             Name => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
         );
         # added slave ticket history
         my $MasterTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID1},
-            UserID => $Param{UserID},
+            UserID => $Self->{UserID},
         );
         $Self->{TicketObject}->HistoryAdd(
             TicketID => $Param{LinkID2},
-            CreateUserID => $Param{UserID},
+            CreateUserID => $Self->{UserID},
             HistoryType => 'TicketLinkAdd',
             Name => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
         );
@@ -80,22 +80,22 @@ sub BackendUnlinkObject {
         # add ticket hostory
         my $SlaveTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID1},
-            UserID => $Param{UserID},
+            UserID => $Self->{UserID},
         );
         $Self->{TicketObject}->HistoryAdd(
             TicketID => $Param{LinkID2},
-            CreateUserID => $Param{UserID},
+            CreateUserID => $Self->{UserID},
             HistoryType => 'TicketLinkDelete',
             Name => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
         );
         # added slave ticket history
         my $MasterTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID2},
-            UserID => $Param{UserID},
+            UserID => $Self->{UserID},
         );
         $Self->{TicketObject}->HistoryAdd(
             TicketID => $Param{LinkID1},
-            CreateUserID => $Param{UserID},
+            CreateUserID => $Self->{UserID},
             HistoryType => 'TicketLinkDelete',
             Name => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
         );
@@ -135,7 +135,7 @@ sub LinkSearch {
     foreach (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $_,
-            UserID => $Param{UserID},
+            UserID => $Self->{UserID},
         );
         push (@ResultWithData, {
             %Ticket,

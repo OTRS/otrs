@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LinkObject.pm,v 1.2 2004-09-20 11:10:55 martin Exp $
+# $Id: LinkObject.pm,v 1.3 2004-09-27 12:44:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -66,7 +66,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject TicketObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TicketObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -156,7 +156,7 @@ sub LoadBackend {
 sub LinkObject {
     my $Self = shift;
     my %Param = @_;
-    foreach (qw(LinkType LinkID1 LinkObject1 LinkID2 LinkObject2 UserID)) {
+    foreach (qw(LinkType LinkID1 LinkObject1 LinkID2 LinkObject2)) {
         if (!$Param{$_}) {
              $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -181,7 +181,7 @@ sub LinkObject {
 sub UnlinkObject {
     my $Self = shift;
     my %Param = @_;
-    foreach (qw(LinkType LinkID1 LinkObject1 LinkID2 LinkObject2 UserID)) {
+    foreach (qw(LinkType LinkID1 LinkObject1 LinkID2 LinkObject2)) {
         if (!$Param{$_}) {
              $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -214,7 +214,7 @@ sub LinkedObjects {
     my @LinkedIDs = ();
     my $SQLA = '';
     my $SQLB = '';
-    foreach (qw(LinkType UserID)) {
+    foreach (qw(LinkType)) {
         if (!$Param{$_}) {
              $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -322,7 +322,7 @@ sub LinkedObjects {
     }
     # fill up data
     foreach (@LinkedIDs) {
-        my %Hash = $Self->FillDataMap(ID => $_, UserID => $Param{UserID});
+        my %Hash = $Self->FillDataMap(ID => $_, UserID => $Self->{UserID});
         $Linked{$_} = \%Hash;
     }
     return %Linked;
@@ -331,7 +331,7 @@ sub AllLinkedObjects {
     my $Self = shift;
     my %Param = @_;
     my %Links = ();
-    foreach (qw(Object ObjectID UserID)) {
+    foreach (qw(Object ObjectID)) {
         if (!$Param{$_}) {
              $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -346,7 +346,6 @@ sub AllLinkedObjects {
             LinkObject1 => $Param{Object},
             LinkID1 => $Param{ObjectID},
             LinkObject2 => $Object,
-            UserID => $Param{UserID},
         );
         $Links{Child}->{$Object} = \%CLinked;
         my %PLinked = $Self->LinkedObjects(
@@ -354,7 +353,6 @@ sub AllLinkedObjects {
             LinkObject2 => $Param{Object},
             LinkID2 => $Param{ObjectID},
             LinkObject1 => $Object,
-            UserID => $Param{UserID},
         );
         $Links{Parent}->{$Object} = \%PLinked;
         my %NLinked = $Self->LinkedObjects(
@@ -362,7 +360,6 @@ sub AllLinkedObjects {
             LinkObject1 => $Param{Object},
             LinkID1 => $Param{ObjectID},
             LinkObject2 => $Object,
-            UserID => $Param{UserID},
         );
         $Links{Normal}->{$Object} = \%NLinked;
     }
@@ -383,6 +380,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2004-09-20 11:10:55 $
+$Revision: 1.3 $ $Date: 2004-09-27 12:44:53 $
 
 =cut

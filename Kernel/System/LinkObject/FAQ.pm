@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/FAQ.pm - to link faq objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.2 2004-09-20 19:23:49 martin Exp $
+# $Id: FAQ.pm,v 1.3 2004-09-27 12:44:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -30,7 +30,7 @@ sub Init {
 sub FillDataMap {
     my $Self = shift;
     my %Param = @_;
-    foreach (qw(ID UserID)) {
+    foreach (qw(ID)) {
         if (!$Param{$_}) {
              $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -38,7 +38,7 @@ sub FillDataMap {
     }
     my %Article = $Self->{FAQObject}->ArticleGet(
         ID => $Param{ID},
-        UserID => $Param{UserID},
+        UserID => $Self->{UserID},
     );
     return (
         Text => 'F:'.$Article{ID},
@@ -76,12 +76,12 @@ sub LinkSearch {
     my @ResultWithData = ();
     my @Result = $Self->{FAQObject}->Search(
         What => $Param{FAQFulltext},
-        UserID => $Param{UserID},
+        UserID => $Self->{UserID},
     );
     foreach (@Result) {
         my %Article = $Self->{FAQObject}->ArticleGet(
             ID => $_,
-            UserID => $Param{UserID},
+            UserID => $Self->{UserID},
         );
         push (@ResultWithData, {
             %Article,
@@ -98,7 +98,7 @@ sub LinkItemData {
     my %Param = @_;
     my %Article = $Self->{FAQObject}->ArticleGet(
         ID => $Param{ID},
-        UserID => $Param{UserID},
+        UserID => $Self->{UserID},
     );
 
     my $Body = '';
