@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.20 2004-10-10 08:34:46 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.21 2004-11-07 14:28:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -132,6 +132,10 @@ sub ArticleWritePlain {
         return;
       }
     }
+    # encode attachemnt if it's a postgresql backend!!!
+    if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+        $Param{Email} = encode_base64($Param{Email});
+    }
     # db quote (just not Email, use db Bind values)
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Email');;
@@ -225,19 +229,27 @@ sub ArticlePlain {
         # can't open article
         # try database
         my $SQL = "SELECT body FROM article_plain ".
-        " WHERE ".
-        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."";
+          " WHERE ".
+          " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $Data = $Row[0];
+            # decode attachemnt if it's e. g. a postgresql backend!!!
+            if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob') && $Row[0] !~ / /) {
+                $Data = decode_base64($Row[0]);
+            }
+            else {
+                $Data = $Row[0];
+            }
         }
+        # return plain email
         if ($Data) {
             return $Data;
         }
+        # else error!
         else {
             $Self->{LogObject}->Log(
-              Priority => 'error', 
-              Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
+                Priority => 'error',
+                Message => "No plain article (article id $Param{ArticleID}) in database!",
             );
             return;
         }
@@ -384,7 +396,7 @@ sub ArticleAttachment {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Index{$Param{FileID}}!",
+                Message => "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
             );
             return;
         }
