@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.24 2002-05-14 00:14:26 martin Exp $
+# $Id: Agent.pm,v 1.25 2002-05-14 01:44:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -266,12 +266,15 @@ sub TicketZoom {
     my $Output = '';
     if ($Article{ArticleType} =~ /^note/i || 
          ($Article{ArticleType} =~ /^phone/i && $Article{SenderType} eq 'agent')) {
+        # without compose links and with From ans Subject only!
         $Output = $Self->Output(TemplateFile => 'TicketZoomNote', Data => \%Param);
     }
-    elsif ($Article{SenderType} eq 'system') {
+    elsif ($Article{SenderType} eq 'system' || $Article{SenderType} eq 'agent') {
+        # without compose links!
         $Output = $Self->Output(TemplateFile => 'TicketZoomSystem', Data => \%Param);
     }
     else {
+        # without all!
         $Output = $Self->Output(TemplateFile => 'TicketZoom', Data => \%Param);
     }
 
