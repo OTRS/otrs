@@ -29,6 +29,7 @@
 <!ENTITY priority SYSTEM "system-priority.sgml">
 <!ENTITY state SYSTEM "system-state.sgml">
 <!ENTITY dtl SYSTEM "dtl.sgml">
+<!ENTITY glossary SYSTEM "glossary.sgml">
 ]>
 
 <book id="index" lang="en">
@@ -114,6 +115,8 @@ or implied warranty.
 &rfc1297;
 
 &fdl;
+
+&glossary;
 
 &bibliography;
 
