@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendStats.pl,v 1.1 2004-10-11 11:46:06 martin Exp $
+# $Id: SendStats.pl,v 1.2 2004-10-11 12:48:20 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -130,6 +130,7 @@ if (eval "require $Module") {
     $GetParam{Year} = $Y;
     $GetParam{Month} = $M;
     $GetParam{Day} = $D;
+    my $Time = sprintf("%02d:%02d:%02d", $M,$h,$m,$s);
     # get data
     my @Data = $StatsModule->Run(%GetParam);
 
@@ -142,7 +143,7 @@ if (eval "require $Module") {
     # generate output
     if ($Format eq 'CSV') {
         $ConfigItem{Module} =~ s/^.*::(.+?)$/$1/;
-        $Output = "$ConfigItem{Name}: $Title; Created: $Y-$M-$D $h:$m:$s;\n";
+        $Output = "$ConfigItem{Name}: $Title; Created: $Y-$M-$D $Time\n";
         $Output .= $CommonObject{LayoutObject}->OutputCSV(
             Head => $HeadArrayRef,
             Data => \@Data,
@@ -166,7 +167,7 @@ if (eval "require $Module") {
     $CommonObject{EmailObject}->Send(
         From => $Opts{'s'},
         To => $Opts{'r'},
-        Subject => "[Stats] $ConfigItem{Module} $Y-$M-$D $h:$m:$s",
+        Subject => "[Stats] $ConfigItem{Module} $Y-$M-$D $Time",
         Body => $Opts{'b'},
         Attachment => [
             {
