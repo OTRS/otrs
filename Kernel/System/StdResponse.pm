@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdResponse.pm,v 1.6 2003-02-08 15:09:38 martin Exp $
+# $Id: StdResponse.pm,v 1.7 2003-03-13 17:20:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ sub StdResponseAdd {
     # check needed stuff
     # --
     foreach (qw(Name ValidID Response UserID)) {
-      if (!$Param{$_}) {
+      if (!defined($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
@@ -125,7 +125,7 @@ sub StdResponseUpdate {
     # check needed stuff
     # --
     foreach (qw(ID Name ValidID Response UserID)) {
-      if (!$Param{$_}) {
+      if (!defined($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
@@ -220,6 +220,5 @@ sub GetAllStdResponses {
     );
 }   
 # --
-
 
 1;
