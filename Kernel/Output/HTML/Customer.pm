@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.22 2003-12-07 23:56:15 martin Exp $
+# $Id: Customer.pm,v 1.23 2004-01-24 18:43:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,41 +22,31 @@ sub CustomerLogin {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    # --
     # add cookies if exists
-    # --
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
     $Self->Output(TemplateFile => 'CustomerLogin', Data => \%Param);
-    # --
     # get language options
-    # --
     $Param{Language} = $Self->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
         Name => 'Lang',
         SelectedID => $Self->{UserLanguage},
         OnChange => 'submit()'
     );
-    # --
     # get lost password output
-    # --
     if ($Self->{ConfigObject}->Get('CustomerPanelLostPassword')
         && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
         $Param{LostPassword} = $Self->Output(TemplateFile => 'CustomerLostPassword', Data => \%Param);
     }
-    # --
     # get lost password output
-    # --
     if ($Self->{ConfigObject}->Get('CustomerPanelCreateAccount') 
         && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
         $Param{CreateAccount} = $Self->Output(TemplateFile => 'CustomerCreateAccount', Data => \%Param);
     }
-    # --
     # create & return output
-    # --
     $Output .= $Self->Output(TemplateFile => 'CustomerLogin', Data => \%Param);
     return $Output;
 }
@@ -65,17 +55,13 @@ sub CustomerHeader {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    # --
     # add cookies if exists
-    # --
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
-    # --
     # create & return output
-    # --
     $Output .= $Self->Output(TemplateFile => 'CustomerHeader', Data => \%Param);
     return $Output;
 }
@@ -176,6 +162,7 @@ sub CustomerPreferencesForm {
               Data => $Data, 
               Name => 'GenericTopic',
               SelectedID => defined ($Self->{$PrefKey}) ? $Self->{$PrefKey} : $DataSelected,
+              HTMLQuote => 0,
             );
           } 
           elsif ($PrefKey eq 'UserCharset') {
