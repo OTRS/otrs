@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.21 2003-01-06 21:38:49 martin Exp $
+# $Id: PostMaster.pm,v 1.22 2003-02-03 20:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -189,14 +189,24 @@ sub Run {
     }
     # create new ticket
     else {
-      $NewTicket->Run(
-        InmailUserID => $Self->{PostmasterUserID},
-        GetParam => \%GetParam,
-        Email => $Self->{Email},
-        QueueID => $Param{QueueID},
-        AutoResponseType => 'auto reply',
-      );
-    }
+        if ($Param{Queue} && !$Param{QueueID}) {
+            # get follow up option (possible or not)
+            my $QueueObject = Kernel::System::Queue->new(
+                DBObject => $Self->{DBObject},
+                LogObject => $Self->{LogObject},
+                ConfigObject => $Self->{ConfigObject},
+            );
+            $Param{QueueID} = $QueueObject->QueueLookup(Queue => $Param{Queue});
+        }
+
+        $NewTicket->Run(
+            InmailUserID => $Self->{PostmasterUserID},
+            GetParam => \%GetParam,
+            Email => $Self->{Email},
+            QueueID => $Param{QueueID},
+            AutoResponseType => 'auto reply',
+          );
+        }
 }
 # --
 # CheckFollowUp
