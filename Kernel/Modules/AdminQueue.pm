@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.16 2004-08-12 08:09:18 martin Exp $
+# $Id: AdminQueue.pm,v 1.17 2004-08-13 08:58:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -335,7 +335,6 @@ sub _Mask {
         Name => 'LockNotify',
         SelectedID => $Param{LockNotify},
     );
-    $Param{'Subaction'} = "Add" if (!$Self->{'Subaction'});
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminQueueForm', Data => \%Param);
 }
