@@ -9,7 +9,7 @@ send reminder notifications and some other stuff.
 <title>How it works - setup</title>
 <para>
 There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
-Make copies of all of the demo cronjobs:
+Make copies of all of the default cronjobs:
 <programlisting>
 cd var/cron
 for foo in *.dist; do cp $foo `basename $foo .dist`; done
