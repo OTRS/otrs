@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.44 2004-09-27 13:42:36 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.45 2004-10-22 11:16:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,13 +21,13 @@
       </td>
 <!-- dtl:block:Item -->
 
-      <td>&nbsp;</td>
+      <td valign="center">&nbsp;<img border="0" src="$Env{"Images"}h-line.png" alt="-">&nbsp;</td>
+#      <td>&nbsp;</td>
 <!-- dtl:block:ItemArea -->
       <td valign="top" align="center" class="nav">
         <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
 <!-- dtl:block:ItemArea -->
-      <td>&nbsp;</td>
     </tr>
     </table>
   </td>
