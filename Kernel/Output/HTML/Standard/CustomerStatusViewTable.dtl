@@ -1,9 +1,9 @@
 # --
 # CustomerStatusViewTable.dtl
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerStatusViewTable.dtl,v 1.8 2004-04-01 10:38:19 martin Exp $
+# $Id: CustomerStatusViewTable.dtl,v 1.9 2004-04-27 14:47:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,11 +13,11 @@
 <!-- start record -->
 <tr>
  <td align="center"><a href="$Env{"Baselink"}Action=CustomerZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
- <td>$QData{"Age","14"}</td>
- <td>$QData{"Subject","26"}</td>
- <td><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","14"}</div></td>
- <td><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","14"}</div></td>
- <td><div title="$Quote{"$Data{"Owner"}"}">$Quote{"$Data{"Owner"}","14"}</div></td>
+ <td>$QData{"Age","18"}</td>
+ <td><div title="$QData{"Subject","80"}">$QData{"Subject","36"}</div></td>
+ <td><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></td>
+ <td><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","18"}</div></td>
+ <td><div title="$Quote{"$Data{"Owner"}"}">$Quote{"$Data{"Owner"}","18"}</div></td>
 </tr>
 <!-- end record -->
 
