@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.41 2004-08-01 10:29:46 martin Exp $
+# $Id: User.pm,v 1.42 2004-11-15 12:46:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,7 +61,7 @@ sub GetUserData {
     my %Param = @_;
     my $User = $Param{User} || '';
     my $UserID = $Param{UserID} || '';
-    # check if result is cached 
+    # check if result is cached
     if ($Param{Cached} && $Self->{'GetUserData'.$User.$UserID}) {
         return %{$Self->{'GetUserData'.$User.$UserID}};
     }
@@ -78,6 +78,10 @@ sub GetUserData {
     else {
         $SQL .= " $Self->{UserTableUserID} = '".$Self->{DBObject}->Quote($UserID)."'";
     }
+    # check valid
+    if ($Param{Valid}) {
+        $SQL .= " AND valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+    }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Data{UserID} = $RowTmp[0];
@@ -89,18 +93,12 @@ sub GetUserData {
         $Data{ValidID} = $RowTmp[6];
     }
     # check data
-    if (! exists $Data{UserID} && ! $UserID) {
+    if (! exists $Data{UserID} && ! $UserID && !$Param{Valid}) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "Panic! No UserData for user: '$User'!!!",
         );
         return;
-    }
-    # check valid 
-    if ($Param{Valid}) {
-        if ($Data{ValidID} ne 1) {
-            return;
-        }
     }
     # get preferences
     my %Preferences = $Self->GetPreferences(UserID => $Data{UserID});
@@ -109,7 +107,7 @@ sub GetUserData {
         $Preferences{UserEmail} = $Data{UserLogin};
     }
     # cache user result
-    $Self->{'GetUserData'.$User.$UserID} = {%Data, %Preferences}; 
+    $Self->{'GetUserData'.$User.$UserID} = {%Data, %Preferences};
     # return data
     return (%Data, %Preferences);
 }
@@ -175,7 +173,7 @@ sub UserAdd {
       $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
       # set email address
       $Self->SetPreferences(UserID => $UserID, Key => 'UserEmail', Value => $Param{Email});
-      return $UserID; 
+      return $UserID;
     }
     else {
         return;
@@ -226,7 +224,7 @@ sub UserUpdate {
         " change_time = current_timestamp, " .
         " change_by = $Param{UserID} " .
         " WHERE $Self->{UserTableUserID} = $Param{ID}";
-  
+
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # log notice
         $Self->{LogObject}->Log(
@@ -243,9 +241,9 @@ sub UserUpdate {
         return 1;
     }
     else {
-        return; 
+        return;
     }
-}   
+}
 # --
 sub SetPassword {
     my $Self = shift;
@@ -262,7 +260,7 @@ sub SetPassword {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No such User!");
         return;
     }
-    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if 
+    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
     # crypt() is working correctly) :-/
     my $CryptedPw = '';
     if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
@@ -286,7 +284,7 @@ sub SetPassword {
     # check pw
     if ($CryptedPw eq $User{UserPw}) {
         $Self->{LogObject}->Log(
-            Priority => 'notice', 
+            Priority => 'notice',
             Message => "Not possible to use the same password again!",
         );
         return;
@@ -331,13 +329,13 @@ sub GetUserIdByName {
     }
     # build sql query
     my $SQL = sprintf (
-    "select %s from %s where %s='%s'", 
+    "select %s from %s where %s='%s'",
        $Self->{UserTableUserID},
        $Self->{UserTable},
       $Self->{UserTableUser},
       $Param{User}
       );
-    
+
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
        $ID = $Row[0];
@@ -353,7 +351,7 @@ sub GetUserIdByName {
       );
       return;
     }
-} 
+}
 # --
 sub GetUserByID {
     my $Self = shift;
@@ -366,7 +364,7 @@ sub GetUserByID {
     }
     # build sql query
     my $SQL = sprintf (
-    "select %s from %s where %s='%s'", 
+    "select %s from %s where %s='%s'",
        $Self->{UserTableUser},
        $Self->{UserTable},
       $Self->{UserTableUserID},
@@ -387,7 +385,7 @@ sub GetUserByID {
       );
       return;
     }
-} 
+}
 # --
 sub UserList {
     my $Self = shift;
