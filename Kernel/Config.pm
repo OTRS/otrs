@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.58 2002-09-01 20:24:05 martin Exp $
+# $Id: Config.pm,v 1.59 2002-09-23 14:17:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::Config::Postmaster;
 use Kernel::Config::Notification;
 use vars qw(@ISA $VERSION);
 @ISA = qw(Kernel::Config::Postmaster Kernel::Config::Notification);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -198,11 +198,11 @@ sub Load {
     # ----------------------------------------------------#
     # default limit for Tn search
     # [default: 150]
-    $Self->{SearchLimitTn} = 150;
+    $Self->{SearchLimitTn} = 120;
 
     # default limit for Txt search
     # [default: 150]
-    $Self->{SearchLimitTxt} = 150;
+    $Self->{SearchLimitTxt} = 120;
 
     # defaut of shown article a page
     # [default: 15]
@@ -550,6 +550,12 @@ sub Load {
       FollowUpID => 1,
       FollowUpLock => 0,
     };
+
+    # ----------------------------------------------------#
+    # external customer db settings                       #
+    # ----------------------------------------------------#
+    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
+#    $Self->{CustomerDBLink} = '';
 
     # ----------------------------------------------------#
     # misc                                                #
