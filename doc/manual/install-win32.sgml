@@ -1,3 +1,4 @@
+<section>
 <title>Install OTRS on Win32</title>
 <para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
 <note><title>Command Boxes</title>
@@ -52,7 +53,7 @@ D:\otrs\bin\cgi-bin>
 <para>Install Perl using the default values to <emphasis>D:\Perl</emphasis>.</para>
 <section>
 <title>Install Additional PERL Packages</title>
-<para>Download the OTRS-Win32-Perl-Packages <ulink url="http://robert.kehl.bei.t-online.de/OTRS-Win32-Perl-Packages.zip">in one file</ulink> (coming from <emphasis>robert.kehl.bei.t-online.de</emphasis>, not browsable) and unpack the file into <computeroutput>D:\Perl\packages</computeroutput>.</para>
+<para>Download the OTRS-Win32-Perl-Packages <ulink url="http://robert.kehl.bei.t-online.de/OTRS-Win32-Perl-Packages.zip">in one file</ulink> (coming from <emphasis>robert.kehl.bei.t-online.de</emphasis>, not browsable) and unpack the file into <computeroutput>D:\Perl</computeroutput>, preserving directory structure.</para>
 </section>
 </section>
 
@@ -123,80 +124,53 @@ D:\sambar\bin><userinput>net start Sambar</userinput>
 <para><screen>
 C:\><userinput>cd /d D:\Perl\packages</userinput>
 
-D:\Perl\packages><userinput>ppm</userinput>
-PPM interactive shell (2.1.6) - type 'help' for available commands.
-PPM&gt; <userinput>install DBI.ppd</userinput>
-Install package 'DBI.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install IO-stringy.ppd</userinput>
-Install package 'IO-Stringy.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install DBD-Mysql.ppd</userinput>
-Install package 'DBD-Mysql.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install GD.ppd</userinput>
-Install package 'GD.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install GDGraph.ppd</userinput>
-Install package 'GDGraph.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install GDTextUtil.ppd</userinput>
-Install package 'GDTextUtil.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install MailTools.ppd</userinput>
-Install package 'MailTools.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install MIME-tools.ppd</userinput>
-Install package 'MIME-tools.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install Test-Simple.ppd</userinput>
-Install package 'Test-Simple.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install Net-DNS.ppd</userinput>
-Install package 'Net-DNS.ppd?' (y/N): <userinput>y</userinput>
-  [...returned ouput snipped...]
-PPM&gt; <userinput>install mod_perl.ppd</userinput>
-Install package 'mod_perl.ppd?' (y/N): <userinput>y</userinput>
+D:\Perl\packages><userinput>install.bat</userinput>
   [...returned ouput snipped...]</screen></para>
-<para>The install routine for <computeroutput>mod_perl</computeroutput> will ask you where to copy <computeroutput>mod_perl.so</computeroutput>. Please enter the absolute path to the directory <computeroutput>modules</computeroutput> in your Apache installation, i.e. <userinput>d:/Apache/Apache/modules</userinput>.</para>
+<para>The install routine places the file <computeroutput>mod_perl.so</computeroutput> in <userinput>\Apache\Apache\modules</userinput>. By the time of this writing, you will have to manually adjust the path in <computeroutput>install.bat</computeroutput>, if you installed Apache in another place or copy <computeroutput>mod_perl.so</computeroutput> manually to your Apache's <computeroutput>modules</computeroutput> directory.</para>
 <para>Your Perl should now look like this or even better:</para>
-<para><screen>PPM&gt; <userinput>query</userinput>
+<para><screen>D:\Perl\packages><userinput>ppm query</userinput>
+  [...returned ouput shortened...]
   Archive-Tar      [0.072      ]
-  Compress-Zlib    [1.16       ]
-  DBD-Mysql        [1.2200     ]
-  DBI              [1.27       ]
-  Digest           [1          ]
-  Digest-HMAC      [1.01       ]
-  Digest-MD2       [2          ]
-  Digest-MD4       [1.1        ]
-  Digest-MD5       [2.20       ]
-  Digest-SHA1      [2.01       ]
-  File-CounterFile [0.12       ]
-  Font-AFM         [1.18       ]
-  GD               [1.27.2     ]
-  GDGraph          [1.32       ]
-  GDTextUtil       [0.80       ]
-  HTML-Parser      [3.26       ]
-  HTML-Tagset      [3.03       ]
-  HTML-Tree        [3.11       ]
-  IO-stringy       [2.108      ]
-  MD5              [2.02       ]
-  MIME-Base64      [2.12       ]
-  MIME-tools       [5.411a     ]
-  MailTools        [1.58       ]
-  Net-DNS          [0.33       ]
-  PPM              [2.1.6      ]
-  SOAP-Lite        [0.55       ]
-  Storable         [1.0.12     ]
-  Test-Simple      [0.47       ]
-  Tk               [800.023    ]
-  URI              [1.19       ]
-  XML-Parser       [2.27       ]
-  XML-Simple       [1.06       ]
-  libwin32         [0.19.1     ]
-  mod_perl         [1.27_01-dev]
-PPM&gt; <userinput>quit</userinput>
-Quit!
+	Authen-SASL      [2.03       ]
+	Compress-Zlib    [1.16       ]
+	Convert-ASN1     [0.16       ]
+	DBD-Mysql        [1.2200     ]
+	DBI              [1.27       ]
+	Digest           [1          ]
+	Digest-HMAC      [1.01       ]
+	Digest-MD2       [2          ]
+	Digest-MD4       [1.1        ]
+	Digest-MD5       [2.20       ]
+	Digest-SHA1      [2.01       ]
+	File-CounterFile [0.12       ]
+	Font-AFM         [1.18       ]
+	GD               [1.27.2     ]
+	GDGraph          [1.32       ]
+	GDTextUtil       [0.80       ]
+	HTML-Parser      [3.26       ]
+	HTML-Tagset      [3.03       ]
+	HTML-Tree        [3.11       ]
+	IO-Socket-SSL    [0.92       ]
+	IO-stringy       [2.108      ]
+	MD5              [2.02       ]
+	MIME-Base64      [2.12       ]
+	MIME-tools       [5.411a     ]
+	MailTools        [1.58       ]
+	Net-DNS          [0.33       ]
+	Net_SSLeay.pm    [1.22       ]
+	PPM              [2.1.6      ]
+	SOAP-Lite        [0.55       ]
+	Storable         [1.0.12     ]
+	Test-Simple      [0.47       ]
+	Tk               [800.023    ]
+	URI              [1.19       ]
+	XML-Parser       [2.27       ]
+	XML-Simple       [1.06       ]
+	libnet           [1.12       ]
+	libwin32         [0.19.1     ]
+	libwww-perl      [5.64       ]
+	mod_perl         [1.27_01-dev]
+	perl-ldap        [0.26       ]
 </screen></para>
 <para>You may now delete the files in D:\Perl\packages, if you want to, but you don't have to.</para>
 <para>That's it for Perl.</para>
@@ -503,4 +477,5 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 <para>I would be more enlighted if you'd send some success stories!</para>
 <para>Surely this chapter will follow the development of <ulink url="http://otrs.org">OTRS</ulink>. OTRS on Win32 can be done with Apache, too, and I will soon include a part on it.</para>
 <para>Have fun using your OTRS on Sambar!</para>
+</section>
 </section>
