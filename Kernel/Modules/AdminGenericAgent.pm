@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.7.2.1 2004-09-29 08:38:27 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.7.2.2 2005-01-14 14:13:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7.2.1 $';
+$VERSION = '$Revision: 1.7.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -382,7 +382,7 @@ sub MaskForm {
     $Param{'ScheduleDays'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             1 => 'Mon',
-            2 => 'The',
+            2 => 'Tue',
             3 => 'Wed',
             4 => 'Thu',
             5 => 'Fri',
@@ -411,7 +411,8 @@ sub MaskForm {
     }
     $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{StateObject}->StateList(
-             UserID => $Self->{UserID},
+#             UserID => $Self->{UserID},
+             UserID => 1,
              Action => $Self->{Action},
              ),
         },
@@ -422,7 +423,8 @@ sub MaskForm {
     );
     $Param{'NewStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{StateObject}->StateList(
-             UserID => $Self->{UserID},
+#             UserID => $Self->{UserID},
+             UserID => 1,
              Action => $Self->{Action},
              )
         },
@@ -433,7 +435,8 @@ sub MaskForm {
     );
     $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { $Self->{QueueObject}->GetAllQueues(
-            UserID => $Self->{UserID},
+#            UserID => $Self->{UserID},
+            UserID => 1,
             Type => 'ro',
           ),
         },
@@ -445,7 +448,8 @@ sub MaskForm {
     );
     $Param{'NewQueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { $Self->{QueueObject}->GetAllQueues(
-            UserID => $Self->{UserID},
+#            UserID => $Self->{UserID},
+            UserID => 1,
             Type => 'ro',
           ),
         },
@@ -457,7 +461,8 @@ sub MaskForm {
     );
     $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{PriorityObject}->PriorityList(
-            UserID => $Self->{UserID},
+#            UserID => $Self->{UserID},
+            UserID => 1,
             Action => $Self->{Action},
             ),
         },
@@ -468,7 +473,8 @@ sub MaskForm {
     );
     $Param{'NewPriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{PriorityObject}->PriorityList(
-            UserID => $Self->{UserID},
+#            UserID => $Self->{UserID},
+            UserID => 1,
             Action => $Self->{Action},
             ),
         },
