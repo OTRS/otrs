@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.29 2004-10-18 10:03:37 martin Exp $
+# $Id: Installer.pm,v 1.30 2004-11-16 12:23:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -246,6 +246,32 @@ sub Run {
             @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/initial_insert.sql");
             $SetupOutput .= "<tr>";
             $SetupOutput .= "<td><b>Inserting Inital inserts 'initial_insert.sql':</b></td><td>";
+            foreach (@SQL) {
+                if (!$DBH->do($_)) {
+                    $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
+                    $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                    print STDERR "ERR: $DBI::errstr - $_\n";
+                    $Output .= $Self->{LayoutObject}->Output(
+                        TemplateFile => 'InstallerBody',
+                        Data => {
+                            Item => 'Create Database',
+                            Step => '2/4',
+                            Body => $SetupOutput,
+                        },
+                    );
+                    $Output .= $Self->{LayoutObject}->Footer();
+                    return $Output;
+                }
+            }
+            $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
+            $SetupOutput .= "</tr>";
+            # --
+            # foreign key
+            # - read otrs-schema-post.mysql.sql and process stuff -
+            # --
+            @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema-post.mysql.sql");
+            $SetupOutput .= "<tr>";
+            $SetupOutput .= "<td><b>Foreign Keys 'otrs-schema-post.mysql.sql':</b></td><td>";
             foreach (@SQL) {
                 if (!$DBH->do($_)) {
                     $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
