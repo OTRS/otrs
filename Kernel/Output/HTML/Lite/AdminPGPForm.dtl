@@ -2,7 +2,7 @@
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGPForm.dtl,v 1.5 2004-08-24 09:33:28 martin Exp $
+# $Id: AdminPGPForm.dtl,v 1.6 2004-09-30 22:47:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,27 +11,27 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" colspan="2" class="table0">
-    <b>$Env{"Box0"}$Text{"PGP Key Management"}$Env{"Box1"}</b>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"PGP Key Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr align="left" valign="top">
-  <td width="40%" class="table1">
+<tr>
+  <td width="40%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">$Text{"Search"}:</td>
+    <td class="contenthead">$Text{"Search"}:</td>
   </tr>
   <tr>
-    <td align="left">
+    <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Search">
     <table>
       <tr>
-        <td>$Text{"Search for"}:</td>
-        <td><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
+        <td class="contentkey">$Text{"Search for"}:</td>
+        <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
       </tr>
     </table>
     <input class="button" type="submit" value="$Text{"Search"}">
@@ -39,23 +39,28 @@
 
     </td>
   </tr>
+  </table>
+
+  <br>
+
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">$Text{"Add"}:</td>
+    <td class="contenthead">$Text{"Add"}:</td>
   </tr>
   <tr>
-    <td>
+    <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Add">
     <table border="0" cellspacing="0" cellpadding="3">
 #    <tr>
-#      <td>$Text{"Ascii"}: </td>
-#      <td> <textarea name="String" rows="6" cols="70" wrap="$Env{"BrowserWrap"}"></textarea></td>
+#      <td class="contentkey">$Text{"Ascii"}: </td>
+#      <td class="contentbody"> <textarea name="String" rows="6" cols="70" wrap="$Env{"BrowserWrap"}"></textarea></td>
 #    </tr>
     <tr>
-      <td>$Text{"File"}: </td>
-      <td> <input name="file_upload" type="file" size="35" class="fixed"></td>
+      <td class="contentkey">$Text{"File"}: </td>
+      <td class="contentbody"> <input name="file_upload" type="file" size="35" class="fixed"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"Add"}">
@@ -66,33 +71,33 @@
   </table>
 
   </td>
-  <td width="60%" class="table1">
+  <td width="60%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">$Text{"Result"}:</td>
+    <td class="contenthead">$Text{"Result"}:</td>
   </tr>
   <tr>
-    <td>
+    <td class="contentbody">
 
     <table border="0" width="100%">
     <tr>
-        <td class="table3">$Text{"Type"}</td>
-        <td class="table3">$Text{"Identifier"}</td>
-        <td class="table3">$Text{"Bit"}</td>
-        <td class="table3">$Text{"Key"}/$Text{"Fingerprint"}</td>
-        <td class="table3">$Text{"Created"}/$Text{"Expires"}</td>
-        <td class="table3">$Text{"Delete"}</td>
+        <td class="contentkey">$Text{"Type"}</td>
+        <td class="contentkey">$Text{"Identifier"}</td>
+        <td class="contentkey">$Text{"Bit"}</td>
+        <td class="contentkey">$Text{"Key"}/$Text{"Fingerprint"}</td>
+        <td class="contentkey">$Text{"Created"}/$Text{"Expires"}</td>
+        <td class="contentkey">$Text{"Delete"}</td>
     </tr>
 <!-- dtl:block:Row -->
     <tr>
-        <td valign="top">$QData{"Type"}</td>
-        <td valign="top">$QData{"Identifier","80"}</td>
-        <td valign="top">$QData{"Bit"}</td>
-        <td valign="top"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Key=$QData{"Key"}">$QData{"Key"}</a>
+        <td class="contentvalue">$QData{"Type"}</td>
+        <td class="contentvalue">$QData{"Identifier","80"}</td>
+        <td class="contentvalue">$QData{"Bit"}</td>
+        <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Key=$QData{"Key"}">$QData{"Key"}</a>
         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$QData{"Type"}&Key=$QData{"Key"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</div></a></td>
-        <td valign="top">$QData{"Created"}<br>$QData{"Expires"}</td>
-        <td valign="top" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Key=$QData{"FingerprintShort"}">x</a></td>
+        <td class="contentvalue">$QData{"Created"}<br>$QData{"Expires"}</td>
+        <td align="center" class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Key=$QData{"FingerprintShort"}">x</a></td>
     </tr>
 <!-- dtl:block:Row -->
 
@@ -109,13 +114,13 @@
 <!-- end form -->
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr valign="top">
-  <td class="table3">
+<tr>
+  <td class="mainhead">
     $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
   </td>
 </tr>
-<tr valign="top">
-  <td class="table1">
+<tr>
+  <td class="mainbody">
   <p>
   $Text{"In this way you can directly edit the keyring configured in Kernel/Config.pm."}
   <br>

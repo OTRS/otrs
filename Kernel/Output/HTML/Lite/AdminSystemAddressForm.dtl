@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.14 2004-04-01 09:13:17 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.15 2004-09-30 22:55:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,20 +10,20 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
-  <td align="left" colspan="2" class="table0">
-  <b>$Env{"Box0"}$Text{"System Email Addresses Management"}$Env{"Box1"}</b>
+<tr>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"System Email Addresses Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr align="center" valign="top">
-  <td width="40%" class="table1">
+<tr>
+  <td width="40%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">$Text{"Change"}:</td>
+    <td class="contenthead">$Text{"Change"}:</td>
   </tr>
   <tr>
-    <td align="center">
+    <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -37,12 +37,12 @@
   </tr>
   </table>
 
-  </td> 
-  <td width="60%" class="table1">
+  </td>
+  <td width="60%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">
+    <td class="contenthead">
 
 # --
 # check subaction
@@ -57,35 +57,35 @@
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:</td>
   </tr>
   <tr>
-    <td>
- 
+    <td class="contentbody">
+
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="ID" value="$QData{"ID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
-      <td class="table1">$Text{"Email"}: </td>
-      <td class="table1"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
+      <td class="contentkey">$Text{"Email"}: </td>
+      <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td class="table1">$Text{"Realname"}: </td>
-      <td class="table1"> <input type="text" name="Realname" value="$QData{"Realname"}" size="35" maxlength="50"></td>
+      <td class="contentkey">$Text{"Realname"}: </td>
+      <td class="contentvalue"> <input type="text" name="Realname" value="$QData{"Realname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td class="table1">$Text{"Queue"}: </td>
-      <td class="table1"> $Data{"QueueOption"}</td>
+      <td class="contentkey">$Text{"Queue"}: </td>
+      <td class="contentvalue"> $Data{"QueueOption"}</td>
     </tr>
     <tr>
-      <td class="table1">$Text{"Valid"}: </td>
-      <td class="table1"> $Data{"ValidOption"}</td>
+      <td class="contentkey">$Text{"Valid"}: </td>
+      <td class="contentvalue"> $Data{"ValidOption"}</td>
     </tr>
     <tr>
-      <td class="table1">$Text{"Comment"}: </td>
-      <td class="table1"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="50"></td>
+      <td class="contentkey">$Text{"Comment"}: </td>
+      <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
-    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
+    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
     </form>
 
     </td>
@@ -98,13 +98,13 @@
 <!-- end form -->
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr valign="top">
-  <td class="table3">
+<tr>
+  <td class="mainhead">
     $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
   </td>
 </tr>
-<tr valign="top">
-  <td class="table1">
+<tr>
+  <td class="mainbody">
   <p>
   $Text{"All incoming emails with this "Email" (To:) will be dispatched in the selected queue!"}
   </p>
