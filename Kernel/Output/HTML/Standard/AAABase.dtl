@@ -87,7 +87,9 @@ $Text{"Theme"}
 $Text{"New message"}
 $Text{"New message!"}
 
-$Text{"AdminArea"}
+$Text{"Admin-Area"}
+$Text{"Agent-Area"}
+$Text{"FAQ-Area"}
 $Text{"QueueView"}
 $Text{"Stats"}
 
@@ -128,3 +130,4 @@ $Text{"Please go away!"}
 $Text{"To: (%s) replaced with database email!"}
 $Text{"Don't show closed Tickets"}
 $Text{"Show closed Tickets"}
+$Text{"New Article"}
