@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.15 2002-10-01 08:55:04 martin Exp $
+# $Id: INSTALL,v 1.16 2002-10-01 09:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -45,6 +45,16 @@ Installation:
       install GD::Text::Align
       install Date::Calc
       ...
+
+   Check if all needed modules are installed:
+   ------------------------------------------
+      $shell:~> perl -cw /opt/OpenTRS/bin/cgi-bin/index.pl 
+      /opt/OpenTRS/bin/cgi-bin/index.pl syntax OK
+      $shell:~> perl -cw /opt/OpenTRS/bin/PostMaster.pl 
+      /opt/OpenTRS/bin/PostMaster.pl syntax OK
+      $shell:~>
+
+    If you get "syntax OK" it seems to be Ok. Go ahead.
 
 2. Create user: 
    ------------
