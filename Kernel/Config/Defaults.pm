@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.116 2004-03-12 18:43:54 martin Exp $
+# $Id: Defaults.pm,v 1.117 2004-03-13 17:06:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.116 $';
+$VERSION = '$Revision: 1.117 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -605,6 +605,9 @@ sub LoadDefaults {
 #        '' => '-',
 #        'Support' => 'Support',
 #    };
+
+    # default selections (if wanted)
+    # $Self->{"TicketFreeText1::DefaultSelection"} = 'Notebook';
 
     # --------------------------------------------------- #
     # defaults for add note                               #
@@ -1802,7 +1805,9 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # FAQ settings
     # --------------------------------------------------- #
- 
+
+    $Self->{'FAQ::Default::State'} = 'internal (agent)';
+
     $Self->{'FAQ::Field1'} = 'Symptom';
     $Self->{'FAQ::Field2'} = 'Problem';
     $Self->{'FAQ::Field3'} = 'Solution';
