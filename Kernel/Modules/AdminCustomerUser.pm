@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.19 2004-04-22 11:13:09 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.20 2004-04-28 22:23:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $ ';
+$VERSION = '$Revision: 1.20 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,8 +83,8 @@ sub Run {
         }
         $NavBar .= $Self->{LayoutObject}->Notify(
             Info => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
-            " ( <a href='?Action=AgentPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID'$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>".
-            " - <a href='?Action=AgentEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID'$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a> )!",
+            " ( <a href=\"?Action=AgentPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>".
+            " - <a href=\"?Action=AgentEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a> )!",
         );
     }
     # search user list
