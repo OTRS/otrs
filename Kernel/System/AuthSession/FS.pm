@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FS.pm,v 1.10 2003-05-01 21:46:22 martin Exp $
+# $Id: FS.pm,v 1.11 2003-07-31 22:45:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -191,7 +191,7 @@ sub RemoveSessionID {
     # --
     # delete fs file
     # --
-    if (unlink("rm $Self->{SessionSpool}/$SessionID")) { 
+    if (unlink("$Self->{SessionSpool}/$SessionID")) { 
         # log event
         $Self->{LogObject}->Log(
             Priority => 'notice',
