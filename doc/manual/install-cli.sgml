@@ -1,34 +1,35 @@
-<sect1 id="install-targz">
+<section>
 <title>Using the tar.gz file to install OTRS on any Linux/Unix plattform</title>
 <para>
-This section is a guide for installing OTRS on any Linux. Please use this way only in case you feel comfortable with it otherwise use the RPM. Before starting the installation have a look at <ulink url="http://www.otrs.org/"><citetitle>http://otrs.org/</citetitle></ulink> and check if a newer and better version of the tar.gz file is available. If so please download it and use the newer documentation and the newer rpm.
+This sectionon is a guide for installing OTRS on any Linux. Please use this way only in case you feel comfortable with it otherwise use the RPM. Before starting the installation have a look at <ulink url="http://www.otrs.org/"><citetitle>http://otrs.org/</citetitle></ulink> and check if a newer and better version of the tar.gz file is available. If so please download it and use the newer documentation and the newer rpm.
 </para>
 
-<sect2>
+<section>
 <title>Install</title>
 <para>
 <screen>
 $$INSTALL$$
 </screen>
 </para>
-</sect2>
+</section>
 
-<sect2>
+<section>
 <title>Database</title>
 <para>
 <screen>
 $$README.database$$
 </screen>
 </para>
-</sect2>
+</section>
 
-<sect2>
+<section>
 <title>Webserver</title>
 <para>
 <screen>
 $$README.webserver$$
 </screen>
 </para>
-</sect2>
+</section>
 
-</sect1>
+</section>
+</section>
