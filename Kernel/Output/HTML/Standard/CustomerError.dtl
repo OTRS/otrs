@@ -1,0 +1,61 @@
+# --
+# Error.dtl - provides HTML Error screen
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: CustomerError.dtl,v 1.1 2002-10-20 15:28:49 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<center>
+<table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor2"}">
+  <td>
+  <p>
+   <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
+  </p>
+  </td>
+</tr>
+<tr>
+  <td>
+    <table>
+        <tr>
+            <td valign="top"><b>$Text{"Comment"}:</b></td>
+            <td valign="top">$Data{"Comment"}</td>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Bug Report"}:</b></td>
+            <td valign="top"><a href="http://bugs.otrs.org/" target="bugzilla">$Text{"Click here to report a bug!"}</a></TD>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Handle"}:</b></td>
+            <td valign="top">$Data{"Filename2"}</td>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Frontend"} $Text{"Subfunction"}:</b></td>
+            <td valign="top">$Data{"Subroutine1"} (v $Data{"Version"})</td>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Frontend"} $Text{"Line"}:</b></td>
+            <td valign="top">$Data{"Line"}</TD>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Backend"} $Text{"Subfunction"}:</b></td>
+            <td valign="top">$Data{"BackendSubroutine"} (v $Data{"BackendVersion"})</TD>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Backend"} $Text{"Line"}:</b></td>
+            <td valign="top">$Data{"BackendLine"}</TD>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Backend"} $Text{"BackendMessage"}:</b></td>
+            <td valign="top">$Data{"BackendMessage"}</TD>
+        </tr>
+    </table>
+  </td>
+</tr>
+</table>
+
+</center>

@@ -1,0 +1,38 @@
+# --
+# CustomerNavigationBar.dtl - provides global HTML NavigationBar
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: CustomerNavigationBar.dtl,v 1.1 2002-10-20 15:28:49 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+# --
+# create $Data{"UserLoginTop"} if user is loged in
+# --
+<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
+# --
+<!-- start NavigationBar -->
+<table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td valign="top" align="left" width="70%">
+    <a href="$Env{"Baselink"}Action=Logout">$Text{"Logout"}</a> |
+    <a href="$Env{"Baselink"}Action=CustomerTicketOverView">$Text{"My Tickets"}</a> | 
+    <a href="$Env{"Baselink"}Action=CustomerMessage">$Text{"New Ticket"}</a> |
+    <a href="$Env{"Baselink"}Action=CustomerPreferences">$Text{"Preferences"}</a> |
+    <a href="#end">$Text{"end"}</a>
+  </td>
+  <td valign="top" align="right" width="30%">
+    $Env{"Time"}
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <td align="left" width="100%">
+   <font color="$Env{"FontColor0"}">$Text{"Welcome"} $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"}</font>
+  </td>
+</tr>
+</table>
+<!-- end NavigationBar -->

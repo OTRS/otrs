@@ -1,0 +1,58 @@
+# --
+# CustomerCreateAccount.dtl - provides customer HTML CustomerCreateAccount screen
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: CustomerCreateAccount.dtl,v 1.1 2002-10-20 15:28:49 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start -->
+<p>
+<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left"><font color="$Env{"FontColor1"}"><b>$Text{"Create Account"}</b></font></td>
+</tr>
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor1"}">
+    <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="Action" value="CustomerCreateAccount">
+   <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td>$Text{"Salutation"}: </td>
+      <td> <input type="text" name="Salutation" value="$Data{"UserSalutation"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Firstname"}: </td>
+      <td> <input type="text" name="Firstname" value="$Data{"UserFirstname"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Lastname"}: </td>
+      <td> <input type="text" name="Lastname" value="$Data{"UserLastname"}" size="35" maxlength="50"></td>
+    </tr>
+#    <tr>
+#      <td>$Text{"Login"}: </td>
+#      <td> <input type="text" name="Email" value="$Data{"UserEmail"}" size="35" maxlength="50"></td>
+#    </tr>
+    <tr>
+      <td>$Text{"Email"}/$Text{"Login"}: </td>
+      <td> <input type="text" name="Email" value="$Data{"UserEmail"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Password"}: </td>
+      <td> <input type="password" name="Pw" value="$Data{"UserPw"}" size="35" maxlength="50"></td>
+    </tr>
+#    <tr>
+#      <td>$Text{"CustomerID"}: </td>
+#      <td> <input type="text" name="CustomerID" value="$Data{"UserCustomerID"}" size="35" maxlength="50"></td>
+#    </tr>
+    </table>
+    <input type="submit" value="$Text{"Create"}">
+    </form>
+  </td>
+</tr>
+</table>
+</p>
+<!-- stop -->
+

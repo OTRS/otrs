@@ -1,0 +1,75 @@
+# --
+# CustomerMessageNew.dtl - provides HTML form for customer message
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: CustomerMessageNew.dtl,v 1.1 2002-10-20 15:28:49 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+
+<!-- This java script is just for nice to have funktions! -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left"> 
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"new ticket"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="left" valign="top" colspan="2">
+
+<p>
+
+<form action="$Env{"CGIHandle"}" method="post" name="compose">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="StoreNew">
+<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+  <table border="0">
+  <tr>
+    <td>$Text{"To"}:</td><td>$Data{"ToStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="" size="60"></td>
+  </tr>
+  <tr>
+    <td>$Text{"Text"}:</td><td>
+<textarea name="Note" rows="15" cols="60">
+
+</textarea>
+    </td>
+  </tr>
+  </table>
+<br>
+<input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
+</form>
+
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+

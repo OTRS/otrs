@@ -1,0 +1,72 @@
+# --
+# AgentStatusView.dtl - html for ticket status view (all tickets)
+# Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
+# Copyright (C) 2002 Martin Edenhofer <martin+code at otrs.org>
+# --
+# $Id: CustomerStatusView.dtl,v 1.1 2002-10-20 15:28:50 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+ <td align="left" bgcolor="$Env{"BGTableColor0"}">
+ <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"My Tickets"}$Env{"Box1"}</font></b>
+ </font>
+ </td>
+ <td align="right" bgcolor="$Env{"BGTableColor0"}">
+ <b><font color="$Env{"FontColor1"}">-</font></b>
+ </font>
+ </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor2"}">
+  <td width="80">
+    $Text{"Ticket limit:"}
+  </td>
+  <td>
+    <form action="$Env{"CGIHandle"}" method="Get">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="SortBy" value="$Data{"SortBy"}">
+    <input type="hidden" name="Order" value="$Data{"Order"}">
+    <input type="text" name="Limit" value="$Data{"Limit"}" size="5">
+    </form>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor1"}">
+ <td align="center" valign="top">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="5">
+<tr>
+ <th width="15%">$Config{"TicketHook"}<br>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Ticket&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Ticket&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+ <th width="35%">$Text{"Age"}<br>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Age&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+ <th width="60%">$Text{"Subject"}</th>
+ <th width="10%">$Text{"State"}<br>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=State&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=State&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+ <th width="15%">$Text{"Queue"}<br>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Queue&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Queue&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+ <th width="15%">$Text{"Owner"}<br>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+ <th width="10%">$Text{"CustomerID"}<br>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Up&Limit=$Data{"Limit"}">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=CustomerID&Order=Down&Limit=$Data{"Limit"}">$Text{"D"}</a></th>
+</tr>
+$Data{"StatusTable"}
+</table>
+
+ </td>
+</tr>
+</table>
+<!-- end form -->
+

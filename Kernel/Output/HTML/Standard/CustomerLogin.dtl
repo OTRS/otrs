@@ -1,0 +1,141 @@
+# --
+# Login.dtl - provides customer HTML login screen
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: CustomerLogin.dtl,v 1.1 2002-10-20 15:28:49 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+# --
+# http headers
+# --
+Content-Type: text/html; charset=$Env{"UserCharset"};
+X-Powered-By: OTRS cpanel - Open Ticket Request System (http://otrs.org)
+X-Wanted: I think you are smart. I'm looking for smart people!
+# --
+# html comment
+# --
+
+
+<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
+<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
+<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
+
+# --
+# set some html variables
+# --
+<dtl set $Env{"BGCOLOR"} = "#FFFFFF">
+<dtl set $Env{"BGTableColor0"} = "#cccccc">
+<dtl set $Env{"BGTableColor1"} = "#FFFFFF">
+<dtl set $Env{"BGTableColor2"} = "#EEEEEE">
+<dtl set $Env{"FontColor0"} = "#000000">
+<dtl set $Env{"FontColor1"} = "#FFFFFF">
+# --
+<html>
+<head>
+    <title>OTRS :: $Text{"$Data{"Title"}"}</title>
+<style type="text/css">
+<!--
+  p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;}
+  pre
+    { font-family:Courier;font-size:12px; }
+  a:hover
+    { color: #002244; text-decoration: none; }
+  .small
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+  .header
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:16px;color:#FFFFFF;font-weight:bold }
+  .footer
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;color:#FFFFFF;font-weight:bold }
+  .navbar
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;color:#000000;font-weight:normal }
+//-->
+</style>
+</head>
+<a name="top"></a>
+<body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
+
+<!-- start CI layout -->
+<table border="0" width="100%" cellspacing="0" cellpadding="8">
+<tr bgcolor="#cc0000">
+  <td width="120" class="header"> LOGO </td>
+  <td class="header"> COMPANY NAME </td>
+</tr>
+<tr>
+  <td class="navbar" valign="top">
+    <p>
+    <li>Home</li>
+    <li>Products</li>
+    <li>Support</li>
+    <li><b><a href="">Online-Support</a></b></li>
+    <li>Contact</li>
+    </p>
+  </td>
+  <td>
+<!-- end CI layout -->
+
+<!-- end header -->
+
+<!-- start login -->
+
+<p>
+<font color="red">$Text{"$Data{"Message"}"}</font>
+<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left"><font color="$Env{"FontColor1"}"><b>$Text{"Login"}</b></font></td>
+</tr>
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor1"}">
+
+    <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="Action" value="Login">
+    <input type="hidden" name="RequestedURL" value="$Data{"RequestedURL"}">
+
+    <table cellspacing="8" cellpadding="2">
+    <tr>
+      <td>$Text{"Username"}:</td>
+      <td><input type="text" name="User" value="$Data{"User"}" size="18"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Password"}:</td>
+      <td><input type="password" name="Password" size="18"></td>
+    </tr>
+    </table>
+    <input type="submit" value="$Text{"Login"}">
+    </form>
+
+  </td>
+</tr>
+</table>
+</p>
+$Data{"LostPassword"}
+$Data{"CreateAccount"}
+<!-- stop login -->
+
+
+<!-- start CI layout -->
+    </td>
+  </tr>
+  <tr bgcolor="#cc0000" class="footer">
+    <td>FOOTER</td>
+    <td>FOOTER2</td>
+  </tr>
+</table>
+<!-- end CI layout -->
+
+<!-- start footer -->
+<a name="end"></a>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="right" class="small">$Text{"Powered by"} $Env{"Product"} $Env{"Version"}</td>
+</tr>
+</table>
+
+</body>
+</html>
+<!-- end footer -->
+
