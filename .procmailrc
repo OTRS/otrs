@@ -2,7 +2,7 @@
 # .procmailrc - procmailrc of the OTRS user
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: .procmailrc,v 1.9 2002-08-25 01:07:47 martin Exp $
+# $Id: .procmailrc,v 1.10 2002-09-20 14:11:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,6 +12,7 @@
 #SYS_HOME=/opt/OpenTRS/
 SYS_HOME=$HOME
 
+SHELL=/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin
 MONTHFOLDER=`date +%Y-%m`
 YEARFOLDER=`date +%Y`
@@ -49,6 +50,15 @@ VERBOSE=on
 :0 fhw :
 * TO:.*example.com
 | formail -I "X-OTRS-ArticleKey1: Test" |  formail -I "X-OTRS-ArticleValue1: True!"
+
+# --
+# Example for assigning the email domain as customer ID automaticaly.
+# --
+#:0hc  
+#FROM=| formail -X "From:"|perl -e '$i=<STDIN>; $i=~s/^From: //;$i=~s/\(.*?\)//;$i=~s/<(.*?)>/$1/;$i=~s/ //g;$i=~s/.*@(.*)/$1/;print $i'
+
+#:0 fhw :
+#| formail -I "X-OTRS-CustomerNo: $FROM" 
 
 # --
 # Backup of all incoming emails. 
