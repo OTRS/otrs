@@ -2,13 +2,23 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.101 2003-12-02 21:36:16 martin Exp $
+# $Id: CHANGES,v 1.102 2003-12-03 16:50:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD 
+ - (2003/12/03) added QueueListType config option [tree|list] to
+    show the QueueSelection in a tree (default) or just in a list
+    Example:  Tree:        List:
+              QueueA       QueueA
+                Queue1     QueueA::Queue1
+                Queue2     QueueA::Queue2
+                Queue3     QueueA::Queue3
+              QueueB       QueueB
+                Queue1     QueueB::Queue1
+                Queue2     QueueB::Queue2
  - (2003/12/02) added remove of session cookie after closing the
     browser in agent interface
  - (2003/11/27) added modules for agent notifications

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.128 2003-12-01 00:30:51 martin Exp $
+# $Id: Agent.pm,v 1.129 2003-12-03 16:50:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.128 $';
+$VERSION = '$Revision: 1.129 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -655,7 +655,7 @@ sub AgentCustomerViewTable {
         # build html table
         $Param{Table} = '<table>';
         foreach my $Field (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
-            if ($Field->[3]) {
+            if ($Field->[3] && $Param{Data}->{$Field->[0]}) {
                 $Param{Table} .= "<tr><td><b>\$Text{\"$Field->[1]\"}:</b></td><td>";
                 if ($Field->[6]) {
                     $Param{Table} .= "<a href=\"$Field->[6]\">";
@@ -1149,6 +1149,16 @@ sub AgentQueueListOption {
     if ($Param{OnChange}) {
         $OnChangeSubmit = " onchange=\"$Param{OnChange}\"";
     }
+
+    # just show a simple list
+    if ($Self->{ConfigObject}->Get('QueueListType') eq 'list') {
+        $Param{'MoveQueuesStrg'} = $Self->OptionStrgHashRef(
+            %Param,
+            HTMLQuote => 0,
+        );
+        return $Param{MoveQueuesStrg};
+    }
+    # build tree list
     $Param{MoveQueuesStrg} = '<select name="'.$Param{Name}."\" $Size $Multiple $OnChangeSubmit>";
     my %UsedData = ();
     my %Data = ();
