@@ -65,6 +65,14 @@
 
 (define %graphic-default-extension% "eps")
 
+;; set font size
+(define %bf-size%
+  (case %visual-acuity%
+    (("tiny") 8pt)
+    (("normal") 11pt)
+    (("presbyopic") 9pt)
+    (("large-type") 22pt)))
+
 
 </style-specification-body>
 </style-specification>
