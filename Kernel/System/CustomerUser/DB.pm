@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.34 2004-10-07 15:17:05 martin Exp $
+# $Id: DB.pm,v 1.35 2004-11-07 15:02:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -147,14 +147,14 @@ sub CustomerSearch {
                     if ($SQLExt) {
                         $SQLExt .= ' OR ';
                     }
-                    $SQLExt .= " $_ LIKE '".$Self->{DBObject}->Quote($Part)."' ";
+                    $SQLExt .= " LOWER($_) LIKE LOWER('".$Self->{DBObject}->Quote($Part)."') ";
                 }
                 if ($SQLExt) {
                     $SQL .= "($SQLExt)";
                 }
             }
             else {
-                $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Part)."' ";
+                $SQL .= " LOWER($Self->{CustomerKey}) LIKE LOWER('".$Self->{DBObject}->Quote($Part)."') ";
             }
         }
     }
@@ -165,14 +165,14 @@ sub CustomerSearch {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                $SQLExt .= " $_ LIKE '".$Self->{DBObject}->Quote($Param{PostMasterSearch})."' ";
+                $SQLExt .= " LOWER($_) LIKE LOWER('".$Self->{DBObject}->Quote($Param{PostMasterSearch})."') ";
             }
             $SQL .= $SQLExt;
         }
     }
     elsif ($Param{UserLogin}) {
         $Param{UserLogin} =~ s/\*/%/g;
-        $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
+        $SQL .= " LOWER($Self->{CustomerKey}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{UserLogin})."')";
     }
     # add valid option
     if ($Self->{CustomerUserMap}->{CustomerValid} && $Valid) {
