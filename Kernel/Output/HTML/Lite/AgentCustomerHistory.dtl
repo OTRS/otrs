@@ -2,7 +2,7 @@
 # AgentCustomerHistory.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerHistory.dtl,v 1.6 2003-02-08 15:40:41 martin Exp $
+# $Id: AgentCustomerHistory.dtl,v 1.7 2004-01-08 11:51:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,25 +15,14 @@
     <b>$Env{"Box0"}$Text{"Customer history"}$Env{"Box1"}</b>
   </td>
 </tr>
-</table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="center" valign="top" class="table1">
-
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="5">
-<tr>
-  <th width="15%">$Config{"TicketHook"}</th>
-  <th width="30%">$Text{"Article"}</th>
-  <th width="15%">$Text{"State"}/$Text{"Lock"}</th>
-  <th width="25%">$Text{"Queue"}/$Text{"Priority"}</th>
-  <th width="15%">$Text{"Age"}</th>
+  <td align="left" class="table1">
+     $Text{"All customer tickets."}
+  </td>
 </tr>
+</table>
+
 $Data{"HistoryTable"}
-</table>
-
-  </td> 
-</tr>
-</table>
 <!-- end form -->
 
 
