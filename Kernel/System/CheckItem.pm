@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spellinf module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckItem.pm,v 1.10 2004-10-06 06:49:49 martin Exp $
+# $Id: CheckItem.pm,v 1.11 2004-10-08 07:21:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Email::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -77,6 +77,14 @@ sub CheckEmail {
         return 1;
     }
     else {
+        # log dns problems
+        if ($Email::Valid::Details =~ /^DNS/i) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "$Email::Valid::Details!",
+            );
+        }
+        # remember error
         $Self->{Error} = "invalid $Param{Address} ($Email::Valid::Details)! ";
         return;
     }
