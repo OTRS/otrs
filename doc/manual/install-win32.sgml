@@ -353,11 +353,12 @@ CGI Extensions =</screen></para>
 <para><screen>
 C:\><userinput>cd /d d:\mysql</userinput>
 D:\mysql><userinput>mysql -u root -p password -e 'create database otrs'</userinput>
-D:\mysql><userinput>mysql -u root -p password otrs &lt; d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</userinput>
+D:\mysql><userinput>mysql -u root -p password otrs &lt; d:\otrs\scripts\database\otrs-schema.mysql.sql</userinput>
+D:\mysql><userinput>mysql -u root -p password otrs &lt; d:\otrs\scripts\database\initial_insert.sql</userinput>
 D:\mysql><userinput>mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;some-pass&quot; WITH GRANT OPTION;'</userinput>
 D:\mysql><userinput>mysqladmin -u root -p password reload</userinput>
 </screen></para>
-<para>I recommend using phpMyAdmin under <ulink url="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</ulink> instead of working on the command line. You create the database right on the start screen. Now you click the tab &quot;SQL&quot;, and enter <emphasis>d:\otrs\install\database\otrs-schema.mysql.sql</emphasis> in the textfield labeled &quot;or File:&quot;. Click OK. If all went ok, enter <emphasis>d:\otrs\install\database\initial_insert.sql</emphasis> and click OK.</para>
+<para>I recommend using phpMyAdmin under <ulink url="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</ulink> instead of working on the command line. You create the database right on the start screen. Now you click the tab &quot;SQL&quot;, and enter <emphasis>d:\otrs\scripts\database\otrs-schema.mysql.sql</emphasis> in the textfield labeled &quot;or File:&quot;. Click OK. If all went ok, enter <emphasis>d:\otrs\scripts\database\initial_insert.sql</emphasis> and click OK.</para>
 <para>Now commit this command:</para>
 <para><screen>GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;irgendeinpasswort&quot; WITH GRANT OPTION;</screen></para>
 <para>That's it for MySQL, which we provided with the database otrs, its corresponding tables and the user otrs@localhost.</para>
