@@ -1,8 +1,8 @@
 # --
 # AdminUserGroupForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroupForm.dtl,v 1.12 2004-03-01 14:00:57 martin Exp $
+# $Id: AdminUserGroupForm.dtl,v 1.13 2004-09-30 23:50:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,16 +11,16 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"User <-> Group Management"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"User <-> Group Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr> 
-  <td align="center" valign="top" class="table1">
+<tr>
+  <td align="center" class="mainbody">
   $Text{"Change user <-> group settings"}
   </td>
 </tr>
-<tr valign="top">
+<tr class="mainbody">
  <td class="table1" align="center">
  <table border="0" cellspacing="0">
   <th class="table1" width="50%">
@@ -31,12 +31,12 @@
   </th>
 </tr>
 <tr>
-  <td align="left" valign="top"> 
+  <td align="left" valign="top">
     $Data{"UserStrg"}
   </td>
   <td align="left" valign="top">
     $Data{"GroupStrg"}
-  </td> 
+  </td>
  </table>
  </td>
 </tr>
