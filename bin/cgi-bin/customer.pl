@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.10 2002-12-08 21:01:49 martin Exp $
+# $Id: customer.pl,v 1.11 2002-12-18 17:17:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -441,23 +441,24 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
     # get params
     # --
     my %GetParams = ();
-    foreach (qw(Login Pw Email Salutation Firstname Lastname)) {
-        $GetParams{$_} = $CommonObject{ParamObject}->GetParam(Param => $_) || '';
+    foreach my $Entry (@{$CommonObject{ConfigObject}->Get('CustomerUser')->{Map}}) {
+        $GetParams{$Entry->[0]} = $CommonObject{ParamObject}->GetParam(Param => $Entry->[1]) || '';
     }
+    $GetParams{ValidID} = 1;
     # --
     # check needed params
     # --
-    if (!$GetParams{CustomerID}) {
-        $GetParams{CustomerID} = $GetParams{Email};
+    if (!$GetParams{UserCustomerID}) {
+        $GetParams{UserCustomerID} = $GetParams{UserEmail};
     }
-    if (!$GetParams{Login}) {
-        $GetParams{Login} = $GetParams{Email};
+    if (!$GetParams{UserLogin}) {
+        $GetParams{UserLogin} = $GetParams{UserEmail};
     }
     # --
     # get user data
     # --
-    my %UserData = $CommonObject{UserObject}->CustomerUserDataGet(User => $GetParams{Login});
-    if ($UserData{UserID}) {
+    my %UserData = $CommonObject{UserObject}->CustomerUserDataGet(User => $GetParams{UserLogin});
+    if ($UserData{UserID} || ! $GetParams{UserLogin}) {
         print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
         print $CommonObject{LayoutObject}->CustomerWarning(
             Message => 'This account exists.',
@@ -474,8 +475,8 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
         )) {
             print $CommonObject{LayoutObject}->CustomerLogin(
                 Title => 'Login',
-                Message => "New account created. Login as '$GetParams{Login}'",
-                User => $GetParams{Login},
+                Message => "New account created. Login as '$GetParams{UserLogin}'",
+                User => $GetParams{UserLogin},
             );
         }
         else {
