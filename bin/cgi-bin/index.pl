@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.58 2003-03-23 21:34:17 martin Exp $
+# $Id: index.pl,v 1.59 2003-07-07 18:49:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -570,11 +570,27 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
         # module permisson check
         # --
         my $Group = $CommonObject{ConfigObject}->Get('Module::Permission')->{$Param{Action}} || '';
-        if ($Group && $UserData{"UserIsGroup[$Group]"} ne 'Yes') {
-            print $CommonObject{LayoutObject}->NoPermission(
-                Message => "You have to be in the $Group group!",
-            );
-            exit (0);
+        if (ref($Group) eq 'ARRAY') {
+            my $Access = 0;
+            foreach (@{$Group}) {
+                if ($_ && ($UserData{"UserIsGroup[$_]"} && $UserData{"UserIsGroup[$_]"} eq 'Yes')) {
+                    $Access = 1;
+                }
+            }
+            if (!$Access) {
+                print $CommonObject{LayoutObject}->NoPermission(
+                    Message => "You have to be in the a permitted group!",
+                );
+                exit (0);
+            }
+        }
+        else {
+            if ($Group && (!$UserData{"UserIsGroup[$Group]"} || $UserData{"UserIsGroup[$Group]"} ne 'Yes')) {
+                print $CommonObject{LayoutObject}->NoPermission(
+                    Message => "You have to be in the $Group group!",
+                );
+                exit (0);
+            }
         }
         # --
         # debug info
