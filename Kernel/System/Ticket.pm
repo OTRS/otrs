@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.92 2004-04-18 14:18:14 martin Exp $
+# $Id: Ticket.pm,v 1.93 2004-04-18 14:39:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.92 $';
+$VERSION = '$Revision: 1.93 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2879,7 +2879,8 @@ sub TicketWorkflow {
         my $Match = 1;
         my $Match3 = 0;
         my $UseNewParams = 0;
-        foreach my $Key (keys %Checks) {
+#        foreach my $Key (keys %Checks) {
+        foreach my $Key (keys %{$Step{Properties}}) {
 #print STDERR "($StepT)Key: $Key\n";
           foreach my $Data (keys %{$Step{Properties}->{$Key}}) {
             my $Match2 = 0;
@@ -2888,6 +2889,7 @@ sub TicketWorkflow {
                     foreach my $Array (@{$Checks{$Key}->{$Data}}) {
                         if ($_ eq $Array) {
                             $Match2 = 1;
+#print STDERR "Workflow '$StepT/$Key/$Data' MatchedARRAY ($_ eq $Array)\n";
                             # debug log
                             if ($Self->{Debug} > 4) {
                                 $Self->{LogObject}->Log(
@@ -2898,7 +2900,7 @@ sub TicketWorkflow {
                         }
                     }
                 }
-                else {
+                elsif ($Checks{$Key}->{$Data}) {
                     if ($_ eq $Checks{$Key}->{$Data}) {
                         $Match2 = 1;
                         # debug
@@ -2917,14 +2919,17 @@ sub TicketWorkflow {
             $Match3 = 1;
           }
         }
+#print STDERR "Match: $Match '$StepT'->'$Param{Type}'\n";
         # check force option
         if ($ForceMatch) {
+#print STDERR "Matched FWorkflow '$StepT'->'$Param{Type}'\n";
             $Match = 1;
             $Match3 = 1;
         }
         # debug log
         my %NewTmpData = ();
         if ($Match && $Match3) {
+print STDERR "Matched Workflow '$StepT'->'$Param{Type}'\n";
             if ($Self->{Debug} > 2) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
@@ -2987,6 +2992,7 @@ sub TicketWorkflow {
         }
         # remember to new params if given
         if ($UseNewParams) {
+#print STDERR "$StepT -- \n";
             %NewData = %NewTmpData;
             $UseNewMasterParams = 1;
         }
@@ -3021,6 +3027,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.92 $ $Date: 2004-04-18 14:18:14 $
+$Revision: 1.93 $ $Date: 2004-04-18 14:39:19 $
 
 =cut
