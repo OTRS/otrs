@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.35 2004-11-07 15:02:29 martin Exp $
+# $Id: DB.pm,v 1.36 2004-12-28 01:03:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -378,7 +378,9 @@ sub CustomerUserAdd {
           Message => "CustomerUser: '$Param{UserLogin}' created successfully ($Param{UserID})!",
       );
       # set password
-      $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
+      if ($Param{UserPassword}) {
+          $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
+      }
       return $Param{UserLogin};
     }
     else {
@@ -396,7 +398,7 @@ sub CustomerUserUpdate {
     }
     # check needed stuff
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-      if (!$Param{$Entry->[0]} && $Entry->[4]) {
+      if (!$Param{$Entry->[0]} && $Entry->[4] && $Entry->[0] ne 'UserPassword') {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Entry->[0]!");
         return;
       }
@@ -433,8 +435,7 @@ sub CustomerUserUpdate {
             Message => "CustomerUser: '$Param{UserLogin}' updated successfully ($Param{UserID})!",
         );
         # check pw
-        my $GetPw = $UserData{UserPassword} || '';
-        if ($GetPw ne $Param{UserPassword}) {
+        if ($Param{UserPassword}) {
             $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
         }
         return 1;

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.152 2004-12-06 22:24:13 martin Exp $
+# $Id: Agent.pm,v 1.153 2004-12-28 01:06:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.152 $';
+$VERSION = '$Revision: 1.153 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,80 +124,6 @@ sub AgentCustomerViewTable {
     }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCustomerTableView', Data => \%Param);
-}
-# --
-sub AgentPreferencesForm {
-    my $Self = shift;
-    my %Param = @_;
-
-    foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('PreferencesView')}) {
-      foreach my $Group (@{$Self->{ConfigObject}->Get('PreferencesView')->{$Pref}}) {
-        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
-          my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
-          my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
-          my $DataSelected = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{DataSelected} || '';
-          my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
-          my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
-          if ($Data) {
-            if (ref($Data) eq 'HASH') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                Data => $Data,
-                Name => 'GenericTopic',
-                SelectedID => $Self->{$PrefKey} || $DataSelected,
-              );
-            }
-            else {
-                $PrefItem{'Option'} = '<input type="text" name="GenericTopic" value="'.
-                     $Self->Ascii2Html(Text => $Self->{$PrefKey}) .'">';
-            }
-          }
-          elsif ($Type eq 'CustomQueue') {
-            # prepar custom selection
-            $PrefItem{'Option'} = $Self->AgentQueueListOption(
-                Data => $Param{QueueData},
-                Size => 12,
-                Name => 'QueueID',
-                SelectedIDRefArray => $Param{CustomQueueIDs},
-                Multiple => 1,
-                OnChangeSubmit => 0,
-            );
-          }
-          elsif ($PrefKey eq 'UserLanguage') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-                  Name => "GenericTopic",
-                  SelectedID => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
-                  HTMLQuote => 0,
-              );
-          }
-          elsif ($PrefKey eq 'UserTheme') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'theme, theme',
-                      Table => 'theme',
-                      Valid => 1,
-                    )
-                  },
-                  Name => 'GenericTopic',
-                  Selected => $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
-              );
-          }
-          if ($Type eq 'Password' && ($Self->{ConfigObject}->Get('AuthModule') =~ /ldap/i ||
-               $Self->{ConfigObject}->Get('DemoSystem'))) {
-              # do nothing if the auth module is ldap
-          }
-          else {
-              $Param{$Pref} .= $Self->Output(
-                TemplateFile => 'AgentPreferences'.$Type,
-                Data => \%PrefItem,
-              );
-          }
-        }
-      }
-    }
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentPreferencesForm', Data => \%Param);
 }
 # --
 sub TicketLocked {

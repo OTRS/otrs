@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.42 2004-11-15 12:46:32 martin Exp $
+# $Id: User.pm,v 1.43 2004-12-28 01:03:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -184,7 +184,7 @@ sub UserUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ID Firstname Lastname Login Pw ValidID UserID Email)) {
+    foreach (qw(ID Firstname Lastname Login ValidID UserID Email)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -201,15 +201,6 @@ sub UserUpdate {
     }
     # get old user data (pw)
     my %UserData = $Self->GetUserData(UserID => $Param{ID});
-    # check if user name is changed (set new password)
-    my $GetPw = $UserData{UserPw} || '';
-    if ($UserData{UserLogin} ne $Param{Login} && $GetPw eq $Param{Pw}) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "If the login name is changed, you need also to set a new password!",
-        );
-        return;
-    }
     # quote params
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
@@ -232,8 +223,7 @@ sub UserUpdate {
           Message => "User: '$Param{Login}' updated successfully ($Param{UserID})!",
         );
         # check pw
-        my $GetPw = $UserData{UserPw} || '';
-        if ($GetPw ne $Param{Pw}) {
+        if ($Param{Pw}) {
             $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
         }
         # set email address
@@ -243,6 +233,89 @@ sub UserUpdate {
     else {
         return;
     }
+}
+sub UserSearch {
+    my $Self = shift;
+    my %Param = @_;
+    my %Users = ();
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    # check needed stuff
+    if (!$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!");
+        return;
+    }
+    # build SQL string 1/2
+    my $SQL = "SELECT $Self->{UserTableUser} ";
+    my @Fields = ('first_name', 'last_name', 'email');
+    if (@Fields) {
+        foreach my $Entry (@Fields) {
+            $SQL .= ", $Entry";
+        }
+    }
+    # build SQL string 2/2
+    $SQL .= " FROM " .
+      " $Self->{UserTable} ".
+      " WHERE ";
+    if ($Param{Search}) {
+        my $Count = 0;
+        my @Parts = split(/\+/, $Param{Search}, 6);
+        foreach my $Part (@Parts) {
+            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
+            $Part =~ s/\*/%/g;
+            $Part =~ s/%%/%/g;
+            if ($Count) {
+                $SQL .= " AND ";
+            }
+            $Count ++;
+            if (@Fields) {
+                my $SQLExt = '';
+                foreach (@Fields) {
+                    if ($SQLExt) {
+                        $SQLExt .= ' OR ';
+                    }
+                    $SQLExt .= " LOWER($_) LIKE LOWER('".$Self->{DBObject}->Quote($Part)."') ";
+                }
+                if ($SQLExt) {
+                    $SQL .= "($SQLExt)";
+                }
+            }
+        }
+    }
+    elsif ($Param{PostMasterSearch}) {
+        my %UserID = $Self->SearchPreferences(
+            Key => 'UserEmail',
+            Value => $Param{PostMasterSearch},
+        );
+        foreach (sort keys %UserID) {
+            my %User = $Self->GetUserData(
+                UserID => $_,
+                Valid => $Param{Valid},
+            );
+            if (%User) {
+                return %UserID;
+            }
+        }
+        return ();
+    }
+    elsif ($Param{UserLogin}) {
+        $Param{UserLogin} =~ s/\*/%/g;
+        $SQL .= " LOWER($Self->{UserTableUser}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{UserLogin})."')";
+    }
+    # add valid option
+    if ($Valid) {
+        $SQL .= "AND valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
+    }
+    # get data
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+         foreach (1..8) {
+             if ($Row[$_]) {
+                  $Users{$Row[0]} .= $Row[$_].' ';
+             }
+         }
+         $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+    }
+    return %Users;
 }
 # --
 sub SetPassword {
@@ -281,14 +354,8 @@ sub SetPassword {
         close (IO);
         chomp $CryptedPw;
     }
-    # check pw
-    if ($CryptedPw eq $User{UserPw}) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Not possible to use the same password again!",
-        );
-        return;
-    }
+    # set pw history
+    $Self->SetPreferences(UserID => $User{UserID}, Key => 'UserLastPw', Value => $User{UserPw});
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -527,6 +594,11 @@ sub SetPreferences {
 sub GetPreferences {
     my $Self = shift;
     return $Self->{PreferencesObject}->GetPreferences(@_);
+}
+# --
+sub SearchPreferences {
+    my $Self = shift;
+    return $Self->{PreferencesObject}->SearchPreferences(@_);
 }
 # --
 

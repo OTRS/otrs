@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.6 2004-02-26 21:42:08 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.7 2004-12-28 01:03:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,34 +14,25 @@ package Kernel::Modules::CustomerPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject', 
-      'SessionObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject SessionObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -54,39 +45,72 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
-    
-    if ($Self->{Subaction} eq 'UpdatePw') {
-        $Output = $Self->UpdatePw();
-    }
-    elsif ($Self->{Subaction} eq 'UpdateCustomQueues') {
-        $Output = $Self->UpdateCustomQueues();
-    }
-    elsif ($Self->{Subaction}) {
-        $Output = $Self->UpdateGeneric();
+    my $Group = $Self->{ParamObject}->GetParam(Param => 'Group') || '';
+
+    if ($Self->{Subaction} eq 'Update') {
+        # check group param
+        if (!$Group) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => "Param Group is required!");
+        }
+        # check preferences setting
+        my %Preferences = %{$Self->{ConfigObject}->Get('CustomerPreferencesGroups')};
+        if (!$Preferences{$Group}) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => "No such config for $Group");
+        }
+        # get user data
+        my %UserData = $Self->{UserObject}->CustomerUserDataGet(User => $Self->{UserLogin});
+        my $Module = $Preferences{$Group}->{Module};
+        if (eval "require $Module") {
+            my $Object = $Module->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
+            # log loaded module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Module: $Module loaded!",
+                );
+            }
+            my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
+            my %GetParam = ();
+            foreach my $ParamItem (@Params) {
+                my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
+                $GetParam{$ParamItem->{Name}} = \@Array;
+            }
+            my $Message = '';
+            if ($Object->Run(GetParam => \%GetParam, UserData => \%UserData)) {
+                $Message = $Object->Message();
+            }
+            else {
+                $Message = $Object->Error();
+            }
+            # mk rediect
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=CustomerPreferences&What=$Message",
+            );
+        }
     }
     else {
-        $Output = $Self->Form();
+        # get user data
+        my %UserData = $Self->{UserObject}->CustomerUserDataGet(User => $Self->{UserLogin});
+        my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Preferences');
+        $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
+        # --
+        # get param
+        # --
+        my $What = $Self->{ParamObject}->GetParam(Param => 'What') || '';
+        # --
+        # get notification
+        # --
+        if ($What) {
+            $Output .= $Self->{LayoutObject}->Notify(Info => $What);
+        }
+
+        $Output .= $Self->CustomerPreferencesForm(UserData => \%UserData);
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
     }
-    return $Output;
-}
-# --
-sub Form {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my $UserID = $Self->{UserID};
-    
-    $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Preferences');
-    $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-
-    $Output .= $Self->{LayoutObject}->CustomerPreferencesForm(
-        RefreshTime => $Self->{UserRefreshTime} || $Self->{ConfigObject}->Get('Refresh'),
-    );
-
-    $Output .= $Self->{LayoutObject}->CustomerFooter();
-    
-    return $Output;
 }
 # --
 sub UpdatePw {
@@ -96,7 +120,7 @@ sub UpdatePw {
     my $Pw = $Self->{ParamObject}->GetParam(Param => 'NewPw') || '';
     my $Pw1 = $Self->{ParamObject}->GetParam(Param => 'NewPw1') || '';
     my $UserID = $Self->{UserID};
-    
+
     if ($Pw eq $Pw1 && $Pw) {
         $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
         $Output .= $Self->{LayoutObject}->Redirect(
@@ -111,81 +135,122 @@ sub UpdatePw {
         );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
     }
-    
+
     return $Output;
 }
 # --
-sub UpdateCustomQueues  {
+sub CustomerPreferencesForm {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
-    my @QueueIDs = $Self->{ParamObject}->GetArray(Param => 'QueueID');
-    my $UserID = $Self->{UserID};
-    
-    if (@QueueIDs) {
-        $Self->{DBObject}->Do(
-            SQL => "DELETE FROM personal_queues WHERE user_id = $UserID",
-        );
-        foreach my $ID (@QueueIDs) {
-            # db quote
-            $ID = $Self->{DBObject}->Quote($ID);
-            $Self->{DBObject}->Do(
-                SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
-                " VALUES ($ID, $UserID)",
-            );
+
+   $Self->{LayoutObject}->Block(
+        Name => 'Body',
+        Data => {
+            %Param,
+        },
+    );
+
+    my @Groups = @{$Self->{ConfigObject}->Get('CustomerPreferencesView')};
+    foreach my $Colum (@Groups) {
+        my %Data = ();
+        my %Preferences = %{$Self->{ConfigObject}->Get('CustomerPreferencesGroups')};
+        foreach my $Group (keys %Preferences) {
+            if ($Preferences{$Group}->{Colum} eq $Colum) {
+                if ($Data{$Preferences{$Group}->{Prio}}) {
+                    foreach (1..151) {
+                        $Preferences{$Group}->{Prio}++;
+                        if (!$Data{$Preferences{$Group}->{Prio}}) {
+                            $Data{$Preferences{$Group}->{Prio}} = $Group;
+                            last;
+                        }
+                    }
+                }
+                $Data{$Preferences{$Group}->{Prio}} = $Group;
+            }
         }
-        # mk redirect
-        $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=CustomerPreferences",
+        $Self->{LayoutObject}->Block(
+            Name => 'Head',
+            Data => {
+                Header => $Colum,
+            },
         );
-    }
-    else {
-        $Output .= $Self->{LayoutObject}->CustomerHeader();
-        $Output .= $Self->{LayoutObject}->CustomerError(
-            Message => 'No Queue selected!',
-            Comment => 'Please min. 1 queue!',
+        $Self->{LayoutObject}->Block(
+            Name => 'Colum',
+            Data => {
+                Header => $Colum,
+                %Param,
+            },
         );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        # sort
+        foreach my $Key (keys %Data) {
+            $Data{sprintf("%07d", $Key)} = $Data{$Key};
+            delete $Data{$Key};
+        }
+        # show each preferences setting
+        foreach my $Prio (sort keys %Data) {
+            my $Group = $Data{$Prio};
+            if (!$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}) {
+                next;
+            }
+            my %Preference = %{$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}};
+            if (!$Preference{Activ}) {
+                next;
+            }
+            # log try of load module
+            my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Module!",
+                );
+            }
+            if (eval "require $Module") {
+                my $Object = $Module->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Module loaded!",
+                    );
+                }
+                my @Params = $Object->Param(%Preference, UserData => $Param{UserData});
+                if (@Params) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Item',
+                        Data => {
+                            Group => $Group,
+                            %Preference,
+                        },
+                    );
+                    foreach my $ParamItem (@Params) {
+                        if (ref($ParamItem->{Data}) eq 'HASH') {
+                            $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %{$ParamItem},
+                            );
+                        }
+                        $Self->{LayoutObject}->Block(
+                            Name => $ParamItem->{Block} || 'Option',
+                            Data => {
+                                %{$ParamItem},
+                            },
+                        );
+                    }
+                }
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Module!",
+                );
+            }
+        }
     }
-    return $Output;
-}
-# --
-sub UpdateGeneric {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my $UserID = $Self->{UserID};
-    my $Topic = $Self->{ParamObject}->GetParam(Param => 'GenericTopic');
 
-    if (defined($Topic)) {
-        # pref update db
-        $Self->{UserObject}->SetPreferences(
-            UserID => $UserID,
-            Key => $Self->{Subaction},
-            Value => $Topic,
-        );
-        # update SessionID
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key => $Self->{Subaction},
-            Value => $Topic,
-        );
-        # mk rediect
-        $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "Action=CustomerPreferences",
-        );
-    }
-    else {
-        $Output .= $Self->{LayoutObject}->CustomerHeader();
-        $Output .= $Self->{LayoutObject}->CustomerError(
-            Message => 'No Topic selected!',
-            Comment => 'Please one and try it again!',
-        );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
-    }
-
-    return $Output;
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerPreferencesForm', Data => \%Param);
 }
-# --
 
 1;

@@ -2,37 +2,70 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.16 2004-09-27 14:07:15 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.17 2004-12-28 01:03:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- dtl:block:Body -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
 <tr align="center">
+<!-- dtl:block:Head -->
   <td width="33%" class="mainhead">
-    $Env{"Box0"}$Text{"Frontend"}$Env{"Box1"}
+    $Env{"Box0"}$Text{"$QData{"Header"}"}$Env{"Box1"}
   </td>
-  <td width="33%" class="mainhead">
-    $Env{"Box0"}$Text{"Mail Management"}$Env{"Box1"}
-  </td>
-  <td width="33%" class="mainhead">
-    $Env{"Box0"}$Text{"Other Options"}$Env{"Box1"}
-  </td>
+<!-- dtl:block:Head -->
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
 <tr align="center">
+<!-- dtl:block:Colum -->
   <td width="33%" class="mainbody">
-    $Data{"Frontend"}
+<!-- dtl:block:Item -->
+    <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+    <tr align="center">
+      <td class="contenthead">
+        $Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}
+      </td>
+    </tr>
+    <tr align="center">
+      <td class="contentbody">
+      <p>
+      $Text{"$Data{"Desc"}"}
+      </p>
+      <form action="$Env{"CGIHandle"}" method="post">
+      <input type="hidden" name="Action" value="$Env{"Action"}">
+      <input type="hidden" name="Subaction" value="Update">
+      <input type="hidden" name="Group" value="$QData{"Group"}">
+      <p>
+      <table border="0">
+<!-- dtl:block:InputKey -->
+      <tr><td>$Text{"$QData{"Key"}"}:</td><td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td></tr>
+<!-- dtl:block:InputKey -->
+<!-- dtl:block:Input -->
+      <tr><td>$Text{"$QData{"Key"}"}</td><td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td></tr>
+<!-- dtl:block:Input -->
+<!-- dtl:block:Option -->
+      <tr><td>$Text{"$QData{"Key"}"}</td><td>$Data{"Option"}</td></tr>
+<!-- dtl:block:Option -->
+<!-- dtl:block:Upload -->
+      <tr><td>$Text{"$QData{"Key"}"}</td><td><input name="$QData{"Name"}" type="file" size="20" class="fixed"><br><a href="">$QData{"Filename"}</a></td></tr>
+<!-- dtl:block:Upload -->
+<!-- dtl:block:Password -->
+      <tr><td>$Text{"$QData{"Key"}"}:</td><td><input type="password" name="$QData{"Name"}" value="" size="12"></td></tr>
+<!-- dtl:block:Password -->
+      </table>
+      </p>
+      <input class="button" type="submit" value="$Text{"update"}">
+      </form>
+      </td>
+    </tr>
+    </table>
+<!-- dtl:block:Item -->
   </td>
-  <td width="33%" class="mainbody">
-    $Data{"Mail Management"}
-  </td>
-  <td width="33%" class="mainbody">
-    $Data{"Other Options"}
-  </td>
+<!-- dtl:block:Colum -->
 </tr>
 </table>
-<!-- end form -->
+<!-- dtl:block:Body -->
+

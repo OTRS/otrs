@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.177 2004-12-23 11:51:18 martin Exp $
+# $Id: Defaults.pm,v 1.178 2004-12-28 01:07:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.177 $';
+$VERSION = '$Revision: 1.178 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1387,76 +1387,71 @@ $Data{"Signature"}
 
     # PreferencesView
     # (Order of shown items)
-    $Self->{PreferencesView} = {
-        'Mail Management' => [
-            'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify', 'MoveNotify',
-        ],
-        Frontend => [
-            'Language', 'Theme', 'QueueViewShownTickets', 'QueueView', 'RefreshTime', 'CreateNextMask',
-        ],
-        'Other Options' => [
-            'Password', 'CustomQueue', 'SpellDict', 'FreeText', 'Comment',
-        ],
-    };
+    $Self->{PreferencesView} = ['Frontend', 'Mail Management', 'Other Options'];
 
     # PreferencesGroups
     # (All possible items)
     $Self->{PreferencesGroups}->{NewTicketNotify} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Mail Management',
         Label => 'New ticket notification',
         Desc => 'Send me a notification if there is a new ticket in "My Queues".',
-        Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         PrefKey => 'UserSendNewTicketNotification',
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Prio => 1000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{FollowUpNotify} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Mail Management',
         Label => 'Follow up notification',
         Desc => "Send me a notification if a customer sends a follow up and I'm the owner of this ticket.",
-        Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         PrefKey => 'UserSendFollowUpNotification',
+        Prio => 2000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{LockTimeoutNotify} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Mail Management',
         Label => 'Ticket lock timeout notification',
         Desc => 'Send me a notification if a ticket is unlocked by the system.',
-        Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         PrefKey => 'UserSendLockTimeoutNotification',
+        Prio => 3000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{MoveNotify} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Mail Management',
         Label => 'Move notification',
         Desc => 'Send me a notification if a ticket is moved into one of "My Queues".',
-        Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         PrefKey => 'UserSendMoveNotification',
+        Prio => 4000,
         Activ => 1,
     };
 
     $Self->{PreferencesGroups}->{Password} = {
+        Module => 'Kernel::Output::HTML::PreferencesPassword',
         Colum => 'Other Options',
         Label => 'Change Password',
-        Type => 'Password',
+        Prio => 1000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{CustomQueue} = {
+        Module => 'Kernel::Output::HTML::PreferencesCustomQueue',
         Colum => 'Other Options',
-        Label => 'Your Queues',
-        Type => 'CustomQueue',
-        Desc => 'Select your queues.',
+        Label => 'My Queues',
+        Desc => 'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.',
+        Prio => 2000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Other Options',
         Label => 'Spelling Dictionary',
         Desc => 'Select your default spelling dictionary.',
-        Type => 'Generic',
         Data => {
             # installed dict catalog (check your insalled catalogues, e. g. deutsch -=> german!)
             # dict => frontend (ispell)
@@ -1467,34 +1462,39 @@ $Data{"Signature"}
 #            'german' => 'Deutsch',
         },
         PrefKey => 'UserSpellDict',
+        Prio => 5000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{Comment} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Other Options',
         Label => 'Comment',
-        Type => 'Generic',
         Desc => 'Comment',
+        Block => 'Input',
         Data => '$Env{"UserComment"}',
         PrefKey => 'UserComment',
-        Activ => 0,
+        Prio => 6000,
+        Activ => 1,
     };
 
-#    $Self->{PreferencesGroups}->{FreeText} = {
-#        Colum => 'Other Options',
-#        Label => 'Free Text',
-#        Type => 'Generic',
-#        Desc => 'Example for free text.',
-#        Data => '$Env{"UserFreeText"}',
-#        PrefKey => 'UserFreeText',
-#        Activ => 1,
-#    };
+    $Self->{PreferencesGroups}->{FreeText} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Other Options',
+        Label => 'Free Text',
+        Desc => 'Example for free text.',
+        Block => 'Input',
+        Data => '$Env{"UserFreeText"}',
+        PrefKey => 'UserFreeText',
+        Prio => 7000,
+        Activ => 1,
+    };
 
 
     $Self->{PreferencesGroups}->{RefreshTime} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Frontend',
         Label => 'QueueView refresh time',
         Desc => 'Select your QueueView refresh time.',
-        Type => 'Generic',
         Data => {
             '' => 'off',
             2 => ' 2 minutes',
@@ -1504,43 +1504,46 @@ $Data{"Signature"}
             15 => '15 minutes',
         },
         PrefKey => 'UserRefreshTime',
+        Prio => 3000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{Language} = {
+        Module => 'Kernel::Output::HTML::PreferencesLanguage',
         Colum => 'Frontend',
         Label => 'Language',
         Desc => 'Select your frontend language.',
-        Type => 'Generic',
         PrefKey => 'UserLanguage',
+        Prio => 1000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{Theme} = {
+        Module => 'Kernel::Output::HTML::PreferencesTheme',
         Colum => 'Frontend',
         Label => 'Theme',
         Desc => 'Select your frontend Theme.',
-        Type => 'Generic',
         PrefKey => 'UserTheme',
-        Module => 'Kernel::Output::HTML::PreferencesTheme',
+        Prio => 2000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{QueueView} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Frontend',
         Label => 'QueueView',
         Desc => 'Select your frontend QueueView.',
-        Type => 'Generic',
         Data => {
             TicketView => 'Standard',
             TicketViewLite => 'Lite',
         },
         DataSelected => 'TicketView',
+        Prio => 3000,
         PrefKey => 'UserQueueView',
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{QueueViewShownTickets} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Frontend',
         Label => 'Shown Tickets',
         Desc => 'Max. shown Tickets a page in QueueView.',
-        Type => 'Generic',
         Data => {
             10 => 10,
             15 => 15,
@@ -1549,13 +1552,14 @@ $Data{"Signature"}
         },
         DataSelected => 15,
         PrefKey => 'UserQueueViewShowTickets',
+        Prio => 4000,
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{CreateNextMask} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Frontend',
         Label => 'Screen after new ticket',
         Desc => 'Select your screen after creating a new ticket.',
-        Type => 'Generic',
         Data => {
             '' => 'CreateTicket',
             AgentZoom => 'TicketZoom',
@@ -1563,6 +1567,7 @@ $Data{"Signature"}
         DataSelected => '',
 #        DataSelected => 'AgentZoom',
         PrefKey => 'UserCreateNextMask',
+        Prio => 5000,
         Activ => 1,
     };
 
@@ -2002,38 +2007,33 @@ Your OTRS Notification Master
 
     # CustomerPreferencesView
     # (Order of shown items)
-    $Self->{CustomerPreferencesView} = {
-        Frontend => [
-            'ShownTickets', 'RefreshTime', 'Language', 'Theme',
-        ],
-        'Other Options' => [
-            'Password', 'ClosedTickets', 'PGP', 'SMIME',
-        ],
-    };
+    $Self->{CustomerPreferencesView} = ['Frontend', 'Other Options'];
 
     # CustomerPreferencesGroups
     # (All possible items)
     $Self->{CustomerPreferencesGroups}->{Password} = {
+        Module => 'Kernel::Output::HTML::PreferencesPassword',
         Colum => 'Other Options',
         Label => 'Change Password',
-        Type => 'Password',
+        Prio => 1000,
         Activ => 1,
     };
     $Self->{CustomerPreferencesGroups}->{ClosedTickets} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Other Options',
         Label => 'Closed Tickets',
         Desc => 'Show closed tickets.',
-        Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         DataSelected => 1,
         PrefKey => 'UserShowClosedTickets',
+        Prio => 2000,
         Activ => 1,
     };
     $Self->{CustomerPreferencesGroups}->{ShownTickets} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Frontend',
         Label => 'Shown Tickets',
         Desc => 'Max. shown Tickets a page in Overview.',
-        Type => 'Generic',
         Data => {
             15 => 15,
             20 => 20,
@@ -2042,13 +2042,14 @@ Your OTRS Notification Master
         },
         DataSelected => 25,
         PrefKey => 'UserShowTickets',
+        Prio => 4000,
         Activ => 1,
     };
     $Self->{CustomerPreferencesGroups}->{RefreshTime} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Colum => 'Frontend',
         Label => 'QueueView refresh time',
         Desc => 'Select your QueueView refresh time.',
-        Type => 'Generic',
         Data => {
             '' => 'off',
             2 => ' 2 minutes',
@@ -2058,41 +2059,46 @@ Your OTRS Notification Master
             15 => '15 minutes',
         },
         PrefKey => 'UserRefreshTime',
+        Prio => 3000,
         Activ => 1,
     };
     $Self->{CustomerPreferencesGroups}->{Language} = {
+        Module => 'Kernel::Output::HTML::PreferencesLanguage',
         Colum => 'Frontend',
         Label => 'Language',
         Desc => 'Select your frontend language.',
-        Type => 'Generic',
         Data => $Self->Get('DefaultUsedLanguages'),
         PrefKey => 'UserLanguage',
+        Prio => 2000,
         Activ => 1,
     };
     $Self->{CustomerPreferencesGroups}->{Theme} = {
+        Module => 'Kernel::Output::HTML::PreferencesTheme',
         Colum => 'Frontend',
         Label => 'Theme',
         Desc => 'Select your frontend Theme.',
-        Type => 'Generic',
         PrefKey => 'UserTheme',
+        Prio => 1000,
         Activ => 0,
     };
-#    $Self->{CustomerPreferencesGroups}->{PGP} = {
-#        Colum => 'Other Options',
-#        Label => 'PGP Key',
-#        Desc => 'PGP Key Upload',
-#        Type => 'Upload',
-#        PrefKey => 'UserPGPKey',
-#        Activ => 0,
-#    };
-#    $Self->{CustomerPreferencesGroups}->{SMIME} = {
-#        Colum => 'Other Options',
-#        Label => 'SMIME Certificate',
-#        Desc => 'SMIME Certificate Upload',
-#        Type => 'Upload',
-#        PrefKey => 'UserSMIMEKey',
-#        Activ => 0,
-#    };
+    $Self->{CustomerPreferencesGroups}->{PGP} = {
+        Module => 'Kernel::Output::HTML::PreferencesPGP',
+        Colum => 'Other Options',
+        Label => 'PGP Key',
+        Desc => 'PGP Key Upload',
+        PrefKey => 'UserPGPKey',
+        Prio => 10000,
+        Activ => 0,
+    };
+    $Self->{CustomerPreferencesGroups}->{SMIME} = {
+        Module => 'Kernel::Output::HTML::PreferencesSMIME',
+        Colum => 'Other Options',
+        Label => 'SMIME Certificate',
+        Desc => 'SMIME Certificate Upload',
+        PrefKey => 'UserSMIMEKey',
+        Prio => 11000,
+        Activ => 0,
+    };
 
     # --------------------------------------------------- #
     #                                                     #
@@ -3185,6 +3191,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.177 $ $Date: 2004-12-23 11:51:18 $
+$Revision: 1.178 $ $Date: 2004-12-28 01:07:11 $
 
 =cut

@@ -2,13 +2,12 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.24 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.25 2004-12-28 01:03:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
 <script language="JavaScript" type="text/javascript">
 <!--
 
@@ -49,7 +48,7 @@ function updateMessage(x)
 $Data{"Back"}
 
 <tr>
-  <td width="40%" class="mainbody">
+  <td width="30%" class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -87,15 +86,23 @@ $Data{"Back"}
     <td class="contentbody">
 
     <table border="0" width="100%">
+<!-- dtl:block:CustomerSelection -->
     $Data{"UserLinkList"}
+    <tr>
+      <td valign="top">$Data{"AddLink"}</td>
+      <td valign="top"><a href="$Env{"Baselink"}Action=AdminCustomerUser&Subaction=Change&ID=$QData{"UserID"}&Search=$LQData{"Search"}&Nav=$QData{"Nav"}">$QData{"Name","25"}</a></td>
+    </tr>
+<!-- dtl:block:CustomerSelection -->
     </table>
-    -
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">-
     </td>
   </tr>
   </table>
 
-  </td>
-  <td width="60%" align="center" class="mainbody">
+  <br>
 
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -125,8 +132,9 @@ $Data{"Back"}
   </table>
   </form>
 
-  <br>
-
+  </td>
+  <td width="70%" align="center" class="mainbody">
+<!-- dtl:block:Body -->
 # --
 # check subaction
 # --
@@ -155,41 +163,65 @@ $Data{"Back"}
     <td class="contentbody">
 
     <table border="0" cellspacing="0" cellpadding="3" width="100%">
-<!-- dtl:block:Generic -->
-<dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStart"} = "<font color="#aaaaaa">"; }>
-<dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStop"} = "</font>"; }>
-    <tr>
-      <td width="40%" class="contentkey">$Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStop"} <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font> <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font></td>
-      <td width="60%" class="contentvalue"> $Data{"Value"}</td>
-    </tr>
-<!-- dtl:block:Generic -->
 
 <!-- dtl:block:PreferencesGeneric -->
+<dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStart"} = "<font color="#aaaaaa">"; }>
+<dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStop"} = "</font>"; }>
+<!-- dtl:block:PreferencesGenericInputHidden -->
+        <input type="hidden" name="$QData{"Name"}" value="$QData{"Value"}">
+<!-- dtl:block:PreferencesGenericInputHidden -->
+<!-- dtl:block:PreferencesGenericInput -->
     <tr>
-        <td  class="contentkey">
-          $Text{"$Data{"Label"}"}:
-          <br>
-          <i class="small">($Text{"$Data{"Desc"}"})</i>
-        </td>
-        <td class="contentvalue">
-          $Data{"Option"}
-        </td>
+        <td width="40%" class="contentkey">$Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStart"} <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font> <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font></td>
+        <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"Value"}" size="35" maxlength="60" $QData{"ReadOnlyType"}></td>
     </tr>
+<!-- dtl:block:PreferencesGenericInput -->
+<!-- dtl:block:PreferencesGenericPassword -->
+    <tr>
+        <td width="40%" class="contentkey">$Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStart"} <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font> <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font></td>
+        <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="35" maxlength="60" $QData{"ReadOnlyType"}></td>
+    </tr>
+<!-- dtl:block:PreferencesGenericPassword -->
+<!-- dtl:block:PreferencesGenericOption -->
+    <tr>
+        <td width="40%" class="contentkey">$Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStop"} <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font> <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font></td>
+        <td class="contentvalue">$Data{"Option"}</td>
+    </tr>
+<!-- dtl:block:PreferencesGenericOption -->
 <!-- dtl:block:PreferencesGeneric -->
-<!-- dtl:block:PreferencesUpload -->
-    <tr>
-        <td class="contentkey">
-          $Text{"$Data{"Label"}"}:
-          <br>
-          <i class="small">($Text{"$Data{"Desc"}"})</i>
-          </td>
-        <td class="contentvalue">
-          <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
-          <br>
-          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&ID=$QData{"UserID"}&File=$QData{"PrefKey"}">$QData{"Filename"}</a>
-        </td>
-    </tr>
-<!-- dtl:block:PreferencesUpload -->
+
+<!-- dtl:block:Item -->
+<!-- dtl:block:InputKey -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+    <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35"></td>
+  </tr>
+<!-- dtl:block:InputKey -->
+<!-- dtl:block:Input -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+    <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35"></td>
+  </tr>
+<!-- dtl:block:Input -->
+<!-- dtl:block:Option -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i>$Text{"$QData{"Key"}"}</td>
+    <td class="contentvalue">$Data{"Option"}</td></tr>
+<!-- dtl:block:Option -->
+<!-- dtl:block:Upload -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+    <td class="contentvalue"><input name="$QData{"Name"}" type="file" size="25" class="fixed"><br><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Group=$QData{"Group"}&ID=$QData{"UserID"}&File=$LQData{"Filename"}">$QData{"Filename","80"}</a>
+    </td>
+  </tr>
+<!-- dtl:block:Upload -->
+<!-- dtl:block:Password -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+    <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="35"></td>
+  </tr>
+<!-- dtl:block:Password -->
+<!-- dtl:block:Item -->
     </table>
 
     </td>
@@ -201,6 +233,7 @@ $Data{"Back"}
   </tr>
   </table>
   </form>
+<!-- dtl:block:Body -->
 
   </td>
 </tr>

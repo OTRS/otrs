@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.24 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentPreferences.pm,v 1.25 2004-12-28 01:03:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,157 +42,186 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
+    my $Group = $Self->{ParamObject}->GetParam(Param => 'Group') || '';
 
-    if ($Self->{Subaction} eq 'UpdatePw') {
-        $Output = $Self->UpdatePw();
-    }
-    elsif ($Self->{Subaction} eq 'UpdateCustomQueues') {
-        $Output = $Self->UpdateCustomQueues();
-    }
-    elsif ($Self->{Subaction}) {
-        $Output = $Self->UpdateGeneric();
-    }
-    else {
-        # get header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Preferences');
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->Form();
-        $Output .= $Self->{LayoutObject}->Footer();
-    }
-    return $Output;
-}
-# --
-sub Form {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    # --
-    # get param
-    # --
-    my $What = $Self->{ParamObject}->GetParam(Param => 'What') || '';
-    # --
-    # get notification
-    # --
-    if ($What) {
-        $Output .= $Self->{LayoutObject}->Notify(Info => 'Preferences updated successfully!');
-    }
-    # --
-    # get form
-    # --
-    my %QueueData = $Self->{QueueObject}->GetAllQueues(
-        UserID => $Self->{UserID},
-        Type => 'ro',
-    );
-    my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
-    $Output .= $Self->{LayoutObject}->AgentPreferencesForm(
-        QueueData => \%QueueData,
-        CustomQueueIDs => \@CustomQueueIDs,
-        RefreshTime => $Self->{UserRefreshTime} || $Self->{ConfigObject}->Get('Refresh'),
-    );
-    return $Output;
-}
-# --
-sub UpdatePw {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my $Pw = $Self->{ParamObject}->GetParam(Param => 'NewPw') || '';
-    my $Pw1 = $Self->{ParamObject}->GetParam(Param => 'NewPw1') || '';
-
-    if ($Pw eq $Pw1 && $Pw) {
-        if ($Self->{ConfigObject}->Get('DemoSystem')) {
-            $Output .= $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AgentPreferences&What=1",
-            );
+    if ($Self->{Subaction} eq 'Update') {
+        # check group param
+        if (!$Group) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => "Param Group is required!");
         }
-        elsif ($Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw)) {
-                $Output .= $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AgentPreferences&What=1",
+        # check preferences setting
+        my %Preferences = %{$Self->{ConfigObject}->Get('PreferencesGroups')};
+        if (!$Preferences{$Group}) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => "No such config for $Group");
+        }
+        # get user data
+        my %UserData = $Self->{UserObject}->GetUserData(UserID => $Self->{UserID});
+        my $Module = $Preferences{$Group}->{Module};
+        if (eval "require $Module") {
+            my $Object = $Module->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
+            # log loaded module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Module: $Module loaded!",
                 );
-        }
-        else {
-            # get header
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Preferences');
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify();
-            $Output .= $Self->Form();
-            $Output .= $Self->{LayoutObject}->Footer();
+            }
+            my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
+            my %GetParam = ();
+            foreach my $ParamItem (@Params) {
+                my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
+                $GetParam{$ParamItem->{Name}} = \@Array;
+            }
+            my $Message = '';
+            if ($Object->Run(GetParam => \%GetParam, UserData => \%UserData)) {
+                $Message = $Object->Message();
+            }
+            else {
+                $Message = $Object->Error();
+            }
+            # mk rediect
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AgentPreferences&What=$Message",
+            );
         }
     }
     else {
         # get header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Preferences');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Preferences');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify(Info => 'Passwords dosn\'t match! Please try it again!');
-        $Output .= $Self->Form();
-        $Output .= $Self->{LayoutObject}->Footer();
-    }
-    return $Output;
-}
-# --
-sub UpdateCustomQueues  {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my @QueueIDs = $Self->{ParamObject}->GetArray(Param => 'QueueID');
-    
-    $Self->{DBObject}->Do(
-        SQL => "DELETE FROM personal_queues WHERE user_id = $Self->{UserID}",
-    );
-    foreach my $ID (@QueueIDs) {
-        # db quote
-        $ID = $Self->{DBObject}->Quote($ID);
-
-        $Self->{DBObject}->Do(
-                SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
-                " VALUES ($ID, $Self->{UserID})",
-        );
-    }
-    # mk redirect
-    $Output .= $Self->{LayoutObject}->Redirect(
-        OP => "Action=AgentPreferences&What=1",
-    );
-    return $Output;
-}
-# --
-sub UpdateGeneric {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my $Topic = $Self->{ParamObject}->GetParam(Param => 'GenericTopic');
-
-    if (defined($Topic)) {
-        # pref update db
-        if (!$Self->{ConfigObject}->Get('DemoSystem')) {
-            $Self->{UserObject}->SetPreferences(
-                UserID => $Self->{UserID},
-                Key => $Self->{Subaction},
-                Value => $Topic,
-            );
+        # --
+        # get param
+        # --
+        my $What = $Self->{ParamObject}->GetParam(Param => 'What') || '';
+        # --
+        # get notification
+        # --
+        if ($What) {
+            $Output .= $Self->{LayoutObject}->Notify(Info => $What);
         }
-        # update SessionID
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key => $Self->{Subaction},
-            Value => $Topic,
-        );
-        # mk rediect
-        $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "Action=AgentPreferences&What=1",
-        );
-    }
-    else {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => 'No Topic selected!',
-            Comment => 'Please one and try it again!',
-        );
+        # get user data
+        my %UserData = $Self->{UserObject}->GetUserData(UserID => $Self->{UserID});
+        $Output .= $Self->AgentPreferencesForm(UserData => \%UserData);
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-
-    return $Output;
 }
 # --
+sub AgentPreferencesForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Body',
+        Data => {
+            %Param,
+        },
+    );
+
+    my @Groups = @{$Self->{ConfigObject}->Get('PreferencesView')};
+    foreach my $Colum (@Groups) {
+        my %Data = ();
+        my %Preferences = %{$Self->{ConfigObject}->Get('PreferencesGroups')};
+        foreach my $Group (keys %Preferences) {
+            if ($Preferences{$Group}->{Colum} eq $Colum) {
+                if ($Data{$Preferences{$Group}->{Prio}}) {
+                    foreach (1..151) {
+                        $Preferences{$Group}->{Prio}++;
+                        if (!$Data{$Preferences{$Group}->{Prio}}) {
+                            $Data{$Preferences{$Group}->{Prio}} = $Group;
+                            last;
+                        }
+                    }
+                }
+                $Data{$Preferences{$Group}->{Prio}} = $Group;
+            }
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'Head',
+            Data => {
+                Header => $Colum,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Colum',
+            Data => {
+                Header => $Colum,
+                %Param,
+            },
+        );
+        # sort
+        foreach my $Key (keys %Data) {
+            $Data{sprintf("%07d", $Key)} = $Data{$Key};
+            delete $Data{$Key};
+        }
+        # show each preferences setting
+        foreach my $Prio (sort keys %Data) {
+            my $Group = $Data{$Prio};
+            if (!$Self->{ConfigObject}->{PreferencesGroups}->{$Group}) {
+                next;
+            }
+            my %Preference = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
+            if (!$Preference{Activ}) {
+                next;
+            }
+            my $Module = $Preference{Module} || 'Kernel::Output::HTML::PreferencesGeneric';
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Module!",
+                );
+            }
+            if (eval "require $Module") {
+                my $Object = $Module->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Module loaded!",
+                    );
+                }
+                my @Params = $Object->Param(%Preference, UserData => $Param{UserData});
+                if (@Params) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Item',
+                        Data => {
+                            Group => $Group,
+                            %Preference,
+                        },
+                    );
+                    foreach my $ParamItem (@Params) {
+                        if (ref($ParamItem->{Data}) eq 'HASH') {
+                            $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %{$ParamItem},
+                            );
+                        }
+                        $Self->{LayoutObject}->Block(
+                            Name => $ParamItem->{Block} || 'Option',
+                            Data => {
+                                %{$ParamItem},
+                            },
+                        );
+                    }
+                }
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Module!",
+                );
+            }
+        }
+    }
+
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentPreferencesForm', Data => \%Param);
+}
 
 1;

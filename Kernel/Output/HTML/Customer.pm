@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.38 2004-12-04 10:51:04 martin Exp $
+# $Id: Customer.pm,v 1.39 2004-12-28 01:03:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -179,60 +179,6 @@ sub CustomerError {
 
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerError', Data => \%Param);
-}
-# --
-sub CustomerPreferencesForm {
-    my $Self = shift;
-    my %Param = @_;
-
-    foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
-      foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
-        if ($Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Activ}) {
-          my $PrefKey = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{PrefKey} || '';
-          my $Data = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Data};
-          my $Type = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Type} || '';
-          my $DataSelected = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{DataSelected} || '';
-
-          my %PrefItem = %{$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}};
-          my $HTMLQuote = 1;
-          if ($PrefKey eq 'UserLanguage') {
-              $HTMLQuote = 0;
-          }
-          if ($Data) {
-            $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-              Data => $Data,
-              Name => 'GenericTopic',
-              SelectedID => defined ($Self->{$PrefKey}) ? $Self->{$PrefKey} : $DataSelected,
-              HTMLQuote => $HTMLQuote,
-            );
-          }
-          elsif ($PrefKey eq 'UserTheme') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'theme, theme',
-                      Table => 'theme',
-                      Valid => 1,
-                    )
-                  },
-                  Name => 'GenericTopic',
-                  Selected => $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
-              );
-          }
-          if ($Type eq 'Password' && $Self->{ConfigObject}->Get('Customer::AuthModule') =~ /ldap/i) {
-              # do nothing if the auth module is ldap
-          }
-          else {
-              $Param{$Pref} .= $Self->Output(
-                TemplateFile => 'CustomerPreferences'.$Type,
-                Data => \%PrefItem,
-              );
-          }
-        }
-      }
-    }
-    # create & return output
-    return $Self->Output(TemplateFile => 'CustomerPreferencesForm', Data => \%Param);
 }
 # --
 sub CustomerWarning {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.28 2004-12-02 09:29:52 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.29 2004-12-28 01:03:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $ ';
+$VERSION = '$Revision: 1.29 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -142,10 +142,9 @@ sub Run {
         my $User = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
-        my $Output = $NavBar.$Self->{LayoutObject}->AdminCustomerUserForm(
+        my $Output = $NavBar.$Self->AdminCustomerUserForm(
             Nav => $Nav,
             UserLinkList => $Link,
-            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()},
             Source => $Source,
             Search => $Search,
             %UserData,
@@ -155,16 +154,33 @@ sub Run {
     }
     # download file preferences
     elsif ($Self->{Subaction} eq 'Download') {
+        my $Group = $Self->{ParamObject}->GetParam(Param => 'Group') || '';
         my $User = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my $File = $Self->{ParamObject}->GetParam(Param => 'File') || '';
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
+        my %Preferences = %{$Self->{ConfigObject}->Get('CustomerPreferencesGroups')};
+        my $Module = $Preferences{$Group}->{Module};
+        if (eval "require $Module") {
+            my $Object = $Module->new(
+                %{$Self},
+                UserObject => $Self->{CustomerUserObject},
+                Debug => $Self->{Debug},
+            );
+            # log loaded module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Module: $Module loaded!",
+                );
+            }
+            my %File = $Object->Download(%{$Preferences{$Group}}, UserData => \%UserData);
 
-        return $Self->{LayoutObject}->Attachment(
-            Content => $UserData{"$File"},
-            ContentType => $UserData{$File."::ContentType"},
-            Filename => $UserData{$File."::Filename"},
-        );
+            return $Self->{LayoutObject}->Attachment(%File);
+        }
+        else {
+            return $Self->{LayoutObject}->ErrorScreen(Message => "Can't load module $Module: $!");
+        }
     }
     # update action
     elsif ($Self->{Subaction} eq 'ChangeAction') {
@@ -178,115 +194,52 @@ sub Run {
         # update user
         if ($Self->{CustomerUserObject}->CustomerUserUpdate(%GetParam, UserID => $Self->{UserID})) {
             # update preferences
-            foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
-              foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
-                my $PrefKey = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{PrefKey} || '';
-                my $Type = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Type} || '';
-                if ($Type eq 'Generic' && $PrefKey) {
-                    if (!$Self->{CustomerUserObject}->SetPreferences(
-                      UserID => $GetParam{ID},
-                      Key => $PrefKey,
-                      Value => $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey"),
-                    )) {
-                        my $Output = $NavBar.$Self->{LayoutObject}->Error();
-                        $Output .= $Self->{LayoutObject}->Footer();
-                        return $Output;
-                    }
+            my %Preferences = %{$Self->{ConfigObject}->Get('CustomerPreferencesGroups')};
+            foreach my $Group (keys %Preferences) {
+                if ($Group eq 'Password') {
+                    next;
                 }
-                if ($Type eq 'Upload' && $PrefKey) {
-                    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                        Param => "GenericTopic::$PrefKey",
-                        Source => 'String',
+                # get user data
+                my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $GetParam{UserLogin});
+                my $Module = $Preferences{$Group}->{Module};
+                if (eval "require $Module") {
+                    my $Object = $Module->new(
+                        %{$Self},
+                        UserObject => $Self->{CustomerUserObject},
+                        Debug => $Self->{Debug},
                     );
-                    if ($UploadStuff{Content}) {
-
-# TODO
-                        my $True = 0;
-                        use Kernel::System::Crypt;
-                        if ($PrefKey =~ /PGP/) {
-                          my $CryptObject = Kernel::System::Crypt->new(
-                            LogObject => $Self->{LogObject},
-                            DBObject => $Self->{DBObject},
-                            ConfigObject => $Self->{ConfigObject},
-                            CryptType => 'PGP',
-                          );
-                          my $Message = $CryptObject->KeyAdd(Key => $UploadStuff{Content});
-                          if (!$Message) {
-                              $Message = $Self->{LogObject}->GetLogEntry(
-                                  Type => 'Error',
-                                  What => 'Message',
-                              );
-                          }
-                          else {
-                              if ($Message =~ /gpg: key (.*):/) {
-                                  my @Result = $CryptObject->SearchPublicKey(Search => $1);
-                                  if ($Result[0]) {
-                                     $UploadStuff{Filename} = "$Result[0]->{Identifier}-$Result[0]->{Bit}-$Result[0]->{Key}.$Result[0]->{Type}";
-                                  }
-                              }
-                              $True = 1;
-                          }
-                          if ($Message) {
-                              $Note .= $Self->{LayoutObject}->Notify(Info => $Message);
-                          }
-                        }
-                        if ($PrefKey =~ /SMIME/) {
-                          my $CryptObject = Kernel::System::Crypt->new(
-                            LogObject => $Self->{LogObject},
-                            DBObject => $Self->{DBObject},
-                            ConfigObject => $Self->{ConfigObject},
-                            CryptType => 'SMIME',
-                          );
-                          my $Message = $CryptObject->CertificateAdd(Certificate => $UploadStuff{Content});
-                          if (!$Message) {
-                              $Message = $Self->{LogObject}->GetLogEntry(
-                                  Type => 'Error',
-                                  What => 'Message',
-                              );
-                          }
-                          else {
-                              my %Attributes = $CryptObject->CertificateAttributes(
-                                  Certificate => $UploadStuff{Content},
-                              );
-                              if ($Attributes{Hash}) {
-                                  $UploadStuff{Filename} = "$Attributes{Hash}.pem";
-                              }
-                              $True = 1;
-                          }
-                          if ($Message) {
-                              $Note .= $Self->{LayoutObject}->Notify(Info => $Message);
-                          }
-                        }
-# TODO
-                        if ($True) {
-
-                      $Self->{CustomerUserObject}->SetPreferences(
-                        UserID => $GetParam{ID},
-                        Key => $PrefKey,
-                        Value => $UploadStuff{Content},
-                      );
-                      $Self->{CustomerUserObject}->SetPreferences(
-                        UserID => $GetParam{ID},
-                        Key => $PrefKey."::Filename",
-                        Value => $UploadStuff{Filename},
-                      );
-                      $Self->{CustomerUserObject}->SetPreferences(
-                        UserID => $GetParam{ID},
-                        Key => $PrefKey."::ContentType",
-                        Value => $UploadStuff{ContentType},
-                      );
+                    # log loaded module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Module: $Module loaded!",
+                        );
                     }
-        }
+                    my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
+                    if (@Params) {
+                        my %GetParam = ();
+                        foreach my $ParamItem (@Params) {
+                            my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
+                            $GetParam{$ParamItem->{Name}} = \@Array;
+                        }
+                        if (!$Object->Run(GetParam => \%GetParam, UserData => \%UserData)) {
+                            $Note .= $Self->{LayoutObject}->Notify(Info => $Object->Error());
+                        }
+                    }
                 }
-              }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't load module $Module!",
+                    );
+                }
             }
-             # get user data and show screen again
+            # get user data and show screen again
             $Note .= $Self->{LayoutObject}->Notify(Info => 'Customer updated!');
             my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $GetParam{ID});
-            my $Output = $NavBar.$Note.$Self->{LayoutObject}->AdminCustomerUserForm(
+            my $Output = $NavBar.$Note.$Self->AdminCustomerUserForm(
                 Nav => $Nav,
                 UserLinkList => $Link,
-                SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()},
                 Source => $Source,
                 Search => $Search,
                 %UserData,
@@ -295,17 +248,14 @@ sub Run {
             return $Output;
         }
         else {
-            my $Output = $NavBar.$Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # search
     elsif ($Self->{Subaction} eq 'Search') {
-        my $Output .= $NavBar.$Self->{LayoutObject}->AdminCustomerUserForm(
+        my $Output .= $NavBar.$Self->AdminCustomerUserForm(
             Nav => $Nav,
             UserLinkList => $Link,
-            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()},
             Search => $Search,
             Source => $Source,
         );
@@ -322,45 +272,45 @@ sub Run {
         # add user
         if (my $User = $Self->{CustomerUserObject}->CustomerUserAdd(%GetParam, UserID => $Self->{UserID}, Source => $Source)) {
             # update preferences
-            foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
-              foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
-                my $PrefKey = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{PrefKey} || '';
-                my $Type = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Type} || '';
-                if ($Type eq 'Generic' && $PrefKey) {
-                    if (!$Self->{CustomerUserObject}->SetPreferences(
-                      UserID => $User,
-                      Key => $PrefKey,
-                      Value => $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey"),
-                    )) {
-                        my $Output = $NavBar.$Self->{LayoutObject}->Error();
-                        $Output .= $Self->{LayoutObject}->Footer();
-                        return $Output;
-                    }
+            my %Preferences = %{$Self->{ConfigObject}->Get('CustomerPreferencesGroups')};
+            foreach my $Group (keys %Preferences) {
+                if ($Group eq 'Password') {
+                    next;
                 }
-                if ($Type eq 'Upload' && $PrefKey) {
-                    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                        Param => "GenericTopic::$PrefKey",
-                        Source => 'String',
+                # get user data
+                my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $GetParam{UserLogin});
+                my $Module = $Preferences{$Group}->{Module};
+                if (eval "require $Module") {
+                    my $Object = $Module->new(
+                        %{$Self},
+                        UserObject => $Self->{CustomerUserObject},
+                        Debug => $Self->{Debug},
                     );
-                    if ($UploadStuff{Content}) {
-                      $Self->{CustomerUserObject}->SetPreferences(
-                        UserID => $User,
-                        Key => $PrefKey,
-                        Value => $UploadStuff{Content},
-                      );
-                      $Self->{CustomerUserObject}->SetPreferences(
-                        UserID => $User,
-                        Key => $PrefKey."::Filename",
-                        Value => $UploadStuff{Filename},
-                      );
-                      $Self->{CustomerUserObject}->SetPreferences(
-                        UserID => $User,
-                        Key => $PrefKey."::ContentType",
-                        Value => $UploadStuff{ContentType},
-                      );
+                    # log loaded module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Module: $Module loaded!",
+                        );
+                    }
+                    my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
+                    if (@Params) {
+                        my %GetParam = ();
+                        foreach my $ParamItem (@Params) {
+                            my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
+                            $GetParam{$ParamItem->{Name}} = \@Array;
+                        }
+                        if (!$Object->Run(GetParam => \%GetParam, UserData => \%UserData)) {
+#                            $Note .= $Self->{LayoutObject}->Notify(Info => $Object->Error());
+                        }
                     }
                 }
-              }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't load module $Module!",
+                    );
+                }
             }
             # redirect
             return $Self->{LayoutObject}->Redirect(
@@ -368,17 +318,14 @@ sub Run {
             );
         }
         else {
-            my $Output = $NavBar.$Self->{LayoutObject}->Error();
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # else ! print form
     else {
-        my $Output .= $NavBar.$Self->{LayoutObject}->AdminCustomerUserForm(
+        my $Output .= $NavBar.$Self->AdminCustomerUserForm(
             Nav => $Nav,
             UserLinkList => $Link,
-            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()},
             Search => $Search,
             Source => $Source,
         );
@@ -404,5 +351,190 @@ sub Run {
     # changeaction
 }
 # --
+sub AdminCustomerUserForm {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Body',
+        Data => {
+            %Param,
+        },
+    );
+    # build source string
+    $Param{'SourceOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {$Self->{CustomerUserObject}->CustomerSourceList()},
+        Name => 'Source',
+        SelectedID => $Param{Source},
+    );
+
+    foreach my $Entry (@{$Self->{ConfigObject}->Get($Param{Source})->{Map}}) {
+        if ($Entry->[0]) {
+            my $Block = 'Input';
+            # check input type
+            if ($Entry->[0] =~ /^UserPasswor/i) {
+                $Block = 'Password';
+            }
+            # check if login auto creation
+            if ($Self->{ConfigObject}->Get($Param{Source})->{AutoLoginCreation} && $Entry->[0] =~ /^UserLogin$/) {
+                $Block = 'InputHidden';
+            }
+            if ($Entry->[7]) {
+                $Param{ReadOnlyType} = 'readonly';
+                $Param{ReadOnly} = '*';
+            }
+            else {
+                $Param{ReadOnlyType} = '';
+                $Param{ReadOnly} = '';
+            }
+            # build selections or input fields
+            if ($Self->{ConfigObject}->Get($Param{Source})->{Selections}->{$Entry->[0]}) {
+                # build ValidID string
+                $Block = 'Option';
+                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                    Data => $Self->{ConfigObject}->Get($Param{Source})->{Selections}->{$Entry->[0]},
+                    Name => $Entry->[0],
+                    SelectedID => $Param{$Entry->[0]},
+                );
+
+            }
+            elsif ($Entry->[0] =~ /^ValidID/i) {
+                # build ValidID string
+                $Block = 'Option';
+                $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                    Data => {
+                        $Self->{DBObject}->GetTableData(
+                          What => 'id, name',
+                          Table => 'valid',
+                          Valid => 0,
+                        )
+                    },
+                    Name => $Entry->[0],
+                    SelectedID => $Param{$Entry->[0]},
+                );
+            }
+            else {
+                $Param{Value} = $Param{$Entry->[0]} || '';
+            }
+            # show required flag
+            if ($Entry->[4]) {
+                $Param{Required} = '*';
+            }
+            else {
+                $Param{Required} = '';
+            }
+            # add form option
+            if ($Param{Type} && $Param{Type} eq 'hidden') {
+                $Param{Preferences} .= $Param{Value};
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'PreferencesGeneric',
+                    Data => { Item => $Entry->[1], %Param},
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => "PreferencesGeneric$Block",
+                    Data => {
+                        Item => $Entry->[1],
+                        Name => $Entry->[0],
+                        %Param,
+                    },
+                );
+            }
+        }
+    }
+    my $PreferencesUsed = $Self->{ConfigObject}->Get($Param{Source})->{AdminSetPreferences};
+    if ((defined($PreferencesUsed) && $PreferencesUsed != 0) || !defined($PreferencesUsed)) {
+    my @Groups = @{$Self->{ConfigObject}->Get('CustomerPreferencesView')};
+    foreach my $Colum (@Groups) {
+        my %Data = ();
+        my %Preferences = %{$Self->{ConfigObject}->Get('CustomerPreferencesGroups')};
+        foreach my $Group (keys %Preferences) {
+            if ($Preferences{$Group}->{Colum} eq $Colum) {
+                if ($Data{$Preferences{$Group}->{Prio}}) {
+                    foreach (1..151) {
+                        $Preferences{$Group}->{Prio}++;
+                        if (!$Data{$Preferences{$Group}->{Prio}}) {
+                            $Data{$Preferences{$Group}->{Prio}} = $Group;
+                            last;
+                        }
+                    }
+                }
+                $Data{$Preferences{$Group}->{Prio}} = $Group;
+            }
+        }
+        # sort
+        foreach my $Key (keys %Data) {
+            $Data{sprintf("%07d", $Key)} = $Data{$Key};
+            delete $Data{$Key};
+        }
+        # show each preferences setting
+        foreach my $Prio (sort keys %Data) {
+            my $Group = $Data{$Prio};
+            if (!$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}) {
+                next;
+            }
+            my %Preference = %{$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}};
+            if ($Group eq 'Password') {
+                next;
+            }
+            my $Module = $Preference{Module} || 'Kernel::Output::HTML::CustomerPreferencesGeneric';
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Module!",
+                );
+            }
+            if (eval "require $Module") {
+                my $Object = $Module->new(
+                    %{$Self},
+                    UserObject => $Self->{CustomerUserObject},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Module loaded!",
+                    );
+                }
+                my @Params = $Object->Param(%Preference, UserData => \%Param);
+                if (@Params) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Item',
+                        Data => { %Param },
+                    );
+                    foreach my $ParamItem (@Params) {
+                        if (ref($ParamItem->{Data}) eq 'HASH') {
+                            $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %{$ParamItem},
+                            );
+                        }
+                        $Self->{LayoutObject}->Block(
+                            Name => $ParamItem->{Block} || 'Option',
+                            Data => {
+                                Group => $Group,
+                                %Param,
+                                %Data,
+                                %{$ParamItem},
+                            },
+                        );
+                    }
+                }
+            }
+            else {
+                $Self->{LayoutObject}->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Module!",
+                );
+            }
+        }
+    }
+
+    }
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminCustomerUserForm', Data => \%Param);
+}
 
 1;
