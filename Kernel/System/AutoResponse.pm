@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoResponse.pm,v 1.1 2002-07-21 16:07:34 martin Exp $
+# $Id: AutoResponse.pm,v 1.2 2002-07-21 16:31:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::AutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,7 @@ sub new {
     return $Self;
 }
 # --
-sub Add {
+sub AutoResponseAdd {
     my $Self = shift;
     my %Param = @_;
     # --
@@ -75,7 +75,7 @@ sub Add {
     }
 }
 # --
-sub Get {
+sub AutoResponseGet {
     my $Self = shift;
     my %Param = @_;
     # --
@@ -116,7 +116,7 @@ sub Get {
     }
 }
 # --
-sub Update {
+sub AutoResponseUpdate {
     my $Self = shift;
     my %Param = @_;
     # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponse.pm,v 1.3 2002-07-21 16:07:53 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.4 2002-07-21 16:31:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -80,7 +80,7 @@ sub Run {
     # --
     if ($Param{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my %Data = $Self->{AutoResponseObject}->Get(ID => $ID);
+        my %Data = $Self->{AutoResponseObject}->AutoResponseGet(ID => $ID);
         $Output = $Self->{LayoutObject}->Header(Title => 'Auto response change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminAutoResponseForm(%Data);
@@ -95,7 +95,7 @@ sub Run {
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
-        if ($Self->{AutoResponseObject}->Update(
+        if ($Self->{AutoResponseObject}->AutoResponseUpdate(
             %GetParam,
             UserID => $Self->{UserID},
         )) {
@@ -117,7 +117,7 @@ sub Run {
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
-        if ($Self->{AutoResponseObject}->Add(
+        if ($Self->{AutoResponseObject}->AutoResponseAdd(
             %GetParam,
             UserID => $Self->{UserID},
         )) {
