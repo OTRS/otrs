@@ -1,0 +1,129 @@
+<chapter id="translation">
+<title>Language translations</title>
+<para>
+The OpenTRS webfrontend supports different frontend languages. The language translation files are located under Kernel/Language/*.pm. 
+</para>
+<sect1 id="translation_example">
+<title>New translation files</title>
+<para>
+If you want to translate OpenTRS in a new language, you have to do five steps:
+
+<itemizedlist mark='opencircle'>
+
+<listitem>
+<para>
+Copy an existing translation file (e. g. Kernel/Language/German.pm) and translate each line.
+</para>
+</listitem>
+
+<listitem>
+<para>
+Change the package name (z. g. "package Kernel::Language::German;" to "package Kernel::Language::French;").
+</para>
+</listitem>
+
+<listitem>
+<para>
+Add the new translation file to Kernel/Language.pm (e. g. use Kernel::Language::French;) around line 20.
+</para>
+</listitem>
+
+<listitem>
+<para>
+Add the new language translation to the system via the admin interface (AdminArea ->> Language). 
+</para>
+</listitem>
+
+<listitem>
+<para>
+Send the new translation file to feedback@otrs.org - Thanks!
+</para>
+</listitem>
+
+</itemizedlist>
+
+Now you can select the new language in your preferences screen.
+</para>
+
+<example>
+<title>Old file (Kernel/Language/German.pm)</title>
+<programlisting>
+# --
+# German.pm - provides german languag translation
+# Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
+# --
+# $Id: language-translation.sgml,v 1.1 2002-05-09 23:44:32 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+package Kernel::Language::German;
+
+use strict;
+
+use vars qw($VERSION);
+$VERSION = '$Revision: 1.1 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+# --
+sub Data {
+    my $Self = shift;
+    my %Param = @_;
+
+    # some common words
+    $Self->{Lock} = 'Ziehen';
+    $Self->{Unlock} = 'Freigeben';
+    $Self->{unlock} = 'freigeben';
+    $Self->{Zoom} = 'Inhalt';
+    $Self->{History} = 'History';
+    $Self->{'Add Note'} = 'Notiz anheften';
+
+[...]
+</programlisting>
+</example>
+
+<para>
+To:
+</para>
+
+<example>
+<title>New file (Kernel/Language/French.pm)</title>
+<programlisting>
+# --
+# French.pm - provides french language translations
+# Copyright (C) 2002 Martin Scherbaum (maddin at exsuse.de)
+# --
+# $Id: language-translation.sgml,v 1.1 2002-05-09 23:44:32 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+package Kernel::Language::French;
+
+use strict;
+
+use vars qw($VERSION);
+$VERSION = '$Revision: 1.1 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+# --
+sub Data {
+    my $Self = shift;
+    my %Param = @_;
+
+    # some common words
+    $Self->{Lock} = 'Tirer';
+    $Self->{Unlock} = 'Rendre';
+    $Self->{unlock} = 'rendre';
+    $Self->{Zoom} = 'Contenu';
+    $Self->{History} = 'Histoire';
+    $Self->{'Add Note'} = 'Ajouter commentaire';
+
+[...]
+</programlisting>
+</example>
+</sect1>
+
+</chapter>

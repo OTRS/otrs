@@ -1,0 +1,64 @@
+# --
+# AgentPhoneNew.dtl - provides HTML form for phone
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentPhoneNew.dtl,v 1.1 2002-05-09 23:44:17 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor2"}">
+  <td align="left"> 
+  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Phone call"} / $Text{"new ticket"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor0"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="left" valign="top" colspan="2">
+
+<p>
+
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="AgentPhone">
+<input type="hidden" name="Subaction" value="StoreNew">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+  <table border="0">
+  <tr>
+    <td>$Text{"From"}:</td><td><input type="text" name="From" value="" size="60"></td>
+  </tr>
+  <tr>
+    <td>$Text{"To"}:</td><td>$Data{"ToStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Text{"$Config{"DefaultPhoneNewSubject"}"}" size="60"></td>
+  </tr>
+  <tr>
+    <td>$Text{"Text"}:</td><td>
+<textarea name="Note" rows="15" cols="60">
+$Text{"$Config{"DefaultPhoneNewNoteText"}"}
+</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+  </tr>
+  </table>
+<br>
+<input type="submit" value="$Text{"store"}">
+</form>
+
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
