@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.29 2004-04-20 08:24:35 martin Exp $
+# $Id: customer.pl,v 1.30 2004-06-28 07:41:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -120,7 +120,7 @@ $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
 # --
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 if (!$CommonObject{DBObject}) {
-    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
+    print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
     print $CommonObject{LayoutObject}->CustomerError(
         Message => $DBI::errstr,
         Comment => 'Please contact your admin'
@@ -129,7 +129,7 @@ if (!$CommonObject{DBObject}) {
     exit (1);
 }
 if ($CommonObject{ParamObject}->Error()) {
-    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
+    print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
     print $CommonObject{LayoutObject}->CustomerError(
         Message => $CommonObject{ParamObject}->Error(),
         Comment => 'Please contact your admin'
@@ -299,7 +299,7 @@ elsif ($Param{Action} eq "Logout"){
            }
         }  
         else {
-            print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Logout');
+            print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Logout');
             print $CommonObject{LayoutObject}->CustomerError(
               Message => 'Can`t remove SessionID',
               Comment => 'Please contact your admin!'
@@ -378,7 +378,7 @@ elsif ($Param{Action} eq "CustomerLostPassword"){
             );
         }
         else {
-            print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
+            print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
             print $CommonObject{LayoutObject}->CustomerError();
             print $CommonObject{LayoutObject}->CustomerFooter();
         }
@@ -415,7 +415,7 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
     # get user data
     my %UserData = $CommonObject{UserObject}->CustomerUserDataGet(User => $GetParams{UserLogin});
     if ($UserData{UserID} || ! $GetParams{UserLogin}) {
-        print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
+        print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
         print $CommonObject{LayoutObject}->CustomerWarning(
             Message => 'This account exists.',
             Comment => 'Please press Back and try again.'
@@ -443,7 +443,7 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
               To => $GetParams{UserEmail},
               Subject => $Subject,
               Body => $Body)) {
-                print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
+                print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
                 print $CommonObject{LayoutObject}->CustomerWarning(
                     Comment => 'Can\' send account info!'
                 );
@@ -469,7 +469,7 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
             }
         }
         else {
-            print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
+            print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error');
             print $CommonObject{LayoutObject}->CustomerWarning(
                 Comment => 'Please press Back and try again.'
             );
@@ -643,14 +643,33 @@ else {
         %Param, 
         %Data,
     );
-    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
+    # check if file name exists
+    my $Error = 0;
+    foreach my $Prefix (@INC) {
+         my $File = "$Prefix/Kernel/Modules/$Param{Action}.pm";
+         if (-f $File) {
+             $Error = $File;
+             last;
+         }
+    }
+    # if file name exists, show syntax error
+    if ($Error) {
+        my $R = do $Error;
+        $CommonObject{LogObject}->Log(Priority => 'error', Message => "$@");
+        $Error = "Syntax error in 'Kernel::Modules::$Param{Action}'!";
+    }
+    # if there is no file, show not found error 
+    else {
+        $Error = "File 'Kernel/Modules/$Param{Action}.pm' not found!";
+    }
+    # print error
+    print $CommonObject{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
     print $CommonObject{LayoutObject}->CustomerError(
-        Message => "Action '$Param{Action}' not found!",
-        Comment => "Perhaps the admin forgot to load \"Kernel::Modules::$Param{Action}\"!",
+        Message => $Error,
     );
     print $CommonObject{LayoutObject}->CustomerFooter();
+    print $CommonObject{LayoutObject}->CustomerFooter();
 }
-
 # --
 # debug info
 # --

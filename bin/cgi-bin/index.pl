@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.71 2004-04-20 08:24:35 martin Exp $
+# $Id: index.pl,v 1.72 2004-06-28 07:41:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.72 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -436,7 +436,7 @@ elsif ($Param{Action} eq "LostPassword"){
             exit 0;
         }
         else {
-            print $CommonObject{LayoutObject}->Header(Title => 'Error');
+            print $CommonObject{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
             print $CommonObject{LayoutObject}->Error();
             print $CommonObject{LayoutObject}->Footer();
             exit 0;
@@ -647,14 +647,32 @@ else {
         %Param, 
         %Data,
     );
-    print $CommonObject{LayoutObject}->Header(Title => 'Error');
+    # check if file name exists
+    my $Error = 0;
+    foreach my $Prefix (@INC) {
+         my $File = "$Prefix/Kernel/Modules/$Param{Action}.pm";
+         if (-f $File) {
+             $Error = $File;
+             last;
+         }
+    }
+    # if file name exists, show syntax error
+    if ($Error) {
+        my $R = do $Error;
+        $CommonObject{LogObject}->Log(Priority => 'error', Message => "$@");
+        $Error = "Syntax error in 'Kernel::Modules::$Param{Action}'!";
+    }
+    # if there is no file, show not found error 
+    else {
+        $Error = "File 'Kernel/Modules/$Param{Action}.pm' not found!";
+    }
+    # print error
+    print $CommonObject{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
     print $CommonObject{LayoutObject}->Error(
-        Message => "Action '$Param{Action}' not found!",
-        Comment => "Perhaps the admin forgot to load \"Kernel::Modules::$Param{Action}\"!",
+        Message => $Error, 
     );
     print $CommonObject{LayoutObject}->Footer();
 }
-
 # --
 # debug info
 # --
