@@ -5,11 +5,26 @@ This chapter will show you more details about OTRS permission.
 </para>
 
 <sect1 id="permission-group">
-<title>Groups - Queue</title>
+<title>Group/User/Queue Permission</title>
 <para>
-If you want to handle different groups of users with different permissions 
+You will be able to handle different groups of users with different permissions
 (e. g. only read ticket in a queue or one group should not have ro/rw access
-to a queue) you need to:
+to a queue). 
+</para>
+<para>
+Group permissions are "ro" (read only), 
+"move" (move tickets into this group), 
+"create" (create tickets in this queue), 
+"owner" (change the ticket owner), 
+"priority" (change the ticket owner) and 
+"rw" (have full read and write permissions to the tickets).
+</para>
+<para>
+You can put users to groups and for each queue one group (user-group-queue). 
+</para>
+<para>
+Example: If you want only read ticket in a queue or one group 
+should not have ro/rw access to a queue) you need to:
 <screen>
 a) create otrs-groups
 b) put the groups of users into your otrs-groups
@@ -31,7 +46,7 @@ Kernel/Config.pm
 </sect1>
 
 <sect1 id="permission-module">
-<title>Agent - Admin Interface</title>
+<title>Module Permission - Agent/Admin Interface</title>
 <para>
 It's possible to grant permissions to a module in Kernel/Modules/*.pm. 
 For example a group of users should be able to edit responses (modular default 
