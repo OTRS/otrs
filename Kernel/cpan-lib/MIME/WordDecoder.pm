@@ -586,11 +586,12 @@ __END__
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
+David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2002-11-10 23:00:46 $
+$Revision: 1.2 $ $Date: 2005-02-15 08:43:51 $
 
 =cut
 
