@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.14 2003-04-22 20:31:56 martin Exp $
+# $Id: DB.pm,v 1.15 2003-05-18 20:23:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -103,8 +103,8 @@ sub CustomerSearch {
     # --
     # check needed stuff
     # --
-    if (!$Param{Search} && !$Param{UserLogin}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search or UserLogin!");
+    if (!$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!");
         return;
     }
     # --
@@ -141,7 +141,19 @@ sub CustomerSearch {
             $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{Search})."' ";
         }
     }
-    if ($Param{UserLogin}) {
+    elsif ($Param{PostMasterSearch}) {
+        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}) {
+            my $SQLExt = '';
+            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}}) {
+                if ($SQLExt) {
+                    $SQLExt .= ' OR ';
+                }
+                $SQLExt .= " $_ LIKE '".$Self->{DBObject}->Quote($Param{PostMasterSearch})."' ";
+            }
+            $SQL .= $SQLExt;
+        }
+    }
+    elsif ($Param{UserLogin}) {
         $Param{UserLogin} =~ s/\*/%/g;
         $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
     }

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.10 2003-03-23 21:43:26 martin Exp $
+# $Id: LDAP.pm,v 1.11 2003-05-18 20:23:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -116,8 +116,8 @@ sub CustomerSearch {
     # --
     # check needed stuff
     # --
-    if (!$Param{Search} && !$Param{UserLogin}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search or UserLogin!");
+    if (!$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!");
         return;
     }
     # --
@@ -136,7 +136,16 @@ sub CustomerSearch {
             $Filter = "($Self->{CustomerKey}=$Param{Search})";
         }
     }
-    if ($Param{UserLogin}) {
+    elsif ($Param{PostMasterSearch}) {
+        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}) {
+            $Filter = '(|';
+            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}}) {
+                $Filter.= "($_=$Param{PostMasterSearch})";
+            }
+            $Filter .= ')';
+        }
+    }
+    elsif ($Param{UserLogin}) {
         $Filter = "($Self->{CustomerKey}=$Param{UserLogin})";
     }
     # --

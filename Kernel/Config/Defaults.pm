@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.71 2003-05-13 10:30:57 martin Exp $
+# $Id: Defaults.pm,v 1.72 2003-05-18 20:23:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.72 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,6 +43,9 @@ sub LoadDefaults {
     # (To set the Ticket identifier. Some people want to 
     # set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.)
     $Self->{TicketHook} = 'Ticket#';
+
+    # TicketDivider
+    $Self->{TicketDivider} = ':';
 
     # FQDN
     # (Full qualified domain name of your system.)
@@ -1396,6 +1399,7 @@ Your OTRS Notification Master
         CustomerUserListFields => ['login', 'first_name', 'last_name', 'email'],
 #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
         CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
+        CustomerUserPostMasterSearchFields => ['email'],
         CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
 #        ReadOnly => 1,
         Map => [
@@ -1436,6 +1440,7 @@ Your OTRS Notification Master
 #        CustomerID => 'mail',
 #        CustomerUserListFields => ['uid', 'cn', 'mail'],
 #        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
+#        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
