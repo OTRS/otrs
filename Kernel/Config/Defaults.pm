@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.97 2004-01-16 10:36:57 martin Exp $
+# $Id: Defaults.pm,v 1.98 2004-01-21 00:01:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.97 $';
+$VERSION = '$Revision: 1.98 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1837,8 +1837,10 @@ Your OTRS Notification Master
     $Self->{'Module::Permission'}->{'AdminUser'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminUserGroup'} = 'admin';
 
-    $Self->{'Module::PermissionRo'}->{'FAQ'} = ['faq'];
+    $Self->{'Module::Permission::Ro'}->{'FAQ'} = ['faq'];
+    $Self->{'Module::Permission::Ro'}->{'FAQHistory'} = ['faq'];
     $Self->{'Module::Permission'}->{'FAQCategory'} = ['faq'];
+    $Self->{'Module::Permission'}->{'FAQLanguage'} = ['faq'];
     $Self->{'Module::Permission'}->{'FAQArticle'} = ['faq'];
 
     $Self->{'Module::Permission'}->{'SystemStats'} = ['admin', 'stats'];
