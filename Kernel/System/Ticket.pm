@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.127 2004-07-07 12:39:14 martin Exp $
+# $Id: Ticket.pm,v 1.128 2004-07-29 20:39:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.127 $';
+$VERSION = '$Revision: 1.128 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2214,7 +2214,7 @@ sub StateList {
     # get states by type
     if ($Param{Type}) {
         %States = $Self->{StateObject}->StateGetStatesByType(
-            Type => $Param{Type}, 
+            Type => $Param{Type},
             Result => 'HASH',
         );
     }
@@ -2231,7 +2231,7 @@ sub StateList {
         ReturnType => 'Ticket',
         ReturnSubType => 'State',
         Data => \%States,
-    )) { 
+    )) {
         return $Self->TicketAclData();
     }
     # /workflow
@@ -2240,7 +2240,7 @@ sub StateList {
 # --
 
 =item OwnerCheck()
-    
+
 to get the ticket owner
 
   my ($OwnerID, $Owner) = $TicketObject->OwnerCheck(TicketID => 123);
@@ -2747,6 +2747,21 @@ sub HistoryTicketGet {
                 $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
             }
+            else {
+                # compat to otrs 1.1
+                # NewTicket
+                $Ticket{TicketVersion} = '1.1';
+                $Ticket{TicketID} = $Row[4];
+                $Ticket{CreateUserID} = $Row[3];
+                $Ticket{CreateTime} = $Row[2];
+            }
+        }
+        # compat to otrs 1.1
+        elsif ($Row[1] eq 'PhoneCallCustomer') {
+            $Ticket{TicketVersion} = '1.1';
+            $Ticket{TicketID} = $Row[4];
+            $Ticket{CreateUserID} = $Row[3];
+            $Ticket{CreateTime} = $Row[2];
         }
         elsif ($Row[1] eq 'Move') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /^Ticket moved to Queue '(.+?)'/) {
@@ -2768,7 +2783,7 @@ sub HistoryTicketGet {
         elsif ($Row[1] eq 'PriorityUpdate') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/) {
                 $Ticket{Priority} = $3;
-            } 
+            }
         }
         elsif ($Row[1] eq 'OwnerUpdate') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /^New Owner is '(.+?)'/) {
@@ -2778,18 +2793,35 @@ sub HistoryTicketGet {
 #        elsif ($Row[1] eq '') {
 #
 #        }
-
     }
     if (!%Ticket) {
         $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in Ticket Hisorry till '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!");
         return;
     }
     else {
+        # update old ticket info
+#        if ($Ticket{TicketVersion} eq '1.1') {
+            my %CurrentTicketData = $Self->TicketGet(TicketID => $Ticket{TicketID});
+            foreach (qw(State Priority Queue TicketNumber)) {
+                if (!$Ticket{$_}) {
+                    $Ticket{$_} = $CurrentTicketData{$_};
+                }
+                if (!$Ticket{"Create$_"}) {
+                    $Ticket{"Create$_"} = $CurrentTicketData{$_};
+                }
+            }
+            if (!$Self->{QueueObject}->QueueLookup(Queue => $Ticket{Queue})) {
+                $Ticket{Queue} = $CurrentTicketData{Queue};
+            }
+            if (!$Self->{StateObject}->StateGet(Name => $Ticket{State}, Cache => 1)) {
+                $Ticket{State} = $CurrentTicketData{State};
+            }
+#        }
         # check if we should cache this ticket data
         my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime(),
         );
-        # if the request is for the last month or older, cache it 
+        # if the request is for the last month or older, cache it
         if ($Year <= $Param{StopYear} && $Month > $Param{StopMonth}) {
             # create sub directory if needed
             if (! -e $Path && !File::Path::mkpath([$Path], 0, 0775)) {
@@ -3065,7 +3097,7 @@ sub TicketAccountTime {
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
       # add history
       my $AccountedTime = $Self->TicketAccountedTimeGet(TicketID => $Param{TicketID});
-      my $HistoryComment = "\%\%$Param{TimeUnit}"; 
+      my $HistoryComment = "\%\%$Param{TimeUnit}";
       if ($TimeUnit ne $Param{TimeUnit}) {
           $HistoryComment = "$TimeUnit time unit(s) accounted ($Param{TimeUnit} is invalid).";
       }
@@ -3077,7 +3109,7 @@ sub TicketAccountTime {
           ArticleID => $Param{ArticleID},
           CreateUserID => $Param{UserID},
           HistoryType => 'TimeAccounting',
-          Name => $HistoryComment, 
+          Name => $HistoryComment,
       );
       # clear ticket cache
       $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
@@ -3092,7 +3124,12 @@ sub TicketAcl {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ReturnSubType ReturnType Data UserID)) {
+    if (!$Param{UserID} && !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
+        return;
+    }
+    # check needed stuff
+    foreach (qw(ReturnSubType ReturnType Data)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -3211,14 +3248,14 @@ sub TicketAcl {
                 );
             }
         }
-        # build new action data hash 
+        # build new action data hash
         if (%Checks && $Match && $Match3 && $Param{ReturnType} eq 'Action' && $Step{Possible}->{$Param{ReturnType}}) {
             $Self->{TicketAclActionData} = {
                 %{$Self->{ConfigObject}->Get('TicketACL::Default::Action')},
                 %{$Step{Possible}->{$Param{ReturnType}}},
             };
         }
-        # build new ticket data hash 
+        # build new ticket data hash
         if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{ReturnSubType}}) {
             $UseNewParams = 1;
             # debug log
@@ -3319,6 +3356,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.127 $ $Date: 2004-07-07 12:39:14 $
+$Revision: 1.128 $ $Date: 2004-07-29 20:39:02 $
 
 =cut
