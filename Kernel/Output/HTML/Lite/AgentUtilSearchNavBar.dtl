@@ -2,7 +2,7 @@
 # AgentUtilSearchNavBar.dtl - provides HTML nav bar for AgentUtilities.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchNavBar.dtl,v 1.10 2004-04-05 13:21:25 martin Exp $
+# $Id: AgentUtilSearchNavBar.dtl,v 1.11 2004-06-04 09:53:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,8 +18,8 @@
 <tr>
   <td align="left" valign="top" class="table2">
   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">$Text{"Change search options"}</a> - 
-$Text{"Results"}: <b>$QData{"Results"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b> 
-- $Text{"Site"}: $Data{"SearchNavBar"}
+$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b> 
+- $Text{"Site"}: $Data{"SiteNavBar"}
   </td>
 </tr>
 </table>

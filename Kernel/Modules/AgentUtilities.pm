@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.54 2004-06-01 05:14:40 martin Exp $
+# $Id: AgentUtilities.pm,v 1.55 2004-06-04 09:53:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -361,18 +361,21 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
         # build search navigation bar
-        my $SearchNavBar = $Self->{LayoutObject}->PageNavBar(
-            Limit => $Self->{SearchLimit}, 
-            StartHit => $Self->{StartHit}, 
-            SearchPageShown => $Self->{SearchPageShown},
+        my %PageNav = $Self->{LayoutObject}->PageNavBar(
+            Limit => $Self->{SearchLimit},
+            StartHit => $Self->{StartHit},
+            PageShown => $Self->{SearchPageShown},
             AllHits => $Counter,
             Action => "Action=AgentUtilities&Subaction=Search",
-#          Link => $Param{SearchLink}.$Param{SearchLinkSortBy}.$Param{SearchLinkOrder}, 
             Link => "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
         );
         # build shown ticket
         if ($GetParam{ResultForm} eq 'Preview') {
-            $Output .= $SearchNavBar.$Param{StatusTable};
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentUtilSearchNavBar',
+                Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
+            );
+            $Output .= $Param{StatusTable};
         }
         elsif ($GetParam{ResultForm} eq 'Print') {
             $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Agent', Title => 'Result', Width => 800);
@@ -409,9 +412,9 @@ sub Run {
             );
         }
         else {
-            $Output .= $SearchNavBar.$Self->{LayoutObject}->Output(
+            $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentUtilSearchResultShort', 
-                Data => { %Param, Profile => $Self->{Profile}, },
+                Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
         }
         # build footer
