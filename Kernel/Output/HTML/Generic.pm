@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.174 2005-02-12 06:43:23 martin Exp $
+# $Id: Generic.pm,v 1.175 2005-02-12 07:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.174 $';
+$VERSION = '$Revision: 1.175 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1510,9 +1510,12 @@ sub OptionElement {
     if ($Hash2) {
         # get sort prio
         my %DataSort = ();
-        foreach my $Key (%{$Param{Data}}) {
-            foreach my $Type (%{$Param{Data}->{$Key}}) {
-                $DataSort{$Key} = $Type;
+        foreach my $Key (keys %{$Param{Data}}) {
+            if ($Param{Data}->{$Key}->{Position}) {
+                $DataSort{$Key} = $Param{Data}->{$Key}->{Position};
+            }
+            else {
+                $DataSort{$Key} = 0;
             }
         }
         # build option element
@@ -2204,6 +2207,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.174 $ $Date: 2005-02-12 06:43:23 $
+$Revision: 1.175 $ $Date: 2005-02-12 07:07:03 $
 
 =cut
