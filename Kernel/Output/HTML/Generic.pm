@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.52 2002-10-20 15:42:53 martin Exp $
+# $Id: Generic.pm,v 1.53 2002-10-20 20:02:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,7 @@
 
 package Kernel::Output::HTML::Generic;
 
+use FindBin qw($Script);
 use lib '../../../';
 
 use strict;
@@ -23,7 +24,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -68,10 +69,12 @@ sub new {
         $Self->{UserLanguage} = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
 
-    $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
+#    $Self->{CGIHandle} = $Param{CGIHandle} || $Self->{ConfigObject}->Get('CGIHandle'); 
+    $Self->{CGIHandle} = $Script; 
+    undef $Script;
     # --
     # Baselink 
     # --
