@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.115 2004-03-05 08:37:54 martin Exp $
+# $Id: Defaults.pm,v 1.116 2004-03-12 18:43:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.115 $';
+$VERSION = '$Revision: 1.116 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -439,6 +439,11 @@ sub LoadDefaults {
     $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageDB';
     # FS is faster but webserver user should be the otrs user)
 #    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
+
+    # TimeZone
+    # (set the system time zone, default is local time) 
+#    $Self->{TimeZone} = 0;
+#    $Self->{TimeZone} = +9;
  
     # UncountedUnlockTime
     # (don't count this hours as unlock time - weekdays: Mon,Tue,Wed,Thu,Fri,Sat,Sun;)
@@ -1469,8 +1474,11 @@ Your OTRS Notification Master
         CustomerUserListFields => ['first_name', 'last_name', 'email'],
 #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
         CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
+        CustomerUserSearchPrefix => '',
+        CustomerUserSearchSuffix => '*',
         CustomerUserPostMasterSearchFields => ['email'],
         CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
+#        AdminSetPreferences => 1,
 #        ReadOnly => 1,
         Map => [
             # note: Login, Email and CustomerID needed!
@@ -1525,8 +1533,11 @@ Your OTRS Notification Master
 #        CustomerID => 'mail',
 #        CustomerUserListFields => ['cn', 'mail'],
 #        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
+#        CustomerUserSearchPrefix => '',
+#        CustomerUserSearchSuffix => '*',
 #        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
+#        AdminSetPreferences => 0,
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
 #            # var, frontend, storage, shown, required, storage-type
@@ -1753,13 +1764,19 @@ Your OTRS Notification Master
     # (if the current owner is already the user, grant access)
     $Self->{'Ticket::Permission'}->{'1-OwnerCheck'} = {
         Module => 'Kernel::System::Ticket::Permission::OwnerCheck',
+        # if this check is needed
         Required => 0,
+        # if this check is true, don't do more checks
+        Granted => 0,
     };
     # Module Name: 2-GroupCheck
     # (if the user is in this group with type ro|rw|..., grant access)
     $Self->{'Ticket::Permission'}->{'2-GroupCheck'} = {
         Module => 'Kernel::System::Ticket::Permission::GroupCheck',
+        # if this check is needed
         Required => 0,
+        # if this check is true, don't do more checks
+        Granted => 0,
     };
 
     # --------------------------------------------------- #
@@ -1769,11 +1786,17 @@ Your OTRS Notification Master
     # (grant access, if customer id is the same and group is accessable)
     $Self->{'CustomerTicket::Permission'}->{'1-CustomerIDCheck'} = {
         Module => 'Kernel::System::Ticket::CustomerPermission::CustomerIDCheck',
+        # if this check is needed
         Required => 1,
+        # if this check is true, don't do more checks
+        Granted => 0,
     };
     $Self->{'CustomerTicket::Permission'}->{'2-GroupCheck'} = {
         Module => 'Kernel::System::Ticket::CustomerPermission::GroupCheck',
+        # if this check is needed
         Required => 1,
+        # if this check is true, don't do more checks
+        Granted => 0,
     };
 
     # --------------------------------------------------- #
