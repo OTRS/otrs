@@ -2,7 +2,7 @@
 # State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.3 2002-05-26 21:29:26 martin Exp $
+# $Id: State.pm,v 1.4 2002-05-26 22:38:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -128,6 +128,10 @@ sub SetState {
         return;
     }
 
+    if (!$State) {
+        $State = $Self->StateIDLookup(StateID => $StateID);
+    }
+
     my $SQL = "UPDATE ticket SET ticket_state_id = $StateID, " .
     " change_time = current_timestamp, " .
     " change_by = $UserID " .
@@ -136,11 +140,11 @@ sub SetState {
     $Self->{DBObject}->Do(SQL => $SQL);
 
     my $HistoryType = '';
-    if ($State eq 'closed+') {
-        $HistoryType = 'Close+';
+    if ($State eq 'closed succsessful') {
+        $HistoryType = 'Close succsessful';
     }
-    elsif ($State eq 'closed-') {
-        $HistoryType = 'Close-';
+    elsif ($State eq 'closed unsuccsessful') {
+        $HistoryType = 'Close unsuccsessful';
     }
     elsif ($State eq 'open') {
         $HistoryType = 'Open';
