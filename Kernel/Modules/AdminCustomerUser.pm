@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.29 2004-12-28 01:03:01 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.30 2005-01-06 09:48:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $ ';
+$VERSION = '$Revision: 1.30 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -502,11 +502,11 @@ sub AdminCustomerUserForm {
                 }
                 my @Params = $Object->Param(%Preference, UserData => \%Param);
                 if (@Params) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'Item',
-                        Data => { %Param },
-                    );
                     foreach my $ParamItem (@Params) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'Item',
+                            Data => { %Param },
+                        );
                         if (ref($ParamItem->{Data}) eq 'HASH') {
                             $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
                                 %{$ParamItem},

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.25 2004-12-28 01:03:01 martin Exp $
+# $Id: AgentPreferences.pm,v 1.26 2005-01-06 09:48:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -202,6 +202,12 @@ sub AgentPreferencesForm {
                                 %{$ParamItem},
                             );
                         }
+                        $Self->{LayoutObject}->Block(
+                            Name => 'Block',
+                            Data => {
+                                %{$ParamItem},
+                            },
+                        );
                         $Self->{LayoutObject}->Block(
                             Name => $ParamItem->{Block} || 'Option',
                             Data => {
