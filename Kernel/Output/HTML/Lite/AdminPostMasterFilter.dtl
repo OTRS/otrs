@@ -2,7 +2,7 @@
 # AdminPostMasterFilter.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.4 2004-07-16 13:09:05 martin Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.5 2004-09-30 22:31:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,19 +11,19 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" colspan="2" class="table0">
-    <b>$Env{"Box0"}$Text{"PostMaster Filter Management"}$Env{"Box1"}</b>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"PostMaster Filter Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr align="left" valign="top">
-  <td width="40%" class="table1">
+<tr>
+  <td width="40%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">$Text{"Change"}:</td>
+    <td class="contenthead">$Text{"Change"}:</td>
   </tr>
   <tr>
-    <td align="left">
+    <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -39,11 +39,11 @@
   </table>
 
   </td>
-  <td width="60%" class="table1">
+  <td width="60%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">
+    <td class="contenthead">
 # --
 # check subaction
 # --
@@ -58,7 +58,7 @@
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:</td>
   </tr>
   <tr>
-    <td>
+    <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -66,61 +66,62 @@
     <input type="hidden" name="OldName" value="$QData{"Name"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
-      <td>$Text{"Filtername"}:</td><td celspan="3"><input type="text" name="Name" value="$QData{"Name"}"></td>
+      <td class="contentkey">$Text{"Filtername"}:</td>
+      <td celspan="3" class="contentvalue"><input type="text" name="Name" value="$QData{"Name"}"></td>
     </tr>
     <tr>
-      <td class="table2" colspan="4">$Text{"Match"}:</td>
+      <td class="contentkey" colspan="4">$Text{"Match"}:</td>
     </tr>
     <tr>
-      <td>$Text{"Header"} 1: </td>
-      <td> $Data{"MatchHeader1"}</td>
-      <td>$Text{"Value"}: </td>
-      <td> <input type="text" name="MatchValue1" value="$QData{"MatchValue1"}" size="30" maxlength="50"></td>
+      <td class="contentkey">$Text{"Header"} 1: </td>
+      <td class="contentvalue"> $Data{"MatchHeader1"}</td>
+      <td class="contentkey">$Text{"Value"}: </td>
+      <td class="contentvalue"> <input type="text" name="MatchValue1" value="$QData{"MatchValue1"}" size="30" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Header"} 2: </td>
-      <td> $Data{"MatchHeader2"}</td>
-      <td>$Text{"Value"}: </td>
-      <td> <input type="text" name="MatchValue2" value="$QData{"MatchValue2"}" size="30" maxlength="50"></td>
+      <td class="contentkey">$Text{"Header"} 2: </td>
+      <td class="contentvalue"> $Data{"MatchHeader2"}</td>
+      <td class="contentkey">$Text{"Value"}: </td>
+      <td class="contentvalue"> <input type="text" name="MatchValue2" value="$QData{"MatchValue2"}" size="30" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Header"} 3: </td>
-      <td> $Data{"MatchHeader3"}</td>
-      <td>$Text{"Value"}: </td>
-      <td> <input type="text" name="MatchValue3" value="$QData{"MatchValue3"}" size="30" maxlength="50"></td>
+      <td class="contentkey">$Text{"Header"} 3: </td>
+      <td class="contentvalue"> $Data{"MatchHeader3"}</td>
+      <td class="contentkey">$Text{"Value"}: </td>
+      <td class="contentvalue"> <input type="text" name="MatchValue3" value="$QData{"MatchValue3"}" size="30" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Header"} 4: </td>
-      <td> $Data{"MatchHeader4"}</td>
-      <td>$Text{"Value"}: </td>
-      <td> <input type="text" name="MatchValue4" value="$QData{"MatchValue4"}" size="30" maxlength="50"></td>
+      <td class="contentkey">$Text{"Header"} 4: </td>
+      <td class="contentvalue"> $Data{"MatchHeader4"}</td>
+      <td class="contentkey">$Text{"Value"}: </td>
+      <td class="contentvalue"> <input type="text" name="MatchValue4" value="$QData{"MatchValue4"}" size="30" maxlength="50"></td>
     </tr>
     <tr>
-      <td class="table2" colspan="4">$Text{"Set"}:</td>
+      <td colspan="4" class="contentkey">$Text{"Set"}:</td>
     </tr>
     <tr>
-      <td>$Text{"Header"} 1: </td>
-      <td> $Data{"SetHeader1"}</td>
-      <td>$Text{"Value"}: </td>
-      <td> <input type="text" name="SetValue1" value="$QData{"SetValue1"}" size="30" maxlength="50"></td>
+      <td class="contentkey">$Text{"Header"} 1: </td>
+      <td class="contentvalue"> $Data{"SetHeader1"}</td>
+      <td class="contentkey">$Text{"Value"}: </td>
+      <td class="contentvalue"> <input type="text" name="SetValue1" value="$QData{"SetValue1"}" size="30" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Header"} 2: </td>
-      <td> $Data{"SetHeader2"}</td>
-      <td>$Text{"Value"}: </td>
-      <td> <input type="text" name="SetValue2" value="$QData{"SetValue2"}" size="30" maxlength="50"></td>
+      <td class="contentkey">$Text{"Header"} 2: </td>
+      <td class="contentvalue"> $Data{"SetHeader2"}</td>
+      <td class="contentkey">$Text{"Value"}: </td>
+      <td class="contentvalue"> <input type="text" name="SetValue2" value="$QData{"SetValue2"}" size="30" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Header"} 3: </td>
-      <td> $Data{"SetHeader3"}</td>
-      <td>$Text{"Value"}: </td>
-      <td> <input type="text" name="SetValue3" value="$QData{"SetValue3"}" size="30" maxlength="50"></td>
+      <td class="contentkey">$Text{"Header"} 3: </td>
+      <td class="contentvalue"> $Data{"SetHeader3"}</td>
+      <td class="contentkey">$Text{"Value"}: </td>
+      <td class="contentvalue"> <input type="text" name="SetValue3" value="$QData{"SetValue3"}" size="30" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Header"} 4: </td>
-      <td> $Data{"SetHeader4"}</td>
-      <td>$Text{"Value"}: </td>
-      <td> <input type="text" name="SetValue4" value="$QData{"SetValue4"}" size="30" maxlength="50"></td>
+      <td class="contentkey">$Text{"Header"} 4: </td>
+      <td class="contentvalue"> $Data{"SetHeader4"}</td>
+      <td class="contentkey">$Text{"Value"}: </td>
+      <td class="contentvalue"> <input type="text" name="SetValue4" value="$QData{"SetValue4"}" size="30" maxlength="50"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
@@ -136,13 +137,13 @@
 <!-- end form -->
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr valign="top">
-  <td class="table3">
+<tr>
+  <td class="mainhead">
     $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
   </td>
 </tr>
-<tr valign="top">
-  <td class="table1">
+<tr>
+  <td class="mainbody">
   <p>
   $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
   <br>
