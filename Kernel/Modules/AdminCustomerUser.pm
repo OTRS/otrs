@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.10 2004-03-01 14:01:58 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.11 2004-03-01 16:37:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $ ';
+$VERSION = '$Revision: 1.11 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,7 +72,7 @@ sub Run {
         $NavBar .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     }
     # search user list
-    if (defined($Search)) {
+    if ($Search) {
         my $Filter = "*$Search*";
         $Filter =~ s/\*\*/\*/g;
         $Filter =~ s/\*\*/\*/g;
