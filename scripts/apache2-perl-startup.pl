@@ -67,6 +67,9 @@ use Kernel::System::CustomerAuth;
 #use Kernel::System::CustomerAuth::LDAP;
 use Kernel::System::CheckItem;
 use Kernel::System::AutoResponse;
+use Kernel::System::Notification;
+use Kernel::System::FAQ;
+use Kernel::System::Email;
 
 use Kernel::Output::HTML::Generic;
 
@@ -93,6 +96,7 @@ use Kernel::Modules::AgentMailbox;
 use Kernel::Modules::AgentOwner;
 use Kernel::Modules::AgentHistory;
 use Kernel::Modules::AgentPhone;
+use Kernel::Modules::AgentEmail;
 use Kernel::Modules::AgentBounce;
 use Kernel::Modules::AgentCustomer;
 use Kernel::Modules::AgentSpelling;
@@ -121,12 +125,19 @@ use Kernel::Modules::AdminNotification;
 use Kernel::Modules::AdminEmail;
 use Kernel::Modules::AdminCustomerUser;
 
+# faq middle ware modules
+use Kernel::Modules::FAQ;
+use Kernel::Modules::FAQArticle;
+use Kernel::Modules::FAQCategory;
+use Kernel::Modules::FAQLanguage;
+
 # web customer middle ware modules
 use Kernel::Modules::CustomerAttachment;
 use Kernel::Modules::CustomerMessage;
 use Kernel::Modules::CustomerPreferences;
 use Kernel::Modules::CustomerTicketOverView;
 use Kernel::Modules::CustomerZoom;
+use Kernel::Modules::CustomerFAQ;
 
 # web stats module
 use Kernel::Modules::SystemStats;
