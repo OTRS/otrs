@@ -163,7 +163,7 @@ Can I use OTRS only with SuSE Linux?
 No, but we developed it on a SuSE Linux and frankly we did not do much testing on a Redhat, Debian, ... 
 </para>
 <para>
-But we will provide additional installation informations on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. And we are more that happy to recieve some feedback from you about how you installed OTRS on other platforms.
+But we will provide additional installation information on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. And we are more that happy to recieve some feedback from you about how you installed OTRS on other platforms.
 </para>
 </answer>
 </qandaentry>

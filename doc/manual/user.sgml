@@ -69,6 +69,32 @@ your tree manager) so you can't create or update user via the Admin-Interface.
     $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
     [...]
 </programlisting>
+LDAP entries shall conform to the PosixAccount and inetOrgPerson schema. An example entry might look like:
+<programlisting>
+    dn: uid=lester,ou=user,dc=example,dc=com
+    objectClass: top
+    objectClass: account
+    objectClass: posixAccount
+    objectClass: organizationalPerson
+    objectClass: inetOrgPerson
+    objectClass: officePerson
+    uid: lester
+    cn: Lester Adamas
+    userPassword: {crypt}X5/DBrWPOQQaI
+    gecos: Lester
+    loginShell: /bin/csh
+    uidNumber: 10
+    gidNumber: 10
+    homeDirectory: /home/lester
+    sn: Adams
+    givenName: Lester
+    mail: lester@example.com
+    preferredLanguage: fr
+    comment: technical support
+</programlisting>
+
+Please note, that in version 1.x you have to create a db entry for the ldap user. This is done
+automatically in versions < 1.1
 </para>
 </sect2>
 </sect1>
