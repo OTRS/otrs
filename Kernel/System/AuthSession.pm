@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.7 2002-01-23 23:02:59 martin Exp $
+# $Id: AuthSession.pm,v 1.8 2002-02-05 20:24:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -69,7 +69,8 @@ sub CheckSessionID {
     # --
     # ip check
     # --
-    if ($Data{UserRemoteAddr} ne $RemoteAddr) {
+    if ( $Data{UserRemoteAddr} ne $RemoteAddr && 
+          $Self->{ConfigObject}->Get('CheckRemoteIP') ) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
           MSG => "RemoteIP of '$SessionID' ($Data{UserRemoteAddr}) is different with the ".
