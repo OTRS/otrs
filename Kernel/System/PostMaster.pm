@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.40 2004-02-05 18:05:30 martin Exp $
+# $Id: PostMaster.pm,v 1.40.2.1 2004-03-27 14:22:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.40.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -140,7 +140,7 @@ sub Run {
     if ($GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /yes/i) {
        $Self->{LogObject}->Log(
            Priority => 'notice', 
-           Message => "Droped Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
+           Message => "Dropped Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
            "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
        );
        return 1;
