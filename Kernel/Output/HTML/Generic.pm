@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.152 2004-09-17 21:01:56 martin Exp $
+# $Id: Generic.pm,v 1.153 2004-09-20 11:11:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.152 $';
+$VERSION = '$Revision: 1.153 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1542,8 +1542,10 @@ sub PageNavBar {
 sub NavigationBar {
     my $Self = shift;
     my %Param = @_;
-    my $Type = $Param{Type} || 'Ticket';
     my $Output = '';
+    if (!$Param{Type}) {
+        $Param{Type} = $Self->{ModuleReg}->{NavBarType} || 'Ticket';
+    }
     # run notification modules
     if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
@@ -1590,9 +1592,9 @@ sub NavigationBar {
         if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
             my @Items = @{$Hash{NavBar}};
             foreach my $Item (@Items) {
-                if (($Item->{NavBar} && $Item->{NavBar} eq $Type) || (!$Item->{NavBar} && $Item->{NavBarNotShown} && $Type !~ /^$Item->{NavBarNotShown}/) || (!$Item->{NavBar} && !$Item->{NavBarNotShown})) {
+                if (($Item->{NavBar} && $Item->{NavBar} eq $Param{Type}) || (!$Item->{NavBar} && $Item->{NavBarNotShown} && $Param{Type} !~ /^$Item->{NavBarNotShown}/) || (!$Item->{NavBar} && !$Item->{NavBarNotShown})) {
                     # highligt avtive area link
-                    if ($Item->{NavBarHighlightOn} && $Item->{NavBarHighlightOn} eq $Type) {
+                    if ($Item->{NavBarHighlightOn} && $Item->{NavBarHighlightOn} eq $Param{Type}) {
                         $Item->{ItemAreaCSSSuffix} = 'active';
                     }
                     # get permissions from module if no permissions are defined for the icon
