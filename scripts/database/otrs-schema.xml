@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.36 2004-10-13 12:45:53 martin Exp $
+  $Id: otrs-schema.xml,v 1.37 2004-10-31 18:36:28 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.36  2004/10/13 12:45:53  martin
+  added faq_item.number and added faq_attachment table
+
   Revision 1.35  2004/10/01 08:53:31  martin
   improved ticket escalation, added new ticket table col.
 
@@ -214,7 +217,11 @@
   <column name="change_by" required="true" type="INTEGER"/>
   <unique>
     <unique-column name="name"/>
-  </unique> 
+  </unique>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- ticket_priority - all ticket priorites -->
@@ -228,13 +235,17 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- ticket_lock_type - all ticket lock types -->
 <table name="ticket_lock_type">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
   <column name="name" required="true" size="50" type="VARCHAR"/>
-  <column name="valid_id" required="true" type="SMALLINT"/> 
+  <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
@@ -242,6 +253,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- user - all user -->
@@ -252,7 +270,7 @@
   <column name="salutation" required="false" size="50" type="VARCHAR"/>
   <column name="first_name" required="true" size="100" type="VARCHAR"/>
   <column name="last_name" required="true" size="100" type="VARCHAR"/>
-  <column name="valid_id" required="true" type="SMALLINT"/> 
+  <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
@@ -260,6 +278,13 @@
   <unique>
     <unique-column name="login"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- user preferences -->
@@ -270,6 +295,9 @@
   <index name="index_user_preferences_user_id">
     <index-column name="user_id"/>
   </index>
+  <foreign-key foreignTable="system_user">
+    <reference local="user_id" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- group - all groups -->
@@ -285,6 +313,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- group_user - relation group<->user -->
@@ -297,6 +332,14 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+    <reference local="user_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="groups">
+    <reference local="group_id" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- group_role - relation group<->role -->
@@ -309,6 +352,16 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="groups">
+    <reference local="group_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="roles">
+    <reference local="role_id" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- group_customer_user - relation group<->customer user -->
@@ -321,6 +374,13 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="groups">
+    <reference local="group_id" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- role - all roles -->
@@ -336,6 +396,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- role_user - relation role<->user -->
@@ -346,12 +413,23 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+    <reference local="user_id" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- personal_queues - there should stored all personal_queues -->
 <table name="personal_queues">
   <column name="user_id" required="true" type="INTEGER"/>
   <column name="queue_id" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="system_user">
+    <reference local="user_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="queue">
+    <reference local="queue_id" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- theme - all frontend themes -->
@@ -366,22 +444,13 @@
   <unique>
     <unique-column name="theme"/>
   </unique>
-</table>
-
-<!-- charset - all system charsets -->
-<table name="charset">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="30" type="VARCHAR"/>
-  <column name="charset" required="true" size="30" type="VARCHAR"/>
-  <column name="comments" required="false" size="80" type="VARCHAR"/>
-  <column name="valid_id" required="true" type="SMALLINT"/>
-  <column name="create_time" required="true" type="DATE"/>
-  <column name="create_by" required="true" type="INTEGER"/>
-  <column name="change_time" required="true" type="DATE"/>
-  <column name="change_by" required="true" type="INTEGER"/>
-  <unique>                                  
-    <unique-column name="name"/>
-  </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- ticket_state - all ticket states -->
@@ -398,6 +467,16 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket_state_type">
+    <reference local="type_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- ticket_state_type - all ticket states types -->
@@ -412,13 +491,17 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- salutation - all salutation for the queues -->
 <table name="salutation">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
   <column name="name" required="true" size="100" type="VARCHAR"/>
-  <column name="text" required="true" type="LONGVARCHAR"/>
+  <column name="text" required="true" size="3000" type="VARCHAR"/>
   <column name="comments" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
@@ -428,13 +511,20 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- signature - all signature for the queues -->
 <table name="signature">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
   <column name="name" required="true" size="100" type="VARCHAR"/>
-  <column name="text" required="true" type="LONGVARCHAR"/>
+  <column name="text" required="true" size="3000" type="VARCHAR"/>
   <column name="comments" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
@@ -444,6 +534,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 
@@ -462,6 +559,13 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- follow_up_possible? -->
@@ -477,6 +581,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- queue - all system queues -->
@@ -505,6 +616,28 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_address">
+    <reference local="system_address_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="salutation">
+    <reference local="salutation_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="signature">
+    <reference local="signature_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="groups">
+    <reference local="group_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="follow_up_possible">
+    <reference local="follow_up_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- ticket - all tickets :) (the main point) -->
@@ -564,13 +697,35 @@
   <index name="index_ticket_answered">
     <index-column name="ticket_answered"/>
   </index>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="queue">
+    <reference local="queue_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket_priority">
+    <reference local="ticket_priority_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket_state">
+    <reference local="ticket_state_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket_lock_type">
+    <reference local="ticket_lock_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+    <reference local="user_id" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- object_link - all linked objects -->
 <table name="object_link">
-  <column name="object_id_master" required="true" type="BIGINT"/>
-  <column name="object_id_slave" required="true" type="BIGINT"/>
-  <column name="object_type" required="true" size="200" type="VARCHAR"/>
+  <column name="object_link_a_id" required="true" type="BIGINT"/>
+  <column name="object_link_b_id" required="true" type="BIGINT"/>
+  <column name="object_link_a_object" required="true" size="200" type="VARCHAR"/>
+  <column name="object_link_b_object" required="true" size="200" type="VARCHAR"/>
+  <column name="object_link_type" required="true" size="200" type="VARCHAR"/>
 </table>
 
 <!-- ticket_history - the whole history of all tickets -->
@@ -595,6 +750,32 @@
   <index name="ticket_history_create_time">
     <index-column name="create_time"/>
   </index>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket">
+    <reference local="ticket_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="article">
+    <reference local="article_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="queue">
+    <reference local="queue_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket_priority">
+    <reference local="priority_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket_state">
+    <reference local="state_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket_history_type">
+    <reference local="history_type_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="owner_id" foreign="id"/>
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- ticket_history_type - all history types -->
@@ -610,6 +791,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- article_type - all types of articles (e. g. email, fax, phonecall, ...) -->
@@ -625,6 +813,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- article_sender_type - all possibles senders (e. g. agent, system, customer, ...) -->
@@ -640,6 +835,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- article - all articles -->
@@ -648,14 +850,14 @@
   <column name="ticket_id" required="true" type="BIGINT"/>
   <column name="article_type_id" required="true" type="SMALLINT"/>
   <column name="article_sender_type_id" required="true" type="SMALLINT"/>
-  <column name="a_from" required="false" type="LONGVARCHAR"/>
+  <column name="a_from" required="false" size="2000" type="VARCHAR"/>
   <column name="a_reply_to" required="false" size="255" type="VARCHAR"/>
-  <column name="a_to" required="false" type="LONGVARCHAR"/>
-  <column name="a_cc" required="false" type="LONGVARCHAR"/>
-  <column name="a_subject" required="false" type="LONGVARCHAR"/>
-  <column name="a_message_id" required="false" type="LONGVARCHAR"/>
+  <column name="a_to" required="false" size="2000" type="VARCHAR"/>
+  <column name="a_cc" required="false" size="2000" type="VARCHAR"/>
+  <column name="a_subject" required="false" size="2000" type="VARCHAR"/>
+  <column name="a_message_id" required="false" size="2000" type="VARCHAR"/>
   <column name="a_content_type" required="false" size="250" type="VARCHAR"/>
-  <column name="a_body" required="true" type="LONGVARCHAR"/>
+  <column name="a_body" required="true" size="5000000" type="VARCHAR"/>
   <column name="incoming_time" required="true" type="INTEGER"/>
   <column name="content_path" required="false" size="250" type="VARCHAR"/>
   <column name="a_freekey1" required="false" size="250" type="VARCHAR"/>
@@ -673,22 +875,45 @@
     <index-column name="ticket_id"/>
   </index>
   <index name="article_message_id">
-    <index-column name="a_message_id"/>
+    <index-column name="a_message_id" size="255"/>
   </index>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="ticket">
+    <reference local="ticket_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="article_type">
+    <reference local="article_type_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="article_sender_type">
+    <reference local="article_sender_type_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- article_plain - all articles -->
 <table name="article_plain">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
   <column name="article_id" required="true" type="BIGINT"/>
-  <column name="body" required="true" type="LONGVARCHAR"/>
+  <column name="body" required="true" type="LONGBLOB"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
-  <index name="article_id">
+  <index name="article_plain_article_id">
     <index-column name="article_id"/>
   </index>
+  <foreign-key foreignTable="article">
+    <reference local="article_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- article_plain - attachments -->
@@ -698,22 +923,29 @@
   <column name="filename" required="false" size="250" type="VARCHAR"/>
   <column name="content_size" required="false" size="30" type="VARCHAR"/>
   <column name="content_type" required="false" size="250" type="VARCHAR"/>
-  <column name="content" required="true" type="LONGVARCHAR"/>
+  <column name="content" required="true" type="LONGBLOB"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
-  <index name="article_id">
+  <index name="article_attachment_article_id">
     <index-column name="article_id"/>
   </index>
+  <foreign-key foreignTable="article">
+    <reference local="article_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- standard_response - -->
 <table name="standard_response">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
   <column name="name" required="true" size="80" type="VARCHAR"/>
-  <column name="text" required="true" type="LONGVARCHAR"/>
-  <column name="comments" required="false" size="80" type="VARCHAR"/>
+  <column name="text" required="true" size="10000" type="VARCHAR"/>
+  <column name="comments" required="false" size="100" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -722,6 +954,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- queue_standard_response - -->
@@ -732,6 +971,16 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="standard_response">
+    <reference local="standard_response_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="queue">
+    <reference local="queue_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- standard_attachment -->
@@ -739,7 +988,7 @@
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
   <column name="name" required="true" size="150" type="VARCHAR"/>
   <column name="content_type" required="true" size="150" type="VARCHAR"/>
-  <column name="content" required="true" type="LONGVARCHAR"/>
+  <column name="content" required="true" type="LONGBLOB"/>
   <column name="filename" required="true" size="250" type="VARCHAR"/>
   <column name="comments" required="false" size="200" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
@@ -750,6 +999,13 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- standard_response_attachment -->
@@ -761,6 +1017,16 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="standard_response">
+    <reference local="standard_response_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="standard_attachment">
+    <reference local="standard_attachment_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- auto_response_type - -->
@@ -776,15 +1042,22 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- auto_response - -->
 <table name="auto_response">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="80" type="VARCHAR"/>
-  <column name="text0" required="false" type="LONGVARCHAR"/>
-  <column name="text1" required="false" type="LONGVARCHAR"/>
-  <column name="text2" required="false" type="LONGVARCHAR"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
+  <column name="text0" required="false" size="6000" type="VARCHAR"/>
+  <column name="text1" required="false" size="6000" type="VARCHAR"/>
+  <column name="text2" required="false" size="6000" type="VARCHAR"/>
   <column name="type_id" required="true" type="SMALLINT"/>
   <column name="system_address_id" required="true" type="SMALLINT"/>
   <column name="charset" required="true" size="80" type="VARCHAR"/>
@@ -797,6 +1070,19 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="auto_response_type">
+    <reference local="type_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_address">
+    <reference local="system_address_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- queue_auto_response - -->
@@ -808,6 +1094,16 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="queue">
+    <reference local="queue_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="auto_response">
+    <reference local="auto_response_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- time_accounting - the whole time accounting of all tickets -->
@@ -820,15 +1116,25 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
-  <index name="index_ticket_id">
+  <index name="index_time_accounting_ticket_id">
     <index-column name="ticket_id"/>
   </index>
+  <foreign-key foreignTable="ticket">
+    <reference local="ticket_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="article">
+    <reference local="article_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
-<!-- session -->
-<table name="session">
-  <column name="session_id" required="true" size="120" type="VARCHAR"/>
-  <column name="value" required="true" type="LONGVARCHAR"/>
+<!-- sessions -->
+<table name="sessions">
+  <column name="session_id" required="true" size="150" type="VARCHAR"/>
+  <column name="value" required="true" size="10000" type="VARCHAR"/>
   <unique>
     <unique-column name="session_id"/>
   </unique>
@@ -846,7 +1152,7 @@
   <column name="s_lock" required="true" size="70" type="VARCHAR"/>
   <column name="s_state" required="true" size="70" type="VARCHAR"/>
   <column name="create_time_unix" required="true" type="BIGINT"/>
-  <index name="index_ticket_id">
+  <index name="index_ticket_index_ticket_id">
     <index-column name="ticket_id"/>
   </index>
 </table>
@@ -854,7 +1160,7 @@
 <!-- ticket_lock_index -->
 <table name="ticket_lock_index">
   <column name="ticket_id" required="true" type="BIGINT"/>
-  <index name="index_ticket_id">
+  <index name="index_ticket_lock_ticket_id">
     <index-column name="ticket_id"/>
   </index>
 </table>
@@ -870,7 +1176,7 @@
   <column name="first_name" required="true" size="100" type="VARCHAR"/>
   <column name="last_name" required="true" size="100" type="VARCHAR"/>
   <column name="comments" required="true" size="250" type="VARCHAR"/>
-  <column name="valid_id" required="true" type="SMALLINT"/> 
+  <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
@@ -878,6 +1184,13 @@
   <unique>
     <unique-column name="login"/>
   </unique>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- customer preferences -->
@@ -916,6 +1229,16 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="queue">
+    <reference local="queue_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="valid">
+    <reference local="valid_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- postmaster_filter -->
@@ -957,11 +1280,15 @@
   <column name="notification_charset" required="true" size="60" type="VARCHAR"/>
   <column name="notification_language" required="true" size="60" type="VARCHAR"/>
   <column name="subject" required="true" size="200" type="VARCHAR"/>
-  <column name="text" required="true" type="LONGVARCHAR"/>
+  <column name="text" required="true" size="4000" type="VARCHAR"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- faq_item -->
@@ -973,13 +1300,13 @@
   <column name="f_language_id" required="true" type="SMALLINT"/>
   <column name="state_id" required="true" type="SMALLINT"/>
   <column name="category_id" required="true" type="SMALLINT"/>
-  <column name="f_keywords" required="false" type="LONGVARCHAR"/>
-  <column name="f_field1" required="false" type="LONGVARCHAR"/>
-  <column name="f_field2" required="false" type="LONGVARCHAR"/>
-  <column name="f_field3" required="false" type="LONGVARCHAR"/>
-  <column name="f_field4" required="false" type="LONGVARCHAR"/>
-  <column name="f_field5" required="false" type="LONGVARCHAR"/>
-  <column name="f_field6" required="false" type="LONGVARCHAR"/>
+  <column name="f_keywords" required="false" size="20000" type="VARCHAR"/>
+  <column name="f_field1" required="false" size="20000" type="VARCHAR"/>
+  <column name="f_field2" required="false" size="20000" type="VARCHAR"/>
+  <column name="f_field3" required="false" size="20000" type="VARCHAR"/>
+  <column name="f_field4" required="false" size="20000" type="VARCHAR"/>
+  <column name="f_field5" required="false" size="20000" type="VARCHAR"/>
+  <column name="f_field6" required="false" size="20000" type="VARCHAR"/>
   <column name="free_key1" required="false" size="80" type="VARCHAR"/>
   <column name="free_value1" required="false" size="200" type="VARCHAR"/>
   <column name="free_key2" required="false" size="80" type="VARCHAR"/>
@@ -995,6 +1322,19 @@
   <unique>
     <unique-column name="f_name"/>
   </unique>
+  <foreign-key foreignTable="faq_category">
+    <reference local="category_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="faq_state">
+    <reference local="state_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="faq_language">
+    <reference local="f_language_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- faq_language -->
@@ -1015,6 +1355,13 @@
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
   <column name="change_by" required="true" type="INTEGER"/>
+  <foreign-key foreignTable="faq_item">
+    <reference local="item_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- faq_category -->
@@ -1029,6 +1376,10 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- faq_state -->
@@ -1039,6 +1390,9 @@
   <unique>
     <unique-column name="name"/>
   </unique>
+  <foreign-key foreignTable="faq_state_type">
+    <reference local="type_id" foreign="id"/>
+  </foreign-key>
 </table>
 
 <!-- faq_state_type -->
@@ -1057,7 +1411,7 @@
   <column name="filename" required="false" size="250" type="VARCHAR"/>
   <column name="content_size" required="false" size="30" type="VARCHAR"/>
   <column name="content_type" required="false" size="250" type="VARCHAR"/>
-  <column name="content" required="true" type="LONGVARCHAR"/>
+  <column name="content" required="true" type="LONGBLOB"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
@@ -1065,8 +1419,14 @@
   <index name="faq_id">
     <index-column name="faq_id"/>
   </index>
+  <foreign-key foreignTable="faq_item">
+    <reference local="faq_id" foreign="id"/>
+  </foreign-key>
+  <foreign-key foreignTable="system_user">
+    <reference local="create_by" foreign="id"/>
+    <reference local="change_by" foreign="id"/>
+  </foreign-key>
 </table>
 
 </database>
 </app-data>
-
