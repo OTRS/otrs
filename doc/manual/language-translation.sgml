@@ -24,7 +24,8 @@ Change the package name (z. g. "package Kernel::Language::German;" to "package K
 
 <listitem>
 <para>
-Add the new translation file to Kernel/Language.pm (e. g. use Kernel::Language::French;) around line 20.
+If you use &lt;= 0.5 Beta8, add the new translation file to Kernel/Language.pm 
+(e. g. use Kernel::Language::French;) around line 20. Not needed for &gt;= 0.5 Beta9.
 </para>
 </listitem>
 
@@ -58,7 +59,7 @@ Now you can select the new language in your preferences screen.
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
 # --
-# $Id: language-translation.sgml,v 1.3 2002-10-25 13:51:47 martin Exp $
+# $Id: language-translation.sgml,v 1.4 2002-11-17 20:26:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -69,7 +70,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -100,7 +101,7 @@ To:
 # French.pm - provides french language translations
 # Copyright (C) 2002 Martin Scherbaum (maddin at exsuse.de)
 # --
-# $Id: language-translation.sgml,v 1.3 2002-10-25 13:51:47 martin Exp $
+# $Id: language-translation.sgml,v 1.4 2002-11-17 20:26:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -111,7 +112,7 @@ package Kernel::Language::French;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
