@@ -69,7 +69,10 @@ ein und propagiert Linux als das Betriebssystem für Server und Thin Clients.
 </informaltable>
 
 <para>
-We are very happy that Sebastian Wormser (Sibbi) finally joined our team. We have worked on a commercial trouble ticket system in the past (the stts at <ulink url="http://www.suse.de/">SuSE</ulink>). So it is sort of a reunion but for an open source and total new (probably better) version. 
+We are very happy that Sebastian Wormser (Sibbi) finally joined our team. We have worked on a commercial trouble ticket system in the past (the stts at <ulink url="http://www.suse.de/">SuSE</ulink>
+- <ulink url="http://www.ibm.com/software/success/cssdb.nsf/CS/NAVO-56G3KU?OpenDocument&Site=software">IBM Case Study on SuSE</ulink> / 
+<ulink url="http://www.linux-magazin.de/ausgabe/2001/04/stts/stts.html">German Linux magazin</ulink>). 
+So it is sort of a reunion but for an open source and total new (probably better) version. 
 </para>
 </sect1>
 </appendix>
