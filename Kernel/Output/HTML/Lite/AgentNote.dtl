@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.26 2004-07-22 05:41:39 martin Exp $
+# $Id: AgentNote.dtl,v 1.27 2004-08-19 15:40:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -68,7 +68,6 @@ function SpellCheckSubmit()
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
 <input type="hidden" name="Action" value="AgentNote">
 <input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="FormID" value="$Data{"FormID"}">
   <table border="0" width="100%">
