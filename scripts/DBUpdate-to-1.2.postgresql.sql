@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.13 2004-02-12 08:18:02 martin Exp $
+-- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.14 2004-08-01 10:47:45 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
@@ -173,31 +173,31 @@ CREATE TABLE faq_state
 );
 
 CREATE TABLE faq_state_type
-(   
+(
     id serial,
     name VARCHAR (200) NOT NULL,
-    PRIMARY KEY(id), 
+    PRIMARY KEY(id),
     UNIQUE (name)
-);  
+);
 
-INSERT INTO faq_item 
+INSERT INTO faq_item
   (f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
   VALUES
-  ('welcome', 1, 'Welcome!', 1, 1, 'sympthom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
+  ('welcome', 1, 'Welcome!', 1, 1, 'symptom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
 
-INSERT INTO faq_history 
-  (name, item_id, create_time, create_by, change_time, change_by) 
+INSERT INTO faq_history
+  (name, item_id, create_time, create_by, change_time, change_by)
   VALUES
   ('Created', 1, current_timestamp, 1, current_timestamp, 1);
 
-INSERT INTO faq_language (name) VALUES ('en'); 
-INSERT INTO faq_language (name) VALUES ('de'); 
-INSERT INTO faq_language (name) VALUES ('es'); 
-INSERT INTO faq_language (name) VALUES ('fr'); 
+INSERT INTO faq_language (name) VALUES ('en');
+INSERT INTO faq_language (name) VALUES ('de');
+INSERT INTO faq_language (name) VALUES ('es');
+INSERT INTO faq_language (name) VALUES ('fr');
 
-INSERT INTO faq_category 
+INSERT INTO faq_category
   (name, comments, create_time, create_by, change_time, change_by)
-  VALUES 
+  VALUES
   ('all', 'default category', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO faq_state (name, type_id) VALUES ('internal (agent)', 1);
@@ -208,18 +208,18 @@ INSERT INTO faq_state_type (name) VALUES ('internal');
 INSERT INTO faq_state_type (name) VALUES ('external');
 INSERT INTO faq_state_type (name) VALUES ('public');
 
--- 
+--
 -- auto_response update
 --
 ALTER TABLE auto_response ADD charset VARCHAR (80);
 UPDATE auto_response SET charset = 'ISO-8859-1';
 ALTER TABLE auto_response ALTER COLUMN charset SET NOT NULL;
 
--- 
+--
 -- agent notifications
 --
 CREATE TABLE notifications
-(   
+(
     id serial,
     notification_type varchar (200) NOT NULL,
     notification_charset varchar (60) NOT NULL,

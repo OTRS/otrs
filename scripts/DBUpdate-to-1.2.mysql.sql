@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.mysql.sql,v 1.14 2004-02-12 08:18:02 martin Exp $
+-- $Id: DBUpdate-to-1.2.mysql.sql,v 1.15 2004-08-01 10:47:45 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.mysql.sql | mysql -f -u root otrs
@@ -159,7 +159,7 @@ CREATE TABLE faq_category
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
-);  
+);
 
 CREATE TABLE faq_state
 (
@@ -181,7 +181,7 @@ CREATE TABLE faq_state_type
 INSERT INTO faq_item
   (f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
   VALUES
-  ('welcome', 1, 'Welcome!', 1, 1, 'sympthom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
+  ('welcome', 1, 'Welcome!', 1, 1, 'symptom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO faq_history
   (name, item_id, create_time, create_by, change_time, change_by)
@@ -206,13 +206,13 @@ INSERT INTO faq_state_type (name) VALUES ('internal');
 INSERT INTO faq_state_type (name) VALUES ('external');
 INSERT INTO faq_state_type (name) VALUES ('public');
 
--- 
+--
 -- auto_response update
 --
 ALTER TABLE auto_response ADD charset VARCHAR (80) NOT NULL;
 UPDATE auto_response SET charset = 'ISO-8859-1' WHERE charset = '';
 
--- 
+--
 -- agent notifications
 --
 CREATE TABLE notifications

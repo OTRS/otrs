@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.26 2004-06-29 11:09:02 martin Exp $
--- 
+-- $Id: initial_insert.sql,v 1.27 2004-08-01 10:49:24 martin Exp $
+--
 -- $Log: not supported by cvs2svn $
+-- Revision 1.26  2004/06/29 11:09:02  martin
+-- fixed not existing queue_auto_response references
+--
 -- Revision 1.25  2004/05/04 15:12:10  martin
 -- added ticket link history log
 --
@@ -198,7 +201,7 @@ INSERT INTO valid
     (name, create_by, create_time, change_by, change_time)
     VALUES
     ('invalid-temporarily', 1, current_timestamp, 1, current_timestamp);
- 
+
 -- ticket_priority
 INSERT INTO ticket_priority
         (name, create_by, create_time, change_by, change_time)
@@ -235,7 +238,7 @@ INSERT INTO ticket_lock_type
         VALUES
         ('tmp_lock', 1, 1, current_timestamp, 1, current_timestamp);
 
--- user 
+-- user
 INSERT INTO system_user
     (first_name, last_name, login, pw, valid_id, create_by, create_time, change_by, change_time)
     VALUES
@@ -703,44 +706,44 @@ INSERT INTO auto_response
 
 -- --
 -- welcome ticket
--- 2002-02-03 added by martin+code at otrs.org 
+-- 2002-02-03 added by martin+code at otrs.org
 -- --
-INSERT INTO article 
+INSERT INTO article
   (ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_message_id, a_body, incoming_time, content_path, valid_id, create_time, create_by, change_time, change_by)
-  VALUES 
-  (1,1,3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 
+  VALUES
+  (1,1,3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>',
   'Welcome to OTRS!', '<007@localhost>',
   'Welcome to OTRS!thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsotake advantage of our mailing lists http://lists.otrs.org/.Your OTRS Team    Manage your communication!',
   1012757943, '2002/02/3', 1, current_timestamp,1,current_timestamp,1);
 
-INSERT INTO ticket 
+INSERT INTO ticket
   (tn, queue_id, ticket_lock_id, ticket_answered, user_id, group_id, ticket_priority_id, ticket_state_id, valid_id, create_time_unix, create_time, create_by, change_time, change_by)
-  VALUES 
+  VALUES
   ('1010001', 2, 1, 0, 1, 1, 3, 1, 1, 1012757943, current_timestamp, 1, current_timestamp, 1);
 
-INSERT INTO ticket_history 
-  (name, history_type_id, ticket_id, article_id, valid_id, create_time, create_by, change_time, change_by) 
-  VALUES 
+INSERT INTO ticket_history
+  (name, history_type_id, ticket_id, article_id, valid_id, create_time, create_by, change_time, change_by)
+  VALUES
   ('New Ticket [1010001] created.',1,1,1,1, current_timestamp,1,current_timestamp,1);
 
-INSERT INTO faq_item 
+INSERT INTO faq_item
   (f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
   VALUES
-  ('welcome', 1, 'Welcome!', 1, 1, 'sympthom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
+  ('welcome', 1, 'Welcome!', 1, 1, 'symptom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
 
-INSERT INTO faq_history 
-  (name, item_id, create_time, create_by, change_time, change_by) 
+INSERT INTO faq_history
+  (name, item_id, create_time, create_by, change_time, change_by)
   VALUES
   ('Created', 1, current_timestamp, 1, current_timestamp, 1);
 
-INSERT INTO faq_language (name) VALUES ('en'); 
-INSERT INTO faq_language (name) VALUES ('de'); 
-INSERT INTO faq_language (name) VALUES ('es'); 
-INSERT INTO faq_language (name) VALUES ('fr'); 
+INSERT INTO faq_language (name) VALUES ('en');
+INSERT INTO faq_language (name) VALUES ('de');
+INSERT INTO faq_language (name) VALUES ('es');
+INSERT INTO faq_language (name) VALUES ('fr');
 
-INSERT INTO faq_category 
+INSERT INTO faq_category
   (name, comments, create_time, create_by, change_time, change_by)
-  VALUES 
+  VALUES
   ('all', 'default category', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO faq_state (name, type_id) VALUES ('internal (agent)', 1);
@@ -751,34 +754,34 @@ INSERT INTO faq_state_type (name) VALUES ('internal');
 INSERT INTO faq_state_type (name) VALUES ('external');
 INSERT INTO faq_state_type (name) VALUES ('public');
 
--- 
+--
 -- agent notifications
 --
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::NewTicket', 'iso-8859-1', 'en', 'New ticket notification! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_CURRENT_USERFIRSTNAME>,there is a new ticket in "<OTRS_QUEUE>"!<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::FollowUp', 'iso-8859-1', 'en', 'You got follow up! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,you got a follow up!<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::LockTimeout', 'iso-8859-1', 'en', 'Lock Timeout! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,unlocked (lock timeout) your locked ticket [<OTRS_TICKET_NUMBER>].<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[8]><snip> <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::OwnerUpdate', 'iso-8859-1', 'en', 'Ticket assigned to you! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,a ticket [<OTRS_TICKET_NUMBER>] is assigned to you by "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>".Comment:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::AddNote', 'iso-8859-1', 'en', 'New note! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,"<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" added a new note to ticket [<OTRS_TICKET_NUMBER>].Note:<OTRS_CUSTOMER_BODY><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::Move', 'iso-8859-1', 'en', 'Moved ticket in "<OTRS_CUSTOMER_QUEUE>" queue! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi,"<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" moved a ticket [<OTRS_TICKET_NUMBER>] into "<OTRS_CUSTOMER_QUEUE>".<snip><OTRS_CUSTOMER_EMAIL[8]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::PendingReminder', 'iso-8859-1', 'en', 'Ticket Reminder!', 'Hi <OTRS_OWNER_USERFIRSTNAME>,the ticket "<OTRS_TICKET_NUMBER>" has reached the reminder time!<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[8]><snip>Please have a look at:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
@@ -788,36 +791,36 @@ INSERT INTO notifications
   ('Agent::Escalation', 'iso-8859-1', 'en', 'Ticket Escalation!', 'Hi <OTRS_USERFIRSTNAME>,the ticket "<OTRS_TICKET_NUMBER>" is escaleted!<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[8]><snip>Please have a look at:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
 
 
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::NewTicket', 'iso-8859-1', 'de', 'Neues Ticket! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_USERFIRSTNAME>,es ist ein neues Ticket in "<OTRS_QUEUE>"!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
 
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::FollowUp', 'iso-8859-1', 'de', 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,Du hast eine Nachfrage bekommen!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::LockTimeout', 'iso-8859-1', 'de', 'Lock Timeout! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,Aufhebung der Sperre auf Dein gesperrtes Ticket [<OTRS_TICKET_NUMBER>].<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[8]><snip> <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::OwnerUpdate', 'iso-8859-1', 'de', 'Ticket uebertragen an Dich! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,ein Ticket [<OTRS_TICKET_NUMBER>] wurde an Dich von "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" uebertragen.Kommentar:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::AddNote', 'iso-8859-1', 'de', 'Neue Notiz! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,"<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" fuegte eine Notiz an Ticket [<OTRS_TICKET_NUMBER>].Notiz:<OTRS_CUSTOMER_BODY><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::Move', 'iso-8859-1', 'de', 'Ticket verschoben in "<OTRS_CUSTOMER_QUEUE>" Queue! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_USERFIRSTNAME>,"<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" verschob Ticket [<OTRS_TICKET_NUMBER>] nach "<OTRS_CUSTOMER_QUEUE>".<snip><OTRS_CUSTOMER_EMAIL[8]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::PendingReminder', 'iso-8859-1', 'de', 'Ticket Erinnerung!', 'Hi <OTRS_OWNER_USERFIRSTNAME>,das Ticket "<OTRS_TICKET_NUMBER>" hat die Erinnerungszeit erreicht!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[8]><snip>Bitte um weitere Bearbeitung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
-INSERT INTO notifications 
+INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::Escalation', 'iso-8859-1', 'de', 'Ticket Eskalation!', 'Hi <OTRS_USERFIRSTNAME>,das Ticket "<OTRS_TICKET_NUMBER>" ist eskaliert!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[8]><snip>MBitte um Bearbeitung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
