@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spellinf module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.4 2003-02-08 15:09:38 martin Exp $
+# $Id: Spelling.pm,v 1.5 2003-02-14 13:45:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Spelling;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,13 +56,8 @@ sub Ckeck {
     # --
     # get needed dict
     # --
-    my %Languages = ( 'english' => 'English', 'deutsch' => 'German' );
     if ($Param{SpellLanguage}) {
-        foreach (keys %Languages) {
-            if ($Param{SpellLanguage} =~ /^$Languages{$_}$/i) {
-                $Self->{SpellChecker} .= " -d $_";    
-            }
-        }
+        $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
     }
     # --
     # ignored words
@@ -75,10 +70,18 @@ sub Ckeck {
     $Param{Text} =~ s/\s.+?\@.+?\s/ /g;
     # don't correct quoted text
     $Param{Text} =~ s/^>.*$//gm;
+    # äöü
+    $Param{Text} =~ s/ä/a"/g;
+    $Param{Text} =~ s/ö/o"/g;
+    $Param{Text} =~ s/ü/u"/g;
+    $Param{Text} =~ s/Ä/A"/g;
+    $Param{Text} =~ s/Ö/O"/g;
+    $Param{Text} =~ s/Ü/U"/g;
+    $Param{Text} =~ s/'/\\'/g;
     # --
     # get spell output
     # --
-    if (open (SPELL, "echo \"$Param{Text}\" | $Self->{SpellChecker} |")) {
+    if (open (SPELL, "echo '$Param{Text}' | $Self->{SpellChecker} |")) {
         my $Output = '';
         my %Data = ();
         my $Lines = 1;
@@ -135,9 +138,7 @@ sub Ckeck {
         return;
     } 
 
-    
 }
 # --
-
 
 1;
