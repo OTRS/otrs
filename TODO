@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.22 2002-08-25 01:07:47 martin Exp $
+# $Id: TODO,v 1.23 2002-08-27 19:49:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,9 @@
 - Add filters to the locked-ticket-view!
 
 0.5 beta9
-- Add pending feature (http://lists.otrs.org/pipermail/otrs/2002-July/000124.html)
+- Add pending feature (http://lists.otrs.org/pipermail/otrs/2002-July/000124.html and
+  http://lists.otrs.org/pipermail/otrs/2002-August/000176.html)
+- Add a ticket browser by date (http://lists.otrs.org/pipermail/otrs/2002-August/000176.html)
  
 misc
 - check types of auto responses!
