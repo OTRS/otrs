@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.80 2005-02-10 20:14:25 martin Exp $
+# $Id: AgentCompose.pm,v 1.81 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.80 $';
+$VERSION = '$Revision: 1.81 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -142,7 +142,13 @@ sub Form {
             UserID => $Self->{UserID}
         )) {
             # show lock state
-            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketLocked',
+                Data => {
+                    %Param,
+                    TicketID => $Self->{TicketID},
+                },
+            );
         }
     }
     else {
@@ -156,6 +162,15 @@ sub Form {
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketBack',
+                Data => {
+                    %Param,
+                    TicketID => $Self->{TicketID},
+                },
+            );
         }
     }
     # get last customer article or selecte article ...
@@ -700,6 +715,17 @@ sub _Mask {
         Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
     );
+    # show time accounting box
+    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
+    }
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {
         $Self->{LayoutObject}->Block(

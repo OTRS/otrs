@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.39 2004-12-04 18:27:11 martin Exp $
+# $Id: AgentBounce.pm,v 1.40 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,45 +95,54 @@ sub Run {
         # get lock state && permissions
         # --
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
-            # --
             # set owner
-            # --
             $Self->{TicketObject}->OwnerSet(
-              TicketID => $Self->{TicketID},
-              UserID => $Self->{UserID},
-              NewUserID => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+                NewUserID => $Self->{UserID},
             );
-            # --
             # set lock
-            # --
             if ($Self->{TicketObject}->LockSet(
-              TicketID => $Self->{TicketID},
-              Lock => 'lock',
-              UserID => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                Lock => 'lock',
+                UserID => $Self->{UserID},
             )) {
-                # --
                 # show lock state
-                # --
-                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketLocked',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
             }
          }
         else {
             my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
-              TicketID => $Self->{TicketID},
+                TicketID => $Self->{TicketID},
             );
-  
+
             if ($OwnerID != $Self->{UserID}) {
-              $Output .= $Self->{LayoutObject}->Warning(
-                Message => "Sorry, the current owner is $OwnerLogin!",
-                Comment => 'Please change the owner first.',
-              );
-              $Output .= $Self->{LayoutObject}->Footer();
-              return $Output;
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Sorry, the current owner is $OwnerLogin!",
+                    Comment => 'Please change the owner first.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketBack',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
             }
         }
 
         # --
-        # get article data 
+        # get article data
         # --
         my %Article = $Self->{TicketObject}->ArticleGet(
             ArticleID => $Self->{ArticleID},

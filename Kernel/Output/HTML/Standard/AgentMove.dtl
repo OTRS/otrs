@@ -1,8 +1,8 @@
 # --
-# NoteForm.dtl - provides HTML form for note mask
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# AgentMove.dtl - provides HTML form for move mask
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.dtl,v 1.9 2004-10-12 13:54:38 martin Exp $
+# $Id: AgentMove.dtl,v 1.10 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -58,11 +58,7 @@ function submit_compose()
     $Env{"Box0"}$Text{"Move Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
-#<tr>
-#  <td class="menu">
-#    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-#  </td>
-#</tr>
+$Include{"AgentTicketLocked"}
 <tr>
   <td class="mainbody">
 

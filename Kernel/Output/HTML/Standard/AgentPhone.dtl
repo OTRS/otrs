@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.24 2005-02-10 20:37:26 martin Exp $
+# $Id: AgentPhone.dtl,v 1.25 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,11 +18,13 @@ function submit_compose()
         document.compose.Subject.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else {
         return true;
     }
@@ -47,6 +49,7 @@ function SpellCheckSubmit()
     $Env{"Box0"}$Text{"Phone call"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
+$Include{"AgentTicketLocked"}
 <tr>
   <td class="mainbody">
 
@@ -109,10 +112,12 @@ function SpellCheckSubmit()
     <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
     <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
   </tr>
+<!-- dtl:block:TimeUnits -->
   <tr>
     <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
     <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
   </tr>
+<!-- dtl:block:TimeUnits -->
   </table>
 <br>
 <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">

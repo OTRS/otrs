@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.50 2005-02-10 16:20:48 martin Exp $
+# $Id: AgentEmail.pm,v 1.51 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -916,6 +916,17 @@ sub _MaskEmailNew {
         foreach (keys %{$Param{Errors}}) {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
+    }
+    # show time accounting box
+    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
     }
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentMove.pm - move tickets to queues
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.39 2004-11-26 13:02:16 martin Exp $
+# $Id: AgentMove.pm,v 1.40 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,6 +85,15 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketBack',
+                Data => {
+                    %Param,
+                    TicketID => $Self->{TicketID},
+                },
+            );
+        }
     }
     # move queue
     if (!$Self->{DestQueueID} || $Self->{ExpandQueueUsers}) {
@@ -104,7 +113,13 @@ sub Run {
                 UserID => $Self->{UserID}
             )) {
                 # show lock state
-                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketLocked',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
                 $Self->{TicketUnlock} = 1;
             }
         }

@@ -2,7 +2,7 @@
 # AgentForward.dtl - provides HTML form for AgentForward
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.dtl,v 1.16 2005-02-10 20:17:59 martin Exp $
+# $Id: AgentForward.dtl,v 1.17 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,11 +30,13 @@ function submit_compose()
         document.compose.Body.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.Subject.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else {
         return true;
     }
@@ -198,10 +200,12 @@ $Data{"Body"}
 #      <td class="contentkey">$Data{"TicketFreeKeyField8"}:</td>
 #      <td class="contentvalue">$Data{"TicketFreeTextField8"}</td>
 #   </tr>
+<!-- dtl:block:TimeUnits -->
     <tr>
       <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
       <td class="contentvalue"><input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
     </tr>
+<!-- dtl:block:TimeUnits -->
   </table>
   <br>
   <input class="button" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">

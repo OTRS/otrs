@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentClose.pm - to close a ticket
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.41 2004-11-28 11:23:31 martin Exp $
+# $Id: AgentClose.pm,v 1.42 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -110,7 +110,13 @@ sub Run {
                 NewUserID => $Self->{UserID},
             )) {
                 # show lock state
-                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketLocked',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
             }
         }
         else {
@@ -124,6 +130,15 @@ sub Run {
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketBack',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
             }
         }
         # print form
@@ -278,7 +293,17 @@ sub _Mask {
         Data => $Param{MoveQueues},
         OnChangeSubmit => 0,
     );
-
+    # show time accounting box
+    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
+    }
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentClose', Data => \%Param);
 }

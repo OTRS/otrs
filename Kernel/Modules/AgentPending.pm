@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.25 2004-11-07 15:16:44 martin Exp $
+# $Id: AgentPending.pm,v 1.26 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -166,7 +166,6 @@ sub Run {
     else {
         # html header
         my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Pending');
-#        $Output .= $Self->{LayoutObject}->NavigationBar();
         # get lock state
         if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             $Self->{TicketObject}->LockSet(
@@ -180,10 +179,38 @@ sub Run {
                 NewUserID => $Self->{UserID},
             )) {
                 # show lock state
-                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketLocked',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
             }
-
         }
+        else {
+            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
+                TicketID => $Self->{TicketID},
+            );
+            if ($OwnerID != $Self->{UserID}) {
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Sorry, the current owner is $OwnerLogin!",
+                    Comment => 'Please change the owner first.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketBack',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
+            }
+        }
+
         # fillup vars
         if (!defined($GetParam{Body}) && $Self->{ConfigObject}->Get('DefaultPendingNoteText')) {
             $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('DefaultPendingNoteText'));
@@ -249,6 +276,17 @@ sub _Mask {
         DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
         %Param,
     );
+    # show time accounting box
+    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
+    }
     # prepare errors!
     if ($Param{Errors}) {
         foreach (keys %{$Param{Errors}}) {

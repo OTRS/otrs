@@ -1,8 +1,8 @@
 # --
 # NoteBounce.dtl - provides HTML form for bounce mask
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.dtl,v 1.8 2004-10-12 13:53:08 martin Exp $
+# $Id: AgentBounce.dtl,v 1.9 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,6 +39,7 @@ function submit_bounce()
     $Env{"Box0"}$Text{"Bounce ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
+$Include{"AgentTicketLocked"}
 <tr>
   <td class="mainbody">
 

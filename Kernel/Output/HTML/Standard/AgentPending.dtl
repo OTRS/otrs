@@ -1,8 +1,8 @@
 # --
 # AgentPending.dtl - provides HTML form for pending mask
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.dtl,v 1.18 2004-12-20 10:42:38 martin Exp $
+# $Id: AgentPending.dtl,v 1.19 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,11 +23,13 @@ function submit_compose()
         document.compose.Body.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else {
         return true;
     }
@@ -52,18 +54,14 @@ function SpellCheckSubmit()
     $Env{"Box0"}$Text{"Set Pending"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
-<tr>
-  <td class="menu">
-    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-  </td>
-</tr>
+$Include{"AgentTicketLocked"}
 <tr>
   <td class="mainbody">
 
   <br>
 
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-  <input type="hidden" name="Action" value="AgentPending">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="Store">
   <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
@@ -105,10 +103,12 @@ function SpellCheckSubmit()
 #        <td class="contentkey">$Text{"Next Queue"}:</td>
 #        <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
 #     </tr>
+<!-- dtl:block:TimeUnits -->
       <tr>
         <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
         <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
       </tr>
+<!-- dtl:block:TimeUnits -->
       </table>
     </td>
   </tr>

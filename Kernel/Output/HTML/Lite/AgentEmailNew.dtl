@@ -1,8 +1,8 @@
 # --
 # AgentEmailNew.dtl - provides HTML form for agent email
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmailNew.dtl,v 1.11 2004-11-05 07:08:43 martin Exp $
+# $Id: AgentEmailNew.dtl,v 1.12 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,11 +23,13 @@ function submit_compose()
         document.compose.Body.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.From.value != "" && document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
     else {
         return true;
     }
@@ -228,10 +230,12 @@ function clear_field()
 #    <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
 #    <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
 #  </tr>
+<!-- dtl:block:TimeUnits -->
   <tr>
     <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
     <td class="contentvalue"> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
   </tr>
+<!-- dtl:block:TimeUnits -->
   </table>
 <br>
 <input class="button" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">

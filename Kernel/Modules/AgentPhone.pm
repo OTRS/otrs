@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.105 2005-02-10 20:46:12 martin Exp $
+# $Id: AgentPhone.pm,v 1.106 2005-02-10 22:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.105 $';
+$VERSION = '$Revision: 1.106 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -222,23 +222,38 @@ sub Run {
             Lock => 'lock',
             UserID => $Self->{UserID},
           )) {
-            # show lock state
-            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+                # show lock state
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketLocked',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
           }
         }
         else {
-          my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
-              TicketID => $Self->{TicketID},
-          );
-
-          if ($OwnerID != $Self->{UserID}) {
-            $Output .= $Self->{LayoutObject}->Warning(
-                Message => "Sorry, the current owner is $OwnerLogin!",
-                Comment => 'Please change the owner first.',
+            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
+                TicketID => $Self->{TicketID},
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-          }
+
+            if ($OwnerID != $Self->{UserID}) {
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Sorry, the current owner is $OwnerLogin!",
+                    Comment => 'Please change the owner first.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketBack',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
+            }
         }
         # print form ...
         $Output .= $Self->_MaskPhone(
@@ -1048,7 +1063,7 @@ sub _MaskPhone {
         $Selected{SelectedID} = $Param{NextStateID};
     }
     else {
-        $Selected{Selected} = $Self->{ConfigObject}->Get('PhoneDefaultNextState'); 
+        $Selected{Selected} = $Self->{ConfigObject}->Get('PhoneDefaultNextState');
     }
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
@@ -1075,6 +1090,17 @@ sub _MaskPhone {
         foreach (keys %{$Param{Errors}}) {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
+    }
+    # show time accounting box
+    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
     }
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {
@@ -1168,6 +1194,17 @@ sub _MaskPhoneNew {
         foreach (keys %{$Param{Errors}}) {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
+    }
+    # show time accounting box
+    if ($Self->{ConfigObject}->Get('FrontendAccountTime')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
     }
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {
