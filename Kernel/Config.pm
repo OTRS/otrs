@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.30 2002-05-20 23:00:26 martin Exp $
+# $Id: Config.pm,v 1.31 2002-05-21 21:45:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -191,7 +191,7 @@ sub Load {
     };
 
     # Highligh*
-    # (Set the age and the collor for highlighting of old queue
+    # (Set the age and the color for highlighting of old queue
     # in the QueueView.)
     # highlight age1 in min
     $Self->{HighlightAge1} = 1440;
@@ -204,11 +204,17 @@ sub Load {
     # ----------------------------------------------------#
     # AgentUtil                                           #
     # ----------------------------------------------------#
+
     # default limit for Tn search
+    # [default: 20]
     $Self->{SearchLimitTn} = 20;
+
     # default limit for Txt search
+    # [default: 20]
     $Self->{SearchLimitTxt} = 20;
+
     # viewable ticket lines by search util
+    # [default: 15]
     $Self->{ViewableTicketLinesBySearch} = 15;
 
 
@@ -218,8 +224,8 @@ sub Load {
 
     # SessionDriver
     # (How should be the session-data stored? [sql|fs]
-    # Advantage of sql ist that you can split the 
-    # Frontendserver from the DB-Server.)
+    # Advantage of sql is that you can split the 
+    # Frontendserver from the DB-Server. fs is faster.)
     $Self->{SessionDriver} = 'sql';
 
     # SessionCheckRemoteIP 
@@ -270,14 +276,18 @@ sub Load {
 
     # ----------------------------------------------------#
     # Ticket stuff                                        #
+    # (Viewable tickets in queue view)                    #
     # ----------------------------------------------------#
-    # ViewableLocks
+    # ViewableLocks 
+    # default: ["'unlock'", "'tmp_lock'"]
     $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
 
-    # ViewableStats
+    # ViewableStats 
+    # default: ["'open'", "'new'"]
     $Self->{ViewableStats} = ["'open'", "'new'"];
 
-    # ViewableSenderTypes
+    # ViewableSenderTypes 
+    #  default:  ["'customer'"]
     $Self->{ViewableSenderTypes} = ["'customer'"];
 
 
@@ -287,23 +297,23 @@ sub Load {
    
     # MaxPostMasterEmails
     # (Max post master daemon email to own email-address a day.
-    # Loop-Protection!)
+    # Loop-Protection!) [default: 20]
     $Self->{MaxPostMasterEmails} = 20;
 
     # PostmasterUserID
-    # (The post master db-uid.)
+    # (The post master db-uid.) [default: 1]
     $Self->{PostmasterUserID} = 1;
 
     # DefaultQueue
-    # (The default queue of all.)
+    # (The default queue of all.) [default: Raw]
     $Self->{DefaultQueue} = 'Raw';
 
     # DefaultPriority
-    # (The default priority of new tickets.)
+    # (The default priority of new tickets.) [default: normal]
     $Self->{DefaultPriority} = 'normal';
 
     # DefaultState
-    # (The default state of new tickets.)
+    # (The default state of new tickets.) [default: new]
     $Self->{DefaultState} = 'new';
 
     # X-Header
@@ -388,12 +398,18 @@ Your OpenTRS Notification Master
     # default valid
     $Self->{DefaultValid} = 'valid';
     # default charset
+    # (default frontend charset) [default: iso-8859-1]
     $Self->{DefaultCharset} = 'iso-8859-1';
     # default langauge
+    # (the default frontend langauge) [default: English]
     $Self->{DefaultLanguage} = 'English';
     # default theme
+    # (the default html theme) [default: Standard]
     $Self->{DefaultTheme} = 'Standard';
-
+    # OnChangeSubmit 
+    # (Use the onchange=submit() funktion for ticket move in
+    # QueueView and TicketZoom) [default: 1] [0|1]
+    $Self->{OnChangeSubmit} = 1;
 
     # ----------------------------------------------------#
     # defaults for add note                               #
