@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.147.2.2 2004-10-28 10:10:00 martin Exp $
+# $Id: Generic.pm,v 1.147.2.3 2004-11-04 10:48:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.147.2.2 $';
+$VERSION = '$Revision: 1.147.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -168,14 +168,12 @@ sub new {
     # locate template files
     # --
     $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir')."/HTML/$Theme";
-    if (!$Self->{TemplateDir}) {
-        if (!$Self->{$_}) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "No templates found in '$Self->{TemplateDir}'! Check your Home in Kernel/Config.pm",
-            );
-            $Self->FatalError();
-        }
+    if (! -e $Self->{TemplateDir}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+        );
+        die "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm";
     }
     return $Self;
 }
