@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.23 2002-10-03 17:47:34 martin Exp $
+# $Id: Ticket.pm,v 1.24 2002-10-20 20:08:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -408,7 +408,7 @@ sub SetCustomerNo {
     # --
     # db update
     # --
-    $Param{No} = $Self->{DBObject}->Quote($Param{No});
+    $Param{No} = $Self->{DBObject}->Quote(lc($Param{No}));
     my $SQL = "UPDATE ticket SET customer_id = '$Param{No}', " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID} ";
