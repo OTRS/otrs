@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.23 2004-05-04 16:22:09 martin Exp $
+# $Id: AgentPreferences.pm,v 1.23.2.1 2005-01-07 22:36:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.23.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -143,14 +143,23 @@ sub UpdateCustomQueues  {
     $Self->{DBObject}->Do(
         SQL => "DELETE FROM personal_queues WHERE user_id = $Self->{UserID}",
     );
+    my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+        UserID => $Self->{UserID},
+        Type => 'ro',
+        Result => 'HASH',
+    );
     foreach my $ID (@QueueIDs) {
-        # db quote
-        $ID = $Self->{DBObject}->Quote($ID);
-
-        $Self->{DBObject}->Do(
+        # get group of queue
+        my %Queue = $Self->{QueueObject}->QueueGet(ID => $ID);
+        # check permissions
+        if ($GroupMember{$Queue{GroupID}}) {
+            # db quote
+            $ID = $Self->{DBObject}->Quote($ID);
+            $Self->{DBObject}->Do(
                 SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
-                " VALUES ($ID, $Self->{UserID})",
-        );
+                    " VALUES ($ID, $Self->{UserID})",
+            );
+        }
     }
     # mk redirect
     $Output .= $Self->{LayoutObject}->Redirect(
