@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/GenericAgent.pm - config file of generic agent
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm.examples,v 1.11 2003-12-15 20:26:50 martin Exp $
+# $Id: GenericAgent.pm.examples,v 1.12 2004-01-20 00:04:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw(%Jobs);  
 
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # -----------------------------------------------------------------------
@@ -57,6 +57,8 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
       Queue => 'delete',
       States => ['new', 'open'],
       Locks => ['unlock'],
+      # tickets older then 60 minutes
+      TicketCreateTimeOlderMinutes => 60,
       # new ticket properties (no option is required, 
       # use just the options which should be changed!)
       New => {
