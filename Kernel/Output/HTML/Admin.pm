@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.25 2003-02-03 19:39:16 martin Exp $
+# $Id: Admin.pm,v 1.26 2003-02-04 21:10:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -768,6 +768,7 @@ sub AdminUserForm {
 
     foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('PreferencesView')}) {
       foreach my $Group (@{$Self->{ConfigObject}->Get('PreferencesView')->{$Pref}}) {
+        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type}) {
 #        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
           my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
           my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
@@ -830,6 +831,7 @@ sub AdminUserForm {
               );
           }
 #        }
+        }
       }
     }
 
