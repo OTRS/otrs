@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.13 2003-10-21 22:50:35 martin Exp $
+# $Id: SendArticle.pm,v 1.14 2003-12-04 23:56:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -98,9 +98,7 @@ sub SendArticle {
         Bcc => $Self->{SendmailBcc},
         Subject => $Param{Subject},
         'Message-ID' => $MessageID,
-# 2003-10-22 martin - In-Reply-To isn't working with MIME::Enterty
-#                      using References now 
-#        'In-Reply-To' => $InReplyTo,
+        'In-Reply-To:' => $InReplyTo,
         'References' => $InReplyTo,
         'X-Mailer' => "OTRS Mail Service ($VERSION)",
         'X-Powered-By' => 'OTRS - Open Ticket Request System (http://otrs.org/)',
@@ -109,7 +107,7 @@ sub SendArticle {
         Encoding => '8bit',
     }; 
     if ($Loop) {
-        $$Header{Precedence} = 'bulk';
+        $$Header{'Precedence:'} = 'bulk';
         $$Header{'X-Loop'} = 'bulk';
     }
     my $Entity = MIME::Entity->build(%{$Header}, Data => $Param{Body});
