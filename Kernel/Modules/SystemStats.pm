@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.18 2005-02-15 11:58:12 martin Exp $
+# $Id: SystemStats.pm,v 1.19 2005-02-25 17:17:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $ ';
+$VERSION = '$Revision: 1.19 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -156,7 +156,7 @@ sub Run {
                     foreach my $Col (@Data) {
                         my $Sum = 0;
                         foreach (@{$Col}) {
-                            if ($_ =~ /[0-9]/ && $_ !~ /[A-z]/i) {
+                            if ($_ =~ /^[0-9]{1,7}$/) {
                                 $Sum = $Sum + $_;
                             }
                         }
@@ -170,7 +170,7 @@ sub Run {
                         my $Count = -1;
                         foreach my $Dig (@{$Col}) {
                             $Count++;
-                            if ($Dig =~ /[0-9]/ && $Dig !~ /[A-z]/i) {
+                            if ($Dig =~ /^[0-9]{1,7}$/) {
                                 if ($R1[$Count]) {
                                     $R1[$Count] = $R1[$Count] + $Dig;
                                 }
