@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.43 2003-02-08 15:09:38 martin Exp $
+# $Id: Ticket.pm,v 1.44 2003-02-09 10:05:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -677,6 +677,9 @@ sub GetLockedTicketIDs {
     }
     elsif ($Param{SortBy} =~ /^CustomerID$/i) {
         $SQL .= " ti.customer_id";
+    }
+    elsif ($Param{SortBy} =~ /^Priority$/i) {
+        $SQL .= " ti.ticket_priority_id";
     }
     else {
         $SQL .= "ti.create_time";
