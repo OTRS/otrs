@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.17 2002-08-01 02:37:36 martin Exp $
+# $Id: AgentQueueView.pm,v 1.18 2002-08-06 19:16:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -326,141 +326,27 @@ sub BuildQueueView {
     my $Self = shift;
     my %Param = @_;
     my $QueueID = $Param{QueueID};
-    my @QueueIDs = @{$Param{QueueIDs}};
     my $Output = '';
     my @Queues;
-    my $TicketsShown = 0;
-    my $AllTickets = 0;
-    my $TicketsAvail = 0;
-    my @ViewableLocks = @{$Self->{ViewableLocks}};
-    my @ViewableStats = @{$Self->{ViewableStats}};
 
-    # --
-    # prepar "All tickets: ??" in Queue
-    # --
-    if (@QueueIDs) {
-        my $SQL = "SELECT count(*) as count " .
-          " FROM " .
-          " ticket st, ticket_state tsd " .
-          " WHERE " .
-          " tsd.id = st.ticket_state_id ".
-          " AND " .
-          " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-          " and " .
-          " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) " .
-          " ";
-
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-            $AllTickets = $RowTmp[0];
-        }
-    }
- 
-    # --
-    # CustomQueue add on
-    # --
-    my $SQL = "SELECT count(*) FROM " .
-    " ticket as st, queue as sq, personal_queues as suq, " .
-    " ticket_state tsd, ticket_lock_type slt " .
-    " WHERE " .
-    " st.ticket_state_id = tsd.id " .
-    " AND " .
-    " st.queue_id = sq.id " .
-    " AND " .
-    " st.ticket_lock_id = slt.id " .
-    " AND " .
-    " suq.queue_id = st.queue_id " .
-    " AND " .
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-    " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
-    " AND " .
-    # get all custom queues
-    " suq.user_id = $Self->{UserID} " .
-    #/ get all custom queues /
-    "";
-
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        my %Hashes;
-        $Hashes{QueueID} = 0;
-        $Hashes{Queue} = $Self->{CustomQueue};
-        $Hashes{MaxAge} = $RowTmp[2] || 0;
-        $Hashes{Count} = $RowTmp[0];
-        push (@Queues, \%Hashes);
-        # set some things
-        if ($QueueID == 0) {
-            $TicketsShown = $RowTmp[0];
-            $TicketsAvail = $RowTmp[0];
-        }
-    }
-
-    # --
-    # the "oldest" valiables
-    # --
-    my $QueueIDOfMaxAge = '';
-    my $MaxAge = 0;
-
-    # prepar the tickets in Queue bar (all data only with my/your Permission)
-    $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) as count ".
-    " FROM " .
-    " ticket as st, queue as sq, group_user as sug, ticket_state tsd, " .
-    " ticket_lock_type slt " .
-    " WHERE " .
-    " st.ticket_state_id = tsd.id " .
-    " AND " .
-    " st.queue_id = sq.id " .
-    " AND " .
-    " st.ticket_lock_id = slt.id " .
-    " AND " .
-    " sq.group_id = sug.group_id" .
-    " AND " .
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-    " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
-    " AND " .
-    " sug.user_id = $Self->{UserID} " .
-    " GROUP BY st.queue_id,sq.name " .
-    " ORDER BY sq.name";
-
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        # store the data into a array
-        my %Hashes;
-        $Hashes{QueueID} = $RowTmp[0];
-        $Hashes{Queue} = $RowTmp[1];
-        $Hashes{MaxAge} = time() - $RowTmp[2];
-        $Hashes{Count} = $RowTmp[3];
-        push (@Queues, \%Hashes);
-        # set some things
-        if ($QueueID eq $RowTmp[0]) {
-            $TicketsShown = $RowTmp[3];
-            $TicketsAvail = $RowTmp[3];
-        }
-        # get the oldes queue id
-        if ($Hashes{MaxAge} > $MaxAge) {
-            $MaxAge = $Hashes{MaxAge};
-            $QueueIDOfMaxAge = $Hashes{QueueID};
-        }
-    }
-
+    my %Data = $Self->{TicketObject}->TicketAcceleratorIndex(
+        UserID => $Self->{UserID},
+        QueueID => $QueueID,
+        ShownQueueIDs => $Param{QueueIDs},
+    ); 
     # --
     # check shown tickets
     # --
-    if ($Self->{Limit} < $TicketsShown) {
-        $TicketsShown = $Self->{Limit};
+    if ($Self->{Limit} < $Data{TicketsShown}) {
+        $Data{TicketsShown} = $Self->{Limit};
     }
 
     # --
     # build output ...
     # --
     $Output .= $Self->{LayoutObject}->QueueView(
-        Queues => \@Queues,
-        TicketsAvail => $TicketsAvail,
+        %Data,
         QueueID => $QueueID,
-        TicketsShown => $TicketsShown,
-        AllTickets => $AllTickets,
-        QueueIDOfMaxAge => $QueueIDOfMaxAge,
     );
 
     return $Output;
