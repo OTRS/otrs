@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.21 2003-04-16 21:13:40 martin Exp $
+# $Id: AgentNote.dtl,v 1.22 2003-11-02 00:36:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -74,16 +74,14 @@ function SpellCheckSubmit()
   <tr>
     <td>$Text{"Options"}:</td>
     <td>
-       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';">$Text{"Spell Check"}</a>$Env{"Box1"} 
-       $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>$Env{"Box1"}
+       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"} 
+       $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td>
     <td>
-<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
-$Text{"$Config{"DefaultNoteText"}"}
-</textarea>
+<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"DefaultNoteText"}"}</textarea>
     </td>
   </tr>
   <tr>
@@ -98,7 +96,7 @@ $Text{"$Config{"DefaultNoteText"}"}
     <td><input type="text" name="TimeUnits" value="" size="3"></td>
   </tr>
 # --
-# is ticket state used? 
+# is ticket state used?
 # --
 <dtl if ($Config{"NoteSetState"} eq "1") { $Data{"NextStatesString"} = "<tr><td width="20%">$Text{"Next ticket state"}:</td><td width="80%">$Data{"NextStatesStrg"}</td></tr>"; }>
     $Data{"NextStatesString"}

@@ -2,7 +2,7 @@
 # AgentPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.dtl,v 1.10 2003-03-30 18:30:35 martin Exp $
+# $Id: AgentPending.dtl,v 1.11 2003-11-02 00:36:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -74,9 +74,7 @@ function SpellCheckSubmit()
   <tr>
     <td>$Text{"Note Text"}:</td>
     <td>
-<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
-$Text{"$Config{"DefaultPendingNoteText"}"}
-</textarea>
+<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"DefaultPendingNoteText"}"}</textarea>
     </td>
   </tr>
   <tr>
