@@ -1,14 +1,15 @@
 <chapter id="procmail">
 <title>Dispatching of incoming email</title>
 
-<sect1>
+<sect1 id="dispatching_via_otrs">
 <title>With OpenTRS</title>
 <para>
 OpenTRS is able to dispatch incoming emails via "To" address. Configurable via admin interface.
 </para>
 
-<sect2 id="dispatching_via_otrs">
-<title>Example</title>
+<para>
+<emphasis role='bold'>Example</emphasis>
+</para>
 <para>
 Add a new system email address (AdminArea -->> System Email Addresses).
 <screenshot>
@@ -19,22 +20,24 @@ Add a new system email address (AdminArea -->> System Email Addresses).
 <para>
 In this case, all incoming emails (with To: support@company.com) will be dispatched to the TEST1 queue. 
 </para>
-</sect2>
+</sect1>
 
-<sect1>
+<sect1 id="xheader_otrs_queue">
 <title>With procmail (for more complex dispatching)</title>
 <para>
 Procmail is a very common e-mail filter in the Linux enviroment. It will be probably installed on your system. If not have a look at the <ulink url="http://www.procmail.org/"><citetitle>procmail homepage</citetitle></ulink>.
 </para>
-<sect2 id="xheader_otrs_queue">
-<title>The X-OTRS-Queue Mail-Header</title>
+
+<para>
+<emphasis role='bold'>The X-OTRS-Queue Mail-Header</emphasis>
+</para>
 <para>
 The X-OTRS-Queue Mail-Header is parsed by OpenTRS and OpenTRS will pipe these e-mails direct in this queue. Procmail and fromail can be used to create a powerfull dispatcher tool.
 </para>
-</sect2>
 
-<sect2 id="procmailex">
-<title>Examples</title>
+<para>
+<emphasis role='bold'>Examples</emphasis>
+</para>
 <para>
 The following examples are copied from the procmailex man-page. Feel free to have a look into it (actually it is quite a good idea). Of course we changed the wording a bit (to fit it into the queueing idea).
 </para>
@@ -56,9 +59,38 @@ Forward all mail from peter about compilers into the william queue.
 | formail -I "X-OTRS-Queue: william"
 </screen>
 
-And here a last example. 
+And here a last example, the whole .procmailrc. 
 
+<example>
+<title>.procmailrc</title>
 <screen>
+# --
+# .procmailrc - procmailrc of the OpenTRS user
+# Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
+# --
+# $Id: procmail.sgml,v 1.3 2002-05-11 16:35:18 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+SYS_HOME=$HOME
+
+PATH=/bin:/usr/bin:/usr/local/bin
+MONTHFOLDER=`date +%Y-%m`
+YEARFOLDER=`date +%Y`
+LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
+VERBOSE=on
+
+# --
+# Remove all X-OTRS Header (allow this only for trusted email)
+# e. g. from *@example.com
+# --
+:0 fhw :
+* !^From.*@example.com
+| grep -vi '^X-OTRS-'
+
 # --
 # Examples for queue presorting.
 # --
@@ -75,11 +107,34 @@ And here a last example.
 * TO:.*BUGTRAQ
 | formail -I "X-OTRS-Queue: BUGTRAQ"
 
+# --
+# Backup of all incoming emails. 
+# It's always better to have a backup of all incoming emails!
+# --
+:0 c :
+$SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
+
+# --
+# Pipe all email into the PostMaster process.
+# --
+:0 :
+| $SYS_HOME/bin/PostMaster.pl
+
+# --
+# spool all the rest (which the PostMaster.pl can't process!) 
+# If the database is down or the PostMaster.pl exit was not '0'!
+# --
+:0 :
+$SYS_HOME/var/spool/.
+
+# --
+# end of .procmailrc
+# --
 </screen>
+</example>
 
 Please have a look into the procmailex man-page for more examples.
 </para>
-</sect2>
 
 </sect1>
 </chapter>
