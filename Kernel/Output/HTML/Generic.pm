@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.32 2002-06-06 00:09:27 martin Exp $
+# $Id: Generic.pm,v 1.33 2002-06-08 21:59:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -45,7 +45,7 @@ sub new {
     bless ($Self, $Type);
 
     # --
-    # get common objects
+    # get common objects 
     # --
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
@@ -61,18 +61,27 @@ sub new {
     # --
     # get/set some common params
     # --
+    if (!$Self->{UserTheme}) {
+        $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
+    }
+    if (!$Self->{UserCharset}) {
+        $Self->{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
+    }
+    if (!$Self->{UserLanguage}) { 
+        $Self->{UserLanguage} = $Self->{ConfigObject}->Get('DefaultLanguage');
+    }
+
     $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
+    $Self->{Charset}   = $Self->{UserCharset};
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{Baselink}  = "$Self->{CGIHandle}?SessionID=$Self->{SessionID}";
     $Self->{Time}      = localtime();
-    $Self->{Title}     = 'Open Ticket Request System' . ' - ' . $Self->{Time};
-    $Self->{TableTitle}= 'OpenTRS - Open Ticket Request System';
     $Self->{HistoryCounter} = 0;
     $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
     $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
-
+ 
     # --
     # get release data
     # --
@@ -128,31 +137,12 @@ sub Output {
         # build OpenTRS env
         # --
         %Env = %ENV;
-        $Env{Charset} = $Self->{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset');
-        foreach (
-          'SessionID',
-          'Time',
-          'CGIHandle',
-          'Baselink', 
-          'Action', 
-          'Subaction',
-          'QueueID',
-          'UserFirstname',
-          'UserLastname',
-          'UserLogin',
-          'Product',
-          'Version',
-          'UserIsAdmin',
-        ) {
-            $Env{$_} = $Self->{$_};
+        # --
+        # all $Self->{*}
+        # --
+        foreach (keys %{$Self}) {
+            $Env{$_} = $Self->{$_} || '';
         }
-        # --
-        # user data
-        # --
-        $Env{UserLoginTop} = '('. $Self->{UserLogin} .')' if ($Env{UserLogin});
-        $Env{UserTheme} = $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme');
-        $Env{UserCharset} = $Self->{UserCharset} || $Env{Charset};
-        $Env{UserLanguage} = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
     }  
     else {
         # --
@@ -447,7 +437,7 @@ sub CustomerAge {
             $AgeStrg .= $Self->{LanguageObject}->Get('hours');
         }
         else {
-             $AgeStrg .= $Self->{LanguageObject}->Get('hour');
+            $AgeStrg .= $Self->{LanguageObject}->Get('hour');
         }
         $AgeStrg .= $Space;
     }
