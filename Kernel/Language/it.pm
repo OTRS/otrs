@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.11 2004-05-04 15:11:12 martin Exp $
+# $Id: it.pm,v 1.12 2004-06-15 09:16:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,6 +30,7 @@ sub Data {
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D/%M/%Y %T';
+    $Self->{DateFormatShort} = '%D/%M/%Y';
     $Self->{DateFormatLong} = '%A %D %B %Y %T';
     $Self->{DateInputFormat} = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';

@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.2 2004-06-11 06:41:16 martin Exp $
+# $Id: hu.pm,v 1.3 2004-06-15 09:16:34 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -17,7 +17,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,6 +33,7 @@ sub Data {
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%Y.%M.%D %T';
+    $Self->{DateFormatShort} = '%Y.%M.%D';
     $Self->{DateFormatLong} = '%Y %B %D %A %T';
     $Self->{DateInputFormat} = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';

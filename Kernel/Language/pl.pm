@@ -3,7 +3,7 @@
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.11 2004-05-04 15:11:12 martin Exp $
+# $Id: pl.pm,v 1.12 2004-06-15 09:16:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,6 +30,7 @@ sub Data {
     $Self->{Charset} = ['iso-8859-2', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
+    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';

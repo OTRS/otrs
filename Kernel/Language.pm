@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.32 2004-06-03 11:18:13 martin Exp $
+# $Id: Language.pm,v 1.33 2004-06-15 09:16:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -259,14 +259,15 @@ sub Get {
 
 Get date format in used language formate (based on translation file).
     
-  my $Date = $LanguageObject->FormatTimeString('2005-12-12 12:12:12');
+  my $Date = $LanguageObject->FormatTimeString('2005-12-12 12:12:12', 'DateFormat');
 
 =cut
 
 sub FormatTimeString {
     my $Self = shift;
     my $String = shift || return;
-    my $ReturnString = $Self->{DateFormat} || 'DateFormat needs to be translated!';
+    my $Config = shift || 'DateFormat';
+    my $ReturnString = $Self->{$Config} || "$Config needs to be translated!";
     if ($String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/) {
         my ($Y,$M,$D, $T) = ($1, $2, $3, $4);
         $ReturnString =~ s/\%T/$T/g;
@@ -520,6 +521,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2004-06-03 11:18:13 $
+$Revision: 1.33 $ $Date: 2004-06-15 09:16:34 $
 
 =cut

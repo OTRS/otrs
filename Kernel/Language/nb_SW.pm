@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: nb_SW.pm,v 1.1 2004-05-30 16:48:11 martin Exp $
+# $Id: nb_SW.pm,v 1.2 2004-06-15 09:16:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nb_SW.pm;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.1 $;
+$VERSION = q$Revision: 1.2 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -29,6 +29,7 @@ sub Data {
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D/%M %Y %T';
+    $Self->{DateFormatShort} = '%D/%M %Y';
     $Self->{DateFormatLong} = '%A %D. %B %Y %T';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
