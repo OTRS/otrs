@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.2 to 1.3
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.3.postgresql.sql,v 1.11 2004-08-17 20:03:30 martin Exp $
+-- $Id: DBUpdate-to-1.3.postgresql.sql,v 1.12 2004-09-08 07:55:57 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs
@@ -83,7 +83,7 @@ CREATE INDEX article_message_id ON article (a_message_id);
 --
 -- ticket_history
 --
-ALTER TABLE ticket_history ADD COLUMN queue_id INTEGER;
+ALTER TABLE ticket_history RENAME COLUMN system_queue_id TO queue_id;
 ALTER TABLE ticket_history ADD COLUMN owner_id INTEGER;
 ALTER TABLE ticket_history ADD COLUMN priority_id SMALLINT;
 ALTER TABLE ticket_history ADD COLUMN state_id SMALLINT;
