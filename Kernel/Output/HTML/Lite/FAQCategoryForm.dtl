@@ -2,7 +2,7 @@
 # FAQCategoryForm.dtl - provides HTML form for faq categories
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQCategoryForm.dtl,v 1.4 2004-04-01 10:37:08 martin Exp $
+# $Id: FAQCategoryForm.dtl,v 1.5 2004-10-13 12:44:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

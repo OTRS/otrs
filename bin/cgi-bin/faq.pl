@@ -3,18 +3,18 @@
 # faq.pl - the global CGI handle file for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: faq.pl,v 1.2 2004-02-05 16:08:46 martin Exp $
+# $Id: faq.pl,v 1.3 2004-10-13 12:44:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -28,13 +28,13 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 # 0=off;1=on;
 # --
-my $Debug = 0; 
+my $Debug = 0;
 
 # --
 # check @INC for mod_perl (add lib path for "require module"!)
@@ -42,9 +42,9 @@ my $Debug = 0;
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
 # --
-# all framework needed  modules 
+# all framework needed  modules
 # (if you use mod_perl with startup.pl, drop this "use Kernel::.." and add
-# this to your startup.pl) 
+# this to your startup.pl)
 # --
 use Kernel::Config;
 use Kernel::System::Log;
@@ -71,7 +71,7 @@ $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 # --
 if ($Debug) {
     $CommonObject{LogObject}->Log(
-        Priority => 'debug', 
+        Priority => 'debug',
         Message => 'Global handle started...',
     );
 }
@@ -83,14 +83,14 @@ my $FramworkPrams = {
     Subaction => '',
 };
 foreach my $Key (keys %{$FramworkPrams}) {
-    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
+    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key)
       || $FramworkPrams->{$Key};
 }
 # --
 # create common framework objects 2/2
 # --
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-    %CommonObject, 
+    %CommonObject,
     Lang => $Param{Lang},
 );
 # --

@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/FAQ.pm - to link faq objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.3 2004-09-27 12:44:53 martin Exp $
+# $Id: FAQ.pm,v 1.4 2004-10-13 12:44:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -36,16 +36,15 @@ sub FillDataMap {
             return;
         }
     }
-    my %Article = $Self->{FAQObject}->ArticleGet(
-        ID => $Param{ID},
-        UserID => $Self->{UserID},
+    my %Article = $Self->{FAQObject}->FAQGet(
+        FAQID => $Param{ID},
     );
     return (
-        Text => 'F:'.$Article{ID},
-        Number => $Article{ID},
-        ID => $Param{ID},
+        Text => 'F:'.$Article{Number},
+        Number => $Article{Number},
+        ID => $Param{FAQID},
         Object => 'FAQ',
-        FrontendDest => "Action=FAQ&ID=",
+        FrontendDest => "Action=FAQ&FAQID=",
     );
 }
 
@@ -66,6 +65,7 @@ sub LinkSearchParams {
     my %Param = @_;
     return (
         { Name => 'FAQNumber', Text => 'FAQ#'},
+        { Name => 'FAQTitle', Text => 'Title'},
         { Name => 'FAQFulltext', Text => 'Fulltext'},
     );
 }
@@ -74,19 +74,16 @@ sub LinkSearch {
     my $Self = shift;
     my %Param = @_;
     my @ResultWithData = ();
-    my @Result = $Self->{FAQObject}->Search(
+    my @Result = $Self->{FAQObject}->FAQSearch(
+        Number => $Param{FAQNumber},
+        Title => $Param{FAQTitle},
         What => $Param{FAQFulltext},
-        UserID => $Self->{UserID},
     );
     foreach (@Result) {
-        my %Article = $Self->{FAQObject}->ArticleGet(
-            ID => $_,
-            UserID => $Self->{UserID},
-        );
+        my %Article = $Self->{FAQObject}->FAQGet(FAQID => $_);
         push (@ResultWithData, {
             %Article,
-            Title => $Article{Subject},
-            Number => $Article{ID},
+            ID => $Article{FAQID},
           },
         );
     }
@@ -96,9 +93,8 @@ sub LinkSearch {
 sub LinkItemData {
     my $Self = shift;
     my %Param = @_;
-    my %Article = $Self->{FAQObject}->ArticleGet(
-        ID => $Param{ID},
-        UserID => $Self->{UserID},
+    my %Article = $Self->{FAQObject}->FAQGet(
+        FAQID => $Param{ID},
     );
 
     my $Body = '';
@@ -110,8 +106,7 @@ sub LinkItemData {
 
     return (
         %Article,
-        Number => $Article{ID},
-        Title => $Article{Subject},
+        ID => $Article{FAQID},
         Body => $Body,
     );
 }
