@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.53 2004-01-20 00:02:27 martin Exp $
+# $Id: AgentPhone.pm,v 1.54 2004-02-09 23:44:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,7 +88,7 @@ sub Run {
                     }
                 }
                 # show customer info
-                if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
+                if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
                   if ($Article{CustomerUserID}) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                          User => $Article{CustomerUserID},
@@ -140,7 +140,7 @@ sub Run {
         # get ticket info
         my $Tn = $TicketData{TicketNumber};
         my %CustomerData = ();
-        if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
+        if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
             if ($TicketData{CustomerUserID}) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $TicketData{CustomerUserID},
@@ -394,7 +394,7 @@ sub Run {
         # show customer info
         # --
         my %CustomerData = ();
-        if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
+        if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
             if ($CustomerUser) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $CustomerUser,
@@ -569,7 +569,7 @@ sub Run {
               );
           }
           # get redirect screen
-          my $NextScreen = $Self->{UserPhoneNextMask} || $Self->{ConfigObject}->Get('PreferencesGroups')->{PhoneNextMask}->{DataSelected};
+          my $NextScreen = $Self->{UserCreateNextMask} || $Self->{ConfigObject}->Get('PreferencesGroups')->{CreateNextMask}->{DataSelected};
           # redirect
           return $Self->{LayoutObject}->Redirect(
             OP => "Action=$NextScreen&Subaction=Created&TicketID=$TicketID",
@@ -734,7 +734,7 @@ sub _MaskPhone {
     # customer info string 
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
         Data => $Param{CustomerData},
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoPhoneMaxSize'),
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoComposeMaxSize'),
     );
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
@@ -805,7 +805,7 @@ sub _MaskPhoneNew {
     # customer info string 
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
         Data => $Param{CustomerData},
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoPhoneMaxSize'),
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoComposeMaxSize'),
     );
     # do html quoting
     foreach (qw(From To Cc)) {
