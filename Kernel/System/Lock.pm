@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.2 2004-02-13 00:50:37 martin Exp $
+# $Id: Lock.pm,v 1.3 2004-04-05 17:11:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Lock;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,6 +73,39 @@ sub LockViewableLock {
         else {
             return @ID;
         }
+    }
+}
+# --
+sub LockLookup {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{Type}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
+      return; 
+    }
+    # check if we ask the same request?
+    if (exists $Self->{"Lookup::$Param{Type}"}) {
+        return $Self->{"Lookup::$Param{Type}"};
+    }
+    # db query
+    my $SQL = "SELECT id " .
+    " FROM " .
+    " ticket_lock_type " .
+    " WHERE " .
+    " name = '$Param{Type}'";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        $Self->{"Lookup::$Param{Type}"} = $Row[0];
+    }
+    # check if data exists
+    if (!exists $Self->{"Lookup::$Param{Type}"}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No TypeID for $Param{Type} found!");
+        return;
+    }
+    else {
+        return $Self->{"Lookup::$Param{Type}"};
     }
 }
 # --
