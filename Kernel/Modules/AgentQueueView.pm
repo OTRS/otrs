@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.24 2003-01-09 20:38:16 martin Exp $
+# $Id: AgentQueueView.pm,v 1.25 2003-02-03 19:45:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,15 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -50,11 +42,9 @@ sub new {
 
     # default viewable tickets a page
     $Self->{ViewableTickets} = $Self->{ConfigObject}->Get('ViewableTickets');
-
     # viewable tickets a page
     $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit')
         || $Self->{ViewableTickets};
-
     # sure is sure!
     $Self->{MaxLimit} = $Self->{ConfigObject}->Get('MaxLimit') || 300;
     if ($Self->{Limit} > $Self->{MaxLimit}) {
@@ -74,6 +64,10 @@ sub new {
            || die 'No Config entry "ViewableSenderTypes"!';
 
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
+    # --
+    # customer user object
+    # --
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
 }
@@ -87,14 +81,14 @@ sub Run {
     # store last screen
     # --
     if (!$Self->{SessionObject}->UpdateSessionID(
-      SessionID => $Self->{SessionID},
-      Key => 'LastScreen',
-      Value => $Self->{RequestedURL},
+        SessionID => $Self->{SessionID},
+        Key => 'LastScreen',
+        Value => $Self->{RequestedURL},
     )) {
-      my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error();
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error();
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # starting with page ...
@@ -227,6 +221,7 @@ sub ShowTicket {
     # get atrticles
     # --
     my @ShownViewableTicket = ();
+    my %Ticket = ();
     my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, " .
         " sa.a_body, st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, " .
         " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, " .
@@ -264,7 +259,7 @@ sub ShowTicket {
             $$Data{MimeType} = $1;
         }
 
-        $Output .= $Self->{LayoutObject}->TicketView(
+        %Ticket = (
             TicketNumber => $$Data{tn},
             Priority => $$Data{name},
             State => $$Data{state},
@@ -302,6 +297,19 @@ sub ShowTicket {
         );
         push (@ShownViewableTicket, $$Data{id});
     }
+    # --
+    # customer info
+    # --
+    my %CustomerData = (); 
+    if ($Ticket{CustomerID}) { 
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            CustomerID => $Ticket{CustomerID},
+        );
+    }
+    $Output .= $Self->{LayoutObject}->TicketView(
+        %Ticket,
+        CustomerData => \%CustomerData,
+    );
     # if there is no customer article avalible! Error!
     my $Hit = 0;
     foreach (@ShownViewableTicket) {

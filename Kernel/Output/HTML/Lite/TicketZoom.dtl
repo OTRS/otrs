@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoom.dtl,v 1.23 2003-01-12 19:59:05 martin Exp $
+# $Id: TicketZoom.dtl,v 1.24 2003-02-03 19:45:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,7 +86,7 @@ $Data{"Article::TextNote"}
 $Data{"Article::Text"}
   </pre>
   </td> 
-  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
+  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="left" valign="top">
     <table border="0" cellspacing="1" cellpadding="0" width="95%">
     <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
     <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
@@ -109,9 +109,17 @@ $Data{"Article::Text"}
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
     </table>
+# --
+# uncomment this if customer info should be shown
+# --
+#    <hr>
+#    $Data{"CustomerTable"}
+#    <hr>
+
+    <br>
+
     <table border="0" cellspacing="0" cellpadding="1" width="95%">
-    <tr><td colspan="2"></td></tr>
-    <tr><td colspan="2">
+    <tr><td>
    <p align="left">
      <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
      <br>

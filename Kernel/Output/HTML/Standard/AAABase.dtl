@@ -110,6 +110,7 @@ $Text{"Invalid SessionID!"}
 $Text{"Feature not acitv!"}
 
 # misc
+$Text{"Take this User"}
 $Text{"possible"}
 $Text{"reject"}
 $Text{"Facility"}

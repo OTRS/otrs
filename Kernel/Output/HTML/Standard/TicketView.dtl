@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.27 2003-01-03 00:21:25 martin Exp $
+# $Id: TicketView.dtl,v 1.28 2003-02-03 19:45:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,7 +76,7 @@ $Data{"TextNote"}
 $Data{"Text"}
   </pre>
   </td> 
-  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
+  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="left" valign="top">
    <p align="left">
     <table border="0">
     <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
@@ -92,8 +92,22 @@ $Data{"Text"}
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
 # --
-    <tr><td colspan="2"></td></tr>
-    <tr><td colspan="2">   
+   </table>
+
+# --
+# uncomment this if customer info should be shown
+# --
+#   <p align="left">
+#    <hr>
+#    $Data{"CustomerTable"}
+#    <hr>
+#   </p>
+
+   <br>
+
+   <table border="0">
+    <tr><td>   
+
    <p align="left">
      <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
      <br>

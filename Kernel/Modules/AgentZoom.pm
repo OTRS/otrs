@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.27 2003-01-09 20:38:16 martin Exp $
+# $Id: AgentZoom.pm,v 1.28 2003-02-03 19:45:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -38,6 +38,9 @@ sub new {
 
     # get ArticleID
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
+
+    # customer user object
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     
     return $Self;
 }
@@ -218,6 +221,15 @@ sub Run {
         $Article->{Atms} = \%AtmIndex;
     }
     # --
+    # customer info
+    # --
+    my %CustomerData = ();
+    if ($Ticket{CustomerID}) { 
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            CustomerID => $Ticket{CustomerID},
+        );
+    }
+    # --
     # genterate output
     # --
     $Output .= $Self->{LayoutObject}->Header(Title => "Zoom Ticket");
@@ -238,7 +250,8 @@ sub Run {
         StdResponses => \%StdResponses,
         ArticleBox => \@ArticleBox,
         ArticleID => $Self->{ArticleID},
-        %Ticket
+        %Ticket,
+        CustomerData => \%CustomerData,
     );
     # --
     # return if HTML email
