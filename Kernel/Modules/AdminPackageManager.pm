@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.11 2004-12-22 21:54:25 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.12 2004-12-23 05:59:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -305,8 +305,10 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         my %Frontend = ();
+        my %List = %{$Self->{ConfigObject}->Get('Package::RepositoryList')};
+        %List = (%List, $Self->{PackageObject}->PackageOnlineRepositories());
         $Frontend{'SourceList'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => $Self->{ConfigObject}->Get('Package::RepositoryList'),
+            Data => \%List,
             Name => 'Source',
             SelectedID => $Source,
         );

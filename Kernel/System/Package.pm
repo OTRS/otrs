@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.10 2004-12-10 09:11:54 martin Exp $
+# $Id: Package.pm,v 1.11 2004-12-23 05:59:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use File::Copy;
 use LWP::UserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -718,6 +718,57 @@ sub PackageUninstall {
     return 1;
 }
 
+=item PackageOnlineRepositories()
+
+returns a list of available online repositories
+
+    my %List = $PackageObject->PackageOnlineRepositories();
+
+=cut
+
+sub PackageOnlineRepositories {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw()) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    # check if online repository should be fetched
+    if (!$Self->{ConfigObject}->Get('Package::RepositoryRoot')) {
+        return ();
+    }
+    # get repository list
+    my $XML = $Self->_Download(URL => $Self->{ConfigObject}->Get('Package::RepositoryRoot'));
+    if (!$XML) {
+        return ();
+    }
+    my @XMLARRAY = @{$Self->ParseXML(String => $XML)};
+    my %List = ();
+    my $Name = '';
+    foreach my $Tag (@XMLARRAY) {
+        # just use start tags
+        if ($Tag->{TagType} ne 'Start') {
+            next;
+        }
+        # reset package data
+        if ($Tag->{Tag} eq 'Repository') {
+            $Name = '';
+        }
+        elsif ($Tag->{Tag} eq 'Name') {
+            $Name = $Tag->{Content};
+        }
+        elsif ($Tag->{Tag} eq 'URL') {
+            if ($Name) {
+                $List{$Tag->{Content}} = $Name;
+            }
+        }
+    }
+    return %List;
+}
+
 =item PackageOnlineList()
 
 returns a list of available online packages
@@ -736,7 +787,7 @@ sub PackageOnlineList {
         return;
       }
     }
-    my $XML = $Self->_Download(URL => $Param{URL}.'/otrs.xml');
+    my $XML = $Self->_Download(URL => $Param{URL}."/repository.xml");
     if (!$XML) {
         return ();
     }
@@ -1311,6 +1362,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2004-12-10 09:11:54 $
+$Revision: 1.11 $ $Date: 2004-12-23 05:59:34 $
 
 =cut
