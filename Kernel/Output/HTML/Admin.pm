@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.8 2002-05-04 20:33:01 martin Exp $
+# $Id: Admin.pm,v 1.9 2002-05-05 13:45:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -496,9 +496,10 @@ sub AdminUserForm {
         Data => {
           $Self->{DBObject}->GetTableData(
             What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
-                    " $Self->{ConfigObject}->{DatabaseUserTableUser}",
+                    " $Self->{ConfigObject}->{DatabaseUserTableUser}, ".
+                    "$Self->{ConfigObject}->{DatabaseUserTableUserID}",
             Valid => 0,
-            Clamp => 0,
+            Clamp => 1,
             Table => $Self->{ConfigObject}->{DatabaseUserTable},
           )
         },
@@ -682,6 +683,108 @@ sub AdminSystemAddressForm {
     );
 
     return $Self->Output(TemplateFile => 'AdminSystemAddressForm', Data => \%Param);
+}
+# --
+sub AdminCharsetForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+
+    $Param{CharsetOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'charset',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        SelectedID => $Param{ID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminCharsetForm', Data => \%Param);
+}
+# --
+sub AdminLanguageForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+
+    $Param{LanguageOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, language, id',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'language',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        SelectedID => $Param{ID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminLanguageForm', Data => \%Param);
+}
+# --
+sub AdminStateForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+
+    $Param{StateOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'ticket_state',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        SelectedID => $Param{ID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminStateForm', Data => \%Param);
 }
 # --
 
