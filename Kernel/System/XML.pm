@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.14 2005-02-26 08:08:34 martin Exp $
+# $Id: XML.pm,v 1.15 2005-03-02 08:50:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -628,6 +628,7 @@ sub XMLParse {
     $Self->{XMLTagCount} = 0;
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
+    $S = $Self;
     # parse package
     my $Parser = new XML::Parser::Lite(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
     $Parser->parse($Param{String});
@@ -720,6 +721,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2005-02-26 08:08:34 $
+$Revision: 1.15 $ $Date: 2005-03-02 08:50:57 $
 
 =cut
