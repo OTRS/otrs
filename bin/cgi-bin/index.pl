@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.37 2002-10-15 09:53:25 martin Exp $
+# $Id: index.pl,v 1.38 2002-10-20 12:11:50 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -114,11 +114,11 @@ foreach ('$Kernel::Config::Modules::CommonObject', '$Kernel::Config::ModulesCust
 # --
 my %Param = ();
 # get session id
-my $SessionID = $CommonObject{ConfigObject}->Get('SessionName') || 'SessionID';
-$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => $SessionID) || '';
+$Param{SessionName} = $CommonObject{ConfigObject}->Get('SessionName') || 'SessionID';
+$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => $Param{SessionName}) || '';
 # drop old session id (if exists)
 my $QueryString = $ENV{"QUERY_STRING"};
-$QueryString =~ s/(\?|&)$SessionID(=&|=.+?&|=.+?$)/&/;
+$QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/;
 # definde frame work params
 my $FramworkPrams = {
     Action => '',
@@ -134,7 +134,7 @@ foreach my $Key (keys %{$FramworkPrams}) {
 # as SessionID! GET or POST SessionID have the lowest priority.
 # --
 if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
-  $Param{SessionIDCookie} = $CommonObject{ParamObject}->GetCookie(Key => $SessionID);
+  $Param{SessionIDCookie} = $CommonObject{ParamObject}->GetCookie(Key => $Param{SessionName});
   if ($Param{SessionIDCookie}) {
     $Param{SessionID} = $Param{SessionIDCookie};
   }
@@ -189,6 +189,7 @@ if ($Param{Action} eq "Login") {
                 # show login screen
                 # ---
                 print $CommonObject{LayoutObject}->Login(
+                    Title => 'Panic!',
                     Message => 'Panic! No UserData!!!',
                     %Param,
                 );
@@ -198,19 +199,23 @@ if ($Param{Action} eq "Login") {
         # --
         # create new session id
         # --
-        my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(%UserData);
+        my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(
+            %UserData, 
+            UserType => 'User', 
+        );
         # --
         # create a new LayoutObject with SessionIDCookie
         # --
         my $LayoutObject = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-                  Key => $SessionID,
+                  Key => $Param{SessionName},
                   Value => $NewSessionID,
                   Expires => '+24h',
               ),
           },
           SessionID => $NewSessionID, 
+          SessionName => $Param{SessionName},
           %CommonObject,
         );
 
@@ -270,7 +275,7 @@ elsif ($Param{Action} eq "Logout"){
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-                  Key => $SessionID,
+                  Key => $Param{SessionName},
                   Value => '',
                   Expires => '-24d',
               ),
@@ -339,6 +344,57 @@ elsif ($Param{Action} eq "Logout"){
     }
 }
 # --
+# customer lost password
+# --
+elsif ($Param{Action} eq "LostPassword"){
+    # --
+    # get params
+    # --
+    my $User = $CommonObject{ParamObject}->GetParam(Param => 'User') || '';
+    # --
+    # get user data
+    # --
+    my %UserData = $CommonObject{UserObject}->GetUserData(User => $User);
+    if (! $UserData{UserID}) {
+        print $CommonObject{LayoutObject}->Header(Title => 'Error');
+        print $CommonObject{LayoutObject}->Warning(
+                Message => 'There is no account with that login name.',
+                Comment => 'Please press Back and try again.'
+        );
+        print $CommonObject{LayoutObject}->Footer();
+    }
+    else {
+        # get new password
+        $UserData{NewPW} = $CommonObject{UserObject}->GenerateRandomPassword();
+        # update new password
+        $CommonObject{UserObject}->SetPassword(UserLogin => $User, PW => $UserData{NewPW});
+        # send notify email
+        my $EmailObject = Kernel::System::EmailSend->new(%CommonObject);
+        my $Body = $CommonObject{ConfigObject}->Get('NotificationBodyLostPassword')
+          || "New Password is: <OTRS_NEWPW>";
+        my $Subject = $CommonObject{ConfigObject}->Get('NotificationSubjectLostPassword')
+          || 'New Password!';
+        foreach (keys %UserData) {
+            $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
+        }
+        if ($EmailObject->SendNormal(
+              To => $UserData{UserEmail},
+              Subject => $Subject, 
+              Body => $Body)) {
+            print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Lost Password');
+            print $CommonObject{LayoutObject}->CustomerLostPasswordSent(
+                UserEmail => $UserData{UserEmail},
+            );
+            print $CommonObject{LayoutObject}->CustomerFooter();
+        }
+        else {
+            print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
+            print $CommonObject{LayoutObject}->CustomerError();
+            print $CommonObject{LayoutObject}->CustomerFooter();
+        }
+    }
+}
+# --
 # show login site
 # --
 elsif (!$Param{SessionID}) {
@@ -401,6 +457,30 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         my %UserData = $CommonObject{SessionObject}->GetSessionIDData(
             SessionID => $Param{SessionID},
         );
+        # --
+        # check needed data
+        # --
+        if (!$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'User') {
+            if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+                # --
+                # redirect to alternate login
+                # --
+                print $CommonObject{LayoutObject}->Redirect(
+                    ExtURL => $CommonObject{ConfigObject}->Get('LoginURL')."?Reason=SystemError",
+                );
+            }
+            else {
+                # --
+                # show login screen
+                # ---
+                print $CommonObject{LayoutObject}->CustomerLogin(
+                    Title => 'Panic!',
+                    Message => 'Panic! Invalid Session!!!',
+                    %Param,
+                );
+                exit (0);
+            }
+        }
         # --
         # create new LayoutObject with new '%Param' and '%UserData'
         # --
