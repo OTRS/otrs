@@ -288,7 +288,8 @@ Of course. You can customize OTRS like you want. Take advantage of the dtl (dyna
 </question>
 <answer>
 <para>
-Theoraticly yes, but we are not the big windows gurus and haven't ever tried to set up a Windows box with an <ulink url="http://www.apache.org">Apache</ulink>, <ulink url="http://www.perl.com">Perl</ulink> and <ulink url="http://www.mysql.com">MySQL</ulink>. In case you tried it send us an e-mail.
+Yes, we provide a step-by-step installation guide for manually setting up OTRS,
+as well as an automated installer.
 </para>
 </answer>
 </qandaentry>
@@ -430,7 +431,8 @@ We strongly recommend this when using OTRS. During your evaluation period, you m
 </question>
 <answer>
 <para>
-There is nothing wrong with that. Some of you do not even think about those circumstances, but: There are people out there to be taken seriously when saying a mail server should reside on it's own partition, a database server should store on a RAID, a busy webserver requires a mirrored partition and so on. <emphasis>You're absolutely right</emphasis> - go on, use Windows' facilities to build all of these and other scenarios. The keywords are <emphasis>Dynamic Disks</emphasis> and <emphasis>DFS</emphasis> here. In other words, you may certainly move the subdirectories of the root directory of otrs4win32 to partitions, RAIDs or whatever you like and you are hereby encouraged to. You just have to configure your box to do it. Feel free to contact us if you need assistance whith generally setting up the Windows operating system on your box.</para>
+There is nothing wrong with that. Some of you do not even think about those circumstances, but: There are people out there to be taken seriously when saying a mail server should reside on it's own partition, a database server should store on a RAID, a busy webserver requires a mirrored partition and so on. <emphasis>You're absolutely right</emphasis> - go on, use Windows' facilities to build all of these and other scenarios. The keywords are <emphasis>Dynamic Disks</emphasis> and <emphasis>DFS</emphasis> here. In other words, you may certainly move the subdirectories of the root directory of otrs4win32 to partitions, RAIDs or whatever you like and you are hereby encouraged to. You just have to configure your box to do it. Feel free to contact us if you need assistance whith generally setting up the Windows operating system on your box.
+</para>
 </answer>
 </qandaentry>
 
