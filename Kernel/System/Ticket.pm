@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.57 2003-07-10 02:24:53 martin Exp $
+# $Id: Ticket.pm,v 1.58 2003-07-14 12:28:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -423,45 +423,33 @@ sub GetQueueIDOfTicketID {
 sub MoveByTicketID {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID QueueID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # move needed?
-    # --
     if ($Param{QueueID} == $Self->GetQueueIDOfTicketID(TicketID => $Param{TicketID})) {
-      # update not needed
-      return 1;
+        # update not needed
+        return 1;
     }
-    # --
     # db update
-    # --
     my $SQL = "UPDATE ticket SET queue_id = $Param{QueueID} where id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID}); 
-        # -- 
         # update ticket view index
-        # --
         $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
-        # --
         # history insert
-        # --
         $Self->AddHistoryRow(
             TicketID => $Param{TicketID},
             HistoryType => 'Move',
-            Name => "Ticket moved to Queue '$Queue'.",
+            Name => "Ticket moved to Queue '$Queue' (ID=$Param{QueueID}).",
             CreateUserID => $Param{UserID},
         );
-        # --
         # send move notify to queue subscriber 
-        # --
         my $To = '';
         foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Param{QueueID})) {
             my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
@@ -469,9 +457,7 @@ sub MoveByTicketID {
                 $To .= "$UserData{UserEmail}, ";
             }
         }
-        # --
         # send agent notification
-        # --
         $Self->SendNotification(
             Type => 'Move',
             To => $To,
@@ -480,9 +466,7 @@ sub MoveByTicketID {
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
         );
-        # --
         # send customer notification email
-        # --
         my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
         $Self->SendCustomerNotification(
             Type => 'QueueUpdate',
@@ -496,6 +480,51 @@ sub MoveByTicketID {
     else {
         return;
     }
+}
+# --
+sub GetMoveQueueList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db query
+    my @Queue = ();
+    my $SQL = "SELECT sh.name, ht.name, sh.create_by ".
+        " FROM ".
+        " ticket_history sh, ticket_history_type ht ".
+        " WHERE ".
+        " sh.ticket_id = $Param{TicketID} ".
+        " AND ".
+        " ht.name IN ('Move', 'NewTicket')  ".
+        " AND ".
+        " ht.id = sh.history_type_id".
+        " ORDER BY sh.id";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        if ($Row[1] eq 'NewTicket') {
+            if ($Row[2] ne '1') {
+#                push (@Queue, $Row[2]);
+            }
+        }
+        elsif ($Row[1] eq 'Move') {
+            if ($Row[0] =~ /^Ticket moved to Queue '.+?' \(ID=(.+?)\)/) {
+                push (@Queue, $1);
+            }
+        }
+    }
+    my @QueueInfo = ();
+    foreach (@Queue) {
+        # queue lookup
+        my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $_, Cache => 1);
+        push (@QueueInfo, $Queue);
+    }
+    return @Queue;
 }
 # --
 sub SetCustomerData {
