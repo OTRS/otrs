@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.10 2002-05-09 23:50:23 martin Exp $
+# $Id: suse-otrs.spec,v 1.11 2002-05-20 23:30:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ Group:        Applications/Mail
 Provides:     otrs 
 Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Syslog perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared
 Autoreqprov:  on
-Release:      BETA4
+Release:      BETA5
 Source0:      otrs-%{version}-%{release}.tar.gz
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
@@ -151,27 +151,16 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /opt/OpenTRS/Kernel/Config.pm
 %config(noreplace) /opt/OpenTRS/var/log/TicketCounter.log
 %config(noreplace) /opt/OpenTRS/.procmailrc
-%config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Standard/Motd.dtl
-%config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Standard/Login.dtl
+%config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Standard/*.dtl
+%config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Lite/*.dtl
+%config(noreplace) /opt/OpenTRS/Kernel/Language/*.pm
 
 /etc/init.d/otrs
 /usr/sbin/rcotrs
 
 /opt/OpenTRS/Kernel/Language.pm
-/opt/OpenTRS/Kernel/Language/*
 /opt/OpenTRS/Kernel/Modules/*
 /opt/OpenTRS/Kernel/Output/HTML/*.pm
-/opt/OpenTRS/Kernel/Output/HTML/Lite/*.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Header.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Footer.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Error.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Test.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Queue*.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Agent*.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Admin*.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/System*.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Ticket*.dtl
-/opt/OpenTRS/Kernel/Output/HTML/Standard/Installer*.dtl
 /opt/OpenTRS/Kernel/System/*
 /opt/OpenTRS/bin/*
 /opt/OpenTRS/scripts/*
@@ -186,6 +175,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon May 20 2002 - martin+rpm@otrs.org
+- moved all .dlt and all Kernel::Language::*.pm to %config(noreplace) 
 * Sat May 05 2002 - martin+rpm@otrs.org
 - added Kernel/Output/HTML/Standard/Motd.dtl as config file 
 * Thu Apr 16 2002 - martin+rpm@otrs.org
