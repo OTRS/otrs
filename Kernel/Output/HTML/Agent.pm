@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.145 2004-04-17 14:34:03 martin Exp $
+# $Id: Agent.pm,v 1.146 2004-08-19 13:12:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.145 $';
+$VERSION = '$Revision: 1.146 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -465,11 +465,11 @@ sub AgentCustomerMessage {
     my %Param = @_;
     # get output back
     my $Output .= $Self->Notify(
-        Info => 
-          $Self->{LanguageObject}->Get('You are the customer user of this message - customer modus!'), 
+        Info =>
+          $Self->{LanguageObject}->Get('You are the customer user of this message - customer modus!'),
     );
     return $Output.$Self->Output(TemplateFile => 'AgentCustomerMessage', Data => \%Param);
-}   
+}
 # --
 sub AgentFreeText {
     my $Self = shift;
@@ -482,7 +482,7 @@ sub AgentFreeText {
 #        $NullOption{''} = '-';
         $SelectData{Size} = 3;
         $SelectData{Multiple} = 1;
-    } 
+    }
     if ($Param{Ticket}) {
         %Ticket = %{$Param{Ticket}};
     }
@@ -499,10 +499,10 @@ sub AgentFreeText {
                 $Counter++;
                 $LastKey = $_;
             }
-            if ($Counter > 1 || $Param{NullOption}) { 
+            if ($Counter > 1 || $Param{NullOption}) {
                 $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
-                    Data => { 
-                        %NullOption, 
+                    Data => {
+                        %NullOption,
                         %{$Config{"TicketFreeKey$_"}},
                     },
                     Name => "TicketFreeKey$_",
@@ -528,7 +528,7 @@ sub AgentFreeText {
                     }
                     else {
                        $Ticket{"TicketFreeKey$_"} = '';
-                    } 
+                    }
                 }
                 $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Ticket{"TicketFreeKey$_"}).'" size="20">';
             }
@@ -539,8 +539,8 @@ sub AgentFreeText {
         # value
         if (ref($Config{"TicketFreeText$_"}) eq 'HASH') {
             $Data{"TicketFreeTextField$_"} = $Self->OptionStrgHashRef(
-                Data => { 
-                    %NullOption, 
+                Data => {
+                    %NullOption,
                     %{$Config{"TicketFreeText$_"}},
                 },
                 Name => "TicketFreeText$_",
