@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.85 2003-02-08 22:51:48 martin Exp $
+# $Id: Agent.pm,v 1.86 2003-02-09 20:56:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.85 $';
+$VERSION = '$Revision: 1.86 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -784,6 +784,7 @@ sub AgentPhoneNew {
       $Param{'CustomerUserStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{FromOptions}, 
         Name => 'CustomerUser',
+        Max => 70,
       ).'<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>';
     }
     # --
@@ -800,7 +801,9 @@ sub AgentPhoneNew {
         Name => 'Dest',
         SelectedID => $Param{ToSelected},
     );
+    # --
     # do html quoting
+    # --
     foreach (qw(From To Cc)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
@@ -819,17 +822,6 @@ sub AgentPhoneNew {
         Name => 'PriorityID',
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultPriority') || '3 normal',
       );
-    }
-    # --
-    # build customer string
-    # --
-    if ($Self->{ConfigObject}->Get('ShowCustomerSelection')) {
-        $Param{CustomerList}->{''} = '-';
-        $Param{'CustomerStrg'} = $Self->OptionStrgHashRef(
-            Data => $Param{CustomerList},
-            Name => 'CustomerIDSelection',
-            SelectedID => $Param{CustomerIDSelection},
-        );
     }
     # --
     # pending data string
@@ -865,13 +857,21 @@ sub AgentPriority {
 sub AgentCustomer {
     my $Self = shift;
     my %Param = @_;
-    # build customer string
-    if ($Self->{ConfigObject}->Get('ShowCustomerSelection')) {
-        $Param{CustomerList}->{''} = '-';
-        $Param{'CustomerStrg'} = $Self->OptionStrgHashRef(
-            Data => $Param{CustomerList},
-            Name => 'CustomerIDSelection',
-        );
+    # --
+    # do html quoting
+    # --
+    foreach (qw(CustomerUser CustomerID)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
+    }
+    # --
+    # build from string
+    # --
+    if ($Param{CustomerUserOptions} && %{$Param{CustomerUserOptions}}) {
+      $Param{'CustomerUserStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{CustomerUserOptions},
+        Name => 'CustomerUserOption',
+        Max => 70,
+      ).'<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>';
     }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCustomer', Data => \%Param);
@@ -907,7 +907,7 @@ sub AgentCustomerViewTable {
         $Param{Table} .= '</table>';
     }
     else {
-        $Param{Table} = '$Text{"None"}';
+        $Param{Table} = '$Text{"none"}';
     }
     # create & return output
     return $Param{Table}; 

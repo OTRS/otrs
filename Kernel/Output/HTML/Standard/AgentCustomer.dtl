@@ -2,7 +2,7 @@
 # AgentCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.dtl,v 1.7 2003-02-08 15:40:43 martin Exp $
+# $Id: AgentCustomer.dtl,v 1.8 2003-02-09 20:56:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,17 +26,23 @@
   <td align="center" valign="top" class="table1">
 
 <p>
-$Text{"Set customer id of a ticket"}:
+$Text{"Set customer user and customer id of a ticket"}:
 <br>
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="post" name="compose">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Update">
-<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+<input type="hidden" name="ExpandCustomerName" value="0">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-$Data{"CustomerStrg"}
-<input type="text" name="CustomerID" value="$Data{"CustomerID"}"> 
-<br>
+  <table>
+  <tr>
+    <td>$Text{"Customer User"}:</td>
+    <td><input type="text" name="CustomerUserID" value="$Data{"CustomerUserID"}" size="40"> <a href="" onclick="document.compose.ExpandCustomerName.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Search Customer"}'; return true;"> $Text{"Search Customer"}</a><br> $Data{"CustomerUserStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"CustomerID"}:</td>
+    <td> <input type="text" name="CustomerID" value="$Data{"CustomerID"}" size="40"></td>
+  </tr>
+  </table>
 <input type="submit" value="$Text{"update"}">
 </form>
 
