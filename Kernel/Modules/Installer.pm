@@ -2,7 +2,7 @@
 # Installer.pm - provides the DB installer
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.6 2002-04-22 22:05:03 martin Exp $
+# $Id: Installer.pm,v 1.7 2002-05-06 00:00:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -159,7 +159,7 @@ sub Run {
             else {
                 $SetupOutput .= "<font color='red'>Config.pm updated. - ";
                 $SetupOutput .= "Your config ist finished.</font><br>Please execute shell> ". 
-                      "<b>/opt/OpenTRS/bin/SetPermissions.sh.sh</b><br>";
+                      "<b>/opt/OpenTRS/bin/SetPermissions.sh</b><br>";
                 $SetupOutput .= "(Security - Security - Security - Security - Security)";
             }
 
