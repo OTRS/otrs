@@ -2,7 +2,7 @@
 # AdminSystemAddress.pm - to add/update/delete system addresses 
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddress.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.3 2002-05-09 23:49:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
     # get queue data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        $Output .= $Self->{LayoutObject}->Header(Title => 'System address change');
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Change system address');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my $SQL = "SELECT value0, value1, comment, valid_id, queue_id " .
            " FROM " .
@@ -125,7 +125,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'System address add');
+        $Output .= $Self->{LayoutObject}->Header(Title => 'add system address');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminSystemAddressForm();
         $Output .= $Self->{LayoutObject}->Footer();
