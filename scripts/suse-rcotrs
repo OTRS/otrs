@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.15 2002-06-24 12:50:03 martin Exp $
+# $Id: suse-rcotrs,v 1.16 2002-08-20 14:08:39 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -170,7 +170,7 @@ case "$1" in
       if ! $OTRS_CHECKDB; then
           echo ") "
           echo "----------------------------------------------------------------------------"
-          echo " Error: May your database isn't configured yet? "
+          echo " Error: Maybe your database isn't configured yet? "
           echo "----------------------------------------------------------------------------"
           echo ""
           echo ""
