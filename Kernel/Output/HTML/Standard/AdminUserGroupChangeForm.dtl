@@ -1,8 +1,8 @@
 # --
-# AdminQueueResponsesChangeForm.dtl - provides HTML form for AdminResponse
+# AdminUserGroupChangeForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroupChangeForm.dtl,v 1.6 2003-03-23 21:42:14 martin Exp $
+# $Id: AdminUserGroupChangeForm.dtl,v 1.7 2003-11-26 00:45:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@
 </tr>
 <tr align="center" valign="top">
   <td class="table1">
-    $Text{"Change $Data{"Type"} settings"}:
+    $Text{"Change %s settings", "$Data{"Type"}"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -30,3 +30,50 @@
 </tr>
 </table>
 <!-- end form -->
+
+<!-- start note -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <td align="left" class="table0">
+    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr align="center" valign="top">
+  <td align="left" class="table1">
+  <p>
+  $Text{"Select the user:group permissions."} $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the user)."}
+  </p>
+  <table>
+  <tr valign="top">
+    <th width="30%">$Text{"Permission"}</th>
+    <th>$Text{"Description"}</th>
+  </tr>
+  <tr valign="top">
+    <td>$Text{"ro"}</td>
+    <td>$Text{"Read only access to the ticket in this group/queue."}</td>
+  </tr>
+  <tr valign="top">
+    <td>$Text{"move_into"}</td>
+    <td>$Text{"Permissions to move tickets into this group/queue."}</td>
+  </tr>
+  <tr valign="top">
+    <td>$Text{"create"}</td>
+    <td>$Text{"Permissions to create tickets in this group/queue."}</td>
+  </tr>
+  <tr valign="top">
+    <td>$Text{"owner"}</td>
+    <td>$Text{"Permissions to change the ticket owner in this group/queue."}</td>
+  </tr>
+  <tr valign="top">
+    <td>$Text{"priority"}</td>
+    <td>$Text{"Permissions to change the ticket priority in this group/queue."}</td>
+  </tr>
+  <tr valign="top">
+    <td>$Text{"rw"}</td>
+    <td>$Text{"Full read and write access to the tickets in this group/queue."}</td>
+  </tr>
+  </table>
+  </td>
+</tr>
+</table>
+<!-- end note -->
