@@ -1,9 +1,9 @@
 # --
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerZoom.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.7 2004-01-21 22:46:19 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.8 2004-02-18 23:26:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
   <td align="right" width="30%" class="table2">
-    <b>$Text{"Created"}:</b> $Data{"Created"}
+    <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}
   </td>
 </tr>
 </table>
@@ -35,20 +35,20 @@
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> $Data{"Article::From"}</td>
+      <td width="85%"> $Quote{"$Data{"Article::From"}","200"}</td>
     </tr>
     <tr>
       <td valign="top"><b>$Text{"To"}:</b></td>
-      <td> $Data{"Article::To"}</td>
+      <td> $Quote{"$Data{"Article::To"}","200"}</td>
     </tr>
 # --
 # check if Cc exists
 # -- 
-    <dtl if ($Data{"Article::Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"$Data{"Article::Cc"}"}:</b></td><td> $Data{"Article::Cc"}</td></tr>"; }>
+    <dtl if ($Data{"Article::Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"$Data{"Article::Cc"}"}:</b></td><td> $Quote{"$Data{"Article::Cc"}","200"}</td></tr>"; }>
     $Data{"Article::Cc"}
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> $Data{"Article::Subject"}</td>
+      <td> $Quote{"$Data{"Article::Subject"}","200"}</td>
     </tr>
 # --
 # show the Article::FreeKey1-3 and Article::FreeValue1-3
@@ -105,12 +105,30 @@ $Data{"Article::Text"}
   </td> 
   <td width="25%" align="center" valign="top" class="table2">
     <table border="0" cellspacing="0" cellpadding="1" width="95%">
-    <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
-    <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
-    <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
-    <tr><td><b>$Text{"CustomerID"}:</b></td><td>$Data{"CustomerID"}</td></tr>
-    <tr><td><b>$Text{"Accounted time"}:</b></td><td>$Data{"TicketTimeUnits"}</td></tr>
-    <tr><td><b>$Text{"Owner"}:</b></td><td>$Data{"Owner"}</td></tr>
+    <tr>
+        <td><b>$Text{"State"}:</b></td>
+        <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
+    </tr>
+    <tr>
+        <td><b>$Text{"Priority"}:</b></td>
+        <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
+    </tr>
+    <tr>
+        <td><b>$Text{"Queue"}:</b></td>
+        <td><font color="red"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","18"}</div></font></td>
+    </tr>
+    <tr>
+        <td><b>$Text{"CustomerID"}:</b></td>
+        <td><div title="$Quote{"$Data{"CustomerID"}"}">$Quote{"$Data{"CustomerID"}","18"}</div></td>
+    </tr>
+    <tr>
+       <td><b>$Text{"Accounted time"}:</b></td>
+       <td>$Data{"TicketTimeUnits"}</td>
+    </tr>
+    <tr>
+       <td><b>$Text{"Owner"}:</b></td>
+       <td><div title="$Quote{"$Data{"Owner"}"}">$Quote{"$Data{"Owner"}","18"}</div></td>
+    </tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
 # --
