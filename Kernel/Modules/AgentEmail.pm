@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.43 2004-10-08 09:01:00 martin Exp $
+# $Id: AgentEmail.pm,v 1.44 2004-10-08 10:32:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -589,12 +589,6 @@ sub Run {
                 );
             }
         }
-        # check if new owner is given (then send no agent notify)
-        my $NoAgentNotify = 0;
-        if ($NewUserID) {
-            $NoAgentNotify = 1;
-        }
-
           # get pre loaded attachment
           @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesData(
               FormID => $Self->{FormID},
