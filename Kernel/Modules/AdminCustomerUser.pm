@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.33 2005-02-17 07:07:51 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.34 2005-03-27 11:43:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $ ';
+$VERSION = '$Revision: 1.34 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # needed objects
@@ -86,14 +88,14 @@ sub Run {
         }
     }
     if ($Nav eq 'Admin') {
-        $NavBar = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
+        $NavBar = $Self->{LayoutObject}->Header();
         $NavBar .= $Self->{LayoutObject}->NavigationBar();
     }
     elsif ($Nav eq 'None') {
-        $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User', Type => 'Small');
+        $NavBar = $Self->{LayoutObject}->Header(Type => 'Small');
     }
     else {
-        $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User');
+        $NavBar = $Self->{LayoutObject}->Header();
         $NavBar .= $Self->{LayoutObject}->NavigationBar(Type => $Self->{LastNavBarName});
     }
     # add notify
@@ -164,10 +166,11 @@ sub Run {
         if ($Self->{MainObject}->Require($Module)) {
             my $Object = $Module->new(
                 %{$Self},
+                ConfigItem => $Preferences{$Group},
                 UserObject => $Self->{CustomerUserObject},
                 Debug => $Self->{Debug},
             );
-            my %File = $Object->Download(%{$Preferences{$Group}}, UserData => \%UserData);
+            my %File = $Object->Download(UserData => \%UserData);
 
             return $Self->{LayoutObject}->Attachment(%File);
         }
@@ -198,10 +201,11 @@ sub Run {
                 if ($Self->{MainObject}->Require($Module)) {
                     my $Object = $Module->new(
                         %{$Self},
+                        ConfigItem => $Preferences{$Group},
                         UserObject => $Self->{CustomerUserObject},
                         Debug => $Self->{Debug},
                     );
-                    my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
+                    my @Params = $Object->Param(UserData => \%UserData);
                     if (@Params) {
                         my %GetParam = ();
                         foreach my $ParamItem (@Params) {
@@ -266,6 +270,7 @@ sub Run {
                 if ($Self->{MainObject}->Require($Module)) {
                     my $Object = $Module->new(
                         %{$Self},
+                        ConfigItem => $Preferences{$Group},
                         UserObject => $Self->{CustomerUserObject},
                         Debug => $Self->{Debug},
                     );
@@ -457,27 +462,30 @@ sub AdminCustomerUserForm {
             if ($Self->{MainObject}->Require($Module)) {
                 my $Object = $Module->new(
                     %{$Self},
+                    ConfigItem => \%Preference,
                     UserObject => $Self->{CustomerUserObject},
                     Debug => $Self->{Debug},
                 );
-                my @Params = $Object->Param(%Preference, UserData => \%Param);
+                my @Params = $Object->Param(UserData => \%Param);
                 if (@Params) {
                     foreach my $ParamItem (@Params) {
                         $Self->{LayoutObject}->Block(
                             Name => 'Item',
                             Data => { %Param },
                         );
-                        if (ref($ParamItem->{Data}) eq 'HASH') {
+                        if (ref($ParamItem->{Data}) eq 'HASH' || ref($Preference{Data}) eq 'HASH') {
                             $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %Preference,
                                 %{$ParamItem},
                             );
                         }
                         $Self->{LayoutObject}->Block(
-                            Name => $ParamItem->{Block} || 'Option',
+                            Name => $ParamItem->{Block} || $Preference{Block} || 'Option',
                             Data => {
                                 Group => $Group,
                                 %Param,
                                 %Data,
+                                %Preference,
                                 %{$ParamItem},
                             },
                         );

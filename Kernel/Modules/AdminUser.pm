@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.26 2005-03-09 07:10:51 martin Exp $
+# $Id: AdminUser.pm,v 1.27 2005-03-27 11:43:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $ ';
+$VERSION = '$Revision: 1.27 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
-        $Self->{LayoutObject}->FatalError(Message => "Got no $_!") if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     return $Self;
@@ -50,7 +52,7 @@ sub Run {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->AdminUserForm(UserData => \%UserData);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -79,6 +81,7 @@ sub Run {
                 if ($Self->{MainObject}->Require($Module)) {
                     my $Object = $Module->new(
                         %{$Self},
+                        ConfigItem => $Preferences{$Group},
                         Debug => $Self->{Debug},
                     );
                     my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
@@ -151,9 +154,10 @@ sub Run {
                 if ($Self->{MainObject}->Require($Module)) {
                     my $Object = $Module->new(
                         %{$Self},
+                        ConfigItem => $Preferences{$Group},
                         Debug => $Self->{Debug},
                     );
-                    my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
+                    my @Params = $Object->Param(UserData => \%UserData);
                     if (@Params) {
                         my %GetParam = ();
                         foreach my $ParamItem (@Params) {
@@ -183,7 +187,7 @@ sub Run {
     # else ! print form
     # --
     else {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->AdminUserForm(UserData => {});
         $Output .= $Self->{LayoutObject}->Footer();
@@ -262,24 +266,27 @@ sub AdminUserForm {
             if ($Self->{MainObject}->Require($Module)) {
                 my $Object = $Module->new(
                     %{$Self},
+                    ConfigItem => \%Preference,
                     Debug => $Self->{Debug},
                 );
-                my @Params = $Object->Param(%Preference, UserData => $Param{UserData});
+                my @Params = $Object->Param(UserData => $Param{UserData});
                 if (@Params) {
                     foreach my $ParamItem (@Params) {
                         $Self->{LayoutObject}->Block(
                             Name => 'Item',
                             Data => { %Param, },
                         );
-                        if (ref($ParamItem->{Data}) eq 'HASH') {
+                        if (ref($ParamItem->{Data}) eq 'HASH' || ref($Preference{Data}) eq 'HASH') {
                             $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %Preference,
                                 %{$ParamItem},
                             );
                         }
                         $Self->{LayoutObject}->Block(
-                            Name => $ParamItem->{Block} || 'Option',
+                            Name => $ParamItem->{Block} || $Preference{Block} || 'Option',
                             Data => {
                                 Group => $Group,
+                                %Preference,
                                 %{$ParamItem},
                             },
                         );

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.8 2005-02-15 11:58:12 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.9 2005-03-27 11:43:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject SessionObject UserObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     # get params
@@ -63,6 +65,7 @@ sub Run {
         if ($Self->{MainObject}->Require($Module)) {
             my $Object = $Module->new(
                 %{$Self},
+                ConfigItem => $Preferences{$Group},
                 Debug => $Self->{Debug},
             );
             # log loaded module
@@ -72,7 +75,7 @@ sub Run {
                     Message => "Module: $Module loaded!",
                 );
             }
-            my @Params = $Object->Param(%{$Preferences{$Group}}, UserData => \%UserData);
+            my @Params = $Object->Param(UserData => \%UserData);
             my %GetParam = ();
             foreach my $ParamItem (@Params) {
                 my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
@@ -204,6 +207,7 @@ sub CustomerPreferencesForm {
             if ($Self->{MainObject}->Require($Module)) {
                 my $Object = $Module->new(
                     %{$Self},
+                    ConfigItem => \%Preferences,
                     Debug => $Self->{Debug},
                 );
                 # log loaded module
@@ -213,7 +217,7 @@ sub CustomerPreferencesForm {
                         Message => "Module: $Module loaded!",
                     );
                 }
-                my @Params = $Object->Param(%Preference, UserData => $Param{UserData});
+                my @Params = $Object->Param(UserData => $Param{UserData});
                 if (@Params) {
                     $Self->{LayoutObject}->Block(
                         Name => 'Item',
@@ -223,14 +227,16 @@ sub CustomerPreferencesForm {
                         },
                     );
                     foreach my $ParamItem (@Params) {
-                        if (ref($ParamItem->{Data}) eq 'HASH') {
+                        if (ref($ParamItem->{Data}) eq 'HASH' || ref($Preference{Data}) eq 'HASH') {
                             $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %Preference,
                                 %{$ParamItem},
                             );
                         }
                         $Self->{LayoutObject}->Block(
                             Name => $ParamItem->{Block} || 'Option',
                             Data => {
+                                %Preference,
                                 %{$ParamItem},
                             },
                         );
