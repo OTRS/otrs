@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.16 2004-02-10 00:18:37 martin Exp $
+# $Id: es.pm,v 1.17 2004-02-15 22:26:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,7 +38,7 @@ sub Data {
       ' 2 minutes' => ' 2 minutos',
       ' 5 minutes' => ' 5 minutos',
       ' 7 minutes' => ' 7 minutos',
-      '(Click here to add)' => '',
+      '(Click here to add)' => '(Haga click aqui para agregar)',
       '10 minutes' => '10 minutos',
       '15 minutes' => '15 minutos',
       'AddLink' => 'Adicionar enlace',
@@ -48,7 +48,7 @@ sub Data {
       'all' => 'todo',
       'All' => 'Todo',
       'Attention' => 'Atención',
-      'before' => '',
+      'before' => 'antes',
       'Bug Report' => 'Reporte de errores',
       'Cancel' => 'Cancelar',
       'change' => 'cambiar',
@@ -60,7 +60,7 @@ sub Data {
       'customer' => 'cliente',
       'Customer Info' => 'Información del cliente',
       'day' => 'dia',
-      'day(s)' => '',
+      'day(s)' => 'dias(s)',
       'days' => 'dias',
       'description' => 'descripción',
       'Description' => 'Descripción',
@@ -88,7 +88,7 @@ sub Data {
       'Invalid SessionID!' => 'Sesión no válida',
       'Language' => 'Idioma',
       'Languages' => 'Idiomas',
-      'last' => '',
+      'last' => 'último',
       'Line' => 'Linea',
       'Lite' => 'Chica',
       'Login failed! Your username or password was entered incorrectly.' => 'Identificación incorrecta. Su nombre de usuario o contraseña fue introducida incorrectamente',
@@ -98,7 +98,7 @@ sub Data {
       'minutes' => 'minutos',
       'Module' => 'Módulo',
       'Modulefile' => 'Archivo de módulo',
-      'month(s)' => '',
+      'month(s)' => 'mes(es)',
       'Name' => 'Nombre',
       'New Article' => 'Nuevo Articulo',
       'New message' => 'Nuevo mensaje',
@@ -122,7 +122,7 @@ sub Data {
       'please do not edit!' => 'Por favor no lo edite!',
       'Please go away!' => 'Por favor salga!',
       'possible' => 'posible',
-      'Preview' => '',
+      'Preview' => 'Vista Previa',
       'QueueView' => 'Ver la cola',
       'reject' => 'rechazar',
       'replace with' => 'reemplazar con',
@@ -143,7 +143,7 @@ sub Data {
       'Theme' => 'Tema',
       'There is no account with that login name.' => 'No existe una cuenta con ese login',
       'Timeover' => '',
-      'To: (%s) replaced with database email!' => '',
+      'To: (%s) replaced with database email!' => 'To: (%s) sustituido con email de la base de datos!',
       'top' => 'inicio',
       'update' => 'actualizar',
       'Update' => 'Actualizar',
@@ -152,11 +152,11 @@ sub Data {
       'Username' => 'Nombre de Usuario',
       'Valid' => 'Válido',
       'Warning' => 'Atención',
-      'week(s)' => '',
+      'week(s)' => 'semana(s)',
       'Welcome to OTRS' => 'Bienvenido a OTRS',
       'Word' => 'Palabra',
       'wrote' => 'escribió',
-      'year(s)' => '',
+      'year(s)' => 'año(s)',
       'yes' => 'si',
       'Yes' => 'Si',
       'You got new message!' => 'Ud tiene un nuevo mensaje',
@@ -198,7 +198,7 @@ sub Data {
       'Select your frontend QueueView.' => 'Seleccione su Vista de cola de trabajo',
       'Select your frontend Theme.' => 'Seleccione su tema',
       'Select your QueueView refresh time.' => 'Seleccione su tiempo de actualizacion de la vista de colas',
-      'Select your screen after creating a new ticket.' => '',
+      'Select your screen after creating a new ticket.' => 'Seleccione la pantalla a mostrar despues de crear un ticket',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifiqueme si un cliente envia un seguimiento y yo soy el dueño del ticket.',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Notifiqueme si un ticket es colocado en una cola personalizada',
       'Send me a notification if a ticket is unlocked by the system.' => 'Notifiqueme si un ticket es desbloqueado por el sistema',
@@ -308,21 +308,21 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestion clientes',
       'Customer user will be needed to to login via customer panels.' => 'El cliente necesita conectarse usando el panel de clientes',
-      'Select source:' => '',
-      'Source' => '',
+      'Select source:' => 'Seleccione origen',
+      'Source' => 'Origen',
 
     # Template: AdminCustomerUserGeneric
 
     # Template: AdminCustomerUserGroupChangeForm
       'Change %s settings' => 'Cambiar %s especificaciones',
-      'Customer User <-> Group Management' => '',
-      'Full read and write access to the tickets in this group/queue.' => '',
-      'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => '',
-      'Permission' => '',
-      'Read only access to the ticket in this group/queue.' => '',
+      'Customer User <-> Group Management' => 'Clientes <-> Grupos',
+      'Full read and write access to the tickets in this group/queue.' => 'Acceso completo de lectura y escritura a los tickets en este grupo/cola.',
+      'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Si no se selecciona algo, no habr&aacute;n permisos en este grupo (Los tickets no estar&aacute;n disponibles para este cliente).',
+      'Permission' => 'Permisos',
+      'Read only access to the ticket in this group/queue.' => 'Acceso de solo lectura a los tickets en este grupo/cola.',
       'ro' => '',
       'rw' => '',
-      'Select the user:group permissions.' => '',
+      'Select the user:group permissions.' => 'Seleccionar los permisos de usuario:grupo',
 
     # Template: AdminCustomerUserGroupForm
       'Change user <-> group settings' => 'Modificar usuario <-> Especificaciones de grupo',
@@ -354,13 +354,13 @@ sub Data {
       'Auto Response <-> Queue' => 'Respuesta automática <-> Colas',
       'Auto Responses' => 'Respuesta automática',
       'Customer User' => 'Cliente',
-      'Customer User <-> Groups' => '',
+      'Customer User <-> Groups' => 'Clientes <-> Grupos',
       'Email Addresses' => 'Direcciones de correo',
       'Groups' => 'Grupos',
       'Logout' => 'Desconectarse',
       'Misc' => 'Miscelaneas',
       'Notifications' => 'Notificaciones',
-      'PostMaster Filter' => '',
+      'PostMaster Filter' => 'Filtro PostMaster',
       'PostMaster POP3 Account' => 'PostMaster Cuenta POP3',
       'Responses' => 'Respuestas',
       'Responses <-> Queue' => 'Respuestas <-> Archivos',
@@ -371,12 +371,12 @@ sub Data {
       'User <-> Groups' => 'Usuarios <-> Grupos',
 
     # Template: AdminNotificationForm
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opciones de configuraci&oacute;n (ej: &lt;OTRS_CONFIG_HttpType&gt;)',
       'Notification Management' => 'Gestión de Notificaciones',
-      'Notifications are sent to an agent or a customer.' => '',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+      'Notifications are sent to an agent or a customer.' => 'Las notificacion se le envian a un agente o cliente',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opciones del usuario activo',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opciones del usuario activo que solicita esta acci&oacute;n (ej. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opciones de propietario del ticket (ej. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Todos los correos de entrada serán remitidos a la cola seleccionada',
@@ -388,8 +388,8 @@ sub Data {
       'Trusted' => 'Confiable',
 
     # Template: AdminPostMasterFilterForm
-      'Match' => '',
-      'PostMasterFilter Management' => '',
+      'Match' => 'Coincidir',
+      'PostMasterFilter Management' => 'Gesti&oacute;n PostMasterFilter',
       'Set' => '',
 
     # Template: AdminQueueAutoResponseForm
@@ -565,7 +565,7 @@ sub Data {
     # Template: AgentEmailNew
       'All Agents' => 'Todos los Agentes',
       'Clear From' => 'Borrar From',
-      'Compose Email' => '',
+      'Compose Email' => 'Redactar Email',
       'Lock Ticket' => 'Bloquear Ticket',
       'new ticket' => 'nuevo ticket',
 
@@ -677,8 +677,8 @@ sub Data {
     # Template: AgentStatusViewTableNotAnswerd
 
     # Template: AgentTicketLink
-      'Link' => '',
-      'Link to' => '',
+      'Link' => 'Enlace',
+      'Link to' => 'Enlace a',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket bloqueado!',
@@ -698,18 +698,18 @@ sub Data {
       'and' => 'y',
       'Customer User Login' => 'Identificador del cliente',
       'Delete' => 'Borrar',
-      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
-      'No time settings.' => '',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'B&uacute;squeda de texto en Articulo (ej. "Mar*in" or "Baue*")',
+      'No time settings.' => 'Sin especificacion de fecha',
       'Profile' => 'Perfil',
       'Result Form' => 'Modelo de Resultados',
-      'Save Search-Profile as Template?' => '',
+      'Save Search-Profile as Template?' => 'Guardar perfil de b&uacute;squeda como patr&oacute;n?',
       'Search-Template' => 'Buscar-Modelo',
       'Select' => 'Seleccionar',
       'Ticket created' => 'Ticket creado',
       'Ticket created between' => 'Ticket creado entre',
       'Ticket Search' => 'Buscar ticket',
       'TicketFreeText' => '',
-      'Times' => 'Veces',
+      'Times' => 'Fecha',
       'Yes, save it with name' => 'Si, guardarlo con nombre',
 
     # Template: AgentUtilSearchByCustomerID
@@ -776,7 +776,7 @@ sub Data {
 
     # Template: CustomerFAQArticleHistory
       'Edit' => 'Editar',
-      'FAQ History' => '',
+      'FAQ History' => 'Historia de FAQ',
 
     # Template: CustomerFAQArticlePrint
       'Category' => 'Categoria',
@@ -787,7 +787,7 @@ sub Data {
       'Symptom' => 'Sintoma',
 
     # Template: CustomerFAQArticleSystemHistory
-      'FAQ System History' => '',
+      'FAQ System History' => 'Sistema de historia de FAQ',
 
     # Template: CustomerFAQArticleView
       'FAQ Article' => 'Articulo de la FAQ',
@@ -798,7 +798,7 @@ sub Data {
 
     # Template: CustomerFAQSearch
       'FAQ Search' => 'Buscar en la FAQ',
-      'Fulltext' => '',
+      'Fulltext' => 'Texto completo',
       'Keyword' => 'palabra clave',
 
     # Template: CustomerFAQSearchResult
@@ -854,7 +854,7 @@ sub Data {
       'You really want to delete this article?' => 'Realmente desea eliminar este articulo?',
 
     # Template: FAQArticleForm
-      'Comment (internal)' => '',
+      'Comment (internal)' => 'Comentario (interno)',
       'Filename' => 'Nombre del archivo',
       'Short Description' => 'Resumen',
 
@@ -881,7 +881,7 @@ sub Data {
     # Template: FAQSearchResult
 
     # Template: FAQStateForm
-      'FAQ State' => '',
+      'FAQ State' => 'Estado de la FAQ',
 
     # Template: Footer
       'Top of Page' => 'Inicio de página',
@@ -925,7 +925,7 @@ sub Data {
       'your MySQL DB should have a root password! Default is empty!' => 'Su BD MySQL debe tener una contrase&ntiulde; de root! Por defecto es va&itilde;a!',
 
     # Template: InstallerSystem
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Chequear record MX de direcciones utilizarad al responder. No usarlo si la PC con el otrs esta detr&aacute;s de una linea conmutada $!)',
       '(Email of the system admin)' => '(amail del administrador del sistema)',
       '(Full qualified domain name of your system)' => '(Nombre completo del dominio de su sistema)',
       '(Logfile just needed for File-LogModule!)' => '(Archivo de log necesario para File-LogModule)',
@@ -944,7 +944,7 @@ sub Data {
       'SystemID' => 'ID de sistema',
       'Ticket Hook' => '',
       'Ticket Number Generator' => 'Generador de numeros de tickets',
-      'Use utf-8 it your database supports it!' => '',
+      'Use utf-8 it your database supports it!' => 'Usar utf-8 si su base de datos lo soporta!',
       'Webfrontend' => 'Interface Web',
 
     # Template: Login
@@ -1019,6 +1019,7 @@ sub Data {
       'search (e. g. 10*5155 or 105658*)' => 'buscar (ejemplo: 1055155 o 105658*)',
       'store' => 'almacenar',
       'tickets' => 'Tickets',
+      'CreateTicket' => 'CreadoTicket',
     );
 
     # $$STOP$$
