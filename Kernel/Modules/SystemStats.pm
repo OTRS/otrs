@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.11 2004-06-30 12:42:49 martin Exp $
+# $Id: SystemStats.pm,v 1.12 2004-07-07 12:00:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.12 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,26 +35,24 @@ sub new {
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
-    
+
     return $Self;
 }
 # --
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $DataDir = $Self->{ConfigObject}->Get('StatsPicDir') || '/opt/OpenTRS/var/pics/stats';
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
-
         # print page ...
         my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Overview');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        
+
         my %Config = %{$Self->{ConfigObject}->Get('SystemStatsMap')};
         foreach my $Stats (sort keys %Config) {
           if (eval "require $Config{$Stats}->{Module}") {
             my $StatsModule = $Config{$Stats}->{Module}->new(
-                DBObject => $Self->{DBObject}, 
+                DBObject => $Self->{DBObject},
                 ConfigObject => $Self->{ConfigObject},
                 LogObject => $Self->{LogObject},
             );
@@ -80,18 +78,18 @@ sub Run {
                     SelectedID => $Config{$Stats}->{OutputDefault} || '',
                 );
             $Self->{LayoutObject}->Block(
-                Name => 'Item', 
+                Name => 'Item',
                 Data => {
                     %Param,
                     %{$Config{$Stats}},
                     Param => $ParamString,
                 },
-            ); 
+            );
           }
         }
         # create output
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'SystemStats', 
+            TemplateFile => 'SystemStats',
             Data => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -119,7 +117,7 @@ sub Run {
         if (eval "require $Module") {
             my %GetParam = ();
             my $StatsModule = $Module->new(
-                DBObject => $Self->{DBObject}, 
+                DBObject => $Self->{DBObject},
                 ConfigObject => $Self->{ConfigObject},
                 LogObject => $Self->{LogObject},
             );
@@ -137,7 +135,23 @@ sub Run {
                 }
             }
             # get data
-            my @Data = $StatsModule->Run(%GetParam);
+            my @Data = ();
+            # use result cache if configured
+            if ($ConfigItem{UseResultCache}) {
+                @Data = $Self->ReadResultCache(
+                    GetParam => \%GetParam,
+                    Config => \%ConfigItem,
+                );
+            }
+            # try to get data if noting is there
+            if (!@Data) {
+                @Data = $StatsModule->Run(%GetParam);
+                $Self->WriteResultCache(
+                    GetParam => \%GetParam,
+                    Config => \%ConfigItem,
+                    Data => \@Data,
+                );
+            }
             my $TitleArrayRef = shift (@Data);
             my $Title = $TitleArrayRef->[0];
             my $HeadArrayRef = shift (@Data);
@@ -210,7 +224,7 @@ sub Run {
                 elsif ($1 eq 'Pie') {
                     $GDBackend = 'GD::Graph::pie';
                 }
-                else { 
+                else {
                     $GDBackend = 'GD::Graph::lines';
                 }
                 # load gd modules
@@ -232,7 +246,7 @@ sub Run {
                             $Self->{LogObject}->Log(Priority => 'error', Message => "$@");
                             $Error = "Syntax error in '$Error'!";
                         }
-                        # if there is no file, show not found error 
+                        # if there is no file, show not found error
                         else {
                             $Self->{LogObject}->Log(Priority => 'error', Message => "Module $Module not found!");
                             $Error = "Module $Module not found!";
@@ -267,9 +281,9 @@ sub Run {
 #            y_tick_number     => 16,
 #               y_label_skip      => 4,
 #            x_tick_number     => 8,
-                    t_margin            => 10, 
-                    b_margin            => 10, 
-                    l_margin            => 10, 
+                    t_margin            => 10,
+                    b_margin            => 10,
+                    l_margin            => 10,
                     r_margin            => 20,
                     bgclr               => 'white',
                     transparent         => 0,
@@ -305,7 +319,7 @@ sub Run {
                 # plot graph
                 my $Ext = '';
                 if (!$graph->can('png')) {
-                    $Ext = 'png';     
+                    $Ext = 'png';
                 }
                 else {
                     $Ext = $graph->export_format;
@@ -359,5 +373,104 @@ sub Run {
     }
 }
 # --
-
+sub WriteResultCache {
+    my $Self = shift;
+    my %Param = @_;
+    my %GetParam = %{$Param{GetParam}};
+    my %Config = %{$Param{Config}};
+    my @Data = @{$Param{Data}};
+    my $Cache = 0;
+    # check if we should cache this result
+    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+    $Y = $Y+1900;
+    $M++;
+    if ($GetParam{Year} && $GetParam{Month}) {
+        if ($GetParam{Year} <= $Y && $GetParam{Month} <= $M) {
+            if ($GetParam{Month} < $M) {
+                $Cache = 1;
+            }
+            if ($GetParam{Year} == $Y && $GetParam{Month} == $M && $GetParam{Day} && $GetParam{Day} < $D) {
+                $Cache = 1;
+            }
+        }
+    }
+    # format month and day params
+    foreach (qw(Month Day)) {
+        $GetParam{$_} = sprintf("%02d", $GetParam{$_}) if ($GetParam{$_});
+    }
+    # write cache file
+    if ($Cache) {
+        my $Path = $Self->{ConfigObject}->Get('TempDir');
+        my $File = $Config{Module};
+        $File =~ s/::/-/g;
+        if ($GetParam{Year}) {
+            $File .= "-$GetParam{Year}";
+        }
+        if ($GetParam{Month}) {
+            $File .= "-$GetParam{Month}";
+        }
+        if ($GetParam{Day}) {
+            $File .= "-$GetParam{Day}";
+        }
+        $File .= ".cache";
+        # write cache file
+        if (open (DATA, "> $Path/$File")) {
+            foreach my $Row (@Data) {
+                foreach (@{$Row}) {
+                    print DATA "$_;;";
+                }
+                print DATA "\n";
+            }
+            close (DATA);
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't write: $Path/$File: $!",
+            );
+        }
+    }
+    return $Cache;
+}
+# --
+sub ReadResultCache {
+    my $Self = shift;
+    my %Param = @_;
+    my %GetParam = %{$Param{GetParam}};
+    my %Config = %{$Param{Config}};
+    my @Data = ();
+    # format month and day params
+    foreach (qw(Month Day)) {
+        $GetParam{$_} = sprintf("%02d", $GetParam{$_}) if ($GetParam{$_});
+    }
+    # read cache file
+    my $Path = $Self->{ConfigObject}->Get('TempDir');
+    my $File = $Config{Module};
+    $File =~ s/::/-/g;
+    if ($GetParam{Year}) {
+        $File .= "-$GetParam{Year}";
+    }
+    if ($GetParam{Month}) {
+        $File .= "-$GetParam{Month}";
+    }
+    if ($GetParam{Day}) {
+        $File .= "-$GetParam{Day}";
+    }
+    $File .= ".cache";
+    if (open (DATA, "< $Path/$File")) {
+        while (<DATA>) {
+            my @Row = split(/;;/, $_);
+            push (@Data, \@Row);
+        }
+        close (DATA);
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't open: $Path/$File: $!",
+        );
+    }
+    return @Data;
+}
+# --
 1;
