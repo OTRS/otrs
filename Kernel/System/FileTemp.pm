@@ -2,7 +2,7 @@
 # Kernel/System/FileTemp.pm - tmp files
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FileTemp.pm,v 1.1 2004-07-22 05:40:23 martin Exp $
+# $Id: FileTemp.pm,v 1.2 2004-08-10 07:16:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,11 @@
 package Kernel::System::FileTemp;
 
 use strict;
-use File::Temp;
+use File::Temp qw/ tempfile tempdir /;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -82,12 +82,17 @@ returns a file handle and the file name
 sub TempFile {
     my $Self = shift;
     my %Param = @_;
-    my $FH = new File::Temp(
+#    my $FH = new File::Temp(
+#        DIR => $Self->{ConfigObject}->Get('TempDir'),
+#        SUFFIX => '.tmp',
+#        UNLINK => 1,
+#    );
+#    my $Filename = $FH->filename();
+    my ($FH, $Filename) = tempfile(
         DIR => $Self->{ConfigObject}->Get('TempDir'),
         SUFFIX => '.tmp',
         UNLINK => 1,
     );
-    my $Filename = $FH->filename();
     return ($FH, $Filename);
 }
 
@@ -105,6 +110,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-07-22 05:40:23 $
+$Revision: 1.2 $ $Date: 2004-08-10 07:16:50 $
 
 =cut
