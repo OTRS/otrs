@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.21 2004-01-27 09:26:05 martin Exp $
+# $Id: AgentCompose.dtl,v 1.22 2004-03-25 10:15:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -67,6 +67,16 @@ function BookCheckSubmit()
 // -->
 </script>
 
+<script language="JavaScript" type="text/javascript">
+<!--
+function FAQSubmit()
+{
+    window.open('', 'faq', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
+    document.faq.submit()
+}
+// -->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
   <td align="left" class="table2"> 
@@ -111,6 +121,11 @@ function BookCheckSubmit()
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
        $Env{"Box0"}<a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$Text{"Address Book"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}contents.png">$Text{"Address Book"}</a>$Env{"Box1"}
        $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+# --
+# check if the faq link should be shown
+# --
+<dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "$Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}help-small.png">$Text{"FAQ"}</a>$Env{"Box1"}"; }>
+        $Data{"FAQLink"}
       </td>
     </tr>
     <tr>
@@ -164,6 +179,14 @@ $Data{"ResponseFormat"}
   <input type="hidden" name="To" value="">
   <input type="hidden" name="Cc" value="">
   <input type="hidden" name="Bcc" value="">
+  </form>
+
+  <form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
+  <input type="hidden" name="Action" value="FAQ">
+  <input type="hidden" name="Nav" value="None">
+  <input type="hidden" name="Body" value="">
+  <input type="hidden" name="Subject" value="">
+  <input type="hidden" name="What" value="">
   </form>
 
   </td> 
