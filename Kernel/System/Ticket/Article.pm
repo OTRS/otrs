@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.43 2003-12-15 20:26:50 martin Exp $
+# $Id: Article.pm,v 1.44 2004-01-08 11:42:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -259,13 +259,17 @@ sub CreateArticle {
     # send agent notification!?
     # --
     my $To = '';
-    if ($Param{HistoryType} =~ /^NewTicket$/i ||  $Param{HistoryType} =~ /^PhoneCallCustomer$/i) {
-		foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
-			my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
-			if ($UserData{UserEmail} && $UserData{UserSendNewTicketNotification}) {
-				$To .= "$UserData{UserEmail}, ";
-			}
-		}
+    if ($Param{HistoryType} =~ /^(EmailCustomer|PhoneCallCustomer|WebRequestCustomer)$/i) {
+        foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
+	    my %UserData = $Self->{UserObject}->GetUserData(
+                UserID => $_, 
+                Cached => 1, 
+                Valid => 1,
+            );
+            if ($UserData{UserEmail} && $UserData{UserSendNewTicketNotification}) {
+                $To .= "$UserData{UserEmail}, ";
+            }
+        }
     }
     elsif ($Param{HistoryType} =~ /^FollowUp$/i || $Param{HistoryType} =~ /^AddNote$/i) {
         # get owner
