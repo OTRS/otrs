@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.4 2002-11-25 00:00:41 martin Exp $
+# $Id: Defaults.pm,v 1.5 2002-12-01 14:39:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -132,6 +132,12 @@ sub LoadDefaults {
 #    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
 #    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'AuthModule::LDAP::UID'} = 'uid';
+
+    # Check if the user is allowed to auth in a posixGroup
+    # (e. g. user needs to be in a group xyz to use otrs)
+#    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
+#    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
+
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree 
 #    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
@@ -259,8 +265,6 @@ sub LoadDefaults {
     $Self->{CounterLog} = '<OTRS_CONFIG_Home>/var/log/TicketCounter.log';
     # article fs dir
     $Self->{ArticleDir} = '<OTRS_CONFIG_Home>/var/article';
-    # loop protection Log
-    $Self->{LoopProtectionLog} = '<OTRS_CONFIG_Home>/var/log/LoopProtection';
     # stats dir
     $Self->{StatsPicDir} = '<OTRS_CONFIG_Home>/var/pics/stats';
 
@@ -279,6 +283,12 @@ sub LoadDefaults {
     # ViewableSenderTypes 
     #  default:  ["'customer'"]
     $Self->{ViewableSenderTypes} = ["'customer'"];
+ 
+    # Storage for plain email [fs|db]
+    $Self->{ArticlePlainStorage} = 'db';
+  
+    # Storage for attachments [fs|db]
+    $Self->{ArticleAttachmentStorage} = 'db';
 
     # ----------------------------------------------------#
     # TicketNumberGenerator                               # 
@@ -467,6 +477,7 @@ sub LoadDefaults {
       'Login',
       'Firstname',
       'Lastname',
+      'Email',
       'ValidID',
       'Pw',
     ];
@@ -512,6 +523,10 @@ sub LoadDefaults {
     # (Max post master daemon email to own email-address a day.
     # Loop-Protection!) [default: 40]
     $Self->{PostmasterMaxEmails} = 40;
+    # [Kernel::System::PostMaster::LoopProtection(FS|DB)] default is DB
+    $Self->{LoopProtectionModule} = 'Kernel::System::PostMaster::LoopProtection::DB';
+    # loop protection Log (just needed for FS module)
+    $Self->{LoopProtectionLog} = '<OTRS_CONFIG_Home>/var/log/LoopProtection';
 
     # PostmasterUserID
     # (The post master db-uid.) [default: 1]
@@ -1034,6 +1049,12 @@ Your OTRS Notification Master
 #    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
 #    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
 #    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
+
+    # Check if the user is allowed to auth in a posixGroup
+    # (e. g. user needs to be in a group xyz to use otrs)
+#    $Self->{'Customer::AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
+#    $Self->{'Customer::AuthModule::LDAP::AccessAttr'} = 'memberUid';
+
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree 
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
