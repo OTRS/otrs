@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.6 2002-08-06 19:04:07 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.7 2002-08-06 19:31:58 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -122,4 +122,10 @@ CREATE TABLE session
     UNIQUE (session_id),
     INDEX index_session_id (session_id)
 );
+
+--
+-- for BETA1-3
+--
+-- update message id varchar to 250
+ALTER TABLE article MODIFY a_message_id VARCHAR (250);
 
