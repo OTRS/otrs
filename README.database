@@ -1,8 +1,8 @@
 # --
 # README.database - database description of OpenTRS
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.database,v 1.5 2002-02-05 20:35:12 martin Exp $
+# $Id: README.database,v 1.6 2002-04-14 13:24:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -41,7 +41,7 @@ DB - Setup Example (MySQL):
 shell> mysql -u root -p -e 'create database otrs'
 
 Create the OpenTRS tables
-shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/OpenTRS-schema.sql
+shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/OpenTRS-schema.mysql.sql
 
 Insert inital data:"
 shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/initial_insert.sql
@@ -50,5 +50,9 @@ Create an database user:"
 shell> mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost 
 IDENTIFIED BY "some_pass" WITH GRANT OPTION;'
 
-or follow the web interface "http://yourhost/otrs/installer.pl"! 
+Change the DB-Settings (host, user and password) in $HOME_OTRS/Kernel/Config.pm
 
+or follow the web interface "http://yourhost/otrs/installer.pl"! 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+EOF
