@@ -2,13 +2,28 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.30 2002-10-31 23:56:51 martin Exp $
+# $Id: CHANGES,v 1.31 2002-11-11 00:50:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 0.5 BETA9 (2002-??-??)
+ - (2002/11/11) added new config file as Kernel/Config.pm.dist (will be used
+    for >= OTRS 1.0) if you want to test it with 0.5, use Kernel/Config.pm.dist 
+    as Kernel/Config.pm (cp Kernel/Config.pm.dist Kernel/Config.pm)!
+    Kernel/Config/Defaults.pm is the config file with all defaults. If you want 
+    to change this settings, add the needed entry to Kernel/Config.pm(.dist)
+    and the Kernel/Config/Defaults.pm will be overwrite. Updates will be much easier! 
+ - (2002/11/11) added spell ckecker for agent interface.
+ - (2002/11/11) added browser window.status info for Standard Theme (Agent 
+    and Customer frontend).
+ - (2002/11/11) added some CPAN modules to Kernel/cpan-lib/ (CGI 2.89, 
+    MIME-tools-5.411 and MailTools-1.51).
+ - (2002/11/09) fixed attachment filename for IE (not the whole path like
+    c:\Documents\test.jpg) Kernel/Modules/AgentCompose.pm.
+ - (2002/11/09) fixed bug in Kernel/System/EmailParser.pm if email headers
+    are longer then 64 characters. Thanks to Phil Davis! 
  - (2002/11/01) added file permission check for PostMaster.pl on startup!
     -=> Will help to get setup faster working!
  - (2002/10/31) added email valid check (incl. mx) on CreateAccount (customer 
