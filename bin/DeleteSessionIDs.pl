@@ -3,7 +3,7 @@
 # DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DeleteSessionIDs.pl,v 1.10 2004-04-19 19:52:19 martin Exp $
+# $Id: DeleteSessionIDs.pl,v 1.11 2004-04-23 07:55:39 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -88,17 +88,17 @@ elsif ($Command eq '--expired') {
         my $ValidTime = ($SessionData{UserSessionStart} + $MaxSessionTime) - time();
         my $MaxSessionIdleTime = $CommonObject{ConfigObject}->Get('SessionMaxIdleTime');
         my $ValidIdleTime = ($SessionData{UserLastRequest} + $MaxSessionIdleTime) - time();
-        if ($ValidIdleTime <= 0) {
+        if ($ValidTime <= 0) {
             if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
-                print " SessionID $SessionID deleted (idle timeout).\n";
+                print " SessionID $SessionID deleted (too old).\n";
             }
             else {
                 print " Warning: Can't delete SessionID $SessionID!\n";
             }
         }
-        elsif ($ValidTime <= 0) {
+        elsif ($ValidIdleTime <= 0) {
             if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
-                print " SessionID $SessionID deleted (too old).\n";
+                print " SessionID $SessionID deleted (idle timeout).\n";
             }
             else {
                 print " Warning: Can't delete SessionID $SessionID!\n";
