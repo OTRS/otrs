@@ -2,7 +2,7 @@
 # Kernel/System/Kernel/System/WebUploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebUploadCache.pm,v 1.1 2004-07-16 22:54:22 martin Exp $
+# $Id: WebUploadCache.pm,v 1.2 2004-07-22 05:39:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -99,6 +99,8 @@ sub FormIDAddFile {
         return;
       }
     }
+    # files hust readable for creater
+    umask(066);
     open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}") || die "$!";
     print OUT $Param{Content};
     close (OUT);
@@ -239,6 +241,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-07-16 22:54:22 $
+$Revision: 1.2 $ $Date: 2004-07-22 05:39:34 $
 
 =cut
