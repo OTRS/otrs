@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email/SMTP.pm - the global email send module
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMTP.pm,v 1.5 2003-07-01 18:45:16 martin Exp $
+# $Id: SMTP.pm,v 1.6 2004-02-01 21:33:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Mail::Address;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,6 +79,7 @@ sub Send {
         $Param{Header} .= "Organization: $Self->{Organization}\n" if ($Self->{Organization});
         $Param{Header} .= "X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org/)\n";
         $Param{Header} .= "Message-ID: <".time().".".rand(999999)."\@$Self->{FQDN}>\n";
+        $Param{Header} .= "Content-Type: $Param{ContentType}\n" if ($Param{ContentType});
     }
     my @To = ();
     my $ToString = ();
