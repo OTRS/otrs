@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.101 2004-10-08 09:00:20 martin Exp $
+# $Id: AgentPhone.pm,v 1.102 2004-11-16 12:26:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,12 +15,12 @@ use strict;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
-use Kernel::System::WebUploadCache;
+use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.101 $';
+$VERSION = '$Revision: 1.102 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{UploadCachObject} = Kernel::System::WebUploadCache->new(%Param);
+    $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam(Param => 'FormID');
