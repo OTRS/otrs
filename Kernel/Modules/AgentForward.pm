@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.20 2003-03-13 23:20:39 martin Exp $
+# $Id: AgentForward.pm,v 1.21 2003-04-08 21:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -222,6 +222,35 @@ sub SendEmail {
     my $NextStateID = $Self->{NextStateID} || '??';
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
     # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID ArticleID)) {
+        if (!$Self->{$_}) {
+            # --
+            # error page
+            # --
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => "Can't forward ticket, no $_ is given!",
+                Comment => 'Please contact the admin.',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+    }
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        Type => 'rw',
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+    # --
     # check forward email address
     # --
     foreach (qw(To Cc)) {
@@ -242,10 +271,28 @@ sub SendEmail {
             }
         }
     }
+    # --
+    # get message articles
+    # --
+    my %Article = $Self->{TicketObject}->GetArticle(
+        ArticleID => $Self->{ArticleID},
+    );
+    my %AttachmentIndex = $Self->{TicketObject}->GetArticleAtmIndex(
+        %Article,
+    );
+    my @Attachments = ();
+    foreach (keys %AttachmentIndex) {
+        my %Attachment = $Self->{TicketObject}->GetArticleAttachment(
+            ArticleID => $Self->{ArticleID},
+            FileID => $_,
+        );
+        push(@Attachments, \%Attachment);
+    }
     # --    
     # send email
     # --
     if (my $ArticleID = $Self->{TicketObject}->SendArticle(
+        Attach => \@Attachments,
         From => $Self->{From},
         To => $Self->{To},
         Cc => $Self->{Cc},

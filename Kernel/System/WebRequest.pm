@@ -2,7 +2,7 @@
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.10 2003-02-08 15:09:38 martin Exp $
+# $Id: WebRequest.pm,v 1.11 2003-04-08 21:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.10 $ ';
+$VERSION = '$Revision: 1.11 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -137,9 +137,9 @@ sub GetUploadAll {
           ) || '';
         }
         return (
-            UploadRealFileName => $NewFileName,
-            UploadFilename => $Param{UploadFilename}, 
-            UploadContentType => $Param{UploadContentType},
+            Filename => $NewFileName,
+            Content => $Param{UploadFilename}, 
+            ContentType => $Param{UploadContentType},
         );
     }
     else {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.18 2003-03-06 22:11:59 martin Exp $
+# $Id: AgentNote.pm,v 1.19 2003-04-08 21:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentNote;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -138,9 +138,7 @@ sub Run {
           );
           if (%UploadStuff) {
               $Self->{TicketObject}->WriteArticlePart(
-                  Content => $UploadStuff{UploadFilename},
-                  Filename => $UploadStuff{UploadRealFileName},
-                  ContentType => $UploadStuff{UploadContentType},
+                  %UploadStuff,
                   ArticleID => $ArticleID, 
                   UserID => $Self->{UserID}, 
               );

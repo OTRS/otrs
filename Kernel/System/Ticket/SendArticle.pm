@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.6 2003-03-11 18:34:34 martin Exp $
+# $Id: SendArticle.pm,v 1.7 2003-04-08 21:36:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,26 +113,27 @@ sub SendArticle {
     # --
     # attachments
     # --
-    if ($Param{UploadFilename}) {
-        # --
-        # add attachments to article
-        # --
-        $Self->WriteArticlePart(
-            Content => $Param{UploadFilename},
-            Filename => $Param{UploadRealFileName},
-            ContentType => $Param{UploadContentType},
-            ArticleID => $Param{ArticleID},
-            UserID => $Param{UserID},
-        );
-        # --
-        # attach file to email
-        # --
-        $Entity->attach(
-            Filename => $Param{UploadRealFileName},
-            Data     => $Param{UploadFilename},
-            Type     => $Param{UploadContentType},
-            Encoding => "base64",
-        );
+    if ($Param{Attach}) {
+        foreach my $Tmp (@{$Param{Attach}}) {
+            my %Upload = %{$Tmp}; 
+            # --
+            # add attachments to article
+            # --
+            $Self->WriteArticlePart(
+                %Upload,
+                ArticleID => $Param{ArticleID},
+                UserID => $Param{UserID},
+            );
+            # --
+            # attach file to email
+            # --
+            $Entity->attach(
+                Filename => $Upload{Filename},
+                Data     => $Upload{Content},
+                Type     => $Upload{ContentType},
+                Encoding => "base64",
+            );
+        }
     }
     # --
     # std attachments
@@ -140,7 +141,7 @@ sub SendArticle {
     if ($Param{StdAttachmentIDs}) {
         foreach my $ID (@{$Param{StdAttachmentIDs}}) {
             my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(ID => $ID);
-            foreach (qw(FileName ContentType Content)) {
+            foreach (qw(Filename ContentType Content)) {
                 if (!$Data{$_}) {
                     $Self->{LogObject}->Log(
                         Priority => 'error', 
@@ -152,7 +153,7 @@ sub SendArticle {
             # attach file to email
             # --
             $Entity->attach(
-                Filename => $Data{FileName},
+                Filename => $Data{Filename},
                 Data     => $Data{Content},
                 Type     => $Data{ContentType},
                 Encoding => "base64",
@@ -161,9 +162,7 @@ sub SendArticle {
             # add attachments to article
             # --
             $Self->WriteArticlePart(
-                Content => $Data{Content}, 
-                Filename => $Data{FileName},
-                ContentType => $Data{ContentType},
+                %Data,
                 ArticleID => $Param{ArticleID},
                 UserID => $Param{UserID},
             );

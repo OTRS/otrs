@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachment.pm,v 1.3 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminAttachment.pm,v 1.4 2003-04-08 21:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,12 +84,8 @@ sub Run {
             Param => 'file_upload',
             Source => 'string',
         );
-        $GetParam{Content} = $UploadStuff{UploadFilename};
-        $GetParam{ContentType} = $UploadStuff{UploadContentType};
-        $GetParam{Filename} = $UploadStuff{UploadRealFileName};
 
-
-        if ($Self->{StdAttachmentObject}->StdAttachmentUpdate(%GetParam, UserID => $Self->{UserID})) { 
+        if ($Self->{StdAttachmentObject}->StdAttachmentUpdate(%GetParam, %UploadStuff, UserID => $Self->{UserID})) { 
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
@@ -115,11 +111,8 @@ sub Run {
             Param => 'file_upload',
             Source => 'string',
         );
-        $GetParam{Content} = $UploadStuff{UploadFilename};
-        $GetParam{ContentType} = $UploadStuff{UploadContentType};
-        $GetParam{Filename} = $UploadStuff{UploadRealFileName};
 
-        if (my $Id = $Self->{StdAttachmentObject}->StdAttachmentAdd(%GetParam, UserID => $Self->{UserID})) {
+        if (my $Id = $Self->{StdAttachmentObject}->StdAttachmentAdd(%GetParam, %UploadStuff, UserID => $Self->{UserID})) {
              return $Self->{LayoutObject}->Redirect(
                  OP => "Action=AdminResponseAttachment&Subaction=Attachment&ID=$Id",
              );

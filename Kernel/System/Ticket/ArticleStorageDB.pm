@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.5 2003-02-08 15:09:40 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.6 2003-04-08 21:36:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -320,11 +320,11 @@ sub GetArticleAttachment {
     my $ContentPath = $Self->GetArticleContentPath(ArticleID => $Param{ArticleID});
     my %Data; 
     my $Counter = 0;
-    $Data{File} = $Index{$Param{FileID}}; 
+    $Data{Filename} = $Index{$Param{FileID}}; 
     if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Index{$Param{FileID}}")) {
         while (<DATA>) {
-            $Data{Type} = $_ if ($Counter == 0);
-            $Data{Data} .= $_ if ($Counter > 0);
+            $Data{ContentType} = $_ if ($Counter == 0);
+            $Data{Content} .= $_ if ($Counter > 0);
             $Counter++;
         }
         close (DATA);
@@ -337,18 +337,18 @@ sub GetArticleAttachment {
         " article_id = $Param{ArticleID}";
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID});
         while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-            $Data{Type} = $RowTmp[0]."\n";
+            $Data{ContentType} = $RowTmp[0]."\n";
             # --
             # decode attachemnt if it's a postgresql backend!!!
             # --
             if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
-                $Data{Data} = decode_base64($RowTmp[1]);
+                $Data{Content} = decode_base64($RowTmp[1]);
             }
             else {
-                $Data{Data} = $RowTmp[1];
+                $Data{Content} = $RowTmp[1];
             }
         }
-        if ($Data{Data}) {
+        if ($Data{Content}) {
             return %Data;
         }
         else {
