@@ -1,8 +1,8 @@
 # --
 # .procmailrc - procmailrc of the OpenTRS user
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: .procmailrc,v 1.6 2002-02-07 00:05:06 martin Exp $
+# $Id: .procmailrc,v 1.7 2002-05-12 22:04:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,9 +12,9 @@
 #SYS_HOME=/opt/OpenTRS/
 SYS_HOME=$HOME
 
+PATH=/bin:/usr/bin:/usr/local/bin
 MONTHFOLDER=`date +%Y-%m`
 YEARFOLDER=`date +%Y`
-PATH=/bin:/usr/bin:/usr/bin
 LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
 VERBOSE=on 
 
