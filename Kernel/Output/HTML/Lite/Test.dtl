@@ -1,0 +1,175 @@
+# --
+# Test.dtl - provides HTML test page 
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: Test.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+# --
+# you can use '#' at the start of a line for comment of dynamic pages
+# --
+
+
+<h1>$Text{"OpenTRS Test Page"}</h1>
+
+<hr>
+
+<b>dynamic test</b><br>
+
+<p>
+
+<dtl set $Data{"Test1"} = "German">
+a) Set $Data{\"Test1\"} = "$Data{"Test1"}"
+<br>
+Echo ($Text{\"Lock\"}): $Text{"Lock"}
+<br>
+
+<dtl if ($Text{"Lock"} eq "Lock") { $Data{"Test1"} = "English"; }>
+b) if ($Text{\"Lock\"} eq "Lock") { $Data{\"Test:\"} = "English"; }<br>
+
+Result: $Data{"Test1"}
+</p>
+
+<p>
+<dtl set $Data{"Test1"} = "lala">
+c) Set $Data{\"Test1\"} = "$Data{"Test1"}"
+<br>
+
+<dtl if ($Data{"Test1"} ne "hallo!") { $Data{"Test1"} = "hallo!!"; }>
+d) if ($Data{\"Test1\"} ne "hallo!") { $Data{\"Test1\"} = "hallo!!"; }
+<br>
+
+Result: $Data{"Test1"}
+</p>
+
+<hr>
+
+# --
+# translation test  
+# --
+<b>translation test</b><br>
+<table>
+<tr>
+  <td>Lock:</td><td> $Text{"Lock"}</td>
+</tr>
+<tr>
+  <td>Unlock:</td><td> $Text{"Unlock"}</td>
+</tr>
+</table>
+
+<hr>
+
+# --
+# show some config options 
+# --
+<b>config options</b><br>
+
+<table>
+<tr>
+  <td>SystemID:</td><td> $Config{"SystemID"}</td>
+</tr>
+<tr>
+  <td>FQDN:</td><td> $Config{"FQDN"}</td>
+</tr>
+<tr> 
+  <td>Sendmail:</td><td> $Config{"Sendmail"}</td>
+</tr>
+<tr>
+  <td>Global CGI handle:</td><td> $Config{"CGIHandle"}</td>
+</tr>
+</tr>
+<tr>
+  <td>DefaultQueue:</td><td> $Config{"DefaultQueue"}</td>
+</tr>
+
+</table>
+
+<hr>
+
+# --
+# show some env variables
+# --
+<b>env variables</b><br>
+
+<table>
+
+<tr>
+  <td>Time:</td><td> $Env{"Time"}</td>
+</tr>
+<tr>
+  <td>SessionID:</td><td> $Env{"SessionID"}</td>
+</tr>
+<tr>
+  <td>Charset:</td><td> $Env{"Charset"}</td>
+</tr>
+<tr>
+  <td>HTTP_USER_AGENT:</td><td> $Env{"HTTP_USER_AGENT"}</td>
+</tr>
+<tr>
+  <td>REMOTE_ADDR:</td><td> $Env{"REMOTE_ADDR"}</td>
+</tr>
+<tr>
+  <td>REMOTE_PORT:</td><td> $Env{"REMOTE_PORT"}</td>
+</tr>
+<tr>
+  <td>SERVER_ADDR:</td><td> $Env{"SERVER_ADDR"}</td>
+</tr>
+<tr>
+  <td>SERVER_PORT:</td><td> $Env{"SERVER_PORT"}</td>
+</tr>
+<tr>
+  <td>SERVER_NAME:</td><td> $Env{"SERVER_NAME"}</td>
+</tr>
+<tr>
+  <td>HTTP_HOST:</td><td> $Env{"HTTP_HOST"}</td>
+</tr>
+<tr>
+  <td>SERVER_SOFTWARE:</td><td> $Env{"SERVER_SOFTWARE"}</td>
+</tr>
+<tr>
+  <td>SERVER_ADMIN:</td><td> $Env{"SERVER_ADMIN"}</td>
+</tr>
+<tr>
+  <td>SCRIPT_FILENAME:</td><td> $Env{"SCRIPT_FILENAME"}</td>
+</tr>
+
+<tr>
+  <td>SCRIPT_NAME:</td><td> $Env{"SCRIPT_NAME"}</td>
+</tr>
+
+</table>
+
+<hr>
+
+# --
+# system calls
+# --
+<b>system calls</b>
+<table>
+<tr>
+  <td>
+   <dtl system-call $Data{"uptime"} = "uptime">
+   system call "uptime":
+  </td>
+  <td>
+   $Data{"uptime"}
+  </td>
+</tr>
+<tr>
+  <td>
+   <dtl system-call $Data{"procinfo"} = "procinfo | head -n1 ">
+   system call "procinfo":
+  </td>
+  <td>
+   $Data{"procinfo"}
+  </td>
+</tr>
+
+</table>
+
+<hr>
+

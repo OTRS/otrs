@@ -1,0 +1,29 @@
+# --
+# Footer.dtl - provides global HTML footer 
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: Footer.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start footer -->
+<table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left">
+  <a href="$Env{"Baselink"}&Action=AgentQueueView"><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"QueueView"}$Env{"Box1"}</font></a>
+   - 
+  <a href="$Env{"Baselink"}&Action=AgentPhoneView"><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"PhoneView"}$Env{"Box1"}</font></a>
+  </font>
+  </td>
+  <td align="right">
+  <a href="#top"><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"top"}$Env{"Box1"}</font></a>
+  </td>
+</tr>
+</table>
+<hr>
+<a name="end"></a>
+</body>
+</html>
+<!-- end footer -->

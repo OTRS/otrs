@@ -1,0 +1,77 @@
+# --
+# AgentCompose.dtl - provides HTML form for AgentCompose 
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentCompose.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<br>
+
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left"> 
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Compose answer for ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="left" valign="top" colspan="2">
+
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="AgentCompose">
+  <input type="hidden" name="Subaction" value="SendEmail">
+  <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+  <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+  <input type="hidden" name="NextScreen" value="$NextScreen">
+  <input type="hidden" name="Email" value="$Data{"Email"}">
+  <input type="hidden" name="InReplyTo" value="$Data{"InReplyTo"}">
+  <table border="0">
+    <tr>
+      <td>$Text{"From"}:</td><td>$Data{"FromHTML"} <input type="hidden" name="From" value="$Data{"From"}"></td>
+    </tr>
+    <tr>
+      <td>$Text{"To"}:</td><td><input type="text" name="To" value="$Data{"To"}" size="65"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Cc"}:</td><td><input type="text" name="Cc" value="$Data{"Cc"}" size="65"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Data{"Subject"}" size="65"></td>
+    </tr>
+    <tr>
+      <td valign="top">$Text{"Text"}:</td><td>
+<pre>
+<textarea name="Body" rows="25" cols="80">
+$Data{"Salutation"}
+$Data{"To"} $Text{"wrote"}:
+$Data{"Body"}
+
+$Data{"StdResponse"}
+
+$Data{"Signature"}
+</textarea>
+</pre>
+      </td>
+    </tr>
+    <tr>
+      <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+    </tr>
+  </table>
+  <br>
+  <input type="submit" value="$Text{"Send mail!"}">
+  </form>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+

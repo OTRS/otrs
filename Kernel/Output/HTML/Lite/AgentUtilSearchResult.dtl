@@ -1,0 +1,53 @@
+# --
+# AgentUtilSearchResult.dtl - provides HTML form for AgentUtilities.pm
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentUtilSearchResult.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Ticket Number"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b></font></b>
+  </td>
+</tr>
+
+<tr bgcolor="$Env{"BGTableColor2"}">
+  <td align="left" valign="top">
+  <b>$Text{"State"}:</b> $Data{"State"} -
+  <b>$Text{"Queue"}:</b> $Data{"Queue"} 
+  <br>
+  <b>$Text{"Owner"}:</b> $Data{"Owner"} -
+  <b>$Text{"Lock"}:</b> $Data{"Lock"} 
+  </td>
+
+  <td align="right" valign="top">
+  <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Zoom"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentHistory&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"History"}</a> 
+  </td>
+</tr>
+
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="left" valign="top" colspan="2">
+<b>$Text{"From"}:</b> $Data{"From"} 
+<br>
+<b>$Text{"Subject"}:</b> $Data{"Subject"}
+<br>
+<pre>
+$Data{"Text"}
+</pre>
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
+<br>

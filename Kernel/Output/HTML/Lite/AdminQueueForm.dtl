@@ -1,0 +1,103 @@
+# --
+# AdminQueueForm.dtl - provides HTML form for AdminQueue
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminQueueForm.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left" width="30%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Queue Managament"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+  <td align="right" width="70%">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </font>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
+  <td>
+    $Text{"Change Queue settings"}:
+    <br>
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="Change">
+    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+    $Data{"QueueOption"}
+    <br>
+    <input type="submit" value="$Text{"change"}">
+    </form>
+  </td> 
+  <td>
+# --
+# check subaction
+# --
+<dtl set $Data{"Headline"} = "Add Queue">
+<dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update Queue"; }>
+# check add link
+<dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a queue)"; }>
+# --
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}&Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
+    <br>
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
+    <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+    <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+    <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td>$Text{"Name"}: </td>
+      <td> <input type="text" name="Name" value="$Data{"Name"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Group"}: </td>
+      <td> $Data{"GroupOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Unlock Timeout"}: </td>
+      <td> <input type="text" name="UnlockTimeout" value="$Data{"UnlockTimeout"}" size="10" maxlength="10"></td>
+    </tr>
+    <tr>
+      <td>$Text{"EscalationTime"}: </td>
+      <td> <input type="text" name="EscalationTime" value="$Data{"EscalationTime"}" size="10" maxlength="10"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Follow up Option"}: </td>
+      <td> $Data{"FollowUpOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Ticket lock after a follow up"}: </td>
+      <td> <input type="text" name="FollowUpLock" value="$Data{"FollowUpLock"}" size="1" maxlength="1"><td>
+    </tr>
+    <tr>
+      <td>$Text{"Systemaddress"}: </td>
+      <td> $Data{"SystemAddressOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Salutation"}: </td>
+      <td> $Data{"SalutationOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Signature"}: </td>
+      <td> $Data{"SignatureOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Valid"}: </td>
+      <td> $Data{"ValidOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Comment"}: </td>
+      <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
+    </tr>
+    </table>
+    <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
+  </td>
+</tr>
+</table>
+<!-- end form -->
+

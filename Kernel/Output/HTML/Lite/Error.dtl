@@ -1,0 +1,57 @@
+# --
+# Login.dtl - provides HTML login screen
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: Error.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<center>
+
+<p>
+<table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="1" cellpadding="1">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td>
+  <p>
+   <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
+  </p>
+  </td>
+</tr>
+<tr>
+  <td>
+    <table>
+        <tr>
+            <td valign="top"><b>$Text{"Handle"}:</b></td>
+            <td valign="top">$Data{"Filename1"}</td>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Modulefile"}:</b></td>
+            <td valign="top">$Data{"Filename"}</td>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Module"}:</b></td>
+            <td valign="top">$Data{"Package"} (v $Data{"Version"})</td>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Subfunction"}:</b></td>
+            <td valign="top">$Data{"Subroutine1"}</td>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Line"}:</b></td>
+            <td valign="top">$Data{"Line"}</TD>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Comment"}:</b></td>
+            <td valign="top">$Data{"Comment"}</td>
+        </tr>
+    </table>
+  </td>
+</tr>
+</table>
+
+</p>
+
+</center>
