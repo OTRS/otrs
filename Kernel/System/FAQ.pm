@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.8 2004-03-05 08:12:38 martin Exp $
+# $Id: FAQ.pm,v 1.9 2004-03-13 17:09:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -350,7 +350,7 @@ sub HistoryGet {
     }
     $SQL .= ' ORDER BY create_time DESC';
     my @Data = ();
-    $Self->{DBObject}->Prepare(SQL => $SQL);
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 200);
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my %Record = (
             ID => $Row[0],
@@ -502,6 +502,25 @@ sub CategoryDelete {
 
 }
 # --
+sub StateTypeList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # sql 
+    my %List = ();
+    $Self->{DBObject}->Prepare(SQL => 'SELECT id, name FROM faq_state_type');
+    while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $List{$Row[0]} = $Row[1];
+    }
+    return %List;
+}
+# --
 sub StateList {
     my $Self = shift;
     my %Param = @_;
@@ -589,7 +608,7 @@ sub StateGet {
     # sql 
     my %Data = ();
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name, comments FROM faq_state WHERE id = $Param{ID}",
+        SQL => "SELECT id, name FROM faq_state WHERE id = $Param{ID}",
     );
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
         %Data = (
@@ -762,6 +781,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2004-03-05 08:12:38 $
+$Revision: 1.9 $ $Date: 2004-03-13 17:09:22 $
 
 =cut
