@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.176 2005-02-15 12:07:56 martin Exp $
+# $Id: Generic.pm,v 1.177 2005-02-15 14:22:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.176 $';
+$VERSION = '$Revision: 1.177 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -843,10 +843,7 @@ sub Output {
                 $Object->Run(%{$Filters{$Filter}}, Data => \$Output);
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Filters{$Filter}->{Module}!",
-                );
+                $Self->FatalError();
             }
         }
     }
@@ -1760,10 +1757,7 @@ sub NavigationBar {
                 $Output .= $Object->Run(%Param, Config => $Jobs{$Job});
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Jobs{$Job}->{Module}!",
-                );
+                $Self->FatalError();
             }
         }
     }
@@ -1857,10 +1851,7 @@ sub NavigationBar {
                 %NavBarModule = (%NavBarModule, $Object->Run(%Param, Config => $Jobs{$Job}));
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Jobs{$Job}->{Module}!",
-                );
+                $Self->FatalError();
             }
         }
     }
@@ -1892,10 +1883,7 @@ sub NavigationBar {
                 $Output .= $Object->Run(%Param, Config => \%Jobs);
             }
             else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Jobs{Module}!",
-                );
+                $Self->FatalError();
             }
     }
     return $Output;
@@ -2144,6 +2132,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176 $ $Date: 2005-02-15 12:07:56 $
+$Revision: 1.177 $ $Date: 2005-02-15 14:22:52 $
 
 =cut
