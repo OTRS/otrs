@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.4 2004-08-01 20:46:13 martin Exp $
+# $Id: Email.pm,v 1.5 2004-09-04 16:08:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Entity;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -41,6 +41,7 @@ create a object
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::System::DB;
+  use Kernel::System::Email;
 
   my $ConfigObject = Kernel::Config->new();
   my $LogObject    = Kernel::System::Log->new(
@@ -229,7 +230,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2004-08-01 20:46:13 $
+$Revision: 1.5 $ $Date: 2004-09-04 16:08:36 $
 
 =cut
 
