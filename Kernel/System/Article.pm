@@ -2,7 +2,7 @@
 # Kernel/System/Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.12 2002-08-04 14:45:10 martin Exp $
+# $Id: Article.pm,v 1.13 2002-08-04 23:28:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,10 +17,9 @@ use File::Path;
 use File::Basename;
 use MIME::Parser;
 use MIME::Words qw(:all);
-use MIME::QuotedPrint;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -95,8 +94,6 @@ sub CreateArticle {
         $Param{Body} = 'no body found!';
     }
     else {
-        # decode quoted printable 
-        $Param{Body} = MIME::QuotedPrint::decode($Param{Body});
         # fix some bad stuff from browsers!
         $Param{Body} =~ s/(\n\r|\r\n)/\n/g;
     }
