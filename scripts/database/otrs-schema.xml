@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.3 2003-02-09 20:52:49 martin Exp $
+  $Id: otrs-schema.xml,v 1.4 2003-02-14 22:46:10 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.3  2003/02/09 20:52:49  martin
+  added customer_user_id to ticket table
+
   Revision 1.2  2003/02/08 22:03:41  martin
   changed ticket.user_id and ticket.group_id from smalin (max 32767) to integer (2147483647)
 
@@ -101,12 +104,12 @@
 
 <app-data>
 
-<database name="OTRS">
+<database name="otrs">
 
 <!-- valid - all valid stats -->
 <table name="valid">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="25" type="VARCHAR"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
@@ -119,7 +122,7 @@
 <!-- ticket_priority - all ticket priorites -->
 <table name="ticket_priority">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="25" type="VARCHAR"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>
@@ -132,7 +135,7 @@
 <!-- ticket_lock_type - all ticket lock types -->
 <table name="ticket_lock_type">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="25" type="VARCHAR"/>
+  <column name="name" required="true" size="50" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/> 
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -145,12 +148,12 @@
 
 <!-- user - all user -->
 <table name="system_user">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="login" required="true" size="80" type="VARCHAR"/>
-  <column name="pw" required="true" size="20" type="VARCHAR"/>
-  <column name="salutation" required="false" size="20" type="VARCHAR"/>
-  <column name="first_name" required="true" size="40" type="VARCHAR"/>
-  <column name="last_name" required="true" size="40" type="VARCHAR"/>
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="login" required="true" size="100" type="VARCHAR"/>
+  <column name="pw" required="true" size="50" type="VARCHAR"/>
+  <column name="salutation" required="false" size="50" type="VARCHAR"/>
+  <column name="first_name" required="true" size="100" type="VARCHAR"/>
+  <column name="last_name" required="true" size="100" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/> 
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -164,7 +167,7 @@
 <!-- user preferences -->
 <table name="user_preferences">
   <column name="user_id" required="true" type="INTEGER"/>
-  <column name="preferences_key" required="true" size="100" type="VARCHAR"/>
+  <column name="preferences_key" required="true" size="150" type="VARCHAR"/>
   <column name="preferences_value" required="false" size="250" type="VARCHAR"/>
   <index name="index_user_preferences_user_id">
     <index-column name="user_id"/>
@@ -173,9 +176,9 @@
 
 <!-- group - all groups -->
 <table name="groups">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="25" type="VARCHAR"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -188,7 +191,7 @@
 
 <!-- group_user - relation group<->user -->
 <table name="group_user">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
   <column name="user_id" required="true" type="INTEGER"/>
   <column name="group_id" required="true" type="INTEGER"/>
   <column name="create_time" required="true" type="DATE"/>
@@ -199,7 +202,6 @@
 
 <!-- personal_queues - there should stored all personal_queues -->
 <table name="personal_queues">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
   <column name="user_id" required="true" type="INTEGER"/>
   <column name="queue_id" required="true" type="INTEGER"/>
 </table>
@@ -207,7 +209,7 @@
 <!-- theme - all frontend themes -->
 <table name="theme">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="theme" required="true" size="30" type="VARCHAR"/>
+  <column name="theme" required="true" size="100" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -237,8 +239,8 @@
 <!-- ticket_state - all ticket states -->
 <table name="ticket_state">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="30" type="VARCHAR"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -252,9 +254,9 @@
 <!-- salutation - all salutation for the queues -->
 <table name="salutation">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="50" type="VARCHAR"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
   <column name="text" required="true" type="LONGVARCHAR"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -268,9 +270,9 @@
 <!-- signature - all signature for the queues -->
 <table name="signature">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="50" type="VARCHAR"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
   <column name="text" required="true" type="LONGVARCHAR"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -290,7 +292,7 @@
   <column name="value1" required="true" size="200" type="VARCHAR"/>
   <column name="value2" required="false" size="200" type="VARCHAR"/>
   <column name="value3" required="false" size="200" type="VARCHAR"/>
-  <column name="queue_id" required="true" type="SMALLINT"/>
+  <column name="queue_id" required="true" type="INTEGER"/>
   <column name="comment" required="false" size="200" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
@@ -302,8 +304,8 @@
 <!-- follow_up_possible? -->
 <table name="follow_up_possible">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="200" type="VARCHAR"/>
-  <column name="comment" required="false" size="200" type="VARCHAR"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -316,9 +318,9 @@
 
 <!-- queue - all system queues -->
 <table name="queue">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
   <column name="name" required="true" size="200" type="VARCHAR"/>
-  <column name="group_id" required="true" type="SMALLINT"/>
+  <column name="group_id" required="true" type="INTEGER"/>
   <column name="unlock_timeout" required="false" type="INTEGER"/>
   <column name="escalation_time" required="false" type="INTEGER"/>
   <column name="system_address_id" required="true" type="SMALLINT"/>
@@ -341,7 +343,7 @@
 <table name="ticket">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
   <column name="tn" required="true" size="50" type="VARCHAR"/>
-  <column name="queue_id" required="true" type="SMALLINT"/>
+  <column name="queue_id" required="true" type="INTEGER"/>
   <column name="ticket_lock_id" required="true" type="SMALLINT"/>
   <column name="ticket_answered" required="true" type="SMALLINT"/>
   <column name="user_id" required="true" type="INTEGER"/>
@@ -407,8 +409,8 @@
 <!-- ticket_history_type - all history types -->
 <table name="ticket_history_type">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="50" type="VARCHAR"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -422,8 +424,8 @@
 <!-- article_type - all types of articles (e. g. email, fax, phonecall, ...) -->
 <table name="article_type">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="50" type="VARCHAR"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -437,8 +439,8 @@
 <!-- article_sender_type - all possibles senders (e. g. agent, system, customer, ...) -->
 <table name="article_sender_type">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="50" type="VARCHAR"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="name" required="true" size="100" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -461,7 +463,7 @@
   <column name="a_cc" required="false" type="LONGVARCHAR"/>
   <column name="a_subject" required="false" type="LONGVARCHAR"/>
   <column name="a_message_id" required="false" size="250" type="VARCHAR"/>
-  <column name="a_content_type" required="false" size="100" type="VARCHAR"/>
+  <column name="a_content_type" required="false" size="250" type="VARCHAR"/>
   <column name="a_body" required="true" type="LONGVARCHAR"/>
   <column name="incoming_time" required="true" type="INTEGER"/>
   <column name="content_path" required="false" size="250" type="VARCHAR"/>
@@ -513,7 +515,7 @@
 
 <!-- standard_response - -->
 <table name="standard_response">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
   <column name="name" required="true" size="80" type="VARCHAR"/>
   <column name="text" required="true" type="LONGVARCHAR"/>
   <column name="comment" required="false" size="80" type="VARCHAR"/>
@@ -529,7 +531,6 @@
 
 <!-- queue_standard_response - -->
 <table name="queue_standard_response">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
   <column name="queue_id" required="true" type="INTEGER"/>
   <column name="standard_response_id" required="true" type="INTEGER"/>
   <column name="create_time" required="true" type="DATE"/>
@@ -648,7 +649,6 @@
 
 <!-- session -->
 <table name="session">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
   <column name="session_id" required="true" size="120" type="VARCHAR"/>
   <column name="value" required="true" type="LONGVARCHAR"/>
   <unique>
@@ -683,15 +683,15 @@
 
 <!-- customer user -->
 <table name="customer_user">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="login" required="true" size="80" type="VARCHAR"/>
-  <column name="email" required="true" size="120" type="VARCHAR"/>
-  <column name="customer_id" required="true" size="120" type="VARCHAR"/>
-  <column name="pw" required="true" size="20" type="VARCHAR"/>
-  <column name="salutation" required="false" size="20" type="VARCHAR"/>
-  <column name="first_name" required="true" size="40" type="VARCHAR"/>
-  <column name="last_name" required="true" size="40" type="VARCHAR"/>
-  <column name="comment" required="true" size="120" type="VARCHAR"/>
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="login" required="true" size="100" type="VARCHAR"/>
+  <column name="email" required="true" size="150" type="VARCHAR"/>
+  <column name="customer_id" required="true" size="200" type="VARCHAR"/>
+  <column name="pw" required="true" size="50" type="VARCHAR"/>
+  <column name="salutation" required="false" size="50" type="VARCHAR"/>
+  <column name="first_name" required="true" size="100" type="VARCHAR"/>
+  <column name="last_name" required="true" size="100" type="VARCHAR"/>
+  <column name="comment" required="true" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/> 
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
@@ -732,7 +732,7 @@
   <column name="host" required="true" size="200" type="VARCHAR"/>
   <column name="queue_id" required="true" type="INTEGER"/>
   <column name="trusted" required="true" type="SMALLINT"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
+  <column name="comment" required="false" size="250" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>

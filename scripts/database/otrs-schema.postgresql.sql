@@ -5,7 +5,7 @@
 CREATE TABLE valid
 (
     id serial,
-    name varchar (25) NOT NULL,
+    name varchar (50) NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE valid
 CREATE TABLE ticket_priority
 (
     id serial,
-    name varchar (25) NOT NULL,
+    name varchar (50) NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE ticket_priority
 CREATE TABLE ticket_lock_type
 (
     id serial,
-    name varchar (25) NOT NULL,
+    name varchar (50) NOT NULL,
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -51,11 +51,11 @@ CREATE TABLE ticket_lock_type
 CREATE TABLE system_user
 (
     id serial,
-    login varchar (80) NOT NULL,
-    pw varchar (20) NOT NULL,
-    salutation varchar (20),
-    first_name varchar (40) NOT NULL,
-    last_name varchar (40) NOT NULL,
+    login varchar (100) NOT NULL,
+    pw varchar (500) NOT NULL,
+    salutation varchar (50),
+    first_name varchar (100) NOT NULL,
+    last_name varchar (100) NOT NULL,
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE system_user
 CREATE TABLE user_preferences
 (
     user_id integer NOT NULL,
-    preferences_key varchar (100) NOT NULL,
+    preferences_key varchar (150) NOT NULL,
     preferences_value varchar (250)
 );
 create  INDEX index_user_id ON user_preferences (user_id);
@@ -82,8 +82,8 @@ create  INDEX index_user_id ON user_preferences (user_id);
 CREATE TABLE groups
 (
     id serial,
-    name varchar (25) NOT NULL,
-    comment varchar (80),
+    name varchar (100) NOT NULL,
+    comment varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -113,10 +113,8 @@ CREATE TABLE group_user
 -----------------------------------------------------------------------------
 CREATE TABLE personal_queues
 (
-    id serial,
     user_id integer NOT NULL,
-    queue_id integer NOT NULL,
-    PRIMARY KEY(id)
+    queue_id integer NOT NULL
 );
 
 -----------------------------------------------------------------------------
@@ -125,7 +123,7 @@ CREATE TABLE personal_queues
 CREATE TABLE theme
 (
     id serial,
-    theme varchar (30) NOT NULL,
+    theme varchar (100) NOT NULL,
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -159,8 +157,8 @@ CREATE TABLE charset
 CREATE TABLE ticket_state
 (
     id serial,
-    name varchar (30) NOT NULL,
-    comment varchar (80),
+    name varchar (100) NOT NULL,
+    comment varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -176,9 +174,9 @@ CREATE TABLE ticket_state
 CREATE TABLE salutation
 (
     id serial,
-    name varchar (50) NOT NULL,
+    name varchar (100) NOT NULL,
     text varchar NOT NULL,
-    comment varchar (80),
+    comment varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -194,9 +192,9 @@ CREATE TABLE salutation
 CREATE TABLE signature
 (
     id serial,
-    name varchar (50) NOT NULL,
+    name varchar (100) NOT NULL,
     text varchar NOT NULL,
-    comment varchar (80),
+    comment varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -232,8 +230,8 @@ CREATE TABLE system_address
 CREATE TABLE follow_up_possible
 (
     id serial,
-    name varchar (200) NOT NULL,
-    comment varchar (200),
+    name varchar (100) NOT NULL,
+    comment varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -275,7 +273,7 @@ CREATE TABLE ticket
 (
     id serial,
     tn varchar (50) NOT NULL,
-    queue_id smallint NOT NULL,
+    queue_id integer NOT NULL,
     ticket_lock_id smallint NOT NULL,
     ticket_answered smallint NOT NULL,
     user_id integer NOT NULL,
@@ -334,8 +332,8 @@ create  INDEX ticket_history_create_time ON ticket_history (create_time);
 CREATE TABLE ticket_history_type
 (
     id serial,
-    name varchar (50) NOT NULL,
-    comment varchar (80),
+    name varchar (100) NOT NULL,
+    comment varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -351,8 +349,8 @@ CREATE TABLE ticket_history_type
 CREATE TABLE article_type
 (
     id serial,
-    name varchar (50) NOT NULL,
-    comment varchar (80),
+    name varchar (100) NOT NULL,
+    comment varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -368,8 +366,8 @@ CREATE TABLE article_type
 CREATE TABLE article_sender_type
 (
     id serial,
-    name varchar (50) NOT NULL,
-    comment varchar (80),
+    name varchar (100) NOT NULL,
+    comment varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -394,7 +392,7 @@ CREATE TABLE article
     a_cc varchar,
     a_subject varchar,
     a_message_id varchar (250),
-    a_content_type varchar (100),
+    a_content_type varchar (250),
     a_body varchar NOT NULL,
     incoming_time integer NOT NULL,
     content_path varchar (250),
@@ -472,14 +470,12 @@ CREATE TABLE standard_response
 -----------------------------------------------------------------------------
 CREATE TABLE queue_standard_response
 (
-    id serial,
     queue_id integer NOT NULL,
     standard_response_id integer NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
     change_time timestamp(0) NOT NULL,
-    change_by integer NOT NULL,
-    PRIMARY KEY(id)
+    change_by integer NOT NULL
 );
 
 -----------------------------------------------------------------------------
@@ -491,6 +487,7 @@ CREATE TABLE standard_attachment
     name varchar (150) NOT NULL,
     content_type varchar (150) NOT NULL,
     content varchar NOT NULL,
+    filename varchar (250) NOT NULL,
     comment varchar (150),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -612,10 +609,8 @@ CREATE TABLE faq
 -----------------------------------------------------------------------------
 CREATE TABLE session
 (
-    id serial,
     session_id varchar (120) NOT NULL,
     value varchar NOT NULL,
-    PRIMARY KEY(id),
     UNIQUE (session_id)
 );
 create  INDEX index_session_id ON session (session_id);
@@ -650,14 +645,14 @@ create  INDEX index_lock_ticket_id ON ticket_lock_index (ticket_id);
 CREATE TABLE customer_user
 (
     id serial,
-    login varchar (80) NOT NULL,
-    email varchar (120) NOT NULL,
-    customer_id VARCHAR (120) NOT NULL,
-    pw varchar (20) NOT NULL,
-    salutation varchar (20),
-    first_name varchar (40) NOT NULL,
-    last_name varchar (40) NOT NULL,
-    comment varchar (120) NOT NULL,
+    login varchar (100) NOT NULL,
+    email varchar (150) NOT NULL,
+    customer_id VARCHAR (200) NOT NULL,
+    pw varchar (50) NOT NULL,
+    salutation varchar (50),
+    first_name varchar (100) NOT NULL,
+    last_name varchar (100) NOT NULL,
+    comment varchar (250) NOT NULL,
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -676,7 +671,7 @@ CREATE TABLE customer_preferences
     preferences_key varchar (150) NOT NULL,
     preferences_value varchar (250)
 );
-create  INDEX index_user_id ON customer_preferences (user_id);
+create INDEX index_cuser_id ON customer_preferences (user_id);
 
 -----------------------------------------------------------------------------
 -- ticket_loop_protection

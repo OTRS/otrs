@@ -7,7 +7,7 @@ drop table if exists valid;
 CREATE TABLE valid
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (25) NOT NULL,
+    name VARCHAR (50) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -24,7 +24,7 @@ drop table if exists ticket_priority;
 CREATE TABLE ticket_priority
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (25) NOT NULL,
+    name VARCHAR (50) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -41,7 +41,7 @@ drop table if exists ticket_lock_type;
 CREATE TABLE ticket_lock_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (25) NOT NULL,
+    name VARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -58,12 +58,12 @@ drop table if exists system_user;
 
 CREATE TABLE system_user
 (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    login VARCHAR (80) NOT NULL,
-    pw VARCHAR (20) NOT NULL,
-    salutation VARCHAR (20),
-    first_name VARCHAR (40) NOT NULL,
-    last_name VARCHAR (40) NOT NULL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    login VARCHAR (100) NOT NULL,
+    pw VARCHAR (50) NOT NULL,
+    salutation VARCHAR (50),
+    first_name VARCHAR (100) NOT NULL,
+    last_name VARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -81,7 +81,7 @@ drop table if exists user_preferences;
 CREATE TABLE user_preferences
 (
     user_id INTEGER NOT NULL,
-    preferences_key VARCHAR (100) NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250),
     INDEX index_user_preferences_user_id (user_id)
 );
@@ -93,9 +93,9 @@ drop table if exists groups;
 
 CREATE TABLE groups
 (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (25) NOT NULL,
-    comment VARCHAR (80),
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (100) NOT NULL,
+    comment VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -112,7 +112,7 @@ drop table if exists group_user;
 
 CREATE TABLE group_user
 (
-    id INTEGER NOT NULL AUTO_INCREMENT,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
@@ -129,10 +129,8 @@ drop table if exists personal_queues;
 
 CREATE TABLE personal_queues
 (
-    id INTEGER NOT NULL AUTO_INCREMENT,
     user_id INTEGER NOT NULL,
-    queue_id INTEGER NOT NULL,
-    PRIMARY KEY(id)
+    queue_id INTEGER NOT NULL
 );
 
 # -----------------------------------------------------------------------
@@ -143,7 +141,7 @@ drop table if exists theme;
 CREATE TABLE theme
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    theme VARCHAR (30) NOT NULL,
+    theme VARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -181,8 +179,8 @@ drop table if exists ticket_state;
 CREATE TABLE ticket_state
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (30) NOT NULL,
-    comment VARCHAR (80),
+    name VARCHAR (100) NOT NULL,
+    comment VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -200,9 +198,9 @@ drop table if exists salutation;
 CREATE TABLE salutation
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (50) NOT NULL,
+    name VARCHAR (100) NOT NULL,
     text MEDIUMTEXT NOT NULL,
-    comment VARCHAR (80),
+    comment VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -220,9 +218,9 @@ drop table if exists signature;
 CREATE TABLE signature
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (50) NOT NULL,
+    name VARCHAR (100) NOT NULL,
     text MEDIUMTEXT NOT NULL,
-    comment VARCHAR (80),
+    comment VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -244,7 +242,7 @@ CREATE TABLE system_address
     value1 VARCHAR (200) NOT NULL,
     value2 VARCHAR (200),
     value3 VARCHAR (200),
-    queue_id SMALLINT NOT NULL,
+    queue_id INTEGER NOT NULL,
     comment VARCHAR (200),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -280,9 +278,9 @@ drop table if exists queue;
 
 CREATE TABLE queue
 (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    group_id SMALLINT NOT NULL,
+    group_id INTEGER NOT NULL,
     unlock_timeout INTEGER,
     escalation_time INTEGER,
     system_address_id SMALLINT NOT NULL,
@@ -309,7 +307,7 @@ CREATE TABLE ticket
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
     tn VARCHAR (50) NOT NULL,
-    queue_id SMALLINT NOT NULL,
+    queue_id INTEGER NOT NULL,
     ticket_lock_id SMALLINT NOT NULL,
     ticket_answered SMALLINT NOT NULL,
     user_id INTEGER NOT NULL,
@@ -373,8 +371,8 @@ drop table if exists ticket_history_type;
 CREATE TABLE ticket_history_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (50) NOT NULL,
-    comment VARCHAR (80),
+    name VARCHAR (100) NOT NULL,
+    comment VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -392,8 +390,8 @@ drop table if exists article_type;
 CREATE TABLE article_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (50) NOT NULL,
-    comment VARCHAR (80),
+    name VARCHAR (100) NOT NULL,
+    comment VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -411,8 +409,8 @@ drop table if exists article_sender_type;
 CREATE TABLE article_sender_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (50) NOT NULL,
-    comment VARCHAR (80),
+    name VARCHAR (100) NOT NULL,
+    comment VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -439,7 +437,7 @@ CREATE TABLE article
     a_cc MEDIUMTEXT,
     a_subject MEDIUMTEXT,
     a_message_id VARCHAR (250),
-    a_content_type VARCHAR (100),
+    a_content_type VARCHAR (250),
     a_body MEDIUMTEXT NOT NULL,
     incoming_time INTEGER NOT NULL,
     content_path VARCHAR (250),
@@ -506,7 +504,7 @@ drop table if exists standard_response;
 
 CREATE TABLE standard_response
 (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (80) NOT NULL,
     text MEDIUMTEXT NOT NULL,
     comment VARCHAR (80),
@@ -526,14 +524,12 @@ drop table if exists queue_standard_response;
 
 CREATE TABLE queue_standard_response
 (
-    id INTEGER NOT NULL AUTO_INCREMENT,
     queue_id INTEGER NOT NULL,
     standard_response_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
+    change_by INTEGER NOT NULL
 );
 
 # -----------------------------------------------------------------------
@@ -646,13 +642,10 @@ drop table if exists session;
 
 CREATE TABLE session
 (
-    id BIGINT NOT NULL AUTO_INCREMENT,
     session_id VARCHAR (120) NOT NULL,
     value MEDIUMTEXT NOT NULL,
-    PRIMARY KEY(id),
     UNIQUE (session_id),
     INDEX index_session_id (session_id)
-   
 );
 
 # -----------------------------------------------------------------------
@@ -690,16 +683,16 @@ drop table if exists customer_user;
 
 CREATE TABLE customer_user
 (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    login VARCHAR (80) NOT NULL,
-    email VARCHAR (120) NOT NULL,
-    customer_id VARCHAR (120) NOT NULL,
-    pw VARCHAR (20) NOT NULL,
-    salutation VARCHAR (20),
-    first_name VARCHAR (40) NOT NULL,
-    last_name VARCHAR (40) NOT NULL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    login VARCHAR (100) NOT NULL,
+    email VARCHAR (150) NOT NULL,
+    customer_id VARCHAR (200) NOT NULL,
+    pw VARCHAR (50) NOT NULL,
+    salutation VARCHAR (50),
+    first_name VARCHAR (100) NOT NULL,
+    last_name VARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comment VARCHAR (120) NOT NULL,
+    comment VARCHAR (250) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
