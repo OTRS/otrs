@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.119 2004-03-25 10:17:20 martin Exp $
+# $Id: Defaults.pm,v 1.120 2004-03-30 08:48:17 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.119 $';
+$VERSION = '$Revision: 1.120 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -283,6 +283,20 @@ sub LoadDefaults {
     $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
         Module => 'Kernel::Output::HTML::NotificationUIDCheck',
     };
+
+    # AgentQueueSort
+    # sort a queue ascending or descending (after priority sort)
+    # 
+    # assignment: QueueID -> Value
+    # where value is one of:
+    # 0: ascending (oldest on top, default)
+    # 1: descending (youngest on top)
+    # 
+    #$Self->{AgentQueueSort} = {
+    #    7 => 1,
+    #    20 => 1,
+    #};
+
 
     # --------------------------------------------------- #
     # AgentStatusView (shows all open tickets)            #
