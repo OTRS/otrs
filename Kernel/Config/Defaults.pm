@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.138 2004-06-10 18:38:39 robert Exp $
+# $Id: Defaults.pm,v 1.139 2004-06-11 06:41:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.138 $';
+$VERSION = '$Revision: 1.139 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -452,6 +452,11 @@ sub LoadDefaults {
     # (use this if an agent can also be a customer via the agent interface)
     $Self->{AgentCanBeCustomer} = 0;
 
+    # Agent::DownloadType
+    # (if the tickets attachments will be opened in browser or just to
+    # force the download) [attachment|inline]
+    $Self->{'Agent::DownloadType'} = 'inline';
+
     # --------------------------------------------------- #
     # directories                                         #
     # --------------------------------------------------- #
@@ -646,7 +651,7 @@ sub LoadDefaults {
             pl => 'Polski',
             nb_NO => 'Norsk bokm&aring;l',
             nb_SW => 'Svenska',
-#            hu => 'Hungarian',
+            hu => 'Hungarian',
 #            ro => 'Romanian',
 #            hr => 'Croatian',
 #            sk => 'Slovak', 

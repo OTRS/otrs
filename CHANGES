@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.122 2004-05-19 10:02:31 martin Exp $
+# $Id: CHANGES,v 1.123 2004-06-11 06:41:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,7 +10,13 @@
 # --
 
 CVS head 
-
+ 
+ - (2004/06/03) improved language translation with custom translation 
+    files: 
+    Kernel/Language/$Locale.pm (default)
+    Kernel/Language/$Locale_$Action.pm (translation for otrs modules like
+     file manager, calendar, ...)
+    Kernel/Language/$Locale_Custom.pm (own changes,updates)
  - (2004/05/18) added html application output filter option, e. g. to
     filter java script of the application or to manipulate the html 
     output of the application.
@@ -76,6 +82,7 @@ CVS head
 
 1.2.4 (2004-??-??)
 
+ - (2004/06/11) added Hungarian translation. Thanks to Gáncs Gábor!
  - (2004/04/10) fixed not shown "this message is written in an
     other charset as your own" link in agent zoom
  - (2004/04/08) fixed performance problem in Kernel::Language
