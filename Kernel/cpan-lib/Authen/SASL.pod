@@ -1,0 +1,146 @@
+
+=head1 NAME
+
+Authen::SASL - SASL Authentication framework
+
+=head1 SYNOPSIS
+
+ use Authen::SASL;
+
+ $sasl = Authen::SASL->new(
+   mechanism => 'CRAM-MD5 PLAIN ANONYMOUS',
+   callback => {
+     pass => \&fetch_password,
+     user => $user,
+   }
+ );
+
+=head1 DESCRIPTION
+
+SASL is a generic mechanism for authentication used by several
+network protocols. B<Authen::SASL> provides an implementation
+framework that all protocols should be able to share.
+
+The framework allows different implementations of the connection
+class to be plugged in. At the time of writing there were two such
+plugins.
+
+=over 4
+
+=item Authen::SASL::Perl
+
+This module implements several mechanisms and is implemented
+entirely in Perl.
+
+=item Authen::SASL::Cyrus
+
+This module uses the cyrus V1 C library.
+
+=back
+
+=head2 CONTRUCTOR
+
+The contructor may be called with or without arguments. Passing arguments is
+just a short cut to calling the C<mechanism> and C<callback> methods.
+
+=head2 METHODS
+
+=over 4
+
+=item mechanism
+
+Returns the current list of mechanisms
+
+=item mechanism NAMES
+
+Set the list of mechanisms to choose from. NAMES should be a space separated string
+of the names.
+
+=item callback NAME
+
+Returns the current callback associated with NAME
+
+=item callback NAME => VALUE, NAME => VALUE, ...
+
+Sets the given callbacks to the given values
+
+=item client_new SERVICE, HOST, SECURITY
+
+Creates and returns a new connection object.
+
+=back
+
+=head1 The Connection Class
+
+=over 4
+
+=item client_start
+
+The initial step to be performed. Returns the initial value to pass to the server.
+
+=item client_step CHALLENGE
+
+This method is called when a response from the server requires it. CHALLENGE
+is the value from the server. Returns the next value to pass to the server.
+
+=item property NAME
+
+=item property NAME => VALUE, NAME => VALUE
+
+=item service
+
+Returns the service argument that was passed to C<client_new>
+
+=item host
+
+Returns the host argument that was passed to C<client_new>
+
+=item mechanism
+
+Returns the name of the chosen mechanism.
+
+=back
+
+=head2 Callbacks
+
+There are three different ways in which a callback may be passed
+
+=over
+
+=item CODEREF
+
+If the value passed is a code reference then, when needed, it will be called
+and the connection object will be passed as the first argument.
+
+=item ARRAYREF
+
+If the value passed is an array reference, the first element in the array
+must be a code reference. When the callback is called the code reference
+will be called with the connection object passed as the first argument
+and all other values from the array passed after.
+
+=item SCALAR
+
+All other values passed will be used directly. ie it is the same as
+passing an code reference that, when called, returns the value.
+
+=back
+
+=head1 SEE ALSO
+
+L<Authen::SASL::Perl>
+
+=head1 AUTHOR
+
+Graham Barr <gbarr@pobox.com>
+
+Please report any bugs, or post any suggestions, to the perl-ldap mailing list
+<perl-ldap-dev@lists.sourceforge.net>
+
+=head1 COPYRIGHT
+
+Copyright (c) 1998-2002 Graham Barr. All rights reserved. This program is
+free software; you can redistribute it and/or modify it under the same
+terms as Perl itself.
+
+=cut
