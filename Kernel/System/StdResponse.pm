@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdResponse.pm,v 1.3 2002-10-03 22:25:54 martin Exp $
+# $Id: StdResponse.pm,v 1.4 2003-01-03 00:13:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -203,6 +203,22 @@ sub StdResponseLookup {
 
     return $Self->{"StdResponse$Suffix"};
 }
+# --
+sub GetAllStdResponses {
+    my $Self = shift;
+    my %Param = @_;
+    if (!defined $Param{Valid}) {
+        $Param{Valid} = 1;
+    }
+    # --
+    # return data
+    # --
+    return $Self->{DBObject}->GetTableData(
+        Table => 'standard_response',
+        What => 'id, name',
+        Valid => $Param{Valid},
+    );
+}   
 # --
 
 
