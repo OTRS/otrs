@@ -1,16 +1,39 @@
 <chapter id="procmail">
-<title>Dispatching with procmail</title>
+<title>Dispatching of incoming email</title>
+
+<sect1>
+<title>With OpenTRS</title>
+<para>
+OpenTRS is able to dispatch incoming emails via "To" address. Configurable via admin interface.
+</para>
+
+<sect2 id="dispatching_via_otrs">
+<title>Example</title>
+<para>
+Add a new system email address (AdminArea -->> System Email Addresses).
+<screenshot>
+<screeninfo>add email address</screeninfo>
+<graphic srccredit="add email address - screenshot" scale="40" fileref="screenshots/admin-add-email.png"></graphic>
+</screenshot>
+</para>
+<para>
+In this case, all incoming emails (with To: support@company.com) will be dispatched to the TEST1 queue. 
+</para>
+</sect2>
+
+<sect1>
+<title>With procmail (for more complex dispatching)</title>
 <para>
 Procmail is a very common e-mail filter in the Linux enviroment. It will be probably installed on your system. If not have a look at the <ulink url="http://www.procmail.org/"><citetitle>procmail homepage</citetitle></ulink>.
 </para>
-<sect1 id="xheader_otrs_queue">
+<sect2 id="xheader_otrs_queue">
 <title>The X-OTRS-Queue Mail-Header</title>
 <para>
 The X-OTRS-Queue Mail-Header is parsed by OpenTRS and OpenTRS will pipe these e-mails direct in this queue. Procmail and fromail can be used to create a powerfull dispatcher tool.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="procmailex">
+<sect2 id="procmailex">
 <title>Examples</title>
 <para>
 The following examples are copied from the procmailex man-page. Feel free to have a look into it (actually it is quite a good idea). Of course we changed the wording a bit (to fit it into the queueing idea).
@@ -56,5 +79,7 @@ And here a last example.
 
 Please have a look into the procmailex man-page for more examples.
 </para>
+</sect2>
+
 </sect1>
 </chapter>
