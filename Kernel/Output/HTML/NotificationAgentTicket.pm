@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicket.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotificationAgentTicket.pm,v 1.1 2004-09-17 11:45:40 martin Exp $
+# $Id: NotificationAgentTicket.pm,v 1.2 2004-09-17 18:47:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,9 @@
 package Kernel::Output::HTML::NotificationAgentTicket;
 
 use strict;
-use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
