@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdResponse.pm,v 1.1 2002-07-24 21:04:12 martin Exp $
+# $Id: StdResponse.pm,v 1.2 2002-10-03 22:18:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,8 +54,9 @@ sub StdResponseAdd {
     # --
     # db quote
     # --
+    my %DBParam = ();
     foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $DBParam{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     # --
     # sql
@@ -64,10 +65,18 @@ sub StdResponseAdd {
         " (name, valid_id, comment, text, ".
         " create_time, create_by, change_time, change_by)".
         " VALUES ".
-        " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', ".
-        " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
+        " ('$DBParam{Name}', $DBParam{ValidID}, '$DBParam{Comment}', '$DBParam{Response}', ".
+        " current_timestamp, $DBParam{UserID}, current_timestamp,  $DBParam{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        return 1;
+        my $Id = 0;
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT id FROM standard_response WHERE ".
+              "name = '$Param{Name}' AND text = '$Param{Response}'",
+        );
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Id = $Row[0];
+        }
+        return $Id;
     }
     else {
         return;
