@@ -63,7 +63,7 @@ OpenTRS is able to send automatically email replay. So it's possibe to create an
 <sect1 id="ticketnumberformat">
 <title>Ticket number format</title>
 <para> 
-You can choose between three different OpenTRS formats. AutoIncrement is default. 
+You can choose between four different OpenTRS formats. AutoIncrement is default. 
 </para>
 <example>
 <title>Kernel/Config.pm - TicketNumberGenerator</title>
@@ -76,6 +76,10 @@ You can choose between three different OpenTRS formats. AutoIncrement is default
     #
     # Kernel::System::Ticket::Number::Date --> ticket numbers with date 
     #   "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
+    #
+    # Kernel::System::Ticket::Number::DateChecksum --> ticket numbers with date and 
+    #   check sum the counter will be rotated daily (my favorite) 
+    #   "Year.Month.Day.SystemID.Counter.CheckSum" like 2002070110101520 and 2002070110101535.
     #
     # Kernel::System::Ticket::Number::Random -->
     #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
