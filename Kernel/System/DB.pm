@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.29 2003-07-09 09:07:40 martin Exp $
+# $Id: DB.pm,v 1.30 2003-07-12 08:42:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -97,7 +97,7 @@ sub new {
         $Self->{'DB::CurrentTimestamp'} = 'timestamp';
     }
     elsif ($Self->{'DB::Type'} eq 'mssql') {
-        $Self->{'DB::Limit'} = 'limit';
+        $Self->{'DB::Limit'} = 0;
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\'';
         $Self->{'DB::QuoteBack'} = 0;
