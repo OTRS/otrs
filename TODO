@@ -2,7 +2,7 @@
 # TODO - to do list of OpenTRS
 # Copyright (C) 2001 Martin Edenhofer
 # --
-# $Id: TODO,v 1.5 2001-12-27 14:25:05 martin Exp $
+# $Id: TODO,v 1.6 2001-12-30 00:33:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,13 +10,11 @@
 # --
 
 immediately:
-- AdminSystemAddresses
 - AdminCharsets
 - AdminStatus
 - AdminLanguages
 
 - AgentPhoneView
-- AgentPreferences
 - AgentMailBox
 - AgentHistory
 - AgentForward
@@ -26,8 +24,15 @@ immediately:
 
 - SystemStats
 
+- Customer handle and modules
+
 - set db time type to human readable string!
 
+- check types of auto responses! 
+
 later:
+- add ticket waiting_states and funktion (AgentPending).
 - rework the db scheme indexes 
 - add foreign-key to the XML db scheme
+- add a screen session management (for back and forward button)
+- rework of loop protrction!
