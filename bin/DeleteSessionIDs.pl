@@ -3,7 +3,7 @@
 # DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DeleteSessionIDs.pl,v 1.12 2004-05-11 12:19:33 robert Exp $
+# $Id: DeleteSessionIDs.pl,v 1.13 2004-09-08 06:12:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -88,9 +88,9 @@ elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
     foreach my $SessionID (@List) {
         my %SessionData = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $SessionID);
         my $MaxSessionTime = $CommonObject{ConfigObject}->Get('SessionMaxTime');
-        my $ValidTime = ($SessionData{UserSessionStart} + $MaxSessionTime) - time();
+        my $ValidTime = (($SessionData{UserSessionStart}||0) + $MaxSessionTime) - time();
         my $MaxSessionIdleTime = $CommonObject{ConfigObject}->Get('SessionMaxIdleTime');
-        my $ValidIdleTime = ($SessionData{UserLastRequest} + $MaxSessionIdleTime) - time();
+        my $ValidIdleTime = (($SessionData{UserLastRequest}||0) + $MaxSessionIdleTime) - time();
         if ($ValidTime <= 0) {
             if ($Command eq '--showexpired') {
                 print " SessionID $SessionID expired!\n";
