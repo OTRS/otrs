@@ -2,7 +2,7 @@
 # AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.1 2002-05-09 23:44:17 martin Exp $
+# $Id: AgentPhone.pm,v 1.2 2002-05-26 10:16:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -165,6 +165,7 @@ sub Run {
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
+        my $Answered = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
         my $ArticleObject = Kernel::System::Article->new(
             DBObject => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
@@ -188,7 +189,9 @@ sub Run {
             CreateUserID => $UserID,
         );
 
+        # --
         # set state
+        # --
         if ($Self->{TicketObject}->GetState(TicketID => $TicketID)  ne $NextState) {
           $Self->{TicketObject}->SetState(
             TicketID => $TicketID,
@@ -197,7 +200,19 @@ sub Run {
             UserID => $UserID,
           );
         }
+
+        # --
+        # set answerd
+        # --
+        $Self->{TicketObject}->SetAnswered(
+            TicketID => $TicketID,
+            UserID => $UserID,
+            Answered => $Answered,
+        );
+
+        # --
         # should i set an unlock?
+        # --
         if ($NextState =~ /^close/i) {
           $Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
@@ -206,7 +221,9 @@ sub Run {
           );
         }
 
-        
+        # --
+        # redirect to zoom view
+        # --        
         $Output .= $Self->{LayoutObject}->Redirect(
             OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
         );

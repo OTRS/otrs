@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.9 2002-05-20 23:28:00 martin Exp $
+# $Id: FollowUp.pm,v 1.10 2002-05-26 10:14:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::PostMaster::AutoResponse;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -112,7 +112,9 @@ sub Run {
             );
         }
     }
+    # --
     # set state 
+    # --
     if ($State && ($OldState ne $State)) {
 	    $TicketObject->SetState(
     	    State => $State,
@@ -120,7 +122,9 @@ sub Run {
 	        UserID => $InmailUserID,
     	);
     }
+    # --
     # add history row
+    # --
     $TicketObject->AddHistoryRow(
         TicketID => $TicketID,
         HistoryType => 'FollowUp',
@@ -128,7 +132,9 @@ sub Run {
         Name => "FollowUp for [$Tn]. $Comment",
         CreateUserID => $InmailUserID,
     );
-   
+    # --
+    # set lock
+    # --
     if ($Lock && !$TicketObject->GetLockState(TicketID => $TicketID) && $OldState =~ /^close/i) {
        $TicketObject->SetLock( 
            TicketID => $TicketID,
@@ -136,6 +142,14 @@ sub Run {
            UserID => => $InmailUserID,
        );
     }
+    # --
+    # set unanswered
+    # --
+    $TicketObject->SetAnswered(
+        TicketID => $TicketID,
+        UserID => $InmailUserID,
+        Answered => 0,
+    );
 
     # write log
     $LogObject->Log(
