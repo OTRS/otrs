@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.2 2002-11-10 22:50:29 martin Exp $
+# $Id: Customer.pm,v 1.3 2002-11-15 14:59:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -315,12 +315,20 @@ sub CustomerMessage {
 sub CustomerMessageNew {
     my $Self = shift;
     my %Param = @_;
-
+    # build to string
     $Param{'ToStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{To},
         Name => 'NewQueueID',
     );
-
+    # build priority string
+    $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{Priorities},
+        Name => 'PriorityID',
+        Selected => $Self->{ConfigObject}->Get('PhoneDefaultPriority') || '3 normal',
+    );
+    if ($Self->{ConfigObject}->Get('CustomerPriority')) {
+        $Param{'PriorityString'} = '<tr><td>$Text{"Priority"}:</td><td>$Data{"PriorityStrg"}</td></tr>';
+    }
     # get output back
     return $Self->Output(TemplateFile => 'CustomerMessageNew', Data => \%Param);
 }
