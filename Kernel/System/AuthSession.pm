@@ -1,8 +1,8 @@
 # --
-# AuthSession.pm - provides session check and session data
+# Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.13 2002-06-15 22:04:25 martin Exp $
+# $Id: AuthSession.pm,v 1.14 2002-07-15 22:16:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -72,7 +72,7 @@ sub CheckSessionID {
         $Kernel::System::AuthSession::CheckSessionID = "SessionID invalid! Need user data!";
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "SessionID: '$SessionID' is invalid!!!",
+          Message => "SessionID: '$SessionID' is invalid!!!",
         );
         return;
     }
@@ -83,7 +83,7 @@ sub CheckSessionID {
           $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "RemoteIP of '$SessionID' ($Data{UserRemoteAddr}) is different with the ".
+          Message => "RemoteIP of '$SessionID' ($Data{UserRemoteAddr}) is different with the ".
            "request IP ($RemoteAddr). Don't grant access!!!",
         );
         # delete session id if it isn't the same remote ip?
@@ -100,7 +100,7 @@ sub CheckSessionID {
          $Kernel::System::AuthSession::CheckSessionID = "Session to old!";
          $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "SessionID ($SessionID) to old (". int((time() - $Data{UserSessionStart})/(60*60)) 
+          Message => "SessionID ($SessionID) to old (". int((time() - $Data{UserSessionStart})/(60*60)) 
           ."h)! Don't grant access!!!",
         );
         # delete session id if to old?
@@ -166,7 +166,7 @@ sub GetSessionIDData {
          if ($Self->{Debug}) {
              $Self->{LogObject}->Log(
                 Priority => 'debug',
-                MSG => "GetSessionIDData: '$PaarData[0]=$PaarData[1]'",
+                Message => "GetSessionIDData: '$PaarData[0]=$PaarData[1]'",
              );
          } 
     }
@@ -302,7 +302,7 @@ sub UpdateSessionID {
         if ($Self->{Debug}) {
             $Self->{LogObject}->Log(
               Priority => 'debug',
-              MSG => "UpdateSessionID: $_=$SessionData{$_}",
+              Message => "UpdateSessionID: $_=$SessionData{$_}",
             );
         }
     }

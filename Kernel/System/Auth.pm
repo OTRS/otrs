@@ -1,8 +1,8 @@
 # --
-# Auth.pm - provides the authentification and user data
+# Kernel/System/Auth.pm - provides the authentification and user data
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.8 2002-05-12 19:16:01 martin Exp $
+# $Id: Auth.pm,v 1.9 2002-07-15 22:16:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -74,7 +74,7 @@ sub Auth {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: '$User' tried to login with Pw: '$Pw' ($UserID/$GetPw/$RemoteAddr)",
+          Message => "User: '$User' tried to login with Pw: '$Pw' ($UserID/$GetPw/$RemoteAddr)",
         );
     }
 
@@ -84,7 +84,7 @@ sub Auth {
     if (!$Pw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+          Message => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -94,7 +94,7 @@ sub Auth {
     elsif ((($GetPw)&&($User)&&($UserID)) && crypt($Pw, $User) eq $GetPw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: $User logged in (REMOTE_ADDR: $RemoteAddr).",
+          Message => "User: $User logged in (REMOTE_ADDR: $RemoteAddr).",
         );
         return 1;
     }
@@ -104,7 +104,7 @@ sub Auth {
     elsif (($UserID) && ($GetPw)) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: $User with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+          Message => "User: $User with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         ); 
         return;
     }
@@ -114,7 +114,7 @@ sub Auth {
     else {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
+          Message => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         ); 
         return;
     }
