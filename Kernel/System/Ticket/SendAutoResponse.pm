@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.11 2003-11-02 15:10:45 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.12 2003-12-15 19:10:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -158,6 +158,20 @@ sub SendAutoResponse {
         $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
     # --
+    # set new To address if customer user id is used
+    # --
+    my $Cc = '';
+    my $ToAll = $GetParam{From};
+    if ($Article{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        if ($CustomerUser{UserEmail} && $GetParam{From} !~ /\Q$CustomerUser{UserEmail}\E/i) {
+            $Cc = $CustomerUser{UserEmail};
+            $ToAll .= ', '.$Cc;
+        }
+    }
+    # --
     # send email
     # --
     my $ArticleID = $Self->SendArticle(
@@ -165,9 +179,10 @@ sub SendAutoResponse {
         SenderType => 'system',
         TicketID => $Param{TicketID},
         HistoryType => $Param{HistoryType}, 
-        HistoryComment => "Sent auto response to '$GetParam{From}'",
+        HistoryComment => "Sent auto response to '$ToAll'",
         From => "$Param{Realname} <$Param{Address}>",
         To => $GetParam{From},
+        Cc => $Cc,
         RealName => $Param{Realname},
         Charset => $Param{Charset},
         Subject => $Subject,
@@ -182,7 +197,7 @@ sub SendAutoResponse {
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message => "Sent auto response ($Param{HistoryType}) for Ticket [$Param{TicketNumber}]".
-         " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$GetParam{From}'."
+         " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$ToAll'."
     );
 
     return 1;
