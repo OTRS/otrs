@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.9 2002-07-31 23:17:23 martin Exp $
+# $Id: AgentCompose.dtl,v 1.10 2002-08-15 22:56:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -46,7 +46,7 @@ function submit_compose()
 <tr bgcolor="$Env{"BGTableColor1"}">
   <td align="left" valign="top">
 
-  <form action="$Env{"CGIHandle"}" method="post" name="compose">
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
   <input type="hidden" name="Action" value="AgentCompose">
   <input type="hidden" name="Subaction" value="SendEmail">
   <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
@@ -82,6 +82,9 @@ $Data{"Signature"}
 </textarea>
 </pre>
       </td>
+    </tr>
+    <tr>
+      <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<input type="button" class="button" onclick="attach()" value="$Text{"Attach"}"> </td>
     </tr>
     <tr>
       <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>

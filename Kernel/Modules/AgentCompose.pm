@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.21 2002-08-01 02:37:36 martin Exp $
+# $Id: AgentCompose.pm,v 1.22 2002-08-15 22:56:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -244,7 +244,29 @@ sub SendEmail {
     my $NextStateID = $Self->{NextStateID} || '??';
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
     my $UserID = $Self->{UserID};
-    
+  
+    # --
+    # get attachment
+    # -- 
+    my $Upload = $Self->{ParamObject}->GetUpload(Filename => 'file_upload');
+    if ($Upload) {
+        $Param{UploadFilenameOrig} = $Self->{ParamObject}->GetParam(Param => 'file_upload') || 'unkown';
+        my $Path = "/tmp/$$";
+        File::Path::mkpath([$Path], 0, 0700) || die $!;
+        $Param{UploadFilename} = "$Path/$Param{UploadFilenameOrig}";
+        open (OUTFILE,"> $Param{UploadFilename}") || die $!;
+        while (<$Upload>) {
+            print OUTFILE $_;
+        }
+        close (OUTFILE);
+        if ($Param{UploadFilename}) {
+          $Param{UploadContentType} = $Self->{ParamObject}->GetUploadInfo( 
+            Filename => $Param{UploadFilenameOrig},  
+            Header => 'Content-Type',
+          ) || '';
+        }
+    }
+ 
     # --
     # send email
     # --
@@ -254,6 +276,8 @@ sub SendEmail {
         LogObject => $Self->{LogObject},
     );
     if (my $ArticleID = $EmailObject->Send(
+        UploadFilename => $Param{UploadFilename},
+        UploadContentType => $Param{UploadContentType},
         DBObject => $Self->{DBObject},
         ArticleObject => $Self->{ArticleObject},
         ArticleType => 'email-external',
