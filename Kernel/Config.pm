@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.5 2001-12-21 17:49:49 martin Exp $
+# $Id: Config.pm,v 1.6 2001-12-23 13:31:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -88,6 +88,15 @@ sub Load {
     # highlight age 2 in min
     $Self->{HighlightAge2} = 29160;
     $Self->{HighlightColor2} = 'red';
+
+    # --
+    # AgentUtil
+    # --
+    # default limit for Tn search
+    $Self->{SearchLimitTn} = 20;
+    # default limit for Txt search
+    $Self->{SearchLimitTxt} = 20;
+
 
     # --
     # directories
