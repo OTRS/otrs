@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.8 2002-02-05 20:24:58 martin Exp $
+# $Id: AuthSession.pm,v 1.9 2002-04-08 13:38:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -27,17 +27,27 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
-    # get log object
-    $Self->{LogObject} = $Param{LogObject} || die 'No LogObject!';
+    # check needed objects
+    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+        $Self->{$_} = $Param{$_} || die "No $_!";
+    }
 
-    # get config data
-    $Self->{ConfigObject} = $Param{ConfigObject} || die 'No ConfigObject!'; 
-
+    # get more common params
     $Self->{SessionSpool} = $Self->{ConfigObject}->Get('SessionDir');
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
  
     # Debug 0=off 1=on
     $Self->{Debug} = 0;    
+
+    # session table data
+    $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('DatabaseSessionTable') 
+     || 'session';
+    # id row
+    $Self->{SQLSessionTableID} = $Self->{ConfigObject}->Get('DatabaseSessionTableID') 
+     || 'session_id';
+    # value row
+    $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('DatabaseSessionTableValue') 
+     || 'value';
 
     return $Self;
 }
@@ -102,16 +112,40 @@ sub GetSessionIDData {
     my %Data;
 
     # --
-    # FIXME!
     # read data
     # --
-    open (SESSION, "< $Self->{SessionSpool}/$SessionID") 
-        || print STDERR "Can't open $Self->{SessionSpool}/$SessionID: $!\n";
-    while (<SESSION>) {
-        chomp;
-        $Strg = $_;
+    if ($Self->{ConfigObject}->Get('SessionDriver') eq 'sql') {
+        # --
+        # db driver
+        # --
+        my $SQL = "SELECT $Self->{SQLSessionTableValue} ".
+          " FROM ".
+          " $Self->{SQLSessionTable} ".
+          " WHERE ".
+          " $Self->{SQLSessionTableID} = '$SessionID'";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+             $Strg = $RowTmp[0];
+        } 
     }
-    close (SESSION);
+    elsif ($Self->{ConfigObject}->Get('SessionDriver') eq 'fs') {
+        # --
+        # fs driver
+        # --
+        open (SESSION, "< $Self->{SessionSpool}/$SessionID") 
+            || die "Can't open $Self->{SessionSpool}/$SessionID: $!\n";
+        while (<SESSION>) {
+            chomp;
+            $Strg = $_;
+        }
+        close (SESSION);
+    }
+    else {
+        # --
+        # else!? Panic!
+        # --
+        die "Unknown SessionDriver (".$Self->{ConfigObject}->Get('SessionDriver').")!"; 
+    }
 
     # --
     # split data
@@ -153,17 +187,45 @@ sub CreateSessionID {
     $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
     # --
-    # store SessionID + data
-    # FIXME!
+    # data 2 strg
     # --
-    open (SESSION, ">> $Self->{SessionSpool}/$SessionID") 
-        || die "Can't create $Self->{SessionSpool}/$SessionID: $!"; 
+    my $DataToStore = '';
     foreach (keys %Param) {
-        print SESSION "$_=$Param{$_};";
+        $DataToStore .= "$_=$Param{$_};";
     }
-    print SESSION "UserSessionStart=" . time() . ";";
-    print SESSION "UserRemoteAddr=" . $RemoteAddr . ";\n";
-    close (SESSION);
+    $DataToStore .= "UserSessionStart=" . time() . ";";
+    $DataToStore .= "UserRemoteAddr=" . $RemoteAddr . ";";
+    $DataToStore .= "UserRemoteUserAgent=". $RemoteUserAgent . ";";
+
+    # --
+    # store SessionID + data
+    # --
+    if ($Self->{ConfigObject}->Get('SessionDriver') eq 'sql') {
+        # --
+        # db driver
+        # --
+        my $SQL = "INSERT INTO $Self->{SQLSessionTable} ".
+           " ($Self->{SQLSessionTableID}, $Self->{SQLSessionTableValue}) ".
+           " VALUES ".
+           " ('$SessionID', '$DataToStore')";
+        $Self->{DBObject}->Do(SQL => $SQL) || die "Can't insert session id!";
+    }
+    elsif ($Self->{ConfigObject}->Get('SessionDriver') eq 'fs') {
+        # --
+        # fs driver
+        # FIXME!
+        # --
+        open (SESSION, ">> $Self->{SessionSpool}/$SessionID") 
+            || die "Can't create $Self->{SessionSpool}/$SessionID: $!"; 
+        print SESSION "$DataToStore\n";
+        close (SESSION);
+    }
+    else {
+        # --
+        # else!? Panic!
+        # --
+        die "Unknown SessionDriver (".$Self->{ConfigObject}->Get('SessionDriver').")!";
+    }
 
     return $SessionID;
 }
@@ -173,8 +235,30 @@ sub RemoveSessionID {
     my %Param = @_;
     my $SessionID = $Param{SessionID};
 
-    # FIXME!
-    system ("rm $Self->{SessionSpool}/$SessionID");
+    if ($Self->{ConfigObject}->Get('SessionDriver') eq 'sql') {
+        # --
+        # delete db recode
+        # -- 
+        $Self->{DBObject}->Do(
+         SQL => "DELETE FROM $Self->{SQLSessionTable} ".
+                " WHERE $Self->{SQLSessionTableID} = '$SessionID'"
+        ) 
+          || return 0; 
+    }
+    elsif ($Self->{ConfigObject}->Get('SessionDriver') eq 'fs') {
+        # --
+        # delete fs file
+        # FIXME!
+        # --
+        system ("rm $Self->{SessionSpool}/$SessionID") 
+           || return 0;
+    }
+    else {
+        # --
+        # else!? Panic!
+        # --
+        die "Unknown SessionDriver (".$Self->{ConfigObject}->Get('SessionDriver').")!";
+    }
 
     return 1;
 }
@@ -185,23 +269,55 @@ sub UpdateSessionID {
     my $Key = $Param{Key} || die 'No Key!';
     my $Value = $Param{Value} || die 'No Value!';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
-
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
 
+    # --
     # update the value 
+    # --
     $SessionData{$Key} = $Value; 
-    
-    open (SESSION, "> $Self->{SessionSpool}/$SessionID") 
-         || die "Can't write $Self->{SessionSpool}/$SessionID: $!";
+   
+    # --
+    # set new data sting
+    # -- 
+    my $NewDataToStore = '';
     foreach (keys %SessionData) {
-        print SESSION "$_=$SessionData{$_};";
+        $NewDataToStore .= "$_=$SessionData{$_};";
         # Debug
         if ($Self->{Debug}) {
-            print STDERR "UpdateSessionID: $_=$SessionData{$_}\n";
+            $Self->{LogObject}->Log(
+              Priority => 'debug',
+              MSG => "UpdateSessionID: $_=$SessionData{$_}",
+            );
         }
-
     }
-    close (SESSION);
+
+    if ($Self->{ConfigObject}->Get('SessionDriver') eq 'sql') {
+        # --
+        # update db enrty
+        # --
+        my $SQL = "UPDATE $Self->{SQLSessionTable} ".
+            " SET ".
+            " $Self->{SQLSessionTableValue} = '$NewDataToStore' ".
+            " WHERE ".
+            " $Self->{SQLSessionTableID} = '$SessionID'";
+        $Self->{DBObject}->Do(SQL => $SQL) 
+           || die "Can't update session table!";
+    }
+    elsif ($Self->{ConfigObject}->Get('SessionDriver') eq 'fs') {
+        # --
+        # update fs file
+        # --
+        open (SESSION, "> $Self->{SessionSpool}/$SessionID")
+         || die "Can't write $Self->{SessionSpool}/$SessionID: $!";
+        print SESSION "$NewDataToStore";
+        close (SESSION);
+    }
+    else {
+        # --
+        # else!? Panic!
+        # --
+        die "Unknown SessionDriver (".$Self->{ConfigObject}->Get('SessionDriver').")!";
+    }
 
     return 1;
 }
