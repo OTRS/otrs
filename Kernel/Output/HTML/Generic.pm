@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.42 2002-08-03 11:48:57 martin Exp $
+# $Id: Generic.pm,v 1.43 2002-08-04 23:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,6 @@ package Kernel::Output::HTML::Generic;
 use lib '../../../';
 
 use strict;
-use MIME::Words qw(:all);
-use MIME::QuotedPrint;
 use Kernel::Language;
 use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Admin;
@@ -24,7 +22,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -412,18 +410,8 @@ sub Ascii2Html {
     my $Text = $Param{Text} || return;
     my $Max  = $Param{Max} || '';
     my $VMax = $Param{VMax} || '';
-    my $Mime = $Param{MIME} || 0;
-    my $QuotedPrint = $Param{QuotedPrint} || 0;
     my $NewLine = $Param{NewLine} || '';
 
-    # mime decode
-    if ($Mime) {
-        $Text = $Self->MimeWordDecode(Text => $Text);
-    }
-    # QuotedPrint decode
-    if ($QuotedPrint) {
-        $Text = $Self->QuotedPrintDecode(Text => $Text);
-    }
     # max width
     if ($Max) {
         $Text =~ s/^(.{$Max}).*$/$1 [...]/gs;
@@ -464,22 +452,6 @@ sub LinkQuote {
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
 
-    return $Text;
-}
-# --
-sub MimeWordDecode {
-    my $Self = shift;
-    my %Param = @_;
-    my $Text = $Param{Text} || return;
-    $Text = decode_mimewords($Text);
-    return $Text;
-}
-# --
-sub QuotedPrintDecode {
-    my $Self = shift;
-    my %Param = @_;
-    my $Text = $Param{Text} || return;
-    $Text = MIME::QuotedPrint::decode($Text);
     return $Text;
 }
 # --

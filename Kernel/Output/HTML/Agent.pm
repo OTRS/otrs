@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.42 2002-07-18 23:29:50 martin Exp $
+# $Id: Agent.pm,v 1.43 2002-08-04 23:33:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -91,7 +91,7 @@ sub TicketView {
 
     # do some html quoting
     foreach ('From', 'To', 'Cc', 'Subject', 'Priority', 'State') {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150, MIME => 1) || '';
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     # prepare escalation time
@@ -143,7 +143,6 @@ sub TicketView {
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Param{Text}, 
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
-            QuotedPrint => 1,
         );
         # --
         # do link quoting
@@ -191,7 +190,7 @@ sub TicketZoom {
     # do some html quoting
     # --
     foreach ('Priority', 'State') {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50, MIME => 1) || '';
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     $Param{Owner} = $Self->Ascii2Html(Text => $Param{Owner}, Max => 20) || ''; 
@@ -246,26 +245,23 @@ sub TicketZoom {
     # --
     # build article stuff
     # --
-    $Param{ArticleStrg} = '';
     my $ArticleID = $Param{ArticleID} || '';
     my $BaseLink = $Self->{Baselink} . "&TicketID=$Self->{TicketID}&QueueID=$Self->{QueueID}";
     my @ArticleBox = @{$Param{ArticleBox}};
-    my $MoveQueues = $Param{MoveQueues};
-    my %StdResponses = %{$Param{StdResponses}};
-    my $ThreadStrg = '<FONT SIZE="-1">';
-    my $Counter = '';
-    my $Space = '';
-    my $CounterArray = 0;
-    my $LastSenderType = '';
-    my $LastCustomerArticleID;
-    my $LastCustomerArticle = $#ArticleBox;
-
+    # --
     # get StdResponsesStrg
+    # --
+    my %StdResponses = %{$Param{StdResponses}};
     foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
        $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink&Action=AgentCompose&".
         "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
     }
-
+    # --
+    # get last customer article
+    # --
+    my $CounterArray = 0;
+    my $LastCustomerArticleID;
+    my $LastCustomerArticle = $#ArticleBox;
     foreach my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
         # if it is a customer article
@@ -275,23 +271,33 @@ sub TicketZoom {
         }
         $CounterArray++;
     }
-
+    # --
+    # build thread string
+    # --
+    my $ThreadStrg = '';
+    my $Counter = '';
+    my $Space = '';
+    my $LastSenderType = '';
+    $Param{ArticleStrg} = '';
     foreach my $ArticleTmp (@ArticleBox) {
-        my %Article = %$ArticleTmp;
+      my %Article = %$ArticleTmp;
+      if ($Article{ArticleType} ne 'email-notification-int') {
         if ($LastSenderType ne $Article{SenderType}) {
             $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
             $Space = "$Counter |-->";
         }
         $LastSenderType = $Article{SenderType};
         $ThreadStrg .= "$Space";
-
-        # if this is the shown article 
+        # --
+        # if this is the shown article -=> add <b>
+        # --
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
             $ThreadStrg .= ">><B>";
         }
-
-        # the full thread string
+        # --
+        # the full part thread string
+        # --
         $ThreadStrg .= "<A HREF=\"$BaseLink&Action=AgentZoom&ArticleID=$Article{ArticleID}\">" .
         "$Article{SenderType} ($Article{ArticleType})</A> ";
         if ($Article{ArticleType} =~ /^email/) {
@@ -300,14 +306,16 @@ sub TicketZoom {
         }
         $ThreadStrg .= " $Article{CreateTime}";
         $ThreadStrg .= "<BR>";
-
-        # if this is the shown article
+        # --
+        # if this is the shown article -=> add </b>
+        # --
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
             $ThreadStrg .= "</B>";
         }
+      }
     }
-    $ThreadStrg .= '</FONT>';
+    $ThreadStrg .= '';
     $Param{ArticleStrg} .= $ThreadStrg;
 
     my $ArticleOB = $ArticleBox[$LastCustomerArticle];
@@ -321,7 +329,7 @@ sub TicketZoom {
         }
     }
     # --
-    # get aatm strg
+    # get attacment string
     # --
     my $ATMsTmp = $Article{Atms};
     my @ATMs = ();
@@ -337,10 +345,6 @@ sub TicketZoom {
     # just body if html email
     # --
     if ($Param{"ShowHTMLeMail"}) {
-        # --
-        # quoted print decode 
-        # --
-        $Article{"Text"} = $Self->QuotedPrintDecode(Text => $Article{"Text"});
         # generate output
         my $Output = "Content-Disposition: attachment; filename=";
         $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
@@ -355,7 +359,7 @@ sub TicketZoom {
     # do some strips && quoting
     # --
     foreach ('To', 'Cc', 'From', 'Subject') {
-        $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300, MIME => 1);
+        $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
     }
 
     # --
@@ -373,7 +377,6 @@ sub TicketZoom {
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Article{Text},
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
-            QuotedPrint => 1,
         );
         # --
         # link quoting
@@ -477,12 +480,10 @@ sub AgentBounce {
     # prepare 
     # --
     foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
-        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}) || '';
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
     # create FromHTML (to show)
-    $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70, MIME => 1);
-    # email quoted print decode
-    $Param{Body} = $Self->QuotedPrintDecode(Text => $Param{Body});
+    $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70);
 
     # get output back
     return $Self->Output(TemplateFile => 'AgentBounce', Data => \%Param);
@@ -575,10 +576,10 @@ sub AgentCustomerHistoryTable {
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
     # do html quoteing
     foreach (qw(State Queue Owner Lock)) {
-        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}, Max => 16);
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 16);
     }
     foreach (qw(From Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}, Max => 20);
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 20);
     }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCustomerHistoryTable', Data => \%Param);
@@ -670,12 +671,11 @@ sub AgentUtilSearchResult {
         Text => $Param{Text},
         NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
         VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
-        QuotedPrint => 1,
       );
 
     # do html quoteing
     foreach (qw(State Queue Owner Lock From Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_});
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_});
     }
 
     # do some html highlighting
@@ -731,13 +731,13 @@ sub AgentCompose {
     # prepare 
     # --
     # create FromHTML (to show)
-    $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70, MIME => 1);
+    $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70);
     # do html quoting
     foreach ('ReplyTo', 'From', 'To', 'Cc', 'Subject') {
-        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}) || '';
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
     # email quoted print decode
-    $Param{Body} = $Self->Ascii2Html(Text => $Param{Body}, QuotedPrint => 1);
+    $Param{Body} = $Self->Ascii2Html(Text => $Param{Body});
 
     # --
     # create & return output
@@ -766,13 +766,13 @@ sub AgentForward {
     # prepare 
     # --
     # create html from
-    $Param{SystemFromHTML} = $Self->Ascii2Html(Text => $Param{SystemFrom}, Max => 70, MIME => 1);
+    $Param{SystemFromHTML} = $Self->Ascii2Html(Text => $Param{SystemFrom}, Max => 70);
     # do html quoting
     foreach ('ReplyTo', 'From', 'To', 'Cc', 'Subject', 'SystemFrom') {
-        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}) || '';
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
     # email quoted print decode
-    $Param{Body} = $Self->Ascii2Html(Text => $Param{Body}, QuotedPrint => 1);
+    $Param{Body} = $Self->Ascii2Html(Text => $Param{Body});
 
     # --
     # create & return output
@@ -840,6 +840,11 @@ sub AgentPreferencesForm {
         SelectedID => $Self->{UserSendNewTicketNotification},
     );
 
+    $Param{'SendLockTimeoutNotification'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'GenericTopic',
+        SelectedID => $Self->{UserSendLockTimeoutNotification},
+    );
 
     my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
     # prepar custom selection
@@ -879,7 +884,7 @@ sub AgentMailboxTicket {
 
     # do some strips && quoting
     foreach ('To', 'Cc', 'From', 'Subject') {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70, MIME => 1);
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70);
     }
 
     # create & return output
