@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPlain.pm - to get a plain view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.19 2004-08-10 06:47:54 martin Exp $
+# $Id: AgentPlain.pm,v 1.20 2004-11-16 17:28:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,7 +43,6 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
 
     # --
     # check needed stuff
@@ -68,11 +67,8 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
-    my $Text = $Self->{TicketObject}->ArticlePlain(ArticleID => $Self->{ArticleID}) || '';
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => "Plain Article");
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
+    my $Text = $Self->{TicketObject}->ArticlePlain(ArticleID => $Self->{ArticleID}) || '';
     if ($Text) {
         if ($Self->{Subaction} eq 'Download') {
             # return new page
@@ -98,6 +94,8 @@ sub Run {
             $Text =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
             $Text =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
 
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => "Plain Article");
+            $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentPlain',
                 Data => {
@@ -106,16 +104,16 @@ sub Run {
                     ArticleID => $Self->{ArticleID},
                 }
             );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
     else {
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => "Can't read plain article! Maybe there is no plain email in filesystem! Read BackendMessage.",
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Can't read plain article! Maybe there is no plain email in backend! Read BackendMessage.",
             Comment => 'Please contact your admin!',
         );
     }
-    $Output .= $Self->{LayoutObject}->Footer();
-    return $Output;
 }
 # --
 
