@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/History.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: History.pm,v 1.3 2002-07-13 12:28:27 martin Exp $
+# $Id: History.pm,v 1.4 2002-07-21 18:43:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::History;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -57,11 +57,17 @@ sub HistoryTypeLookup {
 sub AddHistoryRow {
     my $Self = shift;
     my %Param = @_;
-    my $Name = $Param{Name};
-
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{Name}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
+      return;
+    }
+    # --
     # db quoting
-    $Name = $Self->{DBObject}->Quote($Name);
-
+    # --
+    $Param{Name} = $Self->{DBObject}->Quote($Param{Name});
     # --
     # lookup!
     # --
@@ -78,9 +84,8 @@ sub AddHistoryRow {
       }
     }
     if (!$Param{ArticleID}) {
-      $Param{ArticleID} = 0;
+        $Param{ArticleID} = 0;
     }
-
     # --
     # get ValidID!
     # --
@@ -94,14 +99,14 @@ sub AddHistoryRow {
     " (name, history_type_id, ticket_id, article_id, valid_id, " .
     " create_time, create_by, change_time, change_by) " .
         "VALUES " .
-    "('$Name', $Param{HistoryTypeID}, $Param{TicketID}, ".
+    "('$Param{Name}', $Param{HistoryTypeID}, $Param{TicketID}, ".
     " $Param{ArticleID}, $Param{ValidID}, " .
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      return 1;
+        return 1;
     }
     else {
-      return;
+        return;
     }
 }
 # --
