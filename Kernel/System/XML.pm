@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.7 2005-02-08 13:18:54 martin Exp $
+# $Id: XML.pm,v 1.8 2005-02-08 14:14:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -324,6 +324,7 @@ parse a xml file and return a XMLHash structur
     my @XMLHash = $XMLObject->XMLParse2XMLHash(String => $FileString);
 
     XML: 
+    ====
     <Contact role="admin" type="organization">
       <Name type="long">Example Inc.</Name>
       <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
@@ -332,7 +333,8 @@ parse a xml file and return a XMLHash structur
     </Contact>
 
     ARRAY:
-    [
+    ======
+    $XMLHash = [
       {
         Contact => [
           {
@@ -368,14 +370,21 @@ parse a xml file and return a XMLHash structur
           }
         ],
       }
-    ]
+    ];
 
-    $XMLHash[0]{Contact}[0]{role} = 'admin';
-    $XMLHash[0]{Contact}[0]{type} = 'organization';
-    $XMLHash[0]{Contact}[0]{Name}[0]{Content} = 'Example Inc.';
-    $XMLHash[0]{Contact}[0]{Name}[0]{type} = 'long';
-    $XMLHash[0]{Contact}[0]{Email}[1]{Content} = 'info@exampe.com';
-    $XMLHash[0]{Contact}[0]{Email}[1]{Domain}[0]{Content} = '1234.com';
+    $XMLHash[1]{Contact}[1]{TagKey} = "[1]{'Contact'}[1]";
+    $XMLHash[1]{Contact}[1]{role} = "admin";
+    $XMLHash[1]{Contact}[1]{type} = "organization";
+    $XMLHash[1]{Contact}[1]{Name}[1]{TagKey} = "[1]{'Contact'}[1]{'Name'}[1]";
+    $XMLHash[1]{Contact}[1]{Name}[1]{Content} = "Example Inc.";
+    $XMLHash[1]{Contact}[1]{Name}[1]{type} = "long";
+    $XMLHash[1]{Contact}[1]{Email}[1]{TagKey} = "[1]{'Contact'}[1]{'Email'}[1]";
+    $XMLHash[1]{Contact}[1]{Email}[1]{Content} = "info\@exampe.com";
+    $XMLHash[1]{Contact}[1]{Email}[1]{Domain}[1]{TagKey} = "[1]{'Contact'}[1]{'Email'}[1]{'Domain'}[1]";
+    $XMLHash[1]{Contact}[1]{Email}[1]{Domain}[1]{Content} = "1234.com";
+    $XMLHash[1]{Contact}[1]{Email}[2]{TagKey} = "[1]{'Contact'}[1]{'Email'}[2]";
+    $XMLHash[1]{Contact}[1]{Email}[2]{type} = "secundary";
+    $XMLHash[1]{Contact}[1]{Email}[2]{Content} = "sales\@exampe.com";
 
 =cut
 
@@ -399,7 +408,7 @@ return a hash with long hash key and content
 
     for example:
 
-    $Hash{'[0]{Planet}[0]{Content}'} = 'Sun';
+    $Hash{"[1]{'Planet'}[1]{'Content'}"'} = 'Sun';
 
 =cut
 
@@ -683,6 +692,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2005-02-08 13:18:54 $
+$Revision: 1.8 $ $Date: 2005-02-08 14:14:37 $
 
 =cut
