@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.15 2004-01-10 15:42:17 martin Exp $
+  $Id: otrs-schema.xml,v 1.16 2004-01-22 19:27:39 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.15  2004/01/10 15:42:17  martin
+  change auto_response table
+
   Revision 1.14  2003/12/15 20:26:50  martin
   added more ticket free text options for tickets now we have 8 (not only 2) - improved also GenericAgent and Web-Frontend!
 
@@ -708,23 +711,6 @@
   </index>
 </table>
 
-<!-- faq -->
-<table name="faq">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
-  <column name="name" required="true" size="200" type="VARCHAR"/>
-  <column name="text" required="true" size="255" type="VARCHAR"/>
-  <column name="language_id" required="true" type="SMALLINT"/>
-  <column name="comment" required="false" size="80" type="VARCHAR"/>
-  <column name="valid_id" required="true" type="SMALLINT"/>
-  <column name="create_time" required="true" type="DATE"/>
-  <column name="create_by" required="true" type="INTEGER"/>
-  <column name="change_time" required="true" type="DATE"/>
-  <column name="change_by" required="true" type="INTEGER"/>
-  <unique>
-    <unique-column name="name"/>
-  </unique>
-</table>
-
 <!-- session -->
 <table name="session">
   <column name="session_id" required="true" size="120" type="VARCHAR"/>
@@ -825,6 +811,92 @@
     <column name="profile_key" required="true" size="200" type="VARCHAR"/>
     <column name="profile_value" required="true" size="200" type="VARCHAR"/>
 </table>
+
+<!-- faq_item -->
+<table name="faq_item">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="f_name" required="true" size="200" type="VARCHAR"/>
+  <column name="f_language_id" required="true" type="SMALLINT"/>
+  <column name="f_subject" required="false" size="200" type="VARCHAR"/>
+  <column name="state_id" required="true" type="SMALLINT"/>
+  <column name="category_id" required="true" type="SMALLINT"/>
+  <column name="f_keywords" required="false" type="LONGVARCHAR"/>
+  <column name="f_field1" required="false" type="LONGVARCHAR"/>
+  <column name="f_field2" required="false" type="LONGVARCHAR"/>
+  <column name="f_field3" required="false" type="LONGVARCHAR"/>
+  <column name="f_field4" required="false" type="LONGVARCHAR"/>
+  <column name="f_field5" required="false" type="LONGVARCHAR"/>
+  <column name="f_field6" required="false" type="LONGVARCHAR"/>
+  <column name="free_key1" required="false" size="80" type="VARCHAR"/>
+  <column name="free_value1" required="false" size="200" type="VARCHAR"/>
+  <column name="free_key2" required="false" size="80" type="VARCHAR"/>
+  <column name="free_value2" required="false" size="200" type="VARCHAR"/>
+  <column name="free_key3" required="false" size="80" type="VARCHAR"/>
+  <column name="free_value3" required="false" size="200" type="VARCHAR"/>
+  <column name="free_key4" required="false" size="80" type="VARCHAR"/>
+  <column name="free_value4" required="false" size="200" type="VARCHAR"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="f_name"/>
+  </unique>
+</table>
+
+<!-- faq_language -->
+<table name="faq_language">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- faq_history -->
+<table name="faq_history">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <column name="item_id" required="true" type="INTEGER"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+</table>
+
+<!-- faq_category -->
+<table name="faq_category">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <column name="comments" required="true" size="200" type="VARCHAR"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- faq_state -->
+<table name="faq_state">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <column name="type_id" required="true" type="INTEGER"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
+<!-- faq_state_type -->
+<table name="faq_state_type">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="SMALLINT"/>
+  <column name="name" required="true" size="200" type="VARCHAR"/>
+  <unique>
+    <unique-column name="name"/>
+  </unique>
+</table>
+
 
 </database>
 </app-data>

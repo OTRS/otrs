@@ -763,6 +763,106 @@ CREATE TABLE search_profile
     profile_value varchar (200) NOT NULL
 );
 
+-----------------------------------------------------------------------------
+-- faq_item 
+-----------------------------------------------------------------------------
+CREATE TABLE faq_item
+(
+    id serial, 
+    f_name VARCHAR (200) NOT NULL,
+    f_language_id SMALLINT NOT NULL,
+    f_subject VARCHAR (200),
+    state_id SMALLINT NOT NULL,
+    category_id SMALLINT NOT NULL,
+    f_keywords TEXT,
+    f_field1 TEXT,
+    f_field2 TEXT,
+    f_field3 TEXT,
+    f_field4 TEXT,
+    f_field5 TEXT,
+    f_field6 TEXT,
+    free_key1 VARCHAR (80),
+    free_value1 VARCHAR (200),
+    free_key2 VARCHAR (80),
+    free_value2 VARCHAR (200),
+    free_key3 VARCHAR (80),
+    free_value3 VARCHAR (200),
+    free_key4 VARCHAR (80),
+    free_value4 VARCHAR (200),
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (f_name)
+);
+
+-----------------------------------------------------------------------------
+-- faq_language
+-----------------------------------------------------------------------------
+CREATE TABLE faq_language
+(
+    id serial, 
+    name VARCHAR (200) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+-----------------------------------------------------------------------------
+-- faq_history
+-----------------------------------------------------------------------------
+CREATE TABLE faq_history
+(
+    id serial,
+    name VARCHAR (200) NOT NULL,
+    item_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+-----------------------------------------------------------------------------
+-- faq_category
+-----------------------------------------------------------------------------
+CREATE TABLE faq_category
+(
+    id serial,
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (220) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+-----------------------------------------------------------------------------
+-- faq_state
+-----------------------------------------------------------------------------
+CREATE TABLE faq_state
+(
+    id serial,
+    name VARCHAR (200) NOT NULL,
+    type_id INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+-----------------------------------------------------------------------------
+-- faq_state_type
+-----------------------------------------------------------------------------
+CREATE TABLE faq_state_type
+(
+    id serial,
+    name VARCHAR (200) NOT NULL,
+    PRIMARY KEY(id), 
+    UNIQUE (name)
+);  
+
+
 ----------------------------------------------------------------------------
 -- session
 ----------------------------------------------------------------------------
