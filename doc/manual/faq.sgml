@@ -179,7 +179,7 @@ Please be aware of the fact that you are dealing with a beta-version. New versio
 </question>
 <answer>
 <para>
-We suggest an IBM OS/390. *SCNR* ;-)
+We suggest an IBM s390. *SCNR* ;-)
 </para>
 <para>
 Some of our test enviroments are Pentium II 300 with 64 MB RAM and they do a pretty good job. Of course the more RAM and the faster the CPU the better. 
