@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.36 2002-08-27 21:36:14 martin Exp $
+# $Id: index.pl,v 1.37 2002-10-15 09:53:25 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -113,12 +113,14 @@ foreach ('$Kernel::Config::Modules::CommonObject', '$Kernel::Config::ModulesCust
 # get common framework params
 # --
 my %Param = ();
-# drop session id
+# get session id
+my $SessionID = $CommonObject{ConfigObject}->Get('SessionName') || 'SessionID';
+$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => $SessionID) || '';
+# drop old session id (if exists)
 my $QueryString = $ENV{"QUERY_STRING"};
-$QueryString =~ s/^SessionID(=&|=.+?&|=.+?$)/&/;
+$QueryString =~ s/(\?|&)$SessionID(=&|=.+?&|=.+?$)/&/;
 # definde frame work params
 my $FramworkPrams = {
-    SessionID => '',
     Action => '',
     Subaction => '',
     RequestedURL => $QueryString,
@@ -132,7 +134,7 @@ foreach my $Key (keys %{$FramworkPrams}) {
 # as SessionID! GET or POST SessionID have the lowest priority.
 # --
 if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
-  $Param{SessionIDCookie} = $CommonObject{ParamObject}->GetCookie(Key => 'SessionID');
+  $Param{SessionIDCookie} = $CommonObject{ParamObject}->GetCookie(Key => $SessionID);
   if ($Param{SessionIDCookie}) {
     $Param{SessionID} = $Param{SessionIDCookie};
   }
@@ -203,7 +205,7 @@ if ($Param{Action} eq "Login") {
         my $LayoutObject = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-                  Key => 'SessionID',
+                  Key => $SessionID,
                   Value => $NewSessionID,
                   Expires => '+24h',
               ),
@@ -222,7 +224,7 @@ if ($Param{Action} eq "Login") {
         # --
         # redirect with new session id
         # --
-        print $LayoutObject->Redirect(OP => "&$Param{RequestedURL}");
+        print $LayoutObject->Redirect(OP => "$Param{RequestedURL}");
     }
     # --
     # login is vailid
@@ -268,7 +270,7 @@ elsif ($Param{Action} eq "Logout"){
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-                  Key => 'SessionID',
+                  Key => $SessionID,
                   Value => '',
                   Expires => '-24d',
               ),
