@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.14 2002-01-20 22:21:23 martin Exp $
+# $Id: index.pl,v 1.15 2002-01-30 16:36:44 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ use lib '/opt/OpenTRS/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -150,7 +150,7 @@ elsif ($Param{Action} eq "Logout"){
     if ( $CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
         if ( $CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID}) ) {
             print $CommonObject{LayoutObject}->Login(
-             Message => 'Logout successful. Thank you for useing OpenTRS!',
+             Message => 'Logout successful. Thank you for using OpenTRS!',
             );
             $CommonObject{LogObject}->Log(MSG => "Removed SessionID $Param{SessionID}.");
         }  

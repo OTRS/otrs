@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.3 2002-01-02 00:42:03 martin Exp $
+# $Id: German.pm,v 1.4 2002-01-30 16:36:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -87,8 +87,8 @@ sub Data {
     $Self->{'English'} = 'Englisch';
     $Self->{'Lite'} = 'Einfach';
     # admin area
-    $Self->{'Fristname'} = 'Erster Name';
-    $Self->{'Lastname'} = 'Familienname';
+    $Self->{'Firstname'} = 'Vorname';
+    $Self->{'Lastname'} = 'Nachname';
     $Self->{'Add User'} = 'Benutzer hinzufügen';
     $Self->{'Languages'} = 'Sprachen';
     $Self->{'Language'} = 'Sprache';
