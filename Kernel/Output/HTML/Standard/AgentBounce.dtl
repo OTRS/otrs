@@ -1,0 +1,76 @@
+# --
+# NoteBounce.dtl - provides HTML form for bounce mask
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentBounce.dtl,v 1.1 2002-06-16 20:46:16 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor2"}">
+  <td align="left"> 
+  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Bounce ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor0"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+<p>
+
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="Store">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+<input type="hidden" name="ArticleID" value="$Data{"ArticleID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+  <table border="0">
+  <tr>
+    <td>$Text{"Bounce to"}:</td><td><input type="text" name="BounceTo" value="" size="60"></td>
+  </tr>
+  <tr>
+    <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Inform sender"}:</td><td><input type="checkbox" name="InformSender" value="1"></td>
+  </tr>
+  <tr>
+    <td>$Text{"From"}:</td><td>$Data{"FromHTML"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"To"}:</td><td><input type="text" name="To" value="$Data{"To"}" size="60"></td>
+  </tr>
+  <tr>
+    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Data{"Subject"}" size="60"></td>
+  </tr>
+  <tr>
+    <td>$Text{"Text"}:</td><td>
+<textarea name="Body" rows="15" cols="75">
+$Data{"Salutation"}
+
+$Text{"$Config{"DefaultBounceText"}"}
+
+$Data{"Signature"}
+
+</textarea>
+    </td>
+  </tr>
+
+  </table>
+<br>
+<input type="submit" value="$Text{"store"}">
+</form>
+
+</p>
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
