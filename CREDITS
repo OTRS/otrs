@@ -1,5 +1,5 @@
 # --
-# $Id: CREDITS,v 1.7 2002-12-17 15:47:05 martin Exp $
+# $Id: CREDITS,v 1.8 2003-01-05 23:45:23 martin Exp $
 # --
 
 This is at least a partial credits-file of people that have
@@ -12,6 +12,11 @@ Thanks,
 
        Martin 
 
+--
+N: Antti Kämäräinen 
+E: antti at seu.net
+D: Maintainer of Finnish translation
+S: Finland
 --
 N: Carsten Gross
 E: carsten at siski.de
