@@ -1,8 +1,8 @@
 # --
-# README.database - database description of OpenTRS
+# README.database - database description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.database,v 1.8 2002-08-15 22:57:15 martin Exp $
+# $Id: README.database,v 1.9 2002-08-25 01:07:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -38,12 +38,12 @@ values. At first use the OpenTRS-schema.*.sql and the insert this file.
 
 DB - Setup Example (MySQL):
 ===========================
-Create OpenTRS database:
-------------------------
+Create OTRS database:
+---------------------
 shell> mysql -u root -p -e 'create database otrs'
 
-Create the OpenTRS tables:
---------------------------
+Create the OTRS tables:
+-----------------------
 shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/OpenTRS-schema.mysql.sql
 
 Insert inital data:

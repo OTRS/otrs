@@ -1,8 +1,8 @@
 # --
-# INSTALL.SuSE description of OpenTRS installation for SuSE Linux with RPM
+# INSTALL.SuSE description of OTRS installation for SuSE Linux with RPM
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL.SuSE,v 1.1 2002-08-15 22:15:26 martin Exp $
+# $Id: INSTALL.SuSE,v 1.2 2002-08-25 01:07:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@
 Installation:
 =============
 
-1. Install the latest OpenTRS-RPM for SuSE Linux (http://otrs.org/) and all required 
+1. Install the latest OTRS-RPM for SuSE Linux (http://otrs.org/) and all required 
    software packages (if needed) with YaST or "rpm -i otrs-xxx.rpm".
 
 2. Start SuSEconfig 
@@ -21,7 +21,7 @@ Installation:
  
 4. Setup the database via "http://yourhost/otrs/installer.pl" (just for MySQL and SuSE-RPM)
 
-5. restart the whole OpenTRS system (rcotrs restart-force) 
+5. restart the whole OTRS system (rcotrs restart-force) 
 
 6. Installation finished, login ("http://yourhost/otrs/index.pl") as user "root@localhost" 
    with password "root"
@@ -32,6 +32,6 @@ Remark: For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
 Have a lot of fun.
 
- Your OpenTRS Team
+ Your OTRS Team
 
 EOF

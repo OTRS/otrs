@@ -1,8 +1,8 @@
 # --
-# README.application-module - HOWTO for OpenTRS application modules
+# README.application-module - HOWTO for OTRS application modules
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.application-module,v 1.2 2002-05-07 22:17:51 martin Exp $
+# $Id: README.application-module,v 1.3 2002-08-25 01:07:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 

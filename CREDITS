@@ -1,9 +1,9 @@
 # --
-# $Id: CREDITS,v 1.4 2002-05-09 23:49:30 martin Exp $
+# $Id: CREDITS,v 1.5 2002-08-25 01:07:47 martin Exp $
 # --
 
 This is at least a partial credits-file of people that have
-contributed to the OpenTRS project. It is sorted by name.
+contributed to the OTRS project. It is sorted by name.
 The fields are: name (N), email (E), web-address (W), 
 PGP key ID and fingerprint (P), description (D), and
 snail-mail address (S).

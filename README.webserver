@@ -1,8 +1,8 @@
 # --
-# README.webserver - webserver description of OpenTRS
+# README.webserver - webserver description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.4 2002-08-15 22:57:52 martin Exp $
+# $Id: README.webserver,v 1.5 2002-08-25 01:07:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -36,7 +36,7 @@ b) The manual way:
 Or edit the httpd.conf directly:
 ================================
 a)
- *) Change the webserver user (normaly wwwrun) to the OpenTRS user (otrs).
+ *) Change the webserver user (normaly wwwrun) to the OTRS user (otrs).
 
   [...]
   User wwwrun 

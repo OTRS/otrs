@@ -1,8 +1,8 @@
 # --
-# Changes of OpenTRS 
+# Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.19 2002-08-06 20:29:26 martin Exp $
+# $Id: CHANGES,v 1.20 2002-08-25 01:07:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@
  - added "Std. Response on creating a queue" feature
     (http://lists.otrs.org/pipermail/otrs/2002-July/000114.html)
  - added module support for auth. (Kernel/Config.pm --> $Self->{AuthModule})
-     * "Kernel::System::Auth::DB" against OpenTRS DB (default)
+     * "Kernel::System::Auth::DB" against OTRS DB (default)
      * "Kernel::System::Auth::LDAP" against a LDAP directory
  - added "ChangeOwnerToEveryone" feature fot AgentOwner (useful for ASP)
     Kernel/Config.pm -> $Self->{ChangeOwnerToEveryone} = [0|1]
@@ -70,19 +70,19 @@
  - moved from Unix::Syslog to Sys::Syslog (Kernel::System::Log) because Sys::Syslog 
     comes with Perl (not an additional CPAN module)!
  - added redhat-rcotrs script (thanks to Pablo Ruiz Garcia)
- - added OpenTRS cronjobs var/cron/[aaa_base|fetchmail|postmaster|session|unlock]
+ - added OTRS cronjobs var/cron/[aaa_base|fetchmail|postmaster|session|unlock]
      * aaa_base -> cronjob settings like MAILTO="root@localhost"
      * fetchmail -> cronjob for fetchmail
      * postmaster -> cleanup for not processed email
      * session -> cleanup for old sessions
      * unlock -> ticket unlock 
- - added OpenTRS cronjobs support (start/stop) to scripts/suse-rcotrs
- - moved all OpenTRS application required modules to two new files, 
-     * Kernel/Config/Modules.pm (all used OpenTRS modules) 
+ - added OTRS cronjobs support (start/stop) to scripts/suse-rcotrs
+ - moved all OTRS application required modules to two new files, 
+     * Kernel/Config/Modules.pm (all used OTRS modules) 
      * Kernel/Config/ModulesCustom.pm (all add-on application modules, written by 
         someone else, e. g. customer db or accounting system) 
-    to be release independently with Third Party modules for OpenTRS. 
- - added $Env{"Product"} $Env{"Version"} (e. g. OpenTRS 0.5 Beta6) as dtl environment
+    to be release independently with Third Party modules for OTRS. 
+ - added $Env{"Product"} $Env{"Version"} (e. g. OTRS 0.5 Beta6) as dtl environment
     variable. Source is $OTRS_HOME/RELEASE. 
  - added display support for HTML-only e-mails 
  - added generic database and webserver to scripts/suse-rcotrs script 
@@ -109,7 +109,7 @@
  - fixed bug[7] (http://bugs.otrs.org/show_bug.cgi?id=7 - space in Installer.pm 
     lets creating of database otrs in MySQL fail) by Stefan Schmidt. 
  - added URL (screen) recovery after session timeout and possibility to send 
-    links without session id. Example: Shows you the ticket after OpenTRS 
+    links without session id. Example: Shows you the ticket after OTRS 
     login - http://host.example.com/otrs/index.pl?AgentZoom&TicketID=9 
  - added http://bugs.otrs.org/ link to the Error.dtl template, to get an easier 
     bug reporting 
