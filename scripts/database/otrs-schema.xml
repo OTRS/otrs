@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.16 2004-01-22 19:27:39 martin Exp $
+  $Id: otrs-schema.xml,v 1.17 2004-01-23 00:37:59 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.16  2004/01/22 19:27:39  martin
+  added faq tables
+
   Revision 1.15  2004/01/10 15:42:17  martin
   change auto_response table
 
@@ -810,6 +813,20 @@
     <column name="profile_name" required="true" size="200" type="VARCHAR"/>
     <column name="profile_key" required="true" size="200" type="VARCHAR"/>
     <column name="profile_value" required="true" size="200" type="VARCHAR"/>
+</table>
+
+<!-- notifications -->
+<table name="notifications">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="notification_type" required="true" size="200" type="VARCHAR"/>
+  <column name="notification_charset" required="true" size="60" type="VARCHAR"/>
+  <column name="notification_language" required="true" size="60" type="VARCHAR"/>
+  <column name="subject" required="true" size="200" type="VARCHAR"/>
+  <column name="text" required="true" type="LONGVARCHAR"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
 </table>
 
 <!-- faq_item -->

@@ -764,6 +764,24 @@ CREATE TABLE search_profile
 );
 
 -----------------------------------------------------------------------------
+-- notifications
+-----------------------------------------------------------------------------
+CREATE TABLE notifications
+(   
+    id serial,
+    notification_type varchar (200) NOT NULL,
+    notification_charset varchar (60) NOT NULL,
+    notification_language varchar (60) NOT NULL,
+    subject varchar (250) NOT NULL,
+    text varchar NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by integer NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by integer NOT NULL,
+    PRIMARY KEY(id)
+);  
+
+-----------------------------------------------------------------------------
 -- faq_item 
 -----------------------------------------------------------------------------
 CREATE TABLE faq_item

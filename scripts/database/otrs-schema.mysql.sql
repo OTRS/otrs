@@ -792,9 +792,9 @@ CREATE TABLE standard_attachment
     filename varchar (250) NOT NULL,
     comment varchar (150),
     valid_id smallint NOT NULL,
-    create_time timestamp(0) NOT NULL, 
+    create_time DATETIME NOT NULL, 
     create_by integer NOT NULL,
-    change_time timestamp(0) NOT NULL,
+    change_time DATETIME NOT NULL,
     change_by integer NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
@@ -809,9 +809,9 @@ CREATE TABLE standard_response_attachment
     id INTEGER NOT NULL AUTO_INCREMENT,
     standard_attachment_id integer NOT NULL,
     standard_response_id integer NOT NULL,
-    create_time timestamp(0) NOT NULL,
+    create_time DATETIME NOT NULL,
     create_by integer NOT NULL,
-    change_time timestamp(0) NOT NULL,
+    change_time DATETIME NOT NULL,
     change_by integer NOT NULL,
     PRIMARY KEY(id)
 );
@@ -830,9 +830,9 @@ CREATE TABLE pop3_account
     trusted smallint NOT NULL,
     comment varchar (250),
     valid_id smallint NOT NULL,
-    create_time timestamp(0) NOT NULL,
+    create_time DATETIME NOT NULL,
     create_by integer NOT NULL,
-    change_time timestamp(0) NOT NULL,
+    change_time DATETIME NOT NULL,
     change_by integer NOT NULL,
     PRIMARY KEY(id)
 );
@@ -851,21 +851,21 @@ CREATE TABLE search_profile
 );
 
 # -----------------------------------------------------------------------
-# notification_translations
+# notifications
 # -----------------------------------------------------------------------
-drop table if exists notification_translations;
+drop table if exists notifications;
 
-CREATE TABLE notification_translations
+CREATE TABLE notifications
 (
     id INTEGER NOT NULL AUTO_INCREMENT,
     notification_type varchar (200) NOT NULL,
-    notification_charset varchar (200) NOT NULL,
-    notification_language varchar (200) NOT NULL,
+    notification_charset varchar (60) NOT NULL,
+    notification_language varchar (60) NOT NULL,
     subject varchar (250) NOT NULL,
     text MEDIUMTEXT NOT NULL,
-    create_time timestamp(0) NOT NULL,
+    create_time DATETIME NOT NULL,
     create_by integer NOT NULL,
-    change_time timestamp(0) NOT NULL,
+    change_time DATETIME NOT NULL,
     change_by integer NOT NULL,
     PRIMARY KEY(id)
 );
