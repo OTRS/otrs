@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.84 2003-04-08 21:36:22 martin Exp $
+# $Id: Generic.pm,v 1.85 2003-04-12 17:01:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.84 $';
+$VERSION = '$Revision: 1.85 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -722,16 +722,17 @@ sub CustomerAge {
         }
         $AgeStrg .= $Space;
     }
-    $AgeStrg .= int( ($Age / 60) % 60) . ' ';
 
-    # get minutes
-    if (int( ($Age / 60) % 60) > 1) {
-        $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
+    # get minutes (just if age < 1 day)
+    if ($Self->{ConfigObject}->Get('ShowAlwaysLongTime') || $Age < 86400) {
+        $AgeStrg .= int( ($Age / 60) % 60) . ' ';
+        if (int( ($Age / 60) % 60) > 1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
+        }
+        else {
+            $AgeStrg .= $Self->{LanguageObject}->Get('minute');
+        }
     }
-    else {
-        $AgeStrg .= $Self->{LanguageObject}->Get('minute');
-    }
-
     return $AgeStrg;
 }
 # --
