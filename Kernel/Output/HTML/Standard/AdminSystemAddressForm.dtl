@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.14 2004-03-01 14:00:57 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.15 2004-04-01 09:13:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,15 +62,15 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-    <input type="hidden" name="ID" value="$Data{"ID"}">
+    <input type="hidden" name="ID" value="$QData{"ID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td class="table1">$Text{"Email"}: </td>
-      <td class="table1"> <input type="text" name="Name" value="$Quote{"$Data{"Name"}"}" size="35" maxlength="50"></td>
+      <td class="table1"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="table1">$Text{"Realname"}: </td>
-      <td class="table1"> <input type="text" name="Realname" value="$Quote{"$Data{"Realname"}"}" size="35" maxlength="50"></td>
+      <td class="table1"> <input type="text" name="Realname" value="$QData{"Realname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="table1">$Text{"Queue"}: </td>
@@ -82,7 +82,7 @@
     </tr>
     <tr>
       <td class="table1">$Text{"Comment"}: </td>
-      <td class="table1"> <input type="text" name="Comment" value="$Quote{"$Data{"Comment"}"}" size="50" maxlength="50"></td>
+      <td class="table1"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 

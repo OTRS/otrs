@@ -2,7 +2,7 @@
 # AgentEmailNew.dtl - provides HTML form for agent email 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmailNew.dtl,v 1.4 2004-03-24 15:15:39 martin Exp $
+# $Id: AgentEmailNew.dtl,v 1.5 2004-04-01 09:13:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -210,12 +210,12 @@ function clear_field()
     <td> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
   </tr>
 # select lock state
-<dtl if ($Config{"PhoneDefaultNewLock"} eq "lock") { $Data{"LockSelectionYes"} = "checked"; }>
-<dtl if ($Config{"PhoneDefaultNewLock"} eq "unlock") { $Data{"LockSelectionNo"} = "checked"; }>
-  <tr>
-    <td>$Text{"Lock Ticket"}:</td>
-    <td> <input type="radio" name="Lock" value="lock" $Data{"LockSelectionYes"}>$Text{"Yes"} <input type="radio" name="Lock" value="unlock" $Data{"LockSelectionNo"}>$Text{"No"}</td>
-  </tr>
+#<dtl if ($Config{"PhoneDefaultNewLock"} eq "lock") { $Data{"LockSelectionYes"} = "checked"; }>
+#<dtl if ($Config{"PhoneDefaultNewLock"} eq "unlock") { $Data{"LockSelectionNo"} = "checked"; }>
+#  <tr>
+#    <td>$Text{"Lock Ticket"}:</td>
+#    <td> <input type="radio" name="Lock" value="lock" $Data{"LockSelectionYes"}>$Text{"Yes"} <input type="radio" name="Lock" value="unlock" $Data{"LockSelectionNo"}>$Text{"No"}</td>
+#  </tr>
   </table>
 <br>
 <input class="button" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">

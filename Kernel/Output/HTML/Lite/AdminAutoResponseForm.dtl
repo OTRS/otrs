@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.14 2004-03-01 14:00:56 martin Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.15 2004-04-01 09:13:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,19 +62,19 @@ $Data{"Note"}
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-    <input type="hidden" name="ID" value="$Data{"ID"}">
+    <input type="hidden" name="ID" value="$QData{"ID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td>$Text{"Name"}: </td>
-      <td> <input type="text" name="Name" value="$Data{"Name"}" size="50" maxlength="50"></td>
+      <td> <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Subject"}: </td>
-      <td> <input type="text" name="Subject" value="$Data{"Subject"}" size="50" maxlength="250"></td>
+      <td> <input type="text" name="Subject" value="$QData{"Subject"}" size="50" maxlength="250"></td>
     </tr>
     <tr>
       <td>$Text{"Response"}: </td>
-      <td> <textarea rows="10" cols="60" name="Response">$Data{"Response"}</textarea></td>
+      <td> <textarea rows="10" cols="60" name="Response">$QData{"Response"}</textarea></td>
     </tr>
     <tr>
       <td>$Text{"Type"}: </td>
@@ -90,7 +90,7 @@ $Data{"Note"}
     </tr>
     <tr>
       <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
+      <td> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 

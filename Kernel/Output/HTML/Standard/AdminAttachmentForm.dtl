@@ -2,7 +2,7 @@
 # AdminAttachmentForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.6 2004-03-01 14:00:57 martin Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.7 2004-04-01 09:13:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,12 +60,12 @@
 
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
-    <input type="hidden" name="ID" value="$Data{"ID"}">
+    <input type="hidden" name="Subaction" value="$QData{"Subaction"}Action">
+    <input type="hidden" name="ID" value="$QData{"ID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td>$Text{"Name"}: </td>
-      <td> <input type="text" name="Name" value="$Data{"Name"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Attachment"}:</td>
@@ -77,7 +77,7 @@
     </tr>
     <tr>
       <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
+      <td> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">

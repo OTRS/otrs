@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.18 2004-03-01 14:00:57 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.19 2004-04-01 09:13:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -64,7 +64,7 @@
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td>$Text{"Name"}: </td>
-      <td> <input type="text" name="Name" value="$Data{"Name"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Sub-Queue of"}: </td>
@@ -76,13 +76,13 @@
     </tr>
     <tr>
       <td>$Text{"Unlock timeout"} ($Text{"minutes"}): </td>
-      <td> <input type="text" name="UnlockTimeout" value="$Data{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 1 $Text{"day"} = 1440 $Text{"minutes"}</td>
+      <td> <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 1 $Text{"day"} = 1440 $Text{"minutes"}</td>
     </tr>
 </td>
     </tr>
     <tr>
       <td>$Text{"Escalation time"} ($Text{"minutes"}): </td>
-      <td> <input type="text" name="EscalationTime" value="$Data{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 1 $Text{"day"} = 1440 $Text{"minutes"}</td>
+      <td> <input type="text" name="EscalationTime" value="$QData{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 1 $Text{"day"} = 1440 $Text{"minutes"}</td>
     </tr>
     <tr>
       <td>$Text{"Follow up Option"}: </td>
@@ -122,7 +122,7 @@
     </tr>
     <tr>
       <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
+      <td> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 

@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.20 2004-02-23 23:25:06 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.21 2004-04-01 09:13:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,27 +47,27 @@
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td width="40%">$Text{"Username"}: </td>
-      <td width="60%"> <input type="text" name="Login" value="$Data{"UserLogin"}" size="35" maxlength="50"></td>
+      <td width="60%"> <input type="text" name="Login" value="$QData{"UserLogin"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Salutation"}: </td>
-      <td> <input type="text" name="Salutation" value="$Data{"UserSalutation"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Firstname"}: </td>
-      <td> <input type="text" name="Firstname" value="$Data{"UserFirstname"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Lastname"}: </td>
-      <td> <input type="text" name="Lastname" value="$Data{"UserLastname"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Password"}: </td>
-      <td> <input type="password" name="Pw" value="$Data{"UserPw"}" size="35" maxlength="50"></td>
+      <td> <input type="password" name="Pw" value="$QData{"UserPw"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Email"}: </td>
-      <td> <input type="text" name="Email" value="$Data{"UserEmail"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Valid"}: </td>

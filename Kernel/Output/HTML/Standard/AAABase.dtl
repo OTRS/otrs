@@ -116,6 +116,7 @@ $Text{"Invalid SessionID!"}
 $Text{"Feature not active!"}
 
 # misc
+$Text{"Take this Customer"}
 $Text{"Take this User"}
 $Text{"possible"}
 $Text{"reject"}
@@ -144,3 +145,5 @@ $Text{"Preview"}
 
 $Text{"Don't show closed Tickets"}
 $Text{"Show closed Tickets"}
+
+$Text{"Added User "%s""}

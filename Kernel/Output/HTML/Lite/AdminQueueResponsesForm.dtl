@@ -2,7 +2,7 @@
 # AdminQueueResponsesForm.dtl - provides HTML form for AdminQueueResponses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponsesForm.dtl,v 1.10 2004-03-01 14:00:57 martin Exp $
+# $Id: AdminQueueResponsesForm.dtl,v 1.11 2004-04-01 09:13:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
