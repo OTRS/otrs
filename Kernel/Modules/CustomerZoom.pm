@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.17 2004-04-05 17:14:11 martin Exp $
+# $Id: CustomerZoom.pm,v 1.18 2004-04-11 17:01:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -248,13 +248,12 @@ sub _Mask {
     # just body if html email
     if ($Param{"ShowHTMLeMail"}) {
         # generate output
-        my $Output = "Content-Disposition: attachment; filename=";
-        $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
-        $Output .= "$Param{TicketID}-$Article{ArticleID}\n";
-        $Output .= "Content-Type: $Article{MimeType}; charset=$Article{ContentCharset}\n";
-        $Output .= "\n";
-        $Output .= $Article{"Body"};
-        return $Output;
+        return $Self->{LayoutObject}->Attachment(
+            Filename => $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-$Param{TicketID}-$Article{ArticleID}",
+            Type => 'inline',
+            ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
+            Content => $Article{"Body"},
+        );
     }
     # do some strips && quoting
     foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 FreeValue3)) {
