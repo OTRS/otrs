@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.63 2004-07-16 12:16:49 martin Exp $
+# $Id: AgentQueueView.pm,v 1.64 2004-07-22 05:47:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -232,7 +232,7 @@ sub ShowTicket {
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
     # run article modules
     if (ref($Self->{ConfigObject}->Get('Frontend::ArticlePreViewModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleModule')};
+        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticlePreViewModule')};
         foreach my $Job (sort keys %Jobs) {
             # log try of load module
             if ($Self->{Debug} > 1) {
@@ -403,7 +403,7 @@ sub ShowTicket {
             SelectedID => $Article{QueueID},
         );
     }
-    # get ack actions
+    # get acl actions
     $Self->{TicketObject}->TicketAcl(
         Data => '-',
         Action => $Self->{Action},
