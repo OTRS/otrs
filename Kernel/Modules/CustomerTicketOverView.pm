@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.16 2003-07-30 22:39:50 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.17 2003-10-13 20:34:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,7 @@ sub new {
     if ($Self->{StartHit} >= 1000) {
         $Self->{StartHit} = 1000;
     }
-    $Self->{PageShown} = 25;
+    $Self->{PageShown} = $Self->{ConfigObject}->Get('CustomerViewableTickets') || 25;
  
     return $Self;
 }
