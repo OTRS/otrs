@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.33 2002-06-08 21:59:49 martin Exp $
+# $Id: Generic.pm,v 1.34 2002-06-09 08:28:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -72,7 +72,7 @@ sub new {
     }
 
     $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
-    $Self->{Charset}   = $Self->{UserCharset};
+    $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{Baselink}  = "$Self->{CGIHandle}?SessionID=$Self->{SessionID}";
     $Self->{Time}      = localtime();
@@ -110,11 +110,11 @@ sub new {
     # --
     # should the admin link shown?
     # --
-    if ($Self->{PermissionObject} && !$Self->{PermissionObject}->Section(
+    if ($Self->{PermissionObject} && $Self->{PermissionObject}->Section(
       UserID => $Self->{UserID},
       Section => 'Admin')
     ){
-      $Self->{UserIsAdmin}='No';
+      $Self->{UserIsAdmin}='Yes';
     }
 
     return $Self;
