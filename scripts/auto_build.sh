@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.8 2002-10-25 11:48:04 martin Exp $
+# $Id: auto_build.sh,v 1.9 2002-10-29 22:57:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.8 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.9 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 

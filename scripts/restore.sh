@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 # --
 # scripts/restore.sh - a restore script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: restore.sh,v 1.4 2002-10-25 00:18:12 martin Exp $
+# $Id: restore.sh,v 1.5 2002-10-29 22:57:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "restore.sh - a restore script for OTRS <\$Revision: 1.4 $>"
+echo "restore.sh - a restore script for OTRS <\$Revision: 1.5 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # --
