@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.24 2004-03-11 22:09:16 martin Exp $
+# $Id: DB.pm,v 1.25 2004-03-11 23:04:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -129,23 +129,31 @@ sub CustomerSearch {
     " $Self->{CustomerTable} ".
     " WHERE ";
     if ($Param{Search}) { 
-        $Param{Search} = $Self->{SearchPrefix}.$Param{Search}.$Self->{SearchSuffix};
-        $Param{Search} =~ s/\*/%/g;
-        $Param{Search} =~ s/%%/%/g;
-        if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
-            my $SQLExt = '';
-            foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
-                if ($SQLExt) {
-                    $SQLExt .= ' OR ';
+        my $Count = 0;
+        my @Parts = split(/\+/, $Param{Search}, 6);
+        foreach my $Part (@Parts) {
+            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
+            $Part =~ s/\*/%/g;
+            $Part =~ s/%%/%/g;
+            if ($Count) {
+                $SQL .= " AND ";
+            }
+            $Count ++;
+            if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
+                my $SQLExt = '';
+                foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
+                    if ($SQLExt) {
+                        $SQLExt .= ' OR ';
+                    }
+                    $SQLExt .= " $_ LIKE '".$Self->{DBObject}->Quote($Part)."' ";
                 }
-                $SQLExt .= " $_ LIKE '".$Self->{DBObject}->Quote($Param{Search})."' ";
+                if ($SQLExt) {
+                    $SQL .= "($SQLExt)";
+                }
             }
-            if ($SQLExt) {
-                $SQL .= "($SQLExt)";
+            else {
+                $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Part)."' ";
             }
-        }
-        else {
-            $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{Search})."' ";
         }
     }
     elsif ($Param{PostMasterSearch}) {

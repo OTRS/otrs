@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.17 2004-03-11 22:09:16 martin Exp $
+# $Id: LDAP.pm,v 1.18 2004-03-11 23:04:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -132,16 +132,27 @@ sub CustomerSearch {
     # build filter
     my $Filter = '';
     if ($Param{Search}) {
-        if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
-            $Filter = '(|';
-            foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
-                $Filter.= "($_=$Self->{SearchPrefix}".$Self->_ConvertTo($Param{Search})."$Self->{SearchSuffix})";
+        my $Count = 0;
+        my @Parts = split(/\+/, $Param{Search}, 6);
+        foreach my $Part (@Parts) {
+            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
+            $Part =~ s/%%/%/g;
+            $Part =~ s/\*\*/*/g;
+            $Count ++;
+
+            if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
+                $Filter .= '(|';
+                foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
+                    $Filter.= "($_=".$Self->_ConvertTo($Part).")";
+                }
+                $Filter .= ')';
             }
-            $Filter .= ')';
-            $Filter =~ s/\*\*/*/g;
+            else {
+                $Filter .= "($Self->{CustomerKey}=$Part)";
+            }
         }
-        else {
-            $Filter = "($Self->{CustomerKey}=$Param{Search})";
+        if ($Count > 1) {
+            $Filter = "(&$Filter)";
         }
     }
     elsif ($Param{PostMasterSearch}) {
