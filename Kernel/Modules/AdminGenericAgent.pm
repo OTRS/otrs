@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.2 2004-07-18 00:53:14 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.3 2004-08-25 02:31:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -233,7 +233,7 @@ sub Run {
           if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
             # get first article data
             my %Data = $Self->{TicketObject}->ArticleFirstArticle(TicketID => $_);
-            $Param{StatusTable} .= " - <a href=\"\$Env{\"Baselink\"}&Action=AgentZoom&TicketID=$_\">$Data{TicketNumber}</a>"; 
+            $Param{StatusTable} .= " - <a href=\"\$Env{\"Baselink\"}&Action=AgentZoom&TicketID=$_\">$Data{TicketNumber}</a>";
           }
         }
         $Output .= $Self->{LayoutObject}->Warning(
@@ -358,8 +358,18 @@ sub MaskForm {
         Multiple => 1,
         SelectedIDRefArray => $Param{ScheduleDays},
     );
+    my %Jobs = $Self->{GenericAgentObject}->JobList();
+    foreach (keys %Jobs) {
+        my %JobData = $Self->{GenericAgentObject}->JobGet(Name => $_);
+        if ($JobData{ScheduleLastRun}) {
+            $Jobs{$_} .= " ($JobData{ScheduleLastRun})";
+        }
+        else {
+            $Jobs{$_} .= " (-)";
+        }
+    }
     $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { '', '-', $Self->{GenericAgentObject}->JobList(), },
+        Data => { '', '-', %Jobs, },
         Name => 'Profile',
         SelectedID => $Param{Profile},
     );
