@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.21 2005-02-23 08:35:29 martin Exp $
+# $Id: Package.pm,v 1.22 2005-02-23 11:20:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -426,7 +426,10 @@ sub PackageInstall {
         if ($Structur{Name}->{Content} eq $Package->{Name}->{Content}) {
           if ($Package->{Status} =~ /^installed$/i) {
             if (!$Param{Force} && $Structur{Version}->{Content} eq $Package->{Version}->{Content}) {
-                $Self->{LogObject}->Log(Priority => 'notice', Message => "Package already installed, try upgrade!");
+                $Self->{LogObject}->Log(
+                    Priority => 'notice',
+                    Message => "Package already installed, try upgrade!",
+                );
                 return $Self->PackageUpgrade(%Param);
             }
           }
@@ -488,7 +491,10 @@ sub PackageInstall {
         }
     }
     if (!$FileCheckOk && !$Param{Force}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "File conflict, can't install package!");
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "File conflict, can't install package!",
+        );
         return;
     }
     # check config
@@ -509,7 +515,10 @@ sub PackageInstall {
         }
     }
     if (!$ConfigCheckOk && !$Param{Force}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Config conflict, can't install package!");
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Config conflict, can't install package!",
+        );
         return;
     }
     # add package
@@ -601,10 +610,12 @@ sub PackageUpgrade {
     my %Structur = $Self->PackageParse(%Param);
     # check if package is already installed
     my $Installed = 0;
+    my $InstalledVersion = 0;
     foreach my $Package ($Self->RepositoryList()) {
         if ($Structur{Name}->{Content} eq $Package->{Name}->{Content}) {
             if ($Package->{Status} =~ /^installed$/i) {
                 $Installed = 1;
+                $InstalledVersion = $Package->{Version}->{Content};
                 %InstalledStructur = %{$Package};
             }
         }
@@ -612,6 +623,27 @@ sub PackageUpgrade {
     if (!$Installed) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Package is not installed, can't upgrade!");
         return;
+    }
+    # version check
+    if (!$Self->_CheckVersion(Version1 => $Structur{Version}->{Content}, Version2 => $InstalledVersion, Type => 'Max')) {
+        if ($Structur{Version}->{Content} eq $InstalledVersion) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't upgrade, package '$Structur{Name}->{Content}-$InstalledVersion' already installed!",
+            );
+            if (!$Param{Force}) {
+                return;
+            }
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't upgrade, installed package '$InstalledVersion' is newer as '$Structur{Version}->{Content}'!",
+            );
+            if (!$Param{Force}) {
+                return;
+            }
+        }
     }
     # remove old packages
     $Self->RepositoryRemove(Name => $Structur{Name}->{Content});
@@ -1376,6 +1408,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2005-02-23 08:35:29 $
+$Revision: 1.22 $ $Date: 2005-02-23 11:20:23 $
 
 =cut
