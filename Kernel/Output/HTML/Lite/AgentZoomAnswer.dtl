@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomAnswer.dtl,v 1.1 2003-03-05 17:50:19 martin Exp $
+# $Id: AgentZoomAnswer.dtl,v 1.2 2003-03-06 10:45:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,18 +48,5 @@
          </td>
        </tr>
      </table>
-   </p>
-
-   <p>
-     <b>$Text{"Change queue"}:</b>
-     <br>
-       <form action="$Env{"CGIHandle"}" method="get">
-       <input type="hidden" name="Action" value="AgentMove">
-       <input type="hidden" name="Subaction" value="InRage">
-       <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-       <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-       $Data{"MoveQueuesStrg"}
-       <input type="submit" value="$Text{"Move"}">
-       </form>
    </p>
 
