@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.11 2002-05-20 23:30:39 martin Exp $
+# $Id: suse-otrs.spec,v 1.12 2002-05-26 23:49:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -76,7 +76,13 @@ find . -name CVS | xargs rm -rf
 rm -f var/sessions/*
 rm -rf var/article/*
 rm -rf var/spool/*
-
+# remove old docu stuff
+for i in aux log out tex; do
+  rm -rf doc/manual/manual.$i;
+  rm -rf doc/manual/README.$i;
+done;
+rm -rf doc/screenshots
+mv doc/manual/manual doc/html
 
 %build
 # nothing
@@ -136,7 +142,7 @@ echo "[SuSEconfig]"
 echo " Execute SuSEconfig to configure the webserver."
 echo ""
 echo "[OpenTRS services]"
-echo " Start OpenTRS 'rcotrs start' (rcotrs {start|stop|status|restart})."
+echo " Start OpenTRS 'rcotrs start-force' (rcotrs {start|stop|status|restart|start-force|stop-force})."
 echo ""
 echo "Have fun!"
 echo ""
