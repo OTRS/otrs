@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.10 2002-05-05 21:57:48 martin Exp $
+# $Id: Header.dtl,v 1.11 2002-05-21 21:44:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,6 +48,8 @@ X-Wanted: I think you are smart. I'm looking for smart people!
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px; }
   pre
     { font-family:Courier;font-size:12px; }
+  a:hover 
+    { color: #002244; text-decoration: none; }
 //-->
 </style>
 </head>
