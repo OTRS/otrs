@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.29 2002-06-08 20:41:49 martin Exp $
+# $Id: index.pl,v 1.30 2002-06-08 22:07:33 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -145,9 +145,9 @@ if ($Param{Action} eq "Login") {
     # --
     if ( $AuthObject->Auth(User => $User, Pw => $Pw) ) {
         # get user data
-        my %Data = $CommonObject{UserObject}->GetUserData(User => $User);
+        my %UserData = $CommonObject{UserObject}->GetUserData(User => $User);
         # check needed data
-        if (!$Data{UserID} || !$Data{UserLogin}) {
+        if (!$UserData{UserID} || !$UserData{UserLogin}) {
             print $CommonObject{LayoutObject}->Login(
                 Message => 'Panic! No UserData!!!',
                 %Param,
@@ -155,7 +155,7 @@ if ($Param{Action} eq "Login") {
             exit (0);
         }
         # create new session id
-        my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(%Data);
+        my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(%UserData);
         my $LayoutObject = Kernel::Output::HTML::Generic->new(
           SessionID => $NewSessionID, 
           %CommonObject,
@@ -252,16 +252,16 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         # --
         # get session data
         # --
-        my %Data = $CommonObject{SessionObject}->GetSessionIDData(
+        my %UserData = $CommonObject{SessionObject}->GetSessionIDData(
           SessionID => $Param{SessionID},
         );
         # --
-        # create new LayoutObject with new '%Param' and '%Data'
+        # create new LayoutObject with new '%Param' and '%UserData'
         # --
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           %CommonObject, 
           %Param, 
-          %Data,
+          %UserData,
         );
 
         # debug info
@@ -277,7 +277,7 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         my $GenericObject = ('Kernel::Modules::'.$Param{Action})->new(
             %CommonObject,
             %Param,
-            %Data,
+            %UserData,
         );
 
         # debug info
