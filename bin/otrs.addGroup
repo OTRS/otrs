@@ -1,0 +1,72 @@
+#!/usr/bin/perl -w
+# --
+# otrs.addGroup - Add Group from CLI
+# Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
+# $Id: otrs.addGroup,v 1.1 2002-06-08 22:53:30 atif Exp $
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+package main;
+
+BEGIN{
+   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../");
+   use vars qw (%opts);
+   use Getopt::Std;
+   getopt('c',  \%opts);
+   unless ($ARGV[0]){
+      print "$FindBin::Script [-c comment] groupname";
+      print "\n";
+      exit;
+   }
+}
+
+
+package main;
+
+
+
+use lib '/opt/OpenTRS/';
+use strict;
+
+
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::DB;
+use Kernel::System::Group;
+
+# --
+# create common objects 
+# --
+
+my %CommonObject = ();
+$CommonObject{LogObject}    = Kernel::System::Log->new();
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
+
+
+
+my %Param;
+undef %Param;
+
+#user id of the person adding the record
+$Param{UserID}='1';
+
+
+#Validrecord
+$Param{ValidID}='1';
+
+
+$Param{Comment}=$opts{'c'};
+$Param{Name}=$ARGV[0];
+
+
+if ( my $gid=$CommonObject{GroupObject}->GroupAdd(%Param) ){
+   print "Group added. group id is $gid\n";
+}
+
+
+# --
+exit (0);
