@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.46 2004-02-08 23:24:26 martin Exp $
+# $Id: AgentZoom.pm,v 1.47 2004-02-09 23:44:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -226,6 +226,11 @@ sub MaskAgentZoom {
         $ArticleID = $Self->{ArticleID};
     }
     else {
+        # set first article
+        if (@ArticleBox) {
+            $ArticleID = $ArticleBox[0]->{ArticleID};
+        }
+        # get last customer article
         foreach my $ArticleTmp (@ArticleBox) {
             if ($ArticleTmp->{SenderType} eq 'customer') {
                 $ArticleID = $ArticleTmp->{ArticleID};
