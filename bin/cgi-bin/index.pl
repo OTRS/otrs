@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.6 2001-12-21 17:49:49 martin Exp $
+# $Id: index.pl,v 1.7 2001-12-23 13:32:33 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '/home/martin/src/otrs/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -46,8 +46,21 @@ use Kernel::System::DB;
 use Kernel::System::Auth;
 use Kernel::System::AuthSession;
 use Kernel::System::Queue;
+use Kernel::System::Ticket;
+use Kernel::System::Permission;
 use Kernel::Modules::Test;
 use Kernel::Modules::AgentQueueView;
+use Kernel::Modules::AgentMove;
+use Kernel::Modules::AgentZoom;
+use Kernel::Modules::AgentPlain;
+use Kernel::Modules::AgentNote;
+use Kernel::Modules::AgentLock;
+use Kernel::Modules::AgentPriority;
+use Kernel::Modules::AgentClose;
+use Kernel::Modules::AgentUtilities;
+use Kernel::Modules::Admin;
+use Kernel::Modules::AdminSession;
+use Kernel::Modules::AdminSelectBox;
 use Kernel::Output::HTML::Generic;
 
 # --
@@ -69,6 +82,8 @@ $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
+$CommonObject{PermissionObject} = Kernel::System::Permission->new(%CommonObject);
 
 # --
 # get common parameters
@@ -76,7 +91,9 @@ $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 my %Param = ();
 $Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => 'SessionID') || '';
 $Param{Action} = $CommonObject{ParamObject}->GetParam(Param => 'Action') || 'AgentQueueView';
+$Param{Subaction} = $CommonObject{ParamObject}->GetParam(Param => 'Subaction') || '';
 $Param{QueueID} = $CommonObject{ParamObject}->GetParam(Param => 'QueueID') || 0;
+$Param{TicketID} = $CommonObject{ParamObject}->GetParam(Param => 'TicketID') || '';
 
 # --
 # check request type
