@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.28 2003-04-27 16:08:36 martin Exp $
+# $Id: Queue.pm,v 1.29 2003-05-07 05:33:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -218,18 +218,23 @@ sub GetAllQueues {
             Type => $Type,
             Result => 'ID',
         );
-        my $SQL = "SELECT sq.id, sq.name FROM queue sq, group_user sug, groups sg ".
-        " WHERE ".
-        " sug.user_id = $UserID".
-        " AND ".
-        " sug.group_id = sg.id".
-        " AND ".
-        " sq.group_id = sg.id".
-        " AND ".
-        " sg.id IN ( ${\(join ', ', @GroupIDs)} )".
-        " AND ".
-        " sq.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
+        if (@GroupIDs) {
+          my $SQL = "SELECT sq.id, sq.name FROM queue sq, group_user sug, groups sg ".
+            " WHERE ".
+            " sug.user_id = $UserID".
+            " AND ".
+            " sug.group_id = sg.id".
+            " AND ".
+            " sq.group_id = sg.id".
+            " AND ".
+            " sg.id IN ( ${\(join ', ', @GroupIDs)} )".
+            " AND ".
+            " sq.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+            $Self->{DBObject}->Prepare(SQL => $SQL);
+        }
+        else {
+            return;
+        }
     }
     else {
         $Self->{DBObject}->Prepare(
