@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs-8.0.spec,v 1.3 2003-04-15 20:07:53 martin Exp $
+# $Id: redhat-otrs-8.0.spec,v 1.4 2003-04-16 22:35:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -67,7 +67,9 @@ $RPM_BUILD_ROOT/opt/otrs/bin/SetPermissions.sh $RPM_BUILD_ROOT/opt/otrs $OTRSUSE
 
 %pre
 # remember about the installed version
-cat /opt/otrs/RELEASE|grep VERSION|sed 's/VERSION = //'|sed 's/ /-/g' > /tmp/otrs-old.tmp
+if test -e /opt/otrs/RELEASE; then
+    cat /opt/otrs/RELEASE|grep VERSION|sed 's/VERSION = //'|sed 's/ /-/g' > /tmp/otrs-old.tmp
+fi
 
 %post
 # useradd
@@ -82,15 +84,17 @@ else
 fi
 
 # if it's a major-update backup old version templates (maybe not compatible!)
-TOINSTALL=`echo %{version}| sed 's/..$//'`
-OLDOTRS=`cat /tmp/otrs-old.tmp`
-if echo $OLDOTRS | grep -v "$TOINSTALL" > /dev/null; then
-    echo "backup old (maybe not compatible) templates (of $OLDOTRS)"
-    for i in /opt/otrs/Kernel/Output/HTML/Standard/*.rpmnew;
-        do BF=`echo $i|sed 's/.rpmnew$//'`; mv -v $BF $BF.backup_maybe_not_compat_to.$OLDOTRS; mv $i $BF;
-    done
+if test -e /tmp/otrs-old.tmp; then
+    TOINSTALL=`echo %{version}| sed 's/..$//'`
+    OLDOTRS=`cat /tmp/otrs-old.tmp`
+    if echo $OLDOTRS | grep -v "$TOINSTALL" > /dev/null; then
+        echo "backup old (maybe not compatible) templates (of $OLDOTRS)"
+        for i in /opt/otrs/Kernel/Output/HTML/Standard/*.rpmnew;
+            do BF=`echo $i|sed 's/.rpmnew$//'`; mv -v $BF $BF.backup_maybe_not_compat_to.$OLDOTRS; mv $i $BF;
+        done
+    fi
+    rm -rf /tmp/otrs-old.tmp
 fi
-rm -rf /tmp/otrs-old.tmp
 
 # note
 HOST=`hostname -f`
