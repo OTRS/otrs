@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.21 2004-04-30 06:57:50 martin Exp $
+# $Id: LDAP.pm,v 1.22 2004-08-26 09:59:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -236,20 +236,39 @@ sub CustomerUserList {
 sub CustomerIDs {
     my $Self = shift;
     my %Param = @_;
+    my @CustomerIDs = ();
     # check needed stuff
     if (!$Param{User}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
         return;
     }
+    # get customer data
     my %Data = $Self->CustomerUserDataGet(
         User => $Param{User},
     );
+    # there are multi customer ids
+    if ($Data{UserCustomerIDs}) {
+        foreach my $Split (';', ',', '|') {
+            if ($Data{UserCustomerIDs} =~ /$Split/) {
+                my @IDs = split(/$Split/, $Data{UserCustomerIDs});
+                foreach my $ID (@IDs) {
+                    $ID =~ s/^\s+//g;
+                    $ID =~ s/\s+$//g;
+                    push (@CustomerIDs, $ID);
+                }
+            }
+            else {
+                $Data{UserCustomerIDs} =~ s/^\s+//g;
+                $Data{UserCustomerIDs} =~ s/\s+$//g;
+                push (@CustomerIDs, $Data{UserCustomerIDs});
+            }
+        }
+    }
+    # use also the primary customer id
     if ($Data{UserCustomerID}) {
-        return ($Data{UserCustomerID});
+        push (@CustomerIDs, $Data{UserCustomerID});
     }
-    else {
-        return;
-    }
+    return @CustomerIDs;
 }
 # --
 sub CustomerUserDataGet {

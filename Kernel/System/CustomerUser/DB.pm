@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.31 2004-07-15 10:51:11 martin Exp $
+# $Id: DB.pm,v 1.32 2004-08-26 09:59:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -208,20 +208,39 @@ sub CustomerUserList {
 sub CustomerIDs {
     my $Self = shift;
     my %Param = @_;
+    my @CustomerIDs = ();
     # check needed stuff
     if (!$Param{User}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
         return;
     }
+    # get customer data
     my %Data = $Self->CustomerUserDataGet(
         User => $Param{User},
     );
+    # there are multi customer ids
+    if ($Data{UserCustomerIDs}) {
+        foreach my $Split (';', ',', '|') {
+            if ($Data{UserCustomerIDs} =~ /$Split/) {
+                my @IDs = split(/$Split/, $Data{UserCustomerIDs});
+                foreach my $ID (@IDs) {
+                    $ID =~ s/^\s+//g;
+                    $ID =~ s/\s+$//g;
+                    push (@CustomerIDs, $ID);
+                }
+            }
+            else {
+                $Data{UserCustomerIDs} =~ s/^\s+//g;
+                $Data{UserCustomerIDs} =~ s/\s+$//g;
+                push (@CustomerIDs, $Data{UserCustomerIDs});
+            }
+        }
+    }
+    # use also the primary customer id
     if ($Data{UserCustomerID}) {
-        return ($Data{UserCustomerID});
+        push (@CustomerIDs, $Data{UserCustomerID});
     }
-    else {
-        return;
-    }
+    return @CustomerIDs;
 }
 # --
 sub CustomerUserDataGet {
