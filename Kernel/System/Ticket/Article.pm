@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.70.2.1 2004-09-16 07:39:27 martin Exp $
+# $Id: Article.pm,v 1.70.2.2 2004-09-23 09:22:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70.2.1 $';
+$VERSION = '$Revision: 1.70.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -271,7 +271,7 @@ MessageID => $Param{MessageID},
     # send agent notification!?
     # --
     my $To = '';
-    if ($Param{HistoryType} =~ /^(EmailCustomer|PhoneCallCustomer|WebRequestCustomer)$/i) {
+    if ($Param{HistoryType} =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer)$/i) {
         foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
 	    my %UserData = $Self->{UserObject}->GetUserData(
                 UserID => $_,
@@ -1612,7 +1612,7 @@ sub SendAgentNotification {
       }
     }
     # comapt Type
-    if ($Param{Type} =~/(EmailCustomer|PhoneCallCustomer|WebRequestCustomer)/) {
+    if ($Param{Type} =~/(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer)/) {
         $Param{Type} = 'NewTicket';
     }
     # get old article for quoteing
