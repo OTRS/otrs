@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.16 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentPreferences.pm,v 1.17 2003-02-16 20:02:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -135,29 +135,19 @@ sub UpdateCustomQueues  {
     my $Output;
     my @QueueIDs = $Self->{ParamObject}->GetArray(Param => 'QueueID');
     
-    if (@QueueIDs) {
+    $Self->{DBObject}->Do(
+        SQL => "DELETE FROM personal_queues WHERE user_id = $Self->{UserID}",
+    );
+    foreach (@QueueIDs) {
         $Self->{DBObject}->Do(
-            SQL => "DELETE FROM personal_queues WHERE user_id = $Self->{UserID}",
-        );
-        foreach (@QueueIDs) {
-            $Self->{DBObject}->Do(
                 SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
                 " VALUES ($_, $Self->{UserID})",
-            );
-        }
-        # mk redirect
-        $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "Action=AgentPreferences&What=1",
         );
     }
-    else {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => 'No Queue selected!',
-            Comment => 'Please min. 1 queue!',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-    }
+    # mk redirect
+    $Output .= $Self->{LayoutObject}->Redirect(
+        OP => "Action=AgentPreferences&What=1",
+    );
     return $Output;
 }
 # --
