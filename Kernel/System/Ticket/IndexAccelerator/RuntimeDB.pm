@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.10 2003-03-27 07:20:05 martin Exp $
+# $Id: RuntimeDB.pm,v 1.11 2003-03-31 19:17:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -81,22 +81,28 @@ sub TicketAcceleratorIndex {
             $Queues{AllTickets} = $Row[0];
         }
     }
+    # check if user is in min. one group! if not, return here
+    if (!@GroupIDs) {
+        return %Queues;
+    }
     # --
     # CustomQueue add on
     # --
-    my $SQL = "SELECT count(*) FROM " .
-    " ticket as st, queue as sq, personal_queues as suq " .
-    " WHERE " .
-    " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
-    " AND " .
-    " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
-    " AND " .
-    " st.queue_id = sq.id " .
-    " AND " .
-    " suq.queue_id = st.queue_id " .
-    " AND " .
+    my $SQL = "SELECT count(*) FROM ".
+    " ticket as st, queue as sq, personal_queues as suq ".
+    " WHERE ".
+    " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
+    " AND ".
+    " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
+    " AND ".
+    " st.queue_id = sq.id ".
+    " AND ".
+    " suq.queue_id = st.queue_id ".
+    " AND ".
+    " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
+    " AND ".
     # get all custom queues
-    " suq.user_id = $Param{UserID} " .
+    " suq.user_id = $Param{UserID} ".
     #/ get all custom queues /
     "";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -112,10 +118,6 @@ sub TicketAcceleratorIndex {
             $Queues{TicketsShown} = $Row[0];
             $Queues{TicketsAvail} = $Row[0];
         }
-    }
-    # check if user is in min. one group! if not, return here
-    if (!@GroupIDs) {
-        return %Queues;
     }
     # prepar the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) as count ".
