@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.36 2004-11-27 01:51:21 martin Exp $
+-- $Id: initial_insert.sql,v 1.37 2005-02-23 12:15:50 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.36  2004/11/27 01:51:21  martin
+-- changed default lines of shown message
+--
 -- Revision 1.35  2004/11/04 11:12:04  martin
 -- removed not needed charset tabel, removed not existing queue_standard_response, added escalation_start_time to ticket insert, added queue_id to history recorde
 --
@@ -532,6 +535,10 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('TicketLinkDelete', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('SystemRequest', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- article_type
 INSERT INTO article_type
