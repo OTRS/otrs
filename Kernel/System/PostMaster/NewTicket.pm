@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.17 2002-07-24 10:02:27 martin Exp $
+# $Id: NewTicket.pm,v 1.18 2002-08-26 21:58:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -132,7 +132,20 @@ sub Run {
         HistoryComment => "New Ticket [$NewTn] created (Queue=$Queue). $Comment",
     );
 
-    
+    # close ticket if article create failed!
+    if (!$ArticleID) {
+        $TicketObject->SetState(
+            TicketID => $TicketID,
+            UserID => $InmailUserID,
+            State => 'removed',
+        );
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Can't process email with MessageID <$GetParam{'Message-ID'}>! ".
+              "Please create a bug report with this email (var/spool/) on http://bugs.otrs.org/!",
+        );
+        return;
+    }
     # set free article text
     @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
     $CounterTmp = 0;
