@@ -1,8 +1,8 @@
 # --
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.16 2004-01-14 01:41:45 martin Exp $
+# $Id: WebRequest.pm,v 1.17 2004-01-20 01:09:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.16 $ ';
+$VERSION = '$Revision: 1.17 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -78,7 +78,7 @@ sub new {
 
 to get the error back 
 
-  if ($Self->{ParamObject}->Error()) {
+  if ($ParamObject->Error()) {
       print STDERR $Self->{ParamObject}->Error()."\n";
   }
 
@@ -99,7 +99,7 @@ sub Error {
 
 to get params
 
-  my $Param = $Self->{ParamObject}->GetParam(Param => 'ID'); 
+  my $Param = $ParamObject->GetParam(Param => 'ID'); 
 
 =cut
 
@@ -116,7 +116,7 @@ sub GetParam {
 
 to get array params
 
-  my @Param = $Self->{ParamObject}->GetArray(Param => 'ID'); 
+  my @Param = $ParamObject->GetArray(Param => 'ID'); 
 
 =cut
 
@@ -161,7 +161,7 @@ sub GetUploadInfo {
 
 to get file upload 
 
-  my %File = $Self->{ParamObject}->GetUploadAll(Param => '123.jpg'); 
+  my %File = $ParamObject->GetUploadAll(Param => '123.jpg'); 
 
   print "Filename: $File{Filename:}\n";
   print "ContentType: $File{ContentType:}\n";
@@ -230,7 +230,7 @@ sub GetUploadAll {
 
 set a cookie
 
-  $Self->{ParamObject}->SetCookie(
+  $ParamObject->SetCookie(
       Key => ID,
       Value => 123456,
   );
@@ -252,7 +252,7 @@ sub SetCookie {
 
 get a cookie
 
-  my $String = $Self->{ParamObject}->GetCookie(
+  my $String = $ParamObject->GetCookie(
       Key => ID,
   );
 
@@ -278,6 +278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2004-01-14 01:41:45 $
+$Revision: 1.17 $ $Date: 2004-01-20 01:09:11 $
 
 =cut
