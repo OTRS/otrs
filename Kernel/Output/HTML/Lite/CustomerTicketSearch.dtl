@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.2 2004-04-30 13:07:16 martin Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.3 2004-06-22 09:59:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -52,6 +52,10 @@
 <tr align="left">
   <td>$Text{"Text"}</td>
   <td><input type="text" name="Body" size="30" value="$QData{"Body"}"></td>
+</tr>
+<tr align="left">
+  <td>$Text{"CustomerID"}</td>
+  <td><input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"></td>
 </tr>
 
 <tr align="left">
