@@ -2,7 +2,7 @@
 # AgentClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.22 2003-11-02 00:36:40 martin Exp $
+# $Id: AgentClose.dtl,v 1.23 2003-11-19 22:24:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,6 +18,11 @@ function submit_compose()
         document.compose.Subject.focus();
         return false;
     } 
+    else if (document.compose.Body.value == "") {
+        alert('$Text{"A message should have a body!"}');
+        document.compose.Body.focus();
+        return false;
+    }
     else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
