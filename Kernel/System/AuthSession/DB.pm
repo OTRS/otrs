@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.1 2002-08-01 02:34:09 martin Exp $
+# $Id: DB.pm,v 1.2 2002-08-03 11:53:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -115,9 +115,16 @@ sub CheckSessionID {
 sub GetSessionIDData {
     my $Self = shift;
     my %Param = @_;
-    my $SessionID = $Param{SessionID} || die 'Got no SessionID!';
+    my $SessionID = $Param{SessionID} || '';
     my $Strg = '';
     my %Data;
+    # --
+    # check session id
+    # -- 
+    if (!$SessionID) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no SessionID!!");
+        return;
+    }
 
     # --
     # read data
