@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMTP.pm,v 1.4 2003-06-01 19:20:56 martin Exp $
+# $Id: SMTP.pm,v 1.5 2003-07-01 18:45:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Mail::Address;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,6 +44,7 @@ sub new {
     $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
     $Self->{MailHost} = $Self->{ConfigObject}->Get('SendmailModule::Host') || 
       die "No SendmailModule::Host found in Kernel/Config.pm";
+    $Self->{SMTPPort} = $Self->{ConfigObject}->Get('SendmailModule::Port') || 'smtp(25)';
     $Self->{User} = $Self->{ConfigObject}->Get('SendmailModule::AuthUser');
     $Self->{Password} = $Self->{ConfigObject}->Get('SendmailModule::AuthPassword');
     return $Self;
@@ -93,7 +94,11 @@ sub Send {
         }
     }
     # send mail
-    if ($Self->{SMTPObject} = Net::SMTP->new($Self->{MailHost}, Timeout => $Self->{SMTPTimeout}, Debug => $Self->{SMTPDebug})) {
+    if ($Self->{SMTPObject} = Net::SMTP->new(
+        $Self->{MailHost}, 
+        Port => $Self->{SMTPPort},
+        Timeout => $Self->{SMTPTimeout}, 
+        Debug => $Self->{SMTPDebug})) {
         if ($Self->{User} && $Self->{Password}) {
             if (!$Self->{SMTPObject}->auth($Self->{User}, $Self->{Password})) {
                 $Self->{LogObject}->Log(
