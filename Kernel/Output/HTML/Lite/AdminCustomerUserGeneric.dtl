@@ -1,8 +1,8 @@
 # --
-# AdminUserGeneric.dtl - provides HTML form for AgentPreferences 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# AdminCustomerUserGeneric.dtl - provides HTML form for AgentPreferences 
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGeneric.dtl,v 1.5 2004-03-01 14:00:56 martin Exp $
+# $Id: AdminCustomerUserGeneric.dtl,v 1.6 2004-03-25 10:14:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 #<dtl if ($Data{"Type"} eq "text") {  $Data{"Value"} = "<input type="password" name="$Data{"Item"}" value="$Data{"Option"}" size="35" maxlength="50">"; }>
 <!-- start form -->
     <tr>
-      <td width="40%">$Text{"$Data{"Item"}"}: </td>
+      <td width="40%">$Text{"$Data{"Item"}"}: <font color="red">$Text{"$Data{"Required"}"}</font></td>
       <td width="60%"> $Data{"Value"}</td>
     </tr>
 <!-- end form -->

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.50 2004-03-11 14:34:40 martin Exp $
+# $Id: Admin.pm,v 1.51 2004-03-25 10:14:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,23 +60,41 @@ sub AdminCustomerUserForm {
     );
     foreach my $Entry (@{$Self->{ConfigObject}->Get($Param{Source})->{Map}}) {
       if ($Entry->[0]) {
+          # check input type
           if ($Entry->[0] =~ /^UserPasswor/i) {
               $Param{Type} = 'password';
           }
           else {
               $Param{Type} = 'text';
           }
+          # check if login auto creation
+          if ($Self->{ConfigObject}->Get($Param{Source})->{AutoLoginCreation} && $Entry->[0] =~ /^UserLogin$/) {
+              $Param{Type} = 'hidden';
+          }
           if ($Entry->[0] =~ /^ValidID/i) {
               $Param{Value} = $Param{'ValidOption'}; 
           }
           else {
-             my $Value = $Param{$Entry->[0]} || '';
-             $Param{Value} = "<input type=\"$Param{Type}\" name=\"$Entry->[0]\" value=\"$Value\" size=\"35\" maxlength=\"50\">";
+              my $Value = $Param{$Entry->[0]} || '';
+              $Param{Value} = "<input type=\"$Param{Type}\" name=\"$Entry->[0]\" value=\"$Value\" size=\"35\" maxlength=\"50\">";
           }
-          $Param{Preferences} .= $Self->Output(
-                TemplateFile => 'AdminCustomerUserGeneric',
-                Data => { Item => $Entry->[1], %Param},
-          );
+          # show required flag
+          if ($Entry->[4]) {
+              $Param{Required} = '*';
+          }
+          else {
+              $Param{Required} = '';
+          }
+          # add form option
+          if ($Param{Type} eq 'hidden') {
+              $Param{Preferences} .= $Param{Value};
+          }
+          else {
+              $Param{Preferences} .= $Self->Output(
+                   TemplateFile => 'AdminCustomerUserGeneric',
+                   Data => { Item => $Entry->[1], %Param},
+              );
+          }
       }
     }
    my $PreferencesUsed = $Self->{ConfigObject}->Get($Param{Source})->{AdminSetPreferences};
