@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.4 2002-07-21 22:45:11 martin Exp $
+# $Id: AgentOwner.pm,v 1.5 2002-07-21 22:52:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentOwner;
 
 use strict;
+use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,13 +40,14 @@ sub new {
       'LogObject', 
       'ConfigObject',
       'UserObject',
-      'GroupObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
    
-    # get  PriorityID
+    # get  NewUserID
     $Self->{NewUserID} = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
+
+    $Self->{GroupObject} = Kernel::System::Group->new(%Param);
 
     return $Self;
 }
