@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.15 2002-07-23 22:20:56 martin Exp $
+# $Id: FollowUp.pm,v 1.16 2002-09-10 23:20:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::PostMaster::AutoResponse;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -213,12 +213,9 @@ sub Run {
         # send email
         # --
         $EmailObject->Send(
-            DBObject => $DBObject,
-            ArticleObject => $ArticleObject,
             ArticleType => 'email-external',
             SenderType => 'system',
             TicketID => $TicketID,
-            TicketObject => $TicketObject,
             HistoryType => 'SendAutoFollowUp',
             HistoryComment => "Sent auto response to '$GetParam{From}'",
             From => "$Data{Realname} <$Data{Address}>",
@@ -291,8 +288,10 @@ sub Run {
          # --
          # prepare body (insert old email)
          # --
+         my $From = $GetParam{From};
          my $Body = $Self->{ConfigObject}->Get('NotificationBodyFollowUp') 
           || 'No body found in Config.pm!';
+         $Body =~ s/<OTRS_CUSTOMER_FROM>/$From/g;
          $Body =~ s/<OTRS_TICKET_ID>/$TicketID/g;
          $Body =~ s/<OTRS_USER_FIRSTNAME>/$Preferences{UserFirstname}/g; 
          my $OldBody = $GetParam{Body} || 'Your Message!';
@@ -310,12 +309,9 @@ sub Run {
          # send notification
          # --
          $EmailObject->Send(
-            DBObject => $DBObject,
-            ArticleObject => $ArticleObject,
             ArticleType => 'email-notification-int',
             SenderType => 'system',
             TicketID => $TicketID,
-            TicketObject => $TicketObject,
             HistoryType => 'SendAgentNotification',
             HistoryComment => "Sent notification to '$Preferences{UserEmail}'.",
             From => $Self->{ConfigObject}->Get('NotificationSenderName').
