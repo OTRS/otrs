@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.17 2003-07-08 00:00:37 martin Exp $
+# $Id: AgentOwner.pm,v 1.18 2003-07-14 12:15:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -37,6 +37,8 @@ sub new {
    
     # get params    
     $Self->{NewUserID} = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
+    $Self->{OldUserID} = $Self->{ParamObject}->GetParam(Param => 'OldUserID') || '';
+    $Self->{UserSelection} = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
     $Self->{Comment} = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
 
     return $Self;
@@ -46,24 +48,43 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
     if ($Self->{Subaction} eq 'Update') {
-        # --
+        # check new/old user selection
+        if ($Self->{UserSelection} eq 'Old') {
+            if (!$Self->{OldUserID}) {
+                $Output = $Self->{LayoutObject}->Header(Title => 'Owner');
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Sorry, you need to select a previous owner!",
+                    Comment => 'Please go back and select one.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Self->{NewUserID} = $Self->{OldUserID};
+            }
+        }
+        else {
+            if (!$Self->{NewUserID}) {
+                $Output = $Self->{LayoutObject}->Header(Title => 'Owner');
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Sorry, you need to select a new owner!",
+                    Comment => 'Please go back and select one.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+        }
 		# lock ticket && set user id && send notify to new agent
-        # --
         if ($Self->{TicketObject}->SetLock(
           TicketID => $Self->{TicketID},
           Lock => 'lock',
@@ -75,9 +96,7 @@ sub Run {
             NewUserID => $Self->{NewUserID},
             Comment => $Self->{Comment},
 		)) {
-            # --
             # add note
-            # --
             if ($Self->{Comment}) {
               my $ArticleID = $Self->{TicketObject}->CreateArticle(
                 TicketID => $Self->{TicketID},
@@ -93,9 +112,7 @@ sub Run {
                 NoAgentNotify => 1, # because of owner updated notify
               );
             }
-          # --
           # redirect
-          # --
           return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
         }
         else {
@@ -106,17 +123,13 @@ sub Run {
         }
     }
     else {
-        # --
         # print form
-        # --
         my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
         my $OwnerID = $Self->{TicketObject}->CheckOwner(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Owner');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        # --
         # get user of own groups
-        # --
         my %ShownUsers = ();
         my %AllGroupsMembers = $Self->{UserObject}->UserList(
             Type => 'Long',
@@ -142,11 +155,12 @@ sub Run {
                 }
             }
         }
-        # --
+        # get old owner
+        my @OldUserInfo = $Self->{TicketObject}->GetOwnerList(TicketID => $Self->{TicketID});
         # print change form
-        # --
         $Output .= $Self->MaskOwner(
             OptionStrg => \%ShownUsers,
+            OldUser => \@OldUserInfo,
             TicketID => $Self->{TicketID},
             OwnerID => $OwnerID,
             TicketNumber => $Tn,
@@ -166,6 +180,31 @@ sub MaskOwner {
         Selected => $Param{OwnerID},
         Name => 'NewUserID', 
         Size => 10,
+        OnClick => "change_selected(0)",
+    );
+    my %UserHash = ();
+    if ($Param{OldUser}) {
+        my $Counter = 0;
+        foreach my $User (reverse @{$Param{OldUser}}) {
+          if ($Counter) {
+            if (!$UserHash{$User->{UserID}}) {
+                $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
+                  "$User->{UserFirstname} ($User->{UserLogin})";
+            }
+          }
+          $Counter++;
+        }
+    }
+    if (!%UserHash) {
+        $UserHash{''} = '-';
+    }
+    # build string 
+    $Param{'OldUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%UserHash, 
+        SelectedID => $Param{OldUser}->[0]->{UserID}.'1',
+        Name => 'OldUserID',
+        OnClick => "change_selected(2)",
+#        Size => 10,
     );
     # create & return output
     return $Self->{LayoutObject}->Output(

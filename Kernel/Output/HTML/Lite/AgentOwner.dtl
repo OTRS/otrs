@@ -2,13 +2,35 @@
 # AgentOwner.dtl - provides HTML for AgentOwner mask
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.dtl,v 1.12 2003-03-10 23:39:03 martin Exp $
+# $Id: AgentOwner.dtl,v 1.13 2003-07-14 12:15:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+
+<script language="JavaScript" type="text/javascript">
+<!--
+
+function change_selected(sel) 
+{
+   start_elements = (sel + 4);
+   if (document.owner.elements[0].name == "$Config{"SessionName"}") {
+       start_elements = start_elements + 1;
+   }
+   if (!document.owner.elements[start_elements].checked) {
+        document.owner.elements[start_elements].checked = true;
+   }
+# just for debug!
+#alert(start_elements);
+#alert(document.owner.elements[start_elements].name)
+#alert(document.owner.elements[start_elements].checked)
+}
+    
+//-->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" class="table0">
@@ -20,7 +42,7 @@
 </tr>
 <tr>
   <td align="left" colspan="2" class="table2">
-    <a href="$Env{"Baselink"}$Env{"LastScreen"}">$Text{"Back"}</a>
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
   </td>
 </tr>
 </table>
@@ -29,27 +51,32 @@
   <td align="left" valign="top" class="table1">
 
   <p>
-
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="owner">
 <input type="hidden" name="Action" value="AgentOwner">
 <input type="hidden" name="Subaction" value="Update">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
 <table border="0" width="100%">
-  <tr>
-    <td width="20%" valign="top">$Text{"New user"}:</td>
+  <tr valign="top">
+    <td width="18%">$Text{"New Owner"}:</td>
+    <td width="2%"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
     <td width="80%">$Data{"OptionStrg"}</td>
   </tr>
-  <tr>
-    <td valign="top">$Text{"Message for new Owner"}:</td>
+  <tr valign="top">
+    <td>$Text{"Previous Owner"}:</td>
+    <td><input type="radio" name="UserSelection" value="Old"></td>
+    <td>$Data{"OldUserStrg"}</td>
+  </tr>
+  <tr valign="top">
+    <td>$Text{"Message for new Owner"}:</td>
+    <td></td>
     <td>
-<textarea name="Comment" rows="10" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
+<textarea name="Comment" rows="12" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
 </textarea>
     </td>
   </tr>
 </table>
-<input type="submit" value="$Text{"update"}">
+<input class="button" type="submit" value="$Text{"update"}">
 </form>
 
 </p>
