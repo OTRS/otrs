@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.30 2004-04-11 16:47:57 martin Exp $
+# $Id: Language.pm,v 1.31 2004-06-03 10:48:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -106,6 +106,28 @@ sub new {
           Message => "Sorry, can't locate or load Kernel::Language::$Self->{UserLanguage} ".
               "translation! Check the Kernel/Language/$Self->{UserLanguage}.pm (perl -cw)!",
         );
+    }
+    # load custom text catalog ...
+    if (eval "require Kernel::Language::$Self->{UserLanguage}_Custom") {
+       @ISA = ("Kernel::Language::$Self->{UserLanguage}_Custom");
+       $Self->Data();
+       if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+                Priority => 'Debug',
+                Message => "Kernel::Language::$Self->{UserLanguage}_Custom load ... done."
+            );
+        }
+    }
+    # load action custom text catalog ...
+    if ($Param{Action} && eval "require Kernel::Language::$Self->{UserLanguage}_$Param{Action}") {
+       @ISA = ("Kernel::Language::$Self->{UserLanguage}_$Param{Action}");
+       $Self->Data();
+       if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+                Priority => 'Debug',
+                Message => "Kernel::Language::$Self->{UserLanguage}_$Param{Action} load ... done."
+            );
+        }
     }
     # if no return charset is given, use recommended return charset
     if (!$Self->{ReturnCharset}) {
@@ -498,6 +520,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2004-04-11 16:47:57 $
+$Revision: 1.31 $ $Date: 2004-06-03 10:48:56 $
 
 =cut
