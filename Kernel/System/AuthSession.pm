@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.21 2004-09-01 12:03:18 martin Exp $
+# $Id: AuthSession.pm,v 1.22 2004-09-27 13:37:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
@@ -150,7 +150,7 @@ false (if can't update)
 
   $SessionObject->UpdateSessionID(
       SessionID => '1234567890123456',
-      Key => 'LastScreen',
+      Key => 'LastScreenView',
       Value => 'SomeInfo',
   );
 
@@ -208,6 +208,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2004-09-01 12:03:18 $
+$Revision: 1.22 $ $Date: 2004-09-27 13:37:24 $
 
 =cut
