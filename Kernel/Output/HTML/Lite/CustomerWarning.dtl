@@ -2,7 +2,7 @@
 # Warning.dtl - provides HTML warning screen
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerWarning.dtl,v 1.4 2003-02-08 15:40:42 martin Exp $
+# $Id: CustomerWarning.dtl,v 1.5 2003-04-25 16:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,14 +11,14 @@
 <center>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr> 
-  <td table="table2">
+  <td class="table2">
   <p>
    <font color="red" size="+1">$Text{"Warning"}: $Data{"Message"}</font>
   </p>
   </td>
 </tr>
 <tr>
-  <td table="table1">
+  <td class="table1">
     <table>
         <tr>
             <td valign="top"><b>$Text{"Comment"}:</b></td>

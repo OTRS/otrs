@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.17 2003-04-16 21:11:55 martin Exp $
+# $Id: Customer.pm,v 1.18 2003-04-25 16:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,7 +91,12 @@ sub CustomerFooter {
 sub CustomerNavigationBar {
     my $Self = shift;
     my %Param = @_;
-
+    if ($Self->{UserEmail} ne $Self->{UserCustomerID}) {
+        $Param{UserLoginTop} = "$Self->{UserEmail}/$Self->{UserCustomerID}";
+    }
+    else {
+        $Param{UserLoginTop} = $Self->{UserEmail};
+    }
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerNavigationBar', Data => \%Param);
 }

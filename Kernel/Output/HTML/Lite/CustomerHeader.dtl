@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerHeader.dtl,v 1.4 2003-02-08 15:40:42 martin Exp $
+# $Id: CustomerHeader.dtl,v 1.5 2003-04-25 16:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,9 +21,9 @@ Pragma: no-cache
 # --
 # html comment
 # --
-<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
-<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
-<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
+<!-- OTRS: Copyright 2001-2003, OTRS Project. This Software is under the GPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/           -->
+<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt          -->
 # --
 # set some html variables
 # --
@@ -42,7 +42,7 @@ Pragma: no-cache
 <!--
 # body
   body
-   { color:black;background-color:#ffffff;font-size:11pt;font-family:Geneva,Arial,Helvetica,sans-serif; }
+   { color:black;background-color:#ffffff;font-size:11pt;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif; }
   a
    { color:#557799; }
   a:hover
@@ -50,26 +50,35 @@ Pragma: no-cache
   pre
    { font-size:12px;font-family:Courier,monospace,fixed; }
   td,th
-   { font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+   { font-size:12px;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif; }
   .header
-   { color:#ffffff;background-color:#cc0000;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+   { color:#efefef;background-color:#cc0000;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   a.headeritem
-   { color:#ffffff; }
+   { color:#efefef; }
   .footer
-   { color:#ffffff;background-color:#cc0000;font-weight:bold;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+   { color:#efefef;background-color:#cc0000;font-weight:bold;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   a.footeritem
-   { color:#ffffff; }
+   { color:#efefef; }
   .navbar
    { color:#000000;font-size:12px;font-weight:normal;font-family:Geneva,Helvetica,Arial,sans-serif; }
   .small
    { font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  a.small
+    { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+# form
+  form
+   {margin:0px;}
+  input
+   {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
+  .button
+   {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
 # table color
   .table0
-    { color:#ffffff;background-color:#cccccc;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+    { color:#ffffff;background-color:#cccccc;font-size:13px;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;}
   .table1
-    { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+    { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;}
   .table2
-    { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+    { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;}
 //-->
 </style>
 </head>

@@ -2,16 +2,12 @@
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.4 2003-02-08 15:40:42 martin Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.5 2003-04-25 16:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-# --
-# create $Data{"UserLoginTop"} if user is loged in
-# --
-<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
 # --
 <!-- start NavigationBar -->
 <table order="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
@@ -31,7 +27,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
   <td align="left" width="100%" class="table1">
-   $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"}"}
+   $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}
   </td>
 </tr>
 </table>

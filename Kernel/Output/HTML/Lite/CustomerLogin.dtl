@@ -2,7 +2,7 @@
 # Login.dtl - provides customer HTML login screen
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerLogin.dtl,v 1.4 2003-02-08 15:40:42 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.5 2003-04-25 16:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,9 +20,9 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 # --
 # html comment
 # --
-<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
-<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
-<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
+<!-- OTRS: Copyright 2001-2003, OTRS Project. This Software is under the GPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/           -->
+<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt          -->
 # --
 <html>
 <head>
@@ -43,14 +43,27 @@ X-Wanted: I think you are smart. I'm looking for smart people!
    { color:#ffffff;background-color:#cc0000;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   a.headeritem
    { color:#ffffff; }
+  a.headeritem:hover
+   { color:#ffffff; }
   .footer
    { color:#ffffff;background-color:#cc0000;font-weight:bold;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   a.footeritem
+   { color:#ffffff; }
+  a.footeritem:hover
    { color:#ffffff; }
   .navbar
    { color:#000000;font-size:12px;font-weight:normal;font-family:Geneva,Helvetica,Arial,sans-serif; }
   .small
    { font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  a.small
+    { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+# form
+  form
+   {margin:0px;}
+  input
+   {font-family:Geneva,Arial,Helvetica,sans-serif;font-size:12px;}
+  .button
+   {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
 # table color
   .table0
     { color:#ffffff;background-color:#cccccc;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
@@ -111,7 +124,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
       <td><input type="password" name="Password" size="18"></td>
     </tr>
     </table>
-    <input type="submit" value="$Text{"Login"}">
+    <input class="button" type="submit" value="$Text{"Login"}">
     </form>
 
   </td>
@@ -139,7 +152,7 @@ $Data{"LostPassword"}
       <td>$Data{"Language"}</td>
     </tr>
     </table>
-  <input type="submit" value="$Text{"submit"}">
+  <input class="button" type="submit" value="$Text{"submit"}">
   </td>
 </tr>
 </table>
@@ -165,7 +178,7 @@ $Data{"CreateAccount"}
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="right" class="small">$Text{"Powered by"} $Env{"Product"} $Env{"Version"}</td>
+  <td align="right" class="small">$Text{"Powered by"} <a href="http://otrs.org/" class="small">$Env{"Product"} $Env{"Version"}</a></td>
 </tr>
 </table>
 <!-- end footer -->
