@@ -2,7 +2,7 @@
 # AdminSMIMEForm.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIMEForm.dtl,v 1.1 2004-08-04 13:12:17 martin Exp $
+# $Id: AdminSMIMEForm.dtl,v 1.2 2004-08-06 06:15:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -40,14 +40,14 @@
     </td>
   </tr>
   <tr>
-    <td class="table3">$Text{"Add"}:</td>
+    <td class="table3">$Text{"Add Certificate"}:</td>
   </tr>
   <tr>
     <td>
 
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Add">
+    <input type="hidden" name="Subaction" value="AddCertificate">
     <table border="0" cellspacing="0" cellpadding="3">
 #    <tr>
 #      <td>$Text{"Ascii"}: </td>
@@ -55,11 +55,39 @@
 #    </tr>
     <tr>
       <td>$Text{"File"}: </td>
-      <td> <input name="file_upload" type="file" size="40" class="fixed"></td>
+      <td> <input name="file_upload" type="file" size="35" class="fixed"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"Add"}">
-    </from>
+    </form>
+
+    </td>
+  </tr>
+  <tr>
+    <td class="table3">$Text{"Add Private Key"}:</td>
+  </tr>
+  <tr>
+    <td>
+
+    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="AddPrivate">
+    <table border="0" cellspacing="0" cellpadding="3">
+#    <tr>
+#      <td>$Text{"Ascii"}: </td>
+#      <td> <textarea name="String" rows="6" cols="70" wrap="$Env{"BrowserWrap"}"></textarea></td>
+#    </tr>
+    <tr>
+      <td>$Text{"File"}: </td>
+      <td> <input name="file_upload" type="file" size="35" class="fixed"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Secret"}: </td>
+      <td><input type="password" name="Secret" value="$QData{"Secret"}" size="20"></td>
+    </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"Add"}">
+    </form>
 
     </td>
   </tr>
@@ -77,22 +105,22 @@
 
     <table border="0" width="100%">
     <tr>
-        <td class="table3">$Text{"Issuer"}</td>
+        <td class="table3">$Text{"Subject"}</td>
         <td class="table3">$Text{"Hash"}</td>
 #        <td class="table3">$Text{"Bit"}</td>
         <td class="table3">$Text{"Fingerprint"}</td>
-        <td class="table3">$Text{"Created"}</td>
-        <td class="table3">$Text{"Expires"}</td>
+        <td class="table3">$Text{"Created"}/$Text{"Expires"}</td>
+        <td class="table3">$Text{"Private Key"}</td>
         <td class="table3">$Text{"Delete"}</td>
     </tr>
 <!-- dtl:block:Row -->
     <tr>
-        <td valign="top">$QData{"Issuer"}</td>
+        <td valign="top">$QData{"Subject"}</td>
         <td valign="top"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Hash=$QData{"Hash"}">$QData{"Hash","80"}</a></td>
 #        <td valign="top">$QData{"Bit"}</td>
-        <td valign="top">$QData{"Fingerprint","20"}</td>
-        <td valign="top">$QData{"StartDate"}</td>
-        <td valign="top">$QData{"EndDate"}</td>
+        <td valign="top"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","8"}</div></td>
+        <td valign="top">$QData{"StartDate"}/$QData{"EndDate"}</td>
+        <td valign="top">$QData{"Private"}</td>
         <td valign="top"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Hash=$QData{"Hash"}">x</a></td>
     </tr>
 <!-- dtl:block:Row -->
@@ -118,7 +146,7 @@
 <tr valign="top">
   <td class="table1">
   <p>
-  $Text{"In this way you can directly edit the keyring configured in Kernel/Config.pm."}
+  $Text{"In this way you can directly edit the certification and private keys in file system."}
   <br>
   $Text{"FIXME: WHAT IS SMIME?"}
   </p>
