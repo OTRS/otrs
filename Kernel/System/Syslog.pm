@@ -2,7 +2,7 @@
 # Syslog.pm - a wrapper for xyz::Syslog 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Syslog.pm,v 1.2 2001-12-02 18:28:30 martin Exp $
+# $Id: Syslog.pm,v 1.3 2001-12-30 00:43:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Unix::Syslog qw(:macros);  # Syslog macros
 use Unix::Syslog qw(:subs);  # Syslog functions
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -37,7 +37,7 @@ sub Log {
     my %Param = @_;
     my $Program = $Param{Program};
     my $Priority = $Param{Priority} || 'debug';
-    my $MSG = $Param{MSG} || '???';
+    my $MSG = $Param{MSG} || $Param{Message} || '???';
 
     if ($Priority =~ /debug/i) {
         my ($Package, $Filename, $Line, $Subroutine, $Hasargs) = caller(0);
