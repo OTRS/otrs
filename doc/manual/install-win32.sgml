@@ -9,10 +9,8 @@
 
 <section id="download_and_installation_otrs4win32">
 <title>Download &amp; Installation</title>
-<para>Download the <ulink url="ftp://ftp2.otrs.org/pub/otrs/misc/win32/otrs4win32-current.exe"> current release</ulink> It's an executable .exe file, it's name follows this conventions: <emphasis>otrs4win32-&lt;OTRS-VERSION&gt;-&lt;STATUS&gt;.exe</emphasis>. You may want to verify <ulink url="ftp://ftp.otrs.org/pub/otrs/misc/win32/otrs4win32-current.md5">the 
-corresponding md5 sum</ulink> after download. We herefore recommend 
-md5-summer: <ulink url="http://md5summer.org/">http://md5summer.org/</ulink>. 
-Give it a try, it's a fine piece of software.</para>
+<para>Download the current release - you may use our <ulink url="http://otrs.org/download">http://otrs.org/download</ulink> as a starting point. 
+It's an executable .exe file, it's name follows this conventions: <emphasis>otrs4win32-&lt;OTRS-VERSION&gt;-&lt;STATUS&gt;.exe</emphasis>. You may also want to verify the corresponding md5 sum after download - find it besides the files on the servers. We herefore recommend md5-summer: <ulink url="http://md5summer.org/">http://md5summer.org/</ulink>. Give it a try, it's a fine piece of GPL software.</para>
 <para>Obtain administrative rights on your box by logging in as an administrator or by using "Run as...". Start the installer.
 </para>
 <para>
@@ -57,9 +55,6 @@ We provide four installation types, which you choose from the drop-down field at
 <para><emphasis>Minimum</emphasis>: Choosing this will only install those components that are absolutely required to get the basic OTRS system going, omitting all the gimmicks this bundle additionally provides. If in a customized installation (see below) you omit one of them, OTRS won't work. So it's best to start from here with customization, if ever.</para>
 </listitem>
 <listitem>
-<para><emphasis>New versions</emphasis>: If you already have a version of otrs4win32 installed, this option will only install new versions of the installed software, no additional packages are installed. If you install otrs4win32 for the first time, it will simply install all. See the "Full" option above.</para>
-</listitem>
-<listitem>
 <para><emphasis>None</emphasis>: This option is quite dangerous to use. It allows you to re-run the external configuration script. Use this only if you experience difficulties and as a last resort. Have a complete backup of the OTRS' installation directory at your hands.</para>
 </listitem>
 </itemizedlist>
@@ -78,7 +73,7 @@ It's time to wisely choose the top-level installation directory. All files of ot
 </screenshot>
 <warning>
 <para>
-We <emphasis>strongly recommend</emphasis> locating the directory directly in the root of any drive, as shown above. We do not recommend choosing a drive letter higher than <userinput>E:</userinput>, although you may try. We simply didn't test it, so please <ulink url="mailto:contact@otrs.org">provide a success story</ulink> if you managed to install on <userinput>M:</userinput> or <userinput>O:</userinput> or wherever else.
+We <emphasis>strongly recommend</emphasis> locating the directory directly in the root of any drive, as shown above.
 </para>
 </warning>
 </para>
@@ -138,7 +133,7 @@ No reboot should be required. Please read on before clicking 'Finish'!
 </para>
 <warning>
 <title>Installation and Upgrade Issues</title>
-<para>NO system service are installed till now. Please refer to the FAQ on important, additional information regarding this issue.</para>
+<para>NO system service are installed till now. Please refer to the FAQ on do.otrs.org for important, additional information regarding this issue.</para>
 <para>This release is suitable only for OTRS systems that are about to be freshly installed, ie. you are currently not encouraged to upgrade your existing OTRS installation. In fact, the installer does not provide any mechanism to do so.</para>
 </warning>
 </section>
@@ -146,7 +141,7 @@ No reboot should be required. Please read on before clicking 'Finish'!
 <section id="start_otrs_on_win32">
 <title>Start The OTRS System</title>
 <para>
-Make sure there are no other server applications running on the ports 25 (smtp), 80 (http), 443 (https), 3306 (MySQL). If so, find out, what servers they are and if they are supposed and/or required to run at this time on your machine. Examples were Microsoft's IIS webserver running silently in the background or the correspnding SMTP service. You'll have to shut them down to start OTRS.
+Make sure there are no other server applications running on the ports 25 (smtp), 80 (http), 443 (https), 3306 (MySQL). If so, find out, what servers they are and if they are supposed and/or required to run at this time on your machine. Examples were Microsoft's IIS webserver running silently in the background or the correspnding SMTP service. You'll have to shut them down to start OTRS. A latter version of this installer will do all of the above for you.
 </para>
 <para>
 To start your system's servers now, you may use the provided option on the finishing page of the installer dialogue labeled 'Run otrs4win32'. This does the same as the Start Menu entry in the section "Standalone Servers" (see below), namely executing the script 'all_start.bat' located in the root directory of otrs4win32. Do not worry about the script complaining about the CRONw service not being found, if you didn't install it till now - it's harmless.
