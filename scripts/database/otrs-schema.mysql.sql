@@ -334,7 +334,7 @@ CREATE TABLE ticket
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (tn),
-    INDEX index_ticket_queue_view (ticket_state_id, group_id, ticket_lock_id, group_id)
+    INDEX index_ticket_queue_view (ticket_state_id, ticket_lock_id, group_id)
         ,INDEX index_ticket_user (user_id)
         ,INDEX index_ticket_answered (ticket_answered)
    

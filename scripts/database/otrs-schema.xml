@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.4 2003-02-14 22:46:10 martin Exp $
+  $Id: otrs-schema.xml,v 1.5 2003-02-25 18:50:01 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.4  2003/02/14 22:46:10  martin
+  cleanup - small changes
+
   Revision 1.3  2003/02/09 20:52:49  martin
   added customer_user_id to ticket table
 
@@ -373,7 +376,6 @@
   </unique>
   <index name="index_ticket_queue_view">
     <index-column name="ticket_state_id"/>
-    <index-column name="group_id"/>
     <index-column name="ticket_lock_id"/>
     <index-column name="group_id"/>
   </index>

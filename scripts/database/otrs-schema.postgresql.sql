@@ -301,7 +301,7 @@ CREATE TABLE ticket
     PRIMARY KEY(id),
     UNIQUE (tn)
 );
-create  INDEX index_ticket_queue_view ON ticket (ticket_state_id, group_id, ticket_lock_id);
+create  INDEX index_ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
 create  INDEX index_ticket_user ON ticket (user_id);
 create  INDEX index_ticket_answered ON ticket (ticket_answered);
 
