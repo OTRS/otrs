@@ -2,7 +2,7 @@
 # Kernel/Config/GenericAgent.pm - config file of generic agent
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm.examples,v 1.1 2003-01-05 13:59:55 martin Exp $
+# $Id: GenericAgent.pm.examples,v 1.2 2003-01-05 14:18:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw(%Jobs);  
 
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # -----------------------------------------------------------------------
@@ -99,8 +99,9 @@ $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
       # new ticket properties
       New => {
         Queue => 'experts',
-        # "/path/to/your/program $TicketNumber $TicketID"
-        # ARG[0] will be the ticket number and ARG[1] the ticket id
+        # your program (/path/to/your/program) will be executed like
+        # "/path/to/your/program $TicketNumber $TicketID" ARG[0] will 
+        # be the ticket number and ARG[1] the ticket id
         CMD => '/path/to/your/program',
       },
    },
