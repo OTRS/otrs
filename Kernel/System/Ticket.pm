@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.134 2004-09-01 09:07:03 martin Exp $
+# $Id: Ticket.pm,v 1.135 2004-09-01 13:03:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.134 $';
+$VERSION = '$Revision: 1.135 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -478,7 +478,7 @@ sub TicketNumberLookup {
 get ticket info (TicketNumber, State, StateID, StateType,
 Priority, PriorityID, Lock, LockID, Queue, QueueID,
 CustomerID, CustomerUserID, UserID, Owner, OwnerID,
-Created, Answered, TicketFreeKey1-8, TicketFreeText1-8, ...)
+Created, Changed, Answered, TicketFreeKey1-8, TicketFreeText1-8, ...)
 
   my %Ticket = $TicketObject->TicketGet(
       TicketID => 123,
@@ -508,7 +508,8 @@ sub TicketGet {
         " st.customer_user_id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,".
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
-        " st.freekey7, st.freetext7, st.freekey8, st.freetext8 ".
+        " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
+        " st.change_time ".
         " FROM ".
         " ticket st, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -533,6 +534,7 @@ sub TicketGet {
 #        $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Row[7]);
         $Ticket{CreateTimeUnix} = $Row[7];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[7]);
+        $Ticket{Changed} = $Row[34];
         $Ticket{GroupID} = $Row[9];
         $Ticket{TicketNumber} = $Row[10];
         $Ticket{CustomerID} = $Row[11];
@@ -1388,7 +1390,7 @@ sub TicketPendingTimeSet {
 
 Get ticket links.
 
-  $TicketObject->TicketLinkGet(
+  my %LinkedTicketIDs = $TicketObject->TicketLinkGet(
       TicketID => 1422,
       UserID => 23,
   );
@@ -1427,6 +1429,7 @@ sub TicketLinkGet {
                 $Counter++;
                 $Tickets{"TicketLink$Counter"} = $Row[1];
                 $Tickets{"TicketLinkID$Counter"} = $Row[0];
+                $Tickets{$Row[0]} = $Row[1];
                 $Used{$Row[0]} = 1;
             }
         }
@@ -1565,6 +1568,8 @@ To find tickets in your system.
   my @TicketIDs = $TicketObject->TicketSearch(
       # result (required)
       Result => 'ARRAY' || 'HASH',
+      # result limit
+      Limit => 100,
 
       # ticket properties (optional)
       TicketNumber => '%123546%',
@@ -1605,6 +1610,10 @@ To find tickets in your system.
       TicketCreateTimeNewerDate => '2004-01-09 00:00:01',
       # tickets with create time before then .... (optional)
       TicketCreateTimeOlderDate => '2004-01-19 23:59:59',
+
+      # OrderBy and SoryBy (optional)
+      OrderBy => 'Down',       # Down|Up
+      SoryBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age
 
       # user search (optional)
       UserID => 123,
@@ -3401,6 +3410,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.134 $ $Date: 2004-09-01 09:07:03 $
+$Revision: 1.135 $ $Date: 2004-09-01 13:03:30 $
 
 =cut
