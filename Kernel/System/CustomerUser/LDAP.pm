@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.13 2003-07-04 11:12:10 martin Exp $
+# $Id: LDAP.pm,v 1.14 2003-07-31 21:23:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,6 +164,9 @@ sub CustomerSearch {
         foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}}) {
             my $Value = $entry->get_value($_);
             if ($Value) {
+				if ($_ =~ /^targetaddress$/i) {
+					$Value =~ s/SMTP:(.*)/$1/;
+				}
                 $CustomerString .= $Value.' ';
             }
         }
@@ -253,7 +256,11 @@ sub CustomerUserDataGet {
     # get customer user info
     # --
     foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
-        $Data{$Entry->[0]} = $Result2->get_value($Entry->[2]) || '';
+		my $Value = $Result2->get_value($Entry->[2]) || '';
+        if ($Value && $Entry->[2] =~ /^targetaddress$/i) {
+            $Value =~ s/SMTP:(.*)/$1/;
+        }
+        $Data{$Entry->[0]} = $Value;
     }
     # --
     # check data
