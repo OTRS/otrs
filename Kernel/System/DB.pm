@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.3 2001-12-21 17:51:55 martin Exp $
+# $Id: DB.pm,v 1.4 2001-12-30 00:41:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -200,7 +200,40 @@ sub GetValidIDs {
     return @ValidIDs;
 }
 # --
+sub GetLockedCount {
+    my $Self = shift;
+    my %Param = @_;
+    my $UserID = $Param{UserID};
+    my @LockIDs = (2);
+    my %Data;
 
+    $Self->Prepare(
+       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by" .
+              " FROM " .
+              " ticket ti, article ar, article_sender_type st" .
+              " WHERE " .
+              " ti.user_id = $UserID " .
+              " AND " .
+              " ti.ticket_lock_id in ( ${\(join ', ', @LockIDs)} )" .
+              " AND " .
+              " ar.ticket_id = ti.id " .
+              " AND " .
+              " st.id = ar.article_sender_type_id " .
+              " ORDER BY ar.create_time DESC",
+    );
+
+    while (my @RowTmp = $Self->FetchrowArray()) {
+        if (!$Data{"ID$RowTmp[2]"}) {
+          $Data{'Count'}++;
+          if ($RowTmp[1] ne 'agent' || $RowTmp[3] ne $UserID) {
+            $Data{'ToDo'}++;
+          }
+        }
+        $Data{"ID$RowTmp[2]"} = 1;
+    }
+    return %Data;
+}
+# --
 sub DESTROY {
     my $Self = shift;
     $Self->Disconnect();
