@@ -2,7 +2,7 @@
 # .procmailrc - procmailrc of the OpenTRS user
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: .procmailrc,v 1.5 2002-02-03 23:08:43 martin Exp $
+# $Id: .procmailrc,v 1.6 2002-02-07 00:05:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -27,11 +27,15 @@ VERBOSE=on
 | grep -vi '^X-OTRS-'
 
 # --
-# Example for queue pre sort.
+# Examples for queue presorting.
 # --
 :0 fhw :
 * TO:.*example.com
 | formail -I "X-OTRS-Queue: Privat"
+
+:0 fhw :
+* ^List-Id:.*OpenAntiVirus
+| formail -I "X-OTRS-Queue: OpenAntiVirus"
 
 # --
 # Example for add free form key and value (max 3). 
