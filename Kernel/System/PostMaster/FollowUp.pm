@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.36 2004-12-07 13:04:14 martin Exp $
+# $Id: FollowUp.pm,v 1.37 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,14 +72,19 @@ sub Run {
         }
     }
     # set state
-    if ($Ticket{StateType} !~ /^new/ && $Self->{ConfigObject}->Get('PostmasterFollowUpState')) {
+    my $State = $Self->{ConfigObject}->Get('PostmasterFollowUpState') || 'open';
+    if ($GetParam{'X-OTRS-State'}) {
+        $State = $GetParam{'X-OTRS-State'};
+    }
+
+    if ($Ticket{StateType} !~ /^new/ || $GetParam{'X-OTRS-State'}) {
 	    $Self->{TicketObject}->StateSet(
-    	    State => $Self->{ConfigObject}->Get('PostmasterFollowUpState'),
+    	    State => $State,
         	TicketID => $Param{TicketID},
 	        UserID => $Param{InmailUserID},
     	);
         if ($Self->{Debug} > 0) {
-            print "State: ".$Self->{ConfigObject}->Get('PostmasterFollowUpState')."\n";
+            print "State: $State\n";
         }
     }
     # do db insert
@@ -158,15 +163,6 @@ sub Run {
             }
 
         }
-    }
-    # set ticket to unanswered
-    $Self->{TicketObject}->TicketSetAnswered(
-        TicketID => $Param{TicketID},
-        UserID => $Param{InmailUserID},
-        Answered => 0,
-    );
-    if ($Self->{Debug} > 0) {
-        print "Answered: 0\n";
     }
 
     # write log

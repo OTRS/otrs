@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.39 2005-01-25 13:14:22 martin Exp $
+# $Id: CustomerMessage.pm,v 1.40 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -214,12 +214,6 @@ sub Run {
               State => $NextState,
               UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
           );
-          # set answerd
-          $Self->{TicketObject}->TicketSetAnswered(
-              TicketID => $Self->{TicketID},
-              UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-              Answered => 0,
-          );
           # set lock if ticket was cloased
           if ($Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1') {
               $Self->{TicketObject}->LockSet(
@@ -230,13 +224,13 @@ sub Run {
           }
           # get attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-              Param => 'file_upload', 
+              Param => 'file_upload',
               Source => 'String',
           );
           if (%UploadStuff) {
               $Self->{TicketObject}->ArticleWriteAttachment(
                   %UploadStuff,
-                  ArticleID => $ArticleID, 
+                  ArticleID => $ArticleID,
                   UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
               );
           }

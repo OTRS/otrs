@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.156 2005-01-19 21:54:44 martin Exp $
+# $Id: Ticket.pm,v 1.157 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.156 $';
+$VERSION = '$Revision: 1.157 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -273,7 +273,6 @@ sub TicketCreate {
     my $Self = shift;
     my %Param = @_;
     my $GroupID = $Param{GroupID};
-    my $Answered = $Param{Answered} || 0;
     my $ValidID = $Param{ValidID} || 1;
     my $Age = $Self->{TimeObject}->SystemTime();
     my $EscalationStartTime = $Self->{TimeObject}->SystemTime();
@@ -345,7 +344,7 @@ sub TicketCreate {
     " escalation_start_time, valid_id, create_time, create_by, change_time, change_by) " .
     " VALUES ('$Param{TN}', '$Param{Title}', $Age, $Param{QueueID}, $Param{LockID}, $Param{UserID}, ".
     " $GroupID, $Param{PriorityID}, $Param{StateID}, ".
-    " $Answered, $EscalationStartTime, $ValidID, " .
+    " 0, $EscalationStartTime, $ValidID, " .
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -562,7 +561,7 @@ sub TicketSubjectClean {
 get ticket info (TicketNumber, State, StateID, StateType,
 Priority, PriorityID, Lock, LockID, Queue, QueueID,
 CustomerID, CustomerUserID, UserID, Owner, OwnerID,
-Created, Changed, Answered, TicketFreeKey1-8, TicketFreeText1-8, ...)
+Created, Changed, TicketFreeKey1-8, TicketFreeText1-8, ...)
 
   my %Ticket = $TicketObject->TicketGet(
       TicketID => 123,
@@ -629,7 +628,6 @@ sub TicketGet {
         $Ticket{UserID} = $Row[12];
         $Ticket{OwnerID} = $Row[13];
         $Ticket{Owner} = $Row[14];
-        $Ticket{Answered} = $Row[15];
         $Ticket{RealTillTimeNotUsed} = $Row[16];
         $Ticket{TicketFreeKey1} = defined($Row[18]) ? $Row[18] : '';
         $Ticket{TicketFreeText1} = defined($Row[19]) ? $Row[19] : '';
@@ -1214,79 +1212,6 @@ sub TicketFreeTextSet {
         );
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-        return 1;
-    }
-    else {
-        return;
-    }
-}
-
-=item TicketSetAnswered()
-
-Set if ticket is answered.
-
-  $TicketObject->TicketSetAnswered(TicketID => 123, UserID => 23);
-
-=cut
-
-sub TicketSetAnswered {
-    my $Self = shift;
-    my %Param = @_;
-    my $Answered = $Param{Answered} || 0;
-    # check needed stuff
-    foreach (qw(TicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
-    }
-    # reset unlock time
-    $Self->TicketUnlockTimeoutUpdate(
-        UnlockTimeout => $Self->{TimeObject}->SystemTime(),
-        TicketID => $Param{TicketID},
-        UserID => $Param{UserID},
-    );
-    # check if we need to update the answered state
-    my %Ticket = $Self->TicketGet(%Param);
-    # no update needed
-    if ($Ticket{Answered} && $Answered) {
-        return 1;
-    }
-    if (!$Ticket{Answered} && !$Answered) {
-        return 1;
-    }
-    # clear ticket cache
-    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-    # update escalation time
-    if ($Answered) {
-        $Self->TicketEscalationStartUpdate(
-            EscalationStartTime => 0,
-            TicketID => $Param{TicketID},
-            UserID => $Param{UserID},
-        );
-    }
-    else {
-        $Self->TicketEscalationStartUpdate(
-            EscalationStartTime => $Self->{TimeObject}->SystemTime(),
-            TicketID => $Param{TicketID},
-            UserID => $Param{UserID},
-        );
-    }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    # db update
-    my $SQL = "UPDATE ticket SET ticket_answered = $Answered, " .
-    " change_time = current_timestamp, change_by = $Param{UserID} " .
-    " WHERE id = $Param{TicketID} ";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        $Self->HistoryAdd(
-            TicketID => $Param{TicketID},
-            CreateUserID => $Param{UserID},
-            HistoryType => 'Misc',
-            Name => "Set Answered: $Answered",
-        );
         return 1;
     }
     else {
@@ -3612,6 +3537,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.156 $ $Date: 2005-01-19 21:54:44 $
+$Revision: 1.157 $ $Date: 2005-02-10 20:37:26 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # AgentPhone.dtl - provides HTML form for phone
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.23 2004-11-05 07:08:43 martin Exp $
+# $Id: AgentPhone.dtl,v 1.24 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -108,10 +108,6 @@ function SpellCheckSubmit()
   <tr>
     <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
     <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
-  </tr>
-  <tr>
-    <td class="contentkey">$Text{"Is the ticket answered"}:</td>
-    <td class="contentvalue">$Data{"AnsweredYesNoOption"}</td>
   </tr>
   <tr>
     <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>

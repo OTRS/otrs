@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentZoom.pm - to get a closer view
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.81 2004-11-27 01:54:54 martin Exp $
+# $Id: AgentZoom.pm,v 1.82 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.81 $';
+$VERSION = '$Revision: 1.82 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -323,7 +323,7 @@ sub MaskAgentZoom {
         # --
         # if this is the shown article -=> add </b>
         # --
-        if ($ArticleID eq $Article{ArticleID}) { 
+        if ($ArticleID eq $Article{ArticleID}) {
             $ThreadStrg .= '</u></b></i>';
         }
         $ThreadStrg .= '</div></td></tr>';
@@ -334,11 +334,8 @@ sub MaskAgentZoom {
     # --
     # prepare escalation time (if needed)
     # --
-    if ($Param{Answered}) {
-        $Param{TicketOverTime} = '$Text{"none - answered"}';
-    }
-    elsif ($TicketOverTime) {
-      # colloring  
+    if ($TicketOverTime) {
+      # colloring
       if ($TicketOverTime <= -60*20) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';

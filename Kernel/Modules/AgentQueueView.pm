@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.69 2004-11-04 11:14:59 martin Exp $
+# $Id: AgentQueueView.pm,v 1.70 2005-02-10 20:37:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -322,10 +322,7 @@ sub ShowTicket {
     # --
     # prepare escalation time
     # --
-    if ($Article{Answered}) {
-        $Article{TicketOverTime} = '$Text{"none - answered"}';
-    }
-    elsif ($Article{TicketOverTime}) {
+    if ($Article{TicketOverTime}) {
       if ($Article{TicketOverTime} <= -60*20) {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';

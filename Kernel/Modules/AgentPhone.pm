@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.103 2004-11-27 01:56:52 martin Exp $
+# $Id: AgentPhone.pm,v 1.104 2005-02-10 20:37:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.103 $';
+$VERSION = '$Revision: 1.104 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -259,7 +259,7 @@ sub Run {
         # get params
         my %GetParam = ();
         foreach (qw(AttachmentUpload
-            Body Subject Answered TimeUnits NextStateID
+            Body Subject TimeUnits NextStateID
             Year Month Day Hour Minute
             AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
             AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
@@ -399,12 +399,6 @@ sub Run {
                 StateID => $GetParam{NextStateID},
                 UserID => $Self->{UserID},
             );
-            # set answerd
-            $Self->{TicketObject}->TicketSetAnswered(
-              TicketID => $Self->{TicketID},
-              UserID => $Self->{UserID},
-              Answered => $GetParam{Answered} || 0,
-           );
            # should i set an unlock? yes if the ticket is closed
            my %StateData = $Self->{StateObject}->StateGet(ID => $GetParam{NextStateID});
            if ($StateData{TypeName} =~ /^close/i) {
@@ -1048,19 +1042,6 @@ sub _MaskPhone {
     my $Self = shift;
     my %Param = @_;
     $Param{FormID} = $Self->{FormID};
-    # answered strg
-    my %Selected = ();
-    if (defined($Param{Answered})) {
-        $Selected{SelectedID} = $Param{Answered};
-    }
-    else {
-        $Selected{Selected} = 'Yes';
-    }
-    $Param{'AnsweredYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name => 'Answered',
-        %Selected,
-    );
     # build next states string
     %Selected = ();
     if ($Param{NextStateID}) {

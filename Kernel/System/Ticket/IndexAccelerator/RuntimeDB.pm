@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.24 2004-11-04 11:24:10 martin Exp $
+# $Id: RuntimeDB.pm,v 1.25 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -242,8 +242,6 @@ sub GetOverTimeTickets {
         " FROM ".
         " queue q, ticket st ".
         " WHERE ".
-        " st.ticket_answered != 1 ".
-        " AND " .
         " q.escalation_time != 0 ".
         " AND " .
         " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .

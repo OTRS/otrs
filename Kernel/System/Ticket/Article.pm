@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.80 2004-12-04 18:30:03 martin Exp $
+# $Id: Article.pm,v 1.81 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.80 $';
+$VERSION = '$Revision: 1.81 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -984,8 +984,6 @@ sub ArticleGet {
         $Data{FreeText2} = $Row[26];
         $Data{FreeKey3} = $Row[27];
         $Data{FreeText3} = $Row[28];
-        $Data{Answered} = $Row[29];
-        $Ticket{Answered} = $Data{Answered};
         $Data{TicketFreeKey1} = $Row[32];
         $Data{TicketFreeText1} = $Row[33];
         $Data{TicketFreeKey2} = $Row[34];
@@ -1047,7 +1045,7 @@ sub ArticleGet {
         $Part->{State} = $StateData{Name};
     }
     # get escalation time
-    if ($Queue{EscalationTime} && $Ticket{EscalationStartTime} && !$Ticket{Answered} && ($Param{TicketID}||$Param{TicketOverTime}) && $StateData{TypeName} !~ /^close/i) {
+    if ($Queue{EscalationTime} && $Ticket{EscalationStartTime} && ($Param{TicketID}||$Param{TicketOverTime}) && $StateData{TypeName} !~ /^close/i) {
         my $CountedTime = $Self->{TimeObject}->WorkingTime(
             StartTime => $Ticket{EscalationStartTime},
             StopTime => $Self->{TimeObject}->SystemTime(),

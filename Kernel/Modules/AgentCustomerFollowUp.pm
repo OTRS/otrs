@@ -1,9 +1,9 @@
 # --
 # Kernel/Modules/AgentCustomerFollowUp.pm - to handle customer messages
 # if the agent is customer
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.11 2004-10-12 10:40:55 martin Exp $
+# $Id: AgentCustomerFollowUp.pm,v 1.12 2005-02-10 20:42:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -149,12 +149,6 @@ sub Run {
               ArticleID => $ArticleID,
               State => $NextState,
               UserID => $Self->{UserID},
-          );
-          # set answerd
-          $Self->{TicketObject}->TicketSetAnswered(
-              TicketID => $Self->{TicketID},
-              UserID => $Self->{UserID},
-              Answered => 0,
           );
           # get attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.15 2004-11-04 11:14:10 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.16 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -130,10 +130,7 @@ sub Run {
         $Ticket{PendingUntil} = '-';
     }
     # prepare escalation time (if needed)
-    if ($Ticket{Answered}) {
-        $Ticket{TicketOverTime} = '$Text{"none - answered"}';
-    }
-    elsif ($Ticket{TicketOverTime}) {
+    if ($Ticket{TicketOverTime}) {
       $Ticket{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
           Age => $Ticket{TicketOverTime},
           Space => ' ',

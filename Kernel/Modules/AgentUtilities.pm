@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.66 2004-11-27 01:54:54 martin Exp $
+# $Id: AgentUtilities.pm,v 1.67 2005-02-10 20:37:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -396,28 +396,14 @@ sub Run {
                     Subject => $Data{Subject} || '',
                 );
                 # add table block
-                if (!$Data{Answered}) {
-                  $Self->{LayoutObject}->Block(
-                    Name => 'Record',
-                    Data => {
-                        StartFont => '<font color="red">',
-                        StopFont => '</font>',
-                        %Data,
-                        Subject => $Subject,
-                        %UserInfo,
-                    },
-                  );
-                }
-                else {
-                  $Self->{LayoutObject}->Block(
+                $Self->{LayoutObject}->Block(
                     Name => 'Record',
                     Data => {
                         %Data,
                         Subject => $Subject,
                         %UserInfo,
                     },
-                  );
-                }
+                );
             }
           }
         }
