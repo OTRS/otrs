@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.88 2003-11-20 23:07:34 martin Exp $
+# $Id: Defaults.pm,v 1.89 2003-11-26 00:58:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.88 $';
+$VERSION = '$Revision: 1.89 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1706,7 +1706,39 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # system permissions
     # --------------------------------------------------- #
-    $Self->{'System::Permission'} = ['ro', 'move', 'create', 'owner', 'priority', 'rw'];
+    $Self->{'System::Permission'} = ['ro', 'move_into', 'create', 'owner', 'priority', 'rw'];
+#    $Self->{'System::Permission'} = ['ro', 'move_into', 'create', 'note', 'close', 'pending', 'owner', 'priority', 'customer', 'freetext', 'forward', 'bounce', 'move', 'rw'];
+    $Self->{'System::Customer::Permission'} = ['ro', 'rw'];
+
+    # --------------------------------------------------- #
+    # agent ticket permissions
+    # --------------------------------------------------- #
+    # Module Name: 1-OwnerCheck
+    # (if the current owner is already the user, grant access)
+    $Self->{'Ticket::Permission'}->{'1-OwnerCheck'} = {
+        Module => 'Kernel::System::Ticket::Permission::OwnerCheck',
+        Required => 0,
+    };
+    # Module Name: 2-GroupCheck
+    # (if the user is in this group with type ro|rw|..., grant access)
+    $Self->{'Ticket::Permission'}->{'2-GroupCheck'} = {
+        Module => 'Kernel::System::Ticket::Permission::GroupCheck',
+        Required => 0,
+    };
+
+    # --------------------------------------------------- #
+    # customer ticket permissions
+    # --------------------------------------------------- #
+    # Module Name: 1-CustomerIDGroupCheck
+    # (grant access, if customer id is the same and group is accessable)
+    $Self->{'CustomerTicket::Permission'}->{'1-CustomerIDCheck'} = {
+        Module => 'Kernel::System::Ticket::CustomerPermission::CustomerIDCheck',
+        Required => 1,
+    };
+    $Self->{'CustomerTicket::Permission'}->{'2-GroupCheck'} = {
+        Module => 'Kernel::System::Ticket::CustomerPermission::GroupCheck',
+        Required => 1,
+    };
 
     # --------------------------------------------------- #
     # module group permissions
