@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.60 2003-03-24 12:48:39 martin Exp $
+# $Id: Defaults.pm,v 1.61 2003-03-24 13:12:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -170,6 +170,10 @@ sub LoadDefaults {
     # (e. g. user needs to be in a group xyz to use otrs)
 #    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
 #    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
+    # for ldap posixGroups objectclass (just uid)
+#    $Self->{'AuthModule::LDAP::UserAttr'} = 'UID';
+    # for non ldap posixGroups objectclass (with full user dn)
+#    $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
 
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree 
@@ -1299,6 +1303,11 @@ Your OTRS Notification Master
     # (e. g. user needs to be in a group xyz to use otrs)
 #    $Self->{'Customer::AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
 #    $Self->{'Customer::AuthModule::LDAP::AccessAttr'} = 'memberUid';
+    # for ldap posixGroups objectclass (just uid)
+#    $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'UID';
+    # for non ldap posixGroups objectclass (full user dn)
+#    $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'DN';
+
 
     # The following is valid but would only be necessary if the
     # anonymous user do NOT have permission to read from the LDAP tree 

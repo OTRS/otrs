@@ -2,16 +2,29 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.72 2003-03-24 09:12:13 martin Exp $
+# $Id: CHANGES,v 1.73 2003-03-24 13:12:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
- - (2003/02/24) added UncountedUnlockTime config options - e.g. don't 
+ - (2003/03/24) improved user-auth and customer-auth ldap interface 
+    with 'UserAttr' (UID for posixGroups objectclass and DN for non 
+    posixGroups objectclass) on group access check. Config options now:
+    [...]
+    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
+    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
+    # for ldap posixGroups objectclass (just uid)
+    $Self->{'AuthModule::LDAP::UserAttr'} = 'UID';
+    # for non ldap posixGroups objectclass (with full user dn)
+    $Self->{'AuthModule::LDAP::UserAttr'} = 'DN';
+    [...]
+ - (2003/03/24) added agent feature to be also customer of one ticket
+ - (2003/03/24) added UncountedUnlockTime config options - e.g. don't 
     count Fri 16:00 - Mon 8:00 as unlock time.
- - (2003/03/23) added generic module/group permission concept
+ - (2003/03/23) added generic module/group permission concept for
+    Kernel/Modules/*.pm modules.
     -=> add "$Self->{'Module::Permission'}->{'module'} = 'group';"
     to Kernel/Config.pm like
      "$Self->{'Module::Permission'}->{'AdminAutoResponse'} = 'users';"

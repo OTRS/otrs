@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.7 2003-02-08 15:09:38 martin Exp $
+# $Id: LDAP.pm,v 1.8 2003-03-24 13:12:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,6 +55,7 @@ sub new {
     $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
     $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
+    $Self->{UserAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserAttr') || 'DN';
    
     return $Self;
 }
@@ -147,7 +148,13 @@ sub Auth {
         # --
         # search if we're allowed to
         # --
-        my $Filter2 = "($Self->{AccessAttr}=$Param{User})";
+        my $Filter2 = ''; 
+        if ($Self->{UserAttr} eq 'DN') {
+            $Filter2 = "($Self->{AccessAttr}=$UserDN)"; 
+        }
+        else {
+            $Filter2 = "($Self->{AccessAttr}=$Param{User})";
+        }
         my $Result2 = $LDAP->search (
             base   => $Self->{GroupDN},
             filter => $Filter2,
