@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.73 2003-02-08 15:43:26 martin Exp $
+# $Id: Generic.pm,v 1.74 2003-02-09 10:12:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -299,7 +299,7 @@ sub Output {
           # do template if dynamic
           # --
           $Line =~ s{
-            <dtl\Wif\W\(\$(Env|Data|Text)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
+            <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
           }
           {
             if ($3 eq "eq") {
@@ -319,6 +319,12 @@ sub Output {
                 }
                 else {
                   # output replace with nothing!
+                  "";
+                }
+              }
+              elsif ($1 eq "Config") {
+                if ($Self->{ConfigObject}->Get($2) eq $4) {
+                  $GlobalRef->{"$5Ref"}->{$6} = $7;
                   "";
                 }
               }
@@ -342,6 +348,12 @@ sub Output {
                 }
                 else {
                   # output replace with nothing!
+                  "";
+                }
+              }
+              elsif ($1 eq "Config") {
+                if ($Self->{ConfigObject}->Get($2) ne $4) {
+                  $GlobalRef->{"$5Ref"}->{$6} = $7;
                   "";
                 }
               }
@@ -719,7 +731,7 @@ sub LinkEncode {
 sub CustomerAge {
     my $Self = shift;
     my %Param = @_;
-    my $Age = $Param{Age};
+    my $Age = defined($Param{Age}) ? $Param{Age} : return;
     my $Space = $Param{Space} || '<BR>';
     my $AgeStrg = '';
     if ($Age =~ /^-(.*)/) {
