@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.16 2003-01-14 20:05:08 martin Exp $
+# $Id: SetPermissions.sh,v 1.17 2003-02-15 11:52:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.16 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.17 $> - set OTRS file permissions"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 if ! test $1 || ! test $2 || ! test $3; then 
@@ -99,7 +99,7 @@ chown -R $WEBUSER:$WEBGROUP $OTRSDEST/var/sessions/
 # set the var/log/TicketCounter.log file to OTRS and webserver user
 echo "chown $OTRSUSER:$WEBGROUP $OTRSDEST/var/log/TicketCounter.log"
 chown $OTRSUSER:$WEBGROUP $OTRSDEST/var/log/TicketCounter.log
-chmod 2775 $OTRSDEST/var/log/TicketCounter.log
+chmod 775 $OTRSDEST/var/log/TicketCounter.log
 
 # --
 # bin/*
@@ -123,5 +123,7 @@ echo "(chown && chmod 700) $OTRSUSER:0 $OTRSDEST/bin/otrs.getConfig"
 chmod 700 $OTRSDEST/bin/otrs.getConfig
 chown $OTRSUSER:0 $OTRSDEST/bin/otrs.getConfig
 
-exit;
+# set write permission for web installer
+chown $WEBUSER $OTRSDEST/Kernel/Config.pm
 
+exit;
