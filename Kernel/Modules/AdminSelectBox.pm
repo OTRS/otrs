@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.11 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.12 2004-10-18 19:24:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,13 +41,14 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
+    # get params
     foreach (qw(SQL Max)) {
         $Param{SQL} = $Self->{ParamObject}->GetParam(Param => 'SQL') || 'SELECT * FROM ';
         $Param{Max} = $Self->{ParamObject}->GetParam(Param => 'Max') || '40';
     }
-    # --
+    # ------------------------------------------------------------ #
     # print form
-    # --
+    # ------------------------------------------------------------ #
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -59,28 +60,58 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
+    # ------------------------------------------------------------ #
     # do select
-    # --
+    # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'Select') {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSelectBoxForm',
-            Data => \%Param,
+        # add result block
+        $Self->{LayoutObject}->Block(
+            Name => 'Result',
+            Data => { %Param },
         );
-
+        # fetch database and add row blocks
         if ($Self->{DBObject}->Prepare(SQL => $Param{SQL}, Limit => $Param{Max})) {
-          my @Data = ();
-          while (my @Row = $Self->{DBObject}->FetchrowArray(RowNames => 1) ){
-             push (@Data, \@Row);
-          }
-          $Output .= $Self->MaskSelectBoxResult(
-              Data => \@Data,
-          );
-          $Output .= $Self->{LayoutObject}->Footer();
-          return $Output;
+            while (my @Row = $Self->{DBObject}->FetchrowArray(RowNames => 1) ){
+                my $Row = '';
+                foreach my $Item (@Row) {
+                    my $Item1 = '';
+                    my $Item2 = '';
+                    if (! defined $Item) {
+                        $Item1 = '<i>undef</i>';
+                        $Item2 = 'undef';
+                    }
+                    else {
+                        $Item1 = $Self->{LayoutObject}->Ascii2Html(
+                            Text => $Item,
+                            Max => 10,
+                        );
+                        $Item2 = $Self->{LayoutObject}->Ascii2Html(
+                            Text => $Item,
+                            Max => 60,
+                        );
+                    }
+                    $Item2 =~ s/\n|\r//g;
+                    $Row .= "<td class=\"small\"><div title=\"$Item2\">";
+                    $Row .= $Item1;
+                    $Row .= "</div></td>\n";
+                }
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        Result => $Row,
+                    },
+                );
+            }
+            # generate outbut
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminSelectBoxForm',
+                Data => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         else {
             my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
@@ -102,52 +133,6 @@ sub Run {
                 Comment => 'Please contact your admin',
         );
     }
-}
-# --
-sub MaskSelectBoxResult {
-    my $Self = shift;
-    my %Param = @_;
-    my $DataTmp = $Param{Data};
-    my @Datas = @{$DataTmp};
-    my $Output = '';
-
-    foreach my $Data ( @Datas ) {
-        my $Row = '';
-        foreach my $Item (@{$Data}) {
-            my $Item1 = '';
-            my $Item2 = '';
-            if (! defined $Item) {
-                $Item1 = '<i>undef</i>';
-                $Item2 = 'undef';
-            }
-            else {
-                $Item1 = $Self->{LayoutObject}->Ascii2Html(
-                    Text => $Item, 
-                    Max => 10,
-                );
-                $Item2 = $Self->{LayoutObject}->Ascii2Html(
-                    Text => $Item, 
-                    Max => 60,
-                );
-            }
-            $Item2 =~ s/\n|\r//g;
-            $Row .= "<td class=\"small\"><div title=\"$Item2\">";
-            $Row .= $Item1;
-            $Row .= "</div></td>\n";
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'Row',
-            Data => {
-                Result => $Row,
-            },
-        );
-   }
-
-    # get output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminSelectBoxResult', 
-        Data => \%Param,
-    );
 }
 # --
 1;

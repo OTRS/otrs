@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.18 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminSession.pm,v 1.19 2004-10-18 19:24:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,17 +41,19 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output = '';
     my $WantSessionID = $Self->{ParamObject}->GetParam(Param => 'WantSessionID') || '';
 
+    # ------------------------------------------------------------ #
     # kill session id
+    # ------------------------------------------------------------ #
     if ($Self->{Subaction} eq 'Kill') {
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");    
-        $Self->{SessionObject}->RemoveSessionID(SessionID => $WantSessionID);    
+        $Self->{SessionObject}->RemoveSessionID(SessionID => $WantSessionID);
+        return $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");
     }
+    # ------------------------------------------------------------ #
     # kill all session id
+    # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'KillAll') {
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");
         my @List = $Self->{SessionObject}->GetAllSessionIDs();
         foreach my $SessionID (@List) {
             # killall sessions but not the own one!
@@ -59,12 +61,13 @@ sub Run {
                 $Self->{SessionObject}->RemoveSessionID(SessionID => $SessionID);
             }
         }
+        return $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");
     }
+    # ------------------------------------------------------------ #
     # else, show session list
+    # ------------------------------------------------------------ #
     else {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Session Management');
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
+        # get all sessions
         my @List = $Self->{SessionObject}->GetAllSessionIDs();
         my $Table = '';
         my $Counter = @List;
@@ -102,19 +105,22 @@ sub Run {
                     Output => $List,
                     %Data,
                 },
-            ); 
+            );
         }
-        # get real template
+        # generate output
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Session Management');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSession', 
+            TemplateFile => 'AdminSession',
             Data => {
-                Counter => $Counter, 
+                Counter => $Counter,
                 %MetaData
             }
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 # --
 1;
