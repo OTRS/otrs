@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Yann Richard <ze at nawak-online.org>
 # --
-# $Id: fr.pm,v 1.29 2004-02-15 22:01:34 martin Exp $
+# $Id: fr.pm,v 1.30 2004-02-18 23:31:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -216,7 +216,7 @@ sub Data {
       '4 high' => '4 important',
       '5 very high' => '5 très important',
       'Action' => 'Action',
-      'Age' => 'Vieillir',
+      'Age' => 'Âge',
       'Article' => 'Article',
       'Attachment' => 'Pièce jointe',
       'Attachments' => 'Pièces jointes',
