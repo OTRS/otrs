@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.13 2003-04-17 21:53:23 martin Exp $
+# $Id: AgentStatusView.pm,v 1.14 2003-04-24 19:46:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -162,25 +162,17 @@ sub Run {
     my $AllHits = 0;
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $AllHits++;
-        my $Data = {
-            TicketID => $RowTmp[0],
-            TicketQueueID => $RowTmp[1],
-        };
-        push (@ViewableTickets, $Data);
+        push (@ViewableTickets, $RowTmp[0]);
     }
-
     # --
     # show ticket's
     # --
     my $OutputTable = "";
     my $Counter = 0;
-    foreach my $DataTmp (@ViewableTickets) {
+    foreach my $TicketID (@ViewableTickets) {
         $Counter++;
         if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{PageShown}+$Self->{StartHit})) {
-            $OutputTable .= ShowTicketStatus(
-               $Self,
-               %{$DataTmp}, 
-            );
+            $OutputTable .= $Self->ShowTicketStatus(TicketID => $TicketID);
         }
     }
     $Output .= $Self->{LayoutObject}->AgentStatusView(
@@ -211,7 +203,6 @@ sub ShowTicketStatus {
     # get last customer articles
     # --
     my @ShownViewableTicket = ();
-    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
     my @ArticleIndex = $Self->{TicketObject}->GetArticleIndex(
         TicketID => $TicketID, 
         SenderType => 'customer',
@@ -239,7 +230,6 @@ sub ShowTicketStatus {
 
     if (%Article) {
         $Output .= $Self->{LayoutObject}->AgentStatusViewTable(
-            %Ticket,
             %Article,
             Subject => $Subject,
         );
