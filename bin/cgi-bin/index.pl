@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.76 2004-09-20 11:10:29 martin Exp $
+# $Id: index.pl,v 1.77 2004-10-15 13:00:30 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.76 $';
+$VERSION = '$Revision: 1.77 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -558,14 +558,13 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
             exit 0;
         }
         # module permisson check
-        my $AccessOk = 0;
         if (!$ModuleReg->{$Param{Action}}->{GroupRo} && !$ModuleReg->{$Param{Action}}->{Group}) {
-            $AccessOk = 1;
             $Param{AccessRo} = 1;
             $Param{AccessRw} = 1;
         }
         else {
             foreach my $Permission (qw(GroupRo Group)) {
+                my $AccessOk = 0;
                 my $Group = $ModuleReg->{$Param{Action}}->{$Permission};
                 my $Key = "UserIs$Permission";
                 if (ref($Group) eq 'ARRAY') {
@@ -589,7 +588,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
                 }
             }
         }
-        if (!$AccessOk) {
+        if (!$Param{AccessRo} && $Param{AccessRw}) {
             print $CommonObject{LayoutObject}->NoPermission(
                 Message => "No Permission to use this frontend module!",
             );
