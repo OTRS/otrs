@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Log.pm - log wapper 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.22 2004-01-04 21:34:59 martin Exp $
+# $Id: Log.pm,v 1.23 2004-01-16 10:39:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $ ';
+$VERSION = '$Revision: 1.23 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -88,7 +88,7 @@ sub new {
 
 log something, log priorities are 'debug', 'info', 'notice' and 'error'.
 
-  $Self->{LogObject}->Log(
+  $LogObject->Log(
       Priority => 'error', 
       Message => "Need something!",
    );
@@ -159,7 +159,7 @@ sub Log {
 
 to get the error back from log
     
-  my $Error = $Self->{LogObject}->Error('Message');
+  my $Error = $LogObject->Error('Message');
 
 =cut
 
@@ -174,7 +174,7 @@ sub Error {
 
 to get the tmp log data (from shared memory - ipc) in csv form
     
-  my $CVSLog = $Self->{LogObject}->GetLog();
+  my $CVSLog = $LogObject->GetLog();
 
 =cut
     
@@ -192,7 +192,7 @@ sub GetLog {
 
 to clean up tmp log data from shared memory (ipc)
     
-  $Self->{LogObject}->CleanUp();
+  $LogObject->CleanUp();
 
 =cut
 
@@ -222,6 +222,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2004-01-04 21:34:59 $
+$Revision: 1.23 $ $Date: 2004-01-16 10:39:10 $
 
 =cut
