@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.17 2002-07-31 23:17:23 martin Exp $
+# $Id: Ticket.pm,v 1.18 2002-08-06 19:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Queue;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -66,7 +66,15 @@ sub new {
       || 'Kernel::System::Ticket::Number::AutoIncrement';
     eval "require $GeneratorModule";
     push(@ISA, $GeneratorModule); 
-    
+
+    # --
+    # load ticket index generator 
+    # --
+    my $GeneratorIndexModule = $Self->{ConfigObject}->Get('TicketIndexModule')
+      || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+    eval "require $GeneratorIndexModule";
+    push(@ISA, $GeneratorIndexModule);
+
     return $Self;
 }
 # --
@@ -161,7 +169,18 @@ sub CreateTicketDB {
     " current_timestamp, $CreateUserID, current_timestamp, $CreateUserID)";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        return $Self->GetIdOfTN(TN => $TN, Age => $Age);
+        # --
+        # get ticket id
+        # --
+        my $TicketID = $Self->GetIdOfTN(TN => $TN, Age => $Age);
+        # --
+        # update ticket viewi index
+        # --
+        $Self->TicketAcceleratorAdd(TicketID => $TicketID);
+        # --
+        # return ticket id
+        # --
+        return $TicketID;
     }
     else {
         $Self->{LogObject}->Log(Priority => 'error', Message => "create db record failed!!!");
@@ -194,6 +213,54 @@ sub GetIdOfTN {
         $Id = $RowTmp[0];
     }
     return $Id;
+}
+# --
+sub GetTicket {
+    my $Self = shift;
+    my %Param = @_;
+    my %Ticket = ();
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    # --
+    # db query
+    # --
+    my $SQL = "SELECT st.id, st.queue_id, sq.name, tsd.id, tsd.name, slt.id, slt.name, ".
+        " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id ".
+        " FROM ".
+        " ticket st, ticket_state tsd, ticket_lock_type slt, ticket_priority sp, ".
+        " queue sq ".
+        " WHERE ".
+        " tsd.id = st.ticket_state_id ".
+        " AND ".
+        " slt.id = st.ticket_lock_id ".
+        " AND ".
+        " sp.id = st.ticket_priority_id ".
+        " AND ".
+        " sq.id = st.queue_id ".
+        " AND ".
+        " st.id = $Param{TicketID} ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Ticket{TicketID} = $Row[0];
+        $Ticket{QueueID} = $Row[1];
+        $Ticket{Queue} = $Row[2];
+        $Ticket{StateID} = $Row[3];
+        $Ticket{State} = $Row[4];
+        $Ticket{LockID} = $Row[5];
+        $Ticket{Lock} = $Row[6];
+        $Ticket{PriotityID} = $Row[7];
+        $Ticket{Priotity} = $Row[8];
+        $Ticket{Age} = time() - $Row[9];
+        $Ticket{CreateTimeUnix} = $Row[9];
+        $Ticket{Created} = $Row[10];
+        $Ticket{GroupID} = $Row[11];
+    }
+    return %Ticket;
 }
 # --
 sub GetQueueIDOfTicketID {
@@ -244,7 +311,13 @@ sub MoveByTicketID {
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID}); 
+        # -- 
+        # update ticket view index
+        # --
+        $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
+        # --
         # history insert
+        # --
         $Self->AddHistoryRow(
             TicketID => $Param{TicketID},
             HistoryType => 'Move',
@@ -456,5 +529,4 @@ sub Permission {
 # --
 
 1;
-
 
