@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.38 2004-01-09 16:45:17 martin Exp $
+# $Id: Queue.pm,v 1.39 2004-01-24 18:38:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -608,15 +608,22 @@ sub QueueAdd {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
-   }
-   foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID)) {
-      if (!$Param{$_}) { 
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    }
+    foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID)) {
+       if (!$Param{$_}) { 
+         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+         return;
+       }
+    }
+    # check queue name
+    if ($Param{Name} =~ /::$/i) {
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Invalid Queue name '$Param{Name}'!",
+        );
         return;
-      }
-   }
-
-   my $SQL = "INSERT INTO queue ".
+    }
+    my $SQL = "INSERT INTO queue ".
        "(name, ".
        " group_id, ".
        " unlock_timeout, ".
@@ -658,9 +665,7 @@ sub QueueAdd {
        " $Param{UserID})";
    
    if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # --
       # get new queue id
-      # --
       $SQL = "SELECT id ".
        " FROM ".
        " queue ".
@@ -671,10 +676,7 @@ sub QueueAdd {
       while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
          $QueueID = $RowTmp[0];
       }
-      # --
-      # add default responses (if needed)
-      # -- 
-      # add response by name
+      # add default responses (if needed), add response by name
       if ($Self->{ConfigObject}->Get('StdResponse2QueueByCreating')) {
           foreach (@{$Self->{ConfigObject}->{StdResponse2QueueByCreating}}) {
               my $StdResponseID = $Self->{StdResponseObject}->StdResponseLookup(StdResponse => $_);
@@ -820,6 +822,14 @@ sub QueueUpdate {
     foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify)) {
         $DB{$_} = 0 if (!$Param{$_});
     }
+    # check queue name
+    if ($Param{Name} =~ /::$/i) {
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Invalid Queue name '$Param{Name}'!",
+        );
+        return;
+    }
     # check if queue name exists
     my %AllQueue = $Self->{DBObject}->GetTableData(
         Table => 'queue',
@@ -898,6 +908,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2004-01-09 16:45:17 $
+$Revision: 1.39 $ $Date: 2004-01-24 18:38:25 $
 
 =cut
