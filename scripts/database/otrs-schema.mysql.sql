@@ -808,3 +808,16 @@ CREATE TABLE pop3_account
     PRIMARY KEY(id)
 );
 
+# -----------------------------------------------------------------------
+# search_profile 
+# -----------------------------------------------------------------------
+drop table if exists search_profile;
+
+CREATE TABLE search_profile
+(
+    login varchar (200) NOT NULL,
+    profile_name varchar (200) NOT NULL,
+    profile_key varchar (200) NOT NULL,
+    profile_value varchar (200) NOT NULL
+);
+
