@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.13 2004-09-11 08:05:23 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.14 2004-09-27 13:30:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 # --
 <!-- start body ticket $Data{"TicketNumber"} -->
 <tr>
-  <td rowspan="2" valign="top" width="75%" class="table1">
+  <td rowspan="2" valign="top" width="75%" class="mainbody">
     <a name="$Data{"ArticleID"}"></a>
     $Data{"ArticleStrg"}
     <hr>

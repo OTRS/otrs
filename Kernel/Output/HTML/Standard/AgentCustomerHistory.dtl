@@ -1,8 +1,8 @@
 # --
 # AgentCustomerHistory.dtl - provides HTML for AgentCustomer.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerHistory.dtl,v 1.7 2004-08-19 15:31:29 martin Exp $
+# $Id: AgentCustomerHistory.dtl,v 1.8 2004-09-27 13:30:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,12 +11,12 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Customer history"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Customer history"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" class="table1">
+  <td class="mainbody">
      $Text{"All customer tickets."}
   </td>
 </tr>

@@ -2,7 +2,7 @@
 # Notify.dtl - provides HTML Notify for AgentNotify.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notify.dtl,v 1.4 2003-03-30 18:30:35 martin Exp $
+# $Id: Notify.dtl,v 1.5 2004-09-27 13:30:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,8 +11,8 @@
 <!-- start Notify -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr align="left">
-  <td width="25" align="right" class="table2"><img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}"></td>
-  <td class="table2">: $Text{"$Data{"Info"}"}</td>
+  <td width="25" align="right" class="contentbody"><img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}"></td>
+  <td class="contentbody">: $Text{"$Data{"Info"}"}</td>
 </tr>
 </table>
 <!-- end Notify -->
