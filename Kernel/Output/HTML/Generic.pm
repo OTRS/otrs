@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.97 2003-12-29 17:23:52 martin Exp $
+# $Id: Generic.pm,v 1.98 2004-01-09 12:51:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.97 $';
+$VERSION = '$Revision: 1.98 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -66,14 +66,11 @@ sub new {
         UserLanguage => $Self->{UserLanguage},
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
-        ReturnCharset => $Self->{UserCharset},
     );
     # --
     # set charset if there is no charset given
     # --
-    if (!$Self->{UserCharset}) {
-        $Self->{UserCharset} = $Self->{LanguageObject}->GetRecommendedCharset();
-    }
+    $Self->{UserCharset} = $Self->{LanguageObject}->GetRecommendedCharset();
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
