@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.17 2004-01-23 00:37:59 martin Exp $
+  $Id: otrs-schema.xml,v 1.18 2004-01-24 18:36:11 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.17  2004/01/23 00:37:59  martin
+  moved agent notifications from config file to database
+
   Revision 1.16  2004/01/22 19:27:39  martin
   added faq tables
 
@@ -244,7 +247,7 @@
 
 <!-- group_customer_user - relation group<->customer user -->
 <table name="group_customer_user">
-  <column name="user_id" required="true" type="INTEGER"/>
+  <column name="user_id" required="true" size="40" type="VARCHAR"/>
   <column name="group_id" required="true" type="INTEGER"/>
   <column name="permission_key" required="true" size="20" type="VARCHAR"/>
   <column name="permission_value" required="true" type="SMALLINT"/>

@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.7 2004-01-23 00:37:58 martin Exp $
+-- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.8 2004-01-24 18:36:11 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
@@ -54,7 +54,7 @@ ALTER TABLE group_user DROP permission_write;
 --
 CREATE TABLE group_customer_user
 (
-    user_id integer NOT NULL,
+    user_id VARCHAR (40) NOT NULL,
     group_id integer NOT NULL,
     permission_key VARCHAR (20),
     permission_value SMALLINT NOT NULL,
