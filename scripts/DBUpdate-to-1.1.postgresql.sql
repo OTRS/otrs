@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.0 to 1.1 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.10 2003-04-12 22:06:21 martin Exp $
+-- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.10.2.1 2003-05-10 17:13:23 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
@@ -20,6 +20,13 @@ DELETE FROM ticket_history_type WHERE name = 'Reopen';
 DELETE FROM ticket_history_type WHERE name = 'Close unsuccessful';
 DELETE FROM ticket_history_type WHERE name = 'Close successful';
 --DELETE FROM ticket_history_type WHERE name = '';
+-- 
+-- add ticket state update log type
+-- 
+INSERT INTO ticket_history_type
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('StateUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 -- 
 -- add ticket free text update log type
 -- 
