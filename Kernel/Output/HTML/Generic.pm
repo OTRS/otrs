@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.163 2004-12-02 09:29:53 martin Exp $
+# $Id: Generic.pm,v 1.164 2004-12-02 11:24:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.163 $';
+$VERSION = '$Revision: 1.164 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1706,7 +1706,6 @@ sub NavigationBar {
     }
 
     foreach (sort keys %NavBarModule) {
-#print STDERR "$_ ööö\n";
         $Self->Block(
             Name => $NavBarModule{$_}->{Block} || 'Item',
             Data => $NavBarModule{$_},
@@ -1714,7 +1713,7 @@ sub NavigationBar {
     }
 
     # create & return output
-    $Output .= $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param);
+    $Output = $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param).$Output;
     if ($Self->{ModuleReg}->{NavBarModule}) {
         # run navbar modules
         my %Jobs = %{$Self->{ModuleReg}->{NavBarModule}};
