@@ -93,6 +93,29 @@ $Text{"Group"}
 $Text{"Description"}
 $Text{"description"}
 $Text{"Theme"}
+$Text{"Created"}
+$Text{"Created by"}
+$Text{"Changed"}
+$Text{"Changed by"}
+$Text{"Search"}
+$Text{"and"}
+$Text{"between"}
+$Text{"Fulltext Search"}
+$Text{"Data"}
+$Text{"Options"}
+$Text{"Title"}
+$Text{"Item"}
+$Text{"Delete"}
+$Text{"Edit"}
+$Text{"View"}
+$Text{"Number"}
+$Text{"System"}
+$Text{"Contact"}
+$Text{"Contacts"}
+$Text{"Export"}
+$Text{"Up"}
+$Text{"Down"}
+$Text{"Add"}
 
 $Text{"New message"}
 $Text{"New message!"}
