@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMIME.pm,v 1.5 2004-08-10 06:44:57 martin Exp $
+# $Id: SMIME.pm,v 1.6 2004-09-20 19:20:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,23 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-# --
+=head1 NAME
+
+Kernel::System::Crypt::SMIME - smime crypt backend lib
+
+=head1 SYNOPSIS
+
+This is a sub module of Kernel::System::Crypt and contains all smime functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
 sub Init {
     my $Self = shift;
     my %Param = @_;
@@ -35,7 +48,18 @@ sub Init {
 
     return $Self;
 }
-# crypt
+
+=item Crypt()
+
+crypt a message
+
+  my $Message = $CryptObject->Crypt(
+      Message => $Message,
+      Hash => $CertificateHash,
+  );
+
+=cut
+
 sub Crypt {
     my $Self = shift;
     my %Param = @_;
@@ -72,7 +96,18 @@ sub Crypt {
     close (TMP);
     return $Crypted;
 }
-# decrypt
+
+=item Decrypt()
+
+decrypt a message and returns a hash (Successful, Message, Data)
+
+  my %Message = $CryptObject->Decrypt(
+      Message => $CryptedMessage,
+      Hash => $PrivateKeyHash,
+  );
+
+=cut
+
 sub Decrypt {
     my $Self = shift;
     my %Param = @_;
@@ -120,7 +155,18 @@ sub Decrypt {
         Data => $Decrypted,
     );
 }
-# sign
+
+=item Sign()
+
+sign a message
+
+  my $Sign = $CryptObject->Sign(
+      Message => $Message,
+      Hash => $PrivateKeyHash,
+  );
+
+=cut
+
 sub Sign {
     my $Self = shift;
     my %Param = @_;
@@ -160,7 +206,17 @@ sub Sign {
     return $Signed;
 
 }
-# verify_sign
+
+=item Verify()
+
+verify a message with signature and returns a hash (Successful, Message, SignerCertificate)
+
+  my %Data = $CryptObject->Verify(
+      Message => $Message,
+  );
+
+=cut
+
 sub Verify {
     my $Self = shift;
     my %Param = @_;
@@ -223,6 +279,17 @@ sub Verify {
     }
     return %Return;
 }
+
+=item Search()
+
+search a certifcate or an private key
+
+  my @Result = $CryptObject->Search(
+      Search => 'some text to search',
+  );
+
+=cut
+
 sub Search {
     my $Self = shift;
     my %Param = @_;
@@ -230,7 +297,17 @@ sub Search {
     @Result = (@Result, $Self->PrivateSearch(%Param));
     return @Result;
 }
-# serarch certificate
+
+=item CertificateSearch()
+
+search a local certifcate
+
+  my @Result = $CryptObject->CertificateSearch(
+      Search => 'some text to search',
+  );
+
+=cut
+
 sub CertificateSearch {
     my $Self = shift;
     my %Param = @_;
@@ -258,7 +335,16 @@ sub CertificateSearch {
     return @Result;
 }
 
-# add certificate
+=item CertificateAdd()
+
+add a certificate to local certificates
+
+  $CryptObject->CertificateAdd(
+      Certificate => $CertificateString,
+  );
+
+=cut
+
 sub CertificateAdd {
     my $Self = shift;
     my %Param = @_;
@@ -285,7 +371,17 @@ sub CertificateAdd {
         return;
     }
 }
-# get certificate
+
+=item CertificateGet()
+
+get a local certificate
+
+  my $Certificate = $CryptObject->CertificateGet(
+      Hash => $CertificateHash,
+  );
+
+=cut
+
 sub CertificateGet {
     my $Self = shift;
     my %Param = @_;
@@ -309,7 +405,16 @@ sub CertificateGet {
     }
 }
 
-# remove certificate
+=item CertificateRemove()
+
+remove a local certificate
+
+  $CryptObject->CertificateRemove(
+      Hash => $CertificateHash,
+  );
+
+=cut
+
 sub CertificateRemove {
     my $Self = shift;
     my %Param = @_;
@@ -322,7 +427,14 @@ sub CertificateRemove {
     return;
 }
 
-# list certificate
+=item CertificateList()
+
+get list of local certificates
+
+  my @HashList = $CryptObject->CertificateList();
+
+=cut
+
 sub CertificateList {
     my $Self = shift;
     my %Param = @_;
@@ -335,6 +447,16 @@ sub CertificateList {
     }
     return @Hash;
 }
+
+=item CertificateAttributes()
+
+get certificate attributes
+
+  my %CertificateArrtibutes = $CryptObject->CertificateAttributes(
+      Certificate => $CertificateString,
+  );
+
+=cut
 
 sub CertificateAttributes {
     my $Self = shift;
@@ -448,7 +570,16 @@ sub CertificateAttributes {
     return %Attributes;
 }
 
-# serach private
+=item PrivateSearch()
+
+returns private keys
+
+  my @Result = $CryptObject->PrivateSearch(
+      Search => 'some text to search',
+  );
+
+=cut
+
 sub PrivateSearch {
     my $Self = shift;
     my %Param = @_;
@@ -477,7 +608,18 @@ sub PrivateSearch {
     return @Result;
 
 }
-# serach private
+
+=item PrivateAdd()
+
+add private key
+
+  my $Message = $CryptObject->PrivateAdd(
+      Private => $PrivateKeyString,
+      Secret => 'Password',
+  );
+
+=cut
+
 sub PrivateAdd {
     my $Self = shift;
     my %Param = @_;
@@ -526,7 +668,17 @@ sub PrivateAdd {
     }
 
 }
-# get private
+
+=item PrivateGet()
+
+get private key
+
+  my ($PrivateKey, $Secret) = $CryptObject->PrivateGet(
+      Hash => $PrivateKeyHash,
+  );
+
+=cut
+
 sub PrivateGet {
     my $Self = shift;
     my %Param = @_;
@@ -563,7 +715,17 @@ sub PrivateGet {
     }
 
 }
-# remove private
+
+=item PrivateRemove()
+
+remove private key
+
+  $CryptObject->PrivateRemove(
+      Hash => $PrivateKeyHash,
+  );
+
+=cut
+
 sub PrivateRemove {
     my $Self = shift;
     my %Param = @_;
@@ -576,7 +738,15 @@ sub PrivateRemove {
     unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return $!;
     return;
 }
-# list private
+
+=item PrivateList()
+
+returns a list of private key hashs
+
+  my @Hash = $CryptObject->PrivateList();
+
+=cut
+
 sub PrivateList {
     my $Self = shift;
     my %Param = @_;
@@ -590,7 +760,18 @@ sub PrivateList {
     return @Hash;
 
 }
-# private attributes
+
+=item PrivateAttributes()
+
+returns attributes of private key
+
+  my %Hash = $CryptObject->PrivateAttributes(
+      Private => $PrivateKeyString,
+      Secret => 'Password',
+  );
+
+=cut
+
 sub PrivateAttributes {
     my $Self = shift;
     my %Param = @_;
@@ -626,3 +807,19 @@ sub PrivateAttributes {
 }
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.6 $ $Date: 2004-09-20 19:20:50 $
+
+=cut

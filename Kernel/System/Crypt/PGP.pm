@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PGP.pm,v 1.6 2004-08-25 00:36:12 martin Exp $
+# $Id: PGP.pm,v 1.7 2004-09-20 19:20:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,24 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-# --
+=head1 NAME
+
+Kernel::System::Crypt::PGP - pgp crypt backend lib
+
+=head1 SYNOPSIS
+
+This is a sub module of Kernel::System::Crypt and contains all pgp functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+# just for internal
 sub Init {
     my $Self = shift;
     my %Param = @_;
@@ -30,7 +44,18 @@ sub Init {
 
     return $Self;
 }
-# crypt
+
+=item Crypt()
+
+crypt a message
+
+  my $Message = $CryptObject->Crypt(
+      Message => $Message,
+      Key => $PGPPublicKeyID,
+  );
+
+=cut
+
 sub Crypt {
     my $Self = shift;
     my %Param = @_;
@@ -65,7 +90,17 @@ sub Crypt {
     close (TMP);
     return $Crypt;
 }
-# decrypt
+
+=item Decrypt()
+
+decrypt a message and returns a hash (Successful, Message, Data)
+
+  my %Message = $CryptObject->Decrypt(
+      Message => $CryptedMessage,
+  );
+
+=cut
+
 sub Decrypt {
     my $Self = shift;
     my %Param = @_;
@@ -121,7 +156,19 @@ sub Decrypt {
         );
     }
 }
-# sign
+
+=item Sign()
+
+sign a message
+
+  my $Sign = $CryptObject->Sign(
+      Message => $Message,
+      Key => $PGPPrivateKeyID,
+      Type => 'Detached'  # Detached|Inline
+  );
+
+=cut
+
 sub Sign {
     my $Self = shift;
     my %Param = @_;
@@ -167,7 +214,26 @@ sub Sign {
     close (TMP);
     return $Signed;
 }
-# verify_sign
+
+=item Verify()
+
+verify a message signature and returns a hash (Successful, Message, Data)
+
+Inline sign:
+
+  my %Data = $CryptObject->Verify(
+      Message => $Message,
+  );
+
+Attached sign:
+
+  my %Data = $CryptObject->Verify(
+      Message => $Message,
+      Sign => $Sign,
+  );
+
+=cut
+
 sub Verify {
     my $Self = shift;
     my %Param = @_;
@@ -211,6 +277,16 @@ sub Verify {
     return %Return;
 }
 
+=item KeySearch()
+
+returns a array with serach result (private and public keys)
+
+  my @Keys = $CryptObject->KeySearch(
+      Search => 'something to search'
+  );
+
+=cut
+
 sub KeySearch {
     my $Self = shift;
     my %Param = @_;
@@ -219,6 +295,17 @@ sub KeySearch {
     push (@Result, $Self->PrivateKeySearch(%Param));
     return @Result;
 }
+
+=item PrivateKeySearch()
+
+returns a array with serach result (private keys)
+
+  my @Keys = $CryptObject->PrivateKeySearch(
+      Search => 'something to search'
+  );
+
+=cut
+
 sub PrivateKeySearch {
     my $Self = shift;
     my %Param = @_;
@@ -260,6 +347,17 @@ sub PrivateKeySearch {
 
     return @Result;
 }
+
+=item PublicKeySearch()
+
+returns a array with serach result (public keys)
+
+  my @Keys = $CryptObject->PublicKeySearch(
+      Search => 'something to search'
+  );
+
+=cut
+
 sub PublicKeySearch {
     my $Self = shift;
     my %Param = @_;
@@ -296,6 +394,16 @@ sub PublicKeySearch {
     return @Result;
 }
 
+=item PublicKeyGet()
+
+returns public key in ascii
+
+  my $Key = $CryptObject->PublicKeyGet(
+      Key => $KeyID,
+  );
+
+=cut
+
 sub PublicKeyGet {
     my $Self = shift;
     my %Param = @_;
@@ -310,6 +418,17 @@ sub PublicKeyGet {
 
     return $KeyString;
 }
+
+=item SecretKeyGet()
+
+returns secret key in ascii
+
+  my $Key = $CryptObject->SecretKeyGet(
+      Key => $KeyID,
+  );
+
+=cut
+
 sub SecretKeyGet {
     my $Self = shift;
     my %Param = @_;
@@ -325,6 +444,16 @@ sub SecretKeyGet {
     return $KeyString;
 }
 
+=item PublicKeyDelete()
+
+remove public key from key ring
+
+  $CryptObject->PublicKeyDelete(
+      Key => $KeyID,
+  );
+
+=cut
+
 sub PublicKeyDelete {
     my $Self = shift;
     my %Param = @_;
@@ -339,6 +468,17 @@ sub PublicKeyDelete {
 
     return $KeyString;
 }
+
+=item SecretKeyDelete()
+
+remove secret key from key ring
+
+  $CryptObject->SecretKeyDelete(
+      Key => $KeyID,
+  );
+
+=cut
+
 sub SecretKeyDelete {
     my $Self = shift;
     my %Param = @_;
@@ -353,6 +493,16 @@ sub SecretKeyDelete {
 
     return $KeyString;
 }
+
+=item KeyAdd()
+
+add key to key ring
+
+  my $Message = $CryptObject->KeyAdd(
+      Key => $KeyString,
+  );
+
+=cut
 
 sub KeyAdd {
     my $Self = shift;
@@ -393,3 +543,20 @@ sub _CryptedWithKey {
     return;
 }
 
+1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.7 $ $Date: 2004-09-20 19:20:50 $
+
+=cut
