@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.11 2002-11-15 13:15:36 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.12 2002-11-21 22:04:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -113,7 +113,9 @@ export DESTROOT="/opt/OpenTRS/"
 mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 # copy files
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
-# Install init-Script and rc.config entry
+# copy all crontab dist files
+for foo in var/cron/*.dist; do cp $foo var/cron/`basename $foo .dist`; done 
+# install init-Script and rc.config entry
 install -d -m 755 $RPM_BUILD_ROOT/etc/init.d
 install -d -m 755 $RPM_BUILD_ROOT/usr/sbin
 install -d -m 755 $RPM_BUILD_ROOT/etc/rc.config.d

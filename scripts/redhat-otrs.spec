@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs.spec,v 1.7 2002-11-15 13:15:36 martin Exp $
+# $Id: redhat-otrs.spec,v 1.8 2002-11-21 22:04:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -110,7 +110,9 @@ export DESTROOT="/opt/OpenTRS/"
 mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 # copy files
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
-# Install init-Script 
+# copy all crontab dist files
+for foo in var/cron/*.dist; do cp $foo var/cron/`basename $foo .dist`; done 
+# install init-Script 
 install -d -m 755 $RPM_BUILD_ROOT/etc/rc.d/init.d
 install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
 
