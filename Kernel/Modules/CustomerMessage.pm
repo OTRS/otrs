@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.25 2004-01-10 15:36:14 martin Exp $
+# $Id: CustomerMessage.pm,v 1.26 2004-02-05 15:59:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,7 +96,7 @@ sub Run {
                     $Srting =~ s/<Queue>/$QueueData{Name}/g;
                     $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
                     if ($Self->{ConfigObject}->Get('CustomerPanelSelectionType') ne 'Queue') {
-                        my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $NewTos{$_});
+                        my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $QueueData{SystemAddressID});
                         $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
                         $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
                     }
