@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.26 2004-01-10 15:36:14 martin Exp $
+# $Id: AgentMove.pm,v 1.27 2004-02-17 22:49:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,7 +40,6 @@ sub new {
 
     # get params
     $Self->{DestQueueID} = $Self->{ParamObject}->GetParam(Param => 'DestQueueID');
-    $Self->{QueueViewQueueID} = $Self->{ParamObject}->GetParam(Param => 'QueueViewQueueID');
     $Self->{TicketUnlock} = $Self->{ParamObject}->GetParam(Param => 'TicketUnlock');
     $Self->{ExpandQueueUsers} = $Self->{ParamObject}->GetParam(Param => 'ExpandQueueUsers') || 0;
     $Self->{AllUsers} = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || 0;
@@ -55,9 +54,7 @@ sub Run {
     my %Param = @_;
     my $Output;
 
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID)) {
       if (!$Self->{$_}) {
         # error page
@@ -70,9 +67,7 @@ sub Run {
         return $Output;
       }
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'move',
         TicketID => $Self->{TicketID},
@@ -80,16 +75,12 @@ sub Run {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    # --	
     # move queue
-    # --
     if (!$Self->{DestQueueID} || $Self->{ExpandQueueUsers}) {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Move Ticket');
 #        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
 #        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        # --
         # get lock state && write (lock) permissions
-        # --
         if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
             # set owner
             $Self->{TicketObject}->SetOwner(
@@ -122,16 +113,12 @@ sub Run {
                 return $Output;
             }
         }
-        # --
         # fetch all queues
-        # --
         my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
             UserID => $Self->{UserID},
             Type => 'move_into',
         );
-        # --
         # build header
-        # --
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
         # get next states
         my %NextStates = $Self->{StateObject}->StateGetStatesByType(
@@ -223,12 +210,7 @@ sub Run {
             );
         }
         # redirect 
-        if ($Self->{QueueViewQueueID}) {
-             return $Self->{LayoutObject}->Redirect(OP => "QueueID=$Self->{QueueViewQueueID}");
-        }
-        else {
-             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
-        }
+        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
         # error?!
