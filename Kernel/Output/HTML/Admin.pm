@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.27 2003-02-08 15:43:26 martin Exp $
+# $Id: Admin.pm,v 1.28 2003-02-14 13:57:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -675,13 +675,14 @@ sub AdminCustomerUserForm {
 #        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
           my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
           my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
+          my $DataSelected = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{DataSelected} || '';
           my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
           my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
           if ($Data) {
             $PrefItem{'Option'} = $Self->OptionStrgHashRef(
               Data => $Data,
               Name => "GenericTopic::$PrefKey",
-              SelectedID => $Param{$PrefKey}, 
+              SelectedID => $Param{$PrefKey} || $DataSelected, 
             );
           }
           elsif ($PrefKey eq 'UserLanguage') {
@@ -772,6 +773,7 @@ sub AdminUserForm {
 #        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
           my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
           my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
+          my $DataSelected = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{DataSelected} || '';
           my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
           my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
 
@@ -780,7 +782,7 @@ sub AdminUserForm {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                 Data => $Data,
                 Name => "GenericTopic::$PrefKey",
-                SelectedID => $Param{$PrefKey},
+                SelectedID => $Param{$PrefKey} || $DataSelected,
               );
             }
             else {
@@ -792,7 +794,7 @@ sub AdminUserForm {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                   Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'), 
                   Name => "GenericTopic::$PrefKey",
-                  SelectedID => $Param{UserLanguage},
+                  SelectedID => $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
               );
           }
           elsif ($PrefKey eq 'UserCharset') {
