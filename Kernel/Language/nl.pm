@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: nl.pm,v 1.7 2003-01-18 09:11:10 martin Exp $
+# $Id: nl.pm,v 1.8 2003-02-03 22:53:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan  9 22:09:56 2003 by 
+    # Last translation Mon Feb  3 23:33:46 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -90,14 +90,14 @@ sub Data {
       'Name' => 'Naam',
       'New message' => 'Nieuw bericht',
       'New message!' => 'Nieuw bericht!',
-      'No' => 'Nee',
       'no' => 'nee',
+      'No' => 'Nee',
       'No suggestions' => '',
       'none' => 'geen',
       'none - answered' => 'geen - beantwoord',
       'none!' => 'niet ingevoerd!',
-      'Off' => 'Uit',
       'off' => 'uit',
+      'Off' => 'Uit',
       'on' => 'aan',
       'On' => 'Aan',
       'Password' => 'Wachtwoord',
@@ -117,6 +117,7 @@ sub Data {
       'Subfunction' => 'sub-functie',
       'submit' => 'versturen',
       'submit!' => 'versturen!',
+      'Take this User' => '',
       'Text' => '',
       'The recommended charset for your language is %s!' => '',
       'Theme' => '',
@@ -132,8 +133,8 @@ sub Data {
       'Welcome to OTRS' => '',
       'Word' => '',
       'wrote' => 'schreef',
-      'yes' => 'ja',
       'Yes' => 'Ja',
+      'yes' => 'ja',
       'You got new message!' => '',
       'You have %s new message(s)!' => '',
       'You have %s reminder ticket(s)!' => '',
@@ -264,6 +265,7 @@ sub Data {
       'to get the first 5 lines of the email' => '',
       'to get the from line of the email' => '',
       'to get the realname of the sender (if given)' => '',
+      'to get the ticket id of the ticket' => '',
       'to get the ticket number of the ticket' => '',
       'Type' => '',
       'Useable options' => 'Te gebruiken opties',
@@ -545,6 +547,7 @@ sub Data {
       'Phone call at %s' => '',
 
     # Template: AgentPhoneNew
+      'Search Customer' => 'Klanten zoeken',
       'new ticket' => 'nieuw ticket',
 
     # Template: AgentPlain
@@ -694,6 +697,7 @@ sub Data {
       'next step' => '',
 
     # Template: InstallerSystem
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
       '(Email of the system admin)' => '',
       '(Full qualified domain name of your system)' => '',
       '(Logfile just needed for File-LogModule!)' => '',
@@ -702,6 +706,7 @@ sub Data {
       '(Used default language)' => '',
       '(Used log backend)' => '',
       '(Used ticket number format)' => '',
+      'CheckMXRecord' => '',
       'Default Charset' => '',
       'Default Language' => '',
       'Logfile' => '',

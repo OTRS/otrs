@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.9 2003-01-18 09:11:10 martin Exp $
+# $Id: fi.pm,v 1.10 2003-02-03 22:53:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Wed Jan 15 17:53:14 2003 by 
+    # Last translation Mon Feb  3 23:33:29 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -90,14 +90,14 @@ sub Data {
       'Name' => 'Nimi',
       'New message' => 'Uusi viesti',
       'New message!' => 'Uusi viesti!',
-      'No' => 'Ei',
       'no' => 'ei',
+      'No' => 'Ei',
       'No suggestions' => 'Ei ehdotusta',
       'none' => 'ei mitään',
       'none - answered' => 'ei mitään - vastattu',
       'none!' => 'ei mitään!',
-      'Off' => 'Pois',
       'off' => 'pois',
+      'Off' => 'Pois',
       'on' => 'päällä',
       'On' => 'Päällä',
       'Password' => 'Salasana',
@@ -117,6 +117,7 @@ sub Data {
       'Subfunction' => 'Alifunktio',
       'submit' => 'lähetä',
       'submit!' => 'lähetä!',
+      'Take this User' => '',
       'Text' => 'Teksti',
       'The recommended charset for your language is %s!' => 'Suositeltava kirjainasetus kielellesi on %s',
       'Theme' => 'Ulkoasu',
@@ -132,8 +133,8 @@ sub Data {
       'Welcome to OTRS' => 'Tervetuloa käyttämään OTRS-järjestelmää',
       'Word' => 'Sana',
       'wrote' => 'kirjoittaa',
-      'yes' => 'kyllä',
       'Yes' => 'Kyllä',
+      'yes' => 'kyllä',
       'You got new message!' => 'Sinulla on uusi viesti!',
       'You have %s new message(s)!' => 'Sinulla on %s kpl uusia viestiä!',
       'You have %s reminder ticket(s)!' => 'Sinulla on %s muistutettavaa viestiä!',
@@ -264,6 +265,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'nähdäksesi 5 ensimmäistä riviä sähköpostista',
       'to get the from line of the email' => 'nähdäksesi yhden rivin sähköpostista',
       'to get the realname of the sender (if given)' => 'nähdäksesi käyttäjän nimen',
+      'to get the ticket id of the ticket' => '',
       'to get the ticket number of the ticket' => 'nähdäksesi tiketin numeron',
       'Type' => 'Tyyppi',
       'Useable options' => 'Käytettävät asetukset',
@@ -545,6 +547,7 @@ sub Data {
       'Phone call at %s' => 'Puhelu %s',
 
     # Template: AgentPhoneNew
+      'Search Customer' => 'Etsi Asiakas',
       'new ticket' => 'Uusi tiketti',
 
     # Template: AgentPlain

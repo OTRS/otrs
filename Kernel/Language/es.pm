@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.3 2003-01-18 09:11:10 martin Exp $
+# $Id: es.pm,v 1.4 2003-02-03 22:53:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Sun Jan 12 10:43:03 2003 
+    # Last translation Mon Feb  3 23:33:21 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -91,14 +91,14 @@ sub Data {
       'Name' => 'Nombre',
       'New message' => 'Nuevo mensaje',
       'New message!' => 'Nuevo mensaje!',
-      'No' => 'No',
       'no' => 'no',
+      'No' => 'No',
       'No suggestions' => 'Sin sugerencias',
       'none' => 'nada',
       'none - answered' => 'nada  - respondido',
       'none!' => 'nada!',
-      'Off' => 'Off',
       'off' => 'off',
+      'Off' => 'Off',
       'on' => 'on',
       'On' => 'On',
       'Password' => 'Contrase&ntilde;a',
@@ -118,6 +118,7 @@ sub Data {
       'Subfunction' => 'Subfunciones',
       'submit' => 'enviar',
       'submit!' => 'enviar!',
+      'Take this User' => '',
       'Text' => 'Texto',
       'The recommended charset for your language is %s!' => 'EL juego de caracteres recomendado para su idioma es %s!',
       'Theme' => 'Tema',
@@ -133,8 +134,8 @@ sub Data {
       'Welcome to OTRS' => 'Bienvenido a OTRS',
       'Word' => 'Palabra',
       'wrote' => 'escribi&oacute;',
-      'yes' => 'si',
       'Yes' => 'Si',
+      'yes' => 'si',
       'You got new message!' => 'Ud tiene un nuevo mensaje',
       'You have %s new message(s)!' => 'Ud tiene %s nuevos mensaje(s)!',
       'You have %s reminder ticket(s)!' => 'Ud tiene %s tickets recordatorios',
@@ -265,6 +266,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'para obtener las primeras 5 lineas del correo',
       'to get the from line of the email' => 'para obtener la linea from del correo',
       'to get the realname of the sender (if given)' => 'para obtener el nombre del emisor (si lo proporciono)',
+      'to get the ticket id of the ticket' => '',
       'to get the ticket number of the ticket' => 'para obtener el n&uacute;mero del ticket',
       'Type' => 'Tipo',
       'Useable options' => 'Opciones accesibles',
@@ -546,6 +548,7 @@ sub Data {
       'Phone call at %s' => 'Llamada telef&oacute;nica a %s',
 
     # Template: AgentPhoneNew
+      'Search Customer' => 'B&uacute;squedas del cliente',
       'new ticket' => 'nuevo ticket',
 
     # Template: AgentPlain
@@ -695,6 +698,7 @@ sub Data {
       'next step' => 'proximo paso',
 
     # Template: InstallerSystem
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
       '(Email of the system admin)' => '(amail del administrador del sistema)',
       '(Full qualified domain name of your system)' => '(Nombre completo del dominio de su sistema)',
       '(Logfile just needed for File-LogModule!)' => '(Archivo de log necesario para File-LogModule)',
@@ -703,6 +707,7 @@ sub Data {
       '(Used default language)' => '(Lenguaje por defecto)',
       '(Used log backend)' => '()',
       '(Used ticket number format)' => '(Formato de ticket usado)',
+      'CheckMXRecord' => '',
       'Default Charset' => 'Juego de caracteres por defecto',
       'Default Language' => 'Lenguaje por defecto',
       'Logfile' => 'Archivo de log',

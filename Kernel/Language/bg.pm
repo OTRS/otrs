@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.11 2003-01-18 09:11:09 martin Exp $
+# $Id: bg.pm,v 1.12 2003-02-03 22:53:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan  9 22:08:36 2003 by 
+    # Last translation Mon Feb  3 23:33:10 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -90,14 +90,14 @@ sub Data {
       'Name' => 'Име',
       'New message' => 'Ново съобщение',
       'New message!' => 'Ново съобщение!',
-      'No' => 'Не',
       'no' => 'не',
+      'No' => 'Не',
       'No suggestions' => 'Няма предположения',
       'none' => 'няма',
       'none - answered' => 'няма - отговорен',
       'none!' => 'няма!',
-      'Off' => 'Изключено',
       'off' => 'изключено',
+      'Off' => 'Изключено',
       'on' => 'включено',
       'On' => 'Включено',
       'Password' => 'Парола',
@@ -117,6 +117,7 @@ sub Data {
       'Subfunction' => 'Подфункция',
       'submit' => 'изпратете',
       'submit!' => 'изпратете!',
+      'Take this User' => '',
       'Text' => 'Текст',
       'The recommended charset for your language is %s!' => 'Препоръчителният символен набор за Вашият език е %s',
       'Theme' => 'Тема',
@@ -132,8 +133,8 @@ sub Data {
       'Welcome to OTRS' => 'Добре дошли в OTRS',
       'Word' => 'Дума',
       'wrote' => 'записано',
-      'yes' => 'да',
       'Yes' => 'Да',
+      'yes' => 'да',
       'You got new message!' => 'Получихте ново съобщение!',
       'You have %s new message(s)!' => 'Вие имате %s ново/нови съобщение/съобщения!',
       'You have %s reminder ticket(s)!' => 'Вие имате %s оставащ/оставащи билет/билети!',
@@ -264,6 +265,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'за да получите първите 5 реда от писмото',
       'to get the from line of the email' => 'за да получите ред от писмото',
       'to get the realname of the sender (if given)' => 'за да получите истинското име на изпращача (ако е попълнено)',
+      'to get the ticket id of the ticket' => '',
       'to get the ticket number of the ticket' => 'за да получите номера на билета',
       'Type' => 'Тип',
       'Useable options' => 'Използваеми опции',
@@ -545,6 +547,7 @@ sub Data {
       'Phone call at %s' => 'Телефонно обаждане в %s',
 
     # Template: AgentPhoneNew
+      'Search Customer' => '',
       'new ticket' => 'нов билет',
 
     # Template: AgentPlain
@@ -694,6 +697,7 @@ sub Data {
       'next step' => 'следваща стъпка',
 
     # Template: InstallerSystem
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
       '(Email of the system admin)' => '(еМейл на системният администратор)',
       '(Full qualified domain name of your system)' => '(Пълно квалифицирано име (FQDN) на системата)',
       '(Logfile just needed for File-LogModule!)' => '(Журналният файл е необходим само за File-LogModule)',
@@ -702,6 +706,7 @@ sub Data {
       '(Used default language)' => '(Изполван език по подразбиране)',
       '(Used log backend)' => '(Използван журнален изход)',
       '(Used ticket number format)' => '(Използван формат за номера на билетът)',
+      'CheckMXRecord' => '',
       'Default Charset' => 'Символен набор по подразбиране',
       'Default Language' => 'Език по подразбиране',
       'Logfile' => 'Журнален файл',

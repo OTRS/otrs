@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.13 2003-01-19 22:42:07 nicolas Exp $
+# $Id: fr.pm,v 1.14 2003-02-03 22:53:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan  9 22:09:48 2003 by 
+    # Last translation Mon Feb  3 23:33:39 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -65,7 +65,7 @@ sub Data {
       'Example' => 'Exemple',
       'Examples' => 'Exemples',
       'Facility' => 'Facilité',
-      'Feature not activ!' => 'Fonction non activé',
+      'Feature not acitv!' => '',
       'go' => 'Go',
       'go!' => 'c\'est parti&nbsp;!',
       'Group' => 'Groupe',
@@ -90,14 +90,14 @@ sub Data {
       'Name' => 'Nom',
       'New message' => 'Nouveau message',
       'New message!' => 'Nouveau message&nbsp;!',
-      'No' => 'Non',
       'no' => 'aucune',
+      'No' => 'Non',
       'No suggestions' => 'Pas de suggestions',
       'none' => 'aucun',
       'none - answered' => 'aucun - répondu',
       'none!' => 'aucun&nbsp;!',
-      'Off' => 'éteint',
       'off' => 'Éteint',
+      'Off' => 'éteint',
       'on' => 'allumé',
       'On' => 'Allumé',
       'Password' => 'Mot de Passe',
@@ -117,6 +117,7 @@ sub Data {
       'Subfunction' => 'sous-fonction',
       'submit' => 'soumettre',
       'submit!' => 'soumettre&nbsp;!',
+      'Take this User' => '',
       'Text' => 'Texte',
       'The recommended charset for your language is %s!' => 'Les jeux de charactères pour votre langue est %s!',
       'Theme' => 'Thème',
@@ -126,15 +127,14 @@ sub Data {
       'update' => 'Mise à jour',
       'update!' => 'actualiser&nbsp;!',
       'User' => 'Utilisateur',
-			'Users' => 'Utilisateurs',
       'Username' => 'Nom d\'utilisateur',
       'Valid' => 'Valide',
       'Warning' => 'Attention',
       'Welcome to OTRS' => 'Bienvenue à OTRS',
       'Word' => 'Mot',
       'wrote' => 'écrit',
-      'yes' => 'oui',
       'Yes' => 'Oui',
+      'yes' => 'oui',
       'You got new message!' => 'Vous avez un nouveau message',
       'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s)',
       'You have %s reminder ticket(s)!' => 'Vous avez %s rappel(s) de ticket(s)',
@@ -265,12 +265,12 @@ sub Data {
       'to get the first 5 lines of the email' => 'pour avoir les 5 premières ligne du mail',
       'to get the from line of the email' => 'pour avoir les lignes \'From\' du mail',
       'to get the realname of the sender (if given)' => 'pour avoir le nom réel de l\'utilisateur (s\il est donné)',
+      'to get the ticket id of the ticket' => '',
       'to get the ticket number of the ticket' => 'pour avoir le numéro du ticket',
       'Type' => 'Type',
       'Useable options' => 'Options accessibles',
 
     # Template: AdminCharsetForm
-
       'Add charset' => 'Ajouter un jeu de caractères système',
       'Change system charset setting' => 'Modification des paramètres du jeu de caractères système',
       'System Charset Management' => 'Gestion du jeu de caractères système',
@@ -312,7 +312,6 @@ sub Data {
 
     # Template: AdminNavigationBar
       'AdminEmail' => 'Email de l\'administrateur.',
-
       'AgentFrontend' => 'Interface de l\'agent',
       'Auto Response <-> Queue' => 'Réponse Automatique <-> Files',
       'Auto Responses' => 'Réponses automatiques',
@@ -365,7 +364,6 @@ sub Data {
       'Ticket lock after a follow up' => 'Ticket bloqué aprés un suivi',
       'Unlock timeout' => 'Temporisation du déverrouillage',
       'Will be the sender address of this queue for email answers.' => 'Sera l\'adresse d\'expépédition pour les réponses par courrier électronique',
-
 
     # Template: AdminQueueResponsesChangeForm
       'Change %s settings' => 'Changer les param&ecirc;tres de %s',
@@ -422,7 +420,6 @@ sub Data {
       'System State Management' => 'Gestion des états du système',
 
     # Template: AdminSystemAddressForm
-
       'Add system address' => 'Ajouter une adresse électronique du système',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (à&nbsp;:) seront placés dans la file choisie..',
       'Change system address setting' => 'Modification des paramètres des adresses courriel du système',
@@ -550,6 +547,7 @@ sub Data {
       'Phone call at %s' => 'Appel téléphonique à %s',
 
     # Template: AgentPhoneNew
+      'Search Customer' => 'Recherche de client',
       'new ticket' => 'nouveau ticket',
 
     # Template: AgentPlain
@@ -699,6 +697,7 @@ sub Data {
       'next step' => 'étape suivante',
 
     # Template: InstallerSystem
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
       '(Email of the system admin)' => 'Email de l\'administrateur systè',
       '(Full qualified domain name of your system)' => 'Nom de domaine complet de votre machine',
       '(Logfile just needed for File-LogModule!)' => 'fichier de log nécessaire pour le Module File-Log',
@@ -707,6 +706,7 @@ sub Data {
       '(Used default language)' => 'Langage par défaut utilisé',
       '(Used log backend)' => 'Backend de log utilisé',
       '(Used ticket number format)' => 'format numérique utilisé pour les tickets',
+      'CheckMXRecord' => '',
       'Default Charset' => 'Charset par défaut',
       'Default Language' => 'Langage par défaut ',
       'Logfile' => 'fichier de log',
@@ -780,6 +780,7 @@ sub Data {
       '(Click here to add language)' => '(cliquer ici pour ajouter une langue)',
       '(Click here to add state)' => '(cliquer ici pour ajouter un état)',
       'A message should have a From: recipient!' => 'Un message devrait avoir un champ From:',
+      'Feature not activ!' => 'Fonction non activé',
       'New ticket via call.' => 'Nouveau ticket par téléphone',
       'Time till escalation' => 'Durée avant escalade',
       'Update auto response' => 'Actualiser une réponse automatique',
@@ -793,11 +794,11 @@ sub Data {
       'Update state' => 'Actualiser un état',
       'Update system address' => 'Actualiser les adresses courriel du système',
       'Update user' => 'Actualiser un utilisateur',
+      'Users' => 'Utilisateurs',
       'You have to be in the admin group!' => 'Il est nécessaire d\'être dans le groupe d\'administration&nbsp;!',
       'You have to be in the stats group!' => 'Il est nécessaire d\'être dans le groupe des statistiques&nbsp;!',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Vous devez avoir une adresse email dans le From:! (ex: client@example.com) ',
       'auto responses set' => 'Réponse automatique positionné',
-
     );
 
     # $$STOP$$
