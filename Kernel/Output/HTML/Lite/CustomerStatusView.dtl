@@ -3,13 +3,19 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerStatusView.dtl,v 1.7 2003-04-25 17:47:08 martin Exp $
+# $Id: CustomerStatusView.dtl,v 1.8 2003-07-30 22:39:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+# check show closed tickets link
+<dtl set $Data{"ClosedTicketText"} = "Show closed Tickets">
+<dtl if ($Data{"ShowClosed"} eq "1") { $Data{"ClosedTicketText"} = "Don't show closed Tickets"; }>
+<dtl if ($Data{"ShowClosed"} eq "1") { $Data{"ClosedLink"} = "ShowClosedTickets=0"; }>
+<dtl if ($Data{"ShowClosed"} eq "0") { $Data{"ClosedLink"} = "ShowClosedTickets=1"; }>
+#
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
  <td align="left" class="table2">
@@ -18,7 +24,9 @@
 </tr>
 <tr> 
   <td class="table1">
-    $Text{"Ticket"} <b>$Data{"Result"}</b> $Text{"of"} $Data{"AllHits"} - $Text{"Site"}: $Data{"PageNavBar"}
+    $Text{"Ticket"} <b>$Data{"Result"}</b> $Text{"of"} $Data{"AllHits"} - 
+    $Text{"Site"}: $Data{"PageNavBar"} - 
+    (<a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=&Order=&Limit=$Data{"Limit"}&$Data{"ClosedLink"}">$Data{"ClosedTicketText"}</a>)
   </td>
 </tr>
 </table>

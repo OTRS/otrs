@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.15 2003-05-01 20:41:06 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.16 2003-07-30 22:39:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,6 +44,7 @@ sub new {
     # --
     # get params 
     # --
+    $Self->{ShowClosedTickets} = $Self->{ParamObject}->GetParam(Param => 'ShowClosedTickets') || 0;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0; 
@@ -99,8 +100,15 @@ sub Run {
     # check if just open tickets should be shown
     # --
     my $SQLExt = '';
+    my $ShowClosed = 0;
     if ((defined($Self->{UserShowClosedTickets}) && !$Self->{UserShowClosedTickets}) 
       || (!defined $Self->{UserShowClosedTickets} && !$Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
+        $ShowClosed = 0;
+    }
+    if ($Self->{ShowClosedTickets}) {
+        $ShowClosed = 1;
+    }
+    if (!$ShowClosed) {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
             Type => 'Viewable',
             Result => 'ID',
@@ -194,6 +202,7 @@ sub Run {
         PageShown => $Self->{PageShown},
         AllHits => $AllTickets,
         StartHit => $Self->{StartHit},
+        ShowClosed => $ShowClosed,
     );
     # get page footer
     $Output .= $Self->{LayoutObject}->CustomerFooter();
