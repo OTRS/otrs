@@ -1,8 +1,8 @@
 # --
-# AdminSystemAddress.pm - to add/update/delete system addresses 
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses 
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddress.pm,v 1.3 2002-05-09 23:49:52 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.4 2002-07-21 17:35:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach ('ParamObject', 'DBObject', 'QueueObject', 'LayoutObject', 'ConfigObject', 'LogObject') {
+    foreach (qw(ParamObject DBObject PermissionObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -44,14 +44,16 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $NextScreen = 'AdminSystemAddress';
-
+    # --
     # permission check
+    # --
     if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
         $Output .= $Self->{LayoutObject}->NoPermission();
         return $Output;
     }
-
-    # get queue data 2 form
+    # --
+    # get data 2 form
+    # --
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         $Output .= $Self->{LayoutObject}->Header(Title => 'Change system address');
@@ -73,7 +75,9 @@ sub Run {
             );
         $Output .= $Self->{LayoutObject}->Footer();
     }
+    # --
     # update action
+    # --
     elsif ($Self->{Subaction} eq 'ChangeAction') {
         my %GetParam;
         my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'Realname', 'QueueID');
@@ -97,7 +101,9 @@ sub Run {
           $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # --
     # add new queue
+    # --
     elsif ($Self->{Subaction} eq 'AddAction') {
         my %GetParam;
         my @Params = ('Name', 'Comment', 'ValidID', 'Realname', 'QueueID');
@@ -123,7 +129,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # --
     # else ! print form 
+    # --
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'add system address');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();

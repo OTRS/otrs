@@ -1,8 +1,8 @@
 # --
-# AdminSession.pm - to control all session ids
+# Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.4 2002-05-01 17:31:13 martin Exp $
+# $Id: AdminSession.pm,v 1.5 2002-07-21 17:31:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'DBObject', 'LayoutObject', 'LogObject', 'ConfigObject') {
+    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject PermissionObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -47,17 +47,17 @@ sub Run {
     my $SessionObject = $Self->{SessionObject};
     my $WantSessionID = $Self->{ParamObject}->GetParam(Param => 'WantSessionID') || '';
 
+    # --
     # permission check
+    # --
     if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
+        return $Self->{LayoutObject}->NoPermission();
     }
 
     # print session screen
     if ($Subaction eq '' || !$Subaction) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Sessions');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-
         $Output .= $Self->{LayoutObject}->AdminSession();
 
         my @List = $SessionObject->GetAllSessionIDs();

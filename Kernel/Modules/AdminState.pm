@@ -1,8 +1,8 @@
 # --
-# AdminState.pm - to add/update/delete system states 
+# Kernel/Modules/AdminState.pm - to add/update/delete system states 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminState.pm,v 1.2 2002-05-14 00:14:40 martin Exp $
+# $Id: AdminState.pm,v 1.3 2002-07-21 17:33:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminState;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,14 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject',
-    ) {
+    foreach (qw(ParamObject DBObject PermissionObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -51,14 +44,15 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $NextScreen = 'AdminState';
-
+    # --
     # permission check
+    # --
     if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
+        return $Self->{LayoutObject}->NoPermission();
     }
-
-    # get queue data 2 form
+    # --
+    # get data 2 form
+    # --
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         $Output .= $Self->{LayoutObject}->Header(Title => 'System state change');
@@ -78,7 +72,9 @@ sub Run {
             );
         $Output .= $Self->{LayoutObject}->Footer();
     }
+    # --
     # update action
+    # --
     elsif ($Self->{Subaction} eq 'ChangeAction') {
         my %GetParam;
         my @Params = ('ID', 'Name', 'Comment', 'ValidID');
@@ -104,7 +100,9 @@ sub Run {
           $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # --
     # add new queue
+    # --
     elsif ($Self->{Subaction} eq 'AddAction') {
         my %GetParam;
         my @Params = ('Name', 'Comment', 'ValidID');
@@ -130,7 +128,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # --
     # else ! print form 
+    # --
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'System state add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
