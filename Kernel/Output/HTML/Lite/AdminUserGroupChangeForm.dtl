@@ -1,8 +1,8 @@
 # --
 # AdminUserGroupChangeForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroupChangeForm.dtl,v 1.10 2003-11-26 00:45:57 martin Exp $
+# $Id: AdminUserGroupChangeForm.dtl,v 1.10.2.1 2004-04-01 13:25:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
+    <input type="hidden" name="Subaction" value="Change$QData{"Type"}">
     $Data{"OptionStrg0"}
     <br>
     <input class="button" type="submit" value="$Text{"submit"}">
