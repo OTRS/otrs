@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.9 2003-04-09 19:45:10 martin Exp $
+# $Id: AdminEmail.pm,v 1.10 2003-04-12 23:41:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminEmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,13 +66,14 @@ sub Run {
                 return $Output;
             }
         }
+        my %Bcc = ();
         # --
         # get user recipients address
         # --
         foreach ($Self->{ParamObject}->GetArray(Param => 'UserIDs')) {
             my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
             if ($UserData{UserEmail}) {
-                $Param{Bcc} .= "$UserData{UserEmail}, ";
+                $Bcc{$UserData{UserLogin}} = $UserData{UserEmail};
             }
         }
         # --
@@ -87,9 +88,12 @@ sub Run {
             foreach (@GroupMemberList) {
                 my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
                 if ($UserData{UserEmail}) {
-                    $Param{Bcc} .= "$UserData{UserEmail}, ";
+                    $Bcc{$UserData{UserLogin}} = $UserData{UserEmail};
                 }
             }
+        }
+        foreach (sort keys %Bcc) {
+            $Param{Bcc} .= "$Bcc{$_},";
         }
         # --
         # check needed stuff
