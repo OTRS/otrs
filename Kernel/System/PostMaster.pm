@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.3 2001-12-30 00:42:58 martin Exp $
+# $Id: PostMaster.pm,v 1.4 2002-01-01 20:40:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -124,6 +124,8 @@ if ($Tn && $TicketID) {
             ArticleObject => $ArticleObject,
             TicketObject => $TicketObject,
             LogObject => $Self->{LogObject},
+            ConfigObject => $Self->{ConfigObject},
+            LoopProtectionObject => $Self->{LoopProtectionObject},
     );
     # check if it is possible to do the follow up
     my $QueueID = $TicketObject->GetQueueIDOfTicketID(

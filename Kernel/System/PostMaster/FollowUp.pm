@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.2 2001-12-30 00:42:58 martin Exp $
+# $Id: FollowUp.pm,v 1.3 2002-01-01 20:40:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -35,7 +35,7 @@ sub new {
 
     # check needed Objects
     foreach ('DBObject', 'ConfigObject', 'ArticleObject', 'TicketObject', 'LogObject', 'LoopProtectionObject') {
-        $Self->{$_} = $Param{$_} || die 'Got no $_';
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     return $Self;
