@@ -1,0 +1,222 @@
+# !/bin/sh
+# --
+# redhat-rcotrs - rc script of otrs for RedHat Linux
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002 Pablo Ruiz <pruiz@ip6seguridad.com>
+# --
+# $Id: redhat-rcotrs,v 1.1 2002-06-09 22:02:52 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+# chkconfig: 2345 92 92
+# description: Open Ticket Request System
+# config: /etc/sysconfig/otrs
+
+# load the configuration
+#
+test -r /etc/sysconfig/otrs && . /etc/sysconfig/otrs
+
+# 
+# if one of this is false, it will not be checked at the startup!
+# Note: (may be the database isn't on the same host! --> DB_RUNNING=0) 
+# 
+DB_RUNNING=1
+HTTP_RUNNING=1
+
+# 
+# check needed files
+# 
+OTRS_POSTMASTER=/opt/OpenTRS/bin/PostMaster.pl
+if ! test -r $OTRS_POSTMASTER; then
+    echo "Error: $OTRS_POSTMASTER not found!"
+    exit 5
+fi
+
+OTRS_SPOOLDIR=/opt/OpenTRS/var/spool
+if ! test -d $OTRS_SPOOLDIR; then
+    echo "Error: $OTRS_SPOOLDIR not found!"
+    exit 5
+fi
+
+OTRS_CHECKDB=/opt/OpenTRS/bin/CheckDB.pl
+if ! test -r $OTRS_CHECKDB; then
+    echo "Error: $OTRS_CHECKDB not found!"
+    exit 5
+fi
+ 
+
+# 
+# get host name
+#
+HOST=`hostname -f`
+prog="OpenTRS"
+# 
+# main part
+# 
+case "$1" in
+    # ------------------------------------------------------
+    # start
+    # ------------------------------------------------------
+    start)
+      echo $"Starting $prog.."
+
+      # --
+      # test if apache is running..
+      # --
+      if test $HTTP_RUNNING -gt 0; then
+	echo -n " Checking httpd ..."	
+        if service httpd status|grep "is running" > /dev/null 2>&1 ; then
+          echo " done."
+        else
+          echo "  failed!"
+          echo "  --> Please start the webserver at first! (service httpd start) <--"
+          exit 1
+        fi
+      else
+          echo " Disabled: httpd check!"
+      fi
+
+      # --
+      # check mysql, mysql init script does not have a status check...
+      # --
+      if test $DB_RUNNING -gt 0; then
+	echo -n " Checking MySQL ..."
+        if ps x|grep safe_mysqld|grep -v grep |grep safe_mysqld > /dev/null 2>&1 ; then 
+          echo " done."
+        else 
+          echo " failed."
+          echo "  --> Please start the database at first! (service mysql start) <--"
+          exit 1;
+        fi
+      else 
+          echo " Disabled: mysql check!"
+      fi
+
+      # --
+      # database connect
+      # --
+      echo -n " Checking database connect... "
+      if ! $OTRS_CHECKDB; then
+          echo " Error! "
+	  echo "  May your database isn't configured yet? "
+          echo ""
+          echo " Try the web installer to configure your database: "
+          echo ""
+          echo "     -->> http://$HOST/otrs/installer.pl <<-- "
+          echo ""                               
+          echo " or configure your database with README.database (DB - Setup Example)    "
+          exit 1;
+      else 
+          echo " done."
+      fi
+
+      # --
+      # disable PostMaster.pl
+      # --
+      echo -n " Enable $OTRS_POSTMASTER ..."
+      if chmod 755 $OTRS_POSTMASTER; then
+          echo " done."
+      else
+          echo " failed."
+      fi
+
+      # --
+      # check otrs spool dir
+      # --
+      echo -n " Checking otrs spool dir... "
+      for i in $OTRS_SPOOLDIR/* ; do
+          # process old emails
+          echo $i | grep -v '*' >> /dev/null && \
+            echo "" && \
+            echo -n "   Starting otrs PostMaster... ($i) " && \
+            cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 && \
+            echo -n "remove email... " && \
+            (rm $i || echo "failed") 
+      done
+      echo " done."
+     
+      echo ""
+      echo "  -->> http://$HOST/otrs/index.pl <<-- "
+      echo $"Final start of $prog.. done"
+    ;;
+    # ------------------------------------------------------
+    # stop
+    # ------------------------------------------------------
+    stop)
+      echo "Shutting down OpenTRS "
+
+      # --
+      # disable PostMaster.pl
+      # --
+      echo -n " Disable $OTRS_POSTMASTER ..."
+      if chmod 644 $OTRS_POSTMASTER; then
+          echo " done."
+      else
+          echo " failed."
+      fi
+
+      echo $"Final shutdown of $prog.. done"
+    ;;
+    # ------------------------------------------------------
+    # restart
+    # ------------------------------------------------------
+    restart)
+      $0 stop  
+      $0 start
+      # Remember status and be quiet
+    ;;
+    # ------------------------------------------------------
+    # status
+    # ------------------------------------------------------
+    status) 
+      # --
+      # httpd
+      # --
+      service httpd status
+
+      # --
+      # mysql
+      # --
+      service mysql status
+      # --
+      # db check
+      # --
+      echo -n "Checking database connect... "
+      if ! $OTRS_CHECKDB; then
+          echo " Error! "
+	  echo " May your database isn't configured yet? "
+      else
+          echo "done."
+      fi
+
+      # --
+      # postmaster check
+      # --
+      echo -n "Checking $OTRS_POSTMASTER ... "
+      if test -x $OTRS_POSTMASTER; then
+          echo "(activ) done."
+      else
+          echo "(not activ) failed."
+      fi
+
+      # --
+      # spool dir
+      # --
+      echo -n "Checking otrs spool dir... "
+      for i in $OTRS_SPOOLDIR/* ; do
+          # echo old emails
+          echo $i | grep -v '*' > /dev/null && \
+            echo "" && \
+            echo -n " (message:$i) found! " 
+      done
+      echo "done."
+    ;;
+    *)
+    echo "Usage: $0 {start|stop|status|restart}"
+    exit 1
+esac
+
+#
+
