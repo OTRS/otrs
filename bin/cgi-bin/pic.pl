@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OpenTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.1 2002-04-30 00:16:15 martin Exp $
+# $Id: pic.pl,v 1.2 2002-05-05 15:56:42 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,15 +25,9 @@ use lib '../..';
 
 use strict;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+use vars qw($VERSION $Debug);
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
-
-my $Debug = 0;
-
-#use Apache ();
-#use Apache::DBI ();
-#Apache::DBI->connect_on_init('DBI:mysql:OpenTRS', 'root');
 
 # --
 # all OpenTRS modules
