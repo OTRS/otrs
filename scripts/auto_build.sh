@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.9 2002-10-29 22:57:08 martin Exp $
+# $Id: auto_build.sh,v 1.10 2003-01-05 23:49:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.9 $>"
-echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.10 $>"
+echo "Copyright (c) 2002-2003 Martin Edenhofer <martin@otrs.org>"
 
 
 PATH_TO_CVS_SRC=$1
@@ -29,7 +29,8 @@ PRODUCT=OTRS
 VERSION=$2
 RELEASE=$3
 #ARCHIVE_DIR="otrs-$VERSION-$RELEASE"
-ARCHIVE_DIR="OpenTRS"
+#ARCHIVE_DIR="OpenTRS"
+ARCHIVE_DIR="otrs"
 PACKAGE=otrs
 PACKAGE_BUILD_DIR="/tmp/$PACKAGE-build"
 PACKAGE_DEST_DIR="/tmp/$PACKAGE-packages"
@@ -89,10 +90,16 @@ rm -rf $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR
 mkdir $PACKAGE_DEST_DIR/RPMS
 mkdir $PACKAGE_DEST_DIR/RPMS/suse
+mkdir $PACKAGE_DEST_DIR/RPMS/suse/7.3
+mkdir $PACKAGE_DEST_DIR/RPMS/suse/8.x
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat
+mkdir $PACKAGE_DEST_DIR/RPMS/redhat/7.x
 mkdir $PACKAGE_DEST_DIR/SRPMS
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse
+mkdir $PACKAGE_DEST_DIR/SRPMS/suse/7.3
+mkdir $PACKAGE_DEST_DIR/SRPMS/suse/8.x
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat
+mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/7.x
 
 # --
 # build 
@@ -129,8 +136,22 @@ for i in aux log out tex; do
 done;
 rm -rf doc/screenshots
 rm -rf doc/manual/screenshots
+# remove doc stuff
+rm -rf doc/manual
 # remove swap stuff
 find -name ".#*" | xargs rm -rf
+# remove Kernel/Config.pm if exists
+rm -rf Kernel/Config.pm 
+
+# build html docu
+$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC > /dev/null
+mkdir doc/manual
+mkdir doc/manual/html
+mkdir doc/manual/pdf
+mkdir doc/manual/sgml
+cp -R /tmp/OTRSDOC-package/html/* doc/manual/html/
+cp -R /tmp/OTRSDOC-package/pdf/* doc/manual/pdf/
+cp -R /tmp/OTRSDOC-package/sgml/* doc/manual/sgml/
 
 # --
 # create tar
@@ -157,8 +178,8 @@ cat $ARCHIVE_DIR/scripts/suse-otrs.spec | sed "s/^Version:.*/Version:      $VERS
 rpm -ba --clean $specfile || exit 1;
 rm -f $specfile
 
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/8.x/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/8.x/
 
 # --
 # build SuSE 7.3 rpm 
@@ -168,8 +189,8 @@ cat $ARCHIVE_DIR/scripts/suse-otrs-7.3.spec | sed "s/^Version:.*/Version:      $
 rpm -ba --clean $specfile || exit 1;
 rm -f $specfile
 
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/7.3/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/7.3/
 
 # --
 # build Redhat 7.x rpm
@@ -181,8 +202,8 @@ rpm -ba --clean $specfile || exit 1;
 rm -f $specfile
 rm -f ~/.rpmmacros
 
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/redhat/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/redhat/
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/redhat/7.x/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/redhat/7.x/
 
 # --
 # stats
