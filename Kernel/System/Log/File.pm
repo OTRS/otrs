@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: File.pm,v 1.1 2002-08-13 15:01:26 martin Exp $
+# $Id: File.pm,v 1.2 2002-09-01 19:44:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Log::File;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -50,13 +50,14 @@ sub Log {
     my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+1);
     my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+2);
     my ($Package3, $Filename3, $Line3, $Subroutine3) = caller($Caller+3);
-    if (!$Subroutine3) {
-      $Subroutine3 = $0;
+    if (!$Subroutine2) {
+      $Subroutine2 = $0;
     }
     # --
     # open logfile
     # --
     if (open (LOGFILE, ">> $Self->{LogFile}")) {
+        print LOGFILE "[".localtime()."]";
         if ($Priority =~ /debug/i) {
             print LOGFILE "[Debug][$Subroutine2][$Line1] $MSG\n";
         }
@@ -71,6 +72,7 @@ sub Log {
             # print error messages also to STDERR
             # --
             my $PID = $$;
+            print STDERR "[".localtime()."]\n";
             print STDERR "[$Self->{LogPrefix}-$PID][Error][1:$Subroutine3][Line:$Line2]\n";
             print STDERR "[$Self->{LogPrefix}-$PID][Error][0:$Subroutine2][Line:$Line1] $MSG\n";
             # --
