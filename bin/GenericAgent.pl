@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.8 2002-11-24 23:49:59 martin Exp $
+# $Id: GenericAgent.pl,v 1.9 2003-01-05 13:59:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use lib "$Bin/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -56,41 +56,80 @@ use Kernel::Config::GenericAgent qw(%Jobs);
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-GenericAgent.pl',
+    LogPrefix => 'OTRS-GenericAgent',
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 
+# --
+# process all jobs
+# --
 foreach my $Job (keys %Jobs) {
     print "$Job:\n";
-    # get tickets w
-    my %Tickets = $CommonObject{QueueObject}->GetTicketIDsByQueue(
-        %{$Jobs{$Job}},
-    );
-    # set new ticket properties
+    # --
+    # get regular tickets 
+    # --
+    my %Tickets = ();
+    if (! $Jobs{$Job}->{Escalation}) {
+        %Tickets = $CommonObject{QueueObject}->GetTicketIDsByQueue(
+            %{$Jobs{$Job}},
+        );
+    }
+    # --
+    # escalation tickets
+    # --
+    else {
+        if (! $Jobs{$Job}->{Queue}) {
+            my @Tickets = $CommonObject{TicketObject}->GetOverTimeTickets();
+            foreach my $Data (@Tickets) {
+                $Tickets{$Data->{TicketID}} = $Data->{TicketNumber};
+            }
+        }
+        else {
+            my @Tickets = $CommonObject{TicketObject}->GetOverTimeTickets();
+            foreach my $Data (@Tickets) {
+                if ($Data->{Queue} eq $Jobs{$Job}->{Queue}) {
+                    $Tickets{$Data->{TicketID}} = $Data->{TicketNumber};
+                }
+            }
+        }
+    }
+    # --
+    # process each ticket 
+    # --
     foreach (keys %Tickets) {
-        print "* $Tickets{$_} ($_) \n";
-        # --
-        # move ticket
-        # --
-        if ($Jobs{$Job}->{New}->{Queue}) {
-          print "  - Move Ticket to Queue $Jobs{$Job}->{New}->{Queue}\n";
-          $CommonObject{TicketObject}->MoveByTicketID(
+        Run($Job, $_, $Tickets{$_});
+    }
+}
+# --
+# process each ticket 
+# --
+sub Run {
+    my $Job = shift;
+    my $TicketID = shift;
+    my $TicketNumber = shift;
+    print "* $TicketNumber ($TicketID) \n";
+    # --
+    # move ticket
+    # --
+    if ($Jobs{$Job}->{New}->{Queue}) {
+        print "  - Move Ticket to Queue $Jobs{$Job}->{New}->{Queue}\n";
+        $CommonObject{TicketObject}->MoveByTicketID(
             QueueID => $CommonObject{QueueObject}->QueueLookup(Queue=>$Jobs{$Job}->{New}->{Queue}),
             UserID => $UserIDOfGenericAgent,
-            TicketID => $_,
-          );
-        }
-        # --
-        # add note if wanted
-        # --
-        if ($Jobs{$Job}->{New}->{Note}->{Body}) {
-          print "  - Add note\n";
-          $CommonObject{TicketObject}->CreateArticle(
-            TicketID => $_,
-            ArticleType => 'note-internal',
+            TicketID => $TicketID,
+        );
+    }
+    # --
+    # add note if wanted
+    # --
+    if ($Jobs{$Job}->{New}->{Note}->{Body}) {
+        print "  - Add note\n";
+        $CommonObject{TicketObject}->CreateArticle(
+            TicketID => $TicketID,
+            ArticleType => $Jobs{$Job}->{New}->{Note}->{ArticleType} || 'note-internal',
             SenderType => 'agent',
             From => $Jobs{$Job}->{New}->{Note}->{From} || 'GenericAgent',
             Subject => $Jobs{$Job}->{New}->{Note}->{Subject} || 'Note',
@@ -98,50 +137,58 @@ foreach my $Job (keys %Jobs) {
             UserID => $UserIDOfGenericAgent,
             HistoryType => 'AddNote',
             HistoryComment => 'Note added.',
-          );
-        }
-        # --   
-        # set new state
-        # --
-        if ($Jobs{$Job}->{New}->{State}) {
-          print "  - set state to $Jobs{$Job}->{New}->{State}\n";
-          $CommonObject{TicketObject}->SetState(
-            TicketID => $_,
+        );
+    }
+    # --   
+    # set new state
+    # --
+    if ($Jobs{$Job}->{New}->{State}) {
+        print "  - set state to $Jobs{$Job}->{New}->{State}\n";
+        $CommonObject{TicketObject}->SetState(
+            TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             State => $Jobs{$Job}->{New}->{State}, 
-          );
-        }
-        # --
-        # set new owner
-        # --
-        if ($Jobs{$Job}->{New}->{Owner}) {
-          print "  - set owner to $Jobs{$Job}->{New}->{Owner}\n";
-          $CommonObject{TicketObject}->SetOwner(
-            TicketID => $_,
+        );
+    }
+    # --
+    # set new owner
+    # --
+    if ($Jobs{$Job}->{New}->{Owner}) {
+        print "  - set owner to $Jobs{$Job}->{New}->{Owner}\n";
+        $CommonObject{TicketObject}->SetOwner(
+            TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             NewUser => $Jobs{$Job}->{New}->{Owner},
-          );
-        }
-        # --
-        # set new lock 
-        # --
-        if ($Jobs{$Job}->{New}->{Lock}) {
-          print "  - set lock to $Jobs{$Job}->{New}->{Lock}\n";
-          $CommonObject{TicketObject}->SetLock(
-            TicketID => $_,
+        );
+    }
+    # --
+    # set new lock 
+    # --
+    if ($Jobs{$Job}->{New}->{Lock}) {
+        print "  - set lock to $Jobs{$Job}->{New}->{Lock}\n";
+        $CommonObject{TicketObject}->SetLock(
+            TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             Lock => $Jobs{$Job}->{New}->{Lock},
-          );
-        }
-        # --
-        # delete ticket
-        # --
-        if ($Jobs{$Job}->{New}->{Delete}) {
-          print "  - delete ticket_id $_\n";
-          $CommonObject{TicketObject}->DeleteTicket(
-              UserID => $UserIDOfGenericAgent, 
-              TicketID => $_,
-          );
-        }
+        );
+    }
+    # --
+    # delete ticket
+    # --
+    if ($Jobs{$Job}->{New}->{Delete}) {
+        print "  - delete ticket_id $TicketID\n";
+        $CommonObject{TicketObject}->DeleteTicket(
+            UserID => $UserIDOfGenericAgent, 
+            TicketID => $TicketID,
+        );
+    }
+    # --
+    # cmd
+    # --
+    if ($Jobs{$Job}->{New}->{CMD}) {
+        print "  - call cmd ($Jobs{$Job}->{New}->{CMD}) for ticket_id $_\n";
+        system("$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID ");
     }
 }
+# --
+
