@@ -2,7 +2,7 @@
 # Test.pm - a simple test module
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Test.pm,v 1.2 2001-12-05 19:18:19 martin Exp $
+# $Id: Test.pm,v 1.3 2001-12-21 17:57:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,8 @@ package Kernel::Modules::Test;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
+$VERSION = '$Revision: 1.3 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub new {
@@ -41,7 +41,7 @@ sub Run {
     my $Output = $Self->{LayoutObject}->Header( Title => 'OpenTRS Test Page' );
 
     # get test page 
-    $Output .= $Self->{LayoutObject}->Test();
+    $Output .= $Self->{LayoutObject}->Test(%Param);
 
     # get test page footer
     $Output .= $Self->{LayoutObject}->Footer();
