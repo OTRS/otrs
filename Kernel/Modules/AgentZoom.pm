@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.60 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentZoom.pm,v 1.61 2004-04-29 10:04:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -272,8 +272,10 @@ sub MaskAgentZoom {
         my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
         $TmpSubject =~ s/^..: //;
         $TmpSubject =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
+        my $TitleShort = $Self->{LayoutObject}->Ascii2Html(Text => $Article{From}, Max => 20).': '.$Self->{LayoutObject}->Ascii2Html(Text => $TmpSubject, Max => 22).' - $TimeLong{"'.$Article{Created}.'"}';
+        my $Title = $Self->{LayoutObject}->Ascii2Html(Text => $Article{From}, Max => 50).': '.$Self->{LayoutObject}->Ascii2Html(Text => $TmpSubject, Max => 200).' - $TimeLong{"'.$Article{Created}.'"}';
         $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
-        $ThreadStrg .= '<div title="'.$Self->{LayoutObject}->Ascii2Html(Text => $TmpSubject, Max => 200).' - $TimeLong{"'.$Article{Created}.'"}">';
+        $ThreadStrg .= '<div title="'.$Title.'">';
         if ($LastSenderType ne $Article{SenderType}) {
             $Counter .= "&nbsp;&nbsp;";
             $Space = "$Counter |--&gt;";
@@ -298,7 +300,7 @@ sub MaskAgentZoom {
              'onmouseover="window.status=\'$Text{"plain"}'.
              '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
-        $ThreadStrg .= '&nbsp;-&nbsp;'.$Self->{LayoutObject}->Ascii2Html(Text => $TmpSubject, Max => 20).'&nbsp;-&nbsp;$TimeLong{"'.$Article{Created}.'"}';
+        $ThreadStrg .= '&nbsp;-&nbsp;'.$TitleShort;
         # --
         # if this is the shown article -=> add </b>
         # --
