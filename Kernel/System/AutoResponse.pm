@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoResponse.pm,v 1.6 2004-01-10 15:49:45 martin Exp $
+# $Id: AutoResponse.pm,v 1.7 2004-01-25 23:54:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::AutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub AutoResponseAdd {
         " charset,  create_time, create_by, change_time, change_by)" .
         " VALUES " .
         " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', " .
-        " '$Param{Subject}', $Param{TypeID}, $Param{AddressID}, $Param{Charset}, " .
+        " '$Param{Subject}', $Param{TypeID}, $Param{AddressID}, '$Param{Charset}', " .
         " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
