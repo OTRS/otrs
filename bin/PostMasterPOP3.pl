@@ -3,7 +3,7 @@
 # PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.14 2004-09-29 09:32:31 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.15 2004-09-29 11:04:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -45,11 +45,11 @@ use Kernel::System::POP3Account;
 # get options
 # --
 my %Opts = ();
-getopt('upshd', \%Opts);
+getopt('upshdf', \%Opts);
 if ($Opts{'h'}) {
     print "PostMasterPOP3.pl <Revision $VERSION> - POP3 to OTRS\n";
     print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: PostMasterPOP3.pl -s <POP3-SERVER> -u <USER> -p <PASSWORD> [-d 1-2]\n";
+    print "usage: PostMasterPOP3.pl -s <POP3-SERVER> -u <USER> -p <PASSWORD> [-d 1-2] [-f force]\n";
     exit 1;
 }
 if (!$Opts{'t'}) {
@@ -76,10 +76,15 @@ $CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
 $CommonObject{POP3Account} = Kernel::System::POP3Account->new(%CommonObject);
 # MaxEmailSize
 my $MaxEmailSize = $CommonObject{ConfigObject}->Get('PostMasterPOP3MaxEmailSize') || 1024 * 6;
+# MaxPopEmailSession
+my $MaxPopEmailSession = $CommonObject{ConfigObject}->Get('PostMasterPOP3ReconnectMessage') || 20;
 # create pid lock
-if (!$CommonObject{PIDObject}->PIDCreate(Name => 'PostMasterPOP3')) {
-    print "Notice: PostMaster.pl is already running!\n";
+if (!$Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate(Name => 'PostMasterPOP3')) {
+    print "Notice: PostMasterPOP3.pl is already running!\n";
     exit 1;
+}
+elsif ($Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate(Name => 'PostMasterPOP3')) {
+    print "Notice: PostMasterPOP3.pl is already running but is starting again!\n";
 }
 # debug info
 if ($Opts{'d'} > 1) {
@@ -141,6 +146,8 @@ sub FetchMail {
     my $Host = $Param{Host};
     my $QueueID = $Param{QueueID} || 0;
     my $Trusted = $Param{Trusted} || 0;
+    my $FetchCounter = 0;
+    my $Reconnect = 0;
     # connect to host
     my $PopObject = Net::POP3->new($Host, Timeout => $Opts{'t'}, Debug => $Opts{'popd'});
     if (!$PopObject) {
@@ -161,9 +168,14 @@ sub FetchMail {
         return;
     }
     # fetch messages
-    my $FetchCounter = 0;
     if ($NOM > 0) {
         foreach my $Messageno ( sort { $a <=> $b } keys %{$PopObject->list()}) {
+            # check if reconnect is needed
+            if (($FetchCounter+1) > $MaxPopEmailSession) {
+                $Reconnect = 1;
+                print "Reconnect Session after $MaxPopEmailSession messages...\n";
+                last;
+            }
             print "Message $Messageno/$NOM ($User\@$Host)\n";
             # check message size
             my $MessageSize = int($PopObject->list($Messageno) / 1024);
@@ -205,5 +217,9 @@ sub FetchMail {
     }
     $PopObject->quit();
     print "Connection to $Host closed.\n\n";
+    # fetch again if still messages on the account
+    if ($Reconnect) {
+        FetchMail(%Param);
+    }
 }
 # --
