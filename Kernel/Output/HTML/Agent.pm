@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.109 2003-04-24 21:42:23 martin Exp $
+# $Id: Agent.pm,v 1.110 2003-04-30 15:19:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.109 $';
+$VERSION = '$Revision: 1.110 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1980,7 +1980,13 @@ sub AgentQueueListOption {
     }
     $Param{MoveQueuesStrg} = '<select name="'.$Param{Name}."\" $Size $Multiple $OnChangeSubmit>";
     my %UsedData = ();
-    my %Data = %{$Param{Data}};
+    my %Data = ();
+    if ($Param{Data}) {
+        %Data = %{$Param{Data}};
+    }
+    else {
+        return 'Need Data Ref in AgentQueueListOption()!';
+    }
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
       my @Queue = split(/::/, $Param{Data}->{$_});
       $UsedData{$Param{Data}->{$_}} = 1;
