@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.45 2003-06-02 21:45:10 martin Exp $
+# $Id: TODO,v 1.46 2003-08-23 13:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,6 @@
 1.2
 - prevent unauthorized person submit ticket via email
 - improve search with ticket-free-key (dropdown and free text field)!!
-- remove var/log/TicketCounter.log from CVS!
 - remove header/footer of spelling window
 - add pre-authentication patch of Phil Davis -
    http://lists.otrs.org/pipermail/dev/2003-April/000142.html
