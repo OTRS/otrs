@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.38 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentMove.pm,v 1.39 2004-11-26 13:02:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -148,7 +148,6 @@ sub Run {
             OldQueue => \@OldQueue,
             OldUser => \@OldUserInfo,
             MoveQueues => \%MoveQueues,
-            OwnerList => $Self->_GetUsers(),
             TicketID => $Self->{TicketID},
             NextStates => \%NextStates,
             TicketUnlock => $Self->{TicketUnlock},
@@ -228,7 +227,7 @@ sub Run {
     else {
         # error?!
         $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
-	$Output .= $Self->{LayoutObject}->Warning(
+        $Output .= $Self->{LayoutObject}->Warning(
             Message => "",
             Comment => 'Please contact your admin',
         );
@@ -271,80 +270,14 @@ sub AgentMove {
         Name => 'OldUserID',
         OnClick => "change_selected(2)",
     );
-    # add suffix for correct sorting
-    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-        $Data{$_} .= '::';
-    }
-    # build a href stuff
-    foreach my $ID (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-        $Data{$ID} =~ s/^(.*)::/$1/;
-        my @Queue = split(/::/, $Data{$ID});
-        $UsedData{$Data{$ID}} = 1;
-        my $UpQueue = $Data{$ID};
-        $UpQueue =~ s/^(.*)::.+?$/$1/g;
-        $Queue[$#Queue] = $Self->{LayoutObject}->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
-        my $Space = '|';
-        if ($#Queue == 0) {
-            $Space .= '--';
-        }
-        for (my $i = 0; $i < $#Queue; $i++) {
-#            $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-            if ($#Queue == 1) {
-                $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;|--';
-            }
-            elsif ($#Queue == 2 && $i == $#Queue-1) {
-                my $Hit = 0;
-                foreach (keys %Data) {
-                    my @Queue = split(/::/, $Data{$_});
-                    my $QueueName = '';
-                    for (my $i = 0; $i < $#Queue-1; $i++) {
-                        if (!$QueueName) {
-                            $QueueName .= $Queue[$i].'::';
-                        }
-#                        else {
-#                            $QueueName .= '::'.$Queue[$i];
-#                        }
-                    }
-#                    my $SecondLevel = $Queue[0].'::'.$Queue[1];
-#print STDERR "$Data{$ID} ($QueueName) $#Queue--\n";
-                    if ($#Queue == 1 && $QueueName && $Data{$ID} =~ /^$QueueName/) {
-#print STDERR "sub queue of $Data{$ID} ($QueueName) exists\n";
-                        $Hit = 1;
-                    }
-                }
-                if ($Hit) {
-                    $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--';
-                }
-                else {
-                    $Space .= '&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|--';
-                }
-            }
-        }
-        if ($UsedData{$UpQueue}) {
-#         $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$ID\">".
-#                $Queue[$#Queue].'</a><br>';
-         $Param{MoveQueuesStrg} .= "$Space<a href=\"\" onclick=\"document.compose.DestQueueID.value='$ID'; document.compose.submit(); return false;\">".
-                 $Queue[$#Queue].'</a>';
-            if ($LatestQueueID eq $ID) {
-                $Param{MoveQueuesStrg} .= '  <font color="red">--&gt; $Text{"Latest Queue!"} &lt;--</font>';
-            }
-            $Param{MoveQueuesStrg} .= '<br>';
-        }
-        delete $Data{$ID};
-    }
-    # --
     # build next states string
-    # --
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NewStateID',
         SelectedID => $Self->{NewStateID},
     );
-    # --
     # build owner string
-    # --
     $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-#        Data => $Param{OwnerList},
         Data => $Self->_GetUsers(QueueID => $Self->{DestQueueID}, AllUsers => $Self->{AllUsers}),
 #        Selected => $Param{OwnerID},
         Name => 'NewUserID',
@@ -371,14 +304,15 @@ sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
     # get users
-    my %ShownUsers = $Self->{UserObject}->UserList(
+    my %ShownUsers = ();
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
         Type => 'Long',
         Valid => 1,
     );
     # just show only users with selected custom queue
     if ($Param{QueueID} && !$Param{AllUsers}) {
         my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
-        foreach (keys %ShownUsers) {
+        foreach (keys %AllGroupsMembers) {
             my $Hit = 0;
             foreach my $UID (@UserIDs) {
                 if ($UID eq $_) {
@@ -386,11 +320,28 @@ sub _GetUsers {
                 }
             }
             if (!$Hit) {
-                delete $ShownUsers{$_};
+                delete $AllGroupsMembers{$_};
             }
         }
     }
     $ShownUsers{''} = '-';
+    # show all system users
+    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+        %ShownUsers = %AllGroupsMembers;
+    }
+    # show all users who are rw in the queue group
+    elsif ($Param{QueueID}) {
+        my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Param{QueueID});
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            GroupID => $GID,
+            Type => 'rw',
+            Result => 'HASH',
+            Cached => 1,
+        );
+        foreach (keys %MemberList) {
+            $ShownUsers{$_} = $AllGroupsMembers{$_};
+        }
+    }
     return \%ShownUsers;
 }
 # --
