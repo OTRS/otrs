@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.175 2004-12-02 09:29:52 martin Exp $
+# $Id: Defaults.pm,v 1.176 2004-12-23 06:04:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.175 $';
+$VERSION = '$Revision: 1.176 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -74,6 +74,10 @@ sub LoadDefaults {
     # AdminEmail
     # (Email of the system admin.)
     $Self->{AdminEmail} = 'admin@example.com';
+
+    # ProductName
+    # (Shown application name in frontend.)
+    $Self->{ProductName} = 'OTRS';
 
     # MIME-Viewer for online to html converter
     # (e. g. xlhtml (xls2html), http://chicago.sourceforge.net/xlhtml/)
@@ -1158,7 +1162,7 @@ $Data{"Signature"}
 
     # PostmasterFollowUpOnLockAgentNotifyOnlyToOwner
     # (Send agent follow up notification just to the owner if a
-    # ticket is unlocked. Normally it a ticket is unlocked, the
+    # ticket is unlocked. Normally if a ticket is unlocked, the
     # agent follow up notification get to all agents) [default: 0]
     $Self->{PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner} = 0;
 
@@ -1404,6 +1408,7 @@ $Data{"Signature"}
         Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         PrefKey => 'UserSendNewTicketNotification',
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{FollowUpNotify} = {
@@ -1515,6 +1520,7 @@ $Data{"Signature"}
         Desc => 'Select your frontend Theme.',
         Type => 'Generic',
         PrefKey => 'UserTheme',
+        Module => 'Kernel::Output::HTML::PreferencesTheme',
         Activ => 1,
     };
     $Self->{PreferencesGroups}->{QueueView} = {
@@ -1638,6 +1644,12 @@ Your OTRS Notification Master
     # logout.)
     $Self->{CustomerPanelLogoutURL} = '';
 #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+
+    # CustomerNotifyJustToRealCustomer
+    # (Send customer notifications just to mapped customer. Normally
+    # if no customer is mapped, the latest customer sender gets the
+    # notification.)
+    $Self->{CustomerNotifyJustToRealCustomer} = 0;
 
     # CustomerPanelPreApplicationModule
     # (Used for every request, if defined, the PreRun() function of
@@ -2272,13 +2284,22 @@ Your OTRS Notification Master
     #                                                     #
     # --------------------------------------------------- #
 
+    # Package::RepositoryRoot
+    # (get online repository list)
+    $Self->{'Package::RepositoryRoot'} = 'http://otrs.org/repository.xml';
+
+    # Package::RepositoryList
+    # (repository list)
     $Self->{'Package::RepositoryList'} = {
-        'http://otrs.org/online/' => 'http://otrs.org/online/',
-        'http://localhost/' => 'http://localhost/',
+        'ftp://ftp.otrs.org/pub/otrs/misc/packages/' => 'ftp://ftp.otrs.org/',
     };
 
+    # Package::Timeout
+    # (http/ftp timeout to get packages)
     $Self->{'Package::Timeout'} = 12;
 
+    # Package::Proxy
+    # (fetch packages via proxy)
 #    $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/';
 
     # --------------------------------------------------- #
@@ -2836,32 +2857,28 @@ Your OTRS Notification Master
             Prio => 400,
         },
     };
-    if ($Self->{'SMIME'}) {
-        $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
-            Group => ['admin'],
-            Description => 'Admin',
-            NavBarName => 'Admin',
-            NavBarModule => {
-                Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                Name => 'SMIME Certificates',
-                Block => 'Block3',
-                Prio => 500,
-            },
-        };
-    }
-    if ($Self->{'PGP'}) {
-        $Self->{'Frontend::Module'}->{'AdminPGP'} = {
-            Group => ['admin'],
-            Description => 'Admin',
-            NavBarName => 'Admin',
-            NavBarModule => {
-                Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                Name => 'PGP Keys',
-                Block => 'Block3',
-                Prio => 600,
-            },
-        };
-    }
+    $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'SMIME Certificates',
+            Block => 'Block3',
+            Prio => 500,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminPGP'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'PGP Keys',
+            Block => 'Block3',
+            Prio => 600,
+        },
+    };
     $Self->{'Frontend::Module'}->{'AdminState'} = {
         Group => ['admin'],
         Description => 'Admin',
@@ -3168,6 +3185,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.175 $ $Date: 2004-12-02 09:29:52 $
+$Revision: 1.176 $ $Date: 2004-12-23 06:04:30 $
 
 =cut
