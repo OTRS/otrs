@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.14 2003-12-07 23:56:15 martin Exp $
+# $Id: AdminQueue.pm,v 1.15 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,7 +70,7 @@ sub Run {
     if ($Param{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'QueueID') || '';
         my %QueueData = $Self->{QueueObject}->QueueGet(ID => $ID); 
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Queue change');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Queue');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(%Param, %QueueData);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -149,7 +149,7 @@ sub Run {
     }
     # else ! print form
     else {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Queue add');
+        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Queue');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentText.pm - to set the ticket free text
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.pm,v 1.4 2003-12-15 20:26:50 martin Exp $
+# $Id: AgentFreeText.pm,v 1.5 2003-12-29 17:25:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -108,7 +108,7 @@ sub Run {
     else {
         # print form
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Set Free Text');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Set Free Text');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(%Ticket);

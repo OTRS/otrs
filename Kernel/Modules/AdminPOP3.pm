@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3.pm,v 1.7 2003-12-07 23:56:15 martin Exp $
+# $Id: AdminPOP3.pm,v 1.8 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,7 +53,7 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{POP3Account}->POP3AccountGet(ID => $ID);
         my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Change POP3 Account');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(%Data, POP3AccountList => \%List);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -96,7 +96,7 @@ sub Run {
     # else ! print form 
     else {
         my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Add POP3 Account');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(POP3AccountList => \%List);
         $Output .= $Self->{LayoutObject}->Footer();

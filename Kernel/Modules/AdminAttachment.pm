@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachment.pm,v 1.6 2003-12-07 23:56:15 martin Exp $
+# $Id: AdminAttachment.pm,v 1.7 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,7 +57,7 @@ sub Run {
     if ($Param{Subaction} eq 'Change') {
         $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %ResponseData = $Self->{StdAttachmentObject}->StdAttachmentGet(ID => $Param{ID});
-        $Output = $Self->{LayoutObject}->Header(Title => 'Attachment change');
+        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Attachment change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(
             %ResponseData,  
@@ -134,7 +134,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Attachment add');
+        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Attachment add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(
             AttachmentIndex => \%AttachmentIndex,

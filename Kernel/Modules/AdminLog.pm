@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminLog.pm - provides a log view for admins
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.pm,v 1.6 2003-07-08 00:01:23 martin Exp $
+# $Id: AdminLog.pm,v 1.7 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminLog;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,7 +44,7 @@ sub Run {
     # --
     # print form
     # --
-    my $Output = $Self->{LayoutObject}->Header(Title => 'System Log');
+    my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System Log');
     $Output .= $Self->{LayoutObject}->AdminNavigationBar();
     my $LogData = $Self->{LogObject}->GetLog(Limit => 400);
     $Output .= $Self->MaskLog(Log => $LogData);

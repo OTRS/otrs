@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.48 2003-12-23 14:36:22 martin Exp $
+# $Id: AgentPhone.pm,v 1.49 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub Run {
     
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Phone call');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone call');
         # if there is no ticket id!
         if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
             # navigation bar
@@ -427,7 +427,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Phone call');
+            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone call');
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --

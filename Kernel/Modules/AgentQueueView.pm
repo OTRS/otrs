@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.48 2003-12-17 18:26:37 martin Exp $
+# $Id: AgentQueueView.pm,v 1.49 2003-12-29 17:25:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -110,6 +110,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->Header(
+        Area => 'Agent',
         Title => 'QueueView',
         Refresh => $Refresh,
     );

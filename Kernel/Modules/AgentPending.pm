@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.12 2003-12-07 23:56:15 martin Exp $
+# $Id: AgentPending.pm,v 1.13 2003-12-29 17:25:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -102,7 +102,7 @@ sub Run {
             TicketID => $Self->{TicketID},
         );
         # html header
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Pending');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Pending');
         # get lock state
         if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
             $Self->{TicketObject}->SetLock(

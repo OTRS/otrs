@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.28 2003-12-07 23:56:15 martin Exp $
+# $Id: AgentBounce.pm,v 1.29 2003-12-29 17:33:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub Run {
     # --
     foreach (qw(ArticleID TicketID QueueID)) {
         if (! defined $Self->{$_}) {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Bounce');
+            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Bounce');
             $Output .= $Self->{LayoutObject}->Error(
               Message => "$_ is needed!",
               Comment => 'Please contact your admin',
@@ -82,7 +82,7 @@ sub Run {
     # prepare salutation
     # --
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Bounce');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Bounce');
         # --
         # check if plain article exists
         # --

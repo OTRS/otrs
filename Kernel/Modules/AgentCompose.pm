@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.53 2003-12-07 23:56:15 martin Exp $
+# $Id: AgentCompose.pm,v 1.54 2003-12-29 17:33:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -92,7 +92,7 @@ sub Form {
     # -- 
     # start with page ...
     # --
-    $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose');
     # -- 
     # check needed stuff
     # --

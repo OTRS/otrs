@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.16 2003-05-21 13:44:19 martin Exp $
+# $Id: Header.dtl,v 1.17 2003-12-29 17:23:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,6 +35,11 @@ Pragma: no-cache
 # --
 <dtl if ($Data{"Refresh"} ne "") { $Data{"MetaHttpEquiv"} = "<meta http-equiv="refresh" content="$Data{"Refresh"}">"; }>
 # --
+# check title
+# --
+<dtl if ($Data{"Area"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"}"; }>
+<dtl if ($Data{"Title"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"} :: $Text{"$Data{"Title"}"}"; }>
+# --
 # create $Data{"UserLoginTop"} if user is loged in
 # --
 <dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
@@ -42,7 +47,7 @@ Pragma: no-cache
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>OTRS :: $Text{"$Data{"Title"}"}</title>
+    <title>OTRS :: $Data{"TitleArea"}</title>
 <style type="text/css">
 <!--
 # body

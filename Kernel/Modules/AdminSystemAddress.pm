@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddress.pm,v 1.10 2003-12-07 23:56:15 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.11 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,7 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{SystemAddress}->SystemAddressGet(ID => $ID);
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Change system address');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System address');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -95,7 +95,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'add system address');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System address');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();

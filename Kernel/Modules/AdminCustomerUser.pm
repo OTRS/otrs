@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.7 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.8 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.8 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub Run {
         # --
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
         my %UserList = $Self->{CustomerUserObject}->CustomerUserList(Valid => 0);
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Customer user update');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminCustomerUserForm(%UserData, UserList => \%UserList);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -169,7 +169,7 @@ sub Run {
     # else ! print form
     # --
     else {
-        my $Output = $Self->{LayoutObject}->Header(Title => 'CustomerUser add');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my %UserList = $Self->{CustomerUserObject}->CustomerUserList(Valid => 0);
         $Output .= $Self->{LayoutObject}->AdminCustomerUserForm(UserList => \%UserList);

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.13 2003-07-08 00:01:23 martin Exp $
+# $Id: AdminSession.pm,v 1.14 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -62,7 +62,7 @@ sub Run {
     }
     # else, show session list 
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Session Management');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Session Management');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my @List = $Self->{SessionObject}->GetAllSessionIDs();
         my $Table = '';

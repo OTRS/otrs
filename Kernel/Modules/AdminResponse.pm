@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.11 2003-12-07 23:56:15 martin Exp $
+# $Id: AdminResponse.pm,v 1.12 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,7 +71,7 @@ sub Run {
     if ($Param{Subaction} eq 'Change') {
         $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %ResponseData = $Self->{StdResponseObject}->StdResponseGet(ID => $Param{ID});
-        $Output = $Self->{LayoutObject}->Header(Title => 'Response change');
+        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(
             %ResponseData, 
@@ -147,7 +147,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Response add');
+        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(
             Subaction => 'Add',

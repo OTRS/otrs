@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.18 2003-04-27 16:10:04 martin Exp $
+# $Id: AgentPreferences.pm,v 1.19 2003-12-29 17:25:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,7 +79,7 @@ sub Form {
     # --   
     # get header
     # --
-    $Output .= $Self->{LayoutObject}->Header(Title => 'Preferences');
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Preferences');
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.7 2003-07-08 00:01:23 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.8 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ sub Run {
     # print form
     # --
     if ($Subaction eq '' || !$Subaction) {
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Select box');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->MaskSelectBoxForm();
         $Output .= $Self->{LayoutObject}->Footer();
@@ -58,7 +58,7 @@ sub Run {
     elsif ($Subaction eq 'Select') {
         my $SQL = $Self->{ParamObject}->GetParam(Param => 'SQL') || '';
         my $Max = $Self->{ParamObject}->GetParam(Param => 'Max') || '';
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Select box');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         if ($Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Max)) {
           my @Data = ();

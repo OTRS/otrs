@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.8 2003-07-08 00:32:21 martin Exp $
+# $Id: SystemStats.pm,v 1.9 2003-12-29 17:30:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $ ';
+$VERSION = '$Revision: 1.9 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,7 +60,7 @@ sub Run {
             push (@Index, $_);
         }
         # print page ...
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Stats',);
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Overview');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         

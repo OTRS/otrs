@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.1 2003-11-26 00:50:40 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.2 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
 
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'User') {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'User <-> Group');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $ID);
@@ -80,7 +80,7 @@ sub Run {
     }
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Group') {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'User <-> Group');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);
@@ -174,7 +174,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'User <-> Group');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);

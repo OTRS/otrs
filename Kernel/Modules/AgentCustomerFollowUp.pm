@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.3 2003-07-10 02:25:58 martin Exp $
+# $Id: AgentCustomerFollowUp.pm,v 1.4 2003-12-29 17:25:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,7 +67,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Compose Follow up');
+            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose Follow up');
             # get user lock data
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             # build NavigationBar 

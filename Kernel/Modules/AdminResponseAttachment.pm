@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseAttachment.pm,v 1.4 2003-12-07 23:56:15 martin Exp $
+# $Id: AdminResponseAttachment.pm,v 1.5 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,7 +59,7 @@ sub Run {
 
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'Response') {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Response <-> Queue');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get StdResponses data 
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
@@ -83,7 +83,7 @@ sub Run {
     }
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Attachment') {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Response <-> Queue');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get queue data
         my %AttachmentData = $Self->{DBObject}->GetTableData(
@@ -138,7 +138,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Response <-> Attachment');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Attachment');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(
             FirstData => \%StdResponses, 

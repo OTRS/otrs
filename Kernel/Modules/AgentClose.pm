@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.29 2003-12-07 23:56:15 martin Exp $
+# $Id: AgentClose.pm,v 1.30 2003-12-29 17:33:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,7 +96,7 @@ sub Run {
         # -- 
         # html header
         # --
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Close');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Close');
         # --
         # get lock state
         # --

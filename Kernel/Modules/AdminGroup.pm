@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGroup.pm,v 1.11 2003-12-07 23:56:15 martin Exp $
+# $Id: AdminGroup.pm,v 1.12 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,7 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %GroupData = $Self->{GroupObject}->GroupGet(ID => $ID);
-        $Output = $Self->{LayoutObject}->Header(Title => 'Group change');
+        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(
             %GroupData, 
@@ -98,7 +98,7 @@ sub Run {
     }
     # else ! print form 
     else {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Group add');
+        $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Group');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(GroupList => \%Groups);
         $Output .= $Self->{LayoutObject}->Footer();

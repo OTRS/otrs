@@ -2,7 +2,7 @@
 # Kernel/Modules/Admin.pm - provides admin main page 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.6 2003-03-23 21:34:18 martin Exp $
+# $Id: Admin.pm,v 1.7 2003-12-29 17:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,7 +44,7 @@ sub Run {
     my $Output;
 
     # build output    
-    $Output .= $Self->{LayoutObject}->Header(Title => "Admin Area");
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Admin');
     $Output .= $Self->{LayoutObject}->AdminNavigationBar();
     $Output .= $Self->{LayoutObject}->Footer();
 
