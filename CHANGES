@@ -2,22 +2,33 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.6 2002-06-09 22:31:49 martin Exp $
+# $Id: CHANGES,v 1.7 2002-06-17 07:47:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-0.5 BETA6 (2002-06-??)
+0.5 BETA6 (2002-06-17)
+ - added AgentBounce module
+ - moved from Unix::Syslog to Sys::Syslog (Kernel::System::Log) because Sys::Syslog 
+    comes with Perl (not an additional CPAN module)!
  - added redhat-rcotrs script (thanks to Pablo Ruiz Garcia)
- - moved all OpenTRS application required modules to two new files, Kernel/Config/Modules.pm 
-    (all used OpenTRS modules) and Kernel/Config/ModulesCustom.pm (all add-on application 
-    modules, written by someone else) to be release independently with Third Party modules 
-    for OpenTRS. 
+ - added OpenTRS cronjobs var/cron/[aaa_base|fetchmail|postmaster|session|unlock]
+     * aaa_base -> cronjob settings like MAILTO="root@loaclhost"
+     * fetchmail -> cronjob for fetchmail
+     * postmaster -> cleanup for not processed email
+     * session -> cleanup for old sessions
+     * unlock -> ticket unlock 
+ - added OpenTRS cronjobs support (start/stop) to scripts/suse-rcotrs
+ - moved all OpenTRS application required modules to two new files, 
+     * Kernel/Config/Modules.pm (all used OpenTRS modules) 
+     * Kernel/Config/ModulesCustom.pm (all add-on application modules, written by 
+        someone else, e. g. customer db or accounting system) 
+    to be release independently with Third Party modules for OpenTRS. 
  - added $Env{"Product"} $Env{"Version"} (e. g. OpenTRS 0.5 Beta6) as dtl environment
     variable. Source is $OTRS_HOME/RELEASE. 
- - added display support for HTML (only) e-mails 
+ - added display support for HTML-only e-mails 
  - added generic database and webserver to scripts/suse-rcotrs script 
  - added PostgreSQL (7.2 or higher) support (use OpenTRS-schema.postgresql.sql) 
  - fixed bug[12] fetchmail lock problem - http://bugs.otrs.org/show_bug.cgi?id=12 
