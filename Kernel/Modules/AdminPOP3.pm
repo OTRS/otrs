@@ -1,11 +1,11 @@
 # --
-# Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3.pm,v 1.8 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminPOP3.pm,v 1.9 2004-09-04 21:45:10 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -51,12 +51,20 @@ sub Run {
     # get data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my %Data = $Self->{POP3Account}->POP3AccountGet(ID => $ID);
-        my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->_Mask(%Data, POP3AccountList => \%List);
-        $Output .= $Self->{LayoutObject}->Footer();
+        my $Delete = $Self->{ParamObject}->GetParam(Param => 'Delete') || '';
+        if ($Delete) {
+            $Self->{POP3Account}->POP3AccountDelete(ID => $ID);
+            return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
+        }
+        else {
+            my %Data = $Self->{POP3Account}->POP3AccountGet(ID => $ID);
+            my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
+            $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
+            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+            $Output .= $Self->_Mask(%Data, POP3AccountList => \%List);
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
     }
     # update action
     elsif ($Self->{Subaction} eq 'ChangeAction') {
@@ -64,8 +72,8 @@ sub Run {
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
-        if ($Self->{POP3Account}->POP3AccountUpdate(%GetParam, UserID => $Self->{UserID})) { 
-            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
+        if ($Self->{POP3Account}->POP3AccountUpdate(%GetParam, UserID => $Self->{UserID})) {
+            return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
@@ -74,6 +82,7 @@ sub Run {
             );
             $Output .= $Self->{LayoutObject}->Footer();
         }
+        return $Output;
     }
     # add new queue
     elsif ($Self->{Subaction} eq 'AddAction') {
@@ -82,7 +91,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
         if ($Self->{POP3Account}->POP3AccountAdd(%GetParam, UserID => $Self->{UserID}) ) {
-             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
+             return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
@@ -92,22 +101,23 @@ sub Run {
             );
             $Output .= $Self->{LayoutObject}->Footer();
         }
+        return $Output;
     }
-    # else ! print form 
+    # else ! print form
     else {
         my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->_Mask(POP3AccountList => \%List);
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 # --
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
-    
+
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {

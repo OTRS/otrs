@@ -2,7 +2,7 @@
 # AdminPOP3Form.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3Form.dtl,v 1.13 2004-05-10 12:51:51 martin Exp $
+# $Id: AdminPOP3Form.dtl,v 1.14 2004-09-04 21:43:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,7 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
+<tr>
   <td align="left" colspan="2" class="table0">
     <b>$Env{"Box0"}$Text{"POP3 Account Management"}$Env{"Box1"}</b>
   </td>
@@ -20,24 +20,25 @@
 
   <table width="100%" cellspacing="2" cellpadding="3">
   <tr>
-    <td class="table3">$Text{"Change"}:</td> 
+    <td class="table3">$Text{"Change"}:</td>
   </tr>
   <tr>
     <td align="left">
-    
+
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
     $Data{"POP3AccountOption"}
     <br>
-    <input class="button" type="submit" value="$Text{"change"}">
+    <input class="button" type="submit" name="Change" value="$Text{"Change"}">
+    <input class="button" type="submit" name="Delete" value="$Text{"Delete"}">
     </form>
 
     </td>
   </tr>
   </table>
 
-  </td> 
+  </td>
   <td width="60%" class="table1">
 
   <table width="100%" cellspacing="2" cellpadding="3">
