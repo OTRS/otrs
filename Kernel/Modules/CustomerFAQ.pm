@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQ.pm,v 1.3 2004-04-01 09:20:50 martin Exp $
+# $Id: CustomerFAQ.pm,v 1.4 2004-04-27 15:03:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -105,7 +105,7 @@ sub Run {
                 foreach (keys %Data) {
                     $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
                 }
-                $AllArticle{$Data{ID}} = "<a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>";
+                $AllArticle{$Data{ID}} = "<a href=\"\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_\">";
                 $AllArticle{$Data{ID}} .= "[$Data{Language}/$Data{Category}] $Data{Subject} (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})</a><br>";
             }
             foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
