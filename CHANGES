@@ -2,13 +2,18 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.45 2003-01-05 23:45:04 martin Exp $
+# $Id: CHANGES,v 1.46 2003-01-09 20:52:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.0 RC1 (2003-01-??)
+ - (2003/01/09) added AgentTicketPrint (Ticket Print View)
+ - (2003/01/09) improved Kernel::System::Ticket::IndexAccelerator::RuntimeDB
+    and StaticDB (for locked tickets).
+ - (2003/01/09) removed Kernel::System::Ticket::IndexAccelerator::FS 
+    because RuntimeDB and StaticDB is enough
  - (2003/01/05) improved fulltext search (added ticket state search option)
  - (2003/01/05) added CMD option to bin/GenericAgent.pl (so you can
     execute own programs on GenericAgent.pl actions - e. g. send 
