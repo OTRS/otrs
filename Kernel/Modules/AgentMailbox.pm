@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.13 2003-01-03 16:17:30 martin Exp $
+# $Id: AgentMailbox.pm,v 1.14 2003-01-03 21:36:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -123,8 +123,8 @@ sub Run {
             $Message = 'New message!';
         }
         if ($Self->{Subaction} eq 'New') {
-            if (($LastSenderID{$Article{TicketID}} ne $Self->{UserID} &&
-               $LastSenderType{$Article{TicketID}} eq 'customer')) { 
+            if ($LastSenderID{$Article{TicketID}} ne $Self->{UserID} ||
+               $LastSenderType{$Article{TicketID}} eq 'customer') { 
                  $Shown = 1;
             }
         }
@@ -168,4 +168,3 @@ sub Run {
 # --
 
 1;
-
