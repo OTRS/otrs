@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.14 2004-01-15 00:33:49 martin Exp $
+# $Id: CustomerZoom.pm,v 1.15 2004-02-18 23:27:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -152,12 +152,6 @@ sub _Mask {
         Selected => $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType')
     );
     # do some html quoting
-    foreach (qw(State Priority Lock)) {
-        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->Get($Param{$_});
-    }
-    foreach (qw(Priority State Owner CustomerID)) {
-        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}, Max => 16) || '';
-    }
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
@@ -266,12 +260,10 @@ sub _Mask {
     # do some strips && quoting
     foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 FreeValue3)) {
         # charset encode
-        $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+        $Param{"Article::$_"} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
             Text => $Article{$_},
             From => $Article{ContentCharset},
         );
-        # html quoting
-        $Param{"Article::$_"} = $Self->{LayoutObject}->Ascii2Html(Text => $Article{$_}, Max => 200);
     }
     # check if just a only html email
     if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article)) {
