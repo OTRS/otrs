@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomSystem.dtl,v 1.8 2002-08-04 14:30:38 martin Exp $
+# $Id: TicketZoomSystem.dtl,v 1.9 2002-08-15 22:38:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,17 +12,19 @@
 <!-- start ticket -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="70%">
+  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="50%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Zoom"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
   </font>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="30%">
+  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="50%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
   </font>
   </td>
 </tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor2"}">
+  <td align="left" bgcolor="$Env{"BGTableColor2"}" width="70%">
   <a href="$Env{"Baselink"}&Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Lock"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Unlock"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentPriority&TicketID=$Data{"TicketID"}">$Text{"Priority"}</a> -
@@ -32,14 +34,14 @@
   <a href="$Env{"Baselink"}&Action=AgentCustomer&TicketID=$Data{"TicketID"}">$Text{"Customer"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Close"}</a>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor2"}">
+  <td align="right" bgcolor="$Env{"BGTableColor2"}" width="30%">
   <b>$Text{"Created"}:</b> $Data{"Created"}
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor1"}">
-  <td valign="top" width="75%">
+  <td valign="top" width="75%" class="small">
   $Data{"ArticleStrg"}
   <hr>
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
@@ -54,6 +56,10 @@
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
       <td> $Data{"Article::Subject"}</td>
+    </tr>
+    <tr>
+      <td valign="top"><b>$Text{"Attachment"}:</b></td>
+      <td> $Data{"Article::ATM"}</td>
     </tr>
   </table>
 $Data{"Article::TextNote"}
