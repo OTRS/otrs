@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Sendmail.pm,v 1.10 2004-02-13 00:50:36 martin Exp $
+# $Id: Sendmail.pm,v 1.11 2004-02-17 08:38:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,7 +86,7 @@ sub Send {
     my @SOLO_address = Mail::Address->parse($Param{From});
     my $RealFrom = quotemeta($SOLO_address[0]->address());
     # send mail
-    if (open( MAIL, "|".$Self->{Sendmail}." '$RealFrom' " )) {
+    if (open( MAIL, "|".$Self->{Sendmail}." $RealFrom " )) {
         print MAIL $Param{Header};
         print MAIL "\n";
         print MAIL $Param{Body};
