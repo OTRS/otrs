@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # SendStats.pl - send stats output via email
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.23 2004-11-24 13:56:47 martin Exp $
+# $Id: mkStats.pl,v 1.24 2005-02-02 21:41:33 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -67,13 +67,32 @@ getopt('mrsbhop', \%Opts);
 if ($Opts{'h'}) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: mkStats.pl -m <REPORT_MODULE> [-p <PARAM_STRING> e. g. 'Year=1977&Month=10'] [-o /output/dir/] [-r <RECIPIENT> -s <SENDER> -b <MESSAGE>]\n";
+    print "usage: mkStats.pl -m <REPORT_MODULE> [-p <PARAM_STRING> e. g. 'Year=1977&Month=10'] [-o /output/dir/] [-r <RECIPIENT> -s <SENDER>] [-b <MESSAGE>]\n";
     exit 1;
 }
 
 # required output param check
-if (!$Opts{'o'} && (!$Opts{'r'}&&!$Opts{'b'})) {
+if (!$Opts{'o'} && !$Opts{'r'}) {
     print STDERR "ERROR: Need -o /tmp/ OR -r email\@example.com -b 'some message'\n";
+    exit 1;
+}
+# stats module check
+if (!$Opts{'m'}) {
+    print STDERR "ERROR: Need -m StateAction\n";
+    exit 1;
+}
+# fill up body
+if (!$Opts{'b'} && $Opts{'p'}) {
+    $Opts{'b'} .= "Stats with following options:\n\n";
+    $Opts{'b'} .= "Module:\t$Opts{'m'}\n";
+    my @P = split(/&/, $Opts{'p'}||'');
+    foreach (@P) {
+        my ($Key, $Value) = split(/=/, $_, 2);
+        $Opts{'b'} .= "$Key:\t$Value\n";
+    }
+}
+if (!$Opts{'b'}) {
+    print STDERR "ERROR: Need -b 'some message'\n";
     exit 1;
 }
 # recipient check
@@ -82,11 +101,6 @@ if ($Opts{'r'}) {
         print STDERR "ERROR: ".$CommonObject{CheckItemObject}->CheckError()."\n";
         exit 1;
     }
-}
-# stats module check
-if (!$Opts{'m'}) {
-    print STDERR "ERROR: Need -m StateAction\n";
-    exit 1;
 }
 # sender, if given
 if (!$Opts{'s'}) {
