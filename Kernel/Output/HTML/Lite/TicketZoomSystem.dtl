@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomSystem.dtl,v 1.7 2002-08-01 02:37:36 martin Exp $
+# $Id: TicketZoomSystem.dtl,v 1.8 2002-08-04 14:30:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,6 @@
   <a href="$Env{"Baselink"}&Action=AgentOwner&TicketID=$Data{"TicketID"}">$Text{"Owner"}</a> - 
   <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}">$Text{"Add Note"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentCustomer&TicketID=$Data{"TicketID"}">$Text{"Customer"}</a> -
-  <a href="$Env{"Baselink"}&Action=AgentTimeAccounting&TicketID=$Data{"TicketID"}">$Text{"Time"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Close"}</a>
   </td>
   <td align="right" bgcolor="$Env{"BGTableColor2"}">
