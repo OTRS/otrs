@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseForm.dtl,v 1.6 2002-10-15 09:51:45 martin Exp $
+# $Id: AdminResponseForm.dtl,v 1.7 2003-01-03 00:11:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,6 +55,10 @@
     <tr>
       <td>$Text{"Response"}: </td>
       <td> <textarea rows="10" cols="60" name="Response">$Data{"Response"}</textarea></td>
+    </tr>
+    <tr>
+      <td>$Text{"Attachments"}: </td>
+      <td> $Data{"AttachmentOption"}</td>
     </tr>
     <tr>
       <td>$Text{"Valid"}: </td>

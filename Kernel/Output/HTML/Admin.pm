@@ -1,8 +1,8 @@
 # --
 # HTML/Admin.pm - provides generic admin HTML output
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.21 2002-12-15 23:19:44 martin Exp $
+# $Id: Admin.pm,v 1.22 2003-01-03 00:15:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -168,9 +168,104 @@ sub AdminResponseForm {
         SelectedID => $Param{ID},
     );
 
-    $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
+    my %SecondDataTmp = %{$Param{Attachments}};
+    my %DataTmp = %{$Param{SelectedAttachments}};
+    $Param{AttachmentOption} .= "<SELECT NAME=\"IDs\" SIZE=3 multiple>\n";
+    foreach my $ID (sort keys %SecondDataTmp){
+       $Param{AttachmentOption} .= "<OPTION ";
+       foreach (sort keys %DataTmp){
+         if ($_ eq $ID) {
+               $Param{AttachmentOption} .= 'selected';
+         }
+       }
+      $Param{AttachmentOption} .= " VALUE=\"$ID\">$SecondDataTmp{$ID}</OPTION>\n";
+    }
+    $Param{AttachmentOption} .= "</SELECT>\n";
 
     return $Self->Output(TemplateFile => 'AdminResponseForm', Data => \%Param);
+}
+# --
+sub AdminAttachmentForm {
+    my $Self = shift;
+    my %Param = @_;
+    
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => { 
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          ) 
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+ 
+    # build ResponseOption string
+    $Param{'ResponseOption'} = $Self->OptionStrgHashRef(
+        Data => $Param{AttachmentIndex},
+        Name => 'ID', 
+        Size => 15,
+        SelectedID => $Param{ID},
+    );
+
+    $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
+
+    return $Self->Output(TemplateFile => 'AdminAttachmentForm', Data => \%Param);
+}
+# --
+sub AdminResponseAttachmentForm {
+    my $Self = shift;
+    my %Param = @_;
+    my $UserData = $Param{FirstData};
+    my %UserDataTmp = %$UserData;
+    my $GroupData = $Param{SecondData};
+    my %GroupDataTmp = %$GroupData;
+    my $BaseLink = $Self->{Baselink} . "Action=AdminResponseAttachment&";
+
+    foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
+        $Param{AnswerQueueStrg} .= "<a href=\"$BaseLink"."Subaction=Response&ID=$_\">$UserDataTmp{$_}</a><br>";
+    }
+    foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
+        $Param{QueueAnswerStrg}.= "<a href=\"$BaseLink"."Subaction=Attachment&ID=$_\">$GroupDataTmp{$_}</a><br>";
+    }
+
+    return $Self->Output(TemplateFile => 'AdminResponseAttachmentForm', Data => \%Param);
+}
+# --
+sub AdminResponseAttachmentChangeForm {
+    my $Self = shift;
+    my %Param = @_;
+    my $FirstData = $Param{FirstData};
+    my %FirstDataTmp = %$FirstData;
+    my $SecondData = $Param{SecondData};
+    my %SecondDataTmp = %$SecondData;
+    my $Data = $Param{Data};
+    my %DataTmp = %$Data;
+    $Param{Type} = $Param{Type} || 'Response';
+    my $NeType = 'Response';
+    $NeType = 'Attachment' if ($Param{Type} eq 'Response');
+
+    foreach (sort keys %FirstDataTmp){
+        $Param{OptionStrg0} .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{Baselink}Action=Admin$Param{Type}&Subaction=Change&ID=$_\">" .
+        "$FirstDataTmp{$_}</A> (id=$_)<BR>";
+        $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
+    }
+
+    $Param{OptionStrg0} .= "<B>$NeType:</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
+    foreach my $ID (sort keys %SecondDataTmp){
+       $Param{OptionStrg0} .= "<OPTION ";
+       foreach (sort keys %DataTmp){
+         if ($_ eq $ID) {
+               $Param{OptionStrg0} .= 'selected';
+         }
+       }
+      $Param{OptionStrg0} .= " VALUE=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</OPTION>\n";
+    }
+    $Param{OptionStrg0} .= "</SELECT>\n";
+
+    return $Self->Output(TemplateFile => 'AdminResponseAttachmentChangeForm', Data => \%Param);
 }
 # --
 sub AdminQueueResponsesForm {
@@ -316,9 +411,8 @@ sub AdminQueueForm {
     $Param{'FollowUpOption'} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, name, id',
+            What => 'id, name',
             Valid => 1,
-            Clamp => 1,
             Table => 'follow_up_possible',
           )
         },

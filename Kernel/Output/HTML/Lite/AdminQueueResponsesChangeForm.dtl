@@ -1,8 +1,8 @@
 # --
 # AdminQueueResponsesChangeForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponsesChangeForm.dtl,v 1.7 2002-11-21 22:48:48 martin Exp $
+# $Id: AdminQueueResponsesChangeForm.dtl,v 1.8 2003-01-03 00:11:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,10 +11,10 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left" width="30%">
+  <td align="left" width="70%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Std. Responses <-> Queue Management"}$Env{"Box1"}</font></b>
   </td>
-  <td align="right" width="70%">
+  <td align="right" width="30%">
   <b><font color="$Env{"FontColor1"}">-</font></b>
   </td>
 </tr>

@@ -1,8 +1,8 @@
 # --
-# AdminResponseForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# AdminAttachmentForm.dtl - provides HTML form for AdminResponse
+# Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseForm.dtl,v 1.7 2003-01-03 00:11:09 martin Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.1 2003-01-03 00:11:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor0"}">
   <td align="left" width="30%">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Response Management"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Attachment Management"}$Env{"Box1"}</font></b>
   </font>
   </td>
   <td align="right" width="70%">
@@ -22,7 +22,7 @@
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
   <td>
-    $Text{"Change response settings"}:
+    $Text{"Change attachment settings"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -36,14 +36,14 @@
 # --
 # check subaction
 # --
-<dtl set $Data{"Headline"} = "Add response">
-<dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update response"; }>
+<dtl set $Data{"Headline"} = "Add attachment">
+<dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update attachment"; }>
 # check add link
-<dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a response)"; }>
+<dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a attachment)"; }>
 # --
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
     <br>
-    <form action="$Env{"CGIHandle"}" method="post">
+    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
     <input type="hidden" name="ID" value="$Data{"ID"}">
@@ -53,12 +53,8 @@
       <td> <input type="text" name="Name" value="$Data{"Name"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Response"}: </td>
-      <td> <textarea rows="10" cols="60" name="Response">$Data{"Response"}</textarea></td>
-    </tr>
-    <tr>
-      <td>$Text{"Attachments"}: </td>
-      <td> $Data{"AttachmentOption"}</td>
+      <td>$Text{"Attachment"}:</td>
+      <td><input name="file_upload" type="file" size="40"> 
     </tr>
     <tr>
       <td>$Text{"Valid"}: </td>
@@ -74,24 +70,4 @@
 </tr>
 </table>
 <!-- end form -->
-
-<!-- start note -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr bgcolor="$Env{"BGTableColor2"}" valign="top">
-  <td>
-    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
-  </td>
-</tr>
-<tr bgcolor="$Env{"BGTableColor1"}" valign="top">
-  <td>
-  <p>
-  $Text{"A response is default text to write faster answer (with default text) to customers."}
-  </p>
-  <p>
-  $Text{"Attention"}: <a href="$Env{"CGIHandle"}?Action=AdminQueueResponses">$Text{"Don't forget to add a new response a queue!"}</a>
-  </p>
-  </td>
-</tr>
-</table>
-<!-- end note -->
 
