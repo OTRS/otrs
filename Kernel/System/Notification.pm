@@ -2,10 +2,10 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.5 2004-02-08 22:21:43 martin Exp $
+# $Id: Notification.pm,v 1.6 2004-08-01 20:03:20 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -59,7 +59,7 @@ sub NotificationGet {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # sql 
+    # sql
     my $SQL = "SELECT id, notification_type, notification_charset, ".
         " notification_language, subject, text ".
         " FROM ".
@@ -78,25 +78,27 @@ sub NotificationGet {
     }
     my %Data = ();
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        # fix some bad stuff from some browsers (Opera)!
-        $Data[5] =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
         if ($Self->{EncodeObject}->EncodeInternalUsed()) {
             # convert body
             $Data[5] = $Self->{EncodeObject}->Convert(
                 Text => $Data[5],
                 From => $Data[2],
                 To => $Self->{EncodeObject}->EncodeInternalUsed(),
+                Force => 1,
             );
-            # convert subject 
+            # convert subject
             $Data[3] = $Self->{EncodeObject}->Convert(
                 Text => $Data[3],
                 From => $Data[2],
                 To => $Self->{EncodeObject}->EncodeInternalUsed(),
+                Force => 1,
             );
             # set new charset
             $Data[2] = $Self->{EncodeObject}->EncodeInternalUsed();
         }
-        %Data = ( 
+        # fix some bad stuff from some browsers (Opera)!
+        $Data[5] =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
+        %Data = (
             Type => $Data[1],
             Charset => $Data[2],
             Language => $Data[3],
@@ -106,14 +108,14 @@ sub NotificationGet {
     }
     if (!%Data && !$Param{Loop}) {
         $Self->{LogObject}->Log(
-            Priority => 'notice', 
+            Priority => 'notice',
             Message => "Can't find notification for $Type and $Language, try it again with en!",
         );
         return $Self->NotificationGet(%Param, Name => "en::$Type", Loop => $Language);
     }
     elsif (!%Data && $Param{Loop}) {
         $Self->{LogObject}->Log(
-            Priority => 'error', 
+            Priority => 'error',
             Message => "Can't find notification for $Type and $Language!",
         );
         return;
@@ -126,7 +128,7 @@ sub NotificationGet {
 sub NotificationList {
     my $Self = shift;
     my %Param = @_;
-    # sql 
+    # sql
     my $SQL = "SELECT id, notification_type, notification_charset, ".
         " notification_language ".
         " FROM ".
