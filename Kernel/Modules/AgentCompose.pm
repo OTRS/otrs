@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.56 2004-01-20 00:02:27 martin Exp $
+# $Id: AgentCompose.pm,v 1.57 2004-01-27 09:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -375,6 +375,7 @@ sub SendEmail {
         From => $Self->{From},
         To => $Self->{To},
         Cc => $Self->{Cc},
+        Bcc => $Self->{Bcc},
         Subject => $Self->{Subject},
         UserID => $Self->{UserID},
         Body => $Self->{Body},
@@ -493,7 +494,7 @@ sub _Mask {
     # create FromHTML (to show)
     $Param{FromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{From}, Max => 70);
     # do html quoting
-    foreach (qw(ReplyTo From To Cc Subject Body)) {
+    foreach (qw(ReplyTo From To Cc Bcc Subject Body)) {
         $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
             Text => $Param{$_},
             From => $Param{ContentCharset},

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentBook.pm - spelling module
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBook.pm,v 1.2 2004-01-21 23:04:37 martin Exp $
+# $Id: AgentBook.pm,v 1.3 2004-01-27 09:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,7 +87,8 @@ sub _Mask {
     foreach (keys %List) {
         $Param{AddressList} .= '<tr><td>'.$Self->{LayoutObject}->Ascii2Html(Text => $List{$_}).
             "</td><td><a href=\"\" onclick=\"AddToAddress('$_'); return false;\">\$Text{\"To\"}</a></td>".
-            "<td><a href=\"\" onclick=\"AddCcAddress('$_'); return false;\">\$Text{\"Cc\"}</a></td></tr>";
+            "</td><td><a href=\"\" onclick=\"AddCcAddress('$_'); return false;\">\$Text{\"Cc\"}</a></td>".
+            "<td><a href=\"\" onclick=\"AddBccAddress('$_'); return false;\">\$Text{\"Bcc\"}</a></td></tr>";
     }
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBook', Data => \%Param);

@@ -1,8 +1,8 @@
 # --
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBook.dtl,v 1.2 2004-01-21 23:04:16 martin Exp $
+# $Id: AgentBook.dtl,v 1.3 2004-01-27 09:26:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,8 +26,9 @@ function updateMessage()
         return;
     }
 
-    parent.opener.document.compose.Cc.value = document.book.Cc.value 
     parent.opener.document.compose.To.value = document.book.To.value 
+    parent.opener.document.compose.Cc.value = document.book.Cc.value 
+    parent.opener.document.compose.Bcc.value = document.book.Bcc.value 
 
     this.close();
 }
@@ -38,6 +39,14 @@ function updateMessage()
 <script language="JavaScript" type="text/javascript">
 <!--
 
+function AddToAddress(x)
+{
+    if (document.book.To.value) {
+        document.book.To.value = document.book.To.value + ', ';
+    }
+    document.book.To.value = document.book.To.value + x;
+}
+
 function AddCcAddress(x)
 {
     if (document.book.Cc.value) {
@@ -46,12 +55,12 @@ function AddCcAddress(x)
     document.book.Cc.value = document.book.Cc.value + x;
 }
 
-function AddToAddress(x)
+function AddBccAddress(x)
 {
-    if (document.book.To.value) {
-        document.book.To.value = document.book.To.value + ', ';
+    if (document.book.Bcc.value) {
+        document.book.Bcc.value = document.book.Bcc.value + ', ';
     }
-    document.book.To.value = document.book.To.value + x;
+    document.book.Bcc.value = document.book.Bcc.value + x;
 }
 
 //-->
@@ -75,6 +84,10 @@ function AddToAddress(x)
 </tr>
 <tr>
   <td>$Text{"Cc"}:</td><td> <input type="text" name="Cc" value="$Data{"Cc"}" size="80"></td>
+</tr>
+</tr>
+<tr>
+  <td>$Text{"Bcc"}:</td><td> <input type="text" name="Bcc" value="$Data{"Bcc"}" size="80"></td>
 </tr>
 </table>
 

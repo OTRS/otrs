@@ -1,8 +1,8 @@
 # --
 # AgentCompose.dtl - provides HTML form for AgentCompose 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.27 2004-01-08 22:08:50 martin Exp $
+# $Id: AgentCompose.dtl,v 1.28 2004-01-27 09:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -59,6 +59,7 @@ function BookCheckSubmit()
 {
     document.book.To.value = document.compose.To.value;
     document.book.Cc.value = document.compose.Cc.value;
+    document.book.Bcc.value = document.compose.Bcc.value;
     window.open('', 'book', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.book.submit()
     document.book.was_spell_checked=true;
@@ -95,6 +96,10 @@ function BookCheckSubmit()
     <tr>
       <td>$Text{"Cc"}:</td>
       <td><input type="text" name="Cc" value="$Data{"Cc"}" size="80"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
+    </tr>
+    <tr>
+      <td>$Text{"Bcc"}:</td>
+      <td><input type="text" name="Bcc" value="$Data{"Bcc"}" size="80"> <font color="red" size="-2">$Data{"Bcc invalid"}</font></td>
     </tr>
     <tr>
       <td>$Text{"Subject"}:</td>
@@ -158,6 +163,7 @@ $Data{"ResponseFormat"}
   <input type="hidden" name="Action" value="AgentBook">
   <input type="hidden" name="To" value="">
   <input type="hidden" name="Cc" value="">
+  <input type="hidden" name="Bcc" value="">
   </form>
 
   </td> 

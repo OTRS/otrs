@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
-# Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.14 2003-12-04 23:56:55 martin Exp $
+# $Id: SendArticle.pm,v 1.15 2004-01-27 09:26:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,17 +85,21 @@ sub SendArticle {
     # build mail ...
     # --
     # do some encode
-    foreach (qw(From To Cc Subject)) {
+    foreach (qw(From To Cc Bcc Subject)) {
         if ($Param{$_}) {
             $Param{$_} = encode_mimewords($Param{$_}, Charset => $Charset) || '';
         }
+    }
+    # check bcc
+    if ($Self->{SendmailBcc}) {
+        $Param{Bcc} .= ", $Self->{SendmailBcc}";
     }
     # build header
     my $Header = {
         From => $Param{From},
         To => $Param{To},
         Cc => $Param{Cc},
-        Bcc => $Self->{SendmailBcc},
+        Bcc => $Param{Bcc},
         Subject => $Param{Subject},
         'Message-ID' => $MessageID,
         'In-Reply-To:' => $InReplyTo,
@@ -182,7 +186,7 @@ sub SendArticle {
         From => $Param{From},
         To => $Param{To},
         Cc => $Param{Cc},
-        Bcc => $Self->{SendmailBcc},
+        Bcc => $Param{Bcc},
         Subject => $Param{Subject},
         Header => $head->as_string(),
         Body => $Entity->body_as_string(),
