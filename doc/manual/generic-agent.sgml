@@ -1,8 +1,8 @@
 <chapter id="generic-agent">
 <title>Generic-Agent</title>
 <para>
-The Generic-Agent is a command line program wich can do some actions 
-(like move, add note, set state, set owner) on tickets.
+The Generic-Agent (bin/GenericAgent.pl) is a command line program wich can 
+do some actions (like move, add note, set state, set owner) on tickets.
 </para>
 
 <sect1 id="generic-agent-config-file">
