@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.29 2004-04-30 06:57:50 martin Exp $
+# $Id: DB.pm,v 1.30 2004-05-03 05:35:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -457,22 +457,29 @@ sub SetPassword {
             $Param{LoginCol} = $Entry->[2];
         }
     }
-    if ($Self->{DBObject}->Do(
+    # check if needed pw col. exists (else there is no pw col.)
+    if ($Param{PasswordCol} && $Param{LoginCol}) {
+        if ($Self->{DBObject}->Do(
             SQL => "UPDATE $Self->{CustomerTable} ".
                " SET ".
                " $Param{PasswordCol} = '".$Self->{DBObject}->Quote($CryptedPw)."' ".
                " WHERE ".
                " $Param{LoginCol} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'",
-    )) {
-        # log notice
-        $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "CustomerUser: '$Param{UserLogin}' changed password successfully!",
-        );
-        return 1;
+        )) {
+            # log notice
+            $Self->{LogObject}->Log(
+              Priority => 'notice',
+              Message => "CustomerUser: '$Param{UserLogin}' changed password successfully!",
+            );
+            return 1;
+        }
+        else {
+            return;
+        }
     }
     else {
-        return;
+        # need no pw to set
+        return 1;
     }
 }
 # --
