@@ -21,12 +21,38 @@ rpm -Uvh otrs.rpm
 <qandaentry>
 <question>
 <para>
+What ist OpenTRS?
+</para>
+</question>
+<answer>
+<para>
+OpenTRS is a Ticket Request System with many features to manage customer telephone calls and e-mails.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
 What stands OpenTRS for?
 </para>
 </question>
 <answer>
 <para>
 Open Trouble-Ticket Request System.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+What does OpenTRS cost?
+</para>
+</question>
+<answer>
+<para>
+Nothing, it`s <ulink url="http://www.gnu.org/copyleft/gpl.txt">GPL</ulink>.
 </para>
 </answer>
 </qandaentry>
@@ -49,6 +75,68 @@ Geeks: Of course a script could act like an agent. Feel free to do so!
 
 <qandaentry>
 <question>
+<para>Can OpenTRS receive email?</para>
+</question>
+<answer>
+<para>
+Yes, (with MIME support).
+</para>
+<para>
+The $HOME/bin/PostMaster.pl program receive the emails and sorts the email to the right ticket or queue.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Can OpenTRS send email?</para>
+</question>
+<answer>
+<para>
+Yes. Autoresponders per queue or per X-Header and standard responders via mouse click.
+</para>
+<para>
+Note: You can add/delete/modify the system email addresses at AdminView::System.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Fulltext Index Searching?</para>
+</question>
+<answer>
+<para>
+Yes. 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Is OpenTRS multi user and multi group able?</para>
+</question>
+<answer>
+<para>
+Of course. 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Is it possible to use different domains?</para>
+</question>
+<answer>
+<para>
+Yes, you can use different emails 'support@yourdomain.com', 'sales@yourdomain.com' and different
+domains 'marketing@clientdomain.com' with one system!
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
 <para>
 Can I use OpenTRS only with SuSE Linux?
 </para>
@@ -59,6 +147,17 @@ No, but we developed it on a SuSE Linux and frankly we did not do much testing o
 </para>
 <para>
 But we will provide additional installation informations on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. And we are more that happy to recieve some feedback from you about how you installed OpenTRS on other platforms.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>What software will be needed?</para>
+</question>
+<answer>
+<para>
+Minimum: <ulink url="http://www.perl.com/">Perl5</ulink> (with a few <ulink url="http://www.cpan.org/">CPAN</ulink> modules, more: INSTALL),  <ulink url="http://www.mysql.com">MySQL</ulink> and <ulink url="http://www.apache.org">Apache</ulink>. 
 </para>
 </answer>
 </qandaentry>
@@ -105,7 +204,54 @@ This is depending on the hardware and the enviroment you are using. At the momen
 </question>
 <answer>
 <para>
-At the moment we only support MySQL as a database. Frankly we do trust in a MySQL as much as in a DB2 (for this application). Anybody how is willing to send some time to port it to other databases is more than welcome to the OpenTRS team!
+At the moment we only support <ulink url="http://www.mysql.com">MySQL</ulink> as a database. Frankly we do trust in a <ulink url="http://www.mysql.com">MySQL</ulink> as much as in a DB2 (for this application). Anybody how is willing to send some time to port it to other databases is more than welcome to the OpenTRS team!
+</para>
+<para>
+Note: The code is designed to support different databases! 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Which programming language is used?</para>
+</question>
+<answer>
+<para>
+<ulink url="http://www.perl.com/">Perl</ulink> OO, SQL and dtl. 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>What is the default admin account?</para>
+</question>
+<answer>
+<para>
+User: root@localhost Password: root 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Works OpenTRS with <ulink url="http://perl.apache.org//">mod_perl</ulink>?</para>
+</question>
+<answer>
+<para>
+Of course. 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Is it possible to customize OpenTRS?</para>
+</question>
+<answer>
+<para>
+Of course. You can customize OpenTRS like you want. Take advantage of the dtl (dynamic template language) to customize the OpenTRS frontend release independently (more: README.dtl)! 
 </para>
 </answer>
 </qandaentry>
@@ -116,7 +262,7 @@ At the moment we only support MySQL as a database. Frankly we do trust in a MySQ
 </question>
 <answer>
 <para>
-Theoraticly yes, but we are not the big windows gurus and haven't ever tried to set up a Windows box with an Apache, Perl and MySQL.
+Theoraticly yes, but we are not the big windows gurus and haven't ever tried to set up a Windows box with an <ulink url="http://www.apache.org">Apache</ulink>, <ulink url="http://www.perl.com">Perl</ulink> and <ulink url="http://www.mysql.com">MySQL</ulink>.
 </para>
 </answer>
 </qandaentry>
@@ -169,7 +315,6 @@ Yes, OpenTRS supports this RFC.
 </para>
 </answer>
 </qandaentry>
-
 
 </qandaset>
 </chapter>

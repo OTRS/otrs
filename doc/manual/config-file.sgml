@@ -1,7 +1,7 @@
 <chapter id="configfile">
 <title>Config Files</title>
 <para>
-The config file is quite simple to read. So you should have any problems. But just in case we will descripe some features in this chapter.
+The config file (Kernel/Config.pm) is quite simple to read. So you should have any problems. But just in case we will descripe some features in this chapter.
 </para>
 <sect1 id="tickethook">
 <title>TicketHook</title>
@@ -24,4 +24,107 @@ Kernel/Config.pm
 </programlisting>
 </example>
 </sect1>
+
+<sect1 id="maxpostmasteremails"> 
+<title>Max. Postmaster email</title> 
+<para> 
+OpenTRS is able to send automatically email replay. So it's possibe to create an email loop (of course we check bulk headers but other some strange systems not!). 
+</para>
+<example>
+<title>MaxPostMasterEmails</title>
+<programlisting>
+[...]
+Kernel/Config.pm
+[...]
+
+    # MaxPostMasterEmails
+    # (Max post master daemon email to own email-address a day.
+    # Loop-Protection!)
+    $Self->{MaxPostMasterEmails} = 20;
+
+[...]
+</programlisting>
+</example>
+</sect1>
+
+<sect1 id="dbstuff">
+<title>Database settings</title>
+<example>
+<title>Database settings</title>
+<programlisting>
+[...]
+Kernel/Config.pm
+[...]
+
+   # DatabaseHost
+    # (The database host.)
+    $Self->{DatabaseHost} = 'localhost';
+
+    # Database
+    # (The database name.)
+    $Self->{Database} = 'otrs';
+
+    # DatabaseUser
+    # (The database user.)
+    $Self->{DatabaseUser} = 'otrs';
+
+    # DatabasePw
+    # (The password of database user.)
+    $Self->{DatabasePw} = 'some-pass';
+
+    # DatabaseDSN
+    # (The database DNS.)
+    $Self->{DatabaseDSN} = 'DBI:mysql:database='.
+        $Self->{Database}.';host='.$Self->{DatabaseHost}.';';
+
+[...]
+</programlisting>
+</example>
+</sect1>
+
+<sect1>
+<title>Move into any queue</title>
+<para>
+Should the agent be able to move tickets into queue which it isn't member of the group
+(Helpfully if you use OpenTRS in ASP (Application Service Provider) mode).
+</para>
+<example>
+<title>Move into any queue</title>
+<programlisting>
+[...]
+Kernel/Config.pm
+[...]
+
+    # MoveInToAllQueues
+    # (Possible to move in all queue? Not only queue which
+    # the own groups) [1|0]
+    $Self->{MoveInToAllQueues} = 1;
+
+[...]
+</programlisting>
+</example>
+</sect1>
+
+<sect1>
+<title>Custom Queue</title>
+<para>
+Some people want to set the "Custom Queue" name (The queue of your favorite queues).
+</para>
+<example>
+<title>Custom Queue</title>
+<programlisting>
+[...]
+Kernel/Config.pm
+[...]
+
+    # CustomQueue
+    # (The name of custom queue.)
+    $Self->{CustomQueue} = 'PersonalQueue';
+
+[...]
+</programlisting>
+</example>
+</sect1>
+
+
 </chapter>
