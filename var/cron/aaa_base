@@ -1,0 +1,10 @@
+# --
+# cron/aaa_base - base crontab package
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: aaa_base,v 1.1 2002-06-15 17:23:57 martin Exp $
+# This software comes with ABSOLUTELY NO WARRANTY. 
+# --
+# Who gets the cron emails?
+MAILTO="root@localhost"
+
