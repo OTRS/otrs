@@ -3,7 +3,7 @@
 # scripts/backup.sh - a backup script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.sh,v 1.3 2002-09-01 13:03:26 martin Exp $
+# $Id: backup.sh,v 1.4 2002-10-25 00:18:12 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "backup.sh - a backup script for OTRS <\$Revision: 1.3 $>"
+echo "backup.sh - a backup script for OTRS <\$Revision: 1.4 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # --
@@ -38,9 +38,9 @@ if ! test $1 || ! test $2 || ! test $3; then
     # usage
     # --
     echo ""
-    echo "Usage: backup.sh <OTRS_BIN_DIR> <OTRS_CONFIG.PM> <BACKUP_DIR> "
+    echo "Usage: backup.sh <OTRS_BIN_DIR> <OTRS_CONFIG_DIR> <BACKUP_DIR> "
     echo ""
-    echo "  Try: backup.sh /opt/OpenTRS/bin /opt/OpenTRS/Kernel/Config.pm /data/otrs-backup"
+    echo "  Try: backup.sh /opt/OpenTRS/bin /opt/OpenTRS/Kernel/Config/ /data/otrs-backup"
     echo ""
     exit 1;
 fi
@@ -81,8 +81,10 @@ fi
 # --
 # config files backup
 # --
-echo "backup $2"
-cp $2 $3/$SUBBACKUPFOLDER/ 
+echo "backup $2/* $2/../Config.pm"
+mkdir $3/$SUBBACKUPFOLDER/Config/
+cp $2/* $3/$SUBBACKUPFOLDER/Config/
+cp $2/../Config.pm $3/$SUBBACKUPFOLDER/ 
 
 # --
 # var backup 

@@ -3,7 +3,7 @@
 # scripts/restore.sh - a restore script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: restore.sh,v 1.3 2002-09-01 13:03:26 martin Exp $
+# $Id: restore.sh,v 1.4 2002-10-25 00:18:12 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "restore.sh - a restore script for OTRS <\$Revision: 1.3 $>"
+echo "restore.sh - a restore script for OTRS <\$Revision: 1.4 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # --
@@ -58,6 +58,8 @@ if test $4; then
     cp $2/Config.pm $2/Config.pm.restore.backup
     echo "restore $3/Config.pm"
     cp $3/Config.pm $2/
+    echo "restore $3/Config/*.pm"
+    cp $3/Config/*.pm $2/Config/
 fi
 
 # --
