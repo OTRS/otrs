@@ -1,0 +1,289 @@
+<chapter id="receiving_email">
+<title>Receiving emails</title>
+
+<sect1 id="receiving_email-pop3">
+<title>Via POP3 account</title>
+<para>
+OTRS is able to receive emails from POP3 accounts. 
+</para>
+<para>
+Configure your POP3 accounts via the admin interface (POP3 Account). 
+<screenshot>
+<screeninfo>add email address</screeninfo>
+<graphic srccredit="add POP3 account - screenshot" scale="40" fileref="screenshots/admin-add-pop3-account.png"></graphic>
+</screenshot>
+Execute bin/PostMasterPOP3.pl and all emails will be fetched to your OTRS system.
+</para>
+<para>
+There is also an example cronjob (var/cron/postmaster_pop3.dist) which execute
+your bin/PostMasterPOP3.pl every 10 minutes (see also chapter cronjobs). 
+</para>
+</sect1>
+
+<sect1 id="receiving_email-cmd">
+<title>Via command line programm and e. g. procmail</title>
+<para>
+OTRS is able to receive emails via a command line programm (bin/PostMaster.pl).
+</para>
+<para>
+That means emails will be shown in your OTRS system if the MDA (mail delivery agent, 
+e. g. procmail) pipes the emails into bin/PostMaster.pl.
+</para>
+<para>
+To test the bin/PostMaster.pl on your command line (without MDA) use:
+<programlisting>
+shell:~ # cat /opt/otrs/doc/test-email-1.box | /opt/otrs/bin/PostMaster.pl
+shell:~ #
+</programlisting>
+If the email is shown in the QueueView then your setup works fine.
+</para>
+<para>
+Procmail is a very common e-mail filter in the Linux enviroment. It will be 
+probably installed on your system. If not have a look at the 
+<ulink url="http://www.procmail.org/"><citetitle>procmail homepage</citetitle></ulink>.
+</para>
+<para>
+To configure procmail for that (requires a procmail configured MTA (e. g. sendmail, 
+postfix, exim or qmail)) use the ~otrs/.procmailrc and modify/add the following.
+<programlisting>
+SYS_HOME=$HOME
+PATH=/bin:/usr/bin:/usr/local/bin
+# --
+# Pipe all email into the PostMaster process.
+# --
+:0 :
+| $SYS_HOME/bin/PostMaster.pl
+</programlisting>
+All emails sent to the local otrs user will be piped into bin/PostMaster.pl 
+and then shown in your QueueView. 
+</para>
+
+<sect2 id="receiving_email-cmd_dispatching_with_otrs">
+<title>Queue dispatching with OTRS</title>
+<para>
+OTRS is able to dispatch incoming emails via "To" address. Configurable via admin interface.
+</para>
+
+<para>
+<emphasis role='bold'>Example</emphasis>
+</para>
+<para>
+Add a new system email address (AdminArea -->> System Email Addresses).
+<screenshot>
+<screeninfo>add email address</screeninfo>
+<graphic srccredit="add email address - screenshot" scale="40" fileref="screenshots/admin-add-email.png"></graphic>
+</screenshot>
+</para>
+<para>
+In this case, all incoming emails (with To: support@company.com) will be dispatched to the TEST1 queue.
+</para>
+</sect2>
+
+
+<sect2 id="receiving_email-cmd_dispatching_with_proc">
+<title>Queue dispatching with procmail (for more complex dispatching)</title>
+<para>
+<emphasis role='bold'>The X-OTRS-Queue Mail-Header</emphasis>
+</para>
+<para>
+The X-OTRS-Queue Mail-Header is parsed by OTRS and OTRS will pipe these e-mails direct in this queue. Procmail and fromail can be used to create a powerfull dispatcher tool.
+</para>
+
+<para>
+<emphasis role='bold'>Examples</emphasis>
+</para>
+<para>
+The following examples are copied from the procmailex man-page. Feel free to have a look into it (actually it is quite a good idea). Of course we changed the wording a bit (to fit it into the queueing idea).
+</para>
+
+<para>
+Sort out all mail coming from the scuba-dive mailing list into the scuba queue.
+
+<screen>
+:0 fhw :
+* ^TOscuba
+| formail -I "X-OTRS-Queue: scuba"
+</screen>
+
+Forward all mail from peter about compilers into the william queue.
+<screen>
+:0 fhw :
+* ^From.*peter
+* ^Subject:.*compilers
+| formail -I "X-OTRS-Queue: william"
+</screen>
+
+And here a last example, the whole .procmailrc. 
+
+<example>
+<title>.procmailrc</title>
+<screen>
+# --
+# .procmailrc - procmailrc of the OTRS user
+# Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
+# --
+# $Id: receiving_email.sgml,v 1.1 2003-01-12 17:53:55 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+SYS_HOME=$HOME
+
+PATH=/bin:/usr/bin:/usr/local/bin
+MONTHFOLDER=`date +%Y-%m`
+YEARFOLDER=`date +%Y`
+LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
+VERBOSE=on
+
+# --
+# Remove all X-OTRS Header (allow this only for trusted email)
+# e. g. from *@example.com
+# --
+:0 fhw :
+* !^From.*@example.com
+| grep -vi '^X-OTRS-'
+
+# --
+# Examples for queue presorting.
+# --
+
+:0 fhw :
+* ^List-Id:.*OpenAntiVirus
+| formail -I "X-OTRS-Queue: OpenAntiVirus"
+
+:0 fhw :
+* ^Sender:.*example.com
+| formail -I "X-OTRS-Queue: example"
+
+:0 fhw :
+* TO:.*BUGTRAQ
+| formail -I "X-OTRS-Queue: BUGTRAQ"
+
+# --
+# Backup of all incoming emails. 
+# It's always better to have a backup of all incoming emails!
+# --
+:0 c :
+$SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
+
+# --
+# Pipe all email into the PostMaster process.
+# --
+:0 :
+| $SYS_HOME/bin/PostMaster.pl
+
+# --
+# spool all the rest (which the PostMaster.pl can't process!) 
+# If the database is down or the PostMaster.pl exit was not '0'!
+# --
+:0 :
+$SYS_HOME/var/spool/.
+
+# --
+# end of .procmailrc
+# --
+</screen>
+</example>
+
+Please have a look into the procmailex man-page for more examples.
+</para>
+
+</sect2>
+
+<sect2 id="receiving_email-cmd_dispatching_with_pro_web">
+<title>Example with procmail and a webform</title>
+<para>
+This is an example for a webform to generate an email for
+OTRS. You will find this perl scrtipt in $OTRS_HOME/scripts/webform.pl
+</para>
+
+<para>
+You have a Topic, From, Email, Subject and Message field.
+</para>
+
+<para>
+Change the config settings for the webform:
+<screen>
+# --
+# web form options
+# -- 
+my $Ident = 'ahfiw2Fw32r230dddl2foeo3r';
+# sendmail location and options
+my $Sendmail = '/usr/sbin/sendmail -t -i -f ';
+# email where the emails of the form will send to
+my $OTRSEmail = 'otrs-system@example.com';
+# topics and dest. queues
+my %Topics = (
+    # topic => OTRS queue
+    'Info' => 'info',
+    'Support' => 'support',
+    'Bugs' => 'bugs',
+    'Sales' => 'sales',
+    'Billing' => 'billing',
+    'Webmaster' => 'webmaster',
+);
+</screen>
+
+Take care, that your used $OTRSEmail and the used OTRS queues exists in your 
+OTRS system.
+</para>
+
+<para>
+Now, change the OTRS .procmailrc from:
+<screen>
+# --
+# Remove all X-OTRS Header (allow this only for trusted email)
+# e. g. from *@example.com
+# --
+:0 fhw :
+* !^From.*@example.com
+| grep -vi '^X-OTRS-'
+</screen>
+to:
+<screen>
+# --
+# Remove all X-OTRS Header (allow this only for trusted email)
+# just not emails with "X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
+# --
+:0 fhw :
+* !^X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r
+| grep -vi '^X-OTRS-'
+</screen>
+If a email is generated by the webform.pl and sent to the $OTRSEmail it will
+be dispatched to the topic=>queue.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Fetching emails via POP3 or IMAP and fetchmail</title>
+<para>
+In order to get e-mails from your mail server via a POP3 or IMAP mailbox to the 
+<emphasis role='bold'>OTRS machine/local otrs account and to procmail</emphasis> 
+use <ulink url="http://www.tuxedo.org/~esr/fetchmail/">fetchmail</ulink>.
+Note: A working SMTP configuration on the OTRS machine is condition.
+</para>
+
+<para>
+<example>
+<title>.fetchmailrc</title>
+<programlisting>
+#poll (mailserver) protocol POP3 user (user) password (password) is (localuser)
+poll mail.example.com protocol POP3 user joe password mama is otrs
+</programlisting>
+</example>
+</para>
+<para>
+Don't forget to set the .fetchmailrc to 710 ("chmod 710 .fetchmailrc")!
+</para>
+<para>
+So if "fetchmail -a" is executed (maybe via cron), all e-mails will be forwarded 
+to the local otrs account.
+</para>
+</sect2>
+
+</sect1>
+
+</chapter>
