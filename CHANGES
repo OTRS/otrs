@@ -2,40 +2,49 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.56 2003-02-03 22:24:42 martin Exp $
+# $Id: CHANGES,v 1.57 2003-02-08 16:11:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+1.1 CVS (2003-??-??)
+ - (2003/02/08) added html color highlighting for ticket article type
+    e. g. to highlight internal and external notes in TicketZoom -=>
+    article tree.
+ - (2003/02/08) added html color highlighting for ticket priotity
+ - (2003/02/08) moved to 100% CSS support for Standard and Lite theme
+ - (2003/02/08) improved VERSION regex for 1.x.x.x cvs revision
+ - (2003/02/08) changed database script location from install/database 
+    to scripts/database
 
 1.0 RC3 (2003-02-03)
- - (2002/02/03) added customer user info on TicketView, TicketZoom and PhoneView
+ - (2003/02/03) added customer user info on TicketView, TicketZoom and PhoneView
      dtl template (if wanted, uncomment it).
- - (2002/02/03) fixed java script stuff for Spell Check 
+ - (2003/02/03) fixed java script stuff for Spell Check 
  - (2003/02/03) added customer user serach to PhoneView
- - (2002/02/02) added pending ticket notification - Thanks to Andreas Haase!
+ - (2003/02/02) added pending ticket notification - Thanks to Andreas Haase!
      http://lists.otrs.org/pipermail/otrs/2003-January/000839.html
- - (2002/01/27) fixed some doc typos - Thanks to Eddie Urenda!
- - (2002/01/27) added die string -=> better to find webserver user file 
+ - (2003/01/27) fixed some doc typos - Thanks to Eddie Urenda!
+ - (2003/01/27) added die string -=> better to find webserver user file 
     write permission problems (var/log/TicketCounter.log)! 
     Kernel/System/Ticket/Number/*.pm
- - (2002/01/23) added Brazilian Portuguese translation! Thanks to Gilberto 
+ - (2003/01/23) added Brazilian Portuguese translation! Thanks to Gilberto 
     Cezar de Almeida!
 
 1.0 RC2 (2003-01-19)
- - (2002/01/19) added CustomerUser LDAP backend - Thanks to Wiktor Wodecki!
- - (2002/01/19) fixed CustomerUser backend (config options)
- - (2002/01/18) fixed bug 61 (ArticleStorageInit error ) - 
+ - (2003/01/19) added CustomerUser LDAP backend - Thanks to Wiktor Wodecki!
+ - (2003/01/19) fixed CustomerUser backend (config options)
+ - (2003/01/18) fixed bug 61 (ArticleStorageInit error ) - 
     http://bugs.otrs.org/show_bug.cgi?id=61
- - (2002/01/17) fixed bug 68 on FreeBSD 4.7 (trying to "compose email" from 
+ - (2003/01/17) fixed bug 68 on FreeBSD 4.7 (trying to "compose email" from 
     the agent interface) - http://bugs.otrs.org/show_bug.cgi?id=68
- - (2002/01/16) fixed bug 62 (not working command line utilitity) -
+ - (2003/01/16) fixed bug 62 (not working command line utilitity) -
     http://bugs.otrs.org/show_bug.cgi?id=62
- - (2002/01/16) added bin/otrs.checkModules to check installed and 
+ - (2003/01/16) added bin/otrs.checkModules to check installed and 
     required cpan modules
- - (2002/01/15) updated finnish translation! Thanks to Antti Kämäräinen!
- - (2002/01/15) added CheckMXRecord option to webinstaller
+ - (2003/01/15) updated finnish translation! Thanks to Antti Kämäräinen!
+ - (2003/01/15) added CheckMXRecord option to webinstaller
  - (2003/01/14) fixed typos "preferneces != preferences typo" 
     http://lists.otrs.org/pipermail/dev/2003-January/000074.html 
     Thanks to Wiktor Wodecki!
