@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.149 2004-10-31 18:19:58 martin Exp $
+# $Id: Ticket.pm,v 1.150 2004-11-04 06:48:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.149 $';
+$VERSION = '$Revision: 1.150 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1612,9 +1612,9 @@ To find tickets in your system.
       # tickets with create time before then .... (optional)
       TicketCreateTimeOlderDate => '2004-01-19 23:59:59',
 
-      # OrderBy and SoryBy (optional)
+      # OrderBy and SortBy (optional)
       OrderBy => 'Down',       # Down|Up
-      SoryBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age
+      SortBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age
 
       # user search (optional)
       UserID => 123,
@@ -3101,12 +3101,12 @@ sub HistoryGet {
         " sh.ticket_id = $Param{TicketID} ".
         " AND ".
         " ht.id = sh.history_type_id".
-        " ORDER BY sh.id";
+        " ORDER BY sh.create_time, sh.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
           my %Data;
           $Data{TicketID} = $Param{TicketID};
-          $Data{ArticleID} = $Row[1];
+          $Data{ArticleID} = $Row[1] || 0;
           $Data{Name} = $Row[0];
           $Data{CreateBy} = $Row[3];
           $Data{CreateTime} = $Row[2];
@@ -3496,6 +3496,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.149 $ $Date: 2004-10-31 18:19:58 $
+$Revision: 1.150 $ $Date: 2004-11-04 06:48:41 $
 
 =cut
