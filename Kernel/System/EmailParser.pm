@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.34 2004-04-11 16:52:40 martin Exp $
+# $Id: EmailParser.pm,v 1.35 2004-07-30 09:09:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -40,8 +40,8 @@ A module to parse and encode a email.
 
 =item new()
 
-create a object 
- 
+create a object
+
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::System::EmailParser;
@@ -65,9 +65,9 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
- 
+
     # get debug level from parent
     $Self->{Debug} = $Param{Debug} || 0;
 
@@ -86,12 +86,11 @@ sub new {
 
     return $Self;
 }
-# --
 
 =item GetPlainEmail()
-    
+
 To get a email as a string back (plain email).
-  
+
   my $Email = $ParseObject->GetPlainEmail();
 
 =cut
@@ -100,13 +99,12 @@ sub GetPlainEmail {
     my $Self = shift;
     return $Self->{Email}->as_string();
 }
-# --
 
 =item GetParam()
-    
+
 To get a header (e. g. Subject, To, ContentType, ...) of an email
 (mime is already done!).
-  
+
   my $To = $ParseObject->GetParam(WHAT => 'To');
 
 =cut
@@ -124,7 +122,7 @@ sub GetParam {
     my %Remember = ();
     foreach my $Array (decode_mimewords($Line)) {
         foreach (@{$Array}) {
-            # I don't know, but decode_mimewords() returns each mime 
+            # I don't know, but decode_mimewords() returns each mime
             # word two times! Remember to the old one. :-(
             if (!$Remember{$Array->[0]}) {
                 if ($Array->[0] && $Array->[1]) {
@@ -149,12 +147,11 @@ sub GetParam {
     }
     return $ReturnLine;
 }
-# --
 
 =item GetEmailAddress()
-    
-To get the senders email address back. 
- 
+
+To get the senders email address back.
+
   my $SenderEmail = $ParseObject->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>');
 
 =cut
@@ -168,14 +165,13 @@ sub GetEmailAddress {
     }
     return $Email;
 }
-# --
 
 =item SplitAddressLine()
-    
+
 To get an array of email addresses of an To, Cc or Bcc line back.
- 
+
   my @Addresses = $ParseObject->SplitAddressLine(Line => 'Juergen Weber <juergen.qeber@air.com, me@example.com, hans@example.com (Hans Huber)');
-   
+
 This returns an array with ('juergen.qeber@air.com', 'me@example.com', 'hans@example.com').
 
 =cut
@@ -189,14 +185,13 @@ sub SplitAddressLine {
     }
     return @GetParam;
 }
-# --
 
 =item GetContentType()
-    
+
 Returns the message body (or from the first attachment) "ContentType" header. 
- 
+
     my $ContentType = $ParseObject->GetContentType();
-   
+
 (e. g. 'text/plain; charset="iso-8859-1"')
 
 =cut
@@ -211,14 +206,13 @@ sub GetContentType {
         return $Self->GetParam(WHAT => 'Content-Type');
     }
 }
-# --
 
 =item GetCharset()
-    
+
 Returns the message body (or from the first attachment) "charset".
- 
+
     my $Charset = $ParseObject->GetCharset();
-   
+
 (e. g. iso-8859-1, utf-8, ...)
 
 =cut
@@ -250,7 +244,7 @@ sub GetCharset {
                     Message => "Got charset from email body: $Data{Charset}",
                 );
             }
-            # remember to charset 
+            # remember to charset
             $Self->{Charset} = $Data{Charset};
             # return charset
             return $Data{Charset};
@@ -263,22 +257,21 @@ sub GetCharset {
                     Message => "Got no charset from email body! Take iso-8859-1!",
                 );
             }
-            # remember to charset 
+            # remember to charset
             $Self->{Charset} = 'ISO-8859-1';
             # return charset
             return 'ISO-8859-1';
         }
     }
 }
-# --
 
 =item GetReturnContentType()
 
 Returns the new message body (or from the first attachment) "ContentType" header
 (maybe the message is converted to utf-8).
- 
+
     my $Charset = $ParseObject->GetReturnContentType();
-   
+
 (e. g. 'text/plain; charset="utf-8"')
 
 =cut
@@ -303,18 +296,17 @@ sub GetReturnContentType {
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "Changed no ContentType", 
+                Message => "Changed no ContentType",
             );
         }
         return $ContentType;
     }
 }
-# --
 
 =item GetMessageBody()
 
 Returns the message body (or from the first attachment) from the email.
- 
+
     my $Body = $ParseObject->GetMessageBody();
 
 =cut
@@ -350,7 +342,7 @@ sub GetMessageBody {
         }
         # charset decode
         $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
-            Text => $BodyStrg, 
+            Text => $BodyStrg,
             From => $Self->GetCharset(),
         );
         # check it it's juat a html email (store it as attachment and add text/plain)
@@ -380,7 +372,7 @@ sub GetMessageBody {
                 );
             }
             $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
-                Text => $Attachment{Content}, 
+                Text => $Attachment{Content},
                 From => $Self->GetCharset(),
             );
             # check it it's juat a html email (store it as attachment and add text/plain)
@@ -403,12 +395,11 @@ sub GetMessageBody {
     }
     return;
 }
-# --
 
 =item GetAttachments()
 
-Returns an array of the email attachments. 
- 
+Returns an array of the email attachments.
+
     my @Attachments = $ParseObject->GetAttachments();
 
     foreach my $Attachment (@Attachments) {
@@ -435,12 +426,11 @@ sub GetAttachments {
         if ($Self->{Attachments}) {
             return @{$Self->{Attachments}};
         }
-        else { 
+        else {
             return;
         }
     }
 }
-# --
 # just for internal
 sub PartsAttachments {
     my $Self = shift;
@@ -462,11 +452,11 @@ sub PartsAttachments {
     else {
         # get attachment meta stuff
         my %PartData = ();
-        # get ContentType 
+        # get ContentType
         $Part->head()->unfold();
         $Part->head()->combine('Content-Type');
         # get Content-Type, use text/plain if no content type is given
-        $PartData{ContentType} = $Part->head()->get('Content-Type') || 'text/plain;'; 
+        $PartData{ContentType} = $Part->head()->get('Content-Type') || 'text/plain;';
         chomp ($PartData{ContentType});
         # get mime type
         $PartData{MimeType} = $Part->head()->mime_type();
@@ -496,7 +486,7 @@ sub PartsAttachments {
                 Priority => 'notice',
                 Message => "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
             );
-            return; 
+            return;
         }
         # check if there is no recommended_filename -> add file-NoFilenamePartCounter
         if (!$Part->head()->recommended_filename()) {
@@ -514,7 +504,45 @@ sub PartsAttachments {
         push(@{$Self->{Attachments}}, \%PartData);
     }
 }
-# --
+
+=item GetReferences()
+
+To get an array of reference ids of the parsed email
+
+  my @References = $ParseObject->GetReferences();
+
+This returns an array with ('fasfda@host.de', '4124.2313.1231@host.com').
+
+=cut
+
+sub GetReferences {
+    my $Self = shift;
+    my %Param = @_;
+    my @ReferencesAll = ();
+    my @References = ();
+    # get references ids
+    my $ReferencesString = $Self->GetParam(WHAT => 'References');
+    if ($ReferencesString) {
+        push (@ReferencesAll, ($ReferencesString =~ /<([^>]+)>/g));
+    }
+    # get in reply to id
+    my $InReplyToString = $Self->GetParam(WHAT => 'In-Reply-To');
+    if ($InReplyToString) {
+        chomp $InReplyToString;
+        $InReplyToString =~ s/.*?<([^>]+)>.*/$1/;
+        push (@ReferencesAll, $InReplyToString);
+    }
+    my %Checked = ();
+    # get uniq
+    foreach (reverse @ReferencesAll) {
+        if (!$Checked{$_}) {
+            push (@References, $_);
+        }
+        $Checked{$_} = 1;
+    }
+    return @References;
+}
+
 # just for internal
 sub GetContentTypeParams {
     my $Self = shift;
@@ -532,7 +560,6 @@ sub GetContentTypeParams {
     }
     return %Param;
 }
-# --
 # just for internal
 sub CheckMessageBody {
     my $Self = shift;
@@ -540,7 +567,7 @@ sub CheckMessageBody {
     # if already checked, just return
     if ($Self->{MessageChecked} || !$Self->{ConfigObject}->Get('PostmasterAutoHTML2Text')) {
         return;
-    } 
+    }
     # check it it's juat a html email (store it as attachment and add text/plain)
     if ($Self->GetReturnContentType() =~ /text\/html/i) {
         $Self->{MessageChecked} = 1;
@@ -568,7 +595,7 @@ sub CheckMessageBody {
         my $Counter = 0;
         $Self->{MessageBody} =~ s{
             <a\Whref=("|')((http|https|ftp):\/\/.*?)("|')(|.+?)>
-        } 
+        }
         {
             $Counter++;
             $LinkList .= "[$Counter] $2\n";
@@ -608,14 +635,14 @@ sub CheckMessageBody {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
-    
+This software is part of the OTRS project (http://otrs.org/).
+
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
 did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2004-04-11 16:52:40 $
+$Revision: 1.35 $ $Date: 2004-07-30 09:09:27 $
 
 =cut
