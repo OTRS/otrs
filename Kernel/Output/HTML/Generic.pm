@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.4 2001-12-09 18:35:22 martin Exp $
+# $Id: Generic.pm,v 1.5 2001-12-16 01:41:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Words qw(:all);
 use Kernel::Language;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -31,10 +31,14 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
+    if (!$Self->{ConfigObject}) {
+        die "Got no ConfigObject!";
+    }
+
     $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
 
-    $Self->{SessionID} = $Param{SessionID};
-#    $Self->{Baselink}  = "$Self->{FileHandle}?SessionID=$Self->{SessionID}";
+    $Self->{SessionID} = $Param{SessionID} || '';
+    $Self->{Baselink}  = "$Self->{CGIHandle}?SessionID=$Self->{SessionID}";
     $Self->{Time}      = localtime();
     $Self->{Title}     = 'Open Ticket Request System' . ' - ' . $Self->{Time};
     $Self->{TableTitle}= 'OpenTRS - Open Ticket Request System';
@@ -70,33 +74,63 @@ sub Output {
         %Data = %$Tmp;
     }
 
-    # build OpenTRS env
-    my %Env = %ENV;
-    $Env{SessionID} = $Self->{SessionID};
-    $Env{Time} = $Self->{Time};
-    $Env{CGIHandle} = $Self->{CGIHandle};
+    # create %Env for this round!
+    my %Env = ();
+    if (!$Self->{EnvRef}) {
+        # build OpenTRS env
+        %Env = %ENV;
+        $Env{SessionID} = $Self->{SessionID};
+        $Env{Time} = $Self->{Time};
+        $Env{CGIHandle} = $Self->{CGIHandle};
+        $Env{Charset} = $Self->{Charset} || 'iso-8859-1';
+        $Env{Baselink} = $Self->{Baselink};
+    }
+    else {
+        # get %Env from $Self->{EnvRef} 
+        my $Tmp = $Self->{EnvRef};
+        %Env = %$Tmp;
+    }
 
     # read template
     my $Output = '';
-    open (IN, "< $Self->{TemplateDir}/$Param{TemplateFile}")  
-         ||  die "Can't read $Param{TemplateFile}: $!";
+    open (IN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
+         ||  die "Can't read $Param{TemplateFile}.dtl: $!";
     while (<IN>) {
       # filtering of comment lines
       if ($_ !~ /^#/) {
         $Output .= $_;
 
-        # do template set dynamic
+        # do template set (<dtl set $Data{"adasd"} = "lala">) 
+        # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
         $Output =~ s{
-          <otrs\W\$Data\{\"(.*)\"\}\W=\W\"(.*)\">
+          <dtl\W(system-call|set)\W\$(Data|Env)\{\"(.+?)\"\}\W=\W\"(.+?)\">
         }
         {
-          $Data{$1} = $2;
+          my $Data = '';
+          if ($1 eq "set") {
+            $Data = $4;
+          }
+          else {
+            open (SYSTEM, " $4 | ") || print STDERR "Can't open $4: $!";
+            while (<SYSTEM>) {
+                $Data .= $_;
+            }
+            close (SYSTEM);      
+          }
+
+          if ($2 eq 'Data') {
+              $Data{$3} = $Data;
+          }
+          elsif ($2 eq 'Env') {
+              $Env{$3} = $Data;
+          }
           "";
         }egx;
 
+
         # do template if dynamic
         $Output =~ s{
-          <otrs\Wif\W\((\$.*)\{\"(.*)\"\}\W(..)\W\"(.*)\"\)\W\{\W\$(.*)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
+          <dtl\Wif\W\((\$.*)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(.*)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
         }
         {
           if ($3 eq "eq") {
@@ -142,55 +176,59 @@ sub Output {
          }
       }egx;
 
-      # text translation
+
+      # variable & env & config replacement & text translation
       $Output =~ s{
-        \$Text{"(.*)"}         # find a TEXT sign
+        \$(Data|Env|Config|Text){"(.+?)"}
       }
       {
-        $Self->{LanguageObject}->Get($1)   # do translation
-      }egx;
-
-
-      # config replacement
-      $Output =~ s{
-        \$Config{"(.*)"}         # find a TEXT sign
-      }
-      {
-        $Self->{ConfigObject}->Get($1)   # replace with
-      }egx;
-
-
-      # variable replace
-      $Output =~ s{
-        \$Data{"(.*)"}
-      }
-      {
-        if ($Data{$1}) {
-            $Data{$1};
+        if ($1 eq "Data") {
+          if ($Data{$2}) {
+              $Data{$2};
+          }
+          else {
+#              "<i>\$$1 {$2} isn't true!</i>";
+               "";
+          }
         }
-        else {
-            "<i>\$$1 isn't true!</i>";
+        elsif ($1 eq "Env") {
+          if ($Env{$2}) {
+              $Env{$2};
+          }
+          else {
+              "<i>\$$1 {$2} isn't true!</i>";
+          }
         }
-      }egx;
-
-
-      # env replace
-      $Output =~ s{
-        \$Env{"(.*)"}
-      }
-      {
-        if ($Env{$1}) {
-            $Env{$1};
+        # replace with
+        elsif ($1 eq "Config") {
+          $Self->{ConfigObject}->Get($2) 
         }
-        else {
-            "<i>\$$1 isn't true!</i>";
+        # do translation
+        elsif ($1 eq "Text") {
+          $Self->{LanguageObject}->Get($2) 
         }
       }egx;
+
 
       }
     }
+ 
+    # save %Env
+    $Self->{EnvRef} = \%Env;
 
     # return output
+    return $Output;
+}
+# --
+sub Redirect {
+    my $Self = shift;
+    my %Param = @_;
+    my $ReUrl = $Self->{Baselink} . $Param{OP};
+    (my $Output = <<EOF);
+Content-Type: text/html
+location: $ReUrl
+
+EOF
     return $Output;
 }
 # --
@@ -199,11 +237,52 @@ sub Test {
     my %Param = @_;
 
     # get output 
-    my $Output = $Self->Output(TemplateFile => 'Test.tmpl', Data => \%Param);
+    my $Output = $Self->Output(TemplateFile => 'Test', Data => \%Param);
 
     # return output
     return $Output;
 
+}
+# --
+sub Login {
+    my $Self = shift;
+    my %Param = @_;
+
+    # get output 
+    my $Output = $Self->Output(TemplateFile => 'Login', Data => \%Param);
+
+    # return output
+    return $Output;
+
+}
+# --
+sub Error {
+    my $Self = shift;
+    my %Param = @_;
+
+    ($Param{Package}, $Param{Filename}, $Param{Line}, $Param{Subroutine}) = caller(0);
+    ($Param{Package1}, $Param{Filename1}, $Param{Line1}, $Param{Subroutine1}) = caller(1);
+
+    $Param{Version} = ("\$$Param{Package}". '::VERSION');
+    $Param{Version} =~ s/(.*)/$1/ee;
+
+    # get output 
+    my $Output = $Self->Output(TemplateFile => 'Error', Data => \%Param);
+
+    # return output
+    return $Output;
+
+}
+# --
+sub NavigationBar {
+    my $Self = shift;
+    my %Param = @_;
+
+    # get output
+    my $Output = $Self->Output(TemplateFile => 'NavigationBar', Data => \%Param);
+
+    # return output
+    return $Output;
 }
 # --
 sub Header {
@@ -211,7 +290,7 @@ sub Header {
     my %Param = @_;
 
     # get output
-    my $Output = $Self->Output(TemplateFile => 'Head.tmpl', Data => \%Param);
+    my $Output = $Self->Output(TemplateFile => 'Header', Data => \%Param);
 
     # return output
     return $Output;
@@ -222,7 +301,7 @@ sub Footer {
     my %Param = @_;
 
     # get output
-    my $Output = $Self->Output(TemplateFile => 'Footer.tmpl', Data => \%Param);
+    my $Output = $Self->Output(TemplateFile => 'Footer', Data => \%Param);
 
     # return output
     return $Output;
