@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2html.pl,v 1.5 2005-01-12 17:35:25 martin Exp $
+# $Id: xml2html.pl,v 1.6 2005-01-12 17:42:43 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,7 +43,6 @@ my $Title = 'xml2html: ';
 
 my $HTML = '';
 my $Layer = -1;
-my %Attr = ();
 my $File = shift;
 my $FileContent = '';
 if ($File) {
@@ -73,11 +72,14 @@ foreach my $Tag (@XMLARRAY) {
         $HTML .= "<b>$Tag->{Tag}:</b>";
         $HTML .= " <font size=\"-2\">";
         my $AttrList = '';
-        foreach (sort keys %Attr) {
+        foreach (sort keys %{$Tag}) {
+            if ($_ =~ /^(Tag|TagType|Content)$/) {
+                next;
+            }
             if ($AttrList) {
                 $AttrList .= ", ";
             }
-            $AttrList .= "$_: $Attr{$_}";
+            $AttrList .= "$_: $Tag->{$_}";
         }
         if ($AttrList) {
             $AttrList = "(".$AttrList.")";
