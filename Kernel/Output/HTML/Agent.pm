@@ -1,8 +1,8 @@
 # --
 # HTML/Agent.pm - provides generic agent HTML output
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.71 2002-12-27 18:37:21 martin Exp $
+# $Id: Agent.pm,v 1.72 2003-01-03 00:14:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.72 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -52,6 +52,12 @@ sub NavigationBar {
           Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Reminder">'.
            $Self->{LanguageObject}->Get('You have %s reminder ticket(s)!", "'.
            $Param{Reminder}).'</a>',
+        );
+    }
+    if ($Self->{UserID} == 1) {
+        $Output .= $Self->Notify(
+          Info => '<a href="$Env{"Baselink"}Action=AdminUser">'.
+          $Self->{LanguageObject}->Get("Don't work with UserID 1 (System account)! Create new users!").'</a>',
         );
     }
     # create & return output
@@ -125,6 +131,9 @@ sub TicketView {
     # create short html customer id
     # --
     $Param{CustomerIDHTML} = $Param{CustomerID} || '';
+    foreach (qw(State Priority Lock)) {
+        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
+    }
     foreach (qw(Priority State Queue Owner Lock CustomerIDHTML)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
     }
@@ -231,7 +240,10 @@ sub TicketZoom {
     # --
     # do some html quoting
     # --
-    foreach (qw(Priority State Owner Queue CustomerIDHTML)) {
+    foreach (qw(State Priority Lock)) {
+        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
+    }
+    foreach (qw(Priority State Owner Queue CustomerIDHTML Lock)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
@@ -909,6 +921,9 @@ sub AgentUtilSearchResult {
     }
 
     # do some html quoting
+    foreach (qw(State Priority Lock)) {
+        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
+    }
     foreach (qw(Priority State Queue Owner Lock CustomerID)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
     }
@@ -1140,7 +1155,7 @@ sub AgentMailboxTicket {
     # check if the pending ticket is Over Time
     # --
     if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
-        $Param{Message} .= $Self->{LanguageObject}->Get('Over Time').' '.
+        $Param{Message} .= $Self->{LanguageObject}->Get('Timeover').' '.
           $Self->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
     }
     # --
@@ -1161,6 +1176,9 @@ sub AgentMailboxTicket {
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     foreach (qw(To Cc From Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70);
+    }
+    foreach (qw(State Priority Lock)) {
+        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
     }
     foreach (qw(State Priority Queue CustomerID)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 20);
