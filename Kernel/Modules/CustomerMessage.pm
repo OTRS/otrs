@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.41 2005-02-15 11:58:12 martin Exp $
+# $Id: CustomerMessage.pm,v 1.42 2005-02-23 10:28:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -271,10 +271,8 @@ sub Run {
         # create new ticket, do db insert
         my $TicketID = $Self->{TicketObject}->TicketCreate(
             QueueID => $NewQueueID,
-            Subject => $Subject,
+            Title => $Subject,
             Lock => 'unlock',
-            # FIXME !!!
-            GroupID => 1,
             State => $Self->{ConfigObject}->Get('CustomerDefaultState'),
             Priority => $Priority,
             PriorityID => $PriorityID,

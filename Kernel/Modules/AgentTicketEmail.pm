@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.2 2005-02-23 10:28:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -551,11 +551,10 @@ sub Run {
         }
         # create new ticket, do db insert
         my $TicketID = $Self->{TicketObject}->TicketCreate(
+            Title => $GetParam{Subject},
             QueueID => $NewQueueID,
             Subject => $GetParam{Subject},
             Lock => 'unlock',
-            # FIXME !!!
-            GroupID => 1,
             StateID => $NextStateID,
             PriorityID => $GetParam{PriorityID},
             UserID => $Self->{UserID},
