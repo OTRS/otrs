@@ -2,7 +2,7 @@
 # Kernel/Config/Modules.pm - config file of all used application modules
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Modules.pm,v 1.11 2002-11-19 18:33:28 martin Exp $
+# $Id: Modules.pm,v 1.12 2002-11-24 23:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::Modules;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -74,7 +74,6 @@ use Kernel::Modules::AdminGroup;
 use Kernel::Modules::AdminUserGroup;
 use Kernel::Modules::AdminSystemAddress;
 use Kernel::Modules::AdminCharset;
-use Kernel::Modules::AdminLanguage;
 use Kernel::Modules::SystemStats;
 use Kernel::Modules::AdminState;
 use Kernel::Modules::AdminEmail;
