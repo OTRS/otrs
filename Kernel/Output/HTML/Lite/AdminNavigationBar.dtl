@@ -1,25 +1,25 @@
 # --
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.19 2003-11-26 00:50:40 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.20 2004-01-21 00:51:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+# --
+# check if the faq link should be shown
+# --
+<dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=FAQ" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';">$Text{"FAQ"}</a>$Env{"Box1"}"; }>
+
 <!-- start NavigationBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
 <tr>
   <td valign="top" align="left" width="80%" class="nav">
-    <table cellspacing="1" cellpadding="3">
-    <tr>
-      <td align="center">
-        <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}exit.png"><br>$Text{"Logout"}</a>
-      </td>
-      <td align="center">
-        <a href="$Env{"Baselink"}Action=" onmouseover="window.status='$Text{"AgentFrontend"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}admin.png"><br>$Text{"AgentFrontend"}</a>
-      </td>
+        $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"Logout"}</a>$Env{"Box1"} 
+        $Data{"FAQLink"}
+        $Env{"Box0"}<a href="$Env{"Baselink"}Action=" onmouseover="window.status='$Text{"AgentFrontend"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"AgentFrontend"}</a>$Env{"Box1"}
     </tr>
     </table>
   </td>
