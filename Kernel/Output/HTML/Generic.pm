@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.107 2004-04-02 12:49:10 martin Exp $
+# $Id: Generic.pm,v 1.108 2004-04-05 13:17:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.107 $';
+$VERSION = '$Revision: 1.108 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -702,7 +702,7 @@ sub LinkQuote {
     my $Text = $Param{Text} || '';
     my $Target = $Param{Target} || 'NewPage'. int(rand(199));
     # do link quote
-    $Text =~ s/(http|https)(:\/\/.*?)(\s|\)|\"|&quot;|]|'|>|<|&gt;|&lt;)/<a href=\"$1$2\" target=\"$Target\">$1$2<\/a>$3/gi;
+    $Text =~ s/(http|https|ftp)(:\/\/.*?)(\s|\)|\"|&quot;|]|'|>|<|&gt;|&lt;)/<a href=\"$1$2\" target=\"$Target\">$1$2<\/a>$3/gi;
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
     return $Text;
@@ -853,7 +853,7 @@ sub OptionStrgHashRef {
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         if ((defined($_)) && ($Data{$_})) {
             # check if SelectedIDRefArray exists
-            if ($SelectedIDRefArray) {
+            if ($SelectedIDRefArray && ref($SelectedIDRefArray) eq 'ARRAY') {
                 foreach my $ID (@{$SelectedIDRefArray}) {
                     if ($ID eq $_) {
                         $Param{SelectedIDRefArrayOK}->{$_} = 1;
