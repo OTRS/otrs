@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Error.dtl,v 1.4 2002-05-14 02:21:58 martin Exp $
+# $Id: Error.dtl,v 1.5 2002-05-17 23:52:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,7 +47,7 @@
         </tr>
         <tr>
             <td valign="top"><b>$Text{"Bug Report"}:</b></td>
-            <td valign="top"><a href="http://bugs.otrs.org/" target="bugzilla">$Text{"Click her to report a bug!"}</a></TD>
+            <td valign="top"><a href="http://bugs.otrs.org/" target="bugzilla">$Text{"Click here to report a bug!"}</a></TD>
         </tr>
     </table>
   </td>
