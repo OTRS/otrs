@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.31 2003-04-12 23:21:43 martin Exp $
+# $Id: Header.dtl,v 1.32 2003-04-24 20:00:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,7 +55,7 @@ Pragma: no-cache
 # header
   .header { color:#ffffff;background-color:#000000;font-size:12px; } 
   a.headeritem { color:#ffffff;text-decoration:none; }
-  a.headeritem:hover { color:#eeeeee;text-decoration:none; }
+  a.headeritem:hover { color:#dedede;text-decoration:underline; }
 # nav bar
   .nav { color:#000000;background-color:#ffffff;font-size:10px; } 
   a.navitem { color:#557799;font-size:11px; }
@@ -67,10 +67,11 @@ Pragma: no-cache
 # footer
   .footer { color:#ffffff;background-color:#000000;font-size:10px; } 
   a.footeritem { color:#ffffff;text-decoration:none; }
-  a.footeritem:hover { color:#eeeeee;text-decoration:none; }
+  a.footeritem:hover { color:#dddddd;text-decoration:underline; }
 # small
   .small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
-  a.small { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+  a.small { color:#000000;text-decoration:none; }
+  a.small:hover { color:#222222;text-decoration:underline; }
 # form
   form {margin:0px;}
   input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
@@ -97,7 +98,7 @@ Pragma: no-cache
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" width="20%" class="header">
-  <a href="$Env{"Baselink"}" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem"><b>$Env{"Box0"}OTRS$Env{"Box1"}</b></a>
+  <b>$Env{"Box0"}<a href="$Env{"Baselink"}" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">OTRS</a>$Env{"Box1"}</b>
   </td>
   <td align="right" width="80%" class="header">
    $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}
