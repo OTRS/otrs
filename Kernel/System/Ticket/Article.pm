@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.19 2003-02-09 20:54:13 martin Exp $
+# $Id: Article.pm,v 1.20 2003-02-25 19:09:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -547,7 +547,7 @@ sub GetArticle {
         " sa. a_message_id, sa.a_body, ".
         " st.create_time_unix, sp.name, sd.name, sq.name, sq.id, sa.create_time, ".
         " sa.a_content_type, sa.create_by, st.tn, ast.name, st.customer_id, ".
-        " st.until_time, sp.id, st.customer_user_id ".
+        " st.until_time, sp.id, st.customer_user_id, st.user_id ".
         " FROM ".
         " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq, ".
         " article_sender_type ast" .
@@ -595,6 +595,7 @@ sub GetArticle {
         } 
         $Data{CustomerID} = $Row[18];
         $Data{CustomerUserID} = $Row[21];
+        $Data{UserID} = $Row[22];
         if (!$Row[19] || $Data{State} !~ /^pending/i) {
             $Data{UntilTime} = 0;
         }
