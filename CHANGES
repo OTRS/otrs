@@ -2,13 +2,22 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.58 2003-02-09 21:12:14 martin Exp $
+# $Id: CHANGES,v 1.59 2003-02-15 12:17:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2002/02/15) fixed hanging login problem with mod_perl2
+ - (2002/02/15) added mod_perl2 support for web installer
+ - (2002/02/15) unfortunately there is a mod_perl2 bug on RH8 - added 
+    check if crypt() is working correctly
+ - (2002/02/14) fixed default Spelling Dictionary selection and added
+    a preferences option
+ - (2003/02/13) added PendingDiffTime config option (add this time to 
+    shown (selected) pending time) - 
+    http://lists.otrs.org/pipermail/otrs/2003-February/000899.html
  - (2003/02/09) updated priotity options with number prefix for sort of 
     html select fields - e. g. "normal" is "3 normal" and "high" is 
     "4 high" - use "scripts/DBUpdate-to-1.1.(mysql|postgresql).sql"
@@ -19,7 +28,7 @@
  - (2003/02/08) added html color highlighting for ticket article type
     e. g. to highlight internal and external notes in TicketZoom -=>
     article tree.
- - (2003/02/08) added html color highlighting for ticket priotity
+ - (2003/02/08) added html color highlighting for ticket priority
  - (2003/02/08) moved to 100% CSS support for Standard and Lite theme
  - (2003/02/08) improved VERSION regex for 1.x.x.x cvs revision
  - (2003/02/08) changed database script location from install/database 
