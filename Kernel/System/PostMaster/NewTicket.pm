@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.15 2002-07-21 20:56:15 martin Exp $
+# $Id: NewTicket.pm,v 1.16 2002-07-23 22:21:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -279,7 +279,7 @@ sub Run {
     my $To = '';
     foreach (@UserIDs) {
         my %UserData = $UserObject->GetUserData(UserID => $_);
-        if ($UserData{UserLogin} && $UserData{UserSendNewTicketNotification}) {
+        if ($UserData{UserEmail} && $UserData{UserSendNewTicketNotification}) {
             $To .= "$UserData{UserLogin}, ";
         }
     }

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.14 2002-07-13 12:25:45 martin Exp $
+# $Id: FollowUp.pm,v 1.15 2002-07-23 22:20:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::PostMaster::AutoResponse;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -264,6 +264,7 @@ sub Run {
            LogObject => $Self->{LogObject},
        ); 
        my %Preferences = $UserObject->GetUserData(UserID => $OwnerID);
+
        # debug
        if ($Self->{Debug} > 0) {
          $LogObject->Log(
@@ -316,11 +317,11 @@ sub Run {
             TicketID => $TicketID,
             TicketObject => $TicketObject,
             HistoryType => 'SendAgentNotification',
-            HistoryComment => "Sent notification to '$Preferences{UserLogin}'.",
+            HistoryComment => "Sent notification to '$Preferences{UserEmail}'.",
             From => $Self->{ConfigObject}->Get('NotificationSenderName').
               ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>', 
             Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
-            To => $Preferences{UserLogin},
+            To => $Preferences{UserEmail},
             Subject => $Subject, 
             UserID => $Self->{ConfigObject}->Get('PostmasterUserID'),
             Body => $Body, 
