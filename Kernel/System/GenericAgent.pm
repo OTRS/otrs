@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.5 2004-09-04 21:42:58 martin Exp $
+# $Id: GenericAgent.pm,v 1.6 2004-09-08 11:38:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $ ';
+$VERSION = '$Revision: 1.6 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -39,6 +39,7 @@ create a object
   use Kernel::System::Log;
   use Kernel::System::DB;
   use Kernel::System::Time;
+  use Kernel::System::Queue;
   use Kernel::System::Ticket;
   use Kernel::System::GenericAgent;
 
@@ -54,6 +55,10 @@ create a object
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
   );
+  my $QueueObject = Kernel::System::Queue->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
   my $TicketObject = Kernel::System::Ticket->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
@@ -64,6 +69,7 @@ create a object
       LogObject => $LogObject,
       TimeObject => $TimeObject,
       TicketObject => $TicketObject,
+      QueueObject => $QueueObject,
       DBObject => $DBObject,
   );
 
@@ -78,7 +84,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject TimeObject TicketObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TimeObject TicketObject QueueObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -808,6 +814,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2004-09-04 21:42:58 $
+$Revision: 1.6 $ $Date: 2004-09-08 11:38:30 $
 
 =cut
