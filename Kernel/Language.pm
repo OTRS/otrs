@@ -1,8 +1,8 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.14 2002-12-26 21:52:45 martin Exp $
+# $Id: Language.pm,v 1.15 2003-01-03 21:08:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -98,7 +98,6 @@ sub new {
               "translation! Check the Kernel/Language/$Self->{UserLanguage}.pm (perl -cw)!",
         );
     }
-
     return $Self;
 }
 # --
@@ -108,15 +107,17 @@ sub Get {
     my $File = shift || '';
     my @Dyn = ();
     # --
+    # check
+    # --
+    if (! defined $What) {
+        return;
+    }
+    # --
     # check dyn spaces
     # --
     if ($What && $What =~ /^(.+?)", "(.+?|)$/) {
         $What = $1;
         @Dyn = split(/", "/, $2);
-    }
-    # compat
-    if ($Self->{$What}) {
-#        $Self->{Translation}->{$What} = $Self->{$What};
     }
     # --
     # check wanted param and returns the 
@@ -145,7 +146,7 @@ sub Get {
         # warn if the value is not def
         if ($Self->{Debug} > 1) {
           $Self->{LogObject}->Log(
-            Priority => 'error',
+            Priority => 'debug',
             Message => "->Get('$What') Is not translated!!!",
           );
         }
@@ -251,11 +252,9 @@ sub Time {
 # --
 sub DESTROY {
     my $Self = shift;
-
     if (!$Self->{ConfigObject}->Get('WriteNewTranslationFile')) {
         return 1;
     }
-
     if ($Self->{UsedWords}) {
         my %UniqWords = ();
         my $Data = '';
@@ -273,7 +272,6 @@ sub DESTROY {
                  "    \$Self->{DateFormatLong} = '$Self->{DateFormatLong}';\n".
                  "    \$Self->{DateInputFormat} = '$Self->{DateInputFormat}';\n\n".
                  "    \%Hash = (";
-
         foreach my $Screen (sort keys %Screens) {
             my %Words = %{$Screens{$Screen}};
             if ($Screen) {
@@ -294,7 +292,6 @@ sub DESTROY {
                 }
             }
         }
-
         $Data .= "\n    # Misc\n";
         foreach my $Key (sort keys %{$Self->{Translation}}) {
             if (!$UniqWords{$Key} && $Key && $Self->{Translation}->{$Key} !~ /HASH\(/) {
