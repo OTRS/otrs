@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.27 2003-05-10 21:03:29 martin Exp $
+# $Id: de.pm,v 1.28 2003-05-12 12:20:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -682,7 +682,7 @@ sub Data {
       'Split' => 'Teilen',
 
     # Template: AgentZoomBody
-      'Change queue' => 'Wechsele Queue',
+      'Change queue' => 'Queue wechseln',
 
     # Template: AgentZoomHead
       'Free Fields' => 'Freie Felder',
