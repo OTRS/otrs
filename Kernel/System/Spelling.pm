@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spelling module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.9 2004-10-09 12:00:25 martin Exp $
+# $Id: Spelling.pm,v 1.10 2004-10-29 19:49:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,7 +59,7 @@ sub Check {
         $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
     }
     # default ignored words
-    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Fwd DNS CC ca tm COM Co op netscape bcc jpg gif email Tel ie eg otrs suse redhat debian caldera php perl java unsubscribe);
+    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Fwd DNS CC ca tm COM Co op netscape bcc jpg gif email Tel ie eg otrs suse redhat debian caldera php perl java html unsubscribe);
     # add configured ignored words
     if (ref($Self->{ConfigObject}->Get('SpellCheckerIgnore')) eq 'ARRAY') {
         foreach (@{$Self->{ConfigObject}->Get('SpellCheckerIgnore')}) {
@@ -71,14 +71,16 @@ sub Check {
     $Param{Text} =~ s/\s.+?\@.+?\s/ /g;
     # don't correct quoted text
     $Param{Text} =~ s/^>.*$//gm;
-    # ÄÖÜäöü?
-    $Param{Text} =~ s/ä/a"/g;
-    $Param{Text} =~ s/ö/o"/g;
-    $Param{Text} =~ s/ü/u"/g;
-    $Param{Text} =~ s/Ä/A"/g;
-    $Param{Text} =~ s/Ö/O"/g;
-    $Param{Text} =~ s/Ü/U"/g;
-    $Param{Text} =~ s/ß/sS/g;
+    # ÄÖÜäöü? (just do encoding for ispell)
+    if ($Self->{SpellChecker} =~ /ispell/) {
+        $Param{Text} =~ s/ä/a"/g;
+        $Param{Text} =~ s/ö/o"/g;
+        $Param{Text} =~ s/ü/u"/g;
+        $Param{Text} =~ s/Ä/A"/g;
+        $Param{Text} =~ s/Ö/O"/g;
+        $Param{Text} =~ s/Ü/U"/g;
+        $Param{Text} =~ s/ß/sS/g;
+    }
     # --
     # get spell output
     # --
@@ -103,13 +105,16 @@ sub Check {
         my $CurrentLine = 0;
         while (my $Line = <SPELL>) {
             $CurrentLine++;
-            $Line =~ s/a"/ä/g;
-            $Line =~ s/o"/ö/g;
-            $Line =~ s/u"/ü/g;
-            $Line =~ s/A"/Ä/g;
-            $Line =~ s/O"/Ö/g;
-            $Line =~ s/U"/Ü/g;
-            $Line =~ s/sS/ß/g;
+            # ÄÖÜäöü? (just do encoding for ispell)
+            if ($Self->{SpellChecker} =~ /ispell/) {
+                $Line =~ s/a"/ä/g;
+                $Line =~ s/o"/ö/g;
+                $Line =~ s/u"/ü/g;
+                $Line =~ s/A"/Ä/g;
+                $Line =~ s/O"/Ö/g;
+                $Line =~ s/U"/Ü/g;
+                $Line =~ s/sS/ß/g;
+            }
             if ($Line =~ /^# (.+?) .+?$/) {
                 $Data{$CurrentLine} = {
                     Word => $1,
