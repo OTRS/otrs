@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.17 2002-10-15 09:54:21 martin Exp $
+# $Id: User.pm,v 1.18 2002-10-20 12:09:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -345,7 +345,7 @@ sub SetPassword {
     # --
     # crypt pw
     # --    
-    my $NewPw = crypt($Pw, $Param{UserLogin});
+    my $NewPw = $Self->{DBObject}->Quote(crypt($Pw, $Param{UserLogin}));
     # --
     # update db
     # --
@@ -459,4 +459,28 @@ sub UserList {
     return %Users;
 }
 # --
+sub GenerateRandomPassword {
+    my $Self = shift;
+    my %Param = @_;
+    # Generated passwords are eight characters long by default.
+    my $Size = $Param{Size} || 8;
+
+    # The list of characters that can appear in a randomly generated password.
+    # Note that users can put any character into a password they choose themselves.
+    my @PwChars = (0..9, 'A'..'Z', 'a'..'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*');
+
+    # The number of characters in the list.
+    my $PwCharsLen = scalar(@PwChars);
+
+    # Generate the password.
+    my $Password = '';
+    for ( my $i=0 ; $i<$Size ; $i++ ) {
+        $Password .= $PwChars[rand($PwCharsLen)];
+    }
+
+    # Return the password.
+    return $Password;
+}
+# --
+
 1;
