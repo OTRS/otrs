@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.3 2003-03-06 22:14:19 martin Exp $
+# $Id: State.pm,v 1.4 2003-07-10 02:10:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -82,16 +82,21 @@ sub StateAdd {
 sub StateGet {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID} && !$Param{Name}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID or Name!");
         return;
     }
-    # --
+    # cache data
+    if ($Param{Cache}) {
+        if ($Param{Name} && $Self->{"StateGet::$Param{Name}"}) {
+            return %{$Self->{"StateGet::$Param{Name}"}};
+        }
+        elsif ($Param{ID} && $Self->{"StateGet::$Param{ID}"}) {
+            return %{$Self->{"StateGet::$Param{ID}"}};
+        }
+    }
     # sql 
-    # --
     my $SQL = "SELECT ts.id, ts.name, ts.valid_id, ts.comment, ts.type_id, tst.name ".
         " FROM ".
         " ticket_state ts, ticket_state_type tst ".
@@ -116,6 +121,14 @@ sub StateGet {
                 TypeName => $Data[5],
             );
         }
+        # cache data
+        if ($Param{Name}) {
+            $Self->{"StateGet::$Param{Name}"} = \%Data;
+        }
+        else {
+            $Self->{"StateGet::$Param{ID}"} = \%Data;
+        }
+        # return data
         return %Data;
     }
     else {
