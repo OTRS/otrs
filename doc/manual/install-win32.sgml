@@ -1,6 +1,5 @@
-<section>
-<title>Install OTRS 1.0 on Win32</title>
-<para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
+<title>Install OTRS on Win32</title>
+<para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
 <note><title>Command Boxes</title>
 <para>Throughout this document, we will need to enter commands directly into the system quite often. We do this in a so called <emphasis>command box</emphasis>. Other names are <emphasis>command line</emphasis>, <emphasis>(DOS) prompt</emphasis> or <emphasis>shell</emphasis>. Here is how to invoke a command box on Windows:</para>
 <para>Click <emphasis>Start</emphasis>, then <emphasis>Execute</emphasis> and enter <userinput>cmd</userinput> in the dialogue box popping up. Hit <userinput>Return</userinput> on your keyboard or click <emphasis>OK</emphasis>. A (usually black) box appears, showing something similar to this:</para>
@@ -44,25 +43,8 @@ D:\otrs\bin\cgi-bin>
 
 <section>
 <title>Installations</title>
-<para>You will need four main components on your system, a webserver (<ulink url="http://www.sambar.com/">Sambar Server</ulink> or/and <ulink url="http://apache.org/">Apache</ulink>), a database (<emphasis>MySQL</emphasis>), an MTA  (=Mail Transfer Agent, <emphasis>exim</emphasis> from the UN*X emulation <emphasis>Cygwin</emphasis>) and a programming language (<emphasis>Perl</emphasis>).</para>
-<para>The whole installation will assumingly take place on drive D:, but you may install wherever you like, for sure.</para>
-
-<section>
-<title>Install Cygwin (exim)</title>
-<para>Install Cygwin using their <ulink url="http://www.cygwin.com/setup.exe">http://www.cygwin.com/setup.exe</ulink>. Choose the following as option. Leave everything else on their defaults or suit it to your needs.</para>
-<para><screen><computeroutput>Choose A Download Source:</computeroutput>
-  <userinput>Install from Internet</userinput>
-<computeroutput>Select Root Install Directory:</computeroutput>
-  <userinput>d:\cygwin</userinput>
-<computeroutput>Install for:</computeroutput>
-  <userinput>All Users</userinput>
-<computeroutput>Default Text File Type:</computeroutput>
-  <userinput>Unix</userinput>
-<computeroutput>Select Local Package Directory:</computeroutput>
-  <userinput>d:\cygwin\packages</userinput>
-<computeroutput>Select Packages:</computeroutput></screen></para>
-<para>If you have got enough disk space, a fast internet connection and/or lots of time, I'd advice you to just install everything. If for any reason you don't want to take advantage of this great Un*x software, be sure to at least install the package <computeroutput>exim</computeroutput> from its category <emphasis>Mail</emphasis>. Install this one and the default packages (marked <emphasis>Keep</emphasis>), for sure.</para>
-</section>
+<para>You will need three main components on your system, a webserver (<ulink url="http://www.sambar.com/">Sambar Server</ulink> or/and <ulink url="http://apache.org/">Apache</ulink>), a database (<ulink url="http://www.mysql.com/">MySQL</ulink>) and the programming language <ulink url="http://www.perl.org/">Perl</ulink>.</para>
+<para>The whole installation will assumingly take place on drive D:, but you may install wherever you like, for sure. All you have to do is replace every occurence of <emphasis>D:</emphasis> or <emphasis>d:</emphasis> with your choice, f.e. <emphasis>c:\Programs</emphasis>. It is *no* good idea to have spaces in the installation path, so <emphasis>c:\program Files\otrs</emphasis> won't be a lucky choice.</para>
 
 <section>
 <title>Install PERL</title>
@@ -70,17 +52,7 @@ D:\otrs\bin\cgi-bin>
 <para>Install Perl using the default values to <emphasis>D:\Perl</emphasis>.</para>
 <section>
 <title>Install Additional PERL Packages</title>
-<para>Download the following ZIP-packages from <ulink url="http://www.activestate.com/PPMPackages/zips/6xx-builds-only/">http://www.activestate.com/PPMPackages/zips/6xx-builds-only/</ulink>:</para>
-<para><screen>
-DBD-Mysql.zip
-DBI.zip
-IO-Stringy.zip</screen></para>
-<para>Unzip all files to <emphasis>D:\Perl\packages</emphasis>.</para>
-<caution>
-<title>Caution!</title>
-<para>Every directory contains a README, which will be overwritten by the following one. If you want to read each README you should rename it directly after unzipping each package.</para>
-</caution>
-<para>Download <ulink url="http://www.robertkehl.de/otrs/RC2-mod_perl-Win32.zip">mod_perl</ulink> from <ulink url="http://www.robertkehl.de/otrs">robertkehl.de/otrs</ulink> and unpack it into <computeroutput>D:\Perl\packages</computeroutput>.</para>
+<para>Download the OTRS-Win32-Perl-Packages <ulink url="http://robert.kehl.bei.t-online.de/OTRS-Win32-Perl-Packages.zip">in one file</ulink> (coming from <emphasis>robert.kehl.bei.t-online.de</emphasis>, not browsable) and unpack the file into <computeroutput>D:\Perl\packages</computeroutput>.</para>
 </section>
 </section>
 
@@ -96,9 +68,7 @@ IO-Stringy.zip</screen></para>
 <computeroutput>D:\Apache\</computeroutput>           --- home of both
 <computeroutput>D:\Apache\Apache\</computeroutput>    --- home of Apache 1.3
 <computeroutput>D:\Apache\Apache2\</computeroutput>   --- home of Apache 2.0
-</screen></para>
-
-<tip>
+</screen></para><tip>
 <para>You may install both 1.3 and 2.0 on the very same machine, they can both be running and may both be used at the same time, if you like to. All you have to do is to ensure they are not configured to run on the same port. The second installation willing to start on port 80 won't succeed in doing so. So configure Apache 1.3 to run on port 80, Apache 2.0 to run on port 81. You could even configure the Sambar webserver (see different section in this manual) to run on port 82, if you'd like to, or choose your own port configuration. Surely one webserver running one version would be enough - the rest is for geeks ;)</para>
 </tip>
 
@@ -147,33 +117,6 @@ D:\sambar\bin><userinput>net start Sambar</userinput>
 <title>Configuration</title>
 
 <section>
-<title>Configuring Cygwin (exim)</title>
-<para>Open the file <emphasis>D:\cygwin\etc\exim.conf</emphasis> and search for this line:</para>
-<para><screen>  begin routers</screen></para>
-<para>Directly beneath you enter the following:</para>
-<para><screen># Send all mail to a smarthost
-  smarthost:
-  driver = accept
-  transport = remote_smtp</screen></para>
-<para>Underneath this:</para>
-<para><screen>  begin transports</screen></para>
-<para>you note:</para>
-<para><screen>
-remote_smtp:
-  driver = smtp
-  hosts = smtp.yourprovider.com</screen></para>
-<para>Now <emphasis>exim</emphasis> will send each incoming message to the relay server of your provider. By now you can't forward messages to Sambar. In future we won't need <emphasis>exim</emphasis> and Cygwin at all, because OTRS will have it's own SMTP module included.</para>
-<para>Now you change the access rights for <emphasis>D:\cygwin\etc\exim.conf</emphasis> using <emphasis>chmod</emphasis> from Cygwin:</para>
-<para><screen>
-C:\><userinput>cd /d d:\cygwin</userinput>
-D:\cygwin><userinput>cygwin</userinput>
-D:\cygwin><userinput>chown SYSTEM /etc/exim.conf</userinput>
-D:\cygwin><userinput>chmod 755 /etc/exim.conf</userinput>
-</screen></para>
-<para>That's it for <emphasis>exim</emphasis> and <emphasis>Cygwin</emphasis>.</para>
-</section>
-
-<section>
 <title>Configuring Perl</title>
 <para>We now patch our Perl because it doesn't suit our needs in the default installation, there are some so called &quot;packages&quot; missing.</para>
 <para>Open a command box and enter this:</para>
@@ -191,39 +134,67 @@ Install package 'IO-Stringy.ppd?' (y/N): <userinput>y</userinput>
 PPM&gt; <userinput>install DBD-Mysql.ppd</userinput>
 Install package 'DBD-Mysql.ppd?' (y/N): <userinput>y</userinput>
   [...returned ouput snipped...]
+PPM&gt; <userinput>install GD.ppd</userinput>
+Install package 'GD.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install GDGraph.ppd</userinput>
+Install package 'GDGraph.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install GDTextUtil.ppd</userinput>
+Install package 'GDTextUtil.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install MailTools.ppd</userinput>
+Install package 'MailTools.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install MIME-tools.ppd</userinput>
+Install package 'MIME-tools.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install Test-Simple.ppd</userinput>
+Install package 'Test-Simple.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
+PPM&gt; <userinput>install Net-DNS.ppd</userinput>
+Install package 'Net-DNS.ppd?' (y/N): <userinput>y</userinput>
+  [...returned ouput snipped...]
 PPM&gt; <userinput>install mod_perl.ppd</userinput>
 Install package 'mod_perl.ppd?' (y/N): <userinput>y</userinput>
   [...returned ouput snipped...]</screen></para>
 <para>The install routine for <computeroutput>mod_perl</computeroutput> will ask you where to copy <computeroutput>mod_perl.so</computeroutput>. Please enter the absolute path to the directory <computeroutput>modules</computeroutput> in your Apache installation, i.e. <userinput>d:/Apache/Apache/modules</userinput>.</para>
 <para>Your Perl should now look like this or even better:</para>
 <para><screen>PPM&gt; <userinput>query</userinput>
-    Archive-Tar      [0.072  ]
-    Compress-Zlib    [1.16   ]
-    DBD-Mysql        [1.2200 ]
-    DBI              [1.32   ]
-    Digest           [1      ]
-    Digest-HMAC      [1.01   ]
-    Digest-MD2       [2      ]
-    Digest-MD4       [1.1    ]
-    Digest-MD5       [2.20   ]
-    Digest-SHA1      [2.01   ]
-    File-CounterFile [0.12   ]
-    Font-AFM         [1.18   ]
-    HTML-Parser      [3.26   ]
-    HTML-Tagset      [3.03   ]
-    HTML-Tree        [3.11   ]
-    IO-stringy       [2.108  ]
-    MD5              [2.02   ]
-    MIME-Base64      [2.12   ]
-    PPM              [2.1.6  ]
-    SOAP-Lite        [0.55   ]
-    Storable         [1.0.12 ]
-    Tk               [800.023]
-    URI              [1.19   ]
-    XML-Parser       [2.27   ]
-    XML-Simple       [1.06   ]
-    libwin32         [0.19.1 ]
-    mod_perl         [1.27_01-dev]
+  Archive-Tar      [0.072      ]
+  Compress-Zlib    [1.16       ]
+  DBD-Mysql        [1.2200     ]
+  DBI              [1.27       ]
+  Digest           [1          ]
+  Digest-HMAC      [1.01       ]
+  Digest-MD2       [2          ]
+  Digest-MD4       [1.1        ]
+  Digest-MD5       [2.20       ]
+  Digest-SHA1      [2.01       ]
+  File-CounterFile [0.12       ]
+  Font-AFM         [1.18       ]
+  GD               [1.27.2     ]
+  GDGraph          [1.32       ]
+  GDTextUtil       [0.80       ]
+  HTML-Parser      [3.26       ]
+  HTML-Tagset      [3.03       ]
+  HTML-Tree        [3.11       ]
+  IO-stringy       [2.108      ]
+  MD5              [2.02       ]
+  MIME-Base64      [2.12       ]
+  MIME-tools       [5.411a     ]
+  MailTools        [1.58       ]
+  Net-DNS          [0.33       ]
+  PPM              [2.1.6      ]
+  SOAP-Lite        [0.55       ]
+  Storable         [1.0.12     ]
+  Test-Simple      [0.47       ]
+  Tk               [800.023    ]
+  URI              [1.19       ]
+  XML-Parser       [2.27       ]
+  XML-Simple       [1.06       ]
+  libwin32         [0.19.1     ]
+  mod_perl         [1.27_01-dev]
 PPM&gt; <userinput>quit</userinput>
 Quit!
 </screen></para>
@@ -419,19 +390,23 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 <para><screen>    # -----------------------------------------------------#
     # Sendmail
     # -----------------------------------------------------#
-    $Self-&gt;{Sendmail} = 'd:/cygwin/bin/exim-4.12-2.exe -t -i -f ';
+    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
+    $Self->{'SendmailModule::Host'} = 'smtp-server.of.your.provider';
+    $Self->{'SendmailModule::AuthUser'} = 'smtp-username';
+    $Self->{'SendmailModule::AuthPassword'} = 'smtp-password';
     # -----------------------------------------------------#
-    # fs root directory
+    # directories
     # -----------------------------------------------------#
-    $Self-&gt;{Home} = 'd:/otrs';
+    $Self->{Home} = 'd:/otrs';
+    $Self->{CounterLog} = '&lt;OTRS_CONFIG_Home&gt;/var/log/TicketCounter.log';
+    $Self->{ArticleDir} = '&lt;OTRS_CONFIG_Home&gt;/var/article';
+    $Self->{StatsPicDir} = '&lt;OTRS_CONFIG_Home&gt;/var/pics/stats';
+    $Self->{TemplateDir} = '&lt;OTRS_CONFIG_Home&gt;/Kernel/Output';
+    $Self->{TempDir} = '&lt;OTRS_CONFIG_Home&gt;/var/tmp';
     # ----------------------------------------------------#
     # LogModule                                           #
     # ----------------------------------------------------#
-    # (log backend module)
-#    $Self-&gt;{LogModule} = 'Kernel::System::Log::SysLog';
-    $Self-&gt;{LogModule} = 'Kernel::System::Log::File';
-    # param for LogModule Kernel::System::Log::File (required!)
-    $Self-&gt;{'LogModule::LogFile'} = '&lt;OTRS_CONFIG_Home&gt;/var/log/otrs.log';
+    $Self->{LogModule} = 'Kernel::System::Log::File';
     # -----------------------------------------------------#
     # own config settings                                  #
     # config settings taken from Kernel/Config/Defaults.pm #
@@ -447,26 +422,16 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 </section>
 
 <section>
-<title>LOG.PM</title>
-<para>Now we have to comment five rows in <emphasis>d:\otrs\Kernel\System\Log.pm</emphasis>:</para>
-<para><screen>13:
-  # use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
-60:
-  #    $Self-&gt;{Key} = shmget($Self-&gt;{IPCKey}, $Self-&gt;{IPCSize}, 0777 | 0001000) || die $!;
-128,129:
-  #        my $String = $Self-&gt;GetLog();
-  #        shmwrite($Self-&gt;{Key}, $Data.$String, 0, $Self-&gt;{IPCSize}) || die $!;
-143:
-  #    shmread($Self-&gt;{Key}, $String, 0, $Self-&gt;{IPCSize}) || die &quot;$!&quot;;</screen></para>
-</section>
-
-<section>
 <title>VALID.PM</title>
-<para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>. In <emphasis>d:\otrs\Kernel\cpan-lib\email\Valid.pm</emphasis> we change the following lines:</para>
-<para><screen>16:
+<para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>, <emphasis>dig.exe</emphasis> and/or <emphasis>host.exe</emphasis>. In <emphasis>d:\otrs\Kernel\cpan-lib\email\Valid.pm</emphasis> we change the following lines:</para>
+<para><screen>17:
   @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin c:/winnt/system32 );
-98:
-  return &quot;$path/nslookup.exe&quot; if -x &quot;$path/nslookup.exe&quot; and !-d _;</screen></para>
+96:
+  return &quot;$path/nslookup.exe&quot; if -x &quot;$path/nslookup.exe&quot; and !-d _;
+99:
+  return &quot;$path/dig.exe&quot; if -x &quot;$path/dig.exe&quot; and !-d _;
+102:
+  return &quot;$path/host.exe&quot; if -x &quot;$path/host.exe&quot; and !-d _;</screen></para>
 <para>Now <emphasis>Valid.pm</emphasis> is suitable for Win32 *only*, but that's ok for us :)</para>
 </section>
 
@@ -538,5 +503,4 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 <para>I would be more enlighted if you'd send some success stories!</para>
 <para>Surely this chapter will follow the development of <ulink url="http://otrs.org">OTRS</ulink>. OTRS on Win32 can be done with Apache, too, and I will soon include a part on it.</para>
 <para>Have fun using your OTRS on Sambar!</para>
-</section>
 </section>
