@@ -2,7 +2,7 @@
 # AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.3 2002-06-13 22:08:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -103,11 +103,14 @@ sub Run {
 
 		my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         foreach (@NewIDs) {
+          if ($_) {
             my $SQL = "INSERT INTO queue_auto_response (queue_id, auto_response_id, " .
 			" create_time, create_by, change_time, change_by)" .
             " VALUES " .
-            " ( $Param{ID}, $_, current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
+            " ( $Param{ID}, $_, current_timestamp, $Self->{UserID}, " .
+            " current_timestamp, $Self->{UserID})";
             $Self->{DBObject}->Do(SQL => $SQL);
+          }
         }
         $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
     }
