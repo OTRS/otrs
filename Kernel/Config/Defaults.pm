@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.123 2004-04-16 12:38:14 martin Exp $
+# $Id: Defaults.pm,v 1.124 2004-04-19 19:55:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.123 $';
+$VERSION = '$Revision: 1.124 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -865,6 +865,7 @@ $Data{"Signature"}
       'In-Reply-To',
       'X-Loop',
       'X-Spam-Flag',
+      'X-Spam-Status',
       'X-No-Loop',
       'X-OTRS-Loop',
       'X-OTRS-Info',
@@ -980,6 +981,11 @@ $Data{"Signature"}
     # SessionMaxTime
     # (Max valid time of one session id in second (8h = 28800).)
     $Self->{SessionMaxTime} = 28800;
+
+    # SessionMaxIdleTime
+    # (After this time (in seconds) without new http request, then 
+    # the user get loged off)
+    $Self->{SessionMaxIdleTime} = 2*60*60;
 
     # SessionDeleteIfTimeToOld
     # (Delete session's witch are requested and to old?) [0|1]
