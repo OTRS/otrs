@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.29 2002-05-12 15:04:14 martin Exp $
+# $Id: Config.pm,v 1.30 2002-05-20 23:00:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -134,7 +134,9 @@ sub Load {
       UserCharset => 'Charset',
       UserTheme => 'Theme',
       UserLanguage => 'Language',
-      UserComment => 'Comment'
+      UserComment => 'Comment',
+      UserSendFollowUpNotification => 'UserSendFollowUpNotification',
+      UserSendNewTicketNotification => 'UserSendNewTicketNotification',
     };
 
     $Self->{UserPreferencesMaskUse} = [
@@ -145,11 +147,7 @@ sub Load {
       'Login',
       'Fristname',
       'Lastname',
-      'Language',
       'ValidID',
-      'Charset',
-      'Theme',
-      'Comment',
       'Pw',
     ];
 
@@ -163,7 +161,7 @@ sub Load {
 
     # ViewableTicketLines
     # (Max viewable ticket lines in the QueueView.)
-    $Self->{ViewableTicketLines} = 25;
+    $Self->{ViewableTicketLines} = 18;
 
     # ViewableTicketNewLine
     # (insert new line in ticket-article after max x chars and 
@@ -342,6 +340,46 @@ sub Load {
       'X-OTRS-TicketValue2',
     ];
 
+    # ----------------------------------------------------#
+    # notification stuff                                  #
+    # ----------------------------------------------------#
+    # notification sender
+    $Self->{NotificationSenderName} = 'OpenTRS Notification Master';
+    $Self->{NotificationSenderEmail} = 'otrs@'.$Self->{FQDN};
+
+    # new ticket
+    $Self->{NotificationSubjectNewTicket} = 'New ticket notification! (<OTRS_CUSTOMER_SUBJECT[10]>)';
+    $Self->{NotificationBodyNewTicket} = "
+Hi,
+
+there is a new ticket!
+
+<snip>
+<OTRS_CUSTOMER_EMAIL[6]>
+<snip>
+
+http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OpenTRS Notification Master
+
+";
+
+    # follow up
+    $Self->{NotificationSubjectFollowUp} = 'You got follow up! (<OTRS_CUSTOMER_SUBJECT[10]>)';
+    $Self->{NotificationBodyFollowUp} = "
+Hi <OTRS_USER_FIRSTNAME>,
+
+you got a follow up!
+
+<snip>
+<OTRS_CUSTOMER_EMAIL[6]>
+<snip>
+
+http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OpenTRS Notification Master
+
+";
 
     # ----------------------------------------------------#
     # default values                                      #
@@ -446,6 +484,15 @@ sub Load {
         'email-external',
         'email-internal',
     ];
+
+    # ----------------------------------------------------#
+    # misc                                                #
+    # ----------------------------------------------------#
+    # yes / no options
+    $Self->{YesNoOptions} = {
+        1 => 'Yes',
+        0 => 'No',
+    };
 
     # ----------------------------------------------------#
     # EOC
