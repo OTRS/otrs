@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.40 2004-12-23 06:02:59 martin Exp $
+# $Id: Header.dtl,v 1.41 2005-04-01 08:22:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,11 +32,6 @@ $Include{"Copyright"}
 # --
 <dtl if ($Data{"Refresh"} ne "") { $Data{"MetaHttpEquiv"} = "<meta http-equiv="refresh" content="$Data{"Refresh"}">"; }>
 # --
-# check title
-# --
-<dtl if ($Data{"Area"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"}"; }>
-<dtl if ($Data{"Title"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"} :: $Text{"$Data{"Title"}"}"; }>
-# --
 # create $Data{"UserLoginTop"} if user is loged in
 # --
 <dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
@@ -44,12 +39,13 @@ $Include{"Copyright"}
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
+    <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 # include css.dtl  file
 $Include{"css"}
 </head>
 <a name="top"></a>
 <body>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" width="20%" class="header">

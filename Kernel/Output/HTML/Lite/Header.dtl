@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.21 2004-12-23 06:02:59 martin Exp $
+# $Id: Header.dtl,v 1.22 2005-04-01 08:22:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,11 +31,6 @@ $Include{"Copyright"}
 # check refresh
 # --
 <dtl if ($Data{"Refresh"} ne "") { $Data{"MetaHttpEquiv"} = "<meta http-equiv="refresh" content="$Data{"Refresh"}">"; }>
-# --
-# check title
-# --
-<dtl if ($Data{"Area"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"}"; }>
-<dtl if ($Data{"Title"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"} :: $Text{"$Data{"Title"}"}"; }>
 # --
 # create $Data{"UserLoginTop"} if user is loged in
 # --
