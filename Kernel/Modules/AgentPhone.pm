@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.73 2004-04-18 11:49:29 martin Exp $
+# $Id: AgentPhone.pm,v 1.74 2004-04-18 11:50:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -510,7 +510,7 @@ sub Run {
                 );
             }
             foreach my $TicketID (@TicketIDs) {
-                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticleArticle(TicketID => $TicketID);
+                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'TicketViewLite',
                     Data => {
