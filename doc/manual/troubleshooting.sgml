@@ -112,6 +112,27 @@ To check the database connect use '~otrs/bin/CheckDB.pl' . Is the output "It loo
 </sect2>
 
 <sect2>
+<title>Access denied for user: 'otrs@localhost'</title>
+<para>
+Check the password in Kernel/Config.pm for the database user. If you don't know the database password for the database otrs user, set it new:
+<programlisting>
+shell> mysql -u root -p
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 37 to server version: 3.23.48-log
+
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+
+mysql> GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY "yourpw" WITH GRANT OPTION;
+mysql> 
+</programlisting>
+and change it in Kernel/Config.pm.
+</para>
+</sect2>
+
+<sect2>
 <title>Lost root password of MySQL</title>
 <para>
 Follow: <ulink url="http://www.mysql.com/documentation/mysql/bychapter/manual_Problems.html#Resetting_permissions">http://www.mysql.com/documentation/mysql/bychapter/manual_Problems.html#Resetting_permissions</ulink>
