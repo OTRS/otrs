@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.24 2004-01-20 00:03:35 martin Exp $
+# $Id: Language.pm,v 1.25 2004-01-21 23:43:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -419,7 +419,8 @@ sub DESTROY {
                  "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n".
                  "    \$Self->{DateFormat} = '$Self->{DateFormat}';\n".
                  "    \$Self->{DateFormatLong} = '$Self->{DateFormatLong}';\n".
-                 "    \$Self->{DateInputFormat} = '$Self->{DateInputFormat}';\n\n".
+                 "    \$Self->{DateInputFormat} = '$Self->{DateInputFormat}';\n".
+                 "    \$Self->{DateInputFormatLong} = '$Self->{DateInputFormatLong}';\n\n".
                  "    \%Hash = (";
         foreach my $Screen (sort keys %Screens) {
             my %Words = %{$Screens{$Screen}};
@@ -475,6 +476,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2004-01-20 00:03:35 $
+$Revision: 1.25 $ $Date: 2004-01-21 23:43:46 $
 
 =cut
