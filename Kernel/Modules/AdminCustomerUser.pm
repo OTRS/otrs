@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.11 2004-03-01 16:37:41 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.12 2004-03-01 16:40:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.12 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,7 +84,7 @@ sub Run {
     my $Link = '';
     if (%UserList) {
         foreach (sort keys %UserList) {
-            $Link .= "<tr><td>$_</td><td><a href='?Action=AdminCustomerUser&Subaction=Change&ID=$_&Search=$Search&Nav=$Nav'>\$Quote{\"$UserList{$_}\"}</a></td></tr>";
+            $Link .= "<tr><td>$_</td><td><a href='?Action=AdminCustomerUser&Subaction=Change&ID=$_&Search=$Search&Nav=$Nav'>".$Self->{LayoutObject}->Ascii2Html(Text => $UserList{$_}, Max => 45)."</a></td></tr>";
         }
     }
     # get user data 2 form
