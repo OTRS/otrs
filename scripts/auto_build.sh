@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.6 2002-10-10 18:58:37 martin Exp $
+# $Id: auto_build.sh,v 1.7 2002-10-25 00:07:25 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.6 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.7 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 
@@ -128,6 +128,9 @@ for i in aux log out tex; do
   rm -rf doc/manual/README.$i;
 done;
 rm -rf doc/screenshots
+rm -rf doc/manual/screenshots
+# remove swap stuff
+find -name ".#*" | xargs rm
 
 # --
 # create tar
