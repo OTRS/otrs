@@ -2,7 +2,7 @@
 # Kernel/Config/Notification.pm - Notification config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.2 2002-09-01 13:04:32 martin Exp $
+# $Id: Notification.pm,v 1.3 2002-09-10 23:13:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Notification;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,8 +39,9 @@ Hi,
 
 there is a new ticket in '<OTRS_QUEUE>'!
 
+<OTRS_CUSTOMER_FROM> wrote:
 <snip>
-<OTRS_CUSTOMER_EMAIL[6]>
+<OTRS_CUSTOMER_EMAIL[10]>
 <snip>
 
 http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
@@ -57,8 +58,9 @@ Hi <OTRS_USER_FIRSTNAME>,
 
 you got a follow up!
 
+<OTRS_CUSTOMER_FROM> wrote:
 <snip>
-<OTRS_CUSTOMER_EMAIL[6]>
+<OTRS_CUSTOMER_EMAIL[10]>
 <snip>
 
 http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
@@ -67,7 +69,7 @@ Your OTRS Notification Master
 
 ";
     # --
-    # ticket lock timeout my system
+    # ticket lock timeout by system
     # --
     $Self->{NotificationSubjectLockTimeout} = 'Lock Timeout! (<OTRS_CUSTOMER_SUBJECT[10]>)';
     $Self->{NotificationBodyLockTimeout} = "
@@ -81,6 +83,23 @@ Your OTRS Notification Master
 
 ";
 
+    # --
+    # mail to new owner by owner update
+    # --
+    $Self->{NotificationSubjectOwnerUpdate} = 'Ticket assigned to you!';
+    $Self->{NotificationBodyOwnerUpdate} = "
+Hi <OTRS_USER_FIRSTNAME>,
+
+a ticket [<OTRS_TICKET_NUMBER>] is assigned to you by '<OTRS_CURRENT_USER_FIRSTNAME> <OTRS_CURRENT_USER_LASTNAME>'.
+
+Comment: 
+<OTRS_COMMENT>
+
+http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OTRS Notification Master
+
+";
 }
 # --
 
