@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.17 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.18 2005-02-17 07:07:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -174,18 +174,11 @@ sub _Mask {
         foreach my $FileID (keys %AtmIndex) {
           my %File = %{$AtmIndex{$FileID}};
           $File{Filename} = $Self->{LayoutObject}->Ascii2Html(Text => $File{Filename});
-          $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
+          $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentTicketAttachment&'.
             "ArticleID=$Article{ArticleID}&FileID=$FileID\" target=\"attachment\" ".
             "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';".
              ' return true;" onmouseout="window.status=\'\';">'.
              "$File{Filename}</a> $File{Filesize}<br>";
-        }
-        foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
-          FreeValue3 CreateTime SenderType ArticleType)) {
-            $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-                Text => $Article{$_},
-                From => $Article{ContentCharset},
-            );
         }
         # check if just a only html email
         if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article, Action => 'AgentZoom')) {
