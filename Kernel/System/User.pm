@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.25 2003-01-03 00:30:28 martin Exp $
+# $Id: User.pm,v 1.26 2003-01-14 17:01:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -246,6 +246,17 @@ sub UserUpdate {
     # get old user data (pw)
     # --
     my %UserData = $Self->GetUserData(UserID => $Param{ID});
+    # --
+    # check if user name is changed (set new password)
+    # --
+    my $GetPw = $UserData{UserPw} || '';
+    if ($UserData{UserLogin} ne $Param{Login} && $GetPw eq $Param{Pw}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "If the login name is changed, you need also to set a new password!",
+        );
+        return;
+    }
     # --
     # quote params
     # -- 
