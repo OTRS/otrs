@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.34 2004-01-14 01:45:33 martin Exp $
+# $Id: DB.pm,v 1.35 2004-01-22 19:54:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -46,7 +46,7 @@ create database object with database connect
       ConfigObject => $ConfigObject,
   );
 
-  $Self->{DBObject} = Kernel::System::DB->new(
+  $DBObject = Kernel::System::DB->new(
       ConfigObject => $ConfigObject,
       LogObject    => $LogObject,
       # if you don't use the follow params, then this are used 
@@ -94,11 +94,14 @@ sub new {
     if ($Self->{DSN} =~ /:mysql/i) {
         $Self->{'DB::Type'} = 'mysql';
     }
-    elsif ($Self->{DSN} =~ /:Pg/i) {
+    elsif ($Self->{DSN} =~ /:pg/i) {
         $Self->{'DB::Type'} = 'postgresql';
     }
     elsif ($Self->{DSN} =~ /:db2/i) {
         $Self->{'DB::Type'} = 'db2';
+    }
+    elsif ($Self->{DSN} =~ /:oracle/i) {
+        $Self->{'DB::Type'} = 'oracle';
     }
     elsif ($Self->{DSN} =~ /:odbc/i) {
         $Self->{'DB::Type'} = 'odbc';
@@ -127,6 +130,16 @@ sub new {
         $Self->{'DB::QuoteSignle'} = '\\';
         $Self->{'DB::QuoteBack'} = '\\';
         $Self->{'DB::Attribute'} = {};
+    }
+    elsif ($Self->{'DB::Type'} eq 'oracle') {
+        $Self->{'DB::Limit'} = 0;
+        $Self->{'DB::DirectBlob'} = 0;
+        $Self->{'DB::QuoteSignle'} = '\'';
+        $Self->{'DB::QuoteBack'} = 0;
+        $Self->{'DB::Attribute'} = {
+            LongTruncOk => 1,
+            LongReadLen => 100*1024,
+        };
     }
     elsif ($Self->{'DB::Type'} eq 'db2') {
         $Self->{'DB::Limit'} = 'fetch';
@@ -170,7 +183,7 @@ sub new {
         $Self->{LogObject}->Log(
           Priority => 'Error',
           Message => "Unknown database type $Self->{'DB::Type'}! Set ".
-              "option Database::Type to (mysql|postgresql|db2|sapdb|mssql|generic)."
+              "option Database::Type to (mysql|postgresql|db2|sapdb|oracle|mssql|generic)."
         );
         return;
     }
@@ -251,7 +264,7 @@ sub Disconnect {
 
 to quote strings 
 
-  my $DBString = $Self->{DBObject}->Quote("This isn't a problem!");
+  my $DBString = $DBObject->Quote("This isn't a problem!");
 
 =cut
 
@@ -276,7 +289,7 @@ sub Quote {
 
 to get database errors back
 
-  my $ErrorMessage = $Self->{DBObject}->Error();
+  my $ErrorMessage = $DBObject->Error();
 
 =cut
 
@@ -290,9 +303,9 @@ sub Error {
 
 to insert, update or delete something
 
-  $Self->{DBObject}->Do(SQL => "INSERT INTO table (name) VALUES ('dog')");
+  $DBObject->Do(SQL => "INSERT INTO table (name) VALUES ('dog')");
 
-  $Self->{DBObject}->Do(SQL => "DELETE FROM table");
+  $DBObject->Do(SQL => "DELETE FROM table");
 
 =cut
 
@@ -300,6 +313,14 @@ sub Do {
     my $Self = shift;
     my %Param = @_;
     my $SQL = $Param{SQL};
+    # doing timestamp workaround (if needed)
+    if ($Self->{'DB::CurrentTimestamp'}) {
+        $SQL =~ s/current_timestamp/$Self->{'DB::CurrentTimestamp'}/g;
+    }
+    # oracle workaround (if needed) 
+    if ($Self->{'DB::Type'} eq 'oracle') {
+        $SQL =~ s/comment(,| )/comments$1/g;
+    }
     # debug
     if ($Self->{Debug} > 0) {
         $Self->{DoCounter}++;
@@ -309,10 +330,7 @@ sub Do {
           Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$SQL'",
         );
     }
-    # doing
-    if ($Self->{'DB::CurrentTimestamp'}) {
-        $SQL =~ s/current_timestamp/$Self->{'DB::CurrentTimestamp'}/g;
-    }
+    # send sql to database 
     if (!$Self->{dbh}->do($SQL)) {
         $Self->{LogObject}->Log(
           Caller => 1,
@@ -329,7 +347,7 @@ sub Do {
 
 to send a select something to the database
 
-  $Self->{DBObject}->Prepare(
+  $DBObject->Prepare(
       SQL => "SELECT id, name FROM table",
       Limit => 10
   );
@@ -354,6 +372,10 @@ sub Prepare {
         else {
             $Self->{Limit} = $Limit;
         }
+    }
+    # oracle workaround (if needed) 
+    if ($Self->{'DB::Type'} eq 'oracle') {
+        $SQL =~ s/comment(,| )/comments$1/g;
     }
     # debug
     if ($Self->{Debug} > 1) {
@@ -389,12 +411,12 @@ sub Prepare {
 
 to get a select return
 
-  $Self->{DBObject}->Prepare(
+  $DBObject->Prepare(
       SQL => "SELECT id, name FROM table",
       Limit => 10
   );
 
-  while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+  while (my @Row = $DBObject->FetchrowArray()) {
       print "$Row[0]:$Row[1]\n";
   }
 
@@ -412,6 +434,7 @@ sub FetchrowArray {
     }
     # return 
     my @Row = $Self->{Curser}->fetchrow_array();
+    # e. g. set utf-8 flag
     foreach (@Row) {
          $Self->{EncodeObject}->Encode(\$_);
     }
@@ -438,7 +461,7 @@ sub FetchrowHashref {
 
 to get database functions like Limit, DirectBlob, ...
 
-  my $What = $Self->{DBObject}->GetDatabaseFunction('DirectBlob');
+  my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 
 =cut
 
@@ -453,7 +476,7 @@ sub GetDatabaseFunction {
 
 to get table data back in a hash
 
-  my %Users = $Self->{DBObject}->GetTableData(
+  my %Users = $DBObject->GetTableData(
       What => 'id, name',
       Table => 'groups',
   );
@@ -534,8 +557,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2004-01-14 01:45:33 $
+$Revision: 1.35 $ $Date: 2004-01-22 19:54:30 $
 
 =cut
-
 
