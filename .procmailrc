@@ -2,7 +2,7 @@
 # .procmailrc - procmailrc of the OTRS user
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: .procmailrc,v 1.10 2002-09-20 14:11:26 martin Exp $
+# $Id: .procmailrc,v 1.11 2002-10-20 20:05:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -37,8 +37,8 @@ VERBOSE=on
 # Examples for queue presorting.
 # --
 :0 fhw :
-* TO:.*example.com
-| formail -I "X-OTRS-Queue: Privat"
+* TO:.*@example.com
+| formail -I "X-OTRS-Queue: example"
 
 :0 fhw :
 * ^List-Id:.*OpenAntiVirus
@@ -48,17 +48,22 @@ VERBOSE=on
 # Example for add free form key and value (max 3). 
 # --
 :0 fhw :
-* TO:.*example.com
+* TO:.*@example.com
 | formail -I "X-OTRS-ArticleKey1: Test" |  formail -I "X-OTRS-ArticleValue1: True!"
 
 # --
-# Example for assigning the email domain as customer ID automaticaly.
+# Example for assigning the "email as customer ID" automaticaly.
 # --
-#:0hc  
-#FROM=| formail -X "From:"|perl -e '$i=<STDIN>; $i=~s/^From: //;$i=~s/\(.*?\)//;$i=~s/<(.*?)>/$1/;$i=~s/ //g;$i=~s/.*@(.*)/$1/;print $i'
+:0hc  
+CUSTOMERID=|formail -X "From:"|perl -e '$i=<STDIN>; $i=~s/\(.*?\)//; $i=~s/.+?([\w\-\&\.]+\@[\w\-\&\.]+)(.+?|)/$1/g; print $i'
+# --
+# Example for assigning the "email domain as customer ID" automaticaly.
+# --
+#:0hc
+#CUSTOMERID=|formail -X "From:"|perl -e '$i=<STDIN>; $i=~s/^From: //;$i=~s/\(.*?\)//;$i=~s/<(.*?)>/$1/;$i=~s/ //g;$i=~s/.*@(.*)/$1/;print $i'
 
-#:0 fhw :
-#| formail -I "X-OTRS-CustomerNo: $FROM" 
+:0 fhw :
+| formail -I "X-OTRS-CustomerNo: $CUSTOMERID" 
 
 # --
 # Backup of all incoming emails. 
