@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.146 2004-09-04 21:44:10 martin Exp $
+# $Id: Generic.pm,v 1.147 2004-09-08 07:33:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.146 $';
+$VERSION = '$Revision: 1.147 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1175,7 +1175,18 @@ sub OptionStrgHashRef {
     my $Size = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
     if (!$Param{Data}) {
-        return "Got no Data ref in OptionStrgHashRef()!";
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Got no Data Param ref in OptionStrgHashRef()!",
+        );
+        $Self->FatalError();
+    }
+    elsif (ref($Param{Data}) ne 'HASH') {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need HashRef in Param Data! Got: '".ref($Param{Data})."'!",
+        );
+        $Self->FatalError();
     }
     my %Data = %{$Param{Data}};
     my $OnStuff = '';
