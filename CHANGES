@@ -2,13 +2,14 @@
 # Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.131.2.3 2004-10-14 15:35:47 martin Exp $
+# $Id: CHANGES,v 1.131.2.4 2004-10-18 07:29:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.3.2 (2004-10-15)
+ - (2004/10/14) fixed bug 570 - Stat generation script fails under postgres
  - (2004/10/14) fixed bug 573 - Clicked link to check ticket status and here's
     what I got
  - (2004/10/12) replaced COUNTER with DATA in Kernel/System/Ticket/Number/*.pm
