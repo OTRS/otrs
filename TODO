@@ -2,7 +2,7 @@
 # TODO - to do list of OpenTRS
 # Copyright (C) 2001 Martin Edenhofer
 # --
-# $Id: TODO,v 1.6 2001-12-30 00:33:58 martin Exp $
+# $Id: TODO,v 1.7 2002-01-01 20:36:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -29,6 +29,8 @@ immediately:
 - set db time type to human readable string!
 
 - check types of auto responses! 
+
+- Article.pm && umask!
 
 later:
 - add ticket waiting_states and funktion (AgentPending).
