@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.35 2003-07-10 08:52:33 martin Exp $
+# $Id: Article.pm,v 1.36 2003-07-12 08:12:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,18 +83,17 @@ sub CreateArticle {
     # --
     # do db insert
     # --
-    my $SQL = "INSERT INTO article ".
-    " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
-	" a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, ".
-    " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
-	" VALUES ".
-    " ($Param{TicketID}, $Param{ArticleTypeID}, $Param{SenderTypeID}, ".
-    " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
-    " '$DBParam{Subject}', ". 
-	" '$DBParam{MessageID}', '$DBParam{Body}', '$DBParam{ContentType}', ".
-    "'".$Self->{DBObject}->Quote($Self->{ArticleContentPath})."', $ValidID,  $IncomingTime, " .
-	" current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if (!$Self->{DBObject}->Do(SQL => $SQL)) {
+    if (!$Self->{DBObject}->Do(SQL => "INSERT INTO article ".
+      " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
+      " a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, ".
+      " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
+      " VALUES ".
+      " ($Param{TicketID}, $Param{ArticleTypeID}, $Param{SenderTypeID}, ".
+      " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
+      " '$DBParam{Subject}', ". 
+      " '$DBParam{MessageID}', '$DBParam{Body}', '$DBParam{ContentType}', ".
+      "'".$Self->{DBObject}->Quote($Self->{ArticleContentPath})."', $ValidID,  $IncomingTime, " .
+      " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})")) {
         return;
     }
     # --
@@ -474,12 +473,12 @@ sub GetLastCustomerArticle {
     my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID}, SenderType => 'customer');
     # get article data   
     if (@Index) {
-        return $Self->GetArticle(ArticleID => $Index[$#Index]);
+        return $Self->GetArticle(ArticleID => $Index[$#Index], TicketOverTime => 1);
     }
     else {
         my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID});
         if (@Index) {
-            return $Self->GetArticle(ArticleID => $Index[$#Index]);
+            return $Self->GetArticle(ArticleID => $Index[$#Index], TicketOverTime => 1);
         }
         else {
             $Self->{LogObject}->Log(
@@ -560,12 +559,13 @@ sub GetArticleContentIndex {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
         return;
     }
-    my @ArticleIndex = $Self->GetArticleIndex(TicketID => $Param{TicketID});
-    my @ArticleBox = ();
-    foreach (@ArticleIndex) {
-        my %Article = $Self->GetArticle(ArticleID => $_);
-        push (@ArticleBox, \%Article);
-    }
+#    my @ArticleIndex = $Self->GetArticleIndex(TicketID => $Param{TicketID});
+#    my @ArticleBox = ();
+#    foreach (@ArticleIndex) {
+#        my %Article = $Self->GetArticle(ArticleID => $_);
+#        push (@ArticleBox, \%Article);
+#    }
+    my @ArticleBox = $Self->GetArticle(TicketID => $Param{TicketID});
     # article attachments
     foreach my $Article (@ArticleBox) {
         my %AtmIndex = $Self->GetArticleAtmIndex(
@@ -580,13 +580,13 @@ sub GetArticleContentIndex {
 sub GetArticle {
     my $Self = shift;
     my %Param = @_;
-    my %Data;
     # check needed stuff
-    if (!$Param{ArticleID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+    if (!$Param{ArticleID} && !$Param{TicketID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID or TicketID!");
         return;
     }
     # sql query
+    my @Content = ();
     my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, ".
         " sa.a_reply_to, sa. a_message_id, sa.a_body, ".
         " st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, ".
@@ -595,20 +595,27 @@ sub GetArticle {
         " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, sa.article_type_id, ".
         " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
         " sa.a_freekey3, sa.a_freetext3, st.ticket_answered, ".
-        " st.freetext1, st.freetext2, st.freekey1, st.freekey2 ".
+        " st.freetext1, st.freetext2, st.freekey1, st.freekey2, sa.incoming_time, sa.id ".
         " FROM ".
         " article sa, ticket st, ".
         " $Self->{ConfigObject}->{DatabaseUserTable} su ".
-        " where ". 
-        " sa.id = $Param{ArticleID}".
-        " AND ".
+        " where ";
+    if ($Param{ArticleID}) { 
+        $SQL .= " sa.id = $Param{ArticleID}";
+    }
+    else {
+        $SQL .= " sa.ticket_id = $Param{TicketID}";
+    }
+    $SQL .= " AND ".
         " sa.ticket_id = st.id ".
-        " ANd ".
-        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}";
+        " AND ".
+        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ORDER BY sa.id ASC";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
+    my %Ticket = ();
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Data{ArticleID} = $Param{ArticleID};
+        my %Data;
+        $Data{ArticleID} = $Row[35];
         $Data{TicketID} = $Row[0];
         $Data{From} = $Row[1];
         $Data{To} = $Row[2];
@@ -619,8 +626,11 @@ sub GetArticle {
         $Data{Body} = $Row[7];
         $Data{Age} = time() - $Row[8];
         $Data{PriorityID} = $Row[18];
+        $Ticket{PriorityID} = $Row[18];
         $Data{StateID} = $Row[9];
+        $Ticket{StateID} = $Row[9];
         $Data{QueueID} = $Row[10];
+        $Ticket{QueueID} = $Row[10];
         $Data{Date} = $Row[11];
         $Data{Created} = $Row[11];
         $Data{ContentType} = $Row[12];
@@ -649,27 +659,53 @@ sub GetArticle {
         $Data{TicketFreeText2} = $Row[31];
         $Data{TicketFreeKey1} = $Row[32];
         $Data{TicketFreeKey2} = $Row[33];
+        $Data{IncomingTime} = $Row[34];
         $Data{RealTillTimeNotUsed} = $Row[17];
+        push (@Content, {%Data});
     }
-    # get sender type
-    $Data{SenderType} = $Self->ArticleSenderTypeLookup(SenderTypeID => $Data{SenderTypeID});
-    # get article type
-    $Data{ArticleType} = $Self->ArticleTypeLookup(ArticleTypeID => $Data{ArticleTypeID});
+
     # get priority name
-    $Data{Priority} = $Self->PriorityIDLookup(ID => $Data{PriorityID});
-    # get queue name
-    $Data{Queue} = $Self->{QueueObject}->QueueLookup(QueueID => $Data{QueueID});
+    $Ticket{Priority} = $Self->PriorityIDLookup(ID => $Ticket{PriorityID});
+    # get queue name and other stuff
+    my %Queue = $Self->{QueueObject}->QueueGet(ID => $Ticket{QueueID}, Cache => 1);
     # get state info
-    my %StateData = $Self->{StateObject}->StateGet(ID => $Data{StateID}, Cache => 1);
-    $Data{StateType} = $StateData{TypeName};
-    $Data{State} = $StateData{Name};
-    if (!$Data{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i) {
-        $Data{UntilTime} = 0;
+    my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
+
+    # article stuff
+    my $LastCustomerCreateTime = 0;
+    foreach my $Part (@Content) {
+        # get sender type
+        $Part->{SenderType} = $Self->ArticleSenderTypeLookup(
+            SenderTypeID => $Part->{SenderTypeID},
+        );
+        # get article type
+        $Part->{ArticleType} = $Self->ArticleTypeLookup(
+            ArticleTypeID => $Part->{ArticleTypeID},
+        );
+        # get priority name
+        $Part->{Priority} = $Ticket{Priority};
+        $Part->{Queue} = $Queue{Name};
+        if (!$Part->{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i) {
+            $Part->{UntilTime} = 0;
+        }
+        else {
+            $Part->{UntilTime} = $Part->{RealTillTimeNotUsed} - time();
+        }
+        $Part->{StateType} = $StateData{TypeName};
+        $Part->{State} = $StateData{Name};
+        if ($Queue{EscalationTime} && ($Param{TicketID}||$Param{TicketOverTime}) && $Part->{SenderType} eq 'customer') {
+            $LastCustomerCreateTime = (($Part->{IncomingTime} + ($Queue{EscalationTime}*60)) - time());
+        }
+    }
+    foreach my $Part (@Content) {
+        $Part->{TicketOverTime} = $LastCustomerCreateTime;
+    }
+    if ($Param{ArticleID}) {
+        return %{$Content[0]};
     }
     else {
-        $Data{UntilTime} = $Data{RealTillTimeNotUsed} - time();
+        return @Content;
     }
-    return %Data;
 }
 # --
 
