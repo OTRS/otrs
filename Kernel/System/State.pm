@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.2 2003-03-05 19:32:47 martin Exp $
+# $Id: State.pm,v 1.3 2003-03-06 22:14:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -105,15 +105,17 @@ sub StateGet {
         $SQL .= " ts.id = $Param{ID}";
     }
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        my @Data = $Self->{DBObject}->FetchrowArray();
-        my %Data = (
-            ID => $Data[0],
-            Name => $Data[1],
-            Comment => $Data[3],
-            ValidID => $Data[2],
-            TypeID => $Data[4],
-            TypeName => $Data[5],
-        );
+        my %Data = ();
+        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+            %Data = (
+                ID => $Data[0],
+                Name => $Data[1],
+                Comment => $Data[3],
+                ValidID => $Data[2],
+                TypeID => $Data[4],
+                TypeName => $Data[5],
+            );
+        }
         return %Data;
     }
     else {
