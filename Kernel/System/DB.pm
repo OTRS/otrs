@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.10 2002-05-27 21:05:35 martin Exp $
+# $Id: DB.pm,v 1.11 2002-05-29 22:15:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -63,7 +63,7 @@ sub Connect {
     # --
     # db connect
     # --
-    $Self->{dbh} = DBI->connect("$Self->{DSN}:$Self->{DB}", $Self->{USER}, $Self->{PW}) 
+    $Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}) 
        || return;
 
     return $Self->{dbh};
