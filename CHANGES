@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.24 2002-10-15 09:56:49 martin Exp $
+# $Id: CHANGES,v 1.25 2002-10-20 15:48:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,9 @@
 # --
 
 0.5 BETA8 (2002-10-??)
+ - (2002/10/20) added customer web frontend (bin/cgi-bin/cpanel/index.pl, 
+     Kernel/Modules/Customer*.pm and Kernel/Output/HTML/*/Customer.dtl) 
+ - (2002/10/20) added lost password feature
  - added config support for AgentPreferences module (Kernel/Config/Preferences.pm)
  - added AgentStatusView module (overview of all open tickets) - (Thanks to Phil Davis)!
  - added support of generic session id name (e. g. SessionID, OTRS, ...)
