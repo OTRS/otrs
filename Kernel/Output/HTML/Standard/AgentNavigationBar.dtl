@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.38 2004-09-08 13:11:00 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.39 2004-09-09 10:20:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -46,11 +46,6 @@
 #      <td valign="top" align="center" class="nav">
 #        <div title="$Text{"Edit Customer Users"}"><a href="$Env{"Baselink"}Action=AdminCustomerUser" onmouseover="window.status='$Text{"Customer User"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}folder_yellow.png" alt="$Text{"Customer User"}"><br>$Text{"CustomerUser"}</a></div>
 #      </td>
-##
-      <td valign="top" align="center" class="nav">
-        <div title="$Text{"Overview of local created Tickets"}"><a href="$Env{"Baselink"}Action=AgentLocalView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}queue.png" alt="$Text{"LocalView"}"><br>$Text{"LocalView"}</a></div>
-      </td>
-##
       $Data{"BulkLink"}
       $Data{"StatsLink"}
       $Data{"FAQLink"}
