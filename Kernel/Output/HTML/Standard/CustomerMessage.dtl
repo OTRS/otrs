@@ -2,7 +2,7 @@
 # CustomerMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.dtl,v 1.6 2003-02-17 18:31:17 martin Exp $
+# $Id: CustomerMessage.dtl,v 1.7 2003-03-02 08:53:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,12 +38,12 @@
     </td>
   </tr>
   <tr>
-    <td>$Text{"Next state"}:</td>
-    <td>$Data{"NextStatesStrg"}</td>
-  </tr>
-  <tr>
     <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></td>
   </tr>
+# should the customer user change the ticket state!
+<dtl if ($Config{"CustomerPanelNextComposeState"} ne "0") { $Data{"NextStateString"} = "<tr><td>$Text{"Next state"}:</td><td> $Data{"NextStatesStrg"}</td></tr>"; }>
+  $Data{"NextStateString"}
+#
   </table>
 <br>
 <input type="submit" value="$Text{"store"}">

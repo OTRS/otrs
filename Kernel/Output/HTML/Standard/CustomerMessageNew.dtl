@@ -2,7 +2,7 @@
 # CustomerMessageNew.dtl - provides HTML form for customer message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessageNew.dtl,v 1.6 2003-02-08 15:40:44 martin Exp $
+# $Id: CustomerMessageNew.dtl,v 1.7 2003-03-02 08:53:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -61,7 +61,10 @@ function submit_compose()
   <tr>
     <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></td>
   </tr>
+# should the customer user change the ticket state!
+<dtl if ($Config{"CustomerPriority"} ne "0") { $Data{"PriorityString"} = "<tr><td>$Text{"Priority"}:</td><td> $Data{"PriorityStrg"}</td></tr>"; }>
   $Data{"PriorityString"}
+#
   </table>
 <br>
 <input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
