@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.3 2004-01-14 01:41:19 martin Exp $
+# $Id: Encode.pm,v 1.4 2004-01-19 23:03:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -218,7 +218,7 @@ Set array of file handles to utf-8 output.
 sub SetIO {
     my $Self = shift;
     my @Array = @_;
-    if ($Self->{CharsetEncodeSupported} && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
+    if ($Self->{CharsetEncodeSupported} && $Self->EncodeFrontendUsed() && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
         foreach (@Array) {
             if (defined($_) && ref($_) eq 'GLOB') {
                 binmode($_, ":utf8");
@@ -244,7 +244,7 @@ sub Encode {
     my $Self = shift;
     my $What = shift;
     # internel charset
-    if ($Self->{CharsetEncodeSupported} && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
+    if ($Self->{CharsetEncodeSupported} && $Self->EncodeFrontendUsed() && $Self->EncodeFrontendUsed() =~ /utf(-8|8)/i) {
         if (defined ($What) && ref($What) eq 'ARRAY') {
             foreach (@{$What}) {
                 if (defined($_)) {
@@ -316,6 +316,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2004-01-14 01:41:19 $
+$Revision: 1.4 $ $Date: 2004-01-19 23:03:23 $
 
 =cut
