@@ -2,12 +2,27 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.79 2003-04-30 22:18:10 martin Exp $
+# $Id: CHANGES,v 1.80 2003-05-13 10:31:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+1.1.2 (2003-?-?) 
+ - (2003/05/13) added russian translation! Thanks to Serg V Kravchenko!
+ - (2003/05/13) added config options for shown customer info size
+    $Self->{ShowCustomerInfo(Zoom|Queue|Phone)MaxSize}
+ - (2003/05/08) fixed ignored user comment in admin area 
+ - (2003/05/04) added missing StateUpdate (table ticket_history_type) 
+    to scripts/DBUpdate-to-1.1.postgresql.sql
+ - (2003/05/02) removed unique option for the pop3_account column
+    login! To be able to have more pop3 accounts with the same
+    login name.
+ - (2003/05/01) fixed bug 134 - Title shows "Select box" instead 
+    of "Admin Log" - http://bugs.otrs.org/show_bug.cgi?id=134
+ - (2003/05/01) fixed Kernel/System/AuthSession/*.pm to be able 
+    to store 0 values
+
 1.1.1 (2003-05-01)
  - (2003/04/30) removed agent notify about new note because new
     owner got ticket assigned to you notify!
