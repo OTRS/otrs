@@ -119,3 +119,4 @@ $Text{"Pending till"}
 $Text{"Don't work with UserID 1 (System account)! Create new users!"}
 $Text{"Dispatching by email To: field."}
 $Text{"Dispatching by selected Queue."}
+$Text{"No entry found!"}
