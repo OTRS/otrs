@@ -1,7 +1,7 @@
 <chapter id="translation">
 <title>Language translations</title>
 <para>
-The OpenTRS webfrontend supports different frontend languages. The language translation files are located under Kernel/Language/*.pm. 
+The OTRS webfrontend supports different frontend languages. The language translation files are located under Kernel/Language/*.pm. 
 </para>
 <sect1 id="translation_example">
 <title>New translation files</title>
@@ -14,6 +14,9 @@ If you want to translate OpenTRS in a new language, you have to do five steps:
 <para>
 <!--Take the current German translation (German.pm) from CVS (<ulink url="http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/Language/">http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/Language/</ulink>) and translate each line. -->
 Take the current German translation (German.pm) from Kernel/Language/German.pm and translate each line. 
+</para>
+<para>
+Note: Since 0.5 Beta9, we use short language names instand of the long names. Example, 'German' will be 'de'.
 </para>
 </listitem>
 
@@ -32,7 +35,7 @@ If you use &lt;= 0.5 Beta8, add the new translation file to Kernel/Language.pm
 
 <listitem>
 <para>
-Add the new language translation to the system via the admin interface (AdminArea ->> Language). 
+If you use &lt;= 0.5 Beta8, add the new language translation to the system via the admin interface (AdminArea ->> Language). If you use &gt;= 0.5 Beta9, add "$Self->{DefaultUsedLanguages}->{fr} = 'French';" to your Kernel/Config.pm. 
 </para>
 </listitem>
 
@@ -60,7 +63,7 @@ Now you can select the new language in your preferences screen.
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
 # --
-# $Id: language-translation.sgml,v 1.5 2002-11-21 22:15:30 martin Exp $
+# $Id: language-translation.sgml,v 1.6 2002-12-01 16:47:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -71,7 +74,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -102,7 +105,7 @@ To:
 # French.pm - provides french language translations
 # Copyright (C) 2002 Martin Scherbaum (maddin at exsuse.de)
 # --
-# $Id: language-translation.sgml,v 1.5 2002-11-21 22:15:30 martin Exp $
+# $Id: language-translation.sgml,v 1.6 2002-12-01 16:47:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -113,7 +116,7 @@ package Kernel::Language::French;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
