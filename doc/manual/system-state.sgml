@@ -27,4 +27,23 @@ name is free settable.
 <para>
 Use the Admin-Interface (Status defs) if you want to change or add ticket states. 
 </para>
+
+<para> 
+<itemizedlist mark='opencircle'>
+<listitem>
+<para>
+Take care that you also update the default state "new" in your Kernel/Config.pm 
+(if you changed the name "new").
+<programlisting>
+    [...]
+    # PostmasterDefaultState
+    # (The default state of new tickets.) [default: new]
+    $Self->{PostmasterDefaultState} = 'new';
+    [...]
+</programlisting>
+</para>
+</listitem>
+</itemizedlist>
+</para>
+
 </chapter>
