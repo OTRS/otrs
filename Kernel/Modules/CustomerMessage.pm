@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.2 2002-10-25 11:46:00 martin Exp $
+# $Id: CustomerMessage.pm,v 1.3 2002-11-19 18:34:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -105,11 +105,19 @@ sub Run {
                     $NewTos{$_} = $Srting;
                 }
             }
+            # -- 
+            # get priority
+            # --
+            my %Priorities = $Self->{DBObject}->GetTableData(
+                What => 'id, id, name',
+                Table => 'ticket_priority',
+            );
             # --
             # html output
             # --
             $Output .= $Self->{LayoutObject}->CustomerMessageNew(
               To => \%NewTos,
+              Priorities => \%Priorities,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
@@ -185,6 +193,15 @@ sub Run {
     elsif ($Subaction eq 'StoreNew') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'New!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
+        my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID');
+        my $Priority = '';
+        if (!$Self->{ConfigObject}->Get('CustomerPriority')) {
+            $PriorityID = '';
+            $Priority = 'normal';
+        }
+        if (!$PriorityID) {
+            $Priority = 'normal';
+        }
         my $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || '';
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
         # create new ticket
@@ -198,7 +215,8 @@ sub Run {
             # FIXME !!!
             GroupID => 1,
             State => 'new',
-            Priority => 'normal',
+            Priority => $Priority,
+            PriorityID => $PriorityID, 
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             CreateUserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
         );
