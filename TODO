@@ -2,7 +2,7 @@
 # TODO - to do list of OpenTRS
 # Copyright (C) 2001 Martin Edenhofer
 # --
-# $Id: TODO,v 1.7 2002-01-01 20:36:31 martin Exp $
+# $Id: TODO,v 1.8 2002-01-02 00:39:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,6 @@ immediately:
 - AdminLanguages
 
 - AgentPhoneView
-- AgentMailBox
 - AgentHistory
 - AgentForward
 - AgentBounce
@@ -24,7 +23,7 @@ immediately:
 
 - SystemStats
 
-- Customer handle and modules
+- Customer handle (bin/cgi-bin/extern/index.pl) and modules
 
 - set db time type to human readable string!
 
