@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.29 2003-03-30 18:30:35 martin Exp $
+# $Id: Header.dtl,v 1.30 2003-04-12 09:41:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ Pragma: no-cache
 # --
 <dtl set $Env{"Box0"} = "[ ">
 <dtl set $Env{"Box1"} = " ]">
-<dtl set $Env{"Images"} = "/otrs-images/Standard/">
+<dtl set $Env{"Images"} = "/otrs-web/images/Standard/">
 # --
 # check refresh
 # --
@@ -57,11 +57,11 @@ Pragma: no-cache
   a.headeritem { color:#ffffff;text-decoration:none; }
   a.headeritem:hover { color:#eeeeee;text-decoration:none; }
 # nav bar
-  .nav { color:#000000;background-color:#ffffff;font-size:8px; } 
-  a.navitem { color:#557799;font-size:10px; }
-  a.navitem:hover { color:#002244;font-size:10px; }
+  .nav { color:#000000;background-color:#ffffff;font-size:10px; } 
+  a.navitem { color:#557799;font-size:11px; }
+  a.navitem:hover { color:#002244;font-size:11px; }
 # menu bar
-  .menu { color:#000000;background-color:#ffffff;font-size:8px; } 
+  .menu { color:#000000;background-color:#ffffff;font-size:10px; } 
   a.menuitem { color:#557799;font-size:12px; }
   a.menuitem:hover { color:#002244;font-size:12px; }
 # footer
@@ -69,12 +69,12 @@ Pragma: no-cache
   a.footeritem { color:#ffffff;text-decoration:none; }
   a.footeritem:hover { color:#eeeeee;text-decoration:none; }
 # small
-  .small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
-  a.small { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+  .small { color:#000000;font-family:Geneva,Arial,Helvetica,sans-serif;font-size:10px; }
+  a.small { color:#111111;text-decoration:none;font-family:Geneva,Arial,Helvetica,sans-serif;font-size:10px; }
 # form
   form {margin:0px;}
-  input {font-family:Geneva,Arial,Helvetica,sans-serif;font-size:12px;}
-  .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
+  input {font-family:Geneva,Arial,Helvetica,Helvetica,sans-serif;font-size:12px;}
+  .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Arial,Helvetica,sans-serif;font-weight:normal;}
 # table color
   .table0 { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
   .table1 { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}

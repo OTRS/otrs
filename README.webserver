@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.11 2003-03-30 18:31:15 martin Exp $
+# $Id: README.webserver,v 1.12 2003-04-12 09:41:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -60,7 +60,7 @@ b)
   ============================
   Add this to the cgi-bin stuff section in httpd.conf
   [...]
-  Alias /otrs-images/ "/opt/otrs/var/httpd/htdocs/images/"
+  Alias /otrs-web/ "/opt/otrs/var/httpd/htdocs/"
   ScriptAlias /otrs/ "/opt/otrs/bin/cgi-bin/"
   [...]
 
@@ -69,7 +69,7 @@ b)
   =======================
   Add this to the mod_perl stuff section in httpd.conf
   [...]
-  Alias /otrs-images/ "/opt/otrs/var/httpd/htdocs/images/"
+  Alias /otrs-web/ "/opt/otrs/var/httpd/htdocs/"
   Alias /otrs/ "/opt/otrs/bin/cgi-bin/"
 
   <Location /otrs>
