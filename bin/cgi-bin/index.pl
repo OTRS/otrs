@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.67 2004-04-07 11:05:44 martin Exp $
+# $Id: index.pl,v 1.68 2004-04-07 17:30:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,7 +67,6 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => $CommonObject{ConfigObject}->Get('CGILogPrefix'),
     %CommonObject,
 );
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{ParamObject} = Kernel::System::WebRequest->new(%CommonObject);
 # --
 # debug info
@@ -119,6 +118,7 @@ $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
 # --
 # check common objects
 # --
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 if (!$CommonObject{DBObject}) {
     print $CommonObject{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
     print $CommonObject{LayoutObject}->Error(
@@ -329,7 +329,10 @@ if ($Param{Action} eq "Login") {
             # --
             print $CommonObject{LayoutObject}->Login(
                 Title => 'Login',          
-                Message => 'Login failed! Your username or password was entered incorrectly.',
+                Message => $CommonObject{LogObject}->GetLogEntry(
+                    Type => 'Info', 
+                    What => 'Message',
+                    ) || 'Login failed! Your username or password was entered incorrectly.',
                 User => $User,
                 %Param,
             );
