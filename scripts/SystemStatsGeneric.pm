@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --   
-# $Id: SystemStatsGeneric.pm,v 1.4 2003-07-10 02:11:04 martin Exp $
+# $Id: SystemStatsGeneric.pm,v 1.5 2004-02-26 23:54:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ package Kernel::Modules::SystemStatsGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -154,12 +154,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Output(
             Data => { Title => $Title, DetailText => $DetailText, Records => $Records},
             Template => '
-       <table border="0" cellspacing="1" cellpadding="0" width="100%">
-       <tr>
-        <td align="right" valign="top"><font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"}) - $Env{"Time"}</font></td>
-       </td>
-       </table>
-
        <table border="0" cellspacing="1" cellpadding="0" width="100%">
        <tr>
          <td><font size="+1"><b>$Data{"Title"}</font></b></td>
