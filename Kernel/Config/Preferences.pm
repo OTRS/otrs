@@ -2,7 +2,7 @@
 # Kernel/Config/Preferences.pm - Preferences config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Preferences.pm,v 1.2 2002-10-22 13:12:02 martin Exp $
+# $Id: Preferences.pm,v 1.3 2002-10-22 13:54:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Preferences;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,7 +36,7 @@ sub LoadPreferences {
     # (Order of shown items)
     $Self->{PreferencesView} = {
         'Mail Management' => [
-            'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify',
+            'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify', 'MoveNotify',
         ],
         Frontend => [
             'RefreshTime', 'Language', 'Charset', 'Theme', 'QueueView', 
@@ -73,6 +73,15 @@ sub LoadPreferences {
         Type => 'Generic',
         Data => $Self->Get('YesNoOptions'),
         PrefKey => 'UserSendLockTimeoutNotification',
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{MoveNotify} = {
+        Colum => 'Mail Management', 
+        Label => 'Move notification',
+        Desc => 'Send me a notification if a ticket is moved into a custom queue.', 
+        Type => 'Generic',
+        Data => $Self->Get('YesNoOptions'),
+        PrefKey => 'UserSendMoveNotification',
         Activ => 1,
     };
 
