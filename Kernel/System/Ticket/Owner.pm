@@ -1,8 +1,8 @@
 # --
-# Ticket:.Owner.pm - the sub module of the global ticket handle
+# Kernel/System/Ticket/Owner.pm - the sub module of the global ticket handle
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Owner.pm,v 1.1 2002-07-12 23:03:47 martin Exp $
+# $Id: Owner.pm,v 1.2 2002-07-13 12:28:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Owner;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --

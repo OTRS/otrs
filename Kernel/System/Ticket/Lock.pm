@@ -1,8 +1,8 @@
 # --
-# Lock.pm - the sub module of the global Ticket.pm handle
+# Kernel/System/Ticket/Lock.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.3 2002-05-26 21:29:26 martin Exp $
+# $Id: Lock.pm,v 1.4 2002-07-13 12:28:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,28 +14,37 @@ package Kernel::System::Ticket::Lock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub GetLockState {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
     my $LockState = 'lock';
     my $Hit = 0;
 
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    # --
+    # db query
+    # --
     my $SQL = "SELECT st.id " .
         " FROM " .
         " ticket st, ticket_lock_type slt " .
         " WHERE " .
-        " st.id = $TicketID " .
+        " st.id = $Param{TicketID} " .
         " AND " .
         " slt.name = '$LockState' " .
         " AND " .
         " st.ticket_lock_id = slt.id ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Hit = 1;
     }
     if ($Hit) {
@@ -49,86 +58,114 @@ sub GetLockState {
 sub LockLookup {
     my $Self = shift;
     my %Param = @_;
-    my $Type = $Param{Type} || return;
-
-    # check if we ask the same request?
-    if (exists $Self->{"Ticket::Lock::Lookup::$Type"}) {
-        return $Self->{"Ticket::Lock::Lookup::$Type"};
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{Type}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
+      return;
     }
-    # get data
+    # --
+    # check if we ask the same request?
+    # --
+    if (exists $Self->{"Ticket::Lock::Lookup::$Param{Type}"}) {
+        return $Self->{"Ticket::Lock::Lookup::$Param{Type}"};
+    }
+    # --
+    # db query
+    # --
     my $SQL = "SELECT id " .
     " FROM " .
     " ticket_lock_type " .
     " WHERE " .
-    " name = '$Type'";
+    " name = '$Param{Type}'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
-        $Self->{"Ticket::Lock::Lookup::$Type"} = $RowTmp[0];
+        $Self->{"Ticket::Lock::Lookup::$Param{Type}"} = $Row[0];
     }
+    # --
     # check if data exists
-    if (!exists $Self->{"Ticket::Lock::Lookup::$Type"}) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => "No \$LockID for $Type found!"
-        );
+    # --
+    if (!exists $Self->{"Ticket::Lock::Lookup::$Param{Type}"}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No TypeID for $Param{Type} found!");
         return;
     }
-
-    return $Self->{"Ticket::Lock::Lookup::$Type"};
+    else {
+        return $Self->{"Ticket::Lock::Lookup::$Param{Type}"};
+    }
 }
 # --
 sub SetLock {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my $Lock = $Param{Lock};
-    my $LockID = $Param{LockID};
-    my $UserID = $Param{UserID};
-
+    # --
     # lookup!
-    if ((!$LockID) && ($Lock)) {
-        $LockID = $Self->LockLookup(Type => $Lock);
+    # --
+    if ((!$Param{LockID}) && ($Param{Lock})) {
+        $Param{LockID} = $Self->LockLookup(Type => $Param{Lock});
     }
-    if ((!$LockID) && (!$Lock)) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => "Ticket::SetLock() No LockID or Lock given!",
-        );
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID LockID Lock)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if (!$Param{Lock} && !$Param{LockID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need LcokID or Lock!");
         return;
     }
-
+    # --
+    # check if update is needed
+    # --
+    if (($Self->GetLockState(TicketID => $Param{TicketID}) && $Param{Lock} eq 'lock') ||
+        (!$Self->GetLockState(TicketID => $Param{TicketID}) && $Param{Lock} eq 'unlock')) {
+        # update not needed
+        return 1;
+    }
+    # --
     # db update
-    my $SQL = "UPDATE ticket SET ticket_lock_id = $LockID, " .
-    " change_time = current_timestamp, change_by = $UserID " .
-        " WHERE id = $TicketID";
-    $Self->{DBObject}->Do(SQL => $SQL);
- 
-    # set lock time it event is 'lock'
-    if ($Lock eq 'lock') {
+    # --
+    my $SQL = "UPDATE ticket SET ticket_lock_id = $Param{LockID}, " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " WHERE id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # set lock time it event is 'lock'
+      if ($Param{Lock} eq 'lock') {
         $SQL = "UPDATE ticket SET timeout = ". time() . 
-          " WHERE id = $TicketID"; 
+          " WHERE id = $Param{TicketID} "; 
         $Self->{DBObject}->Do(SQL => $SQL);
-    }
-
-    my $HistoryType = '';
-    if ($Lock eq 'unlock') {
+      }
+      # --
+      # add history
+      # --
+      my $HistoryType = '';
+      if ($Param{Lock} eq 'unlock') {
         $HistoryType = 'Unlock';
-    }
-    elsif ($Lock eq 'lock') {
+      }
+      elsif ($Param{Lock} eq 'lock') {
         $HistoryType = 'Lock';
-    }
+      }
+      else {
+        $HistoryType = 'Misc';
+      }
 
-    if ($HistoryType) {
-      $Self->AddHistoryRow(
-        TicketID => $TicketID,
-        CreateUserID => $UserID,
-        HistoryType => $HistoryType,
-        Name => "Ticket $HistoryType.",
-      );
+      if ($HistoryType) {
+        $Self->AddHistoryRow(
+          TicketID => $Param{TicketID},
+          CreateUserID => $Param{UserID},
+          HistoryType => $HistoryType,
+          Name => "Ticket $Param{Lock}.",
+        );
+      }
+      return 1;
     }
-
-    return 1;
+    else {
+      return;
+    }
 }
 # --
 

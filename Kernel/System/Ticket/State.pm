@@ -1,8 +1,8 @@
 # --
-# State.pm - the sub module of the global Ticket.pm handle
+# Kernel/System/Ticket/State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.5 2002-07-12 23:03:28 martin Exp $
+# $Id: State.pm,v 1.6 2002-07-13 12:28:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -202,7 +202,6 @@ sub SetState {
             CreateUserID => $Param{UserID},
         );
       }
- 
       return 1;
     }
     else {

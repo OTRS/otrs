@@ -1,8 +1,8 @@
 # --
-# History.pm - the sub module of the global Ticket.pm handle
+# Kernel/System/Ticket/History.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: History.pm,v 1.2 2002-05-26 21:29:26 martin Exp $
+# $Id: History.pm,v 1.3 2002-07-13 12:28:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,79 +13,96 @@ package Kernel::System::Ticket::History;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub HistoryTypeLookup {
     my $Self = shift;
     my %Param = @_;
-    my $Type = $Param{Type};
-
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{Type}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
+      return;
+    }
+    # --
     # check if we ask the same request?
-    if (exists $Self->{"Ticket::History::HistoryTypeLookup::$Type"}) {
-        return $Self->{"Ticket::History::HistoryTypeLookup::$Type"};
+    # --
+    if (exists $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"}) {
+        return $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"};
     }
-    # get data
-    my $SQL = "SELECT id " .
-    " FROM " .
-    " ticket_history_type " .
-    " WHERE " .
-    " name = '$Type'";
+    # --
+    # db query
+    # --
+    my $SQL = "SELECT id FROM ticket_history_type WHERE name = '$Param{Type}'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-    # store result
-        $Self->{"Ticket::History::HistoryTypeLookup::$Type"} = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"} = $Row[0];
     }
+    # --
     # check if data exists
-    if (!exists $Self->{"Ticket::History::HistoryTypeLookup::$Type"}) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => "No \$TypeID for $Type found!"
-        );
+    # --
+    if (!exists $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No TypeID for $Param{Type} found!");
         return;
     }
-
-    return $Self->{"Ticket::History::HistoryTypeLookup::$Type"};
+    else {
+        return $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"};
+    }
 }
 # --
 sub AddHistoryRow {
     my $Self = shift;
     my %Param = @_;
     my $Name = $Param{Name};
-    my $TicketID = $Param{TicketID};
-    my $ArticleID = $Param{ArticleID} || 0;
-    my $ValidID = $Param{ValidID};
-    my $CreateUserID = $Param{CreateUserID};
-    my $HistoryTypeID = $Param{HistoryTypeID};
-    my $HistoryType = $Param{HistoryType};
 
     # db quoting
     $Name = $Self->{DBObject}->Quote($Name);
 
+    # --
     # lookup!
-    if ((!$HistoryTypeID) && ($HistoryType)) {
-        $HistoryTypeID = $Self->HistoryTypeLookup(Type => $HistoryType);
+    # --
+    if ((!$Param{HistoryTypeID}) && ($Param{HistoryType})) {
+        $Param{HistoryTypeID} = $Self->HistoryTypeLookup(Type => $Param{HistoryType});
     }
-    if ((!$HistoryTypeID) && (!$HistoryType)) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => "No \$HistoryTypeID for $HistoryType found!"
-        );
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID CreateUserID HistoryTypeID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
+      }
     }
+    if (!$Param{ArticleID}) {
+      $Param{ArticleID} = 0;
+    }
+
+    # --
     # get ValidID!
-    if (!$ValidID) {
-        $ValidID = $Self->{DBObject}->GetValidIDs();
+    # --
+    if (!$Param{ValidID}) {
+        $Param{ValidID} = $Self->{DBObject}->GetValidIDs();
     }
+    # --
+    # db insert
+    # --
     my $SQL = "INSERT INTO ticket_history " .
     " (name, history_type_id, ticket_id, article_id, valid_id, " .
     " create_time, create_by, change_time, change_by) " .
         "VALUES " .
-    "('$Name', $HistoryTypeID, $TicketID, $ArticleID, $ValidID, " .
-    " current_timestamp, $CreateUserID, current_timestamp, $CreateUserID)";
-    $Self->{DBObject}->Do(SQL => $SQL);
-    return 1;
+    "('$Name', $Param{HistoryTypeID}, $Param{TicketID}, ".
+    " $Param{ArticleID}, $Param{ValidID}, " .
+    " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      return 1;
+    }
+    else {
+      return;
+    }
 }
 # --
 
