@@ -24,12 +24,12 @@ $ME = "MIME-tools";
     'config'  => [qw(%CONFIG)],
     'msgs'    => [qw(usage debug whine error)],
     'msgtypes'=> [qw($M_DEBUG $M_WARNING $M_ERROR)],		
-    'utils'   => [qw(benchmark catfile shellquote textual_type tmpopen )],
+    'utils'   => [qw(catfile shellquote textual_type tmpopen )],
     );
 Exporter::export_ok_tags('config', 'msgs', 'msgtypes', 'utils');
 
 # The TOOLKIT version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$Revision: 1.1 $, 10;
+$VERSION = "5.417";
 
 # Configuration (do NOT alter this directly)...
 # All legal CONFIG vars *must* be in here, even if only to be set to undef:
@@ -150,26 +150,6 @@ sub usage {
 # UTILS...
 #
 #------------------------------
-
-#------------------------------
-#
-# benchmark CODE
-#
-# Private benchmarking utility.
-#
-sub benchmark(&) {
-    my ($code) = @_;
-    if (1) {
-	my $t0 = new Benchmark;
-	&$code;
-	my $t1 = new Benchmark;
-	return timestr(timediff($t1, $t0));
-    }
-    else {
-	&$code;
-	return "";
-    }
-}
 
 #------------------------------
 #
@@ -1021,8 +1001,10 @@ Latin-2, or any other 8-bit alphabet).
 =head1 TERMS AND CONDITIONS
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
+David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
 Copyright (c) 1998, 1999 by ZeeGee Software Inc (www.zeegee.com).
+Copyright (c) 2004 by Roaring Penguin Software Inc (www.roaringpenguin.com)
 
 All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
@@ -1043,7 +1025,7 @@ bugs I<before> they become problems...
 
 =head1 VERSION
 
-$Revision: 1.1 $
+$Revision: 1.1.10.1 $
 
 
 =head1 CHANGE LOG
@@ -1394,7 +1376,6 @@ I<Thanks to "sen_ml" for suggesting this.>
        Newlines in the void
 
 Started using Benchmark for benchmarking.
-
 
 =item Version 5.205   (2000/06/06)
 
@@ -1990,9 +1971,10 @@ Better yet, email me, and I'll put you in.
 
 =head1 SEE ALSO
 
-At the time of this writing ($Date: 2002-11-10 23:00:46 $), the MIME-tools homepage was
-F<http://www.zeegee.com/code/perl/MIME-tools>.
-Check there for updates and support.
+At the time of this writing ($Date: 2005-02-15 09:05:43 $), the
+MIME-tools homepage was
+F<http://www.mimedefang.org/static/mime-tools.php>.  Check there for
+updates and support.
 
 Users of this toolkit may wish to read the documentation of Mail::Header
 and Mail::Internet.

@@ -32,6 +32,7 @@ Instead, ask Mail::Field for new instances based on the field name!
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
+David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
 
 =cut
@@ -44,7 +45,7 @@ use vars qw($VERSION @ISA);
 @ISA = qw(MIME::Field::ParamVal);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$Revision: 1.1 $, 10;
+$VERSION = "5.417";
 
 # Install it: 
 bless([])->register('Content-disposition');

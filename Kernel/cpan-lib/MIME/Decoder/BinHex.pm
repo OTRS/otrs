@@ -32,7 +32,7 @@ it and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2005-02-15 08:43:51 $
+$Revision: 1.1.2.1 $ $Date: 2005-02-15 09:05:43 $
 
 =cut
 

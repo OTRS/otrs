@@ -249,7 +249,7 @@ use IO::Lines;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$Revision: 1.1 $, 10;
+$VERSION = "5.417";
 
 ### Boundary counter:
 my $BCount = 0;
@@ -1373,7 +1373,7 @@ sub sign {
     elsif ($params{File}) {                      ### file contents
 	CORE::open SIG, $params{File} or croak "can't open $params{File}: $!";
 	$sig = join('', SIG->getlines);
-	close SIG;
+	close SIG or croak "can't close $params{File}: $!";
     }
     else {
 	croak "no signature given!";
@@ -1404,11 +1404,11 @@ sub sign {
 
 	### Output data back into body, followed by signature:
 	my $line;
-	$io = $self->open("w");
+	$io = $self->open("w") or croak("open: $!");
 	foreach $line (@body) { $io->print($line) };      ### body data
 	(($body[-1]||'') =~ /\n\Z/) or $io->print("\n");  ### ensure final \n
 	$io->print("-- \n$sig");                          ### separator + sig
-	$io->close;	
+	$io->close or croak("close: $!");
 	return 1;         ### done!
     }
 }
@@ -1853,7 +1853,7 @@ sub print_bodyhandle {
 
     ### Output the body:
     my $IO = $self->open("r")     || die "open body: $!";
-    $decoder->encode($IO, $out)   || return error "encoding failed";
+    $decoder->encode($IO, $out, textual_type($self->head->mime_type) ? 1 : 0)   || die "encoding failed\n";
     $IO->close;
     1;
 }
@@ -2227,6 +2227,7 @@ how we work.
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
+David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
 All rights reserved.  This program is free software; you can redistribute 
 it and/or modify it under the same terms as Perl itself.
@@ -2234,7 +2235,7 @@ it and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2002-11-10 23:00:45 $
+$Revision: 1.1.10.1 $ $Date: 2005-02-15 09:05:43 $
 
 =cut
 

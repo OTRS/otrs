@@ -137,7 +137,7 @@ use MIME::Field::ContType;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$Revision: 1.1 $, 10;
+$VERSION = "5.417";
 
 ### Sanity (we put this test after our own version, for CPAN::):
 use Mail::Header 1.06 ();
@@ -204,9 +204,9 @@ sub from_file {
 
     ### Parse:
     open(HDR, $file) or return error("open $file: $!");
-    binmode(HDR);  # we expect to have \r\n at line ends, and want to keep 'em.
+    binmode(HDR) or return error("binmode $file: $!");  # we expect to have \r\n at line ends, and want to keep 'em.
     $self = $class->new(\*HDR, @opts);      ### now, $self is instance or undef
-    close(HDR);
+    close(HDR) or return error("close $file: $!");
     $self;
 }
 
@@ -685,11 +685,16 @@ I quote from RFC-1521 section 5:
     This is the default value -- that is, "Content-Transfer-Encoding: 7BIT" 
     is assumed if the Content-Transfer-Encoding header field is not present.
 
+I do one other form of fixup: "7_bit", "7-bit", and "7 bit" are
+corrected to "7bit"; likewise for "8bit".
+
 =cut
 
 sub mime_encoding {
     my $self = shift;
-    lc($self->mime_attr('content-transfer-encoding') || '7bit');
+    my $enc = lc($self->mime_attr('content-transfer-encoding') || '7bit');
+    $enc =~ s{^([78])[ _-]bit\Z}{$1bit};
+    $enc;
 }
 
 #------------------------------
@@ -737,16 +742,14 @@ that we remove any trailing spaces:
    must be presumed to have been added by a gateway, and must be deleted.
 
 Returns undef (B<not> the empty string) if either the message is not
-multipart, if there is no specified boundary, or if the boundary is
-illegal (e.g., if it is empty after all trailing whitespace has been
-removed).
+multipart or if there is no specified boundary.
 
 =cut
 
 sub multipart_boundary {
     my $self = shift;
     my $value =  $self->mime_attr('content-type.boundary');
-    (!defined($value) or $value eq '') ? undef : $value;
+    (!defined($value)) ? undef : $value;
 }
 
 #------------------------------
@@ -890,6 +893,7 @@ multiple times... and the different occurences had to be retrievable.
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
+David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
 All rights reserved.  This program is free software; you can redistribute 
 it and/or modify it under the same terms as Perl itself.
@@ -900,7 +904,7 @@ Lee E. Brotzman, Advanced Data Solutions.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2002-11-10 23:00:45 $
+$Revision: 1.1.10.1 $ $Date: 2005-02-15 09:05:43 $
 
 =cut
 
