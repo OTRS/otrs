@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Lock.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.5 2002-08-06 19:09:01 martin Exp $
+# $Id: Lock.pm,v 1.6 2002-10-03 17:59:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,16 +14,13 @@ package Kernel::System::Ticket::Lock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
-sub GetLockState {
+sub IsTicketLocked {
     my $Self = shift;
     my %Param = @_;
-    my $LockState = 'lock';
-    my $Hit = 0;
-
     # --
     # check needed stuff
     # --
@@ -31,23 +28,11 @@ sub GetLockState {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
       return;
     }
+    my %TicketData = $Self->GetTicket(%Param);
     # --
-    # db query
-    # --
-    my $SQL = "SELECT st.id " .
-        " FROM " .
-        " ticket st, ticket_lock_type slt " .
-        " WHERE " .
-        " st.id = $Param{TicketID} " .
-        " AND " .
-        " slt.name = '$LockState' " .
-        " AND " .
-        " st.ticket_lock_id = slt.id ";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Hit = 1;
-    }
-    if ($Hit) {
+    # check lock state
+    # -- 
+    if ($TicketData{Lock} =~ /^lock$/i) {
         return 1;
     }
     else {
@@ -115,14 +100,14 @@ sub SetLock {
       }
     }
     if (!$Param{Lock} && !$Param{LockID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need LcokID or Lock!");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need LockID or Lock!");
         return;
     }
     # --
     # check if update is needed
     # --
-    if (($Self->GetLockState(TicketID => $Param{TicketID}) && $Param{Lock} eq 'lock') ||
-        (!$Self->GetLockState(TicketID => $Param{TicketID}) && $Param{Lock} eq 'unlock')) {
+    if (($Self->IsTicketLocked(TicketID => $Param{TicketID}) && $Param{Lock} eq 'lock') ||
+        (!$Self->IsTicketLocked(TicketID => $Param{TicketID}) && $Param{Lock} eq 'unlock')) {
         # update not needed
         return 1;
     }
@@ -149,10 +134,10 @@ sub SetLock {
       # add history
       # --
       my $HistoryType = '';
-      if ($Param{Lock} eq 'unlock') {
+      if ($Param{Lock} =~ /^unlock$/i) {
         $HistoryType = 'Unlock';
       }
-      elsif ($Param{Lock} eq 'lock') {
+      elsif ($Param{Lock} =~ /^lock$/i) {
         $HistoryType = 'Lock';
       }
       else {
@@ -166,6 +151,35 @@ sub SetLock {
           HistoryType => $HistoryType,
           Name => "Ticket $Param{Lock}.",
         );
+      }
+
+      # --
+      # send unlock notify
+      # --
+      if ($Param{Lock} =~ /^unlock$/i) {
+          my %TicketData = $Self->GetTicket(%Param);
+          # --
+          # check if the current user is the current owner, if not send a notify
+          # --
+          my $To = '';
+          if ($TicketData{UserID} ne $Param{UserID}) {
+              # --
+              # get user data of owner
+              # --
+              my %Preferences = $Self->{UserObject}->GetUserData(UserID => $TicketData{UserID});
+              if ($Preferences{UserEmail} && $Preferences{UserSendLockTimeoutNotification}) {
+                  $To = $Preferences{UserEmail};
+              }
+          }
+          # send
+          $Self->{SendNotification}->Send(
+              Type => 'LockTimeout',
+              To => $To,
+              CustomerMessageParams => {}, 
+              TicketNumber => $Self->GetTNOfId(ID => $Param{TicketID}),
+              TicketID => $Param{TicketID},
+              UserID => $Param{UserID},
+          );
       }
       return 1;
     }
