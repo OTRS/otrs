@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.4 2003-02-08 15:09:39 martin Exp $
+# $Id: DB.pm,v 1.5 2003-02-15 11:56:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::System::CustomerAuth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -80,12 +80,38 @@ sub Auth {
     }
 
     # --
+    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if 
+    # crypt() is working correctly) :-/
+    # --
+    my $CryptedPw = '';
+    if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
+        $CryptedPw = crypt($Pw, $User);
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+        );
+        my $TempUser = $User;
+        $TempUser =~ s/'/\\'/g;
+        my $TempPw = $Pw;
+        $TempPw =~ s/'/\\'/g;
+        my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
+        open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
+        while (<IO>) {
+            $CryptedPw .= $_;
+        }
+        close (IO);
+        chomp $CryptedPw;
+    }
+
+    # --
     # just in case!
     # --
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "CustomerUser: '$User' tried to login with Pw: '$Pw' ($UserID/$GetPw/$RemoteAddr)",
+          Message => "CustomerUser: '$User' tried to login with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$RemoteAddr)",
         );
     }
 
@@ -102,7 +128,7 @@ sub Auth {
     # --
     # login note
     # --
-    elsif ((($GetPw)&&($User)&&($UserID)) && crypt($Pw, $User) eq $GetPw) {
+    elsif ((($GetPw)&&($User)&&($UserID)) && $CryptedPw eq $GetPw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "CustomerUser: $User logged in (REMOTE_ADDR: $RemoteAddr).",

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.9 2003-02-11 13:19:45 wiktor Exp $
+# $Id: DB.pm,v 1.10 2003-02-15 11:56:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -203,7 +203,6 @@ sub CustomerUserAdd {
     # --
     # quote params
     # -- 
-    $Param{UserPassword} = crypt($Param{UserPassword}, $Param{UserLogin});
     foreach (keys %Param) {
        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
@@ -233,6 +232,10 @@ sub CustomerUserAdd {
           Priority => 'notice',
           Message => "CustomerUser: '$Param{UserLogin}' created successfully ($Param{UserID})!",
       );
+      # --
+      # set password
+      # --
+      $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
       return $Param{UserLogin}; 
     }
     else {
@@ -323,9 +326,31 @@ sub SetPassword {
         return;
     }
     # --
-    # crypt pw
-    # --    
-    my $NewPw = $Self->{DBObject}->Quote(crypt($Pw, $Param{UserLogin}));
+    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if 
+    # crypt() is working correctly) :-/
+    # --
+    my $CryptedPw = '';
+    if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
+        $CryptedPw = crypt($Pw, $Param{UserLogin});
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+        );
+        my $TempUser = $Param{UserLogin};
+        $TempUser =~ s/'/\\'/g;
+        my $TempPw = $Pw;
+        $TempPw =~ s/'/\\'/g;
+        my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
+        open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
+        while (<IO>) {
+            $CryptedPw .= $_;
+        }
+        close (IO);
+        chomp $CryptedPw;
+    }
+    my $NewPw = $Self->{DBObject}->Quote($CryptedPw);
     # --
     # update db
     # --
