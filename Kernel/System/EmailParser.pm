@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.23 2004-01-10 15:31:24 martin Exp $
+# $Id: EmailParser.pm,v 1.24 2004-01-13 19:18:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -121,12 +121,23 @@ sub GetParam {
     my $Line = $Self->{HeaderObject}->get($What) || '';
     chomp ($Line);
     my $ReturnLine = '';
+    my %Remember = ();
     foreach my $Array (decode_mimewords($Line)) {
         foreach (@{$Array}) {
-            $ReturnLine .= $Self->{EncodeObject}->Decode(
-                Text => $Array->[0],
-                From => $Array->[1] || 'us-ascii',
-            );
+            # I don't know, but decode_mimewords() returns each mime 
+            # word two times! Remember to the old one. :-(
+            if (!$Remember{$Array->[0]}) {
+                if ($Array->[0] && $Array->[1]) {
+                    $Remember{$Array->[0]}++;
+                }
+                $ReturnLine .= $Self->{EncodeObject}->Decode(
+                    Text => $Array->[0],
+                    From => $Array->[1] || $Self->GetCharset() || 'us-ascii',
+                );
+            }
+            else {
+                $Remember{$Array->[0]} = undef;
+            }
         }
     }
     # debug
@@ -226,7 +237,10 @@ sub GetCharset {
         return $Self->{Charset};
     }
     else {
-        my $Line = $Self->GetParam(WHAT => 'Content-Type') || '';
+        $Self->{HeaderObject}->unfold();
+        $Self->{HeaderObject}->combine('Content-Type');
+        my $Line = $Self->{HeaderObject}->get('Content-Type') || '';
+        chomp ($Line);
         my %Data = $Self->GetContentTypeParams(ContentType => $Line);
         if ($Data{Charset}) {
             # debug
@@ -501,6 +515,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2004-01-10 15:31:24 $
+$Revision: 1.24 $ $Date: 2004-01-13 19:18:08 $
 
 =cut
