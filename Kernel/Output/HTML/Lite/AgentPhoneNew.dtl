@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.28 2004-02-23 10:08:41 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.29 2004-03-02 21:11:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -70,7 +70,7 @@ function clear_field()
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post" name="compose">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" 
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="StoreNew">
 <input type="hidden" name="ExpandCustomerName" value="0">
@@ -113,13 +113,16 @@ function clear_field()
     <td>$Text{"Options"}:</td>
     <td>
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"} 
-#      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>$Env{"Box1"}
+       $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
     <td valign="top">$Text{"Text"}:</td><td class="table1">
 <textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
     </td>
+  </tr>
+  <tr>
+    <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<!--<input type="button" class="button" onclick="attach()" value="$Text{"Attach"}">--><a name="attachment"></td>
   </tr>
   <tr>
     <td>$Text{"CustomerID"}:</td>
@@ -137,14 +140,14 @@ function clear_field()
     <td>$Text{"Priority"}:</td>
     <td> $Data{"PriorityStrg"}</td>
   </tr>
-#  <tr>
-#    <td>$Data{"TicketFreeKeyField1"}:</td>
-#    <td>$Data{"TicketFreeTextField1"}</td>
-#  </tr>
-#  <tr>
-#    <td>$Data{"TicketFreeKeyField2"}:</td>
-#    <td>$Data{"TicketFreeTextField2"}</td>
-#  </tr>
+  <tr>
+    <td>$Data{"TicketFreeKeyField1"}:</td>
+    <td>$Data{"TicketFreeTextField1"}</td>
+  </tr>
+  <tr>
+    <td>$Data{"TicketFreeKeyField2"}:</td>
+    <td>$Data{"TicketFreeTextField2"}</td>
+  </tr>
 #  <tr>
 #    <td>$Data{"TicketFreeKeyField3"}:</td>
 #    <td>$Data{"TicketFreeTextField3"}</td>

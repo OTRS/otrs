@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.59 2004-03-01 18:43:45 martin Exp $
+# $Id: AgentPhone.pm,v 1.60 2004-03-02 21:11:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -533,6 +533,18 @@ sub Run {
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
+          # get attachment
+          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+              Param => 'file_upload',
+              Source => 'string',
+          );
+          if (%UploadStuff) {
+              $Self->{TicketObject}->WriteArticlePart(
+                  %UploadStuff,
+                  ArticleID => $ArticleID,
+                  UserID => $Self->{UserID},
+              );
+          }
           # set lock (get lock type)
           $Self->{TicketObject}->SetLock(
               TicketID => $TicketID,
