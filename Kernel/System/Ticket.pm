@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.19 2002-09-01 20:24:04 martin Exp $
+# $Id: Ticket.pm,v 1.20 2002-09-10 23:18:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,9 +20,10 @@ use Kernel::System::Ticket::Owner;
 use Kernel::System::Ticket::TimeAccounting;
 use Kernel::System::Queue;
 use Kernel::System::User;
+use Kernel::System::EmailSend;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
