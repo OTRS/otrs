@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.6 2002-09-10 23:20:36 martin Exp $
+# $Id: AgentBounce.pm,v 1.7 2002-10-01 13:52:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentBounce;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -44,6 +44,8 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
 
+    $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
+
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
 
     return $Self;
@@ -62,7 +64,7 @@ sub Run {
     # check needed stuff
     # --
     foreach (qw(ArticleID TicketID QueueID)) {
-        if (!$Self->{$_}) {
+        if (! defined $Self->{$_}) {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Bounce');
             $Output .= $Self->{LayoutObject}->Error(
               Message => "$_ is needed!",
@@ -101,8 +103,7 @@ sub Run {
         # --
         # get lock state && permissions
         # --
-        my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $Self->{TicketID}) || 0;
-        if (!$LockState) {
+        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
             # set owner
             $Self->{TicketObject}->SetOwner(
               TicketID => $Self->{TicketID},
@@ -225,12 +226,7 @@ sub Run {
         $Param{Email} = $Address{Email};
 
         $Param{EmailPlain} = $Self->{ArticleObject}->GetPlain(ArticleID => $Self->{ArticleID});
-        my $EmailObject = Kernel::System::EmailSend->new(
-            ConfigObject => $Self->{ConfigObject},
-            LogObject => $Self->{LogObject},
-            DBObject => $Self->{DBObject},
-        );
-        if (!$EmailObject->Bounce(
+        if (!$Self->{EmailObject}->Bounce(
             EmailPlain => $Param{EmailPlain},
             TicketObject => $Self->{TicketObject},
             TicketID => $Self->{TicketID},
@@ -256,7 +252,7 @@ sub Run {
         if ($Param{InformSender}) {
             $Param{Body} =~ s/<OTRS_TICKET>/$Param{TicketNumber}/g;
             $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
-            if (my $ArticleID = $EmailObject->Send(
+            if (my $ArticleID = $Self->{EmailObject}->Send(
               ArticleType => 'email-external',
               SenderType => 'agent',
               TicketID => $Self->{TicketID},

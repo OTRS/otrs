@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.10 2002-09-01 22:37:20 martin Exp $
+# $Id: AgentUtilities.pm,v 1.11 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -78,7 +78,7 @@ sub Form {
     my $UserID = $Self->{UserID};
     
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->AgentUtilForm();
     $Output .= $Self->{LayoutObject}->Footer();
@@ -94,7 +94,7 @@ sub SearchByTn {
     my $UserID = $Self->{UserID};
     
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
         What => $Want,
@@ -133,7 +133,7 @@ sub SearchByTn {
       # --
       if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $_);
-        my %LastArticle = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $_);
+        my %LastArticle = $Self->{ArticleObject}->GetLastCustomerArticle(TicketID => $_);
         my %Article = $Self->{ArticleObject}->GetArticle(ArticleID => $LastArticle{ArticleID});
         $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
             %Ticket,
@@ -173,7 +173,7 @@ sub SearchByText {
     my $UserID = $Self->{UserID};
     my @WhatFields = $Self->{ParamObject}->GetArray(Param => 'What');
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
         What => $Want,

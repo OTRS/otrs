@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.18 2002-09-23 13:46:58 martin Exp $
+# $Id: AgentZoom.pm,v 1.19 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -136,7 +136,7 @@ sub Run {
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
     " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time, ".
-    " sa.a_content_type ".
+    " sa.a_content_type, sa.incoming_time ".
     " FROM ".
     " article sa, ticket st, article_sender_type stt, article_type at, ".
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
@@ -168,12 +168,12 @@ sub Run {
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
     " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time, ".
-    " sa.a_content_type ";
+    " sa.a_content_type, sa.incoming_time ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
         # get escalation_time
         if ($$Data{escalation_time} && $$Data{sender_type} eq 'customer') {
-            $Ticket{TicketOverTime} = (time() - ($$Data{create_time_unix} + ($$Data{escalation_time}*60)));
+            $Ticket{TicketOverTime} = (time() - ($$Data{incoming_time} + ($$Data{escalation_time}*60)));
         }
         # ticket data
         $Ticket{TicketNumber} = $$Data{tn};
@@ -228,7 +228,7 @@ sub Run {
     # genterate output
     # --
     $Output .= $Self->{LayoutObject}->Header(Title => "Zoom Ticket $Ticket{TicketNumber}");
-    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $Self->{UserID});
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
     # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.19 2002-09-23 13:46:58 martin Exp $
+# $Id: AgentQueueView.pm,v 1.20 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -107,7 +107,7 @@ sub Run {
         Refresh => $Refresh,
     );
     # get user lock data
-    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $Self->{UserID});
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     # build NavigationBar 
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
@@ -208,7 +208,7 @@ sub ShowTicket {
     my $Self = shift;
     my %Param = @_;
     my $TicketID = $Param{TicketID} || return;
-    my $QueueID = $Param{QueueID} || '';
+    my $QueueID = $Param{QueueID} || 0;
     my $TicketQueueID = $Param{TicketQueueID} || '';
     my $Output = '';
 
@@ -395,7 +395,7 @@ sub CheckOldTickets {
     " q.escalation_time != 0 ".
 #    " GROUP BY t.id, t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
 #    " q.name, q.escalation_time, t.ticket_priority_id ".
-    " ORDER BY t.ticket_priority_id, a.incoming_time ASC";
+    " ORDER BY t.ticket_priority_id, a.incoming_time DESC";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {

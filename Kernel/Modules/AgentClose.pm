@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.13 2002-09-10 23:38:19 martin Exp $
+# $Id: AgentClose.pm,v 1.14 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentClose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -129,8 +129,7 @@ sub Run {
         # --
         # get lock state
         # --
-        my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
-        if (!$LockState) {
+        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
             $Self->{TicketObject}->SetLock(
                 TicketID => $TicketID,
                 Lock => 'lock',
@@ -153,7 +152,6 @@ sub Run {
             TicketID => $TicketID,
             TicketNumber => $Tn,
             QueueID => $QueueID,
-            Locked => $LockState,
             NextStatesStrg => \%NextStates,
             NoteTypesStrg => \%NoteTypes,
             MoveQueues => \%MoveQueues,

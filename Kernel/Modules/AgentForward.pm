@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.9 2002-09-10 23:20:36 martin Exp $
+# $Id: AgentForward.pm,v 1.10 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentForward;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,6 +36,8 @@ sub new {
       LogObject TicketObject ArticleObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+
+    $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
 
     # get params
     $Self->{From} = $Self->{ParamObject}->GetParam(Param => 'From') || '';
@@ -114,8 +116,7 @@ sub Form {
     );
 
     # get lock state && permissions
-    my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
-    if (!$LockState) {
+    if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
         # set owner
         $Self->{TicketObject}->SetOwner(
             TicketID => $TicketID,
@@ -155,7 +156,7 @@ sub Form {
         );
     }
     else {
-        %Data = $Self->{TicketObject}->GetLastCustomerArticle(
+        %Data = $Self->{ArticleObject}->GetLastCustomerArticle(
             TicketID => $TicketID,
         );
     }
@@ -210,7 +211,6 @@ sub Form {
         TicketID => $TicketID,
         QueueID => $QueueID,
         NextScreen => $Self->{NextScreen},
-        LockState => $LockState,
         NextStates => \%NextStates,
         ArticleTypes => \%ArticleTypes,
         %Data,
@@ -235,12 +235,7 @@ sub SendEmail {
     # --    
     # send email
     # --
-    my $EmailObject = Kernel::System::EmailSend->new(
-        DBObject => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        LogObject => $Self->{LogObject},
-    );
-    if (my $ArticleID = $EmailObject->Send(
+    if (my $ArticleID = $Self->{EmailObject}->Send(
         From => $Self->{From},
         Email => $Self->{Email},
         To => $Self->{To},

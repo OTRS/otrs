@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.5 2002-08-01 02:37:36 martin Exp $
+# $Id: AgentCustomer.pm,v 1.6 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCustomer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -104,7 +104,7 @@ sub Run {
     else {
         # print header 
         $Output .= $Self->{LayoutObject}->Header(Title => 'Customer');
-        my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         my $TicketCustomerID = $Self->{CustomerID};
 
@@ -152,46 +152,12 @@ sub Run {
            || die 'No Config entry "ViewableSenderTypes"!';
 
         foreach my $TicketID (@TicketIDs) {
-          my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_subject, " .
-            " st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, " .
-            " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, " .
-            " st.freetext1, st.freetext2, st.customer_id, sq.name as queue, sa.id as article_id, " .
-            " st.id, st.tn, sp.name, sd.name as state, st.queue_id, st.create_time, ".
-            " sa.incoming_time, sq.escalation_time, st.ticket_answered, sa.a_content_type " .
-            " FROM " .
-            " article sa, ticket st, ticket_priority sp, ticket_state sd, article_sender_type sdt, queue sq " .
-            " WHERE " .
-            " sa.ticket_id = st.id " .
-            " AND " .
-            " sa.article_sender_type_id = sdt.id " .
-            " AND " .
-            " sq.id = st.queue_id" .
-            " AND " .
-            " sp.id = st.ticket_priority_id " .
-            " AND " .
-            " st.ticket_state_id = sd.id " .
-            " AND " .
-            " sa.ticket_id = $TicketID " .
-            " AND " .
-            " sdt.name in ( ${\(join ', ', @{$Self->{ViewableSenderTypes}})} ) " .
-            " ORDER BY sa.create_time DESC ";
-          $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
-          while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-            my $Age = time() - $$Data{create_time_unix};
+            my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
+            my %Article = $Self->{ArticleObject}->GetLastCustomerArticle(TicketID => $TicketID);
             $OutputTables .= $Self->{LayoutObject}->AgentCustomerHistoryTable(
-              TicketNumber => $$Data{tn},
-              From => $$Data{a_from},
-              To => $$Data{a_to},
-              Subject => $$Data{a_subject},
-              State => $$Data{state},
-              Text => $$Data{a_body},
-              Lock => $$Data{lock_type},
-              Queue => $$Data{queue},
-              TicketID => $$Data{id},
-              Owner => $$Data{login},
-              Age => $Age,
+              %Ticket,
+              %Article,
             );
-          }
         }
         if (!$OutputTables && $Self->{Search}) {
           $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(

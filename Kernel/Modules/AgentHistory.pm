@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.5 2002-07-13 12:21:43 martin Exp $
+# $Id: AgentHistory.pm,v 1.6 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -89,7 +89,7 @@ sub Run {
     if ($Subaction eq '' || !$Subaction) {
         # build header
         $Output .= $Self->{LayoutObject}->Header(Title => 'History');
-        my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
         # build NavigationBar 
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 

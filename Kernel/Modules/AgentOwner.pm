@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.7 2002-09-10 23:14:52 martin Exp $
+# $Id: AgentOwner.pm,v 1.8 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -98,7 +98,7 @@ sub Run {
         my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
         my $OwnerID = $Self->{TicketObject}->CheckOwner(TicketID => $TicketID);
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Owner');
-        my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         # --
         # get user of own groups

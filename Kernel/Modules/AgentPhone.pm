@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.8 2002-07-31 23:17:23 martin Exp $
+# $Id: AgentPhone.pm,v 1.9 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPhone;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -83,7 +83,7 @@ sub Run {
         # if there is no ticket id!
         # --
         if (!$TicketID) {
-            my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     
             my %Tos = $Self->{DBObject}->GetTableData(
@@ -106,8 +106,7 @@ sub Run {
         }
         my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
         # get lock state && permissions
-        my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
-        if (!$LockState) {
+        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
           # --
           # set owner
           # --
@@ -217,6 +216,13 @@ sub Run {
              UserID => $UserID,
            );
          }
+# --
+# send auto response to customer
+# --
+
+# --
+# send notify to agent
+# --
          # --
          # redirect to zoom view
          # --        
@@ -291,6 +297,14 @@ sub Run {
               UserID => $UserID,
             );
           }
+
+# --
+# send auto response to customer
+# --
+
+# --
+# send notify to agent
+# --
           # --
           # redirect
           # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.8 2002-08-06 19:15:16 martin Exp $
+# $Id: AgentMailbox.pm,v 1.9 2002-10-01 13:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -75,48 +75,13 @@ sub Run {
       Refresh => $Self->{Refresh},
       Title => 'Locked Tickets',
     );
-    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $Self->{UserID});
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
     # --
     # get locked  viewable tickets...
     # --
-    my @ViewableTickets;
-    my @ViewableLockIDs = (2);
-    my $SQL = "SELECT id, tn " .
-      " FROM " .
-      " ticket " .
-      " WHERE " .
-      " user_id = $Self->{UserID} " .
-      " AND ".
-      " ticket_lock_id in ( ${\(join ', ', @ViewableLockIDs)} ) " .
-      " ORDER BY create_time";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        push (@ViewableTickets, $RowTmp[0]);
-    }
-
-    # --
-    # get ViewableArticle
-    # --
-    my %ViewableArticle;
-    foreach (@ViewableTickets) {
-        my $SQL = "SELECT sa.id, st.tn " .
-          " FROM " .
-          " article sa, ticket st " .
-          " WHERE " .
-          " sa.ticket_id = $_ " .
-          " AND " .
-          " sa.ticket_id = st.id " .
-          " GROUP BY st.tn, sa.id, sa.id, sa.create_time " .
-          " ORDER BY sa.create_time ASC"; 
-
-        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
-
-        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-            $ViewableArticle{$RowTmp[0]} = $RowTmp[1];
-    	}
-    }
+    my @ViewableTickets = $Self->{TicketObject}->GetLockedTicketIDs(UserID => $Self->{UserID});
 
     # get last sender type of article "LastSenderType"
     my %LastSenderType;
@@ -133,9 +98,7 @@ sub Run {
           " sdt.id = sa.article_sender_type_id" .
           " ORDER BY " .
           " sa.create_time";
-
         $Self->{DBObject}->Prepare(SQL => $SQL);
-
         while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
              $LastSenderType{$_} = $RowTmp[0];
              $LastSenderID{$_} = $RowTmp[1];
@@ -143,11 +106,11 @@ sub Run {
     }
 
     # get article data
-    foreach my $AID (keys %ViewableArticle) {
-        my %Article = $Self->{ArticleObject}->GetArticle(ArticleID => $AID); 
+    foreach my $TicketID (@ViewableTickets) {
+        my %Article = $Self->{ArticleObject}->GetLastCustomerArticle(TicketID => $TicketID); 
         $Output .= $Self->{LayoutObject}->AgentMailboxTicket(
           %Article,
-          TicketNumber => $ViewableArticle{$AID},
+          TicketNumber => $Self->{TicketObject}->GetTNOfId(ID => $TicketID), 
           LastSenderType => $LastSenderType{$Article{TicketID}},
           LastSenderID => $LastSenderID{$Article{TicketID}},
           UserID => $Self->{UserID},
