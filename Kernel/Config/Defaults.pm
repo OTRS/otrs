@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.32 2003-02-11 13:19:45 wiktor Exp $
+# $Id: Defaults.pm,v 1.33 2003-02-11 14:24:14 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -230,6 +230,10 @@ sub LoadDefaults {
     # logout.)
     $Self->{LogoutURL} = '';
 #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+
+    # HttpType
+    # In case you use https instead of plain http specify it here
+    $Self->{HttpType} = 'http';
 
     # ----------------------------------------------------#
     # LogModule                                           #
@@ -852,7 +856,7 @@ there is a new ticket in '<OTRS_QUEUE>'!
 <OTRS_CUSTOMER_EMAIL[16]>
 <snip>
 
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -880,7 +884,7 @@ you got a follow up!
 <OTRS_CUSTOMER_EMAIL[16]>
 <snip>
 
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -901,7 +905,7 @@ unlocked (lock timeout) your locked ticket [<OTRS_TICKET_NUMBER>].
 <OTRS_CUSTOMER_EMAIL[8]>
 <snip>
 
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -921,7 +925,7 @@ a ticket [<OTRS_TICKET_NUMBER>] is assigned to you by '<OTRS_CURRENT_USERFIRSTNA
 Comment: 
 <OTRS_COMMENT>
 
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -939,7 +943,7 @@ Hi <OTRS_OWNER_USERFIRSTNAME>,
 Note: 
 <OTRS_CUSTOMER_BODY>
 
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -955,7 +959,7 @@ Hi,
 
 '<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>' moved a ticket [<OTRS_TICKET_NUMBER>] into '<OTRS_CUSTOMER_QUEUE>'.
 
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -973,7 +977,7 @@ the ticket '<OTRS_TICKET_NUMBER>' has reached the reminder time!
 
 Please have a look at:
  
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -991,7 +995,7 @@ password.
 
 New Password: <OTRS_NEWPW>
 
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl
 
 Your OTRS Notification Master
 ";
@@ -1090,7 +1094,7 @@ password.
 
 New Password: <OTRS_NEWPW>
 
-http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/customer.pl
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/customer.pl
 
 Your OTRS Notification Master
 ";
