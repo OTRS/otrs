@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.14 2003-04-12 22:06:21 martin Exp $
+# $Id: State.pm,v 1.15 2003-07-10 02:26:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -37,88 +37,6 @@ sub GetState {
     }
 }
 # --
-sub StateLookup {
-    my $Self = shift;
-    my %Param = @_;
-    my $State = $Param{State};
-    # --
-    # check needed stuff
-    # --
-    if (!$Param{State}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need State!");
-      return;
-    }
-    # --
-    # check if we ask the same request?
-    # --
-    if (exists $Self->{"Ticket::State::StateLookup::$State"}) {
-        return $Self->{"Ticket::State::StateLookup::$State"};
-    }
-    # --
-    # get data
-    # --
-    my $SQL = "SELECT id " .
-    " FROM " .
-    " ticket_state " .
-    " WHERE " .
-    " name = '$State'";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        # store result
-        $Self->{"Ticket::State::StateLookup::$State"} = $Row[0];
-    }
-    # --
-    # check if data exists
-    # --
-    if (!exists $Self->{"Ticket::State::StateLookup::$State"}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No StateID for $State found!");
-        return;
-    }
-
-    return $Self->{"Ticket::State::StateLookup::$State"};
-}
-# --
-sub StateIDLookup {
-    my $Self = shift;
-    my %Param = @_;
-    my $StateID = $Param{StateID} || '';
-    # --
-    # check needed stuff
-    # --
-    if (!$Param{StateID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need StateID!");
-      return;
-    }
-    # --
-    # check if we ask the same request?
-    # --
-    if (exists $Self->{"Ticket::State::StateLookupID::$StateID"}) {
-        return $Self->{"Ticket::State::StateLookupID::$StateID"};
-    }
-    # --
-    # get data 
-    # --
-    my $SQL = "SELECT name " .
-    " FROM " .
-    " ticket_state " .
-    " WHERE " .
-    " id = $StateID";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        # store result
-        $Self->{"Ticket::State::StateLookupID::$StateID"} = $RowTmp[0];
-    }
-    # --
-    # check if data exists
-    # --
-    if (!exists $Self->{"Ticket::State::StateLookupID::$StateID"}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No State for $StateID found!");
-        return;
-    }
-
-    return $Self->{"Ticket::State::StateLookupID::$StateID"};
-}
-# --
 sub SetState {
     my $Self = shift;
     my %Param = @_;
@@ -140,13 +58,15 @@ sub SetState {
     # state id lookup
     # --
     if (!$Param{StateID}) {
-      $Param{StateID} = $Self->StateLookup(State => $Param{State}) || return;
+        my %State = $Self->{StateObject}->StateGet(Name => $Param{State});
+        $Param{StateID} = $State{ID} || return;
     }
     # --
     # state lookup
     # --
     if (!$Param{State}) {
-      $Param{State} = $Self->StateIDLookup(StateID => $Param{StateID}) || return;
+        my %State = $Self->{StateObject}->StateGet(ID => $Param{StateID});
+        $Param{State} = $State{Name} || return;
     } 
     # --
     # check if update is needed
