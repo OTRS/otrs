@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.14 2003-02-14 13:55:14 martin Exp $
+# $Id: AgentCustomer.pm,v 1.15 2003-02-25 22:55:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCustomer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,7 +86,7 @@ sub Run {
             # search customer 
             my %CustomerUserList = ();
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                UserLogin => $Param{CustomerUserID}.'*',
+                Search => $Param{CustomerUserID}.'*',
             );
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID

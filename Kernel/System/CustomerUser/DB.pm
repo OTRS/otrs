@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.10 2003-02-15 11:56:02 martin Exp $
+# $Id: DB.pm,v 1.11 2003-02-25 22:55:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,7 +35,7 @@ sub new {
     # --
     # max shown user a search list
     # --
-    $Self->{UserSearchListLimit} = 300;
+    $Self->{UserSearchListLimit} = 250;
     # --
     # config options
     # --
@@ -57,9 +57,15 @@ sub CustomerSearch {
     my %Param = @_;
     my %Users = ();
     # --
-    # build SQL string
+    # check needed stuff
     # --
-    $Param{UserLogin} =~ s/\*/%/g;
+    if (!$Param{Search} && !$Param{UserLogin}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search or UserLogin!");
+        return;
+    }
+    # --
+    # build SQL string 1/2
+    # --
     my $SQL = "SELECT $Self->{CustomerKey} ";
     if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}) {
         foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}}) {
@@ -70,17 +76,41 @@ sub CustomerSearch {
         $SQL .= " , first_name, last_name, email ";
     }
     # --
-    # get data
+    # build SQL string 2/2
     # --
     $SQL .= " FROM " .
     " $Self->{CustomerTable} ".
-    " WHERE " .
-    " $Self->{CustomerKey} LIKE '$Param{UserLogin}' ";
+    " WHERE ";
+    if ($Param{Search}) { 
+        $Param{Search} =~ s/\*/%/g;
+        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}) {
+            my $SQLExt = '';
+            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}}) {
+                if ($SQLExt) {
+                    $SQLExt .= ' OR ';
+                }
+                $SQLExt .= " $_ LIKE '$Param{Search}' ";
+            }
+            $SQL .= $SQLExt;
+        }
+        else {
+            $SQL .= " $Self->{CustomerKey} LIKE '$Param{Search}' ";
+        }
+    }
+    if ($Param{UserLogin}) {
+        $Param{UserLogin} =~ s/\*/%/g;
+        $SQL .= " $Self->{CustomerKey} LIKE '$Param{UserLogin}' ";
+    }
+    # --
     # add valid option
+    # --
     if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerValid}) {
         $SQL .= "AND ".$Self->{ConfigObject}->Get('CustomerUser')->{CustomerValid}.
         " in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
     }
+    # --
+    # get data
+    # --
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
          foreach (1..8) {

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.7 2003-02-11 13:19:45 wiktor Exp $
+# $Id: LDAP.pm,v 1.8 2003-02-25 22:55:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,7 +40,7 @@ sub new {
     # --
     # max shown user a search list
     # --
-    $Self->{UserSearchListLimit} = 300;
+    $Self->{UserSearchListLimit} = 200;
     # --
     # get ldap preferences
     # --
@@ -77,13 +77,39 @@ sub CustomerSearch {
     my $Self = shift;
     my %Param = @_;
     # --
+    # check needed stuff
+    # --
+    if (!$Param{Search} && !$Param{UserLogin}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search or UserLogin!");
+        return;
+    }
+    # --
+    # build filter
+    # --
+    my $Filter = '';
+    if ($Param{Search}) {
+        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}) {
+            $Filter = '(|';
+            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}}) {
+                $Filter.= "($_=$Param{Search})";
+            }
+            $Filter .= ')';
+        }
+        else {
+            $Filter = "($Self->{CustomerKey}=$Param{Search})";
+        }
+    }
+    if ($Param{UserLogin}) {
+        $Filter = "($Self->{CustomerKey}=$Param{UserLogin})";
+    }
+    # --
     # perform user search
     # FIXME: check for valid customers
     # --
     my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
-        filter => "($Self->{CustomerKey}=$Param{UserLogin})",
+        filter => $Filter, 
         sizelimit => $Self->{UserSearchListLimit},
     );
 #    $Result->code && die $Result->error;

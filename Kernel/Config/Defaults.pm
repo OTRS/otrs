@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.40 2003-02-25 12:03:04 martin Exp $
+# $Id: Defaults.pm,v 1.41 2003-02-25 22:54:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -576,8 +576,8 @@ $Data{"Signature"}
 #    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
     $Self->{CustomerDBLink} = '$Env{"CGIHandle"}?Action=AgentCustomer&TicketID=$Data{"TicketID"}';
 #    $Self->{CustomerDBLink} = '';
-#    $Self->{CustomerDBLinkTarget} = 'target="cdb"';
     $Self->{CustomerDBLinkTarget} = '';
+#    $Self->{CustomerDBLinkTarget} = 'target="cdb"';
 
     # ----------------------------------------------------#
     # misc                                                #
@@ -1213,6 +1213,7 @@ Your OTRS Notification Master
         CustomerValid => 'valid_id',
 #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'email'],
         CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
+        CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
 #        ReadOnly => 1,
         Map => [
             # note: Login, Email and CustomerID needed!
@@ -1240,7 +1241,7 @@ Your OTRS Notification Master
 #            # ldap base dn
 #            BaseDN => 'ou=seas,o=csuh',
 #            # search scope (one|sub)
-#            SSCOPE => 'one',
+#            SSCOPE => 'sub',
 #            # The following is valid but would only be necessary if the
 #            # anonymous user does NOT have permission to read from the LDAP tree 
 #            UserDN => '',
@@ -1251,6 +1252,7 @@ Your OTRS Notification Master
 #        # customer #
 #        CustomerID => 'mail',
 #        CustomerUserListFields => ['uid', 'cn', 'mail'],
+#        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
 #            # var, frontend, storage, shown, required, storage-type
