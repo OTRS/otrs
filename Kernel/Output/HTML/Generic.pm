@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.135 2004-07-30 07:56:21 martin Exp $
+# $Id: Generic.pm,v 1.136 2004-08-01 11:04:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.135 $';
+$VERSION = '$Revision: 1.136 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -747,7 +747,7 @@ sub Header {
         $Param{'Title'} = '';
     }
     # set file name for "save page as"
-    $Param{"ContentDisposition"} = "filename=".($Param{Filename} || '$Env{"Action"}').'.html';
+    $Param{"ContentDisposition"} = "filename=\"".($Param{Filename} || '$Env{"Action"}').'.html"';
     # create & return output
     $Output .= $Self->Output(TemplateFile => "Header$Type", Data => \%Param);
     return $Output;
@@ -769,7 +769,7 @@ sub PrintHeader {
         $Param{Width} = 640;
     }
     # set file name for "save page as"
-    $Param{"ContentDisposition"} = "filename=".($Param{Filename} || '$Env{"Action"}').'.html';
+    $Param{"ContentDisposition"} = "filename=\"".($Param{Filename} || '$Env{"Action"}').'.html"';
     # create & return output
     $Output .= $Self->Output(TemplateFile => 'PrintHeader', Data => \%Param);
     return $Output;
@@ -1177,7 +1177,7 @@ sub Attachment {
     if ($Param{Type}) {
         $Output .= $Param{Type}.'; ';
     }
-    $Output .= "filename=$Param{Filename}\n".
+    $Output .= "filename=\"$Param{Filename}\"\n".
       "Content-Type: $Param{ContentType}\n\n".
       "$Param{Content}";
     return $Output;
