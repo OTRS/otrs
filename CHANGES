@@ -2,12 +2,26 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.111 2004-02-23 10:05:01 martin Exp $
+# $Id: CHANGES,v 1.112 2004-02-27 21:08:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+CVS head 
+
+ - (2004/02/27) fixed possible owner selection in AgentPhone/AgentEmail
+ - (2004/02/23) improved FreeText feature look if just one key is
+    defined.
+ - (2004/02/23) improved otrs LDAP modules with AlwaysFilter and 
+    Charset options (see online documentation)
+ - (2004/02/23) updated to CGI 3.04
+
+1.2.3
+
+  - (2004/02/27) fixed missing "internal (agent)" agent search faq
+  - (2004/02/27) fixed possible owner selection in AgentPhone/AgentEmaill
 
 1.2.2 (2004-02-23)
 
