@@ -54,7 +54,7 @@
 <title>Install OTRS</title>
 <para>Last but least - the beast!</para>
 <para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/pages/index.pl?Site=Download">http://otrs.org/pages/index.pl?Site=Download</ulink>.</para>
-<para>We have to install this tarball manually, because there is a file &quot;INSTALL&quot; in it, who has the same name like the directory &quot;install&quot;, which is also contained. Un*x differentiates between the two - Windows doesn't. In addition, the two files .fetchmailrc and .procmailrc are doubled, your unzip program will complain about this. Future releases will allow automic unzipping.</para>
+<para>We have to install this tarball manually, because there is a file &quot;INSTALL&quot; in it, who has the same name like the directory &quot;install&quot;, which is also contained. Un*x differentiates between the two - Windows doesn't. In addition, the thee files .fetchmailrc, .mailfilter and .procmailrc are doubled, your unzip program will complain about this. Future releases will allow automic unzipping.</para>
 <para>Open the tarball using WinRAR (<ulink url="http://www.rarlab.com">http://www.rarlab.com</ulink>), Winzip (<ulink url="http://www.winzip.com">http://www.winzip.com</ulink>) or a similar software. Unzip the files <computeroutput>.fetchmailrc</computeroutput>, <computeroutput>.mailfilter</computeroutput>, <computeroutput>.procmailrc</computeroutput> and <computeroutput>INSTALL</computeroutput> to <emphasis>d:\otrs\</emphasis>. Rename <computeroutput>INSTALL</computeroutput> to <computeroutput>INSTALL.txt</computeroutput>. Now unzip the rest of the archive to <emphasis>d:\otrs\</emphasis>.</para>
 
 </section>
@@ -66,7 +66,7 @@
 
 <section>
 <title>Configuring Cygwin (exim)</title>
-<para>Open the file <emphasis>D:\cygwin\etc\exim.conf</emphasis> search for this line:</para>
+<para>Open the file <emphasis>D:\cygwin\etc\exim.conf</emphasis> and search for this line:</para>
 <para><screen>  begin routers</screen></para>
 <para>Directly beneath you enter the following:</para>
 <para><screen># Send all mail to a smarthost
@@ -85,7 +85,7 @@ remote_smtp:
 <para><screen>d:
 cd d:\cygwin
 cygwin
-chown	SYSTEM /etc/exim.conf
+chown SYSTEM /etc/exim.conf
 chmod 755 /etc/exim.conf</screen></para>
 <para>That's it for <emphasis>exim</emphasis> and <emphasis>Cygwin</emphasis>.</para>
 </section>
@@ -144,7 +144,7 @@ Install package 'DBD-Mysql.ppd?' (y/N): y</screen></para>
     XML-Parser       [2.27   ]
     XML-Simple       [1.06   ]
     libwin32         [0.19.1 ]</screen></para>
-<para>You quit ppm by entering <userinput>quit</userinput>. If you like you can delete the files in D:\Perl\packages.</para>
+<para>You quit ppm by entering <userinput>quit</userinput>. You may now delete the files in D:\Perl\packages, if you want to, but you don't have to.</para>
 <para>That's it for Perl.</para>
 </section>
 
@@ -154,10 +154,11 @@ Install package 'DBD-Mysql.ppd?' (y/N): y</screen></para>
 <para><screen>[aliases]
 /mysql = d:/mysql/Docs
 /phpMyAdmin = d:/mysql/phpMyAdmin
+
 [cgi-aliases]
 /otrs/ = /otrs/bin/cgi-bin/
 /obin/ = /otrs/bin/</screen></para>
-<para>Now you set the beneath values in <emphasis>D:\Sambar\config\config.ini</emphasis>:</para>
+<para>In <emphasis>D:\Sambar\config\config.ini</emphasis> you set values shown beneath::</para>
 <para><screen>[common]
 Trace Level = INFO
 Trace Performance = true
@@ -167,6 +168,7 @@ License =
 Licensee =
 DNS Primary = IPadresse.DNS1.beideinem.Provider
 DNS Secondary = IPadresse.DNS2.beideinem.Provider
+
 [server]
 System Administrator = admin
 System Administrator IP = 127.0.0.1
@@ -193,6 +195,7 @@ Trace DHCP = true
 Trace DNS = true
 SMTP Server = smtp.deinprovider.de
 DOT-File Security = true
+
 [http]
 Act As HTTP Proxy = false
 Trace Proxy Usage = true
@@ -203,6 +206,7 @@ Default Page = index.pl index.php index.stm index.shtml index.shtm index.sht ind
 Perl Executable = D:/Perl/bin/perl.exe
 CGI Extensions = *.pl
 Enforce .htaccess = true
+
 [events]
 Monitor Invalid Logins = true
 Monitor Invalid Requests = true
@@ -235,7 +239,7 @@ ren htaccess.txt .htaccess
 <section>
 <title>Configuring MySQL</title>
 <para>Secure your MySQL by providing good passwords for the users <emphasis>@%</emphasis>, <emphasis>root@%</emphasis> und <emphasis>root@localhost</emphasis>. This can easily be done via <emphasis>phpMyAdmin</emphasis>.</para>
-<para>Let's fill the database. You can do this cia the command line, as show beneath:</para>
+<para>Let's fill the database. You can do this via the command line, as show here:</para>
 <para><screen>d:
 cd d:\mysql
 mysql -u root -p password -e 'create database otrs'
@@ -243,7 +247,7 @@ mysql -u root -p password otrs &lt; d:\otrs\install\database\OpenTRS-SQL-win32.m
 mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;some-pass&quot; WITH GRANT OPTION;'
 mysqladmin -u root -p password reload
 </screen></para>
-<para>I recommend using phpMyAdmin under <ulink url="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</ulink> instead of working on the command line. You creqate the database right on the start screen. Now you click the register &quot;SQL&quot;, and enter <emphasis>d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</emphasis>. Click OK.</para>
+<para>I recommend using phpMyAdmin under <ulink url="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</ulink> instead of working on the command line. You create the database right on the start screen. Now you click the tab &quot;SQL&quot;, and enter <emphasis>d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</emphasis>. Click OK.</para>
 <para>Now commit this command:</para>
 <para><screen>GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;irgendeinpasswort&quot; WITH GRANT OPTION;</screen></para>
 <para>That's it for MySQL, which we provided with the database otrs and the user otrs@localhost.</para>
@@ -305,7 +309,7 @@ copy Config.pm.dist Config.pm
 
 <section>
 <title>VALID.PM</title>
-<para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>. In <emphasis>d:\otrs\Kernel\cpan-lib\Email\Valid.pm</emphasis> we change the following lines:</para>
+<para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>. In <emphasis>d:\otrs\Kernel\cpan-lib\email\Valid.pm</emphasis> we change the following lines:</para>
 <para><screen>16:
   @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin c:/winnt/system32 );
 98:
@@ -327,13 +331,13 @@ copy Config.pm.dist Config.pm
 
 <section>
 <title>System Email Addresses &amp; POP3</title>
-<para>You set your system email addresses here: <ulink url="http://localhost/otrs/index.pl?Action=AdminSystemAddress">http://localhost/otrs/index.pl?Action=AdminSystemAddress</ulink>These are the addresses your customers lateron use to reach your OTRS.</para>
-<para>You create POP3 accounts for each System Email here: <ulink url="http://localhost/otrs/index.pl?Action=AdminPOP3">http://localhost/otrs/index.pl?Action=AdminPOP3</ulink></para>
+<para>You set your system email addresses here: <ulink url="http://localhost/otrs/index.pl?Action=AdminSystemAddress">http://localhost/otrs/index.pl?Action=AdminSystemAddress</ulink>. These are the addresses your customers lateron use to reach your OTRS.</para>
+<para>You create POP3 accounts for each system email here: <ulink url="http://localhost/otrs/index.pl?Action=AdminPOP3">http://localhost/otrs/index.pl?Action=AdminPOP3</ulink></para>
 <para><emphasis>Your OTRS is now ready, you can start!</emphasis> Have a look around the interface and work on the test ticket provided.</para>
-<para>Now write an Email to on of the System Email addresses. Enter this in your browser, it provides the eMail to OTRS. We will later automate this: <ulink url="http://localhost/obin/PostMasterPOP3.pl">http://localhost/obin/PostMasterPOP3.pl</ulink>.</para>
-<para>Your Email will be visible in the queue <emphasis>Raw</emphasis> that's here: <ulink url="http://localhost/otrs/index.pl?Action=AgentQueueView">http://localhost/otrs/index.pl?Action=AgentQueueView</ulink>. Answer this first inquiry.</para>
+<para>Now write an email to one of the system email addresses. Enter this in your browser, it provides the email to OTRS. <ulink url="http://localhost/obin/PostMasterPOP3.pl">http://localhost/obin/PostMasterPOP3.pl</ulink>. We will later automate this.</para>
+<para>Your email will be visible in the queue <emphasis>Raw</emphasis> - that's here: <ulink url="http://localhost/otrs/index.pl?Action=AgentQueueView">http://localhost/otrs/index.pl?Action=AgentQueueView</ulink>. Answer this first inquiry.</para>
 <tip>
-<para>It is <emphasis>NO</emphasis> good idea to use one of the system Email addresses to address the system, this will produce loops.</para>
+<para>It is <emphasis>NO</emphasis> good idea to use one of the System Email Addresses to address the system, this will produce loops.</para>
 </tip>
 </section>
 
