@@ -1,20 +1,20 @@
 # --
-# Kernel/System/Auth.pm - provides the authentification 
+# Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.18 2004-01-10 12:48:22 martin Exp $
+# $Id: Auth.pm,v 1.19 2004-11-16 12:12:06 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::Auth; 
+package Kernel::System::Auth;
 
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -33,8 +33,8 @@ The autentification module for the agent interface.
 
 =item new()
 
-create a object 
- 
+create a object
+
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::System::DB;
@@ -44,7 +44,7 @@ create a object
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
-  my $DBObject = Kernel::System::DB->new( 
+  my $DBObject = Kernel::System::DB->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
   );
@@ -56,13 +56,12 @@ create a object
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # check needed objects
@@ -81,7 +80,6 @@ sub new {
 
     return $Self;
 }
-# --
 
 =item GetOption()
 
@@ -98,7 +96,6 @@ sub GetOption {
     my %Param = @_;
     return $Self->{Backend}->GetOption(%Param);
 }
-# --
 
 =item Auth()
 
@@ -118,12 +115,11 @@ sub Auth {
     my %Param = @_;
     return $Self->{Backend}->Auth(%Param);
 }
-# --
 1;
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -133,6 +129,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2004-01-10 12:48:22 $
+$Revision: 1.19 $ $Date: 2004-11-16 12:12:06 $
 
 =cut
