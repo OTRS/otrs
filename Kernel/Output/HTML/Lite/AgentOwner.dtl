@@ -2,7 +2,7 @@
 # AgentOwner.dtl - provides HTML for AgentOwner mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.dtl,v 1.16 2004-11-07 15:19:08 martin Exp $
+# $Id: AgentOwner.dtl,v 1.17 2004-12-20 10:42:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,18 +47,17 @@ function change_selected(sel)
 
   <br>
 
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="owner">
+  <input type="hidden" name="Action" value="AgentOwner">
+  <input type="hidden" name="Subaction" value="Update">
+  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
   <td class="contentbody">
-
-    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="owner">
-    <input type="hidden" name="Action" value="AgentOwner">
-    <input type="hidden" name="Subaction" value="Update">
-    <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
     <table border="0" width="100%">
       <tr>
         <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
@@ -76,12 +75,15 @@ function change_selected(sel)
         <td class="contentvalue"><textarea name="Comment" rows="12" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}"></textarea></td>
       </tr>
     </table>
-    <input class="button" type="submit" value="$Text{"update"}">
-    </form>
-
+      </td>
+    </tr>
+    <tr>
+      <td class="contentfooter">
+        <input class="button" type="submit" value="$Text{"update"}">
       </td>
     </tr>
     </table>
+    </form>
 
     <br>
 

@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.30 2004-11-05 07:08:43 martin Exp $
+# $Id: AgentNote.dtl,v 1.31 2004-12-20 10:42:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,18 +62,18 @@ function SpellCheckSubmit()
 
   <br>
 
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Store">
+  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+  <input type="hidden" name="FormID" value="$Data{"FormID"}">
+
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
   <td class="contentbody">
-
-    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Store">
-    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-    <input type="hidden" name="FormID" value="$Data{"FormID"}">
     <table border="0" width="100%">
 <!-- dtl:block:InformAgent -->
       <tr>
@@ -136,13 +136,16 @@ function SpellCheckSubmit()
         <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
       </tr>
       </table>
-    <br>
-    <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-    </form>
 
       </td>
     </tr>
+    <tr>
+      <td class="contentfooter">
+        <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+      </td>
+    </tr>
     </table>
+    </form>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
   <input type="hidden" name="Action" value="AgentSpelling">

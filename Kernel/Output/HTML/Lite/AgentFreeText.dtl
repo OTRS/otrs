@@ -2,7 +2,7 @@
 # AgentFreeText.dtl - provides HTML for AgentFreeText mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.dtl,v 1.4 2004-09-27 13:26:33 martin Exp $
+# $Id: AgentFreeText.dtl,v 1.5 2004-12-20 10:42:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,6 +27,11 @@
 
   <br>
 
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="AgentFreeText">
+  <input type="hidden" name="Subaction" value="Update">
+  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -34,10 +39,6 @@
   <tr>
   <td class="contentbody">
 
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="AgentFreeText">
-    <input type="hidden" name="Subaction" value="Update">
-    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
       <table border="0">
       <tr>
         <td width="20"></td>
@@ -85,13 +86,15 @@
 #       <td>$Data{"TicketFreeTextField8"}</td>
 #   </tr>
    </table>
-    <br>
-    <input class="button" type="submit" value="$Text{"update"}">
-    </form>
-
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+        <input class="button" type="submit" value="$Text{"update"}">
     </td>
   </tr>
   </table>
+  </form>
 
   <br>
 

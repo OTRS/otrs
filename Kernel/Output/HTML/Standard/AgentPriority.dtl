@@ -2,7 +2,7 @@
 # AgentPriority.dtl - provides HTML for AgentPriority mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.dtl,v 1.15 2004-10-06 19:45:49 martin Exp $
+# $Id: AgentPriority.dtl,v 1.16 2004-12-20 10:42:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,29 +27,31 @@
 
   <br>
 
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="AgentPriority">
+  <input type="hidden" name="Subaction" value="Update">
+  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
   <td class="contentbody">
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="AgentPriority">
-    <input type="hidden" name="Subaction" value="Update">
-    <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
       <table border="0">
       <tr>
         <td class="contentkey">$Text{"Priority"}:</td>
         <td class="contentvalue">$Data{"OptionStrg"}</td>
       </tr>
       </table>
-    <br>
-    <input class="button" type="submit" value="$Text{"update"}">
-    </form>
   </td>
   </tr>
+  <tr>
+    <td class="contentfooter">
+      <input class="button" type="submit" value="$Text{"update"}">
+    </td>
+  </tr>
   </table>
+  </form>
 
   <br>
 

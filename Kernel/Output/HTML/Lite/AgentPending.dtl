@@ -2,7 +2,7 @@
 # AgentPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.dtl,v 1.13 2004-11-04 14:56:57 martin Exp $
+# $Id: AgentPending.dtl,v 1.14 2004-12-20 10:42:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -61,17 +61,17 @@ function SpellCheckSubmit()
   <td class="mainbody">
 
   <br>
+
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+  <input type="hidden" name="Action" value="AgentPending">
+  <input type="hidden" name="Subaction" value="Store">
+  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
   <td class="contentbody">
-
-    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-    <input type="hidden" name="Action" value="AgentPending">
-    <input type="hidden" name="Subaction" value="Store">
-    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
       <table border="0" width="100%">
       <tr>
         <td class="contentkey" width="20%">$Text{"Subject"}:</td>
@@ -110,12 +110,15 @@ function SpellCheckSubmit()
         <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
       </tr>
       </table>
-    <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-    </form>
-
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+      <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
     </td>
   </tr>
   </table>
+  </form>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
   <input type="hidden" name="Action" value="AgentSpelling">
