@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.3 2002-10-28 17:41:42 martin Exp $
+# $Id: Article.pm,v 1.4 2002-10-28 18:18:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -23,7 +23,7 @@ use MIME::Parser;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -607,7 +607,6 @@ sub GetLastCustomerArticle {
     my $Self = shift;
     my %Param = @_;
     my $ArticleID = '';
-    my $SenderType = 'customer';
     # --
     # check needed stuff
     # --
@@ -616,27 +615,13 @@ sub GetLastCustomerArticle {
       return;
     }
     # --
-    # db query
+    # get article index
     # --
-    $Self->{DBObject}->Prepare(
-      SQL => "SELECT at.id" .
-        " FROM " .
-        " article at, article_sender_type st" .
-        " WHERE " .
-        " at.article_sender_type_id = st.id " .
-        " AND " .
-        " st.name = '$SenderType' " .
-        " AND " .
-        " at.ticket_id = $Param{TicketID} " .
-        " ORDER BY at.incoming_time",
-    );
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $ArticleID = $Row[0];
-    }
+    my @Index = $Self->GetArticleIndex(TicketID => $Param{TicketID}, SenderType => 'customer');
     # --
     # get article data   
     # --
-    return $Self->GetArticle(ArticleID => $ArticleID);
+    return $Self->GetArticle(ArticleID => $Index[$#Index]);
 }
 # --
 sub GetArticleIndex {
@@ -653,14 +638,19 @@ sub GetArticleIndex {
     # --
     # db query
     # --
-    $Self->{DBObject}->Prepare(
-      SQL => "SELECT at.id" .
+    my $SQL = "SELECT at.id" .
         " FROM " .
-        " article at " .
+        " article at, article_sender_type ast " .
         " WHERE " .
         " at.ticket_id = $Param{TicketID} " .
-        " ORDER BY at.incoming_time",
-    );
+        " AND " .
+        " at.article_sender_type_id = ast.id ";
+    if ($Param{SenderType}) {
+        $SQL .= " AND ";
+        $SQL .= " ast.name = '$Param{SenderType}' ";
+    }
+    $SQL .= " ORDER BY at.incoming_time";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         push (@Index, $Row[0]);
     }
