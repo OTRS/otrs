@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.108 2003-04-24 20:05:45 martin Exp $
+# $Id: Agent.pm,v 1.109 2003-04-24 21:42:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.108 $';
+$VERSION = '$Revision: 1.109 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1860,15 +1860,15 @@ sub AgentStatusView {
     my $Page = int(($Param{StartHit} / $Param{PageShown}) + 0.99999);
     for (my $i = 1; $i <= $Pages; $i++) {
         $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=\$Env{\"Action\"}".
-         "&StartHit=". (($i-1)*$Param{PageShown}+1) .= '&SortBy=$Data{"SortBy"}&Order=$Data{"Order"}">';
+         "&StartHit=". (($i-1)*$Param{PageShown}+1) .= '&SortBy=$Data{"SortBy"}&'.
+         'Order=$Data{"Order"}&Type=$Data{"Type"}">';
         if ($Page == $i) {
             $Param{PageNavBar} .= '<b>'.($i).'</b>';
         }
         else {
             $Param{PageNavBar} .= ($i);
         }
-#         if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{PageShown}) == ($i)) {
-         $Param{PageNavBar} .= '</a> ';
+        $Param{PageNavBar} .= '</a> ';
     }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentStatusView', Data => \%Param);
