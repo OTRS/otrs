@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.25 2002-10-21 22:39:03 martin Exp $
+# $Id: NewTicket.pm,v 1.26 2002-11-27 21:38:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -106,6 +106,28 @@ sub Run {
         print "Priority: $Priority\n";
         print "State: $State\n";
     }
+    # -- 
+    # do article db insert
+    # --
+    my $ArticleID = $Self->{TicketObject}->CreateArticle(
+        TicketID => $TicketID,
+        ArticleType => 'email-external',
+        SenderType => 'customer',
+        From => $GetParam{From},
+        ReplyTo => $GetParam{ReplyTo},
+        To => $GetParam{To},
+        Cc => $GetParam{Cc},
+        Subject => $GetParam{Subject},
+        MessageID => $GetParam{'Message-ID'},
+        ContentType => $GetParam{'Content-Type'},
+        Body => $GetParam{Body},
+        UserID => $InmailUserID,
+        HistoryType => 'NewTicket',
+        HistoryComment => "New Ticket [$NewTn] created (Q=$Queue;P=$Priority;S=$State). $Comment",
+        OrigHeader => \%GetParam,
+        AutoResponseType => $AutoResponseType,
+        Queue => $Queue,
+    );
     # --    
     # set customer no
     # --
@@ -139,28 +161,6 @@ sub Run {
             );
         }
     }
-    # -- 
-    # do article db insert
-    # --
-    my $ArticleID = $Self->{TicketObject}->CreateArticle(
-        TicketID => $TicketID,
-        ArticleType => 'email-external',
-        SenderType => 'customer',
-        From => $GetParam{From},
-        ReplyTo => $GetParam{ReplyTo},
-        To => $GetParam{To},
-        Cc => $GetParam{Cc},
-        Subject => $GetParam{Subject},
-        MessageID => $GetParam{'Message-ID'},
-        ContentType => $GetParam{'Content-Type'},
-        Body => $GetParam{Body},
-        UserID => $InmailUserID,
-        HistoryType => 'NewTicket',
-        HistoryComment => "New Ticket [$NewTn] created (Q=$Queue;P=$Priority;S=$State). $Comment",
-        OrigHeader => \%GetParam,
-        AutoResponseType => $AutoResponseType,
-        Queue => $Queue,
-    );
     # --
     # close ticket if article create failed!
     # --
