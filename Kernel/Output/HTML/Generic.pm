@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.82 2003-04-01 19:20:21 martin Exp $
+# $Id: Generic.pm,v 1.83 2003-04-03 21:34:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.82 $';
+$VERSION = '$Revision: 1.83 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -281,50 +281,31 @@ sub Output {
           # do template if dynamic
           # --
           $Line =~ s{
-            <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
+            <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne|=~|!~)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
           }
           {
-            if ($3 eq "eq") {
-              # --
-              # do eq actions
-              # --
-              if ($1 eq "Text") {
-                if ($Self->{LanguageObject}->Get($2, $Param{TemplateFile}) eq $4) {
-                  $GlobalRef->{"$5Ref"}->{$6} = $7;
-                  "";
-                }
-              }
-              elsif ($1 eq "Env" || $1 eq "Data") {
-                if ((defined $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} eq $4) {
-                  $GlobalRef->{"$5Ref"}->{$6} = $7;
-                  "";
-                }
-                else {
-                  # output replace with nothing!
-                  "";
-                }
-              }
-              elsif ($1 eq "Config") {
-                if ($Self->{ConfigObject}->Get($2) eq $4) {
-                  $GlobalRef->{"$5Ref"}->{$6} = $7;
-                  "";
-                }
-              }
-          }
-          elsif ($3 eq "ne") {
+              my $Type = $1 || '';
+              my $TypeKey = $2 || '';
+              my $Con = $3 || '';
+              my $ConVal = $4 || '';
+              my $IsType = $5 || '';
+              my $IsKey = $6 || '';
+              my $IsValue = $7 || '';
               # --
               # do ne actions
               # --
-              if ($1 eq "Text") {
-                if ($Self->{LanguageObject}->Get($2, $Param{TemplateFile}) ne $4) {
-                   $GlobalRef->{"$5Ref"}->{$6} = $7;
-                   # output replace with nothing!
-                   "";
+              if ($Type eq 'Text') {
+                my $Tmp = $Self->{LanguageObject}->Get($TypeKey, $Param{TemplateFile}) || '';
+                if (eval '($Tmp '.$Con.' $ConVal)') {
+                  $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                  # output replace with nothing!
+                  "";
                 }
               }
-              elsif ($1 eq "Env" || $1 eq "Data") {
-                if ((defined $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
-                  $GlobalRef->{"$5Ref"}->{$6} = $7;
+              elsif ($Type eq 'Env' || $Type eq 'Data') {
+                my $Tmp = $GlobalRef->{$Type.'Ref'}->{$TypeKey} || '';
+                if (eval '($Tmp '.$Con.' $ConVal)') {
+                  $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
                   # output replace with nothing!
                   "";
                 }
@@ -333,13 +314,13 @@ sub Output {
                   "";
                 }
               }
-              elsif ($1 eq "Config") {
-                if ($Self->{ConfigObject}->Get($2) ne $4) {
-                  $GlobalRef->{"$5Ref"}->{$6} = $7;
+              elsif ($Type eq 'Config') {
+                my $Tmp = $Self->{ConfigObject}->Get($TypeKey) || '';
+                if (eval '($Tmp '.$Con.' $ConVal)') {
+                  $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
                   "";
                 }
               }
-            }
           }egx;
         }
         # add this line to output
