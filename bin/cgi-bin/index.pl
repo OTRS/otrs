@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.23 2002-05-05 13:32:50 martin Exp $
+# $Id: index.pl,v 1.24 2002-05-05 15:54:57 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 0;
@@ -95,17 +95,39 @@ if ($Debug) {
         MSG => 'Global OpenTRS handle started...',
     );
 }
+# --
 # ... common objects ...
+# --
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{ParamObject} = Kernel::System::WebRequest->new();
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
+# --
+# check common db objects
+# --
+if (!$CommonObject{DBObject}) {
+    print $CommonObject{LayoutObject}->Header(Title => 'Logout');
+    print $CommonObject{LayoutObject}->Error(
+        Message => "Can't connect to database!",
+        Comment => 'Please contact your admin'
+    );
+    $CommonObject{LogObject}->Log(
+        Message => "Can't connect to database!",
+        Priority => 'error',
+    );
+    print $CommonObject{LayoutObject}->Footer();
+    exit (1);
+}
+# --
+# ... common objects ...
+# --
+$CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{ArticleObject} = Kernel::System::Article->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 $CommonObject{PermissionObject} = Kernel::System::Permission->new(%CommonObject);
+
 
 # --
 # get common parameters
@@ -117,6 +139,7 @@ $Param{Subaction} = $CommonObject{ParamObject}->GetParam(Param => 'Subaction') |
 $Param{QueueID} = $CommonObject{ParamObject}->GetParam(Param => 'QueueID') || 0;
 $Param{TicketID} = $CommonObject{ParamObject}->GetParam(Param => 'TicketID') || '';
 $Param{NextScreen} = $CommonObject{ParamObject}->GetParam(Param => 'NextScreen') || '';
+
 
 # --
 # check request type
@@ -134,37 +157,41 @@ if ($Param{Action} eq "Login") {
         # get user data
         my %Data = $CommonObject{UserObject}->GetUserData(User => $User);
         # check needed data
-        if (!$Data{UserID} || $Data{ThemeID}) {
-            print $CommonObject{LayoutObject}->Header(Title => 'Login');
+        if (!$Data{UserID} || !$Data{UserLogin}) {
             print $CommonObject{LayoutObject}->Login(Message => 'Panic! No UserData!!!');
-            print $CommonObject{LayoutObject}->Footer();
             exit (0);
         }
         # create new session id
         my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(%Data);
-        my $LayoutObject = Kernel::Output::HTML::Generic->new(SessionID => $NewSessionID, %CommonObject);
+        my $LayoutObject = Kernel::Output::HTML::Generic->new(
+          SessionID => $NewSessionID, 
+          %CommonObject,
+        );
         # redirect with new session id
         print $LayoutObject->Redirect();
     }
     # login is vailid
     else {
-        print $CommonObject{LayoutObject}->Header(Title => 'Login');
-        print $CommonObject{LayoutObject}->Login(Message => 'Login invalid!!!');
-        print $CommonObject{LayoutObject}->Footer();
+        print $CommonObject{LayoutObject}->Login(
+          Title => 'Login',          
+          Message => 'Login failed! Your username or password was entered incorrectly.',
+          User => $User,
+        );
     }
 }
 # --
 # Logout
 # --
 elsif ($Param{Action} eq "Logout"){
-    print $CommonObject{LayoutObject}->Header(Title => 'Logout');
     if ( $CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
         if ( $CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID}) ) {
             print $CommonObject{LayoutObject}->Login(
+                Title => 'Logout',
                 Message => 'Logout successful. Thank you for using OpenTRS!',
             );
         }  
         else {
+            print $CommonObject{LayoutObject}->Header(Title => 'Logout');
             print $CommonObject{LayoutObject}->Error(
                 Message => 'Can`t remove SessionID',
                 Comment => 'Please contact your admin'
@@ -173,20 +200,21 @@ elsif ($Param{Action} eq "Logout"){
                 Message => 'Can`t remove SessionID',
                 Priority => 'error',
             );
+            print $CommonObject{LayoutObject}->Footer();
         }
     }
     else {
-        print $CommonObject{LayoutObject}->Login(Message => 'Invalid SessionID!');
+        print $CommonObject{LayoutObject}->Login(
+            Title => 'Logout',
+            Message => 'Invalid SessionID!',
+        );
     }
-    print $CommonObject{LayoutObject}->Footer();
 }
 # --
 # show login site
 # --
 elsif (!$Param{SessionID}) {
-    print $CommonObject{LayoutObject}->Header(Title => 'Login');
-    print $CommonObject{LayoutObject}->Login();
-    print $CommonObject{LayoutObject}->Footer();
+    print $CommonObject{LayoutObject}->Login(Title => 'Login');
 }
 # --
 # run modules if exists a version value
@@ -194,17 +222,28 @@ elsif (!$Param{SessionID}) {
 elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
     # check session id
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
-        print $CommonObject{LayoutObject}->Header(Title => 'Login');
-        print $CommonObject{LayoutObject}->Login(Message => $Kernel::System::AuthSession::CheckSessionID);
-        print $CommonObject{LayoutObject}->Footer();
+        print $CommonObject{LayoutObject}->Login(
+          Title => 'Login',
+          Message => $Kernel::System::AuthSession::CheckSessionID,
+       );
     }
     # run module
     else { 
         # get session data
-        my %Data = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $Param{SessionID});
+        my %Data = $CommonObject{SessionObject}->GetSessionIDData(
+          SessionID => $Param{SessionID},
+        );
         # create new LayoutObject with new '%Param' and '%Data'
-        $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject, %Param, %Data);
-        GenericModules(%CommonObject, %Param, %Data);
+        $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+          %CommonObject, 
+          %Param, 
+          %Data,
+        );
+        GenericModules(
+          %CommonObject, 
+          %Param, 
+          %Data,
+        );
     }
 }
 # --
@@ -212,16 +251,21 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
 # --
 else { 
     # create new LayoutObject with '%Param'
-    my %Data = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $Param{SessionID});
-    $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject, %Param, %Data);
+    my %Data = $CommonObject{SessionObject}->GetSessionIDData(
+        SessionID => $Param{SessionID},
+    );
+    $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+      %CommonObject, 
+      %Param, 
+      %Data,
+    );
     print $CommonObject{LayoutObject}->Header(Title => 'Error');
     print $CommonObject{LayoutObject}->Error(
-       Message => "Action '$Param{Action}' not found!",
-       Comment => "Contact your admin!",
+        Message => "Action '$Param{Action}' not found!",
+        Comment => "Contact your admin!",
        );
     print $CommonObject{LayoutObject}->Footer();
 }
-
 
 # debug info
 if ($Debug) {
@@ -264,6 +308,6 @@ sub GenericModules {
     }
 
 }
-
+# --
 
 
