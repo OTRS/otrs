@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.22 2003-04-12 22:36:35 martin Exp $
+# $Id: de.pm,v 1.23 2003-04-12 23:03:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Sun Apr 13 00:19:49 2003 by 
+    # Last translation Sun Apr 13 00:56:54 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -748,6 +748,16 @@ sub Data {
       'Drop Database' => 'Datenbank löschen',
       'Finished' => 'Fertig',
       'System Settings' => 'System Einstellungen',
+      'Web-Installer' => '',
+
+    # Template: InstallerFinish
+      'Admin-User' => 'Admin-Benutzer',
+      'After doing so your OTRS is up and running.' => 'Nachdem ist Dein OTRS laufend.',
+      'Have a lot of fun!' => 'Viel Spaß!',
+      'Restart your webserver' => 'Restarte Deinen Webserver',
+      'Start page' => 'Start-Seite',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Um OTRS benutzen zu können, müssen die die folgenden Zeilen als root in die Befehlszeile (Terminal/Shell) eingeben.',
+      'Your OTRS Team' => 'Dein OTRS-Team',
 
     # Template: InstallerLicense
       'accept license' => 'Lizenz anerkennen',
@@ -755,7 +765,19 @@ sub Data {
       'License' => 'Lizenz',
 
     # Template: InstallerStart
+      'Create new database' => 'Neue Datenbank erstellen',
+      'DB Admin Password' => 'DB Admin Passwort',
+      'DB Admin User' => 'DB Admin Benuter',
+      'DB Host' => 'DB Rechner',
+      'DB Type' => 'DB Typ',
+      'default \'hot\'' => 'voreingestellt \'hot\'',
+      'Delete old database' => 'Alte Datenbank löschen',
       'next step' => 'Nächster Schritt',
+      'OTRS DB connect host' => 'OTRS DB Verbindungs-Rechner',
+      'OTRS DB Name' => '',
+      'OTRS DB Password' => 'OTRS DB Passwort',
+      'OTRS DB User' => 'OTRS DB Benuter',
+      'your MySQL DB should have a root password! Default is empty!' => 'Deine MySQL DB sollte ein Root Passwort haben! Voreingestellte ist nichts!',
 
     # Template: InstallerSystem
       '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX Eintrags von benutzen Email Adressen im Verfassen-Fenster. Benutze CheckMXRecord nicht wenn Ihr OTRS hinter einer Wählleitung ist!)',

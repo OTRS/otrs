@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.8 2003-04-12 22:36:35 martin Exp $
+# $Id: pt_BR.pm,v 1.9 2003-04-12 23:03:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Sun Apr 13 00:32:36 2003 by 
+    # Last translation Sun Apr 13 01:00:33 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -748,6 +748,16 @@ sub Data {
       'Drop Database' => '',
       'Finished' => '',
       'System Settings' => '',
+      'Web-Installer' => '',
+
+    # Template: InstallerFinish
+      'Admin-User' => '',
+      'After doing so your OTRS is up and running.' => '',
+      'Have a lot of fun!' => '',
+      'Restart your webserver' => '',
+      'Start page' => '',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
+      'Your OTRS Team' => '',
 
     # Template: InstallerLicense
       'accept license' => '',
@@ -755,7 +765,19 @@ sub Data {
       'License' => '',
 
     # Template: InstallerStart
+      'Create new database' => '',
+      'DB Admin Password' => '',
+      'DB Admin User' => '',
+      'DB Host' => '',
+      'DB Type' => '',
+      'default \'hot\'' => '',
+      'Delete old database' => '',
       'next step' => 'próximo passo',
+      'OTRS DB connect host' => '',
+      'OTRS DB Name' => '',
+      'OTRS DB Password' => '',
+      'OTRS DB User' => '',
+      'your MySQL DB should have a root password! Default is empty!' => '',
 
     # Template: InstallerSystem
       '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
