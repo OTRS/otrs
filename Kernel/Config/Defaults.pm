@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.136 2004-05-30 16:48:51 martin Exp $
+# $Id: Defaults.pm,v 1.137 2004-06-06 16:50:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.136 $';
+$VERSION = '$Revision: 1.137 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,8 +64,14 @@ sub LoadDefaults {
     # (Email of the system admin.)
     $Self->{AdminEmail} = 'admin@example.com';
 
-    # MIME-Viewer for online to html converter (e. g. xls2html)
+    # MIME-Viewer for online to html converter 
+    # (e. g. xlhtml (xls2html), http://chicago.sourceforge.net/xlhtml/)
 #    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
+    # MIME-Viewer for online to html converter 
+    # (e. g. wv (word2html), http://wvware.sourceforge.net/)
+#    $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare';
+    # (e. g. pdftohtml (pdf2html), http://pdftohtml.sourceforge.net/)
+#    $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i';
 
     # SendmailModule
     # (Where is sendmail located and some options.
@@ -1048,7 +1054,7 @@ $Data{"Signature"}
 
     # SessionMaxTime
     # (Max valid time of one session id in second (8h = 28800).)
-    $Self->{SessionMaxTime} = 28800;
+    $Self->{SessionMaxTime} = 8*60*60;
 
     # SessionMaxIdleTime
     # (After this time (in seconds) without new http request, then 
