@@ -2,7 +2,7 @@
 # Kernel/Language/German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.27 2002-10-25 00:08:55 martin Exp $
+# $Id: German.pm,v 1.28 2002-10-31 23:33:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -371,6 +371,7 @@ sub Data {
     $Self->{'Move notification'} = 'Move Mitteilung';
     $Self->{'Send me a notification if a ticket is moved into a custom queue.'} = ' Zusenden einer Mitteilung beim verschieben eines Ticket in meine individuellen Queue(s).';  
     $Self->{'Select your frontend QueueView.'} = 'Queue-Ansicht auswählen.';
+    $Self->{'Preferences updated successfully!'} = 'Update der Benutzereinstellungen erfolgreich!';
     # change priority
     $Self->{'Change priority of ticket'} = 'Priorität ändern für Ticket';
     # some other words ...
