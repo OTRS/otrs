@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddress.pm,v 1.4 2002-07-21 17:35:55 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.5 2002-10-05 16:08:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,9 +12,10 @@
 package Kernel::Modules::AdminSystemAddress;
 
 use strict;
+use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,6 +37,8 @@ sub new {
         die "Got no $_" if (!$Self->{$_});
     }
 
+    $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
+
     return $Self;
 }
 # --
@@ -56,23 +59,10 @@ sub Run {
     # --
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+        my %Data = $Self->{SystemAddress}->SystemAddressGet(ID => $ID);
         $Output .= $Self->{LayoutObject}->Header(Title => 'Change system address');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        my $SQL = "SELECT value0, value1, comment, valid_id, queue_id " .
-           " FROM " .
-           " system_address " .
-           " WHERE " .
-           " id = $ID";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        my @Data = $Self->{DBObject}->FetchrowArray();
-        $Output .= $Self->{LayoutObject}->AdminSystemAddressForm(
-                ID => $ID,
-                Name => $Data[0],
-                Realname => $Data[1],
-                Comment => $Data[2], 
-                ValidID => $Data[3],
-                QueueID => $Data[4],
-            );
+        $Output .= $Self->{LayoutObject}->AdminSystemAddressForm(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
     }
     # --
@@ -83,22 +73,16 @@ sub Run {
         my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'Realname', 'QueueID');
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-            $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
-            $GetParam{$_} = '' if (!exists $GetParam{$_});
         }
-        my $SQL = "UPDATE system_address SET value0 = '$GetParam{Name}', value1 = '$GetParam{Realname}', " .
-          " comment = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " . 
-          " change_time = current_timestamp, change_by = $Self->{UserID}, queue_id = $GetParam{QueueID} " .
-          " WHERE id = $GetParam{ID}";
-        if ($Self->{DBObject}->Do(SQL => $SQL)) { 
+        if ($Self->{SystemAddress}->SystemAddressUpdate(%GetParam, UserID => $Self->{UserID})) { 
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-          $Output .= $Self->{LayoutObject}->Error(
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin');
-          $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer();
         }
     }
     # --
@@ -109,24 +93,17 @@ sub Run {
         my @Params = ('Name', 'Comment', 'ValidID', 'Realname', 'QueueID');
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-            $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
         }
-        my $SQL = "INSERT INTO system_address (value0, value1, valid_id, comment, queue_id, " .
-		" create_time, create_by, change_time, change_by)" .
-		" VALUES " .
-		" ('$GetParam{Name}', '$GetParam{Realname}', $GetParam{ValidID}, " .
-		" '$GetParam{Comment}', $GetParam{QueueID}, " .
-		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
-        if ($Self->{DBObject}->Do(SQL => $SQL)) {        
+        if ($Self->{SystemAddress}->SystemAddressAdd(%GetParam, UserID => $Self->{UserID}) ) {
              $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->Error(
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+            $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin');
-        $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Footer();
         }
     }
     # --
