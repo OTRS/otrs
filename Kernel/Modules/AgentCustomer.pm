@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.8 2002-10-25 11:46:00 martin Exp $
+# $Id: AgentCustomer.pm,v 1.9 2002-12-05 22:27:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCustomer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -47,6 +47,9 @@ sub new {
     # get  CustomerID
     $Self->{CustomerID} = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
     $Self->{Search} = $Self->{ParamObject}->GetParam(Param => 'Search') || 0;
+
+    # customer user object
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
 }
@@ -116,10 +119,19 @@ sub Run {
           $TicketCustomerID = $Self->{TicketObject}->GetCustomerNo(TicketID => $TicketID);
           # print change form
           $Output .= $Self->{LayoutObject}->AgentCustomer(
-            CustomerID => $TicketCustomerID,
- 			TicketID => $TicketID,
-            TicketNumber => $Tn,
-            QueueID => $QueueID,
+              CustomerID => $TicketCustomerID,
+              TicketID => $TicketID,
+              TicketNumber => $Tn,
+              QueueID => $QueueID,
+          );
+          my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+              CustomerID => $TicketCustomerID,
+          );
+          $Output .= $Self->{LayoutObject}->AgentCustomerView(
+              CustomerID => $TicketCustomerID,
+ 	  	      TicketID => $TicketID,
+              TicketNumber => $Tn,
+              Data => \%CustomerData, 
           );
         }
 

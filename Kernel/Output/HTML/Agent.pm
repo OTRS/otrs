@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.65 2002-11-25 00:19:30 martin Exp $
+# $Id: Agent.pm,v 1.66 2002-12-05 22:24:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -645,6 +645,25 @@ sub AgentCustomer {
     return $Self->Output(TemplateFile => 'AgentCustomer', Data => \%Param);
 }
 # --
+sub AgentCustomerView {
+    my $Self = shift;
+    my %Param = @_;
+    if (%{$Param{Data}}) {
+        # build html table
+        $Param{Table} = '<table>';
+        foreach my $FieldTmp (@{$Self->{ConfigObject}->Get('CDBShownFields')}) {
+            my @Field = @{$FieldTmp};
+            $Param{Table} .= "<tr><td>\$Text{\"$Field[1]\"}:</td><td>$Param{Data}->{$Field[0]}</td></tr>";
+        }
+        $Param{Table} .= '</table>';
+    }
+    else {
+        $Param{Table} = '$Text{"None"}';
+    }
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentCustomerView', Data => \%Param);
+}
+# --
 sub AgentCustomerHistory {
     my $Self = shift;
     my %Param = @_;
@@ -1148,10 +1167,10 @@ sub AgentSpelling {
             $Param{SpellCheckString}  .= $Self->OptionStrgHashRef(
                Data => \%ReplaceWords, 
                Name => "SpellCheckReplace",
-               OnClick => "change_selected($Param{SpellCounter})"
+               CoChange => "change_selected($Param{SpellCounter})"
             );
             $Param{SpellCheckString} .= '</td><td> or ';
-            $Param{SpellCheckString} .= '<input type="text" name="SpellCheckOrReplace::'.$WrongWord.'" value="" size="16" onKeyDown="change_selected('.$Param{SpellCounter}.')">';
+            $Param{SpellCheckString} .= '<input type="text" name="SpellCheckOrReplace::'.$WrongWord.'" value="" size="16" onchange="change_selected('.$Param{SpellCounter}.')">';
             $Param{SpellCheckString} .= '</td><td align="center">';
             $Param{SpellCheckString} .= '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Replace">';
             $Param{SpellCheckString} .= '</td><td align="center">';
