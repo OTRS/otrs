@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.31 2004-01-05 16:48:27 bs Exp $
+# $Id: de.pm,v 1.32 2004-01-06 16:33:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,7 +40,9 @@ sub Data {
       '10 minutes' => '10 Minuten',
       '15 minutes' => '15 Minuten',
       'AddLink' => 'Link hinzufügen',
-      'AdminArea' => 'Admin-Oberfläche',
+      'FAQ-Area' => 'FAQ-Bereich',
+      'Agent-Area' => 'Agent-Bereich',
+      'Admin-Area' => 'Admin-Bereich',
       'agent' => 'Agent',
       'all' => 'alle',
       'All' => 'Alle',
@@ -184,10 +186,10 @@ sub Data {
       'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
       'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
       'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Sperrzeit',
-      'Shown Tickets' => 'Angezeigte Tickets'
-      'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets in der Queue-Ansicht'
-      'Screen after new phone ticket' => 'Fenster nach neuem Anruf Ticket'
-      'Select your screen after creating a new ticket via PhoneView.' => 'Wählen Sie das Fenster nach der Erstellung eines neuen Anruf Tickets.'
+      'Shown Tickets' => 'Angezeigte Tickets',
+      'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets in der Queue-Ansicht',
+      'Screen after new phone ticket' => 'Fenster nach neuem Anruf Ticket',
+      'Select your screen after creating a new ticket via PhoneView.' => 'Wählen Sie das Fenster nach der Erstellung eines neuen Anruf Tickets.',
 
     # Template: AAATicket
       '1 very low' => '1 sehr niedrig',
@@ -333,6 +335,7 @@ sub Data {
       'Auto Responses' => 'Auto-Antworten',
       'Charsets' => 'Zeichensätze',
       'Customer User' => 'Kunden-Benutzer',
+      'Customer User <-> Groups' => 'Kunden-Benutzer <-> Gruppen',
       'Email Addresses' => 'E-Mail-Adressen',
       'Groups' => 'Gruppen',
       'Logout' => 'Abmelden',
@@ -899,6 +902,8 @@ sub Data {
       'store' => 'Speichern',
       'tickets' => 'Tickets',
       'valid' => 'gültig',
+
+'HistoryType::Move' => 'Verschoben nach "$Data{"Queue"}" ($Data{"QueueID"}).',
     );
 
     # $$STOP$$
