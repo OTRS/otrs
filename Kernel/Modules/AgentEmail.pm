@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
+# Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.28 2004-05-30 16:41:06 martin Exp $
+# $Id: AgentEmail.pm,v 1.29 2004-07-08 15:11:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,21 +27,21 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
        ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-    # anyway, we need to check the email syntax
-    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
+    # anyway, we need to check the email syntax (removed it, because the admins should configure it)
+#    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # needed objects
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -119,9 +119,9 @@ sub Run {
               Users => $Self->_GetUsers(),
               From => $Self->_GetTos(),
               To => '',
-              Subject => '', 
-              Body => $Self->{ConfigObject}->Get('EmailDefaultNoteText'), 
-              CustomerID => '', 
+              Subject => '',
+              Body => $Self->{ConfigObject}->Get('EmailDefaultNoteText'),
+              CustomerID => '',
               CustomerUser =>  '',
               CustomerData => '',
               %TicketFreeTextHTML,
@@ -129,7 +129,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        
+
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -148,18 +148,18 @@ sub Run {
         my $Lock = $Self->{ParamObject}->GetParam(Param => 'Lock') || '';
         if ($Lock) {
             $Self->{ConfigObject}->Set(
-                Key => 'EmailDefaultNewLock', 
+                Key => 'EmailDefaultNewLock',
                 Value => $Lock,
-            ); 
+            );
         }
         if ($NewUserID) {
             $Self->{ConfigObject}->Set(
-                Key => 'EmailDefaultNewLock', 
+                Key => 'EmailDefaultNewLock',
                 Value => 'lock',
-            ); 
+            );
         }
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
-        my ($NewQueueID, $From) = split(/\|\|/, $Dest); 
+        my ($NewQueueID, $From) = split(/\|\|/, $Dest);
         my $AllUsers = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || '';
         if (!$NewQueueID) {
             $AllUsers = 1;
@@ -186,7 +186,7 @@ sub Run {
                 Type => "TicketFreeKey$_",
                 Action => $Self->{Action},
                 UserID => $Self->{UserID},
-            ); 
+            );
             $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "TicketFreeText$_",
@@ -206,7 +206,7 @@ sub Run {
         # Expand Customer Name
         my %CustomerUserData = ();
         if ($ExpandCustomerName == 1) {
-            # search customer 
+            # search customer
             my %CustomerUserList = ();
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
                 Search => $To,
@@ -227,10 +227,10 @@ sub Run {
                 );
                 if ($CustomerUserData{UserCustomerID}) {
                     $CustomerID = $CustomerUserData{UserCustomerID};
-                } 
+                }
                 if ($CustomerUserData{UserLogin}) {
                     $CustomerUser = $CustomerUserData{UserLogin};
-                } 
+                }
             }
             # if more the one customer user exists, show list
             # and clean CustomerUserID and CustomerID
@@ -239,7 +239,7 @@ sub Run {
                 $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 0);
                 $CustomerID = '';
                 $Param{"ToOptions"} = \%CustomerUserList;
-                # clear to if there is no customer found 
+                # clear to if there is no customer found
                 if (!%CustomerUserList) {
                     $To = '';
                 }
@@ -259,10 +259,10 @@ sub Run {
             }
             if ($CustomerUserData{UserCustomerID}) {
                 $CustomerID = $CustomerUserData{UserCustomerID};
-            } 
+            }
             if ($CustomerUserData{UserLogin}) {
                 $CustomerUser = $CustomerUserData{UserLogin};
-            } 
+            }
             $Error{"ExpandCustomerName"} = 1;
         }
         # if a new destination queue is selected
@@ -278,7 +278,7 @@ sub Run {
             if ($CustomerUser) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $CustomerUser,
-                ); 
+                );
             }
             elsif ($CustomerID) {
                 %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -345,7 +345,6 @@ sub Run {
                     Result => 'ARRAY',
                     Limit => $Self->{ConfigObject}->Get('EmailViewMaxShownCustomerTickets') || '10',
                     CustomerID => \@CustomerIDs,
-            
                     UserID => $Self->{UserID},
                     Permission => 'ro',
                 );
@@ -372,7 +371,7 @@ sub Run {
             StateID => $NextStateID,
             PriorityID => $PriorityID,
             UserID => $Self->{UserID},
-            CustomerNo => $CustomerID, 
+            CustomerNo => $CustomerID,
             CustomerUser => $SelectedCustomerUser,
             CreateUserID => $Self->{UserID},
         );
@@ -381,7 +380,7 @@ sub Run {
             if (defined($TicketFree{"TicketFreeKey$_"})) {
                 $Self->{TicketObject}->TicketFreeTextSet(
                     TicketID => $TicketID,
-                    Key => $TicketFree{"TicketFreeKey$_"}, 
+                    Key => $TicketFree{"TicketFreeKey$_"},
                     Value => $TicketFree{"TicketFreeText$_"},
                     Counter => $_,
                     UserID => $Self->{UserID},
@@ -579,7 +578,7 @@ sub _GetTos {
         %NewTos = %{$Self->{ConfigObject}->{PhoneViewOwnSelection}};
     }
     else {
-        # SelectionType Queue or SystemAddress?    
+        # SelectionType Queue or SystemAddress?
         my %Tos = ();
         if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
             %Tos = $Self->{TicketObject}->MoveList(
@@ -598,8 +597,8 @@ sub _GetTos {
         }
         # get create permission queues
         my %UserGroups = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID}, 
-            Type => 'create', 
+            UserID => $Self->{UserID},
+            Type => 'create',
             Result => 'HASH',
             Cached => 1,
         );
