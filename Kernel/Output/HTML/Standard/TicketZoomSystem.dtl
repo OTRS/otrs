@@ -1,0 +1,102 @@
+# --
+# TicketZoom.dtl - provides HTML TicketZoom for AgentZoom.pm
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
+# --
+# $Id: TicketZoomSystem.dtl,v 1.1 2002-05-14 01:39:04 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start ticket -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="60%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Zoom"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="40%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+</tr>
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor2"}">
+  <a href="$Env{"Baselink"}&Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Lock"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Unlock"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentPriority&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Priority"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentHistory&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"History"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentOwner&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Owner"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Add Note"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Close"}</a>
+  </td>
+  <td align="right" bgcolor="$Env{"BGTableColor2"}">
+  <b>$Text{"Created"}:</b> $Data{"Created"}
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td valign="top" width="75%">
+  $Data{"ArticleStrg"}
+  <hr>
+  <table border="0" width="100%" cellspacing="0" cellpadding="1">
+    <tr>
+      <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
+      <td width="85%"> $Data{"Article::From"}</td>
+    </tr>
+    <tr>
+      <td valign="top"><b>$Text{"To"}:</b></td>
+      <td> $Data{"Article::To"}</td>
+    </tr>
+    <tr>
+      <td valign="top"><b>$Text{"Subject"}:</b></td>
+      <td> $Data{"Article::Subject"}</td>
+    </tr>
+  </table>
+  <pre>
+$Data{"Article::Text"}
+  </pre>
+  </td> 
+  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
+    <br>
+    <table border="0">
+    <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
+    <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
+    <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
+    <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
+    <tr><td><b>$Text{"CustomerID"}:</b></td><td><font color="red">$Data{"CustomerID"}</font></td></tr>
+
+    <tr><td colspan="2"></td></tr>
+    <tr><td colspan="2">
+
+   <p>
+     <b>$Text{"Owner"}:</b>
+     <br>
+     $Data{"Owner"}
+   </p>
+ 
+   <p>
+     <b>$Text{"Change queue"}:</b>
+     <br>
+       <form action="$Env{"CGIHandle"}" method="get">
+       <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+       <input type="hidden" name="Action" value="AgentMove">
+       <input type="hidden" name="Subaction" value="InRage">
+       <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+       <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+       <font size="-1">
+       $Data{"MoveQueuesStrg"}
+       <input type="submit" value="$Text{"Move"}">
+       </form>
+   </p>
+ 
+   </td>
+   </tr>
+   </table>
+
+  </td>
+</tr>
+</table>
+<!-- end ticket -->
