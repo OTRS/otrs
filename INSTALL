@@ -2,7 +2,7 @@
 # INSTALL description of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.9 2002-04-30 00:28:44 martin Exp $
+# $Id: INSTALL,v 1.10 2002-07-10 18:20:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -24,40 +24,55 @@ Installation:
 =============
 
 1. Install CPAN Modules (if needed):
-   perl -MCPAN -e shell;
-   ...
-   install MIME::Words
-   install MIME::Parser
-   install Digest::MD5
-   ...
+   ---------------------------------
+   a) Install the RPMs if your distributions provides RPMs for
+      this modules. 
 
-   and maybe the GD stuff
-   ...
-   install GD
-   install GD::Text
-   install GD::Graph
-   install GD::Graph::lines
-   install Date::Calc
-   ...
+   b) Install the modules via CPAN (http://www.cpan.org/)
+      perl -MCPAN -e shell;
+      ...
+      install MIME::Words
+      install MIME::Parser
+      install Digest::MD5
+      ...
 
-2. create user and install tar.gz 
+      and maybe the GD stuff
+      ...
+      install GD
+      install GD::Text
+      install GD::Graph
+      install GD::Graph::lines
+      install Date::Calc
+      ...
 
+2. Create user and install tar.gz: 
+   -------------------------------
    $shell: useradd -d /opt/OpenTRS/ otrs
    $shell: cd /opt/
    $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
    $shell: chown -r /opt/OpenTRS/* otrs
    
-3. Database:
+3. Database setup:
+   ---------------
    [follow README.database --> Setup Example]
 
 4. Webserver:
+   ----------
    [follow README.webserver] 
 
 5. Config file ($HOME/Kernel/Config.pm):
+   -------------------------------------
    Set some Kernel::Config Options
 
-6. First Login:
-   http://host/cgi-bin/index.pl
+6. File Permissions:
+   -----------------
+   Set the file permissions with 
+   "$HOME/bin/SetPermissions.sh  <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER>"
+   e. g. "SetPermissions.sh /opt/OpenTRS otrs wwwrun".
+
+7. First Login:
+   ------------
+   http://yourhost/otrs/index.pl
    User: root@localhost
    PW: root
 
@@ -65,7 +80,8 @@ Installation:
 
    Finished.
 
-7. First Email:
+8. First Email:
+   ------------
    use the procmailrc of the OpenTRS-User --> /opt/OpenTRS/.procmailrc
 
    --> send emails to the otrs user (e. g. otrs@localhost)
