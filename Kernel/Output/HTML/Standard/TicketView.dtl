@@ -2,7 +2,7 @@
 # TicketView.dtl - provides HTML TicketView for AgentQueueView.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.8 2002-04-14 13:27:56 martin Exp $
+# $Id: TicketView.dtl,v 1.9 2002-04-14 19:05:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -74,7 +74,7 @@ $Data{"Text"}
    <p>
      <b>$Text{"Article"}</b>
      <br>
-     <a href="$Env{"Baselink"}&Action=AgentForward&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Forward"}</a> - 
+     <a href="$Env{"Baselink"}&Action=AgentForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}">$Text{"Forward"}</a> - 
      <a href="$Env{"Baselink"}&Action=AgentBounce">$Text{"Bounce"}</a>
    </p>
 
