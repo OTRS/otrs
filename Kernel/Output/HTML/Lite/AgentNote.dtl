@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.20 2003-04-11 18:14:08 martin Exp $
+# $Id: AgentNote.dtl,v 1.21 2003-04-16 21:13:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -74,8 +74,8 @@ function SpellCheckSubmit()
   <tr>
     <td>$Text{"Options"}:</td>
     <td>
-       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"} 
-       $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';">$Text{"Spell Check"}</a>$Env{"Box1"} 
+       $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
