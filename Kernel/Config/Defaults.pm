@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.132 2004-05-11 08:37:57 martin Exp $
+# $Id: Defaults.pm,v 1.133 2004-05-19 10:02:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.132 $';
+$VERSION = '$Revision: 1.133 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -300,6 +300,14 @@ sub LoadDefaults {
 #        Module => 'Kernel::Output::HTML::NotificationCustomerOnline',
 #    };
 
+    # Frontend::Output::PostFilter
+    # (a output filter for application html output, e. g. to filter
+    # javascript)   
+#    $Self->{'Frontend::Output::PostFilter'}->{'JavaScriptFilter'} = {
+#        Module => 'Kernel::Output::HTML::OutputFilterJavaScript',
+#        Debug => 0,
+#    };
+
     # AgentQueueSortDefault
     # (default sort order of the queue view / after priority sort)
     # ASC: oldest on top, default
@@ -500,6 +508,8 @@ sub LoadDefaults {
 #    $Self->{TicketCustomModule} = 'Kernel::System::Ticket::Custom';
 
     $Self->{'TicketACL::Default::Action'} = {
+        AgentLock => 1,
+        AgentZoom => 1,
         AgentClose => 1,
         AgentPending => 1,
         AgentNote => 1,

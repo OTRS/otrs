@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.116 2004-05-04 16:22:51 martin Exp $
+# $Id: Generic.pm,v 1.117 2004-05-19 10:02:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.116 $';
+$VERSION = '$Revision: 1.117 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -461,6 +461,41 @@ sub Output {
     }
     # save %Env
     $Self->{EnvRef} = $EnvRef;
+    # custom post filters
+    if ($Self->{ConfigObject}->Get('Frontend::Output::PostFilter')) {
+        my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::PostFilter')};
+        foreach my $Filter (sort keys %Filters) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Filters{$Filter}->{Module}!",
+                );
+            }
+            if (eval "require $Filters{$Filter}->{Module}") {
+                my $Object = $Filters{$Filter}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Filters{$Filter}->{Module} loaded!",
+                    );
+                }
+                # run module 
+                $Object->Run(%{$Filters{$Filter}}, Data => \$Output);
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Filters{$Filter}->{Module}!",
+                );
+            }
+        }
+    }
     # return output
     return $Output;
 }
