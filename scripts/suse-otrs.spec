@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.12 2002-05-26 23:49:42 martin Exp $
+# $Id: suse-otrs.spec,v 1.13 2002-06-16 20:47:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ Group:        Applications/Mail
 Provides:     otrs 
 Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Syslog perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared
 Autoreqprov:  on
-Release:      BETA5
+Release:      BETA6
 Source0:      otrs-%{version}-%{release}.tar.gz
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
@@ -81,8 +81,8 @@ for i in aux log out tex; do
   rm -rf doc/manual/manual.$i;
   rm -rf doc/manual/README.$i;
 done;
-rm -rf doc/screenshots
-mv doc/manual/manual doc/html
+#rm -rf doc/screenshots
+#mv doc/manual/manual doc/html
 
 %build
 # nothing
@@ -120,7 +120,7 @@ else
 fi
 
 # set permission
-/opt/OpenTRS/bin/SetPermissions.sh
+/opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS $OTRSUSER wwwrun
 # set Config.pm permission to be writable for the webserver 
 chown wwwrun /opt/OpenTRS/Kernel/Config.pm
 
@@ -155,15 +155,20 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %config(noreplace) /opt/OpenTRS/Kernel/Config.pm
+%config(noreplace) /opt/OpenTRS/Kernel/Config/Modules.pm
+%config(noreplace) /opt/OpenTRS/Kernel/Config/ModulesCustom.pm
 %config(noreplace) /opt/OpenTRS/var/log/TicketCounter.log
 %config(noreplace) /opt/OpenTRS/.procmailrc
+%config(noreplace) /opt/OpenTRS/.fetchmailrc
 %config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Standard/*.dtl
 %config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Lite/*.dtl
 %config(noreplace) /opt/OpenTRS/Kernel/Language/*.pm
+%config(noreplace) /opt/OpenTRS/var/cron/*
 
 /etc/init.d/otrs
 /usr/sbin/rcotrs
 
+/opt/OpenTRS/RELEASE
 /opt/OpenTRS/Kernel/Language.pm
 /opt/OpenTRS/Kernel/Modules/*
 /opt/OpenTRS/Kernel/Output/HTML/*.pm
@@ -171,9 +176,10 @@ rm -rf $RPM_BUILD_ROOT
 /opt/OpenTRS/bin/*
 /opt/OpenTRS/scripts/*
 /opt/OpenTRS/var/article/
-/opt/OpenTRS/var/httpd/*
+/opt/OpenTRS/var/httpd/
 /opt/OpenTRS/var/sessions/
 /opt/OpenTRS/var/spool/
+/opt/OpenTRS/var/tmp/
 
 /var/adm/fillup-templates/sysconfig.otrs
 
@@ -181,6 +187,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jun 16 2002 - martin+rpm@otrs.org
+- added new modules for 0.5 BETA6
+* Thu Jun 04 2002 - martin+rpm@otrs.org
+- added .fetchmailrc
 * Mon May 20 2002 - martin+rpm@otrs.org
 - moved all .dlt and all Kernel::Language::*.pm to %config(noreplace) 
 * Sat May 05 2002 - martin+rpm@otrs.org
