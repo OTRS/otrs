@@ -2,7 +2,7 @@
 # Kernel/System/SendNotification.pm - send notifications to agent
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.1 2002-09-23 18:56:22 martin Exp $
+# $Id: SendNotification.pm,v 1.2 2002-10-03 17:49:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -28,10 +28,9 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
-    $Self->{Debug} = 0; 
     # get all objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
-        $Self->{$_} = $Param{$_} || die 'Got no $_';
+    foreach (qw(DBObject ConfigObject LogObject TicketObject UserObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_";
     }
 
     # create email object
@@ -46,11 +45,20 @@ sub Send {
     # --
     # check needed stuff
     # --
-    foreach (qw(To CustomerMessageParams TicketNumber TicketID UserID Type)) {
+    foreach (qw(CustomerMessageParams TicketNumber TicketID UserID Type)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # --
+    # check recipients
+    # --
+    if (!$Param{To} && !$Self->{ConfigObject}->Get("NotificationAlwaysCc$Param{Type}")) {
+        return;
+    }
+    else {
+        $Param{To} = $Param{To}.$Self->{ConfigObject}->Get("NotificationAlwaysCc$Param{Type}");
     }
     # --
     # get ref of email params
@@ -59,46 +67,71 @@ sub Send {
     # --
     # get notify texts
     # --
-    if ($Param{Type} eq 'FollowUp') {
-        $Param{Subject} =  $Self->{ConfigObject}->Get('NotificationSubjectFollowUp') 
-          || 'No subject found in Config.pm!';
-        $Param{Body} = $Self->{ConfigObject}->Get('NotificationBodyFollowUp') 
-          || 'No body found in Config.pm!';
+    $Param{Subject} = $Self->{ConfigObject}->Get("NotificationSubject$Param{Type}") 
+      || "No NotificationSubject$Param{Type} found in Config.pm!";
+    $Param{Body} = $Self->{ConfigObject}->Get("NotificationBody$Param{Type}")
+      || "No NotificationBody$Param{Type} found in Config.pm!";
+    # --
+    # get old article for quoteing
+    # --
+    my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $Param{TicketID});
+    foreach (qw(From To Cc Subject Body)) {
+        if (!$GetParam{$_}) {
+            $GetParam{$_} = $Article{$_} || '';
+        }
+        chomp $GetParam{$_};
     }
-    else {
-        $Param{Subject} = $Self->{ConfigObject}->Get('NotificationSubjectNewTicket') 
-          || 'No subject found in Config.pm!';
-        $Param{Body} = $Self->{ConfigObject}->Get('NotificationBodyNewTicket')
-          || 'No body found in Config.pm!';
+    foreach (keys %GetParam) {
+        if ($GetParam{$_}) {
+            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+        }
     }
+    # --
+    # get owner data
+    # --
+    my ($OwnerID, $Owner) = $Self->{TicketObject}->CheckOwner(TicketID => $Param{TicketID});
+    my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
+    foreach (keys %Preferences) {
+        if ($Preferences{$_}) {
+            $Param{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+        }
+    }
+    # --
+    # get current user data
+    # --
+    my %CurrentPreferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
+    foreach (keys %CurrentPreferences) {
+        if ($CurrentPreferences{$_}) {
+            $Param{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+        }
+    }
+    # --
+    # get ticket hook
+    # --  
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     # --
     # prepare subject (insert old subject)
     # --
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    my $OldSubject = $GetParam{Subject} || 'Your email!';
-    chomp $OldSubject; 
     if ($Param{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
         my $SubjectChar = $1;
-        $OldSubject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
-        $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $Param{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
+        $GetParam{Subject} =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
+        $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Param{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
     }
     $Param{Subject} = "[$TicketHook: $Param{TicketNumber}] $Param{Subject}";
-
     # --
     # prepare body (insert old email)
     # -- 
-    my $From = $GetParam{From} || '';
     $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
+    $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Param{TicketNumber}/g;
     $Param{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/g if ($Param{Queue});
-    $Param{Body} =~ s/<OTRS_USERFIRSTNAME>/$Param{UserFirstname}/g if ($Param{UserFirstname});
-    foreach (keys %GetParam) {
-        $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi if ($GetParam{$_});
-    }
-    my $OldBody = $GetParam{Body} || 'Your Message!';
+    $Param{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/g if (defined $GetParam{Comment});
     if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
         my $Line = $1;
-        my @Body = split(/\n/, $OldBody);
+        my @Body = split(/\n/, $GetParam{Body});
         my $NewOldBody = ''; 
         foreach (my $i = 0; $i < $Line; $i++) {
             # 2002-06-14 patch of Pablo Ruiz Garcia
@@ -110,7 +143,9 @@ sub Send {
         chomp $NewOldBody;
         $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
-
+    # --
+    # send notify 
+    # --
     $Self->{EmailObject}->Send(
             ArticleType => 'email-notification-int',
             SenderType => 'system',

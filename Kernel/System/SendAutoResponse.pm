@@ -2,7 +2,7 @@
 # Kernel/System/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.1 2002-09-23 18:56:22 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.2 2002-10-03 17:50:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -30,8 +30,8 @@ sub new {
 
     $Self->{Debug} = 0; 
     # get all objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
-        $Self->{$_} = $Param{$_} || die 'Got no $_';
+    foreach (qw(DBObject ConfigObject LogObject TicketObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_";
     }
 
     # create email object
@@ -52,33 +52,48 @@ sub Send {
         return;
       }
     }
+    $Param{Body} = $Param{Text} || 'No Std. Body found!';
     my %GetParam = %{$Param{CustomerMessageParams}};
-
-
+   
+    # --
+    # get old article for quoteing
+    # --
+    my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $Param{TicketID});
+    foreach (qw(From To Cc Subject Body)) {
+        if (!$GetParam{$_}) {
+            $GetParam{$_} = $Article{$_} || '';
+        }
+        chomp $GetParam{$_};
+    }
+    foreach (keys %GetParam) {
+        if ($GetParam{$_}) {
+            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+        }
+    }
+    # --
+    # check reply to
+    # --
+    if ($GetParam{ReplyTo}) {
+        $GetParam{From} = $GetParam{ReplyTo};
+    }
     # --
     # prepare subject (insert old subject)
     # --
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     my $Subject = $Param{Subject} || 'No Std. Subject found!';
-    my $OldSubject = $GetParam{Subject} || 'Your email!';
-    chomp $OldSubject;
     if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
         my $SubjectChar = $1;
-        $OldSubject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
-        $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
+        $GetParam{Subject} =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
+        $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
     }
     $Subject = "[$TicketHook: $Param{TicketNumber}] $Subject";
-
-
     # --
     # prepare body (insert old email)
     # --
-    my $Body = $Param{Text} || 'No Std. Body found!';
-    my $OldBody = $GetParam{Body} || 'Your Message!';
-    if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+    if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
         my $Line = $1;
-        my @Body = split(/\n/, $OldBody);
+        my @Body = split(/\n/, $GetParam{Body});
         my $NewOldBody = '';
         foreach (my $i = 0; $i < $Line; $i++) {
             # 2002-06-14 patch of Pablo Ruiz Garcia
@@ -88,9 +103,8 @@ sub Send {
             }
         }
         chomp $NewOldBody;
-        $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+        $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
-
     # --
     # send email
     # --
@@ -107,13 +121,13 @@ sub Send {
         Charset => $Param{Charset},
         Subject => $Subject,
         UserID => $Param{UserID},
-        Body => $Body,
+        Body => $Param{Body},
         InReplyTo => $GetParam{'Message-ID'},
         Loop => 1,
     );
-
-
-    # do log
+    # --
+    # log
+    # --
     $Self->{LogObject}->Log(
         Message => "Sent auto reply ($Param{HistoryType}) for Ticket [$Param{TicketNumber}]".
          " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$GetParam{From}'."
