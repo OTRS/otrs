@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.22 2003-04-01 16:19:41 martin Exp $
+# $Id: AgentUtilities.pm,v 1.23 2003-04-01 16:39:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -140,7 +140,9 @@ sub Search {
             $SqlStateExt .= " or ";
         }
         $CounterTmp++;
-        $SqlStateExt .= " tsd.name = '$_' ";
+        if (my $StateID = $Self->{TicketObject}->StateLookup(State => $_)) {
+            $SqlStateExt .= " st.ticket_state_id = $StateID ";
+        }
     }
     my $SqlQueueExt = '';
     $CounterTmp = 0;
