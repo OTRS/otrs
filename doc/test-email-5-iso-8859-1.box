@@ -1,0 +1,37 @@
+From me@example.com Sun Jul 14 13:19:51 2002
+Return-Path: <me@example.com>
+Received: from example.com (pD9EA358D.dip.t-dialin.net [217.234.53.141])
+        by socrate.edenhofer.de (8.11.0/8.9.3) with ESMTP id g6EBJoE31538
+        for <me@bogen.net>; Sun, 14 Jul 2002 13:19:51 +0200
+X-Authentication-Warning: socrate.edenhofer.de: Host pD9EA358D.dip.t-dialin.net [217.234.53.141] cla
+Sender: martin@socrate.edenhofer.de
+Message-ID: <3D315E13.3A095849@example.com>
+Date: Sun, 14 Jul 2002 13:18:43 +0200
+From: System Tester <me@example.com>
+X-Mailer: Mozilla 4.79 [en] (X11; U; Linux 2.4.18-4GB i686)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Hans =?iso-8859-1?Q?Gro=DF?= <hans@example.com>
+Subject: ISO-8859-1 test =?iso-8859-1?Q?=E4=F6=FC=DF?=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-MIME-Autoconverted: from quoted-printable to 8bit by socrate.edenhofer.de id g6EBJoE31538
+X-CVS: $Id: test-email-5-iso-8859-1.box,v 1.1 2002-07-15 00:25:43 martin Exp $
+Status: RO
+Content-Length: 87
+Lines: 12
+
+Hi!
+
+this is a ISO-8859-1 test.
+
+ä -> ae
+ü -> ue
+ö -> uo
+ß -> ss
+
+Bye,
+
+-System Tester
+
+
