@@ -1,8 +1,8 @@
 # --
 # Ticket.pm - the global ticket handle
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.10 2002-06-08 20:33:45 martin Exp $
+# $Id: Ticket.pm,v 1.11 2002-06-23 09:52:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -42,7 +42,9 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
+    # --
     # get needed opbjects
+    # **
     foreach (
       'ConfigObject', 
       'LogObject', 
@@ -51,62 +53,21 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    # --
+    # create common needed module objects
+    # --
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     $Self->{UserObject} = Kernel::System::User->new(%Param);
 
-    $Self->{CounterLog} = $Self->{ConfigObject}->Get('CounterLog');
-    $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
-
+    # --
+    # load ticket number generator 
+    # --
+    my $GeneratorModule = $Self->{ConfigObject}->Get('TicketNumberGenerator') 
+      || 'Kernel::System::Ticket::Number::AutoIncrement';
+    eval "require $GeneratorModule";
+    push(@ISA, $GeneratorModule); 
+    
     return $Self;
-}
-# --
-sub CreateTicketNr {
-    my $Self = shift;
-    my $JumpCounter = shift || 0;
-    # read count
-    open (COUNTER, "< $Self->{CounterLog}") || die "Can't open $Self->{CounterLog}";
-    my $Count = <COUNTER>;
-    close (COUNTER);
-    if ($Self->{Debug} > 0) {
-        $Self->{LogObject}->Log(
-          Priority => 'debug',
-          MSG => "Read counter: $Count",
-        );
-    }
-    # count++
-    $Count++;
-    $Count = $Count + $JumpCounter;
-    # write new count
-    open (COUNTER, "> $Self->{CounterLog}"); 
-    flock (COUNTER, 2) || warn "Can't set file lock ($Self->{CounterLog}): $!";
-    print COUNTER $Count . "\n";
-    close (COUNTER);
-    if ($Self->{Debug} > 0) {
-        $Self->{LogObject}->Log(
-          Priority => 'debug',
-          MSG => "Write counter: $Count",
-        );
-    }
-
-    my $Tn = $Self->{SystemID} . $Count;
-
-    # check ticket number if exists generate new one! 
-    if ($Self->CheckTicketNr(Tn=>$Tn)) {  
-        $Self->{LoopProtectionCounter}++; 
-        if ($Self->{LoopProtectionCounter} >= 1000) {
-          $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => "CounterLoopProtection is now $Self->{LoopProtectionCounter}! Stoped CreateTicketNr()!",
-          );
-          return;
-        } 
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          MSG => "Tn ($Tn) exists! Creating new one.",
-        );
-        $Tn = $Self->CreateTicketNr($Self->{LoopProtectionCounter});
-    }
-    return $Tn; 
 }
 # --
 sub CheckTicketNr {
