@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.3 2002-05-10 00:12:46 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.4 2002-05-12 15:06:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminQueueResponses">$Text{"Responses <-> Queue"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminAutoResponse">$Text{"Auto Response"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminAutoResponse">$Text{"Auto Responses"}</a>$Env{"Box1"}
   </td>
   <td>
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSalutation">$Text{"Salutation"}</a>$Env{"Box1"} 
@@ -42,7 +42,7 @@
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminQueueAutoResponse">$Text{"Queue <-> Auto Response"}</a>$Env{"Box1"}
   </td>
   <td>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSystemAddress">$Text{"System Email Addresses"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSystemAddress">$Text{"Email Addresses"}</a>$Env{"Box1"} 
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminCharset">$Text{"Charsets"}</a>$Env{"Box1"} 
     <br>
@@ -52,8 +52,6 @@
   </td>
   <td>
     $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
-    <br>
-    $Env{"Box0"}<a href="/perl-status/">$Text{"Perl-Status"}</a>$Env{"Box1"} 
     <br> 
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSession">$Text{"Session Managmant"}</a>$Env{"Box1"} 
     <br>

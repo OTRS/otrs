@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.5 2002-05-04 20:31:54 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.6 2002-05-12 15:06:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
   <td>
-    $Text{"Change User settings"}:
+    $Text{"Change user settings"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -35,8 +35,8 @@
 # --
 # check subaction
 # --
-<dtl set $Data{"Headline"} = "Add User">
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update User"; }>
+<dtl set $Data{"Headline"} = "Add user">
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update user"; }>
 # set subaction!
 <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
 # check add link

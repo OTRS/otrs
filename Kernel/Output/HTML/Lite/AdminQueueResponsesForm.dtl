@@ -2,7 +2,7 @@
 # AdminQueueResponsesForm.dtl - provides HTML form for AdminQueueResponses
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponsesForm.dtl,v 1.3 2002-05-10 00:12:46 martin Exp $
+# $Id: AdminQueueResponsesForm.dtl,v 1.4 2002-05-12 15:06:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,17 +20,17 @@
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}">
   <td align="center" valign="top" colspan="2">
-  $Text{"Change Answer <-> Queue settings"}
+  $Text{"Change answer <-> queue settings"}
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}" valign="top">
   <td align="right">
-    <b>$Text{"Answer:Queue (1:n)"}</b>
+    <b>$Text{"Answer"}:$Text{"Queue"} (1:n)</b>
     <br>
     $Data{"AnswerQueueStrg"}
   </td>
   <td align="left">
-    <b>$Text{"Answer:Queue (n:1)"}</b>
+    <b>$Text{"Answer"}:$Text{"Queue"} (n:1)</b>
     <br>
     $Data{"QueueAnswerStrg"}
   </td> 
