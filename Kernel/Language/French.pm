@@ -1,8 +1,8 @@
 # --
-# French.pm - provides french language translations
+# Kernel/Language/French.pm - provides french language translations
 # Copyright (C) 2002 Martin Scherbaum <maddin@exsuse.de>
 # --
-# $Id: French.pm,v 1.1 2002-05-09 23:42:01 martin Exp $
+# $Id: French.pm,v 1.2 2002-07-18 23:30:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::French;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
