@@ -1,8 +1,8 @@
 # --
 # Config.pm - Config file for OpenTRS kernel
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.6 2002-06-09 01:15:52 atif Exp $
+# $Id: Queue.pm,v 1.7 2002-07-13 03:31:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -391,5 +391,45 @@ sub QueueAdd {
    }
 }
 #--
+sub GetTicketIDsByQueue {
+    my $Self = shift;
+    my %Param = @_;
+
+    if (!$Param{Queue} && !$Param{QueueID}) {
+        print STDERR "Got no Queue or QueueID!\n";
+        return;
+    }
+
+    my $SQL = "SELECT st.id, st.tn FROM " .
+    " ticket as st, queue as sq, ticket_state tsd, ticket_lock_type slt " .
+    " WHERE " .
+    " st.ticket_state_id = tsd.id " .
+    " AND " .
+    " st.queue_id = sq.id " .
+    " AND " .
+    " st.ticket_lock_id = slt.id ";
+    if ($Param{States}) { 
+        $SQL .= " AND ";
+        $SQL .= " tsd.name IN ('${\(join '\', \'' , @{$Param{States}})}') ";
+    }
+    if ($Param{Locks}) {
+        $SQL .= " AND ";
+        $SQL .= " slt.name IN ('${\(join '\', \'' , @{$Param{Locks}})}') ";
+    }
+    $SQL .= " AND ";
+    if ($Param{Queue}) {
+        $SQL .= " sq.name = '$Param{Queue}' ";
+    }
+    else {
+        $SQL .= " sq.id = '$Param{QueueID}' ";
+    }
+    my %Tickets = ();
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $Tickets{$RowTmp[0]} = $RowTmp[1];
+    }
+    return %Tickets;
+}   
+# --
 
 1;
