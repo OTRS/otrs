@@ -2,7 +2,7 @@
 # FAQArticleView.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticleView.dtl,v 1.4 2004-01-24 18:34:29 martin Exp $
+# $Id: FAQArticleView.dtl,v 1.4.2.1 2004-03-29 13:12:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr> 
   <td align="left" colspan="2" class="table0">
-  <b>$Env{"Box0"}$Text{"FAQ Article"}: $Quote{"$Data{"Subject"}"}$Env{"Box1"}</b>
+  <b>$Env{"Box0"}$Text{"FAQ Article"}: $QData{"Subject"}$Env{"Box1"}</b>
   </td>
 </tr>
 <tr align="left" valign="top">
@@ -25,27 +25,33 @@
 </tr>
 <tr align="left" valign="top">
   <td width="100%" class="table1">
-    <font size="+1">$Quote{"$Data{"Subject"}"}</font> 
+    <font size="+1">$QData{"Subject"}</font> 
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td class="table1">$Text{"Category"}: </td>
-      <td class="table1"> $Quote{"$Data{"Category"}"}</td>
+      <td class="table1"> $QData{"Category"}</td>
     </tr>
     <tr>
       <td class="table1">$Text{"State"}: </td>
-      <td class="table1"> $Quote{"$Data{"State"}"}</td>
+      <td class="table1"> $QData{"State"}</td>
     </tr>
     <tr>
       <td class="table1">$Text{"Language"}: </td>
-      <td class="table1"> $Quote{"$Data{"Language"}"}</td>
+      <td class="table1"> $QData{"Language"}</td>
     </tr>
     <tr>
       <td class="table1">$Text{"Keywords"}: </td>
-      <td class="table1"> $Quote{"$Data{"Keywords"}"}</td>
+      <td class="table1"> $QData{"Keywords"}</td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field1"}"}: </td>
       <td class="table1"><pre>$Data{"Field1"}</pre>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field2"}"}: </td>
@@ -53,9 +59,15 @@
       </td> 
     </tr>
     <tr>
+      <td colspan="2"><hr></td>
+    </tr>
+    <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field3"}"}: </td>
       <td class="table1"><pre>$Data{"Field3"}</pre>
       </td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
     </tr>
 #    <tr>
 #      <td class="table1" valign="top">$Text{"$Config{"FAQ::Field4"}"}: </td>
@@ -66,6 +78,9 @@
 #      <td class="table1" valign="top">$Text{"$Config{"FAQ::Field5"}"}: </td>
 #      <td class="table1"><pre>$Data{"Field5"}</pre>
 #      </td>
+#    </tr>
+#    <tr>
+#      <td colspan="2"><hr></td>
 #    </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field6"}"}: </td>

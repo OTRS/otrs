@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearch.dtl,v 1.5 2004-01-19 23:50:36 martin Exp $
+# $Id: AgentUtilSearch.dtl,v 1.5.2.1 2004-03-29 13:18:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,38 +47,38 @@
 </tr>
 <tr align="left">
   <td width="50%">$Config{"TicketHook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
-  <td width="50%"><input type="text" name="TicketNumber" size="30" value="$Data{"TicketNumber"}"></td>
+  <td width="50%"><input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"></td>
 </tr>
 <tr align="left">
   <td>$Text{"CustomerID"} $Text{"(e. g. 234321)"}</td>
-  <td><input type="text" name="CustomerID" size="30" value="$Data{"CustomerID"}"></td>
+  <td><input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"></td>
 </tr>
 <tr align="left">
   <td>$Text{"Customer User Login"} $Text{"(e. g. U5150)"}</td>
-  <td><input type="text" name="CustomerUserLogin" size="30" value="$Data{"CustomerUserLogin"}"></td>
+  <td><input type="text" name="CustomerUserLogin" size="30" value="$QData{"CustomerUserLogin"}"></td>
 </tr>
 <tr align="left">
   <td colspan="2" class="table2">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
 </tr>
 <tr align="left">
   <td>$Text{"From"}</td>
-  <td><input type="text" name="From" size="30" value="$Data{"From"}"></td>
+  <td><input type="text" name="From" size="30" value="$QData{"From"}"></td>
 </tr>
 <tr align="left">
   <td>$Text{"To"}</td>
-  <td><input type="text" name="To" size="30" value="$Data{"To"}"></td>
+  <td><input type="text" name="To" size="30" value="$QData{"To"}"></td>
 </tr>
 <tr align="left">
   <td>$Text{"Cc"}</td>
-  <td><input type="text" name="Cc" size="30" value="$Data{"Cc"}"></td>
+  <td><input type="text" name="Cc" size="30" value="$QData{"Cc"}"></td>
 </tr>
 <tr align="left">
   <td>$Text{"Subject"}</td>
-  <td><input type="text" name="Subject" size="30" value="$Data{"Subject"}"></td>
+  <td><input type="text" name="Subject" size="30" value="$QData{"Subject"}"></td>
 </tr>
 <tr align="left">
   <td>$Text{"Body"}</td>
-  <td><input type="text" name="Body" size="30" value="$Data{"Body"}"></td>
+  <td><input type="text" name="Body" size="30" value="$QData{"Body"}"></td>
 </tr>
 <tr align="left">
   <td colspan="2" class="table2">$Text{"TicketFreeText"}</td>

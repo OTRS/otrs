@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQLanguage.pm - to add/update/delete faq languages
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQLanguage.pm,v 1.1 2004-01-08 11:46:35 martin Exp $
+# $Id: FAQLanguage.pm,v 1.1.2.1 2004-03-29 13:15:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.1.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,6 +113,8 @@ sub _Mask {
         Size => 10,
         Name => 'ID',
         SelectedID => $Param{LanguageID},
+        HTMLQuote => 1,
+        LanguageTranslation => 0,
     );
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'FAQLanguageForm', Data => \%Param);

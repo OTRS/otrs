@@ -2,7 +2,7 @@
 # FAQArticleView.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQArticleView.dtl,v 1.2 2004-01-28 01:15:06 martin Exp $
+# $Id: CustomerFAQArticleView.dtl,v 1.2.2.1 2004-03-29 13:14:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,23 +22,23 @@
 </tr>
 <tr align="left" valign="top">
   <td width="100%" class="table1">
-    <font size="+1">$Quote{"$Data{"Subject"}"}</font> 
+    <font size="+1">$QData{"Subject"}</font> 
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td class="table1">$Text{"Category"}: </td>
-      <td class="table1"> $Quote{"$Data{"Category"}"}</td>
+      <td class="table1"> $QData{"Category"}</td>
     </tr>
     <tr>
       <td class="table1">$Text{"State"}: </td>
-      <td class="table1"> $Quote{"$Data{"State"}"}</td>
+      <td class="table1"> $QData{"State"}</td>
     </tr>
     <tr>
       <td class="table1">$Text{"Language"}: </td>
-      <td class="table1"> $Quote{"$Data{"Language"}"}</td>
+      <td class="table1"> $QData{"Language"}</td>
     </tr>
     <tr>
       <td class="table1">$Text{"Keywords"}: </td>
-      <td class="table1"> $Quote{"$Data{"Keywords"}"}</td>
+      <td class="table1"> $QData{"Keywords"}</td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field1"}"}: </td>

@@ -2,7 +2,7 @@
 # AdminSelectBoxResult.dtl - provides HTML result for SelectBox
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBoxResult.dtl,v 1.7 2003-02-08 15:40:43 martin Exp $
+# $Id: AdminSelectBoxResult.dtl,v 1.7.4.1 2004-03-29 13:12:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@
 <tr> 
   <td align="left" valign="top" class="table1">
 
-  <b>$Text{"SQL"}:</b> '$Data{"SQL"}' - <b>$Text{"Limit"}:</b> $Data{"Limit"}
+  <b>$Text{"SQL"}:</b> '$QData{"SQL"}' - <b>$Text{"Limit"}:</b> $QData{"Limit"}
 
 <hr>
 

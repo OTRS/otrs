@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNotificationForm.dtl,v 1.2 2004-01-24 18:40:35 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.2.2.1 2004-03-29 13:12:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,22 +37,22 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-    <input type="hidden" name="ID" value="$Data{"ID"}">
+    <input type="hidden" name="ID" value="$QData{"ID"}">
     <input type="hidden" name="Charset" value="$Env{"Charset"}">
-    <input type="hidden" name="Language" value="$Data{"Language"}">
-    <input type="hidden" name="Type" value="$Data{"Type"}">
+    <input type="hidden" name="Language" value="$QData{"Language"}">
+    <input type="hidden" name="Type" value="$QData{"Type"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td>$Text{"Type"}: </td>
-      <td> $Data{"Language"}::$Data{"Type"}</td>
+      <td> $QData{"Language"}::$QData{"Type"}</td>
     </tr>
     <tr>
       <td>$Text{"Subject"}: </td>
-      <td> <input type="text" name="Subject" value="$Quote{"$Data{"Subject"}"}" size="80" maxlength="80"></td>
+      <td> <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="80"></td>
     </tr>
     <tr>
       <td>$Text{"Body"}: </td>
-      <td> <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea></td>
+      <td> <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea></td>
     </tr>
     </table>
     $Data{"Botton"}

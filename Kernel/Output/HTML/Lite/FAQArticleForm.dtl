@@ -2,12 +2,28 @@
 # FAQArticleForm.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticleForm.dtl,v 1.6 2004-02-03 02:24:26 martin Exp $
+# $Id: FAQArticleForm.dtl,v 1.6.2.1 2004-03-29 13:12:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+<!-- start form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A article should have a title!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
 # --
 # check subaction
 # --
@@ -23,7 +39,7 @@
 </tr>
 <tr align="left" valign="top">
   <td width="100%" class="table1">
-    <form action="$Env{"CGIHandle"}" method="post">
+    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="ID" value="$Data{"ID"}">
@@ -38,24 +54,30 @@
     </tr>
     <tr>
       <td class="table1">$Text{"Filename"}: </td>
-      <td class="table1"> <input type="text" name="Name" value="$Data{"Name"}" size="50" maxlength="50"></td>
+      <td class="table1"> <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"></td>
     </tr>
     <tr>
       <td class="table1">$Text{"Language"}: </td>
       <td class="table1"> $Data{"LanguageOption"} </td>
     </tr>
     <tr>
-      <td class="table1">$Text{"Short Description"}: </td>
-      <td class="table1"> <input type="text" name="Subject" value="$Data{"Subject"}" size="65" maxlength="120"></td>
+      <td class="table1">$Text{"Title"}: </td>
+      <td class="table1"> <input type="text" name="Subject" value="$QData{"Subject"}" size="65" maxlength="120"></td>
     </tr>
     <tr>
       <td class="table1">$Text{"Keywords"}: </td>
-      <td class="table1"> <input type="text" name="Keywords" value="$Data{"Keywords"}" size="65" maxlength="120"></td>
+      <td class="table1"> <input type="text" name="Keywords" value="$QData{"Keywords"}" size="65" maxlength="120"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field1"}"}: </td>
       <td class="table1">
 <textarea name="Field1" rows="12" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field1"}</textarea>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field2"}"}: </td>
@@ -64,10 +86,16 @@
       </td> 
     </tr>
     <tr>
+      <td colspan="2"><hr></td>
+    </tr>
+    <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field3"}"}: </td>
       <td class="table1">
 <textarea name="Field3" rows="12" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field3"}</textarea>
       </td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
     </tr>
 #    <tr>
 #      <td class="table1" valign="top">$Text{"$Config{"FAQ::Field4"}"}: </td>
@@ -76,10 +104,16 @@
 #      </td>
 #    </tr>
 #    <tr>
+#      <td colspan="2"><hr></td>
+#    </tr>
+#    <tr>
 #      <td class="table1" valign="top">$Text{"$Config{"FAQ::Field5"}"}: </td>
 #      <td class="table1">
 #<textarea name="Field5" rows="12" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field5"}</textarea>
 #      </td>
+#    </tr>
+#    <tr>
+#      <td colspan="2"><hr></td>
 #    </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field6"}"}: </td>
@@ -87,8 +121,11 @@
 <textarea name="Field6" rows="4" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field6"}</textarea>
       </td>
     </tr>
+    <tr>
+      <td colspan="2"><hr></td>
+    </tr>
     </table>
-    <input class="button" type="submit" value="$Text{"submit"}"> 
+    <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();"> 
     </form>
   </td>
 </tr>

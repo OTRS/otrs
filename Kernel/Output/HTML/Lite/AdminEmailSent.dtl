@@ -1,8 +1,8 @@
 # --
 # AdminEmailSent.dtl - provides global HTML AdminEmailSent
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmailSent.dtl,v 1.5 2003-02-08 15:40:40 martin Exp $
+# $Id: AdminEmailSent.dtl,v 1.5.4.1 2004-03-29 13:12:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@
 <tr valign="top" align="center">
   <td class="table1">
   <p>
-  $Text{"Message sent to"}: $Data{"Bcc"}
+  $Text{"Message sent to"}: $QData{"Bcc"}
   </p>
   </td>
 </tr>

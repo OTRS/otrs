@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.138 2004-02-17 16:26:07 martin Exp $
+# $Id: Agent.pm,v 1.138.2.1 2004-03-29 13:12:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.138 $';
+$VERSION = '$Revision: 1.138.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -491,7 +491,7 @@ sub AgentFreeText {
         }
         else {
             if (defined($Param{"TicketFreeKey$_"})) {
-                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Param{"TicketFreeKey$_"}.'" size="20">';
+                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Param{"TicketFreeKey$_"}).'" size="20">';
             }
             else {
                 $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="" size="20">';
@@ -510,7 +510,7 @@ sub AgentFreeText {
         }
         else {
             if (defined($Param{"TicketFreeText$_"})) {
-                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Param{"TicketFreeText$_"}.'" size="30">';
+                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Param{"TicketFreeText$_"}).'" size="30">';
             }
             else {
                 $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="" size="30">';

@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.10 2004-02-09 01:39:33 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.10.2.1 2004-03-29 13:12:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="">
-    <input type="hidden" name="Nav" value="$Data{"Nav"}">
+    <input type="hidden" name="Nav" value="$QData{"Nav"}">
 #    <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
 #    <input type="hidden" name="ID" value="$Data{"UserID"}">
     <table border="0" cellspacing="0" cellpadding="3" width="100%">
@@ -63,9 +63,9 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-    <input type="hidden" name="ID" value="$Data{"UserID"}">
-    <input type="hidden" name="Source" value="$Data{"Source"}">
-    <input type="hidden" name="Nav" value="$Data{"Nav"}">
+    <input type="hidden" name="ID" value="$QData{"UserID"}">
+    <input type="hidden" name="Source" value="$QData{"Source"}">
+    <input type="hidden" name="Nav" value="$QData{"Nav"}">
     <table border="0" cellspacing="0" cellpadding="3" width="100%">
     $Data{"Preferences"}
     </table>
