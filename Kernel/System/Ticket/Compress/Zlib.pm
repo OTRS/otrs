@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Compress/Zlib.pm - article compress Zlib backend
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Zlib.pm,v 1.1 2002-12-08 20:47:38 martin Exp $
+# $Id: Zlib.pm,v 1.2 2003-01-03 00:38:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Compress::Zlib;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
