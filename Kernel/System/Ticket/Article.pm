@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.11 2002-12-17 18:02:53 martin Exp $
+# $Id: Article.pm,v 1.12 2002-12-20 00:12:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -25,7 +25,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -417,7 +417,6 @@ sub WriteArticle {
             foreach my $Part ($Data->parts()) {
                 $Self->WriteArticleParts(
                     Part => $Part, 
-                    Path => $Path, 
                     ArticleID => $Param{ArticleID},
                     UserID => $Param{UserID},
                 );
@@ -436,12 +435,14 @@ sub WriteArticleParts {
     # --
     # check needed stuff
     # --
-    foreach (qw(UserID Part Path ArticleID)) {
+    foreach (qw(UserID Part ArticleID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
+
+    my $Path = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
 
     $Self->{PartCounter}++;
 
@@ -460,7 +461,6 @@ sub WriteArticleParts {
             # --
             $Self->WriteArticleParts(
                 Part => $_, 
-                Path => $Param{Path},
                 ArticleID => $Param{ArticleID},
                 UserID => $Param{UserID},
             );
@@ -485,16 +485,6 @@ sub WriteArticleParts {
         }
         $PartData{Filename} = decode_mimewords($PartData{Filename});
         # --
-        # check if attachment name exists -> add "-DoubleFilenamePartCounter"
-        # --
-        foreach (1..5) {
-            if (exists $Self->{ArticleUsedAttachmentFileName}->{$PartData{Filename}}) {
-                 $Self->{DoubleFilenamePartCounter}++;
-                 $PartData{Filename} .= "-$Self->{DoubleFilenamePartCounter}";
-            }  
-        }
-        $Self->{ArticleUsedAttachmentFileName}->{$PartData{Filename}} = 1;
-        # --
         # debug
         # --
         if ($Self->{Debug} > 0) {
@@ -505,55 +495,102 @@ sub WriteArticleParts {
         # --
         # write attachment to backend           
         # --
-        $PartData{Content} = $Self->Encrypt($Self->Compress($PartData{Content}));
-         
-        if ($Self->{ArticleAttachmentStorage} eq 'fs') {
-            if (! -d $Param{Path}) {
-              if (! File::Path::mkpath([$Param{Path}], 0, 0775)) {
-                $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Param{Path}: $!");
-                return;
-              }
-            }
-            # --
-            # write attachment to fs
-            # --
-            if (open (DATA, "> $Param{Path}/$PartData{Filename}")) {
-                print DATA "$PartData{ContentType}\n";
-                print DATA $PartData{Content};
-                close (DATA);
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error', 
-                    Message => "Can't write: $Param{Path}/$PartData{Filename}: $!",
-                );
-                return;
-            }
+        $Self->WriteArticlePart(%PartData, %Param);
+    }
+    return 1;
+}
+sub WriteArticlePart {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Content Filename ContentType ArticleID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    $Param{Path} = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
+    # --
+    # check used name (we want just uniq names)
+    # --
+    my $NewFileName = $Param{Filename};
+    my %UsedFile = ();
+    my @Index = $Self->GetArticleAtmIndex(
+        ContentPath => $Self->{ArticleContentPath},
+        ArticleID => $Param{ArticleID},
+    );
+    foreach (@Index) {
+        $UsedFile{$_} = 1;
+    }
+    for (my $i=1; $i<=12; $i++) {
+        if (exists $UsedFile{$NewFileName}) {
+            $NewFileName = "$Param{Filename}-$i";
         }
         else {
-            # --
-            # encode attachemnt if it's a postgresql backend!!!
-            # --
-            if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
-                $PartData{Content} = encode_base64($PartData{Content});
+            $i = 20;
+        }
+    }
+    $Param{Filename} = $NewFileName;
+    # --
+    # compress and crypt content           
+    # --
+    $Param{Content} = $Self->Encrypt($Self->Compress($Param{Content}));
+    # --
+    # write attachment to backend           
+    # --
+    if ($Self->{ArticleAttachmentStorage} eq 'fs') {
+        if (! -d $Param{Path}) {
+            if (! File::Path::mkpath([$Param{Path}], 0, 0775)) {
+                $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Param{Path}: $!");
+            return;
             }
-            # --
-            # write attachment to db
-            # --
-            foreach (keys %PartData) {
-                $PartData{$_} = $Self->{DBObject}->Quote($PartData{$_});
-            }
-            my $SQL = "INSERT INTO article_attachment ".
+        }
+        # --
+        # write attachment to fs
+        # --
+        if (open (DATA, "> $Param{Path}/$Param{Filename}")) {
+            print DATA "$Param{ContentType}\n";
+            print DATA $Param{Content};
+            close (DATA);
+            return 1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "Can't write: $Param{Path}/$Param{Filename}: $!",
+            );
+            return;
+        }
+    }
+    else {
+        # --
+        # encode attachemnt if it's a postgresql backend!!!
+        # --
+        if ($Self->{ConfigObject}->Get('DatabaseDSN') =~ /^DBI:Pg/i) {
+            $Param{Content} = encode_base64($Param{Content});
+        }
+        # --
+        # write attachment to db
+        # --
+        foreach (keys %Param) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
+        my $SQL = "INSERT INTO article_attachment ".
               " (article_id, filename, content_type, content, ".
               " create_time, create_by, change_time, change_by) " .
               " VALUES ".
-              " ($Param{ArticleID}, '$PartData{Filename}', '$PartData{ContentType}', ".
-              " '$PartData{Content}', ".
+              " ($Param{ArticleID}, '$Param{Filename}', '$Param{ContentType}', ".
+              " '$Param{Content}', ".
               " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-            $Self->{DBObject}->Do(SQL => $SQL);
+        if ($Self->{DBObject}->Do(SQL => $SQL)) {
+            return 1;
+        }
+        else {
+            return;
         }
     }
-    return 1;
 }
 # --
 sub GetArticleAtmIndex  {
