@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.25 2003-03-11 18:35:18 martin Exp $
+# $Id: Queue.pm,v 1.26 2003-04-01 20:06:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -308,10 +308,12 @@ sub QueueLookup {
     my $SQL = '';
     my $Suffix = '';
     if ($Param{Queue}) {
+        $Param{What} = $Param{Queue};
         $Suffix = 'QueueID';
         $SQL = "SELECT id FROM queue WHERE name = '$Param{Queue}'";
     }
     else {
+        $Param{What} = $Param{QueueID};
         $Suffix = 'Queue';
         $SQL = "SELECT name FROM queue WHERE id = $Param{QueueID}";
     }
@@ -324,7 +326,10 @@ sub QueueLookup {
     # check if data exists
     # --
     if (!exists $Self->{"QueueLookup$Suffix"}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Found no \$$Suffix!");
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Found no \$$Suffix for $Param{What}!",
+        );
         return;
     }
 
