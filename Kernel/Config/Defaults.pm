@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.34 2003-02-14 13:53:50 martin Exp $
+# $Id: Defaults.pm,v 1.35 2003-02-15 12:11:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -773,7 +773,7 @@ sub LoadDefaults {
     };
     $Self->{PreferencesGroups}->{SpellDict} = {
         Colum => 'Other Options', 
-        Label => 'Spell Dict',
+        Label => 'Spelling Dictionary',
         Desc => 'Select your default spelling dictionary.', 
         Type => 'Generic',
         Data => {
