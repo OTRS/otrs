@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.1 2004-04-30 08:09:40 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.2 2004-06-11 06:58:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -292,13 +292,12 @@ sub Run {
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
 
         # build search navigation bar
-        my $SearchNavBar = $Self->{LayoutObject}->PageNavBar(
-            Limit => $Self->{SearchLimit}, 
-            StartHit => $Self->{StartHit}, 
-            SearchPageShown => $Self->{SearchPageShown},
+        my %PageNav = $Self->{LayoutObject}->PageNavBar(
+            Limit => $Self->{SearchLimit},
+            StartHit => $Self->{StartHit},
+            PageShown => $Self->{SearchPageShown},
             AllHits => $Counter,
             Action => "Action=CustomerTicketSearch&Subaction=Search",
-#          Link => $Param{SearchLink}.$Param{SearchLinkSortBy}.$Param{SearchLinkOrder}, 
             Link => "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
         );
         # build shown ticket
@@ -333,9 +332,9 @@ sub Run {
             );
         }
         else {
-            $Output .= $SearchNavBar.$Self->{LayoutObject}->Output(
+            $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'CustomerTicketSearchResultShort', 
-                Data => { %Param, Profile => $Self->{Profile}, },
+                Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
         }
         # build footer
