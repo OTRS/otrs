@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.122 2003-07-08 00:00:37 martin Exp $
+# $Id: Agent.pm,v 1.123 2003-07-13 19:02:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.122 $';
+$VERSION = '$Revision: 1.123 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -998,7 +998,13 @@ sub AgentMove {
     my %Param = @_;
     my %Data = %{$Param{MoveQueues}};
     my %UsedData = ();
+    # add suffix for correct sorting
+    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        $Data{$_} .= '::';
+    }
+    # build a href stuff
     foreach my $ID (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        $Data{$ID} =~ s/^(.*)::/$1/;
         my @Queue = split(/::/, $Data{$ID});
         $UsedData{$Data{$ID}} = 1;
         my $UpQueue = $Data{$ID}; 
@@ -1218,6 +1224,11 @@ sub AgentQueueListOption {
     else {
         return 'Need Data Ref in AgentQueueListOption()!';
     }
+    # add suffix for correct sorting
+    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        $Data{$_} .= '::';
+    }
+    # build selection string
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
       my @Queue = split(/::/, $Param{Data}->{$_});
       $UsedData{$Param{Data}->{$_}} = 1;

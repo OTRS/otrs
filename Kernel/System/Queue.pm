@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.32 2003-07-10 22:35:14 martin Exp $
+# $Id: Queue.pm,v 1.33 2003-07-13 19:02:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -688,18 +688,20 @@ sub QueueGet {
 sub QueueUpdate {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID MoveNotify StateNotify LockNotify OwnerNotify)) {
       if (!defined ($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
+    foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
     # db quote
-    # --
     my %DB = ();
     foreach (keys %Param) {
         $DB{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
@@ -708,9 +710,7 @@ sub QueueUpdate {
     foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify)) {
         $DB{$_} = 0 if (!$Param{$_});
     }
-    # --
     # check if queue name exists
-    # --
     my %AllQueue = $Self->{DBObject}->GetTableData(
         Table => 'queue',
         What => 'id, name',
@@ -725,9 +725,7 @@ sub QueueUpdate {
             return;
         }
     }
-    # --
     # sql
-    # --
     my $SQL = "UPDATE queue SET name = '$DB{Name}', " .
         " comment = '$DB{Comment}', " .
         " group_id = $DB{GroupID}, " .
@@ -747,9 +745,7 @@ sub QueueUpdate {
         " change_by = $DB{UserID} " .
         " WHERE id = $DB{QueueID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        # --
         # updated all sub queue names
-        # --
         my @ParentQueue = split(/::/, $OldQueue{Name});
         my %AllQueue = $Self->{DBObject}->GetTableData(
             Table => 'queue',
