@@ -2,7 +2,7 @@
 # Kernel/System/EmailSend.pm - the global email send module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.14 2002-10-03 17:55:44 martin Exp $
+# $Id: EmailSend.pm,v 1.15 2002-10-20 12:07:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Words qw(:all);
 use Mail::Internet;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -244,6 +244,50 @@ sub Bounce {
         );
     }
     return 1;
+}
+# --
+sub SendNormal {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Subject Body)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!$Param{To} && !$Param{Cc} && !$Param{Bcc}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need To, Cc or Bcc!");
+        return;
+    }
+    if (!$Param{From}) {
+        $Param{From} = $Self->{ConfigObject}->Get('AdminEmail') || 'otrs@localhost';
+    }
+    # --
+    # send mail
+    # --
+    if (open( MAIL, "|".$Self->{ConfigObject}->Get('Sendmail')." '$Param{From}' " )) {
+            print MAIL "From: $Param{From}\n";
+            foreach (qw(To Cc Bcc)) {
+                print MAIL "$_: $Param{$_}\n" if ($Param{$_});
+            }
+            print MAIL "Subject: $Param{Subject}\n";
+            print MAIL "X-Mailer: OTRS Mail Service ($VERSION)\n";
+            print MAIL "X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org/)\n";
+            print MAIL "\n";
+            print MAIL "$Param{Body}\n";
+            close(MAIL);
+            return 1;
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Can't use ".$Self->{ConfigObject}->Get('Sendmail').": $!!",
+        );
+        return;
+    }
 }
 # --
 
