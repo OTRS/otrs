@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.pm,v 1.5 2004-10-13 12:47:15 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.6 2004-11-26 13:37:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,6 +151,7 @@ sub Run {
         Name => 'LinkOption',
         Data => {
             %Param,
+            SourceObject => $Self->{SourceObject},
         },
     );
     # search mask
@@ -197,11 +198,18 @@ sub Run {
         my $SearchPageShown = 15;
         my $Limit = 100;
 
-        my @DataResult = $Self->{LinkObject}->LinkSearch(
+        my @DataResultRaw = $Self->{LinkObject}->LinkSearch(
             %GetParams,
             Limit => $Limit,
             UserID => $Self->{UserID},
         );
+        # show no own ticket
+        my @DataResult = ();
+        foreach my $Data (@DataResultRaw) {
+            if ($Self->{SourceObject} eq $Self->{DestinationObject} && $Self->{SourceID} ne $Data->{ID}) {
+                push(@DataResult, $Data);
+            }
+        }
         if (@DataResult) {
             my %PageNav = $Self->{LayoutObject}->PageNavBar(
                 Limit => $Limit,
