@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.65 2004-08-04 09:25:57 martin Exp $
+# $Id: Article.pm,v 1.66 2004-08-06 06:31:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1014,10 +1014,17 @@ send article via email and create article with attachments
           Type => 'PGP',
           SubType => 'Inline|Detached',
           Key => '81877F5E',
+
+          Type => 'SMIME',
+          SubType => 'Inline|Detached',
+          Hash => '3b630c80',
       },
       Crypt => {
           Type => 'PGP',
           Key => '81877F5E',
+
+          Type => 'SMIME',
+          Hash => '3b630c80',
       },
       HistoryType => 'OwnerUpdate', # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
       HistoryComment => 'Some free text!',
@@ -1189,6 +1196,7 @@ sub ArticleSend {
         if (!$CryptObject) {
             return;
         }
+      if ($Param{Sign}->{Type} eq 'PGP') {
         # make_multipart -=> one attachment for sign
         $Entity->make_multipart(
             "signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\";",
@@ -1226,14 +1234,50 @@ sub ArticleSend {
             $Self->HistoryAdd(
                 TicketID => $Param{TicketID},
                 ArticleID => $Param{ArticleID},
-                Name => "Signed Mail (detached)",
+                Name => "Signed Mail (PGP detached)",
                 HistoryType => 'Misc',
                 CreateUserID => $Param{UserID},
             );
         }
+      }
+      elsif ($Param{Sign}->{Type} eq 'SMIME') {
+        # make multi part
+        $Entity->make_multipart("mixed;", Force => 1,);
+        # get header to remember
+        my $head = $Entity->head;
+        $head->delete('MIME-Version');
+        $head->delete('Content-Type');
+        $head->delete('Content‐Disposition');
+        $head->delete('Content-Transfer-Encoding');
+        my $Header = $head->as_string();
+        # get string to sign
+        my $T = $Entity->parts(0)->as_string();
+        # according to RFC3156 all line endings MUST be CR/LF
+        $T =~ s/\x0A/\x0D\x0A/g;
+        $T =~ s/\x0D+/\x0D/g;
+        my $Sign = $CryptObject->Sign(
+            Message => $T,
+            Hash => $Param{Sign}->{Key},
+            Type => 'Detached',
+        );
+
+#print STDERR "$Sign\n";
+        use MIME::Parser;
+        my $Parser = new MIME::Parser;
+        $Parser->output_to_core("ALL");
+        $Entity = $Parser->parse_data($Header.$Sign);
+        # add history entry
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
+            Name => "Signed Mail (SMIME detached)",
+            HistoryType => 'Misc',
+            CreateUserID => $Param{UserID},
+        );
+      }
     }
     # crypt it!
-    if ($Param{Crypt}) {
+    if ($Param{Crypt}->{Type} eq 'PGP') {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
@@ -1283,6 +1327,43 @@ sub ArticleSend {
                 CreateUserID => $Param{UserID},
             );
         }
+    }
+    elsif ($Param{Crypt}->{Type} eq 'SMIME') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Crypt}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
+        }
+        # make_multipart -=> one attachment for encryption
+        $Entity->make_multipart("mixed;", Force => 1,);
+        # get header to remember
+        my $head = $Entity->head;
+        $head->delete('MIME-Version');
+        $head->delete('Content-Type');
+        $head->delete('Content‐Disposition');
+        $head->delete('Content-Transfer-Encoding');
+        my $Header = $head->as_string();
+        # crypt it
+        my $Crypt = $CryptObject->Crypt(
+            Message => $Entity->parts(0)->as_string(),
+            Key => $Param{Crypt}->{Key},
+        );
+        use MIME::Parser;
+        my $Parser = new MIME::Parser;
+        $Parser->output_to_core("ALL");
+        $Entity = $Parser->parse_data($Header.$Crypt);
+        # add history entry
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
+            Name => "Crypted Mail (SMIME detached)",
+            HistoryType => 'Misc',
+            CreateUserID => $Param{UserID},
+        );
     }
     # get header
     my $head = $Entity->head;
@@ -1551,10 +1632,6 @@ sub SendAgentNotification {
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # send notify
-use Encode;
-if (Encode::is_utf8($Notification{Body})) {
-print STDERR "JAAAAA \n";
-}
     $Self->{SendmailObject}->Send(
         From => $Self->{ConfigObject}->Get('NotificationSenderName').
              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
