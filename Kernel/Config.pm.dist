@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm.dist,v 1.6 2003-03-02 08:56:36 martin Exp $
+# $Id: Config.pm.dist,v 1.7 2003-07-07 14:01:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -75,6 +75,12 @@ sub Load {
     # (The database DSN for PostgrSQL ==> more: "man DBD::Pg") 
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};";
 
+    # (The database DSN for DBI:ODBC ==> more: "man DBD::ODBC")
+#    $Self->{DatabaseDSN} = "DBI:ODBC:$Self->{Database}";
+    # If you use ODBC, no database auto detection is possible,
+    # so set the database type here. Possible: mysq,postgresql,sapdb
+#    $Self->{'Database::Type'} = 'sapdb';
+
     # ---------------------------------------------------- #
     # fs root directory
     # ---------------------------------------------------- #
@@ -109,7 +115,7 @@ use strict;
 use vars qw(@ISA $VERSION);
 use Kernel::Config::Defaults;
 push (@ISA, 'Kernel::Config::Defaults');
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # -----------------------------------------------------#
 
