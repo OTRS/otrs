@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.6 2002-05-12 15:06:27 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.7 2002-05-14 00:16:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -81,6 +81,14 @@
     <tr>
       <td>$Text{"Theme"}: </td>
       <td> $Data{"ThemeOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Send follow up notification"}: </td>
+      <td> $Data{"SendFollowUpNotificationYesNoOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Send new ticket notification"}: </td>
+      <td> $Data{"SendNewTicketNotificationYesNoOption"}</td>
     </tr>
     <tr>
       <td>$Text{"Valid"}: </td>
