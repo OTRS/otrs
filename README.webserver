@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.3 2002-07-10 18:19:35 martin Exp $
+# $Id: README.webserver,v 1.4 2002-08-15 22:57:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,8 +20,8 @@ http://your-host/otrs/index.pl or http://your-host/otrs/installer.pl.
 
 SuSE Linux:
 ===========
-a) Install the RPM-Package.
-
+a) Install the RPM-Package (http://otrs.org/ - "rpm -i otrs-xxx.rpm").
+ 
 b) The manual way:
   Use the "$OTRS_HOME/scripts/suse-httpd.include.conf" include config file.
 
@@ -36,14 +36,23 @@ b) The manual way:
 Or edit the httpd.conf directly:
 ================================
 a)
-  Change the webserver user (normaly wwwrun) to the OpenTRS user (otrs).
+ *) Change the webserver user (normaly wwwrun) to the OpenTRS user (otrs).
 
   [...]
   User wwwrun 
   [...]
   User otrs
   [...]
+ 
+ *) If you can't change the user and group of your webserver (system-wide), 
+    because you have other applications running on this server, you can
+    also work with group permissions (more tricky). 
 
+    Use "$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
+    e. g. 
+     Webserver with otrs user: "SetPermissions.sh /opt/OpenTRS otrs otrs"   
+     Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/OpenTRS otrs wwwrun"
+     Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/OpenTRS otrs apache"
 
 b)
  *) 
@@ -54,7 +63,7 @@ b)
   ScriptAlias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
   [...]
 
-*)
+ *)
   With mod_perl (speed!):
   =======================
   Add this to the mod_perl stuff section in httpd.conf
