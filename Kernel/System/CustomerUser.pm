@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.3 2002-10-31 22:55:28 martin Exp $
+# $Id: CustomerUser.pm,v 1.4 2002-11-19 16:07:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Email::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -103,7 +103,7 @@ sub CustomerUserAdd {
     # --
     # check needed stuff
     # --
-    foreach (qw(Salutation Firstname Lastname Login Pw ValidID CustomerID Email UserID)) {
+    foreach (qw(Firstname Lastname Login Pw ValidID CustomerID Email UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
