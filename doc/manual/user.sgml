@@ -94,7 +94,7 @@ LDAP entries shall conform to the PosixAccount and inetOrgPerson schema. An exam
 </programlisting>
 
 Please note, that in version 1.x you have to create a db entry for the ldap user. This is done
-automatically in versions < 1.1
+automatically on first login in versions < 1.1
 </para>
 </sect2>
 </sect1>
