@@ -2,7 +2,7 @@
 # FAQSearchResult.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQSearchResult.dtl,v 1.4 2004-01-21 22:46:53 martin Exp $
+# $Id: FAQSearchResult.dtl,v 1.5 2004-03-05 08:15:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@
 </tr>
 <tr align="left" valign="top">
   <td width="100%" class="table1">
-    <table>
+    <table border="0" width="100%">
     $Data{"List"}
     </table>
   </td>
