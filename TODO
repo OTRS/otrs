@@ -2,14 +2,14 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.50 2004-01-23 00:44:30 martin Exp $
+# $Id: TODO,v 1.51 2004-02-02 23:58:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-1.2
+1.3
 - prevent unauthorized person submit ticket via email via PostMaster*.pl
 - remove header/footer of spelling window
 - change time column format of time_accounting table from int to
@@ -17,16 +17,13 @@
 - Write email (new ticket) to customer 
    http://lists.otrs.org/pipermail/otrs/2003-April/001377.html
 - Add TicketHookSpace -> e. g. ": " or ""
-- merge tickets -
-   http://lists.otrs.org/pipermail/otrs/2002-August/000147.html (martin)
 - send bulk answer -
    http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
 - delete option for records (martin)
 - contact customer -=> create ticket
 - add info that a ticket is already closed!
-
-1.3
 - add attachment option to phone view
+- master ticket feature
 
 2.0
 - Multiple Attachements on http://localhost/otrs/index.pl?Action=AgentCompose

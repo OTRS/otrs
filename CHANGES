@@ -2,16 +2,18 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.107 2004-01-31 14:52:27 martin Exp $
+# $Id: CHANGES,v 1.108 2004-02-02 23:58:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-1.2.0 beta2 (2004-01-??)
-
-http://bugs.otrs.org/show_bug.cgi?id=274
-
+1.2.0 beta2 (2004-02-02)
+ 
+ - (2004/02/02) replaced column "comment" to "comments" of each table to
+    be oracle compat.
+ - (2004/02/02) added ticket link feature
+ - (2004/02/01) fixed uncounted unlocktime calcualtion in bin/UnlockTickets.pl
  - (2004/01/27) added Bcc field for agent address book and agent compose
  - (2004/01/24) fixed bug 280 - group_customer_user table
     (http://bugs.otrs.org/show_bug.cgi?id=280)
