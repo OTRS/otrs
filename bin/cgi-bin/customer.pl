@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.21 2003-07-13 11:01:21 martin Exp $
+# $Id: customer.pl,v 1.22 2003-11-26 00:51:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,6 +54,7 @@ use Kernel::System::DB;
 use Kernel::System::AuthSession;
 use Kernel::System::CustomerAuth;
 use Kernel::System::CustomerUser;
+use Kernel::System::CustomerGroup;
 use Kernel::System::Permission;
 use Kernel::Output::HTML::Generic;
 
@@ -137,6 +138,7 @@ if ($CommonObject{ParamObject}->Error()) {
     exit (1);
 }
 $CommonObject{UserObject} = Kernel::System::CustomerUser->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::CustomerGroup->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 # --
 # application and add on application common objects
