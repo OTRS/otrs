@@ -2,7 +2,7 @@
 # AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.2 2002-02-03 20:05:04 martin Exp $
+# $Id: AgentUtilities.pm,v 1.3 2002-02-21 22:11:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -139,8 +139,6 @@ sub SearchByTn {
             Owner => $$Data{login},
             What => $Want,
 			Age => $Age,
-            TextLongMax => 400,
-            TextWidthMax => 110,
         );
     }
 #    $Output .= $Self->{LayoutObject}->UtilSearchCouter(Limit => $Self->{SearchLimitTn});
@@ -235,8 +233,6 @@ sub SearchByText {
             What => $Want,
             Highlight => 1,
             Age => $Age,
-            TextLongMax => 550,
-            TextWidthMax => 110,
         );
     }
     $Output .= $Self->{LayoutObject}->AgentUtilSearchCouter(Limit => $Self->{SearchLimitTxt});
