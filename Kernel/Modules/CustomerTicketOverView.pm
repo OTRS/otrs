@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.10 2003-03-04 00:12:50 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.11 2003-03-13 15:38:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,11 +119,13 @@ sub Run {
    my @ViewableTickets = ();
    $SQL = "SELECT st.id, st.queue_id FROM " .
        " ticket st, queue q, " . 
-         $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
+         $Self->{ConfigObject}->Get('DatabaseUserTable'). " u, ticket_state tsd ".
        " WHERE " .
        " st.user_id = u.". $Self->{ConfigObject}->Get('DatabaseUserTableUserID') .
        " AND ".
        " q.id = st.queue_id ".
+       " AND ".
+       " st.ticket_state_id = tsd.id ".
        " AND ".
        " st.customer_id = '$Self->{UserCustomerID}' ";
     # check if just open tickets should be shown
