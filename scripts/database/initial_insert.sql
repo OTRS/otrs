@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.11 2003-11-19 01:32:04 martin Exp $
+-- $Id: initial_insert.sql,v 1.12 2003-12-02 21:52:56 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.11  2003/11/19 01:32:04  martin
+-- improved group sub system, added create, move, owner, priority and state permissions to groups
+--
 -- Revision 1.10  2003/04/30 12:47:42  martin
 -- removed not needed stuff
 --
@@ -215,17 +218,17 @@ INSERT INTO groups
 
 -- group_user (add admin to groups)
 INSERT INTO group_user
-    (user_id, permission_read, permission_state, permission_create, permission_owner, permission_move, permission_priority, permission_write, group_id, create_by, create_time, change_by, change_time)
+    (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 'rw', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO group_user
-    (user_id, permission_read, permission_state, permission_create, permission_owner, permission_move, permission_priority, permission_write, group_id, create_by, create_time, change_by, change_time)
+    (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 1, 1, 1, 1, 1, 2, 1, current_timestamp, 1, current_timestamp);
+    (1, 2, 'rw', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO group_user
-    (user_id, permission_read, permission_state, permission_create, permission_owner, permission_move, permission_priority, permission_write, group_id, create_by, create_time, change_by, change_time)
+    (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 1, 1, 1, 1, 1, 3, 1, current_timestamp, 1, current_timestamp);
+    (1, 3, 'rw', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- theme
 INSERT INTO theme

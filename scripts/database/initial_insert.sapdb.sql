@@ -2,9 +2,12 @@
 // initial_insert.sql - provides initial system data
 // Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 // --
-// $Id: initial_insert.sapdb.sql,v 1.1 2003-07-08 14:18:36 martin Exp $
+// $Id: initial_insert.sapdb.sql,v 1.2 2003-12-02 21:52:56 martin Exp $
 // 
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/07/08 14:18:36  martin
+// new SAPDB stuff
+//
 // Revision 1.10  2003/04/30 12:47:42  martin
 // removed not needed stuff
 //
@@ -224,19 +227,17 @@ INSERT INTO groups
 //
 // group_user (add admin to groups)
 INSERT INTO group_user
-    (user_id, permission_read, permission_write, group_id, create_by, create_time, change_by, change_time)
+    (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 1, 1, timestamp, 1, timestamp)
-//
+    (1, 1, 'rw', 1, 1, current_timestamp, 1, current_timestamp)
 INSERT INTO group_user
-    (user_id, permission_read, permission_write, group_id, create_by, create_time, change_by, change_time)
+    (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 2, 1, timestamp, 1, timestamp)
-//
+    (1, 2, 'rw', 1, 1, current_timestamp, 1, current_timestamp)
 INSERT INTO group_user
-    (user_id, permission_read, permission_write, group_id, create_by, create_time, change_by, change_time)
+    (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 3, 1, timestamp, 1, timestamp)
+    (1, 3, 'rw', 1, 1, current_timestamp, 1, current_timestamp)
 //
 // theme
 INSERT INTO theme
