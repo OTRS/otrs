@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.1 2001-12-26 20:03:07 martin Exp $
+# $Id: AgentCompose.pm,v 1.2 2001-12-30 00:45:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -130,9 +130,10 @@ sub Form {
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
     # subject ...
-    $Data{Subject} =~ s/\[Ticket#$Tn\] //g;
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
+    $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
     $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
-    $Data{Subject} = "[Ticket#$Tn] " . $Data{Subject};
+    $Data{Subject} = "[$TicketHook: $Tn] " . $Data{Subject};
     # to ...
     $Data{To} = $Data{From};
     # from ...
