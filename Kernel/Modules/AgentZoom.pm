@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.54 2004-04-06 09:05:54 martin Exp $
+# $Id: AgentZoom.pm,v 1.55 2004-04-11 17:01:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -128,7 +128,13 @@ sub Run {
             return $Output;
         }
         # if it is a html email, return here
-        return $Self->MaskAgentZoomHTML(%Ticket, %Article);
+        return $Self->{LayoutObject}->Attachment(
+            Filename => $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-$Ticket{TicketID}-$Article{ArticleID}",
+            Type => 'inline',
+            ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}
+",
+            Content => $Article{"Body"},
+        );
     }
     # --
     # else show normal ticket zoom view
@@ -410,7 +416,7 @@ sub MaskAgentZoom {
                 ContentCharset => $Article{ContentCharset},
                 TicketID => $Param{TicketID},
                 ArticleID => $Article{ArticleID} )) {
-                $Article{"TextNote"} = $CharsetText;
+                $Article{"BodyNote"} = $CharsetText;
             }
         }
         # select the output template
@@ -465,19 +471,6 @@ sub MaskAgentZoom {
         Data => \%Param,
     );
     # return output
-    return $Output;
-}
-# --
-sub MaskAgentZoomHTML {
-    my $Self = shift;
-    my %Param = @_;
-    # generate output
-    my $Output = "Content-Disposition: inline; filename=";
-    $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
-    $Output .= "$Param{TicketID}-$Param{ArticleID}\n";
-    $Output .= "Content-Type: $Param{MimeType}; charset=$Param{ContentCharset}\n";
-    $Output .= "\n";
-    $Output .= $Param{"Body"};
     return $Output;
 }
 # --
