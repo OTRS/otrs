@@ -1,0 +1,52 @@
+# --
+# AgentOwner.dtl - provides HTML for AgentOwner mask
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentOwner.dtl,v 1.1 2002-05-05 13:50:31 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor0"}">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Change owner of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+  <td align="right" bgcolor="$Env{"BGTableColor0"}">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </font>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+<p>
+
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="AgentOwner">
+<input type="hidden" name="Subaction" value="Update">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+  <table border="0">
+  <tr>
+    <td>$Text{"New user"}:</td><td>$Data{"OptionStrg"}</td>
+  </tr>
+  </table>
+<br>
+<input type="submit" value="$Text{"update"}">
+</form>
+
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
