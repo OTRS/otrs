@@ -2,13 +2,17 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.79.2.5 2003-05-29 22:05:38 martin Exp $
+# $Id: CHANGES,v 1.79.2.6 2003-05-29 23:12:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1.2 (2003-05-31)
+ - (2003/05/30) added "PerlInitHandler Apache::Reload" (Reload %INC files
+    - perl modules) when updated on disk to scripts/apache2-httpd.include.conf
+ - (2003/05/30) added "PerlInitHandler Apache::StatINC" (Reload %INC files
+    - perl modules) when updated on disk to scripts/apache-httpd.include.conf
  - (2003/05/29) fixed create ticket (without priority selection) via 
     customer panel and changed priority names.
  - (2003/05/26) fixed pic.pl bug - http://bugs.otrs.org/show_bug.cgi?id=149
