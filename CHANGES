@@ -2,7 +2,7 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.18 2002-08-06 19:33:04 martin Exp $
+# $Id: CHANGES,v 1.19 2002-08-06 20:29:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,9 +12,13 @@
 0.5 BETA7 (2002-08-06)
  - improved screen session management (next screen, last screen) added back 
     buttons
- - improved Ticket and article lib funktions (Kernel::System::Ticket::* and
+ - improved ticket and article lib funktions (Kernel::System::Ticket::* and
     Kernel::System::Article)
  - improved fulltext search 
+ - added time accounting for tickets (added new database table - time_accounting!
+    use scripts/DBUpdate.(mysql|postgresql).sql for database updates!)
+ - added notify feature for ticket lock timeout by system 
+ - added user preferences item email (so login and email can be different)
  - added "Std. Response on creating a queue" feature
     (http://lists.otrs.org/pipermail/otrs/2002-July/000114.html)
  - added module support for auth. (Kernel/Config.pm --> $Self->{AuthModule})
@@ -49,6 +53,7 @@
         check sum and the counter will be rotated daily like 2002070110101520 and 2002070110101535.
      * "Kernel::System::Ticket::Number::Random" --> random ticket numbers "SystemID.Random" 
          like 100057866352 and 103745394596.
+ - added UPGRADING file
  - updated redhat init script (Thanks to Pablo Ruiz Garcia)
  - fixed bug [21] " in email adresses are missing - http://bugs.otrs.org/show_bug.cgi?id=21
     (Thanks to Christoph Kaulich)
