@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.35 2003-03-10 10:02:04 wiktor Exp $
+# $Id: NewTicket.pm,v 1.36 2003-03-10 10:16:21 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -157,15 +157,14 @@ sub Run {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
         }
         else {
-        my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
-            Line => $GetParam{From},
-        );
-        foreach (@EmailAddresses) {
-            $GetParam{'X-OTRS-CustomerNo'} = $Self->{ParseObject}->GetEmailAddress(
-                Email => $_,
+            my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+                Line => $GetParam{From},
+            );
+            foreach (@EmailAddresses) {
+                $GetParam{'X-OTRS-CustomerNo'} = $Self->{ParseObject}->GetEmailAddress(
+                    Email => $_,
             );
         }
-    }
     }
     # --    
     # set customer no
@@ -181,7 +180,7 @@ sub Run {
     # debug
     # --
     if ($Self->{Debug} > 0) {
-        print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
+            print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
             print "CustomerUser: $GetParam{'X-OTRS-CustomerUser'}\n";
         }
     }
