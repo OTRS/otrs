@@ -150,7 +150,7 @@ use vars qw($VERSION @ISA);
 use IO::Handle;
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = substr q$Revision: 1.1 $, 10;
+$VERSION = substr q$R vision: 2.103 $, 10;
 
 # Inheritance:
 @ISA = qw(IO::Handle);
@@ -749,7 +749,7 @@ use the OO version; e.g.:
 
 =head1 VERSION
 
-$Id: ScalarArray.pm,v 1.1 2003-01-12 19:55:53 martin Exp $
+$Id: ScalarArray.pm,v 1.2 2003-01-16 18:54:03 martin Exp $
 
 
 =head1 AUTHOR
