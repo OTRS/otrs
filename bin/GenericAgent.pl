@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.19 2004-01-19 23:48:54 martin Exp $
+# $Id: GenericAgent.pl,v 1.20 2004-02-03 01:08:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.19 $';
+    $VERSION = '$Revision: 1.20 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
@@ -123,11 +123,11 @@ foreach my $Job (sort keys %Jobs) {
         elsif (ref($PartJobs{Queue}) eq 'ARRAY') {
             foreach (@{$PartJobs{Queue}}) {
                 print " For Queue: $_\n";
-                %Tickets = $CommonObject{TicketObject}->SearchTicket(
+                %Tickets = ($CommonObject{TicketObject}->SearchTicket(
                     %{$Jobs{$Job}},
                     Queues => [$_],
                     Limit => $Limit,
-                );
+                ), %Tickets);
             }
         }
         else {
