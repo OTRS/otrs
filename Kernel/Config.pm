@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.6 2001-12-23 13:31:56 martin Exp $
+# $Id: Config.pm,v 1.7 2001-12-26 20:05:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -49,6 +49,8 @@ sub Load {
     # --
     # system ID
     $Self->{SystemID} = 10; 
+    # ticket Hook 
+    $Self->{TicketHook} = 'Ticket#',
     # full qualified domain name of your system
     $Self->{FQDN} = 'avro.linuxatwork.de';
     # where is sendmail located
