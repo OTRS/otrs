@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.8 2004-03-01 13:12:56 martin Exp $
+# $Id: Encode.pm,v 1.9 2004-08-01 11:12:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -36,14 +36,14 @@ return string is still the same charset.
 
 =item new()
 
-create a language object 
- 
+create a language object
+
   use Kernel::Config;
   use Kernel::System::Encode;
 
   my $ConfigObject = Kernel::Config->new();
 
-  my $EncodeObject = Kernel::System::Encode->new( 
+  my $EncodeObject = Kernel::System::Encode->new(
       ConfigObject => $ConfigObject,
   );
 
@@ -57,15 +57,15 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # get common objects 
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
     foreach (qw(ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
-    } 
-    # 0=off; 1=on; 
+    }
+    # 0=off; 1=on;
     $Self->{Debug} = 0;
 
     # check if Perl 5.8.0 encode is available
@@ -79,11 +79,11 @@ sub new {
         }
     }
     return $Self;
-}   
+}
 # --
 
 =item EncodeSupported()
-    
+
 Returns true or false if charset encoding is possible (depends on Perl version =< 5.8.0).
 
   if ($EncodeObject->EncodeSupported()) {
@@ -102,8 +102,8 @@ sub EncodeSupported {
 # --
 
 =item EncodeInternalUsed()
-    
-Returns the internal used charset if possible. E. g. if "EncodeSupported()" 
+
+Returns the internal used charset if possible. E. g. if "EncodeSupported()"
 is true and Kernel/Config.pm "DefaultCharset" is "utf-8", then utf-8 is
 the internal charset. It returns false if no internal charset (utf-8) is
 used.
@@ -124,8 +124,8 @@ sub EncodeInternalUsed {
 # --
 
 =item EncodeFrontendUsed()
-    
-Returns the used frontend charset if possible. E. g. if "EncodeSupported()" 
+
+Returns the used frontend charset if possible. E. g. if "EncodeSupported()"
 is true and Kernel/Config.pm "DefaultCharset" is "utf-8", then utf-8 is
 the frontend charset. It returns false if no frontend charset (utf-8) is
 used (then the translation charset (from translation file) will be used).
@@ -146,7 +146,7 @@ sub EncodeFrontendUsed {
 # --
 
 =item Convert()
-    
+
 Convert one charset to an other charset.
 
   my $utf8 = $EncodeObject->Convert(
@@ -224,7 +224,7 @@ sub SetIO {
             if (defined($_) && ref($_) eq 'GLOB') {
                 binmode($_, ":utf8");
             }
-        }        
+        }
     }
     return;
 }
@@ -233,11 +233,11 @@ sub SetIO {
 
 =item Encode()
 
-Convert internal used charset (e. g. utf-8) into given charset (utf-8), if 
+Convert internal used charset (e. g. utf-8) into given charset (utf-8), if
 "EncodeInternalUsed()" returns one. Should be used on all I/O interfaces
 if data is already utf-8.
 
-  $EncodeObject->Encode(\$String); 
+  $EncodeObject->Encode(\$String);
 
 =cut
 
@@ -270,14 +270,14 @@ sub Encode {
 # --
 
 =item Decode()
-    
-Convert given charset into the internal used charset (utf-8), if 
+
+Convert given charset into the internal used charset (utf-8), if
 "EncodeInternalUsed()" returns one. Should be used on all I/O interfaces.
 
   my $String = $EncodeObject->Decode(
       Text => $String,
       From => $SourceCharset,
-  ); 
+  );
 
 =cut
 
@@ -307,7 +307,7 @@ sub Decode {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -317,6 +317,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2004-03-01 13:12:56 $
+$Revision: 1.9 $ $Date: 2004-08-01 11:12:18 $
 
 =cut
