@@ -1,8 +1,8 @@
 # --
 # AgentHistoryRow.dtl - provides HTML form for history
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistoryRow.dtl,v 1.10 2003-12-19 01:01:40 martin Exp $
+# $Id: AgentHistoryRow.dtl,v 1.11 2004-04-15 08:41:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,14 +19,14 @@
   $Quote{"$Data{"HistoryType"}"}
   </td>
   <td>
-  <div title="$Quote{"$Data{"Name"}"}">$Quote{"$Data{"Name"}","100"}</div>
+  <div title="$QData{"Name"}">$QData{"Name","100"}</div>
   </td>
   <td align="CENTER">
     $Data{"Link"}
   </td>
   <td>
-  <div title="$Quote{"$Data{"CreateBy"} ($Data{"UserFirstname"} $Data{"UserLastname"})"}">
-  $Quote{"$Data{"CreateBy"}"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","20"})
+  <div title="$Quote{"$Data{"UserLogin"} ($Data{"UserFirstname"} $Data{"UserLastname"})"}">
+  $Quote{"$Data{"UserLogin"}"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","20"})
   </div>
   </td>
   <td>
