@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.31 2002-05-21 21:45:07 martin Exp $
+# $Id: Config.pm,v 1.32 2002-05-26 10:15:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -362,7 +362,7 @@ sub Load {
     $Self->{NotificationBodyNewTicket} = "
 Hi,
 
-there is a new ticket!
+there is a new ticket in '<OTRS_QUEUE>'!
 
 <snip>
 <OTRS_CUSTOMER_EMAIL[6]>
