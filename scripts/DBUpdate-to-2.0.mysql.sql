@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.13 2004-12-02 00:36:29 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.14 2004-12-10 09:16:35 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.mysql.sql | mysql -f -u root otrs
@@ -150,6 +150,31 @@ CREATE TABLE sessions (
     UNIQUE (session_id),
     INDEX index_session_id (session_id)
 );
+
+--
+-- package_repository table
+--
+CREATE TABLE package_repository (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (250) NOT NULL,
+    version VARCHAR (250) NOT NULL,
+    vendor VARCHAR (250) NOT NULL,
+    install_status VARCHAR (250) NOT NULL,
+    filename VARCHAR (250),
+    content_size VARCHAR (30),
+    content_type VARCHAR (250),
+    content LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+--
+-- remove all old notifications
+--
+DELETE FROM notifications;
 
 --
 -- update agent notifications
