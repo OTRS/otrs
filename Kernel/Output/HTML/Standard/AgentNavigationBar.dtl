@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.37 2004-08-18 14:49:56 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.38 2004-09-08 13:11:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,6 +30,7 @@
       <td valign="top" align="center" class="nav">
         <div title="$Text{"Overview of all open Tickets"}"><a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}queue.png" alt="$Text{"QueueView"}"><br>$Text{"QueueView"}</a></div>
       </td>
+
       <td valign="top" align="center" class="nav">
         <div title="$Text{"Create new Phone Ticket"}"><a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"Create new Phone Ticket"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}new.png" alt="$Text{"Create new Phone Ticket"}"><br>$Text{"Phone-Ticket"}</a></div>
       </td>
@@ -45,6 +46,11 @@
 #      <td valign="top" align="center" class="nav">
 #        <div title="$Text{"Edit Customer Users"}"><a href="$Env{"Baselink"}Action=AdminCustomerUser" onmouseover="window.status='$Text{"Customer User"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}folder_yellow.png" alt="$Text{"Customer User"}"><br>$Text{"CustomerUser"}</a></div>
 #      </td>
+##
+      <td valign="top" align="center" class="nav">
+        <div title="$Text{"Overview of local created Tickets"}"><a href="$Env{"Baselink"}Action=AgentLocalView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}queue.png" alt="$Text{"LocalView"}"><br>$Text{"LocalView"}</a></div>
+      </td>
+##
       $Data{"BulkLink"}
       $Data{"StatsLink"}
       $Data{"FAQLink"}
@@ -70,6 +76,9 @@
 # for bulk actions
 <script language="JavaScript" type="text/javascript">
 <!--
+
+var Check = 0;
+
 function BulkChangeSelected(x,c)
 {
     c = c + 7;
@@ -78,6 +87,7 @@ function BulkChangeSelected(x,c)
 <dtl if ($Config{"FrontendBulkFeatureJavaScriptAlert"} eq "1") { $Data{"BulkAlert"} = "alert('$Text{"Ticket selected for bulk action!"}');"; }>
         $Data{"BulkAlert"}
 #        alert(document.bulk.elements[c].value);
+        Check = true;
     }
     else {
         document.bulk.elements[c].value = '';
@@ -87,15 +97,9 @@ function BulkChangeSelected(x,c)
 function BulkSubmit()
 {
 # check if min one ticket is selected
-    var Check = 0;
-    for(var i = 7; i <= 36; i++) {
-        if (document.bulk.elements[i].value) {
-            Check = 1;
-#            alert(document.bulk.elements[i].value);
-        }
-    }
+
     if (Check == 0) {
-        alert('$Text{"You need min. one selected Ticket.!"}');
+        alert('$Text{"You need min. one selected Ticket!"}');
         return false;
     }
 # example
