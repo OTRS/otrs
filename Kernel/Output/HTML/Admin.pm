@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.45 2003-12-07 23:56:15 martin Exp $
+# $Id: Admin.pm,v 1.46 2004-02-02 23:29:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -92,20 +92,7 @@ sub AdminCustomerUserForm {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                   Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
                   Name => "GenericTopic::$PrefKey",
-                  Selected => $Param{UserLanguage},
-              );
-          }
-          elsif ($PrefKey eq 'UserCharset') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'charset, charset',
-                      Table => 'charset',
-                      Valid => 1,
-                    )
-                  },
-                  Name => "GenericTopic::$PrefKey",
-                  Selected => $Param{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
+                  Selected => $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
               );
           }
           elsif ($PrefKey eq 'UserTheme') {
@@ -199,19 +186,6 @@ sub AdminUserForm {
                   Name => "GenericTopic::$PrefKey",
                   SelectedID => $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
                   HTMLQuote => 0,
-              );
-          }
-          elsif ($PrefKey eq 'UserCharset') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'charset, charset',
-                      Table => 'charset',
-                      Valid => 1,
-                    )
-                  },
-                  Name => "GenericTopic::$PrefKey",
-                  Selected => $Param{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
               );
           }
           elsif ($PrefKey eq 'UserTheme') {
