@@ -129,7 +129,7 @@ drop table if exists group_customer_user;
 
 CREATE TABLE group_customer_user
 (
-    user_id VARCHAR (40) NOT NULL,
+    user_id VARCHAR (100) NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20),
     permission_value SMALLINT NOT NULL,

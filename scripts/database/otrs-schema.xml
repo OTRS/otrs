@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.21 2004-04-15 11:55:44 martin Exp $
+  $Id: otrs-schema.xml,v 1.22 2004-05-04 15:15:24 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.21  2004/04/15 11:55:44  martin
+  added file size info to article attachments (DBUpdate-to-1.3.*.sql is required!)
+
   Revision 1.20  2004/02/02 23:02:00  martin
   removed not needed faq table, renamed comment to comments
 
@@ -256,7 +259,7 @@
 
 <!-- group_customer_user - relation group<->customer user -->
 <table name="group_customer_user">
-  <column name="user_id" required="true" size="40" type="VARCHAR"/>
+  <column name="user_id" required="true" size="100" type="VARCHAR"/>
   <column name="group_id" required="true" type="INTEGER"/>
   <column name="permission_key" required="true" size="20" type="VARCHAR"/>
   <column name="permission_value" required="true" type="SMALLINT"/>
