@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.29 2004-08-13 05:42:30 martin Exp $
+  $Id: otrs-schema.xml,v 1.30 2004-08-17 20:03:30 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.29  2004/08/13 05:42:30  martin
+  added missing system_id col. in ticket_history table
+
   Revision 1.28  2004/08/12 08:11:07  martin
   added default_sign_key to queue for default sign key selection based on queue
 
@@ -556,7 +559,7 @@
   <column name="history_type_id" required="true" type="SMALLINT"/>
   <column name="ticket_id" required="true" type="BIGINT"/>
   <column name="article_id" required="false" type="BIGINT"/>
-  <column name="system_queue_id" required="true" type="INTEGER"/>
+  <column name="queue_id" required="true" type="INTEGER"/>
   <column name="owner_id" required="true" type="INTEGER"/>
   <column name="priority_id" required="true" type="SMALLINT"/>
   <column name="state_id" required="true" type="SMALLINT"/>

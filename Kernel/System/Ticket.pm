@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.130 2004-08-12 18:28:32 martin Exp $
+# $Id: Ticket.pm,v 1.131 2004-08-17 20:03:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.130 $';
+$VERSION = '$Revision: 1.131 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2951,7 +2951,7 @@ sub HistoryAdd {
     }
     # db insert
     my $SQL = "INSERT INTO ticket_history " .
-    " (name, history_type_id, ticket_id, article_id, system_id, owner_id, ".
+    " (name, history_type_id, ticket_id, article_id, queue_id, owner_id, ".
     " priority_id, state_id, valid_id, " .
     " create_time, create_by, change_time, change_by) " .
         "VALUES " .
@@ -3393,6 +3393,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.130 $ $Date: 2004-08-12 18:28:32 $
+$Revision: 1.131 $ $Date: 2004-08-17 20:03:31 $
 
 =cut

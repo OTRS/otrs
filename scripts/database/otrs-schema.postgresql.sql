@@ -373,7 +373,7 @@ CREATE TABLE ticket_history
     history_type_id smallint NOT NULL,
     ticket_id bigint NOT NULL,
     article_id bigint,
-    system_queue_id integer,
+    queue_id integer,
     priority_id smallint NOT NULL,
     owner_id integer NOT NULL,
     state_id smallint NOT NULL,
