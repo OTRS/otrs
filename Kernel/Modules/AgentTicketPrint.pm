@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.4 2003-03-06 22:11:59 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.5 2003-04-13 22:25:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPrint;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -159,7 +159,7 @@ sub Run {
         $Article{To} = $$Data{a_to} || ' ';
         $Article{Cc} = $$Data{a_cc} || ' ';
         $Article{Subject} = $$Data{a_subject} || ' ';
-        $Article{Text} = $$Data{a_body};
+        $Article{Body} = $$Data{a_body};
         $Article{CreateTime} = $$Data{create_time};
         $Article{FreeKey1} = $$Data{a_freekey1};
         $Article{FreeValue1} = $$Data{a_freetext1};

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.103 2003-04-12 21:33:30 martin Exp $
+# $Id: Agent.pm,v 1.104 2003-04-13 22:25:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.103 $';
+$VERSION = '$Revision: 1.104 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -579,7 +579,7 @@ sub AgentZoom {
             $Output .= "$Param{TicketID}-$Article{ArticleID}\n";
             $Output .= "Content-Type: $Article{MimeType}; charset=$Article{ContentCharset}\n";
             $Output .= "\n";
-            $Output .= $Article{"Text"};
+            $Output .= $Article{"Body"};
             return $Output;
         }
         # --
@@ -633,7 +633,7 @@ sub AgentZoom {
             # --
             $Param{"Article::Text"} = $Self->Ascii2Html(
                 NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-                Text => $Article{Text},
+                Text => $Article{Body},
                 VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
             );
             # --
@@ -787,7 +787,7 @@ sub AgentTicketPrint {
             # --
             $Param{"Article::Text"} = $Self->Ascii2Html(
                 NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-                Text => $Article{Text},
+                Text => $Article{Body},
                 VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
             );
             # --
