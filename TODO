@@ -2,27 +2,26 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.30 2002-12-27 18:41:47 martin Exp $
+# $Id: TODO,v 1.31 2003-01-05 23:45:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-0.5 beta9
+1.1
 - merge tickets (http://lists.otrs.org/pipermail/otrs/2002-August/000147.html)
 - send bulk answer (http://lists.otrs.org/pipermail/otrs/2002-June/000066.html)
 - Add a ticket browser by date (http://lists.otrs.org/pipermail/otrs/2002-August/000176.html)
 - interfaceing with bugzilla
-- Standard attachments for responses - http://lists.otrs.org/pipermail/otrs/2002-November/000529.html
- 
+- internationalization of agent notification messages
+
+2.0
+- sub-queues (http://lists.otrs.org/pipermail/otrs/2002-June/000065.html)
+
 misc
 - Email-notification sent to problem reporter (by create, locked, deleted,
    moved and closed) (http://lists.otrs.org/pipermail/dev/2002-June/000005.html)
 - rework of permissions/access-rights.
-- rework the db scheme indexes 
 - add foreign-key to the XML db scheme
-
-1.0
-- sub-queues (http://lists.otrs.org/pipermail/otrs/2002-June/000065.html)
 
