@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.1 2004-07-30 09:55:10 martin Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.2 2004-08-04 13:14:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,6 +40,10 @@ sub Check {
     my %Param = @_;
     my %SignCheck = ();
     my @Return = ();
+    # check if pgp is enabled
+    if (!$Self->{ConfigObject}->Get('SMIME')) {
+        return;
+    }
     # check if article is an email
     if ($Param{Article}->{ArticleType} !~ /email/i) {
         return;
