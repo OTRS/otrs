@@ -2,7 +2,7 @@
 # Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.5 2002-04-13 15:50:03 martin Exp $
+# $Id: Article.pm,v 1.6 2002-04-14 13:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -333,7 +333,7 @@ sub GetArticle {
     my %Data;
     my $SenderType = 'customer';
     my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
-    " at.a_subject, at.a_message_id, at.a_body, ticket_id " .
+    " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time " .
     " FROM " .
     " article at, article_sender_type st" .
     " WHERE " .
@@ -350,6 +350,7 @@ sub GetArticle {
         $Data{InReplyTo} = $RowTmp[5];
         $Data{Body} = $RowTmp[6];
         $Data{TicketID} = $RowTmp[7];
+        $Data{Date} = $RowTmp[8];
     }
     return %Data;
 }

@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.2 2002-01-12 16:18:32 martin Exp $
+# $Id: Ticket.pm,v 1.3 2002-04-14 13:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -218,7 +218,7 @@ sub GetLastCustomerArticle {
     my %Data;
     my $SenderType = 'customer';
     my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
-    " at.a_subject, at.a_message_id, at.a_body " .
+    " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time" .
     " FROM " .
     " article at, article_sender_type st" .
     " WHERE " .
@@ -237,6 +237,8 @@ sub GetLastCustomerArticle {
         $Data{Subject} = $RowTmp[4];
         $Data{InReplyTo} = $RowTmp[5];
         $Data{Body} = $RowTmp[6];
+        $Data{TicketID} = $RowTmp[7];
+        $Data{Date} = $RowTmp[8];
     }
 
     return %Data;
