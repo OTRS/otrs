@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.68 2002-11-15 14:08:18 martin Exp $
+# $Id: Config.pm,v 1.69 2002-11-18 14:04:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -528,6 +528,22 @@ sub Get {
         print STDERR "Error: Config.pm No value for '$What' in Config.pm found!\n";
     }
     return $Self->{$What};
+}
+# --
+sub Set {
+    my $Self = shift;
+    my %Param = @_;
+    foreach (qw(Key Value)) {
+        if (!defined $Param{$_}) {
+            $Param{$_} = '';
+        }
+    }
+    # debug
+    if ($Self->{Debug} > 1) {
+        print STDERR "Debug: Config.pm ->Set(Key => $Param{Key}, Value => $Param{Value})\n";
+    }
+    $Self->{$Param{Key}} = $Param{Value};
+    return 1;
 }
 # --
 sub LoadSubConfig {
