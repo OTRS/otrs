@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketSeen.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotificationAgentTicketSeen.pm,v 1.1 2005-02-15 12:12:29 martin Exp $
+# $Id: NotificationAgentTicketSeen.pm,v 1.2 2005-02-15 14:22:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NotificationAgentTicketSeen;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,7 +38,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    if ($Self->{LayoutObject}->{Action} ne 'AgentZoom' && $Self->{ConfigObject}->Get('Ticket::NewMessageMode') ne 'ArticleSeen') {
+    if ($Self->{LayoutObject}->{Action} ne 'AgentZoom' || $Self->{ConfigObject}->Get('Ticket::NewMessageMode') ne 'ArticleSeen') {
         return '';
     }
     my $TicketID = $Self->{ParamObject}->GetParam(Param => 'TicketID') || return;
