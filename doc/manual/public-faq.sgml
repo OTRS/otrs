@@ -1,0 +1,20 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+<!ENTITY authorgroup SYSTEM "authorgroup.sgml">
+<!ENTITY faq SYSTEM "faq.sgml">
+<!ENTITY troubleshooting SYSTEM "troubleshooting.sgml">
+]>
+
+<book lang="en">
+<bookinfo>
+<title>otrs FAQ</title>
+
+&authorgroup;
+
+<copyright><year>2002</year><holder>OTRS Team</holder></copyright>
+</bookinfo>
+
+&faq;
+
+&troubleshooting;
+
+</book>
