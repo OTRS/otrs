@@ -3,7 +3,7 @@
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.8 2003-03-18 15:35:30 wiktor Exp $
+# $Id: DateChecksum.pm,v 1.8.2.1 2003-06-01 18:05:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,61 +29,50 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.8.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
     my $Self = shift;
     my $JumpCounter = shift || 0;
-
-    # --
     # get needed config options 
-    # --
-    $Self->{CounterLog} = $Self->{ConfigObject}->Get('CounterLog');
-    $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
-
+    my $CounterLog = $Self->{ConfigObject}->Get('CounterLog');
+    my $SystemID = $Self->{ConfigObject}->Get('SystemID');
+    # get current time
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
     $Year = $Year+1900;
     $Month = $Month+1;
     $Month  = "0$Month" if ($Month <10);
     $Day = "0$Day" if ($Day <10);
-
-    # --
     # read count
-    # --
-    open (COUNTER, "< $Self->{CounterLog}") || die "Can't open $Self->{CounterLog}";
-    my $Line = <COUNTER>;
-    my ($Count, $LastModify) = split(/;/, $Line);
-    close (COUNTER);
-    # --
+    my $Count = 0;
+    my $LastModify = '';
+    if (-f $CounterLog) {
+        open (COUNTER, "< $CounterLog") || die "Can't open $CounterLog: $!";
+        my $Line = <COUNTER>;
+        ($Count, $LastModify) = split(/;/, $Line);
+        close (COUNTER);
+        # just debug
+        if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+              Priority => 'debug',
+              Message => "Read counter from $CounterLog: $Count",
+            );
+        }
+    }
     # check if we need to reset the counter
-    # --
     if (!$LastModify || $LastModify ne "$Year-$Month-$Day") {
         $Count = 0;
     }
-    # --
-    # just debug
-    # --
-    if ($Self->{Debug} > 0) {
-        $Self->{LogObject}->Log(
-          Priority => 'debug',
-          Message => "Read counter: $Count",
-        );
-    }
-
-    # --
     # count auto increment ($Count++)
-    # --
     $Count++;
     $Count = $Count + $JumpCounter;
-
-    # --
     # write new count
-    # --
-    if (open (COUNTER, "> $Self->{CounterLog}")) {
-        flock (COUNTER, 2) || warn "Can't set file lock ($Self->{CounterLog}): $!";
-        print COUNTER $Count . ";$Year-$Month-$Day;\n";
+    if (open (COUNTER, "> $CounterLog")) {
+        flock (COUNTER, 2) || warn "Can't set file lock ($CounterLog): $!";
+        print COUNTER $Count.";$Year-$Month-$Day;\n";
         close (COUNTER);
+        # just debug
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
               Priority => 'debug',
@@ -92,28 +81,20 @@ sub CreateTicketNr {
         }
     }
     else {
+        # just debug
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't write $Self->{CounterLog}: $!",
+            Message => "Can't write $CounterLog: $!",
         );
-        die "Can't write $Self->{CounterLog}: $!";
+        die "Can't write $CounterLog: $!";
     }
-
-    # --
     # pad ticket number with leading '0' to length 5
-    # --
     while ( length( $Count ) < 5 ) {
         $Count = "0" . $Count;
     }
-
-    # --
-    # new ticket number
-    # --
-    my $Tn = $Year.$Month.$Day.$Self->{SystemID} . $Count;
-
-    # --
+    # create new ticket number
+    my $Tn = $Year.$Month.$Day.$SystemID.$Count;
     # calculate a checksum
-    # --
     my $chksum = 0;
     my $mult = 1;
     for ( my $i = 0; $i<length($Tn); ++$i ) {
@@ -129,14 +110,9 @@ sub CreateTicketNr {
     if ($chksum == 10) {
         $chksum = 1;
     }
-    # --
     # add checksum to ticket number
-    # --
-    $Tn = $Tn . $chksum;
-
-    # --
+    $Tn = $Tn.$chksum;
     # Check ticket number. If exists generate new one! 
-    # --
     if ($Self->CheckTicketNr(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
         if ($Self->{LoopProtectionCounter} >= 1000) {
@@ -148,9 +124,7 @@ sub CreateTicketNr {
           );
           return;
         }
-        # --
         # create new ticket number again
-        # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "Tn ($Tn) exists! Creating new one.",
@@ -163,15 +137,9 @@ sub CreateTicketNr {
 sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
-
-    # --
     # get needed config options 
-    # --
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-
-    # --
     # check ticket number
-    # --
     if ($String =~ /$TicketHook:+.{0,1}(\d{8,40})\-FW/i) {
         return $1;
     }
