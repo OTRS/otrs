@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.21 2002-04-08 13:40:44 martin Exp $
+# $Id: Config.pm,v 1.22 2002-04-12 16:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -27,8 +27,10 @@ sub new {
 
     # get Log Object
     $Self->{LogObject} = $Param{LogObject};
+
     # 0=off; 1=log if there exists no entry; 2=log all;
     $Self->{Debug} = 0;
+
     # load config
     $Self->Load();
     return $Self;
@@ -81,7 +83,8 @@ sub Load {
     $Self->{Sendmail} = '/usr/sbin/sendmail -t -f ';
 
     # SendmailBcc
-    # (Send all outgoing email via bcc to...)
+    # (Send all outgoing email via bcc to... 
+    # Warning: use it only for external archive funktions)
     $Self->{SendmailBcc} = '';
 
     # CustomQueue
@@ -119,8 +122,18 @@ sub Load {
     $Self->{DatabaseSessionTableID} = 'session_id';
     # SessionTable value row
     $Self->{DatabaseSessionTableValue} = 'value';
+
     # UserTable
     $Self->{DatabaseUserTable} = 'user';
+    $Self->{DatabaseUserTableUserID} = 'id';
+    $Self->{DatabaseUserTableUserPW} = 'pw';
+    $Self->{DatabaseUserTableUser} = 'login';
+
+    # preferences table data
+    $Self->{DatabasePreferencesTable} = 'user_preferences';
+    $Self->{DatabasePreferencesTableKey} = 'preferences_key';
+    $Self->{DatabasePreferencesTableValue} = 'preferences_value';
+    $Self->{DatabasePreferencesTableUserID} = 'user_id';
 
     # ----------------------------------------------------
     # default agent settings
@@ -215,7 +228,8 @@ sub Load {
     # ----------------------------------------------------
    
     # MaxPostMasterEmails
-    # (Max post master daemon email to own email-address a day.)
+    # (Max post master daemon email to own email-address a day.
+    # Loop-Protection!)
     $Self->{MaxPostMasterEmails} = 20;
 
     # PostmasterUserID
@@ -325,15 +339,15 @@ sub Get {
     # debug
     if ($Self->{Debug} > 1) {
         $Self->{LogObject}->Log(
-          Priority=>'debug', 
-          MSG=>"->Get('$What') --> $Self->{$What}"
+          Priority => 'debug', 
+          MSG => "->Get('$What') --> $Self->{$What}"
         );
     }
     # warn if the value is not def
     if (!$Self->{$What} && $Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
-          Priority=>'error',
-          MSG=>"No value for '$What' in Config.pm found!"
+          Priority => 'error',
+          MSG => "No value for '$What' in Config.pm found!"
         );
     }
     return $Self->{$What};
