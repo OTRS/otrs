@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.13 2002-12-20 02:18:09 martin Exp $
+# $Id: Article.pm,v 1.14 2002-12-25 09:28:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -546,7 +546,7 @@ sub GetArticle {
       SQL => "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_reply_to, ".
         " sa. a_message_id, sa.a_body, " .
         " st.create_time_unix, sp.name, sd.name, sq.name, sq.id, sa.create_time, ".
-        " sa.a_content_type, sa.create_by, st.tn, ast.name, st.customer_id " .
+        " sa.a_content_type, sa.create_by, st.tn, ast.name, st.customer_id, st.until_time " .
         " FROM " .
         " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq, ".
         " article_sender_type ast" .
@@ -592,6 +592,12 @@ sub GetArticle {
             $Data{MimeType} = $1;
         } 
         $Data{CustomerID} = $Row[18];
+        if (!$Row[19] || $Data{State} !~ /^pending/i) {
+            $Data{UntilTime} = 0;
+        }
+        else {
+            $Data{UntilTime} = $Row[19] - time();
+        }
     }
     return %Data;
 }
