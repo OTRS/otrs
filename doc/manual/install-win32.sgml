@@ -345,7 +345,7 @@ use Kernel::System::AuthSession::DB;
 use Kernel::System::Log::File;
 </screen></para>
 
-<para>That's it for Apapche. (Re-)Start your installation(s) using the Apache monitor, proabably located in your task bar. Sometimes it's a good idea to restart the whole box.</para>
+<para>That's it for Apapche. We will restart Apache later.</para>
 </section>
 
 <section id="configuring_mysql">
@@ -416,7 +416,8 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 
 <section id="first_start">
 <title>The First Start</title>
-<para>Now startup OTRS for the first time. Call <emphasis>http://localhost/otrs/index.pl</emphasis> in your favourite browser.</para>
+<para>(Re-)Start your Apache installation(s) using the Apache monitor, proabably located in your task bar. Sometimes it's a good idea to restart the whole box.</para>
+<para>Now see OTRS in action for the first time. Call <emphasis>http://localhost/otrs/index.pl</emphasis> in your favourite browser.</para>
 <para>The user name is &quot;root@localhost&quot;, the password is &quot;root&quot;, both without the quotes.</para>
 <important>
 <para>It's a *very good* idea to exactly *now* change the above password on <ulink url="http://localhost/otrs/index.pl?Action=AdminUser">http://localhost/otrs/index.pl?Action=AdminUser</ulink></para>
