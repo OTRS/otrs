@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.28 2003-03-24 12:46:22 martin Exp $
+# $Id: TicketView.dtl,v 1.29 2003-05-21 13:44:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,16 +24,16 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" width="60%" class="table2">
-  <a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';">$Text{"Lock"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Text{"Zoom"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Lock"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Zoom"}</a> -
 # 
 # incase you want to add an delete link, replace DestQueueID with "delete" queue id 
-#  <a href="$Env{"Baselink"}Action=AgentMove&TicketID=$Data{"TicketID"}&DestQueueID=1" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Text{"Delete"}</a> -
+#  <a href="$Env{"Baselink"}Action=AgentMove&TicketID=$Data{"TicketID"}&DestQueueID=1" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Delete"}</a> -
 # 
-  <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';">$Text{"Priority"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';">$Text{"History"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';">$Text{"Note"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';">$Text{"Close"}</a>
+  <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Priority"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"History"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Note"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Close"}</a>
   </td>
   <td align="right" width="40%" class="table2">
   <b>$Text{"Created"}:</b> $Data{"Created"}
@@ -75,9 +75,9 @@
 # --
   </table>
 $Data{"TextNote"}
-  <pre>
-$Data{"Text"}
-  </pre>
+<div class="message">
+$Data{"Body"}
+</div>
   </td> 
   <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
    <p align="left">

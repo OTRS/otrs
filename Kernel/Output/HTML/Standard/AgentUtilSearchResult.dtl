@@ -2,7 +2,7 @@
 # AgentUtilSearchResult.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResult.dtl,v 1.11 2003-03-30 18:30:35 martin Exp $
+# $Id: AgentUtilSearchResult.dtl,v 1.12 2003-05-21 13:44:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,9 +51,9 @@
     </tr>
   </table>
 $Data{"TextNote"}
-<pre>
+<div class="message">
 $Data{"Body"}
-</pre>
+</div>
   </td> 
   <td align="left" valign="top" width="25%" class="PriorityID-$Data{"PriorityID"}">
     <table border="0">
