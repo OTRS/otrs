@@ -2,7 +2,7 @@
 # NoteForm.dtl - provides HTML form for note mask
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.2 2002-01-02 00:43:16 martin Exp $
+# $Id: AgentNote.dtl,v 1.3 2002-01-23 23:03:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,11 +36,12 @@
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0">
   <tr>
-    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Text{"Note!"}" size="60"></td>
+    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Text{"$Config{"DefaultNoteSubject"}"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
 <textarea name="Note" rows="15" cols="60">
+$Text{"$Config{"DefaultNoteText"}"}
 </textarea>
     </td>
   </tr>

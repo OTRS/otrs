@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.3 2001-12-30 00:34:42 martin Exp $
+# $Id: Admin.pm,v 1.4 2002-01-23 23:02:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -165,7 +165,7 @@ sub AdminResponseForm {
           ) 
         },
         Name => 'ValidID',
-        Selected => $Param{ValidID},
+        SelectedID => $Param{ValidID},
     );
  
     # build ResponseOption string
@@ -180,7 +180,7 @@ sub AdminResponseForm {
         },
         Name => 'ID', 
         Size => 15,
-        Selected => $Param{ID},
+        SelectedID => $Param{ID},
     );
 
     $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
@@ -255,7 +255,7 @@ sub AdminQueueForm {
           )
         },
         Name => 'ValidID',
-        Selected => $Param{ValidID},
+        SelectedID => $Param{ValidID},
     );
 
     $Param{'GroupOption'} = $Self->OptionStrgHashRef(
@@ -267,7 +267,7 @@ sub AdminQueueForm {
           )
         },
         Name => 'GroupID',
-        Selected => $Param{GroupID},
+        SelectedID => $Param{GroupID},
     );
 
     $Param{'QueueOption'} = $Self->OptionStrgHashRef(
@@ -281,7 +281,7 @@ sub AdminQueueForm {
         },
         Name => 'QueueID',
         Size => 15,
-        Selected => $Param{QueueID},
+        SelectedID => $Param{QueueID},
     );
 
     $Param{'SignatureOption'} = $Self->OptionStrgHashRef(
@@ -294,7 +294,7 @@ sub AdminQueueForm {
           )
         },
         Name => 'SignatureID',
-        Selected => $Param{SignatureID},
+        SelectedID => $Param{SignatureID},
     );
 
     $Param{'SystemAddressOption'} = $Self->OptionStrgHashRef(
@@ -307,7 +307,7 @@ sub AdminQueueForm {
           )
         },
         Name => 'SystemAddressID',
-        Selected => $Param{SystemAddressID},
+        SelectedID => $Param{SystemAddressID},
     );
 
     $Param{'SalutationOption'} = $Self->OptionStrgHashRef(
@@ -320,7 +320,7 @@ sub AdminQueueForm {
           )
         },
         Name => 'SalutationID',
-        Selected => $Param{SalutationID},
+        SelectedID => $Param{SalutationID},
     );
 
     $Param{'FollowUpOption'} = $Self->OptionStrgHashRef(
@@ -333,7 +333,7 @@ sub AdminQueueForm {
           )
         },
         Name => 'FollowUpID',
-        Selected => $Param{FollowUpID},
+        SelectedID => $Param{FollowUpID},
     );
 
 
@@ -356,7 +356,7 @@ sub AdminAutoResponseForm {
           )
         },
         Name => 'ValidID',
-        Selected => $Param{ValidID},
+        SelectedID => $Param{ValidID},
     );
 
     $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
@@ -368,7 +368,7 @@ sub AdminAutoResponseForm {
           )
         },
         Name => 'CharsetID',
-        Selected => $Param{CharsetID},
+        SelectedID => $Param{CharsetID},
     );
 
     $Param{'AutoResponseOption'} = $Self->OptionStrgHashRef(
@@ -382,7 +382,7 @@ sub AdminAutoResponseForm {
         },
         Name => 'ID',
         Size => 15,
-        Selected => $Param{ID},
+        SelectedID => $Param{ID},
     );
 
     $Param{'TypeOption'} = $Self->OptionStrgHashRef(
@@ -395,7 +395,7 @@ sub AdminAutoResponseForm {
           )
         },
         Name => 'TypeID',
-        Selected => $Param{TypeID},
+        SelectedID => $Param{TypeID},
     );
 
     $Param{'SystemAddressOption'} = $Self->OptionStrgHashRef(
@@ -408,7 +408,7 @@ sub AdminAutoResponseForm {
           )
         },
         Name => 'AddressID',
-        Selected => $Param{AddressID},
+        SelectedID => $Param{AddressID},
     );
 
     $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
@@ -462,7 +462,7 @@ EOF
 
     $Output .= $Self->OptionStrgHashRef(
         Name => 'IDs',
-        Selected => $SelectedID,
+        SelectedID => $SelectedID,
         Data => $Data,
         Size => 3,
     );
@@ -484,7 +484,7 @@ sub AdminSalutationForm {
           )
         },
         Name => 'ValidID',
-        Selected => $Param{ValidID},
+        SelectedID => $Param{ValidID},
     );
 
     $Param{SalutationOption} = $Self->OptionStrgHashRef(
@@ -498,7 +498,7 @@ sub AdminSalutationForm {
         },
         Size => 15,
         Name => 'ID',
-        Selected => $Param{ID},
+        SelectedID => $Param{ID},
     );
 
 
@@ -519,7 +519,7 @@ sub AdminSignatureForm {
           )
         },
         Name => 'ValidID',
-        Selected => $Param{ValidID},
+        SelectedID => $Param{ValidID},
     );
 
     $Param{SignatureOption} = $Self->OptionStrgHashRef(
@@ -533,7 +533,7 @@ sub AdminSignatureForm {
         },
         Size => 15,
         Name => 'ID',
-        Selected => $Param{ID},
+        SelectedID => $Param{ID},
     );
 
     return $Self->Output(TemplateFile => 'AdminSignatureForm', Data => \%Param);
@@ -553,7 +553,7 @@ sub AdminUserForm {
           )
         },
         Name => 'ValidID',
-        Selected => $Param{ValidID},
+        SelectedID => $Param{ValidID},
     );
 
     $Param{UserOption} = $Self->OptionStrgHashRef(
@@ -567,7 +567,7 @@ sub AdminUserForm {
         },
         Size => 15,
         Name => 'ID',
-        Selected => $Param{ID},
+        SelectedID => $Param{ID},
     );
 
     $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
@@ -579,7 +579,7 @@ sub AdminUserForm {
           )
         },
         Name => 'CharsetID',
-        Selected => $Param{CharsetID},
+        SelectedID => $Param{CharsetID},
     );
 
     $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
@@ -591,7 +591,7 @@ sub AdminUserForm {
           )
         },
         Name => 'ThemeID',
-        Selected => $Param{ThemeID},
+        SelectedID => $Param{ThemeID},
     );
 
     $Param{'LanguageOption'} = $Self->OptionStrgHashRef(
@@ -603,7 +603,7 @@ sub AdminUserForm {
           )
         },
         Name => 'LanguageID',
-        Selected => $Param{LanguageID},
+        SelectedID => $Param{LanguageID},
     );
 
     return $Self->Output(TemplateFile => 'AdminUserForm', Data => \%Param);
@@ -623,7 +623,7 @@ sub AdminGroupForm {
           )
         },
         Name => 'ValidID',
-        Selected => $Param{ValidID},
+        SelectedID => $Param{ValidID},
     );
 
     $Param{GroupOption} = $Self->OptionStrgHashRef(
@@ -637,7 +637,7 @@ sub AdminGroupForm {
         },
         Size => 15,
         Name => 'ID',
-        Selected => $Param{ID},
+        SelectedID => $Param{ID},
     );
 
     return $Self->Output(TemplateFile => 'AdminGroupForm', Data => \%Param);
@@ -714,7 +714,7 @@ sub AdminSystemAddressForm {
           )
         },
         Name => 'ValidID',
-        Selected => $Param{ValidID},
+        SelectedID => $Param{ValidID},
     );
 
     $Param{'QueueOption'} = $Self->OptionStrgHashRef(
@@ -727,7 +727,7 @@ sub AdminSystemAddressForm {
           )
         },
         Name => 'QueueID',
-        Selected => $Param{QueueID},
+        SelectedID => $Param{QueueID},
     );
 
     $Param{SystemAddressOption} = $Self->OptionStrgHashRef(
@@ -741,7 +741,7 @@ sub AdminSystemAddressForm {
         },
         Size => 15,
         Name => 'ID',
-        Selected => $Param{ID},
+        SelectedID => $Param{ID},
     );
 
     return $Self->Output(TemplateFile => 'AdminSystemAddressForm', Data => \%Param);

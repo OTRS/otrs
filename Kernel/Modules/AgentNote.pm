@@ -2,7 +2,7 @@
 # AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: AgentNote.pm,v 1.2 2002-01-23 23:02:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -73,6 +73,7 @@ sub Run {
             BackScreen => $BackScreen,
             NextScreen => $NextScreen,
             TicketNumber => $Tn,
+            NoteSubject => $Self->{ConfigObject}->Get('DefaultNoteSubject'),
             NoteTypes => \%NoteTypes,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -80,7 +81,7 @@ sub Run {
     elsif ($Subaction eq 'Store') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
-        my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'ArticleTypeID');
+        my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $ArticleObject = Kernel::System::Article->new(
             DBObject => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},

@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.10 2002-01-02 00:45:21 martin Exp $
+# $Id: Generic.pm,v 1.11 2002-01-23 23:02:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::Admin;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -339,6 +339,7 @@ sub CustomerAge {
     my $Space = $Param{Space} || '<BR>';
     my $AgeStrg = '';
 
+    # get days
     if ($Age > 86400) {
         $AgeStrg .= int( ($Age / 3600) / 24 ) . ' ';
         if (int( ($Age / 3600) / 24 ) > 1) {
@@ -349,6 +350,8 @@ sub CustomerAge {
         }
         $AgeStrg .= $Space;
     }
+
+    # get hours
     if ($Age > 3600) {
         $AgeStrg .= int( ($Age / 3600) % 24 ) . ' ';
         if (int( ($Age / 3600) % 24 ) > 1) {
@@ -357,15 +360,18 @@ sub CustomerAge {
         else {
              $AgeStrg .= $Self->{LanguageObject}->Get('hour');
         }
-    $AgeStrg .= $Space;
+        $AgeStrg .= $Space;
     }
     $AgeStrg .= int( ($Age / 60) % 60) . ' ';
+
+    # get minutes
     if (int( ($Age / 60) % 60) > 1) {
         $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
     }
     else {
         $AgeStrg .= $Self->{LanguageObject}->Get('minute');
     }
+
     return $AgeStrg;
 }
 # --
@@ -376,15 +382,52 @@ sub OptionStrgHashRef {
     my $Name = $Param{Name} || '';
     my $Multiple = $Param{Multiple} || '';
     $Multiple = 'multiple' if ($Multiple);
-    my $Selected = $Param{Selected} || 1;
+    my $Selected = $Param{Selected} || '';
+    my $SelectedID = $Param{SelectedID} || '';
     my $Size = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
     my $DataTmp = $Param{Data};
     my %Data = %$DataTmp;
+
+    # --
+    # set default value
+    # --
+    if ($Name eq 'ValidID' && !$Selected && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultValid');
+    }
+    elsif ($Name eq 'CharsetID' && !$Selected  && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultCharset');
+    }
+    elsif ($Name eq 'LanguageID' && !$Selected && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
+    }
+    elsif ($Name eq 'ThemeID' && !$Selected && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultTheme');
+    }
+    elsif ($Name eq 'LanguageID' && !$Selected && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
+    }
+    elsif ($Name eq 'NoteID' && !$Selected && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultNoteType');
+    }
+    elsif ($Name eq 'CloseNoteID' && !$Selected && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultCloseNoteType');
+    }
+    elsif ($Name eq 'CloseStateID' && !$Selected && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultCloseType');
+    }
+    elsif (!$Selected && !$SelectedID) {
+        # else set 1
+        $SelectedID = 1;
+    }
+
+    # --
+    # build select string
+    # --
     $Output .= "<select name=\"$Name\" $Multiple $Size>\n";
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         if (($_) && ($Data{$_})) {
-            if ($_ eq $Selected || $Data{$_} eq $Selected) {
+            if ($_ eq $SelectedID || $Data{$_} eq $Selected) {
               $Output .= "    <option selected value=\"$_\">".
                      $Self->{LanguageObject}->Get($Data{$_}) ."</option>\n";
             }
@@ -395,6 +438,7 @@ sub OptionStrgHashRef {
         }
     }
     $Output .= "</select>\n";
+
     return $Output;
 }
 # --

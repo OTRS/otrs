@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.2 2002-01-02 00:44:53 martin Exp $
+# $Id: AgentClose.pm,v 1.3 2002-01-23 23:02:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -109,8 +109,8 @@ sub Run {
     }
     elsif ($Subaction eq 'Store') {
         # store action
-        my $StateID = $Self->{ParamObject}->GetParam(Param => 'StateID');
-        my $NoteID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
+        my $StateID = $Self->{ParamObject}->GetParam(Param => 'CloseStateID');
+        my $NoteID = $Self->{ParamObject}->GetParam(Param => 'CloseNoteID');
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Text');
         my $ArticleObject = Kernel::System::Article->new(

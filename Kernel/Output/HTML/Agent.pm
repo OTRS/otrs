@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.4 2002-01-02 00:46:02 martin Exp $
+# $Id: Agent.pm,v 1.5 2002-01-23 23:02:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -108,7 +108,7 @@ sub TicketView {
     # get MoveQueuesStrg
     $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
         Name => 'DestQueueID',
-        Selected => $Param{QueueID},
+        SelectedID => $Param{QueueID},
         Data => $Param{MoveQueues},
     );
 
@@ -143,7 +143,7 @@ sub TicketZoom {
     # get MoveQueuesStrg
     $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
         Name => 'DestQueueID',
-        Selected => $Param{QueueID},
+        SelectedID => $Param{QueueID},
         Data => $Param{MoveQueues},
     );
 
@@ -274,7 +274,7 @@ sub Note {
     # build ArticleTypeID string
     $Param{'NoteStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NoteTypes},
-        Name => 'ArticleTypeID'
+        Name => 'NoteID'
     );
 
     # get output
@@ -304,12 +304,12 @@ sub AgentClose {
     # build string
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStatesStrg},
-        Name => 'StateID'
+        Name => 'CloseStateID'
     );
     # build string
     $Param{'NoteTypesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NoteTypesStrg},
-        Name => 'NoteID'
+        Name => 'CloseNoteID'
     );
     # create & return output
     return $Self->Output(TemplateFile => 'AgentClose', Data => \%Param);
@@ -409,7 +409,7 @@ sub AgentPreferencesForm {
           )
         },
         Name => 'LanguageID',
-        Selected => $Self->{UserLanguage},
+        SelectedID => $Self->{UserLanguage},
     );
 
     $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
@@ -421,7 +421,7 @@ sub AgentPreferencesForm {
           )
         },
         Name => 'CharsetID',
-        Selected => $Self->{UserCharset},
+        SelectedID => $Self->{UserCharset},
     );
 
     $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
@@ -433,7 +433,7 @@ sub AgentPreferencesForm {
           )
         },
         Name => 'ThemeID',
-        Selected => $Self->{UserThemeID},
+        SelectedID => $Self->{UserThemeID},
     );
 
     my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
