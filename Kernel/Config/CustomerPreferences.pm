@@ -2,7 +2,7 @@
 # Kernel/Config/CustomerPreferences.pm - CustomerPreferences config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.1 2002-10-20 15:43:47 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.2 2002-11-25 00:01:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::CustomerPreferences;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -73,6 +73,7 @@ sub LoadCustomerPreferences {
         Label => 'Frontend Language',
         Desc => 'Select your frontend language.', 
         Type => 'Generic',
+        Data => $Self->Get('DefaultUsedLanguages'),
         PrefKey => 'UserLanguage',
         Activ => 1,
     };

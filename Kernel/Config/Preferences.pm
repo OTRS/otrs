@@ -2,7 +2,7 @@
 # Kernel/Config/Preferences.pm - Preferences config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Preferences.pm,v 1.4 2002-10-25 00:04:01 martin Exp $
+# $Id: Preferences.pm,v 1.5 2002-11-25 00:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Preferences;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -122,6 +122,7 @@ sub LoadPreferences {
         Label => 'Language',
         Desc => 'Select your frontend language.', 
         Type => 'Generic',
+        Data => $Self->Get('DefaultUsedLanguages'),
         PrefKey => 'UserLanguage',
         Activ => 1,
     };

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.3 2002-11-18 14:29:44 martin Exp $
+# $Id: Defaults.pm,v 1.4 2002-11-25 00:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -335,8 +335,32 @@ sub LoadDefaults {
     # (default frontend charset) [default: iso-8859-1]
     $Self->{DefaultCharset} = 'iso-8859-1';
     # default langauge
-    # (the default frontend langauge) [default: English]
-    $Self->{DefaultLanguage} = 'English';
+    # (the default frontend langauge) [default: en]
+    $Self->{DefaultLanguage} = 'en';
+    # used langauges
+    # (short name = long name and file)
+    $Self->{DefaultUsedLanguages} = {
+#            bb => 'Bavarian',
+            en => 'English',
+            de => 'Deutsch',
+            nl => 'Nederlands',
+            fr => 'Français',
+            bg => 'Bulgarian',
+#            es => 'Espaniol',
+#            cs => 'Czech', 
+#            hu => 'Hungarian',
+#            pl => 'Polski',
+#            ro => 'Romanian',
+#            hr => 'Croatian',
+#            sk => 'Slovak', 
+#            sl => 'Slovenian',
+#            pt => 'Portuguese',
+#            it => 'Italiano',
+#            da => 'Dansk',
+#            sv => 'Svenska',
+#            no => 'Norwegian',
+#            fi => 'Suomi',
+    };
     # default theme
     # (the default html theme) [default: Standard]
     $Self->{DefaultTheme} = 'Standard';
@@ -705,6 +729,7 @@ sub LoadDefaults {
         Label => 'Language',
         Desc => 'Select your frontend language.', 
         Type => 'Generic',
+        Data => $Self->Get('DefaultUsedLanguages'),
         PrefKey => 'UserLanguage',
         Activ => 1,
     };
@@ -1070,6 +1095,7 @@ Your OTRS Notification Master
         Label => 'Frontend Language',
         Desc => 'Select your frontend language.', 
         Type => 'Generic',
+        Data => $Self->Get('DefaultUsedLanguages'),
         PrefKey => 'UserLanguage',
         Activ => 1,
     };
@@ -1106,7 +1132,7 @@ Your OTRS Notification Master
     # default note subject
     $Self->{PhoneDefaultSubject} = '$Text{"Phone call at %s", "'.localtime().'"}';
     # default note text
-    $Self->{PhoneDefaultNoteText} = 'Customer called ';
+    $Self->{PhoneDefaultNoteText} = 'Customer called';
     # next possible states after phone
     $Self->{PhoneDefaultNextStatePossible} = [
         'open', 
@@ -1126,7 +1152,7 @@ Your OTRS Notification Master
     # default note subject
     $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "'.localtime().'"}';
     # default note text
-    $Self->{PhoneDefaultNewNoteText} = 'New ticket via call. ';
+    $Self->{PhoneDefaultNewNoteText} = 'New ticket via call.';
     # default next state
     $Self->{PhoneDefaultNewNextState} = 'open';
     # default history type
