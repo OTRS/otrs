@@ -1,17 +1,17 @@
 <chapter id="customer">
 <title>Customer (min. OTRS 1.1)</title>
 <para>
-OTRS is able to deal with customer user and customer information 
-(like login, email, phone, ...). 
-The customer information can be used to show it in the Agent-Interface and
-use it for the Customer-Interface (users and auth).
+OTRS is able to deal with various pieces of customer information (i.e. login, email, phone).
+This information can be shown in the Agent-Interface and can be used for the
+Customer-Interface (users and auth).
 </para>
 
 <sect1 id="customer-howto">
 <title>How it works</title>
 <para>
-The used/shown customer information is free configurable (see backend) 
-but there are three required options UserLogin, UserEmail and UserCustomerID.
+The used/shown customer information is freely configurable (see backend), 
+but there are three required options: UserLogin, UserEmail and
+UserCustomerID.
 </para>
 <sect2>
 <title>Agent-Interface</title>
@@ -33,14 +33,15 @@ options.
 <sect2>
 <title>Admin-Interface</title>
 <para>
-Edit your customer user information via the Admin-Interface.
+Edit your customer user information via the Admin-Interface 
+(http://yourhost/otrs/index.pl?Action=AdminCustomerUser).
 </para>
 </sect2>
 <sect2>
 <title>Customer-Interface</title>
 <para>
-The customer information for the Customer-Interface is used for the
-login and auth. 
+The customer information for the Customer-Interface (http://yourhost/otrs/customer.pl) 
+is used for the login and auth. 
 </para>
 </sect2>
 </sect1>
