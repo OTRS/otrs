@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.25 2002-10-03 17:29:23 martin Exp $
+# $Id: AgentCompose.pm,v 1.26 2002-11-09 09:36:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -253,8 +253,15 @@ sub SendEmail {
     if ($Upload) {
         $Param{UploadFilenameOrig} = $Self->{ParamObject}->GetParam(Param => 'file_upload') || 'unkown';
         my $Path = "/tmp/$$";
-        File::Path::mkpath([$Path], 0, 0700) || die $!;
-        $Param{UploadFilename} = "$Path/$Param{UploadFilenameOrig}";
+        if (-d $Path) {
+            File::Path::rmtree([$Path]);
+        }
+        File::Path::mkpath([$Path], 0, 0700);
+        my $NewFileName = $Param{UploadFilenameOrig};
+        # replace all devices like c: or d: and dirs for IE!
+        $NewFileName =~ s/.:\\(.*)/$1/g;
+        $NewFileName =~ s/.*\\(.+?)/$1/g;
+        $Param{UploadFilename} = "$Path/$NewFileName";
         open (OUTFILE,"> $Param{UploadFilename}") || die $!;
         while (<$Upload>) {
             print OUTFILE $_;
