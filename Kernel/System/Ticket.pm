@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.47 2003-03-04 00:12:52 martin Exp $
+# $Id: Ticket.pm,v 1.48 2003-03-05 19:45:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,9 +30,10 @@ use Kernel::System::User;
 use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
+use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -69,6 +70,7 @@ sub new {
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     # --
     # get needed objects
     # --
@@ -362,13 +364,19 @@ sub GetTicket {
         $Ticket{OwnerID} = $Row[15];
         $Ticket{Owner} = $Row[16];
         $Ticket{Answered} = $Row[17];
-        if (!$Row[18] || $Ticket{State} !~ /^pending/i) {
-            $Ticket{UntilTime} = 0;
-        }
-        else {
-            $Ticket{UntilTime} = $Row[18] - time();
-        }
+        $Ticket{RealTillTimeNotUsed} = $Row[18];
     }
+    # --
+    # get state info
+    # --
+    my %StateData = $Self->{StateObject}->StateGet(Name => $Ticket{State});
+    if (!$Ticket{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i) {
+        $Ticket{UntilTime} = 0;
+    }
+    else {
+        $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - time();
+    }
+
     return %Ticket;
 }
 # --

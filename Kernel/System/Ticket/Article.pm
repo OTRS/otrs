@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.20 2003-02-25 19:09:18 martin Exp $
+# $Id: Article.pm,v 1.21 2003-03-05 19:45:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -596,12 +596,17 @@ sub GetArticle {
         $Data{CustomerID} = $Row[18];
         $Data{CustomerUserID} = $Row[21];
         $Data{UserID} = $Row[22];
-        if (!$Row[19] || $Data{State} !~ /^pending/i) {
-            $Data{UntilTime} = 0;
-        }
-        else {
-            $Data{UntilTime} = $Row[19] - time();
-        }
+        $Data{RealTillTimeNotUsed} = $Row[19];
+    }
+    # --
+    # get state info
+    # --
+    my %StateData = $Self->{StateObject}->StateGet(Name => $Data{State});
+    if ($Data{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i) {
+        $Data{UntilTime} = 0;
+    }
+    else {
+        $Data{UntilTime} = $Data{RealTillTimeNotUsed} - time();
     }
     return %Data;
 }
