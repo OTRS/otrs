@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.24 2005-02-02 21:41:33 martin Exp $
+# $Id: mkStats.pl,v 1.25 2005-02-07 14:25:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -84,11 +84,11 @@ if (!$Opts{'m'}) {
 # fill up body
 if (!$Opts{'b'} && $Opts{'p'}) {
     $Opts{'b'} .= "Stats with following options:\n\n";
-    $Opts{'b'} .= "Module:\t$Opts{'m'}\n";
+    $Opts{'b'} .= "Module: $Opts{'m'}\n";
     my @P = split(/&/, $Opts{'p'}||'');
     foreach (@P) {
         my ($Key, $Value) = split(/=/, $_, 2);
-        $Opts{'b'} .= "$Key:\t$Value\n";
+        $Opts{'b'} .= "$Key: $Value\n";
     }
 }
 if (!$Opts{'b'}) {
