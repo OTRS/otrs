@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.114 2003-05-26 18:17:12 martin Exp $
+# $Id: Agent.pm,v 1.115 2003-05-29 11:23:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.114 $';
+$VERSION = '$Revision: 1.115 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -25,9 +25,14 @@ sub NavigationBar {
     # --
     # check DisplayCharset
     # --
-    foreach ($Self->{LanguageObject}->GetPossibleCharsets()) {
-        if ($Self->{UserCharset} =~ /^$_$/i) { 
-            $Param{CorrectDisplayCharset} = 1;
+    if ($Self->{UserCharset} =~ /^utf-8$/i) {
+        $Param{CorrectDisplayCharset} = 1;
+    }
+    else {
+        foreach ($Self->{LanguageObject}->GetPossibleCharsets()) {
+            if ($Self->{UserCharset} =~ /^$_$/i) { 
+                $Param{CorrectDisplayCharset} = 1;
+            }
         }
     }
     if (!$Param{CorrectDisplayCharset} && $Self->{LanguageObject}->GetRecommendedCharset()) {
@@ -247,6 +252,10 @@ sub TicketView {
     # do some html quoting
     # --
     foreach (qw(From To Cc Subject)) {
+        $Param{$_} = $Self->{LanguageObject}->CharsetConvert(
+            Text => $Param{$_},
+            From => $Param{ContentCharset},
+        );
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 80) || '';
     }
     # --
@@ -309,17 +318,18 @@ sub TicketView {
         $Param{Text} = '';
     }
     else {
-        # --
-        # do some text quoting
-        # --
+        # charset encode
+        $Param{Body} = $Self->{LanguageObject}->CharsetConvert(
+            Text => $Param{Body},
+            From => $Param{ContentCharset},
+        );
+        # html quoting
         $Param{Text} = $Self->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Param{Body}, 
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
         );
-        # --
         # do link quoting
-        # ---
         $Param{Text} = $Self->LinkQuote(Text => $Param{Text});
         # --
         # create new body (keep text for comp.)
@@ -395,7 +405,7 @@ sub AgentZoom {
         $Param{Locked} = 1;
     }
     # --
-    # do some html quoting
+    # do some quoting
     # --
     foreach (qw(State Priority Lock)) {
         $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
@@ -628,6 +638,10 @@ sub AgentZoom {
         # --
         foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
             FreeValue3 ArticleType SenderType ArticleID)) {
+            $Article{$_} = $Self->{LanguageObject}->CharsetConvert(
+                Text => $Article{$_}, 
+                From => $Article{ContentCharset},
+            );
             $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
         }
         # --
@@ -638,17 +652,18 @@ sub AgentZoom {
             $Param{"Article::Text"} = '';
         }
         else {
-            # --
+            # charset encode
+            $Article{Body} = $Self->{LanguageObject}->CharsetConvert(
+                Text => $Article{Body}, 
+                From => $Article{ContentCharset},
+            );
             # html quoting
-            # --
             $Param{"Article::Text"} = $Self->Ascii2Html(
                 NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
                 Text => $Article{Body},
                 VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
             );
-            # --
             # link quoting
-            # --
             $Param{"Article::Text"} = $Self->LinkQuote(Text => $Param{"Article::Text"});
             # --
             # create new body (keep text for comp.)
@@ -789,6 +804,10 @@ sub AgentTicketPrint {
         $Article{CreateTime} = $Self->{LanguageObject}->FormatTimeString($Article{CreateTime});
         foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
           FreeValue3 CreateTime SenderType ArticleType)) {
+            $Article{$_} = $Self->{LanguageObject}->CharsetConvert(
+                Text => $Article{$_},
+                From => $Article{ContentCharset},
+            );
             $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
         }
         # --
@@ -799,9 +818,12 @@ sub AgentTicketPrint {
             $Param{"Article::Text"} = '';
         }
         else {
-            # --
+            # charset quoting
+            $Article{Body} = $Self->{LanguageObject}->CharsetConvert(
+                Text => $Article{Body}, 
+                From => $Article{ContentCharset},
+            );
             # html quoting
-            # --
             $Param{"Article::Text"} = $Self->Ascii2Html(
                 NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
                 Text => $Article{Body},
@@ -818,7 +840,6 @@ sub AgentTicketPrint {
                 $Param{"Article::TextNote"} = $CharsetText;
             }
         }
-
         # get article id
         $Param{"Article::ArticleID"} = $Article{ArticleID};
 
@@ -1554,6 +1575,10 @@ sub AgentCompose {
     $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70);
     # do html quoting
     foreach (qw(ReplyTo From To Cc Subject Body)) {
+        $Param{$_} = $Self->{LanguageObject}->CharsetConvert(
+            Text => $Param{$_}, 
+            From => $Param{ContentCharset},
+        );
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
     # --
@@ -1596,6 +1621,10 @@ sub AgentForward {
     $Param{SystemFromHTML} = $Self->Ascii2Html(Text => $Param{SystemFrom}, Max => 70);
     # do html quoting
     foreach (qw(ReplyTo From To Cc Subject SystemFrom Body)) {
+        $Param{$_} = $Self->{LanguageObject}->CharsetConvert(
+            Text => $Param{$_},
+            From => $Param{ContentCharset},
+        );
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
     # --
@@ -1645,6 +1674,7 @@ sub AgentPreferencesForm {
                   Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
                   Name => "GenericTopic",
                   SelectedID => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
+                  HTMLQuote => 0,
               );
           }
           elsif ($PrefKey eq 'UserCharset') {

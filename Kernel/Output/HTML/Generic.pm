@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.88 2003-05-13 14:19:23 martin Exp $
+# $Id: Generic.pm,v 1.89 2003-05-29 11:23:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.88 $';
+$VERSION = '$Revision: 1.89 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -36,7 +36,6 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 sub new {
     my $Type = shift;
     my %Param = @_;
-
     # --
     # allocate new hash for object
     # --
@@ -54,7 +53,12 @@ sub new {
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_!" if (!$Self->{$_});
     } 
-
+    # --
+    # get/set some common params
+    # --
+    if (!$Self->{UserTheme}) {
+        $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
+    }
     # --
     # get use language (from browser) if no language is there!
     # --
@@ -74,20 +78,14 @@ sub new {
         UserLanguage => $Self->{UserLanguage},
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
+        ReturnCharset => $Self->{UserCharset},
     );
-    # --
-    # get/set some common params
-    # --
-    if (!$Self->{UserTheme}) {
-        $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
-    }
     # --
     # set charset if there is no charset given
     # --
     if (!$Self->{UserCharset}) {
         $Self->{UserCharset} = $Self->{LanguageObject}->GetRecommendedCharset();
     }
-
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
@@ -100,7 +98,7 @@ sub new {
         Action => 'GET', 
         Format => 'DateFormat',
     );
-    $Self->{TimeLong}      = $Self->{LanguageObject}->Time(
+    $Self->{TimeLong}  = $Self->{LanguageObject}->Time(
         Action => 'GET', 
         Format => 'DateFormatLong',
     );
@@ -185,7 +183,6 @@ sub new {
     if (!$Self->{TemplateDir}) {
         die "No templates found in '$Self->{TemplateDir}'! Check your Home in Kernel/Config.pm";
     }
-
     return $Self;
 }
 # --
@@ -420,10 +417,8 @@ sub Output {
             }
         }iegx;
     }
-
     # save %Env
     $Self->{EnvRef} = $EnvRef;
-
     # return output
     return $Output;
 }
@@ -487,7 +482,6 @@ sub Redirect {
 sub Test {
     my $Self = shift;
     my %Param = @_;
-
     # create & return output
     return $Self->Output(TemplateFile => 'Test', Data => \%Param);
 }
@@ -517,9 +511,9 @@ sub Login {
         Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
         Name => 'Lang',
         SelectedID => $Self->{UserLanguage},
-        OnChange => 'submit()'
+        OnChange => 'submit()',
+        HTMLQuote => 0,
     );
-
     # --
     # create & return output
     # --
@@ -554,7 +548,6 @@ sub Error {
 sub Warning {
     my $Self = shift;
     my %Param = @_;
-
     # create & return output
     return $Self->Output(TemplateFile => 'Warning', Data => \%Param);
 }
@@ -562,7 +555,6 @@ sub Warning {
 sub Notify {
     my $Self = shift;
     my %Param = @_;
-
     # create & return output
     return $Self->Output(TemplateFile => 'Notify', Data => \%Param);
 }
@@ -626,10 +618,9 @@ sub Ascii2Html {
     my $Max  = $Param{Max} || '';
     my $VMax = $Param{VMax} || '';
     my $NewLine = $Param{NewLine} || '';
-
     # max width
     if ($Max) {
-        $Text =~ s/^(.{$Max}).*$/$1\[\.\.\.\]/gs;
+        $Text =~ s/^(.{$Max}).*$/$1\[\.\.\]/gs;
     }
     # newline
     if ($NewLine) {
@@ -652,8 +643,6 @@ sub Ascii2Html {
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
-    $Text =~ s/ç/&ccedil;/g;
-#&ntilde;
     # return result
     return $Text;
 }
@@ -663,12 +652,10 @@ sub LinkQuote {
     my %Param = @_;
     my $Text = $Param{Text} || '';
     my $Target = $Param{Target} || 'NewPage'. int(rand(199));
-
     # do link quote
     $Text =~ s/(http|https)(:\/\/.*?)(\s|\)|\"|&quot;|]|'|>|<|&gt;|&lt;)/<a href=\"$1$2\" target=\"$Target\">$1$2<\/a>$3/gi;
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
-
     return $Text;
 }
 # --
@@ -711,7 +698,6 @@ sub CustomerAge {
         }
         $AgeStrg .= $Space;
     }
-
     # get hours
     if ($Age > 3600) {
         $AgeStrg .= int( ($Age / 3600) % 24 ) . ' ';
@@ -723,7 +709,6 @@ sub CustomerAge {
         }
         $AgeStrg .= $Space;
     }
-
     # get minutes (just if age < 1 day)
     if ($Self->{ConfigObject}->Get('ShowAlwaysLongTime') || $Age < 86400) {
         $AgeStrg .= int( ($Age / 60) % 60) . ' ';
@@ -744,6 +729,7 @@ sub OptionStrgHashRef {
     my $Name = $Param{Name} || '';
     my $Max = $Param{Max} || 80;
     my $Multiple = $Param{Multiple} ? 'multiple' : '';
+    my $HTMLQuote = defined($Param{HTMLQuote}) ? $Param{HTMLQuote} : 1;
     my $Selected = $Param{Selected} || '';
     my $SelectedID = $Param{SelectedID} || '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
@@ -798,7 +784,6 @@ sub OptionStrgHashRef {
         # else set 1?
 #        $SelectedID = 1;
     }
-
     # --
     # build select string
     # --
@@ -818,13 +803,18 @@ sub OptionStrgHashRef {
             }
             # build select string
             if ($_ eq $SelectedID || $Data{$_} eq $Selected || $Param{SelectedIDRefArrayOK}->{$_}) {
-              $Output .= '    <option selected value="'.$Self->Ascii2Html(Text => $_).'">'.
-                  $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_}), Max => $Max) ."</option>\n";
+              $Output .= '  <option selected value="'.$Self->Ascii2Html(Text => $_).'">';
             }
             else {
-              $Output .= '    <option VALUE="'.$Self->Ascii2Html(Text => $_).'">'.
-                  $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_}), Max => $Max) ."</option>\n";
+              $Output .= '  <option value="'.$Self->Ascii2Html(Text => $_).'">';
             }
+            if ($HTMLQuote) {
+              $Output .= $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_}), Max => $Max); 
+            }
+            else {
+                  $Output .= $Data{$_};
+            }
+            $Output .= "</option>\n";
         }
     }
     $Output .= "</select>\n";
@@ -837,12 +827,10 @@ sub NoPermission {
     my $WithHeader = $Param{WithHeader} || 'yes';
     my $Output = '';
     $Param{Message} = 'Please go away!' if (!$Param{Message});
-
     # create output
     $Output = $Self->Header(Title => 'No Permission') if ($WithHeader eq 'yes');
     $Output .= $Self->Output(TemplateFile => 'NoPermission', Data => \%Param);
     $Output .= $Self->Footer() if ($WithHeader eq 'yes');
-
     # return output
     return $Output;
 }
@@ -855,7 +843,7 @@ sub CheckCharset {
        $Param{Action} = '$Env{"Action"}';
     }
     # with utf-8 can everything be shown
-    if ($Self->{UserCharset} !~ /utf/i) {
+    if ($Self->{UserCharset} !~ /^utf-8$/i) {
       # replace ' or "
       $Param{ContentCharset} && $Param{ContentCharset} =~ s/'|"//gi;
       # if the content charset is different to the user charset
@@ -957,18 +945,8 @@ sub GetRelease {
 sub Attachment {
     my $Self = shift;
     my %Param = @_;
-    # --    
     # return attachment  
-    # --          
-    my $Output = '';
-    if ($Self->{BrowserBreakDispositionHeader}) {
-        $Output = "Content-Disposition: filename=$Param{Filename}\n";
-    }             
-    else {
-# disaled "attachment;" becaus show attachments in browser window
-#        $Output = "Content-Disposition: attachment; filename=$Param{Filename}\n";
-        $Output = "Content-Disposition: filename=$Param{Filename}\n";
-    }
+    my $Output = "Content-Disposition: filename=$Param{Filename}\n";
     $Output .= "Content-Type: $Param{ContentType}\n\n";
     $Output .= "$Param{Content}";
     return $Output;

@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.40 2003-05-19 16:00:50 martin Exp $
+# $Id: Admin.pm,v 1.41 2003-05-29 11:23:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -698,6 +698,7 @@ sub AdminCustomerUserForm {
         Size => 15,
         Name => 'ID',
         SelectedID => $Param{ID},
+        Max => 55,
     );
     foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
       if ($Entry->[0]) {
@@ -846,6 +847,7 @@ sub AdminUserForm {
                   Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'), 
                   Name => "GenericTopic::$PrefKey",
                   SelectedID => $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
+                  HTMLQuote => 0,
               );
           }
           elsif ($PrefKey eq 'UserCharset') {
@@ -1161,4 +1163,3 @@ sub AdminStateForm {
 # --
 
 1;
- 

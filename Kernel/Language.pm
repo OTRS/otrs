@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.19 2003-05-21 13:45:54 martin Exp $
+# $Id: Language.pm,v 1.20 2003-05-29 11:22:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,27 +49,6 @@ sub new {
     $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
 #    $Self->{UserLanguage} = 'english';
     # --
-    # check language if long name s given --> compat 
-    # --
-    if ($Self->{UserLanguage} !~ /^..$/) {
-      my %OldNames = (
-          bb => 'Bavarian',
-          en => 'English',
-          de => 'German',
-          nl => 'Dutch',
-          fr => 'French',
-          bg => 'Bulgarian',
-          es => 'Spanish',
-          cs => 'Czech', 
-          it => 'Italian',
-      );
-      foreach (keys %OldNames) {
-          if ($OldNames{$_} =~ /^$Self->{UserLanguage}$/i) {
-              $Self->{UserLanguage} = $_;
-          }
-      }
-    }
-    # --
     # Debug 
     # --
     if ($Self->{Debug} > 0) {
@@ -78,7 +57,6 @@ sub new {
           Message => "UserLanguage = $Self->{UserLanguage}",
         );
     }
-
     # load text catalog ...
     if (eval "require Kernel::Language::$Self->{UserLanguage}") {
        @ISA = ("Kernel::Language::$Self->{UserLanguage}");
@@ -97,6 +75,14 @@ sub new {
           Message => "Sorry, can't locate or load Kernel::Language::$Self->{UserLanguage} ".
               "translation! Check the Kernel/Language/$Self->{UserLanguage}.pm (perl -cw)!",
         );
+    }
+    # if no return charset is given, use recommended return charset
+    if (!$Self->{ReturnCharset}) {
+        $Self->{ReturnCharset} = $Self->GetRecommendedCharset();
+    }
+    # check if Perl 5.8.0 encode is available
+    if (eval "require Encode") {
+        $Self->{CharsetEncodeSupported} = 1;
     }
     return $Self;
 }
@@ -151,7 +137,12 @@ sub Get {
                 }
             }
         }
-        return $Self->{Translation}->{$What};
+        # charset convert from source translation into shown charset
+        my $Text = $Self->CharsetConvert(
+            Text => $Self->{Translation}->{$What}, 
+            From => $Self->GetRecommendedCharset(),
+        );
+        return $Text; 
     }
     else {
         # warn if the value is not def
@@ -291,6 +282,33 @@ sub Time {
     # return
     # --
     return $ReturnString;
+}
+# --
+sub CharsetConvert {
+    my $Self = shift;
+    my %Param = @_;
+    my $Text = defined $Param{Text} ? $Param{Text} : return;
+    my $From = $Param{From} || return $Text;
+    my $To = $Param{To} || $Self->{ReturnCharset} || return $Text;
+    # if there is no charset encode supported (min. Perl 5.8.0)
+    if (!$Self->{CharsetEncodeSupported}) {
+        return $Text;
+    }
+    $From =~ s/'|"//g;
+    # if no encode is needed
+    if ($From =~ /^$To$/i) {
+        return $Text;
+    }
+    # encode is needed
+    else { 
+        if ($Text ne '' && !eval{Encode::from_to($Text, $From, $To)}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "Charset encode $From -=> $To ($Text) not supported",
+            );
+        }
+        return $Text;
+    }
 }
 # --
 sub DESTROY {

@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.18 2003-04-25 16:11:59 martin Exp $
+# $Id: Customer.pm,v 1.19 2003-05-29 11:23:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -311,14 +311,18 @@ sub CustomerTicketZoom {
         $Output .= $Article{"Body"};
         return $Output;
     }
-
     # --
     # do some strips && quoting
     # --
     foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 FreeValue3)) {
+        # charset encode
+        $Article{$_} = $Self->{LanguageObject}->CharsetConvert(
+            Text => $Article{$_}, 
+            From => $Article{ContentCharset},
+        );
+        # html quoting
         $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 200);
     }
-
     # --
     # check if just a only html email
     # --
@@ -327,21 +331,20 @@ sub CustomerTicketZoom {
         $Param{"Article::Text"} = '';
     }
     else {
-        # --
+        # charset encode
+        $Article{Body} = $Self->{LanguageObject}->CharsetConvert(
+            Text => $Article{Body}, 
+            From => $Article{ContentCharset},
+        );
         # html quoting
-        # --
         $Param{"Article::Text"} = $Self->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Article{Body},
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
         );
-        # --
         # link quoting
-        # --
         $Param{"Article::Text"} = $Self->LinkQuote(Text => $Param{"Article::Text"});
-        # --
         # do charset check
-        # --
         if (my $CharsetText = $Self->CheckCharset(
             ContentCharset => $Article{ContentCharset},
             TicketID => $Param{TicketID},
@@ -349,7 +352,6 @@ sub CustomerTicketZoom {
             $Param{"Article::TextNote"} = $CharsetText;
         }
     }
-
     # get article id
     $Param{"Article::ArticleID"} = $Article{ArticleID};
     # select the output template
