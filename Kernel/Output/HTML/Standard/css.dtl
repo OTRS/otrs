@@ -1,8 +1,8 @@
 # --
-# css.dtl - css file 
+# css.dtl - css file
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: css.dtl,v 1.1 2004-03-05 11:29:47 martin Exp $
+# $Id: css.dtl,v 1.2 2004-07-28 05:38:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,24 +12,24 @@
 <!--
 # body
   body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
-  a { color:#557799;} 
+  a { color:#557799;}
   a:hover { color:#002244;text-decoration:none; }
   pre { font-family:Courier,monospace,fixed;font-size:12px; }
   td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
 # header
-  .header { color:#ffffff;background-color:#000000;font-size:12px; } 
+  .header { color:#ffffff;background-color:#000000;font-size:12px; }
   a.headeritem { color:#ffffff;text-decoration:none; }
   a.headeritem:hover { color:#dedede;text-decoration:underline; }
 # nav bar
-  .nav { color:#000000;background-color:#ffffff;font-size:10px; } 
+  .nav { color:#000000;background-color:#ffffff;font-size:10px; }
   a.navitem { color:#557799;font-size:11px; }
   a.navitem:hover { color:#002244;font-size:11px; }
 # menu bar
-  .menu { color:#000000;background-color:#ffffff;font-size:10px; } 
+  .menu { color:#000000;background-color:#ffffff;font-size:10px; }
   a.menuitem { color:#557799;font-size:12px; }
   a.menuitem:hover { color:#002244;font-size:12px; }
 # footer
-  .footer { color:#ffffff;background-color:#000000;font-size:10px; } 
+  .footer { color:#ffffff;background-color:#000000;font-size:10px; }
   a.footeritem { color:#ffffff;text-decoration:none; }
   a.footeritem:hover { color:#dddddd;text-decoration:underline; }
 # small
@@ -41,13 +41,17 @@
   input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
   .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Helvetica,Arial,sans-serif;font-weight:normal;}
 # table color
+# table0 = header for tables
   .table0 { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;}
+# table1 = table content
   .table1 { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
+# table2 = sub sub header for tables
   .table2 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
+# table3 = sub header for tables
   .table3 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold; }
-# message 
-  .message { color:#000000;font-size:12px;font-family:monospace, fixed; } 
-# article type color 
+# message
+  .message { color:#000000;font-size:12px;font-family:monospace, fixed; }
+# article type color
   .agent-email-external { background-color:#ccffcc; }
   .agent-note-internal { background-color:#ffcccc; }
   .agent-note-external { background-color:#eeeeee; }
