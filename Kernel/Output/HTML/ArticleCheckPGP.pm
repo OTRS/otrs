@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleCheckPGP.pm,v 1.3 2004-08-10 06:51:57 martin Exp $
+# $Id: ArticleCheckPGP.pm,v 1.4 2004-08-12 10:45:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,31 @@ sub Check {
     if ($Param{Article}->{ArticleType} !~ /email/i) {
         return;
     }
-    # check inline pgp
+    # check inline pgp crypt
+    if ($Param{Article}->{Body} =~ /^-----BEGIN PGP MESSAGE-----/) {
+        my %Decrypt = $Self->{CryptObject}->Decrypt(Message => $Param{Article}->{Body});
+        if ($Decrypt{Successful}) {
+            # remember to result
+            $Self->{Result} = \%Decrypt;
+            $Param{Article}->{Body} = $Decrypt{Data},
+            # updated article body
+            $Self->{TicketObject}->ArticleUpdate(
+                ArticleID => $Self->{ArticleID},
+                Key => 'Body',
+                Value => $Decrypt{Data},
+                UserID => $Self->{UserID},
+            );
+        }
+        else {
+            # return with error
+            return ({
+                Key => 'Crypted',
+                Value => $Decrypt{Message},
+                %Decrypt,
+            });
+        }
+    }
+    # check inline pgp signature
     if ($Param{Article}->{Body} =~ /^-----BEGIN PGP SIGNED MESSAGE-----/) {
         %SignCheck = $Self->{CryptObject}->Verify(Message => $Param{Article}->{Body});
         if (%SignCheck) {
