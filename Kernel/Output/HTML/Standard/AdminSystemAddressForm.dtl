@@ -1,8 +1,8 @@
 # --
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddess
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.17 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.18 2005-03-27 12:00:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -118,16 +118,16 @@
     <form action="/">
       <table>
        <tr>
-        <td class="table1">$Text{"Email"}:</td>
-        <td class="table1"><input type="text" name="Email" value="support@company.com" size="50" maxlength="50"></td>
+        <td class="contentkey">$Text{"Email"}:</td>
+        <td class="contentvalue"><input type="text" name="Email" value="support@company.com" size="50" maxlength="50"></td>
        </tr>
        <tr>
-        <td class="table1">$Text{"Realname"}:</td>
-        <td class="table1"><input type="text" name="Realname" value="Support Team" size="50" maxlength="50"></td>
+        <td class="contentkey">$Text{"Realname"}:</td>
+        <td class="contentvalue"><input type="text" name="Realname" value="Support Team" size="50" maxlength="50"></td>
        </tr>
        <tr>
-        <td class="table1">$Text{"Queue"}:</td>
-        <td class="table1"><select name="QueueID"  >
+        <td class="contentkey">$Text{"Queue"}:</td>
+        <td class="contentvalue"><select name="QueueID"  >
 <option VALUE="3">Tech (1)</option>
 <option VALUE="4">Misc (2)</option>
 <option VALUE="2">Raw (3)</option>
