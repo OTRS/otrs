@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.27 2004-05-02 06:51:29 martin Exp $
+# $Id: Group.pm,v 1.28 2004-05-02 08:47:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -153,7 +153,7 @@ sub GroupMemberAdd {
     # update permission 
     foreach (keys %{$Param{Permission}}) {
         # check if update is needed
-        if (defined($Value{$Param{GID}}->{$Param{UID}}->{$_}) && $Value{$Param{GID}}->{$Param{UID}}->{$_} eq $Param{Permission}->{$_}) {
+        if ((!$Value{$Param{GID}}->{$Param{UID}}->{$_} && !$Param{Permission}->{$_}) || ($Value{$Param{GID}}->{$Param{UID}}->{$_} && $Param{Permission}->{$_})) {
 #            print STDERR "No updated neede! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
         }
         else {
@@ -503,6 +503,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2004-05-02 06:51:29 $
+$Revision: 1.28 $ $Date: 2004-05-02 08:47:06 $
 
 =cut
