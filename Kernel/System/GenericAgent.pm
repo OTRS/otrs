@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.2 2004-07-18 00:53:14 martin Exp $
+# $Id: GenericAgent.pm,v 1.3 2004-09-04 15:21:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -26,9 +26,14 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TimeObject TicketObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    # debug
+    $Self->{Debug} = $Param{Debug} || 0;
+    # notice on STDOUT
+    $Self->{NoticeSTDOUT} = $Param{NoticeSTDOUT} || 0;
 
     my %Map = (
       TicketNumber => 'SCALAR',
@@ -95,6 +100,7 @@ sub new {
       TicketCreateTimeStopMonth => 'SCALAR',
       ScheduleLastRun => 'SCALAR',
       ScheduleLastRunUnixTime => 'SCALAR',
+      Valid => 'SCALAR',
       ScheduleDays => 'ARRAY',
       ScheduleMinutes => 'ARRAY',
       ScheduleHours => 'ARRAY',
@@ -103,6 +109,390 @@ sub new {
     $Self->{Map} = \%Map;
 
     return $Self;
+}
+
+sub JobRun {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Job UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if ($Self->{NoticeSTDOUT}) {
+        print STDERR "Job: '$Param{Job}'\n";
+    }
+    # get job from param
+    my %Job = ();
+    if ($Param{Config}) {
+        %Job = %{$Param{Config}};
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Run GenericAgent Job '$Param{Job}' from config file.",
+        );
+    }
+    # get db job
+    else {
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Run GenericAgent Job '$Param{Job}' from db.",
+        );
+        my %DBJobRaw = $Self->JobGet(Name => $Param{Job});
+        # updated last run time
+        $Self->JobDelete(Name => $Param{Job});
+        $Self->JobAdd(
+            Name => $Param{Job},
+            Data => {
+                %DBJobRaw,
+                ScheduleLastRun => $Self->{TimeObject}->SystemTime2TimeStamp(
+                    SystemTime => $Self->{TimeObject}->SystemTime()
+                ),
+                ScheduleLastRunUnixTime => $Self->{TimeObject}->SystemTime(),
+            },
+        );
+        # rework
+        foreach my $Key (keys %DBJobRaw) {
+            if ($Key =~ /^New/) {
+                my $NewKey = $Key;
+                $NewKey =~ s/^New//;
+                $Job{New}->{$NewKey} = $DBJobRaw{$Key};
+            }
+            else {
+                $Job{$Key} = $DBJobRaw{$Key};
+            }
+        }
+    }
+    # --
+    # get regular tickets
+    # --
+    my %Tickets = ();
+    if (! $Job{Escalation}) {
+        if (!$Job{Queue}) {
+            if ($Self->{NoticeSTDOUT}) {
+                print " For all Queues: \n";
+            }
+            %Tickets = $Self->{TicketObject}->TicketSearch(
+                %Job,
+                Limit => $Param{Limit} || 2000,
+                UserID => $Param{UserID},
+            );
+        }
+        elsif (ref($Job{Queue}) eq 'ARRAY') {
+            foreach (@{$Job{Queue}}) {
+                if ($Self->{NoticeSTDOUT}) {
+                    print " For Queue: $_\n";
+                }
+                %Tickets = ($Self->{TicketObject}->TicketSearch(
+                    %Job,
+                    Queues => [$_],
+                    Limit => $Param{Limit} || 2000,
+                    UserID => $Param{UserID},
+                ), %Tickets);
+            }
+        }
+        else {
+            %Tickets = $Self->{TicketObject}->TicketSearch(
+                %Job,
+                Queues => [$Job{Queue}],
+                Limit => $Param{Limit} || 2000,
+                UserID => $Param{UserID},
+            );
+        }
+    }
+    # --
+    # escalation tickets
+    # --
+    else {
+        if (! $Job{Queue}) {
+            my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
+            foreach (@Tickets) {
+                $Tickets{$_} = $Self->{TicketObject}->TicketNumberLookup(TicketID => $_);
+            }
+        }
+        else {
+            my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
+            foreach (@Tickets) {
+                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);
+                if ($Ticket{Queue} eq $Job{Queue}) {
+                    $Tickets{$_} = $Ticket{TicketNumber};
+                }
+            }
+        }
+    }
+    # --
+    # process each ticket
+    # --
+    foreach (sort keys %Tickets) {
+        $Self->JobRunTicket(
+            Config => \%Job,
+            Job => $Param{Job},
+            TicketID => $_,
+            TicketNumber => $Tickets{$_},
+            UserID => $Param{UserID},
+        );
+    }
+}
+
+sub JobRunTicket {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID TicketNumber Job Config UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my $Ticket = "($Param{TicketNumber}/$Param{TicketID})";
+    # --
+    # move ticket
+    # --
+    if ($Param{Config}->{New}->{Queue}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - Move Ticket $Ticket to Queue '$Param{Config}->{New}->{Queue}'\n";
+        }
+        $Self->{TicketObject}->MoveTicket(
+            QueueID => $Self->{QueueObject}->QueueLookup(Queue=>$Param{Config}->{New}->{Queue}, Cache => 1),
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+    }
+    if ($Param{Config}->{New}->{QueueID}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - Move Ticket $Ticket to QueueID '$Param{Config}->{New}->{QueueID}'\n";
+        }
+        $Self->{TicketObject}->MoveTicket(
+            QueueID => $Param{Config}->{New}->{QueueID},
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+    }
+    # --
+    # add note if wanted
+    # --
+    if ($Param{Config}->{New}->{Note}->{Body} || $Param{Config}->{New}->{NoteBody}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - Add note to Ticket $Ticket\n";
+        }
+        $Self->{TicketObject}->ArticleCreate(
+            TicketID => $Param{TicketID},
+            ArticleType => $Param{Config}->{New}->{Note}->{ArticleType} || 'note-internal',
+            SenderType => 'agent',
+            From => $Param{Config}->{New}->{Note}->{From} || $Param{Config}->{New}->{NoteFrom} || 'GenericAgent',
+            Subject => $Param{Config}->{New}->{Note}->{Subject} || $Param{Config}->{New}->{NoteSubject} || 'Note',
+            Body => $Param{Config}->{New}->{Note}->{Body} || $Param{Config}->{New}->{NoteBody},
+            UserID => $Param{UserID},
+            HistoryType => 'AddNote',
+            HistoryComment => 'Generic Agent note added.',
+        );
+    }
+    # --
+    # set new state
+    # --
+    if ($Param{Config}->{New}->{State}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - changed state of Ticket $Ticket to '$Param{Config}->{New}->{State}'\n";
+        }
+        $Self->{TicketObject}->StateSet(
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+            State => $Param{Config}->{New}->{State},
+        );
+    }
+    if ($Param{Config}->{New}->{StateID}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - changed state id of ticket $Ticket to '$Param{Config}->{New}->{StateID}'\n";
+        }
+        $Self->{TicketObject}->StateSet(
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+            StateID => $Param{Config}->{New}->{StateID},
+        );
+    }
+    # --
+    # set customer id and customer user
+    # --
+    if ($Param{Config}->{New}->{CustomerID} || $Param{Config}->{New}->{CustomerUserLogin}) {
+        if ($Param{Config}->{New}->{CustomerID}) {
+            if ($Self->{NoticeSTDOUT}) {
+                print "  - set customer id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerID}'\n";
+            }
+        }
+        if ($Param{Config}->{New}->{CustomerUserLogin}) {
+            if ($Self->{NoticeSTDOUT}) {
+                print "  - set customer user id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerUserLogin}'\n";
+            }
+        }
+        $Self->{TicketObject}->SetCustomerData(
+            TicketID => $Param{TicketID},
+            No => $Param{Config}->{New}->{CustomerID} || '',
+            User => $Param{Config}->{New}->{CustomerUserLogin} || '',
+            UserID => $Param{UserID},
+        );
+    }
+    # --
+    # set new priority
+    # --
+    if ($Param{Config}->{New}->{Priority}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - set priority of Ticket $Ticket to '$Param{Config}->{New}->{Priority}'\n";
+        }
+        $Self->{TicketObject}->PrioritySet(
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+            Priority => $Param{Config}->{New}->{Priority},
+        );
+    }
+    if ($Param{Config}->{New}->{PriorityID}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - set priority id of Ticket $Ticket to '$Param{Config}->{New}->{PriorityID}'\n";
+        }
+        $Self->{TicketObject}->PrioritySet(
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+            PriorityID => $Param{Config}->{New}->{PriorityID},
+        );
+    }
+    # --
+    # set new owner
+    # --
+    if ($Param{Config}->{New}->{Owner}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - set owner of Ticket $Ticket to '$Param{Config}->{New}->{Owner}'\n";
+        }
+        $Self->{TicketObject}->OwnerSet(
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+            NewUser => $Param{Config}->{New}->{Owner},
+        );
+    }
+    if ($Param{Config}->{New}->{OwnerID}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - set owner id of Ticket $Ticket to '$Param{Config}->{New}->{OwnerID}'\n";
+        }
+        $Self->{TicketObject}->OwnerSet(
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+            NewUser => $Param{Config}->{New}->{OwnerID},
+        );
+    }
+    # --
+    # set new lock
+    # --
+    if ($Param{Config}->{New}->{Lock}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - set lock of Ticket $Ticket to '$Param{Config}->{New}->{Lock}'\n";
+        }
+        $Self->{TicketObject}->LockSet(
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+            Lock => $Param{Config}->{New}->{Lock},
+        );
+    }
+    if ($Param{Config}->{New}->{LockID}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - set lock id of Ticket $Ticket to '$Param{Config}->{New}->{LockID}'\n";
+        }
+        $Self->{TicketObject}->LockSet(
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+            LockID => $Param{Config}->{New}->{LockID},
+        );
+    }
+    # --
+    # set ticket free text options
+    # --
+    foreach (1..8) {
+        if ($Param{Config}->{New}->{"TicketFreeKey$_"} || $Param{Config}->{New}->{"TicketFreeText$_"}) {
+            my $Key = $Param{Config}->{New}->{"TicketFreeKey$_"} || '';
+            my $Value = $Param{Config}->{New}->{"TicketFreeText$_"} || '';
+            if ($Self->{NoticeSTDOUT}) {
+                print "  - set ticket free text of Ticket $Ticket to Key: '$Key' Text: '$Value'\n";
+            }
+            $Self->{TicketObject}->TicketFreeTextSet(
+                TicketID => $Param{TicketID},
+                UserID => $Param{UserID},
+                Key => $Key,
+                Value => $Value,
+                Counter => $_,
+            );
+        }
+    }
+    # --
+    # run module
+    # --
+    if ($Param{Config}->{New}->{Module}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - Use module ($Param{Config}->{New}->{Module}) for Ticket $Ticket.\n";
+        }
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Use module ($Param{Config}->{New}->{Module}) for Ticket $Ticket.",
+        );
+        if ($Self->{Debug}) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message => "Try to load module: $Param{Config}->{New}->{Module}!",
+            );
+        }
+        if (eval "require $Param{Config}->{New}->{Module}") {
+            my $Object = $Param{Config}->{New}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
+            if ($Self->{Debug}) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Loaded module: $Param{Config}->{New}->{Module}!",
+                );
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Run module: $Param{Config}->{New}->{Module}!",
+                );
+            }
+            $Object->Run(%{$Param{Config}}, TicketID => $Param{TicketID});
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't load module: $Param{Config}->{New}->{Module}!",
+            );
+        }
+    }
+    # --
+    # cmd
+    # --
+    if ($Param{Config}->{New}->{CMD}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - Execut '$Param{Config}->{New}->{CMD}' for Ticket $Ticket.\n";
+        }
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Execut '$Param{Config}->{New}->{CMD}' for Ticket $Ticket.",
+        );
+        system("$Param{Config}->{New}->{CMD} $Param{TicketNumber} $Param{TicketID} ");
+    }
+    # --
+    # delete ticket
+    # --
+    if ($Param{Config}->{New}->{Delete}) {
+        if ($Self->{NoticeSTDOUT}) {
+            print "  - Delete Ticket $Ticket.\n";
+        }
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Delete Ticket $Ticket.",
+        );
+        $Self->{TicketObject}->TicketDelete(
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+    }
+    return 1;
 }
 # --
 sub JobList {
@@ -150,7 +540,7 @@ sub JobGet {
     foreach my $Key (keys %Data) {
         if ($Key =~ /(NewParam)Key(\d)/) {
             $Data{"New$Data{$Key}"} = $Data{"$1Value$2"} if ($Data{"$1Value$2"});
-print STDERR "New$Data{$Key}: ".$Data{"$1Value$2"}."\n";
+#print STDERR "New$Data{$Key}: ".$Data{"$1Value$2"}."\n";
         }
     }
     # get time settings
@@ -213,6 +603,13 @@ print STDERR "New$Data{$Key}: ".$Data{"$1Value$2"}."\n";
             }
         }
     }
+    # check valid
+    if (%Data && !defined($Data{Valid})) {
+        $Data{Valid} = 1;
+    }
+    if (%Data) {
+        $Data{Name} = $Param{Name};
+    }
     return %Data;
 }
 # --
@@ -226,6 +623,16 @@ sub JobAdd {
         return;
       }
     }
+    # check if job name already exists
+    my %Check = $Self->JobGet(Name => $Param{Name});
+    if (%Check) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't add job '$Param{Name}', job already exists!",
+        );
+        return;
+    }
+    # insert data into db
     foreach my $Key (keys %{$Param{Data}}) {
         if (ref($Param{Data}->{$Key}) eq 'ARRAY') {
           foreach (@{$Param{Data}->{$Key}}) {
@@ -239,7 +646,7 @@ sub JobAdd {
           }
         }
         else {
-            if ($Param{Data}->{$Key}) {
+            if (defined($Param{Data}->{$Key})) {
             my $SQL = "INSERT INTO generic_agent_jobs (job_name, ".
               "job_key, job_value) VALUES ".
               " ('".$Self->{DBObject}->Quote($Param{Name})."', '$Key', '".

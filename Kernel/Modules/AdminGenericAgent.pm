@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.6 2004-08-25 02:41:29 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.7 2004-09-04 15:21:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,6 +61,34 @@ sub Run {
     $Self->{EraseTemplate} = $Self->{ParamObject}->GetParam(Param => 'EraseTemplate') || '';
     # get db job data
     my %DBParam = $Self->{GenericAgentObject}->JobGet(Name => $Self->{Profile}) if ($Self->{Profile});
+
+    # run job now
+    if ($Self->{Subaction} eq 'RunNow' && %DBParam) {
+        $Self->{GenericAgentObject}->JobRun(
+            Job => $Self->{Profile},
+            UserID => 1,
+        );
+        # redirect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$Self->{Action}",
+        );
+    }
+
+    # create new job
+    if ($Self->{Subaction} eq 'Add' && $Self->{Profile}) {
+        # insert new profile params
+        $Self->{GenericAgentObject}->JobAdd(
+            Name => $Self->{Profile},
+            Data => {
+                ScheduleLastRun => '',
+            },
+        );
+        # redirect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$Self->{Action}&Subaction=LoadProfile&Profile=$Self->{Profile}",
+        );
+    }
+
     # get signle params
     my %GetParam = ();
     foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
@@ -79,7 +107,7 @@ sub Run {
       NewParamKey5 NewParamKey6 NewParamKey7 NewParamKey8
       NewParamValue5 NewParamValue6 NewParamValue7 NewParamValue8
       NewLockID NewDelete NewCMD
-      ScheduleLastRun
+      ScheduleLastRun Valid
     )) {
         # load profiles string params (press load profile)
         if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
@@ -215,30 +243,38 @@ sub Run {
             SortBy => $Self->{SortBy},
             OrderBy => $Self->{Order},
             Limit => $Self->{SearchLimit},
-            UserID => $Self->{UserID},
+            UserID => 1,
             %GetParam,
         );
-        $Param{StatusTable} = "<a href=\"\$Env{\"Baselink\"}&Action=AdminGenericAgent&Subaction=LoadProfile&Profile=$Self->{Profile}\">\$Text{\"Back\"}</a> ";
+        # start page
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'GenericAgent');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         if ($GetParam{NewDelete}) {
-            $Output .= $Self->{LayoutObject}->Warning(
-                Message => 'You use the DELETE option! Take care, all deleted Tickets are lost!!!',
-                Comment => $Param{StatusTable},
-            );
+            $Param{Message} = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!'.@ViewableIDs.' Tickets affected! You really want to use this job?';
         }
-        foreach (@ViewableIDs) {
-          $Counter++;
-          # build search result
-          if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
+        else {
+            $Param{Message} = @ViewableIDs.' Tickets affected! You really want to use this job?';
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'Result',
+            Data => { %Param, Name => $Self->{Profile}, },
+        );
+        foreach (0..$#ViewableIDs) {
             # get first article data
-            my %Data = $Self->{TicketObject}->ArticleFirstArticle(TicketID => $_);
-            $Param{StatusTable} .= " - <a href=\"\$Env{\"Baselink\"}&Action=AgentZoom&TicketID=$_\">$Data{TicketNumber}</a>";
-          }
+            my %Data = $Self->{TicketObject}->ArticleFirstArticle(TicketID => $ViewableIDs[$_]);
+            $Self->{LayoutObject}->Block(
+                Name => 'Ticket',
+                Data => { %Data },
+            );
+            # just show 25 tickts
+            if ($_ > 25) {
+                last;
+            }
         }
-        $Output .= $Self->{LayoutObject}->Warning(
-            Message => @ViewableIDs.' Tickets affected! You really want to use this job?',
-            Comment => $Param{StatusTable},
+        # html search mask output
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminGenericAgent',
+            Data => \%Param,
         );
         # build footer
         $Output .= $Self->{LayoutObject}->Footer();
@@ -359,21 +395,20 @@ sub MaskForm {
         Multiple => 1,
         SelectedIDRefArray => $Param{ScheduleDays},
     );
-    my %Jobs = $Self->{GenericAgentObject}->JobList();
-    foreach (keys %Jobs) {
-        my %JobData = $Self->{GenericAgentObject}->JobGet(Name => $_);
-        if ($JobData{ScheduleLastRun}) {
-            $Jobs{$_} .= " ($JobData{ScheduleLastRun})";
-        }
-        else {
-            $Jobs{$_} .= " (-)";
+    if ($Self->{Subaction} ne 'LoadProfile') {
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => { %Param },
+        );
+        my %Jobs = $Self->{GenericAgentObject}->JobList();
+        foreach (sort keys %Jobs) {
+            my %JobData = $Self->{GenericAgentObject}->JobGet(Name => $_);
+            $Self->{LayoutObject}->Block(
+                Name => 'Row',
+                Data => { %JobData },
+           );
         }
     }
-    $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { '', '-', %Jobs, },
-        Name => 'Profile',
-        SelectedID => $Param{Profile},
-    );
     $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{StateObject}->StateList(
              UserID => $Self->{UserID},
@@ -491,6 +526,11 @@ sub MaskForm {
         Name => 'NewDelete',
         SelectedID => $Param{NewDelete},
     );
+    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'Valid',
+        SelectedID => defined($Param{Valid}) ? $Param{Valid} : 1,
+    );
     $Param{'LockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{DBObject}->GetTableData(
             What => 'id, name',
@@ -513,6 +553,13 @@ sub MaskForm {
         LanguageTranslation => 0,
         SelectedID => $Param{NewLockID},
     );
+
+    if ($Self->{Profile} && $Self->{Subaction} eq 'LoadProfile') {
+        $Self->{LayoutObject}->Block(
+            Name => 'Edit',
+            Data => { %Param },
+        );
+    }
     # html search mask output
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericAgent',

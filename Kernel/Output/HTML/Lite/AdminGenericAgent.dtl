@@ -2,54 +2,118 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.5 2004-08-25 02:42:45 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.6 2004-09-04 15:21:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" class="table0"">
+  <td align="left" colspan="2" class="table0">
     <b>$Env{"Box0"}$Text{"GenericAgent"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr align="center" valign="top">
-  <td class="table1">
 
-<table width="750" border="0" cellspacing="1" cellpadding="3">
-<tr align="left">
-  <td class="table3">$Text{"Jobs"}</td>
-</tr>
-<tr align="left">
-  <td>
-  <form action="$Env{"CGIHandle"}" method="get">
-  <input type="hidden" name="Action" value="AdminGenericAgent">
-  <input type="hidden" name="Subaction" value="LoadProfile">
-  $Text{"Job-List"} $Data{"ProfilesStrg"}
-  <input class="button" name="SelectTemplate" type="submit" value="$Text{"Edit"}">
-  <input class="button" name="EraseTemplate" type="submit" value="$Text{"Delete"}">
-  </form>
+<!-- dtl:block:Overview -->
+<tr align="center" valign="top">
+  <td width="40%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">$Text{"Add"}:</td>
+  </tr>
+  <tr>
+    <td align="left">
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="Add">
+    <table>
+      <tr>
+        <td>$Text{"Name"}:</td>
+        <td><input type="text" name="Profile" value="" size="20"></td>
+      </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"Add"}">
+    </form>
+
+    </td>
+  </tr>
+  </table>
+
+  </td>
+  <td width="60%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">$Text{"Job-List"}:</td>
+  </tr>
+  <tr>
+    <td>
+
+    <table width="100%" border="0">
+    <tr>
+      <td class="table3" width="20%">$Text{"Name"}</td>
+      <td class="table3">$Text{"Last run"}</td>
+      <td align="center" class="table3">$Text{"valid"}/$Text{"invalid"}</td>
+      <td align="center" class="table3">$Text{"Edit"}</td>
+      <td align="center" class="table3">$Text{"Delete"}</td>
+      <td align="center" class="table3">$Text{"Run Now!"}</td>
+    </tr>
+<!-- dtl:block:Row -->
+<dtl if ($Data{"Valid"} ne "1") { $Data{"StartFont"} = "<font color="gray">"; }>
+<dtl if ($Data{"Valid"} ne "1") { $Data{"StopFont"} = "</font>"; }>
+    <tr>
+      <td valign="top">$Data{"StartFont"}$QData{"Name"}$Data{"StartFont"}</td>
+      <td valign="top">$Data{"StartFont"}$TimeLong{"$QData{"ScheduleLastRun"}"}$Data{"StartFont"}</td>
+<dtl if ($Data{"Valid"} eq "1") { $Data{"ShownValid"} = "valid"; }>
+<dtl if ($Data{"Valid"} ne "1") { $Data{"ShownValid"} = "invalid"; }>
+      <td valign="top" align="center">$Data{"StartFont"}$Text{"$QData{"ShownValid"}"}$Data{"StopFont"}</td>
+      <td valign="top" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&Profile=$QData{"Name"}">$Data{"StartFont"}$Text{"x"}$Data{"StopFont"}</a></td>
+      <td valign="top" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&EraseTemplate=1&Profile=$QData{"Name"}">$Data{"StartFont"}$Text{"x"}$Data{"StopFont"}</a></td>
+      <td valign="top" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RunNow&Profile=$QData{"Name"}">$Data{"StartFont"}$Text{"x"}$Data{"StopFont"}</a></td>
+    </tr>
+<!-- dtl:block:Row -->
+    </table>
+
+    </td>
+  </tr>
+
+  </table>
+
   </td>
 </tr>
-</table>
+<!-- dtl:block:Overview -->
 
+<!-- dtl:block:Edit -->
 
+<tr>
+  <td colspan="2" class="table2">
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Job-List"}</a>
+  </td>
+</tr>
+<tr>
+  <td colspan="2" class="table1">
+<br>
 <form action="$Env{"CGIHandle"}" method="get">
 <input type="hidden" name="Action" value="AdminGenericAgent">
 <input type="hidden" name="Subaction" value="Search">
 <input type="hidden" name="ScheduleLastRun" value="$QData{"ScheduleLastRun"}">
 
-<table width="750" border="0" cellspacing="1" cellpadding="3">
+<table width="100%" border="0" cellspacing="1" cellpadding="3">
 
 <!-- job name -->
 <tr align="left">
-  <td colspan="2" class="table3">$Text{"Save Job as?"}</td>
+  <td class="table3">$Text{"Save Job as?"}</td>
+  <td class="table3">$Text{"Is Job Valid?"}</td>
 </tr>
 <tr align="left">
-  <td colspan="2">
-  <input type="text" name="Profile" size="20" value="$QData{"Profile"}">
+  <td>
+  $Text{"Name"}: <input type="text" name="Profile" size="20" value="$QData{"Profile"}">
+  </td>
+  <td>
+  $Text{"Is Job Valid"}: $Data{"ValidOption"}
   </td>
 </tr>
 
@@ -61,7 +125,7 @@
   <td colspan="2" valign="top">
    $Text{"Minutes"}: $Data{"ScheduleMinutes"} $Text{"Hours"}: $Data{"ScheduleHours"}
 
-   $Text{"Days"}: $Data{"ScheduleDays"} $Text{"Last run"}: $QData{"ScheduleLastRun"}
+   $Text{"Days"}: $Data{"ScheduleDays"}
   </td>
 </tr>
 
@@ -309,8 +373,29 @@ $Data{"NewUserStrg"}
 </table>
 <input class="button" type="submit" value="$Text{"Save"}">
 </form>
+  </td>
+</tr>
+<!-- dtl:block:Edit -->
+<!-- dtl:block:Result -->
+
+<tr>
+  <td colspan="2" class="table2">
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Job-List"}</a> -
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&Profile=$QData{"Name"}">$Text{"Edit"}</a>
+  </td>
+</tr>
+<tr>
+  <td colspan="2" class="table1">
+  <p>
+  $QData{"Message"}
+  </p>
+<!-- dtl:block:Ticket -->
+    <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$QData{"TicketID"}">$QData{"TicketNumber"}</a>
+<!-- dtl:block:Ticket -->
 
   </td>
 </tr>
+<!-- dtl:block:Result -->
+
 </table>
 <!-- end form -->

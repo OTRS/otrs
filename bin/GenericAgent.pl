@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.32 2004-08-25 02:49:46 martin Exp $
+# $Id: GenericAgent.pl,v 1.33 2004-09-04 15:21:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ use Kernel::System::GenericAgent;
 
 BEGIN {
     # get file version
-    $VERSION = '$Revision: 1.32 $';
+    $VERSION = '$Revision: 1.33 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     getopt('hcdl', \%Opts);
@@ -79,7 +79,7 @@ BEGIN {
         $Opts{'c'} = 'Kernel::Config::GenericAgent';
     }
     if ($Opts{'c'} eq 'db') {
-#        %Jobs = ();
+        %Jobs = ();
     }
     # load jobs file
     elsif (!eval "require $Opts{'c'};") {
@@ -108,7 +108,14 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(
     Debug => $Debug,
 );
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(%CommonObject);
+$CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
+    %CommonObject,
+    Debug => $Debug,
+    NoticeSTDOUT => 1,
+);
+# --
+# process all jobs
+# --
 if ($Opts{'c'} eq 'db') {
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
     foreach my $DBJob (sort keys %DBJobs) {
@@ -168,324 +175,38 @@ if ($Opts{'c'} eq 'db') {
 #print STDERR "f:ScheduleHours\n";
             $False = 1;
         }
+        # check if job is invalid
+        if (!$DBJobRaw{Valid}) {
+            $False = 1;
+        }
+        # check if job already was running
+        my $CurrentTime = $CommonObject{TimeObject}->SystemTime();
+        if ($DBJobRaw{ScheduleLastRunUnixTime} && $CurrentTime < $DBJobRaw{ScheduleLastRunUnixTime}+(10*60)) {
+            print "Job '$DBJob' already finished!\n";
+            $False = 1;
+        }
         if (!$False) {
 #print "RUN: $Run\n";
-            # update last run
-            $CommonObject{GenericAgentObject}->JobDelete(Name => $DBJob);
-            $CommonObject{GenericAgentObject}->JobAdd(
-                Name => $DBJob,
-                Data => {
-                    %DBJobRaw,
-                    ScheduleLastRun => $CommonObject{TimeObject}->SystemTime2TimeStamp(
-                        SystemTime => $CommonObject{TimeObject}->SystemTime()
-                    ),
-                    ScheduleLastRunUnixTime => $CommonObject{TimeObject}->SystemTime(),
-                },
-            );
-            foreach my $Key (keys %DBJobRaw) {
-                if ($Key =~ /^New/) {
-                    my $NewKey = $Key;
-                    $NewKey =~ s/^New//;
-                    $Jobs{$DBJob}->{New}->{$NewKey} = $DBJobRaw{$Key};
-#print STDERR "nn: $Key:  $DBJobRaw{$Key}\n";
-                }
-                else {
-#print STDERR "kk: $Key: $DBJobRaw{$Key}\n";
-                    $Jobs{$DBJob}->{$Key} = $DBJobRaw{$Key};
-                }
-            }
-        }
-    }
-}
-# --
-# process all jobs
-# --
-foreach my $Job (sort keys %Jobs) {
-    print "$Job:\n";
-    # log event
-    $CommonObject{LogObject}->Log(
-        Priority => 'notice',
-        Message => "Run GenericAgent Job '$Job'.",
-    );
-    # --
-    # get regular tickets
-    # --
-    my %Tickets = ();
-    if (! $Jobs{$Job}->{Escalation}) {
-        my %PartJobs = %{$Jobs{$Job}};
-        if (!$PartJobs{Queue}) {
-            print " For all Queues: \n";
-            %Tickets = $CommonObject{TicketObject}->TicketSearch(
-                %{$Jobs{$Job}},
-                Limit => $Limit,
-                UserID => $UserIDOfGenericAgent,
-            );
-        }
-        elsif (ref($PartJobs{Queue}) eq 'ARRAY') {
-            foreach (@{$PartJobs{Queue}}) {
-                print " For Queue: $_\n";
-                %Tickets = ($CommonObject{TicketObject}->TicketSearch(
-                    %{$Jobs{$Job}},
-                    Queues => [$_],
-                    Limit => $Limit,
-                    UserID => $UserIDOfGenericAgent,
-                ), %Tickets);
-            }
-        }
-        else {
-            %Tickets = $CommonObject{TicketObject}->TicketSearch(
-                %{$Jobs{$Job}},
-                Queues => [$PartJobs{Queue}],
-                Limit => $Limit,
+            # log event
+            $CommonObject{GenericAgentObject}->JobRun(
+                Job => $DBJob,
                 UserID => $UserIDOfGenericAgent,
             );
         }
     }
-    # --
-    # escalation tickets
-    # --
-    else {
-        if (! $Jobs{$Job}->{Queue}) {
-            my @Tickets = $CommonObject{TicketObject}->GetOverTimeTickets();
-            foreach (@Tickets) {
-                $Tickets{$_} = $CommonObject{TicketObject}->TicketNumberLookup(TicketID => $_);
-            }
-        }
-        else {
-            my @Tickets = $CommonObject{TicketObject}->GetOverTimeTickets();
-            foreach (@Tickets) {
-                my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
-                if ($Ticket{Queue} eq $Jobs{$Job}->{Queue}) {
-                    $Tickets{$_} = $Ticket{TicketNumber};
-                }
-            }
-        }
-    }
-    # --
-    # process each ticket
-    # --
-    foreach (sort keys %Tickets) {
-        Run($Job, $_, $Tickets{$_});
-    }
 }
 # --
-# process each ticket
+# process all config file jobs
 # --
-sub Run {
-    my $Job = shift;
-    my $TicketID = shift;
-    my $TicketNumber = shift;
-    print "* $TicketNumber ($TicketID) \n";
-    # --
-    # move ticket
-    # --
-    if ($Jobs{$Job}->{New}->{Queue}) {
-        print "  - Move Ticket to Queue '$Jobs{$Job}->{New}->{Queue}'\n";
-        $CommonObject{TicketObject}->MoveTicket(
-            QueueID => $CommonObject{QueueObject}->QueueLookup(Queue=>$Jobs{$Job}->{New}->{Queue}, Cache => 1),
+else {
+    foreach my $Job (sort keys %Jobs) {
+        # log event
+        $CommonObject{GenericAgentObject}->JobRun(
+            Job => $Job,
+            Config => $Jobs{$Job},
             UserID => $UserIDOfGenericAgent,
-            TicketID => $TicketID,
-        );
-    }
-    if ($Jobs{$Job}->{New}->{QueueID}) {
-        print "  - Move Ticket to QueueID '$Jobs{$Job}->{New}->{QueueID}'\n";
-        $CommonObject{TicketObject}->MoveTicket(
-            QueueID => $Jobs{$Job}->{New}->{QueueID},
-            UserID => $UserIDOfGenericAgent,
-            TicketID => $TicketID,
-        );
-    }
-    # --
-    # add note if wanted
-    # --
-    if ($Jobs{$Job}->{New}->{Note}->{Body} || $Jobs{$Job}->{New}->{NoteBody}) {
-        print "  - Add note\n";
-        $CommonObject{TicketObject}->ArticleCreate(
-            TicketID => $TicketID,
-            ArticleType => $Jobs{$Job}->{New}->{Note}->{ArticleType} || 'note-internal',
-            SenderType => 'agent',
-            From => $Jobs{$Job}->{New}->{Note}->{From} || $Jobs{$Job}->{New}->{NoteFrom} || 'GenericAgent',
-            Subject => $Jobs{$Job}->{New}->{Note}->{Subject} || $Jobs{$Job}->{New}->{NoteSubject} || 'Note',
-            Body => $Jobs{$Job}->{New}->{Note}->{Body} || $Jobs{$Job}->{New}->{NoteBody}, 
-            UserID => $UserIDOfGenericAgent,
-            HistoryType => 'AddNote',
-            HistoryComment => 'Generic Agent note added.',
-        );
-    }
-    # --
-    # set new state
-    # --
-    if ($Jobs{$Job}->{New}->{State}) {
-        print "  - set state to '$Jobs{$Job}->{New}->{State}'\n";
-        $CommonObject{TicketObject}->StateSet(
-            TicketID => $TicketID,
-            UserID => $UserIDOfGenericAgent,
-            State => $Jobs{$Job}->{New}->{State},
-        );
-    }
-    if ($Jobs{$Job}->{New}->{StateID}) {
-        print "  - set state id to '$Jobs{$Job}->{New}->{StateID}'\n";
-        $CommonObject{TicketObject}->StateSet(
-            TicketID => $TicketID,
-            UserID => $UserIDOfGenericAgent,
-            StateID => $Jobs{$Job}->{New}->{StateID},
-        );
-    }
-    # --
-    # set customer id and customer user
-    # --
-    if ($Jobs{$Job}->{New}->{CustomerID} || $Jobs{$Job}->{New}->{CustomerUserLogin}) {
-        if ($Jobs{$Job}->{New}->{CustomerID}) {
-            print "  - set customer id to '$Jobs{$Job}->{New}->{CustomerID}'\n";
-        }
-        if ($Jobs{$Job}->{New}->{CustomerUserLogin}) {
-            print "  - set customer user id to '$Jobs{$Job}->{New}->{CustomerUserLogin}'\n";
-        }
-        $CommonObject{TicketObject}->SetCustomerData(
-            TicketID => $TicketID,
-            No => $Jobs{$Job}->{New}->{CustomerID} || '',
-            User => $Jobs{$Job}->{New}->{CustomerUserLogin} || '',
-            UserID => $UserIDOfGenericAgent,
-        );
-    }
-    # --
-    # set new priority
-    # --
-    if ($Jobs{$Job}->{New}->{Priority}) {
-        print "  - set priority to '$Jobs{$Job}->{New}->{Priority}'\n";
-        $CommonObject{TicketObject}->PrioritySet(
-            TicketID => $TicketID,
-            UserID => $UserIDOfGenericAgent,
-            Priority => $Jobs{$Job}->{New}->{Priority},
-        );
-    }
-    if ($Jobs{$Job}->{New}->{PriorityID}) {
-        print "  - set priority id to '$Jobs{$Job}->{New}->{PriorityID}'\n";
-        $CommonObject{TicketObject}->PrioritySet(
-            TicketID => $TicketID,
-            UserID => $UserIDOfGenericAgent,
-            PriorityID => $Jobs{$Job}->{New}->{PriorityID},
-        );
-    }
-    # --
-    # set new owner
-    # --
-    if ($Jobs{$Job}->{New}->{Owner}) {
-        print "  - set owner to '$Jobs{$Job}->{New}->{Owner}'\n";
-        $CommonObject{TicketObject}->OwnerSet(
-            TicketID => $TicketID,
-            UserID => $UserIDOfGenericAgent,
-            NewUser => $Jobs{$Job}->{New}->{Owner},
-        );
-    }
-    if ($Jobs{$Job}->{New}->{OwnerID}) {
-        print "  - set owner id to '$Jobs{$Job}->{New}->{OwnerID}'\n";
-        $CommonObject{TicketObject}->OwnerSet(
-            TicketID => $TicketID,
-            UserID => $UserIDOfGenericAgent,
-            NewUser => $Jobs{$Job}->{New}->{OwnerID},
-        );
-    }
-    # --
-    # set new lock
-    # --
-    if ($Jobs{$Job}->{New}->{Lock}) {
-        print "  - set lock to '$Jobs{$Job}->{New}->{Lock}'\n";
-        $CommonObject{TicketObject}->LockSet(
-            TicketID => $TicketID,
-            UserID => $UserIDOfGenericAgent,
-            Lock => $Jobs{$Job}->{New}->{Lock},
-        );
-    }
-    if ($Jobs{$Job}->{New}->{LockID}) {
-        print "  - set lock id to '$Jobs{$Job}->{New}->{LockID}'\n";
-        $CommonObject{TicketObject}->LockSet(
-            TicketID => $TicketID,
-            UserID => $UserIDOfGenericAgent,
-            LockID => $Jobs{$Job}->{New}->{LockID},
-        );
-    }
-    # --
-    # set ticket free text options
-    # --
-    foreach (1..8) {
-        if ($Jobs{$Job}->{New}->{"TicketFreeKey$_"} || $Jobs{$Job}->{New}->{"TicketFreeText$_"}) {
-            my $Key = $Jobs{$Job}->{New}->{"TicketFreeKey$_"} || '';
-            my $Value = $Jobs{$Job}->{New}->{"TicketFreeText$_"} || '';
-            print "  - set ticket free text to Key: '$Key' Text: '$Value'\n";
-            $CommonObject{TicketObject}->TicketFreeTextSet(
-                TicketID => $TicketID,
-                UserID => $UserIDOfGenericAgent,
-                Key => $Key,
-                Value => $Value,
-                Counter => $_,
-            );
-        }
-    }
-    # --
-    # run module
-    # --
-    if ($Jobs{$Job}->{New}->{Module}) {
-        print "  - use module ($Jobs{$Job}->{New}->{Module})\n";
-        $CommonObject{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Use module ($Jobs{$Job}->{New}->{Module}) Ticket [$TicketNumber], TicketID [$TicketID].",
-        );
-        if ($Debug) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'debug',
-                Message => "Try to load module: $Jobs{$Job}->{New}->{Module}!",
-            );
-        }
-        if (eval "require $Jobs{$Job}->{New}->{Module}") {
-            my $Object = $Jobs{$Job}->{New}->{Module}->new(
-                %CommonObject,
-                Debug => $Debug,
-            );
-            if ($Debug) {
-                $CommonObject{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Loaded module: $Jobs{$Job}->{New}->{Module}!",
-                );
-                $CommonObject{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Run module: $Jobs{$Job}->{New}->{Module}!",
-                );
-            }
-            $Object->Run(%{$Jobs{$Job}}, TicketID => $TicketID);
-        }
-        else {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't load module: $Jobs{$Job}->{New}->{Module}!",
-            );
-        }
-    }
-    # --
-    # cmd
-    # --
-    if ($Jobs{$Job}->{New}->{CMD}) {
-        print "  - call cmd ($Jobs{$Job}->{New}->{CMD}) for ticket_id $_\n";
-        $CommonObject{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Execut '$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID'.",
-        );
-        system("$Jobs{$Job}->{New}->{CMD} $TicketNumber $TicketID ");
-    }
-    # --
-    # delete ticket
-    # --
-    if ($Jobs{$Job}->{New}->{Delete}) {
-        print "  - delete ticket_id $TicketID\n";
-        $CommonObject{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Delete Ticket [$TicketNumber], TicketID [$TicketID].",
-        );
-        $CommonObject{TicketObject}->TicketDelete(
-            UserID => $UserIDOfGenericAgent,
-            TicketID => $TicketID,
         );
     }
 }
-# --
 
+exit;
