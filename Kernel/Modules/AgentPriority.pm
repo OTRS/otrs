@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.12 2003-03-10 21:27:12 martin Exp $
+# $Id: AgentPriority.pm,v 1.13 2003-04-12 22:06:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub Run {
         # --
         my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
-            Message => "Can't show history, no TicketID is given!",
+            Message => "No TicketID is given!",
             Comment => 'Please contact the admin.',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -105,7 +105,6 @@ sub Run {
     }
     else {
         # print form
-        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Priority');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
@@ -121,7 +120,7 @@ sub Run {
             OptionStrg => \%States,
  			TicketID => $Self->{TicketID},
             PriorityID => $Ticket{PriorityID},
-            TicketNumber => $Tn,
+            TicketNumber => $Ticket{TicketNumber},
             QueueID => $Self->{QueueID},
         );
         $Output .= $Self->{LayoutObject}->Footer();
