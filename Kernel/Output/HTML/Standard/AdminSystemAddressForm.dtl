@@ -1,8 +1,8 @@
 # --
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddess
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.12 2004-01-24 18:40:35 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.13 2004-02-10 01:16:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,11 +47,11 @@
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td class="table1">$Text{"Email"}: </td>
-      <td class="table1"> <input type="text" name="Name" value="$Data{"Name"}" size="35" maxlength="50"></td>
+      <td class="table1"> <input type="text" name="Name" value="$Quote{"$Data{"Name"}"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="table1">$Text{"Realname"}: </td>
-      <td class="table1"> <input type="text" name="Realname" value="$Data{"Realname"}" size="35" maxlength="50"></td>
+      <td class="table1"> <input type="text" name="Realname" value="$Quote{"$Data{"Realname"}"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="table1">$Text{"Queue"}: </td>
@@ -63,7 +63,7 @@
     </tr>
     <tr>
       <td class="table1">$Text{"Comment"}: </td>
-      <td class="table1"> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
+      <td class="table1"> <input type="text" name="Comment" value="$Quote{"$Data{"Comment"}"}" size="50" maxlength="50"></td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
