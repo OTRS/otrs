@@ -1,8 +1,8 @@
 # --
-# SystemStats.pm - show stats of otrs
+# Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.2 2002-05-14 02:19:35 martin Exp $
+# $Id: SystemStats.pm,v 1.3 2002-07-21 19:46:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
