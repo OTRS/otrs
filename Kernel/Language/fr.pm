@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.12 2003-01-18 09:11:10 martin Exp $
+# $Id: fr.pm,v 1.13 2003-01-19 22:42:07 nicolas Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -48,7 +48,7 @@ sub Data {
       'Change' => 'Modifier',
       'change' => 'modifier',
       'change!' => 'modifier&nbsp;!',
-      'click here' => 'Cliquer l&agrave;',
+      'click here' => 'Cliquer là',
       'Comment' => 'Commentaire',
       'Customer' => 'Client',
       'Customer info' => 'Information client',
@@ -58,13 +58,13 @@ sub Data {
       'Description' => 'Description',
       'Dispatching by email To: field.' => 'Répartition par le champs \'à\' de l\'email',
       'Dispatching by selected Queue.' => 'Répartition par la file sélectionnée',
-      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Cela ne fonctionne pas avec l\'ID utilisateur 1 (Compte System)! Veuillez céer un nouvel utilisateur!',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Cela ne fonctionne pas avec l\'ID utilisateur 1 (Compte Système)! Veuillez créer un nouvel utilisateur!',
       'Done' => 'Fait',
       'end' => 'fin',
       'Error' => 'Erreur',
       'Example' => 'Exemple',
       'Examples' => 'Exemples',
-      'Facility' => '',
+      'Facility' => 'Facilité',
       'Feature not activ!' => 'Fonction non activé',
       'go' => 'Go',
       'go!' => 'c\'est parti&nbsp;!',
@@ -79,8 +79,8 @@ sub Data {
       'Language' => 'Langue',
       'Languages' => 'Langues',
       'Line' => 'Ligne',
-      'Lite' => '',
-      'Login failed! Your username or password was entered incorrectly.' => '',
+      'Lite' => 'allégée',
+      'Login failed! Your username or password was entered incorrectly.' => 'La connection a échoué ! Votre nom d\'utilisateur ou votre mot de passe a été saisie incorrectement',
       'Logout successful. Thank you for using OTRS!' => 'Déconnection réussie. Merci d\'avoir utilisé OTRS!',
       'Message' => 'Message',
       'minute' => 'minute',
@@ -91,25 +91,25 @@ sub Data {
       'New message' => 'Nouveau message',
       'New message!' => 'Nouveau message&nbsp;!',
       'No' => 'Non',
-      'no' => 'aucun',
+      'no' => 'aucune',
       'No suggestions' => 'Pas de suggestions',
       'none' => 'aucun',
       'none - answered' => 'aucun - répondu',
       'none!' => 'aucun&nbsp;!',
       'Off' => 'éteint',
-      'off' => 'éteint',
-      'on' => 'allumé;',
-      'On' => 'Allumé;',
+      'off' => 'Éteint',
+      'on' => 'allumé',
+      'On' => 'Allumé',
       'Password' => 'Mot de Passe',
-      'Pending till' => '',
-      'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre &agrave; ce(s) ticket(s) pour revenir &agrave; la vue normale de la file.',
+      'Pending till' => 'En attendant jusqu\'à',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre à ce(s) ticket(s) pour revenir à la vue normale de la file.',
       'Please contact your admin' => 'Veuillez contacter votre admnistrateur',
       'please do not edit!' => 'Ne pas modifier&nbsp;!',
       'possible' => 'possible',
       'QueueView' => 'Vue file',
       'reject' => 'rejeté',
       'replace with' => 'remplacer par',
-      'Reset' => 'Remise &agrave; zéro',
+      'Reset' => 'Remise à zéro',
       'Salutation' => 'Salutation',
       'Signature' => 'Signature',
       'Sorry' => 'Désolé',
@@ -123,20 +123,21 @@ sub Data {
       'There is no account with that login name.' => 'Il n\'y a aucun compte avec ce login',
       'Timeover' => 'Temp écoulé',
       'top' => 'haut',
-      'update' => 'Mise &agrave; jour',
+      'update' => 'Mise à jour',
       'update!' => 'actualiser&nbsp;!',
       'User' => 'Utilisateur',
+			'Users' => 'Utilisateurs',
       'Username' => 'Nom d\'utilisateur',
       'Valid' => 'Valide',
       'Warning' => 'Attention',
-      'Welcome to OTRS' => 'Bienvenue &agrave; OTRS',
+      'Welcome to OTRS' => 'Bienvenue à OTRS',
       'Word' => 'Mot',
       'wrote' => 'écrit',
       'yes' => 'oui',
       'Yes' => 'Oui',
       'You got new message!' => 'Vous avez un nouveau message',
       'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s)',
-      'You have %s reminder ticket(s)!' => '',
+      'You have %s reminder ticket(s)!' => 'Vous avez %s rappel(s) de ticket(s)',
 
     # Template: AAAMonth
       'Apr' => 'Avr',
@@ -155,20 +156,20 @@ sub Data {
     # Template: AAAPreferences
       'Custom Queue' => 'File d\'attente personnelle',
       'Follow up notification' => 'Notification de suivi',
-      'Frontend' => 'Frontal',
+      'Frontend' => 'Interface',
       'Mail Management' => 'Gestion des Emails',
       'Move notification' => 'Notification de mouvement',
       'New ticket notification' => 'Notification de nouveau ticket',
       'Other Options' => 'Autres options',
-      'Preferences updated successfully!' => 'Les préférences ont bien été mises &agrave; jours',
+      'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours',
       'QueueView refresh time' => 'Temps de rafraîchissement de la vue des files',
-      'Select your frontend Charset.' => 'Choix du jeu de caractères du frontal',
-      'Select your frontend language.' => 'Choix de la langue du frontal',
-      'Select your frontend QueueView.' => 'Choisissez votre frontal de vue des files',
-      'Select your frontend Theme.' => 'Choix du thème du frontal',
+      'Select your frontend Charset.' => 'Choix du jeu de caractères de l\'interface',
+      'Select your frontend language.' => 'Choix de la langue de l\'interface',
+      'Select your frontend QueueView.' => 'Choisissez votre interface de vue des files',
+      'Select your frontend Theme.' => 'Choix du thème de l\'interface',
       'Select your QueueView refresh time.' => 'Choix du délai de rafraîchissement de la vue des files',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Me prévenir si un client envoie un suivi (follow-up) et que je suis le propriétaire du ticket.',
-      'Send me a notification if a ticket is moved into a custom queue.' => 'Me prévenir si un ticket est déplacé dans une file personnalisé',
+      'Send me a notification if a ticket is moved into a custom queue.' => 'Me prévenir si un ticket est déplacé dans une file personnallisé',
       'Send me a notification if a ticket is unlocked by the system.' => 'Me prévenir si un ticket est dévérouillé par le système',
       'Send me a notification if there is a new ticket in my custom queues.' => 'Me prévenir si un nouveau ticket apparaît dans mes files personnelles.',
       'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou ',
@@ -213,9 +214,9 @@ sub Data {
       'open' => 'ouvrir',
       'Owner' => 'Propriétaire',
       'Pending' => 'En attente',
-      'pending auto close+' => '',
-      'pending auto close-' => '',
-      'pending reminder' => '',
+      'pending auto close+' => 'En attendant la fermeture automatique(+)',
+      'pending auto close-' => 'En attendant la fermeture automatique(-)',
+      'pending reminder' => 'En attendant le rappel',
       'phone' => 'téléphone',
       'plain' => 'tel quel',
       'Priority' => 'Priorité',
@@ -227,16 +228,16 @@ sub Data {
       'Subject' => 'Sujet',
       'This is a' => 'Ceci est un',
       'This is a HTML email. Click here to show it.' => 'Ceci est un message au format HTML&nbsp;; cliquer ici pour l\'afficher.',
-      'This message was written in a character set other than your own.' => '',
+      'This message was written in a character set other than your own.' => 'Ce message a été &eaute;crit dans un type de charactè autre que le v&ociric;tre',
       'Ticket' => 'Ticket',
-      'To' => '&agrave; ',
+      'To' => 'à ',
       'to open it in a new window.' => 'Pour l\'ouvrir dans une nouvelle fenêtre',
       'Unlock' => 'Déverrouiller',
       'very high' => 'bloque un service entier',
       'very low' => 'confort intellectuel',
       'View' => 'Vue',
       'webrequest' => 'Requete par le web',
-      'Zoom' => 'Détail',
+      'Zoom' => 'Détails',
 
     # Template: AAAWeekDay
       'Fri' => 'Ven',
@@ -269,15 +270,16 @@ sub Data {
       'Useable options' => 'Options accessibles',
 
     # Template: AdminCharsetForm
+
       'Add charset' => 'Ajouter un jeu de caractères système',
-      'Change system charset setting' => 'Modification des paramètres du jeu de caractères syst&egrave;me',
+      'Change system charset setting' => 'Modification des paramètres du jeu de caractères système',
       'System Charset Management' => 'Gestion du jeu de caractères système',
 
     # Template: AdminCustomerUserForm
       'Add customer user' => 'Ajouter un utilisateur client',
       'Change customer user settings' => 'Changer les préférences utilisateurs du client',
       'Customer User Management' => 'Gestion des clients utilisateurs',
-      'Customer user will be needed to to login via customer panels.' => 'Les clients utilisateurs seront invité &agrave; se connecter par la page client.',
+      'Customer user will be needed to to login via customer panels.' => 'Les clients utilisateurs seront invité à se connecter par la page client.',
 
     # Template: AdminCustomerUserGeneric
 
@@ -290,7 +292,7 @@ sub Data {
       'Recipents' => 'Récipients',
 
     # Template: AdminEmailSent
-      'Message sent to' => 'Message envoyé &agrave;',
+      'Message sent to' => 'Message envoyé à',
 
     # Template: AdminGroupForm
       'Add group' => 'Ajouter un groupe',
@@ -298,7 +300,7 @@ sub Data {
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'De nouveaux groupes permettront de gérer les droits d\'accès pour les différents groupes d\'un agent (exemple&nbsp;: achats, comptabilité, support, ventes...).',
       'Group Management' => 'Administration des groupes',
       'It\'s useful for ASP solutions.' => 'C\'est utile pour les fournisseurs d\'applications.',
-      'The admin group is to get in the admin area and the stats group to get stats area.' => 'Le groupe admin permet d\'accéder &agrave; la zone d\'administration et le groupe stats &agrave; la zone de statistiques.',
+      'The admin group is to get in the admin area and the stats group to get stats area.' => 'Le groupe admin permet d\'accéder à la zone d\'administration et le groupe stats à la zone de statistiques.',
 
     # Template: AdminLanguageForm
       'Add language' => 'Ajouter une langue',
@@ -310,12 +312,13 @@ sub Data {
 
     # Template: AdminNavigationBar
       'AdminEmail' => 'Email de l\'administrateur.',
-      'AgentFrontend' => 'Frontal d\'agent',
+
+      'AgentFrontend' => 'Interface de l\'agent',
       'Auto Response <-> Queue' => 'Réponse Automatique <-> Files',
       'Auto Responses' => 'Réponses automatiques',
       'Charsets' => 'Jeu de Charactère',
       'Customer User' => 'Client Utilisateur',
-      'Email Addresses' => 'Adresses courriel',
+      'Email Addresses' => 'Adresses électroniques',
       'Groups' => 'Groupes',
       'Logout' => 'Déconnexion',
       'Misc' => 'Divers',
@@ -333,9 +336,9 @@ sub Data {
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Tout les mails entrants avec un compte seront répartis dans la file sélectionné',
       'Change POP3 Account setting' => 'Changer les param&ecirc;tres du compte POP3',
       'Dispatching' => 'Répartition',
-      'Host' => 'Hô',
+      'Host' => 'Hôte',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Si votre compte est vérifié, les en-t&ecirc;tes x-otrs (pour les priorités,...) seront utilisés',
-      'Login' => 'Login',
+      'Login' => 'Nom d\'utilisateur',
       'POP3 Account Management' => 'Gestion du compte POP3',
       'Trusted' => 'Vérifié',
 
@@ -351,37 +354,38 @@ sub Data {
       'Change queue settings' => 'Modifier les paramètres des files',
       'Escalation time' => 'Délai d\'escalade',
       'Follow up Option' => 'Option des suivis',
-      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => '',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => '',
-      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '',
+      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Si un ticket est cloturé et que le client envoie une note, le ticket pour l\'ancien propriétaire',
+      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Si un ticket n\'est pas répondu dans le temps impartit, alors juste ce ticket sera affiché',
+      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Si un agent vérouille un ticket et qu\'il/elle n\'envoie pas une réponse dans le temps impartit, le ticket sera dévérouillé automatiquement.',
       'Key' => 'Clef',
       'Queue Management' => 'Gestion des files',
       'Systemaddress' => 'Adresse du Système',
       'The salutation for email answers.' => 'La formule de politesse pour les réponses par mail',
       'The signature for email answers.' => 'La signature pour les réponses par email',
       'Ticket lock after a follow up' => 'Ticket bloqué aprés un suivi',
-      'Unlock timeout' => 'Déverrouiller la temporisation',
-      'Will be the sender address of this queue for email answers.' => 'Sera l\'adresse d\'expépédition pour les réponses par mail',
+      'Unlock timeout' => 'Temporisation du déverrouillage',
+      'Will be the sender address of this queue for email answers.' => 'Sera l\'adresse d\'expépédition pour les réponses par courrier électronique',
+
 
     # Template: AdminQueueResponsesChangeForm
       'Change %s settings' => 'Changer les param&ecirc;tres de %s',
       'Std. Responses <-> Queue Management' => 'Gestion des réponses standard <-> files',
 
     # Template: AdminQueueResponsesForm
-      'Answer' => '',
+      'Answer' => 'Réponse',
       'Change answer <-> queue settings' => 'Modifier les paramètres de réponses <-> files',
 
     # Template: AdminResponseAttachmentChangeForm
       'Std. Responses <-> Std. Attachment Management' => 'Réponses Std <-> Gestion des attachements Std',
 
     # Template: AdminResponseAttachmentForm
-      'Change Response <-> Attachment settings' => 'Para&agrave;m&ecirc;tre des attachements',
+      'Change Response <-> Attachment settings' => 'Paraàm&ecirc;tre des attachements',
 
     # Template: AdminResponseForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Une réponse est un texte par défaut destiné &agrave; rédiger plus rapidement des réponses standard aux clients.',
+      'A response is default text to write faster answer (with default text) to customers.' => 'Une réponse est un texte par défaut destiné à rédiger plus rapidement des réponses standard aux clients.',
       'Add response' => 'Ajouter une réponse',
       'Change response settings' => 'Modifier les paramètres des réponses',
-      'Don\'t forget to add a new response a queue!' => 'Ne pas oublier d\'ajouter une file &agrave; une nouvelle réponse&nbsp;!',
+      'Don\'t forget to add a new response a queue!' => 'Ne pas oublier d\'ajouter une file à une nouvelle réponse&nbsp;!',
       'Response Management' => 'Gestion des réponses',
 
     # Template: AdminSalutationForm
@@ -418,10 +422,11 @@ sub Data {
       'System State Management' => 'Gestion des états du système',
 
     # Template: AdminSystemAddressForm
-      'Add system address' => 'Ajouter une adresse courriel du système',
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (&agrave;&nbsp;:) seront placés dans la file choisie..',
+
+      'Add system address' => 'Ajouter une adresse électronique du système',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (à&nbsp;:) seront placés dans la file choisie..',
       'Change system address setting' => 'Modification des paramètres des adresses courriel du système',
-      'Email' => 'Courriel',
+      'Email' => 'Courrier électronique',
       'Realname' => 'Véritable Nom',
       'System Email Addresses Management' => 'Gestion des adresses courriel du système',
 
@@ -444,20 +449,20 @@ sub Data {
     # Template: AdminUserPreferencesGeneric
 
     # Template: AgentBounce
-      'A message should have a To: recipient!' => 'Un message doit avoir un destinataire (&agrave;&nbsp;:)!',
+      'A message should have a To: recipient!' => 'Un message doit avoir un destinataire (à&nbsp;:)!',
       'Bounce ticket' => 'Renvoyer le ticket',
-      'Bounce to' => 'Renvoyer &agrave;',
+      'Bounce to' => 'Renvoyer à',
       'Inform sender' => 'Informer l\'emetteur',
       'Next ticket state' => 'Prochain état du ticket',
       'Send mail!' => 'Envoyer le courriel&nbsp;!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Il faut une adresse courriel (ecemple&nbsp;: client@exemple.fr)&nbsp;!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Votre email avec le ticket numéro "<OTRS_TICKET> est renvoyer &agrave; "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Votre email avec le ticket numéro "<OTRS_TICKET> est renvoyer à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
 
     # Template: AgentClose
       ' (work units)' => ' Unité de travail',
       'Close ticket' => 'Ticket clos',
       'Close type' => 'Type de cloture',
-      'Close!' => 'Cloture!',
+      'Close!' => 'Clôture!',
       'Note Text' => 'Note',
       'Note type' => 'Type de note',
       'store' => 'stocker',
@@ -467,10 +472,10 @@ sub Data {
       'A message should have a subject!' => 'Un message doit avoir un sujet&nbsp;!',
       'Attach' => 'Attaché',
       'Compose answer for ticket' => 'Composer une réponse pour le ticket',
-      'for pending* states' => '',
+      'for pending* states' => 'pour les états d\'attente',
       'Is the ticket answered' => 'Est-ce que le ticket est répondu',
       'Options' => '',
-      'Pending Date' => '',
+      'Pending Date' => 'En attendant la date',
       'Spell Check' => 'Vérification orthographique',
 
     # Template: AgentCustomer
@@ -492,7 +497,7 @@ sub Data {
       'End forwarded message' => 'Fin du message retransmit',
       'Forward article of ticket' => 'Transmettre l\'article du ticket',
       'Forwarded message from' => 'Message renvoyé par',
-      'Reply-To' => 'Répondre &agrave;',
+      'Reply-To' => 'Répondre à',
 
     # Template: AgentHistoryForm
       'History of' => 'Historique de',
@@ -508,8 +513,8 @@ sub Data {
       'Open messages' => 'Ouvrir des messages',
       'Order' => 'Ordre',
       'Pending messages' => 'Message en attente',
-      'Reminder' => '',
-      'Reminder messages' => '',
+      'Reminder' => 'Rappel',
+      'Reminder messages' => 'Message de rappel',
       'Sort by' => 'Trier par',
       'Tickets' => '',
       'up' => 'haut',
@@ -535,14 +540,14 @@ sub Data {
       'New user' => 'Nouvel utilisateur',
 
     # Template: AgentPending
-      'Pending date' => '',
-      'Pending type' => '',
-      'Set Pending' => '',
+      'Pending date' => 'Date d\'attente',
+      'Pending type' => 'Type d\'attente',
+      'Set Pending' => 'Définir l\'attente',
 
     # Template: AgentPhone
       'Customer called' => 'Client appelé',
       'Phone call' => 'Appel téléphonique',
-      'Phone call at %s' => 'Appel téléphonique &agrave; %s',
+      'Phone call at %s' => 'Appel téléphonique à %s',
 
     # Template: AgentPhoneNew
       'new ticket' => 'nouveau ticket',
@@ -570,8 +575,8 @@ sub Data {
 
     # Template: AgentSpelling
       'Apply these changes' => 'Appliquer ces changements',
-      'Discard all changes and return to the compose screen' => 'Annuler tout les changements et retourner &agrave; l\'écran de saisie',
-      'Return to the compose screen' => 'Retourner &agrave; l\'écran de saisie',
+      'Discard all changes and return to the compose screen' => 'Annuler tout les changements et retourner à l\'écran de saisie',
+      'Return to the compose screen' => 'Retourner à l\'écran de saisie',
       'Spell Checker' => 'Vérificateur orthographique',
       'spelling error(s)' => 'erreurs d\'orthographe',
       'The message being composed has been closed.  Exiting.' => 'Le message en cours de composition a été clôturé. Sortie.',
@@ -597,8 +602,8 @@ sub Data {
       'by' => 'par',
 
     # Template: AgentTicketPrintHeader
-      'Accounted time' => '',
-      'Escalation in' => '',
+      'Accounted time' => 'Temp passé',
+      'Escalation in' => 'Escalade dans',
       'printed by' => 'Imprimé par :',
 
     # Template: AgentUtilSearchByCustomerID
@@ -707,11 +712,11 @@ sub Data {
       'Logfile' => 'fichier de log',
       'LogModule' => 'Module de log',
       'Organization' => 'Société',
-      'System FQDN' => '',
+      'System FQDN' => 'Nom de Domaine Complètement Renseigné du système',
       'SystemID' => 'ID Système',
       'Ticket Hook' => '',
       'Ticket Number Generator' => 'Générateur de numéro pour les tickets',
-      'Webfrontend' => '',
+      'Webfrontend' => 'Frontal web',
 
     # Template: Login
 
@@ -790,8 +795,9 @@ sub Data {
       'Update user' => 'Actualiser un utilisateur',
       'You have to be in the admin group!' => 'Il est nécessaire d\'être dans le groupe d\'administration&nbsp;!',
       'You have to be in the stats group!' => 'Il est nécessaire d\'être dans le groupe des statistiques&nbsp;!',
-      'You need a email address (e. g. customer@example.com) in From:!' => '',
+      'You need a email address (e. g. customer@example.com) in From:!' => 'Vous devez avoir une adresse email dans le From:! (ex: client@example.com) ',
       'auto responses set' => 'Réponse automatique positionné',
+
     );
 
     # $$STOP$$
