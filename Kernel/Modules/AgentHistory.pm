@@ -2,7 +2,7 @@
 # AgentHistory.pm - to add notes to a ticket 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.2 2002-04-13 11:16:03 martin Exp $
+# $Id: AgentHistory.pm,v 1.3 2002-05-04 20:29:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -72,15 +72,16 @@ sub Run {
         my @Lines;
         my $Tn;
         my $SQL = "SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, st.tn, " .
-        " su.login, ht.name as type " .
+        " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ht.name as type " .
         " FROM " .
-        " ticket_history as sh, ticket as st, user as su, ticket_history_type as ht" .
+        " ticket_history as sh, ticket as st, ".
+        " $Self->{ConfigObject}->{DatabaseUserTable} as su, ticket_history_type as ht" .
         " WHERE " .
         " sh.ticket_id = $TicketID " .
         " AND " .
         " sh.ticket_id = st.id" .
         " AND " .
-        " sh.create_by = su.id" .
+        " sh.create_by = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}" .
         " AND " .
         " ht.id = sh.history_type_id" .
         " ORDER BY create_time";

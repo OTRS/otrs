@@ -2,7 +2,7 @@
 # AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.1 2002-04-16 07:09:55 martin Exp $
+# $Id: AgentOwner.pm,v 1.2 2002-05-04 20:29:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -83,8 +83,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         # get priority states
         my %States = $Self->{DBObject}->GetTableData(
-			What => 'id, login',
-			Table => 'user',
+			What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+                    " $Self->{ConfigObject}->{DatabaseUserTableUser}",
+			Table => $Self->{ConfigObject}->{DatabaseUserTable},
 		);
         # print change form
 	    $Output .= $Self->{LayoutObject}->AgentOwner(

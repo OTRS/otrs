@@ -1,8 +1,8 @@
 # --
 # AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroup.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.3 2002-05-04 20:29:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -59,9 +59,10 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{DBObject}->GetTableData(
-                Table => 'user',
-                What => 'id, login',
-                Where => "id = $ID");
+                What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+                        " $Self->{ConfigObject}->{DatabaseUserTableUser}",
+                Table => $Self->{ConfigObject}->{DatabaseUserTable},
+                Where => "$Self->{ConfigObject}->{DatabaseUserTableUserID} = $ID");
         # get group data
         my %GroupData = $Self->{DBObject}->GetTableData(
                 Table => 'groups',
@@ -85,8 +86,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{DBObject}->GetTableData(
-                Table => 'user',
-                What => 'id, login',
+                What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+                        " $Self->{ConfigObject}->{DatabaseUserTableUser}",
+                Table => $Self->{ConfigObject}->{DatabaseUserTable},
                 Valid => 1,
         );
         # get group data
@@ -154,8 +156,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data 
         my %UserData = $Self->{DBObject}->GetTableData(
-          Table => 'user', 
-          What => 'id, login', 
+          What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+                  " $Self->{ConfigObject}->{DatabaseUserTableUser}",
+          Table => $Self->{ConfigObject}->{DatabaseUserTable},
           Valid => 1,
         );
         # get group data

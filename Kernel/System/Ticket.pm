@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.4 2002-04-16 07:10:36 martin Exp $
+# $Id: Ticket.pm,v 1.5 2002-05-04 20:30:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -260,13 +260,13 @@ sub CheckOwner {
         " user_id = $UserID";
     }
     else {
-        $SQL = "SELECT st.user_id, su.login " .
+        $SQL = "SELECT st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} " .
         " FROM " .
-        " ticket st, user su " .
+        " ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su " .
         " WHERE " .
         " st.id = $TicketID " .
         " AND " .
-        " st.user_id = su.id";
+        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {

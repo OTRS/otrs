@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.5 2002-04-24 22:58:12 martin Exp $
+# $Id: AgentZoom.pm,v 1.6 2002-05-04 20:29:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -81,15 +81,16 @@ sub Run {
     
     my $SQL = "SELECT sa.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, ".
     " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ". 
-    " sa.create_time, stt.name as sender_type, at.name as article_type, su.login, ".
+    " sa.create_time, stt.name as sender_type, at.name as article_type, ".
+    " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ".
     " sl.name as lock_type, sp.name as priority, tsd.name as state, sa.content_path, ".
     " sq.name as queue, st.create_time as ticket_create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
     " st.freetext2, st.customer_id, sq.group_id ".
     " FROM ".
-    " article sa, ticket st, article_sender_type stt, article_type at, user su, " .
-    " ticket_lock_type sl, " .
+    " article sa, ticket st, article_sender_type stt, article_type at, ".
+    " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
     " ticket_priority sp, ticket_state tsd, queue sq " .
     " WHERE " .
     " sa.ticket_id = $TicketID " .
@@ -102,7 +103,7 @@ sub Run {
     " AND " .
     " at.id = sa.article_type_id " .
     " AND " .
-    " su.id = st.user_id " .
+    " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
     " AND " .
     " sp.id = st.ticket_priority_id " .
     " AND " .

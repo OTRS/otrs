@@ -2,7 +2,7 @@
 # AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.5 2002-04-13 11:16:03 martin Exp $
+# $Id: AgentUtilities.pm,v 1.6 2002-05-04 20:29:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -105,10 +105,12 @@ sub SearchByTn {
     my $OutputTables = '';
     my $SQL = "SELECT st.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, " .
     " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, sa.create_time, " .
-    " stt.name as sender_type, at.name as article_type, su.login, sl.name as lock_type, " .
+    " stt.name as sender_type, at.name as article_type, su.$Self->{ConfigObject}->{DatabaseUserTableUser}, " .
+    " sl.name as lock_type, " .
     " sp.name as priority, tsd.name as state, sa.content_path, sq.name as queue " .
     " FROM " .
-    " article sa, ticket st, article_sender_type stt, article_type at, user su, ticket_lock_type sl, " .
+    " article sa, ticket st, article_sender_type stt, article_type at, ".
+    " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
     " ticket_priority sp, ticket_state tsd, queue sq, group_user sug  " .
     " WHERE " .
     " st.tn LIKE '$Want' " .
@@ -121,7 +123,7 @@ sub SearchByTn {
     " AND " .
     " at.id = sa.article_type_id " .
     " AND " .
-    " su.id = st.user_id " .
+    " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
     " AND " .
     " sp.id = st.ticket_priority_id " .
     " AND " .
@@ -197,10 +199,12 @@ sub SearchByText {
     my $Age = '?';
     my $SQL = "SELECT st.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, " .
     " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, sa.create_time, " .
-    " stt.name as sender_type, at.name as article_type, su.login, sl.name as lock_type, " .
+    " stt.name as sender_type, at.name as article_type, su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ".
+    " sl.name as lock_type, " .
     " sp.name as priority, tsd.name as state, sa.content_path, sq.name as queue " .
     " FROM " .
-    " article sa, ticket st, article_sender_type stt, article_type at, user su, ticket_lock_type sl, " .
+    " article sa, ticket st, article_sender_type stt, article_type at, ".
+    " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
     " ticket_priority sp, ticket_state tsd, queue sq, group_user sug " .
     " WHERE  " .
     " ($SqlExt) " .
@@ -213,7 +217,7 @@ sub SearchByText {
     " AND " .
     " at.id = sa.article_type_id " .
     " AND " .
-    " su.id = st.user_id " .
+    " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
     " AND " .
     " sp.id = st.ticket_priority_id " .
     " AND " .

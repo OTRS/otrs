@@ -2,7 +2,7 @@
 # AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.4 2002-04-13 11:16:03 martin Exp $
+# $Id: AgentPreferences.pm,v 1.5 2002-05-04 20:29:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -90,6 +90,7 @@ sub Form {
     my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     my %QueueData = $Self->{QueueObject}->GetAllQueues(UserID => $UserID);
+
     my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->AgentPreferencesForm(
         QueueData => \%QueueData,
@@ -108,13 +109,9 @@ sub UpdatePw {
     my $Pw = $Self->{ParamObject}->GetParam(Param => 'NewPw') || '';
     my $Pw1 = $Self->{ParamObject}->GetParam(Param => 'NewPw1') || '';
     my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
     
     if ($Pw eq $Pw1 && $Pw) {
-        my $NewPw = crypt($Pw, $UserLogin);
-        $Self->{DBObject}->Do(
-            SQL => "UPDATE user SET pw = '$NewPw' where id = $UserID",
-        );
+        $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
         $Output .= $Self->{LayoutObject}->Redirect(
             OP => "&Action=AgentPreferences",
         );
