@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.20 2003-02-08 15:16:30 martin Exp $
+# $Id: Installer.pm,v 1.21 2003-02-15 12:08:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,6 +38,10 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
 
+    # find fs dir (because of mod_perl2)
+    $Self->{Path} = $ENV{SCRIPT_FILENAME};
+    $Self->{Path} =~ s/^(.*\/).+?$/$1/;
+
     return $Self;
 }
 # --
@@ -49,15 +53,33 @@ sub Run {
     # --
     # get sql source
     # --
-    my $DirOfSQLFiles = '../../scripts/database';
+    my $DirOfSQLFiles = $Self->{Path}.'../../scripts/database';
     if (! -d $DirOfSQLFiles) {
-        $DirOfSQLFiles = '/usr/share/doc/packages/otrs/install/database';
-        if (! -d $DirOfSQLFiles) {
-            $DirOfSQLFiles = '/usr/share/doc/packages/otrs-7.3/install/database';
-            if (! -d $DirOfSQLFiles) {
-                $DirOfSQLFiles = '/usr/share/doc/otrs/install/database';
-            }
-        }
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error(
+               Message => "Directory '$DirOfSQLFiles' not found!",
+               Comment => 'Contact your Admin!',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    } 
+    elsif (! -f "$DirOfSQLFiles/otrs-schema.xml") {
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error(
+               Message => "File '$DirOfSQLFiles/otrs-schema.xml' not found!",
+               Comment => 'Contact your Admin!',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    if (! -f "$Self->{Path}../../Kernel/Config.pm") {
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error(
+               Message => "File '$Self->{Path}../../Kernel/Config.pm' not found!",
+               Comment => 'Contact your Admin!',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # check dist
@@ -350,18 +372,18 @@ sub Run {
              $Output .= "<u>Can't write Config.pm - Fatal Error!</u><br>";
         }
         else {
-           my $SetPermission = $ENV{SCRIPT_FILENAME} || '/opt/otrs/bin/SetPermissions.sh';
-           $SetPermission =~ s/(.+?)\/cgi-bin\/installer.pl/$1\/SetPermissions.sh/g;
-           my $BaseDir = $SetPermission;
-           $BaseDir =~ s/(.*\/)bin\/SetPermissions.sh/$1/;
+#           my $SetPermission = $ENV{SCRIPT_FILENAME} || '/opt/otrs/bin/SetPermissions.sh';
+#           $SetPermission =~ s/(.+?)\/cgi-bin\/installer.pl/$1\/SetPermissions.sh/g;
+#           my $BaseDir = $SetPermission;
+#           $BaseDir =~ s/(.*\/)bin\/SetPermissions.sh/$1/;
            my $OTRSHandle = $ENV{SCRIPT_NAME};
            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
            $Output .= $Self->{LayoutObject}->InstallerBody(
                Item => 'finish',
                Step => '3/3',
                Body => $Self->{LayoutObject}->InstallerFinish(
-                   SetPermission => $SetPermission,
-                   BaseDir => $BaseDir,
+#                   SetPermission => $SetPermission,
+#                   BaseDir => $BaseDir,
                    OTRSHandle => $OTRSHandle,
                    %Dist,
                ),
@@ -414,7 +436,8 @@ sub ReConfigure {
     # --
     # read config file
     # --
-    open (IN, "< ../../Kernel/Config.pm") || return "Can't open ../../Kernel/Config.pm: $!";
+    open (IN, "< $Self->{Path}/../../Kernel/Config.pm") || 
+        return "Can't open $Self->{Path}/../../Kernel/Config.pm: $!";
     while (<IN>) {
         if ($_ =~ /^#/) {
             $Config .= $_;
@@ -450,7 +473,8 @@ sub ReConfigure {
     # --
     # write new config file
     # --
-    open (OUT, "> ../../Kernel/Config.pm") || return "Can't open ../../Kernel/Config.pm: $!";
+    open (OUT, "> $Self->{Path}/../../Kernel/Config.pm") || 
+        return "Can't open $Self->{Path}/../../Kernel/Config.pm: $!";
     print OUT $Config;
     close (OUT); 
 
@@ -459,4 +483,3 @@ sub ReConfigure {
 # --
 
 1;
-
