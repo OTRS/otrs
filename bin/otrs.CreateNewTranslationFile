@@ -1,20 +1,20 @@
 #!/usr/bin/perl -w
 # --
-# otrs.CreateNewTranslationFile - create new translation file 
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# otrs.CreateNewTranslationFile - create new translation file
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.6 2004-04-11 16:47:57 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.7 2004-09-10 16:17:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -40,13 +40,13 @@ use Kernel::Output::HTML::Generic;
 # --
 # get opts
 # --
-getopt('fls',  \%Opts);
+getopt('olst',  \%Opts);
 # --
 # print head
 # --
 print "otrs.CreateNewTranslationFile <Revision $VERSION> - create new translation file\n";
-print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
-print "usage: otrs.CreateNewTranslationFile -l <Language> -f <FileLocation> -s <SourceFile>\n";
+print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
+print "usage: otrs.CreateNewTranslationFile -l <Language> [-o <OutputDir>] [-s <SourceFile>] [-t single_dtl_files]\n";
 
 # --
 # common objects
@@ -64,22 +64,32 @@ if (!$Opts{'l'}) {
     print "ERROR: -l <Language>!\n";
     exit 1;
 }
-if (!$Opts{'s'}) {
-    print "ERROR: -s <SourceDir>!\n";
-    exit 1;
-}
-else {
-    if (! -f $Opts{'s'}) {
-        print "ERROR: Can't find $Opts{'s'}!\n";
+if (!$Opts{'t'}) {
+    if (!$Opts{'s'}) {
+        print "ERROR: -s <SourceDir>!\n";
         exit 1;
     }
+    else {
+        if (! -f $Opts{'s'}) {
+            print "ERROR: Can't find $Opts{'s'}!\n";
+            exit 1;
+        }
+    }
 }
-if (!$Opts{'f'}) {
-    $Opts{'f'} = '/tmp';
-    print "INFO: no -f <FileLocation>! Use '/tmp'!\n";
+if (!$Opts{'o'}) {
+    $Opts{'o'} = '/tmp';
+    print "INFO: no -o <OutputDir>! Use '/tmp'!\n";
+}
+if (!$Opts{'t'}) {
+    $Opts{'t'} = '*';
+    $Opts{'FileTranslation'} = 0;
+}
+else {
+    $Opts{'FileTranslation'} = 1;
 }
 
 $CommonObject{ConfigObject}->Set(Key => 'WriteNewTranslationFile', Value => 1);
+$CommonObject{ConfigObject}->Set(Key => 'FileTranslation', Value => $Opts{'FileTranslation'});
 
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
     UserLanguage => $Opts{'l'},
@@ -92,32 +102,61 @@ my $TemplateDir = '../Kernel/Output/HTML/'. $Theme;
 # --
 # open .dtl files and write new translation file
 # --
-open (TEMPLATEOUT, "> $Opts{'f'}/$Opts{'l'}.pm") || die "Can't write $Opts{'f'}/$Opts{'l'}.pm: $!";
 
 my %UsedWords = ();
-my @List = glob("$RealBin/$TemplateDir/*.dtl");
+my @List = glob("$RealBin/$TemplateDir/$Opts{t}.dtl");
 foreach my $File (@List) {
     $File =~ s!^.*/(.+?)\.dtl!$1!;
+    print "Template: $File\n";
     my $Template = $CommonObject{LayoutObject}->Output(
         TemplateFile => $File,
         UserLanguage => $Opts{'l'},
     );
 }
-my %MetaData = ();
-open (TEMPLATEIN, "< $Opts{'s'}") || die "Can't write $Opts{'f'}/$Opts{'l'}.pm: $!";
-while (<TEMPLATEIN>) {
-    if (!$MetaData{DataPrinted}) {
-        print TEMPLATEOUT $_;
-    }
-    if ($_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted}) {
-        $MetaData{DataPrinted} = 1;
-        print TEMPLATEOUT "    # Last translation ".scalar localtime()." by \n\n";
-        print TEMPLATEOUT $CommonObject{LayoutObject}->ReturnValue('LanguageObject')->DESTROY();
-    }
-    if ($_ =~ /\$\$STOP\$\$/) {
-        print TEMPLATEOUT "\n".$_;
-        $MetaData{DataPrinted} = 0;
-    }
+if ($Opts{'FileTranslation'}) {
+    $Opts{'t'} =~ s/\*//g;
+    open (TEMPLATEOUT, "> $Opts{'o'}/$Opts{'l'}_$Opts{'t'}.pm") || die "Can't write $Opts{'o'}/$Opts{'l'}_$Opts{'t'}.pm: $!";
+    print "Writing: $Opts{'o'}/$Opts{'l'}_$Opts{'t'}.pm\n";
+    print TEMPLATEOUT "# --\n";
+    print TEMPLATEOUT "# Kernel/Language/$Opts{'l'}_$Opts{'t'}.pm - translation file\n";
+    print TEMPLATEOUT "# --\n";
+    print TEMPLATEOUT "\n";
+    print TEMPLATEOUT "package Kernel::Language::$Opts{'l'}_$Opts{'t'};\n";
+    print TEMPLATEOUT "\n";
+    print TEMPLATEOUT "use strict;\n";
+    print TEMPLATEOUT "\n";
+    print TEMPLATEOUT "\n";
+    print TEMPLATEOUT "sub Data {\n";
+    print TEMPLATEOUT "  my \$Self = shift;\n";
+    print TEMPLATEOUT "\n";
+    print TEMPLATEOUT "  \$Self->{Translation} = {\n";
+    print TEMPLATEOUT "      %{\$Self->{Translation}},\n";
+    print TEMPLATEOUT $CommonObject{LayoutObject}->ReturnValue('LanguageObject')->DESTROY();
+    print TEMPLATEOUT "\n";
+    print TEMPLATEOUT "  };\n";
+    print TEMPLATEOUT "}\n";
+    print TEMPLATEOUT "1;\n";
+    close (TEMPLATEOUT);
 }
-close (TEMPLATEIN);
-close (TEMPLATEOUT);
+else {
+    my %MetaData = ();
+    open (TEMPLATEOUT, "> $Opts{'o'}/$Opts{'l'}.pm") || die "Can't write $Opts{'o'}/$Opts{'l'}.pm: $!";
+    print "Writing: $Opts{'o'}/$Opts{'l'}.pm\n";
+    open (TEMPLATEIN, "< $Opts{'s'}") || die "Can't write $Opts{'o'}/$Opts{'l'}.pm: $!";
+    while (<TEMPLATEIN>) {
+        if (!$MetaData{DataPrinted}) {
+            print TEMPLATEOUT $_;
+        }
+        if ($_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted}) {
+            $MetaData{DataPrinted} = 1;
+            print TEMPLATEOUT "    # Last translation file sync: ".scalar localtime()."\n\n";
+            print TEMPLATEOUT $CommonObject{LayoutObject}->ReturnValue('LanguageObject')->DESTROY();
+        }
+        if ($_ =~ /\$\$STOP\$\$/) {
+            print TEMPLATEOUT "\n".$_;
+            $MetaData{DataPrinted} = 0;
+        }
+    }
+    close (TEMPLATEIN);
+    close (TEMPLATEOUT);
+}

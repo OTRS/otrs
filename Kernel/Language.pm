@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.33 2004-06-15 09:16:34 martin Exp $
+# $Id: Language.pm,v 1.34 2004-09-10 16:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -26,7 +26,7 @@ Kernel::Language - global language interface
 
 =head1 SYNOPSIS
 
-All language functions. 
+All language functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -36,8 +36,8 @@ All language functions.
 
 =item new()
 
-create a language object 
- 
+create a language object
+
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::Langauge;
@@ -47,7 +47,7 @@ create a language object
       ConfigObject => $ConfigObject,
   );
 
-  my $LangaugeObject = Kernel::Langauge->new( 
+  my $LangaugeObject = Kernel::Langauge->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
       UserLanguage => 'de',
@@ -55,23 +55,22 @@ create a language object
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
-    # get common objects 
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_!" if (!$Self->{$_});
-    } 
+    }
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # time object
@@ -81,7 +80,7 @@ sub new {
     # user language
     $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
 #    $Self->{UserLanguage} = 'english';
-    # Debug 
+    # Debug
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'Debug',
@@ -143,10 +142,9 @@ sub new {
     $Self->{WriteNewTranslationFile} = $Self->{ConfigObject}->Get('WriteNewTranslationFile');
     return $Self;
 }
-# --
 
 =item Get()
-    
+
 Translate a words.
 
   my $Text = $LanguageObject->Get('Hello');
@@ -172,7 +170,7 @@ sub Get {
         @Dyn = split(/", "/, $2);
     }
     # --
-    # check wanted param and returns the 
+    # check wanted param and returns the
     # lookup or the english data
     # --
     if (exists $Self->{Translation}->{$What} && $Self->{Translation}->{$What} ne '') {
@@ -207,7 +205,7 @@ sub Get {
             if (defined $Dyn[$_]) {
                 if ($Dyn[$_] =~ /Time\((.*)\)/) {
                     $Dyn[$_] = $Self->Time(
-                        Action => 'GET', 
+                        Action => 'GET',
                         Format => $1,
                     );
                     $Text =~ s/\%(s|d)/$Dyn[$_]/;
@@ -217,7 +215,7 @@ sub Get {
                 }
             }
         }
-        return $Text; 
+        return $Text;
     }
     else {
         # warn if the value is not def
@@ -240,25 +238,24 @@ sub Get {
             if (defined $Dyn[$_]) {
                 if ($Dyn[$_] =~ /Time\((.*)\)/) {
                     $Dyn[$_] = $Self->Time(
-                        Action => 'GET', 
+                        Action => 'GET',
                         Format => $1,
                     );
-                    $What =~ s/\%(s|d)/$Dyn[$_]/; 
+                    $What =~ s/\%(s|d)/$Dyn[$_]/;
                 }
                 else {
-                    $What =~ s/\%(s|d)/$Dyn[$_]/; 
+                    $What =~ s/\%(s|d)/$Dyn[$_]/;
                 }
             }
         }
         return $What;
     }
 }
-# --
 
 =item FormatTimeString()
 
 Get date format in used language formate (based on translation file).
-    
+
   my $Date = $LanguageObject->FormatTimeString('2005-12-12 12:12:12', 'DateFormat');
 
 =cut
@@ -278,19 +275,18 @@ sub FormatTimeString {
     }
     else {
         $Self->{LogObject}->Log(
-            Priority => 'notice', 
+            Priority => 'notice',
             Message => "No FormatTimeString() translation found for '$String' string!",
         );
         return $String;
     }
 }
-# --
 
 =item GetRecommendedCharset()
 
 Returns the recommended charset for frontend (based on translation
 file or from DefaultCharset (from Kernel/Config.pm) is utf-8).
-    
+
   my $Charset = $LanguageObject->GetRecommendedCharset().
 
 =cut
@@ -310,12 +306,11 @@ sub GetRecommendedCharset {
         return $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
     }
 }
-# --
 
 =item GetPossibleCharsets()
 
 Returns an array of possible charsets (based on translation file).
-    
+
   my @Charsets = $LanguageObject->GetPossibleCharsets().
 
 =cut
@@ -329,12 +324,11 @@ sub GetPossibleCharsets {
         return;
     }
 }
-# --
 
 =item Time()
 
 Returns a time string in language formate (based on translation file).
-   
+
     $Time = $LanguageObject->Time(
         Action => 'GET',
         Format => 'DateFormat',
@@ -344,7 +338,7 @@ Returns a time string in language formate (based on translation file).
         Action => 'GET',
         Format => 'DateFormatLong',
     );
- 
+
     $TimeLong = $LanguageObject->Time(
         Action => 'RETURN',
         Format => 'DateFormatLong',
@@ -354,7 +348,7 @@ Returns a time string in language formate (based on translation file).
         Hour => 20,
         Minute => 10,
     );
- 
+
 =cut
 
 sub Time {
@@ -410,17 +404,16 @@ sub Time {
         $ReturnString =~ s{(\%A)}{$Self->Get($DAYS[$wd]);}egx;
         $ReturnString =~ s{(\%B)}{$Self->Get($MONS[$M-1]);}egx;
         return $ReturnString;
-    } 
+    }
     # return
     return $ReturnString;
 }
-# --
 
 =item CharsetConvert()
 
-Converts charset from a source string (if no To is given, the the 
+Converts charset from a source string (if no To is given, the the
 GetRecommendedCharset() will be used).
-    
+
   my $Text = $LanguageObject->CharsetConvert(
       Text => $String,
       From => 'iso-8859-15',
@@ -436,7 +429,7 @@ sub CharsetConvert {
     my $From = $Param{From} || return $Text;
     my $To = $Param{To} || $Self->{ReturnCharset} || return $Text;
     $From =~ s/'|"//g;
-    # encode 
+    # encode
     return $Self->{EncodeObject}->Convert(
         From => $From,
         To => $To,
@@ -453,20 +446,22 @@ sub DESTROY {
         my %UniqWords = ();
         my $Data = '';
         my %Screens = %{$Self->{UsedWords}};
-        $Data .= "    # possible charsets\n".
-                 "    \$Self->{Charset} = [";
-        if ($Self->{Charset}) {
-            foreach (@{$Self->{Charset}}) {
-                $Data .= "'$_', ";
+        if (!$Self->{ConfigObject}->Get('FileTranslation')) {
+            $Data .= "    # possible charsets\n".
+                     "    \$Self->{Charset} = [";
+            if ($Self->{Charset}) {
+                foreach (@{$Self->{Charset}}) {
+                    $Data .= "'$_', ";
+                }
             }
-        }
-        $Data .= "];\n".
+            $Data .= "];\n".
                  "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n".
                  "    \$Self->{DateFormat} = '$Self->{DateFormat}';\n".
                  "    \$Self->{DateFormatLong} = '$Self->{DateFormatLong}';\n".
                  "    \$Self->{DateInputFormat} = '$Self->{DateInputFormat}';\n".
                  "    \$Self->{DateInputFormatLong} = '$Self->{DateInputFormatLong}';\n\n".
                  "    \%Hash = (";
+        }
         foreach my $Screen (sort keys %Screens) {
             my %Words = %{$Screens{$Screen}};
             if ($Screen) {
@@ -477,7 +472,7 @@ sub DESTROY {
                         my $QuoteKey = $Key;
                         $QuoteKey =~ s/'/\\'/g;
                         if (defined $Words{$Key}) {
-                            $Words{$Key} =~ s/'/\\'/g;   
+                            $Words{$Key} =~ s/'/\\'/g;
                         }
                         else {
                             $Words{$Key} = '';
@@ -486,6 +481,9 @@ sub DESTROY {
                     }
                 }
             }
+        }
+        if ($Self->{ConfigObject}->Get('FileTranslation')) {
+            return $Data;
         }
         $Data .= "\n    # Misc\n";
         foreach my $Key (sort keys %{$Self->{Translation}}) {
@@ -506,12 +504,12 @@ sub DESTROY {
         return $Data;
     }
 }
-# --
+
 1;
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -521,6 +519,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2004-06-15 09:16:34 $
+$Revision: 1.34 $ $Date: 2004-09-10 16:17:23 $
 
 =cut
