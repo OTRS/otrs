@@ -1,8 +1,9 @@
+# !/bin/sh
 # --
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.5 2002-04-22 22:27:51 martin Exp $
+# $Id: suse-rcotrs,v 1.6 2002-05-06 00:10:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,9 +17,7 @@
 #
 test -r /etc/rc.config && . /etc/rc.config
 
-OTRS_CONFIG=/etc/sysconfig/otrs
-test -r $OTRS_CONFIG || exit 6
-. $OTRS_CONFIG
+test -r /etc/sysconfig/otrs && . /etc/sysconfig/otrs
 
 # Shell functions sourced from /etc/rc.status:
 #      rc_check         check and set local and overall rc status
@@ -29,8 +28,7 @@ test -r $OTRS_CONFIG || exit 6
 #      rc_failed <num>  set local and overall rc status to <num>
 #      rc_reset         clear local rc status (overall remains)
 #      rc_exit          exit appropriate to overall rc status
-test -s /etc/rc.status && \
-    . /etc/rc.status
+test -s /etc/rc.status && . /etc/rc.status
 
 # 
 # if one of this is false, it will not be checked at the startup!
