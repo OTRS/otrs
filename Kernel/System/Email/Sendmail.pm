@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Sendmail.pm,v 1.5 2003-03-10 14:33:01 wiktor Exp $
+# $Id: Sendmail.pm,v 1.6 2003-03-11 14:17:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -68,7 +68,10 @@ sub Send {
         }
         $Param{Header} .= "Subject: $Param{Subject}\n";
         $Param{Header} .= "X-Mailer: OTRS Mail Service ($VERSION)\n";
+        $Param{Header} .= "Organization: $Self->{Organization}\n" if ($Self->{Organization});
         $Param{Header} .= "X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org/)\n";
+        $Param{Header} .= "MessageID: <".time().".".rand(999999)."\@$Self->{FQDN}>\n";
+
     }
     my $To = '';
     foreach (qw(To Cc Bcc)) {
@@ -82,7 +85,11 @@ sub Send {
     # --
     # send mail
     # --
-    if (open( MAIL, "|".$Self->{Sendmail}." '$Param{From}' " )) {
+    # SOLO_adress patch by Robert Kehl (2003-03-11)
+    my @SOLO_address = Mail::Address->parse($Param{From});
+    my $RealFrom = $SOLO_address[0]->address();
+
+    if (open( MAIL, "|".$Self->{Sendmail}." '$RealFrom' " )) {
         print MAIL $Param{Header};
         print MAIL "\n";
         print MAIL $Param{Body};

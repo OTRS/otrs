@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMTP.pm,v 1.1 2003-03-06 10:40:01 martin Exp $
+# $Id: SMTP.pm,v 1.2 2003-03-11 14:17:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Mail::Address;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,6 +35,8 @@ sub new {
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+    $Self->{SMTPDebug} = 0; # shown on STDERR
+    $Self->{SMTPTimeout} = 30; # sec
     # get config data
     $Self->{Sendmail} = $Self->{ConfigObject}->Get('Sendmail');
     $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
@@ -93,18 +95,34 @@ sub Send {
     # --
     # send mail
     # --
-    if ($Self->{SMTPObject} = Net::SMTP->new($Self->{MailHost}, Timeout => 30, Debug => 0,)) {
+    if ($Self->{SMTPObject} = Net::SMTP->new($Self->{MailHost}, Timeout => $Self->{SMTPTimeout}, Debug => $Self->{SMTPDebug})) {
         if ($Self->{User} && $Self->{Password}) {
             if (!$Self->{SMTPObject}->auth($Self->{User}, $Self->{Password})) {
-                $Self->{LogObject}->Log(Priority => 'error', Message => "SMTP authentication failed!");
+                $Self->{LogObject}->Log(
+                    Priority => 'error', 
+                    Message => "SMTP authentication failed! Enable debug for more info!",
+                );
                 $Self->{SMTPObject}->quit;
                 return;
             }
         }
-        $Self->{SMTPObject}->mail($Param{From});
+        # SOLO_adress patch by Robert Kehl (2003-03-11)
+        my @SOLO_address = Mail::Address->parse($Param{From});
+        my $RealFrom = $SOLO_address[0]->address();
+        if (!$Self->{SMTPObject}->mail($RealFrom)) {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "Can't use from: $RealFrom! Enable debug for more info!",
+            );
+            $Self->{SMTPObject}->quit;
+            return;
+        }
         foreach (@To) {
             if (!$Self->{SMTPObject}->to($_)) {
-                $Self->{LogObject}->Log(Priority => 'error', Message => "Can't send to: $_!");
+                $Self->{LogObject}->Log(
+                    Priority => 'error', 
+                    Message => "Can't send to: $_! Enable debug for more info!",
+                );
                 $Self->{SMTPObject}->quit;
                 return;
             }
