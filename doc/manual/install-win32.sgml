@@ -1,0 +1,387 @@
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V4.2//EN"
+          "d:\docbook\docbook.dtd">
+
+<chapter label="1.3" id="install-win32" lang="en">
+
+<chapterinfo>
+<author>
+  <firstname>Robert</firstname>
+  <surname>Kehl</surname>
+  <email>otrs-win32@robertkehl.de</email>
+</author>
+<keywordset>
+  <keyword>win32</keyword>
+  <keyword>installation</keyword>
+  <keyword>sambar</keyword>
+  <keyword>cygwin</keyword>
+  <keyword>exim</keyword>
+  <keyword>activeperl</keyword>
+  <keyword>windows</keyword>
+  <keyword>win2k</keyword>
+  <keyword>XP</keyword>
+</keywordset>
+</chapterinfo>
+<title>Install OTRS 1.0 RC1 on Win32</title>
+
+<sect1>
+<title>Preamble</title>
+<para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0 RC1</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
+<para>You will need four main components on your system, as a webserver <emphasis>Sambar Server</emphasis>, as database <emphasis>MySQL</emphasis>, as an MTA <emphasis>exim</emphasis> from the UN*X emulation <emphasis>Cygwin</emphasis> and as a programming language <emphasis>Perl</emphasis>.</para>
+<para>The whole installation will assumingly take place on drive D:, but you may install wherever you like, for sure.</para>
+</sect1>
+
+<sect1>
+<title>INSTALLATION</title>
+
+<sect2>
+<title>Install Cygwin (exim)</title>
+<para>Install Cygwin using their <ulink url="http://www.cygwin.com/setup.exe">http://www.cygwin.com/setup.exe</ulink>. Choose the following as option. Leave everything else on their defaults or suit it to your needs.</para>
+<para><screen><computeroutput>Choose A Download Source:</computeroutput>
+  <userinput>Install from Internet</userinput>
+<computeroutput>Select Root Install Directory:</computeroutput>
+  <userinput>d:\cygwin</userinput>
+<computeroutput>Install for:</computeroutput>
+  <userinput>All Users</userinput>
+<computeroutput>Default Text File Type:</computeroutput>
+  <userinput>Unix</userinput>
+<computeroutput>Select Local Package Directory:</computeroutput>
+  <userinput>d:\cygwin\packages</userinput>
+<computeroutput>Select Packages:</computeroutput></screen></para>
+<para>If you have got enough disk space, a fast internet connection and/or lots of time, I'd advice you to just install everything. If for any reason you don't want to take advantage of this great Un*x software, be sure to at least install the package <computeroutput>exim</computeroutput> from its category <emphasis>Mail</emphasis>. Install this one and the default packages (marked <emphasis>Keep</emphasis>), for sure.</para>
+</sect2>
+
+<sect2>
+<title>Install PERL</title>
+<para>Download <emphasis>Perl</emphasis>, <emphasis>Version 5.6.1 build 633</emphasis> from <ulink url="http://www.activestate.com/Products/Download/Download.plex?id=ActivePerl">http://www.activestate.com/Products/Download/Download.plex?id=ActivePerl</ulink>. I recommend chosing the MSI version.</para>
+<para>Install Perl using the default values to <emphasis>D:\Perl</emphasis>.</para>
+</sect2>
+
+<sect2>
+<title>Install Sambar Server</title>
+<para>Download Sambar Server from <ulink url="http://sambar.robertkehl.de">http://sambar.robertkehl.de</ulink>, the home page is <ulink url="http://www.sambar.com">http://www.sambar.com</ulink>. I recommend using version 5.2 Production, surely any later version will do, too. Do not use any version prior to 5.2 Production!</para>
+<para>Read the security notes on <ulink url="http://www.sambar.com/syshelp/security.htm">http://www.sambar.com/syshelp/security.htm</ulink> and install Sambar, where you like to, <emphasis>D:\Sambar</emphasis> is a good choice.</para>
+<para>If you're running Windows NT4, 2000 or XP, you can and should install Sambar as a Service, if the install routine hasn't done so yet. Therefore you click <emphasis>Start</emphasis> -&gt; <emphasis>Execute</emphasis>, enter <emphasis>CMD</emphasis> and press RETURN. Now a so called command box pops up, which we won't need only for now. You enter the following:</para>
+<para><screen><userinput>d:\sambar\bin\ntserver.exe -i -s Sambar</userinput></screen></para>
+<para>Now start Sambar using the built-in service administration panel or by entering:</para>
+<para><screen><userinput>net start Sambar</userinput></screen></para>
+<para>On Win9x/ME, you start Sambar clicking <emphasis>Start</emphasis> -&gt; <emphasis>Programs</emphasis> -&gt; <emphasis>Sambar Server</emphasis> -&gt; <emphasis>Start Sambar Server</emphasis>. There are no services on Win9x/ME.</para>
+<para>Ensure that Sambar is running: <ulink url="http://localhost">http://localhost</ulink>. The documentation can be found here: <ulink url="http://localhost/syshelp/index.htm">http://localhost/syshelp/index.htm</ulink>. The system administration forms are here: <ulink url="http://localhost/session/adminlogin?RCpage=/sysadmin/index.stm">http://localhost/session/adminlogin?RCpage=/sysadmin/index.stm</ulink>.</para>
+<important>
+<para>Ensure to *now* set the admin password to prevent others using your Sambar in a malicious way. You do this on the sysadmin forms under <emphasis>User Management</emphasis>. Good Passwords are longer than eight keystrokes and look like this: <userinput>sie.&amp;Fh9w_iG</userinput></para></important>
+</sect2>
+
+<sect2>
+<title>Install MySQL</title>
+<para>Download MySQL from <ulink url="http://www.mysql.com/downloads/mysql-3.23.html">http://www.mysql.com/downloads/mysql-3.23.html</ulink> and install it in <emphasis>D:\mysql</emphasis>, under Win 2000/XP as a service, too. Start it.</para>
+<para>For a more comfortable configuration interface I recommend installing phpMyAdmin from <ulink url="http://www.phpmyadmin.net">http://www.phpmyadmin.net</ulink>, too, location: <emphasis>D:\mysql\phpMyAdmin</emphasis>.</para>
+<para>We change the passwort for root later.</para>
+</sect2>
+
+<sect2>
+<title>Install OTRS</title>
+<para>Last but least - the beast!</para>
+<para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/pages/index.pl?Site=Download">http://otrs.org/pages/index.pl?Site=Download</ulink>.</para>
+<para>We have to install this tarball manually, because there is a file &quot;INSTALL&quot; in it, who has the same name like the directory &quot;install&quot;, which is also contained. Un*x differentiates between the two - Windows doesn't. In addition, the two files .fetchmailrc and .procmailrc are doubled, your unzip program will complain about this. Future releases will allow automic unzipping.</para>
+<para>Open the tarball using WinRAR (<ulink url="http://www.rarlab.com">http://www.rarlab.com</ulink>), Winzip (<ulink url="http://www.winzip.com">http://www.winzip.com</ulink>) or a similar software. Unzip the files <computeroutput>.fetchmailrc</computeroutput>, <computeroutput>.procmailrc</computeroutput> and <computeroutput>INSTALL</computeroutput> to <emphasis>D:\Sambar\docs\otrs\</emphasis>. Rename <computeroutput>INSTALL</computeroutput> to <computeroutput>INSTALL.txt</computeroutput>. Now unzip the rest of the archive to <emphasis>D:\Sambar\docs\otrs\</emphasis>.</para>
+
+<sect3>
+<title>Download and install SQL-Code</title>
+<para>Download the <emphasis>SQL-Code for phpMyAdmin on Win-32</emphasis> from this server. Save it here: <ulink url="http://www.robertkehl.de/downloads/OpenTRS-SQL-win32.mysql.sql">d:\Sambar\docs\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</ulink>.</para>
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>CONFIGURATION</title>
+
+<sect2>
+<title>Configuring Cygwin (exim)</title>
+<para>Open the file <emphasis>D:\cygwin\etc\exim.conf</emphasis> search for this line:</para>
+<para><screen>  begin routers</screen></para>
+<para>Directly beneath you enter the following:</para>
+<para><screen># Send all mail to a smarthost
+  smarthost:
+  driver = accept
+  transport = remote_smtp</screen></para>
+<para>Underneath this:</para>
+<para><screen>  begin transports</screen></para>
+<para>you note:</para>
+<para><screen>
+remote_smtp:
+  driver = smtp
+  hosts = smtp.yourprovider.com</screen></para>
+<para>Now <emphasis>exim</emphasis> will send each incoming message to the relay server of your provider. By now you can't forward messages to Sambar. In future we won't need <emphasis>exim</emphasis> and Cygwin at all, because OTRS will have it's own SMTP module included.</para>
+<para>Now you change the access rights for <emphasis>D:\cygwin\etc\exim.conf</emphasis> using <emphasis>chmod</emphasis> from Cygwin:</para>
+<para><screen>d:
+cd d:\cygwin
+cygwin
+chown	SYSTEM /etc/exim.conf
+chmod 755 /etc/exim.conf</screen></para>
+<para>That's it for <emphasis>exim</emphasis> and <emphasis>Cygwin</emphasis>.</para>
+</sect2>
+
+<sect2>
+<title>Configuring Perl</title>
+<para>We now patch our Perl because it doesn't suit our needs in the default installation, there are some so called &quot;packages&quot; missing. We could use the tools ppm2 or ppm3 from ActiveState for downloading the packages, too, but I prefer downloading them manually.</para>
+<para>Download the following ZIP-packages from <ulink url="http://www.activestate.com/PPMPackages/zips/6xx-builds-only/">http://www.activestate.com/PPMPackages/zips/6xx-builds-only/</ulink>:</para>
+<para><screen>
+DBD-Mysql.zip
+DBI.zip
+IO-Stringy.zip</screen></para>
+<para>Unzip all files to <emphasis>D:\Perl\packages</emphasis>.</para>
+<caution>
+<title>Caution!</title>
+<para>Every directory contains a README, which will be overwritten by the following one. If you want to read each README you should rename it directly after unzipping each package.</para>
+</caution>
+<para>Change to directory <emphasis>D:\Perl\packages</emphasis>, by entering:</para>
+<para><screen>D:
+cd Perl\packages</screen></para>
+<para>Start the <emphasis>Perl Package Manager</emphasis>, by entering <userinput>ppm</userinput>. Now install:</para>
+<para><screen>
+PPM&gt; <emphasis>install DBI.ppd</emphasis>
+Install package 'DBI.ppd?' (y/N): y
+  [...snipped...]
+PPM&gt; <emphasis>install IO-stringy.ppd</emphasis>
+Install package 'IO-Stringy.ppd?' (y/N): y
+  [...snipped...]
+PPM&gt; <emphasis>install DBD-Mysql.ppd</emphasis>
+Install package 'DBD-Mysql.ppd?' (y/N): y</screen></para>
+<para>Your Perl should now look like this or even better:</para>
+<para><screen>PPM&gt; <emphasis>query</emphasis>
+    Archive-Tar      [0.072  ]
+    Compress-Zlib    [1.16   ]
+    DBD-Mysql        [1.2200 ]
+    DBI              [1.32   ]
+    Digest           [1      ]
+    Digest-HMAC      [1.01   ]
+    Digest-MD2       [2      ]
+    Digest-MD4       [1.1    ]
+    Digest-MD5       [2.20   ]
+    Digest-SHA1      [2.01   ]
+    File-CounterFile [0.12   ]
+    Font-AFM         [1.18   ]
+    HTML-Parser      [3.26   ]
+    HTML-Tagset      [3.03   ]
+    HTML-Tree        [3.11   ]
+    IO-stringy       [2.108  ]
+    MD5              [2.02   ]
+    MIME-Base64      [2.12   ]
+    PPM              [2.1.6  ]
+    SOAP-Lite        [0.55   ]
+    Storable         [1.0.12 ]
+    Tk               [800.023]
+    URI              [1.19   ]
+    XML-Parser       [2.27   ]
+    XML-Simple       [1.06   ]
+    libwin32         [0.19.1 ]</screen></para>
+<para>You quit ppm by entering <userinput>quit</userinput>. If you like you can delete the files in D:\Perl\packages.</para>
+<para>That's it for Perl.</para>
+</sect2>
+
+<sect2>
+<title>Configuring Sambar</title>
+<para>We now configure our webserver <emphasis>Sambar</emphasis>. Open the file <emphasis>D:\Sambar\config\mappings.ini</emphasis> and create these entries:</para>
+<para><screen>[aliases]
+/mysql = d:/mysql/Docs
+/phpMyAdmin = d:/mysql/phpMyAdmin
+[cgi-aliases]
+/otrs/ = /otrs/bin/cgi-bin/
+/obin/ = /otrs/bin/</screen></para>
+<para>Now you set the beneath values in <emphasis>D:\Sambar\config\config.ini</emphasis>:</para>
+<para><screen>[common]
+Trace Level = INFO
+Trace Performance = true
+Network Trace Level = None
+Dynamic IP Test = true
+License =
+Licensee =
+DNS Primary = IPadresse.DNS1.beideinem.Provider
+DNS Secondary = IPadresse.DNS2.beideinem.Provider
+[server]
+System Administrator = admin
+System Administrator IP = 127.0.0.1
+Act As HTTP Server = true
+Act As HTTPS Server = false
+Act As DNS Server = false
+Act As DHCP Server = false
+Act As Mail Server = false
+Act As TFTP Server = false
+Act As FTP Server = false
+Act As FTPS Server = false
+Act As FTP Proxy = false
+Act As NNTP Proxy = false
+Act As SMTP Proxy = false
+Act As POP3 Proxy = false
+Act As IMAP4 Proxy = false
+Act As Bridge Proxy = false
+Act As SOCKS Proxy = false
+Act As Telnet Server = false
+Trace FTP = true
+Trace TFTP = true
+Trace Bridge = true
+Trace DHCP = true
+Trace DNS = true
+SMTP Server = smtp.deinprovider.de
+DOT-File Security = true
+[http]
+Act As HTTP Proxy = false
+Trace Proxy Usage = true
+Trace Requests = true
+Log Format = performance
+Don't Log IPs = 127.0.0.1
+Default Page = index.pl index.php index.stm index.shtml index.shtm index.sht index.htm index.html
+Perl Executable = D:/Perl/bin/perl.exe
+CGI Extensions = *.pl
+Enforce .htaccess = true
+[events]
+Monitor Invalid Logins = true
+Monitor Invalid Requests = true
+Share User Logins = true
+Trace User Logins = true</screen></para>
+<para>Restart Sambar for the changes to take affect.</para>
+<note>
+<title>Note:</title>
+<para>At the very moment we do not use the <emphasis>mail server</emphasis> of Sambar, nor the <emphasis>DNS server</emphasis>. To use them right now (outside of OTRS), you need a <emphasis>Pro version</emphasis> of Sambar, see <ulink url="http://sambar.com/syshelp/pro.htm">http://sambar.com/syshelp/pro.htm</ulink>. The http functionality is not limited in the freeware version, which is automagically active. Entering this in config.ini will enable the demo version of the Pro version aktiviert, which will run between 9 a.m. and 5 p.m.</para>
+<para><screen>[common]
+License = demo
+Licensee = demo</screen></para>
+</note>
+</sect2>
+
+<sect2>
+<title>Configuring MySQL</title>
+<para>Secure your MySQL by providing good passwords for the users <emphasis>@%</emphasis>, <emphasis>root@%</emphasis> und <emphasis>root@localhost</emphasis>. This can easily be done via <emphasis>phpMyAdmin</emphasis>.</para>
+<para>Let's fill the database. You can do this cia the command line, as show beneath:</para>
+<para><screen>d:
+cd d:\mysql
+mysql -u root -p password -e 'create database otrs'
+mysql -u root -p password otrs &lt; d:\Sambar\docs\otrs\install\database\OpenTRS-SQL-win32.mysql.sql
+mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;some-pass&quot; WITH GRANT OPTION;'
+mysqladmin -u root -p password reload
+</screen></para>
+<para>I recommend using phpMyAdmin under <ulink url="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</ulink> instead of working on the command line. You creqate the database right on the start screen. Now you click the register &quot;SQL&quot;, and enter <emphasis>d:\Sambar\docs\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</emphasis>. Click OK.</para>
+<para>Now commit this command:</para>
+<para><screen>GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;irgendeinpasswort&quot; WITH GRANT OPTION;</screen></para>
+<para>That's it for MySQL, which we provided with the database otrs and the user otrs@localhost.</para>
+</sect2>
+
+<sect2>
+<title>Configuring OTRS</title>
+
+<sect3><title>CONFIG.PM</title>
+<para>Now you teach OTRS s.th. about you. First create your configuration file:</para>
+<para><screen>d:
+cd d:\sambar\docs\otrs\Kernel
+copy Config.pm.dist Config.pm
+</screen></para>
+<para>Despite your settings concerning FQDN etc., you set the following in <emphasis>d:\sambar\docs\otrs\Kernel\Config.pm</emphasis>:</para>
+<para><screen>    # -----------------------------------------------------#
+    # Sendmail
+    # -----------------------------------------------------#
+    $Self-&gt;{Sendmail} = 'd:/cygwin/bin/exim-4.12-2.exe -t -i -f ';
+    # -----------------------------------------------------#
+    # fs root directory
+    # -----------------------------------------------------#
+    $Self-&gt;{Home} = 'd:/sambar/docs/otrs';
+    # ----------------------------------------------------#
+    # LogModule                                           #
+    # ----------------------------------------------------#
+    # (log backend module)
+#    $Self-&gt;{LogModule} = 'Kernel::System::Log::SysLog';
+    $Self-&gt;{LogModule} = 'Kernel::System::Log::File';
+    # param for LogModule Kernel::System::Log::File (required!)
+    $Self-&gt;{'LogModule::LogFile'} = '&lt;OTRS_CONFIG_Home&gt;/var/log/otrs.log';
+    # -----------------------------------------------------#
+    # own config settings                                  #
+    # config settings taken from Kernel/Config/Defaults.pm #
+    # -----------------------------------------------------#
+    # $Self-&gt;{SessionUseCookie} = 0;
+    $Self-A&gt;{SessionModule} = 'Kernel::System::AuthSession::DB';
+</screen></para>
+<note>
+<title>A note about your FQDN</title>
+<para>This is the called <emphasis>Full Qulified Domain Name</emphasis> of your PC, just like your IP adress it's unique across the universe ...ah... internet, I mean. If you're using a dial-up line to connect to the internet, your FQDN will always be a different one each time you dial anew. This is indeed ok for OTRS, but it's not nice if exim announces itself with a wrong name. It can lead to difficulties in mail delivery.</para>
+<para> To solve this problem you can use so called <emphasis>Dynamic DNS services</emphasis> like <ulink url="http://www.dyndns.org">http://www.dyndns.org</ulink>. By using a client such as <emphasis>DirectUpdate </emphasis>(<ulink url="http://www.directupdate.net">http://www.directupdate.net</ulink>) you submit your IP adress to <emphasis>dyndns.org</emphasis> each times it changes and can thereby obtain a FQDN, for example <emphasis>gogos-pc.home-ip.net</emphasis>. You can even forward your domain <emphasis>http://www.thisismydomain.com</emphasis> to your home PC. If you got further questions concerning Dynamic DNS services, <ulink url="mailto:otrs-win32@robertkehl.de?subject=Dynamic%20DNS">don't hesitate to ask</ulink> - but now back to OTRS :)</para>
+</note>
+</sect3>
+
+<sect3>
+<title>LOG.PM</title>
+<para>Now we have to uncomment five rows in <emphasis>d:\Sambar\docs\otrs\Kernel\System\Log.pm</emphasis>:</para>
+<para><screen>13:
+  # use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
+58:
+  #    $Self-&gt;{Key} = shmget($Self-&gt;{IPCKey}, $Self-&gt;{IPCSize}, 0777 | 0001000) || die $!;
+126,127:
+  #        my $String = $Self-&gt;GetLog();
+  #        shmwrite($Self-&gt;{Key}, $Data.$String, 0, $Self-&gt;{IPCSize}) || die $!;
+141:
+  #    shmread($Self-&gt;{Key}, $String, 0, $Self-&gt;{IPCSize}) || die &quot;$!&quot;;</screen></para>
+</sect3>
+
+<sect3>
+<title>TICKET.PM</title>
+<para>We are now working with <emphasis>d:\Sambar\Kernel\System\Ticket.pm</emphasis>, open it and search for this row</para>
+<para><screen>use Kernel::System::Ticket::Article;</screen></para>
+<para>Add this line beneath:</para>
+<para><screen>use Kernel::System::Ticket::ArticleStorageDB;</screen></para>
+</sect3>
+
+<sect3>
+<title>VALID.PM</title>
+<para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>. In <emphasis>D:\sambar\docs\otrs\Kernel\cpan-lib\Email\Valid.pm</emphasis> we change the following lines:</para>
+<para><screen>15:
+  @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin c:/winnt/system32 );
+94:
+  return &quot;$path/nslookup.exe&quot; if -x &quot;$path/nslookup.exe&quot; and !-d _;</screen></para>
+<para>Now <emphasis>Valid.pm</emphasis> is suitable for Win32 *only*, but that's ok for us :)</para>
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>The First Start</title>
+<para>Now startup OTRS for the first time. A good idea is to reboot your machine before, remember: You're on Windows ;) Then call <ulink url="http://localhost/otrs/index.pl">http://localhost/otrs/index.pl</ulink> in your favourite browser.</para>
+<para>The user name is &quot;root@localhost&quot;, the password is &quot;root&quot;, both without the quotes.</para>
+<important>
+<para>It's a *very good* idea to *now* change your password on <ulink url="http://localhost/otrs/index.pl?Action=AdminUser">http://localhost/otrs/index.pl?Action=AdminUser</ulink></para>
+</important>
+
+<sect2>
+<title>System Email Addresses &amp; POP3</title>
+<para>You set your system email addresses here: <ulink url="http://localhost/otrs/index.pl?Action=AdminSystemAddress">http://localhost/otrs/index.pl?Action=AdminSystemAddress</ulink>These are the addresses your customers lateron use to reach your OTRS.</para>
+<para>You create POP3 accounts for each System Email here: <ulink url="http://localhost/otrs/index.pl?Action=AdminPOP3">http://localhost/otrs/index.pl?Action=AdminPOP3</ulink></para>
+<para><emphasis>Your OTRS is now ready, you can start!</emphasis> Have a look around the interface and work on the test ticket provided.</para>
+<para>Now write an Email to on of the System Email addresses. Enter this in your browser, it provides the eMail to OTRS. We will later automate this: <ulink url="http://localhost/obin/PostMasterPOP3.pl">http://localhost/obin/PostMasterPOP3.pl</ulink>.</para>
+<para>Your Email will be visible in the queue <emphasis>Raw</emphasis> that's here: <ulink url="http://localhost/otrs/index.pl?Action=AgentQueueView">http://localhost/otrs/index.pl?Action=AgentQueueView</ulink>. Answer this first inquiry.</para>
+<tip>
+<para>It is <emphasis>NO</emphasis> good idea to use one of the system Email addresses to address the system, this will produce loops.</para>
+</tip>
+</sect2>
+
+<sect2>
+<title>CRON-Job einrichten</title>
+<para>At last, we tell Sambar to fetch all POP3-Mail every 10 minutes and pump it into the database. Therefore you enter this in <emphasis>D:\Sambar\config\schedule.ini</emphasis>:</para>
+<para><screen>  [cron]
+*/10 * * * * /session/url2file?fname=/docs/otrs/var/log/lastPostMasterPOP3.log&amp;url=/obin/PostMasterPOP3.pl &amp;</screen></para>
+<important>
+<para>The schedule entry will be active 1-2 minutes after saving the file.</para>
+</important>
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Done!</title>
+<para>Congratulations, you hopefully were successful in installing OTRS on Win32!</para>
+<para>If s.th. still is not as clear as it should be or if you are getting nothing more than error messages instead of the interface of OTRS, don't hesitate to mail <ulink url="mailto:otrs-win32@robertkehl.de">otrs-win32 at robertkehl.de</ulink>. Hopefully you get a ticket back ;-)</para>
+<para>I would be more enlighted if you'd send some success stories!</para>
+<para>Surely this chapter will follow the development of <ulink url="http://otrs.org">OTRS</ulink>. OTRS on Win32 can be done with Apache, too, and I will soon include a part on it.</para>
+<para>Have fun using your OUTR on Sambar!</para>
+</sect1>
+
+</chapter>
