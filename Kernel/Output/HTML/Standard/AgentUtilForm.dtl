@@ -2,14 +2,12 @@
 # AgentUtilForm.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilForm.dtl,v 1.2 2002-01-20 22:20:23 martin Exp $
+# $Id: AgentUtilForm.dtl,v 1.3 2002-01-23 23:32:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<br>
-
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
@@ -42,8 +40,6 @@ $Config{"TicketHook"} $Text{"search (e. g. 10*5155 or 105658*)"}
 </tr>
 </table>
 <!-- end form -->
-
-<br>
 
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
@@ -78,4 +74,3 @@ $Text{"Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")"}
 </table>
 <!-- end form -->
 
-<br>
