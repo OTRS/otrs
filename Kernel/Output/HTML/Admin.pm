@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.38 2003-04-12 23:42:46 martin Exp $
+# $Id: Admin.pm,v 1.39 2003-05-01 20:41:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,7 +96,7 @@ sub AdminSessionTable {
     my $Output = '';
 
     foreach (sort keys %Param) {
-      if (($_) && ($Param{$_}) && $_ ne 'SessionID') {
+      if (($_) && (defined($Param{$_})) && $_ ne 'SessionID') {
         if ($_  eq 'UserSessionStart') {
           my $Age = int((time() - $Param{UserSessionStart}) / 3600);
           $Param{UserSessionStart} = scalar localtime ($Param{UserSessionStart});
