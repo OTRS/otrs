@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.5 2002-11-24 23:55:57 martin Exp $
+# $Id: CustomerUser.pm,v 1.6 2002-12-05 22:22:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Email::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -50,6 +50,7 @@ sub CustomerUserDataGet {
     my %Param = @_;
     my $User = $Param{User};
     my $UserID = $Param{UserID};
+    my $CustomerID = $Param{CustomerID};
     my %Data;
     # --
     # get inital data
@@ -61,6 +62,9 @@ sub CustomerUserDataGet {
         " WHERE ";
     if ($User) {
         $SQL .= " login = '$User'";
+    }
+    elsif ($CustomerID) {
+        $SQL .= " customer_id='$CustomerID' ";
     }
     else {
         $SQL .= " id = $UserID";
