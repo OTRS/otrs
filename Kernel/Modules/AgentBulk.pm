@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.3 2004-04-14 15:56:13 martin Exp $
+# $Id: AgentBulk.pm,v 1.4 2004-04-15 08:39:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -154,7 +154,7 @@ sub Run {
                         ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
                         UserID => $Self->{UserID},
                         HistoryType => 'AddNote',
-                        HistoryComment => 'Bulk note added.',
+                        HistoryComment => '$$Bulk',
                       );
                     }
                 }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.18 2004-04-14 15:56:13 martin Exp $
+# $Id: AgentPending.pm,v 1.19 2004-04-15 08:39:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -168,11 +168,11 @@ sub Run {
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID},
             HistoryType => 'AddNote',
-            HistoryComment => 'Pending Note added.',
+            HistoryComment => '%%Pending',
         )) {
           # time accounting
           if ($TimeUnits) {
-            $Self->{TicketObject}->AccountTime(
+            $Self->{TicketObject}->TicketAccountTime(
               TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
               TimeUnit => $TimeUnits,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.32 2004-04-14 15:56:13 martin Exp $
+# $Id: AgentForward.pm,v 1.33 2004-04-15 08:39:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -315,13 +315,13 @@ sub SendEmail {
         Charset => $Self->{Charset},
         InReplyTo => $Self->{InReplyTo},
         HistoryType => 'Forward',
-        HistoryComment => "Forwarded to '$Self->{To}, $Self->{Cc}'",
+        HistoryComment => "\%\%$Self->{To}, $Self->{Cc}",
     )) {
       # --
       # time accounting
       # --
       if ($Self->{TimeUnits}) {
-          $Self->{TicketObject}->AccountTime(
+          $Self->{TicketObject}->TicketAccountTime(
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             TimeUnit => $Self->{TimeUnits},
