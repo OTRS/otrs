@@ -3,7 +3,7 @@
 # instaler.pl - the OTRS Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.6 2002-10-20 20:01:18 martin Exp $
+# $Id: installer.pl,v 1.7 2002-10-21 15:57:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 1;
@@ -104,10 +104,6 @@ else {
        );
     print $CommonObject{LayoutObject}->Footer();
 }
-# --
-# db disconnect
-# --
-$CommonObject{DBObject}->Disconnect();
 # --
 # debug info
 # --
