@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.45 2004-08-12 08:09:18 martin Exp $
+# $Id: Queue.pm,v 1.46 2004-10-14 08:13:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -149,7 +149,6 @@ sub GetSignature {
     }
     return $String;
 }
-# --
 
 =item GetStdResponse()
 
@@ -232,7 +231,6 @@ sub QueueHasStdResponse {
     }
     return $Count;
 }
-# --
 
 =item GetStdResponses()
 
@@ -276,7 +274,6 @@ sub GetStdResponses {
     # return responses
     return %StdResponses;
 }
-# --
 
 =item GetAllQueues()
 
@@ -693,7 +690,6 @@ sub QueueAdd {
       return;
    }
 }
-#--
 
 =item QueueGet()
 
@@ -863,9 +859,9 @@ sub QueueUpdate {
         foreach (keys %AllQueue) {
             my @SubQueue = split(/::/, $AllQueue{$_});
             if ($#SubQueue > $#ParentQueue) {
-                if ($AllQueue{$_} =~ /^$OldQueue{Name}::/i) {
+                if ($AllQueue{$_} =~ /^\Q$OldQueue{Name}::\E/i) {
                     my $NewQueueName = $AllQueue{$_};
-                    $NewQueueName =~ s/$OldQueue{Name}/$Param{Name}/;
+                    $NewQueueName =~ s/\Q$OldQueue{Name}\E/$Param{Name}/;
                     $NewQueueName = $Self->{DBObject}->Quote($NewQueueName);
                     my $SQL = "UPDATE queue SET ".
                         " name = '$NewQueueName', ".
@@ -897,6 +893,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2004-08-12 08:09:18 $
+$Revision: 1.46 $ $Date: 2004-10-14 08:13:04 $
 
 =cut
