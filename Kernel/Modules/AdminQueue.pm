@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.5 2002-07-21 17:17:30 martin Exp $
+# $Id: AdminQueue.pm,v 1.6 2002-10-03 22:23:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -119,8 +119,10 @@ sub Run {
         # --
         # create new queue
         # --
-        if ($Self->{QueueObject}->QueueAdd(%GetParam, UserID => $Self->{UserID})) {
-            return $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
+        if (my $Id = $Self->{QueueObject}->QueueAdd(%GetParam, UserID => $Self->{UserID})) {
+            return $Self->{LayoutObject}->Redirect(
+                OP => "&Action=AdminQueueResponses&Subaction=Queue&ID=$Id",
+            );
         }
         else {
             $Output = $Self->{LayoutObject}->Header(Title => 'Error');
