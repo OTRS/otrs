@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.175 2005-02-12 07:07:03 martin Exp $
+# $Id: Generic.pm,v 1.176 2005-02-15 12:07:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.175 $';
+$VERSION = '$Revision: 1.176 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -833,26 +833,12 @@ sub Output {
     if ($Self->{ConfigObject}->Get('Frontend::Output::PostFilter')) {
         my %Filters = %{$Self->{ConfigObject}->Get('Frontend::Output::PostFilter')};
         foreach my $Filter (sort keys %Filters) {
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load module: $Filters{$Filter}->{Module}!",
-                );
-            }
-            if (eval "require $Filters{$Filter}->{Module}") {
+            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
                     LogObject => $Self->{LogObject},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Filters{$Filter}->{Module} loaded!",
-                    );
-                }
                 # run module
                 $Object->Run(%{$Filters{$Filter}}, Data => \$Output);
             }
@@ -1029,18 +1015,19 @@ sub Error {
     my %Param = @_;
     # get backend error messages
     foreach (qw(Message Traceback)) {
-      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
-          Type => 'Error',
-          What => $_
-      ) || '';
-      $Param{'Backend'.$_} = $Self->Ascii2Html(
-          Text => $Param{'Backend'.$_},
-          HTMLResultMode => 1,
-      );
+        $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+            Type => 'Error',
+            What => $_
+        ) || '';
+        $Param{'Backend'.$_} = $Self->Ascii2Html(
+            Text => $Param{'Backend'.$_},
+             HTMLResultMode => 1,
+        );
     }
     if (!$Param{Message}) {
       $Param{Message} = $Param{BackendMessage};
     }
+    $Param{Message} =~ s/^(.{80}).*$/$1\[\.\.\]/gs;
     # create & return output
     return $Self->Output(TemplateFile => 'Error', Data => \%Param);
 }
@@ -1347,9 +1334,6 @@ sub OptionStrgHashRef {
     if (($Name eq 'ValidID' || $Name eq 'Valid') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultValid');
     }
-    elsif (($Name eq 'CharsetID' || $Name eq 'Charset') && $NoSelectedDataGiven) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultCharset');
-    }
     elsif (($Name eq 'LanguageID' || $Name eq 'Language') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
@@ -1358,18 +1342,6 @@ sub OptionStrgHashRef {
     }
     elsif (($Name eq 'LanguageID' || $Name eq 'Language') && $NoSelectedDataGiven) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
-    }
-    elsif ($Name eq 'NoteID' && $NoSelectedDataGiven) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultNoteType');
-    }
-    elsif ($Name eq 'CloseNoteID' && $NoSelectedDataGiven) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultCloseNoteType');
-    }
-    elsif ($Name eq 'CloseStateID' && $NoSelectedDataGiven) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultCloseType');
-    }
-    elsif ($Name eq 'ComposeStateID' && $NoSelectedDataGiven) {
-        $Selected = $Self->{ConfigObject}->Get('DefaultNextComposeType');
     }
     elsif ($NoSelectedDataGiven) {
         # else set 1?
@@ -1659,6 +1631,10 @@ sub Attachment {
     if ($Param{Type}) {
         $Output .= $Param{Type}.'; ';
     }
+    else {
+        $Output .= $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+        $Output .= '; ';
+    }
     $Output .= "filename=\"$Param{Filename}\"\n".
       "Content-Type: $Param{ContentType}\n\n".
       "$Param{Content}";
@@ -1769,14 +1745,8 @@ sub NavigationBar {
     if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
         foreach my $Job (sort keys %Jobs) {
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                );
-            }
-            if (eval "require $Jobs{$Job}->{Module}") {
+            # load module
+            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},
                     ConfigObject => $Self->{ConfigObject},
@@ -1786,13 +1756,6 @@ sub NavigationBar {
                     UserID => $Self->{UserID},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                    );
-                }
                 # run module
                 $Output .= $Object->Run(%Param, Config => $Jobs{$Job});
             }
@@ -1879,14 +1842,8 @@ sub NavigationBar {
     if (ref($Self->{ConfigObject}->Get('Frontend::NavBarModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NavBarModule')};
         foreach my $Job (sort keys %Jobs) {
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                );
-            }
-            if (eval "require $Jobs{$Job}->{Module}") {
+            # load module
+            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                 my $Object = $Jobs{$Job}->{Module}->new(
                     %{$Self},
                     ConfigObject => $Self->{ConfigObject},
@@ -1896,13 +1853,6 @@ sub NavigationBar {
                     UserID => $Self->{UserID},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                    );
-                }
                 # run module
                 %NavBarModule = (%NavBarModule, $Object->Run(%Param, Config => $Jobs{$Job}));
             }
@@ -1927,14 +1877,8 @@ sub NavigationBar {
     if ($Self->{ModuleReg}->{NavBarModule}) {
         # run navbar modules
         my %Jobs = %{$Self->{ModuleReg}->{NavBarModule}};
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load module: $Jobs{Module}!",
-                );
-            }
-            if (eval "require $Jobs{Module}") {
+            # load module
+            if ($Self->{MainObject}->Require($Jobs{Module})) {
                 my $Object = $Jobs{Module}->new(
                     %{$Self},
                     ConfigObject => $Self->{ConfigObject},
@@ -1944,13 +1888,6 @@ sub NavigationBar {
                     UserID => $Self->{UserID},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Jobs{Module} loaded!",
-                    );
-                }
                 # run module
                 $Output .= $Object->Run(%Param, Config => \%Jobs);
             }
@@ -2207,6 +2144,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.175 $ $Date: 2005-02-12 07:07:03 $
+$Revision: 1.176 $ $Date: 2005-02-15 12:07:56 $
 
 =cut
