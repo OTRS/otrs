@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.70 2004-08-19 15:38:50 martin Exp $
+# $Id: AgentCompose.pm,v 1.71 2004-09-27 09:38:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::WebUploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -232,9 +232,14 @@ sub Form {
     # use database email
     if ($Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i) {
         $Output .= $Self->{LayoutObject}->Notify(
-            Info => 'To: (%s) replaced with database email!", "$Quote{"'.$Data{To}.'"}',
+            Info => 'Cc: (%s) added database email!", "$Quote{"'.$Customer{UserEmail}.'"}',
         );
-        $Data{To} = $Customer{UserEmail};
+        if ($Data{Cc}) {
+            $Data{Cc} .= ', '.$Customer{UserEmail};
+        }
+        else {
+            $Data{Cc} = $Customer{UserEmail};
+        }
     }
     $Data{OrigFrom} = $Data{From};
     my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
