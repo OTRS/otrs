@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.26 2003-02-03 19:37:49 martin Exp $
+# $Id: Defaults.pm,v 1.27 2003-02-03 22:08:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1148,13 +1148,14 @@ Your OTRS Notification Master
 #        ReadOnly => 1,
         Map => [
             # note: Login, Email and CustomerID needed!
-            # var, frontend, storage, shown, required, storage-type
+            # var, frontend, storage, shown, required, storage-type, http-link
             [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var' ],
             [ 'UserFirstname', 'Firstname', 'first_name', 1, 1, 'var' ],
             [ 'UserLastname', 'Lastname', 'last_name', 1, 1, 'var' ],
             [ 'UserLogin', 'Login', 'login', 1, 1, 'var' ],
             [ 'UserPassword', 'Password', 'pw', 0, 1, 'var' ],
             [ 'UserEmail', 'Email', 'email', 1, 1, 'var' ],
+#            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}' ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 1, 1, 'var' ],
             [ 'UserComment', 'Comment', 'comment', 1, 0, 'var' ],
             [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int' ],
