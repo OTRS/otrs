@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.116 2004-03-30 09:15:14 wiktor Exp $
+# $Id: CHANGES,v 1.117 2004-04-11 17:06:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,9 +11,19 @@
 
 CVS head 
 
+ - (2004/04/07) added config option SessionUseCookieAfterBrowserClose
+    for session config stuff to keep cookies in browser (after closing
+    the browser) till expiration of session (default is 0). 
+ - (2004/04/06) added missing priority options in TicketSeatch()
+    of Kernel::System::Ticket.
+ - (2004/04/05) reworked/renamed Kernel::System::Ticket functions and 
+    added added pod docu, see http://dev.otrs.org/
+ - (2004/04/04) added auto convert of html only emails to text/plain,
+    text/html will be attached as attachment (Kernel/System/EmailParser.pm)
+ - (2004/04/01) fixed some html quote bugs
  - (2004/03/30) added ability to reverse the Queue sorting (added
     AgentQueueSort setting)
- - (2004/03/12) added customer panel MyTickets and GroupTickets 
+ - (2004/03/12) added customer panel MyTickets and CompanyTickets 
     feature.
  - (2004/03/11) added mulit serach options to customer serach e. g.
     "name+phone" in customer search
@@ -36,8 +46,22 @@ CVS head
     Charset options (see online documentation)
  - (2004/02/23) updated to CGI 3.04
 
-1.2.3
+1.2.4 (2004-??-??)
 
+ - (2004/04/10) fixed not shown "this message is written in an
+    other charset as your own" link in agent zoom
+ - (2004/04/08) fixed performance problem in Kernel::Language
+    module (get ~5% more performance of the webinterface)
+ - (2004/04/06) added missing priority options in SearchTicket()
+    of Kernel::System::Ticket.
+
+1.2.3 (2004-04-02)
+
+ - (2004/03/29) fixed some html quote bugs
+ - (2004/03/28) fixed bug 365 - null attachment kills pop import script
+ - (2005/03/25) updated pl language translation, Thanks to Tomasz Melissa!
+ - (2004/03/25) fixed quote bug in AgentPhoneView, AgentEmail and
+    AgentCompose.
  - (2004/03/08) fixed bug 341 Wrong results searching for time ranges 
     http://bugs.otrs.org/show_bug.cgi?id=341
  - (2004/02/29) fixed language quoting in customer login screen
