@@ -1,4 +1,4 @@
-<chapter id="configfile2">
+<chapter id="configfile">
 <title>Config File</title>
 <para>
 OTRS got a lot of config options. There are two config files. Kernel/Config.pm and
@@ -26,13 +26,13 @@ Kernel/Config/Defaults.pm into Kernel/Config.pm and change the values like you w
 Now we will descripe some config features in this chapter.
 </para>
 
-<sect1 id="tickethook2">
-<title>Kernel/Config.pm - TicketHook</title>
+<sect1 id="configfile_tickethook">
+<title>TicketHook</title>
 <para>
 Your can configure the value of the TicketHook which is the first part of the subject of each e-mail (e.g. [MyTicket: 007]).
 </para>
 <example>
-<title>TicketHook</title>
+<title>Kernel/Config.pm - TicketHook</title>
 <programlisting>
 [...]
     # TicketHook
@@ -48,7 +48,7 @@ and then you will run in trouble.
 </para>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_fqdn">
 <title>FQDN</title>
 <para>
 The OTRS full qualified domain name. Will be used for email messages id's.
@@ -65,7 +65,7 @@ The OTRS full qualified domain name. Will be used for email messages id's.
 </example>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_log">
 <title>Log</title>
 <para>
 The OTRS log method. 
@@ -90,7 +90,7 @@ The OTRS log method.
 </example>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_userauth">
 <title>User Authentication</title>
 <para>
 The OTRS user authentication method. 
@@ -123,7 +123,7 @@ The OTRS user authentication method.
 </example>
 </sect1>
 
-<sect1 id="PostmasterMaxEmails2"> 
+<sect1 id="configfile_postmaster"> 
 <title>Max. Postmaster email</title> 
 <para> 
 OTRS is able to send automatically email replay. So it's possibe to create an email loop (of course we check bulk headers but other some strange systems not!). 
@@ -141,7 +141,7 @@ OTRS is able to send automatically email replay. So it's possibe to create an em
 </example>
 </sect1>
 
-<sect1 id="ticketnumberformat2">
+<sect1 id="configfile_ticketnumberformat">
 <title>Ticket number format</title>
 <para> 
 You can choose between four different OTRS formats. AutoIncrement is default. 
@@ -180,7 +180,7 @@ A nice example is the <ulink url="http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel
 </sect1>
 
 
-<sect1 id="dbstuff2">
+<sect1 id="configfile_dbstuff">
 <title>Database settings</title>
 <example>
 <title>Kernel/Config.pm - Database settings</title>
@@ -213,7 +213,7 @@ A nice example is the <ulink url="http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel
 </example>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_asp">
 <title>ASP (Application Service Provider) options</title>
 <para>
 Should the agent be able to move tickets into queue which it isn't member of the group
@@ -246,7 +246,7 @@ Should the agent be able to change the ticket owner to everyone?
 </example>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_customqueue">
 <title>Custom Queue</title>
 <para>
 Some people want to set the "Custom Queue" name (The queue of your favorite queues).
@@ -263,7 +263,7 @@ Some people want to set the "Custom Queue" name (The queue of your favorite queu
 </example>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_notification">
 <title>Agent notification</title>
 <para>
 If there is a new ticket or a follow up for a ticket, OTRS will inform the agent(s).
@@ -317,7 +317,7 @@ Your OTRS Notification Master
 </example>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_session">
 <title>Session management</title>
 <para>
 The OTRS session management. 
@@ -369,7 +369,7 @@ The OTRS session management.
 </example>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_login_logout">
 <title>URL login and logout settings</title>
 <para>
 </para>
@@ -399,7 +399,7 @@ The OTRS session management.
 </example>
 </sect1>
 
-<sect1>
+<sect1 id="configfile_agentarea">
 <title>agent area default settings</title>
 <para>
 </para>
