@@ -2,13 +2,42 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.10 2004-03-01 14:00:56 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.11 2004-03-24 15:11:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+
+function updateMessage(x)
+{
+    if (parent.opener.closed) {
+        alert('$Text{"The message being composed has been closed.  Exiting."}');
+        this.close();
+        return;
+    }
+
+    if (!parent.opener.document.compose) {
+        alert('$Text{"This window must be called from compose window"}');
+        this.close();
+        return;
+    }
+
+# get the selected user back
+    parent.opener.document.compose.ExpandCustomerName.value=2;
+    parent.opener.document.compose.PreSelectedCustomerUser.value=x;
+# submit compose view to get user data
+    parent.opener.document.compose.submit()
+# close this window
+    this.close();
+}
+
+//-->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" colspan="2" class="table0">
@@ -143,3 +172,4 @@
 </tr>
 </table>
 <!-- end note -->
+
