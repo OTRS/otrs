@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.23 2004-07-16 22:59:04 martin Exp $
+# $Id: AgentCompose.dtl,v 1.24 2004-07-22 05:43:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,7 +93,7 @@ function FAQSubmit()
   <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
   <input type="hidden" name="Email" value="$QData{"Email"}">
   <input type="hidden" name="InReplyTo" value="$QData{"InReplyTo"}">
-  <input type="hidden" name="FromID" value="$QData{"FromID"}">
+  <input type="hidden" name="FormID" value="$QData{"FormID"}">
   <table border="0" width="100%">
     <tr>
       <td width="20%">$Text{"From"}:</td>
@@ -115,6 +115,14 @@ function FAQSubmit()
       <td>$Text{"Subject"}:</td>
       <td><input type="text" name="Subject" value="$Data{"Subject"}" size="80"></td>
     </tr>
+<!-- dtl:block:Option -->
+    <tr>
+      <td>$Text{"$QData{"Key"}"}:</td>
+      <td>
+      $Data{"Value"} <font color="red" size="-2">$Data{"Invalid"}</font>
+      </td>
+    </tr>
+<!-- dtl:block:Option -->
     <tr>
       <td>$Text{"Options"}:</td>
       <td>

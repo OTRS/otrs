@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.67 2004-07-16 22:56:01 martin Exp $
+# $Id: AgentCompose.pm,v 1.68 2004-07-22 05:43:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::WebUploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,6 +31,8 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
+
+    $Self->{Debug} = $Param{Debug} || 0;
 
     # get common opjects
     foreach (keys %Param) {
@@ -57,7 +59,10 @@ sub new {
       AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
       AttachmentDelete9 AttachmentDelete10 FormID)) {
         my $Value = $Self->{ParamObject}->GetParam(Param => $_);
-        $Self->{$_} = defined $Value ? $Value : '';
+#        $Self->{GetParam}->{$_} = defined $Value ? $Value : '';
+       if (defined($Value)) {
+           $Self->{GetParam}->{$_} = $Value;
+       }
     }
     # get response format
     $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('ResponseFormat') ||
@@ -70,9 +75,10 @@ $Data{"StdResponse"}
 $Data{"Signature"}
 ';
     # create form id
-    if (!$Self->{FormID}) {
-        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+    if (!$Self->{GetParam}->{FormID}) {
+        $Self->{GetParam}->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
+
     return $Self;
 }
 # --
@@ -95,13 +101,10 @@ sub Form {
     my %Param = @_;
     my $Output;
     my %Error = ();
-    # --
+    my %GetParam = %{$Self->{GetParam}};
     # start with page ...
-    # --
     $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose');
-    # --
     # check needed stuff
-    # --
     if (!$Self->{TicketID}) {
         $Output .= $Self->{LayoutObject}->Error(
                 Message => "Got no TicketID!",
@@ -110,21 +113,15 @@ sub Form {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
     # get ticket data
-    # --
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
     if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
-        # --
         # redirect
-        # --
         return $Self->{LayoutObject}->Redirect(
             OP => "Action=AgentCustomerFollowUp&TicketID=$Self->{TicketID}",
         );
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'rw',
         TicketID => $Self->{TicketID},
@@ -132,9 +129,7 @@ sub Form {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    # --
     # get lock state && write (lock) permissions
-    # --
     if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
         # set owner
         $Self->{TicketObject}->OwnerSet(
@@ -167,9 +162,9 @@ sub Form {
     }
     # get last customer article or selecte article ...
     my %Data = ();
-    if ($Self->{ArticleID}) {
+    if ($GetParam{ArticleID}) {
         %Data = $Self->{TicketObject}->ArticleGet(
-            ArticleID => $Self->{ArticleID},
+            ArticleID => $GetParam{ArticleID},
         );
     }
     else {
@@ -246,7 +241,7 @@ sub Form {
     $Data{From} = "$Address{RealName} <$Address{Email}>";
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
-    $Data{StdResponse} = $Self->{QueueObject}->GetStdResponse(ID => $Self->{ResponseID});
+    $Data{StdResponse} = $Self->{QueueObject}->GetStdResponse(ID => $GetParam{ResponseID});
 
     # --
     # prepare salutation
@@ -302,15 +297,58 @@ sub Form {
             }
         }
     }
-    # --
     # get std attachments
-    # --
     my %AllStdAttachments = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
-        ID => $Self->{ResponseID},
+        ID => $GetParam{ResponseID},
     );
-    # --
+    # run compose modules
+    if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')};
+        foreach my $Job (sort keys %Jobs) {
+                # log try of load module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    );
+                }
+                if (eval "require $Jobs{$Job}->{Module}") {
+                    my $Object = $Jobs{$Job}->{Module}->new(
+                        ConfigObject => $Self->{ConfigObject},
+                        LogObject => $Self->{LogObject},
+                        DBObject => $Self->{DBObject},
+                        LayoutObject => $Self->{LayoutObject},
+                        TicketObject => $Self->{TicketObject},
+                        ParamObject => $Self->{ParamObject},
+                        UserID => $Self->{UserID},
+                        Debug => $Self->{Debug},
+                    );
+                    # log loaded module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                        );
+                    }
+                    # get params
+                    foreach ($Object->Option(%Data, %GetParam, Config => $Jobs{$Job})) {
+                        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+                    }
+                    # run module
+                    $Object->Run(%Data, %GetParam, Config => $Jobs{$Job});
+                    # get errors
+                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't load module $Jobs{$Job}->{Module}!",
+                    );
+                }
+        }
+    }
+
     # build view ...
-    # --
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID => $Self->{TicketID},
@@ -320,6 +358,7 @@ sub Form {
         Errors => \%Error,
         StdAttachments => \%AllStdAttachments,
         %Data,
+        %GetParam,
     );
     $Output .= $Self->{LayoutObject}->Footer();
 
@@ -330,43 +369,44 @@ sub SendEmail {
     my $Self = shift;
     my %Param = @_;
     my %Error = ();
+    my %GetParam = %{$Self->{GetParam}};
     my $Output = '';
     my $QueueID = $Self->{QueueID};
     my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-        ID => $Self->{ComposeStateID},
+        ID => $GetParam{ComposeStateID},
     );
     my $NextState = $StateData{Name};
 
     # attachment delete
     foreach (1..10) {
-        if ($Self->{"AttachmentDelete$_"}) {
+        if ($GetParam{"AttachmentDelete$_"}) {
             $Error{AttachmentDelete} = 1;
             $Self->{UploadCachObject}->FormIDRemoveFile(
-                FormID => $Self->{FormID},
+                FormID => $GetParam{FormID},
                 FileID => $_,
             );
         }
     }
     # attachment upload
-    if ($Self->{AttachmentUpload}) {
+    if ($GetParam{AttachmentUpload}) {
         $Error{AttachmentUpload} = 1;
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param => "file_upload",
             Source => 'string',
         );
         $Self->{UploadCachObject}->FormIDAddFile(
-            FormID => $Self->{FormID},
+            FormID => $GetParam{FormID},
             %UploadStuff,
         );
     }
     # get all attachments meta data
     my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-        FormID => $Self->{FormID},
+        FormID => $GetParam{FormID},
     );
     # check some values
     foreach (qw(From To Cc Bcc)) {
-        if ($Self->{$_}) {
-            foreach my $Email (Mail::Address->parse($Self->{$_})) {
+        if ($GetParam{$_}) {
+            foreach my $Email (Mail::Address->parse($GetParam{$_})) {
                 if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
                      $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
@@ -380,46 +420,89 @@ sub SendEmail {
     # prepare subject
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-    $Self->{Subject} =~ s/^..: //;
-    $Self->{Subject} =~ s/\[$TicketHook: $Tn\] //g;
-    $Self->{Subject} =~ s/^..: //;
-    $Self->{Subject} =~ s/^(.{45}).*$/$1 [...]/;
-    $Self->{Subject} = "[$TicketHook: $Tn] ".$Self->{Subject};
+    $GetParam{Subject} =~ s/^..: //;
+    $GetParam{Subject} =~ s/\[$TicketHook: $Tn\] //g;
+    $GetParam{Subject} =~ s/^..: //;
+    $GetParam{Subject} =~ s/^(.{45}).*$/$1 [...]/;
+    $GetParam{Subject} = "[$TicketHook: $Tn] ".$GetParam{Subject};
 
+    my %ArticleParam = ();
+        # run compose modules
+        if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
+            my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')};
+            foreach my $Job (sort keys %Jobs) {
+                # log try of load module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    );
+                }
+                if (eval "require $Jobs{$Job}->{Module}") {
+                    my $Object = $Jobs{$Job}->{Module}->new(
+                        ConfigObject => $Self->{ConfigObject},
+                        LogObject => $Self->{LogObject},
+                        DBObject => $Self->{DBObject},
+                        LayoutObject => $Self->{LayoutObject},
+                        TicketObject => $Self->{TicketObject},
+                        ParamObject => $Self->{ParamObject},
+                        UserID => $Self->{UserID},
+                        Debug => $Self->{Debug},
+                    );
+                    # log loaded module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                        );
+                    }
+                    # get params
+                    foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
+                        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+                    }
+                    # run module
+                    $Object->Run(%GetParam, Config => $Jobs{$Job});
+                    # ticket params
+                    %ArticleParam = (%ArticleParam, $Object->ArticleOption(%GetParam, Config => $Jobs{$Job}));
+                    # get errors
+                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't load module $Jobs{$Job}->{Module}!",
+                    );
+                }
+            }
+        }
     # --
     # check if there is an error
     # --
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
-        my $Output = $Self->{LayoutObject}->Header(Title => 'Compose');
-        my %Data = ();
-        foreach (qw(From To Cc Bcc Subject Body InReplyTo Answered ArticleID
-          TimeUnits Year Month Day Hour Minute)) {
-            $Data{$_} = $Self->{$_};
-        }
-        $Data{StdResponse} = $Self->{Body};
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose');
+        $GetParam{StdResponse} = $GetParam{Body};
         $Output .= $Self->_Mask(
             TicketNumber => $Tn,
             TicketID => $Self->{TicketID},
             QueueID => $QueueID,
             NextStates => $Self->_GetNextStates(),
             NextState => $NextState,
-            ResponseFormat => $Self->{LayoutObject}->Ascii2Html(Text => $Self->{Body}),
-            AnsweredID => $Self->{Answered},
-            %Data,
+            ResponseFormat => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Body}),
             Errors => \%Error,
             Attachments => \@Attachments,
+            %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
     # replace <OTRS_TICKET_STATE> with next ticket state name
     if ($NextState) {
-        $Self->{Body} =~ s/<OTRS_TICKET_STATE>/$NextState/g;
+        $GetParam{Body} =~ s/<OTRS_TICKET_STATE>/$NextState/g;
     }
     # get pre loaded attachments
     my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-        FormID => $Self->{FormID},
+        FormID => $GetParam{FormID},
     );
     # get submit attachment
     my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -435,25 +518,26 @@ sub SendEmail {
         SenderType => 'agent',
         TicketID => $Self->{TicketID},
         HistoryType => 'SendAnswer',
-        HistoryComment => "\%\%$Self->{To}, $Self->{Cc}, $Self->{Bcc}",
-        From => $Self->{From},
-        To => $Self->{To},
-        Cc => $Self->{Cc},
-        Bcc => $Self->{Bcc},
-        Subject => $Self->{Subject},
+        HistoryComment => "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
+        From => $GetParam{From},
+        To => $GetParam{To},
+        Cc => $GetParam{Cc},
+        Bcc => $GetParam{Bcc},
+        Subject => $GetParam{Subject},
         UserID => $Self->{UserID},
-        Body => $Self->{Body},
-        InReplyTo => $Self->{InReplyTo},
+        Body => $GetParam{Body},
+        InReplyTo => $GetParam{InReplyTo},
         Charset => $Self->{LayoutObject}->{UserCharset},
         Attach => \@AttachmentData,
         StdAttachmentIDs => \@StdAttachmentIDs,
+        %ArticleParam,
     )) {
         # time accounting
-        if ($Self->{TimeUnits}) {
+        if ($GetParam{TimeUnits}) {
             $Self->{TicketObject}->TicketAccountTime(
                 TicketID => $Self->{TicketID},
                 ArticleID => $ArticleID,
-                TimeUnit => $Self->{TimeUnits},
+                TimeUnit => $GetParam{TimeUnits},
                 UserID => $Self->{UserID},
             );
         }
@@ -468,7 +552,7 @@ sub SendEmail {
         $Self->{TicketObject}->TicketSetAnswered(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
-            Answered => $Self->{Answered},
+            Answered => $GetParam{Answered} || 0,
         );
         # should I set an unlock?
         if ($StateData{TypeName} =~ /^close/i) {
@@ -483,11 +567,11 @@ sub SendEmail {
             $Self->{TicketObject}->TicketPendingTimeSet(
                 UserID => $Self->{UserID},
                 TicketID => $Self->{TicketID},
-                Year => $Self->{Year},
-                Month => $Self->{Month},
-                Day => $Self->{Day},
-                Hour => $Self->{Hour},
-                Minute => $Self->{Minute},
+                Year => $GetParam{Year},
+                Month => $GetParam{Month},
+                Day => $GetParam{Day},
+                Hour => $GetParam{Hour},
+                Minute => $GetParam{Minute},
             );
         }
         # redirect
@@ -525,7 +609,6 @@ sub _GetNextStates {
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
-    $Param{FormID} = $Self->{FormID};
     # build next states string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
@@ -545,11 +628,11 @@ sub _Mask {
       $Param{'StdAttachmentsStrg'} .= "</select>\n";
     }
     # answered strg
-    if ($Param{AnsweredID}) {
+    if (defined($Param{Answered})) {
         $Param{'AnsweredYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name => 'Answered',
-            SelectedID => $Param{AnsweredID},
+            SelectedID => $Param{Answered},
         );
     }
     else {
