@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.112 2004-02-27 21:08:54 martin Exp $
+# $Id: CHANGES,v 1.113 2004-02-29 19:09:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,6 +11,9 @@
 
 CVS head 
 
+ - (2004/02/29) improved database handling of large objects (use DBI
+    bind values now / saves memory)
+ - (2004/02/27) replaced "CustomQueue" with "My Queues" in agent frontend
  - (2004/02/27) fixed possible owner selection in AgentPhone/AgentEmail
  - (2004/02/23) improved FreeText feature look if just one key is
     defined.
@@ -20,8 +23,9 @@ CVS head
 
 1.2.3
 
-  - (2004/02/27) fixed missing "internal (agent)" agent search faq
-  - (2004/02/27) fixed possible owner selection in AgentPhone/AgentEmaill
+ - (2004/02/29) fixed language quoting in customer login screen
+ - (2004/02/27) fixed missing "internal (agent)" agent search faq
+ - (2004/02/27) fixed possible owner selection in AgentPhone/AgentEmaill
 
 1.2.2 (2004-02-23)
 

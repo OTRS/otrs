@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.9 2004-02-13 00:50:36 martin Exp $
+# $Id: StdAttachment.pm,v 1.10 2004-02-29 19:09:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,25 +52,23 @@ sub StdAttachmentAdd {
         return;
       }
     }
-    # --
     # encode attachemnt if it's a postgresql backend!!!
-    # --
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
         $Param{Content} = encode_base64($Param{Content});
     }
-    # db quote
+    # db quote (just not Content, use db Bind values)
     foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
     }
     # sql
     my $SQL = "INSERT INTO standard_attachment ".
         " (name, content_type, content, filename, valid_id, comments, ".
         " create_time, create_by, change_time, change_by)".
         " VALUES ".
-        " ('$Param{Name}', '$Param{ContentType}', '$Param{Content}', '$Param{Filename}', ".
+        " ('$Param{Name}', '$Param{ContentType}', ?, '$Param{Filename}', ".
         " $Param{ValidID}, '$Param{Comment}', ".
         " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Content}])) {
         my $Id = 0;
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM standard_attachment WHERE ".

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.52 2004-02-18 11:51:29 martin Exp $
+# $Id: Article.pm,v 1.53 2004-02-29 19:09:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -78,7 +78,7 @@ sub CreateArticle {
         }
     }
     # do db insert
-    if (!$Self->{DBObject}->Do(SQL => "INSERT INTO article ".
+    my $SQL = "INSERT INTO article ".
       " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
       " a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, ".
       " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
@@ -86,9 +86,10 @@ sub CreateArticle {
       " ($DBParam{TicketID}, $DBParam{ArticleTypeID}, $DBParam{SenderTypeID}, ".
       " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
       " '$DBParam{Subject}', ". 
-      " '$DBParam{MessageID}', '$DBParam{Body}', '$DBParam{ContentType}', ".
-      "'".$Self->{DBObject}->Quote($Self->{ArticleContentPath})."', $ValidID,  $IncomingTime, " .
-      " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})")) {
+      " '$DBParam{MessageID}', ?, '$DBParam{ContentType}', ?, ".
+      " $ValidID,  $IncomingTime, " .
+      " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if (!$Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Body}, \$Self->{ArticleContentPath}])) {
         return;
     }
     # get article id 

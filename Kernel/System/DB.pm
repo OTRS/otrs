@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.37 2004-02-13 00:52:47 martin Exp $
+# $Id: DB.pm,v 1.38 2004-02-29 19:09:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -138,7 +138,7 @@ sub new {
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\'';
         $Self->{'DB::QuoteBack'} = 0;
-        $Self->{'DB::QuoteSemicolon'} = '\'';
+        $Self->{'DB::QuoteSemicolon'} = '';
         $Self->{'DB::Attribute'} = {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
@@ -317,12 +317,41 @@ to insert, update or delete something
 
   $DBObject->Do(SQL => "DELETE FROM table");
 
+
+  you also can use DBI bind values (used for large strings):
+
+  my $Var1 = 'dog1';
+  my $Var2 = 'dog2';
+
+  $DBObject->Do(
+      SQL => "INSERT INTO table (name1, name2) VALUES (?, ?)", 
+      Bind => [\$Var1, \$Var2],
+  );
+
 =cut
 
 sub Do {
     my $Self = shift;
     my %Param = @_;
     my $SQL = $Param{SQL};
+    my $BindArray = $Param{Bind};
+    my @Array = ();
+    # check bind params
+    if ($Param{Bind}) {
+        foreach my $Data (@{$Param{Bind}}) {
+            if (ref($Data) eq 'SCALAR') {
+                push(@Array, $$Data);
+            }
+            else  {
+                $Self->{LogObject}->Log(
+                    Caller => 1,
+                    Priority => 'Error',
+                    Message => "No SCALAR param in Bind!",
+                );
+                return;
+            }
+        }
+    }
     # doing timestamp workaround (if needed)
     if ($Self->{'DB::CurrentTimestamp'}) {
         $SQL =~ s/current_timestamp/$Self->{'DB::CurrentTimestamp'}/g;
@@ -337,7 +366,7 @@ sub Do {
         );
     }
     # send sql to database 
-    if (!$Self->{dbh}->do($SQL)) {
+    if (!$Self->{dbh}->do($SQL, undef, @Array)) {
         $Self->{LogObject}->Log(
           Caller => 1,
           Priority => 'Error',
@@ -559,7 +588,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2004-02-13 00:52:47 $
+$Revision: 1.38 $ $Date: 2004-02-29 19:09:13 $
 
 =cut
 

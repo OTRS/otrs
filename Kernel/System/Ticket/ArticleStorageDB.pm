@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.12 2004-02-13 00:50:36 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.13 2004-02-29 19:09:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -90,16 +90,17 @@ sub WriteArticlePlain {
         return;
       }
     }
-    # db quote
+    # db quote (just not Email, use db Bind values)
     foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Email');;
     }
     # write article to db 1:1
-    if ($Self->{DBObject}->Do(SQL => "INSERT INTO article_plain ".
-          " (article_id, body, create_time, create_by, change_time, change_by) " .
-          " VALUES ".
-          " ($Param{ArticleID}, '$Param{Email}', ".
-          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})")) {
+    my $SQL = "INSERT INTO article_plain ".
+        " (article_id, body, create_time, create_by, change_time, change_by) " .
+        " VALUES ".
+        " ($Param{ArticleID}, ?, ".
+        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Email}])) {
         return 1;
     }
     else {
@@ -137,18 +138,18 @@ sub WriteArticlePart {
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
         $Param{Content} = encode_base64($Param{Content});
     }
-    # db quote
+    # db quote (just not Content, use db Bind values)
     foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
     }
-    # write attachment to db
-    if ($Self->{DBObject}->Do(SQL => "INSERT INTO article_attachment ".
+    my $SQL = "INSERT INTO article_attachment ".
         " (article_id, filename, content_type, content, ".
         " create_time, create_by, change_time, change_by) " .
         " VALUES ".
-        " ($Param{ArticleID}, '$Param{Filename}', '$Param{ContentType}', ".
-        " '$Param{Content}', ".
-        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})")) {
+        " ($Param{ArticleID}, '$Param{Filename}', '$Param{ContentType}', ?, ".
+        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    # write attachment to db
+    if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Content}])) {
         return 1;
     }
     else {
