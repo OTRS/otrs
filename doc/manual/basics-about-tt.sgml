@@ -1,0 +1,20 @@
+<chapter id="basics_about_tt">
+<title>Basics about a Trouble Ticket System</title>
+
+<sect1 id="simple_example_for_a_tt">
+<title>A simple example for a small Trouble Ticket System</title>
+
+<para>
+What is a typical scenario for using OpenTRS?
+</para>
+<para>
+Example: Bob is a manufactor of VCRs and his customers often have problems to program the VCRs. So they send Bob an e-mail. Sometimes they send a second e-mail to show Bob how important their request is. They are wondering if Bob is alive and how fast he will answer. Bob is using a normal INBOX and reads his e-mails with pine, mutt or what ever e-mail client. Sometimes his two brothers Tim and Joe help him to answer the e-mails. They all use the same INBOX. Of course they have no clue that one customer wrote two e-mails and maybe Tim gives a different answer to the first e-mail than his brother Joe does for the second. So the client gets different informations. Of couse Bob has no client-history and no clue how much support he is offering. For the next VCR he is producing he has no feedback from his support. That is bad!
+</para>
+<para>
+But Bob is a smart cookie so he installs OpenTRS. The e-mails of his customers are not anymore going to his personal INBOX but are routed to the OpenTRS account (normaly called otrs). The OpenTRS account has some nifty procmail rules which pipe this e-mails to the system. The system answers the client a standard text which says that they recieved the e-mail and gives the client a Trouble Ticket Number (which is very important to trace the ticket). The client is happy because he knows that his valuable e-mail was recieved by Bob and his team. Anybody from Bob's team can open a webbrowser with the URL of the OpenTRS to have a look at the amount of recieved e-mails and to answer them. In case the customer Mr. Smith send a question, Bob can answer it. Maybe Mr. Smith does not understand the question and sends a replay. But Bob is ill. Now even Tim can open this ticket and has access to the history of the ticket. He can read Bob's answer and the original e-mail of Mr. Smith. Tim can answer Mr. Smith and Mr. Smith even does not realize that he was handled by two different people.
+</para>
+<para>
+Of course this is just a very rough overview of the benefits of OpenTRS. Probably Bob recieves some 100 e-mails a day which could be handle even with out a Trouble Ticket System. But the time you recieve some 100000 or even just some 500 e-mails a day you will be happy to have a system which handles all the e-mails.
+</para>
+</sect1>
+</chapter>
