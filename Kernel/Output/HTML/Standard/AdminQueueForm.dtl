@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.6 2002-05-26 21:28:27 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.7 2002-05-30 14:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -100,6 +100,10 @@
     <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
   </td>
 </tr>
+</table>
+<!-- end form -->
+
+<!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left" colspan="2">
@@ -140,7 +144,7 @@
   </tr>
   </table>
   </td>
-<tr>
+</tr>
 </table>
-<!-- end form -->
+<!-- end note -->
 
