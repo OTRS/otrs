@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.162 2005-02-23 10:27:45 martin Exp $
+# $Id: Ticket.pm,v 1.163 2005-03-22 13:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.162 $';
+$VERSION = '$Revision: 1.163 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -341,10 +341,10 @@ sub TicketCreate {
     # create db record
     my $SQL = "INSERT INTO ticket (tn, title, create_time_unix, queue_id, ticket_lock_id, ".
     " user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
-    " escalation_start_time, valid_id, create_time, create_by, change_time, change_by) " .
+    " escalation_start_time, timeout, valid_id, create_time, create_by, change_time, change_by) " .
     " VALUES ('$Param{TN}', '$Param{Title}', $Age, $Param{QueueID}, $Param{LockID}, $Param{UserID}, ".
     " $GroupID, $Param{PriorityID}, $Param{StateID}, ".
-    " 0, $EscalationStartTime, $ValidID, " .
+    " 0, $EscalationStartTime, 0, $ValidID, " .
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -3630,6 +3630,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.162 $ $Date: 2005-02-23 10:27:45 $
+$Revision: 1.163 $ $Date: 2005-03-22 13:34:53 $
 
 =cut
