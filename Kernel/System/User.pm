@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.13 2002-07-23 22:30:21 martin Exp $
+# $Id: User.pm,v 1.14 2002-07-23 22:36:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -181,10 +181,6 @@ sub GetPreferences {
     if (!$Data{UserCharset}) {
         $Data{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
     }
-    # check compat stuff
-    if (!$Data{UserEmail}) {
-        $Data{UserEmail} = $Data{UserLogin};
-    }
 
     # --
     # return data
@@ -236,6 +232,10 @@ sub GetUserData {
     # get preferences
     # --
     my %Preferences = $Self->GetPreferences(UserID => $Data{UserID});
+    # check compat stuff
+    if (!$Preferences{UserEmail}) {
+        $Preferences{UserEmail} = $Data{UserLogin};
+    }
 
     # return data
     return (%Data, %Preferences);
