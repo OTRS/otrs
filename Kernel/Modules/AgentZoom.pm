@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.58 2004-04-15 11:55:44 martin Exp $
+# $Id: AgentZoom.pm,v 1.59 2004-04-16 15:19:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -129,11 +129,10 @@ sub Run {
         }
         # if it is a html email, return here
         return $Self->{LayoutObject}->Attachment(
-            Filename => $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-$Ticket{TicketID}-$Article{ArticleID}",
+            Filename => $Self->{ConfigObject}->Get('TicketHook')."-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
             Type => 'inline',
-            ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}
-",
-            Content => $Article{"Body"},
+            ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
+            Content => $Article{Body},
         );
     }
     # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.21 2004-04-15 11:55:44 martin Exp $
+# $Id: CustomerZoom.pm,v 1.22 2004-04-16 15:19:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -250,10 +250,10 @@ sub _Mask {
     if ($Param{"ShowHTMLeMail"}) {
         # generate output
         return $Self->{LayoutObject}->Attachment(
-            Filename => $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-$Param{TicketID}-$Article{ArticleID}",
+            Filename => $Self->{ConfigObject}->Get('TicketHook')."-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
             Type => 'inline',
             ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
-            Content => $Article{"Body"},
+            Content => $Article{Body},
         );
     }
     # do some strips && quoting
