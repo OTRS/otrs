@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.5 2002-10-20 10:45:39 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.6 2002-10-25 13:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -69,7 +69,7 @@ function submit_compose()
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
-<textarea name="Note" rows="15" cols="60">
+<textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
 $Text{"$Config{"PhoneDefaultNewNoteText"}"}
 </textarea>
     </td>

@@ -2,7 +2,7 @@
 # NoteBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.dtl,v 1.3 2002-10-15 09:51:46 martin Exp $
+# $Id: AgentBounce.dtl,v 1.4 2002-10-25 13:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -75,7 +75,7 @@ function submit_bounce()
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
-<textarea name="Body" rows="15" cols="75">
+<textarea name="Body" rows="15" cols="75" wrap="$Env{"BrowserWrap"}">
 $Data{"Salutation"}
 
 $Text{"$Config{"DefaultBounceText"}"}

@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.56 2002-10-25 00:01:33 martin Exp $
+# $Id: Generic.pm,v 1.57 2002-10-25 13:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -83,7 +83,18 @@ sub new {
     $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
- 
+    # --
+    # check browser (defaut is IE because I don't have IE)
+    # --
+    $Self->{BrowserWrap} = 'physical';
+    # mozilla 
+    if ($ENV{'HTTP_USER_AGENT'} =~ /^Mozilla.*Gecko.*/i) {
+        $Self->{BrowserWrap} = 'hard';
+    }
+    # netscape
+    elsif ($ENV{'HTTP_USER_AGENT'} =~ /(^Mozilla\/\d\.\d.*|Netscape)/i) {
+        $Self->{BrowserWrap} = 'hard';
+    }
     # --
     # get release data
     # --

@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.8 2002-10-15 09:51:46 martin Exp $
+# $Id: AgentCompose.dtl,v 1.9 2002-10-25 13:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -70,7 +70,7 @@ function submit_compose()
     <tr>
       <td valign="top">$Text{"Text"}:</td><td>
 <pre>
-<textarea name="Body" rows="25" cols="80">
+<textarea name="Body" rows="25" cols="80" wrap="$Env{"BrowserWrap"}">
 $Data{"Salutation"}
 $Data{"To"} $Text{"wrote"}:
 $Data{"Body"}

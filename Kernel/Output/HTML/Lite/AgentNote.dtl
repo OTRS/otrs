@@ -2,7 +2,7 @@
 # NoteForm.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.10 2002-10-15 09:51:46 martin Exp $
+# $Id: AgentNote.dtl,v 1.11 2002-10-25 13:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,7 +42,7 @@
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
-<textarea name="Note" rows="15" cols="60">
+<textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}>
 $Text{"$Config{"DefaultNoteText"}"}
 </textarea>
     </td>
