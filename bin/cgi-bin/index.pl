@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.62 2003-12-02 21:36:16 martin Exp $
+# $Id: index.pl,v 1.63 2004-01-05 20:05:48 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -120,7 +120,7 @@ $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
 # check common objects
 # --
 if (!$CommonObject{DBObject}) {
-    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
+    print $CommonObject{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
     print $CommonObject{LayoutObject}->Error(
         Message => $DBI::errstr,
         Comment => 'Please contact your admin'
@@ -129,7 +129,7 @@ if (!$CommonObject{DBObject}) {
     exit (1);
 }
 if ($CommonObject{ParamObject}->Error()) {
-    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
+    print $CommonObject{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
     print $CommonObject{LayoutObject}->Error(
         Message => $CommonObject{ParamObject}->Error(),
         Comment => 'Please contact your admin'
@@ -251,9 +251,7 @@ if ($Param{Action} eq "Login") {
             Key => 'UserLastLogin',
             Value => time(),
         );
-        # --
-        # get groups
-        # --
+        # get groups rw
         my %GroupData = $CommonObject{GroupObject}->GroupMemberList(
             Result => 'HASH',
             Type => 'rw',
@@ -261,6 +259,15 @@ if ($Param{Action} eq "Login") {
         );
         foreach (keys %GroupData) {
             $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
+        }
+        # get groups ro
+        %GroupData = $CommonObject{GroupObject}->GroupMemberList(
+            Result => 'HASH',
+            Type => 'ro',
+            UserID => $UserData{UserID},
+        );
+        foreach (keys %GroupData) {
+            $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
         }
         # --
         # create new session id
@@ -615,28 +622,38 @@ print STDERR $CommonObject{LayoutObject}->Redirect(
         # -- 
         # module permisson check
         # --
-        my $Group = $CommonObject{ConfigObject}->Get('Module::Permission')->{$Param{Action}} || '';
-        if (ref($Group) eq 'ARRAY') {
-            my $Access = 0;
+#        my $Group = $CommonObject{ConfigObject}->Get('Module::Permission')->{$Param{Action}} || '';
+        my $Access = 1;
+        my $AccessOk = 0;
+        my %ConfigMap = (
+            'Module::Permission' => 'UserIsGroup',
+            'Module::PermissionRo' => 'UserIsGroupRo',
+        );
+        foreach my $Map (keys %ConfigMap) {
+          my $Group = '';
+          if ($CommonObject{ConfigObject}->Get($Map)) {
+              $Group = $CommonObject{ConfigObject}->Get($Map)->{$Param{Action}} || '';      }
+          if (ref($Group) eq 'ARRAY') {
             foreach (@{$Group}) {
-                if ($_ && ($UserData{"UserIsGroup[$_]"} && $UserData{"UserIsGroup[$_]"} eq 'Yes')) {
-                    $Access = 1;
+                if ($_ && ($UserData{$ConfigMap{$Map}."[$_]"} && $UserData{$ConfigMap{$Map}."[$_]"} eq 'Yes')) {
+                    $AccessOk = 1;
                 }
             }
-            if (!$Access) {
-                print $CommonObject{LayoutObject}->NoPermission(
-                    Message => "You have to be in the a permitted group!",
-                );
-                exit (0);
+            if (!$AccessOk) {
+                $Access = 0;
             }
+          }
+          else {
+            if ($Group && (!$UserData{$ConfigMap{$Map}."[$Group]"} || $UserData{$ConfigMap{$Map}."[$Group]"} ne 'Yes')) {
+                $Access = 0;
+            }
+          }
         }
-        else {
-            if ($Group && (!$UserData{"UserIsGroup[$Group]"} || $UserData{"UserIsGroup[$Group]"} ne 'Yes')) {
-                print $CommonObject{LayoutObject}->NoPermission(
-                    Message => "You have to be in the $Group group!",
-                );
-                exit (0);
-            }
+        if (!$Access) {
+            print $CommonObject{LayoutObject}->NoPermission(
+                Message => "You have to be in the a permitted group!",
+            );
+            exit (0);
         }
         # --
         # debug info
