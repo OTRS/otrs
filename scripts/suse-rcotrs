@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.11 2002-05-30 09:44:55 martin Exp $
+# $Id: suse-rcotrs,v 1.12 2002-05-30 09:46:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -121,7 +121,7 @@ case "$1" in
           exit 1
         fi
       else
-          echo " Disabled: $USED_WEBSERVER check!"
+          echo " Disabled: webserver check!"
       fi
 
       # --
@@ -139,7 +139,7 @@ case "$1" in
           exit 1;
         fi
       else 
-          echo " Disabled: $USED_DB check!"
+          echo " Disabled: database check!"
       fi
 
       # --
@@ -243,7 +243,7 @@ case "$1" in
           exit 1
         fi
       else
-          echo " Disabled: httpd check!"
+          echo " Disabled: webserver check!"
       fi
 
       # --
