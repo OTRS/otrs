@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.13 2003-12-07 23:59:41 martin Exp $
+# $Id: CustomerZoom.pm,v 1.14 2004-01-15 00:33:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -203,7 +203,7 @@ sub _Mask {
         # if this is the shown article -=> add <b>
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= ">><b><i>";
+            $ThreadStrg .= ">><b><i><u>";
         }
         # the full part thread string
         $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=CustomerZoom&ArticleID=$Article{ArticleID}\" ";
@@ -214,7 +214,7 @@ sub _Mask {
         # if this is the shown article -=> add </b>
         if ($ArticleID eq $Article{ArticleID} ||
                  (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= "</i></b>";
+            $ThreadStrg .= "</u></i></b>";
         }
       }
     }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.43 2004-01-09 17:06:23 martin Exp $
+# $Id: AgentZoom.pm,v 1.44 2004-01-15 00:32:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -250,7 +250,7 @@ sub MaskAgentZoom {
         # if this is the shown article -=> add <b>
         # --
         if ($ArticleID eq $Article{ArticleID}) {
-            $ThreadStrg .= '&gt;&gt;<i><b>';
+            $ThreadStrg .= '&gt;&gt;<i><b><u>';
         }
         # --
         # the full part thread string
@@ -269,7 +269,7 @@ sub MaskAgentZoom {
         # if this is the shown article -=> add </b>
         # --
         if ($ArticleID eq $Article{ArticleID}) { 
-            $ThreadStrg .= '</b></i>';
+            $ThreadStrg .= '</u></b></i>';
         }
         $ThreadStrg .= '</td></tr>';
       }
