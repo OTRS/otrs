@@ -2,7 +2,7 @@
 # AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.2 2002-05-26 10:16:44 martin Exp $
+# $Id: AgentPhone.pm,v 1.3 2002-06-08 18:22:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,9 @@
 package Kernel::Modules::AgentPhone;
 
 use strict;
-use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -40,6 +39,7 @@ sub new {
        'LogObject', 
        'QueueObject', 
        'ConfigObject',
+       'ArticleObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -166,11 +166,7 @@ sub Run {
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $Answered = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
-        my $ArticleObject = Kernel::System::Article->new(
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-        );
-        my $ArticleID = $ArticleObject->CreateArticleDB(
+        my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
             TicketID => $TicketID,
 #            ArticleTypeID => $ArticleTypeID,
             ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneArticleType'),
@@ -236,11 +232,6 @@ sub Run {
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || 4;
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '??';
-        my $ArticleObject = Kernel::System::Article->new(
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-        );
-
         # create new ticket
         my $NewTn = $Self->{TicketObject}->CreateTicketNr();
 
@@ -257,7 +248,7 @@ sub Run {
             CreateUserID => $Self->{UserID},
         );
 
-        my $ArticleID = $ArticleObject->CreateArticleDB(
+        my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
             TicketID => $TicketID,
 #            ArticleTypeID => $ArticleTypeID,
             ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneNewArticleType'),

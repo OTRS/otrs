@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.5 2002-04-08 20:40:12 martin Exp $
+# $Id: AgentClose.pm,v 1.6 2002-06-08 18:22:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,9 @@
 package Kernel::Modules::AgentClose;
 
 use strict;
-use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +31,16 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'DBObject', 'TicketObject', 'LayoutObject', 'LogObject', 'QueueObject', 'ConfigObject') {
+    foreach (
+      'ParamObject', 
+      'DBObject', 
+      'TicketObject', 
+      'LayoutObject', 
+      'LogObject', 
+      'QueueObject', 
+      'ConfigObject',
+      'ArticleObject',
+    ) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -119,11 +127,7 @@ sub Run {
         my $NoteID = $Self->{ParamObject}->GetParam(Param => 'CloseNoteID');
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Text');
-        my $ArticleObject = Kernel::System::Article->new(
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-        );
-        my $ArticleID = $ArticleObject->CreateArticleDB(
+        my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
             TicketID => $TicketID,
             ArticleTypeID => $NoteID,
             SenderType => 'agent',

@@ -2,7 +2,7 @@
 # AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.4 2002-04-08 20:40:12 martin Exp $
+# $Id: AgentNote.pm,v 1.5 2002-06-08 18:22:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,9 @@
 package Kernel::Modules::AgentNote;
 
 use strict;
-use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +31,16 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'DBObject', 'TicketObject', 'LayoutObject', 'LogObject', 'QueueObject', 'ConfigObject') {
+    foreach (
+      'ParamObject', 
+      'DBObject', 
+      'TicketObject', 
+      'LayoutObject', 
+      'LogObject', 
+      'QueueObject', 
+      'ConfigObject',
+      'ArticleObject',
+    ) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -82,11 +90,7 @@ sub Run {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
-        my $ArticleObject = Kernel::System::Article->new(
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-        );
-        my $ArticleID = $ArticleObject->CreateArticleDB(
+        my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
             TicketID => $TicketID,
             ArticleTypeID => $ArticleTypeID,
             SenderType => 'agent',
