@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.122 2004-07-05 05:58:41 martin Exp $
+# $Id: Ticket.pm,v 1.123 2004-07-05 06:34:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.122 $';
+$VERSION = '$Revision: 1.123 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2638,6 +2638,10 @@ sub HistoryTicketStatusGet {
         return;
       }
     }
+    # format month and day params
+    foreach (qw(StopMonth StopDay StartMonth StartDay)) {
+        $Param{$_} = sprintf("%02d", $Param{$_});
+    }
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -2680,6 +2684,10 @@ sub HistoryTicketGet {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # format month and day params
+    foreach (qw(StopMonth StopDay)) {
+        $Param{$_} = sprintf("%02d", $Param{$_});
     }
     # check cache
     my $Path = $Self->{ConfigObject}->Get('TempDir')."/TicketHistoryCache/$Param{StopYear}/$Param{StopMonth}";
@@ -3306,6 +3314,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.122 $ $Date: 2004-07-05 05:58:41 $
+$Revision: 1.123 $ $Date: 2004-07-05 06:34:12 $
 
 =cut
