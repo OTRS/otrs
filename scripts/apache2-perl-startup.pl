@@ -54,6 +54,18 @@ use Kernel::System::Ticket::Number::DateChecksum;
 #use Kernel::System::Ticket::Number::AutoIncrement;
 #use Kernel::System::Ticket::Number::Random;
 
+use Kernel::System::Queue;
+use Kernel::System::Lock;
+use Kernel::System::State;
+use Kernel::System::CustomerUser;
+#use Kernel::System::CustomerUser::DB;
+#use Kernel::System::CustomerUser::LDAP;
+use Kernel::System::CustomerAuth;
+#use Kernel::System::CustomerAuth::DB;
+#use Kernel::System::CustomerAuth::LDAP;
+use Kernel::System::CheckItem;
+use Kernel::System::AutoResponse;
+
 use Kernel::Output::HTML::Generic;
 
 # web agent middle ware modules
@@ -67,6 +79,7 @@ use Kernel::Modules::AgentPlain;
 use Kernel::Modules::AgentNote;
 use Kernel::Modules::AgentLock;
 use Kernel::Modules::AgentPriority;
+use Kernel::Modules::AgentFreeText;
 use Kernel::Modules::AgentClose;
 use Kernel::Modules::AgentPending;
 use Kernel::Modules::AgentUtilities;
@@ -104,6 +117,13 @@ use Kernel::Modules::AdminCharset;
 use Kernel::Modules::AdminState;
 use Kernel::Modules::AdminEmail;
 use Kernel::Modules::AdminCustomerUser;
+
+# web customer middle ware modules
+use Kernel::Modules::CustomerAttachment;
+use Kernel::Modules::CustomerMessage;
+use Kernel::Modules::CustomerPreferences;
+use Kernel::Modules::CustomerTicketOverView;
+use Kernel::Modules::CustomerZoom;
 
 # web stats module
 use Kernel::Modules::SystemStats;
