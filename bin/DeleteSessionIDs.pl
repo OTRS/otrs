@@ -3,7 +3,7 @@
 # DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DeleteSessionIDs.pl,v 1.11 2004-04-23 07:55:39 martin Exp $
+# $Id: DeleteSessionIDs.pl,v 1.12 2004-05-11 12:19:33 robert Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -61,13 +61,16 @@ my $Command = shift || '--help';
 print "DeleteSessionIDs.pl <Revision $VERSION> - delete all existing or expired session ids\n";
 print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
 # --
-# deleta all session ids
+# show/delete all session ids
 # -
-if ($Command eq '--all') {
-    print " Delele all session ids:\n";
+if (($Command eq '--all') || ($Command eq '--showall')) {
+    print " Working on all session ids:\n";
     my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
     foreach my $SessionID (@List) {
-        if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+        if ($Command eq '--showall') {
+            print " Printing SessionID $SessionID!\n";
+        }
+        elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
             print " SessionID $SessionID deleted.\n";
         }
         else {
@@ -77,10 +80,10 @@ if ($Command eq '--all') {
     exit (0);
 }
 # --
-# delete all expired session ids 
+# show/delete all expired session ids 
 # --
-elsif ($Command eq '--expired') {
-    print " Delele all expired session ids:\n";
+elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
+    print " Working on expired session ids:\n";
     my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
     foreach my $SessionID (@List) {
         my %SessionData = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $SessionID);
@@ -89,7 +92,10 @@ elsif ($Command eq '--expired') {
         my $MaxSessionIdleTime = $CommonObject{ConfigObject}->Get('SessionMaxIdleTime');
         my $ValidIdleTime = ($SessionData{UserLastRequest} + $MaxSessionIdleTime) - time();
         if ($ValidTime <= 0) {
-            if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+            if ($Command eq '--showexpired') {
+                print " SessionID $SessionID expired!\n";
+            }
+            elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
                 print " SessionID $SessionID deleted (too old).\n";
             }
             else {
@@ -97,7 +103,10 @@ elsif ($Command eq '--expired') {
             }
         }
         elsif ($ValidIdleTime <= 0) {
-            if ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+            if ($Command eq '--showexpired') {
+                print " SessionID $SessionID idle timeout!\n";
+            }
+            elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
                 print " SessionID $SessionID deleted (idle timeout).\n";
             }
             else {
@@ -116,9 +125,11 @@ elsif ($Command eq '--expired') {
 else {
     print "usage: $0 [options] \n";
     print "  Options are as follows:\n";
-    print "  --help        display this option help\n";
-    print "  --expired     delete all expired session ids\n";
-    print "  --all         delete all session ids\n";
+    print "  --help          display this option help\n";
+    print "  --showexpired   show all expired session ids\n";
+    print "  --expired       delete all expired session ids\n";
+    print "  --showall       show all session ids\n";
+    print "  --all           delete all session ids\n";
     exit (1);
 }
 # --
