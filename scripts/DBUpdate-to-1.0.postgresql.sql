@@ -1,11 +1,11 @@
 -- --
--- Update an existing OpenTRS database to the current state.
--- Copyright (C) 2001-200 Martin Edenhofer <martin+code@otrs.org>
+-- Update an existing OTRS database from 0.5 to 1.0
+-- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.3 2003-01-20 13:03:51 martin Exp $
+-- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.4 2003-02-09 20:52:17 martin Exp $
 -- --
 --
--- usage: cat DBUpdate.postgresql.sql | psql otrs 
+-- usage: cat DBUpdate-to-1.0.postgresql.sql | psql otrs 
 --
 -- --
 

@@ -1,8 +1,8 @@
 -- --
--- Update an existing OpenTRS database to the current state.
+-- Update an existing OTRS database from 0.5 to 1.0 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.0.mysql.sql,v 1.3 2003-01-20 13:03:31 martin Exp $
+-- $Id: DBUpdate-to-1.0.mysql.sql,v 1.4 2003-02-09 20:52:17 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
