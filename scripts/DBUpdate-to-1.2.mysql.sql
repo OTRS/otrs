@@ -2,12 +2,28 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.mysql.sql,v 1.5 2003-12-15 20:26:50 martin Exp $
+-- $Id: DBUpdate-to-1.2.mysql.sql,v 1.6 2004-01-08 11:40:07 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.mysql.sql | mysql -f -u root otrs
 --
 -- --
+
+--
+-- new ticket history stuff
+--
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('EmailAgent', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('EmailCustomer', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('WebRequestCustomer', 1, 1, current_timestamp, 1, current_timestamp);
 
 --
 -- for new user serach profiles
@@ -64,5 +80,12 @@ ALTER TABLE ticket ADD freetext7 VARCHAR (150);
 ALTER TABLE ticket ADD freekey8 VARCHAR (80);
 ALTER TABLE ticket ADD freetext8 VARCHAR (150);
 
+--
+-- faq stuff
+--
+INSERT INTO groups
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES 
+    ('faq',  1, 1, current_timestamp, 1, current_timestamp);
 
 
