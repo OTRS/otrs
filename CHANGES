@@ -2,13 +2,46 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.106 2004-01-23 00:44:30 martin Exp $
+# $Id: CHANGES,v 1.107 2004-01-31 14:52:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-CVS HEAD 
+1.2.0 beta2 (2004-01-??)
+
+http://bugs.otrs.org/show_bug.cgi?id=274
+
+ - (2004/01/27) added Bcc field for agent address book and agent compose
+ - (2004/01/24) fixed bug 280 - group_customer_user table
+    (http://bugs.otrs.org/show_bug.cgi?id=280)
+ - (2004/01/23) fixed bug 219 - GenericAgent and adding notes
+    (http://bugs.otrs.org/show_bug.cgi?id=219)
+ - (2004/01/23) fixed bug 215 - Bug in search URL - wrong link to next page
+    (http://bugs.otrs.org/show_bug.cgi?id=215)
+ - (2004/01/23) fixed bug 213 - Does not update replies with the correct name
+    (http://bugs.otrs.org/show_bug.cgi?id=213)
+ - (2004/01/23) fixed bug 192 - rename queue with Sub-queue
+    (http://bugs.otrs.org/show_bug.cgi?id=192)
+ - (2004/01/23) fixed customer-user <-> group problem added the following
+    to Kernel/Config.pm
+    # CustomerGroupSupport (0 = compat. to OTRS 1.1 or lower)
+    # (if this is 1, the you need to set the group <-> customer user
+    # relations! http://host/otrs/index.pl?Action=AdminCustomerUserGroup
+    # otherway, each user is ro/rw in each group!)
+    $Self->{CustomerGroupSupport} = 0;
+
+    # CustomerGroupAlwaysGroups 
+    # (if CustomerGroupSupport is true and you don't want to manage
+    # each customer user for this groups, then put the groups
+    # for all customer user in there)
+    $Self->{CustomerGroupAlwaysGroups} = ['users', 'info'];
+ - (2004/01/23) changed Kernel::System::Ticket->SearchTicket() to 
+    return false if on param (e. g. Queue or State) dosn't exist
+    (problem was, that if a queue name dosn't exist, then the
+    GenericAgent gets tickets from all queues!).
+
+1.2.0 beta1 (2004-01-22)
  - (2004/01/22) internationalization of agent notification messages
     configurable over admin interface (attention, agent notificatins
     are not be longer stored as article, now just a history entry will
