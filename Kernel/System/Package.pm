@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.19 2005-02-18 17:01:54 martin Exp $
+# $Id: Package.pm,v 1.20 2005-02-23 07:20:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1234,7 +1234,7 @@ sub _FileInstall {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Location)) {
+    foreach (qw(Location Content Permission)) {
       if (!defined $Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
         return;
@@ -1249,10 +1249,39 @@ sub _FileInstall {
              move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.save");
         }
     }
+    # check directory
+    my $Directory = $Param{Location};
+    $Directory =~ s/^(.*)\/(.+?|)$/$1/;
+    my @Directories = split(/\//, $Directory);
+    my $DirectoryCurrent = $Self->{Home};
+    foreach (@Directories) {
+        $DirectoryCurrent .= "/$_";
+        if (! -d $DirectoryCurrent) {
+            if (mkdir $DirectoryCurrent) {
+                $Self->{LogObject}->Log(
+                    Priority => 'notice',
+                    Message => "C: $DirectoryCurrent: $!",
+                );
+                print STDERR "Notice: Create Directory $DirectoryCurrent!\n";
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't create directory: $DirectoryCurrent: $!",
+                );
+            }
+        }
+    }
+    # write file
     if (open(OUT, "> $Self->{Home}/$Param{Location}")) {
-        print STDERR "Notice: Install $Param{Location}!\n";
+        print STDERR "Notice: Install $Param{Location} ($Param{Permission})!\n";
         print OUT $Param{Content};
         close(OUT);
+        # set permission
+        if (length($Param{Permission}) == 3) {
+            $Param{Permission} = "0$Param{Permission}";
+        }
+        chmod(oct($Param{Permission}), "$Self->{Home}/$Param{Location}");
     }
     else {
         $Self->{LogObject}->Log(
@@ -1320,7 +1349,7 @@ sub _FileSystemCheck {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't remove file $File: $!!",
+                Message => "Can't write file $File: $!!",
             );
             return;
         }
@@ -1341,6 +1370,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2005-02-18 17:01:54 $
+$Revision: 1.20 $ $Date: 2005-02-23 07:20:09 $
 
 =cut
