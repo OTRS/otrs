@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.11 2002-12-18 17:17:13 martin Exp $
+# $Id: customer.pl,v 1.12 2002-12-20 22:17:57 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -119,21 +119,21 @@ $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
 # check common objects
 # --
 if (!$CommonObject{DBObject}) {
-    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
-    print $CommonObject{LayoutObject}->Error(
+    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
+    print $CommonObject{LayoutObject}->CustomerError(
         Message => $DBI::errstr,
         Comment => 'Please contact your admin'
     );
-    print $CommonObject{LayoutObject}->Footer();
+    print $CommonObject{LayoutObject}->CustomerFooter();
     exit (1);
 }
 if ($CommonObject{ParamObject}->Error()) {
-    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
-    print $CommonObject{LayoutObject}->Error(
+    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
+    print $CommonObject{LayoutObject}->CustomerError(
         Message => $CommonObject{ParamObject}->Error(),
         Comment => 'Please contact your admin'
     );
-    print $CommonObject{LayoutObject}->Footer();
+    print $CommonObject{LayoutObject}->CustomerFooter();
     exit (1);
 }
 $CommonObject{UserObject} = Kernel::System::CustomerUser->new(%CommonObject);
