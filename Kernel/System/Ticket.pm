@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.146 2004-10-02 09:14:15 martin Exp $
+# $Id: Ticket.pm,v 1.147 2004-10-08 07:29:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.146 $';
+$VERSION = '$Revision: 1.147 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1696,7 +1696,7 @@ sub TicketSearch {
         if ($CustomerData{UserCustomerID}) {
             push (@CustomerIDs, $CustomerData{UserCustomerID});
         }
-        $SQLExt .= " AND (st.customer_id IN ('${\(join '\', \'' , @CustomerIDs)}') ".
+        $SQLExt .= " AND (st.customer_id IN ('${\(join '\', \'', @CustomerIDs)}') ".
           " OR ".
           " st.customer_user_id = '$Param{CustomerUserID}') ";
     }
@@ -1744,7 +1744,7 @@ sub TicketSearch {
     # customer id
     if ($Param{CustomerID}) {
         if (ref($Param{CustomerID}) eq 'ARRAY') {
-            $SQLExt .= " AND st.customer_id IN ('${\(join '\', ' , @{$Param{CustomerID}})}')";
+            $SQLExt .= " AND st.customer_id IN ('${\(join '\', \'', @{$Param{CustomerID}})}')";
         }
         else {
             $SQLExt .= " AND st.customer_id LIKE '".$Self->{DBObject}->Quote($Param{CustomerID})."'";
@@ -3418,6 +3418,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.146 $ $Date: 2004-10-02 09:14:15 $
+$Revision: 1.147 $ $Date: 2004-10-08 07:29:50 $
 
 =cut
