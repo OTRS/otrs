@@ -31,6 +31,8 @@
 <!ENTITY state SYSTEM "system-state.sgml">
 <!ENTITY dtl SYSTEM "dtl.sgml">
 <!ENTITY permission SYSTEM "permission.sgml">
+<!ENTITY developer-guide SYSTEM "developer-guide.sgml">
+<!ENTITY developer-guide-custom-modules SYSTEM "developer-guide-custom-modules.sgml">
 <!ENTITY glossary SYSTEM "glossary.sgml">
 ]>
 
@@ -107,6 +109,10 @@ or implied warranty.
 &performance-tuning;
 
 &troubleshooting;
+
+&developer-guide;
+
+&developer-guide-custom-modules;
 
 &faq;
 

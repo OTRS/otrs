@@ -1,0 +1,98 @@
+<chapter id="dev">
+<title>Developer's guide</title>
+<para>
+This chapter will show you more details about writing common OTRS Modules. 
+</para>
+<para>
+
+</para>
+
+<section id="dev-core">
+<title>Core Modules</title>
+<para>
+Core modules are located under $OTRS_HOME/Kernel/System/. 
+There you will have 
+Log (Kernel::System::Log), 
+Ticket (Kernel::System::Ticket), 
+Auth (Kernel::System::Auth), 
+User (Kernel::System::User), 
+Email (Kernel::System::Email), ... core modules for OTRS.
+</para>
+</section>
+
+<section id="dev-style">
+<title>Coding Style Guide</title>
+<para>
+In order to preserve the consistent development of OTRS project we
+have set up a few guidelines regarding style.
+</para>
+<para>
+1. Formatting
+=============
+
+TAB: We use 4 spaces.
+----
+
+Braces:
+-------
+ Examples:
+<programlisting>
+ if ($Condition) {
+     Foo();
+ }
+ else {
+     Bar();
+ }
+</programlisting>
+<programlisting>
+ while ($Condition == 1) {
+     Foo();
+ }
+</programlisting>
+</para>
+<para>
+2. Naming
+=========
+
+Names and comments are written in English.
+
+Variables, Objects and Methods must be descriptive nouns or noun phrases with
+the first letter uppercase (e. g. '@TicketIDs' or '$Output' or 'BuildQueueView()').
+</para>
+<para>
+3. Code header
+==============
+
+Attach the following header to each source file.
+<programlisting>
+# --
+# (file name) - a short decription what it does.
+# Copyright (C) (year) (name of author) (email of author)
+# --
+# $Id: developer-guide.sgml,v 1.1 2003-12-05 00:24:56 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+</programlisting>
+</para>
+<para>
+4. Misc
+=======
+
+All things depending on http://www.perl.com/CPAN-local/doc/manual/html/pod/perlstyle.html.
+</para>
+<para>
+You can also use 'pb' the 'Perl Beautifier', http://www.arachnoid.com/lutusp/ftp/cgi/pb.txt. 
+It's really nice. ;-)
+</para>
+</section>
+
+<section id="dev-debug">
+<title>Debugging</title>
+<para>
+...
+</para>
+</section>
+
+</chapter>
