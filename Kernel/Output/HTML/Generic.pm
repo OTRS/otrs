@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.129 2004-07-16 13:06:22 martin Exp $
+# $Id: Generic.pm,v 1.130 2004-07-17 21:31:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.129 $';
+$VERSION = '$Revision: 1.130 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -45,7 +45,13 @@ sub new {
     $Self->{Debug} = 0;
     # check needed objects
     foreach (qw(ConfigObject LogObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Got no $_!",
+            );
+            $Self->FatalError(); 
+        }
     }
     # get/set some common params
     if (!$Self->{UserTheme}) {
@@ -163,7 +169,13 @@ sub new {
     # --
     $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir')."/HTML/$Theme";
     if (!$Self->{TemplateDir}) {
-        die "No templates found in '$Self->{TemplateDir}'! Check your Home in Kernel/Config.pm";
+        if (!$Self->{$_}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No templates found in '$Self->{TemplateDir}'! Check your Home in Kernel/Config.pm",
+            );
+            $Self->FatalError(); 
+        }
     }
     return $Self;
 }
@@ -223,13 +235,27 @@ sub Output {
     elsif ($Param{Template}) {
          $TemplateString = $Param{Template};
     }
-    else {
-        open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")
-           ||  die "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!";
-        while (my $Line = <TEMPLATEIN>) {
-            $TemplateString .= $Line;
+    elsif ($Param{TemplateFile}) {
+        if (open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")) {
+            while (my $Line = <TEMPLATEIN>) {
+                $TemplateString .= $Line;
+            }
+            close (TEMPLATEIN);
         }
-        close (TEMPLATEIN);
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!",
+            );
+            $Self->FatalError();
+        }
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need Template or TemplateFile Param!",
+        );
+        $Self->FatalError();
     }
 
     # filtering of comment lines
@@ -549,17 +575,13 @@ sub Redirect {
     my %Param = @_;
     my $SessionIDCookie = '';
     my $Output = '';
-    # --
     # add cookies if exists
-    # --
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
-    # --
     # create & return output
-    # --
     if ($Param{ExtURL}) {
         # external redirect
         $Param{Redirect} = $Param{ExtURL};
@@ -604,23 +626,17 @@ sub Login {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    # --
     # add cookies if exists
-    # --
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
-    # --
     # get message of the day
-    # --
     if ($Self->{ConfigObject}->Get('ShowMotd')) {
         $Param{"Motd"} = $Self->Output(TemplateFile => 'Motd', Data => \%Param);
     }
-    # --
     # get language options
-    # --
     $Param{Language} = $Self->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
         Name => 'Lang',
@@ -628,18 +644,22 @@ sub Login {
         OnChange => 'submit()',
         HTMLQuote => 0,
     );
-    # --
     # create & return output
-    # --
     $Output .= $Self->Output(TemplateFile => 'Login', Data => \%Param);
-    # --
     # get lost password y
-    # --
     if ($Self->{ConfigObject}->Get('LostPassword')
          && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB') {
         $Output .= $Self->Output(TemplateFile => 'LostPassword', Data => \%Param);
     }
     return $Output;
+}
+# --
+sub FatalError {
+    my $Self = shift;
+    print $Self->Header(Area => 'Frontend', Title => 'Fatal Error');
+    print $Self->Error();
+    print $Self->Footer();
+    exit;
 }
 # --
 sub Error {
@@ -997,7 +1017,7 @@ sub OptionStrgHashRef {
                 $Data{$_} = $Self->{LanguageObject}->Get($Data{$_});
             }
             if ($HTMLQuote) {
-                $Output .= $Self->Ascii2Html(Text => $Data{$_}, Max => $Max); 
+                $Output .= $Self->Ascii2Html(Text => $Data{$_}, Max => $Max);
             }
             else {
                 $Output .= $Data{$_};
@@ -1037,7 +1057,7 @@ sub CheckCharset {
       # if the content charset is different to the user charset
       if ($Param{ContentCharset} && $Self->{UserCharset} !~ /^$Param{ContentCharset}$/i) {
         # if the content charset is us-ascii it is always shown correctly
-        if ($Param{ContentCharset} !~ /us-ascii/i) { 
+        if ($Param{ContentCharset} !~ /us-ascii/i) {
             $Output = '<p><i class="small">'.
               '$Text{"This message was written in a character set other than your own."}'.
               '$Text{"If it is not displayed correctly,"} '.
@@ -1064,7 +1084,7 @@ sub CheckMimeType {
     # --
     if ($Param{MimeType} && $Param{MimeType} !~ /text\/plain/i) {
          $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
-           ' $Text{"email"}, '. 
+           ' $Text{"email"}, '.
            '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=".
            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
            'target="HTMLeMail" '.
@@ -1135,7 +1155,7 @@ sub Attachment {
     my %Param = @_;
     # reset binmode, don't use utf8
     binmode(STDOUT);
-    # return attachment  
+    # return attachment
     my $Output = "Content-Disposition: ";
     if ($Param{Type}) {
         $Output .= $Param{Type}.'; ';
@@ -1271,7 +1291,7 @@ sub OutputCSV {
     my @Head = ('##No Head Data##');
     if ($Param{Head}) {
         @Head = @{$Param{Head}};
-    } 
+    }
     my @Data = (['##No Data##']);
     if ($Param{Data}) {
         @Data = @{$Param{Data}};
@@ -1304,14 +1324,14 @@ sub OutputHTMLTable {
     my @Head = ('##No Head Data##');
     if ($Param{Head}) {
         @Head = @{$Param{Head}};
-    } 
+    }
     my @Data = (['##No Data##']);
     if ($Param{Data}) {
         @Data = @{$Param{Data}};
     }
 
     $Output .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">';
-    $Output .= "<tr>\n"; 
+    $Output .= "<tr>\n";
     foreach my $Entry (@Head) {
         $Output .= "<td class=\"item\">$Entry</td>\n";
     }
