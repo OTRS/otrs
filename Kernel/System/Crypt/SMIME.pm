@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMIME.pm,v 1.6 2004-09-20 19:20:50 martin Exp $
+# $Id: SMIME.pm,v 1.7 2005-01-28 09:58:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -258,6 +258,14 @@ sub Verify {
         }
         close (IN);
     }
+    # read clear content
+    my $SignerContent = '';
+    if (open (IN, "< $FilenameOutput")) {
+        while (<IN>) {
+            $SignerContent .= $_;
+        }
+        close (IN);
+    }
     # return message
     if ($Message =~ /Verification successful/i) {
         %Return = (
@@ -267,6 +275,7 @@ sub Verify {
             Message => "OpenSSL: ".$Message,
             MessageLong => "OpenSSL: ".$MessageLong,
             SignerCertificate => $SignerCertificate,
+            Content => $SignerContent,
         );
     }
     else {
@@ -820,6 +829,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2004-09-20 19:20:50 $
+$Revision: 1.7 $ $Date: 2005-01-28 09:58:15 $
 
 =cut
