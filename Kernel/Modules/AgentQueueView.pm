@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.39 2003-07-12 08:15:08 martin Exp $
+# $Id: AgentQueueView.pm,v 1.40 2003-07-12 12:09:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -344,16 +344,19 @@ sub BuildQueueView {
         QueueID => $Self->{QueueID},
         ShownQueueIDs => $Param{QueueIDs},
     ); 
-    # --
     # check shown tickets
-    # --
     if ($Self->{MaxLimit} < $Data{TicketsAvail}) {
         # set max shown
         $Data{TicketsAvail} = $Self->{MaxLimit};
     }
-    # --
+    # check start option, if higher then tickets available, set 
+    # it to the last ticket page (Thanks to Stefan Schmidt!)
+    if ($Self->{Start} > $Data{TicketsAvail}) { 
+           my $PageShown = $Self->{ConfigObject}->Get('ViewableTickets');
+           my $Pages = int(($Data{TicketsAvail} / $PageShown) + 0.99999);
+           $Self->{Start} = (($Pages - 1) * $PageShown) + 1;
+    }
     # build output ...
-    # --
     my %AllQueues = $Self->{QueueObject}->GetAllQueues();
     return $Self->{LayoutObject}->QueueView(
         %Data,
