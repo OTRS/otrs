@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.10 2002-09-30 22:09:51 martin Exp $
+# $Id: SetPermissions.sh,v 1.11 2002-09-30 23:42:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.10 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.11 $> - set OTRS file permissions"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 if ! test $1 || ! test $2 || ! test $3; then 
@@ -71,6 +71,11 @@ chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.procmailrc
 echo "chmod 0644 $OTRSDEST/.procmailrc"
 chmod 0644 $OTRSDEST/.procmailrc
 
+# set forward (just for Exim)
+if test -e $OTRSDEST/.forward; then
+    echo "chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.forward"
+    chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.forward
+fi
 
 # --
 # var/*
