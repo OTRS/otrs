@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.16 2002-10-01 09:05:26 martin Exp $
+# $Id: INSTALL,v 1.17 2002-10-15 09:58:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,13 +15,17 @@ Software requirements?
   On all Perl-Platforms! You need:
     * min. Perl5
     * Database (e. g. MySQL, PostgreSQL)
-    * Webpserver (mod_perl isn't required but very nice to have)
+    * Webpserver (mod_perl isn't required but "very nice" to have)
     * some CPAN-Module (CGI, MIME::Words, Mail::Internet, MIME::Parser, DBI,
       DBD::mysql, Digest::MD5) and for stats (GD, GD::Text, GD::Graph, 
       GD::Graph::lines, GD::Text::Align, Date::Calc)
 
 Installation:
 =============
+
+This few steps describe an OTRS installation incl. webserver and database 
+settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
+(of cause you can choose an other directory or/and OTRS user). 
 
 1. Install CPAN Modules (if needed):
    ---------------------------------
@@ -128,6 +132,6 @@ Have a lot of fun.
 
  Martin Edenhofer 
 
-(April 2002 Frankfurt/Germany)
+(September 2002 Frankfurt/Germany)
 
 EOF
