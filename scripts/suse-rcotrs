@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.7 2002-05-14 02:22:58 martin Exp $
+# $Id: suse-rcotrs,v 1.8 2002-05-20 21:35:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,12 +11,12 @@
 # --
 
 ### BEGIN INIT INFO
-# Provides:              otrs
+# Provides:          otrs
 # Required-Start:    mysql apache
 # Required-Stop:
-# Default-Start:      3
+# Default-Start:     3
 # Default-Stop:
-# Description:          Open Ticket Request System
+# Description:       Open Ticket Request System
 ### END INIT INFO
 
 
@@ -79,6 +79,9 @@ return=$rc_done
 # main part
 # 
 case "$1" in
+    # ------------------------------------------------------
+    # start
+    # ------------------------------------------------------
     start)
       echo "Starting OpenTRS"
 
@@ -86,11 +89,12 @@ case "$1" in
       # start apache
       # --
       if test $HTTP_RUNNING -gt 0; then
-        if rcapache restart > /dev/null 2>&1 ; then
-          echo " Starting httpd ... done."
+        if rcapache status > /dev/null 2>&1 ; then
+          echo " Checking httpd ... done."
           rc_status
         else
-          echo " Starting httpd ... faild."
+          echo " Checking httpd ... failed!"
+          echo "  --> Please start the webserver at first! <--"
           rc_failed
           exit 1
         fi
@@ -98,16 +102,16 @@ case "$1" in
           echo " Disabled: httpd check!"
       fi
 
-
       # --
       # check mysql
       # --
       if test $DB_RUNNING -gt 0; then
-        if rcmysql restart > /dev/null 2>&1 ; then 
-          echo " Starting mysql ... done."
+        if rcmysql status > /dev/null 2>&1 ; then 
+          echo " Checking mysql ... done."
           rc_status 
         else 
-          echo " Starting mysql ... faild."
+          echo " Checking mysql ... failed."
+          echo "  --> Please start the database at first! <--"
           rc_failed
           rc_status -v 
           exit 1;
@@ -145,6 +149,17 @@ case "$1" in
       fi
 
       # --
+      # disable PostMaster.pl
+      # --
+      echo -n " Enable $OTRS_POSTMASTER ..."
+      if chmod 755 $OTRS_POSTMASTER; then
+          echo " done."
+          rc_status
+      else
+          echo " failed."
+      fi
+
+      # --
       # check otrs spool dir
       # --
       echo -n " Checking otrs spool dir... "
@@ -159,14 +174,94 @@ case "$1" in
       done
       echo " done."
       rc_status
-
+     
+      echo ""
       echo "  -->> http://$HOST/otrs/index.pl <<-- "
 
       # show status
       rc_status -v
     ;;
+    # ------------------------------------------------------
+    # stop
+    # ------------------------------------------------------
     stop)
-      echo "Shutting down OpenTRS"
+      echo "Shutting down OpenTRS "
+
+      # --
+      # disable PostMaster.pl
+      # --
+      echo -n " Disable $OTRS_POSTMASTER ..."
+      if chmod 644 $OTRS_POSTMASTER; then
+          echo " done."
+          rc_status
+      else
+          echo " failed."
+      fi
+
+      # show status
+      rc_status -v
+
+    ;;
+    # ------------------------------------------------------
+    # start-force
+    # ------------------------------------------------------
+    start-force)
+      echo "Starting OpenTRS (completely)"
+
+      # --
+      # start apache
+      # --
+      if test $HTTP_RUNNING -gt 0; then
+        if rcapache restart > /dev/null 2>&1 ; then
+          echo " Starting httpd ... done."
+          rc_status
+        else
+          echo " Starting httpd ... failed!"
+          rc_failed
+          exit 1
+        fi
+      else
+          echo " Disabled: httpd check!"
+      fi
+
+      # --
+      # check mysql
+      # --
+      if test $DB_RUNNING -gt 0; then
+        if rcmysql restart > /dev/null 2>&1 ; then 
+          echo " Starting mysql ... done."
+          rc_status 
+        else 
+          echo " Starting mysql ... failed."
+          rc_failed
+          rc_status -v 
+          exit 1;
+        fi
+      else 
+          echo " Disabled: mysql check!"
+      fi
+
+      # --
+      # start normal
+      # --
+      $0 start
+
+      # show status
+      rc_status -v
+    ;;
+    # ------------------------------------------------------
+    # stop-force
+    # ------------------------------------------------------
+    stop-force)
+      # --
+      # stop normal
+      # --
+      $0 stop
+
+      # --
+      # stop force
+      # --
+      echo "Shutting down OpenTRS (completely)"
 
       # --
       # httpd
@@ -176,7 +271,7 @@ case "$1" in
           echo " Shutting down apache ... done."
           rc_status 
         else
-          echo " Shutting down apache ... faild."
+          echo " Shutting down apache ... failed."
           rc_failed
         fi
       fi
@@ -189,7 +284,7 @@ case "$1" in
           echo " Shutting down mysql ... done."
           rc_status 
         else
-          echo " Shutting down mysql ... faild."
+          echo " Shutting down mysql ... failed."
           rc_failed
         fi
       fi
@@ -197,12 +292,27 @@ case "$1" in
       # show status
       rc_status -v
     ;;
+    # ------------------------------------------------------
+    # restart
+    # ------------------------------------------------------
     restart)
-      $0 stop  && sleep 3
+      $0 stop  
       $0 start
       # Remember status and be quiet
       rc_status
     ;;
+    # ------------------------------------------------------
+    # restart-force
+    # ------------------------------------------------------
+    restart-force)
+      $0 stop-force  && sleep 3
+      $0 start-force
+      # Remember status and be quiet
+      rc_status
+    ;;
+    # ------------------------------------------------------
+    # status
+    # ------------------------------------------------------
     status) 
       # --
       # httpd
@@ -227,7 +337,7 @@ case "$1" in
       echo "done."
     ;;
     *)
-    echo "Usage: $0 {start|stop|status|restart}"
+    echo "Usage: $0 {start|stop|stop-force|start-force|status|restart|restart-force}"
     exit 1
 esac
 
