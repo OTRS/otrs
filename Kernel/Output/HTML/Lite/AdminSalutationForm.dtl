@@ -2,7 +2,7 @@
 # AdminSalutationForm.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutationForm.dtl,v 1.12 2004-03-01 14:00:57 martin Exp $
+# $Id: AdminSalutationForm.dtl,v 1.13 2004-03-11 14:37:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -109,6 +109,10 @@
       <td>$Text{"customer realname"}</td>
      </tr>
      <tr>
+      <td><b>&lt;OTRS_CUSTOMER_*&gt;</b></td>
+      <td>$Text{"All Customer variables like defined in config option CustomerUser."}</td>
+     </tr>
+     <tr>
       <td><b>&lt;OTRS_FIRST_NAME&gt;</b></td>
       <td>$Text{"for agent firstname"}</td>
      </tr>
@@ -132,7 +136,7 @@
     <pre>
 Dear &lt;OTRS_CUSTOMER_REALNAME&gt;,
 
-Thank you for your request.
+Thank you for your request. Your email address in our database is "&lt;OTRS_CUSTOMER_UserEmail&gt;". 
     </pre>
     <hr>
     </p>
