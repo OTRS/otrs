@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.3 2001-12-30 00:40:29 martin Exp $
+# $Id: AuthSession.pm,v 1.4 2002-01-01 20:37:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -89,7 +89,7 @@ sub CreateSessionID {
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
     # FIXME!
-    open (SESSION, ">> $Self->{SessionSpool}/$SessionID") or return;
+    open (SESSION, ">> $Self->{SessionSpool}/$SessionID") || die "Can't create $Self->{SessionSpool}/$SessionID: $!"; 
     foreach (keys %Param) {
         print SESSION "$_=$Param{$_};";
     }
