@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.13 2003-03-23 21:43:26 martin Exp $
+# $Id: DB.pm,v 1.14 2003-04-22 20:31:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -75,7 +75,8 @@ sub CustomerName {
     else {
         $SQL .= " , first_name, last_name ";
     }
-    $SQL .= " FROM $Self->{CustomerTable} WHERE $Self->{CustomerKey} = '$Param{UserLogin}' ";
+    $SQL .= " FROM $Self->{CustomerTable} WHERE ".
+      " $Self->{CustomerKey} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
     # --
     # get data
     # --
@@ -132,17 +133,17 @@ sub CustomerSearch {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                $SQLExt .= " $_ LIKE '$Param{Search}' ";
+                $SQLExt .= " $_ LIKE '".$Self->{DBObject}->Quote($Param{Search})."' ";
             }
             $SQL .= $SQLExt;
         }
         else {
-            $SQL .= " $Self->{CustomerKey} LIKE '$Param{Search}' ";
+            $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{Search})."' ";
         }
     }
     if ($Param{UserLogin}) {
         $Param{UserLogin} =~ s/\*/%/g;
-        $SQL .= " $Self->{CustomerKey} LIKE '$Param{UserLogin}' ";
+        $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
     }
     # --
     # add valid option
@@ -202,10 +203,10 @@ sub CustomerUserDataGet {
     }
     $SQL .= $Self->{CustomerKey}." FROM $Self->{CustomerTable} WHERE ";
     if ($Param{User}) {
-        $SQL .= $Self->{CustomerKey}." = '$Param{User}'";
+        $SQL .= $Self->{CustomerKey}." = '".$Self->{DBObject}->Quote($Param{User})."'";
     }
     elsif ($Param{CustomerID}) {
-        $SQL .= $Self->{CustomerID}." = '$Param{CustomerID}'";
+        $SQL .= $Self->{CustomerID}." = '".$Self->{DBObject}->Quote($Param{CustomerID})."'";
     }
     # --
     # get inital data
@@ -274,12 +275,6 @@ sub CustomerUserAdd {
         return;
     }
     # --
-    # quote params
-    # -- 
-    foreach (keys %Param) {
-       $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
-    # --
     # build insert
     # --
     my $SQL = "INSERT INTO $Self->{CustomerTable} (";
@@ -293,7 +288,7 @@ sub CustomerUserAdd {
             $SQL .= " $Param{$Entry->[0]}, ";
         }
         else {
-            $SQL .= " '$Param{$Entry->[0]}', ";
+            $SQL .= " '".$Self->{DBObject}->Quote($Param{$Entry->[0]})."', ";
         }
     }
     $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
@@ -343,12 +338,6 @@ sub CustomerUserUpdate {
     # get old user data (pw)
     # --
     my %UserData = $Self->CustomerUserDataGet(User => $Param{ID});
-    # --
-    # quote params
-    # -- 
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
     # -- 
     # update db
     # --
@@ -358,12 +347,12 @@ sub CustomerUserUpdate {
             $SQL .= " $Entry->[2] = $Param{$Entry->[0]}, ";
         }
         elsif ($Entry->[0] !~ /^UserPassword$/i) {
-            $SQL .= " $Entry->[2] = '$Param{$Entry->[0]}', ";
+            $SQL .= " $Entry->[2] = '".$Self->{DBObject}->Quote($Param{$Entry->[0]})."', ";
         }
     }
     $SQL .= " change_time = current_timestamp, ";
     $SQL .= " change_by = $Param{UserID} ";
-    $SQL .= " WHERE ".$Self->{CustomerKey}." = '$Param{ID}'";
+    $SQL .= " WHERE ".$Self->{CustomerKey}." = '".$Self->{DBObject}->Quote($Param{ID})."'";
   
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # --
@@ -423,7 +412,6 @@ sub SetPassword {
         close (IO);
         chomp $CryptedPw;
     }
-    my $NewPw = $Self->{DBObject}->Quote($CryptedPw);
     # --
     # update db
     # --
@@ -438,9 +426,9 @@ sub SetPassword {
     if ($Self->{DBObject}->Do(
             SQL => "UPDATE $Self->{CustomerTable} ".
                " SET ".
-               " $Param{PasswordCol} = '$NewPw' ".
+               " $Param{PasswordCol} = '".$Self->{DBObject}->Quote($CryptedPw)."' ".
                " WHERE ".
-               " $Param{LoginCol} = '$Param{UserLogin}'",
+               " $Param{LoginCol} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'",
     )) {
         # --
         # log notice
