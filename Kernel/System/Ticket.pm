@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.133 2004-08-19 13:14:20 martin Exp $
+# $Id: Ticket.pm,v 1.134 2004-09-01 09:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.133 $';
+$VERSION = '$Revision: 1.134 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -248,11 +248,11 @@ creates a new ticket
 
   my $TicketID = $TicketObject->TicketCreate(
         TN => $TicketObject->TicketCreateNumber(),
-        QueueID => 123,
+        QueueID => 123,                # or Queue => 'SomeQueue'
         Lock => 'unlock',
         GroupID => 1,
-        Priority => '3 normal'
-        State => 'new',
+        Priority => '3 normal'         # or PriorityID => 2,
+        State => 'new',                # or StateID => 5,
         CustomerNo => '123465',
         CustomerUser => 'customer@example.com',
         UserID => 123, # new owner
@@ -269,11 +269,22 @@ sub TicketCreate {
     my $ValidID = $Param{ValidID} || 1;
     my $Age = $Self->{TimeObject}->SystemTime();
     # check needed stuff
-    foreach (qw(QueueID UserID CreateUserID)) {
+    foreach (qw(UserID CreateUserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # QueueID/Queue lookup!
+    if (!$Param{QueueID} && $Param{Queue}) {
+        $Param{QueueID} = $Self->{QueueObject}->QueueLookup(Queue => $Param{Queue});
+    }
+    elsif (!$Param{Queue}) {
+        $Param{Queue} = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
+    }
+    if (!$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No QueueID for '$Param{Queue}'!!!");
+        return;
     }
     # StateID/State lookup!
     if (!$Param{StateID}) {
@@ -331,12 +342,11 @@ sub TicketCreate {
             UserID => $Param{UserID},
         );
         # history insert
-        my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
         $Self->HistoryAdd(
             TicketID => $TicketID,
             QueueID => $Param{QueueID},
             HistoryType => 'NewTicket',
-            Name => "\%\%$Param{TN}\%\%$Queue\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
+            Name => "\%\%$Param{TN}\%\%$Param{Queue}\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
             CreateUserID => $Param{UserID},
         );
         # set customer data if given
@@ -465,8 +475,10 @@ sub TicketNumberLookup {
 
 =item TicketGet()
 
-get ticket info (TicketNumber, State, StateID, Priority, PriorityID,
-Lock, LockID, Queue, QueueID, CustomerID, CustomerUserID, UserID, ...)
+get ticket info (TicketNumber, State, StateID, StateType,
+Priority, PriorityID, Lock, LockID, Queue, QueueID,
+CustomerID, CustomerUserID, UserID, Owner, OwnerID,
+Created, Answered, TicketFreeKey1-8, TicketFreeText1-8, ...)
 
   my %Ticket = $TicketObject->TicketGet(
       TicketID => 123,
@@ -3389,6 +3401,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.133 $ $Date: 2004-08-19 13:14:20 $
+$Revision: 1.134 $ $Date: 2004-09-01 09:07:03 $
 
 =cut
