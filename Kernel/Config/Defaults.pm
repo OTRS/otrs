@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.159 2004-09-17 21:01:56 martin Exp $
+# $Id: Defaults.pm,v 1.160 2004-09-20 11:15:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.159 $';
+$VERSION = '$Revision: 1.160 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -364,7 +364,10 @@ sub LoadDefaults {
     $Self->{'Frontend::NavBarModule'}->{'1-LockedTickets'} = {
         Module => 'Kernel::Output::HTML::NavBarLockedTickets',
     };
-
+    # agent interface notification module for bulk action
+    $Self->{'Frontend::NavBarModule'}->{'2-TicketBulkAction'} = {
+        Module => 'Kernel::Output::HTML::NavBarTicketBulkAction',
+    };
 
     # agent interface notification module to check the used charset
     $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
@@ -1025,9 +1028,17 @@ $Data{"Signature"}
     # link object settings                                #
     # what objects are known by the system                #
     # --------------------------------------------------- #
-    $Self->{'LinkObject::Objects'} = {
-        Ticket => 'Ticket Object',
-        FAQ => 'FAQ Object',
+
+    $Self->{'LinkObject'}->{'Ticket'} = {
+        Name => 'Ticket Object',
+        Type => 'Object',
+        LinkObjects => ['Ticket', 'FAQ'],
+    };
+
+    $Self->{'LinkObject'}->{'FAQ'} = {
+        Name => 'FAQ Object',
+        Type => 'Object',
+        LinkObjects => ['Ticket', 'FAQ'],
     };
 
     # --------------------------------------------------- #
