@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.168 2004-10-07 16:05:33 martin Exp $
+# $Id: Defaults.pm,v 1.169 2004-10-12 10:40:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.168 $';
+$VERSION = '$Revision: 1.169 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -460,8 +460,8 @@ sub LoadDefaults {
     # AgentUtil                                           #
     # --------------------------------------------------- #
     # default limit for ticket search
-    # [default: 1000]
-    $Self->{SearchLimit} = 1000;
+    # [default: 5000]
+    $Self->{SearchLimit} = 5000;
 
     # defaut of shown article a page
     # [default: 15]
@@ -2059,8 +2059,6 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewNoteText} = '';
     # default next state [default: open]
     $Self->{PhoneDefaultNewNextState} = 'open';
-    # default lock (lock|unlock) [default: unlock] 
-    $Self->{PhoneDefaultNewLock} = 'unlock';
     # default priority [default: 3 normal]
     $Self->{PhoneDefaultPriority} = '3 normal';
     # default history type
@@ -2096,9 +2094,6 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # agent compose email stuff
     # --------------------------------------------------- #
-    # default lock (lock|unlock) [default: unlock]
-    $Self->{EmailDefaultNewLock} = 'unlock';
-
     # default priority [default: 3 normal]
     $Self->{EmailDefaultPriority} = '3 normal';
 
@@ -2365,6 +2360,10 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentCompose'} = {
         Description => 'Ticket Compose Email Answer',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentCustomerFollowUp'} = {
+        Description => 'Used if a agent can also be a customer',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentBounce'} = {
