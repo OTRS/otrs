@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.32 2003-11-06 22:17:26 martin Exp $
+# $Id: INSTALL,v 1.33 2003-11-13 19:57:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -170,7 +170,7 @@ For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
 Have a lot of fun.
 
- Martin Edenhofer 
+ Your OTRS Team
 
 (January 2003 Frankfurt/Germany)
 
