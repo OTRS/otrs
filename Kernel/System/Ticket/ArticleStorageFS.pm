@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.16 2004-04-15 11:55:44 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.17 2004-08-10 06:43:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -75,13 +75,17 @@ sub ArticleDelete {
     # delete attachments and plain emails
     my @Articles = $Self->ArticleIndex(TicketID => $Param{TicketID});
     foreach (@Articles) {
-        # delete from db
-        $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $_");
-        $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $_");
-        # delete from fs
-        my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $_);
-        system("rm -rf $Self->{ArticleDataDir}/$ContentPath/$_");
-    } 
+        # delete attachments
+        $Self->ArticleDeleteAttachment(
+            ArticleID => $_,
+            UserID => $Param{UserID},
+        );
+        # delete plain message
+        $Self->ArticleDeletePlain(
+            ArticleID => $_,
+            UserID => $Param{UserID},
+        );
+    }
     # delete articles
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
         # delete history
@@ -95,6 +99,51 @@ sub ArticleDelete {
     else {
         return;
     }
+}
+sub ArticleDeletePlain {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(ArticleID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # delete attachments
+    $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}");
+    # delete from fs
+    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+    my $Path = "$Self->{ArticleDataDir}/$ContentPath/plain.txt";
+    if (-f $Path) {
+        unlink $Path;
+    }
+    return 1;
+}
+# --
+sub ArticleDeleteAttachment {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(ArticleID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # delete attachments
+    $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $Param{ArticleID}");
+    # delete from fs
+    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+    my $Path = "$Self->{ArticleDataDir}/$ContentPath/";
+    my @List = glob($Path);
+    foreach my $File (@List) {
+        $File =~ s!^.*/!!;
+        if ($File !~ /^plain.txt$/) {
+            unlink "$Path/$File";
+        }
+    }
+    return 1;
 }
 # --
 sub ArticleWritePlain {
