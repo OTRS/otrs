@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.11 2003-02-17 18:31:17 martin Exp $
+# $Id: Customer.pm,v 1.12 2003-02-25 18:46:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,13 +43,15 @@ sub CustomerLogin {
     # --
     # get lost password output
     # --
-    if ($Self->{ConfigObject}->Get('CustomerPanelLostPassword')) {
+    if ($Self->{ConfigObject}->Get('CustomerPanelLostPassword')
+        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
         $Param{LostPassword} = $Self->Output(TemplateFile => 'CustomerLostPassword', Data => \%Param);
     }
     # --
     # get lost password output
     # --
-    if ($Self->{ConfigObject}->Get('CustomerPanelCreateAccount')) {
+    if ($Self->{ConfigObject}->Get('CustomerPanelCreateAccount') 
+        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
         $Param{CreateAccount} = $Self->Output(TemplateFile => 'CustomerCreateAccount', Data => \%Param);
     }
     # --
@@ -241,7 +243,7 @@ sub CustomerTicketZoom {
         # --
         $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=CustomerZoom&ArticleID=$Article{ArticleID}\" ";
         $ThreadStrg .= 'onmouseover="window.status=\'$Text{"Zoom"}\'; return true;" onmouseout="window.status=\'\';">';
-        $ThreadStrg .= "$Article{SenderType} ($Article{ArticleType})</A> ";
+        $ThreadStrg .= "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</A> ";
         $ThreadStrg .= " $Article{CreateTime}";
         $ThreadStrg .= "<BR>";
         # --
