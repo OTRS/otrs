@@ -55,11 +55,11 @@
 <para>Last but least - the beast!</para>
 <para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/pages/index.pl?Site=Download">http://otrs.org/pages/index.pl?Site=Download</ulink>.</para>
 <para>We have to install this tarball manually, because there is a file &quot;INSTALL&quot; in it, who has the same name like the directory &quot;install&quot;, which is also contained. Un*x differentiates between the two - Windows doesn't. In addition, the two files .fetchmailrc and .procmailrc are doubled, your unzip program will complain about this. Future releases will allow automic unzipping.</para>
-<para>Open the tarball using WinRAR (<ulink url="http://www.rarlab.com">http://www.rarlab.com</ulink>), Winzip (<ulink url="http://www.winzip.com">http://www.winzip.com</ulink>) or a similar software. Unzip the files <computeroutput>.fetchmailrc</computeroutput>, <computeroutput>.procmailrc</computeroutput> and <computeroutput>INSTALL</computeroutput> to <emphasis>D:\Sambar\docs\otrs\</emphasis>. Rename <computeroutput>INSTALL</computeroutput> to <computeroutput>INSTALL.txt</computeroutput>. Now unzip the rest of the archive to <emphasis>D:\Sambar\docs\otrs\</emphasis>.</para>
+<para>Open the tarball using WinRAR (<ulink url="http://www.rarlab.com">http://www.rarlab.com</ulink>), Winzip (<ulink url="http://www.winzip.com">http://www.winzip.com</ulink>) or a similar software. Unzip the files <computeroutput>.fetchmailrc</computeroutput>, <computeroutput>.procmailrc</computeroutput> and <computeroutput>INSTALL</computeroutput> to <emphasis>d:\otrs\</emphasis>. Rename <computeroutput>INSTALL</computeroutput> to <computeroutput>INSTALL.txt</computeroutput>. Now unzip the rest of the archive to <emphasis>d:\otrs\</emphasis>.</para>
 
 <section>
 <title>Download and install SQL-Code</title>
-<para>Download the <emphasis>SQL-Code for phpMyAdmin on Win-32</emphasis> from this server. Save it here: <ulink url="http://www.robertkehl.de/downloads/OpenTRS-SQL-win32.mysql.sql">d:\Sambar\docs\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</ulink>.</para>
+<para>Download the <emphasis>SQL-Code for phpMyAdmin on Win-32</emphasis> from <emphasis>robertkehl.de</emphasis>. Save it here: <ulink url="http://www.robertkehl.de/downloads/OpenTRS-SQL-win32.mysql.sql">d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</ulink>.</para>
 </section>
 
 </section>
@@ -244,11 +244,11 @@ ren 1.htaccess .htaccess
 <para><screen>d:
 cd d:\mysql
 mysql -u root -p password -e 'create database otrs'
-mysql -u root -p password otrs &lt; d:\Sambar\docs\otrs\install\database\OpenTRS-SQL-win32.mysql.sql
+mysql -u root -p password otrs &lt; d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql
 mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;some-pass&quot; WITH GRANT OPTION;'
 mysqladmin -u root -p password reload
 </screen></para>
-<para>I recommend using phpMyAdmin under <ulink url="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</ulink> instead of working on the command line. You creqate the database right on the start screen. Now you click the register &quot;SQL&quot;, and enter <emphasis>d:\Sambar\docs\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</emphasis>. Click OK.</para>
+<para>I recommend using phpMyAdmin under <ulink url="http://localhost/phpMyAdmin">http://localhost/phpMyAdmin</ulink> instead of working on the command line. You creqate the database right on the start screen. Now you click the register &quot;SQL&quot;, and enter <emphasis>d:\otrs\install\database\OpenTRS-SQL-win32.mysql.sql</emphasis>. Click OK.</para>
 <para>Now commit this command:</para>
 <para><screen>GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY &quot;irgendeinpasswort&quot; WITH GRANT OPTION;</screen></para>
 <para>That's it for MySQL, which we provided with the database otrs and the user otrs@localhost.</para>
@@ -260,10 +260,10 @@ mysqladmin -u root -p password reload
 <section><title>CONFIG.PM</title>
 <para>Now you teach OTRS s.th. about you. First create your configuration file:</para>
 <para><screen>d:
-cd d:\sambar\docs\otrs\Kernel
+cd d:\otrs\Kernel
 copy Config.pm.dist Config.pm
 </screen></para>
-<para>Despite your settings concerning FQDN etc., you set the following in <emphasis>d:\sambar\docs\otrs\Kernel\Config.pm</emphasis>:</para>
+<para>Despite your settings concerning FQDN etc., you set the following in <emphasis>d:\otrs\Kernel\Config.pm</emphasis>:</para>
 <para><screen>    # -----------------------------------------------------#
     # Sendmail
     # -----------------------------------------------------#
@@ -296,7 +296,7 @@ copy Config.pm.dist Config.pm
 
 <section>
 <title>LOG.PM</title>
-<para>Now we have to uncomment five rows in <emphasis>d:\Sambar\docs\otrs\Kernel\System\Log.pm</emphasis>:</para>
+<para>Now we have to uncomment five rows in <emphasis>d:\otrs\Kernel\System\Log.pm</emphasis>:</para>
 <para><screen>13:
   # use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 58:
@@ -318,7 +318,7 @@ copy Config.pm.dist Config.pm
 
 <section>
 <title>VALID.PM</title>
-<para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>. In <emphasis>D:\sambar\docs\otrs\Kernel\cpan-lib\Email\Valid.pm</emphasis> we change the following lines:</para>
+<para>Lastly we tell OTRS where to find our <emphasis>nslookup.exe</emphasis>. In <emphasis>d:\otrs\Kernel\cpan-lib\Email\Valid.pm</emphasis> we change the following lines:</para>
 <para><screen>15:
   @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin c:/winnt/system32 );
 94:
