@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.8 2004-12-04 14:41:04 martin Exp $
+# $Id: Package.pm,v 1.9 2004-12-10 09:05:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use MIME::Base64;
 use XML::Parser;
 use File::Copy;
+use LWP::UserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -109,6 +110,12 @@ sub new {
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
     $S = $Self;
+
+    # permission check
+    if (!$Self->_FileSystemCheck()) {
+        die "ERROR: Need write permission in OTRS home\n".
+        "Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n";
+    }
 
     return $Self;
 }
@@ -812,8 +819,8 @@ sub PackageOnlineList {
                     if ($Newest{$Data}->{Version} > $Package->{Version}->{Content}) {
                         $Newest{$Data}->{Upgrade} = 1;
                     }
-                    # check if version is already installed
-                    elsif ($Newest{$Data}->{Version} == $Package->{Version}->{Content}) {
+                    # check if version or lower is already installed
+                    elsif ($Newest{$Data}->{Version} <= $Package->{Version}->{Content}) {
                         $InstalledSameVersion = 1;
                     }
                 }
@@ -1171,7 +1178,6 @@ sub _Download {
       }
     }
     # init agent
-    use LWP::UserAgent;
     my $UserAgent = LWP::UserAgent->new();
     # set timeout
     $UserAgent->timeout($Self->{ConfigObject}->Get('Package::Timeout') || 12);
@@ -1264,6 +1270,33 @@ sub _FileRemove {
         return;
     }
 }
+sub _FileSystemCheck {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw()) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    foreach (qw(/ /Kernel/ /Kernel/System/ /Kernel/System/Output/ /Kernel/Modules/)) {
+        my $File = "$Self->{Home}/$_/check_permissons.$$";
+        if (open(OUT, "> $File")) {
+            print OUT "test";
+            close (OUT);
+            unlink $File;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't remove file $File: $!!",
+            );
+            return;
+        }
+    }
+    return 1;
+}
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -1278,6 +1311,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2004-12-04 14:41:04 $
+$Revision: 1.9 $ $Date: 2004-12-10 09:05:11 $
 
 =cut
