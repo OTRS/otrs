@@ -119,8 +119,15 @@ docu of your used database or ask your database admin.
 <para>
 Of course you should use mod_perl (http://perl.apache.org/). It's much faster 
 (~ * 100) then pure cgi. But needs more RAM. So your httpd with mod_perl 
-will be about 16 MB (~10MB shared). And you can have establish datababase 
-connections on process startup (httpd). This saves also time (see README.webserver).
+will be about 16 MB (~10MB shared). 
+</para>
+<para>
+And you can have establish datababase connections on process startup (httpd). 
+This saves also time (see README.webserver).
+</para>
+<para>
+Use the scripts/apache-perl-startup.pl startup script for your mod_perl webserver
+to be faster (see README.webserver).
 </para>
 <para>
 If you have a really large installation (over 1000 new tickets a day and over 40 
