@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.8 2003-03-08 17:58:00 martin Exp $
+# $Id: Group.pm,v 1.9 2003-11-17 00:23:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,22 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::Group - group lib
+
+=head1 SYNOPSIS
+
+All group functions. E. g. to add groups or to get a member list of a group.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
 
 # --
 sub new {
@@ -35,20 +49,17 @@ sub new {
     return $Self;
 }
 # --
+# just for compat!
 sub GetGroupIdByName {
     my $Self = shift;
     my %Param = @_;
     my $ID;
-    # --
     # check needed stuff
-    # --
     if (!$Param{Group}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Group!");
         return;
     }
-    # --
     # sql 
-    # --
     my $SQL = sprintf ("SELECT id from groups where name='%s'" , $Param{Group});
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -57,33 +68,54 @@ sub GetGroupIdByName {
     return $ID;
 }
 # --
+
+=item GroupMemberAdd()
+
+to add a member to a group
+  
+  Type: Ro,Move,Priority,State,Rw
+
+  my $ID = $Self->{GroupObject}->GroupMemberAdd(
+      GID => 12,
+      UID => 6,
+      ro => 1,
+      move => 1,
+      priority => 0,
+      state => 1,
+      rw => 0,
+      UserID => 123,
+  );
+
+=cut
+
 sub GroupMemberAdd {
     my $Self = shift;
     my %Param = @_;
     my $count;
-    # --
     # check needed stuff
-    # --
     foreach (qw(UID GID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # sql
-    # --
-    my $Ro = defined ($Param{Ro}) ? $Param{Ro} : 1;
-    my $Rw = defined ($Param{Rw}) ? $Param{Rw} : 1;
+    my $Ro = defined ($Param{ro}) ? $Param{ro} : 1;
+    my $Move = defined ($Param{move}) ? $Param{move} : 1;
+    my $Priority = defined ($Param{priority}) ? $Param{priority} : 1;
+    my $State = defined ($Param{state}) ? $Param{state} : 1;
+    my $Rw = defined ($Param{rw}) ? $Param{rw} : 1;
     $Self->{DBObject}->Do(
         SQL => "DELETE FROM group_user WHERE group_id = $Param{GID} AND user_id = $Param{UID}",
     );
-    if ($Ro || $Rw) {
-        my $SQL = "INSERT INTO group_user (user_id, group_id, permission_read, permission_write, ".
+    if ($Ro || $Rw || $Move || $Priority || $State) {
+        my $SQL = "INSERT INTO group_user (user_id, group_id, ".
+          " permission_read, permission_move, permission_priority, ".
+          " permission_state, permission_write, ".
           " create_time, create_by, change_time, change_by)".
           " VALUES ".
-          " ( $Param{UID}, $Param{GID}, $Ro, $Rw, current_timestamp, ".
-          " $Param{UserID}, current_timestamp, $Param{UserID})";
+          " ( $Param{UID}, $Param{GID}, $Ro, $Move, $Priority, $State, $Rw, ". 
+          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
             return 1;
         }
@@ -96,55 +128,58 @@ sub GroupMemberAdd {
     }
 } 
 # --
+
+=item GroupAdd()
+
+to add a group
+
+  my $ID = $Self->{GroupObject}->GroupAdd(
+      Name => 'example-group',
+      ValidID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub GroupAdd {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Name ValidID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # qoute params
-    # -- 
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     my $SQL = "INSERT INTO groups (name, comment, valid_id, ".
-            " create_time, create_by, change_time, change_by)" .
-            " VALUES " .
-            " ('$Param{Name}', '$Param{Comment}', " .
+            " create_time, create_by, change_time, change_by)".
+            " VALUES ".
+            " ('$Param{Name}', '$Param{Comment}', ".
             " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
             " current_timestamp, $Param{UserID})";
     
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # --
       # get new group id
-      # --
       $SQL = "SELECT id ".
         " FROM " .
         " groups " .
         " WHERE " .
         " name = '$Param{Name}'";
-      
       my $GroupID = '';
       $Self->{DBObject}->Prepare(SQL => $SQL);
       while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $GroupID = $Row[0];
       }
       
-      # --
       # log notice
-      # --
       $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",
       );
-
       return $GroupID; 
     }
     else {
@@ -152,23 +187,28 @@ sub GroupAdd {
     }
 }
 # --
+
+=item GroupGet()
+
+returns a hash with group data
+
+  %GroupData = $Self->{GroupObject}->GroupGet(ID => 2);
+
+=cut
+
 sub GroupGet {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
         return;
     }
-    # --
     # sql 
-    # --
-    my $SQL = "SELECT name, valid_id, comment " .
-        " FROM " .
-        " groups " .
-        " WHERE " .
+    my $SQL = "SELECT name, valid_id, comment ".
+        " FROM ".
+        " groups ".
+        " WHERE ".
         " id = $Param{ID}";
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         my %GroupData = ();
@@ -187,31 +227,39 @@ sub GroupGet {
     }
 }
 # --
+
+=item GroupUpdate()
+
+update of a group 
+
+  $Self->{GroupObject}->GroupUpdate(
+      ID => 123,
+      Name => 'example-group',
+      ValidID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub GroupUpdate {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ID Name ValidID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
-    my $SQL = "UPDATE groups SET name = '$Param{Name}', " .
-          " comment = '$Param{Comment}', " .
-          " valid_id = $Param{ValidID}, " .
-          " change_time = current_timestamp, change_by = $Param{UserID} " .
+    my $SQL = "UPDATE groups SET name = '$Param{Name}', ".
+          " comment = '$Param{Comment}', ".
+          " valid_id = $Param{ValidID}, ".
+          " change_time = current_timestamp, change_by = $Param{UserID} ".
           " WHERE id = $Param{ID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
@@ -221,6 +269,15 @@ sub GroupUpdate {
     }
 }
 # --
+
+=item GroupList()
+
+returns a hash of all groups
+
+  my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
+
+=cut
+
 sub GroupList {
     my $Self = shift;
     my %Param = @_;
@@ -233,104 +290,114 @@ sub GroupList {
     return %Users;
 }   
 # --
+
+=item GroupMemberList()
+
+returns a list of users of a group with ro/move/state/priority/rw permissions
+
+  UserID:
+  GroupID: 
+  Type: ro|move|priority|state|rw
+  Result: HASH -> returns a hash of key => group id, value => group name
+          Name -> returns an array of user names
+          ID   -> returns an array of user names
+  Example:
+  $Self->{GroupObject}->GroupMemberList(
+            UserID => $ID,
+            Type => 'move',
+            Result => 'HASH',
+  );
+
+=cut
+
 sub GroupMemberList {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
-    foreach (qw(Result Type GroupID)) {
+    foreach (qw(Result Type)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    my %Users = ();
-    my @Name = ();
-    my @ID = ();
-    my $SQL = "SELECT u.id, u.login, gu.permission_read, gu.permission_write " .
-      " FROM " .
-      " $Self->{ConfigObject}->{DatabaseUserTable} u, group_user gu".
-      " WHERE " .
-      " u.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
-      " AND ". 
-      " gu.group_id = $Param{GroupID}".
-      " AND " .
-      " u.id = gu.user_id ";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        # read only
-        if ($Param{Type} eq 'ro') {
-            if ($Row[3] || $Row[2] || (!$Row[2] && !$Row[3])) {
-                $Users{$Row[0]} = $Row[1];
-                push (@Name, $Row[1]);
-                push (@ID, $Row[0]);
-            }
-        }
-        # read/write
-        elsif ($Param{Type} eq 'rw') {
-            if ($Row[3] || (!$Row[2] && !$Row[3])) {
-                $Users{$Row[0]} = $Row[1];
-                push (@Name, $Row[1]);
-                push (@ID, $Row[0]);
-            }
-        }
-        else {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Type '$Param{Type}' dosn't exist!");
-            return;
-        }
-    }
-    if ($Param{Result} && $Param{Result} eq 'ID') {
-        return @ID;
-    }
-    if ($Param{Result} && $Param{Result} eq 'Name') {
-        return @Name;
-    }
-    else {
-        return %Users;
-    }
-}
-# --
-sub GroupUserList {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # check needed stuff
-    # --
-    foreach (qw(Result Type UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    if (!$Param{UserID} && !$Param{GroupID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or GroupID!");
         return;
-      }
     }
-    my %Groups = (); 
+    my %Data = (); 
     my @Name = ();
     my @ID = ();
-    my $SQL = "SELECT g.id, g.name, gu.permission_read, gu.permission_write " .
-      " FROM " .
+    my $SQL = "SELECT g.id, g.name, gu.permission_read, gu.permission_write, ".
+      " gu.permission_move, gu.permission_priority, gu.permission_state, ".
+      " gu.user_id ".
+      " FROM ".
       " groups g, group_user gu".
       " WHERE " .
       " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
       " AND ".
-      " gu.user_id = $Param{UserID}".
-      " AND " .
-      " g.id = gu.group_id ";
+      " g.id = gu.group_id ".
+      " AND ";
+    if ($Param{UserID}) {
+      $SQL .= " gu.user_id = $Param{UserID}";
+    }
+    else {
+      $SQL .= " gu.group_id = $Param{GroupID}";
+    }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        # read only
+        my $Key = '';
+        my $Value = '';
+        if ($Param{UserID}) {
+            $Key = $Row[0];
+            $Value = $Row[1];
+        }
+        else {
+            $Key = $Row[7];
+            $Value = $Row[1];
+        }
+        # check rw permissions
+        my $RW = 0;
+        if ((!$Row[2] && !$Row[3] && !$Row[4] && !$Row[5]&& !$Row[6]) || $Row[3]) {
+            $RW = 1;    
+        }
+        # read only permissions
         if ($Param{Type} eq 'ro') {
-            if ($Row[3] || $Row[2] || (!$Row[2] && !$Row[3])) {
-                $Groups{$Row[0]} = $Row[1];
-                push (@Name, $Row[1]);
-                push (@ID, $Row[0]);
+            if ($Row[2] || $RW) {
+                $Data{$Key} = $Value;
+                push (@Name, $Value);
+                push (@ID, $Key);
+            }
+        }
+        # move permissions
+        elsif ($Param{Type} eq 'move') {
+            if ($Row[4] || $RW) {
+                $Data{$Key} = $Value;
+                push (@Name, $Value);
+                push (@ID, $Key);
+            }
+        }
+        # priority permissions
+        elsif ($Param{Type} eq 'priority') {
+            if ($Row[5] || $RW) {
+                $Data{$Key} = $Value;
+                push (@Name, $Value);
+                push (@ID, $Key);
+            }
+        }
+        # state permissions
+        elsif ($Param{Type} eq 'state') {
+            if ($Row[6] || $RW) {
+                $Data{$Key} = $Value;
+                push (@Name, $Value);
+                push (@ID, $Key);
             }
         }
         # read/write
         elsif ($Param{Type} eq 'rw') {
-            if ($Row[3] || (!$Row[2] && !$Row[3])) {
-                $Groups{$Row[0]} = $Row[1];
-                push (@Name, $Row[1]);
-                push (@ID, $Row[0]);
+            if ($RW) {
+                $Data{$Key} = $Value;
+                push (@Name, $Value);
+                push (@ID, $Key);
             }
         }
         else {
@@ -345,9 +412,14 @@ sub GroupUserList {
         return @Name;
     }
     else {
-        return %Groups;
+        return %Data;
     }
 }
 # --
-
 1;
+
+=head1 VERSION
+
+$Revision: 1.9 $ $Date: 2003-11-17 00:23:26 $
+
+=cut
