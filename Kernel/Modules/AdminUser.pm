@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.25 2005-03-09 06:49:54 martin Exp $
+# $Id: AdminUser.pm,v 1.26 2005-03-09 07:10:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $ ';
+$VERSION = '$Revision: 1.26 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -205,7 +205,7 @@ sub AdminUserForm {
           )
         },
         Name => 'ValidID',
-        SelectedID => $Param{ValidID},
+        SelectedID => $Param{UserData}->{ValidID},
     );
 
     $Param{UserOption} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -221,7 +221,7 @@ sub AdminUserForm {
         },
         Size => 15,
         Name => 'ID',
-        SelectedID => $Param{ID},
+        SelectedID => $Param{UserData}->{ID},
     );
 
     my @Groups = @{$Self->{ConfigObject}->Get('PreferencesView')};
