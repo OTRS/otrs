@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.43 2003-04-30 22:18:10 martin Exp $
+# $Id: TODO,v 1.44 2003-05-21 15:36:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,8 @@
 # --
 
 1.2
+- prevent unauthorized person submit ticket via email
+- improve search with ticket-free-key (dropdown and free text field)!!
 - remove var/log/TicketCounter.log from CVS!
 - remove header/footer of spelling window
 - add pre-authentication patch of Phil Davis -
@@ -38,6 +40,7 @@
 - internationalization of agent notification messages (martin)
 
 misc (not scheduled yet - nobody is working on it yet)
+- AdminQueueList with all config options on one screen
 - add foreign-key to the XML db scheme
 - Ticket print option for customer interface
 - interfaceing with bugzilla (martin)
@@ -49,6 +52,7 @@ misc (not scheduled yet - nobody is working on it yet)
 - add count of user/customer user to admin area (LDAP-performance!?)
    "You currently have 467 customers on the OTRS system"
 - enhance AdminEmail with customer user
+- add indicator of ticket/article size (maybe attachment size also)
 
 ideas (just ideas - nobody is working on it)
 - copy std response botton
@@ -58,4 +62,5 @@ ideas (just ideas - nobody is working on it)
 - module feature on set state, owner, lock and queue
 - QueueView: Additional drop-down to set ticket owner 
    http://bugs.otrs.org/show_bug.cgi?id=129
-
+- web editor for Kernel/Config.pm (Kernel/Config/Defaults.pm)
+- read/unread highlighting of articles
