@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --   
-# $Id: SystemStatsGeneric.pm,v 1.2 2003-03-10 16:34:45 martin Exp $
+# $Id: SystemStatsGeneric.pm,v 1.2.2.1 2003-05-04 14:36:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ package Kernel::Modules::SystemStatsGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.2.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,9 +67,9 @@ sub Run {
     my $CSV = '';
     my $Output = '';
     # --
-    # permission check
+    # permission check (user need to be rw in group stats)
     # --
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Stats')) {
+    if (!$Self->{'UserIsGroup[stats]'} || $Self->{'UserIsGroup[stats]'} ne 'Yes') {
         $Output .= $Self->{LayoutObject}->NoPermission(
             Message => 'You have to be in the stats group!'
         );

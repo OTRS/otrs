@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OTRS
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.16 2003-03-09 15:07:34 martin Exp $
+# $Id: pic.pl,v 1.16.2.1 2003-05-04 14:37:24 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.16.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -121,22 +121,17 @@ else {
   my %Data = $CommonObject{SessionObject}->GetSessionIDData(
     SessionID => $Param{SessionID}
   );
-
   # permission check
-  if ($Param{Action} eq 'SystemStats' && 
-      !$CommonObject{PermissionObject}->Section(UserID => $Data{UserID}, Section => 'Stats')) {
-
+  if ($Param{Action} eq 'SystemStats' && $Data{'UserIsGroup[stats]'} ne 'Yes') {
     $CommonObject{LogObject}->Log(
       Message => 'No permission!',
       Priority => 'info',
     );
-
     my $Pic = GetImage('help.gif', '', \%CommonObject);
     print <<EOF
 Content-Type: image/gif
 
 $Pic
-
 EOF
   }
   else {
