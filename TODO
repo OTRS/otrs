@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.41 2003-04-12 22:20:21 martin Exp $
+# $Id: TODO,v 1.42 2003-04-24 20:06:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,13 @@
 # --
 
 1.2
+- add pre-authentication patch of Phil Davis -
+   http://lists.otrs.org/pipermail/dev/2003-April/000142.html
+- add config option for Kernel/Modules/*.pm if ticket need to be locked,
+   or will be unlocked, ...
+- change time column format of time_accounting table from int to
+   float(6,2) - http://lists.otrs.org/pipermail/otrs/2003-April/001480.html
+- add preferences 'number of default tickets shown in QueueView'
 - Write email (new ticket) to customer 
    http://lists.otrs.org/pipermail/otrs/2003-April/001377.html
 - Add TicketHookSpace -> e. g. ": " or ""
@@ -23,6 +30,7 @@
 - bin/PostMasterPOP3.pl + procmail/filter (martin)
 
 2.0
+- Multiple Attachements on http://localhost/otrs/index.pl?Action=AgentCompose
 - user backend (LDAP and DB)
 - internationalization of agent notification messages (martin)
 
@@ -30,9 +38,10 @@ misc
 - add foreign-key to the XML db scheme
 
 ideas
+- copy std response botton
 - add 'Mark as Read' feature for QueueView like other 'web based email system'
 - imap service (queue view as imap service)
-- agent email interface
+- agent email interface (control via email - answer, ...)
 - add icon in QueueView to show if there is a note on it or it's a new ticket
 - script for check of escalated tickets
 - module feature on set state, owner, lock and queue

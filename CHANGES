@@ -2,12 +2,26 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.76 2003-04-15 16:13:08 martin Exp $
+# $Id: CHANGES,v 1.77 2003-04-24 20:06:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+1.1 RC1 (2003-04-24)
+ - (2003/04/24) fixed "show closed tickets" in customer interface
+    (http://lists.otrs.org/pipermail/otrs/2003-April/001508.html)
+ - (2003/04/24) fixed max shown tickets in QueueView (default now 1200)
+    (http://lists.otrs.org/pipermail/otrs/2003-April/001505.html)
+ - (2003/04/23) fixed missing filename (default index.pl) for download
+    of attachments using Kernel/System/Ticket/ArticleStorageFS.pm
+    (http://lists.otrs.org/pipermail/otrs/2003-April/001491.html)
+ - (2003/04/22) fixed bug 123 - E-mail address with simple quote
+    http://bugs.otrs.org/show_bug.cgi?id=123
+ - (2003/04/18) added RH8 IPC (shm id 0) workaround (create dummy shm)
+ - (2003/04/17) fixed AgentStatusView (1st ticket is actually the 2nd)
+ - (2003/04/17) added Firstname/Lastname of agents to ticket history
+
 1.1 RC1 (2003-04-15)
  - (2003/04/15) added Italian translation - Thanks to Remo Catelotti
  - (2003/04/14) improved performance of MIME parser (PostMaster)
