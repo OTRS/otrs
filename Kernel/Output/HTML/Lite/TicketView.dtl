@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.17 2002-10-20 11:43:14 martin Exp $
+# $Id: TicketView.dtl,v 1.18 2002-10-21 14:33:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -50,6 +50,12 @@
       <td valign="top"><b>$Text{"To"}:</b></td>
       <td> $Data{"To"}</td>
     <tr>
+# --
+# show cc?
+# --
+    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Data{"Cc"}</td></tr>"; }>
+    $Data{"ArticleCcString"}
+
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
       <td> $Data{"Subject"}</td>
