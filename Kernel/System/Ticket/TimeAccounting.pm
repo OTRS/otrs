@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/TimeAccouning.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TimeAccounting.pm,v 1.4 2003-02-08 15:09:40 martin Exp $
+# $Id: TimeAccounting.pm,v 1.5 2003-03-11 18:59:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::TimeAccounting;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,24 +58,35 @@ sub AccountTime {
       }
     }
     # --
+    # check some wrong formats
+    # --
+    my $TimeUnit = $Param{TimeUnit};
+    $TimeUnit =~ s/,/\./g;
+    $TimeUnit = int($TimeUnit);
+    # --
     # db update
     # --
     my $SQL = "INSERT INTO time_accounting ".
       " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) ".
       " VALUES ".
-      " ($Param{TicketID}, $Param{ArticleID}, $Param{TimeUnit}, ".
+      " ($Param{TicketID}, $Param{ArticleID}, $TimeUnit, ".
       " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}) ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
       # --
       # add history
       # --
       my $AccountedTime = $Self->GetAccountedTime(TicketID => $Param{TicketID});
+      my $HistoryComment = "$Param{TimeUnit} time unit(s) accounted."; 
+      if ($TimeUnit ne $Param{TimeUnit}) {
+          $HistoryComment = "$TimeUnit time unit(s) accounted ($Param{TimeUnit} is invalid).";
+      }
+      $HistoryComment .= " Now total $AccountedTime time unit(s).";
       $Self->AddHistoryRow(
           TicketID => $Param{TicketID},
           ArticleID => $Param{ArticleID},
           CreateUserID => $Param{UserID},
           HistoryType => 'TimeAccounting',
-          Name => "$Param{TimeUnit} time unit(s) accounted. Now total $AccountedTime time unit(s).",
+          Name => $HistoryComment, 
       );
       return 1;
     }
