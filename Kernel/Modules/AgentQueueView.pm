@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.68 2004-10-06 19:52:22 martin Exp $
+# $Id: AgentQueueView.pm,v 1.69 2004-11-04 11:14:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -114,7 +114,12 @@ sub Run {
     # --
     # check old tickets, show it and return if needed
     # --
-    if ($Self->{UserID} ne '1') {
+    my $NoEscalationGroup = $Self->{ConfigObject}->Get('AgentNoEscalationGroup') || '';
+    if ($Self->{UserID} eq '1' ||
+        ($Self->{"UserIsGroup[$NoEscalationGroup]"} && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes')) {
+        # do not show escalated tickets
+    }
+    else {
         if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
             # show over time ticket's
             print $Self->{LayoutObject}->TicketEscalation(
@@ -290,13 +295,6 @@ sub ShowTicket {
     # --
     # build ticket view
     # --
-    # do some strips && quoting
-    foreach (qw(From To Cc Subject Body)) {
-        $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Article{$_},
-            From => $Article{ContentCharset},
-        );
-    }
     foreach (qw(From To Cc Subject)) {
         if ($Article{$_}) {
             $Self->{LayoutObject}->Block(
