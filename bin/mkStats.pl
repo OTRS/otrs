@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.12 2002-10-21 21:38:49 martin Exp $
+# $Id: mkStats.pl,v 1.13 2002-10-21 21:49:45 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -52,7 +52,7 @@ getopt('hxyjmd',  \%Opts);
 # --
 print "mkStats.pl <Revision $VERSION> - generate png pics\n";
 print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
-print "usage: mkStats.pl -x <width>, -y <height>, -j <year>, -m <month>, -d <debug>\n";
+print "usage: mkStats.pl -j <year> -m <month> -x <width> (default 500) -y <height> (default 350)\n";
 # --
 # common objects
 # --
