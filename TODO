@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.58 2005-02-10 09:28:48 sr Exp $
+# $Id: TODO,v 1.59 2005-02-10 20:12:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,28 +10,36 @@
 # --
 
 2.0
+- -default- selection option in all state, answer type, ... fields
+- GenericAgent modules for PendingJobs.pl, UnlockTickets.pl and DeleteSessionIDs.
+- localisation emails for "New OTRS Password!" and "New Account"
 - add "--please select--" in queue selection of customer panel
 - disable form multi submit
 - prevent unauthorized person submit ticket via email via PostMaster*.pl
 - change time column format of time_accounting table from int to
    float(6,2) - http://lists.otrs.org/pipermail/otrs/2003-April/001480.html
-- Add TicketHookSpace -> e. g. ": " or ""
 - send bulk answer -
    http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
 - delete option for records (martin)
 - add info that a ticket is already closed!
-- admin option for configure agent-custom-queues
 - master ticket feature
 - user info backend (LDAP and DB)
 - allow users to add or change stored replies for their queue without giving them full admin rights
-- Agent ticket search base on customername 
+- Agent ticket search base on customer name
 - Agent ticket search ticket processed from - to absorb
 - Agent ticket search  escalate from - to  absorb
-- 
+- A better way to reset password, hash confirmation...
+   http://bugs.otrs.org/show_bug.cgi?id=443
+
+3.0
+- new templates without logic
+- use more references in functions
+- log with log level
+
 misc (not scheduled yet - nobody is working on it yet)
+- Module Layer for signature, salutation in composing answers
 - store ticket before sending
 - AdminQueueList with all config options on one screen
-- add foreign-key to the XML db scheme
 - Ticket print option for customer interface
 - interfaceing with bugzilla (martin)
 - interfaceing with Nagios (http://www.nagios.org/)
@@ -63,4 +71,8 @@ ideas (just ideas - nobody is working on it)
   <GENERIC_BRUSH_OFF_RESPONSE>
   <SIGNATURE>
   <QUOTED_MESSAGE>
-
+- su from admin user to an other agent
+- "Ticket" Threading - http://bugs.otrs.org/show_bug.cgi?id=353
+- FAQ category with permissions like queues
+- ticket order by pending time
+- view/search for tickets which escalate in future, e. g. in one hour
