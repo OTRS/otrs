@@ -12,30 +12,19 @@ If you want to translate OpenTRS in a new language, you have to do five steps:
 
 <listitem>
 <para>
-<!--Take the current German translation (German.pm) from CVS (<ulink url="http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/Language/">http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/Language/</ulink>) and translate each line. -->
-Take the current German translation (German.pm) from Kernel/Language/German.pm and translate each line. 
-</para>
-<para>
-Note: Since 0.5 Beta9, we use short language names instand of the long names. Example, 'German' will be 'de'.
+Take the current German translation (Kernel/Language/de.pm) from CVS (http://cvs.otrs.org/). 
 </para>
 </listitem>
 
 <listitem>
 <para>
-Change the package name (z. g. "package Kernel::Language::German;" to "package Kernel::Language::French;") and translate the words.
+Change the package name (z. g. "package Kernel::Language::de;" to "package Kernel::Language::fr;") and translate each word/sentence.
 </para>
 </listitem>
 
 <listitem>
 <para>
-If you use &lt;= 0.5 Beta8, add the new translation file to Kernel/Language.pm 
-(e. g. use Kernel::Language::French;) around line 20. Not needed for &gt;= 0.5 Beta9.
-</para>
-</listitem>
-
-<listitem>
-<para>
-If you use &lt;= 0.5 Beta8, add the new language translation to the system via the admin interface (AdminArea ->> Language). If you use &gt;= 0.5 Beta9, add "$Self->{DefaultUsedLanguages}->{fr} = 'French';" to your Kernel/Config.pm. 
+Add the new language translation to the system via adding "$Self->{DefaultUsedLanguages}->{fr} = 'French';" to your Kernel/Config.pm. 
 </para>
 </listitem>
 
@@ -57,39 +46,54 @@ Now you can select the new language in your preferences screen.
 </para>
 
 <example>
-<title>Kernel/Language/German.pm - Old file</title>
+<title>Kernel/Language/de.pm - Old file</title>
 <programlisting>
 # --
-# German.pm - provides german languag translation
-# Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
+# Kernel/Language/de.pm - provides de language translation
+# Copyright (C) 2002-2003 Martin Edenhofer xxxxxxxxxxxxxxxxxxxx
 # --
-# $Id: language-translation.sgml,v 1.6 2002-12-01 16:47:44 martin Exp $
+# $Id: language-translation.sgml,v 1.7 2003-01-05 21:43:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::German;
+package Kernel::Language::de;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.7 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
 sub Data {
     my $Self = shift;
     my %Param = @_;
+    my %Hash = ();
 
-    # some common words
-    $Self->{Lock} = 'Ziehen';
-    $Self->{Unlock} = 'Freigeben';
-    $Self->{unlock} = 'freigeben';
-    $Self->{Zoom} = 'Inhalt';
-    $Self->{History} = 'History';
-    $Self->{'Add Note'} = 'Notiz anheften';
+    # $$START$$
+    # Last translation Fri Jan  3 20:39:15 2003 by 
 
+    # possible charsets
+    $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    $Self->{DateFormat} = '%D.%M.%Y %T';
+    $Self->{DateFormatLong} = '%A %D %B %T %Y';
+    $Self->{DateInputFormat} = '%D.%M.%Y - %T';
+
+    %Hash = (
+    # Template: AAABase
+      ' 2 minutes' => ' 2 Minuten',
+      ' 5 minutes' => ' 5 Minuten',
+      ' 7 minutes' => ' 7 Minuten',
+      '10 minutes' => '10 Minuten',
+      '15 minutes' => '15 Minuten',
+      'AddLink' => 'Link hinzufügen',
+      'AdminArea' => 'AdminBereich',
+      'all' => 'alle',
+      'All' => 'Alle',
+      'Attention' => 'Achtung',
 [...]
 </programlisting>
 </example>
@@ -99,39 +103,54 @@ To:
 </para>
 
 <example>
-<title>Kernel/Language/French.pm - New file</title>
+<title>Kernel/Language/fr.pm - New file</title>
 <programlisting>
 # --
-# French.pm - provides french language translations
-# Copyright (C) 2002 Martin Scherbaum (maddin at exsuse.de)
+# Kernel/Language/fr.pm - provides fr language translation
+# Copyright (C) 2002 Bernard Choppy xxxxxxxxxxxxxxxxxxxx
+# Copyright (C) 2002-2003 Nicolas Goralski xxxxxxxxxxxxxxxxxxxx
 # --
-# $Id: language-translation.sgml,v 1.6 2002-12-01 16:47:44 martin Exp $
+# $Id: language-translation.sgml,v 1.7 2003-01-05 21:43:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::French;
+package Kernel::Language::fr;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
-
+$VERSION = '$Revision: 1.7 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
     my $Self = shift;
     my %Param = @_;
+    my %Hash = ();
 
-    # some common words
-    $Self->{Lock} = 'Tirer';
-    $Self->{Unlock} = 'Rendre';
-    $Self->{unlock} = 'rendre';
-    $Self->{Zoom} = 'Contenu';
-    $Self->{History} = 'Histoire';
-    $Self->{'Add Note'} = 'Ajouter commentaire';
+    # $$START$$
+    # Last translation Fri Jan  3 20:40:04 2003 by 
 
+    # possible charsets
+    $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
+    # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
+    $Self->{DateFormat} = '%D.%M.%Y %T';
+    $Self->{DateFormatLong} = '%A %D %B %T %Y';
+    $Self->{DateInputFormat} = '%D.%M.%Y - %T';
+
+    %Hash = (
+    # Template: AAABase
+      ' 2 minutes' => ' 2 minutes',
+      ' 5 minutes' => ' 5 minutes',
+      ' 7 minutes' => ' 7 minutes',
+      '10 minutes' => '10 minutes',
+      '15 minutes' => '15 minutes',
+      'AddLink' => 'Ajouter un lien',
+      'AdminArea' => 'Zone d\'administration',
+      'all' => 'tout',
+      'All' => 'Tout',
+      'Attention' => 'Attention',
 [...]
 </programlisting>
 </example>
