@@ -1,11 +1,11 @@
 # --
-# Kernel/System/Log.pm - log wapper 
+# Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.24 2004-04-07 17:24:50 martin Exp $
+# $Id: Log.pm,v 1.25 2004-09-16 09:43:29 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $ ';
+$VERSION = '$Revision: 1.25 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -23,7 +23,7 @@ Kernel::System::Log - global log interface
 
 =head1 SYNOPSIS
 
-All log functions. 
+All log functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -33,11 +33,11 @@ All log functions.
 
 =item new()
 
-create a log object 
- 
+create a log object
+
   use Kernel::Config;
   use Kernel::System::Log;
- 
+
   my $ConfigObject = Kernel::Config->new();
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
@@ -45,20 +45,19 @@ create a log object
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
-    # get config object 
+    # get config object
     if (!$Param{ConfigObject}) {
-        die "Got no ConfigObject!"; 
+        die "Got no ConfigObject!";
     }
-    # check log prefix 
+    # check log prefix
     $Self->{LogPrefix} = $Param{LogPrefix} || '?LogPrefix?';
     $Self->{LogPrefix} .= '-'.$Param{ConfigObject}->Get('SystemID');
     # load log backend
@@ -76,26 +75,25 @@ sub new {
         $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 4*1024;
         # init session data mem (at first a dummy for RH8 workaround)
         shmget(($Self->{IPCKey}+1), 1, 0777 | 0001000);
-        # init session data mem (the real one) 
+        # init session data mem (the real one)
         $Self->{Key} = shmget($Self->{IPCKey}, $Self->{IPCSize}, 0777 | 0001000) || die $!;
     }
 
     return $Self;
 }
-# --
 
 =item Log()
 
 log something, log priorities are 'debug', 'info', 'notice' and 'error'.
 
   $LogObject->Log(
-      Priority => 'error', 
+      Priority => 'error',
       Message => "Need something!",
    );
 
 =cut
 
-sub Log { 
+sub Log {
     my $Self = shift;
     my %Param = @_;
     my $Priority = $Param{Priority} || 'debug';
@@ -157,7 +155,6 @@ sub Log {
     }
     return 1;
 }
-# --
 
 =item GetLogEntry()
 
@@ -173,18 +170,17 @@ to get the last log info back
 sub GetLogEntry {
     my $Self = shift;
     my %Param = @_;
-    return $Self->{lc($Param{Type})}->{$Param{What}} || ''; 
+    return $Self->{lc($Param{Type})}->{$Param{What}} || '';
 }
-# --
 
 =item GetLog()
 
 to get the tmp log data (from shared memory - ipc) in csv form
-    
+
   my $CVSLog = $LogObject->GetLog();
 
 =cut
-    
+
 sub GetLog {
     my $Self = shift;
     my $String = '';
@@ -193,12 +189,11 @@ sub GetLog {
     }
     return $String;
 }
-# --
 
 =item CleanUp()
 
 to clean up tmp log data from shared memory (ipc)
-    
+
   $LogObject->CleanUp();
 
 =cut
@@ -216,12 +211,12 @@ sub CleanUp {
     }
     return 1;
 }
-# --
+
 1;
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -229,6 +224,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2004-04-07 17:24:50 $
+$Revision: 1.25 $ $Date: 2004-09-16 09:43:29 $
 
 =cut

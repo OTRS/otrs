@@ -2,7 +2,7 @@
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.18 2004-07-16 22:54:49 martin Exp $
+# $Id: WebRequest.pm,v 1.19 2004-09-16 09:45:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.18 $ ';
+$VERSION = '$Revision: 1.19 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -47,7 +47,6 @@ create param object
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -72,7 +71,6 @@ sub new {
 
     return $Self;
 }
-# --
 
 =item Error()
 
@@ -93,7 +91,6 @@ sub Error {
         return;
     }
 }
-# --
 
 =item GetParam()
 
@@ -110,7 +107,6 @@ sub GetParam {
     $Self->{EncodeObject}->Encode(\$Value);
     return $Value;
 }
-# --
 
 =item GetArray()
 
@@ -127,7 +123,6 @@ sub GetArray {
     $Self->{EncodeObject}->Encode(\@Value);
     return @Value;
 }
-# --
 
 =item GetUpload()
 
@@ -141,7 +136,6 @@ sub GetUpload {
     my $File = $Self->{Query}->upload($Param{Filename});
     return $File;
 }
-# --
 
 =item GetUploadInfo()
 
@@ -155,7 +149,6 @@ sub GetUploadInfo {
     my $Info = $Self->{Query}->uploadInfo($Param{Filename})->{$Param{Header}};
     return $Info;
 }
-# --
 
 =item GetUploadAll()
 
@@ -163,9 +156,9 @@ to get file upload
 
   my %File = $ParamObject->GetUploadAll(Param => '123.jpg');
 
-  print "Filename: $File{Filename:}\n";
-  print "ContentType: $File{ContentType:}\n";
-  print "Content: $File{Content:}\n";
+  print "Filename: $File{Filename}\n";
+  print "ContentType: $File{ContentType}\n";
+  print "Content: $File{Content}\n";
 
 =cut
 
@@ -224,7 +217,6 @@ sub GetUploadAll {
         return;
     }
 }
-# --
 
 =item SetCookie()
 
@@ -246,7 +238,6 @@ sub SetCookie {
         -expires=> $Param{Expires},
     );
 }
-# --
 
 =item GetCookie()
 
@@ -263,7 +254,7 @@ sub GetCookie {
     my %Param = @_;
     return $Self->{Query}->cookie($Param{Key}) || '';
 }
-# --
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -278,6 +269,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2004-07-16 22:54:49 $
+$Revision: 1.19 $ $Date: 2004-09-16 09:45:08 $
 
 =cut
