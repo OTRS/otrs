@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.57 2002-10-22 13:12:03 martin Exp $
+# $Id: Agent.pm,v 1.58 2002-10-25 00:01:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,21 +14,29 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub NavigationBar {
     my $Self = shift;
     my %Param = @_;
+    my $Output = '';
 
-    my $LockData = $Param{LockData};
-    my %LockDataTmp = %$LockData;
-    $Param{LockCount} = $LockDataTmp{Count} || 0;
-    $Param{LockToDo} = $LockDataTmp{ToDo} || 0;
+    my %LockData = %{$Param{LockData}};
+    $Param{LockCount} = $LockData{Count} || 0;
+    $Param{LockToDo} = $LockData{ToDo} || 0;
+
+    if ($Param{LockToDo}) {
+        $Param{Info} = '$Text{"You got new message!"}';
+    }
+
+    if ($Param{Info}) {
+        $Output = $Self->Notify(%Param);
+    }
 
     # create & return output
-    return $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param);
+    return $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param).$Output;
 }
 # --
 sub QueueView {
@@ -974,48 +982,53 @@ sub AgentPreferencesForm {
 sub AgentMailboxTicket {
     my $Self = shift;
     my %Param = @_;
-
-    if ($Param{ViewType} eq 'New' && $Param{LastSenderID} eq $Param{UserID}) {
+    # --
+    # put all tickets to ToDo where last sender type is customer or ! UserID
+    # --
+    if ($Param{ViewType} eq 'New' && 
+           ($Param{LastSenderID} eq $Param{UserID} && $Param{LastSenderType} ne 'customer')) {
         return '';
     }
 
-    if ($Param{LastSenderID} ne $Param{UserID}) {
+    if ($Param{LastSenderID} ne $Param{UserID} || $Param{LastSenderType} eq 'customer') {
         $Param{Message} = 'New message!';
     }
-
-    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
-
+    # --
     # do some strips && quoting
+    # --
+    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     foreach (qw(To Cc From Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70);
     }
     foreach (qw(State Priority Queue CustomerID)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 20);
     }
-
+    # --
     # create & return output
+    # --
     return $Self->Output(TemplateFile => 'AgentMailboxTicket', Data => \%Param);
 }
 # --
 sub AgentHistory {
     my $Self = shift;
     my %Param = @_;
-
-    my $BackScreen = $Param{BackScreen} || '';
-    my $LinesTmp = $Param{Data};
-    my @Lines = @$LinesTmp;
-    my $Output = '';
+    my @Lines = @{$Param{Data}};
 
     foreach my $Data (@Lines) {
+      # --
       # html qouting
+      # --
       foreach ('Name', 'HistoryType', 'CreateBy', 'CreateTime') {
         $$Data{$_} = $Self->Ascii2Html(Text => $$Data{$_});
       }
+      # --
       # get html string
+      # --
       $Param{History} .= $Self->Output(TemplateFile => 'AgentHistoryRow', Data => $Data);
     }
-
+    # --
     # create & return output
+    # --
     return $Self->Output(TemplateFile => 'AgentHistoryForm', Data => \%Param);
 }
 # --

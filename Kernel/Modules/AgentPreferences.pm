@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.11 2002-10-20 12:05:55 martin Exp $
+# $Id: AgentPreferences.pm,v 1.12 2002-10-25 00:01:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -45,9 +45,6 @@ sub new {
         die "Got no $_" if (!$Self->{$_});
     }
 
-    # get params
-    $Self->{Want} = $Self->{ParamObject}->GetParam(Param => 'Want') || '';
-
     return $Self;
 }
 # --
@@ -75,23 +72,33 @@ sub Form {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $UserID = $Self->{UserID};
-    
+    # --
+    # get param
+    # --
+    my $What = $Self->{ParamObject}->GetParam(Param => 'What') || '';
+    # --   
+    # get header
+    # --
     $Output .= $Self->{LayoutObject}->Header(Title => 'Preferences');
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    my %QueueData = $Self->{QueueObject}->GetAllQueues(UserID => $UserID);
-
-    my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $UserID);
-
+    # --
+    # get notification
+    # --
+    if ($What) {
+        $Output .= $Self->{LayoutObject}->Notify(Info => 'Preferences updated succsessful!');
+    }
+    # --
+    # get form
+    # --
+    my %QueueData = $Self->{QueueObject}->GetAllQueues(UserID => $Self->{UserID});
+    my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->AgentPreferencesForm(
         QueueData => \%QueueData,
         CustomQueueIDs => \@CustomQueueIDs,
         RefreshTime => $Self->{UserRefreshTime} || $Self->{ConfigObject}->Get('Refresh'),
     );
-
     $Output .= $Self->{LayoutObject}->Footer();
-    
     return $Output;
 }
 # --
@@ -101,12 +108,11 @@ sub UpdatePw {
     my $Output;
     my $Pw = $Self->{ParamObject}->GetParam(Param => 'NewPw') || '';
     my $Pw1 = $Self->{ParamObject}->GetParam(Param => 'NewPw1') || '';
-    my $UserID = $Self->{UserID};
     
     if ($Pw eq $Pw1 && $Pw) {
         $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=AgentPreferences",
+            OP => "&Action=AgentPreferences&What=1",
         );
     }
     else {
@@ -126,21 +132,20 @@ sub UpdateCustomQueues  {
     my %Param = @_;
     my $Output;
     my @QueueIDs = $Self->{ParamObject}->GetArray(Param => 'QueueID');
-    my $UserID = $Self->{UserID};
     
     if (@QueueIDs) {
         $Self->{DBObject}->Do(
-            SQL => "DELETE FROM personal_queues WHERE user_id = $UserID",
+            SQL => "DELETE FROM personal_queues WHERE user_id = $Self->{UserID}",
         );
         foreach (@QueueIDs) {
             $Self->{DBObject}->Do(
                 SQL => "INSERT INTO personal_queues (queue_id, user_id) " .
-                " VALUES ($_, $UserID)",
+                " VALUES ($_, $Self->{UserID})",
             );
         }
         # mk redirect
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=AgentPreferences",
+            OP => "&Action=AgentPreferences&What=1",
         );
     }
     else {
@@ -158,13 +163,12 @@ sub UpdateGeneric {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $UserID = $Self->{UserID};
     my $Topic = $Self->{ParamObject}->GetParam(Param => 'GenericTopic');
 
     if (defined($Topic)) {
         # pref update db
         $Self->{UserObject}->SetPreferences(
-            UserID => $UserID,
+            UserID => $Self->{UserID},
             Key => $Self->{Subaction},
             Value => $Topic,
         );
@@ -176,7 +180,7 @@ sub UpdateGeneric {
         );
         # mk rediect
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=AgentPreferences",
+            OP => "&Action=AgentPreferences&What=1",
         );
     }
     else {
