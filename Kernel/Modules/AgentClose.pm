@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.38 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentClose.pm,v 1.39 2004-09-27 17:03:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -146,6 +146,11 @@ sub Run {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Text') ||
             $Self->{ParamObject}->GetParam(Param => 'Body');
+        # rewrap body if exists
+        if ($GetParam{Body}) {
+            $Text =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
+        }
+
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         my $DestQueueID = $Self->{ParamObject}->GetParam(Param => 'DestQueueID') || '';
         if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.96 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentPhone.pm,v 1.97 2004-09-27 17:03:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.96 $';
+$VERSION = '$Revision: 1.97 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,10 +76,10 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Notify(Info => '<a href="$Env{"Baselink"}Action=AgentZoom&TicketID='.$Ticket{TicketID}.'">Ticket "%s" created!", "'.$Ticket{TicketNumber}).'</a>';
             }
             # store last queue screen
-            if ($Self->{LastScreenQueue} !~ /Action=AgentPhone/) {
+            if ($Self->{LastScreenOverview} !~ /Action=AgentPhone/) {
                 $Self->{SessionObject}->UpdateSessionID(
                     SessionID => $Self->{SessionID},
-                    Key => 'LastScreenQueue',
+                    Key => 'LastScreenOverview',
                     Value => $Self->{RequestedURL},
                 );
             }
@@ -115,6 +115,14 @@ sub Run {
                         CustomerID => $Article{CustomerID},
                     );
                   }
+                }
+                if ($Article{CustomerUserID}) {
+                    my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                        UserLogin => $Article{CustomerUserID},
+                    );
+                    foreach (sort keys %CustomerUserList) {
+                        $Article{From} = $CustomerUserList{$_};
+                    }
                 }
             }
             # get default selections
@@ -255,6 +263,10 @@ sub Run {
             AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
             AttachmentDelete9 AttachmentDelete10 )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        }
+        # rewrap body if exists
+        if ($GetParam{Body}) {
+            $Text =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
         }
         # attachment delete
         foreach (1..10) {
@@ -411,10 +423,10 @@ sub Run {
            # redirect to last screen (e. g. zoom view) and to queue view if
            # the ticket is closed (move to the next task).
            if ($StateData{TypeName} =~ /^close/i) {
-               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
+               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
            }
            else {
-               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
            }
         }
         else {
@@ -488,6 +500,10 @@ sub Run {
             AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
             AttachmentDelete9 AttachmentDelete10 )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        }
+        # rewrap body if exists
+        if ($GetParam{Body}) {
+            $Text =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
         }
         # check pending date
         if ($StateData{TypeName} && $StateData{TypeName} =~ /^pending/i) {

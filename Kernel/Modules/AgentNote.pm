@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.39 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentNote.pm,v 1.40 2004-09-27 17:03:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::WebUploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,6 +87,10 @@ sub Run {
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+    }
+    # rewrap body if exists
+    if ($GetParam{Body}) {
+        $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
     }
 
     if ($Self->{Subaction} eq 'Store') {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.23 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentPending.pm,v 1.24 2004-09-27 17:03:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -77,6 +77,10 @@ sub Run {
     my %GetParam = ();
     foreach (qw(Year Month Day Hour Minute Body Subject StateID NoteID TimeUnits)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+    }
+    # rewrap body if exists
+    if ($GetParam{Body}) {
+        $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('TextAreaNoteWindow')})(?:\s|\z)/$1\n/gm;
     }
 
     if ($Self->{Subaction} eq 'Store') {
