@@ -2,21 +2,37 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.1 2002-04-16 07:06:17 martin Exp $
+# $Id: CHANGES,v 1.2 2002-05-07 22:13:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-0.5 BETA3 (2002-04-??)
+0.5 BETA4 (2002-05-07)
+ - changed login screen and added motd feature (Kernel/Output/HTML/Standard/Motd.dtl
+   the motd file) (martin) 
+ - added Kernel::Modules::AdminCharsets.pm (martin)
+ - added Kernel::Modules::AdminStatus.pm (martin)
+ - added Kernel::Modules::AdminLanguages.pm (martin)
+ - added mod_perl stuff to README.webserver and scripts/suse-httpd.include.conf (martin)
+ - fixed bug[6] (http://bugs.otrs.org/show_bug.cgi?id=6 - user is a reserved word in 
+    SQL) reported by Charles Wimmer. Added some variables for table names and columns 
+    to Kernel/Config.pm. (martin)
+ - added "kill all sessions" funktion to Kernel::Modules::AdminSession.pm (martin)
+ - added old subject ("subject snip") and old email ("body snip") to auto reply (martin)
+ - added stats support Kernel::Modules::SystemStats and bin/mkStats.pl (with GD) (martin)
+ - fixed missing html quoting in Kernel::Output::HTML::Agent->AgentHistory (martin) 
+ - update of html in AgentTicketView.dtl and AgentZoom.dtl (stefan)
+ - added MoveInToAllQueues [1|0] to Config.pm (allow to choose the move queues for 
+    ticket view and zoom [all|own]) (martin)
+
+0.5 BETA3 (2002-04-17)
  - added AgentOwner Module
  - added AgentForward Module
- - added auto session delete funktions if remote ip or session
-    time is invalid.
+ - added auto session delete funktions if remote ip or session time is invalid.
  - added mail (show-)attachment funktion
- - added permission check funktions for AgentZoom, AgentPlain 
-    and AgentAttachments
+ - added permission check funktions for AgentZoom, AgentPlain and AgentAttachments
  - added README.application-module
 
 0.5 BETA2 (2002-04-11)
