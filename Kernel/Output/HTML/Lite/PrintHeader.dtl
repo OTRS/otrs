@@ -2,7 +2,7 @@
 # PrintHeader.dtl - provides global print header
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.10 2004-10-15 07:28:52 martin Exp $
+# $Id: PrintHeader.dtl,v 1.11 2004-10-23 08:30:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ $Include{"Copyright"}
 # content
   .contenthead { color:#ffffff;background-color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
   .contentbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .contentfooter { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
+  .contentfooter { color:#000000;background-color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
   .contentkey { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .contentvalue { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .small { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
