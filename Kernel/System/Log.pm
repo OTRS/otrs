@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.21 2004-01-04 13:45:19 martin Exp $
+# $Id: Log.pm,v 1.22 2004-01-04 21:34:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $ ';
+$VERSION = '$Revision: 1.22 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -32,7 +32,8 @@ All log functions.
 =cut
 
 =item new()
-create log object 
+
+create a log object 
  
   use Kernel::Config;
   use Kernel::System::Log;
@@ -86,12 +87,12 @@ sub new {
 =item Log()
 
 log something, log priorities are 'debug', 'info', 'notice' and 'error'.
- 
+
   $Self->{LogObject}->Log(
       Priority => 'error', 
       Message => "Need something!",
    );
- 
+
 =cut
 
 sub Log { 
@@ -153,28 +154,28 @@ sub Log {
     return 1;
 }
 # --
-    
+
 =item Error()
-    
+
 to get the error back from log
     
   my $Error = $Self->{LogObject}->Error('Message');
- 
+
 =cut
-    
+
 sub Error {
     my $Self = shift;
     my $What = shift;
     return $Self->{Error}->{$What} || ''; 
 }
 # --
-    
+
 =item GetLog()
-    
+
 to get the tmp log data (from shared memory - ipc) in csv form
     
   my $CVSLog = $Self->{LogObject}->GetLog();
- 
+
 =cut
     
 sub GetLog {
@@ -186,15 +187,15 @@ sub GetLog {
     return $String;
 }
 # --
-    
+
 =item CleanUp()
-    
+
 to clean up tmp log data from shared memory (ipc)
     
   $Self->{LogObject}->CleanUp();
- 
+
 =cut
-    
+
 sub CleanUp {
     my $Self = shift;
     if ($Self->{IPC}) {
@@ -213,16 +214,14 @@ sub CleanUp {
 
 =head1 TERMS AND CONDITIONS
 
-This Software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).  
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
 did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
-=cut
-
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2004-01-04 13:45:19 $
+$Revision: 1.22 $ $Date: 2004-01-04 21:34:59 $
 
 =cut

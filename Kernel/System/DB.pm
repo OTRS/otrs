@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.32 2004-01-04 13:45:19 martin Exp $
+# $Id: DB.pm,v 1.33 2004-01-04 21:34:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -61,7 +61,7 @@ create database object with database connect
   );
 
 =cut
-    
+
 # --
 sub new {
     my $Type = shift;
@@ -196,7 +196,7 @@ sub new {
 =item Connect()
 
 to connect to a database
-  
+
 =cut
 
 sub Connect {
@@ -225,7 +225,7 @@ sub Connect {
 =item Disconnect()
 
 to disconnect to a database
-  
+
 =cut
 
 sub Disconnect {
@@ -247,7 +247,7 @@ sub Disconnect {
 =item Quote()
 
 to quote strings 
-  
+
   my $DBString = $Self->{DBObject}->Quote("This isn't a problem!");
 
 =cut
@@ -286,7 +286,7 @@ sub Error {
 =item Do()
 
 to insert, update or delete something
-  
+
   $Self->{DBObject}->Do(SQL => "INSERT INTO table (name) VALUES ('dog')");
 
   $Self->{DBObject}->Do(SQL => "DELETE FROM table");
@@ -325,7 +325,7 @@ sub Do {
 =item Prepare()
 
 to send a select something to the database
-  
+
   $Self->{DBObject}->Prepare(
       SQL => "SELECT id, name FROM table",
       Limit => 10
@@ -385,7 +385,7 @@ sub Prepare {
 =item FetchrowArray()
 
 to get a select return
-  
+
   $Self->{DBObject}->Prepare(
       SQL => "SELECT id, name FROM table",
       Limit => 10
@@ -430,7 +430,7 @@ sub FetchrowHashref {
 =item GetDatabaseFunction()
 
 to get database functions like Limit, DirectBlob, ...
-  
+
   my $What = $Self->{DBObject}->GetDatabaseFunction('DirectBlob');
 
 =cut
@@ -513,12 +513,11 @@ sub DESTROY {
     $Self->Disconnect();
 }
 # --
-
 1;
 
 =head1 TERMS AND CONDITIONS
 
-This Software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).  
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -528,7 +527,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2004-01-04 13:45:19 $
+$Revision: 1.33 $ $Date: 2004-01-04 21:34:59 $
 
 =cut
 

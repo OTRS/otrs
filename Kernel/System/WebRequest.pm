@@ -2,7 +2,7 @@
 # Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.14 2004-01-04 13:45:19 martin Exp $
+# $Id: WebRequest.pm,v 1.15 2004-01-04 21:34:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.14 $ ';
+$VERSION = '$Revision: 1.15 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -33,6 +33,7 @@ All cgi param functions.
 =cut
 
 =item new()
+
 create param object 
 
   use Kernel::Config;
@@ -42,7 +43,7 @@ create param object
   my $ParamObject = Kernel::System::WebRequest->new(
       ConfigObject => $ConfigObject,
   );
- 
+
 =cut
 
 # --
@@ -71,13 +72,13 @@ sub new {
 # --
 
 =item Error()
-    
+
 to get the error back 
-    
+
   if ($Self->{ParamObject}->Error()) {
       print STDERR $Self->{ParamObject}->Error()."\n";
   }
- 
+
 =cut
 
 sub Error {
@@ -92,11 +93,11 @@ sub Error {
 # --
 
 =item GetParam()
-    
+
 to get params
-   
+
   my $Param = $Self->{ParamObject}->GetParam(Param => 'ID'); 
- 
+
 =cut
 
 sub GetParam {
@@ -108,11 +109,11 @@ sub GetParam {
 # --
 
 =item GetArray()
-    
+
 to get array params
-   
+
   my @Param = $Self->{ParamObject}->GetArray(Param => 'ID'); 
- 
+
 =cut
 
 sub GetArray {
@@ -124,9 +125,9 @@ sub GetArray {
 # --
 
 =item GetUpload()
-    
+
 internal function for GetUploadAll()
-    
+
 =cut
 
 sub GetUpload {
@@ -138,9 +139,9 @@ sub GetUpload {
 # --
 
 =item GetUploadInfo()
-    
+
 internal function for GetUploadAll()
- 
+
 =cut
 
 sub GetUploadInfo {
@@ -152,9 +153,9 @@ sub GetUploadInfo {
 # --
 
 =item GetUploadAll()
-    
+
 to get file upload 
-   
+
   my %File = $Self->{ParamObject}->GetUploadAll(Param => '123.jpg'); 
 
   print "Filename: $File{Filename:}\n";
@@ -221,9 +222,9 @@ sub GetUploadAll {
 # --
 
 =item SetCookie()
-    
+
 set a cookie
-  
+
   $Self->{ParamObject}->SetCookie(
       Key => ID,
       Value => 123456,
@@ -243,9 +244,9 @@ sub SetCookie {
 # --
 
 =item GetCookie()
-    
+
 get a cookie
-  
+
   my $String = $Self->{ParamObject}->GetCookie(
       Key => ID,
   );
@@ -262,7 +263,7 @@ sub GetCookie {
 
 =head1 TERMS AND CONDITIONS
 
-This Software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).  
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -272,6 +273,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2004-01-04 13:45:19 $
+$Revision: 1.15 $ $Date: 2004-01-04 21:34:59 $
 
 =cut
