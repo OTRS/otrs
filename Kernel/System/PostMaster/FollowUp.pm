@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.19 2002-10-03 17:46:04 martin Exp $
+# $Id: FollowUp.pm,v 1.20 2002-10-15 09:24:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -58,7 +58,6 @@ sub Run {
     my $State = $Param{State} || '';
 	my $Comment = $Param{Comment} || '';
     my $Lock = $Param{Lock} || '';
-    my $QueueID = $Param{QueueID};
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
     my $DBObject = $Self->{DBObject};
@@ -95,11 +94,26 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
     ); 
-
+    # --
+    # debug
+    # --
+    if ($Self->{Debug} > 0) {
+        print "Follow up Ticket\n";
+        print "TicketNumber: $Tn\n";
+        print "From: $GetParam{From}\n";
+        print "ReplyTo: $GetParam{ReplyTo}\n" if ($GetParam{ReplyTo});
+        print "To: $GetParam{To}\n";
+        print "Cc: $GetParam{Cc}\n" if ($GetParam{Cc});
+        print "Subject: $GetParam{Subject}\n";
+        print "MessageID: $GetParam{'Message-ID'}\n";
+    }
+    # --
     # write to fs
+    # --
     $TicketObject->WriteArticle(ArticleID => $ArticleID, Email => $Email);
-
+    # --
     # set free article text
+    # --
     my @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
     my $CounterTmp = 0;
     while ($CounterTmp <= 3) {
@@ -112,6 +126,11 @@ sub Run {
                 Counter => $CounterTmp,
                 UserID => $InmailUserID,
             );
+            if ($Self->{Debug} > 0) {
+                print "ArticleKey$CounterTmp: ".$GetParam{"$Values[0]$CounterTmp"}."\n";
+                print "ArticleValue$CounterTmp: ".$GetParam{"$Values[1]$CounterTmp"}."\n";
+            }
+
         }
     }
     # --
@@ -123,6 +142,9 @@ sub Run {
         	TicketID => $TicketID,
 	        UserID => $InmailUserID,
     	);
+        if ($Self->{Debug} > 0) {
+            print "State: $State\n";
+        }
     }
     # --
     # set lock
@@ -133,6 +155,9 @@ sub Run {
            Lock => 'lock',
            UserID => => $InmailUserID,
        );
+        if ($Self->{Debug} > 0) {
+            print "Lock: lock\n";
+        }
     }
     # --
     # set unanswered

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LoopProtection.pm,v 1.3 2002-07-13 12:25:45 martin Exp $
+# $Id: LoopProtection.pm,v 1.4 2002-10-15 09:24:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::LoopProtection;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -41,7 +41,7 @@ sub new {
     $Self->{LoopProtectionLog} = $Self->{ConfigObject}->Get('LoopProtectionLog') 
         || die 'No Config option "LoopProtectionLog"!';
 
-    $Self->{MaxPostMasterEmails} = $Self->{ConfigObject}->Get('MaxPostMasterEmails')
+    $Self->{PostmasterMaxEmails} = $Self->{ConfigObject}->Get('PostmasterMaxEmails')
         || 20;
 
     # --
@@ -106,7 +106,7 @@ sub Check {
     # --
     # check possible loop
     # --
-    if ($Count >= $Self->{MaxPostMasterEmails}) {
+    if ($Count >= $Self->{PostmasterMaxEmails}) {
         $Self->{LogObject}->Log(
           Priority => 'error',
           MSG => "LoopProtection!!! Send no more emails to '$To'! Max. count of $Count has been reached! ",

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.23 2002-10-03 17:46:04 martin Exp $
+# $Id: NewTicket.pm,v 1.24 2002-10-15 09:24:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -30,7 +30,7 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
     
-    $Self->{Debug} = 0;
+    $Self->{Debug} = $Param{Debug} || 0;
     
     # get all objects
     foreach (
@@ -84,8 +84,17 @@ sub Run {
         UserID => $InmailUserID,
         CreateUserID => $InmailUserID,
     );
-    
+    # --
+    # debug
+    # --
+    if ($Self->{Debug} > 0) {
+        print "New Ticket created!\n";
+        print "TicketNumber: $NewTn\n";
+        print "TicketID: $TicketID\n";
+    }
+    # --    
     # set customer no
+    # --
     if ($GetParam{'X-OTRS-CustomerNo'}) {
         $TicketObject->SetCustomerNo(
             TicketID => $TicketID,
@@ -93,8 +102,9 @@ sub Run {
             UserID => $InmailUserID,
         );
     }
-    
+    # --
     # set free ticket text
+    # --
     my @Values = ('X-OTRS-TicketKey', 'X-OTRS-TicketValue');
     my $CounterTmp = 0;
     while ($CounterTmp <= 2) {
@@ -130,8 +140,9 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         Queue => $Queue,
     );
-
+    # --
     # close ticket if article create failed!
+    # --
     if (!$ArticleID) {
         $TicketObject->SetState(
             TicketID => $TicketID,
@@ -145,7 +156,21 @@ sub Run {
         );
         return;
     }
+    # --
+    # debug
+    # --
+    if ($Self->{Debug} > 0) {
+        print "From: $GetParam{From}\n";
+        print "ReplyTo: $GetParam{ReplyTo}\n" if ($GetParam{ReplyTo});
+        print "To: $GetParam{To}\n";
+        print "Cc: $GetParam{Cc}\n" if ($GetParam{Cc});
+        print "Subject: $GetParam{Subject}\n";
+        print "MessageID: $GetParam{'Message-ID'}\n";
+        print "Queue: $Queue\n";
+    }
+    # --
     # set free article text
+    # --
     @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
     $CounterTmp = 0;
     while ($CounterTmp <= 3) {
@@ -158,10 +183,15 @@ sub Run {
                 Counter => $CounterTmp,
                 UserID => $InmailUserID,
             );
+            if ($Self->{Debug} > 0) {
+                print "ArticleKey$CounterTmp: ".$GetParam{"$Values[0]$CounterTmp"}."\n";
+                print "ArticleValue$CounterTmp: ".$GetParam{"$Values[1]$CounterTmp"}."\n";
+            }
         }
     }
-    
+    # --    
     # write it to the fs
+    # --
     $TicketObject->WriteArticle(ArticleID => $ArticleID, Email => $Email);
     
     # do log

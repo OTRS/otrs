@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DestQueue.pm,v 1.5 2002-07-21 22:54:37 martin Exp $
+# $Id: DestQueue.pm,v 1.6 2002-10-15 09:24:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -44,7 +44,7 @@ sub GetQueueID {
     my %Param = @_;
     my $ParseObject = $Self->{ParseObject};
     my $DBObject = $Self->{DBObject};
-    my $Queue = $Self->{ConfigObject}->Get('DefaultQueue');
+    my $Queue = $Self->{ConfigObject}->Get('PostmasterDefaultQueue');
     my %GetParam = %{$Param{Params}};
     my $QueueID;
     # --
