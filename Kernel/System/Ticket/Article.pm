@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.7 2002-12-01 11:54:30 martin Exp $
+# $Id: Article.pm,v 1.8 2002-12-01 13:11:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -348,7 +348,7 @@ sub WriteArticle {
     # debug
     # --
     if ($Self->{Debug} > 1) {
-        print STDERR '->WriteArticle: ' . $Path . "\n";
+        $Self->{LogObject}->Log(Message => "->WriteArticle: $Path");
     }
     if (!$Param{UserID}) {
         $Param{UserID} = 1;
@@ -440,9 +440,9 @@ sub WriteArticleParts {
       }
     }
 
-    $Self->{PartCounter} = $Param{PartCounter} || 0;
+    $Self->{PartCounter}++;
+
     if ($Param{Part}->parts() > 0) {
-        $Self->{PartCounter}++;
         my $PartCounter1 = 0;
         foreach ($Param{Part}->parts()) {
             $PartCounter1++;
@@ -457,7 +457,6 @@ sub WriteArticleParts {
             # --
             $Self->WriteArticleParts(
                 Part => $_, 
-                PartCounter => $Self->{PartCounter}, 
                 Path => $Param{Path},
                 ArticleID => $Param{ArticleID},
                 UserID => $Param{UserID},
@@ -465,12 +464,44 @@ sub WriteArticleParts {
         }
     }
     else {
+        # --
+        # get attachment meta stuff
+        # --
         my %PartData = ();
-        $PartData{Filename} = $Param{Part}->head()->recommended_filename() || "file-$Self->{PartCounter}";
-        $PartData{Filename} = decode_mimewords($PartData{Filename});
         $PartData{ContentType} = $Param{Part}->effective_type();
         $PartData{Content} = $Param{Part}->bodyhandle()->as_string();
-
+        # --
+        # check if there is no recommended_filename -> add file-NoFilenamePartCounter
+        # --
+        if (!$Param{Part}->head()->recommended_filename()) {
+            $Self->{NoFilenamePartCounter}++;
+            $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
+        }
+        else {
+            $PartData{Filename} = $Param{Part}->head()->recommended_filename();
+        }
+        $PartData{Filename} = decode_mimewords($PartData{Filename});
+        # --
+        # check if attachment name exists -> add "-DoubleFilenamePartCounter"
+        # --
+        foreach (1..5) {
+            if (exists $Self->{ArticleUsedAttachmentFileName}->{$PartData{Filename}}) {
+                 $Self->{DoubleFilenamePartCounter}++;
+                 $PartData{Filename} .= "-$Self->{DoubleFilenamePartCounter}";
+            }  
+        }
+        $Self->{ArticleUsedAttachmentFileName}->{$PartData{Filename}} = 1;
+        # --
+        # debug
+        # --
+        if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+                Message => "->WriteAtm: '$PartData{Filename}' '$PartData{ContentType}'",
+            );
+        }
+        # --
+        # write attachment to backend           
+        # --
         if ($Self->{ArticleAttachmentStorage} eq 'fs') {
             # --
             # write attachment to fs
@@ -494,14 +525,6 @@ sub WriteArticleParts {
             # --
             foreach (keys %PartData) {
                 $PartData{$_} = $Self->{DBObject}->Quote($PartData{$_});
-            }
-            # --
-            # debug
-            # --
-            if ($Self->{Debug} > 0) {
-              $Self->{LogObject}->Log(
-                  Message => '->GotArticle::Atm->Filename:' . $PartData{Filename},
-              );
             }
             my $SQL = "INSERT INTO article_attachment ".
               " (article_id, filename, content_type, content, ".
