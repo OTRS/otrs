@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.30 2004-05-03 05:35:44 martin Exp $
+# $Id: DB.pm,v 1.31 2004-07-15 10:51:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,19 +33,19 @@ sub new {
     # max shown user a search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 250;
     # config options
-    $Self->{CustomerTable} = $Self->{CustomerUserMap}->{Params}->{Table} 
+    $Self->{CustomerTable} = $Self->{CustomerUserMap}->{Params}->{Table}
       || die "Need CustomerUser->Params->Table in Kernel/Config.pm!";
-    $Self->{CustomerKey} = $Self->{CustomerUserMap}->{CustomerKey} 
-      || $Self->{CustomerUserMap}->{Key} 
+    $Self->{CustomerKey} = $Self->{CustomerUserMap}->{CustomerKey}
+      || $Self->{CustomerUserMap}->{Key}
       || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
-    $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID} 
+    $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID}
       || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
-    $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly}; 
+    $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
     if (!defined($Self->{SearchPrefix})) {
         $Self->{SearchPrefix} = '';
     }
-    $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{'CustomerUserSearchSuffix'}; 
+    $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{'CustomerUserSearchSuffix'};
     if (!defined($Self->{SearchSuffix})) {
         $Self->{SearchSuffix} = '*';
     }
@@ -70,7 +70,7 @@ sub new {
 sub CustomerName {
     my $Self = shift;
     my %Param = @_;
-    my $Name = ''; 
+    my $Name = '';
     # check needed stuff
     if (!$Param{UserLogin}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
@@ -129,7 +129,7 @@ sub CustomerSearch {
     $SQL .= " FROM " .
     " $Self->{CustomerTable} ".
     " WHERE ";
-    if ($Param{Search}) { 
+    if ($Param{Search}) {
         my $Count = 0;
         my @Parts = split(/\+/, $Param{Search}, 6);
         foreach my $Part (@Parts) {
@@ -198,10 +198,10 @@ sub CustomerUserList {
     # get data
     my %Users = $Self->{DBObject}->GetTableData(
         What => "$Self->{CustomerKey}, $Self->{CustomerKey}, $Self->{CustomerID}",
-        Table => $Self->{CustomerTable}, 
+        Table => $Self->{CustomerTable},
         Clamp => 1,
         Valid => $Valid,
-    ); 
+    );
     return %Users;
 }
 # --
@@ -318,7 +318,7 @@ sub CustomerUserAdd {
     # check email address
     if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
-            Priority => 'error', 
+            Priority => 'error',
             Message => "Email address ($Param{UserEmail}) not valid (".
               $Self->{CheckItemObject}->CheckError().")!",
         );
@@ -348,7 +348,7 @@ sub CustomerUserAdd {
       );
       # set password
       $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
-      return $Param{UserLogin}; 
+      return $Param{UserLogin};
     }
     else {
         return;
@@ -373,7 +373,7 @@ sub CustomerUserUpdate {
     # check email address
     if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
-            Priority => 'error', 
+            Priority => 'error',
             Message => "Email address ($Param{UserEmail}) not valid (".
                 $Self->{CheckItemObject}->CheckError().")!",
         );
@@ -394,7 +394,7 @@ sub CustomerUserUpdate {
     $SQL .= " change_time = current_timestamp, ";
     $SQL .= " change_by = $Param{UserID} ";
     $SQL .= " WHERE ".$Self->{CustomerKey}." = '".$Self->{DBObject}->Quote($Param{ID})."'";
-  
+
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # log notice
         $Self->{LogObject}->Log(
@@ -409,9 +409,9 @@ sub CustomerUserUpdate {
         return 1;
     }
     else {
-        return; 
+        return;
     }
-}   
+}
 # --
 sub SetPassword {
     my $Self = shift;
@@ -427,7 +427,7 @@ sub SetPassword {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
         return;
     }
-    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if 
+    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
     # crypt() is working correctly) :-/
     my $CryptedPw = '';
     if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
@@ -510,7 +510,9 @@ sub DESTROY {
     my $Self = shift;
     # disconnect if it's not a parent DBObject
     if ($Self->{NotParentDBObject}) {
-        $Self->{DBObject}->Disconnect();
+        if ($Self->{DBObject}) {
+            $Self->{DBObject}->Disconnect();
+        }
     }
 }
 # --
