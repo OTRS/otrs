@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PGP.pm,v 1.5 2004-08-12 10:35:41 martin Exp $
+# $Id: PGP.pm,v 1.6 2004-08-25 00:36:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -238,7 +238,7 @@ sub PrivateKeySearch {
             $Key{Bit} .= $2;
             $Key{Key} .= $3;
             $Key{Created} .= $4;
-            $Key{Identifer} .= $5;
+            $Key{Identifier} .= $5;
         }
         if ($InKey && $Line =~ /^(ssb)\s(.+?)\/(.+?)\s(.+?)\s/) {
             $Key{Bit} = $2;
@@ -279,7 +279,7 @@ sub PublicKeySearch {
             $Key{Bit} .= $2;
             $Key{Key} .= $3;
             $Key{Created} .= $4;
-            $Key{Identifer} .= $5;
+            $Key{Identifier} .= $5;
         }
         if ($InKey && $Line =~ /\[expires:\s(.+?)\]/) {
             $Key{Expires} = $1;
