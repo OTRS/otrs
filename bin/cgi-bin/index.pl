@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.31 2002-07-18 23:27:03 martin Exp $
+# $Id: index.pl,v 1.32 2002-08-01 02:33:52 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -102,17 +102,20 @@ foreach ('$Kernel::Config::Modules::CommonObject', '$Kernel::Config::ModulesCust
   }
 }
 
-
 # --
 # get common framework params
 # --
 my %Param = ();
+# drop session id
+my $QueryString = $ENV{"QUERY_STRING"};
+$QueryString =~ s/^SessionID(=&|=.+?&|=.+?$)/&/;
+# definde frame work params
 my $FramworkPrams = {
     SessionID => '',
     Action => '',
     Subaction => '',
     NextScreen => '',
-    RequestedURL => $ENV{"QUERY_STRING"},
+    RequestedURL => $QueryString,
 };
 foreach my $Key (keys %{$FramworkPrams}) {
     $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key) 
@@ -128,7 +131,6 @@ foreach ('$Kernel::Config::Modules::Param', '$Kernel::Config::ModulesCustom::Par
       || $Param->{$Key};
   }
 }
-
 
 # --
 # check request type
@@ -167,14 +169,6 @@ if ($Param{Action} eq "Login") {
         # prepare old redirect URL -- do not redirect to Login or Logout (loop)!
         if ($Param{RequestedURL} =~ /Action=(Logout|Login)/) {
             $Param{RequestedURL} = '';
-        }
-        elsif ($Param{RequestedURL} =~ /SessionID=/) {
-            # drop old session id
-            $Param{RequestedURL} =~ s/SessionID(=&|=.+?&|=.+?$)/&/g; 
-        }
-        else {
-            # no session id
-            $Param{RequestedURL} = '&'.$Param{RequestedURL};
         }
         # redirect with new session id
         print $LayoutObject->Redirect(OP => $Param{RequestedURL});
