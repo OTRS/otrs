@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.26 2002-05-01 17:30:22 martin Exp $
+# $Id: Config.pm,v 1.27 2002-05-04 20:39:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,7 +10,7 @@
 # --
 #
 #  Note: 
-#         -->> Config options see below -- line 60 <<--
+#         -->> Config options see below -- line 30 <<--
 # 
 # -- 
 
@@ -18,28 +18,9 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-# --
-sub new {
-    my $Type = shift;
-    my %Param = @_;
-
-    # allocate new hash for object
-    my $Self = {}; 
-    bless ($Self, $Type);
-
-    # get Log Object
-    $Self->{LogObject} = $Param{LogObject};
-
-    # 0=off; 1=log if there exists no entry; 2=log all;
-    $Self->{Debug} = 0;
-
-    # load config
-    $Self->Load();
-    return $Self;
-}
 # --
 sub Load {
     my $Self = shift;
@@ -56,14 +37,13 @@ sub Load {
     # ----------------------------------------------------#
     # ----------------------------------------------------#
 
-
     # ----------------------------------------------------#
     # system data                                         #
     # ----------------------------------------------------#
 
     # SecureMode
     # (Enable this so you can't use the installer.pl)
-    $Self->{SecureMode} = 1;
+    $Self->{SecureMode} = 0;
 
     # SystemID
     # (The identify oh the system. Each ticket number and
@@ -126,13 +106,13 @@ sub Load {
 
     # SessionTable 
     $Self->{DatabaseSessionTable} = 'session';
-    # SessionTable ID rqw
+    # SessionTable id column
     $Self->{DatabaseSessionTableID} = 'session_id';
-    # SessionTable value row
+    # SessionTable value column
     $Self->{DatabaseSessionTableValue} = 'value';
 
     # UserTable
-    $Self->{DatabaseUserTable} = 'user';
+    $Self->{DatabaseUserTable} = 'system_user';
     $Self->{DatabaseUserTableUserID} = 'id';
     $Self->{DatabaseUserTableUserPW} = 'pw';
     $Self->{DatabaseUserTableUser} = 'login';
@@ -143,6 +123,35 @@ sub Load {
     $Self->{DatabasePreferencesTableValue} = 'preferences_value';
     $Self->{DatabasePreferencesTableUserID} = 'user_id';
 
+    # ----------------------------------------------------#
+    # user preferences settings                           #
+    # (allow you to add simply more user preferences)     #
+    # ----------------------------------------------------#
+
+    $Self->{UserPreferences} = {
+      # key => value
+      # key is usable with $Data{"UserCharset"} in dtl.
+      UserCharset => 'Charset',
+      UserTheme => 'Theme',
+      UserLanguage => 'Language',
+      UserComment => 'Comment'
+    };
+
+    $Self->{UserPreferencesMaskUse} = [
+      # keys
+      # html params in dtl files
+      'ID',
+      'Salutation',
+      'Login',
+      'Fristname',
+      'Lastname',
+      'Language',
+      'ValidID',
+      'Charset',
+      'Theme',
+      'Comment',
+      'Pw',
+    ];
 
     # ----------------------------------------------------#
     # default agent settings                              #
@@ -392,7 +401,28 @@ sub Load {
         'email-internal',
     ];
 
+    # ----------------------------------------------------#
     # EOC
+    # ----------------------------------------------------#
+}
+# --
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+
+    # get Log Object
+    $Self->{LogObject} = $Param{LogObject};
+
+    # 0=off; 1=log if there exists no entry; 2=log all;
+    $Self->{Debug} = 0;
+
+    # load config
+    $Self->Load();
+    return $Self;
 }
 # --
 sub Get {
