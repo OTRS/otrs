@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.70 2004-09-08 11:34:51 martin Exp $
+# $Id: Article.pm,v 1.71 2004-09-09 15:11:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -843,7 +843,7 @@ sub ArticleGet {
         " sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,".
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
-        " st.freekey7, st.freetext7, st.freekey8, st.freetext8, st.ticket_lock_id".
+        " st.freekey7, st.freetext7, st.freekey8, st.freetext8, st.ticket_lock_id, st.title".
         " FROM ".
         " article sa, ticket st, ".
         " $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -871,16 +871,18 @@ sub ArticleGet {
         $Data{ArticleID} = $Row[31];
         $Data{TicketID} = $Row[0];
         $Ticket{TicketID} = $Data{TicketID};
+        $Data{Title} = $Row[49];
+        $Ticket{Title} = $Data{Title};
         $Data{From} = $Row[1];
         $Data{To} = $Row[2];
         $Data{Cc} = $Row[3];
         $Data{Subject} = $Row[4];
-        $Data{ReplyTo} = $Row[5],
+        $Data{ReplyTo} = $Row[5];
         $Data{InReplyTo} = $Row[6];
         $Data{Body} = $Row[7];
         $Data{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
         $Ticket{CreateTimeUnix} = $Row[8];
-#        $Ticket{Age} = $Data{Age}, 
+#        $Ticket{Age} = $Data{Age},
         $Data{PriorityID} = $Row[18];
         $Ticket{PriorityID} = $Row[18];
         $Data{StateID} = $Row[9];
@@ -904,7 +906,7 @@ sub ArticleGet {
         if ($Row[12] && $Data{ContentType} =~ /^(\w+\/\w+)/i) {
             $Data{MimeType} = $1;
             $Data{MimeType} =~ s/"|'//g ;
-        } 
+        }
         else {
             $Data{MimeType} = '';
         }
@@ -916,7 +918,7 @@ sub ArticleGet {
         $Ticket{UserID} = $Row[20];
         $Data{Owner} = $Row[21];
         $Data{ArticleTypeID} = $Row[22];
-        $Data{FreeKey1} = $Row[23]; 
+        $Data{FreeKey1} = $Row[23];
         $Data{FreeText1} = $Row[24];
         $Data{FreeKey2} = $Row[25];
         $Data{FreeText2} = $Row[26];
