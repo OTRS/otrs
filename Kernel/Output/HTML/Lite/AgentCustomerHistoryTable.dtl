@@ -1,0 +1,21 @@
+# --
+# AgentCustomerHistoryTable.dtl - provides HTML form for AgentCustomer.pm
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentCustomerHistoryTable.dtl,v 1.1 2002-07-17 22:25:13 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<!-- start recorde -->
+<tr>
+  <td align="center"><a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Data{"TicketNumber"}</a></td>
+  <td>$Text{"From"}: $Data{"From"}<br>$Text{"Subject"}: $Data{"Subject"}</td>
+  <td>$Text{"State"}: $Data{"State"}<br>$Text{"Lock"}: $Data{"Lock"}</td>
+  <td>$Text{"Queue"}: $Data{"Queue"}<br>$Text{"Owner"}: $Data{"Owner"}</td>
+  <td>$Data{"Age"}</td>
+</tr>
+<!-- end recorde -->
+
