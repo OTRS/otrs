@@ -883,6 +883,7 @@ CREATE TABLE faq_item
     f_subject VARCHAR (200),
     state_id SMALLINT NOT NULL,
     category_id SMALLINT NOT NULL,
+    f_keywords MEDIUMTEXT,
     f_field1 MEDIUMTEXT,
     f_field2 MEDIUMTEXT,
     f_field3 MEDIUMTEXT,
@@ -962,7 +963,7 @@ CREATE TABLE faq_state
 (   
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    type_id VARCHAR (200) NOT NULL,
+    type_id SMALLINT NOT NULL, 
     PRIMARY KEY(id),
     UNIQUE (name)
 );
