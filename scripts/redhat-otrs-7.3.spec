@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs-7.3.spec,v 1.4 2003-04-16 22:35:25 martin Exp $
+# $Id: redhat-otrs-7.3.spec,v 1.5 2003-09-16 08:10:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -66,8 +66,6 @@ $RPM_BUILD_ROOT/opt/otrs/bin/SetPermissions.sh $RPM_BUILD_ROOT/opt/otrs $OTRSUSE
 if test -e /opt/otrs/RELEASE; then
     cat /opt/otrs/RELEASE|grep VERSION|sed 's/VERSION = //'|sed 's/ /-/g' > /tmp/otrs-old.tmp
 fi
-
-%post
 # useradd
 export OTRSUSER=otrs
 echo -n "Check OTRS user (/etc/passwd)... " 
@@ -79,6 +77,7 @@ else
     useradd $OTRSUSER -d /opt/otrs/ -s /bin/false -g apache -c 'OTRS System User' && echo "$OTRSUSER added."
 fi
 
+%post
 # add httpd.include.conf to /etc/httpd/conf/httpd.conf
 APACHERC=/etc/httpd/conf/httpd.conf
 OTRSINCLUDE=/opt/otrs/scripts/apache-httpd.include.conf
