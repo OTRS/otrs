@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.102.2.1 2004-03-29 13:12:19 martin Exp $
+# $Id: Generic.pm,v 1.102.2.2 2004-04-02 12:46:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.102.2.1 $';
+$VERSION = '$Revision: 1.102.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -328,10 +328,22 @@ sub Output {
                     "";
                 }
                 elsif ($Text =~ /^(.+?)","(.+?)$/) {
-                    $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
+                    if (defined $GlobalRef->{"DataRef"}->{$1}) {
+                        $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
+                    }
+                    else {
+                        # output replace with nothing!
+                        "";
+                    }
                 }
                 else {
-                    $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
+                    if (defined $GlobalRef->{"DataRef"}->{$Text}) {
+                        $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
+                    }
+                    else {
+                        # output replace with nothing!
+                        "";
+                    }
                 }
             }
             # replace with
