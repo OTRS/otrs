@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.17 2003-12-15 20:30:59 martin Exp $
+# $Id: GenericAgent.pl,v 1.18 2004-01-09 16:46:06 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,14 +48,14 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.17 $';
+    $VERSION = '$Revision: 1.18 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
     getopt('hc', \%Opts);
     if ($Opts{'h'}) {
         print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
-        print "Copyright (c) 2001-2003 Martin Edenhofer <martin\@otrs.org>\n";
+        print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
         print "usage: GenericAgent.pl (-c 'Kernel::Config::GenericAgentJobModule') \n";
         exit 1;
     }
@@ -88,35 +88,8 @@ $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 # --
 # process all jobs
 # --
-foreach my $Job (keys %Jobs) {
+foreach my $Job (sort keys %Jobs) {
     print "$Job:\n";
-    # --
-    # prepare job id lookups
-    # --
-    foreach (keys %{$Jobs{$Job}}) {
-        # priority lookups
-        if ($_ eq 'Priorities') {
-            my @IDs = ();
-            foreach (@{$Jobs{$Job}->{$_}}) {
-                my $Name = $CommonObject{TicketObject}->PriorityLookup(Type => $_);
-                if ($Name) {
-                    push (@IDs, $Name);
-                }
-           }
-           $Jobs{$Job}->{PriorityIDs} = \@IDs;
-        }
-        # lock lookups
-        if ($_ eq 'Locks') {
-            my @IDs = ();
-            foreach (@{$Jobs{$Job}->{$_}}) {
-                my $Name = $CommonObject{TicketObject}->LockLookup(Type => $_);
-                if ($Name) {
-                    push (@IDs, $Name);
-                }
-           }
-           $Jobs{$Job}->{LockIDs} = \@IDs;
-        }
-    }
     # --
     # get regular tickets 
     # --
@@ -126,15 +99,16 @@ foreach my $Job (keys %Jobs) {
         if (ref($PartJobs{Queue}) eq 'ARRAY') {
             foreach (@{$PartJobs{Queue}}) {
                 print " For Queue: $_\n";
-                %Tickets = $CommonObject{QueueObject}->GetTicketIDsByQueue(
+                %Tickets = $CommonObject{TicketObject}->SearchTicket(
                     %{$Jobs{$Job}},
-                    Queue => $_,            
+                    Queues => [$_],
                 );
             }
         }
         else {
-            %Tickets = $CommonObject{QueueObject}->GetTicketIDsByQueue(
+            %Tickets = $CommonObject{TicketObject}->SearchTicket(
                 %{$Jobs{$Job}},
+                Queues => [$PartJobs{Queue}],
             );
         }
     }
@@ -161,7 +135,7 @@ foreach my $Job (keys %Jobs) {
     # --
     # process each ticket 
     # --
-    foreach (keys %Tickets) {
+    foreach (sort keys %Tickets) {
         Run($Job, $_, $Tickets{$_});
     }
 }
@@ -213,11 +187,28 @@ sub Run {
         );
     }
     # --   
+    # set customer id and customer user 
+    # --
+    if ($Jobs{$Job}->{New}->{CustomerID} || $Jobs{$Job}->{New}->{CustomerUserLogin}) {
+        if ($Jobs{$Job}->{New}->{CustomerID}) {
+            print "  - set customer id to '$Jobs{$Job}->{New}->{CustomerID}'\n";
+        }
+        if ($Jobs{$Job}->{New}->{CustomerUserLogin}) {
+            print "  - set customer user id to '$Jobs{$Job}->{New}->{CustomerUserLogin}'\n";
+        }
+        $CommonObject{TicketObject}->SetCustomerData(
+            TicketID => $TicketID,
+            No => $Jobs{$Job}->{New}->{CustomerID} || '',
+            User => $Jobs{$Job}->{New}->{CustomerUserLogin} || '',
+            UserID => $UserIDOfGenericAgent,
+        );
+    }
+    # --   
     # set new priority 
     # --
     if ($Jobs{$Job}->{New}->{Priority}) {
         print "  - set priority to '$Jobs{$Job}->{New}->{Priority}'\n";
-        $CommonObject{TicketObject}->SetPriority(
+        $CommonObject{TicketObject}->PrioritySet(
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             Priority => $Jobs{$Job}->{New}->{Priority}, 
