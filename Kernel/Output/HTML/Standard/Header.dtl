@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.18 2002-08-03 11:48:57 martin Exp $
+# $Id: Header.dtl,v 1.19 2002-08-05 00:05:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,7 +51,7 @@ Pragma: no-cache
     <title>OpenTRS :: $Text{"$Data{"Title"}"}</title>
 <style type="text/css">
 <!--
-  p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i
+  p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px; }
   pre
     { font-family:Courier;font-size:12px; }
