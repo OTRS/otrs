@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.14 2002-10-29 22:05:31 martin Exp $
+# $Id: mkStats.pl,v 1.15 2002-10-29 22:18:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -52,7 +52,7 @@ getopt('hxyjmdf',  \%Opts);
 # --
 print "mkStats.pl <Revision $VERSION> - generate png pics\n";
 print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
-print "usage: mkStats.pl -j <year> -m <month> -x <width> (default 500) -y <height> (default 350)\n";
+print "usage: mkStats.pl -j <year> -m <month> -x <width> (default 550) -y <height> (default 350)\n";
 print "        -f <force> (default 0)\n";
 # --
 # common objects
@@ -96,7 +96,7 @@ if ($Opts{'y'} && $Opts{'y'} < 350 && !$Opts{'f'}) {
 
 print "->> creating stats for $Year/$Month <<-\n";
 
-my $graph = GD::Graph::lines->new($Opts{'x'} || 500, $Opts{'y'} || 350);
+my $graph = GD::Graph::lines->new($Opts{'x'} || 550, $Opts{'y'} || 350);
 
 my $XLable = "Days";
 my $YLable = 'Actions';
