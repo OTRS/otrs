@@ -1,26 +1,26 @@
 # --
-# Kernel/System/Kernel/System/WebUploadCache.pm - a fs upload cache
+# Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebUploadCache.pm,v 1.3 2004-09-09 14:48:41 martin Exp $
+# $Id: UploadCache.pm,v 1.1 2004-11-16 11:11:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::WebUploadCache;
+package Kernel::System::Web::UploadCache;
 
 use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.3 $ ';
+$VERSION = '$Revision: 1.1 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
 
-Kernel::System::WebUploadCache - a upload file system cache
+Kernel::System::Web::UploadCache - a upload file system cache
 
 =head1 SYNOPSIS
 
@@ -38,13 +38,13 @@ create param object
 
   use Kernel::Config;
   use Kernel::System::Log;
-  use Kernel::System::WebUploadCache;
+  use Kernel::System::Web::UploadCache;
 
   my $ConfigObject = Kernel::Config->new();
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
-  my $UploadParamObject = Kernel::System::WebUploadCache->new(
+  my $UploadParamObject = Kernel::System::Web::UploadCache->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
   );
@@ -344,6 +344,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2004-09-09 14:48:41 $
+$Revision: 1.1 $ $Date: 2004-11-16 11:11:46 $
 
 =cut
