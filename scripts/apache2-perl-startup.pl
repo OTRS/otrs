@@ -139,7 +139,6 @@ use Kernel::Modules::AdminCustomerUserGroup;
 
 # faq middle ware modules
 use Kernel::Modules::FAQ;
-use Kernel::Modules::FAQArticle;
 use Kernel::Modules::FAQCategory;
 use Kernel::Modules::FAQLanguage;
 
