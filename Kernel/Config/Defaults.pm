@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.165 2004-10-02 08:18:05 martin Exp $
+# $Id: Defaults.pm,v 1.166 2004-10-06 06:49:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.165 $';
+$VERSION = '$Revision: 1.166 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -205,6 +205,14 @@ sub LoadDefaults {
     # CheckMXRecord
     # (Check mx recorde of used email addresses)
     $Self->{CheckMXRecord} = 1;
+
+    # CheckEmailValidAddress
+    # (regexp of valid email addresses)
+    $Self->{CheckEmailValidAddress} = '^(root@localhost|admin@localhost)$';
+
+    # CheckEmailInvalidAddress
+    # (regexp of invalid email addresses)
+    $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$';
 
     # --------------------------------------------------- #
     # database settings                                   #
@@ -2246,7 +2254,8 @@ Your OTRS Notification Master
         NavBarName => 'Ticket',
         NavBar => [
           {
-            Description => 'Create new Email Ticket',
+#            Description => 'Create new Email Ticket',
+            Description => 'Send Email and create a new Ticket',
             Name => 'Email-Ticket',
             Image => 'mail_new.png',
             Link => 'Action=AgentEmail',
@@ -2285,6 +2294,10 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentMailbox'} = {
         Description => 'Agent Mailbox',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentStatusView'} = {
+        Description => 'Overview of all open tickets',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentZoom'} = {

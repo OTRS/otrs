@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CheckItem.pm - the global spellinf module
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckItem.pm,v 1.9 2004-08-24 07:47:05 martin Exp $
+# $Id: CheckItem.pm,v 1.10 2004-10-06 06:49:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Email::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,13 +58,19 @@ sub CheckEmail {
     if (! $Self->{ConfigObject}->Get('CheckEmailAddresses')) {
         return 1;
     }
+    # check valid email addesses
+    my $RegExp = $Self->{ConfigObject}->Get('CheckEmailValidAddress');
+    if ($RegExp && $Param{Address} =~ /$RegExp/i) {
+        return 1;
+    }
     # check address
     if (Email::Valid->address(
                 -address => $Param{Address},
                 -mxcheck => $Self->{ConfigObject}->Get('CheckMXRecord') || 0,
     )) {
         # check special stuff
-        if ($Param{Address} =~ /\@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$/i) {
+        my $RegExp = $Self->{ConfigObject}->Get('CheckEmailInvalidAddress');
+        if ($RegExp && $Param{Address} =~ /$RegExp/i) {
             $Self->{Error} = "invalid $Param{Address}! ";
             return;
         }
