@@ -3,7 +3,7 @@
 # scripts/backup.sh - a backup script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.sh,v 1.5 2002-10-29 22:57:08 martin Exp $
+# $Id: backup.sh,v 1.6 2003-02-25 10:18:58 wiktor Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "backup.sh - a backup script for OTRS <\$Revision: 1.5 $>"
+echo "backup.sh - a backup script for OTRS <\$Revision: 1.6 $>"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # --
@@ -40,7 +40,7 @@ if ! test $1 || ! test $2 || ! test $3; then
     echo ""
     echo "Usage: backup.sh <OTRS_BIN_DIR> <OTRS_CONFIG_DIR> <BACKUP_DIR> "
     echo ""
-    echo "  Try: backup.sh /opt/OpenTRS/bin /opt/OpenTRS/Kernel/Config/ /data/otrs-backup"
+    echo "  Try: backup.sh /opt/otrs/bin /opt/otrs/Kernel/Config/ /data/otrs-backup"
     echo ""
     exit 1;
 fi
@@ -54,25 +54,29 @@ DATABASE=`$1/otrs.getConfig Database` || exit 1;
 DATABASE_USER=`$1/otrs.getConfig DatabaseUser` || exit 1;
 DATABASE_PW=`$1/otrs.getConfig DatabasePw` || exit 1;
 ARTICLE_DIR=`$1/otrs.getConfig ArticleDir` || exit 1;
-# --
-# check database type
-# --
-if ! echo $DATABASE_DSN | grep -i mysql >> /dev/null ; then
-    echo "ERROR: Can't dump database because this script supports just mysql"
-    exit 1;
-fi 
-# --
 # create backup sub directory
 # --
 SUBBACKUPFOLDER=`date +%Y-%m-%d_%H-%M`
 mkdir -p $3/$SUBBACKUPFOLDER || exit 1;
 
 #echo $DATABASE_DSN
-echo "dump MySQL database $DATABASE@$DATABASE_HOST "
-if ! mysqldump -u$DATABASE_USER -p$DATABASE_PW -h$DATABASE_HOST $DATABASE > $3/$SUBBACKUPFOLDER/database_backup.sql; then
-    echo "ERROR: Can't dump database!";
+if echo $DATABASE_DSN | grep -i mysql >> /dev/null ; then
+    echo "dump MySQL database $DATABASE@$DATABASE_HOST "
+    if ! mysqldump -u$DATABASE_USER -p$DATABASE_PW -h$DATABASE_HOST $DATABASE > $3/$SUBBACKUPFOLDER/database_backup.sql; then
+        echo "ERROR: Can't dump database!";
+        exit 1;
+    fi
+elif echo $DATABASE_DSN | grep -i DBI:Pg >> /dev/null ; then
+    echo "dump PostgreSQL database $DATABASE@$DATABASE_HOST "
+    if ! pg_dump -f $3/$SUBBACKUPFOLDER/database_backup.sql -h$DATABASE_HOST -U $DATABASE_USER $DATABASE; then
+        echo "ERROR: Can't dump database!";
+        exit 1;
+    fi
+else
+    echo "ERROR: Can't dump database because this script supports only MySQL/PostgreSQL"
     exit 1;
 fi
+
 echo "compresses SQL-file"
 if ! bzip2 $3/$SUBBACKUPFOLDER/database_backup.sql; then
     echo "ERROR: Can't compresses SQL-file ($3/$SUBBACKUPFOLDER/database_backup.sql)!"
