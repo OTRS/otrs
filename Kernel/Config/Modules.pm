@@ -2,7 +2,7 @@
 # Modules.pm - config file of all used application modules
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Modules.pm,v 1.2 2002-06-16 20:44:47 martin Exp $
+# $Id: Modules.pm,v 1.3 2002-07-17 22:35:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::Modules;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -50,6 +50,7 @@ use Kernel::Modules::AgentOwner;
 use Kernel::Modules::AgentHistory;
 use Kernel::Modules::AgentPhone;
 use Kernel::Modules::AgentBounce;
+use Kernel::Modules::AgentCustomer;
 
 # web admin middle ware modules
 use Kernel::Modules::Admin;
