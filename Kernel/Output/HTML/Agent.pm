@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.66 2002-12-05 22:24:10 martin Exp $
+# $Id: Agent.pm,v 1.67 2002-12-08 20:55:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -617,7 +617,15 @@ sub AgentPhoneNew {
         Name => 'PriorityID',
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultPriority') || '3 normal',
     );
-
+    # build customer string
+    if ($Self->{ConfigObject}->Get('ShowCustomerSelection')) {
+        $Param{CustomerList}->{''} = '-';
+        $Param{'CustomerStrg'} = $Self->OptionStrgHashRef(
+            Data => $Param{CustomerList},
+            Name => 'CustomerIDSelection',
+            SelectedID => $Param{CustomerID},
+        );
+    }
     # get output back
     return $Self->Output(TemplateFile => 'AgentPhoneNew', Data => \%Param);
 }
@@ -640,7 +648,14 @@ sub AgentPriority {
 sub AgentCustomer {
     my $Self = shift;
     my %Param = @_;
-
+    # build customer string
+    if ($Self->{ConfigObject}->Get('ShowCustomerSelection')) {
+        $Param{CustomerList}->{''} = '-';
+        $Param{'CustomerStrg'} = $Self->OptionStrgHashRef(
+            Data => $Param{CustomerList},
+            Name => 'CustomerIDSelection',
+        );
+    }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCustomer', Data => \%Param);
 }
@@ -651,9 +666,10 @@ sub AgentCustomerView {
     if (%{$Param{Data}}) {
         # build html table
         $Param{Table} = '<table>';
-        foreach my $FieldTmp (@{$Self->{ConfigObject}->Get('CDBShownFields')}) {
-            my @Field = @{$FieldTmp};
-            $Param{Table} .= "<tr><td>\$Text{\"$Field[1]\"}:</td><td>$Param{Data}->{$Field[0]}</td></tr>";
+        foreach my $Field (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+            if ($Field->[3]) {
+                $Param{Table} .= "<tr><td>\$Text{\"$Field->[1]\"}:</td><td>".$Param{Data}->{$Field->[0]}."</td></tr>";
+            }
         }
         $Param{Table} .= '</table>';
     }
