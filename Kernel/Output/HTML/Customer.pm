@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.10 2003-02-08 15:43:26 martin Exp $
+# $Id: Customer.pm,v 1.11 2003-02-17 18:31:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,6 +164,14 @@ sub CustomerError {
 sub CustomerTicketZoom {
     my $Self = shift;
     my %Param = @_;
+    # --
+    # build next states string
+    # --
+    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'ComposeStateID',
+        Selected => $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType')
+    );
     # --
     # do some html quoting
     # --
@@ -344,7 +352,14 @@ sub CustomerTicketZoom {
 sub CustomerMessage {
     my $Self = shift;
     my %Param = @_;
-
+    # --
+    # build next states string
+    # --
+    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'ComposeStateID',
+        Selected => $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType')
+    );
     # get output back
     return $Self->Output(TemplateFile => 'CustomerMessage', Data => \%Param);
 }

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.8 2003-02-08 15:16:30 martin Exp $
+# $Id: CustomerZoom.pm,v 1.9 2003-02-17 18:31:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -215,6 +215,7 @@ sub Run {
         $Output = '';
     }
     $Output .= $Self->{LayoutObject}->CustomerTicketZoom(
+        NextStates => $Self->_GetNextStates(),
         TicketID => $Self->{TicketID},
         QueueID => $QueueID,
         ArticleBox => \@ArticleBox,
@@ -234,6 +235,22 @@ sub Run {
 
     # return output
     return $Output;
+}
+# --
+sub _GetNextStates {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # get next states
+    # --
+    my %NextStates;
+    my $NextComposeTypePossible =
+       $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeTypePossible')
+           || die 'No Config entry "CustomerPanelDefaultNextComposeTypePossible"!';
+    foreach (@{$NextComposeTypePossible}) {
+        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
+    }
+    return \%NextStates;
 }
 # --
 

@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.59 2003-02-15 12:17:35 martin Exp $
+# $Id: CHANGES,v 1.60 2003-02-17 18:31:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2002/02/17) added allowing the client to close a ticket via customer
+    panel - http://lists.otrs.org/pipermail/otrs/2003-February/000891.html
  - (2002/02/15) fixed hanging login problem with mod_perl2
  - (2002/02/15) added mod_perl2 support for web installer
  - (2002/02/15) unfortunately there is a mod_perl2 bug on RH8 - added 

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.9 2003-02-10 09:40:36 martin Exp $
+# $Id: CustomerMessage.pm,v 1.10 2003-02-17 18:31:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::CustomerMessage;
 
 use strict;
 use Kernel::System::SystemAddress;
+use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,6 +39,7 @@ sub new {
     }
 
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
+    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
 
     return $Self;
 }
@@ -46,7 +48,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
     my $QueueID = $Self->{QueueID};
     my $Subaction = $Self->{Subaction};
     my $NextScreen = $Self->{NextScreen} || 'CustomerZoom';
@@ -63,7 +64,7 @@ sub Run {
         # --
         # if there is no ticket id!
         # --
-        if (!$TicketID) {
+        if (!$Self->{TicketID}) {
             $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
             # --
             # check own selection
@@ -116,32 +117,55 @@ sub Run {
             # html output
             # --
             $Output .= $Self->{LayoutObject}->CustomerMessageNew(
-              To => \%NewTos,
-              Priorities => \%Priorities,
+                To => \%NewTos,
+                Priorities => \%Priorities,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
         }
         else {
-            my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
+            my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
             # --
             # print form ...
             # --
             $Output .= $Self->{LayoutObject}->CustomerMessage(
-                TicketID => $TicketID,
+                TicketID => $Self->{TicketID},
                 QueueID => $QueueID,
                 TicketNumber => $Tn,
+                NextStates => $Self->_GetNextStates(),
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
         }
     }
     elsif ($Subaction eq 'Store') {
+        # check if it is possible to do the follow up
+        my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(
+            TicketID => $Self->{TicketID},
+        );
+        # get follow up option (possible or not)
+        my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+            QueueID => $QueueID,
+        );
+        # get ticket state 
+        my $State = $Self->{TicketObject}->GetState(
+            TicketID => $Self->{TicketID},
+        );
+        if ($FollowUpPossible =~ /(new ticket|reject)/i && $State =~ /^close/i) {
+            $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->CustomerWarning(
+                Message => 'Can\'t reopen ticket, not possible in this queue!',
+                Comment => 'Create a new ticket!',
+            );
+            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            return $Output;
+        }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Follow up!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
+        my $StateID = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID');
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
         if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             ArticleType => $Self->{ConfigObject}->Get('CustomerPanelArticleType'),
             SenderType => $Self->{ConfigObject}->Get('CustomerPanelSenderType'),
             From => $From,
@@ -162,17 +186,18 @@ sub Run {
           # --
           # set state
           # --
+          my $State = $Self->{TicketObject}->StateIDLookup(StateID => $StateID) || 'open';
           $Self->{TicketObject}->SetState(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
-            State => 'open',
+            State => $State,
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
           );
           # --
           # set answerd
           # --
           $Self->{TicketObject}->SetAnswered(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             Answered => 0,
           );
@@ -196,7 +221,7 @@ sub Run {
          # redirect to zoom view
          # --        
          return $Self->{LayoutObject}->Redirect(
-              OP => "Action=$NextScreen&TicketID=$TicketID",
+              OP => "Action=$NextScreen&TicketID=$Self->{TicketID}",
          );
       }
       else {
@@ -313,6 +338,22 @@ sub Run {
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
+}
+# --
+sub _GetNextStates {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # get next states
+    # --
+    my %NextStates;
+    my $NextComposeTypePossible =
+       $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeTypePossible')
+           || die 'No Config entry "CustomerPanelDefaultNextComposeTypePossible"!';
+    foreach (@{$NextComposeTypePossible}) {
+        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
+    }
+    return \%NextStates;
 }
 # --
 

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.35 2003-02-15 12:11:33 martin Exp $
+# $Id: Defaults.pm,v 1.36 2003-02-17 18:31:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1075,6 +1075,15 @@ Your OTRS Notification Master
     # default history type
     $Self->{CustomerPanelHistoryType} = 'FollowUp';
     $Self->{CustomerPanelHistoryComment} = 'Customer sent follow up via web.';
+
+    # default compose follow up next state
+    $Self->{CustomerPanelDefaultNextComposeType} = 'open';
+    # next possible states for compose message
+    $Self->{CustomerPanelDefaultNextComposeTypePossible} = [
+        'open',
+        'closed successful',
+        'closed unsuccessful',
+    ];
 
     # default article type
     $Self->{CustomerPanelNewArticleType} = 'webrequest';
