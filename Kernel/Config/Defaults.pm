@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.13 2002-12-20 02:18:10 martin Exp $
+# $Id: Defaults.pm,v 1.14 2002-12-25 09:35:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -182,7 +182,7 @@ sub LoadDefaults {
 
     # MaxLimit
     # (Max viewable tickets a page.)
-    $Self->{MaxLimit} = 150;
+    $Self->{MaxLimit} = 120;
     
     # Highligh*
     # (Set the age and the color for highlighting of old queue
@@ -199,11 +199,11 @@ sub LoadDefaults {
     # ----------------------------------------------------#
     # default limit for Tn search
     # [default: 150]
-    $Self->{SearchLimitTn} = 120;
+    $Self->{SearchLimitTn} = 80;
 
     # default limit for Txt search
     # [default: 150]
-    $Self->{SearchLimitTxt} = 120;
+    $Self->{SearchLimitTxt} = 80;
 
     # defaut of shown article a page
     # [default: 15]
@@ -295,7 +295,7 @@ sub LoadDefaults {
 
     # ViewableStats 
     # default: ["'open'", "'new'"]
-    $Self->{ViewableStats} = ["'open'", "'new'"];
+    $Self->{ViewableStats} = ["'open'", "'new'", "'pending auto close-'", "'pending auto close+'", "'pending reminder'"];
 
     # ViewableSenderTypes 
     #  default:  ["'customer'"]
@@ -421,6 +421,14 @@ sub LoadDefaults {
     $Self->{TimeUnits} = ' (work units)';
 
     # ----------------------------------------------------#
+    # state after pending                                 #
+    # ----------------------------------------------------#
+    $Self->{StateAfterPending} = {
+        'pending auto close+' => 'closed successful',
+        'pending auto close-' => 'closed unsuccessful',
+    };
+
+    # ----------------------------------------------------#
     # defaults for add note                               #
     # ----------------------------------------------------#
     # default note type
@@ -454,6 +462,9 @@ sub LoadDefaults {
         'open', 
         'closed successful', 
         'closed unsuccessful',
+        'pending reminder',
+        'pending auto close+',
+        'pending auto close-',
     ];
 
     # ----------------------------------------------------#
@@ -1224,6 +1235,9 @@ Your OTRS Notification Master
         'open', 
         'closed successful',
         'closed unsuccessful',
+        'pending reminder',
+        'pending auto close+',
+        'pending auto close-',
     ];
     # default next state
     $Self->{PhoneDefaultNextState} = 'closed successful';

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.29 2002-12-19 23:54:27 martin Exp $
+# $Id: AgentCompose.pm,v 1.30 2002-12-25 09:34:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,15 +34,8 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'TicketObject',
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject',
-    ) {
+    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject
+      ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -54,7 +47,7 @@ sub new {
     # get params
     # --
     foreach (qw(From To Cc Bcc Subject Body Email InReplyTo ResponseID ComposeStateID 
-      Answered ArticleID TimeUnits)) {
+      Answered ArticleID TimeUnits Year Month Day Hour Minute)) {
         my $Value = $Self->{ParamObject}->GetParam(Param => $_);
         $Self->{$_} = defined $Value ? $Value : '';
     }
@@ -107,7 +100,21 @@ sub Form {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
- 
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        ArticleID => $Self->{ArticleID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+    # --
+    # get ticket number and queue id 
+    # --
     my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
     my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
     my $QueueObject = Kernel::System::Queue->new(
@@ -117,7 +124,7 @@ sub Form {
         LogObject => $Self->{LogObject},
     );
     # --
-    # get lock state && permissions
+    # get lock state && write (lock) permissions
     # --
     if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
         # set owner
@@ -140,7 +147,6 @@ sub Form {
         my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
             TicketID => $TicketID,
         );
-        
         if ($OwnerID != $Self->{UserID}) {
             $Output .= $Self->{LayoutObject}->Error(
                 Message => "Sorry, the current owner is $OwnerLogin",
@@ -270,7 +276,8 @@ sub SendEmail {
         my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
         my $Output = $Self->{LayoutObject}->Header(Title => 'Compose');
         my %Data = ();
-        foreach (qw(From To Cc Bcc Subject Body Email InReplyTo Answered ArticleID TimeUnits)) {
+        foreach (qw(From To Cc Bcc Subject Body Email InReplyTo Answered ArticleID 
+          TimeUnits Year Month Day Hour Minute)) {
             $Data{$_} = $Self->{$_};
         }
         $Data{StdResponse} = $Self->{Body};
@@ -312,12 +319,12 @@ sub SendEmail {
         # time accounting
         # --
         if ($Self->{TimeUnits}) {
-          $Self->{TicketObject}->AccountTime(
-            TicketID => $TicketID,
-            ArticleID => $ArticleID,
-            TimeUnit => $Self->{TimeUnits},
-            UserID => $Self->{UserID},
-          );
+            $Self->{TicketObject}->AccountTime(
+                TicketID => $TicketID,
+                ArticleID => $ArticleID,
+                TimeUnit => $Self->{TimeUnits},
+                UserID => $Self->{UserID},
+            );
         }
         # --
         # set state
@@ -340,16 +347,30 @@ sub SendEmail {
         # should i set an unlock?
         # --
         if ($NextState =~ /^close/i) {
-          $Self->{TicketObject}->SetLock(
-            TicketID => $TicketID,
-            Lock => 'unlock',
-            UserID => $Self->{UserID},
-          );
-      }
-      # --
-      # redirect
-      # --
-      return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+            $Self->{TicketObject}->SetLock(
+                TicketID => $TicketID,
+                Lock => 'unlock',
+                UserID => $Self->{UserID},
+            );
+        }
+        # --
+        # set pending time
+        # --
+        elsif ($NextState =~ /^pending/i) {
+            $Self->{TicketObject}->SetPendingTime(
+                UserID => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                Year => $Self->{Year},
+                Month => $Self->{Month},
+                Day => $Self->{Day},
+                Hour => $Self->{Hour},
+                Minute => $Self->{Minute},
+            );
+        }
+        # --
+        # redirect
+        # --
+        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
       # --
