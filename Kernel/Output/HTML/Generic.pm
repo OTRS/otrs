@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.45 2002-09-01 20:16:40 martin Exp $
+# $Id: Generic.pm,v 1.46 2002-09-10 23:12:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -185,16 +185,15 @@ sub Output {
     my $Output = '';
     open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
          ||  die "Can't read $Param{TemplateFile}.dtl: $!";
-    while (<TEMPLATEIN>) {
+    while (my $Line = <TEMPLATEIN>) {
       # filtering of comment lines
-      if ($_ !~ /^#/) {
-        $Output .= $_;
-        if ($_ =~ /<dtl/) {
+      if ($Line !~ /^#/) {
+        if ($Line =~ /<dtl/) {
           # --
           # do template set (<dtl set $Data{"adasd"} = "lala">) 
           # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
           # --
-          $Output =~ s{
+          $Line =~ s{
             <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
           }
           {
@@ -218,7 +217,7 @@ sub Output {
           # --
           # do template if dynamic
           # --
-          $Output =~ s{
+          $Line =~ s{
             <dtl\Wif\W\(\$(Env|Data|Text)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
           }
           {
@@ -260,40 +259,49 @@ sub Output {
             }
           }egx;
         }
-        # --
-        # variable & env & config replacement 
-        # --
+        # add this line to output
+        $Output .= $Line;
+    }
+
+    # --
+    # variable & env & config replacement (two times)
+    # --
+    foreach (1..2) {
         $Output =~ s{
-          \$(Data|Env|Config){"(.+?)"}
+            \$(Data|Env|Config){"(.+?)"}
         }
         {
-          if ($1 eq "Data" || $1 eq "Env") {
-            if (defined $GlobalRef->{"$1Ref"}->{$2}) {
-                 $GlobalRef->{"$1Ref"}->{$2};
+            if ($1 eq "Data" || $1 eq "Env") {
+                if (defined $GlobalRef->{"$1Ref"}->{$2}) {
+                    $GlobalRef->{"$1Ref"}->{$2};
+                }
+                else {
+                    # output replace with nothing!
+                    "";
+                }
             }
-            else {
-                 # output replace with nothing!
-                 "";
+            # replace with
+            elsif ($1 eq "Config") {
+                $Self->{ConfigObject}->Get($2); 
             }
-          }
-          # replace with
-          elsif ($1 eq "Config") {
-            $Self->{ConfigObject}->Get($2); 
-          }
-       }egx;
-
-       # --
-       # do translation
-       # --
-       $Output =~ s{
-          \$Text({"(.+?)"}|{""})
-       }
-       { 
-          $Self->{LanguageObject}->Get($2 || '');
-       }egx;
-
-      }
+        }egx;
     }
+
+    # --
+    # do translation
+    # --
+    $Output =~ s{
+            \$Text({"(.+?)"}|{""})
+        }
+        { 
+            $Self->{LanguageObject}->Get($2 || '');
+        }egx;
+    }
+
+    # --
+    # replace index.pl?& with index.pl?
+    # --
+    $Output =~ s/(<a href=.+?\?)&(.+?>)/$1$2/gi;
  
     # save %Env
     $Self->{EnvRef} = $EnvRef;
