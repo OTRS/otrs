@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.dtl,v 1.9 2004-06-25 15:33:44 martin Exp $
+# $Id: AdminSession.dtl,v 1.10 2004-09-30 06:00:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,45 +10,45 @@
 # --
 <!-- start -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr valign="top" align="left">
-  <td class="table0">
-    <b>$Env{"Box0"}$Text{"Session Management"}$Env{"Box1"}</b>
+<tr>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Session Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr valign="top" align="left">
-  <td class="table3">
+<tr>
+  <td class="menu">
     $Env{"Box0"}$Text{"Overview"}$Env{"Box1"}
   </td>
 </tr>
-<tr valign="top" align="left">
-  <td class="table1">
+<tr>
+  <td class="mainbody">
     <p>
     <table>
-      <tr><td>$Text{"All"} $Text{"Sessions"}:</td><td>$Data{"Counter"}</td></tr>   
+      <tr><td>$Text{"All"} $Text{"Sessions"}:</td><td>$Data{"Counter"}</td></tr>
       <tr><td>$Text{"Agent"} $Text{"Sessions"}:</td><td>$Data{"UserSession"}</td></tr>
       <tr><td>$Text{"Customer"} $Text{"Sessions"}:</td><td>$Data{"CustomerSession"}</td></tr>
       <tr><td>$Text{"Uniq"} $Text{"Agent"}:</td><td>$Data{"UserSessionUniq"}</td></tr>
-      <tr><td>$Text{"Uniq"} $Text{"Customer"}:</td><td>$Data{"CustomerSessionUniq"} 
+      <tr><td>$Text{"Uniq"} $Text{"Customer"}:</td><td>$Data{"CustomerSessionUniq"}
     </table>
     <a href="$Env{"Baselink"}Action=AdminSession&Subaction=KillAll&WantSessionID=$Env{"SessionID"}">$Text{"kill all sessions"}</a><br>
     </p>
   </td>
 </tr>
-<tr valign="top" align="left">
-  <td class="table1">
+<tr>
+  <td class="mainbody">
     <table width="100%" cellspacing="0" cellpadding="3">
       <tr>
-        <td class="table2">$Text{"Session"}</td>
-        <td class="table2">$Text{"kill session"}</td>
+        <td class="contenthead">$Text{"Session"}</td>
+        <td class="contenthead">$Text{"kill session"}</td>
       </tr>
 <!-- dtl:block:Session -->
-<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "1"; }>
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "active"; }>
       <tr>
         <td class="table$Env{"Color"}"><b>$Text{"Session"}: $Data{"SessionID"}</b><br><div class="small">$Data{"Output"}</td>
         <td valign="top" class="table$Env{"Color"}"><a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">$Text{"kill session"}</a></td>
       </tr>
-<dtl if ($Env{"Color"} eq "2") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "1") { $Env{"Color"} = "2"; }>
+<dtl if ($Env{"Color"} eq "pasive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "active") { $Env{"Color"} = "pasive"; }>
 <!-- dtl:block:Session -->
     </table>
   </td>

@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.12 2004-06-25 15:33:43 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.13 2004-09-30 05:57:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,31 +11,35 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Select Box"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Select Box"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td class="table1" align="left" valign="top">
+  <td class="mainbody">
 
 <form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Select">
-<table cellspacing="0" cellpadding="3" border="0">
-<tr>
-  <td valign="top">$Text{"SQL"}:</td>
-  <td valign="top"><textarea name="SQL" rows="3" cols="80">$QData{"SQL"}</textarea></td>
+<table cellspacing="0" cellpadding="4" border="0">
+<tr class="contenthead">
+  <td colspan="2">$Text{"Options"}</td>
 </tr>
-<tr>
-  <td>$Text{"Limit"}:</td>
-  <td><input type="text" name="Max" value="$QData{"Max"}" size="2"></td>
+<tr class="contentbody">
+  <td class="contentkey">$Text{"SQL"}:</td>
+  <td class="contentvalue"><textarea name="SQL" rows="3" cols="80">$QData{"SQL"}</textarea></td>
+</tr>
+<tr class="contentbody">
+  <td class="contentkey">$Text{"Limit"}:</td>
+  <td class="contentvalue"><input type="text" name="Max" value="$QData{"Max"}" size="2"></td>
+</tr>
+<tr class="contentbody">
+  <td colspan="2" class="contentkey"><input class="button" type="submit" value="$Text{"go"}"></td>
 </tr>
 </table>
-<input class="button" type="submit" value="$Text{"go"}">
 </form>
-</p>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->
