@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2html.pl,v 1.1 2004-10-23 12:32:16 martin Exp $
+# $Id: xml2html.pl,v 1.2 2004-10-28 15:13:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,10 +29,20 @@ my $Title = 'xml2html: ';
 my $HTML = '';
 my $Layer = -1;
 my %Attr = ();
-my @File = <STDIN>;
+my $File = shift;
 my $FileContent = '';
-foreach (@File) {
-    $FileContent .= $_;
+if ($File) {
+    open(IN, "< $File") || die "Can't open file $File: $!";
+    while (<IN>) {
+        $FileContent .= $_;
+    }
+    close (IN);
+}
+else {
+    my @File = <STDIN>;
+    foreach (@File) {
+        $FileContent .= $_;
+    }
 }
 
 my $p1 = new XML::Parser(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
