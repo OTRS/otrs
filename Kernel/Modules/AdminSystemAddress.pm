@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddress.pm,v 1.15 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.16 2005-03-28 20:16:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,9 +70,6 @@ sub Run {
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin',
-            );
         }
     }
     # add new queue
