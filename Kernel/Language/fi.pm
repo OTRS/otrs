@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.17 2004-01-20 00:02:28 martin Exp $
+# $Id: fi.pm,v 1.18 2004-01-21 23:46:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Jun 18 11:57:15 2003 by 
+    # Last translation Thu Jan 22 00:28:23 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -42,6 +42,7 @@ sub Data {
       'AddLink' => 'Lisää linkki',
       'Admin-Area' => 'Ylläpito',
       'agent' => '',
+      'Agent-Area' => '',
       'all' => 'kaikki',
       'All' => 'Kaikki',
       'Attention' => 'Huomio',
@@ -61,6 +62,7 @@ sub Data {
       'Description' => 'Selitys',
       'Dispatching by email To: field.' => '',
       'Dispatching by selected Queue.' => '',
+      'Don\'t show closed Tickets' => '',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Ei toimi käyttäjäID:llä 1(järjestelmätunnus). Tee uusia käyttäjiä ',
       'Done' => 'Valmis',
       'end' => 'Loppuun',
@@ -68,6 +70,7 @@ sub Data {
       'Example' => 'Esimerkki',
       'Examples' => 'Esimerkit',
       'Facility' => '',
+      'FAQ-Area' => '',
       'Feature not active!' => 'Ominaisuus ei käytössä',
       'go' => 'mene',
       'go!' => 'mene!',
@@ -91,6 +94,7 @@ sub Data {
       'Module' => 'Moduuli',
       'Modulefile' => 'Moduulitiedosto',
       'Name' => 'Nimi',
+      'New Article' => '',
       'New message' => 'Uusi viesti',
       'New message!' => 'Uusi viesti!',
       'No' => 'Ei',
@@ -109,6 +113,7 @@ sub Data {
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Vastaa tähän viestiin saadaksesi se takaisin normaalille jonotuslistalle',
       'Please contact your admin' => 'Ota yhteyttä ylläpitäjääsi',
       'please do not edit!' => 'Älä muokkaa, kiitos!',
+      'Please go away!' => '',
       'possible' => 'Käytössä',
       'QueueView' => 'Jonotuslistanäkymä',
       'reject' => 'Hylkää',
@@ -116,6 +121,7 @@ sub Data {
       'Reset' => 'Tyhjennä',
       'Salutation' => 'Tervehdys',
       'Session has timed out. Please log in again.' => '',
+      'Show closed Tickets' => '',
       'Signature' => 'Allekirjoitus',
       'Sorry' => 'Anteeksi',
       'Stats' => 'Tilastot',
@@ -129,6 +135,7 @@ sub Data {
       'Theme' => 'Ulkoasu',
       'There is no account with that login name.' => 'Käyttäjätunnus tuntematon',
       'Timeover' => 'Vanhentuu',
+      'To: (%s) replaced with database email!' => '',
       'top' => 'ylös',
       'update' => 'päivitä',
       'update!' => 'päivitä!',
@@ -165,17 +172,22 @@ sub Data {
       'Follow up notification' => 'Ilmoitus jatkokysymyksistä',
       'Frontend' => 'Käyttöliittymä',
       'Mail Management' => 'Osoitteiden hallinta',
+      'Max. shown Tickets a page in Overview.' => '',
+      'Max. shown Tickets a page in QueueView.' => '',
       'Move notification' => 'Siirrä ilmoitus',
       'New ticket notification' => 'Ilmoitus uusista viesteistä',
       'Other Options' => 'Muita asetuksia',
+      'PhoneView' => 'Puhelu / Uusi tiketti',
       'Preferences updated successfully!' => 'Asetukset tallennettu onnistuneesti',
       'QueueView refresh time' => 'Jonotusnäkymän päivitysaika',
+      'Screen after new phone ticket' => '',
       'Select your default spelling dictionary.' => '',
       'Select your frontend Charset.' => 'Valitse käyttöliittymän kirjaisinasetukset',
       'Select your frontend language.' => 'Valitse käyttöliittymän kieli',
       'Select your frontend QueueView.' => 'Valitse käyttöliittymäsi jonotusnäkymä',
       'Select your frontend Theme.' => 'Valitse käyttöliittymäsi ulkoasu',
       'Select your QueueView refresh time.' => 'Valitse jonotusnäkymän päivitysaika',
+      'Select your screen after creating a new ticket via PhoneView.' => '',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Lähetä ilmoitus jatkokysymyksistä, jos olen kyseisen tiketin omistaja',
       'Send me a notification if a ticket is moved into a custom queue.' => 'Lähetä minulle ilmoitus, jos tikettejä siirretään valitsemiini jonoihin',
       'Send me a notification if a ticket is unlocked by the system.' => 'Lähetä minulle ilmoitus, jos järjestelmä poistaa tiketin lukituksen.',
@@ -183,6 +195,7 @@ sub Data {
       'Show closed tickets.' => 'Näytä suljetut tiketit.',
       'Spelling Dictionary' => 'Oikolukusanasto',
       'Ticket lock timeout notification' => 'Ilmoitus tiketin lukituksen vanhenemisesta',
+      'TicketZoom' => '',
 
     # Template: AAATicket
       '1 very low' => '1 Erittäin alhainen',
@@ -241,6 +254,7 @@ sub Data {
       'This is a HTML email. Click here to show it.' => 'Tämä sähköposti on HTML-muodossa. Klikkaa tästä katsoaksesi sitä',
       'This message was written in a character set other than your own.' => 'Tämä teksti on kirjoitettu eri kirjaisinasetuksilla kuin omasi',
       'Ticket' => 'Tiketti',
+      'Ticket "%s" created!' => '',
       'To' => 'Vastaanottaja',
       'to open it in a new window.' => 'avataksesi se uuteen ikkunaan.',
       'unlock' => 'poista lukitus',
@@ -261,16 +275,14 @@ sub Data {
       'Wed' => 'Ke',
 
     # Template: AdminAttachmentForm
-      'Add attachment' => 'Lisää liitetiedosto',
+      'Add' => '',
       'Attachment Management' => 'Liitetiedostojen hallinta',
-      'Change attachment settings' => 'Muuta liitetiedostojen asetuksia',
 
     # Template: AdminAutoResponseForm
       'Add auto response' => 'Lisää automaattivastaus',
       'Auto Response From' => 'Automaattivastaus ',
       'Auto Response Management' => 'Automaattivastausten hallinta',
       'Change auto response settings' => 'Muuta automaattivastausten asetuksia',
-      'Charset' => 'Kirjaisinasetus',
       'Note' => 'Huomautus',
       'Response' => 'Vastaa',
       'to get the first 20 character of the subject' => 'nähdäksesi ensimmäiset 20 kirjainta otsikosta',
@@ -283,17 +295,28 @@ sub Data {
       'Useable options' => 'Käytettävät asetukset',
 
     # Template: AdminCharsetForm
-      'Add charset' => 'Lisää kirjaisinasetus',
-      'Change system charset setting' => 'Muuta kirjaisinasetuksia',
+      'Charset' => 'Kirjaisinasetus',
       'System Charset Management' => 'Järjestelmän kirjaisinasetusten hallinta',
 
     # Template: AdminCustomerUserForm
-      'Add customer user' => 'Lisää asiakas-käyttäjä',
-      'Change customer user settings' => 'Muuta asiakas-käyttäjän asetuksia',
       'Customer User Management' => 'Asiakas-käyttäjien hallinta',
       'Customer user will be needed to to login via customer panels.' => 'Asiakas-käyttäjän pitää kirjautua Asiakas-liittymästä',
 
     # Template: AdminCustomerUserGeneric
+
+    # Template: AdminCustomerUserGroupChangeForm
+      'Change %s settings' => 'Muuta %s asetuksia',
+      'Customer User <-> Group Management' => '',
+      'Full read and write access to the tickets in this group/queue.' => '',
+      'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => '',
+      'Permission' => 'Käyttöoikeus',
+      'Read only access to the ticket in this group/queue.' => '',
+      'ro' => '',
+      'rw' => '',
+      'Select the user:group permissions.' => '',
+
+    # Template: AdminCustomerUserGroupForm
+      'Change user <-> group settings' => 'Vaihda käyttäjä <-> Ryhmähallinta',
 
     # Template: AdminCustomerUserPreferencesGeneric
 
@@ -301,7 +324,6 @@ sub Data {
       'Admin-Email' => 'Ylläpidon sähköposti',
       'Body' => 'Runko-osa',
       'OTRS-Admin Info!' => '',
-      'Permission' => 'Käyttöoikeus',
       'Recipents' => 'Vastaanottajat',
       'send' => 'lähetä',
 
@@ -309,8 +331,6 @@ sub Data {
       'Message sent to' => 'Viesti lähetetty, vastaanottaja: ',
 
     # Template: AdminGroupForm
-      'Add group' => 'Lisää ryhmä',
-      'Change group settings' => 'Muuta ryhmän asetuksia',
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Lisää uusi käyttäjäryhmä, että voit määritellä käyttöoikeuksia useammille eri tukiryhmille (Huolto, Ostot, Markkinointi jne.)',
       'Group Management' => 'Ryhmien hallinta',
       'It\'s useful for ASP solutions.' => 'Tämä on hyödyllinen ASP-käytössä',
@@ -321,16 +341,16 @@ sub Data {
 
     # Template: AdminNavigationBar
       'AdminEmail' => 'Ylläpidon sähköposti',
-      'AgentFrontend' => 'Tukinäkymä',
       'Attachment <-> Response' => '',
       'Auto Response <-> Queue' => 'Automaattivastaukset <-> Jonotuslista',
       'Auto Responses' => 'Automaattivastaukset',
-      'Charsets' => 'Kirjaisinasetus',
       'Customer User' => 'Asiakas-käyttäjä',
+      'Customer User <-> Groups' => '',
       'Email Addresses' => 'Sähköpostiosoitteet',
       'Groups' => 'Ryhmät',
       'Logout' => 'Kirjaudu ulos',
       'Misc' => 'Muut',
+      'Notifications' => '',
       'POP3 Account' => 'POP3 -tunnus',
       'Responses' => 'Vastaukset',
       'Responses <-> Queue' => 'Vastaukset <-> Jonotuslista',
@@ -340,10 +360,15 @@ sub Data {
       'System' => 'Järjestelmä',
       'User <-> Groups' => 'Käyttäjä <-> Ryhmät',
 
+    # Template: AdminNotificationForm
+      'A response is default text to write faster answer (with default text) to customers.' => 'Vastauspohja on oletusteksti, jonka avulla voit nopeuttaa vastaamista asiakkaille',
+      'Don\'t forget to add a new response a queue!' => 'Älä unohda lisätä uutta vastauspohjaa jonotuslistalle.',
+      'Next state' => '',
+      'Notification Management' => '',
+      'The current ticket state is' => '',
+
     # Template: AdminPOP3Form
-      'Add POP3 Account' => 'Lisää POP3 -tunnus',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Kaikki saapuvat sähköpostit lähetetään valitulle jonotuslistalle',
-      'Change POP3 Account setting' => 'Muuta POP3 -asetuksia',
       'Dispatching' => 'Lähetä',
       'Host' => 'Palvelin',
       'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => '',
@@ -359,8 +384,6 @@ sub Data {
     # Template: AdminQueueForm
       '0 = no escalation' => '0 = ei vanhentumisaikaa',
       '0 = no unlock' => '0 = ei lukituksen poistumista',
-      'Add queue' => 'Lisää jonotuslista',
-      'Change queue settings' => 'Muuta jonotuslistan asetuksia',
       'Customer Move Notify' => '',
       'Customer Owner Notify' => '',
       'Customer State Notify' => '',
@@ -383,7 +406,6 @@ sub Data {
       'Will be the sender address of this queue for email answers.' => '',
 
     # Template: AdminQueueResponsesChangeForm
-      'Change %s settings' => 'Muuta %s asetuksia',
       'Std. Responses <-> Queue Management' => 'Oletusvastaukset <-> Jonotuslista',
 
     # Template: AdminQueueResponsesForm
@@ -397,15 +419,9 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Muokkaa vastauksia <-> Liitetiedostojen hallinta',
 
     # Template: AdminResponseForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Vastauspohja on oletusteksti, jonka avulla voit nopeuttaa vastaamista asiakkaille',
-      'Add response' => 'Lisää vastauspohja',
-      'Change response settings' => 'Muuta vastauspohjan asetuksia',
-      'Don\'t forget to add a new response a queue!' => 'Älä unohda lisätä uutta vastauspohjaa jonotuslistalle.',
       'Response Management' => 'Vastauspohjien hallinta',
 
     # Template: AdminSalutationForm
-      'Add salutation' => 'Lisää tervehdys',
-      'Change salutation settings' => 'Muuta tervehdysasetuksia',
       'customer realname' => 'käyttäjän oikea nimi',
       'for agent firstname' => 'käsittelijän etunimi',
       'for agent lastname' => 'käsittelijän sukunimi',
@@ -422,34 +438,32 @@ sub Data {
       'SQL' => 'SQL',
 
     # Template: AdminSession
+      'Agent' => '',
       'kill all sessions' => 'Tapa kaikki istunnot',
+      'Overview' => '',
+      'Sessions' => '',
+      'Uniq' => '',
 
     # Template: AdminSessionTable
       'kill session' => 'Tapa istunto',
       'SessionID' => 'SessionID',
 
     # Template: AdminSignatureForm
-      'Add signature' => 'Lisää allekirjoitus',
-      'Change signature settings' => 'Muuta allekirjoitusasetuksia',
       'Signature Management' => 'Allekirjoitusten hallinta',
 
     # Template: AdminStateForm
-      'Add state' => 'Lisää uusi tila',
-      'Change system state setting' => 'Muuta tiketin tila-asetuksia',
+      'See also' => '',
       'State Type' => '',
       'System State Management' => 'Tilamahdollisuuksien määrittäminen',
+      'Take care that you also updated the default states in you Kernel/Config.pm!' => '',
 
     # Template: AdminSystemAddressForm
-      'Add system address' => 'Lisää järjestelmän sähköpostiosoite',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden Emails mit dem "To:" werden in die ausgewählte Queue einsortiert.',
-      'Change system address setting' => 'Muuta järjestelmän sähköpostiasetuksia',
       'Email' => 'Sähköposti',
       'Realname' => 'Nimi',
       'System Email Addresses Management' => 'Sähköpostiosoitteiden määritys',
 
     # Template: AdminUserForm
-      'Add user' => 'Lisää käyttäjä',
-      'Change user settings' => 'Vaihda käyttäjän asetuksia',
       'Don\'t forget to add a new user to groups!' => 'Älä unohda lisätä käyttäjää ryhmiin!',
       'Firstname' => 'Etunimi',
       'Lastname' => 'Sukunimi',
@@ -457,13 +471,27 @@ sub Data {
       'User will be needed to handle tickets.' => 'Käyttäjä tarvitaan tikettien käsittelemiseen.',
 
     # Template: AdminUserGroupChangeForm
-      'Change  settings' => '',
+      'create' => '',
+      'move_into' => '',
+      'owner' => '',
+      'Permissions to change the ticket owner in this group/queue.' => '',
+      'Permissions to change the ticket priority in this group/queue.' => '',
+      'Permissions to create tickets in this group/queue.' => '',
+      'Permissions to move tickets into this group/queue.' => '',
+      'priority' => '',
       'User <-> Group Management' => 'Käyttäjä <-> Ryhmähallinta',
 
     # Template: AdminUserGroupForm
-      'Change user <-> group settings' => 'Vaihda käyttäjä <-> Ryhmähallinta',
 
     # Template: AdminUserPreferencesGeneric
+
+    # Template: AgentBook
+      'Address Book' => '',
+      'Discard all changes and return to the compose screen' => 'Hylkää muutokset ja palaa viestin kirjoitusikkunaan',
+      'Return to the compose screen' => 'Palaa viestin kirjoitusikkunaan',
+      'Search' => '',
+      'The message being composed has been closed.  Exiting.' => '',
+      'This window must be called from compose window' => '',
 
     # Template: AgentBounce
       'A message should have a To: recipient!' => 'Viestissä pitää olla vastaanottaja!',
@@ -477,6 +505,7 @@ sub Data {
 
     # Template: AgentClose
       ' (work units)' => ' (esim. minuutteina)',
+      'A message should have a body!' => '',
       'A message should have a subject!' => 'Viestissä pitää olla otsikko!',
       'Close ticket' => 'Sulje tiketti',
       'Close type' => 'Sulkemisen syy',
@@ -504,13 +533,11 @@ sub Data {
       'Set customer user and customer id of a ticket' => '',
 
     # Template: AgentCustomerHistory
+      'All customer tickets.' => '',
       'Customer history' => 'Asiakkaan historiatiedot',
-
-    # Template: AgentCustomerHistoryTable
 
     # Template: AgentCustomerMessage
       'Follow up' => 'Ilmoitukset',
-      'Next state' => '',
 
     # Template: AgentCustomerView
       'Customer Data' => '',
@@ -547,16 +574,20 @@ sub Data {
       'up' => 'alkuun',
 
     # Template: AgentMailboxTicket
+      '"}' => '',
+      '"}","14' => '',
 
     # Template: AgentMove
+      'All Agents' => '',
       'Move Ticket' => '',
+      'New Owner' => '',
       'New Queue' => '',
-      'New user' => 'Uusi käyttäjä',
+      'Previous Owner' => '',
+      'Queue ID' => '',
 
     # Template: AgentNavigationBar
       'Locked tickets' => 'Lukitut tiketit',
       'new message' => 'uusi viesti',
-      'PhoneView' => 'Puhelu / Uusi tiketti',
       'Preferences' => 'Käyttäjäasetukset',
       'Utilities' => 'Etsi',
 
@@ -581,7 +612,7 @@ sub Data {
 
     # Template: AgentPhoneNew
       'Clear From' => '',
-      'create' => '',
+      'Lock Ticket' => '',
       'new ticket' => 'Uusi tiketti',
 
     # Template: AgentPlain
@@ -603,16 +634,11 @@ sub Data {
 
     # Template: AgentPriority
       'Change priority of ticket' => 'Muuta prioriteettiä',
-      'New state' => 'Uusi tila',
 
     # Template: AgentSpelling
       'Apply these changes' => 'Hyväksy muutokset',
-      'Discard all changes and return to the compose screen' => 'Hylkää muutokset ja palaa viestin kirjoitusikkunaan',
-      'Return to the compose screen' => 'Palaa viestin kirjoitusikkunaan',
       'Spell Checker' => 'Oikeinkirjoituksen tarkistus',
       'spelling error(s)' => 'Kirjoitusvirheitä',
-      'The message being composed has been closed.  Exiting.' => '',
-      'This window must be called from compose window' => '',
 
     # Template: AgentStatusView
       'D' => 'A',
@@ -637,15 +663,27 @@ sub Data {
     # Template: AgentTicketPrintHeader
       'Accounted time' => '',
       'Escalation in' => 'Vanhenee',
-      'printed by' => 'tulostanut: ',
 
     # Template: AgentUtilSearch
-      'Article free text' => '',
-      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Tekstihaku("Etsi esimerkiksi "Mi*a" tai "Petr+Tekrat"',
-      'search' => 'Etsi',
-      'search (e. g. 10*5155 or 105658*)' => 'etsi tikettinumerolla (Esim. 10*5155 or 105658*)',
-      'Ticket free text' => 'Etsi koko tiketistä',
+      '(e. g. 10*5155 or 105658*)' => '',
+      '(e. g. 234321)' => '',
+      '(e. g. U5150)' => '',
+      'and' => '',
+      'Customer User Login' => '',
+      'Delete' => '',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
+      'No time settings.' => '',
+      'Profile' => '',
+      'Result Form' => '',
+      'Save Search-Profile as Template?' => '',
+      'Search-Template' => '',
+      'Select' => '',
+      'Ticket created' => '',
+      'Ticket created between' => '',
       'Ticket Search' => '',
+      'TicketFreeText' => '',
+      'Times' => '',
+      'Yes, save it with name' => '',
 
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Asiakashistoriahaku',
@@ -653,10 +691,24 @@ sub Data {
       'No * possible!' => 'Jokerimerkki (*) ei käytössä !',
 
     # Template: AgentUtilSearchNavBar
+      'Change search options' => '',
       'Results' => 'Hakutulokset',
+      'Search Result' => '',
       'Total hits' => 'Hakutuloksia yhteensä',
 
     # Template: AgentUtilSearchResult
+      '"}","15' => '',
+
+    # Template: AgentUtilSearchResultPrint
+
+    # Template: AgentUtilSearchResultPrintTable
+      '"}","30' => '',
+
+    # Template: AgentUtilSearchResultShort
+
+    # Template: AgentUtilSearchResultShortTable
+
+    # Template: AgentUtilSearchResultShortTableNotAnswered
 
     # Template: AgentUtilTicketStatus
       'All closed tickets' => '',
@@ -687,12 +739,46 @@ sub Data {
       'Print' => 'Tulosta',
 
     # Template: AgentZoomStatus
+      '"}","18' => '',
 
     # Template: CustomerCreateAccount
       'Create Account' => 'Luo tunnus',
 
     # Template: CustomerError
       'Traceback' => '',
+
+    # Template: CustomerFAQArticleHistory
+      'delete' => '',
+      'edit' => '',
+      'FAQ History' => '',
+      'print' => '',
+      'view' => '',
+
+    # Template: CustomerFAQArticlePrint
+      'Category' => '',
+      'Keywords' => '',
+      'Last update' => '',
+      'Problem' => '',
+      'Solution' => '',
+      'Sympthom' => '',
+
+    # Template: CustomerFAQArticleSystemHistory
+      'FAQ System History' => '',
+
+    # Template: CustomerFAQArticleView
+      'FAQ Article' => '',
+      'Modified' => '',
+
+    # Template: CustomerFAQOverview
+      'FAQ Overview' => '',
+
+    # Template: CustomerFAQSearch
+      'FAQ Search' => '',
+      'Fulltext' => '',
+      'Keyword' => '',
+
+    # Template: CustomerFAQSearchResult
+      'FAQ Search Result' => '',
 
     # Template: CustomerFooter
       'Powered by' => '',
@@ -716,7 +802,7 @@ sub Data {
 
     # Template: CustomerNavigationBar
       'Create new Ticket' => 'Luo uusi tiketti',
-      'My Tickets' => 'Minun tikettini',
+      'FAQ' => 'FAQ/UKK',
       'New Ticket' => 'Uusi tiketti',
       'Ticket-Overview' => 'Tiketin katselu',
       'Welcome %s' => 'Tervetuloa %s',
@@ -728,6 +814,7 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
+      'My Tickets' => 'Minun tikettini',
 
     # Template: CustomerStatusViewTable
 
@@ -737,6 +824,37 @@ sub Data {
 
     # Template: Error
       'Click here to report a bug!' => 'Klikkaa tästä lähettääksesi bugiraportti!',
+
+    # Template: FAQArticleDelete
+      'FAQ Delete' => '',
+      'You really want to delete this article?' => '',
+
+    # Template: FAQArticleForm
+      'Filename' => '',
+      'Short Description' => '',
+
+    # Template: FAQArticleHistory
+
+    # Template: FAQArticlePrint
+
+    # Template: FAQArticleSystemHistory
+
+    # Template: FAQArticleView
+      'history' => '',
+
+    # Template: FAQCategoryForm
+      'FAQ Category' => '',
+
+    # Template: FAQLanguageForm
+      'FAQ Language' => '',
+
+    # Template: FAQNavigationBar
+
+    # Template: FAQOverview
+
+    # Template: FAQSearch
+
+    # Template: FAQSearchResult
 
     # Template: Footer
       'Top of Page' => '',
@@ -815,9 +933,11 @@ sub Data {
       'URL' => '',
 
     # Template: PrintHeader
+      'printed by' => 'tulostanut: ',
 
     # Template: QueueView
       'All tickets' => 'Tikettejä yhteensä',
+      'Page' => '',
       'Queues' => 'Jonotuslista',
       'Tickets available' => 'Tikettejä avoinna',
       'Tickets shown' => 'Tikettejä näkyvissä',
@@ -839,50 +959,34 @@ sub Data {
     # Template: Warning
 
     # Misc
-      '(Click here to add a group)' => '(Klikkaa tästä luodaksesi ryhmän)',
-      '(Click here to add a queue)' => '(Klikkaa tästä tehdäksesi uuden jonotuslistan)',
-      '(Click here to add a response)' => '(Klikkaa tästä lisätäksesi vastauspohjan)',
-      '(Click here to add a salutation)' => '(Klikkaa tästä lisätäksesi tervehdyksen)',
-      '(Click here to add a signature)' => '(Klikkaa täältä lisätäksesi allekirjoituksen)',
-      '(Click here to add a system email address)' => '(Klikkaa tästä lisätäksesi järjestelmän sähköpostiosoitteen)',
-      '(Click here to add a user)' => '(Klikkaa tästä lisätäksesi käyttäjän',
-      '(Click here to add an auto response)' => '(Klikkaa tästä lisätäksesi automaattivastauksen)',
-      '(Click here to add charset)' => 'Klikkaa tästä lisätäksesi kirjaisinasetuksen',
-      '(Click here to add language)' => '(Klikkaa tästä lisätäksesi uusi kieli)',
-      '(Click here to add state)' => '(Klikkaa tästä lisätäksesi uusi status)',
       'A message should have a From: recipient!' => '',
-      'Add language' => 'Lisää kieli',
+      'AgentFrontend' => 'Tukinäkymä',
+      'Article free text' => '',
       'Backend' => '',
       'BackendMessage' => '',
-      'Change system language setting' => 'Muokkaa järjestelmän kieliasetuksua',
+      'Charsets' => 'Kirjaisinasetus',
       'Create' => 'Luo',
-      'FAQ' => 'FAQ/UKK',
       'Fulltext search' => 'Tekstihaku',
+      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Tekstihaku("Etsi esimerkiksi "Mi*a" tai "Petr+Tekrat"',
       'Handle' => '',
+      'New state' => 'Uusi tila',
       'New ticket via call.' => 'Uusi ',
+      'New user' => 'Uusi käyttäjä',
       'Search in' => 'Etsi seuraavista:',
       'Set customer id of a ticket' => 'Aseta tiketin asiakasnumero#',
       'Show all' => 'Yhteensä',
       'Status defs' => 'Tikettien tilamääritykset',
       'System Language Management' => 'Järjestelmän kielen hallinta',
+      'Ticket free text' => 'Etsi koko tiketistä',
       'Ticket limit:' => 'Tikettien max määrä',
       'Time till escalation' => 'Aikaa jäljellä maksimi käsittelyaikaan',
-      'Update auto response' => 'Päivitä automaattivastaukset',
-      'Update charset' => 'Päivitä kirjaisinasetukset',
-      'Update group' => 'Päivitä ryhmätiedot',
-      'Update language' => 'Päivitä kieli',
-      'Update queue' => 'Päivitä jonotuslista',
-      'Update response' => 'Päivitä vastauspohja',
-      'Update salutation' => 'Päivitä tervehdys',
-      'Update signature' => 'Päivitä allekirjoitus',
-      'Update state' => 'Päivitä status',
-      'Update system address' => 'Päivitä järjestelmän sähköpostiosoitetta',
-      'Update user' => 'Päivitä käyttäjätiedot',
       'With State' => '',
       'You have to be in the admin group!' => 'Sinun täytyy olla admin -ryhmässä!',
       'You have to be in the stats group!' => 'Sinun täytyy olla stats -ryhmässä',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Lähettäjä -kentässä pitää olla sähköpostiosoite (esim. teppo.testi@esimerkki.fi)',
       'auto responses set' => 'Automaattivastaus asetettu',
+      'search' => 'Etsi',
+      'search (e. g. 10*5155 or 105658*)' => 'etsi tikettinumerolla (Esim. 10*5155 or 105658*)',
       'store' => 'tallenna',
       'tickets' => 'tikettiä',
     );

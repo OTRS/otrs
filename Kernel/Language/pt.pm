@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT- Centro Apoio Técnico <suporte at cat.novis.pt>
 # --
-# $Id: pt.pm,v 1.1 2004-01-21 20:37:04 martin Exp $
+# $Id: pt.pm,v 1.2 2004-01-21 23:46:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Wed Jan 21 21:21:08 2004 by 
+    # Last translation Thu Jan 22 00:29:01 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -95,6 +95,7 @@ sub Data {
       'Module' => 'Módulo',
       'Modulefile' => 'Ficheiro de Módulo',
       'Name' => 'Nome',
+      'New Article' => '',
       'New message' => 'Nova mensagem',
       'New message!' => 'Nova mensagem!',
       'No' => 'Não',
@@ -486,7 +487,7 @@ sub Data {
     # Template: AdminUserPreferencesGeneric
 
     # Template: AgentBook
-      'Addressbook' => '',
+      'Address Book' => '',
       'Discard all changes and return to the compose screen' => 'Descartar todas as modificações e retornar para o ecrã de composição',
       'Return to the compose screen' => 'Retornar para o ecrã de composição',
       'Search' => '',
@@ -519,7 +520,6 @@ sub Data {
 
     # Template: AgentCompose
       'A message must be spell checked!' => '',
-      'Address Book' => '',
       'Attach' => 'Anexo',
       'Compose answer for ticket' => 'Compôr uma resposta para o ticket',
       'for pending* states' => 'em estado pendente*',
@@ -748,6 +748,39 @@ sub Data {
     # Template: CustomerError
       'Traceback' => '',
 
+    # Template: CustomerFAQArticleHistory
+      'delete' => '',
+      'edit' => '',
+      'FAQ History' => '',
+      'print' => '',
+      'view' => '',
+
+    # Template: CustomerFAQArticlePrint
+      'Category' => '',
+      'Keywords' => '',
+      'Last update' => '',
+      'Problem' => '',
+      'Solution' => '',
+      'Sympthom' => '',
+
+    # Template: CustomerFAQArticleSystemHistory
+      'FAQ System History' => '',
+
+    # Template: CustomerFAQArticleView
+      'FAQ Article' => '',
+      'Modified' => '',
+
+    # Template: CustomerFAQOverview
+      'FAQ Overview' => '',
+
+    # Template: CustomerFAQSearch
+      'FAQ Search' => '',
+      'Fulltext' => '',
+      'Keyword' => '',
+
+    # Template: CustomerFAQSearchResult
+      'FAQ Search Result' => '',
+
     # Template: CustomerFooter
       'Powered by' => 'Movido à',
 
@@ -770,6 +803,7 @@ sub Data {
 
     # Template: CustomerNavigationBar
       'Create new Ticket' => 'Criar um novo ticket',
+      'FAQ' => 'FAQ',
       'New Ticket' => 'Novo Tickets',
       'Ticket-Overview' => 'Resumo do Ticket',
       'Welcome %s' => 'Bem-vindo %s',
@@ -797,27 +831,14 @@ sub Data {
       'You really want to delete this article?' => '',
 
     # Template: FAQArticleForm
-      'Category' => '',
-      'FAQ Article' => '',
       'Filename' => '',
-      'Keywords' => '',
-      'Problem' => '',
       'Short Description' => '',
-      'Solution' => '',
-      'Sympthom' => '',
 
     # Template: FAQArticleHistory
-      'delete' => '',
-      'edit' => '',
-      'FAQ History' => '',
-      'print' => '',
-      'view' => '',
 
     # Template: FAQArticlePrint
-      'Last update' => '',
 
     # Template: FAQArticleSystemHistory
-      'FAQ System History' => '',
 
     # Template: FAQArticleView
       'history' => '',
@@ -830,13 +851,11 @@ sub Data {
 
     # Template: FAQNavigationBar
 
+    # Template: FAQOverview
+
     # Template: FAQSearch
-      'FAQ Search' => '',
-      'Fulltext' => '',
-      'Keyword' => '',
 
     # Template: FAQSearchResult
-      'FAQ Search Result' => '',
 
     # Template: Footer
       'Top of Page' => '',
@@ -941,57 +960,13 @@ sub Data {
     # Template: Warning
 
     # Misc
-      '(Click here to add a group)' => '(Clique aqui para adicionar um grupo)',
-      '(Click here to add a queue)' => '(Clique aqui para adicionar uma queue)',
-      '(Click here to add a response)' => '(Clique aqui para adicionar uma resposta)',
-      '(Click here to add a salutation)' => '(Clique aqui para adicionar uma saudação)',
-      '(Click here to add a signature)' => '(Clique aqui para adicionar uma assinatura)',
-      '(Click here to add a system email address)' => '(Clique aqui para adicionar um endereço de email do sistema)',
-      '(Click here to add a user)' => '(Clique aqui para adicionar um user)',
-      '(Click here to add an auto response)' => '(Clique aqui para adicionar uma auto-resposta)',
-      '(Click here to add charset)' => '(Clique aqui para adicionar um conjunto de caracteres)',
-      '(Click here to add language)' => '(Clique aqui para adicionar um idioma)',
-      '(Click here to add state)' => '(Clique aqui para adicionar um estado)',
       'A message should have a From: recipient!' => 'Uma mensagem deve conter um From: remetente!',
-      'Add POP3 Account' => 'Adicionar Conta POP3',
-      'Add attachment' => 'Adicionar anexo',
-      'Add charset' => 'Adicionar conjunto de caracteres',
-      'Add customer user' => 'Adicionar user de cliente',
-      'Add group' => 'Adicionar grupo',
-      'Add language' => 'Adicionar idioma',
-      'Add queue' => 'Adicionar queue',
-      'Add response' => 'Adicionar resposta',
-      'Add salutation' => 'Adicionar saudação',
-      'Add signature' => 'Adicionar assinatura',
-      'Add state' => 'Adicionar estado',
-      'Add system address' => 'Adicionar um endereço do sistema',
-      'Add user' => 'Adicionar user',
       'AdminArea' => 'Área de Administração',
       'AgentFrontend' => 'Interface do Agente',
       'Article free text' => 'Texto livre do artigo',
-      'Attachment <-> Anexo' => '',
-      'Backend' => '',
-      'BackendMessage' => '',
-      'Change  settings' => 'Modificar as configurações',
-      'Change Group settings' => 'Modificar as configurações do grupo',
-      'Change POP3 Account setting' => 'Modificar as configurações da conta POP3',
-      'Change User settings' => 'Modificar as configurações do user',
-      'Change attachment settings' => 'Modificar as configurações do anexo',
-      'Change customer user settings' => 'Modificar as configurações do user de cliente',
-      'Change group settings' => 'Modificar as configurações do grupo',
-      'Change queue settings' => 'Modificar as configurações da queue',
-      'Change response settings' => 'Modificar as configurações da resposta',
-      'Change salutation settings' => 'Modificar as configurações da saudação',
-      'Change signature settings' => 'Modificar as configurações da assinatura',
-      'Change system address setting' => 'Modificar o endereço do sistema',
-      'Change system charset setting' => 'Modificar as configurações do conjunto de caracteres do sistema',
-      'Change system language setting' => 'Modificar as configurações de idioma',
-      'Change system state setting' => 'Modificar as configurações do estado do sistema',
-      'Change user settings' => 'Modificar as configurações de user',
       'Charsets' => 'Conjunto de Caracteres',
       'Create' => 'Criar',
       'CustomerUser' => 'Usuário Cliente',
-      'FAQ' => 'FAQ',
       'Fulltext search' => 'Busca completa de texto',
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Busca completa em todo texto (exemplo: "Mar*in" ou "Constru*" ou "martin+bonjour")',
       'Handle' => 'Manipular',
@@ -1006,17 +981,6 @@ sub Data {
       'Ticket free text' => 'Texto livre do ticket',
       'Ticket limit:' => 'Limite do Ticket:',
       'Time till escalation' => 'Tempo para escalação',
-      'Update auto response' => 'Actualizar a auto-resposta',
-      'Update charset' => 'Actualizar o conjunto de caracteres',
-      'Update group' => 'Actualizar o grupo',
-      'Update language' => 'Actualizar o idioma',
-      'Update queue' => 'Actualizar queue',
-      'Update response' => 'Actualizar a resposta',
-      'Update salutation' => 'Actualizar a saudação',
-      'Update signature' => 'Actualizar a assinatura',
-      'Update state' => 'Actualizar o estado',
-      'Update system address' => 'Actualizar o endereço do sistema',
-      'Update user' => 'Actualizar o usuário',
       'With State' => 'Com Estado',
       'You have to be in the admin group!' => 'Tem que estar no grupo admin!',
       'You have to be in the stats group!' => 'Ttem que estar no grupo stats!',
