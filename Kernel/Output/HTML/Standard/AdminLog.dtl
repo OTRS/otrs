@@ -1,8 +1,8 @@
 # --
 # AdminLog.dtl - provides HTML form for AdminLog
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.dtl,v 1.4 2003-02-08 15:40:43 martin Exp $
+# $Id: AdminLog.dtl,v 1.5 2004-06-25 12:12:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,22 @@
   <td class="table1" align="left" valign="top">
 
 <p>
-$Data{"LogTable"}
+<table border="0" width="100%">
+<tr>
+    <td class="table3" width="20%">$Text{"Time"}</td>
+    <td class="table3">$Text{"Priority"}</td>
+    <td class="table3">$Text{"Facility"}</td>
+    <td class="table3" width="60%">$Text{"Message"}</td>
+</tr>
+<!-- dtl:block:Row -->
+<tr>
+    <td valign="top">$Data{"StartFont"}$QData{"Time"}$Data{"StartFont"}</td>
+    <td valign="top">$Data{"StartFont"}$QData{"Priority"}$Data{"StartFont"}</td>
+    <td valign="top">$Data{"StartFont"}$QData{"Facility"}$Data{"StopFont"}</td>
+    <td valign="top">$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
+</tr>
+<!-- dtl:block:Row -->
+</table>
 </p>
 
   </td> 
