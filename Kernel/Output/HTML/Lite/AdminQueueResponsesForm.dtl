@@ -2,7 +2,7 @@
 # AdminQueueResponsesForm.dtl - provides HTML form for AdminQueueResponses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponsesForm.dtl,v 1.11 2004-04-01 09:13:17 martin Exp $
+# $Id: AdminQueueResponsesForm.dtl,v 1.12 2004-10-01 00:13:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,12 +11,12 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" colspan="2" class="table0">
-    <b>$Env{"Box0"}$Text{"Std. Responses <-> Queue Management"}$Env{"Box1"}</b>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"Std. Responses <-> Queue Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr> 
-  <td align="center" valign="top" colspan="2" class="table1">
+<tr>
+  <td align="center" colspan="2" class="mainbody">
 
   <table width="500" cellspacing="2" cellpadding="3">
   <tr valign="top">
@@ -33,7 +33,7 @@
   </tr>
   </table>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->
