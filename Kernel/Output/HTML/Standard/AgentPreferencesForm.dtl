@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.14 2003-02-08 15:40:43 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.15 2003-03-10 23:38:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,13 +24,13 @@
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="1" cols="3">
 <tr align="center" valign="top">
-  <td class="table1">
+  <td width="33%" class="table1">
     $Data{"Frontend"}  
   </td>
-  <td class="table1">
+  <td width="33%" class="table1">
     $Data{"Mail Management"}  
   </td> 
-  <td class="table1">
+  <td width="33%" class="table1">
     $Data{"Other Options"}  
   </td>
 </tr>
