@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.110.2.2 2003-05-19 15:07:45 martin Exp $
+# $Id: Agent.pm,v 1.110.2.3 2003-05-21 13:48:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.110.2.2 $';
+$VERSION = '$Revision: 1.110.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -263,6 +263,7 @@ sub TicketView {
         ) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Param{Created} = $Self->{LanguageObject}->FormatTimeString($Param{Created});
     # --
     # prepare escalation time
     # --
@@ -406,6 +407,7 @@ sub AgentZoom {
         ) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Param{Created} = $Self->{LanguageObject}->FormatTimeString($Param{Created});
     if ($Param{UntilTime}) {
         if ($Param{UntilTime} < -1) {
             $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
@@ -529,7 +531,8 @@ sub AgentZoom {
              'onmouseover="window.status=\'$Text{"plain"}'.
              '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
-        $ThreadStrg .= " $Article{CreateTime}";
+        $ThreadStrg .= ' '.$Self->{LanguageObject}->FormatTimeString($Article{CreateTime});
+
 #        $ThreadStrg .= "</table><BR>";
         # --
         # if this is the shown article -=> add </b>
@@ -727,6 +730,7 @@ sub AgentTicketPrintHeader {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 25) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Param{Created} = $Self->{LanguageObject}->FormatTimeString($Param{Created});
     if ($Param{UntilTime}) {
         $Param{PendingUntil} = $Self->CustomerAge(Age => $Param{UntilTime}, Space => ' ');
     }
@@ -784,9 +788,10 @@ sub AgentTicketPrint {
         # --
         # do some strips && quoting
         # --
+        $Article{CreateTime} = $Self->{LanguageObject}->FormatTimeString($Article{CreateTime});
         foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
           FreeValue3 CreateTime SenderType ArticleType)) {
-          $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
+            $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
         }
         # --
         # check if just a only html email
@@ -888,6 +893,7 @@ sub ArticlePlain {
 
     # Ascii2Html
     $Param{Text} = $Self->Ascii2Html(Text => $Param{Text});
+    $Param{Text} =~ s/\n/<br>\n/g;
 
     # do some highlightings
     $Param{Text} =~ s/^((From|To|Cc|Subject|Reply-To|Organization|X-Company):.*)/<font color=\"red\">$1<\/font>/gm;
@@ -1381,7 +1387,6 @@ sub AgentUtilSearchResult {
     my $HighlightEnd = '</i></b></font>';
 
     $Self->{UtilSearchResultCounter}++;
-
     # --
     # check if just a only html email
     # --
@@ -1405,6 +1410,7 @@ sub AgentUtilSearchResult {
             Text => $Param{Body},
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
         );
+        $Param{Body} =~ s/\n/<br>\n/g;
         # --
         # do charset check
         # --
@@ -1428,9 +1434,9 @@ sub AgentUtilSearchResult {
 #        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
-
+    $Param{Created} = $Self->{LanguageObject}->FormatTimeString($Param{Created});
     # do some html highlighting
-    if ($Highlight) {
+    if ($Highlight && $Param{What}) {
         my @SParts = split('%', $Param{What});
         foreach (qw(Body From To Subject)) {
             if ($_) {
@@ -1438,7 +1444,6 @@ sub AgentUtilSearchResult {
             }
         } 
     }
-
     # create & return output
     return $Self->Output(TemplateFile => 'AgentUtilSearchResult', Data => \%Param);
 }
@@ -1717,6 +1722,7 @@ sub AgentMailboxTicket {
     # do some strips && quoting
     # --
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Param{Created} = $Self->{LanguageObject}->FormatTimeString($Param{Created});
     foreach (qw(To Cc From Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70);
     }
@@ -1769,9 +1775,10 @@ sub AgentHistory {
       # --
       # html qouting
       # --
-      foreach ('Name', 'HistoryType', 'CreateBy', 'CreateTime') {
+      foreach (qw(Name HistoryType CreateBy CreateTime)) {
         $$Data{$_} = $Self->Ascii2Html(Text => $$Data{$_}, Max => 100);
       }
+      $$Data{CreateTime} = $Self->{LanguageObject}->FormatTimeString($$Data{CreateTime});
       # --
       # get html string
       # --
