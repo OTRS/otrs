@@ -2,7 +2,7 @@
 # Kernel/Language/fr.pm - provides fr language translation
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # --
-# $Id: fr.pm,v 1.1 2002-11-24 23:54:47 martin Exp $
+# $Id: fr.pm,v 1.2 2002-12-15 00:58:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -144,8 +144,8 @@ sub Data {
     $Hash{'Bounce'} = 'Renvoyer';
     $Hash{'Cc'} = 'Copie ';
     $Hash{'Close'} = 'Fermer';
-    $Hash{'closed succsessful'} = 'clôture réussie';
-    $Hash{'closed unsuccsessful'} = 'clôture manquée';
+    $Hash{'closed successful'} = 'clôture réussie';
+    $Hash{'closed unsuccessful'} = 'clôture manquée';
     $Hash{'Compose'} = 'Composer';
     $Hash{'Created'} = 'Créé ';
     $Hash{'Createtime'} = 'Création du ';

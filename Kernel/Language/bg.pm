@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.4 2002-11-27 10:31:33 martin Exp $
+# $Id: bg.pm,v 1.5 2002-12-15 00:58:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -149,8 +149,8 @@ sub Data {
     $Hash{'Bounce'} = 'Отхвърлени';
     $Hash{'Cc'} = 'Копие до';
     $Hash{'Close'} = 'Затваряне';
-    $Hash{'closed succsessful'} = 'успешно затворен';
-    $Hash{'closed unsuccsessful'} = 'неуспешно затворен';
+    $Hash{'closed successful'} = 'успешно затворен';
+    $Hash{'closed unsuccessful'} = 'неуспешно затворен';
     $Hash{'Compose'} = 'Създаване';
     $Hash{'Created'} = 'Създаден';
     $Hash{'Createtime'} = 'време на създаване';

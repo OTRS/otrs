@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.10 2002-12-11 23:45:28 martin Exp $
+# $Id: Defaults.pm,v 1.11 2002-12-15 00:58:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -431,7 +431,7 @@ sub LoadDefaults {
     # CloseNoteText
     $Self->{DefaultCloseNoteText} = '';
     # CloseType
-    $Self->{DefaultCloseType} = 'closed succsessful';
+    $Self->{DefaultCloseType} = 'closed successful';
 
     # ----------------------------------------------------#
     # defaults for compose message                        #
@@ -443,20 +443,20 @@ sub LoadDefaults {
     # next possible states for compose message
     $Self->{DefaultNextComposeTypePossible} = [
         'open', 
-        'closed succsessful', 
-        'closed unsuccsessful',
+        'closed successful', 
+        'closed unsuccessful',
     ];
 
     # ----------------------------------------------------#
     # defaults for bounce                                 #
     # ----------------------------------------------------#
     # default bounce next state
-    $Self->{DefaultNextBounceType} = 'closed succsessful';
+    $Self->{DefaultNextBounceType} = 'closed successful';
     # next possible states for compose message
     $Self->{DefaultNextBounceTypePossible} = [
         'open', 
-        'closed succsessful', 
-        'closed unsuccsessful',
+        'closed successful', 
+        'closed unsuccessful',
     ];
     # default note text
     $Self->{DefaultBounceText} = 'Your email with ticket number "<OTRS_TICKET>" '.
@@ -468,8 +468,8 @@ sub LoadDefaults {
     # next possible states for compose message
     $Self->{DefaultNextForwardTypePossible} = [
         'open', 
-        'closed succsessful',
-        'closed unsuccsessful',
+        'closed successful',
+        'closed unsuccessful',
     ];
     # possible email type 
     $Self->{DefaultForwardEmailType} = [
@@ -1217,11 +1217,11 @@ Your OTRS Notification Master
     # next possible states after phone
     $Self->{PhoneDefaultNextStatePossible} = [
         'open', 
-        'closed succsessful',
-        'closed unsuccsessful',
+        'closed successful',
+        'closed unsuccessful',
     ];
     # default next state
-    $Self->{PhoneDefaultNextState} = 'closed succsessful';
+    $Self->{PhoneDefaultNextState} = 'closed successful';
     # default history type
     $Self->{PhoneDefaultHistoryType} = 'PhoneCallAgent';
     $Self->{PhoneDefaultHistoryComment} = 'Called customer.';

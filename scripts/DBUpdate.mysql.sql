@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.14 2002-12-07 19:06:05 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.15 2002-12-15 00:58:21 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -12,6 +12,11 @@
 -- --
 -- 0.5 BETA 9 upgrate
 -- --
+-- update typo
+UPDATE ticket_state SET name = 'closed successful', comment = 'ticket is closed succsessful' WHERE name = 'closed succsessful';
+UPDATE ticket_state SET name = 'closed unsuccessful', comment = 'ticket is closed unsuccsessful' WHERE name = 'closed unsuccsessful';
+UPDATE ticket_history_type SET name = 'Close successful' WHERE name = 'Close succsessful';
+UPDATE ticket_history_type SET name = 'Close unsuccessful' WHERE name = 'Close unsuccsessful';
 -- table for db loop protection backend module
 CREATE TABLE ticket_loop_protection
 (

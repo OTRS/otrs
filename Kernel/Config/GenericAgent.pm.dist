@@ -2,7 +2,7 @@
 # Kernel/Config/GenericAgent.pm - config file of generic agent
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm.dist,v 1.1 2002-12-01 14:08:06 martin Exp $
+# $Id: GenericAgent.pm.dist,v 1.2 2002-12-15 00:58:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw(%Jobs);  
 
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # -----------------------------------------------------------------------
@@ -37,8 +37,8 @@ $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
       New => {
         # new queue
         Queue => 'spam',
-        # possible states (closed succsessful|closed unsuccsessful|open|new|removed) 
-        State => 'closed succsessful',
+        # possible states (closed successful|closed unsuccessful|open|new|removed) 
+        State => 'closed successful',
         # new ticket owner (if needed)
         Owner => 'root@localhost',
         # if you want to add a Note
@@ -62,8 +62,8 @@ $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
       # new ticket properties (no option is required, use just the options
       # witch should be changed!)
       New => {
-        # possible states (closed succsessful|closed unsuccsessful|open|new|removed) 
-        State => 'closed succsessful',
+        # possible states (closed successful|closed unsuccessful|open|new|removed) 
+        State => 'closed successful',
         # new ticket owner (if needed)
         Owner => 'root@localhost',
         # DELETE!

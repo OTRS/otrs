@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Team Seu.Net <team at seu.net>
 # --
-# $Id: fi.pm,v 1.1 2002-12-11 23:45:28 martin Exp $
+# $Id: fi.pm,v 1.2 2002-12-15 00:58:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -150,8 +150,8 @@ sub Data {
     $Hash{'Bounce'} = 'Delekoi';
     $Hash{'Cc'} = 'Kopio';
     $Hash{'Close'} = 'Sulje';
-    $Hash{'closed succsessful'} = 'Valmistui - Sulje';
-    $Hash{'closed unsuccsessful'} = 'Keskeneräinen - Sulje';
+    $Hash{'closed successful'} = 'Valmistui - Sulje';
+    $Hash{'closed unsuccessful'} = 'Keskeneräinen - Sulje';
     $Hash{'Compose'} = 'uusia viesti';
     $Hash{'Created'} = 'Luotu';
     $Hash{'Createtime'} = 'Luontiaika';

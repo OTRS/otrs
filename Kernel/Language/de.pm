@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.1 2002-11-24 23:54:47 martin Exp $
+# $Id: de.pm,v 1.2 2002-12-15 00:58:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -147,8 +147,8 @@ sub Data {
     $Hash{'Bounce'} = '';
     $Hash{'Cc'} = '';
     $Hash{'Close'} = 'Schlieﬂen';
-    $Hash{'closed succsessful'} = 'erfolgreich geschlossen';
-    $Hash{'closed unsuccsessful'} = 'erfolglos geschlossen';
+    $Hash{'closed successful'} = 'erfolgreich geschlossen';
+    $Hash{'closed unsuccessful'} = 'erfolglos geschlossen';
     $Hash{'Compose'} = 'Verfassen';
     $Hash{'Created'} = 'Erstellt';
     $Hash{'Createtime'} = 'Erstellt am';

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.8 2002-10-03 17:41:59 martin Exp $
+# $Id: State.pm,v 1.9 2002-12-15 00:58:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -173,11 +173,11 @@ sub SetState {
       # add history
       # --
       my $HistoryType = '';
-      if ($Param{State} =~ /closed succsessful/i) {
-        $HistoryType = 'Close succsessful';
+      if ($Param{State} =~ /closed successful/i) {
+        $HistoryType = 'Close successful';
       }
-      elsif ($Param{State} =~ /closed unsuccsessful/i) {
-        $HistoryType = 'Close unsuccsessful';
+      elsif ($Param{State} =~ /closed unsuccessful/i) {
+        $HistoryType = 'Close unsuccessful';
       }
       elsif ($Param{State} =~ /open/i) {
         $HistoryType = 'Open';

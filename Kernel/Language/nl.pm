@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: nl.pm,v 1.1 2002-11-24 23:54:47 martin Exp $
+# $Id: nl.pm,v 1.2 2002-12-15 00:58:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -144,8 +144,8 @@ sub Data {
     $Hash{'Bounce'} = 'Terugsturen';
     $Hash{'Cc'} = 'Cc';
     $Hash{'Close'} = 'Sluiten';
-    $Hash{'closed succsessful'} = 'succesvol gesloten';
-    $Hash{'closed unsuccsessful'} = 'niet succesvol gesloten';
+    $Hash{'closed successful'} = 'succesvol gesloten';
+    $Hash{'closed unsuccessful'} = 'niet succesvol gesloten';
     $Hash{'Compose'} = 'Maken';
     $Hash{'Created'} = 'Gemaakt';
     $Hash{'Createtime'} = 'Gemaakt op';
