@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.6 2002-01-20 22:22:09 martin Exp $
+# $Id: AuthSession.pm,v 1.7 2002-01-23 23:02:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -81,7 +81,7 @@ sub CheckSessionID {
     # check session time
     # --
     my $MaxSessionTime = $Self->{ConfigObject}->Get('MaxSessionTime');
-    if ( (time() - $MaxSessionTime) <= $Data{UserSessionStart} ) {
+    if ( (time() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
          $Kernel::System::AuthSession::CheckSessionID = "Session to old!";
          $Self->{LogObject}->Log(
           Priority => 'notice',
