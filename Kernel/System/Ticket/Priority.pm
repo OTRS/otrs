@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Priority.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Priority.pm,v 1.12 2004-02-13 00:50:36 martin Exp $
+# $Id: Priority.pm,v 1.13 2004-04-01 08:58:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::Priority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,6 +104,8 @@ sub PrioritySet {
        # update not needed
        return 1;
     }
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});

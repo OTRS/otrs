@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.72 2004-03-12 18:42:54 martin Exp $
+# $Id: Ticket.pm,v 1.73 2004-04-01 08:58:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.72 $';
+$VERSION = '$Revision: 1.73 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -319,7 +319,11 @@ sub DeleteTicket {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket WHERE id = $Param{TicketID}")) {
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # update ticket index
         $Self->TicketAcceleratorDelete(%Param);
+        # delete articles
         $Self->DeleteArticleOfTicket(%Param);
         return 1;
     }
@@ -387,8 +391,8 @@ sub GetTicket {
         return;
     }
     # check if result is cached 
-    if ($Param{Cached} && $Self->{'GetTicket'.$Param{TicketID}}) {
-        return %{$Self->{'GetTicket'.$Param{TicketID}}};
+    if ($Self->{'Cache::GetTicket'.$Param{TicketID}}) {
+        return %{$Self->{'Cache::GetTicket'.$Param{TicketID}}};
     }
     # db query
     my $SQL = "SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, slt.id, slt.name, ".
@@ -470,7 +474,7 @@ sub GetTicket {
         $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - $Self->{TimeObject}->SystemTime();
     }
     # cache user result
-    $Self->{'GetTicket'.$Param{TicketID}} = \%Ticket;
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = \%Ticket;
     # return ticket data
     return %Ticket;
 }
@@ -506,6 +510,20 @@ sub GetQueueIDOfTicketID {
     return $Id;
 }
 # --
+sub MoveList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{UserID} && !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
+        return;
+    }
+# TicketID!!!
+    my %Queues = $Self->{QueueObject}->GetAllQueues(%Param);
+#delete $Queues{315};
+    return %Queues;
+}
+# --
 sub MoveByTicketID {
     my $Self = shift;
     my %Param = @_;
@@ -528,6 +546,8 @@ sub MoveByTicketID {
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID}); 
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         # update ticket view index
         $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
         # history insert
@@ -567,7 +587,7 @@ sub MoveByTicketID {
     }
 }
 # --
-sub GetMoveQueueList {
+sub MoveQueueList {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -644,6 +664,8 @@ sub SetCustomerData {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or No for update!");
         return;
     }
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -716,6 +738,8 @@ sub SetTicketFreeText {
         $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}) {
         return 1;
     }
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     my $DBValue = $Self->{DBObject}->Quote($Value);
     my $DBKey = $Self->{DBObject}->Quote($Key);
@@ -759,6 +783,8 @@ sub SetAnswered {
         return;
       }
     }
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -1041,6 +1067,8 @@ sub SetPendingTime {
       }
     }
     my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year});
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -1574,6 +1602,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2004-03-12 18:42:54 $
+$Revision: 1.73 $ $Date: 2004-04-01 08:58:35 $
 
 =cut

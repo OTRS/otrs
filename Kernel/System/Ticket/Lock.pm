@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Lock.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.12 2004-02-13 00:50:36 martin Exp $
+# $Id: Lock.pm,v 1.13 2004-04-01 08:58:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,24 +14,20 @@ package Kernel::System::Ticket::Lock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub IsTicketLocked {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{TicketID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
       return;
     }
     my %TicketData = $Self->GetTicket(%Param);
-    # --
     # check lock state
-    # -- 
     if ($TicketData{Lock} =~ /^lock$/i) {
         return 1;
     }
@@ -106,11 +102,13 @@ sub SetLock {
     " change_time = current_timestamp, change_by = $Param{UserID} " .
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # clear ticket cache
+      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
       # update ticket view index
       $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
       # set lock time it event is 'lock'
       if ($Param{Lock} eq 'lock') {
-        $SQL = "UPDATE ticket SET timeout = ". time() . 
+        $SQL = "UPDATE ticket SET timeout = ".$Self->{TimeObject}->SystemTime(). 
           " WHERE id = $Param{TicketID} "; 
         $Self->{DBObject}->Do(SQL => $SQL);
       }
@@ -156,6 +154,12 @@ sub SetLock {
               }
           }
       }
+      # for SAG - 2004-02-27 OTRS GmbH - ME
+#      my %TicketData = $Self->GetTicket(%Param);
+#      if ($TicketData{StateType} =~ /^new/i) {
+#          $Self->StateSet(%Param, State => 'open');
+#      }
+      # / for SAG - 2004-02-27 OTRS GmbH - ME
       return 1;
     }
     else {
