@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.15 2004-08-06 06:18:59 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.16 2004-08-13 13:41:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,6 +36,17 @@ function updateMessage(x)
 }
 
 //-->
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function BankStammSubmit()
+{
+    window.open('', 'bankstamm', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=150,top=150');
+    document.bankstamm.submit()
+}
+// -->
 </script>
 
 
@@ -133,6 +144,8 @@ function updateMessage(x)
   <tr>
     <td>
 
+       $Env{"Box0"}<a href="" onclick="BankStammSubmit(); return false;" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}group-small.png">$Text{"Bankstammdaten"}</a>$Env{"Box1"}
+
     <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="data">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
@@ -145,7 +158,7 @@ function updateMessage(x)
 
 <!-- dtl:block:Generic -->
     <tr>
-      <td width="40%">$Text{"$Data{"Item"}"}: <font color="red">$Text{"$Data{"Required"}"}</font></td>
+      <td width="40%">$Text{"$Data{"Item"}"}: <font color="red">$Data{"Required"}</font><font color="blue">$Data{"ReadOnly"}</font></td>
       <td width="60%"> $Data{"Value"}</td>
     </tr>
 <!-- dtl:block:Generic -->
@@ -205,9 +218,18 @@ function updateMessage(x)
   <p>
   <font color="red">*</font> $Text{"This values are required."}</font>
   <br>
+  <font color="blue">*</font> $Text{"This values are read only."}</font>
+  <br>
   $Text{"Customer user will be needed to have an customer histor and to to login via customer panels."}
   </p>
   </td>
 </tr>
 </table>
 <!-- end note -->
+
+<form action="$Env{"CGIHandle"}" method="post" name="bankstamm" target="bankstamm">
+  <input type="hidden" name="Action" value="AgentBankStamm">
+  <input type="hidden" name="Source" value="Test">
+  <input type="hidden" name="What" value="*">
+</form>
+
