@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PostMasterPOP3.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.1 2002-12-15 23:18:33 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.2 2003-01-06 21:37:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use lib "$Bin/../";
 use lib "$Bin/../Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 1;
