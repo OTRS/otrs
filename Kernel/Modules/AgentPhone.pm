@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.37 2003-04-11 17:42:00 martin Exp $
+# $Id: AgentPhone.pm,v 1.38 2003-07-10 02:25:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -222,7 +222,10 @@ sub Run {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body');
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
-        my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            ID => $NextStateID, 
+        );
+        my $NextState = $StateData{Name};
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $Answered = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
@@ -310,7 +313,10 @@ sub Run {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
-        my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            ID => $NextStateID,
+        );
+        my $NextState = $StateData{Name};
         my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID') || '';
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';

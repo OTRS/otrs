@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.46 2003-04-11 17:42:00 martin Exp $
+# $Id: AgentCompose.pm,v 1.47 2003-07-10 02:25:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -295,7 +295,10 @@ sub SendEmail {
     my %Param = @_;
     my $Output = '';
     my $QueueID = $Self->{QueueID};
-    my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $Self->{ComposeStateID});
+    my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+        ID => $Self->{ComposeStateID},
+    );
+    my $NextState = $StateData{Name};
     # --
     # get attachment
     # -- 
@@ -398,7 +401,6 @@ sub SendEmail {
         # --
         # should i set an unlock?
         # --
-        my %StateData = $Self->{StateObject}->StateGet(ID => $Self->{ComposeStateID});
         if ($StateData{TypeName} =~ /^close/i) {
             $Self->{TicketObject}->SetLock(
                 TicketID => $Self->{TicketID},

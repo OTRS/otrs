@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.2 2003-04-08 21:36:22 martin Exp $
+# $Id: AgentCustomerFollowUp.pm,v 1.3 2003-07-10 02:25:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -135,8 +135,11 @@ sub Run {
           # --
           # set state
           # --
-          my $State = $Self->{TicketObject}->StateIDLookup(StateID => $StateID) || 
-            $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType') || 'open';
+          my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+              ID => $StateID,
+          );
+          my $NextState = $StateData{Name} ||
+            $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType') || 'open';;
           $Self->{TicketObject}->SetState(
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.22 2003-06-17 11:01:59 martin Exp $
+# $Id: AgentBounce.pm,v 1.23 2003-07-10 02:25:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -318,7 +318,10 @@ sub Run {
         # --
         # set state
         # --
-        my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $Param{BounceStateID});
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            ID => $Param{BounceStateID},
+        );
+        my $NextState = $StateData{Name};
         $Self->{TicketObject}->SetState(
             TicketID => $Self->{TicketID},
             ArticleID => $Self->{ArticleID},
