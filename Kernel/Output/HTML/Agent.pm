@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.54 2002-10-20 22:34:57 martin Exp $
+# $Id: Agent.pm,v 1.55 2002-10-20 23:22:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -581,7 +581,8 @@ sub AgentPriority {
     # build ArticleTypeID string
     $Param{'OptionStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{OptionStrg},
-        Name => 'PriorityID'
+        Name => 'PriorityID', 
+        SelectedID => $Param{PriorityID},
     );
 
     # create & return output
@@ -979,7 +980,7 @@ sub AgentMailboxTicket {
     foreach (qw(To Cc From Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70);
     }
-    foreach (qw(State Priotity Queue CustomerID)) {
+    foreach (qw(State Priority Queue CustomerID)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 20);
     }
 
