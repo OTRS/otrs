@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.10 2005-02-10 13:53:52 martin Exp $
+# $Id: XML.pm,v 1.11 2005-02-15 06:37:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -235,7 +235,8 @@ sub XMLHashSearch {
         if ($SQL) {
             $SQL .= " AND ";
         }
-        my $Value = $Self->{DBObject}->Quote($Param{What}->{$Key});
+        my $Value = $Self->{DBObject}->Quote($Param{What}->{$Key});        
+        $Key = $Self->{DBObject}->Quote($Key);
         $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
     }
     # db quote
@@ -243,8 +244,12 @@ sub XMLHashSearch {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     $SQL = 'SELECT xml_key FROM xml_storage WHERE '.$SQL." AND xml_type = '$Param{Type}'";
+    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+        return;
+    }
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         push (@Keys, $Data[0]);
+        
     }
     return @Keys;
 }
@@ -691,6 +696,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2005-02-10 13:53:52 $
+$Revision: 1.11 $ $Date: 2005-02-15 06:37:39 $
 
 =cut
