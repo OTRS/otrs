@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.34 2003-04-27 16:10:05 martin Exp $
+# $Id: AgentZoom.pm,v 1.34.2.1 2003-05-29 16:04:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.34.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -228,6 +228,13 @@ sub Run {
         $Article->{Atms} = \%AtmIndex;
     }
     # --
+    # user info
+    # --
+    my %UserInfo = $Self->{UserObject}->GetUserData(
+        User => $Ticket{Owner},
+        Cached => 1
+    );
+    # --
     # customer info
     # --
     my %CustomerData = ();
@@ -265,6 +272,7 @@ sub Run {
         ArticleBox => \@ArticleBox,
         ArticleID => $Self->{ArticleID},
         %Ticket,
+        %UserInfo,
         CustomerData => \%CustomerData,
     );
     # --

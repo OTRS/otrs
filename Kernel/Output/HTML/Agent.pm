@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.110.2.4 2003-05-26 18:17:01 martin Exp $
+# $Id: Agent.pm,v 1.110.2.5 2003-05-29 16:09:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.110.2.4 $';
+$VERSION = '$Revision: 1.110.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -400,7 +400,7 @@ sub AgentZoom {
     foreach (qw(State Priority Lock)) {
         $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
     }
-    foreach (qw(Priority State Owner Queue CustomerIDHTML Lock)) {
+    foreach (qw(Priority State Owner Queue CustomerIDHTML Lock UserFirstname UserLastname)) {
         $Param{$_} = $Self->Ascii2Html(
             Text => $Param{$_}, 
             Max => $Self->{ConfigObject}->Get('ViewableTicketStatusZoomMaxSize'),
@@ -1909,9 +1909,10 @@ sub AgentStatusViewTable {
         $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
     }
     # do html quoteing
-    foreach (qw(State Queue Owner Lock CustomerID)) {
+    foreach (qw(State Queue Owner Lock CustomerID UserLastname CustomerName)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 10) || '';
     }
+    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
     foreach (qw(From To Cc Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 30) || '';
     }

@@ -46,7 +46,7 @@
 </tr>
 <tr>
   <td><b>$Text{"Owner"}:</b></td>
-  <td>$Data{"Owner"}</td>
+  <td>$Data{"Owner"} ($Data{"UserFirstname"} $Data{"UserLastname"})</td>
   <td> </td>
   <td> </td>
 </tr>

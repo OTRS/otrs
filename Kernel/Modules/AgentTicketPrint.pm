@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.5 2003-04-13 22:25:40 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.5.2.1 2003-05-29 16:06:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPrint;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.5.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -186,10 +186,17 @@ sub Run {
         $Article->{Atms} = \%AtmIndex;
     }
     # --
+    # user info
+    # --
+    my %UserInfo = $Self->{UserObject}->GetUserData(
+        User => $Ticket{Owner},
+        Cached => 1
+    );
+    # --
     # genterate output
     # --
     $Output .= $Self->{LayoutObject}->PrintHeader(Title => $Ticket{TicketNumber});
-    $Output .= $Self->{LayoutObject}->AgentTicketPrintHeader(%Ticket);
+    $Output .= $Self->{LayoutObject}->AgentTicketPrintHeader(%Ticket, %UserInfo);
     # --
     # show ticket
     # --
