@@ -1,9 +1,9 @@
 # --
-# Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database 
+# Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.21 2004-04-16 08:08:55 martin Exp $
+# $Id: RuntimeDB.pm,v 1.22 2004-10-01 08:53:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -48,7 +48,7 @@ sub TicketAcceleratorIndex {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    # get user groups 
+    # get user groups
     my $Type = 'rw';
     if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
         $Type = 'ro';
@@ -74,7 +74,7 @@ sub TicketAcceleratorIndex {
           " AND ".
           " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) ".
           " ";
-    
+
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Queues{AllTickets} = $Row[0];
@@ -200,7 +200,7 @@ sub GetLockedCount {
               " AND " .
               " ts.type_id = tst.id " .
               " ORDER BY ar.create_time DESC",
-    ); 
+    );
     my %Data = ();
     $Data{'Reminder'} = 0;
     $Data{'Pending'} = 0;
@@ -238,20 +238,19 @@ sub GetOverTimeTickets {
     # get data (viewable tickets...)
     my @TicketIDsOverTime = ();
     my %TicketIDs = ();
-    my $SQL = "SELECT t.id, a.article_sender_type_id, a.incoming_time, q.escalation_time, a.id, t.ticket_priority_id ".
-    " FROM ".
-    " article a, queue q, ticket t ".
-    " WHERE ".
-    " t.ticket_answered != 1 ".
-    " AND " .
-    " q.escalation_time != 0 ".
-    " AND " .
-    " t.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
-    " AND " .
-    " t.id = a.ticket_id ".
-    " AND " .
-    " q.id = t.queue_id ".
-    " AND ";
+    my $SQL = "SELECT st.id, st.escalation_start_time, q.escalation_time, st.ticket_priority_id ".
+        " FROM ".
+        " queue q, ticket st ".
+        " WHERE ".
+        " st.ticket_answered != 1 ".
+        " AND " .
+        " q.escalation_time != 0 ".
+        " AND " .
+        " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
+        " AND " .
+        " q.id = st.queue_id ".
+        " AND ";
+
     if ($Param{UserID}) {
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Param{UserID},
@@ -265,41 +264,19 @@ sub GetOverTimeTickets {
             return;
         }
     }
-    $SQL .= " t.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "; 
-    $SQL .= " ORDER BY t.id, t.ticket_priority_id DESC, a.incoming_time";
-    my $CustomerSenderID = $Self->ArticleSenderTypeLookup(SenderType => 'customer');
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1500);
+    $SQL .= " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ";
+    $SQL .= " ORDER BY st.ticket_priority_id DESC, st.escalation_start_time ASC";
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 40);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        my $DiffTime = ($Row[2] + ($Row[3] * 60)) - $Self->{TimeObject}->SystemTime();
-        my $Prio = $Row[5] - 100;
-        if ($DiffTime < 0) {
-            if (!$TicketIDs{$Row[0]}) {
-                $TicketIDs{$Row[0]} = $Prio.'.'.$Row[2];
-            }
-            if ($TicketIDs{$Row[0]} && ($Row[1] eq $CustomerSenderID)) {
-                $TicketIDs{$Row[0]} = $Prio.'.'.$Row[2];
+        if ($Row[2] && $Row[1]) {
+            my $DiffTime = ($Row[1] + ($Row[2] * 60)) - $Self->{TimeObject}->SystemTime();
+            if ($DiffTime < 0) {
+                push (@TicketIDsOverTime, $Row[0]);
             }
         }
-        else {
-            if ($Row[1] eq $CustomerSenderID) {
-                delete $TicketIDs{$Row[0]} if ($TicketIDs{$Row[0]});
-            }
-        }
-    }
-    # get ticket ids (max shown)
-    my $Max = 40;
-    my $Count = 0;
-    foreach (sort {$TicketIDs{$a} cmp $TicketIDs{$b}} keys %TicketIDs) {
-        $Count++; 
-        push (@TicketIDsOverTime, $_) if ($Count <= $Max);
     }
     # return overtime tickets
-    if (@TicketIDsOverTime) {
-        return @TicketIDsOverTime;
-    }
-    else {
-        return;
-    }
+    return @TicketIDsOverTime;
 }
 # --
 

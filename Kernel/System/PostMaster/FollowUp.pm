@@ -1,11 +1,11 @@
 # --
-# Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
+# Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.33 2004-04-15 08:41:02 martin Exp $
+# $Id: FollowUp.pm,v 1.34 2004-10-01 08:53:32 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -46,14 +46,16 @@ sub Run {
     # --
     # check needed stuff
     # --
-    foreach (qw(TicketID InmailUserID GetParam StateType Tn AutoResponseType)) {
+    foreach (qw(TicketID InmailUserID GetParam Tn AutoResponseType)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
     my %GetParam = %{$Param{GetParam}};
-    my $State = $Param{State} || '';
+    # get ticket data
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
+
 	my $Comment = $Param{Comment} || '';
     my $Lock = $Param{Lock} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
@@ -77,7 +79,7 @@ sub Run {
 
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
-    ); 
+    );
     # --
     # debug
     # --
@@ -93,7 +95,7 @@ sub Run {
         print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
         print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
     }
-    # --    
+    # --
     # write plain email to the storage
     # --
     $Self->{TicketObject}->ArticleWritePlain(
@@ -101,12 +103,12 @@ sub Run {
         Email => $Self->{ParseObject}->GetPlainEmail(),
         UserID => $Param{InmailUserID},
     );
-    # --    
+    # --
     # write attachments to the storage
     # --
     foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
         $Self->{TicketObject}->ArticleWriteAttachment(
-            Content => $Attachment->{Content}, 
+            Content => $Attachment->{Content},
             Filename => $Attachment->{Filename},
             ContentType => $Attachment->{ContentType},
             ArticleID => $ArticleID,
@@ -136,23 +138,23 @@ sub Run {
         }
     }
     # --
-    # set state 
+    # set state
     # --
-    if ($State) {
+    if ($Ticket{StateType} !~ /^new/ && $Self->{ConfigObject}->Get('PostmasterFollowUpState')) {
 	    $Self->{TicketObject}->StateSet(
-    	    State => $State,
+    	    State => $Self->{ConfigObject}->Get('PostmasterFollowUpState'),
         	TicketID => $Param{TicketID},
 	        UserID => $Param{InmailUserID},
     	);
         if ($Self->{Debug} > 0) {
-            print "State: $State\n";
+            print "State: ".$Self->{ConfigObject}->Get('PostmasterFollowUpState')."\n";
         }
     }
     # --
     # set lock
     # --
-    if ($Lock && $Param{StateType} =~ /^close/i) {
-        $Self->{TicketObject}->LockSet( 
+    if ($Lock && $Ticket{StateType} =~ /^close/i) {
+        $Self->{TicketObject}->LockSet(
            TicketID => $Param{TicketID},
            Lock => 'lock',
            UserID => => $Param{InmailUserID},
@@ -169,6 +171,9 @@ sub Run {
         UserID => $Param{InmailUserID},
         Answered => 0,
     );
+    if ($Self->{Debug} > 0) {
+        print "Answered: 0\n";
+    }
 
     # write log
     $Self->{LogObject}->Log(

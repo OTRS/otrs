@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.34 2004-09-16 09:42:46 martin Exp $
+  $Id: otrs-schema.xml,v 1.35 2004-10-01 08:53:31 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.34  2004/09/16 09:42:46  martin
+  added table for Kernel::System::PID support
+
   Revision 1.33  2004/09/11 07:50:08  martin
   added profile_type to search_profile
 
@@ -521,6 +524,7 @@
   <column name="customer_user_id" required="false" size="250" type="VARCHAR"/>
   <column name="timeout" required="false" type="INTEGER"/>
   <column name="until_time" required="false" type="INTEGER"/>
+  <column name="escalation_start_time" required="true" type="INTEGER"/>
   <column name="freekey1" required="false" size="80" type="VARCHAR"/>
   <column name="freetext1" required="false" size="150" type="VARCHAR"/>
   <column name="freekey2" required="false" size="80" type="VARCHAR"/>

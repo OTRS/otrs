@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.143 2004-09-29 09:37:45 martin Exp $
+# $Id: Ticket.pm,v 1.144 2004-10-01 08:53:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.143 $';
+$VERSION = '$Revision: 1.144 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -269,6 +269,7 @@ sub TicketCreate {
     my $Answered = $Param{Answered} || 0;
     my $ValidID = $Param{ValidID} || 1;
     my $Age = $Self->{TimeObject}->SystemTime();
+    my $EscalationStartTime = $Self->{TimeObject}->SystemTime();
     # check needed stuff
     foreach (qw(UserID CreateUserID)) {
       if (!$Param{$_}) {
@@ -334,10 +335,10 @@ sub TicketCreate {
     # create db record
     my $SQL = "INSERT INTO ticket (tn, title, create_time_unix, queue_id, ticket_lock_id, ".
     " user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
-    " valid_id, create_time, create_by, change_time, change_by) " .
+    " escalation_start_time, valid_id, create_time, create_by, change_time, change_by) " .
     " VALUES ('$Param{TN}', '$Param{Title}', $Age, $Param{QueueID}, $Param{LockID}, $Param{UserID}, ".
     " $GroupID, $Param{PriorityID}, $Param{StateID}, ".
-    " $Answered, $ValidID, " .
+    " $Answered, $EscalationStartTime, $ValidID, " .
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -514,7 +515,7 @@ sub TicketGet {
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
-        " st.change_time, st.title ".
+        " st.change_time, st.title, st.escalation_start_time ".
         " FROM ".
         " ticket st, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -541,6 +542,7 @@ sub TicketGet {
         $Ticket{CreateTimeUnix} = $Row[7];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[7]);
         $Ticket{Changed} = $Row[34];
+        $Ticket{EscalationStartTime} = $Row[36];
         $Ticket{GroupID} = $Row[9];
         $Ticket{TicketNumber} = $Row[10];
         $Ticket{CustomerID} = $Row[11];
@@ -619,6 +621,42 @@ sub TicketTitleUpdate {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     my $SQL = "UPDATE ticket SET title = '$Param{Title}' ".
+      " WHERE ".
+      " id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
+=item TicketEscalationStartUpdate()
+
+update ticket escalation start time to now
+
+  $TicketObject->TicketEscalationStartUpdate(
+      EscalationStartTime => $TimeObject->SystemTime(),
+      TicketID => 123,
+  );
+
+=cut
+
+sub TicketEscalationStartUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(EscalationStartTime TicketID)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    my $SQL = "UPDATE ticket SET escalation_start_time = $Param{EscalationStartTime} ".
       " WHERE ".
       " id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
@@ -1056,8 +1094,30 @@ sub TicketSetAnswered {
         return;
       }
     }
+    # check if we need to update the answered state
+    my %Ticket = $Self->TicketGet(%Param);
+    # no update needed
+    if ($Ticket{Answered} && $Answered) {
+        return 1;
+    }
+    if (!$Ticket{Answered} && !$Answered) {
+        return 1;
+    }
     # clear ticket cache
     $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+    # update escalation time
+    if ($Answered) {
+        $Self->TicketEscalationStartUpdate(
+            EscalationStartTime => 0,
+            TicketID => $Param{TicketID}
+        );
+    }
+    else {
+        $Self->TicketEscalationStartUpdate(
+            EscalationStartTime => $Self->{TimeObject}->SystemTime(),
+            TicketID => $Param{TicketID}
+        );
+    }
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -3349,6 +3409,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.143 $ $Date: 2004-09-29 09:37:45 $
+$Revision: 1.144 $ $Date: 2004-10-01 08:53:32 $
 
 =cut

@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.5 2004-09-29 09:50:01 martin Exp $
+-- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.6 2004-10-01 08:53:31 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.postgresql.sql | mysql -f -u root otrs
@@ -72,10 +72,17 @@ CREATE TABLE role_user
 );
 
 --
+-- improve ticket table
+--
+ALTER TABLE ticket ADD escalation_start_time INTEGER;
+UPDATE ticket SET escalation_start_time = o WHERE escalation_start_time IS NULL;
+ALTER TABLE ticket ALTER escalation_start_time SET NOT NULL;
+
+--
 -- improve search profile table
 --
 ALTER TABLE search_profile ADD profile_type VARCHAR (30);
-UPDATE search_profile SET profile_type='TicketSearch' where profile_type IS NULL ;
+UPDATE search_profile SET profile_type='TicketSearch' WHERE profile_type IS NULL;
 ALTER TABLE search_profile ALTER profile_type SET NOT NULL;
 
 --
@@ -88,4 +95,12 @@ CREATE TABLE process_id
     process_host varchar (200) NOT NULL,
     process_create integer NOT NULL
 );
+
+--
+-- fix for wrong saluation
+--
+INSERT INTO notifications
+  (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
+  VALUES
+  ('Agent::NewTicket', 'iso-8859-1', 'en', 'New ticket notification! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_USERFIRSTNAME>,there is a new ticket in "<OTRS_QUEUE>"!<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
 

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.44 2004-09-29 09:03:56 martin Exp $
+# $Id: PostMaster.pm,v 1.45 2004-10-01 08:53:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -112,24 +112,24 @@ sub Run {
                 # log loaded module
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
-                        Priority => 'debug', 
+                        Priority => 'debug',
                         Message => "Module: $Jobs{$Job}->{Module} loaded!",
                     );
                 }
                 # modify params
                 if (!$FilterObject->Run(
-                    GetParam => $GetParam, 
+                    GetParam => $GetParam,
                     JobConfig => $Jobs{$Job},
                 )) {
                     $Self->{LogObject}->Log(
-                        Priority => 'error', 
+                        Priority => 'error',
                         Message => "Execute Run() of $Jobs{$Job}->{Module} not successfully!",
                     );
                 }
             }
             else {
                 $Self->{LogObject}->Log(
-                    Priority => 'error', 
+                    Priority => 'error',
                     Message => "Can't load module $Jobs{$Job}->{Module}!",
                 );
             }
@@ -139,7 +139,7 @@ sub Run {
     # should I ignore the incoming mail?
     if ($GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /yes/i) {
        $Self->{LogObject}->Log(
-           Priority => 'notice', 
+           Priority => 'notice',
            Message => "Dropped Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
            "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
        );
@@ -162,7 +162,7 @@ sub Run {
         # get lock option (should be the ticket locked - if closed - after the follow up)
         my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
             QueueID => $Ticket{QueueID},
-        );  
+        );
         # get state details
         my %State = $Self->{StateObject}->StateGet(ID => $Ticket{StateID});
         # create a new ticket
@@ -195,7 +195,7 @@ sub Run {
             return 1;
         }
         # reject follow up
-        elsif ($FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i) { 
+        elsif ($FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i) {
             $Self->{LogObject}->Log(
               Message=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
             );
@@ -205,7 +205,6 @@ sub Run {
               InmailUserID => $Self->{PostmasterUserID},
               GetParam => $GetParam,
               Lock => $Lock,
-              StateType => $State{TypeName},
               Tn => $Tn,
               Comment => 'Follow up rejected.',
               AutoResponseType => 'auto reject',
@@ -219,9 +218,7 @@ sub Run {
               InmailUserID => $Self->{PostmasterUserID},
               GetParam => $GetParam,
               Lock => $Lock,
-              StateType => $State{TypeName},
               Tn => $Tn,
-              State => $Self->{ConfigObject}->Get('PostmasterFollowUpState') || 'open',
               AutoResponseType => 'auto follow up',
             );
         }
@@ -229,7 +226,7 @@ sub Run {
     # create new ticket
     else {
         if ($Param{Queue} && !$Param{QueueID}) {
-            # queue lookup if queue name is given 
+            # queue lookup if queue name is given
             $Param{QueueID} = $Self->{QueueObject}->QueueLookup(Queue => $Param{Queue});
         }
         # get queue if of From: and To:

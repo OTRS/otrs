@@ -371,6 +371,7 @@ CREATE TABLE ticket
     customer_user_id varchar (250),
     timeout integer,
     until_time integer,
+    escalation_start_time integer NOT NULL,
     freekey1 varchar (80),
     freetext1 varchar (150),
     freekey2 varchar (80),

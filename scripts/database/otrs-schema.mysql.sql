@@ -415,6 +415,7 @@ CREATE TABLE ticket
     customer_user_id VARCHAR (250),
     timeout INTEGER,
     until_time INTEGER,
+    escalation_start_time INTEGER NOT NULL,
     freekey1 VARCHAR (80),
     freetext1 VARCHAR (150),
     freekey2 VARCHAR (80),

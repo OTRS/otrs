@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.74 2004-09-23 09:23:13 martin Exp $
+# $Id: Article.pm,v 1.75 2004-10-01 08:53:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.74 $';
+$VERSION = '$Revision: 1.75 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -871,7 +871,8 @@ sub ArticleGet {
         " sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,".
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
-        " st.freekey7, st.freetext7, st.freekey8, st.freetext8, st.ticket_lock_id, st.title".
+        " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
+        " st.ticket_lock_id, st.title, st.escalation_start_time ".
         " FROM ".
         " article sa, ticket st, ".
         " $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -901,6 +902,8 @@ sub ArticleGet {
         $Ticket{TicketID} = $Data{TicketID};
         $Data{Title} = $Row[49];
         $Ticket{Title} = $Data{Title};
+        $Data{EscalationStartTime} = $Row[50];
+        $Ticket{EscalationStartTime} = $Data{EscalationStartTime};
         $Data{From} = $Row[1];
         $Data{To} = $Row[2];
         $Data{Cc} = $Row[3];
@@ -953,6 +956,7 @@ sub ArticleGet {
         $Data{FreeKey3} = $Row[27];
         $Data{FreeText3} = $Row[28];
         $Data{Answered} = $Row[29];
+        $Ticket{Answered} = $Data{Answered};
         $Data{TicketFreeKey1} = $Row[32];
         $Data{TicketFreeText1} = $Row[33];
         $Data{TicketFreeKey2} = $Row[34];
@@ -1012,9 +1016,10 @@ sub ArticleGet {
         }
         $Part->{StateType} = $StateData{TypeName};
         $Part->{State} = $StateData{Name};
-        if ($Queue{EscalationTime} && ($Param{TicketID}||$Param{TicketOverTime}) && $Part->{SenderType} eq 'customer' && $StateData{TypeName} !~ /^close/i) {
-            $LastCustomerCreateTime = (($Part->{IncomingTime} + ($Queue{EscalationTime}*60)) - $Self->{TimeObject}->SystemTime());
-        }
+    }
+    # get escalation time
+    if ($Queue{EscalationTime} && $Ticket{EscalationStartTime} && !$Ticket{Answered} && ($Param{TicketID}||$Param{TicketOverTime}) && $StateData{TypeName} !~ /^close/i) {
+        $LastCustomerCreateTime = (($Ticket{EscalationStartTime} + ($Queue{EscalationTime}*60)) - $Self->{TimeObject}->SystemTime());
     }
     foreach my $Part (@Content) {
         $Part->{TicketOverTime} = $LastCustomerCreateTime;
@@ -1226,7 +1231,7 @@ sub ArticleSend {
         'X-Powered-By' => 'OTRS - Open Ticket Request System (http://otrs.org/)',
         Organization => $Self->{Organization},
         Type => 'text/plain',
-        Charset=> $Charset,
+        Charset => $Charset,
     };
     if ($Charset && $Charset =~ /utf(8|-8)/i) {
         $Header->{Encoding} = '8bit';
@@ -2109,7 +2114,7 @@ sub SendAutoResponse {
         ArticleType => 'email-external',
         SenderType => 'system',
         TicketID => $Param{TicketID},
-        HistoryType => $Param{HistoryType}, 
+        HistoryType => $Param{HistoryType},
         HistoryComment => "\%\%$ToAll",
         From => "$Param{Realname} <$Param{Address}>",
         To => $GetParam{From},
