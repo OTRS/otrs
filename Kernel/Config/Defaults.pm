@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.90 2003-12-03 16:50:33 martin Exp $
+# $Id: Defaults.pm,v 1.91 2003-12-04 21:21:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.90 $';
+$VERSION = '$Revision: 1.91 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -250,6 +250,16 @@ sub LoadDefaults {
     # highlight age2 in min
     $Self->{HighlightAge2} = 2880;
     $Self->{HighlightColor2} = 'red';
+
+    # agent interface notification module to check the used charset
+    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
+        Module => 'Kernel::Output::HTML::NotificationCharsetCheck',
+    };
+    # agent interface notification module to check the admin user id
+    # (don't work with user id 1 notification)
+    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
+        Module => 'Kernel::Output::HTML::NotificationUIDCheck',
+    };
 
     # --------------------------------------------------- #
     # AgentStatusView (shows all open tickets)            #
