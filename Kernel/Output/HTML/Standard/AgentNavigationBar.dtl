@@ -2,25 +2,21 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.30 2004-04-01 09:02:02 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.31 2004-04-22 15:45:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-# --
 # check if the admin link should be shown
-# --
 <dtl if ($Env{"UserIsGroup[admin]"} eq "Yes") { $Data{"AdminLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=Admin" onmouseover="window.status='$Text{"Admin-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}admin.png" alt="$Text{"Admin-Area"}"><br>$Text{"Admin-Area"}</a></td>"; }>
-# --
 # check if the faq link should be shown
-# --
 <dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=FAQ&Nav=Normal" onmouseover="window.status='$Text{"FAQ-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}help.png" alt="$Text{"FAQ-Area"}"><br>$Text{"FAQ-Area"}</a></td>"; }>
-# --
 # check if the stats link should be shown
-# --
 <dtl if ($Env{"UserIsGroup[stats]"} eq "Yes") { $Data{"StatsLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}stats.png" alt="$Text{"Stats"}"><br>$Text{"Stats"}</a></td>"; }>
+# check if bulk feature is aktiv
+<dtl if ($Config{"FrontendBulkFeature"} eq "1") { $Data{"BulkLink"} = "<td valign="top" align="center" class="nav"><a href="" onclick="BulkSubmit(); return false;" onmouseover="window.status='$Text{"Bulk Action"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}misc.png" alt="$Text{"Bulk Action"}"><br>$Text{"Bulk Action"}</a></td>"; }>
 
 <!-- start NavigationBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
@@ -53,9 +49,7 @@
 #      <td valign="top" align="center" class="nav"> 
 #        <a href="$Env{"Baselink"}Action=AdminCustomerUser" onmouseover="window.status='$Text{"Customer User"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}folder_yellow.png" alt="$Text{"Customer User"}"><br>$Text{"CustomerUser"}</a>
 #      </td>
-      <td valign="top" align="center" class="nav"> 
-        <a href="" onclick="BulkSubmit(); return false;" onmouseover="window.status='$Text{"Bulk Action"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}misc.png" alt="$Text{"Bulk Action"}"><br>$Text{"Bulk Action"}</a>
-      </td>
+      $Data{"BulkLink"}
       $Data{"StatsLink"}
       $Data{"FAQLink"}
       $Data{"AdminLink"}
