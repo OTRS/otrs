@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.31 2003-03-27 07:20:06 martin Exp $
+# $Id: AgentQueueView.pm,v 1.32 2003-04-12 08:57:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,9 +54,9 @@ sub new {
     # --
     # get params
     # --
+    $Self->{Start} = $Self->{ParamObject}->GetParam(Param => 'Start') || 1;
     # viewable tickets a page
-    $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit')
-        || $Self->{ViewableTickets};
+    $Self->{Limit} =  $Self->{ViewableTickets} + $Self->{Start};
     # sure is sure!
     $Self->{MaxLimit} = $Self->{ConfigObject}->Get('MaxLimit') || 300;
     if ($Self->{Limit} > $Self->{MaxLimit}) {
@@ -181,15 +181,18 @@ sub Run {
           " ORDER BY st.ticket_priority_id DESC, st.create_time_unix ASC ";
 
           $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
+          my $Counter = 0;
           while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
               my $Data = {
                 TicketID => $RowTmp[0],
                 TicketQueueID => $RowTmp[1],
               };
-              push (@ViewableTickets, $Data);
+              if ($Counter >= ($Self->{Start}-1)) {
+                  push (@ViewableTickets, $Data);
+              }
+              $Counter++;
           }
     }
-  
     # --
     # show ticket's
     # --
@@ -384,6 +387,7 @@ sub BuildQueueView {
         %Data,
         QueueID => $QueueID,
         AllQueues => \%AllQueues,
+        Start => $Self->{Start},
     );
 
     return $Output;
