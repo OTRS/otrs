@@ -2,7 +2,7 @@
 # AgentEmailNew.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmailNew.dtl,v 1.9 2004-07-28 10:10:40 martin Exp $
+# $Id: AgentEmailNew.dtl,v 1.9.2.1 2004-10-18 15:37:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -182,7 +182,7 @@ function clear_field()
     </td>
   <tr>
     <td valign="top">$Text{"Signature"}:</td><td class="table1">
-<textarea name="Body" rows="4" cols="72" wrap="$Env{"BrowserWrap"}" readonly>$Data{"Signature"}</textarea>
+<textarea name="Signature" rows="4" cols="72" wrap="$Env{"BrowserWrap"}" readonly>$Data{"Signature"}</textarea>
     </td>
   </tr>
   <tr>
