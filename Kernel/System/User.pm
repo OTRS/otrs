@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.16 2002-10-01 13:48:24 martin Exp $
+# $Id: User.pm,v 1.17 2002-10-15 09:54:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -43,13 +43,13 @@ sub new {
 
 
     # preferences table data
-    $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('DatabasePreferencesTable')
+    $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('PreferencesTable')
       || 'user_preferences';
-    $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('DatabasePreferencesTableKey')
+    $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('PreferencesTableKey')
       || 'preferences_key';
-    $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('DatabasePreferencesTableValue')
+    $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('PreferencesTableValue')
       || 'preferences_value';
-    $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('DatabasePreferencesTableUserID')
+    $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('PreferencesTableUserID')
       || 'user_id';
 
     return $Self;
