@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.24 2003-01-23 22:26:22 martin Exp $
+# $Id: Defaults.pm,v 1.25 2003-02-02 12:04:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -307,6 +307,17 @@ sub LoadDefaults {
     #  default:  ["'customer'"]
     $Self->{ViewableSenderTypes} = ["'customer'"];
 
+    # ReminderStats
+    #  default:  ["'pending_reminder'"]
+    $Self->{ReminderStats} = ["'pending reminder'"];
+
+    # state after pending 
+    # (state after pending time has reached)
+    $Self->{StateAfterPending} = {
+        'pending auto close+' => 'closed successful',
+        'pending auto close-' => 'closed unsuccessful',
+    };
+
     # TicketStorageModule (Don't use it for big emails/attachments!)
     # (where attachments and co is stored - switch from fs -> db possible
     # but not from db -> fs - old attachments are not shown) 
@@ -405,14 +416,6 @@ sub LoadDefaults {
 #    $Self->{TimeUnits} = ' (minutes)';
 #    $Self->{TimeUnits} = ' (hours)';
     $Self->{TimeUnits} = ' (work units)';
-
-    # ----------------------------------------------------#
-    # state after pending                                 #
-    # ----------------------------------------------------#
-    $Self->{StateAfterPending} = {
-        'pending auto close+' => 'closed successful',
-        'pending auto close-' => 'closed unsuccessful',
-    };
 
     # ----------------------------------------------------#
     # defaults for add note                               #
@@ -697,7 +700,7 @@ sub LoadDefaults {
             'Language', 'Charset', 'Theme', 'RefreshTime', 'QueueView', 
         ],
         'Other Options' => [
-            'Password', 'CustomQueue',
+            'Password', 'CustomQueue', 'FreeText',
         ],
     };
   
@@ -754,6 +757,15 @@ sub LoadDefaults {
         Desc => 'Select your custom queues.', 
         Activ => 1,
     };
+#    $Self->{PreferencesGroups}->{FreeText} = {
+#        Colum => 'Other Options', 
+#        Label => 'Free Text',
+#        Type => 'Generic',
+#        Desc => 'Example for free text.',
+#        Data => '$Env{"UserFreeText"}', 
+#        PrefKey => 'UserFreeText',
+#        Activ => 1,
+#    };
 
 
     $Self->{PreferencesGroups}->{RefreshTime} = {
@@ -942,6 +954,24 @@ Hi,
 
 '<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>' moved a ticket [<OTRS_TICKET_NUMBER>] into '<OTRS_CUSTOMER_QUEUE>'.
 
+http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OTRS Notification Master
+
+";
+    # --
+    # ticket reminder notification
+    # --
+#    $Self->{NotificationAlwaysCcPendingReminder} = 'Maybe a Mailinglist <list@example.com>';
+    $Self->{NotificationAlwaysCcPendingReminder} = '';
+    $Self->{NotificationSubjectPendingReminder} = 'Ticket Reminder!';
+    $Self->{NotificationBodyPendingReminder} = "
+Hi <OTRS_OWNER_USERFIRSTNAME>,
+
+the ticket '<OTRS_TICKET_NUMBER>' has reached the reminder time!
+
+Please have a look at:
+ 
 http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master

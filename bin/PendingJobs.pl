@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.4 2003-01-23 22:50:08 martin Exp $
+# $Id: PendingJobs.pl,v 1.5 2003-02-02 12:04:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -61,21 +61,12 @@ print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
 # get states
 # --
 my @AutoStates = ();
-my %States = $CommonObject{DBObject}->GetTableData(
-    Table => 'ticket_state',
-    Valid => 1,
-    What => 'id, name'
-);
+my %States = %{$CommonObject{ConfigObject}->Get('StateAfterPending')};
 foreach (keys %States) {
-    if ($States{$_} !~ /^pending auto/i) {
-        delete $States{$_};
-    }
-    else {
-        push(@AutoStates, $_);
-    }
+    push(@AutoStates, "'$_'");
 }
 # --
-# do ticket jobs
+# do ticket auto jobs
 # --
 my @TicketIDs = ();
 my $SQL = "SELECT st.tn, slt.name, st.ticket_answered, st.id, st.user_id FROM " .
@@ -87,8 +78,8 @@ my $SQL = "SELECT st.tn, slt.name, st.ticket_answered, st.id, st.user_id FROM " 
     " AND " .
     " st.ticket_lock_id = slt.id ".
     " AND " .
-    " tsd.id IN ( ${\(join ', ', @AutoStates)} ) ";
-    $CommonObject{DBObject}->Prepare(SQL => $SQL);
+    " tsd.name IN ( ${\(join ', ', @AutoStates)} ) ";
+$CommonObject{DBObject}->Prepare(SQL => $SQL);
 while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
     push (@TicketIDs, $RowTmp[3]);
 }
@@ -118,5 +109,40 @@ foreach (@TicketIDs) {
         }
     }
 }
+# --
+# do ticket reminder notification jobs
+# --
+@TicketIDs = ();
+$SQL = "SELECT st.tn, st.id, st.user_id FROM " .
+    " ticket as st, ticket_state tsd " .
+    " WHERE " .
+    " st.ticket_state_id = tsd.id " .
+    " AND " .
+    " tsd.name IN ( ${\(join ', ', @{$CommonObject{ConfigObject}->Get('ReminderStats')})} ) ";
+$CommonObject{DBObject}->Prepare(SQL => $SQL);
+while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
+    push (@TicketIDs, $RowTmp[1]);
+}
+foreach (@TicketIDs) {
+    my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
+    if ($Ticket{UntilTime} < 1) {
+        # --
+        # send reminder notification
+        # --
+        print " send reminder notification (TicketID=$_)\n";
+        # get user data
+        my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $Ticket{UserID});
+        $CommonObject{TicketObject}->SendNotification(
+            Type => 'PendingReminder',
+            To => $Preferences{UserEmail},
+            CustomerMessageParams => {}, 
+            TicketNumber => $CommonObject{TicketObject}->GetTNOfId(ID => $Ticket{TicketID}),
+            TicketID => $Ticket{TicketID},
+            UserID => 1,
+        );
+    }
+}
+
+
 exit (0);
 
