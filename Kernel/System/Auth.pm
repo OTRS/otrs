@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.16 2003-07-13 11:01:21 martin Exp $
+# $Id: Auth.pm,v 1.17 2003-10-07 07:35:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,4 +63,3 @@ sub Auth {
 # --
 
 1;
-
