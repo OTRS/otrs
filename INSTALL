@@ -1,0 +1,82 @@
+# --
+# INSTALL description of OpenTRS
+# Copyright (C) 2001 Martin Edenhofer
+# --
+# $otrs: $
+# $Header: /ws/cvs-master-data/cvs/otrs/INSTALL,v 1.1 2001-12-01 16:55:17 martin Exp $
+# $Author: martin $ 
+
+Software requirements?
+======================
+
+  On all Perl-Platforms! You need:
+    * min. Perl5
+    * Database (e. g. MySQL, PostgreSQL)
+    * Webpserver (mod_perl isn't required but very nice to have)
+    * some CPAN-Module (CGI, MIME::Words, Mail::Internet, MIME::Parser, DBI,
+      DBD::mysql) and for stats (GD, GD::Graph, GD::Graph::lines, Date::Calc)
+
+Instalation:
+============
+
+1. Install CPAN Modules (if needed):
+   perl -MCPAN -e shell;
+   ...
+   install MIME::Words
+   install MIME::Parser
+   ...
+
+2. create user and install tar.gz 
+
+   $shell: mkdir /opt/OpenTRS/
+   $shell: useradd -d /opt/OpenTRS/ otrs
+   $shell: cd /opt/OpenTRS/
+   $shell: tar -xzvf OpenTRS-xxxx-xx-xx.tar-gz
+   $shell: chown -r /opt/OpenTRS/* otrs
+   
+3. Database:
+   rcmysql start
+   cat install/mysql/db_create.sql  | mysql -u root
+
+4. Webserver:
+   Configfile /etc/httpd/httpd.conf
+   [...]
+   User OpenTRS-User
+   [...]
+   ScriptAlias /cgi-bin/ "/opt/OpenTRS/bin/cgi-bin/"
+   [...]
+   <IfDefine PERL>
+   Alias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+   </IfDefine>
+   <Location /otrs>
+   SetHandler  perl-script
+   PerlHandler Apache::PerlRun
+   Options ExecCGI
+   PerlSendHeader On
+   </Location>
+
+5. Config file ($HOME/Kernel/Config.pm):
+   Set some Kernel::Config Options
+
+6. First Login:
+   http://host/cgi-bin/index.pl
+   User: root@localhost
+   PW: root
+
+   --> goto AdminArea and set some config setings.
+
+7. First Email:
+   use the procmailrc of the OpenTRS-User --> /opt/OpenTRS/.procmailrc
+
+8.  First Email:
+   use the procmailrc of the OpenTRS_User --> /opt/OpenTRS/.procmailrc
+
+   or pipe a email direct into $OpenTRS_HOME/bin/Postmaster.pl
+    (e. g. 'cat /tmp/email | $OpenTRS_HOME/bin/Postmaster.pl').
+
+Have a lot of fun.
+
+ Martin Edenhofer 
+
+(December 2001 Frankfurt/Germany)
+
