@@ -1,8 +1,8 @@
 # --
 # cron/unlock - unlock old locked ticket of the OTRS
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: unlock.dist,v 1.1 2002-11-21 21:39:33 martin Exp $
+# $Id: unlock.dist,v 1.2 2003-01-07 00:36:16 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. 
 # --
 # unlock every 30 minutes old locked tickets
