@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.23 2003-01-06 21:36:50 martin Exp $
+# $Id: Admin.pm,v 1.24 2003-01-18 09:21:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -945,7 +945,7 @@ sub AdminPOP3Form {
 
     $Param{'DispatchingOption'} = $Self->OptionStrgHashRef(
         Data => {
-            From => 'Dispatching by email From field.',
+            From => 'Dispatching by email To: field.',
             Queue => 'Dispatching by selected Queue.',
         },
         Name => 'DispatchingBy',
