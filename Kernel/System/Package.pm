@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.22 2005-02-23 11:20:23 martin Exp $
+# $Id: Package.pm,v 1.23 2005-02-23 11:50:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1296,10 +1296,6 @@ sub _FileInstall {
         $DirectoryCurrent .= "/$_";
         if (! -d $DirectoryCurrent) {
             if (mkdir $DirectoryCurrent) {
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message => "C: $DirectoryCurrent: $!",
-                );
                 print STDERR "Notice: Create Directory $DirectoryCurrent!\n";
             }
             else {
@@ -1408,6 +1404,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2005-02-23 11:20:23 $
+$Revision: 1.23 $ $Date: 2005-02-23 11:50:32 $
 
 =cut
