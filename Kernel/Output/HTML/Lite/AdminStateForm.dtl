@@ -2,7 +2,7 @@
 # AdminStateForm.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminStateForm.dtl,v 1.16 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminStateForm.dtl,v 1.17 2004-12-06 22:55:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -90,7 +90,7 @@
     </td>
   </tr>
   </table>
-  </from>
+  </form>
 
   </td>
 </tr>
