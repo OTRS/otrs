@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.74 2004-09-28 05:47:00 martin Exp $
+# $Id: AgentCompose.pm,v 1.75 2004-09-29 12:29:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::WebUploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.74 $';
+$VERSION = '$Revision: 1.75 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -203,8 +203,7 @@ sub Form {
     # --
     # prepare body, subject, ReplyTo ...
     # --
-    my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
-    $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
+    $Data{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
 
@@ -252,44 +251,46 @@ sub Form {
     # prepare salutation
     # --
     $Data{Salutation} = $Self->{QueueObject}->GetSalutation(%Ticket);
-    # prepare customer realname
-    if ($Data{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
-        # get realname
-        my $From = '';
-        if ($Ticket{CustomerUserID}) {
-            $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Ticket{CustomerUserID});
-        }
-        if (!$From) {
-            $From = $Data{OrigFrom} || '';
-            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-            $From =~ s/( $)|(  $)//g;
-        }
-        $Data{Salutation} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
-    }
     # prepare signature
     $Data{Signature} = $Self->{QueueObject}->GetSignature(%Ticket);
-    foreach (qw(Signature Salutation)) {
+    foreach (qw(Signature Salutation StdResponse)) {
+        # get and prepare realname
+        if ($Data{$_} =~ /<OTRS_CUSTOMER_REALNAME>/) {
+            my $From = '';
+            if ($Ticket{CustomerUserID}) {
+                $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Ticket{CustomerUserID});
+            }
+            if (!$From) {
+                $From = $Data{OrigFrom} || '';
+                $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+                $From =~ s/( $)|(  $)//g;
+            }
+            $Data{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
+        }
+        # replace other needed stuff
         $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
         $Data{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
         $Data{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
         $Data{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
-    }
-    # replace customer data
-    foreach (keys %Customer) {
-        if ($Customer{$_}) {
-            $Data{Signature} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$_}/gi;
-            $Data{Salutation} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$_}/gi;
-            $Data{StdResponse} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$_}/gi;
+        # replace ticket data
+        foreach my $TicketKey (keys %Ticket) {
+            if ($Ticket{$TicketKey}) {
+                $Data{$_} =~ s/<OTRS_TICKET_$_>/$Ticket{$TicketKey}/gi;
+            }
         }
+        # cleanup all not needed <OTRS_TICKET_ tags
+        $Data{$_} =~ s/<OTRS_TICKET_.+?>/-/gi;
+        # replace customer data
+        foreach my $CustomerKey (keys %Customer) {
+            if ($Customer{$CustomerKey}) {
+                $Data{$_} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$CustomerKey}/gi;
+            }
+        }
+        # cleanup all not needed <OTRS_CUSTOMER_ tags
+        $Data{$_} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+        # replace config options
+        $Data{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     }
-    # cleanup all not needed <OTRS_CUSTOMER_ tags
-    $Data{Signature} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-    $Data{Salutation} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-    $Data{StdResponse} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-    # replace config options
-    $Data{Signature} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-    $Data{Salutation} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-    $Data{StdResponse} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     # --
     # check some values
     # --
