@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.106 2003-04-16 21:12:15 martin Exp $
+# $Id: Agent.pm,v 1.107 2003-04-22 21:38:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.106 $';
+$VERSION = '$Revision: 1.107 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -316,7 +316,7 @@ sub TicketView {
         # --
         # do link quoting
         # ---
-        $Param{Text} = $Self->LinkQuote(Text => $Param{Body});
+        $Param{Text} = $Self->LinkQuote(Text => $Param{Text});
         # --
         # do charset check
         # --
@@ -1016,11 +1016,12 @@ sub AgentPhoneNew {
             Multiple => 0,
             Size => 0,
             Name => 'Dest',
-            SelectedID => 0,
+            SelectedID => $Param{ToSelected},
             OnChangeSubmit => 0,
         );
     }
     else {
+print STDERR "$Param{ToSelected} ..\n";
         $Param{'ToStrg'} = $Self->OptionStrgHashRef(
             Data => \%NewTo, 
             Name => 'Dest',
@@ -1043,10 +1044,14 @@ sub AgentPhoneNew {
     # --
     # build priority string
     # --
+    if (!$Param{PriorityID}) {
+        $Param{Priority} = $Self->{ConfigObject}->Get('PhoneDefaultPriority');
+    }
     $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{Priorities},
         Name => 'PriorityID',
-        Selected => $Param{PriorityID} || $Self->{ConfigObject}->Get('PhoneDefaultPriority'),
+        SelectedID => $Param{PriorityID},
+        Selected => $Param{Priority}, 
     );
     # --
     # pending data string
