@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.10 2002-10-01 13:52:02 martin Exp $
+# $Id: AgentPreferences.pm,v 1.11 2002-10-20 12:05:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -111,9 +111,9 @@ sub UpdatePw {
     }
     else {
         $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->Error(
+        $Output .= $Self->{LayoutObject}->Warning(
             Message => 'Passwords dosn\'t match! Please try it again!',
-            Comment => 'Passwords dosn\'t match! Please try it again!',
+            Comment => 'Check it!',
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
