@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.52 2004-02-27 22:52:43 martin Exp $
+# $Id: AgentQueueView.pm,v 1.53 2004-02-27 22:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -388,7 +388,10 @@ sub _MaskQueueView {
     $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
-    $Param{SelectedQueue} = $AllQueues{$QueueID} || $Self->{ConfigObject}->Get('CustomQueue'); 
+    my $CustomQueue = $Self->{ConfigObject}->Get('CustomQueue');
+    $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Get($CustomQueue);
+
+    $Param{SelectedQueue} = $AllQueues{$QueueID} || $CustomQueue;
     my @MetaQueue = split(/::/, $Param{SelectedQueue});
     $Level = $#MetaQueue+2;
     # --
@@ -439,8 +442,6 @@ sub _MaskQueueView {
         my %Queue = %$QueueRef;
         # replace name of CustomQueue
         if ($Queue{Queue} eq 'CustomQueue') {
-            my $CustomQueue = $Self->{ConfigObject}->Get('CustomQueue');
-            $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Get($CustomQueue);
             $Counter{$CustomQueue} = $Counter{$Queue{Queue}};
             $Queue{Queue} = $CustomQueue;
         }
