@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.39 2004-02-10 00:25:30 martin Exp $
+# $Id: de.pm,v 1.40 2004-02-16 02:05:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -372,7 +372,7 @@ sub Data {
 
     # Template: AdminNotificationForm
       'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfig Optionen (z. B. &lt;OTRS_CONFIG_HttpType&gt;)',
-      'Notification Management' => '',
+      'Notification Management' => 'Benachrichtigungs Management',
       'Notifications are sent to an agent or a customer.' => 'Notifications werden zu Agenten und Kunden gesendet.',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Optionen der Kunden Benutzer Daten (z. B. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Optionen des aktuellen Benutzers der diese Anfrage gerade ausübt (z. B. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
@@ -1011,6 +1011,7 @@ sub Data {
       'store' => 'Speichern',
       'tickets' => 'Tickets',
       'valid' => 'gültig',
+      'CreateTicket' => 'Ticket Erstellen',
     );
 
     # $$STOP$$
