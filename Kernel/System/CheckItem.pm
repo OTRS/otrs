@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spellinf module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckItem.pm,v 1.12 2004-10-09 10:55:27 martin Exp $
+# $Id: CheckItem.pm,v 1.13 2004-11-04 11:03:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CheckItem;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,7 +86,7 @@ sub CheckEmail {
                     Message => "DNS problem: ".$Resolver->errorstring(),
                 );
             }
-            if ($packet->header->ancount()) {
+            elsif ($packet->header->ancount()) {
                 # OK
 #                print STDERR "OK A $Host ".$packet->header->ancount()."\n";
             }
@@ -100,7 +100,7 @@ sub CheckEmail {
                         Message => "DNS problem: ".$Resolver->errorstring(),
                     );
                 }
-                if ($packet->header->ancount()) {
+                elsif ($packet->header->ancount()) {
                     # OK
 #                    print STDERR "OK MX $Host ".$packet->header->ancount()."\n";
                 }
