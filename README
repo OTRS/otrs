@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.7 2002-08-25 00:55:42 martin Exp $
+# $Id: README,v 1.8 2002-09-23 20:38:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -23,6 +23,7 @@ What is OTRS?
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
     - Multi language support (english, german and french)
+    - customize the output templates (dtl) release independently
 
    Email-Interface:
     - MIME support (attachments)
@@ -77,9 +78,14 @@ On what hardware does it run?
 =============================
 
   On all! You need Perl! My System is a Pentium II 500 with 256 MB RAM and
-  a 8 GB SCSI Harddisk. I can easily handle ~120.000 tickets, without problems.
-  For more then ~120.000 or ~300 tickets a day please ask the list about the
+  a 8 GB SCSI Harddisk. I can easily handle ~150.000 tickets, without problems.
+  For more then ~150.000 or ~400 tickets a day please ask the list about the
   requirements.
+
+  The biggest OTRS setup (where we got feedback) is ~750.000 tickets, ~4.200.000 
+  articles and ~12.000.000 ticket-history database table records. This system is 
+  running with MySQL, Apache and mod_perl on a Linux box with Pentium III 800 Mhz, 
+  256 MB RAM, SCSI.
 
 Software requirements?
 ======================
@@ -98,9 +104,9 @@ Software requirements?
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Apache 1.3.23 (incl. mod_perl 1.26).
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Roxen-Webserver 2.2.252
     * SuSE Linux 8.0 (i386) interfacing with Exchange 5.5 via fetchmail and postfix   
-    * Redhat 7.3 (no detail description available)
-    * Mandrake 8.2 server interfacing with Lotus Notes mail server via fetchmail and sendmail
-     
+    * Redhat 7.3 (i386) (no detail description available)
+    * Mandrake 8.2 server (i386) interfacing with Lotus Notes mail server via fetchmail and sendmail
+    * FreeBSD (i386), Sendmail, Perl 5.6.1, MySQL and Apache. 
     ... and you? ;-)
 
 EOF
