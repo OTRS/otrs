@@ -1,8 +1,8 @@
 # --
 # AgentMove.pm - move tickets to queues 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: AgentMove.pm,v 1.2 2002-07-12 16:02:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMove;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -22,7 +22,8 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # make all Params to local 
@@ -31,7 +32,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'DBObject', 'TicketObject', 'LayoutObject', 'LogObject') { 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) { 
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -47,54 +48,42 @@ sub Run {
     my $Output;
 	
     if (!$Self->{DestQueueID}) {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => "Error");
         $Output .= $Self->{LayoutObject}->Error(
                 Message => 'No DestQueueID!!',
-                Comment => 'Please contact your admin');
-        $Self->{LogObject}->Log(
-                Priority => 'error',
-                MSG => 'Panic! No DestQueueID found!!',
+                Comment => 'Please contact your admin',
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     elsif (!$Self->{TicketID}) {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => "Error");
         $Output .= $Self->{LayoutObject}->Error(
                 Message => 'No TicketID!!',
-                Comment => 'Please contact your admin');
-        $Self->{LogObject}->Log(
-                Priority => 'error',
-                MSG => 'Panic! No TicketID found!!',
+                Comment => 'Please contact your admin',
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     else {
-        # db update
-        my $SQL = "UPDATE ticket SET queue_id = $Self->{DestQueueID} where id = $Self->{TicketID}";
-        if ($Self->{DBObject}->Do(SQL => $SQL) ) {
-           # queue lookup
-           my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Self->{DestQueueID}) || $Self->{DestQueueID};
-           # history insert
-           $Self->{TicketObject}->AddHistoryRow(
-		        TicketID => $Self->{TicketID},
-                HistoryType => 'Move',
-		        Name => "Ticket moved to Queue '$Queue'.",
-		        CreateUserID => $Self->{UserID},
-		   );
+        # update
+        if ($Self->{TicketObject}->MoveTicketID(
+          QueueID => $Self->{DestQueueID},
+          UserID => $Self->{UserID},
+          TicketID => $Self->{TicketID},
+          ) ) {
            # redirect 
-           $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=AgentQueueView&QueueID=$Self->{QueueID}");
-	}
-	else {
-        # error?!
-	    $Output .= $Self->{LayoutObject}->Error(
-                MSG => 'DB Error!!',
-                REASON => 'Please contact your admin');
-        $Self->{LogObject}->Log(
-                Priority => 'error',
-                MSG => "Panic! DB Error! Can't update queue for ticket id $Self->{TicketID} !!",
-        );
-
-	}
+           $Output .= $Self->{LayoutObject}->Redirect(
+            OP => "&Action=AgentQueueView&QueueID=$Self->{QueueID}",
+           );
+        }
+        else {
+          # error?!
+          $Output = $Self->{LayoutObject}->Header(Title => "Error");
+	      $Output .= $Self->{LayoutObject}->Error(
+                Message => "Error! Can't update queue for ticket id $Self->{TicketID}!",
+                Comment => 'Please contact your admin',
+          );
+          $Output .= $Self->{LayoutObject}->Footer();
+        }
     }
     return $Output;
 }
