@@ -2,19 +2,16 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.40 2003-04-08 20:10:48 martin Exp $
+# $Id: TODO,v 1.41 2003-04-12 22:20:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-1.1
-- HTML only emails and std. responses
-- ticket free text for web frontend
-- bin/PostMasterPOP3.pl + procmail/filter (martin)
-- Add Page Navigator for AgentQueueView -
-   http://lists.otrs.org/pipermail/otrs/2003-February/000881.html (martin)
+1.2
+- Write email (new ticket) to customer 
+   http://lists.otrs.org/pipermail/otrs/2003-April/001377.html
 - Add TicketHookSpace -> e. g. ": " or ""
 - merge tickets -
    http://lists.otrs.org/pipermail/otrs/2002-August/000147.html (martin)
@@ -23,6 +20,7 @@
 - interfaceing with bugzilla (martin)
 - delete option for records (martin)
 - improve ticket search with between x and y
+- bin/PostMasterPOP3.pl + procmail/filter (martin)
 
 2.0
 - user backend (LDAP and DB)
@@ -30,8 +28,6 @@
 
 misc
 - add foreign-key to the XML db scheme
-- add "create new ticket" link on zoom view (if customer sends new problem
-   with on ticket number)
 
 ideas
 - add 'Mark as Read' feature for QueueView like other 'web based email system'
@@ -40,3 +36,5 @@ ideas
 - add icon in QueueView to show if there is a note on it or it's a new ticket
 - script for check of escalated tickets
 - module feature on set state, owner, lock and queue
+- interfaceing with Nagios (http://www.nagios.org/)
+- interfaceing with ISPMan (http://www.ispman.org/)

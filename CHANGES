@@ -2,13 +2,27 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.73 2003-03-24 13:12:34 martin Exp $
+# $Id: CHANGES,v 1.74 2003-04-12 22:20:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-1.1 CVS (2003-??-??)
+1.1 RC1 (2003-04-13)
+ - (2003/04/11) added check if ticket state type is closed or 
+    removed then send not 'auto reply' to customer.
+    http://lists.otrs.org/pipermail/otrs/2003-April/001401.html
+ - (2003/04/11) added check for quotable messages in auto response
+ - (2003/04/11) added check and html2ascii convert for html only 
+    emails on std. responses, forwards or splits 
+ - (2003/04/11) added Page Navigator for AgentQueueView -
+    http://lists.otrs.org/pipermail/otrs/2003-February/000881.html
+ - (2003/04/09) improved AdminEmail feature with group recipient
+ - (2003/04/08) added ticket split option in article zoom.
+ - (2003/04/08) fixed bug 109 - Attachments not being forwarded on 
+    http://bugs.otrs.org/show_bug.cgi?id=109
+ - (2003/04/08) fixed bug 111 - Inability to forward on anything from: 
+    'agent email(external)' - http://bugs.otrs.org/show_bug.cgi?id=110
  - (2003/03/24) improved user-auth and customer-auth ldap interface 
     with 'UserAttr' (UID for posixGroups objectclass and DN for non 
     posixGroups objectclass) on group access check. Config options now:
