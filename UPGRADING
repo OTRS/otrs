@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UPGRADING,v 1.9 2003-02-09 13:17:42 martin Exp $
+# $Id: UPGRADING,v 1.10 2003-04-12 22:21:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,6 +21,12 @@ These instructions are for people upgrading OTRS from "1.0" to "1.1".
    I had always only production machines to upgrade
 
 *) Install the new release (tar or RPM)
+
+*) If you use the tar, updated your webserver setup e.g. httpd.conf with
+   [...]
+   Alias /otrs-web/ "/opt/otrs/var/httpd/htdocs/"
+   [...]
+   for the OTRS images.
 
 *) Update the database changes with:
     MySQL: 
