@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/AgentInterface.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentInterface.pm,v 1.1 2005-01-01 12:12:06 martin Exp $
+# $Id: AgentInterface.pm,v 1.2 2005-01-01 12:26:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::User;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -90,7 +90,7 @@ sub Run {
         my @CMDs = split(/,/, $1);
         foreach my $CMD (@CMDs) {
             $CMD =~ s/ //g;
-            $Command{$CMD} = 1;
+            $Command{lc($CMD)} = 1;
         }
         "";
     }sexm;
@@ -156,6 +156,7 @@ sub Run {
     my @FromEmailAddress = $Self->{ParseObject}->SplitAddressLine(
         Line => $From,
     );
+    $FromEmailAddress[0] = $Self->{ParseObject}->GetEmailAddress(Email => $FromEmailAddress[0]);
     my %User = $Self->{UserObject}->UserSearch(
         Valid => 1,
         PostMasterSearch => $FromEmailAddress[0],
