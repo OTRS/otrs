@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.2 2002-07-02 20:41:24 martin Exp $
+# $Id: DateChecksum.pm,v 1.3 2002-07-22 21:54:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,8 +11,17 @@
 # --
 # Note:
 # available objects are: ConfigObject, LogObject and DBObject
-#
-# Generates ticket numbers like yyyymmddssID#####C (e. g. 2002062310100019)
+# --
+# The algorithm to calculate the checksum is derived from the one
+# Deutsche Bundesbahn (german railway company) uses for calculation
+# of the check digit of their vehikel numbering.
+# The checksum is calculated by alternately multiplying the digits
+# with 1 and 2 and adding the resulsts from left to right of the 
+# vehikel number. The modulus to 10 of this sum is substracted from
+# 10. See: http://www.pruefziffernberechnung.de/F/Fahrzeugnummer.shtml
+# (german)
+# --
+# Generates ticket numbers like yyyymmddssID#####C (e. g. 2002062310100011)
 # --
 
 package Kernel::System::Ticket::Number::DateChecksum;
@@ -20,7 +29,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub CreateTicketNr {
@@ -58,9 +67,10 @@ sub CreateTicketNr {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'debug',
-          MSG => "Read counter: $Count",
+          Message => "Read counter: $Count",
         );
     }
+
     # --
     # count auto increment ($Count++)
     # --
@@ -77,14 +87,14 @@ sub CreateTicketNr {
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
               Priority => 'debug',
-              MSG => "Write counter: $Count",
+              Message => "Write counter: $Count",
             );
         }
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            MSG => "Can't write $Self->{CounterLog}: $!",
+            Message => "Can't open $Self->{CounterLog}: $!",
         );
         die;
     }
@@ -105,12 +115,17 @@ sub CreateTicketNr {
     # calculate a checksum
     # --
     my $chksum = 0;
+    my $mult = 1;
     for ( my $i = 0; $i<length($Tn); ++$i ) {
         my $Digit = substr( $Tn, $i, 1 );
-        $chksum = $chksum + ( $Digit * $Digit );
-        $chksum %= 10 if ( $i % 2 == 0 );
+        $chksum = $chksum + ( $mult * $Digit );
+        $mult += 1;
+        if ( $mult == 3 ) {
+          $mult = 1;
+        }
     }
     $chksum %= 10;
+    $chksum = 10 - $chksum;
 
     # --
     # add checksum to ticket number
@@ -126,7 +141,7 @@ sub CreateTicketNr {
           # loop protection
           $Self->{LogObject}->Log(
             Priority => 'error',
-            MSG => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
+            Message => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!".
                    " Stoped CreateTicketNr()!",
           );
           return;
@@ -136,7 +151,7 @@ sub CreateTicketNr {
         # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "Tn ($Tn) exists! Creating new one.",
+          Message => "Tn ($Tn) exists! Creating new one.",
         );
         $Tn = $Self->CreateTicketNr($Self->{LoopProtectionCounter});
     }
