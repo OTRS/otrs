@@ -916,6 +916,7 @@ CREATE TABLE search_profile
 (
     login varchar (200) NOT NULL,
     profile_name varchar (200) NOT NULL,
+    profile_type varchar (30) NOT NULL,
     profile_key varchar (200) NOT NULL,
     profile_value varchar (200) NOT NULL
 );

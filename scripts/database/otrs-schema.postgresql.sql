@@ -824,6 +824,7 @@ CREATE TABLE search_profile
 (
     login varchar (200) NOT NULL,
     profile_name varchar (200) NOT NULL,
+    profile_type varchar (30) NOT NULL,
     profile_key varchar (200) NOT NULL,
     profile_value varchar (200) NOT NULL
 );
@@ -832,7 +833,7 @@ CREATE TABLE search_profile
 -- notifications
 -----------------------------------------------------------------------------
 CREATE TABLE notifications
-(   
+(
     id serial,
     notification_type varchar (200) NOT NULL,
     notification_charset varchar (60) NOT NULL,

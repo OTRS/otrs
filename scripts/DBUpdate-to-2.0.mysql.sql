@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.1 2004-09-09 11:08:59 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.2 2004-09-11 07:50:08 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.3.mysql.sql | mysql -f -u root otrs
@@ -70,4 +70,6 @@ CREATE TABLE role_user
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL
 );
+
+ALTER TABLE search_profile ADD profile_type VARCHAR (30) NOT NULL;
 
