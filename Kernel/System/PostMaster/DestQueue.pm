@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DestQueue.pm,v 1.11 2003-05-18 20:23:09 martin Exp $
+# $Id: DestQueue.pm,v 1.12 2003-06-01 17:17:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,10 +54,19 @@ sub GetQueueID {
         Valid => 1
     );
     # --
-    # check possible to and cc emailaddresses 
+    # check possible to, cc and resent-to emailaddresses 
     # --
+    my $Recipient = '';
+    foreach (qw(Cc To Resent-To)) {
+        if ($GetParam{$_}) {
+            if ($Recipient) {
+                $Recipient .= ', ';
+            }
+            $Recipient .= $GetParam{$_};
+        }
+    }
     my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
-        Line => $GetParam{To} .",". $GetParam{Cc},
+        Line => $Recipient, 
     );
     foreach (@EmailAddresses) {
         my $Address = $Self->{ParseObject}->GetEmailAddress(Email => $_);

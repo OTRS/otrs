@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.83 2003-05-29 23:13:22 martin Exp $
+# $Id: CHANGES,v 1.84 2003-06-01 17:17:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -23,6 +23,8 @@ CVS HEAD
  - (2003/05/13) removed UNIQUE (not needed!) in pop3_account table
 
 1.1.2 (2003-05-31) 
+ - (2003/06/01) added Resent-To email header check for queue sorting of 
+    new ticket - http://lists.otrs.org/pipermail/otrs/2003-May/001845.html
  - (2003/05/30) added "PerlInitHandler Apache::Reload" (Reload %INC files 
     - perl modules) when updated on disk to scripts/apache2-httpd.include.conf
  - (2003/05/30) added "PerlInitHandler Apache::StatINC" (Reload %INC files 
