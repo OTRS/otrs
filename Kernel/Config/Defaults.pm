@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.94 2003-12-15 20:26:50 martin Exp $
+# $Id: Defaults.pm,v 1.95 2004-01-09 12:58:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.94 $';
+$VERSION = '$Revision: 1.95 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -471,8 +471,11 @@ sub LoadDefaults {
     # default valid
     $Self->{DefaultValid} = 'valid';
     # default charset
-    # (default frontend charset) [default: iso-8859-1]
+    # (default frontend charset - "utf-8" is a multi chatset for all possible 
+    # charsets - e. g. "iso-8859-1" is also possible for single charset) 
+    # [default: iso-8859-1] 
     $Self->{DefaultCharset} = 'iso-8859-1';
+#    $Self->{DefaultCharset} = 'utf-8';
     # default langauge
     # (the default frontend langauge) [default: en]
     $Self->{DefaultLanguage} = 'en';
@@ -918,7 +921,7 @@ $Data{"Signature"}
             'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify', 'MoveNotify',
         ],
         Frontend => [
-            'Language', 'Charset', 'Theme', 'QueueViewShownTickets', 'QueueView', 'RefreshTime', 'PhoneNextMask', 
+            'Language', 'Theme', 'QueueViewShownTickets', 'QueueView', 'RefreshTime', 'PhoneNextMask', 
         ],
         'Other Options' => [
             'Password', 'CustomQueue', 'SpellDict', 'FreeText', 'Comment',
@@ -1040,14 +1043,6 @@ $Data{"Signature"}
         PrefKey => 'UserLanguage',
         Activ => 1,
     };
-    $Self->{PreferencesGroups}->{Charset} = {
-        Colum => 'Frontend', 
-        Label => 'Charset',
-        Desc => 'Select your frontend Charset.', 
-        Type => 'Generic',
-        PrefKey => 'UserCharset',
-        Activ => 1,
-    };
     $Self->{PreferencesGroups}->{Theme} = {
         Colum => 'Frontend', 
         Label => 'Theme',
@@ -1132,12 +1127,6 @@ there is a new ticket in '<OTRS_QUEUE>'!
 Your OTRS Notification Master
 
 ";
-    # --
-    # new phone ticket in queue
-    # --
-    $Self->{NotificationAlwaysCcPhoneCallCustomer} = $Self->{NotificationAlwaysCcNewTicket};
-    $Self->{NotificationSubjectPhoneCallCustomer} = $Self->{NotificationSubjectNewTicket}; 
-    $Self->{NotificationBodyPhoneCallCustomer} = $Self->{NotificationBodyNewTicket};
 
     # --
     # ticket follow up from customer
@@ -1342,7 +1331,7 @@ Your OTRS Notification Master
     $Self->{CustomerPanelNewArticleType} = 'webrequest';
     $Self->{CustomerPanelNewSenderType} = 'customer';
     # default history type
-    $Self->{CustomerPanelNewHistoryType} = 'NewTicket';
+    $Self->{CustomerPanelNewHistoryType} = 'WebRequestCustomer';
     $Self->{CustomerPanelNewHistoryComment} = 'Customer sent new ticket via web.';
 
     # CustomerPanelSelectionType 
@@ -1612,7 +1601,7 @@ Your OTRS Notification Master
     # (Order of shown items)
     $Self->{CustomerPreferencesView} = {
         Frontend => [
-            'ShownTickets', 'RefreshTime', 'Language', 'Charset', 'Theme', 
+            'ShownTickets', 'RefreshTime', 'Language', 'Theme', 
         ],
         'Other Options' => [
             'Password', 'ClosedTickets',
@@ -1675,14 +1664,6 @@ Your OTRS Notification Master
         Type => 'Generic',
         Data => $Self->Get('DefaultUsedLanguages'),
         PrefKey => 'UserLanguage',
-        Activ => 1,
-    };
-    $Self->{CustomerPreferencesGroups}->{Charset} = {
-        Colum => 'Frontend', 
-        Label => 'Charset',
-        Desc => 'Select your frontend Charset.', 
-        Type => 'Generic',
-        PrefKey => 'UserCharset',
         Activ => 1,
     };
     $Self->{CustomerPreferencesGroups}->{Theme} = {
@@ -1829,6 +1810,10 @@ Your OTRS Notification Master
     $Self->{'Module::Permission'}->{'AdminSystemAddress'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminUser'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminUserGroup'} = 'admin';
+
+    $Self->{'Module::PermissionRo'}->{'FAQ'} = ['faq'];
+    $Self->{'Module::Permission'}->{'FAQCategory'} = ['faq'];
+    $Self->{'Module::Permission'}->{'FAQArticle'} = ['faq'];
 
     $Self->{'Module::Permission'}->{'SystemStats'} = ['admin', 'stats'];
 
