@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.15 2002-08-01 02:37:36 martin Exp $
+# $Id: AgentZoom.pm,v 1.16 2002-08-04 23:35:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -87,19 +87,21 @@ sub Run {
     # --
     # store last screen
     # --
-    if (!$Self->{SessionObject}->UpdateSessionID(
-      SessionID => $Self->{SessionID},
-      Key => 'LastScreen',
-      Value => $Self->{RequestedURL},
-    )) {
-      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error();
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
-    }  
-
-    my @NotShownArticleTypes = (qw(email-notification-int)); 
+    if ($Self->{Subaction} ne 'ShowHTMLeMail') {
+      if (!$Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key => 'LastScreen',
+        Value => $Self->{RequestedURL},
+      )) {
+        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error();
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+      }  
+    }
+    # --
     # fetch all queues
+    # --
     my %MoveQueues = ();
     if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
         %MoveQueues = $Self->{QueueObject}->GetAllQueues();
@@ -107,7 +109,9 @@ sub Run {
     else {
         %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $Self->{UserID});
     }
+    # --
     # fetch all std. responses
+    # --
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $QueueID);
     
     my %Ticket;
@@ -119,8 +123,10 @@ sub Run {
     $Ticket{FreeKey2} = '';
     $Ticket{FreeValue2} = '';
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->GetAccountedTime(TicketID => $Ticket{TicketID});
+    # --
+    # grep all atricle of this ticket
+    # --
     my @ArticleBox;
-    
     my $SQL = "SELECT sa.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, ".
     " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ". 
     " sa.create_time, stt.name as sender_type, at.name as article_type, ".
@@ -153,8 +159,6 @@ sub Run {
     " sa.ticket_id = $Self->{TicketID} " .
     " AND " .
     " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
-    " AND " .
-    " at.name NOT IN ('${\(join '\', \'', @NotShownArticleTypes)}') " .
     " GROUP BY sa.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, ".
     " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ".
     " sa.create_time, stt.name, at.name, ".
