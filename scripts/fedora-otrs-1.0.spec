@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: fedora-otrs-1.0.spec,v 1.1 2004-03-14 02:01:37 robert Exp $
+# $Id: fedora-otrs-1.0.spec,v 1.2 2004-03-14 02:02:48 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,98 +14,18 @@
 # --
 Summary:      The Open Ticket Request System. 
 Name:         otrs
-Version:      1.2.0
+Version:      0.0
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs 
 Requires:     perl perl-DBI perl-DBD-MySQL perl-URI mod_perl httpd mysql mysql-server fetchmail procmail sendmail
 Autoreqprov:  no
-Release:      beta3
+Release:      01
 Source0:      otrs-%{version}-%{release}.tar.bz2
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
-The Open Ticket Request System (http://otrs.org/) is a web based ticket system.
-
-Feedback: feedback@otrs.org
-
-
-Authors:
---------
-    Antti Kämäräinen <antti at seu.net>
-    Carsten Gross <carsten at siski.de>
-    Franz Breu <breu.franz at bogen.net>
-    Fred van Dijk <fvandijk at marklin.nl>
-    Gilberto Cezar de Almeida <gilberto at visaonet.com.br>
-    Jorge Becerra <jorge at icc-cuba.com>
-    Nicolas Goralski <ngoralski at oceanet-technology.com>
-    Remo Catelotti <Remo.Catelotti at bull.it>
-    Stefan Wintermeyer <stefan at wintermeyer.de>
-    Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
-    Martin Edenhofer <martin at otrs.org>
-  
-  OTRS is an Open source Ticket Request System with many features to manage
-  customer telephone calls and e-mails. It is distributed under the GNU
-  General Public License (GPL) and tested on Linux, Solaris, AIX, FreeBSD, 
-  OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to answer 
-  them with a team of agents? You're going to love the OTRS!
-  
-  Feature list:
-
-   Web-Interface: 
-    - Agent web interface for viewing and working on all customer requests
-    - Admin web interface for changing system things
-    - Customer web interface for viewing and sending infos to the agents
-    - Webinterface with themes support
-    - Multi language support (Brazilian Portuguese, Bulgarian, Dutch, English,
-       Finnish, French, German, Italian and Spanish)
-    - customize the output templates (dtl) release independently
-    - Webinterface with attachment support
-    - easy and logical to use
-    
-   Email-Interface:
-    - MIME support (attachments)
-    - dispatching of incoming email via email addess or x-header
-    - autoresponders for customers by incoming emails (per queue)
-    - email-notification to the agent by new tickets, follow ups or lock timeouts
-
-   Ticket:
-    - custom queue view and queue view of all requests
-    - Ticket locking 
-    - Ticket replies (standard responses)
-    - Ticket autoresponders per queue
-    - Ticket history, evolution of ticket status and actions taken on ticket
-    - abaility to add notes (with different note types) to a ticket
-    - Ticket zoom feature
-    - Tickets can be bounced or forwarded to other email addresses 
-    - Ticket can be moved to a different queue (this is helpful if emails are
-       for a specific subject)
-    - Ticket priority
-    - Ticket time accounting
-    - content Fulltext search
-
-   System:
-    - creation and configuration of user accounts, and groups
-    - creation of standard responses
-    - Signature configuration per queue
-    - Salutation configuration per queue
-    - email-notification of administrators
-    - email-notification sent to problem reporter (by create, locked, deleted,
-       moved and closed)
-    - submitting update-info (via email or webinterface).
-    - deadlines for trouble tickets
-    - ASP (activ service providing) support
-    - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
-    - Ticket number format free setable
-    - different levels of permissions/access-rights.
-    - central database, Support of different SQL databases (e. g. MySQL, PostgeSQL, ...)
-    - user authentication agains database or ldap directory
-    - easy to develope you own addon's (OTRS API)
-    - easy to write different frontends (e. g. X11, console, ...)
-    - a fast and usefull application
-
-
-
+<DESCRIPTION>
 
 %prep
 %setup -n otrs
