@@ -2,7 +2,7 @@
 # AdminUser.pm - to add/update/delete user
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.6 2002-05-04 20:28:37 martin Exp $
+# $Id: AdminUser.pm,v 1.7 2002-05-14 00:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $ ';
+$VERSION = '$Revision: 1.7 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -99,7 +99,7 @@ sub Run {
               $Self->{UserObject}->SetPreferences(
                 UserID => $GetParam{ID},
                 Key => $_,
-                Value => $GetParam{$UserPrefs{$_}},
+                Value => $Self->{ParamObject}->GetParam(Param => $UserPrefs{$_}) || '',
               );
             }
             # --
