@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.13 2003-01-03 16:17:30 martin Exp $
+# $Id: AgentUtilities.pm,v 1.14 2003-01-05 16:03:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,16 +31,8 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'QueueObject', 
-      'ConfigObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
+      QueueObject ConfigObject UserObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -172,6 +164,7 @@ sub SearchByText {
     my $Want = $Self->{Want};
     my $UserID = $Self->{UserID};
     my @WhatFields = $Self->{ParamObject}->GetArray(Param => 'What');
+    my @States = $Self->{ParamObject}->GetArray(Param => 'State');
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
@@ -180,7 +173,20 @@ sub SearchByText {
         Kind => 'SearchByText',
         Limit => $Self->{SearchLimitTxt},
         WhatFields => \@WhatFields,
+        SelectedStates => \@States,
     );
+    # --
+    # add states to where statement
+    # --
+    my $SqlStateExt = '';
+    my $CounterTmp = 0;
+    foreach (@States) {
+        if ($CounterTmp != 0) {
+            $SqlStateExt .= " or ";
+        }
+        $CounterTmp++;
+        $SqlStateExt .= " tsd.name = '$_' ";
+    }
     # --
     # modifier search string
     # --
@@ -222,7 +228,7 @@ sub SearchByText {
     # --
     # create tricky sql part
     # --
-    my $CounterTmp = 0;
+    $CounterTmp = 0;
     foreach my $Field (@SearchFields) {
         if ($CounterTmp != 0) {
             $SqlExt .= " or ";
@@ -258,16 +264,12 @@ sub SearchByText {
     # --
     my $OutputTables = '';
     my $Age = '?';
-    my $SQL = "SELECT sa.id as article_id, st.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, ".
-    " sa.a_subject, sa.a_body, st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, ".
-    " sa.create_time, stt.name as sender_type, at.name as article_type, ".
-    " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, sl.name as lock_type, " .
-    " tsd.name as state, sa.content_path, sq.name as queue " .
+    my $SQL = "SELECT sa.id as article_id, st.id ".
     " FROM " .
     " article sa, ticket st, article_sender_type stt, article_type at, ".
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
     " ticket_state tsd, queue sq, group_user sug " .
-    " WHERE  " .
+    " WHERE " .
     " sa.ticket_id = st.id " .
     " AND " .
     " sq.id = st.queue_id " .
@@ -285,6 +287,8 @@ sub SearchByText {
     " sq.group_id = sug.group_id" .
     " AND " .
     " sug.user_id = $UserID " .
+    " AND " .
+    " ($SqlStateExt)" .
     " AND " .
     " ($SqlExt) " .
     " ORDER BY st.id DESC";
@@ -330,6 +334,7 @@ sub SearchByText {
         AllHits => $Counter,
         WhatFields => \@WhatFields,
         Want => $Self->{Want},
+        SelectedStates => \@States,
     );
     $Output .= $SearchNavBar.$OutputTables;
     $Output .= $Self->{LayoutObject}->Footer();

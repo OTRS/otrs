@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.73 2003-01-03 16:14:58 martin Exp $
+# $Id: Agent.pm,v 1.74 2003-01-05 16:03:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -847,6 +847,18 @@ sub AgentUtilForm {
     foreach (qw(From Subject Body)){
         $Param{$_.'CheckBox'} = 'checked';
     }
+    $Param{'StatesStrg'} = $Self->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'name, name',
+                      Table => 'ticket_state',
+                      Valid => 1,
+                    ) }, 
+        Name => 'State',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => ['open', 'new'],
+    );
+
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByTicketNumber', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByCustomerID', Data => \%Param);
@@ -870,6 +882,17 @@ sub AgentUtilSearchAgain {
       foreach (@WhatFields) {
           $Param{$_.'CheckBox'} = 'checked';
       }
+      $Param{'StatesStrg'} = $Self->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'name, name',
+                      Table => 'ticket_state',
+                      Valid => 1,
+                    ) }, 
+        Name => 'State',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{SelectedStates},
+      );
       $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
     }
     return $Output;
@@ -966,6 +989,9 @@ sub AgentUtilSearchCouter {
          if ($Param{WhatFields}) {
              foreach (@{$Param{WhatFields}}) {
                  $Param{SearchNavBar} .= "&What=$_";
+             }
+             foreach (@{$Param{SelectedStates}}) {
+                 $Param{SearchNavBar} .= "&State=$_";
              }
          }
          $Param{SearchNavBar} .= '&Want='.$Self->LinkEncode($Param{Want});
