@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.2 2002-05-05 13:51:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,7 +42,7 @@
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminQueueAutoResponse">$Text{"Queue <-> Auto Response"}</a>$Env{"Box1"}
   </td>
   <td>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSystemAddress">$Text{"System Addresses"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSystemAddress">$Text{"System Email Addresses"}</a>$Env{"Box1"} 
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminCharset">$Text{"Charsets"}</a>$Env{"Box1"} 
     <br>

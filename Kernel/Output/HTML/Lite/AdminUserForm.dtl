@@ -1,8 +1,8 @@
 # --
 # AdminUserForm.dtl - provides HTML form for AdminUser
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.2 2002-05-05 13:51:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,12 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor0"}">
+<tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left" width="30%">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"User Managament"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"User Management"}$Env{"Box1"}</font></b>
   </td>
   <td align="right" width="70%">
-  <b><font color="$Env{"FontColor1"}">-</font></b>
+  <b><font color="$Env{"FontColor0"}">-</font></b>
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
@@ -40,7 +40,7 @@
 # set subaction!
 <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
 # check add link
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a response)"; }>
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a user)"; }>
 # --
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}&Action=AdminUser">$Text{"$Data{"AddLink"}"}</a>: 
     <br>
@@ -48,27 +48,27 @@
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-    <input type="hidden" name="ID" value="$Data{"ID"}">
+    <input type="hidden" name="ID" value="$Data{"UserID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td>$Text{"Login/Email"}: </td>
-      <td> <input type="text" name="Login" value="$Data{"Login"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Login" value="$Data{"UserLogin"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Password"}: </td>
-      <td> <input type="password" name="Pw" value="$Data{"Pw"}" size="35" maxlength="50"></td>
+      <td> <input type="password" name="Pw" value="$Data{"UserPw"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Salutation"}: </td>
-      <td> <input type="text" name="Salutation" value="$Data{"Salutation"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Salutation" value="$Data{"UserSalutation"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Fristname"}: </td>
-      <td> <input type="text" name="Fristname" value="$Data{"Fristname"}" size="35" maxlength="50"></td>
+      <td>$Text{"Firstname"}: </td>
+      <td> <input type="text" name="Fristname" value="$Data{"UserFirstname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Lastname"}: </td>
-      <td> <input type="text" name="Lastname" value="$Data{"Lastname"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Lastname" value="$Data{"UserLastname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Language"}: </td>
@@ -88,7 +88,7 @@
     </tr>
     <tr>
       <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
+      <td> <input type="text" name="Comment" value="$Data{"UserComment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
     <input type="submit" value="$Text{"$Data{"Headline"}"}"> 

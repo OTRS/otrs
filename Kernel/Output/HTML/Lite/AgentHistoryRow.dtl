@@ -2,7 +2,7 @@
 # AgentHistoryRow.dtl - provides HTML form for history
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistoryRow.dtl,v 1.1 2002-04-14 18:24:44 martin Exp $
+# $Id: AgentHistoryRow.dtl,v 1.2 2002-05-05 13:51:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
