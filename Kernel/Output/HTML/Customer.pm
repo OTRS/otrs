@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.3 2002-11-15 14:59:30 martin Exp $
+# $Id: Customer.pm,v 1.4 2002-11-27 14:32:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,6 +31,15 @@ sub CustomerLogin {
         }
     }
     $Self->Output(TemplateFile => 'CustomerLogin', Data => \%Param);
+    # --
+    # get language options
+    # --
+    $Param{Language} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+        Name => 'Lang',
+        SelectedID => $Self->{UserLanguage},
+        OnChange => 'submit()'
+    );
     # --
     # get lost password output
     # --
@@ -351,20 +360,6 @@ sub CustomerPreferencesForm {
               SelectedID => $Self->{$PrefKey},
             );
           } 
-          elsif ($PrefKey eq 'UserLanguage') {
-              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => {
-                    $Self->{DBObject}->GetTableData(
-                      What => 'language, language',
-                      Valid => 1,
-                      Clamp => 0,
-                      Table => 'language',
-                    )
-                  },
-                  Name => 'GenericTopic',
-                  Selected => $Self->{UserLanguage},
-              );
-          }
           elsif ($PrefKey eq 'UserCharset') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                   Data => {
