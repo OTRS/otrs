@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.33 2002-08-03 12:02:33 martin Exp $
+# $Id: index.pl,v 1.34 2002-08-05 17:26:48 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -204,7 +204,7 @@ if ($Param{Action} eq "Login") {
         # --
         # redirect with new session id
         # --
-        print $LayoutObject->Redirect(OP => $Param{RequestedURL});
+        print $LayoutObject->Redirect(OP => "&$Param{RequestedURL}");
     }
     # --
     # login is vailid
