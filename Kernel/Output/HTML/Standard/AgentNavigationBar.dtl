@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.47 2005-01-31 08:22:26 tr Exp $
+# $Id: AgentNavigationBar.dtl,v 1.48 2005-02-07 12:12:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,8 +33,14 @@
         <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
 <!-- dtl:block:ItemArea -->
+    </tr>
+    </table>
+  </td>
+  <td valign="top" align="right" class="nav">
+    <table border="0" cellspacing="2" cellpadding="2">
+    <tr>
 <!-- dtl:block:ItemPersonal -->
-      <td valign="top" align="center" class="nav">
+      <td valign="top" align="center" class="nav"  width="120">
         <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
 <!-- dtl:block:ItemPersonal -->
@@ -65,7 +71,7 @@
     <table border="0" cellspacing="2" cellpadding="2">
     <tr>
 <!-- dtl:block:ItemPersonal -->
-      <td valign="top" align="center" class="nav">
+      <td valign="top" align="center" class="nav" width="120">
         <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
 <!-- dtl:block:ItemPersonal -->
