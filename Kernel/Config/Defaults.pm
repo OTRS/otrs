@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.18 2003-01-09 15:36:02 martin Exp $
+# $Id: Defaults.pm,v 1.19 2003-01-09 17:48:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -342,12 +342,6 @@ sub LoadDefaults {
     # you will not have performance trouble till ~ 50.000 tickets 
     # in your system)
     $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-
-    # FS
-    # (write the shown tickets in a file - use bin/RebuildTicketIndex.pl for initial
-    # index update)
-#    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::FS';
-#    $Self->{'TicketIndexModule::IndexFile'} = $Self->{Home} . '/var/tmp/ticket-index'; 
 
     # StaticDB
     # (the most powerfull module, it should be used over 80.000 
