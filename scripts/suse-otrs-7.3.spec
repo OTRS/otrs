@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.3 2002-08-20 14:03:01 stefan Exp $
+# $Id: suse-otrs-7.3.spec,v 1.4 2002-08-20 14:31:37 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -141,6 +141,9 @@ echo "Next steps: "
 echo ""
 echo "[SuSEconfig]"
 echo " Execute 'SuSEconfig' to configure the webserver."
+echo ""
+echo "[start Apache and MySQL]"
+echo " Execute 'rcapache start' and 'rcmysql start' in case they don't run."
 echo ""
 echo "[install the OpenTRS database]"
 echo " Use a webbrowser and open this link:"
