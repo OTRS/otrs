@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.10 2002-07-15 00:29:26 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.11 2002-10-03 21:15:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@
     $Data{"StatsLink"}
     $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentFAQ">$Text{"FAQ"}</a>$Env{"Box1"} 
+    <!--$Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentFAQ">$Text{"FAQ"}</a>$Env{"Box1"}-->
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentMailbox&Subaction=New">$Text{"new message"} ($Data{"LockToDo"})</a>$Env{"Box1"} 
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentMailbox">$Text{"Locked tickets"} ($Data{"LockCount"})</a>$Env{"Box1"} 
   </td>
