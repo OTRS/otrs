@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.22 2002-09-23 14:51:52 martin Exp $
+# $Id: CHANGES,v 1.23 2002-10-03 21:15:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,11 @@
 # --
 
 0.5 BETA8 (2002-09-??)
+ - moved Kernel::System::Article to Kernel::System::Ticket::Article! The
+    ArticleObject exists not longer in Kernel::Modules::*, use TicketObject.
+ - added attachment support for agent compose answer
+ - added Kernel::Modules::AdminEmail feature - a admin can send (via admin 
+    interface) info to one or more agents.
  - added /etc/sysconfig/otrs file for rcscripts
  - added rpm for Red Hat Linux 7.3
  - added email notify on ownership change feature - see

@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.23 2002-08-27 19:49:07 martin Exp $
+# $Id: TODO,v 1.24 2002-10-03 21:17:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,24 +12,25 @@
 0.5 beta8
 - merge tickets (http://lists.otrs.org/pipermail/otrs/2002-August/000147.html)
 - phone view select options /name/email/realname (http://lists.otrs.org/pipermail/otrs/2002-July/000124.html)
-- EmailToAllAgents
 - Customer handle (bin/cgi-bin/extern/index.pl) and modules - Submitting update-info 
    (via email or webinterface).
 - send bulk answer (http://lists.otrs.org/pipermail/otrs/2002-June/000066.html)
-- KnowlageFAQ
-- Add attachment support for AgentCompose.pm (http://bugs.otrs.org/show_bug.cgi?id=17)
 - Add filters to the locked-ticket-view!
 
 0.5 beta9
 - Add pending feature (http://lists.otrs.org/pipermail/otrs/2002-July/000124.html and
   http://lists.otrs.org/pipermail/otrs/2002-August/000176.html)
 - Add a ticket browser by date (http://lists.otrs.org/pipermail/otrs/2002-August/000176.html)
+- Show all open tickets AgentShowTicketIndex 
+- interfaceing with bugzilla
  
 misc
 - check types of auto responses!
 - Email-notification of administrators.
 - Email-notification sent to problem reporter (by create, locked, deleted,
    moved and closed) (http://lists.otrs.org/pipermail/dev/2002-June/000005.html)
+- Email-notification to agent by ticket move (http://lists.otrs.org/pipermail/otrs/2002-September/000281.html)
+- Email-notification to extra email by ticket unlocked by time-out (http://lists.otrs.org/pipermail/otrs/2002-September/000281.html)
 - rework of permissions/access-rights.
 - rework the db scheme indexes 
 - add foreign-key to the XML db scheme
