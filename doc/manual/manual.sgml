@@ -14,6 +14,7 @@
 <!ENTITY online-resources SYSTEM "online-resources.sgml">
 <!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
 <!ENTITY procmail SYSTEM "procmail.sgml">
+<!ENTITY language-translation SYSTEM "language-translation.sgml">
 ]>
 
 <book id="index">
@@ -75,8 +76,6 @@ or implied warranty.
 
 &install;
 
-&config-file;
-
 &first-steps;
 
 &first-ticket;
@@ -84,6 +83,10 @@ or implied warranty.
 &basics_about_tt;
 
 &procmail;
+
+&config-file;
+
+&language-translation;
 
 &troubleshooting;
 
