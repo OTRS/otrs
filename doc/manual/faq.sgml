@@ -10,7 +10,7 @@ I installed the otrs.rpm from SuSE 8.0. But it doesn't work. Why?
 </question>
 <answer>
 <para>
-The rpm is buggy (which is not a SuSE mistake). Please visit our <ulink url="http://www.otrs.org/">website</ulink> and download the newest rpm. Your can install the rpm with YaST or manually
+The default SuSE 8.0 rpm is buggy (which is not a SuSE mistake). Please visit our <ulink url="http://www.otrs.org/">website</ulink> and download the newest rpm. Your can install the rpm with YaST or manually
 <programlisting>
 rpm -Uvh otrs.rpm
 </programlisting>
@@ -75,6 +75,23 @@ Geeks: Of course a script could act like an agent. Feel free to do so!
 
 <qandaentry>
 <question>
+<para>How can I delete a user, who is no longer needed? (asked by Andreas Haase - Wed, 21 Aug 2002 11:17:01 +0200 (CEST))</para>
+</question>
+<answer>
+<para>
+OpenTRS is working with database id references. If you would delete a user      
+(or queue, ...) from the database, your delete the reference info. Important
+infos like owner or queue.
+</para>
+<para>
+Set the data record to invalid and the record is still visible (e. g. for ticket
+history, ...) but not activ for the application.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
 <para>Can OpenTRS receive email?</para>
 </question>
 <answer>
@@ -118,7 +135,7 @@ Yes.
 </question>
 <answer>
 <para>
-Of course. 
+Yes, of course. 
 </para>
 </answer>
 </qandaentry>
@@ -159,6 +176,9 @@ But we will provide additional installation informations on <ulink url="http://w
 <para>
 Minimum: <ulink url="http://www.perl.com/">Perl5</ulink> (with a few <ulink url="http://www.cpan.org/">CPAN</ulink> modules, more: INSTALL),  <ulink url="http://www.mysql.com">MySQL</ulink> and <ulink url="http://www.apache.org">Apache</ulink>. 
 </para>
+<para>
+But again, your are on the safe side by using SuSE Linux. It will provide you with all the needed stuff.
+</para>
 </answer>
 </qandaentry>
 
@@ -189,11 +209,14 @@ Some of our test enviroments are Pentium II 300 with 64 MB RAM and they do a pre
 
 <qandaentry>
 <question>
-<para>How does OpenTRS scale?</para>
+<para>How does OpenTRS scale and how big can it become?</para>
 </question>
 <answer>
 <para>
 This is depending on the hardware and the enviroment you are using. At the moment OpenTRS is a one box system. With little work you can set up a webserver-cluster and you can split the database to a seperate box. We are planing to support some sort of clustering mechanism. But this is not the highest priority for the development.
+</para>
+<para>
+There are OTRS installations which handle 20,000 tickets (e-mails) a day and don't show any sign of stress. 
 </para>
 </answer>
 </qandaentry>
@@ -204,7 +227,7 @@ This is depending on the hardware and the enviroment you are using. At the momen
 </question>
 <answer>
 <para>
-At the moment we only support <ulink url="http://www.mysql.com">MySQL</ulink> as a database. Frankly we do trust in a <ulink url="http://www.mysql.com">MySQL</ulink> as much as in a DB2 (for this application). Anybody how is willing to send some time to port it to other databases is more than welcome to the OpenTRS team!
+At the moment we only support <ulink url="http://www.mysql.com">MySQL</ulink> as the default database. Frankly we do trust in a <ulink url="http://www.mysql.com">MySQL</ulink> as much as in a DB2 (for this application). Anybody who is willing to spend some time to port it to other databases is more than welcome to the OpenTRS team!
 </para>
 <para>
 Note: The code is designed to support different databases! 
@@ -230,6 +253,9 @@ Note: The code is designed to support different databases!
 <answer>
 <para>
 User: root@localhost Password: root 
+</para>
+<para>
+Of course it is a very good idea to change this default password!
 </para>
 </answer>
 </qandaentry>
@@ -262,23 +288,7 @@ Of course. You can customize OpenTRS like you want. Take advantage of the dtl (d
 </question>
 <answer>
 <para>
-Theoraticly yes, but we are not the big windows gurus and haven't ever tried to set up a Windows box with an <ulink url="http://www.apache.org">Apache</ulink>, <ulink url="http://www.perl.com">Perl</ulink> and <ulink url="http://www.mysql.com">MySQL</ulink>.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>
-I did everything the right way, but it does not work. Why?
-</para>
-</question>
-<answer>
-<para>
-Do not panic!
-</para>
-<para>
-We tried our very best to make a simple and smooth installation procedure. But of course as with any old style open source project we know how to install our software and sometimes we forget to update our documentation. Please do not hesitate do send us an e-mail!!!
+Theoraticly yes, but we are not the big windows gurus and haven't ever tried to set up a Windows box with an <ulink url="http://www.apache.org">Apache</ulink>, <ulink url="http://www.perl.com">Perl</ulink> and <ulink url="http://www.mysql.com">MySQL</ulink>. In case you tried it send us an e-mail.
 </para>
 </answer>
 </qandaentry>
@@ -301,23 +311,6 @@ Welcome! Anybody who is willing to help us and has the time is more than welcome
 <answer>
 <para>
 We can not help you. Sorry.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
-<para>I can't delete a user or a queue. Why?</para>
-</question>
-<answer>
-<para>
-OpenTRS is working with database id references. If you would delete a user 
-(or queue, ...) from the database, your delete the reference info. 
-Important infos like owner or queue.
-</para>
-<para>
-Set the data record to invalid and the record is still visible (e. g.
-for ticket history, ...) but not activ for the application.
 </para>
 </answer>
 </qandaentry>
