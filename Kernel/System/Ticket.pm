@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: Ticket.pm,v 1.2 2002-01-12 16:18:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -62,7 +62,10 @@ sub CreateTicketNr {
     my $Count = <COUNTER>;
     close (COUNTER);
     if ($Self->{Debug} > 0) {
-        print STDERR "DB->CreateTicketNr::readcounter: $Count\n";
+        $Self->{LogObject}->Log(
+          Priority => 'debug',
+          MSG => "Read counter: $Count",
+        );
     }
     # count++
     $Count++;
@@ -71,16 +74,30 @@ sub CreateTicketNr {
     print COUNTER $Count . "\n";
     close (COUNTER);
     if ($Self->{Debug} > 0) {
-        print STDERR "DB->CreateTicketNr::writecounter: $Count\n";
+        $Self->{LogObject}->Log(
+          Priority => 'debug',
+          MSG => "Write counter: $Count",
+        );
     }
-    return  $Self->{SystemID} . $Count;
+
+    my $Tn = $Self->{SystemID} . $Count;
+
+    # check ticket number if exists generate new one! 
+    if ($Self->CheckTicketNr(Tn=>$Tn)) {   
+        $Self->{LogObject}->Log(
+          Priority => 'error',
+          MSG => "Tn ($Tn) exists! Creating new one.",
+        );
+        $Tn = $Self->CreateTicketNr();
+    }
+    return $Tn; 
 }
 # --
 sub CheckTicketNr {
     my $Self = shift;
     my %Param = @_;
     my $Tn = $Param{Tn};
-    my $Id;
+    my $Id = '';
     my $SQL = "SELECT id FROM ticket " .
     " WHERE " .
     " tn = '$Tn' ";
