@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGroup.pm,v 1.9 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminGroup.pm,v 1.10 2003-04-09 19:46:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,10 +13,8 @@ package Kernel::Modules::AdminGroup;
 
 use strict;
 
-use Kernel::System::Group;
-
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,8 +36,6 @@ sub new {
         die "Got no $_" if (!$Self->{$_});
     }
 
-    $Self->{GroupObject} = Kernel::System::Group->new(%Param);   
-
     return $Self;
 }
 # --
@@ -48,6 +44,7 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     $Param{NextScreen} = 'AdminGroup';
+    my %Groups = $Self->{GroupObject}->GroupList(Valid => 0);
     # --
     # get group data 
     # --
@@ -56,7 +53,10 @@ sub Run {
         my %GroupData = $Self->{GroupObject}->GroupGet(ID => $ID);
         $Output = $Self->{LayoutObject}->Header(Title => 'Group change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminGroupForm(%GroupData);
+        $Output .= $Self->{LayoutObject}->AdminGroupForm(
+            %GroupData, 
+            GroupList => \%Groups
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -108,7 +108,7 @@ sub Run {
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Group add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminGroupForm();
+        $Output .= $Self->{LayoutObject}->AdminGroupForm(GroupList => \%Groups);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -116,4 +116,3 @@ sub Run {
 # --
 
 1;
-
