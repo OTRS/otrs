@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.1 2002-10-15 09:36:22 martin Exp $
+# $Id: AgentStatusView.pm,v 1.2 2002-10-28 18:18:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Modules::AgentStatusView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -60,7 +60,7 @@ sub new {
    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
    # viewable tickets a page
    $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit')
-       || 400; 
+       || 200; 
 
    return $Self;
 }
@@ -189,76 +189,38 @@ sub ShowTicketStatus {
     # get last customer articles
     # --
     my @ShownViewableTicket = ();
-    my $SQL = "SELECT sa.ticket_id, sa.a_subject, " .
-       " st.create_time_unix, st.user_id, " .
-       " st.customer_id, sq.name as queue, sa.id as article_id, " .
-       " st.id, st.tn, sp.name, sd.name as state, st.queue_id, " .
-       " st.create_time, ".
-       " su.$Self->{ConfigObject}->{DatabaseUserTableUser} " .
-       " FROM " .
-       " article sa, ticket st, ticket_priority sp, ticket_state sd, " .
-       " article_sender_type sdt, queue sq, " .
-       " $Self->{ConfigObject}->{DatabaseUserTable} su " .
-       " WHERE " .
-       " sa.ticket_id = st.id " .
-       " AND " .
-       " sa.article_sender_type_id = sdt.id " .
-       " AND " .
-       " sq.id = st.queue_id" .
-       " AND " .
-       " sp.id = st.ticket_priority_id " .
-       " AND " .
-       " st.ticket_state_id = sd.id " .
-       " AND " .
-       " sa.ticket_id = $TicketID " .
-       " AND " .
-       " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
-       " AND " .
-       " sdt.name in ( ${\(join ', ', @{$Self->{ViewableSenderTypes}})}) " .
-       " ORDER BY sa.create_time DESC ";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
-    while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-        my $Age = time() - $$Data{create_time_unix};
-        # Condense down the subject
-        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-        my $Subject = $$Data{a_subject};
-        $Subject =~ s/^RE:*//i; 
-        $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
+    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
+    my @ArticleIndex = $Self->{TicketObject}->GetArticleIndex(
+        TicketID => $TicketID, 
+        SenderType => 'customer',
+    );
+    my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleIndex[$#ArticleIndex]);
+    # Condense down the subject
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+    my $Subject = $Article{Subject};
+    $Subject =~ s/^RE:*//i; 
+    $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
 
+    if (%Article) {
         $Output .= $Self->{LayoutObject}->AgentStatusViewTable(
-           TicketNumber => $$Data{tn}, 
-           Priority => $$Data{name},
-           State => $$Data{state},   
-           TicketID => $$Data{id},
-           ArticleID => $$Data{article_id},
-           Owner => $$Data{login},
-           Subject => $Subject,
-           Age => $Age,
-           Created => $$Data{create_time},
-           Queue => $$Data{queue},
-           CustomerID => $$Data{customer_id},
+            %Ticket,
+            %Article,
+            Subject => $Subject,
         );
-        push (@ShownViewableTicket, $$Data{id});
     }
-    # --
-    # if there is no customer article avalible! Error!
-    # --
-    my $Hit = 0;
-    foreach (@ShownViewableTicket) {
-       if ($_ == $TicketID) {  
-           $Hit = 1;
-       }
-    }
-    if ($Hit == 0) {
-       $Output .= $Self->{LayoutObject}->Error(
+    else {
+        # --
+        # if there is no customer article avalible! Error!
+        # --
+        $Output .= $Self->{LayoutObject}->Error(
            Message => "No customer article found!! (TicketID=$TicketID)",
            Comment => 'Please contact your admin',
-       );
-       $Self->{LogObject}->Log(
+        );
+        $Self->{LogObject}->Log(
            Priority => 'error',
            Message => "No customer article found!! (TicketID=$TicketID)",
            Comment => 'Please contact your admin',
-       );
+        );
     }
     # --
     # return page
