@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.22 2004-02-13 00:50:36 martin Exp $
+# $Id: DB.pm,v 1.23 2004-03-01 13:13:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -166,7 +166,7 @@ sub CustomerSearch {
                   $Users{$Row[0]} .= $Row[$_].' ';
              }
          }
-         $Users{$Row[0]} =~ s/^(.*\s)(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+         $Users{$Row[0]} =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
     }
     return %Users;
 }
