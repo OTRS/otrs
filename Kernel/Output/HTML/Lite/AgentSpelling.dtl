@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.dtl,v 1.9 2004-10-06 19:45:18 martin Exp $
+# $Id: AgentSpelling.dtl,v 1.10 2004-10-29 12:55:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ function updateMessage()
 
 function change_selected(sel)
 {
-   start_elements = (4 * sel) - 1;
+   start_elements = (5 * sel) - 1;
    if (document.spelling.elements[0].name == "$Config{"SessionName"}") {
        start_elements = start_elements + 1;
    }
@@ -61,7 +61,25 @@ function change_selected(sel)
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
   <input type="hidden" name="Action" value="AgentSpelling">
 
-$Data{"SpellCheckString"}
+<table border="0" width="100%" cellspacing="0" cellpadding="1">
+<tr>
+  <th width="50">$Text{"Line"}</th>
+  <th width="100">$Text{"Word"}</th>
+  <th colspan="2">$Text{"replace with"}</th>
+  <th width="50">$Text{"Change"}</th>
+  <th width="50">$Text{"Ignore"}</th>
+</tr>
+<!-- dtl:block:Row -->
+<tr>
+  <td align="center">$QData{"Line"}</td>
+  <td><font color="red">$QData{"Word"}</font><input type="hidden" name="SpellCheckOld::$QData{"Count"}" value="$QData{"Word"}"></td>
+  <td>$Data{"OptionList"}</td>
+  <td> $Text{"or"} <input type="text" name="SpellCheckOrReplace::$QData{"Count"}" value="" size="20" onchange="change_selected($QData{"Count"})"></td>
+  <td align="center"><input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="$QData{"Word"}"></td>
+  <td align="center"><input type="radio" name="SpellCheck::Replace::$QData{"Count"}" value="" checked="checked"></td>
+</tr>
+<!-- dtl:block:Row -->
+</table>
 
 <hr>
 <table border="0" width="580" cellspacing="0" cellpadding="1">

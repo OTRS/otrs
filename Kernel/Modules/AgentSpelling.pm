@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.pm,v 1.11 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentSpelling.pm,v 1.12 2004-10-29 12:55:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,33 +15,31 @@ use strict;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check all needed objects
-    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject 
-      ConfigObject LogObject)) {
+    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
     $Self->{SpellingObject} = Kernel::System::Spelling->new(%Param);
-    # --
+
     # get params
-    # --
     foreach (qw(Body)) {
         my $Value = $Self->{ParamObject}->GetParam(Param => $_);
         $Self->{$_} = defined $Value ? $Value : '';
@@ -53,32 +51,28 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    
+
     $Param{Body} = $Self->{ParamObject}->GetParam(Param => 'Body');
     $Param{SpellLanguage} = $Self->{ParamObject}->GetParam(Param => 'SpellLanguage') ||
         $Self->{UserSpellDict} || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
     # --
-    # get all wrong words
+    # get and replace all wrong words
     # --
     my %Words = ();
-    foreach ($Self->{ParamObject}->GetArray(Param => 'SpellCheckReplace')) { 
-        my ($Word, $Value) = split(/::/, $_);
-        my $OrWord = $Self->{ParamObject}->GetParam(Param => "SpellCheckOrReplace::$Word") || '';
-        if ($OrWord) { 
-            $Value = $OrWord;
-        }
-        $Words{$Word} = $Value;
-    }
-    # --
-    # replace all wrong words
-    # --
-    foreach (keys %Words) {
-        if ($Words{$_} && $Self->{ParamObject}->GetParam(Param => "SpellCheck::$_") eq "Replace") {
-            $Param{Body} =~ s/^$_$/$Words{$_}/g;
-            $Param{Body} =~ s/^$_( |\n|\r|\s)/$Words{$_}$1/g;
-            $Param{Body} =~ s/ $_$/ $Words{$_}/g;
-            $Param{Body} =~ s/(\s)$_(\n|\r)/$1$Words{$_}$2/g;
-            $Param{Body} =~ s/(\s)$_(\s|:|;|<|>|\/|\\|\.|\!|%|&|\?)/$1$Words{$_}$2/gs;
+    foreach (0..300) {
+        my $Replace = $Self->{ParamObject}->GetParam(Param => "SpellCheck::Replace::$_");
+        if ($Replace) {
+            my $Old = $Self->{ParamObject}->GetParam(Param => "SpellCheckOld::$_");
+            my $New = $Self->{ParamObject}->GetParam(Param => "SpellCheckOrReplace::$_") ||
+              $Self->{ParamObject}->GetParam(Param => "SpellCheckOption::$_");
+            if ($Old && $New) {
+                $Param{Body} =~ s/^$Old$/$New/g;
+                $Param{Body} =~ s/^$Old( |\n|\r|\s)/$New$1/g;
+                $Param{Body} =~ s/ $Old$/ $New/g;
+                $Param{Body} =~ s/(\s)$Old(\n|\r)/$1$New$2/g;
+                $Param{Body} =~ s/(\s)$Old(\s|:|;|<|>|\/|\\|\.|\!|%|&|\?)/$1$New$2/gs;
+                $Param{Body} =~ s/(\W)$Old(\W)/$1$New$2/g;
+            }
         }
     }
     # --
@@ -92,18 +86,13 @@ sub Run {
     # check error
     # --
     if ($Self->{SpellingObject}->Error()) {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Spell Checker');
-        $Output .= $Self->{LayoutObject}->Error(
-                Comment => 'System Error!',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        return $Self->{LayoutObject}->ErrorScreen();
     }
-    # -- 
+    # --
     # start with page ...
     # --
     $Output .= $Self->{LayoutObject}->Header(
-        Area => 'Agent', 
+        Area => 'Agent',
         Title => 'Spell Checker',
         Type => 'Small',
     );
@@ -124,45 +113,34 @@ sub _Mask {
     }
     # spellcheck
     if ($Param{SpellCheck}) {
-      $Param{SpellCheckString} = '<table border="0" width="580" cellspacing="0" cellpadding="1">'.
-        '<tr><th width="50">$Text{"Line"}</th><th width="100">$Text{"Word"}</th>'.
-        '<th width="330"colspan="2">$Text{"replace with"}</th>'.
-        '<th width="50">$Text{"Change"}</th><th width="50">$Text{"Ignore"}</th></tr>';
-      $Param{SpellCounter} = 0;
-      foreach (sort {$a <=> $b} keys %{$Param{SpellCheck}}) {
-        my $WrongWord = $Param{SpellCheck}->{$_}->{Word};
-        if ($WrongWord) {
-          $Param{SpellCounter} ++;
-          if ($Param{SpellCounter} <= 300) {
-            $Param{SpellCheckString} .= "<tr><td align='center'>$Param{SpellCheck}->{$_}->{Line}</td><td><font color='red'>$WrongWord</font></td><td>";
-            my %ReplaceWords = ();
-            if ($Param{SpellCheck}->{$_}->{Replace}) {
-              foreach my $ReplaceWord (@{$Param{SpellCheck}->{$_}->{Replace}}) {
-                $ReplaceWords{$WrongWord."::".$ReplaceWord} = $ReplaceWord;
-              }
+        $Param{SpellCounter} = 0;
+        foreach (sort {$a <=> $b} keys %{$Param{SpellCheck}}) {
+            if ($Param{SpellCheck}->{$_}->{Word} && $Param{SpellCounter} <= 300) {
+                $Param{SpellCounter}++;
+                my %ReplaceWords = ();
+                if ($Param{SpellCheck}->{$_}->{Replace}) {
+                    foreach my $ReplaceWord (@{$Param{SpellCheck}->{$_}->{Replace}}) {
+                        $ReplaceWords{$ReplaceWord} = $ReplaceWord;
+                    }
+                }
+                else {
+                    $ReplaceWords{''} = 'No suggestions';
+                }
+                $Param{SpellCheckString}  = $Self->{LayoutObject}->OptionStrgHashRef(
+                   Data => \%ReplaceWords,
+                   Name => "SpellCheckOption::$Param{SpellCounter}",
+                   OnChange => "change_selected($Param{SpellCounter})"
+                );
+                $Self->{LayoutObject}->Block(
+                  Name => 'Row',
+                    Data => {
+                        %{$Param{SpellCheck}->{$_}},
+                        OptionList => $Param{SpellCheckString},
+                        Count => $Param{SpellCounter},
+                    },
+                );
             }
-            else {
-                $ReplaceWords{$WrongWord.'::0'} = 'No suggestions';
-            }
-            $Param{SpellCheckString}  .= $Self->{LayoutObject}->OptionStrgHashRef(
-               Data => \%ReplaceWords,
-               Name => "SpellCheckReplace",
-               OnChange => "change_selected($Param{SpellCounter})"
-            ).
-              '</td><td> or '.
-              '<input type="text" name="SpellCheckOrReplace::'.$WrongWord.'" value="" size="16" onchange="change_selected('.$Param{SpellCounter}.')">'.
-              '</td><td align="center">'.
-              '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Replace">'.
-              '</td><td align="center">'.
-              '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Ignore" checked="checked">'.
-              '</td></tr>'."\n";
-          }
         }
-      }
-      $Param{SpellCheckString} .= '</table>';
-      if ($Param{SpellCounter} == 0) {
-        $Param{SpellCheckString} = '';
-      }
     }
     # dict language selection
     $Param{SpellLanguageString}  .= $Self->{LayoutObject}->OptionStrgHashRef(
