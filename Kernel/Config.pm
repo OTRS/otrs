@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.66 2002-10-20 22:27:14 martin Exp $
+# $Id: Config.pm,v 1.67 2002-10-25 00:08:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,7 @@ sub Load {
     $Self->{SecureMode} = 0;
 
     # SystemID
-    # (The identify oh the system. Each ticket number and
+    # (The identify of the system. Each ticket number and
     # each http session id starts with this number)
     $Self->{SystemID} = 10; 
 
@@ -74,8 +74,8 @@ sub Load {
     # Organization
     # (If this is anything other than '', then the email will have an
     # Organization X-Header)
-#    $Self->{Organization} = 'Example Company';
-    $Self->{Organization} = '';
+    $Self->{Organization} = 'Example Company';
+#    $Self->{Organization} = '';
 
     # CustomQueue
     # (The name of custom queue.)
@@ -216,11 +216,12 @@ sub Load {
     # LogModule                                           #
     # ----------------------------------------------------#
     # (log backend module)
-    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
+#    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
 #    $Self->{LogModule} = 'Kernel::System::Log::File';
+    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
 
     # param for LogModule Kernel::System::Log::File (required!)
-#    $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
+    $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
 
     # ----------------------------------------------------#
     # web stuff                                           #
@@ -288,9 +289,11 @@ sub Load {
     # Kernel::System::Ticket::Number::Random -->
     #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Date';
-    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
+#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Random';
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
+
+    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
  
     # ----------------------------------------------------#
     # TicketViewAccelerator                               #
