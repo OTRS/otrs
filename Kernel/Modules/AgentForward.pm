@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.6 2002-07-13 12:21:43 martin Exp $
+# $Id: AgentForward.pm,v 1.7 2002-07-21 22:55:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentForward;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -107,7 +107,9 @@ sub Form {
     my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
     my $QueueObject = Kernel::System::Queue->new(
         QueueID => $QueueID,
-        DBObject => $Self->{DBObject}
+        DBObject => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject => $Self->{LogObject},
     );
 
     # get lock state && permissions

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.4 2002-07-13 12:21:43 martin Exp $
+# $Id: AgentBounce.pm,v 1.5 2002-07-21 22:55:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentBounce;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -91,7 +91,9 @@ sub Run {
     # --
     my $QueueObject = Kernel::System::Queue->new(
         QueueID => $Param{QueueID},
-        DBObject => $Self->{DBObject}
+        DBObject => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject => $Self->{LogObject},
     );
 
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
