@@ -2,7 +2,7 @@
 # Test.dtl - provides HTML test page 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Test.dtl,v 1.9 2003-04-11 18:43:21 martin Exp $
+# $Id: Test.dtl,v 1.10 2004-09-04 15:22:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -174,8 +174,52 @@ $Data{"w"}
 </pre>
   </td>
 </tr>
-
 </table>
 
 <hr>
+
+# --
+# blocks
+# --
+<b>dtl block</b>
+<br>
+<!-- dtl:block:Row -->
+$QData{"Text"} $Text{"Counter"}: $QData{"Counter"}
+<hr size="1">
+<!-- dtl:block:Row -->
+
+<br>
+
+<!-- dtl:block:System -->
+<table border="1">
+    <!-- dtl:block:User -->
+    <tr>
+        <th valign="top">$Data{"Type"}</th>
+        <th valign="top">$Data{"Counter"}</th>
+    <tr>
+    <!-- dtl:block:UserID -->
+    <tr>
+        <td valign="top">$Data{"Type"}</td>
+        <td valign="top">$Data{"Counter"}</td>
+    </tr>
+    <!-- dtl:block:UserID -->
+    <!-- dtl:block:UserIDA -->
+    <tr>
+        <td valign="top">$Data{"Type"}</td>
+        <td valign="top">$Data{"Counter"}</td>
+    </tr>
+    <!-- dtl:block:UserIDA -->
+
+    <!-- dtl:block:User -->
+    <!-- dtl:block:Times -->
+    <tr>
+        <td valign="top">$Data{"Type"}</td>
+        <td valign="top">$Data{"Counter"}</td>
+    </tr>
+    <!-- dtl:block:Times -->
+</table>
+<br>
+<!-- dtl:block:System -->
+
+
 
