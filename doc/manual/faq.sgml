@@ -57,7 +57,7 @@ Nothing, it`s <ulink url="http://www.gnu.org/copyleft/gpl.txt">GPL</ulink>.
 </answer>
 </qandaentry>
 
-<qandaentry id="faq_agent">
+<qandaentry id="faq-agent">
 <question>
 <para>
 This document refers to agents. What is an agent in the context of OTRS?

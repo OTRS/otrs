@@ -5,7 +5,7 @@ OTRS needs a few system cronjobs to unlock tickets with lock timeouts,
 send reminder notifications and some other stuff.
 </para>
 
-<sect1 id="cronjob_setup">
+<sect1 id="cronjob-setup">
 <title>How it works - setup</title>
 <para>
 There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
@@ -27,7 +27,7 @@ Note: Install this cronjobs as OTRS user.
 </para>
 </sect1>
 
-<sect1 id="cronjob_default-cronjobs">
+<sect1 id="cronjob-default-cronjobs">
 <title>Default cronjobs</title>
 <sect2>
 <title>aaa_base</title>

@@ -1,7 +1,7 @@
-<chapter id="ticket_topics">
+<chapter id="ticket-topics">
 <title>Ticket topics</title>
 
-<sect1 id="ticket_topics-answer_ticket_email">
+<sect1 id="ticket-topics-answer-ticket-email">
 <title>Answer ticket via email</title>
 <para>
 It's quite simply to answer tickets via email. Goto the QueueView or TicketZoom and click on one of tle listed items under "Compose Answer (email)". A new screen will be opened, the compose screen. The cool thing is, that the compose screen includes the item-standard answer!  
@@ -12,7 +12,7 @@ It's quite simply to answer tickets via email. Goto the QueueView or TicketZoom 
 </para>
 </sect1>
 
-<sect1 id="ticket_topics-answer_ticket_phone">
+<sect1 id="ticket-topics-answer-ticket-phone">
 <title>Answer ticket via phone</title>
 <para>
 It's quite simply to answer tickets via phone. Just click on "phone call" (near Contact customer (phone)). A new screen will be opened. Write down the phone notes an select new ticket type (open, closed, ...).
@@ -23,7 +23,7 @@ It's quite simply to answer tickets via phone. Just click on "phone call" (near 
 </para>
 </sect1>
 
-<sect1 id="ticket_topics-zoom">
+<sect1 id="ticket-topics-zoom">
 <title>Zoom ticket</title>
 <para>
 Zoom ticket is a detail view of one ticket. The screenshot shows you the ticket data (State, Priority, the Queue of the ticket, the Lock state, Owner and the article tree. Article tree means the whole communication thread.
@@ -34,7 +34,7 @@ Zoom ticket is a detail view of one ticket. The screenshot shows you the ticket 
 </para>
 </sect1>
 
-<sect1 id="ticket_topics-history">
+<sect1 id="ticket-topics-history">
 <title>History of ticket</title>
 <para>
 The ticket history shows you all actions on this ticket.
@@ -45,7 +45,7 @@ The ticket history shows you all actions on this ticket.
 </para>
 </sect1>
 
-<sect1 id="ticket_topics-add_note">
+<sect1 id="ticket-topics-add-note">
 <title>Add note to ticket</title>
 <para>
 Each agent is able to add notes to tickets. Maybe he/she isn't sure to give a qualified answer. And you can select the type og note (internal, external, ...).
@@ -56,7 +56,7 @@ Each agent is able to add notes to tickets. Maybe he/she isn't sure to give a qu
 </para>
 </sect1>
 
-<sect1 id="ticket_topics-close">
+<sect1 id="ticket-topics-close">
 <title>Close ticket</title>
 <para>
 Close Tickets. 
@@ -67,7 +67,7 @@ Close Tickets.
 </para>
 </sect1>
 
-<sect1 id="ticket_topics-forward">
+<sect1 id="ticket-topics-forward">
 <title>Forward ticket</title>
 <para>
 Forward tickets if the email wasn't for your OpenTRS system.
@@ -78,7 +78,7 @@ Forward tickets if the email wasn't for your OpenTRS system.
 </para>
 </sect1>
 <!--
-<sect1 id="ticket_topics-bounce">
+<sect1 id="ticket-topics-bounce">
 <title>Bounce ticket</title>
 <para>
 todo!
@@ -89,7 +89,7 @@ todo!
 </para>
 </sect1>
 -->
-<sect1 id="ticket_topics-priority">
+<sect1 id="ticket-topics-priority">
 <title>Ticket priority</title>
 <para>
 Set the ticket priority if necessary.
@@ -100,7 +100,7 @@ Set the ticket priority if necessary.
 </para>
 </sect1>
 
-<sect1 id="ticket_topics-print">
+<sect1 id="ticket-topics-print">
 <title>Ticket print view</title>
 <para>
 The ticket print view.

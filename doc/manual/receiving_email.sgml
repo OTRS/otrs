@@ -1,7 +1,7 @@
-<chapter id="receiving_email">
+<chapter id="receiving-email">
 <title>Receiving emails</title>
 
-<sect1 id="receiving_email-pop3">
+<sect1 id="receiving-email-pop3">
 <title>Via POP3 account</title>
 <para>
 OTRS is able to receive emails from POP3 accounts. 
@@ -20,7 +20,7 @@ your bin/PostMasterPOP3.pl every 10 minutes (see also chapter cronjobs).
 </para>
 </sect1>
 
-<sect1 id="receiving_email-cmd">
+<sect1 id="receiving-email-cmd">
 <title>Via command line programm and e. g. procmail</title>
 <para>
 OTRS is able to receive emails via a command line programm (bin/PostMaster.pl).
@@ -58,7 +58,7 @@ All emails sent to the local otrs user will be piped into bin/PostMaster.pl
 and then shown in your QueueView. 
 </para>
 
-<sect2 id="receiving_email-cmd_dispatching_with_otrs">
+<sect2 id="receiving-email-cmd-dispatching-with-otrs">
 <title>Queue dispatching with OTRS</title>
 <para>
 OTRS is able to dispatch incoming emails via "To" address. Configurable via admin interface.
@@ -80,7 +80,7 @@ In this case, all incoming emails (with To: support@company.com) will be dispatc
 </sect2>
 
 
-<sect2 id="receiving_email-cmd_dispatching_with_proc">
+<sect2 id="receiving-email-cmd-dispatching-with-proc">
 <title>Queue dispatching with procmail (for more complex dispatching)</title>
 <para>
 <emphasis role='bold'>The X-OTRS-Queue Mail-Header</emphasis>
@@ -122,7 +122,7 @@ And here a last example, the whole .procmailrc.
 # .procmailrc - procmailrc of the OTRS user
 # Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
 # --
-# $Id: receiving_email.sgml,v 1.1 2003-01-12 17:53:55 martin Exp $
+# $Id: receiving_email.sgml,v 1.2 2003-01-18 12:30:46 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -192,7 +192,7 @@ Please have a look into the procmailex man-page for more examples.
 
 </sect2>
 
-<sect2 id="receiving_email-cmd_dispatching_with_pro_web">
+<sect2 id="receiving-email-cmd-dispatching-with-pro-web">
 <title>Example with procmail and a webform</title>
 <para>
 This is an example for a webform to generate an email for

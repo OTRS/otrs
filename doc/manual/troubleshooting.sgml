@@ -3,7 +3,7 @@
 <para>
 We split this section into different parts per distribution. Of course you can set up your own system with your own linux system. But please understand that we can not provide any support for that. OTRS is much to complecated and has to many links to other components of the system that we are lucky to have access to mechanisms like RPM. We will try to support as many platforms as possilbe but time is a valuable resource. ;-)
 </para>
-<sect1 id="problems_with_suse">
+<sect1 id="problems-with-suse">
 <title>General problems with OTRS on SuSE Linux</title>
 <para>
 The very first step should be a visit to <ulink url="http://www.suse.de/de/support/download/updates/"><citetitle>http://www.suse.de/de/support/download/updates/</citetitle></ulink> which is the page where you can find the latest patches and updates for your SuSE Linux. Please check especialy for fixes about Apache, MySQL, Perl and of course OTRS. YaST2 users should be able to use the Yast Online Update mechanism. Otherwise download the rpm files and deinstall the old package with "rpm --nodeps -e otrs" and install them th new with "rpm -i foo.rpm"
@@ -45,14 +45,14 @@ And to restart the Postfix daemon (rcpostfix restart).
 
 </sect1>
 
-<sect1 id="problems_with_redhat">
+<sect1 id="problems-with-redhat">
 <title>General problems with OTRS on other distributions (e.g. Redhat)</title>
 <para>
 Frankly we have not tried to install it on a Redhat yet. It should be a problem but there is no ready to use RPM. We are working on it. Same for other distributions.
 </para>
 </sect1>
 
-<sect1 id="problems_with_apache">
+<sect1 id="problems-with-apache">
 <title>Problems with Apache</title>
 <para>
 Most people who have problems with the Apache did build their own very special Apache. Of course you are welcome to do so but in case you run into trouble we suggest to your the vanilla version which is provided by your favorate distribution.
@@ -127,7 +127,7 @@ and then restart (source http://lists.otrs.org/pipermail/otrs/2002-September/000
 
 </sect1>
 
-<sect1 id="problems_with_mysql">
+<sect1 id="problems-with-mysql">
 <title>Problems with MySQL</title>
 <para>
 Please doublecheck all passwords. Mostly people setup the system with a wrong password. In this case it is the easiest way to re-setup the system. 
@@ -169,7 +169,7 @@ Note: If you use mod_perl, restart the webserver, because mod_perl is reading th
 </para>
 </sect2>
 
-<sect2 id="problems_lost_mysql_root_pw">
+<sect2 id="problems-lost-mysql-root-pw">
 <title>Lost root password of MySQL</title>
 <para>
 Follow: <ulink url="http://www.mysql.com/documentation/mysql/bychapter/manual_Problems.html#Resetting_permissions">http://www.mysql.com/documentation/mysql/bychapter/manual_Problems.html#Resetting_permissions</ulink>
@@ -188,10 +188,10 @@ Note: Just for SuSE Linux RPMs.
 
 </sect1>
 
-<sect1 id="problems_misc">
+<sect1 id="problems-misc">
 <title>Problems - misc</title>
 
-<sect2 id="problems_with_receiving_emails">
+<sect2 id="problems-with-receiving-emails">
 <title>Problems with receiving emails</title>
 <para>
 If everything is working, but you can't see the incoming emails, check if the ~otrs/bin/PostMaster.pl program is working correctly. Pipe an example email through the PorstMaster.pl. There are two example emails in the default OTRS package (~otrs/doc/test-email-*.box or /usr/share/doc/packages/otrs/test-email-*.box).   
@@ -206,7 +206,7 @@ May there is an error message, then you have to fix it. If not and you see this 
 </para>
 </sect2>
 
-<sect2 id="problems_lost_otrs_root_pw">
+<sect2 id="problems-lost-otrs-root-pw">
 <title>Lost root password of OTRS</title>
 <para>
 I lost the root password of OTRS ("Login failed! Your username or password was entered incorrectly."). 

@@ -4,12 +4,12 @@
 OTRS was created in the third or fourth quater of the year 2001 (nobody remembers the exact date). In those glory days the core team consisted of Martin Edenhofer and Stefan Wintermeyer.
 </para>
 
-<sect1 id="martin_edenhofer">
+<sect1 id="martin.edenhofer">
 <title>Martin Edenhofer</title>
 <informaltable frame='none'>
 <tgroup cols="2">
-<colspec colwidth="1*"/>
-<colspec colwidth="4*"/>
+<colspec colwidth="1*">
+<colspec colwidth="4*">
 <tbody>
 <row><entry>E-Mail:</entry><entry><email>martin@otrs.org</email></entry></row>
 <row><entry>Homepage:</entry><entry><ulink url="http://martin.edenhofer.de/"><citetitle>http://martin.edenhofer.de/</citetitle></ulink></entry></row>
@@ -22,12 +22,12 @@ Without Martin the otrs wouldn't exist. He is a brilliant coder. We will insert 
 </para>
 </sect1>
 
-<sect1 id="stefan_wintermeyer">
+<sect1 id="stefan.wintermeyer">
 <title>Stefan Wintermeyer</title>
 <informaltable frame='none'>
 <tgroup cols="2">
-<colspec colwidth="1*"/>
-<colspec colwidth="4*"/>
+<colspec colwidth="1*">
+<colspec colwidth="4*">
 <tbody>
 <row><entry>E-Mail:</entry><entry><email>stefan@otrs.org</email></entry></row>
 <row><entry>Homepage:</entry><entry><ulink url="http://www.wintermeyer.de/"><citetitle>http://www.wintermeyer.de/</citetitle></ulink></entry></row>
@@ -54,12 +54,12 @@ ein und propagiert Linux als das Betriebssystem für Server und Thin Clients.
 </blockquote>
 </sect1>
 
-<sect1 id="sebastian_wormser">
+<sect1 id="sebastian.wormser">
 <title>Sebastian Wormser</title>
 <informaltable frame='none'>
 <tgroup cols="2">
-<colspec colwidth="1*"/>
-<colspec colwidth="4*"/>
+<colspec colwidth="1*">
+<colspec colwidth="4*">
 <tbody>
 <row><entry>E-Mail:</entry><entry><email>sibbi@sibbi.com</email></entry></row>
 <row><entry>Homepage:</entry><entry><ulink url="http://sibbi.org/"><citetitle>http://sibbi.org/</citetitle></ulink></entry></row>
@@ -70,7 +70,7 @@ ein und propagiert Linux als das Betriebssystem für Server und Thin Clients.
 
 <para>
 We are very happy that Sebastian Wormser (Sibbi) finally joined our team. We have worked on a commercial trouble ticket system in the past (the stts at <ulink url="http://www.suse.de/">SuSE</ulink>
-- <ulink url="http://www.ibm.com/software/success/cssdb.nsf/CS/NAVO-56G3KU?OpenDocument&Site=software">IBM Case Study on SuSE</ulink> / 
+- <ulink url="http://www.ibm.com/software/success/cssdb.nsf/CS/NAVO-56G3KU?OpenDocument">IBM Case Study on SuSE</ulink> / 
 <ulink url="http://www.linux-magazin.de/ausgabe/2001/04/stts/stts.html">German Linux magazin</ulink>). 
 So it is sort of a reunion but for an open source and total new (probably better) version. 
 </para>

@@ -3,7 +3,7 @@
 <para>
 The OTRS webfrontend supports different frontend languages. The language translation files are located under Kernel/Language/*.pm. 
 </para>
-<sect1 id="translation_example">
+<sect1 id="translation-example">
 <title>New translation files</title>
 <para>
 If you want to translate OpenTRS in a new language, you have to do five steps:
@@ -52,7 +52,7 @@ Now you can select the new language in your preferences screen.
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer xxxxxxxxxxxxxxxxxxxx
 # --
-# $Id: language-translation.sgml,v 1.7 2003-01-05 21:43:36 martin Exp $
+# $Id: language-translation.sgml,v 1.8 2003-01-18 12:30:46 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -63,7 +63,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
@@ -110,7 +110,7 @@ To:
 # Copyright (C) 2002 Bernard Choppy xxxxxxxxxxxxxxxxxxxx
 # Copyright (C) 2002-2003 Nicolas Goralski xxxxxxxxxxxxxxxxxxxx
 # --
-# $Id: language-translation.sgml,v 1.7 2003-01-05 21:43:36 martin Exp $
+# $Id: language-translation.sgml,v 1.8 2003-01-18 12:30:46 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -121,7 +121,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {

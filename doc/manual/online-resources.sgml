@@ -3,7 +3,7 @@
 <para>
 We try to support you with the very last information about OTRS and give you a good way to provide us with your feedback.
 </para>
-<sect1 id="online-resources_homepage">
+<sect1 id="online-resources-homepage">
 <title>Homepage</title>
 <para>
 Our homepage can be found at <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>.
@@ -14,7 +14,7 @@ Our homepage can be found at <ulink url="http://www.otrs.org/"><citetitle>http:/
 </para>
 </sect1>
 
-<sect1 id="online-resources_mailinglists">
+<sect1 id="online-resources-mailinglists">
 <title>Mailinglists</title>
 <para>
 We provide five major mailinglists. You must be subscribed to post to any of them. 
@@ -46,7 +46,7 @@ To subcribe visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.ot
 </para>
 </sect1>
 
-<sect1 id="online-resources_bugtracking">
+<sect1 id="online-resources-bugtracking">
 <title>Bugtracking</title>
 <para>
 Real geeks don't need a bugtracking tool! ;-)

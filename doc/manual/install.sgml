@@ -5,7 +5,7 @@ The described way of installing the otrs is tested on a newly installed system. 
 <para>
 We try to keep the installation as easy as possible. But the OTRS is a very powerfull and complex application which can not just be untared in some directory and that's it.
 </para>
-<sect1 id="installing_the_quick_and_easy_way">
+<sect1 id="installing-the-quick-and-easy-way">
 <title>Installing the rpm on a SuSE Linux (the quick and easy way)</title>
 <para>
 This section is a guide for installing OTRS on a SuSE Linux. We tested the SuSE Linux versions 7.3, 8.0 and 8.1. Before starting the installation have a look at <ulink url="http://www.otrs.org/"><citetitle>http://otrs.org/</citetitle></ulink> and check if a newer and better version of the rpm file is available. If so please download it and use the newer documentation and the newer rpm.
@@ -19,7 +19,7 @@ In case you prefer the command line rpm way (you have to have installed the need
 ernie:~ # rpm -ivh /tmp/otrs.rpm 
 otrs                        ##################################################
 Check OpenTRS user (/etc/passwd)... otrs added.
-SetPermissions.sh &lt;$Revision: 1.4 $> - set OpenTRS file permissions
+SetPermissions.sh &lt;$Revision: 1.5 $> - set OpenTRS file permissions
 Copyright (c) 2002 Martin Edenhofer &lt;martin@otrs.org>
 Setting file permissions... 
 chown -R root.root /opt/OpenTRS
@@ -116,7 +116,7 @@ It is not a good idea to use the default passwords. You install a very important
 And because we want to keep the system as secure as possible we change some permissions by using the following script:
 <screen>
 ernie:~ # /opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS otrs wwwrun
-SetPermissions.sh &lt;$Revision: 1.4 $> - set OpenTRS file permissions
+SetPermissions.sh &lt;$Revision: 1.5 $> - set OpenTRS file permissions
 Copyright (c) 2002 Martin Edenhofer &lt;martin@otrs.org>
 Setting file permissions... 
 chown -R root.root /opt/OpenTRS

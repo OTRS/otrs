@@ -1,7 +1,7 @@
-<chapter id="basics_about_tt">
+<chapter id="basics-about-tt">
 <title>Basics about a Trouble Ticket System</title>
 
-<sect1 id="simple_example_for_a_tt">
+<sect1 id="simple-example-for-a-tt">
 <title>A simple example for a small Trouble Ticket System</title>
 
 <para>
@@ -18,14 +18,14 @@ Of course this is just a very rough overview of the benefits of OTRS. Probably B
 </para>
 </sect1>
 
-<sect1 id="what_is_a_trouble_ticket">
+<sect1 id="what-is-a-trouble-ticket">
 <title>What is a trouble ticket in the OTRS?</title>
 <para>
 Within the OTRS all trouble tickets are handled as normal e-mails. In case you want to attach something (e.g. a fax) it will be attached as an e-mail attachment. All tickets are stored on the harddrive in clear text format. The headers are stored in a databasei, too. The database is used to sort the tickets and to give quick access to them. For detailed information about this mechanism have a look in the source code.
 </para>
 </sect1>
 
-<sect1 id="what_is_a_queue">
+<sect1 id="what-is-a-queue">
 <title>What is a ticket queue?</title>
 <para>
 For native english speaking folks this might be a bit funny but for non native speakers the term QUEUE does not make any sense at all. So we use this section to describe the idea and concept.

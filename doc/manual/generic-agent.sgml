@@ -5,7 +5,7 @@ The Generic-Agent is an command line program wich can do some actions
 (like move, add note, set state, set owner) on tickets.
 </para>
 
-<sect1 id="generic-agent_config-file">
+<sect1 id="generic-agent-config-file">
 <title>Config File</title>
 <para>
 Kernel/Config/GenericAgent.pm is the default config file which must be copied 
@@ -14,7 +14,7 @@ Kernel/Config/GenericAgent.pm is the default config file which must be copied
 </sect1>
 
 
-<sect1 id="generic-agent_example">
+<sect1 id="generic-agent-example">
 <title>Examples</title>
 <para>
 Now we want to go through a few examples. There is also a example config file 
