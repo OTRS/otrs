@@ -2,7 +2,7 @@
 # Kernel/System/Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.11 2002-07-15 10:38:59 martin Exp $
+# $Id: Article.pm,v 1.12 2002-08-04 14:45:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,9 +16,11 @@ use strict;
 use File::Path;
 use File::Basename;
 use MIME::Parser;
+use MIME::Words qw(:all);
+use MIME::QuotedPrint;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -78,12 +80,23 @@ sub CreateArticle {
     # DB Quoting
     # --
     foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        if ($Param{$_}) {
+            # mime decode
+            $Param{$_} = decode_mimewords($Param{$_});
+            # qb quoting
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
+        else {
+            $Param{$_} = '';
+        }
     }
     if (!$Param{Body}) {
+        # add 'no body found!' if there is no body there!
         $Param{Body} = 'no body found!';
     }
     else {
+        # decode quoted printable 
+        $Param{Body} = MIME::QuotedPrint::decode($Param{Body});
         # fix some bad stuff from browsers!
         $Param{Body} =~ s/(\n\r|\r\n)/\n/g;
     }
