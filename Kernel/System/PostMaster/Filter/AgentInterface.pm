@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/AgentInterface.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentInterface.pm,v 1.3 2005-02-15 11:58:13 martin Exp $
+# $Id: AgentInterface.pm,v 1.4 2005-02-25 12:24:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,8 +18,11 @@ use Kernel::System::User;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+
+# bulk, list
 
 # --
 sub new {
@@ -60,6 +63,18 @@ sub Run {
         if ($Config{Set}) {
             %Set = %{$Config{Set}};
         }
+    }
+    # check bulk emails
+    if ($Param{GetParam}->{'X-OTRS-Loop'}) {
+        # set this message to ignore, because it's a bulk email
+        if ($Self->{Debug} > 1) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message => "Ignore Message for AgentEmailinterface because of loop header (MessageID:$Param{GetParam}->{'Message-ID'})!",
+            );
+        }
+        $Param{GetParam}->{'X-OTRS-Ignore'} = 'yes';
+        return 1;
     }
     # check if it's a follow up
     if (!$Param{TicketID}) {
