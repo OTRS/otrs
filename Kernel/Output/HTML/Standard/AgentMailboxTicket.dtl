@@ -2,7 +2,7 @@
 # AgentMailboxTicket.dtl - provides HTML form for agent mailbox 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailboxTicket.dtl,v 1.6 2002-10-21 13:24:39 martin Exp $
+# $Id: AgentMailboxTicket.dtl,v 1.7 2002-10-22 14:33:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -50,7 +50,7 @@
     </tr>
   </table>
   </td>
-  <td align="left"> 
+  <td align="left" bgcolor="$Env{"BGTableColor2"}"> 
   <table border="0">
     <tr>
       <td>$Text{"State"}:</td><td> <font color="red">$Text{"$Data{"State"}"}</font></td>
