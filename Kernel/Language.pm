@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.27 2004-01-27 20:55:55 martin Exp $
+# $Id: Language.pm,v 1.28 2004-02-01 19:01:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -170,10 +170,16 @@ sub Get {
                 }
             }
         }
+        # what charset shoud I use (take it from translation file)!
+        my $TranslationCharset = '';
+        if ($Self->{Charset}) {
+            my @Chatsets = @{$Self->{Charset}};
+            $TranslationCharset = $Chatsets[$#Chatsets];
+        }
         # charset convert from source translation into shown charset
         my $Text = $Self->CharsetConvert(
             Text => $Self->{Translation}->{$What}, 
-            From => $Self->GetRecommendedCharset(),
+            From => $TranslationCharset, 
         );
         return $Text; 
     }
@@ -475,6 +481,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2004-01-27 20:55:55 $
+$Revision: 1.28 $ $Date: 2004-02-01 19:01:46 $
 
 =cut
