@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.9 2004-12-04 16:14:51 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.10 2004-12-06 22:56:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -204,6 +204,36 @@ sub Run {
     # uninstall package
     # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'Uninstall') {
+        my $Name = $Self->{ParamObject}->GetParam(Param => 'Name') || '';
+        my $Version = $Self->{ParamObject}->GetParam(Param => 'Version') || '';
+        my %Frontend = ();
+        my $Package = $Self->{PackageObject}->RepositoryGet(
+            Name => $Name,
+            Version => $Version,
+        );
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'Uninstall',
+                Data => {
+                    %Param,
+                    Name => $Name,
+                    Version => $Version,
+                },
+            );
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Package Manager');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+    }
+    # ------------------------------------------------------------ #
+    # uninstall action package
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'UninstallAction') {
         my $Name = $Self->{ParamObject}->GetParam(Param => 'Name') || '';
         my $Version = $Self->{ParamObject}->GetParam(Param => 'Version') || '';
         my %Frontend = ();
