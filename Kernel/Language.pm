@@ -1,8 +1,8 @@
 # --
 # Language.pm - provides multi language support
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.4 2002-04-22 22:21:30 martin Exp $
+# $Id: Language.pm,v 1.5 2002-05-05 13:31:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,12 +13,17 @@ package Kernel::Language;
 
 use strict;
 use lib '../';
+# --
+# Note: If you want to add new translation files, you juast have to
+# ass the module in the next line. 
+# --
 use Kernel::Language::German;
 use Kernel::Language::English;
+use Kernel::Language::Bavarian;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -35,9 +40,6 @@ sub new {
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
 
-    # integrated languages
-    my @Languages = ('German', 'English');
-
     # user language
     $Self->{Language} = $Param{Language} || 'English';
 
@@ -50,17 +52,22 @@ sub new {
     }
 
     # load text catalog ...
-    foreach (@Languages) {
-        if ($_ eq $Self->{Language}) {
-            @ISA = ("Kernel::Language::$_");
-            $Self->Data();
-            if ($Self->{Debug} > 0) {
-                $Self->{LogObject}->Log(
-                  Priority => 'Debug',
-                  MSG => "Kernel::Language::$_ load ... done."
-                );
-            }
+    if (eval '$Kernel::Language::'.$Self->{Language}.'::VERSION') {
+        @ISA = ("Kernel::Language::$Self->{Language}");
+        $Self->Data();
+        if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+                Priority => 'Debug',
+                MSG => "Kernel::Language::$Self->{Language} load ... done."
+            );
         }
+    }
+    # if there is no translation
+    else {
+        $Self->{LogObject}->Log(
+          Priority => 'Error',
+          MSG => "Sorry, can't locate Kernel::Language::$Self->{Language} translation!",
+        );
     }
 
     return $Self;
