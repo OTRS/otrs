@@ -2,11 +2,11 @@
 # cron/postmaster - postmaster cron of the OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: postmaster,v 1.3 2002-08-27 23:47:48 martin Exp $
+# $Id: postmaster,v 1.4 2002-09-01 12:26:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. 
 # --
-# check every 60 minutes the spool dorectory of OpenTRS 
+# check every 60 minutes the spool directory of OTRS 
 */60 * * * * /etc/rc.d/otrs cleanup >> /dev/null
 # for redhat (do this as root!)
 #01 01 * * * /etc/rc.d/init.d/otrs restart >> /dev/null
