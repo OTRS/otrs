@@ -1,15 +1,15 @@
 # --
-# Kernel/Modules/CustomerMessage.pm - to handle customer messages
+# Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.43 2005-03-11 06:00:49 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.1 2005-03-27 11:35:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::CustomerMessage;
+package Kernel::Modules::CustomerTicketMessage;
 
 use strict;
 use Kernel::System::SystemAddress;
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
        ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -52,7 +54,7 @@ sub Run {
 
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # header
-        $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Message');
+        $Output .= $Self->{LayoutObject}->CustomerHeader();
 
         # if there is no ticket id!
         if (!$Self->{TicketID}) {
@@ -398,7 +400,7 @@ sub _MaskNew {
         Selected => $Self->{ConfigObject}->Get('CustomerDefaultPriority') || '3 normal',
     );
     # get output back
-    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerMessageNew', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerTicketMessageNew', Data => \%Param);
 }
 # --
 sub _Mask {
@@ -411,7 +413,7 @@ sub _Mask {
         Selected => $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType')
     );
     # get output back
-    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerMessage', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerTicketMessage', Data => \%Param);
 }
 # --
 1;
