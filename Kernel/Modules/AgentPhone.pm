@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.39 2003-07-10 22:34:28 martin Exp $
+# $Id: AgentPhone.pm,v 1.40 2003-10-13 20:50:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -272,9 +272,7 @@ sub Run {
             UserID => $Self->{UserID},
             Answered => $Answered,
          );
-         # --
          # should i set an unlock?
-         # --
          my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
          if ($StateData{TypeName} =~ /^close/i) {
            $Self->{TicketObject}->SetLock(
@@ -283,9 +281,7 @@ sub Run {
              UserID => $Self->{UserID},
            );
          }
-         # --
          # set pending time
-         # --
          elsif ($StateData{TypeName} =~ /^pending/i) {
              $Self->{TicketObject}->SetPendingTime(
                  UserID => $Self->{UserID},
@@ -293,12 +289,13 @@ sub Run {
                  %GetParam,
              );
          }
-         # --
          # redirect to zoom view
-         # --        
-         return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$NextScreen&QueueID=$Self->{QueueID}&TicketID=$Self->{TicketID}",
-         );
+         if ($StateData{TypeName} =~ /^close/i) {
+             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
+         }
+         else {
+             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+         }
       }
       else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
@@ -392,6 +389,10 @@ sub Run {
             } 
             $Error{"ExpandCustomerName"} = 1;
         }
+        elsif ($ExpandCustomerName == 3) {
+            $Error{NoSubmit} = 1;
+            $CustomerUser = $SelectedCustomerUser;
+        }
         # --
         # show customer info
         # --
@@ -416,11 +417,14 @@ sub Run {
                 $Error{"From invalid"} .= $Self->{CheckItemObject}->CheckError();
             }
         }
-        if (!$From && $ExpandCustomerName != 1) {
+        if (!$From && $ExpandCustomerName != 1 && $ExpandCustomerName == 0) {
             $Error{"From invalid"} = 'invalid';
         }
-        if (!$Subject) {
+        if (!$Subject && $ExpandCustomerName == 0) {
             $Error{"Subject invalid"} = 'invalid';
+        }
+        if (!$NewQueueID && $ExpandCustomerName == 0) {
+            $Error{"Destination invalid"} = 'invalid';
         }
         if (%Error) {
             # --
@@ -435,7 +439,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
               QueueID => $Self->{QueueID},
               NextScreen => $NextScreen,
-              Users => $Self->_GetUsers(),
+              Users => $Self->_GetUsers(QueueID => $NewQueueID),
               UserSelected => $NewUserID,
               NextStates => $Self->_GetNextStates(),
               NextState => $NextState,
@@ -607,14 +611,28 @@ sub _GetNextStates {
 sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
-    # -- 
     # get users 
-    # --
     my %ShownUsers = ();
     my %AllGroupsMembers = $Self->{UserObject}->UserList(
         Type => 'Long',
         Valid => 1,
     );
+    # just show only users with selected custom queue
+    if ($Param{QueueID}) {
+        my @UserIDs = $Self->{QueueObject}->GetAllUserIDsByQueueID(%Param);
+        foreach (keys %AllGroupsMembers) {
+            my $Hit = 0;
+            foreach my $UID (@UserIDs) {
+                if ($UID eq $_) {
+                    $Hit = 1;
+                }
+            }
+            if (!$Hit) {
+                delete $AllGroupsMembers{$_};
+            }
+        }
+    }
+    # check show users
     if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
         %ShownUsers = %AllGroupsMembers;
     }
@@ -711,6 +729,8 @@ sub _GetTos {
             $NewTos{$_} = $Srting;
         }
     }
+    # adde empty selection
+    $NewTos{''} = '-';
     return \%NewTos;
 }
 # --
