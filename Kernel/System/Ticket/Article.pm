@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.6 2002-11-28 14:11:18 martin Exp $
+# $Id: Article.pm,v 1.7 2002-12-01 11:54:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,9 +46,9 @@ sub ArticleInit {
     $Self->{Day} = $Day;
     $Self->{ArticleContentPath} = $Self->{Year}.'/'.$Self->{Month}.'/'. $Self->{Day};
 
-
-    if ($Self->{ConfigObject}->Get('ArticlePlainStorage') eq 'fs' || 
-        $Self->{ConfigObject}->Get('ArticleAttachmentStorage') eq 'fs') {
+    $Self->{ArticlePlainStorage} = $Self->{ConfigObject}->Get('ArticlePlainStorage') || 'fs';
+    $Self->{ArticleAttachmentStorage} = $Self->{ConfigObject}->Get('ArticleAttachmentStorage') || 'fs';
+    if ($Self->{ArticlePlainStorage} eq 'fs' || $Self->{ArticleAttachmentStorage} eq 'fs') {
         # --
         # check fs write permissions!
         # --
@@ -356,7 +356,7 @@ sub WriteArticle {
     # --
     # store article to db or fs
     # --
-    if ($Self->{ConfigObject}->Get('ArticlePlainStorage') eq 'fs') {
+    if ($Self->{ArticlePlainStorage} eq 'fs') {
         # --
         # write article to fs 1:1
         # --
@@ -471,7 +471,7 @@ sub WriteArticleParts {
         $PartData{ContentType} = $Param{Part}->effective_type();
         $PartData{Content} = $Param{Part}->bodyhandle()->as_string();
 
-        if ($Self->{ConfigObject}->Get('ArticleAttachmentStorage') eq 'fs') {
+        if ($Self->{ArticleAttachmentStorage} eq 'fs') {
             # --
             # write attachment to fs
             # --
