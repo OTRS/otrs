@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Sendmail.pm,v 1.1 2003-03-06 10:40:01 martin Exp $
+# $Id: Sendmail.pm,v 1.2 2003-03-07 16:05:31 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -82,7 +82,7 @@ sub Send {
     # --
     # send mail
     # --
-    if (open( MAIL, "|".$Self->{ConfigObject}->Get('Sendmail')." '$Param{From}' " )) {
+    if (open( MAIL, "|".$Self->{ConfigObject}->Get('Sendmail::CMD')." '$Param{From}' " )) {
         print MAIL $Param{Header};
         print MAIL "\n";
         print MAIL $Param{Body};
