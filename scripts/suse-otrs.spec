@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <martin+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.1 2002-01-12 15:29:18 martin Exp $
+# $Id: suse-otrs.spec,v 1.2 2002-01-16 22:33:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ Version:      1.0
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs 
-Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Syslog perl-Digest-MD5 apache mod_perl 
+Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Syslog perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared
 Autoreqprov:  on
 Release:      BETA1
 Source0:      otrs-%{version}-%{release}.tar.gz
@@ -116,11 +116,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %config(noreplace) /opt/OpenTRS/Kernel/Config.pm
 %config(noreplace) /opt/OpenTRS/var/log/TicketCounter.log
+%config(noreplace) /opt/OpenTRS/.procmailrc
 
 /etc/init.d/otrs
 /usr/sbin/rcotrs
-
-/opt/OpenTRS/.procmailrc
 
 /opt/OpenTRS/Kernel/Language.pm
 /opt/OpenTRS/Kernel/Language/*
