@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.80 2003-08-28 16:57:42 martin Exp $
+# $Id: Defaults.pm,v 1.81 2003-09-29 21:01:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.80 $';
+$VERSION = '$Revision: 1.81 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -470,8 +470,8 @@ sub LoadDefaults {
             ru => 'Russian',
             jp => 'jp',
             cz => 'Czech', 
+            pl => 'Polski',
 #            hu => 'Hungarian',
-#            pl => 'Polski',
 #            ro => 'Romanian',
 #            hr => 'Croatian',
 #            sk => 'Slovak', 
@@ -1418,7 +1418,7 @@ Your OTRS Notification Master
         # customer #
         CustomerID => 'customer_id',
         CustomerValid => 'valid_id',
-        CustomerUserListFields => ['login', 'first_name', 'last_name', 'email'],
+        CustomerUserListFields => ['first_name', 'last_name', 'email'],
 #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
         CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
         CustomerUserPostMasterSearchFields => ['email'],
@@ -1460,7 +1460,7 @@ Your OTRS Notification Master
 #        CustomerKey => 'uid',
 #        # customer #
 #        CustomerID => 'mail',
-#        CustomerUserListFields => ['uid', 'cn', 'mail'],
+#        CustomerUserListFields => ['cn', 'mail'],
 #        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
 #        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
