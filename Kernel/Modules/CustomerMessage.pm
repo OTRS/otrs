@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.14 2003-04-08 21:36:22 martin Exp $
+# $Id: CustomerMessage.pm,v 1.15 2003-04-14 23:48:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -211,9 +211,7 @@ sub Run {
           );
           if (%UploadStuff) {
               $Self->{TicketObject}->WriteArticlePart(
-                  Content => $UploadStuff{Content},
-                  Filename => $UploadStuff{File},
-                  ContentType => $UploadStuff{ContentType},
+                  %UploadStuff,
                   ArticleID => $ArticleID, 
                   UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
               );
