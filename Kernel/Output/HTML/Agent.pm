@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.94 2003-03-12 05:43:04 martin Exp $
+# $Id: Agent.pm,v 1.95 2003-03-13 14:28:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.94 $';
+$VERSION = '$Revision: 1.95 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -127,7 +127,7 @@ sub QueueView {
         my @QueueName = split(/::/, $Queue{Queue});
         my $ShortQueueName = $QueueName[$#QueueName];
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
-        $Queue{QueueID} = -1 if (!$Queue{QueueID});
+        $Queue{QueueID} = 0 if (!$Queue{QueueID});
         # should i highlight this queue
         if ($Param{SelectedQueue} =~ /^$QueueName[0]/ && $Level-1 >= $#QueueName) {
             if ($#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^$MetaQueue[0]$/) {
@@ -1707,10 +1707,20 @@ sub AgentMove {
                 }
             }
         }
-        $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$ID\">".
+#        $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$ID\">".
+#                $Queue[$#Queue].'</a><br>';
+        $Param{MoveQueuesStrg} .= "$Space<a href=\"\" onclick=\"document.compose.DestQueueID.value='$ID'; document.compose.submit(); return false;\">".
                 $Queue[$#Queue].'</a><br>';
         delete $Data{$ID};
     }
+    # --
+    # build next states string
+    # -- 
+    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'NewStateID',
+        Selected => $Param{State},
+    );
     return $Self->Output(TemplateFile => 'AgentMove', Data => \%Param);
 }
 # --
