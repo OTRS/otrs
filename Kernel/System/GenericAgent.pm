@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.3 2004-09-04 15:21:05 martin Exp $
+# $Id: GenericAgent.pm,v 1.4 2004-09-04 17:13:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,59 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $ ';
+$VERSION = '$Revision: 1.4 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::GenericAgent - to manage the generic agent and jobs
+
+=head1 SYNOPSIS
+
+All functions to manage the generic agent and the generic agent jobs.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB;
+  use Kernel::System::Time;
+  use Kernel::System::Ticket;
+  use Kernel::System::GenericAgent;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $TimeObject    = Kernel::System::Time->new(
+      LogObject => $LogObject,
+      ConfigObject => $ConfigObject,
+  );
+  my $DBObject = Kernel::System::DB->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $TicketObject = Kernel::System::Ticket->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $GenericAgentObject = Kernel::System::GenericAgent->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      TimeObject => $TimeObject,
+      TicketObject => $TicketObject,
+      DBObject => $DBObject,
+  );
+
+=cut
 
 sub new {
     my $Type = shift;
@@ -110,6 +161,17 @@ sub new {
 
     return $Self;
 }
+
+=item JobRun()
+
+run an generic agent job
+
+    $GenericAgentObject->JobRun(
+        Job => 'JobName',
+        UserID => 1,
+    );
+
+=cut
 
 sub JobRun {
     my $Self = shift;
@@ -236,6 +298,22 @@ sub JobRun {
         );
     }
 }
+
+=item JobRunTicket()
+
+run an generic agent job on a ticket
+
+    $GenericAgentObject->JobRun(
+        TicketID => 123,
+        TicketNumber => '2004081400001',
+        Job => 'JobName',
+        Config => {
+            %Job,
+        },
+        UserID => 1,
+    );
+
+=cut
 
 sub JobRunTicket {
     my $Self = shift;
@@ -494,7 +572,15 @@ sub JobRunTicket {
     }
     return 1;
 }
-# --
+
+=item JobList()
+
+returns a hash of jobs
+
+    my %List = $GenericAgentObject->JobList();
+
+=cut
+
 sub JobList {
     my $Self = shift;
     my %Param = @_;
@@ -513,7 +599,15 @@ sub JobList {
     }
     return %Data;
 }
-# --
+
+=item JobGet()
+
+returns a hash of the job data
+
+    my %Job = $GenericAgentObject->JobGet(Name => 'JobName');
+
+=cut
+
 sub JobGet {
     my $Self = shift;
     my %Param = @_;
@@ -612,7 +706,22 @@ sub JobGet {
     }
     return %Data;
 }
-# --
+
+=item JobAdd()
+
+adds a new job to the database
+
+    $GenericAgentObject->JobAdd(
+        Name => 'JobName',
+        Data => {
+            Queue => 'SomeQueue',
+            ...
+            Vaild => 1,
+        },
+    );
+
+=cut
+
 sub JobAdd {
     my $Self = shift;
     my %Param = @_;
@@ -657,7 +766,15 @@ sub JobAdd {
     }
     return 1;
 }
-# --
+
+=item JobDelete()
+
+deletes an job from the database
+
+    $GenericAgentObject->JobDelete(Name => 'JobName');
+
+=cut
+
 sub JobDelete {
     my $Self = shift;
     my %Param = @_;
@@ -675,6 +792,21 @@ sub JobDelete {
     );
     return 1;
 }
-# --
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.4 $ $Date: 2004-09-04 17:13:30 $
+
+=cut
