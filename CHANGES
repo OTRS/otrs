@@ -1,0 +1,29 @@
+# --
+# Changes of OpenTRS 
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: CHANGES,v 1.1 2002-04-16 07:06:17 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+0.5 BETA3 (2002-04-??)
+ - added AgentOwner Module
+ - added AgentForward Module
+ - added auto session delete funktions if remote ip or session
+    time is invalid.
+ - added mail (show-)attachment funktion
+ - added permission check funktions for AgentZoom, AgentPlain 
+    and AgentAttachments
+ - added README.application-module
+
+0.5 BETA2 (2002-04-11)
+ - html (*.dtl) beautified
+ - added session driver (sql|fs)
+
+0.5 BETA1 (2002-03-11)
+ - first official release
+
+EOF
