@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.22 2004-08-26 09:59:18 martin Exp $
+# $Id: LDAP.pm,v 1.23 2004-10-07 15:17:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,6 +72,7 @@ sub new {
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     $Self->{SourceCharset} = $Self->{CustomerUserMap}->{'Params'}->{'SourceCharset'} || '';
     $Self->{DestCharset} = $Self->{CustomerUserMap}->{'Params'}->{'DestCharset'} || '';
+    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
     if (!defined($Self->{SearchPrefix})) {
         $Self->{SearchPrefix} = '';
@@ -265,7 +266,7 @@ sub CustomerIDs {
         }
     }
     # use also the primary customer id
-    if ($Data{UserCustomerID}) {
+    if ($Data{UserCustomerID} && !$Self->{ExcludePrimaryCustomerID}) {
         push (@CustomerIDs, $Data{UserCustomerID});
     }
     return @CustomerIDs;

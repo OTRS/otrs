@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.166 2004-10-06 06:49:48 martin Exp $
+# $Id: Defaults.pm,v 1.167 2004-10-07 15:16:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.166 $';
+$VERSION = '$Revision: 1.167 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1804,9 +1804,14 @@ Your OTRS Notification Master
         CustomerUserPostMasterSearchFields => ['email'],
         CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
         CustomerUserEmailUniqCheck => 1,
+#        # show now own tickets in customer panel, CompanyTickets
+#        CustomerUserExcludePrimaryCustomerID => 0,
+#        # generate auto logins
 #        AutoLoginCreation => 0,
 #        AutoLoginCreationPrefix => 'auto',
+#        # admin can change customer preferences
 #        AdminSetPreferences => 1,
+#        # just a read only source
 #        ReadOnly => 1,
         Map => [
             # note: Login, Email and CustomerID needed!
@@ -1823,6 +1828,7 @@ Your OTRS Notification Master
             [ 'UserComment',     'Comment',   'comments',    1, 0, 'var', '', 0 ],
             [ 'ValidID',         'Valid',     'valid_id',    0, 1, 'int', '', 0 ],
         ],
+        # default selections
         Selections => {
             UserSalutation => {
                 'Mr.' => 'Mr.',
@@ -1873,6 +1879,9 @@ Your OTRS Notification Master
 #        CustomerUserSearchListLimit => 250,
 #        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
+#        # show now own tickets in customer panel, CompanyTickets
+#        CustomerUserExcludePrimaryCustomerID => 0,
+#        # admin can't change customer preferences
 #        AdminSetPreferences => 0,
 #        Map => [
 #            # note: Login, Email and CustomerID needed!

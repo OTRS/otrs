@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.33 2004-09-16 08:05:25 martin Exp $
+# $Id: DB.pm,v 1.34 2004-10-07 15:17:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,6 +41,7 @@ sub new {
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID}
       || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
     $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
+    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
     if (!defined($Self->{SearchPrefix})) {
         $Self->{SearchPrefix} = '';
@@ -237,7 +238,7 @@ sub CustomerIDs {
         }
     }
     # use also the primary customer id
-    if ($Data{UserCustomerID}) {
+    if ($Data{UserCustomerID} && !$Self->{ExcludePrimaryCustomerID}) {
         push (@CustomerIDs, $Data{UserCustomerID});
     }
     return @CustomerIDs;
