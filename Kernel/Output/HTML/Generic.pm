@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.5 2001-12-16 01:41:27 martin Exp $
+# $Id: Generic.pm,v 1.6 2001-12-21 17:55:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Words qw(:all);
 use Kernel::Language;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -84,7 +84,11 @@ sub Output {
         $Env{CGIHandle} = $Self->{CGIHandle};
         $Env{Charset} = $Self->{Charset} || 'iso-8859-1';
         $Env{Baselink} = $Self->{Baselink};
-    }
+        $Env{UserFirstname} = $Self->{UserFirstname};
+        $Env{UserLastname} = $Self->{UserLastname};
+        $Env{UserLogin} = $Self->{UserLogin};
+        $Env{UserLoginTop} = '('. $Self->{UserLogin} .')' if ($Env{UserLogin});
+    }  
     else {
         # get %Env from $Self->{EnvRef} 
         my $Tmp = $Self->{EnvRef};
@@ -196,7 +200,8 @@ sub Output {
               $Env{$2};
           }
           else {
-              "<i>\$$1 {$2} isn't true!</i>";
+#              "<i>\$$1 {$2} isn't true!</i>";
+              "";
           }
         }
         # replace with
@@ -285,6 +290,89 @@ sub NavigationBar {
     return $Output;
 }
 # --
+sub QueueView {
+    my $Self = shift;
+    my %Param = @_;
+    my $QueueStrg = '';
+    my $QueueID = $Param{QueueID} || 0;
+    my $QueuesTmp = $Param{Queues};
+    my @QueuesNew = @$QueuesTmp;
+    my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || '?';
+    $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
+    $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
+    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
+    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2'); 
+ 
+    # build queue string
+    foreach my $QueueRef (@QueuesNew) {
+        my %Queue = %$QueueRef;
+        $Queue{MaxAge} = $Queue{MaxAge} / 60;
+        # should i highlight this queue
+        if ($QueueID eq $Queue{QueueID}) {
+           $QueueStrg .= '<B>';
+           $Param{SelectedQueue} = $Queue{Queue};
+        }
+        $QueueStrg .= "<A HREF=\"$Self->{Baselink}&Action=AgentQueueView&QueueID=$Queue{QueueID}\">";
+        # should i highlight this queue
+        if ($Queue{MaxAge} >= $Self->{HighlightAge2}) {
+            $QueueStrg .= "<FONT COLOR=$Self->{HighlightColor2}>";
+        }
+        elsif ($Queue{MaxAge} >= $Self->{HighlightAge1}) {
+            $QueueStrg .= "<FONT COLOR=$Self->{HighlightColor1}>";
+        }
+        # the oldest queue
+        if ($Queue{QueueID} == $QueueIDOfMaxAge) {
+            $QueueStrg .= "<BLINK>";
+        }
+        # QueueStrg
+        $QueueStrg .= "$Queue{Queue} ($Queue{Count})";
+        # the oldest queue
+        if ($Queue{QueueID} == $QueueIDOfMaxAge) {
+            $QueueStrg .= "</BLINK>";
+        }
+        # should i highlight this queue
+        if ($Queue{MaxAge} >= $Self->{HighlightAge1}
+              || $Queue{MaxAge} >= $Self->{HighlightAge2}) {
+            $QueueStrg .= "</FONT>";
+        }
+        $QueueStrg .= "</A>";
+        # should i highlight this queue
+        if ($QueueID eq $Queue{QueueID}) {
+           $QueueStrg .= '</B>';
+        }
+        $QueueStrg .= ' - ';
+    }
+    $Param{QueueStrg} = $QueueStrg;
+
+    # get output
+    my $Output = $Self->Output(TemplateFile => 'QueueView', Data => \%Param);
+
+    # return output
+    return $Output;
+}
+# --
+sub TicketView {
+    my $Self = shift;
+    my %Param = @_;
+
+    # do some html quoting
+    foreach ('From', 'To', 'Cc', 'Subject', 'Priority', 'State') {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50, MIME => 1) || '';
+    }
+    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+
+    # do some text quoting
+    $Param{Text} = $Self->Ascii2Html(Text => $Param{Text});
+    $Param{Text} = $Self->LinkQuote(Text => $Param{Text});
+
+ 
+    my $Output = $Self->Output(TemplateFile => 'TicketView', Data => \%Param);
+
+    # return output
+    return $Output;
+}
+# --
+
 sub Header {
     my $Self = shift;
     my %Param = @_;
@@ -305,6 +393,75 @@ sub Footer {
 
     # return output
     return $Output;
+}
+# --
+sub Ascii2Html {
+    my $Self = shift;
+    my %Param = @_;
+    my $Text = $Param{Text} || return;
+    my $Max  = $Param{Max} || '';
+    my $Mime = $Param{MIME} || '';
+    if ($Mime) {
+        $Text = decode_mimewords($Text);
+    }
+    if ($Max) {
+        $Text =~ s/^(.{$Max}).*$/$1 [...]/;
+    }
+    $Text =~ s/&/&amp;/g;
+    $Text =~ s/</&lt;/g;
+    $Text =~ s/>/&gt;/g;
+    return $Text;
+}
+# --
+sub LinkQuote {
+    my $Self = shift;
+    my %Param = @_;
+    my $Text = $Param{Text} || '';
+    my $Target = $Param{Target} || 'NewPage';
+
+    # do link quote
+    $Text =~ s/(http:\/\/.*?)(\s|\)|\"|]|')/<a href=\"$1\" target=\"$Target\">$1<\/a>$2/gi;
+    # do mail to quote
+    $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
+
+    return $Text;
+}
+# --
+sub CustomerAge {
+    my $Self = shift;
+    my %Param = @_;
+    my $Age = $Param{Age};
+    my $Space = $Param{Space} || '<BR>';
+    my $AgeStrg = '';
+
+    if ($Age > 86400) {
+        $AgeStrg .= int( ($Age / 3600) / 24 ) . ' ';
+        if (int( ($Age / 3600) / 24 ) > 1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('days');
+        }
+        else {
+            $AgeStrg .= $Self->{LanguageObject}->Get('day');
+        }
+        $AgeStrg .= $Space;
+    }
+    if ($Age > 3600) {
+        $AgeStrg .= int( ($Age / 3600) % 24 ) . ' ';
+        if (int( ($Age / 3600) % 24 ) > 1) {
+            $AgeStrg .= $Self->{LanguageObject}->Get('hours');
+        }
+        else {
+             $AgeStrg .= $Self->{LanguageObject}->Get('hour');
+        }
+    $AgeStrg .= $Space;
+    }
+    $AgeStrg .= int( ($Age / 60) % 60) . ' ';
+    if (int( ($Age / 60) % 60) > 1) {
+        $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
+    }
+    else {
+        $AgeStrg .= $Self->{LanguageObject}->Get('minute');
+    }
+    return $AgeStrg;
 }
 # --
 
