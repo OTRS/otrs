@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.9 2003-01-18 09:11:09 martin Exp $
+# $Id: de.pm,v 1.10 2003-01-19 13:00:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
@@ -324,7 +324,7 @@ sub Data {
       'Responses' => 'Antworten',
       'Responses <-> Queue' => 'Antworten <-> Queues',
       'Select Box' => '',
-      'Session Management' => 'Sitzungs Verwaltung',
+      'Session Management' => 'Sitzungsverwaltung',
       'Status defs' => '',
       'System' => '',
       'User <-> Groups' => 'Benutzer <-> Gruppen',
@@ -400,7 +400,7 @@ sub Data {
       'SQL' => '',
 
     # Template: AdminSession
-      'kill all sessions' => 'Löschen alles Sitzungen',
+      'kill all sessions' => 'Löschen aller Sitzungen',
 
     # Template: AdminSessionTable
       'kill session' => 'Sitzung löschen',
