@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.16 2004-03-11 22:31:46 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.17 2004-03-24 16:00:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $ ';
+$VERSION = '$Revision: 1.17 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,6 +65,9 @@ sub Run {
         $NavBar = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
         $NavBar .= $Self->{LayoutObject}->AdminNavigationBar();
     }
+    elsif ($Nav eq 'None') {
+        $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User', Type => 'Small');
+    }
     else {
         $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User');
         # get user lock data
@@ -74,10 +77,14 @@ sub Run {
     }
     # add notify
     if ($AddedUID) {
+        my $OnClick = '';
+        if ($Nav eq 'None') {
+            $OnClick = " onclick=\"updateMessage('$AddedUID')\"";
+        }
         $NavBar .= $Self->{LayoutObject}->Notify(
             Info => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
-            " ( <a href='?Action=AgentPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID'>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>".
-            " - <a href='?Action=AgentEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID'>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a> )!",
+            " ( <a href='?Action=AgentPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID'$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>".
+            " - <a href='?Action=AgentEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID'$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a> )!",
         );
     }
     # search user list
@@ -90,7 +97,14 @@ sub Run {
     my $Link = '';
     if (%UserList) {
         foreach (sort keys %UserList) {
-            $Link .= "<tr><td>$_</td><td><a href='?Action=AdminCustomerUser&Subaction=Change&ID=$_&Search=".$Self->{LayoutObject}->LinkEncode($Search)."&Nav=$Nav'>".$Self->{LayoutObject}->Ascii2Html(Text => $UserList{$_}, Max => 45)."</a></td></tr>";
+            my $AddLink = '';
+            if ($Nav eq 'None') {
+                $AddLink = "<a href=\"\" onclick=\"updateMessage('$_')\">\$Text{\"Take this Customer\"}</a>";
+            }
+            else {
+                $AddLink = $_;
+            }
+            $Link .= "<tr><td valign='top'>$AddLink</td><td valign='top'><a href='?Action=AdminCustomerUser&Subaction=Change&ID=$_&Search=".$Self->{LayoutObject}->LinkEncode($Search)."&Nav=$Nav'>".$Self->{LayoutObject}->Ascii2Html(Text => $UserList{$_}, Max => 45)."</a></td></tr>";
         }
     }
     # get user data 2 form
