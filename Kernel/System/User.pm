@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.31 2003-03-10 23:32:43 martin Exp $
+# $Id: User.pm,v 1.32 2003-03-19 15:20:22 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,11 +11,11 @@
 
 package Kernel::System::User;
 
-use strict;
+#use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -90,10 +90,87 @@ sub GetUserData {
     # check data
     # --
     if (! exists $Data{UserID} && ! $UserID) {
-        $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Panic! No UserData for user: '$User'!!!",
-        );
+        # --
+        # check if we run LDAP and add aproperiate data into the RDBMS
+        # --
+        if ($Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
+
+            # --
+            # get LDAP variables
+            # --
+            use Net::LDAP;
+            $Self->{Host} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Host')
+             || die "Need AuthModule::LDAPHost in Kernel/Config.pm";
+            $Self->{BaseDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::BaseDN')
+             || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
+            $Self->{UID} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UID')
+             || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
+            $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN') || '';
+            $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
+            $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
+            $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
+
+            # --
+            # bind to LDAP
+            # --
+            my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
+            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+                $Self->{LogObject}->Log(
+                  Priority => 'error',
+                  Message => "First LDAP bind failed!",
+                );
+                return;
+            }
+
+            # --
+            # perform user search
+            # --
+            my $Filter = "($Self->{UID}=$User)";
+            my $Result = $LDAP->search (
+                base   => $Self->{BaseDN},
+                filter => $Filter,
+            );
+            # --
+            # get whole user data
+            # --
+            my $UserDN = '';
+            my $UserPassword = '';
+            my $UserSN = '';
+            my $UserGivenName = '';
+            my $UserMail = '';
+            my $UserComment = '';
+            my $UserPreferredLanguage = '';
+            foreach my $Entry ($Result->all_entries) {
+                $UserDN = $Entry->dn();
+                $UserPassword = $Entry->get_value('userPassword');
+                $UserSN = $Entry->get_value('sn');
+                $UserGivenName = $Entry->get_value('givenName');
+                $UserMail = $Entry->get_value('mail');
+                $UserComment = $Entry->get_value('comment');
+                $UserPreferredLanguage = $Entry->get_value('preferredLanguage');
+            }
+            $Self->UserAdd(
+                Salutation => 'Mr/Mrs',
+                Firstname => $UserGivenName,
+                Lastname => $UserSN,
+                Login => $User,
+                Pw => $UserPassword,
+                Email => $UserMail,
+                UserType => 'User',
+                ValidID => 1,
+                UserID => 1,
+            );
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Data for '$User ($UserGivenName,$UserSN)' created in RDBMS, proceed.",
+            );
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Panic! No UserData for user: '$User'!!!",
+            );
+        };
         return;
     }
     # --

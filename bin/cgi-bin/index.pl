@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.56 2003-03-14 15:08:59 martin Exp $
+# $Id: index.pl,v 1.57 2003-03-19 15:20:22 wiktor Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -203,11 +203,20 @@ if ($Param{Action} eq "Login") {
                 # --
                 # show login screen
                 # ---
-                print $CommonObject{LayoutObject}->Login(
-                    Title => 'Panic!',
-                    Message => 'Panic! No UserData!!!',
-                    %Param,
-                );
+		if ($CommonObject{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
+                    print $CommonObject{LayoutObject}->Login(
+                        Title => 'First Visit?',
+                        Message => 'Useraccount activated, retry.',
+                        %Param,
+                    );
+		}
+		else {
+                    print $CommonObject{LayoutObject}->Login(
+                        Title => 'Panic!',
+                        Message => 'Panic! No UserData!!!',
+                        %Param,
+                    );
+		};
                 exit (0);
             }
         }
