@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.5 2003-02-08 21:09:42 martin Exp $
+# $Id: pt_BR.pm,v 1.6 2003-02-09 10:31:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,7 +52,7 @@ sub Data {
       'click here' => 'clique aqui',
       'Comment' => 'Comentário',
       'Customer' => 'Cliente',
-      'Customer info' => 'Informáção do Cliente',
+      'Customer Info' => 'Informáção do Cliente',
       'day' => 'dia',
       'days' => 'dias',
       'description' => 'descrição',

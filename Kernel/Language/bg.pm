@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.13 2003-02-08 15:07:29 martin Exp $
+# $Id: bg.pm,v 1.14 2003-02-09 10:31:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -51,7 +51,7 @@ sub Data {
       'click here' => 'натиснете тук',
       'Comment' => 'Коментар',
       'Customer' => 'Потребител',
-      'Customer info' => 'Потребителски данни',
+      'Customer Info' => 'Потребителски данни',
       'day' => 'ден',
       'days' => 'дни',
       'description' => 'описание',

@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.17 2003-02-08 15:07:29 martin Exp $
+# $Id: fr.pm,v 1.18 2003-02-09 10:31:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -51,7 +51,7 @@ sub Data {
       'click here' => 'Cliquer là',
       'Comment' => 'Commentaire',
       'Customer' => 'Client',
-      'Customer info' => 'Information client',
+      'Customer Info' => 'Information client',
       'day' => 'jour',
       'days' => 'jours',
       'description' => 'description',

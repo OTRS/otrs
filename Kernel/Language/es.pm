@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.6 2003-02-08 21:09:42 martin Exp $
+# $Id: es.pm,v 1.7 2003-02-09 10:31:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,7 +52,7 @@ sub Data {
       'click here' => 'haga click aqu&iacute;',
       'Comment' => 'Comentario',
       'Customer' => 'Cliente',
-      'Customer info' => 'Informaci&oacute;n del cliente',
+      'Customer Info' => 'Informaci&oacute;n del cliente',
       'day' => 'dia',
       'days' => 'dias',
       'description' => 'descripci&oacute;n',
