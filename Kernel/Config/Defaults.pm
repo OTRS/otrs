@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.131 2004-05-10 12:34:07 martin Exp $
+# $Id: Defaults.pm,v 1.132 2004-05-11 08:37:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.131 $';
+$VERSION = '$Revision: 1.132 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,6 +63,9 @@ sub LoadDefaults {
     # AdminEmail 
     # (Email of the system admin.)
     $Self->{AdminEmail} = 'admin@example.com';
+
+    # MIME-Viewer for online to html converter (e. g. xls2html)
+#    $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml';
 
     # SendmailModule
     # (Where is sendmail located and some options.
