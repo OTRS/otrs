@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.pm,v 1.4 2004-10-12 11:31:27 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.5 2004-10-13 12:47:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -158,7 +158,12 @@ sub Run {
         # get backend module params
         my %GetParams = ();
         foreach my $Param ($Self->{LinkObject}->LinkSearchParams()) {
-            $GetParams{$Param->{Name}} = $Self->{ParamObject}->GetParam(Param => $Param->{Name}) || $Self->{"ObjectLink_$Self->{DestinationObject}_$Param->{Name}"} || '';
+            if (defined($Self->{ParamObject}->GetParam(Param => $Param->{Name}))) {
+                $GetParams{$Param->{Name}} = $Self->{ParamObject}->GetParam(Param => $Param->{Name});
+            }
+            else {
+                $GetParams{$Param->{Name}} = $Self->{"ObjectLink_$Self->{DestinationObject}_$Param->{Name}"} || '';
+            }
         }
         if ($Self->{Subaction} eq 'Search') {
             foreach (keys %GetParams) {
