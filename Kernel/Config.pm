@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.25 2002-04-30 00:19:04 martin Exp $
+# $Id: Config.pm,v 1.26 2002-05-01 17:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -72,7 +72,7 @@ sub Load {
 
     # TicketHook 
     # (To set the Ticket identifier. Some people want to 
-    # set this to e. g. Call# or MyTicket# .)
+    # set this to e. g. 'Call#', 'MyTicket#' or 'TN'.)
     $Self->{TicketHook} = 'Ticket#',
 
     # FQDN
