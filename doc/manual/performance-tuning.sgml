@@ -40,8 +40,8 @@ trouble till ~ 50.000 tickets in your system.
 <listitem>
 <para>
 Kernel::System::Ticket::IndexAccelerator::StaticDB, the most powerfull module, it 
-should be used over 50.000 tickets in a system - use a extra ticket_index table, 
-works like a view. Use bin/RebuildTicketIndex.pl for initial index building.
+should be used over 60.000 tickets in a system - use a extra ticket_index table, 
+works like a view. Use bin/RebuildTicketIndex.pl for initial index build.
 </para>
 </listitem>
 
