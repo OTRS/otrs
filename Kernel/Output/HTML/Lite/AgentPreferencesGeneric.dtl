@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferencesGeneric.dtl,v 1.5 2003-02-08 15:40:41 martin Exp $
+# $Id: AgentPreferencesGeneric.dtl,v 1.6 2003-03-24 09:21:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,15 +19,15 @@
   <td class="table1">
   <p>
   $Text{"$Data{"Desc"}"}
+  </p>
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="$Data{"PrefKey"}">
-  <br>
+  <p>
   $Data{"Option"}
-  <br>
-  <input type="submit" value="$Text{"update"}">
-  </form>
   </p>
+  <input class="button" type="submit" value="$Text{"update"}">
+  </form>
   </td>
 </tr>
 </table>

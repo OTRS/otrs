@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.8 2003-02-08 15:40:42 martin Exp $
+# $Id: Login.dtl,v 1.9 2003-03-24 09:21:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,9 +19,9 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 # --
 # html comment
 # --
-<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
-<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
-<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
+<!-- OTRS: Copyright 2001-2003, OTRS Project. This Software is under the GPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/           -->
+<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt          -->
 
 # --
 <html>

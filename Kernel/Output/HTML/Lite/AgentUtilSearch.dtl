@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearch.dtl,v 1.1 2003-03-12 05:43:04 martin Exp $
+# $Id: AgentUtilSearch.dtl,v 1.2 2003-03-24 09:21:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -78,7 +78,7 @@ $Data{"StatesStrg"}
 </tr>
 <tr align="center">
   <td class="table2">$Text{"Queue"}</td>
-  <td class="table2">$Text{"User"}</td>
+  <td class="table2">$Text{"Owner"}</td>
 </tr>
 <tr align="center">
   <td>
@@ -89,7 +89,7 @@ $Data{"StatesStrg"}
   </td>
 </tr>
 </table>
-<input type="submit" value="$Text{"search"}">
+<input class="button" type="submit" value="$Text{"search"}">
 </form>
 
 </p>

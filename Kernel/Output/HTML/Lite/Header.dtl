@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.13 2003-02-08 15:40:42 martin Exp $
+# $Id: Header.dtl,v 1.14 2003-03-24 09:21:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,15 +21,14 @@ Pragma: no-cache
 # --
 # html comment
 # --
-
-<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
-<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
-<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
+<!-- OTRS: Copyright 2001-2003, OTRS Project. This Software is under the GPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/           -->
+<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt          -->
 # --
 # set some html variables
 # --
-<dtl set $Env{"Box0"} = "">
-<dtl set $Env{"Box1"} = "">
+<dtl set $Env{"Box0"} = " ">
+<dtl set $Env{"Box1"} = " ">
 # --
 # check refresh
 # --
@@ -100,7 +99,7 @@ Pragma: no-cache
 <tr>
   <td align="left" width="30%" class="header">
    <b>$Env{"Box0"}OTRS || </b>
-   <a href="$Env{"Baselink"}" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">home</a> <b>$Env{"Box1"}</b>
+   <a href="$Env{"Baselink"}" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">Home</a> <b>$Env{"Box1"}</b>
   </td>
   <td align="right" width="70%" class="header">
    $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}
