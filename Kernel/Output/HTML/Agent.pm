@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.6 2002-01-23 23:28:42 martin Exp $
+# $Id: Agent.pm,v 1.7 2002-02-03 20:08:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -480,6 +480,23 @@ sub AgentMailboxTicket {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AgentMailboxTicket', Data => \%Param);
+}
+# --
+sub AgentHistory {
+    my $Self = shift;
+    my %Param = @_;
+
+    my $BackScreen = $Param{BackScreen} || '';
+    my $LinesTmp = $Param{Data};
+    my @Lines = @$LinesTmp;
+    my $Output = '';
+
+    foreach my $Data (@Lines) {
+      $Param{History} .= $Self->Output(TemplateFile => 'AgentHistoryRow', Data => $Data);
+    }
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentHistoryForm', Data => \%Param);
 }
 # --
 
