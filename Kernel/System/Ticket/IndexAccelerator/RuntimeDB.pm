@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.13 2003-07-07 13:48:16 martin Exp $
+# $Id: RuntimeDB.pm,v 1.14 2003-07-12 08:22:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -237,18 +237,18 @@ sub GetOverTimeTickets {
     # get data (viewable tickets...)
     # --
     my @TicketIDsOverTime = ();
-    my %TicketIDs = ();
-    my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
-    " q.name, q.escalation_time, t.tn ".
+    my $SQL = "SELECT distinct (a.ticket_id), t.ticket_priority_id, a.incoming_time ".
     " FROM ".
-    " article a, article_sender_type ast, queue q, ticket t ".
+    " article a, queue q, ticket t ".
     " WHERE ".
+    " t.ticket_answered != 1 ".
+    " AND " .
+    " q.escalation_time != 0 ".
+    " AND " .
     " t.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
     " t.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
     " AND " .
-    " ast.id = a.article_sender_type_id ".
-    " AND ".
     " t.id = a.ticket_id ".
     " AND ".
     " q.id = t.queue_id ".
@@ -265,38 +265,22 @@ sub GetOverTimeTickets {
             return;
         }
     }
-    $SQL .= " ast.name = 'customer' ".
-    " AND " .
-    " t.ticket_answered != 1 ".
-    " AND " .
-    " q.escalation_time != 0 ".
-#    " GROUP BY t.id, t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
-#    " q.name, q.escalation_time, t.ticket_priority_id ".
-    " ORDER BY t.ticket_priority_id, a.incoming_time DESC";
-   $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-      if ($RowTmp[6] && !exists($TicketIDs{$RowTmp[1]})) {
-         $TicketIDs{$RowTmp[1]} = 1;
-         my $OverTime = (time() - ($RowTmp[4] + ($RowTmp[6]*60)));
-         my $Data = {
-              TicketID => $RowTmp[1],
-              TicketNumber => $RowTmp[7],
-              TicketQueueID => $RowTmp[0],
-              TicketOverTime => $OverTime,
-              ArticleSenderType => $RowTmp[3],
-              ArticleID => $RowTmp[2],
-              QueueID => $RowTmp[0],
-              Queue => $RowTmp[5],
-          };
-          if ($OverTime >= 0) {
-              push (@TicketIDsOverTime, $Data);
-          }
-      }
+    $SQL .= " a.article_sender_type_id = ".
+      $Self->ArticleSenderTypeLookup(SenderType => 'customer').
+    " AND ".
+    " ".time()." >= (a.incoming_time + (q.escalation_time * 60))".
+    " ORDER BY t.ticket_priority_id DESC, a.incoming_time";
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 20);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push (@TicketIDsOverTime, $Row[0]);
     }
-    # --
     # return overtime tickets
-    # --
-    return @TicketIDsOverTime;
+    if (@TicketIDsOverTime) {
+        return @TicketIDsOverTime;
+    }
+    else {
+        return;
+    }
 }
 # --
 
