@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.1 2004-01-09 12:42:20 martin Exp $
+# $Id: Encode.pm,v 1.2 2004-01-09 16:41:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -24,7 +24,7 @@ Kernel::System::Encode - character encodings
 
 =head1 SYNOPSIS
 
-This module will use Perl's Encode mdoule (Perl 5.8.0 or higher required).
+This module will use Perl's Encode module (Perl 5.8.0 or higher required).
 If the Perl version is lower then 5.8.0, no encoding will be possible. The
 return string is still the same charset.
 
@@ -256,6 +256,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-01-09 12:42:20 $
+$Revision: 1.2 $ $Date: 2004-01-09 16:41:34 $
 
 =cut
