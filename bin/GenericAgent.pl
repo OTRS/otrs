@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.26 2004-05-24 19:00:32 martin Exp $
+# $Id: GenericAgent.pl,v 1.27 2004-05-28 11:15:35 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use strict;
 
-use vars qw($VERSION $Debug $Limit %Opts);
+use vars qw($VERSION $Debug $Limit %Opts %Jobs);
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ use Kernel::System::GenericAgent;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.26 $';
+    $VERSION = '$Revision: 1.27 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     getopt('hcdl', \%Opts);
@@ -107,7 +107,6 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(
 );
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(%CommonObject);
-my %Jobs = ();
 if ($Opts{'c'} eq 'db') {
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
     foreach my $DBJob (sort keys %DBJobs) {
