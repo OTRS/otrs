@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.115 2004-06-11 08:38:36 martin Exp $
+# $Id: Ticket.pm,v 1.116 2004-06-11 09:13:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.115 $';
+$VERSION = '$Revision: 1.116 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2631,7 +2631,7 @@ sub HistoryTicketStatusGet {
     my %Param = @_;
     my %Ticket = ();
     # check needed stuff
-    foreach (qw(TimeStamp)) {
+    foreach (qw(StopTimeStamp StartTimeStamp)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -2644,7 +2644,9 @@ sub HistoryTicketStatusGet {
     my $SQL = "SELECT DISTINCT(th.ticket_id) FROM ".
         "ticket_history th ".
         "WHERE ".
-        "th.create_time <= '$Param{TimeStamp} 23:59:59' ".
+        "th.create_time <= '$Param{StopTimeStamp} 23:59:59' ".
+        "AND ".
+        "th.create_time >= '$Param{StartTimeStamp} 00:00:01' ".
         "ORDER BY th.create_time DESC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 50000);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -2653,7 +2655,7 @@ sub HistoryTicketStatusGet {
     foreach my $TicketID (keys %Ticket) {
         my %TicketData = $Self->HistoryTicketGet(
             TicketID => $TicketID, 
-            TimeStamp => $Param{TimeStamp},
+            TimeStamp => $Param{StopTimeStamp},
         );
         if (%TicketData) {
             $Ticket{$TicketID} = \%TicketData;
@@ -2704,7 +2706,7 @@ sub HistoryTicketGet {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    my $SQL = "SELECT th.name, tht.name, th.create_time FROM ".
+    my $SQL = "SELECT th.name, tht.name, th.create_time, th.create_by FROM ".
         "ticket_history th, ticket_history_type tht ".
         "WHERE ".
         "th.history_type_id = tht.id ".
@@ -2724,6 +2726,7 @@ sub HistoryTicketGet {
                 $Ticket{State} = $4;
                 $Ticket{TicketID} = $5;
                 $Ticket{Owner} = 'root';
+                $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
             }
         }
@@ -3281,6 +3284,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.115 $ $Date: 2004-06-11 08:38:36 $
+$Revision: 1.116 $ $Date: 2004-06-11 09:13:08 $
 
 =cut
