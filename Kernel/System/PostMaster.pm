@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.32 2003-05-18 20:23:09 martin Exp $
+# $Id: PostMaster.pm,v 1.33 2003-05-25 22:57:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,7 +43,7 @@ sub new {
         die "Got no $_" if (!$Param{$_});
     }
     # check needed config objects
-    foreach (qw(TicketHook PostmasterUserID PostmasterX-Header)) {
+    foreach (qw(PostmasterUserID PostmasterX-Header)) {
         $Self->{$_} = $Param{ConfigObject}->Get($_) || die "Found no '$_' option in Config.pm!";
     }
 
@@ -86,11 +86,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     # --
-    # common config options
-    # --
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    my $TicketDivider = $Self->{ConfigObject}->Get('TicketDivider') || ':';
-    # --
     # ConfigObjectrse section / get params
     # --
     my %GetParam = $Self->GetEmailParams();
@@ -109,15 +104,6 @@ sub Run {
    # --
    # check if follow up
    my ($Tn, $TicketID) = $Self->CheckFollowUp(%GetParam);
-   # --
-   # check if it's a forward
-   # --
-   if ($GetParam{'Subject'} !~ /\[$TicketHook$TicketDivider*\].*\[$TicketHook$TicketDivider*\-FW\]/i) {
-       if ($GetParam{'Subject'} =~ /\[$TicketHook$TicketDivider*\-FW\]/i) {
-           undef $Tn;
-           undef $TicketID;
-       };
-   };
    # --
    # Follow up ...
    # --
