@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.21 2002-04-30 00:15:30 martin Exp $
+# $Id: index.pl,v 1.22 2002-05-04 20:33:29 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,15 +26,11 @@ use lib '../..';
 
 use strict;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+use vars qw($VERSION $Debug);
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-my $Debug = 0;
-
-#use Apache ();
-#use Apache::DBI ();
-#Apache::DBI->connect_on_init('DBI:mysql:OpenTRS', 'root');
+$Debug = 0;
 
 # --
 # all OpenTRS modules
@@ -158,7 +154,7 @@ if ($Param{Action} eq "Login") {
 # Logout
 # --
 elsif ($Param{Action} eq "Logout"){
-    print $CommonObject{LayoutObject}->Header();
+    print $CommonObject{LayoutObject}->Header(Title => 'Logout');
     if ( $CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
         if ( $CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID}) ) {
             print $CommonObject{LayoutObject}->Login(
