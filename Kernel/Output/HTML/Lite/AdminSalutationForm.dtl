@@ -2,7 +2,7 @@
 # AdminSalutationForm.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutationForm.dtl,v 1.10 2003-11-02 00:21:57 martin Exp $
+# $Id: AdminSalutationForm.dtl,v 1.11 2004-01-24 18:40:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@
 # set subaction!
 <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
 # check add link
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a salutation)"; }>
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminSalutation">$Text{"$Data{"AddLink"}"}</a>: 
     <br>

@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNotificationForm.dtl,v 1.1 2004-01-23 00:37:58 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.2 2004-01-24 18:40:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -72,25 +72,45 @@
 <tr valign="top">
   <td class="table1">
   <p>
-  $Text{"A response is default text to write faster answer (with default text) to customers."}
-  </p>
-  <p>
-  $Text{"Attention"}: <a href="$Env{"CGIHandle"}?Action=AdminQueueNotifications">$Text{"Don't forget to add a new response a queue!"}</a>
+  $Text{"Notifications are sent to an agent or a customer."}
   </p>
   <hr>
   <p>
   $Text{"Useable options"}:
     <table>
      <tr>
-      <td><b>&lt;OTRS_TICKET_STATE&gt;</b></td>
-      <td>$Text{"Next state"}</td>
+      <td><b>&lt;OTRS_CONFIG_*&gt;</b></td>
+      <td>$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
+     </tr>
+     <tr>
+      <td><b>&lt;OTRS_OWNER_*&gt;</b></td>
+      <td>$Text{"Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)"}</td>
+     </tr>
+     <tr>
+      <td><b>&lt;OTRS_CURRENT_*&gt;</b></td>
+      <td>$Text{"Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)"}</td>
+     </tr>
+     <tr>
+      <td><b>&lt;OTRS_CUSTOMER_DATA_*&gt;</b></td>
+      <td>$Text{"Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)"}</td>
      </tr>
     </table>
    </p>
     <p>
     $Text{"Example"}:
     <pre>
-$Text{"The current ticket state is"}: "&lt;OTRS_TICKET_STATE&gt;"
+Hi &lt;OTRS_CURRENT_USERFIRSTNAME&gt;,
+
+there is a new ticket in "&lt;OTRS_QUEUE&gt;"!
+
+&lt;OTRS_CUSTOMER_FROM&gt; wrote:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[16]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+
+Your OTRS Notification Master
     </pre>
     </p>
 
