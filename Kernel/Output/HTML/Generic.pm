@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.168 2005-01-10 23:17:09 martin Exp $
+# $Id: Generic.pm,v 1.169 2005-01-11 09:25:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.168 $';
+$VERSION = '$Revision: 1.169 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1119,8 +1119,10 @@ sub Ascii2Html {
     }
     # newline
     if ($NewLine && length($Text) < 8000) {
-         $Text =~ s/\r/\n/g;
-         $Text =~ s/(.{$NewLine}.+?\s)/$1\n/g;
+        $Text =~ s/\r/\n/g;
+        $Text =~ s/(.{$NewLine}.+?\s)/$1\n/g;
+        my $ForceNewLine = $NewLine+20;
+        $Text =~ s/(.{$NewLine})(.+?)/$1\n$2/g;
     }
     # strip empty lines
     if ($StripEmptyLines) {
