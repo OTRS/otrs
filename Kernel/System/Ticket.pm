@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.45 2003-02-09 20:54:13 martin Exp $
+# $Id: Ticket.pm,v 1.46 2003-02-17 21:38:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -727,8 +727,9 @@ sub SetPendingTime {
         $Self->AddHistoryRow(
             TicketID => $Param{TicketID},
             HistoryType => 'SetPendingTime',
-            Name => "Set Pending Time to $Param{Year}/$Param{Month}/$Param{Day} ".
-              "$Param{Hour}:$Param{Minute}.",
+            Name => 'Set Pending Time to '.sprintf("%02d", $Param{Year}).
+              '/'.sprintf("%02d", $Param{Month}).'/'.sprintf("%02d", $Param{Day}).' '.
+              sprintf("%02d", $Param{Hour}).':'.sprintf("%02d", $Param{Minute}).'.',
             CreateUserID => $Param{UserID},
         );
         return 1;
