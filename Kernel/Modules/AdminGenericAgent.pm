@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.15 2005-02-15 11:58:12 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.16 2005-02-23 08:58:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -426,12 +426,7 @@ sub MaskForm {
         SelectedID => $Param{NewStateID},
     );
     $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->GetAllQueues(
-#            UserID => $Self->{UserID},
-            UserID => 1,
-            Type => 'ro',
-          ),
-        },
+        Data => { $Self->{QueueObject}->GetAllQueues(),},
         Size => 5,
         Multiple => 1,
         Name => 'QueueIDs',
@@ -439,12 +434,7 @@ sub MaskForm {
         OnChangeSubmit => 0,
     );
     $Param{'NewQueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->GetAllQueues(
-#            UserID => $Self->{UserID},
-            UserID => 1,
-            Type => 'ro',
-          ),
-        },
+        Data => { $Self->{QueueObject}->GetAllQueues(),},
         Size => 5,
         Multiple => 1,
         Name => 'NewQueueID',
