@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.11 2002-01-23 23:01:34 martin Exp $
+# $Id: Config.pm,v 1.12 2002-01-23 23:28:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -191,6 +191,9 @@ sub Load {
     # default theme
     $Self->{DefaultTheme} = 'Standard';
 
+    # --
+    # defaults dor add note
+    # --
     # default note type
     $Self->{DefaultNoteType} = 'note-internal';
     # default note subject
@@ -198,6 +201,9 @@ sub Load {
     # default note text
     $Self->{DefaultNoteText} = '';
 
+    # --
+    # defaults for close ticket
+    # --
     # CloseNoteType
     $Self->{DefaultCloseNoteType} = 'note-internal';
     # CloseNoteSubject
@@ -207,6 +213,17 @@ sub Load {
     # CloseType
     $Self->{DefaultCloseType} = 'closed succsessful';
 
+    # --
+    # defaults for compose message
+    # --
+    # default compose next state
+    $Self->{DefaultNextComposeType} = 'open';
+    # next possible states for compose message
+    $Self->{DefaultNextComposeTypePossible} = [
+        'open', 
+        'closed succsessful', 
+        'closed unsuccsessful',
+    ];
 
 }
 # --

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.5 2002-01-23 23:02:26 martin Exp $
+# $Id: Agent.pm,v 1.6 2002-01-23 23:28:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -381,7 +381,7 @@ sub AgentCompose {
     # build next states string
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
-        Name => 'NextStateID'
+        Name => 'ComposeStateID'
     );
 
     foreach ('ReplyTo', 'To', 'Cc', 'Subject') {

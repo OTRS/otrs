@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.2 2001-12-30 00:45:09 martin Exp $
+# $Id: AgentCompose.pm,v 1.3 2002-01-23 23:28:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -47,7 +47,7 @@ sub new {
     $Self->{Email} = $Self->{ParamObject}->GetParam(Param => 'Email') || '';
     $Self->{InReplyTo} = $Self->{ParamObject}->GetParam(Param => 'InReplyTo') || '';
     $Self->{ResponseID} = $Self->{ParamObject}->GetParam(Param => 'ResponseID') || '';
-    $Self->{NextStateID} = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
+    $Self->{NextStateID} = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID') || '';
     return $Self;
 }
 # --
@@ -126,9 +126,11 @@ sub Form {
     my %Data = $Self->{TicketObject}->GetLastCustomerArticle(
         TicketID => $TicketID,
     );
+
     # body ...
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
+
     # subject ...
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
     $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
@@ -136,20 +138,28 @@ sub Form {
     $Data{Subject} = "[$TicketHook: $Tn] " . $Data{Subject};
     # to ...
     $Data{To} = $Data{From};
+
     # from ...
     my %Address = $QueueObject->GetSystemAddress();
     $Data{From} = "$Address{RealName} <$Address{Email}>";
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
+
     # Signature
     my $Signature = $QueueObject->GetSignature();
     $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
     $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+
     # get next states
     my %NextStates;
-    foreach ('open', 'closed succsessful', 'closed unsuccsessful') {
+    my $NextComposeTypePossibleTmp = 
+       $Self->{ConfigObject}->Get('DefaultNextComposeTypePossible')
+           || die 'No Config entry "DefaultNextComposeTypePossible"!';
+    my @NextComposeTypePossible = @$NextComposeTypePossibleTmp;
+    foreach (@NextComposeTypePossible) {
         $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
     }
+
     # build view ...
     $Output .= $Self->{LayoutObject}->AgentCompose(
         TicketNumber => $Tn,

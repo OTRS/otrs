@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.11 2002-01-23 23:02:26 martin Exp $
+# $Id: Generic.pm,v 1.12 2002-01-23 23:28:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::Admin;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -415,6 +415,9 @@ sub OptionStrgHashRef {
     }
     elsif ($Name eq 'CloseStateID' && !$Selected && !$SelectedID) {
         $Selected = $Self->{ConfigObject}->Get('DefaultCloseType');
+    }
+    elsif ($Name eq 'ComposeStateID' && !$Selected && !$SelectedID) {
+        $Selected = $Self->{ConfigObject}->Get('DefaultNextComposeType');
     }
     elsif (!$Selected && !$SelectedID) {
         # else set 1
