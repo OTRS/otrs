@@ -437,7 +437,7 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
     # config settings taken from Kernel/Config/Defaults.pm #
     # -----------------------------------------------------#
     # $Self-&gt;{SessionUseCookie} = 0;
-    $Self-A&gt;{SessionModule} = 'Kernel::System::AuthSession::DB';
+    $Self-&gt;{SessionModule} = 'Kernel::System::AuthSession::DB';
 </screen></para>
 <note>
 <title>A note about your FQDN</title>
@@ -448,7 +448,7 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 
 <section>
 <title>LOG.PM</title>
-<para>Now we have to uncomment five rows in <emphasis>d:\otrs\Kernel\System\Log.pm</emphasis>:</para>
+<para>Now we have to comment five rows in <emphasis>d:\otrs\Kernel\System\Log.pm</emphasis>:</para>
 <para><screen>13:
   # use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 60:
