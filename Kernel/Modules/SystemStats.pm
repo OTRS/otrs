@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.7 2003-03-23 21:34:18 martin Exp $
+# $Id: SystemStats.pm,v 1.8 2003-07-08 00:32:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.8 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,7 +76,7 @@ sub Run {
             $SytemTickets{$RowTmp[1]} = $RowTmp[0];
         }
         
-        $Output .= $Self->{LayoutObject}->SystemStats(
+        $Output .= $Self->MaskSystemStats(
             Files => \@Index,
             SystemTickts => \%SytemTickets
         );
@@ -95,6 +95,35 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
+}
+# --
+sub MaskSystemStats {
+    my $Self = shift;
+    my %Param = @_;
+    my $FilesTmp = $Param{Files};
+    my @Files = @$FilesTmp;
+    my $SystemTicktsTmp = $Param{SystemTickts};
+    my %SytemTickets = %$SystemTicktsTmp;
+
+    $Param{TicketCounter} = 0;
+    foreach (keys %SytemTickets) {
+      $Param{CounterOutput} .= "<TR ALIGN=CENTER><TD>\$Text{\"$_\"}</TD><TD>$SytemTickets{$_}</TD></TR>\n";
+      $Param{TicketCounter} = $Param{TicketCounter} + $SytemTickets{$_};
+    }
+
+    foreach (reverse @Files) {
+        $Param{Output} .= '<p><a href="pic.pl?Action=SystemStats&Pic='.$_.
+         '" onmouseover="window.status=\'$Text{"Stats"}\'; return true;" '.
+         'onmouseout="window.status=\'\';">'.
+         '<img src="pic.pl?Action=SystemStats&Pic='.$_.'" border="1"></a>
+         </p>';
+    }
+
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'SystemStats', 
+        Data => \%Param,
+    );
 }
 # --
 
