@@ -131,7 +131,15 @@ Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
 mysql> GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY "yourpw" WITH GRANT OPTION;
 mysql> 
 </programlisting>
-and change it in Kernel/Config.pm.
+Reload the grant tables of your mysql-daemon:
+<programlisting>
+$shell> mysqladmin -u root -psomepassword reload
+</programlisting>
+or restart your mysql-daemon and change the new otrs password it in Kernel/Config.pm.
+</para>
+<para>
+Note: If you use mod_perl, restart the webserver, because mod_perl is reading the perlcode
+(incl. Kernel/Config.pm) on startup.
 </para>
 </sect2>
 
