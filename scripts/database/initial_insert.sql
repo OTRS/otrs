@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.23 2004-04-02 12:49:35 martin Exp $
+-- $Id: initial_insert.sql,v 1.24 2004-04-15 08:43:14 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.23  2004/04/02 12:49:35  martin
+-- added missing WebRequestCustomer ticket_history_type entry
+--
 -- Revision 1.22  2004/03/11 14:39:44  martin
 -- added customer message quote
 --
@@ -474,23 +477,7 @@ INSERT INTO ticket_history_type
 INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
-        ('Close successful', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_history_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Close unsuccessful', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_history_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
         ('AddNote', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_history_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Open', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_history_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('Reopen', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
@@ -535,10 +522,6 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('SetPendingTime', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_history_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('SetPending', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
