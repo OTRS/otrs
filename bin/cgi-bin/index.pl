@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.7 2001-12-23 13:32:33 martin Exp $
+# $Id: index.pl,v 1.8 2001-12-26 20:03:36 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '/home/martin/src/otrs/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -58,9 +58,15 @@ use Kernel::Modules::AgentLock;
 use Kernel::Modules::AgentPriority;
 use Kernel::Modules::AgentClose;
 use Kernel::Modules::AgentUtilities;
+use Kernel::Modules::AgentCompose;
 use Kernel::Modules::Admin;
 use Kernel::Modules::AdminSession;
 use Kernel::Modules::AdminSelectBox;
+use Kernel::Modules::AdminResponse;
+use Kernel::Modules::AdminQueueResponses;
+use Kernel::Modules::AdminQueue;
+use Kernel::Modules::AdminAutoResponse;
+use Kernel::Modules::AdminQueueAutoResponse;
 use Kernel::Output::HTML::Generic;
 
 # --
