@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.135 2004-05-28 21:32:21 robert Exp $
+# $Id: Defaults.pm,v 1.136 2004-05-30 16:48:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.135 $';
+$VERSION = '$Revision: 1.136 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -347,11 +347,15 @@ sub LoadDefaults {
     # [default: 10]
     $Self->{ViewableTicketLinesBySearch} = 10;
 
+    # AgentUtilArticleTreeCSV
     # export also whole article tree in search result export
     # (take care of your performance!)
     # [default: 0]
     $Self->{AgentUtilArticleTreeCSV} = 0;
 
+    # AgentUtilCSVData
+    # (used csv data)
+    $Self->{AgentUtilCSVData} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8','ArticleTree',''];
     # --------------------------------------------------- #
     # URL login and logout settings                       #
     # --------------------------------------------------- #
@@ -635,14 +639,13 @@ sub LoadDefaults {
             cz => 'Czech', 
             pl => 'Polski',
             nb_NO => 'Norsk bokm&aring;l',
+            nb_SW => 'Svenska',
 #            hu => 'Hungarian',
 #            ro => 'Romanian',
 #            hr => 'Croatian',
 #            sk => 'Slovak', 
 #            sl => 'Slovenian',
 #            da => 'Dansk',
-            sv => 'Svenska',
-            nb_NO => 'Norsk bokm&aring;l',
     };
     # default theme
     # (the default html theme) [default: Standard]
