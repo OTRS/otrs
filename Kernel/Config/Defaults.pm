@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.122 2004-04-07 11:06:29 martin Exp $
+# $Id: Defaults.pm,v 1.123 2004-04-16 12:38:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.122 $';
+$VERSION = '$Revision: 1.123 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,6 +86,11 @@ sub LoadDefaults {
     # Organization X-Header)
 #    $Self->{Organization} = 'Example Company';
     $Self->{Organization} = '';
+
+    # TimeZone
+    # (set the system time zone, default is local time) 
+#    $Self->{TimeZone} = 0;
+#    $Self->{TimeZone} = +9;
 
     # CustomQueue
     # (The name of custom queue.)
@@ -284,19 +289,24 @@ sub LoadDefaults {
         Module => 'Kernel::Output::HTML::NotificationUIDCheck',
     };
 
+    # AgentQueueSortDefault
+    # (default sort order of the queue view / after priority sort)
+    # ASC: oldest on top, default
+    # DESC: youngest on top
+    $Self->{AgentQueueSortDefault} = 'ASC';
+
     # AgentQueueSort
-    # sort a queue ascending or descending (after priority sort)
+    # (sort a queue ascending or descending / after priority sort)
     # 
     # assignment: QueueID -> Value
     # where value is one of:
     # 0: ascending (oldest on top, default)
     # 1: descending (youngest on top)
     # 
-    #$Self->{AgentQueueSort} = {
-    #    7 => 1,
-    #    20 => 1,
-    #};
-
+#    $Self->{AgentQueueSort} = {
+#        7 => 1,
+#        3 => 0,
+#    };
 
     # --------------------------------------------------- #
     # AgentStatusView (shows all open tickets)            #
@@ -317,6 +327,11 @@ sub LoadDefaults {
     # viewable ticket lines by search util
     # [default: 10]
     $Self->{ViewableTicketLinesBySearch} = 10;
+
+    # export also whole article tree in search result export
+    # (take care of your performance!)
+    # [default: 0]
+    $Self->{AgentUtilArticleTreeCSV} = 0;
 
     # --------------------------------------------------- #
     # URL login and logout settings                       #
@@ -454,11 +469,10 @@ sub LoadDefaults {
     # FS is faster but webserver user should be the otrs user)
 #    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
 
-    # TimeZone
-    # (set the system time zone, default is local time) 
-#    $Self->{TimeZone} = 0;
-#    $Self->{TimeZone} = +9;
- 
+    # TicketCustomModule
+    # (custom functions to refedine Kernel::System::Ticket functions)
+#    $Self->{TicketCustomModule} = 'Kernel::System::Ticket::Custom';
+
     # UncountedUnlockTime
     # (don't count this hours as unlock time - weekdays: Mon,Tue,Wed,Thu,Fri,Sat,Sun;)
     $Self->{UncountedUnlockTime} = {
@@ -1296,7 +1310,7 @@ Your OTRS Notification Master
     $Self->{CustomerPanelSenderType} = 'customer'; 
     # default history type
     $Self->{CustomerPanelHistoryType} = 'FollowUp';
-    $Self->{CustomerPanelHistoryComment} = 'Customer sent follow up via web.';
+    $Self->{CustomerPanelHistoryComment} = '';
 
     # default compose follow up next state
     $Self->{CustomerPanelDefaultNextComposeType} = 'open';
@@ -1309,7 +1323,7 @@ Your OTRS Notification Master
     $Self->{CustomerPanelNewSenderType} = 'customer';
     # default history type
     $Self->{CustomerPanelNewHistoryType} = 'WebRequestCustomer';
-    $Self->{CustomerPanelNewHistoryComment} = 'Customer sent new ticket via web.';
+    $Self->{CustomerPanelNewHistoryComment} = '';
 
     # CustomerPanelSelectionType 
     # (To: seection type. Queue => show all queues, SystemAddress => show all system 
@@ -1714,7 +1728,7 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNextState} = 'closed successful';
     # default history type
     $Self->{PhoneDefaultHistoryType} = 'PhoneCallAgent';
-    $Self->{PhoneDefaultHistoryComment} = 'Called customer.';
+    $Self->{PhoneDefaultHistoryComment} = '';
 
 
     # default article type
@@ -1734,7 +1748,7 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultPriority} = '3 normal';
     # default history type
     $Self->{PhoneDefaultNewHistoryType} = 'PhoneCallCustomer';
-    $Self->{PhoneDefaultNewHistoryComment} = 'Customer called us.';
+    $Self->{PhoneDefaultNewHistoryComment} = '';
 
     # PhoneViewOwnerSelection
     $Self->{PhoneViewOwnerSelection} = 1;
@@ -1778,7 +1792,7 @@ Your OTRS Notification Master
    
     # history 
     $Self->{EmailDefaultNewHistoryType} = 'EmailAgent';
-    $Self->{EmailDefaultNewHistoryComment} = 'Send email to customer.';
+    $Self->{EmailDefaultNewHistoryComment} = '';
 
     # default note text
     $Self->{EmailDefaultNoteText} = '';
