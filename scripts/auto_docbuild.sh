@@ -3,7 +3,7 @@
 # auto_docbuild.sh - build automatically OTRS docu 
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_docbuild.sh,v 1.3 2004-01-05 09:51:15 martin Exp $
+# $Id: auto_docbuild.sh,v 1.4 2004-02-16 02:48:47 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.3 $>"
+echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.4 $>"
 echo "Copyright (c) 2003 Martin Edenhofer <martin@otrs.org>"
 
 
@@ -87,8 +87,10 @@ for Language in en de; do
     db2x.sh --html manual.sgml
     mkdir -p $PACKAGE_DEST_DIR/$Language/html
     mkdir -p $PACKAGE_DEST_DIR/$Language/html/screenshots
+    mkdir -p $PACKAGE_DEST_DIR/$Language/html/images
     cp -R manual/* $PACKAGE_DEST_DIR/$Language/html/
     cp -R screenshots/* $PACKAGE_DEST_DIR/$Language/html/screenshots/
+    cp -R images/* $PACKAGE_DEST_DIR/$Language/html/images/
 
     # sgml
     mkdir -p $PACKAGE_DEST_DIR/$Language/sgml
