@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.14 2002-04-13 15:48:43 martin Exp $
+# $Id: Agent.pm,v 1.15 2002-04-14 13:26:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -200,7 +200,7 @@ sub TicketZoom {
         # the full thread string
         $ThreadStrg .= "<A HREF=\"$BaseLink&Action=AgentZoom&ArticleID=$Article{ArticleID}\">" .
         "$Article{SenderType} ($Article{ArticleType})</A> ";
-        if ($Article{ArticleType} eq 'email') {
+        if ($Article{ArticleType} =~ /^email/) {
             $ThreadStrg .= " (<A HREF=\"$BaseLink&Action=AgentPlain&ArticleID=$Article{ArticleID}\">" .
             $Self->{LanguageObject}->Get('plain') . "</A>)";
         }
@@ -260,7 +260,7 @@ sub TicketZoom {
 
     # select the output template
     my $Output = '';
-    if ($Article{ArticleType} =~ /^note/i || $Article{SenderType} =~ /agent/i) {
+    if ($Article{ArticleType} =~ /^note/i) {
         $Output = $Self->Output(TemplateFile => 'TicketZoomNote', Data => \%Param);
     }
     else {
@@ -418,6 +418,32 @@ sub AgentCompose {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCompose', Data => \%Param);
+}
+# --
+sub AgentForward {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'ComposeStateID'
+    );
+
+    $Param{'ArticleTypesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{ArticleTypes},
+        Name => 'ArticleTypeID'
+    );
+
+
+    foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
+        $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
+        $Param{$_} =~ s/"//g;
+    }
+    $Param{SystemFromHTML} = $Self->Ascii2Html(Text => $Param{SystemFrom}, Max => 70, MIME => 1);
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentForward', Data => \%Param);
 }
 # --
 sub AgentPreferencesForm {
