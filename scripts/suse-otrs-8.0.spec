@@ -1,8 +1,8 @@
 # --
-# RPM spec file for SuSE Linux of the OTRS package
-# Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
+# RPM spec file for SuSE Linux 8.x of the OTRS package
+# Copyright (C) 2001-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-8.0.spec,v 1.5 2003-09-16 08:10:03 martin Exp $
+# $Id: suse-otrs-8.0.spec,v 1.6 2003-12-07 23:51:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
