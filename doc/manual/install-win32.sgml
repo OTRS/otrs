@@ -1,9 +1,9 @@
 <section>
-<title>Install OTRS 1.0 RC1 on Win32</title>
+<title>Install OTRS 1.0 on Win32</title>
+<para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
 <section>
 <title>Installations</title>
-<para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0 RC1</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
-<para>You will need four main components on your system, as a webserver <emphasis>Sambar Server</emphasis>, as database <emphasis>MySQL</emphasis>, as an MTA <emphasis>exim</emphasis> from the UN*X emulation <emphasis>Cygwin</emphasis> and as a programming language <emphasis>Perl</emphasis>.</para>
+<para>You will need four main components on your system, a webserver (<emphasis>Sambar Server</emphasis>), a database (<emphasis>MySQL</emphasis>), an MTA  (=Mail Transfer Agent, <emphasis>exim</emphasis> from the UN*X emulation <emphasis>Cygwin</emphasis>) and a programming language (<emphasis>Perl</emphasis>).</para>
 <para>The whole installation will assumingly take place on drive D:, but you may install wherever you like, for sure.</para>
 
 <section>
