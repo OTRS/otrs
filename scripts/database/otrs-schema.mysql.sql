@@ -870,3 +870,113 @@ CREATE TABLE notification_translations
     PRIMARY KEY(id)
 );
 
+# -----------------------------------------------------------------------
+# faq_item
+# -----------------------------------------------------------------------
+drop table if exists faq_item;
+    
+CREATE TABLE faq_item
+(   
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    f_name VARCHAR (200) NOT NULL,
+    f_language_id SMALLINT NOT NULL,
+    f_subject VARCHAR (200),
+    state_id SMALLINT NOT NULL,
+    category_id SMALLINT NOT NULL,
+    f_field1 MEDIUMTEXT,
+    f_field2 MEDIUMTEXT,
+    f_field3 MEDIUMTEXT,
+    f_field4 MEDIUMTEXT,
+    f_field5 MEDIUMTEXT,
+    f_field6 MEDIUMTEXT,
+    free_key1 VARCHAR (80),
+    free_value1 VARCHAR (200),
+    free_key2 VARCHAR (80),
+    free_value2 VARCHAR (200),
+    free_key3 VARCHAR (80),
+    free_value3 VARCHAR (200),
+    free_key4 VARCHAR (80),
+    free_value4 VARCHAR (200),
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (f_name)
+);
+
+# -----------------------------------------------------------------------
+# faq_language
+# -----------------------------------------------------------------------
+drop table if exists faq_language;
+    
+CREATE TABLE faq_language
+(   
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+# -----------------------------------------------------------------------
+# faq_history
+# -----------------------------------------------------------------------
+drop table if exists faq_history;
+    
+CREATE TABLE faq_history
+(   
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    item_id INTEGER NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+# -----------------------------------------------------------------------
+# faq_category
+# -----------------------------------------------------------------------
+drop table if exists faq_category;
+    
+CREATE TABLE faq_category
+(   
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (220) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+# -----------------------------------------------------------------------
+# faq_state
+# -----------------------------------------------------------------------
+drop table if exists faq_state;
+    
+CREATE TABLE faq_state
+(   
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    type_id VARCHAR (200) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+# -----------------------------------------------------------------------
+# faq_state_type
+# -----------------------------------------------------------------------
+drop table if exists faq_state_type;
+    
+CREATE TABLE faq_state_type
+(   
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+

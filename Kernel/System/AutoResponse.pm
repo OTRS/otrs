@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoResponse.pm,v 1.5 2003-02-08 15:09:38 martin Exp $
+# $Id: AutoResponse.pm,v 1.6 2004-01-10 15:49:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::AutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,7 +45,7 @@ sub AutoResponseAdd {
     # --
     # check needed stuff
     # --
-    foreach (qw(Name ValidID Response AddressID TypeID CharsetID UserID Subject)) {
+    foreach (qw(Name ValidID Response AddressID TypeID Charset UserID Subject)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -62,10 +62,10 @@ sub AutoResponseAdd {
     # --
     my $SQL = "INSERT INTO auto_response " .
         " (name, valid_id, comment, text0, text1, type_id, system_address_id, " .
-        " charset_id,  create_time, create_by, change_time, change_by)" .
+        " charset,  create_time, create_by, change_time, change_by)" .
         " VALUES " .
         " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', " .
-        " '$Param{Subject}', $Param{TypeID}, $Param{AddressID}, $Param{CharsetID}, " .
+        " '$Param{Subject}', $Param{TypeID}, $Param{AddressID}, $Param{Charset}, " .
         " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
@@ -89,7 +89,7 @@ sub AutoResponseGet {
     # sql 
     # --
     my $SQL = "SELECT name, valid_id, comment, text0, text1, " .
-        " type_id, system_address_id, charset_id " .
+        " type_id, system_address_id, charset " .
         " FROM " .
         " auto_response " .
         " WHERE " .
@@ -107,7 +107,7 @@ sub AutoResponseGet {
             Subject => $Data[4],
             TypeID => $Data[5],
             AddressID => $Data[6],
-            CharsetID => $Data[7],
+            Charset => $Data[7],
         );
         return %Data;
     }
@@ -122,7 +122,7 @@ sub AutoResponseUpdate {
     # --
     # check needed stuff
     # --
-    foreach (qw(ID Name ValidID Response AddressID CharsetID UserID Subject)) {
+    foreach (qw(ID Name ValidID Response AddressID Charset UserID Subject)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -144,7 +144,7 @@ sub AutoResponseUpdate {
         " text1 = '$Param{Subject}', " .
         " type_id = $Param{TypeID}, " .
         " system_address_id = $Param{AddressID}, " .
-        " charset_id = $Param{CharsetID}, " .
+        " charset = '$Param{Charset}', " .
         " valid_id = $Param{ValidID}, " . 
         " change_time = current_timestamp, " .
         " change_by = $Param{UserID} " .
@@ -174,10 +174,10 @@ sub AutoResponseGetByTypeQueueID {
     # --
     # SQL query
     # --
-    my $SQL = "SELECT ar.text0, sa.value0, sa.value1, ar.text1, ch.charset" .
+    my $SQL = "SELECT ar.text0, sa.value0, sa.value1, ar.text1, ar.charset" .
     " FROM " .
     " auto_response_type art, auto_response ar, queue_auto_response qar, ".
-    " system_address sa, charset ch " .
+    " system_address sa  " .
     " WHERE " .
     " qar.queue_id = $Param{QueueID} " .
     " AND " .
@@ -186,8 +186,6 @@ sub AutoResponseGetByTypeQueueID {
     " qar.auto_response_id = ar.id " .
     " AND " .
     " ar.system_address_id = sa.id" .
-    " AND " .
-    " ar.charset_id = ch.id ".
     " AND " .
     " art.name = '$Param{Type}'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
