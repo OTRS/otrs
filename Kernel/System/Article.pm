@@ -1,8 +1,8 @@
 # --
 # Article.pm - global article module for OpenTRS kernel
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.4 2002-02-21 22:13:25 martin Exp $
+# $Id: Article.pm,v 1.5 2002-04-13 15:50:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -26,18 +26,20 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # 0=off; 
     $Self->{Debug} = 0;
 
-    # db object
-    $Self->{DBObject} = $Param{DBObject} || die "Got no DBObject!";
+    # check needed objects
+    foreach ('DBObject', 'ConfigObject') {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
 
-    # Config object
-    $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";
-    $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir') || die "Got no ArticleDir!";;
+    $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir') 
+       || die "Got no ArticleDir!";
 
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
     $Self->{Year} = $Year+1900;
@@ -208,6 +210,7 @@ sub GetAttachment {
     while (<DATA>) {
         $Data{Type} = $_ if ($Counter == 0);
         $Data{Data} .= $_ if ($Counter > 0);
+        $Data{File} = $File;
         $Counter++;
     }
     close (DATA);
@@ -330,7 +333,7 @@ sub GetArticle {
     my %Data;
     my $SenderType = 'customer';
     my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
-    " at.a_subject, at.a_message_id, at.a_body " .
+    " at.a_subject, at.a_message_id, at.a_body, ticket_id " .
     " FROM " .
     " article at, article_sender_type st" .
     " WHERE " .
@@ -346,6 +349,7 @@ sub GetArticle {
         $Data{Subject} = $RowTmp[4];
         $Data{InReplyTo} = $RowTmp[5];
         $Data{Body} = $RowTmp[6];
+        $Data{TicketID} = $RowTmp[7];
     }
     return %Data;
 }
