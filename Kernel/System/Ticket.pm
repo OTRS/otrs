@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.87 2004-04-18 11:46:25 martin Exp $
+# $Id: Ticket.pm,v 1.88 2004-04-18 12:11:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.87 $';
+$VERSION = '$Revision: 1.88 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2913,30 +2913,59 @@ sub TicketWorkflow {
             $Match = 1;
             $Match3 = 1;
         }
-        # return new params
+        # build new data hash 
+        my %NewData = ();
+        my $UseNewParams = 0;
         if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{Type}}) {
+            $UseNewParams = 1;
             # debug log
             if ($Self->{Debug} > 3) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "Workflow '$StepT' used with '$Param{Type}'",
+                    Message => "Workflow '$StepT' used with Possible:'$Param{Type}'",
                 );
             }
-            # build new data hash 
-            my %NewData = ();
-            foreach my $PriorityID (keys %Data) {
-                foreach my $NewPriority (@{$Step{Possible}->{Ticket}->{$Param{Type}}}) {
-                    if ($Data{$PriorityID} eq $NewPriority) {
-                        $NewData{$PriorityID} = $Data{$PriorityID};
+            # possible list
+            foreach my $ID (keys %Data) {
+                foreach my $New (@{$Step{Possible}->{Ticket}->{$Param{Type}}}) {
+                    if ($Data{$ID} eq $New) {
+                        $NewData{$ID} = $Data{$ID};
                         if ($Self->{Debug} > 4) {
                             $Self->{LogObject}->Log(
                                 Priority => 'debug',
-                                Message => "Workflow '$StepT' param '$Data{$PriorityID}' used with '$Param{Type}'",
+                                Message => "Workflow '$StepT' param '$Data{$ID}' used with Possible:'$Param{Type}'",
                             );
                         }
                     }
                 }
             }
+        }
+        if (%Checks && $Match && $Match3 && $Step{PossibleNot}->{Ticket}->{$Param{Type}}) {
+            $UseNewParams = 1;
+            # debug log
+            if ($Self->{Debug} > 3) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Workflow '$StepT' used with PossibleNot:'$Param{Type}'",
+                );
+            }
+            # not possible list
+            foreach my $ID (keys %Data) {
+                foreach my $New (@{$Step{PossibleNot}->{Ticket}->{$Param{Type}}}) {
+                    if ($Data{$ID} ne $New) {
+                        $NewData{$ID} = $Data{$ID};
+                        if ($Self->{Debug} > 4) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'debug',
+                                Message => "Workflow '$StepT' param '$Data{$ID}' not used with PossibleNot:'$Param{Type}'",
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        # return new params
+        if ($UseNewParams) {
             $Self->{TicketWorkflowData} = \%NewData;
             return 1;
         }
@@ -2962,6 +2991,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2004-04-18 11:46:25 $
+$Revision: 1.88 $ $Date: 2004-04-18 12:11:20 $
 
 =cut
