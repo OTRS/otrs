@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.40 2004-12-23 06:01:44 martin Exp $
+# $Id: EmailParser.pm,v 1.41 2005-02-23 07:19:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -636,11 +636,15 @@ sub CheckMessageBody {
         my $LinkList = '';
         my $Counter = 0;
         $Self->{MessageBody} =~ s{
-            <a\Whref=("|')((http|https|ftp):\/\/.*?)("|')(|.+?)>
+            <a\Whref=("|')(.+?)("|')(|.+?)>
         }
         {
+            my $Link = $2;
+            if ($Link !~ /^(......|.....|....|...):/i) {
+                $Link = $Param{URL}.$Link;
+            }
             $Counter++;
-            $LinkList .= "[$Counter] $2\n";
+            $LinkList .= "[$Counter] $Link\n";
             "[$Counter]";
         }egxi;
         $Self->{MessageBody} =~ s/^\s*//mg;
@@ -660,7 +664,7 @@ sub CheckMessageBody {
         $Self->{MessageBody} =~ s/&quot;/"/g;
         $Self->{MessageBody} =~ s/&nbsp;/ /g;
         $Self->{MessageBody} =~ s/^\s*\n\s*\n/\n/mg;
-        $Self->{MessageBody} =~ s/(.{72}.+?\s)/$1\n/g;
+        $Self->{MessageBody} =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
         $Self->{MessageBody} .= "\n\n".$LinkList;
         $Self->{ContentType} = 'text/plain';
         if ($Self->{Debug} > 0) {
@@ -685,6 +689,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2004-12-23 06:01:44 $
+$Revision: 1.41 $ $Date: 2005-02-23 07:19:39 $
 
 =cut
