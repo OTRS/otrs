@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DestQueue.pm,v 1.3 2002-07-13 12:25:45 martin Exp $
+# $Id: DestQueue.pm,v 1.4 2002-07-21 20:56:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -28,14 +28,12 @@ sub new {
 
     $Self->{Debug} = 0;
 
-    # get db object
-    $Self->{DBObject} = $Param{DBObject} || die 'Got no DBObject!';
-
-    # get parse object
-    $Self->{ParseObject} = $Param{ParseObject} || die 'Got no ParseObject!';
-
-    # get config object
-    $Self->{ConfigObject} = $Param{ConfigObject} || die 'Got no ConfigObject!';
+    # --
+    # get needed opbjects
+    # --
+    foreach (qw(ConfigObject LogObject DBObject ParseObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
 
     return $Self;
 }
@@ -50,13 +48,13 @@ sub GetQueueID {
     my $GetParamTmp = $Param{Params};
     my %GetParam = %$GetParamTmp;
     my $QueueID;
-# get all addresses
+    # get all addresses
     my %SystemAddresses = $DBObject->GetTableData(
         Table => 'system_address',
         What => 'value0, queue_id',
         Valid => 1
     );
-# check possible to and cc emailaddresses
+    # check possible to and cc emailaddresses
     my @EmailAddresses = $ParseObject->SplitAddressLine(Line => $GetParam{To} .",". $GetParam{Cc});
     foreach (@EmailAddresses) {
         my $Address = $ParseObject->GetEmailAddress(Email => $_);
@@ -75,7 +73,7 @@ sub GetQueueID {
         }
     }
 
-# if there exists a X-OTRS-Queue header
+    # if there exists a X-OTRS-Queue header
     if ($GetParam{'X-OTRS-Queue'}) {
         if ($Self->{Debug} > 0) {
             print STDERR "* there exists a X-OTRS-Queue header: $GetParam{'X-OTRS-Queue'} " .
@@ -85,9 +83,13 @@ sub GetQueueID {
         $QueueID = undef;
     }
 
-# get dest queue
+    # get dest queue
     if (!$QueueID) {
-        my $QueueObject = Kernel::System::Queue->new(DBObject => $DBObject);
+        my $QueueObject = Kernel::System::Queue->new(
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            LogObject => $Self->{LogObject},
+        );
         $QueueID = $QueueObject->QueueLookup(Queue => $Queue) || 1;
         if ($Self->{Debug} > 0) {
             print STDERR "* make QueueLookup (Queue=$Queue, QueueID=$QueueID)\n";

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.14 2002-07-13 12:25:45 martin Exp $
+# $Id: NewTicket.pm,v 1.15 2002-07-21 20:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -41,22 +41,15 @@ sub new {
       'TicketObject', 
       'LogObject', 
       'LoopProtectionObject',
+      'ParseObject',
     ) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
 
-    my $ParseObject = $Param{ParseObject} || die 'Got no ParseObject!';   
- 
     # get dest queue object
-    $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
-	    DBObject => $Self->{DBObject},
-	    ParseObject => $ParseObject,
-        ConfigObject => $Self->{ConfigObject}, 
-	);
+    $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(%Param);
 
-    $Self->{QueueObject} = Kernel::System::Queue->new(
-        DBObject => $Self->{DBObject},
-    );
+    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
 
     return $Self;
 }
