@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.6 2002-08-01 02:37:36 martin Exp $
+# $Id: AgentOwner.pm,v 1.7 2002-09-10 23:14:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -44,8 +44,9 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
    
-    # get  NewUserID
+    # get params    
     $Self->{NewUserID} = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
+    $Self->{Comment} = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
 
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
 
@@ -65,12 +66,18 @@ sub Run {
 
     if ($Subaction eq 'Update') {
         # --
-		# set user id
+		# lock ticket && set user id && send notify to new agent
         # --
-        if ($Self->{TicketObject}->SetOwner(
+        if ($Self->{TicketObject}->SetLock(
+          TicketID => $TicketID,
+          Lock => 'lock',
+          UserID => $Self->{UserID},
+        ) &&
+          $Self->{TicketObject}->SetOwner(
 			TicketID => $TicketID,
 			UserID => $Self->{UserID},
             NewUserID => $Self->{NewUserID},
+            Comment => $Self->{Comment},
 		)) {
           # --
           # redirect

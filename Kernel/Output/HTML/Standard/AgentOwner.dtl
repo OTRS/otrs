@@ -2,7 +2,7 @@
 # AgentOwner.dtl - provides HTML for AgentOwner mask
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.dtl,v 1.2 2002-08-05 00:07:06 martin Exp $
+# $Id: AgentOwner.dtl,v 1.3 2002-09-10 23:15:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top" colspan="2">
+  <td align="center" valign="top">
 
 <p>
 
@@ -40,13 +40,20 @@
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-  <table border="0">
+<table border="0">
   <tr>
-    <td>$Text{"New user"}:</td><td>$Data{"OptionStrg"}</td>
+    <td valign="top">$Text{"New user"}:<br>$Data{"OptionStrg"}</td>
   </tr>
-  </table>
-<br>
-<input type="submit" value="$Text{"update"}">
+  <tr>
+    <td valign="top">$Text{"Message for new Owner"}:<br>
+<textarea name="Comment" rows="6" cols="50">
+</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><input type="submit" value="$Text{"update"}"></td>
+  </tr>
+</table>
 </form>
 
 </p>
