@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.52 2002-10-15 09:48:53 martin Exp $
+# $Id: Agent.pm,v 1.53 2002-10-20 11:43:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -90,8 +90,13 @@ sub TicketView {
     my %StdResponses = %{$Param{StdResponses}};
 
     # do some html quoting
-    foreach (qw(From To Cc Subject Priority State Queue Owner Lock)) {
+    foreach (qw(From To Cc Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
+    }
+    # create short html customer id
+    $Param{CustomerIDHTML} = $Param{CustomerID} || '';
+    foreach (qw(Priority State Queue Owner Lock CustomerIDHTML)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     # prepare escalation time
@@ -197,25 +202,25 @@ sub TicketView {
 sub TicketZoom {
     my $Self = shift;
     my %Param = @_;
-
+    # --
+    # create short html customer id
+    # --
+    $Param{CustomerIDHTML} = $Param{CustomerID} || '';
     # --
     # do some html quoting
     # --
-    foreach ('Priority', 'State') {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50) || '';
+    foreach (qw(Priority State Owner Queue CustomerIDHTML)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
-    $Param{Owner} = $Self->Ascii2Html(Text => $Param{Owner}, Max => 20) || ''; 
-
     # --
     # prepare escalation time (if needed)
     # --
     if ($Param{Answered}) {
-      $Param{TicketOverTime} = 'none - answered';
+      $Param{TicketOverTime} = '$Text{"none - answered"}';
     }
     elsif ($Param{TicketOverTime}) { 
       $Param{TicketOverTimeSuffix} = '';
-
       # --
       # colloring  
       # --
@@ -243,7 +248,6 @@ sub TicketZoom {
     else {
       $Param{TicketOverTime} = 'none';
     }
-
     # --
     # get MoveQueuesStrg
     # --
@@ -253,7 +257,6 @@ sub TicketZoom {
         Data => $Param{MoveQueues},
         OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit'),
     );
-
     # --
     # build article stuff
     # --
@@ -735,7 +738,10 @@ sub AgentUtilSearchResult {
     }
 
     # do some html quoting
-    foreach (qw(From To Cc Subject Priority State Queue Owner Lock)) {
+    foreach (qw(Priority State Queue Owner Lock CustomerID)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
+    }
+    foreach (qw(From To Cc Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');

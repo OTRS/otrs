@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomSystem.dtl,v 1.12 2002-10-15 09:51:47 martin Exp $
+# $Id: TicketZoomSystem.dtl,v 1.13 2002-10-20 11:43:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -73,9 +73,10 @@ $Data{"Article::Text"}
     <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
     <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
     <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
-    <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" target="cdb">$Data{"CustomerID"}</a></td></tr>
+    <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" target="cdb">$Data{"CustomerIDHTML"}</a></td></tr>
     <tr><td><b>$Text{"Accounted time"}:</b></td><td>$Data{"TicketTimeUnits"}</td></tr>
     <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+    <tr><td><b>$Text{"Owner"}:</b></td><td>$Data{"Owner"}</td></tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
 # --
@@ -86,7 +87,6 @@ $Data{"Article::Text"}
 # --
     </table>
     <table border="0" cellspacing="0" cellpadding="1" width="95%">
-    <tr><td><b>$Text{"Owner"}:</b></td><td>$Data{"Owner"}</td></tr>
     <tr><td colspan="2"></td></tr>
     <tr><td colspan="2">
 
