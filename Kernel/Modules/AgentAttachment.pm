@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentAttachment.pm - to get the attachments 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.12 2004-04-14 15:56:13 martin Exp $
+# $Id: AgentAttachment.pm,v 1.13 2004-05-11 08:36:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,6 +38,7 @@ sub new {
     # get ArticleID
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
     $Self->{FileID} = $Self->{ParamObject}->GetParam(Param => 'FileID');
+    $Self->{Viewer} = $Self->{ParamObject}->GetParam(Param => 'Viewer') || 0;
 
     return $Self;
 }
@@ -89,7 +90,48 @@ sub Run {
           ArticleID => $Self->{ArticleID},
           FileID => $Self->{FileID},
         )) {
-            return $Self->{LayoutObject}->Attachment(%Data);  
+            # check viewer
+            my $Viewer = '';
+            foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
+                if ($Data{ContentType} =~ /^$_/i) {
+                    $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
+                } 
+            }
+            # show with viewer
+            if ($Self->{Viewer} && $Viewer) {
+                # write tmp file
+                my $TmpFile = $Self->{ConfigObject}->Get('TempDir').'/view-'.$Self->{SessionID}.'.tmp';
+                if (open (DATA, "> $TmpFile")) {
+                    print DATA $Data{Content};
+                    close (DATA);
+                }
+                else {
+                    # log error
+                    $Self->{LogObject}->Log(
+                        Priority => 'error', 
+                        Message => "Cant write $TmpFile: $!",
+                    );
+                    $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+                    $Output .= $Self->{LayoutObject}->Error();
+                    $Output .= $Self->{LayoutObject}->Footer();
+                    return $Output;
+                }
+                # use viewer
+                my $Content = '';
+                open (DATA, "$Viewer $TmpFile |");
+                while (<DATA>) {
+                    $Content .= $_;
+                }
+                close (DATA);
+                # remove tmp file
+                unlink ($TmpFile);
+                # return new page
+                return $Self->{LayoutObject}->Attachment(%Data, ContentType => 'text/html', Content => $Content);
+            }
+            # download it 
+            else {
+                return $Self->{LayoutObject}->Attachment(%Data);  
+            }
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
