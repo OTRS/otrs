@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.18 2003-01-19 20:22:50 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.19 2003-02-03 23:33:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -196,7 +196,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %config(noreplace) /opt/otrs/Kernel/Config.pm
-%config(noreplace) /opt/otrs/Kernel/Config/*.pm
+%config(noreplace) /opt/otrs/Kernel/Config/GenericAgent.pm
+%config(noreplace) /opt/otrs/Kernel/Config/ModulesCusto*.pm
 %config(noreplace) /opt/otrs/var/log/TicketCounter.log
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
@@ -211,6 +212,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/sbin/rcotrs
 
 /opt/otrs/RELEASE
+/opt/otrs/Kernel/Config/Modules.pm
+/opt/otrs/Kernel/Config/Defaults.pm
 /opt/otrs/Kernel/Language.pm
 /opt/otrs/Kernel/Modules/*
 /opt/otrs/Kernel/Output/HTML/*.pm
