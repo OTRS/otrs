@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.24 2003-02-20 13:51:47 wiktor Exp $
+# $Id: PostMaster.pm,v 1.25 2003-03-12 10:56:58 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,7 +58,6 @@ sub new {
         Email => \@Email,
         OrigEmail => \@EmailOrig,
     );
-
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
          DBObject => $Self->{DBObject}, 
          ParseObject => $Self->{ParseObject},
@@ -68,7 +67,7 @@ sub new {
     );
 
     # for debug 0=off; 1=info; 2=on; 3=with GetHeaderParam;
-    $Self->{Debug} = 1;
+    $Self->{Debug} = 0;
 
     return $Self;
 }
@@ -79,6 +78,8 @@ sub Run {
     # --
     # common opjects
     # --
+    my $SystemID = $Self->{ConfigObject}->Get('SystemID');
+    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     my $TicketObject = Kernel::System::Ticket->new(
          DBObject => $Self->{DBObject}, 
          ConfigObject => $Self->{ConfigObject},
@@ -111,6 +112,7 @@ sub Run {
    # --
    # ticket section
    # --
+
    # check for hardwired queue info
    my $Queue = $Self->{DestQueueObject}->GetQueueID(Params => \%GetParam);
 
@@ -119,8 +121,21 @@ sub Run {
        Subject => $GetParam{'Subject'}, 
        TicketObject => $TicketObject,
    );
+
+   if ($Tn && $TicketID) {
+       $Queue = $Self->{DestQueueObject}->GetQueueID(Params => \%GetParam);
+   };
+
+   # --
+   # check ticket number
+   # --
+   if ($GetParam{'Subject'} =~ /$TicketHook:.*\-FW\]/i) {
+       undef $Tn;
+       undef $TicketID;
+   }
+
    # Follow up ...
-   if ($Tn && $TicketID  && !$Queue) {
+   if ($Tn && $TicketID) {
         my $FollowUp = Kernel::System::PostMaster::FollowUp->new(
             DBObject => $Self->{DBObject},
             TicketObject => $TicketObject,
@@ -229,6 +244,7 @@ sub CheckFollowUp {
     my $Subject = $Param{Subject} || '';
     my $TicketObject = $Param{TicketObject};
 
+
     if ($Self->{Debug} > 1) {
         $Self->{LogObject}->Log(
             Priority => 'debug',
@@ -242,7 +258,7 @@ sub CheckFollowUp {
         if ($Self->{Debug} > 1) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "CheckFollowUp: Tn: $Tn found!",
+                Message => "CheckFollowUp: Tn: $Tn found or forward!",
             );
         }
         if ($TicketID) {
