@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.11 2002-11-27 10:33:54 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.12 2002-11-27 14:27:18 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -12,10 +12,49 @@
 -- --
 -- 0.5 BETA 9 upgrate
 -- --
+-- table for db loop protection backend module
+CREATE TABLE ticket_loop_protection
+(
+    sent_to VARCHAR (200) NOT NULL,
+    sent_date VARCHAR (100) NOT NULL,
+    INDEX index_ticket_loop_protection_sent_to (sent_to),
+    INDEX index_ticket_loop_protection_sent_date (sent_date)
+);
+-- charset for bulgarian translation
 INSERT INTO charset
     (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Cyrillic Charset (Windows-1251)', 'Windows-1251', 'Windows-1251 - cp1251', 1, 1, current_timestamp, 1, current_timestamp);
+-- table for attachments in db
+CREATE TABLE article_attachment
+(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    article_id BIGINT NOT NULL,
+    filename VARCHAR (250),
+    content_type VARCHAR (250),
+    content LONGBLOB, 
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    INDEX article_id (article_id)
+  
+);
+-- table for plain emails in db
+CREATE TABLE article_plain
+(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    article_id BIGINT NOT NULL,
+    body MEDIUMTEXT,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    INDEX article_id (article_id)
+
+);
 
 -- --
 -- 0.5 BETA 8 upgrate
