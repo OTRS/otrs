@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.35 2003-11-02 11:29:28 martin Exp $
+# $Id: Queue.pm,v 1.36 2003-11-17 00:22:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,8 +16,22 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::Queue - queue lib
+
+=head1 SYNOPSIS
+
+All queue functions. E. g. to add queue or other functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
 
 # --
 sub new {
@@ -37,10 +51,19 @@ sub new {
 
     # lib object
     $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
-    $Self->{GroupObject} = Kernel::System::Group->new(%Param); 
+    $Self->{GroupObject} = Kernel::System::Group->new(%Param);
     return $Self;
 }
 # --
+
+=item GetSystemAddress()
+
+get a queue system email address as hash (Email, RealName)
+
+    my %Adresss = $Self->{QueueObject}->GetSystemAddress(QueueID => 123); 
+
+=cut
+
 sub GetSystemAddress {
     my $Self = shift;
     my %Param = @_;
@@ -59,13 +82,27 @@ sub GetSystemAddress {
     return %Adresss;
 }
 # --
+
+=item GetSalutation()
+
+get a queue salutation
+
+    my $Salutation = $Self->{QueueObject}->GetSalutation(QueueID => 123); 
+
+=cut
+
 sub GetSalutation {
     my $Self = shift;
     my %Param = @_;
+    # check needed stuff
+    if (!$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
+        return;
+    }
     my $String = '';
     my $SQL = "SELECT text FROM salutation sa, queue sq ".
         " WHERE ".
-        " sq.id = $Self->{QueueID} ".
+        " sq.id = $Param{QueueID} ".
         " and ".
         " sq.salutation_id = sa.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -75,13 +112,27 @@ sub GetSalutation {
     return $String;
 }
 # --
+
+=item GetSignature()
+
+get a queue signature
+
+    my $Signature = $Self->{QueueObject}->GetSignature(QueueID => 123); 
+
+=cut
+
 sub GetSignature {
     my $Self = shift;
     my %Param = @_;
+    # check needed stuff
+    if (!$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
+        return;
+    }
     my $String = '';
     my $SQL = "SELECT text FROM signature si, queue sq ".
         " WHERE ".
-        " sq.id = $Self->{QueueID} ".
+        " sq.id = $Param{QueueID} ".
         " and ".
         " sq.signature_id = si.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -91,20 +142,25 @@ sub GetSignature {
     return $String;
 }
 # --
+
+=item GetStdResponse()
+
+get std response of a queue 
+
+    my $String = $Self->{QueueObject}->GetStdResponse(ID => 123); 
+
+=cut
+
 sub GetStdResponse {
     my $Self = shift;
     my %Param = @_;
     my $String = '';
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
         return;
     }
-    # --
     # sql 
-    # --
     my $SQL = "SELECT text FROM standard_response".
         " WHERE ".
         " id = $Param{ID} ";
@@ -115,6 +171,7 @@ sub GetStdResponse {
     return $String;
 }
 # --
+# for comapt!
 sub SetQueueStdResponse {
    my $Self = shift;
    my %Param = @_;
@@ -125,9 +182,7 @@ sub SetQueueStdResponse {
    if ($Self->QueueHasStdResponse(%Param)){
       return;
    }
-   # --
    # sql 
-   # --
    my $SQL = sprintf(qq|INSERT INTO queue_standard_response (queue_id, standard_response_id, create_time, create_by, change_time, change_by)
    VALUES ( %s, %s, current_timestamp, %s, current_timestamp, %s)| , $Param{QueueID}, $Param{ResponseID}, $Param{UserID}, $Param{UserID});
    # print "SQL was\n$SQL\n\n";
@@ -138,6 +193,7 @@ sub SetQueueStdResponse {
    }
 }
 # --
+# for comapt!
 sub QueueHasStdResponse {
    my $Self = shift;
    my %Param = @_;
@@ -158,27 +214,30 @@ sub QueueHasStdResponse {
    return $Count;
 }
 # --
+
+=item GetStdResponses()
+
+get std responses of a queue 
+
+    my %Responses = $Self->{QueueObject}->GetStdResponses(QueueID => 123); 
+
+=cut
+
 sub GetStdResponses {
     my $Self = shift;
     my %Param = @_;
     my %StdResponses;
-    # --
     # check needed stuff
-    # --
     if (!$Param{QueueID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
-    # --
     # check if this result is present
-    # --
     if ($Self->{"StdResponses::$Param{QueueID}"}) {
         %StdResponses = %{$Self->{"StdResponses::$Param{QueueID}"}};
         return %StdResponses;
     }
-    # --
     # get std. responses
-    # --
     my $SQL = "SELECT sr.id, sr.name ".
         " FROM ".
         " standard_response sr, queue_standard_response qsr".
@@ -193,16 +252,25 @@ sub GetStdResponses {
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $StdResponses{$Row[0]} = $Row[1];
     }
-    # --
     # store std responses
-    # --
     $Self->{"StdResponses::$Param{QueueID}"} = \%StdResponses;
-    # --
     # return responses
-    # --
     return %StdResponses;
 }
 # --
+
+=item GetAllQueues()
+
+get all system queues
+
+    my %Queues = $Self->{QueueObject}->GetAllQueues();
+
+get all system queues of a user with permission type (e. g. ro, move, rw, ...)
+
+    my %Queues = $Self->{QueueObject}->GetAllQueues(UserID => 123, Type => 'ro');
+
+=cut
+
 sub GetAllQueues {
     my $Self = shift;
     my %Param = @_;
@@ -213,7 +281,7 @@ sub GetAllQueues {
     # --
     my %MoveQueues;
     if ($UserID) {
-        my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Param{UserID},
             Type => $Type,
             Result => 'ID',
@@ -248,19 +316,24 @@ sub GetAllQueues {
     return %MoveQueues;
 }
 # --
+
+=item GetAllCustomQueues()
+
+get all custom queues of one user
+
+    my %Queues = $Self->{QueueObject}->GetAllCustomQueues(UserID => 123);
+
+=cut
+
 sub GetAllCustomQueues {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{UserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return;
     }
-    # --
     # fetch all queues
-    # --
     my @QueueIDs;
     my $SQL = "SELECT queue_id FROM personal_queues WHERE user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -270,19 +343,24 @@ sub GetAllCustomQueues {
     return @QueueIDs;
 }
 # --
+
+=item GetAllUserIDsByQueueID()
+
+...
+
+    ... 
+
+=cut
+
 sub GetAllUserIDsByQueueID {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{QueueID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
-    # --
     # fetch all queues
-    # --
     my @UserIDs = ();
     $Self->{DBObject}->Prepare(
         SQL => "SELECT user_id FROM personal_queues ".
@@ -295,6 +373,15 @@ sub GetAllUserIDsByQueueID {
     return @UserIDs;
 }
 # --
+
+=item QueueLookup()
+
+...
+
+    ... 
+
+=cut
+
 sub QueueLookup {
     my $Self = shift;
     my %Param = @_;
@@ -340,19 +427,24 @@ sub QueueLookup {
     return $Self->{"QL::$Suffix$Param{What}"};
 }
 # --
+
+=item GetFollowUpOption()
+
+...
+
+    ... 
+
+=cut
+
 sub GetFollowUpOption {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{QueueID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
-    # --
     # fetch queues data
-    # --
     my $Return = '';
     my $SQL = "SELECT sf.name ".
 		" FROM ".
@@ -368,19 +460,24 @@ sub GetFollowUpOption {
     return $Return;
 }
 # --
+
+=item GetFollowUpLockOption()
+
+...
+
+    ... 
+
+=cut
+
 sub GetFollowUpLockOption {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{QueueID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
-    # --
     # fetch queues data
-    # --
     my $Return = 0;
     my $SQL = "SELECT sq.follow_up_lock ".
         " FROM ".
@@ -394,19 +491,24 @@ sub GetFollowUpLockOption {
     return $Return;
 }
 # --
+
+=item GetQueueGroupID()
+
+...
+
+    ... 
+
+=cut
+
 sub GetQueueGroupID {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{QueueID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
         return;
     }
-    # --
     # sql 
-    # --
     my $GID = '';
         my $SQL = "SELECT group_id ".
         " FROM ".
@@ -420,6 +522,15 @@ sub GetQueueGroupID {
     return $GID;
 }
 # --
+
+=item QueueAdd()
+
+...
+
+    ... 
+
+=cut
+
 sub QueueAdd {
    my $Self=shift;
    my %Param = @_;
@@ -464,9 +575,7 @@ sub QueueAdd {
       $Param{$_} = $Self->{ConfigObject}{QueueDefaults}{$_} || 0  unless ($Param{$_});
    };
 
-   # --
    # check needed stuff
-   # --
    foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify LockNotify OwnerNotify ValidID)) {
       if (!defined($Param{$_})) { 
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -568,6 +677,15 @@ sub QueueAdd {
    }
 }
 #--
+
+=item GetTicketIDsByQueue()
+
+...
+
+    ... 
+
+=cut
+
 sub GetTicketIDsByQueue {
     my $Self = shift;
     my %Param = @_;
@@ -633,6 +751,15 @@ sub GetTicketIDsByQueue {
     return %Tickets;
 }   
 # --
+
+=item QueueGet()
+
+...
+
+    ... 
+
+=cut
+
 sub QueueGet {
     my $Self = shift;
     my %Param = @_;
@@ -706,6 +833,15 @@ sub QueueGet {
     return %{$Self->{"QG::$Suffix$Param{What}"}};
 }
 # --
+
+=item QueueUpdate()
+
+...
+
+    ... 
+
+=cut
+
 sub QueueUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -797,3 +933,9 @@ sub QueueUpdate {
 # --
 
 1;
+
+=head1 VERSION
+
+$Revision: 1.36 $ $Date: 2003-11-17 00:22:18 $
+
+=cut
