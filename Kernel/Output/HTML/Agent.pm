@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.116 2003-05-29 16:09:54 martin Exp $
+# $Id: Agent.pm,v 1.117 2003-06-06 14:36:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.116 $';
+$VERSION = '$Revision: 1.117 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -316,6 +316,7 @@ sub TicketView {
     if (my $MimeTypeText = $Self->CheckMimeType(%Param, Action => 'AgentZoom')) {
         $Param{TextNote} = $MimeTypeText;
         $Param{Text} = '';
+        $Param{Body} = '';
     }
     else {
         # charset encode
