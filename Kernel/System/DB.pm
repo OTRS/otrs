@@ -1,8 +1,8 @@
 # --
-# Kernel/System/DB.pm - the global database wrapper to support different databases 
+# Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.39 2004-06-22 08:01:27 martin Exp $
+# $Id: DB.pm,v 1.40 2004-08-12 08:10:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -25,7 +25,7 @@ Kernel::System::DB - global database interface
 
 =head1 SYNOPSIS
 
-All database functions to connect/insert/update/delete/... to a database. 
+All database functions to connect/insert/update/delete/... to a database.
 
 =head1 PUBLIC INTERFACE
 
@@ -36,11 +36,11 @@ All database functions to connect/insert/update/delete/... to a database.
 =item new()
 
 create database object with database connect
- 
+
   use Kernel::Config;
   use Kernel::System::Log;
-  use Kernel::System::DB; 
- 
+  use Kernel::System::DB;
+
   my $ConfigObject = Kernel::Config->new();
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
@@ -49,9 +49,9 @@ create database object with database connect
   $DBObject = Kernel::System::DB->new(
       ConfigObject => $ConfigObject,
       LogObject    => $LogObject,
-      # if you don't use the follow params, then this are used 
+      # if you don't use the follow params, then this are used
       # from Kernel/Config.pm!
-      DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;', 
+      DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;',
       DatabaseUser => 'user',
       DatabasePw   => 'somepass',
       Type         => 'mysql',
@@ -67,9 +67,9 @@ create database object with database connect
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
 
     # 0=off; 1=updates; 2=+selects; 3=+Connects;
@@ -83,7 +83,7 @@ sub new {
         else {
             die "Got no $_!";
         }
-    } 
+    }
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # get config data
@@ -218,13 +218,12 @@ sub new {
             $Self->{"DB::$_"} = $Param{$_};
         }
     }
-    # do database connect 
+    # do database connect
     if (!$Self->Connect()) {
         return;
     }
     return $Self;
 }
-# --
 
 =item Connect()
 
@@ -238,12 +237,12 @@ sub Connect {
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
           Caller => 1,
-          Priority => 'debug', 
+          Priority => 'debug',
           Message => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
     # db connect
-    if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{'DB::Attribute'}))) { 
+    if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{'DB::Attribute'}))) {
         $Self->{LogObject}->Log(
           Caller => 1,
           Priority => 'Error',
@@ -253,7 +252,6 @@ sub Connect {
     }
     return $Self->{dbh};
 }
-# --
 
 =item Disconnect()
 
@@ -275,11 +273,10 @@ sub Disconnect {
     $Self->{dbh}->disconnect() if ($Self->{dbh});
     return 1;
 }
-# --
 
 =item Quote()
 
-to quote strings 
+to quote strings
 
   my $DBString = $DBObject->Quote("This isn't a problem!");
 
@@ -334,7 +331,7 @@ to insert, update or delete something
   my $Var2 = 'dog2';
 
   $DBObject->Do(
-      SQL => "INSERT INTO table (name1, name2) VALUES (?, ?)", 
+      SQL => "INSERT INTO table (name1, name2) VALUES (?, ?)",
       Bind => [\$Var1, \$Var2],
   );
 
@@ -375,7 +372,7 @@ sub Do {
           Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$SQL'",
         );
     }
-    # send sql to database 
+    # send sql to database
     if (!$Self->{dbh}->do($SQL, undef, @Array)) {
         $Self->{LogObject}->Log(
           Caller => 1,
@@ -473,7 +470,7 @@ sub FetchrowArray {
         }
         $Self->{LimitCounter}++;
     }
-    # return 
+    # return
     my @Row = $Self->{Curser}->fetchrow_array();
     # e. g. set utf-8 flag
     foreach (@Row) {
@@ -493,7 +490,7 @@ sub FetchrowHashref {
         }
         $Self->{LimitCounter}++;
     }
-    # return 
+    # return
     return $Self->{Curser}->fetchrow_hashref();
 }
 # --
@@ -588,7 +585,7 @@ sub DESTROY {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -598,7 +595,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2004-06-22 08:01:27 $
+$Revision: 1.40 $ $Date: 2004-08-12 08:10:17 $
 
 =cut
 
