@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.164 2004-10-01 11:23:20 martin Exp $
+# $Id: Defaults.pm,v 1.165 2004-10-02 08:18:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.164 $';
+$VERSION = '$Revision: 1.165 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2148,14 +2148,21 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
     # Module Name: 1-CustomerIDGroupCheck
     # (grant access, if customer id is the same and group is accessable)
-    $Self->{'CustomerTicket::Permission'}->{'1-CustomerIDCheck'} = {
+    $Self->{'CustomerTicket::Permission'}->{'1-CustomerUserIDCheck'} = {
+        Module => 'Kernel::System::Ticket::CustomerPermission::CustomerUserIDCheck',
+        # if this check is needed
+        Required => 0,
+        # if this check is true, don't do more checks
+        Granted => 1,
+    };
+    $Self->{'CustomerTicket::Permission'}->{'2-CustomerIDCheck'} = {
         Module => 'Kernel::System::Ticket::CustomerPermission::CustomerIDCheck',
         # if this check is needed
         Required => 1,
         # if this check is true, don't do more checks
         Granted => 0,
     };
-    $Self->{'CustomerTicket::Permission'}->{'2-GroupCheck'} = {
+    $Self->{'CustomerTicket::Permission'}->{'3-GroupCheck'} = {
         Module => 'Kernel::System::Ticket::CustomerPermission::GroupCheck',
         # if this check is needed
         Required => 1,
