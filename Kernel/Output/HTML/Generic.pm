@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.121 2004-06-04 09:51:27 martin Exp $
+# $Id: Generic.pm,v 1.122 2004-06-15 09:08:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.121 $';
+$VERSION = '$Revision: 1.122 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -373,6 +373,17 @@ sub Output {
         }
         { 
             $Self->{LanguageObject}->FormatTimeString($2);
+        }egx;
+    }
+    # --
+    # do date translation
+    # --
+    foreach (1..1) {
+        $Output =~ s{
+            \$Date({"(.+?)"}|{""})
+        }
+        { 
+            $Self->{LanguageObject}->FormatTimeString($2, 'DateFormatShort');
         }egx;
     }
     # --
