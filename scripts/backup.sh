@@ -3,7 +3,7 @@
 # scripts/backup.sh - a backup script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.sh,v 1.8 2003-02-25 20:32:03 martin Exp $
+# $Id: backup.sh,v 1.9 2003-03-07 13:02:45 wiktor Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,11 +20,12 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "backup.sh - a backup script for OTRS <\$Revision: 1.8 $>"
+echo "backup.sh - a backup script for OTRS <\$Revision: 1.9 $>"
 
 REMOVE_OLD=0
+COMPRESS=0
 # parse user input
-while getopts "rb:c:d:" Option
+while getopts "jrb:c:d:" Option
 do
   case $Option in
     r)
@@ -43,16 +44,21 @@ do
       # backup path
       BACKUPDIR=$OPTARG
     ;;
+    j)
+      # compress backup
+      COMPRESS=1
+    ;;
   esac
 done
 shift $(($OPTIND - 1))
 
 if [ "x${OTRS_BIN}" == "x" ] || [ "x${OTRS_CFG}" == "x" ] || [ "x${BACKUPDIR}" == "x" ]; then
     echo ""
-    echo "Usage: backup.sh [-r] -b path/bin -c path/Kernel/Config -d backup-path "
+    echo "Usage: backup.sh [-j] [-r] -b path/bin -c path/Kernel/Config -d backup-path "
     echo ""
     echo "  Try: backup.sh -b /opt/otrs/bin -c /opt/otrs/Kernel/Config/ -d /data/otrs-backup"
     echo "  Use the -r switch to remove backups older than a month"
+    echo "  Use the -j switch to compress the backup to a .tar.bz2 archieve"
     echo ""
     exit 1
 fi
@@ -93,7 +99,7 @@ done
 
 if [ $REMOVE_OLD == 1 ]; then
     # --
-    # delete old backup sub directory
+    # delete old backup
     # --
 
     OLDBACKUPFOLDER="$(date +%Y)-$(( $(date +%m) - 1))-$(date +%d)*"
@@ -111,37 +117,49 @@ mkdir ${BACKUPDIR}/${SUBBACKUPFOLDER} || exit 1
 # dump database and compress
 # --
 if [ "$DB" == "MYSQL" ]; then
-    echo "dump MySQL rdbms ${DATABASE}@${DATABASE_HOST}"
+    echo -n "dump MySQL rdbms ${DATABASE}@${DATABASE_HOST}..."
     if ! mysqldump -u $DATABASE_USER -p$DATABASE_PW -h $DATABASE_HOST $DATABASE > ${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql; then
         echo "ERROR: Cannot dump database, please check!"
         exit 1
     fi
 elif [ "$DB" == "POSTGRES" ]; then
-    echo "dump PostgreSQL rdbms ${DATABASE}@${DATABASE_HOST}"
+    echo -n "dump PostgreSQL rdbms ${DATABASE}@${DATABASE_HOST}..."
     if ! pg_dump -f ${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql -h $DATABASE_HOST -U $DATABASE_USER $DATABASE; then
         echo "ERROR: Cannot dump database, please check!"
         exit 1
     fi
 fi
+echo "done"
 
-echo "compresses SQL-file"
+echo -n "compressing SQL-file..."
 if ! bzip2 -9 ${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql; then
-    echo "ERROR: Can't compresses SQL-file (${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql)!"
-    exit 1
+	echo "ERROR: Can't compresses SQL-file (${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql)!"
+	exit 1
 fi
+echo "done"
 
 # --
 # config files backup
 # --
-echo "backup ${OTRS_CFG}/* ${OTRS_CFG}/../Config.pm"
+echo -n "backup ${OTRS_CFG}/* ${OTRS_CFG}/../Config.pm ... "
 mkdir ${BACKUPDIR}/${SUBBACKUPFOLDER}/Config/
 cp ${OTRS_CFG}/* ${BACKUPDIR}/${SUBBACKUPFOLDER}/Config/
 cp ${OTRS_CFG}/../Config.pm ${BACKUPDIR}/${SUBBACKUPFOLDER}/ 
+echo "done"
 
 # --
 # var backup 
 # --
-echo "backup $ARTICLE_DIR"
-cd $ARTICLE_DIR && tar -cjf $BACKUPDIR/$SUBBACKUPFOLDER/article_backup.tar.bz2 .
+echo -n "backup $ARTICLE_DIR..."
+cd $ARTICLE_DIR && tar -cjf ${BACKUPDIR}/${SUBBACKUPFOLDER}/article_backup.tar.bz2 .
+echo "done"
+
+if [ $COMPRESS -eq 1 ]; then
+        echo -n "Compressing ${SUBBACKUPFOLDER}..."
+        cd $BACKUPDIR
+        tar cj ${SUBBACKUPFOLDER} -f ${SUBBACKUPFOLDER}.tar.bz2 && rm -Rf ${SUBBACKUPFOLDER}
+        echo "done"
+fi
+
 
 exit 0
