@@ -2,7 +2,7 @@
 # Kernel/Config/CustomerPanel.pm - CustomerPanel config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPanel.pm,v 1.5 2002-10-31 22:58:56 martin Exp $
+# $Id: CustomerPanel.pm,v 1.6 2002-11-15 14:48:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::CustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,6 +32,26 @@ sub LoadCustomerPanel {
     # CustomerPanelUserID 
     # (The customer panel db-uid.) [default: 1]
     $Self->{CustomerPanelUserID} = 1;
+
+    # ----------------------------------------------------#
+    # customer authentication settings                    #
+    # (enable what you need, auth against otrs db or      #
+    # against a LDAP directory)                           #
+    # ----------------------------------------------------#
+    # This is the auth. module againt the otrs db
+    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB';
+
+    # This is an example configuration for an LDAP auth. backend.
+    # (take care that Net::LDAP is installed!)
+#    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
+#    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
+#    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+#    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
+    # The following is valid but would only be necessary if the
+    # anonymous user do NOT have permission to read from the LDAP tree 
+#    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
+#    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
+
 
     # ----------------------------------------------------#
     # login and logout settings                           #
@@ -65,6 +85,10 @@ sub LoadCustomerPanel {
     # ----------------------------------------------------#
     # customer message settings                           #
     # ----------------------------------------------------#
+    # CustomerPriority
+    # (If the customer can set the ticket priority)
+    $Self->{CustomerPriority} = 1;
+
     # default note type
     $Self->{CustomerPanelArticleType} = 'webrequest';
     $Self->{CustomerPanelSenderType} = 'customer'; 

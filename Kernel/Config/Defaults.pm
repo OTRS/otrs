@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.1 2002-11-10 23:56:00 martin Exp $
+# $Id: Defaults.pm,v 1.2 2002-11-15 14:48:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -238,6 +238,12 @@ sub LoadDefaults {
     # (show message of the day in login screen)
     $Self->{ShowMotd} = 0;
 
+    # SpellChecker
+    # (If ispell or aspell is available, then we will provide a spelling
+    # checker) 
+#    $Self->{SpellChecker} = '';
+    $Self->{SpellChecker} = 'ispell';
+
     # DemoSystem
     # (If this is true, no agent preferences, like language and theme, via agent 
     # frontend can be updated! Just for the current session. Alow no password can
@@ -429,18 +435,6 @@ sub LoadDefaults {
     # user preferences settings                           #
     # (allow you to add simply more user preferences)     #
     # ----------------------------------------------------#
-    $Self->{UserPreferences} = {
-      # key => value
-      # key is usable with $Env{"UserCharset"} in dtl.
-      UserEmail => 'Email',
-      UserCharset => 'Charset',
-      UserTheme => 'Theme',
-      UserLanguage => 'Language',
-      UserComment => 'Comment',
-      UserSendFollowUpNotification => 'UserSendFollowUpNotification',
-      UserSendNewTicketNotification => 'UserSendNewTicketNotification',
-    };
-
     $Self->{UserPreferencesMaskUse} = [
       # keys
       # html params in dtl files
@@ -941,7 +935,11 @@ Your OTRS Notification Master
     # CustomerPanelMXCheck
     # (check mx of customer email addresses)
     $Self->{CustomerPanelMXCheck} = 1;
- 
+
+    # CustomerPriority
+    # (If the customer can set the ticket priority)
+    $Self->{CustomerPriority} = 1;
+
     # ----------------------------------------------------#
     # customer message settings                           #
     # ----------------------------------------------------#
@@ -996,6 +994,26 @@ http://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>/customer.pl
 
 Your OTRS Notification Master
 ";
+
+    # ----------------------------------------------------#
+    # customer authentication settings                    #
+    # (enable what you need, auth against otrs db or      #
+    # against a LDAP directory)                           #
+    # ----------------------------------------------------#
+    # This is the auth. module againt the otrs db
+    $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::DB';
+
+    # This is an example configuration for an LDAP auth. backend.
+    # (take care that Net::LDAP is installed!)
+#    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
+#    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
+#    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+#    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
+    # The following is valid but would only be necessary if the
+    # anonymous user do NOT have permission to read from the LDAP tree 
+#    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
+#    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
+
 
     # ----------------------------------------------------#
     #                                                     #
