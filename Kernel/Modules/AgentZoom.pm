@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.63 2004-04-29 10:09:39 martin Exp $
+# $Id: AgentZoom.pm,v 1.64 2004-04-29 10:11:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -300,7 +300,7 @@ sub MaskAgentZoom {
              'onmouseover="window.status=\'$Text{"plain"}'.
              '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
-        $ThreadStrg .= '&nbsp;-&nbsp;'.$TitleShort;
+        $ThreadStrg .= '&nbsp;'.$TitleShort;
         # --
         # if this is the shown article -=> add </b>
         # --
