@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.17 2002-04-16 07:09:55 martin Exp $
+# $Id: Agent.pm,v 1.18 2002-04-24 22:53:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -480,7 +480,7 @@ sub AgentPreferencesForm {
           )
         },
         Name => 'LanguageID',
-        SelectedID => $Self->{UserLanguage},
+        Selected => $Self->{UserLanguage},
     );
 
     $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
@@ -492,7 +492,7 @@ sub AgentPreferencesForm {
           )
         },
         Name => 'CharsetID',
-        SelectedID => $Self->{UserCharset},
+        Selected => $Self->{UserCharset},
     );
 
     $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
@@ -504,7 +504,7 @@ sub AgentPreferencesForm {
           )
         },
         Name => 'ThemeID',
-        SelectedID => $Self->{UserThemeID},
+        Selected => $Self->{UserTheme},
     );
 
     my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
@@ -563,6 +563,11 @@ sub AgentHistory {
     my $Output = '';
 
     foreach my $Data (@Lines) {
+      # html qouting
+      foreach ('Name', 'HistoryType', 'CreateBy', 'CreateTime') {
+        $$Data{$_} = $Self->Ascii2Html(Text => $$Data{$_});
+      }
+      # get html string
       $Param{History} .= $Self->Output(TemplateFile => 'AgentHistoryRow', Data => $Data);
     }
 
