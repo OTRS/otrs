@@ -2,7 +2,7 @@
 # Kernel/Config/Modules.pm - config file of all used application modules
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Modules.pm,v 1.10 2002-11-11 00:19:38 martin Exp $
+# $Id: Modules.pm,v 1.11 2002-11-19 18:33:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,13 +13,13 @@ package Kernel::Config::Modules;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
-# allow module Action=? (regexpr)
+# allow modules - Action=? (regexpr)
 # --
-$Kernel::Config::Modules::Allow = "^(Agent|Admi|System).+?";
+$Kernel::Config::Modules::Allow = "^(Agent|Admin|System)";
 
 # --
 # all custom modules
