@@ -2,7 +2,7 @@
 # Kernel/Config/GenericAgent.pm - config file of generic agent
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm.examples,v 1.9 2003-10-13 06:37:33 martin Exp $
+# $Id: GenericAgent.pm.examples,v 1.10 2003-11-02 11:39:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw(%Jobs);  
 
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # -----------------------------------------------------------------------
@@ -97,6 +97,19 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
         # "/path/to/your/program $TicketNumber $TicketID" ARG[0] will 
         # be the ticket number and ARG[1] the ticket id
         CMD => '/path/to/your/program',
+      },
+   },
+   # --
+   # [name of job] -> move all tickets from abc to experts and change priority
+   # --
+   'move all priority "3 normal" tickets from abc to experts and set priority to "4 high"' => {
+      # get all tickets with these properties  
+      Queue => 'abc',
+      Priorities => ['3 normal'],
+      # new ticket properties
+      New => {
+        Queue => 'experts',
+        Priority => '4 high', 
       },
    },
    # --

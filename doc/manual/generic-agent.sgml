@@ -181,6 +181,35 @@ Example for Kernel/Config/GenericAgent.pm
 </sect2>
 
 <sect2>
+<title>move tickets from abc to experts and change priority</title>
+<para>
+Moved ticket from abc with priority "3 normal" to experts queue and change priority to "4 high".
+</para> 
+<para>
+Example for Kernel/Config/GenericAgent.pm
+<programlisting>
+[...]
+   # --
+   # [name of job] -> move all tickets from abc to experts and change priority
+   # --
+   'move all abc priority "3 normal" tickets to experts and change priority'=> {
+      # get all tickets with this properties  
+      Queue => ['abc'],
+      States => ['new', 'open'],
+      Locks => ['unlock'],
+      Priorities => ['3 normal'],
+      # new ticket properties
+      New => {
+        Queue => 'experts',
+        Priority => '4 high',
+      },
+   },
+[...]
+</programlisting>
+</para> 
+</sect2>
+
+<sect2>
 <title>move escalation ticket to experts and execute CMD</title>
 <para>
 If there is a escalation ticket, move it to experts and execute a command.
