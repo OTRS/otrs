@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroup.pm,v 1.16 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.17 2004-04-01 13:26:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -198,8 +198,11 @@ sub MaskAdminUserGroupChangeForm {
     my $Type = $Param{Type} || 'User';
     my $NeType = 'Group';
     $NeType = 'User' if ($Type eq 'Group');
-
-
+    $Param{Name} = $Self->{LayoutObject}->Ascii2Html(
+        Text => $Param{Name},
+        HTMLQuote => 1,
+        LanguageTranslation => 0,
+    ) || '';
     $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"."Action=Admin$Type&Subaction=Change&ID=$Param{ID}\">" .
     "$Param{Name}</A> (id=$Param{ID})<BR>";
     $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'.$Param{ID}.'"><BR>';
@@ -212,6 +215,11 @@ sub MaskAdminUserGroupChangeForm {
     }
     $Param{OptionStrg0} .= "</tr>\n";
     foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data){
+        $Param{Data}->{$_} = $Self->{LayoutObject}->Ascii2Html(
+            Text => $Param{Data}->{$_},
+            HTMLQuote => 1,
+            LanguageTranslation => 0,
+        ) || ''; 
         $Param{OptionStrg0} .= '<tr><td>';
         $Param{OptionStrg0} .= "<a href=\"$BaseLink"."Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a></td>";
         foreach my $Type (@{$Self->{ConfigObject}->Get('System::Permission')}) {
@@ -246,10 +254,20 @@ sub MaskAdminUserGroupForm {
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminUserGroup&";
     
     foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp){
-      $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
+        $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
+            Text => $UserDataTmp{$_},
+            HTMLQuote => 1,
+            LanguageTranslation => 0,
+        ) || '';
+        $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
     }
     foreach (sort {uc($GroupDataTmp{$a}) cmp uc($GroupDataTmp{$b})} keys %GroupDataTmp){
-      $Param{GroupStrg} .= "<A HREF=\"$BaseLink"."Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
+        $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
+            Text => $GroupDataTmp{$_},
+            HTMLQuote => 1,
+            LanguageTranslation => 0,
+        ) || '';
+        $Param{GroupStrg} .= "<A HREF=\"$BaseLink"."Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
     }
     # return output
     return $Self->{LayoutObject}->Output(

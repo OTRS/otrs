@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponses.pm,v 1.10 2004-02-13 00:50:37 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.11 2004-04-01 13:26:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -175,12 +175,22 @@ sub _Mask {
     $NeType = 'Queue' if ($Param{Type} eq 'Response');
 
     foreach (sort keys %FirstDataTmp){
+        $FirstDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
+            Text => $FirstDataTmp{$_},
+            HTMLQuote => 1,
+            LanguageTranslation => 0,
+        ) || '';
         $Param{OptionStrg0} .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=Admin$Param{Type}&Subaction=Change&ID=$_\">" .
         "$FirstDataTmp{$_}</A> (id=$_)<BR>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }
     $Param{OptionStrg0} .= "<B>$NeType:</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
     foreach my $ID (sort keys %SecondDataTmp){
+        $SecondDataTmp{$ID} = $Self->{LayoutObject}->Ascii2Html(
+            Text => $SecondDataTmp{$ID},
+            HTMLQuote => 1,
+            LanguageTranslation => 0,
+        ) || '';
        $Param{OptionStrg0} .= "<OPTION ";
        foreach (sort keys %DataTmp){
          if ($_ eq $ID) {
@@ -204,9 +214,19 @@ sub _MaskFrom {
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminQueueResponses&";
 
     foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
+        $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
+            Text => $UserDataTmp{$_},
+            HTMLQuote => 1, 
+            LanguageTranslation => 0,
+        );
         $Param{AnswerQueueStrg} .= "<a href=\"$BaseLink"."Subaction=Response&ID=$_\">$UserDataTmp{$_}</a><br>";
     }
     foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
+        $GroupDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
+            Text => $GroupDataTmp{$_},
+            HTMLQuote => 1, 
+            LanguageTranslation => 0,
+        );
         $Param{QueueAnswerStrg}.= "<a href=\"$BaseLink"."Subaction=Queue&ID=$_\">$GroupDataTmp{$_}</a><br>";
     }
 

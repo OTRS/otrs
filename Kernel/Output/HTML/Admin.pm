@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.51 2004-03-25 10:14:10 martin Exp $
+# $Id: Admin.pm,v 1.52 2004-04-01 13:26:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -75,8 +75,12 @@ sub AdminCustomerUserForm {
               $Param{Value} = $Param{'ValidOption'}; 
           }
           else {
-              my $Value = $Param{$Entry->[0]} || '';
-              $Param{Value} = "<input type=\"$Param{Type}\" name=\"$Entry->[0]\" value=\"$Value\" size=\"35\" maxlength=\"50\">";
+             my $Value = $Self->{LayoutObject}->Ascii2Html(
+                 Text => $Param{$Entry->[0]} || '',
+                 HTMLQuote => 1,
+                 LanguageTranslation => 0,
+             ) || '';
+             $Param{Value} = "<input type=\"$Param{Type}\" name=\"$Entry->[0]\" value=\"$Value\" size=\"35\" maxlength=\"50\">";
           }
           # show required flag
           if ($Entry->[4]) {
