@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OpenTRS database to the current state.
--- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+-- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.16 2002-12-25 09:31:39 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.17 2003-01-03 01:09:54 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -12,6 +12,53 @@
 -- --
 -- 0.5 BETA 9 upgrate
 -- --
+-- standard_attachment
+CREATE TABLE standard_attachment
+(   
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name varchar (150) NOT NULL,
+    content_type varchar (150) NOT NULL,
+    content MEDIUMTEXT NOT NULL,
+    filename varchar (250) NOT NULL,
+    comment varchar (150),
+    valid_id smallint NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by integer NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by integer NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+-- standard_response_attachment 
+CREATE TABLE standard_response_attachment
+(   
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    standard_attachment_id integer NOT NULL,
+    standard_response_id integer NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by integer NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by integer NOT NULL,
+    PRIMARY KEY(id)
+);
+-- pop3_account
+CREATE TABLE pop3_account
+(
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    login varchar (200) NOT NULL,
+    pw varchar (200) NOT NULL,
+    host varchar (200) NOT NULL,
+    queue_id integer NOT NULL,
+    trusted smallint NOT NULL,
+    comment varchar (250),
+    valid_id smallint NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by integer NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by integer NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (login)
+);
 -- update states
 DELETE FROM ticket_history_type WHERE name = 'WatingForClose-';
 DELETE FROM ticket_history_type WHERE name = 'WatingForClose+';
