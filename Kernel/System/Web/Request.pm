@@ -1,27 +1,27 @@
 # --
-# Kernel/System/WebRequest.pm - a wrapper for CGI.pm or Apache::Request.pm
+# Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebRequest.pm,v 1.19 2004-09-16 09:45:08 martin Exp $
+# $Id: Request.pm,v 1.1 2004-11-16 11:11:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::WebRequest;
+package Kernel::System::Web::Request;
 
 use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.19 $ ';
+$VERSION = '$Revision: 1.1 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
 
-Kernel::System::WebRequest - global cgi param interface
+Kernel::System::Web::Request - global cgi param interface
 
 =head1 SYNOPSIS
 
@@ -38,10 +38,10 @@ All cgi param functions.
 create param object
 
   use Kernel::Config;
-  use Kernel::System::WebRequest;
+  use Kernel::System::Web::Request;
 
   my $ConfigObject = Kernel::Config->new();
-  my $ParamObject = Kernel::System::WebRequest->new(
+  my $ParamObject = Kernel::System::Web::Request->new(
       ConfigObject => $ConfigObject,
   );
 
@@ -56,7 +56,12 @@ sub new {
     bless ($Self, $Type);
     # check needed objects
     foreach (qw(ConfigObject LogObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+        if ($Param{$_}) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Gor no $_";
+        }
     }
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
@@ -66,8 +71,8 @@ sub new {
     use CGI::Carp qw(fatalsToBrowser);
     # max 5 MB posts
     $CGI::POST_MAX = $Self->{ConfigObject}->Get('MaxFileUpload') || 1024 * 1024 * 5;
-    # query object
-    $Self->{Query} = new CGI;
+    # query object (in case use already existing WebRequest, e. g. fast cgi)
+    $Self->{Query} = $Param{WebRequest} || new CGI;
 
     return $Self;
 }
@@ -103,6 +108,7 @@ to get params
 sub GetParam {
     my $Self = shift;
     my %Param = @_;
+#return $Self->{P}->{$Param{Param}};
     my $Value = $Self->{Query}->param($Param{Param});
     $Self->{EncodeObject}->Encode(\$Value);
     return $Value;
@@ -269,6 +275,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2004-09-16 09:45:08 $
+$Revision: 1.1 $ $Date: 2004-11-16 11:11:17 $
 
 =cut
