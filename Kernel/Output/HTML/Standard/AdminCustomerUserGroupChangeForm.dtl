@@ -1,8 +1,8 @@
 # --
 # AdminCustomerUserGroupChangeForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGroupChangeForm.dtl,v 1.1 2003-11-26 00:50:40 martin Exp $
+# $Id: AdminCustomerUserGroupChangeForm.dtl,v 1.2 2005-02-15 13:44:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,12 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr> 
-  <td align="left" class="table0">
+<tr>
+  <td class="mainhead">
     <b>$Env{"Box0"}$Text{"Customer User <-> Group Management"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr align="center" valign="top">
+<tr align="center" class="mainbody">
   <td class="table1">
     $Text{"Change %s settings", "$Data{"Type"}"}:
     <br>
@@ -26,7 +26,7 @@
     <br>
     <input class="button" type="submit" value="$Text{"submit"}">
     </form>
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->
@@ -34,12 +34,12 @@
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0">
+  <td class="mainhead">
     <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr align="center" valign="top">
-  <td align="left" class="table1">
+<tr>
+  <td class="mainbody">
   <p>
   $Text{"Select the user:group permissions."} $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the user)."}
   </p>

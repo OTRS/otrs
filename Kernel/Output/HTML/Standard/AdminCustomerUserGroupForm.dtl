@@ -1,8 +1,8 @@
 # --
 # AdminCustomerUserGroupForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGroupForm.dtl,v 1.1 2003-11-26 00:50:40 martin Exp $
+# $Id: AdminCustomerUserGroupForm.dtl,v 1.2 2005-02-15 13:44:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,12 +11,12 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table0">
+  <td class="mainhead">
     <b>$Env{"Box0"}$Text{"Customer User <-> Group Management"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr> 
-  <td align="center" valign="top" class="table1">
+<tr>
+  <td align="center" class="mainbody">
   $Text{"Change user <-> group settings"}
   </td>
 </tr>
@@ -31,12 +31,12 @@
   </th>
 </tr>
 <tr>
-  <td align="left" valign="top"> 
+  <td align="left" valign="top">
     $Data{"UserStrg"}
   </td>
   <td align="left" valign="top">
     $Data{"GroupStrg"}
-  </td> 
+  </td>
  </table>
  </td>
 </tr>
