@@ -2,7 +2,7 @@
 # Login.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerLogin.dtl,v 1.8 2004-04-02 08:19:04 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.9 2004-07-15 05:56:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,44 +11,7 @@
 # --
 # http headers
 # --
-Content-Type: text/html; charset=$Env{"UserCharset"};
-X-Powered-By: OTRS cpanel - Open Ticket Request System (http://otrs.org)
-X-Wanted: I think you are smart. I'm looking for smart people!
-
-
-
-# include Copyright.dtl
-$Include{"Copyright"}
-# --
-<html>
-<head>
-    <title>OTRS :: $Text{"$Data{"Title"}"}</title>
-# include customer-css.dtl file
-$Include{"customer-css"}
-</head>
-<a name="top"></a>
-<body>
-
-<!-- start CI layout -->
-<table border="0" width="100%" cellspacing="0" cellpadding="8">
-<tr>
-  <td width="120" class="header"> LOGO </td>
-  <td class="header"> <a href="" class="headeritem">COMPANY NAME</a> </td>
-</tr>
-<tr>
-  <td class="navbar" valign="top">
-    <p>
-    <li>$Text{"Home"}</li>
-    <li>$Text{"Products"}</li>
-    <li>$Text{"Support"}</li>
-    <li><b><a href="">$Text{"Online-Support"}</a></b></li>
-    <li>$Text{"Contact"}</li>
-    </p>
-  </td>
-  <td>
-<!-- end CI layout -->
-
-<!-- end header -->
+$Include{"CustomerHeader"}
 
 <!-- start login -->
 
@@ -59,7 +22,7 @@ $Include{"customer-css"}
   <td align="left" class="table0"><b>$Text{"Login"}</b></td>
 </tr>
 <tr>
-  <td align="left" class="table1"> 
+  <td align="left" class="table1">
 
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="Login">
@@ -93,7 +56,7 @@ $Data{"LostPassword"}
 <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
 
 <table border="0" cellspacing="0" cellpadding="3" width="100%">
-<tr> 
+<tr>
   <td align="left" class="table0"><b>$Text{"Language"}</b></td>
 </tr>
 <tr>
@@ -114,26 +77,4 @@ $Data{"LostPassword"}
 $Data{"CreateAccount"}
 <!-- stop login -->
 
-
-<!-- start CI layout -->
-    </td>
-  </tr>
-  <tr>
-    <td class="footer">FOOTER</td>
-    <td class="footer">FOOTER2</td>
-  </tr>
-</table>
-<!-- end CI layout -->
-
-<!-- start footer -->
-<a name="end"></a>
-
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td align="right" class="small">$Text{"Powered by"} <a href="http://otrs.org/" class="small">$Env{"Product"} $Env{"Version"}</a></td>
-</tr>
-</table>
-<!-- end footer -->
-
-</body>
-</html>
+$Include{"CustomerFooter"}
