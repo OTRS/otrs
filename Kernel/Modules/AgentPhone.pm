@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.21 2003-02-08 21:10:59 martin Exp $
+# $Id: AgentPhone.pm,v 1.22 2003-02-09 21:02:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,10 +71,6 @@ sub Run {
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --
-            # get customer list
-            # --
-            my %CustomerList = $Self->{CustomerUserObject}->CustomerList(Valid => 1);
-            # --
             # html output
             # --
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
@@ -82,7 +78,6 @@ sub Run {
               NextScreen => $NextScreen,
               NextStates => $Self->_GetNextStates(),
               Priorities => $Self->_GetPriorities(),
-              CustomerList => \%CustomerList,
               Body => '$Text{"$Config{"PhoneDefaultNewNoteText"}"}',
               Subject => '$Config{"PhoneDefaultNewSubject"}',
               To => $Self->_GetTos(),
@@ -91,18 +86,22 @@ sub Run {
             return $Output;
         }
         # --
-        # get ticket number
+        # get ticket info
         # --
-        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
-        # --
-        # customer info
-        # --
-        my $CustomerID = $Self->{TicketObject}->GetCustomerNo(TicketID => $TicketID);
+        my %TicketData = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
+        my $Tn = $TicketData{TicketNumber};
         my %CustomerData = ();
-        if ($CustomerID) {
-            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                CustomerID => $CustomerID,
-            );
+        if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
+            if ($TicketData{CustomerUserID}) {
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $TicketData{CustomerUserID},
+                );
+            }
+            elsif ($TicketData{CustomerID}) {
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    CustomerID => $TicketData{CustomerID},
+                );
+            }
         }
         # --
         # get lock state && permissions
@@ -257,7 +256,6 @@ sub Run {
         my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
-        my $CustomerIDSelection = $Self->{ParamObject}->GetParam(Param => 'CustomerIDSelection') || '';
         # --
         # get from and customer id if customer user is given
         # --
@@ -273,14 +271,8 @@ sub Run {
                 $From = $CustomerUserList{$_};
             }
             if ($CustomerUserData{UserCustomerID}) {
-                $CustomerIDSelection = $CustomerUserData{UserCustomerID};
+                $CustomerID = $CustomerUserData{UserCustomerID};
             }
-        }
-        # --
-        # if customer id is selected, use it (not CustomerID)
-        # --
-        if ($CustomerIDSelection) {
-            $CustomerID = $CustomerIDSelection;
         }
         my %GetParam = ();
         foreach (qw(Year Month Day Hour Minute)) {
@@ -307,6 +299,7 @@ sub Run {
             }
             else {
                 $From = '';
+                $CustomerID = '';
                 $Param{"FromOptions"} = \%CustomerUserList;
                 $Error{"ExpandCustomerName"} = 1;
             }
@@ -351,7 +344,6 @@ sub Run {
               Priorities => $Self->_GetPriorities(),
               PriorityID => $PriorityID,
               CustomerList => \%CustomerList,
-              CustomerIDSelection => $CustomerIDSelection,
               CustomerID => $CustomerID,
               TimeUnits => $TimeUnits,
               From => $From,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.29 2003-02-08 15:16:00 martin Exp $
+# $Id: AgentZoom.pm,v 1.30 2003-02-09 21:02:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -121,8 +121,8 @@ sub Run {
     " sq.name as queue, st.create_time as ticket_create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
-    " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time, ".
-    " sa.a_content_type, sa.incoming_time, st.until_time ".
+    " st.freetext2, st.customer_id, st.customer_user_id, sq.group_id, st.ticket_answered, ".
+    " sq.escalation_time, sa.a_content_type, sa.incoming_time, st.until_time ".
     " FROM ".
     " article sa, ticket st, article_sender_type stt, article_type at, ".
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
@@ -153,8 +153,8 @@ sub Run {
     " sq.name, st.create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
-    " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time, ".
-    " sa.a_content_type, sa.incoming_time, st.until_time ";
+    " st.freetext2, st.customer_id, st.customer_user_id, sq.group_id, st.ticket_answered, ".
+    " sq.escalation_time, sa.a_content_type, sa.incoming_time, st.until_time ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
         # get escalation_time
@@ -171,6 +171,7 @@ sub Run {
         $Ticket{TicketNumber} = $$Data{tn};
         $Ticket{State} = $$Data{state};
         $Ticket{CustomerID} = $$Data{customer_id};
+        $Ticket{CustomerUserID} = $$Data{customer_user_id};
         $Ticket{Queue} = $$Data{queue};
         $Ticket{QueueID} = $QueueID;
         $Ticket{Lock} = $$Data{lock_type};
@@ -225,10 +226,17 @@ sub Run {
     # customer info
     # --
     my %CustomerData = ();
-    if ($Ticket{CustomerID}) { 
-        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            CustomerID => $Ticket{CustomerID},
-        );
+    if ($Self->{ConfigObject}->Get('ShowCustomerInfoZoom')) {
+        if ($Ticket{CustomerUserID}) {
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Ticket{CustomerUserID},
+            );
+        }
+        elsif ($Ticket{CustomerID}) {
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                CustomerID => $Ticket{CustomerID},
+            );
+        }
     }
     # --
     # genterate output

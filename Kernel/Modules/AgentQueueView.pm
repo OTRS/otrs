@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.26 2003-02-08 15:16:00 martin Exp $
+# $Id: AgentQueueView.pm,v 1.27 2003-02-09 21:02:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -222,28 +222,29 @@ sub ShowTicket {
     # --
     my @ShownViewableTicket = ();
     my %Ticket = ();
-    my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, " .
-        " sa.a_body, st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, " .
-        " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, " .
-        " st.freetext1, st.freetext2, st.customer_id, sq.name as queue, sa.id as article_id, " .
-        " st.id, st.tn, sp.name, sp.id as priority_id, sd.name as state, st.queue_id, st.create_time, ".
-        " sa.incoming_time, sq.escalation_time, st.ticket_answered, sa.a_content_type " .
-        " FROM " .
-        " article sa, ticket st, ticket_priority sp, ticket_state sd, article_sender_type sdt, queue sq " .
-        " WHERE " .
-        " sa.ticket_id = st.id " .
-        " AND " .
-        " sa.article_sender_type_id = sdt.id " .
-        " AND " .
-        " sq.id = st.queue_id" .
-        " AND " .
-        " sp.id = st.ticket_priority_id " .
-        " AND " .
-        " st.ticket_state_id = sd.id " .
-        " AND " .
-        " sa.ticket_id = $TicketID " .
-        " AND " .
-        " sdt.name in ( ${\(join ', ', @{$Self->{ViewableSenderTypes}})} ) " .
+    my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, ".
+        " sa.a_body, st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, ".
+        " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, ".
+        " st.freetext1, st.freetext2, st.customer_id, st.customer_user_id, ".
+        " sq.name as queue, sa.id as article_id, st.id, st.tn, sp.name, ".
+        " sp.id as priority_id, sd.name as state, st.queue_id, st.create_time, ".
+        " sa.incoming_time, sq.escalation_time, st.ticket_answered, sa.a_content_type ".
+        " FROM ".
+        " article sa, ticket st, ticket_priority sp, ticket_state sd, article_sender_type sdt, queue sq ".
+        " WHERE ".
+        " sa.ticket_id = st.id ".
+        " AND ".
+        " sa.article_sender_type_id = sdt.id ".
+        " AND ".
+        " sq.id = st.queue_id".
+        " AND ".
+        " sp.id = st.ticket_priority_id ".
+        " AND ".
+        " st.ticket_state_id = sd.id ".
+        " AND ".
+        " sa.ticket_id = $TicketID ".
+        " AND ".
+        " sdt.name in ( ${\(join ', ', @{$Self->{ViewableSenderTypes}})} ) ".
         " ORDER BY sa.create_time DESC ";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
@@ -283,6 +284,7 @@ sub ShowTicket {
             Queue => $$Data{queue},
             MoveQueues => \%MoveQueues,
             CustomerID => $$Data{customer_id},
+            CustomerUserID => $$Data{customer_user_id},
             ArticleFreeKey1 => $$Data{a_freekey1},
             ArticleFreeValue1 => $$Data{a_freetext1},
             ArticleFreeKey2 => $$Data{a_freekey2},
@@ -302,11 +304,21 @@ sub ShowTicket {
     # customer info
     # --
     my %CustomerData = (); 
-    if ($Ticket{CustomerID}) { 
-        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            CustomerID => $Ticket{CustomerID},
-        );
+    if ($Self->{ConfigObject}->Get('ShowCustomerInfoQueue')) {
+        if ($Ticket{CustomerUserID}) { 
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Ticket{CustomerUserID},
+            );
+        }
+        elsif ($Ticket{CustomerID}) { 
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                CustomerID => $Ticket{CustomerID},
+            );
+        }
     }
+    # --
+    # build ticket view
+    # --
     $Output .= $Self->{LayoutObject}->TicketView(
         %Ticket,
         CustomerData => \%CustomerData,
