@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.141 2004-06-22 10:33:01 robert Exp $
+# $Id: Defaults.pm,v 1.142 2004-06-22 14:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.141 $';
+$VERSION = '$Revision: 1.142 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -421,6 +421,7 @@ sub LoadDefaults {
     # AgentUtilCSVData
     # (used csv data)
     $Self->{AgentUtilCSVData} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8','ArticleTree',''];
+
     # --------------------------------------------------- #
     # URL login and logout settings                       #
     # --------------------------------------------------- #
@@ -994,12 +995,21 @@ $Data{"Signature"}
       'Precedence',
       'Mailing-List',
       'List-Id',
+      'List-Archive',
+      'Errors-To',
       'References',
       'In-Reply-To',
       'X-Loop',
       'X-Spam-Flag',
       'X-Spam-Status',
       'X-No-Loop',
+      'X-Priority',
+      'Importance',
+      'X-Mailer',
+      'User-Agent',
+      'Organization',
+      'X-Original-To',
+      'Delivered-To',
       'X-OTRS-Loop',
       'X-OTRS-Info',
       'X-OTRS-Priority',
@@ -1049,6 +1059,19 @@ $Data{"Signature"}
 #        },
 #        Set => {
 #            'X-OTRS-Ignore' => 'yes',
+#        },
+#    };
+    # Job Name: 2-Match 
+    # (get a 4 digit number to ticket free text, use regex in Match 
+    # e. g. From => '(.+?)@.+?', and use () as [***] in Set =>)
+#    $Self->{'PostMaster::PreFilterModule'}->{'2-Match'} = {
+#        Module => 'Kernel::System::PostMaster::Filter::Match',
+#        Match => {
+#            Subject => 'SomeNumber:(\d\d\d\d)',
+#        },
+#        Set => {
+#            'X-OTRS-TicketKey-1' => 'SomeNumber',
+#            'X-OTRS-TicketValue-1' => '[***]',
 #        },
 #    };
     # Job Name: 5-SpamAssassin 
@@ -2061,6 +2084,7 @@ Your OTRS Notification Master
     $Self->{'Module::Permission'}->{'FAQArticle'} = ['faq'];
 
     $Self->{'Module::Permission'}->{'SystemStats'} = ['admin', 'stats'];
+
 
     # --------------------------------------------------- #
 }
