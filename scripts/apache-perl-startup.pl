@@ -4,6 +4,12 @@ use strict;
 # make sure we are in a sane environment.
 $ENV{GATEWAY_INTERFACE} =~ /^CGI-Perl/ or die "GATEWAY_INTERFACE not Perl!";
 
+# --
+# set otrs lib path!
+# --
+use lib "/opt/otrs/";
+use lib "/opt/otrs/Kernel/cpan-lib";
+
 use Apache::Registry ();       # for things in the "/programs" URL
 
 # pull in things we will use in most requests so it is read and compiled
@@ -18,12 +24,6 @@ use CGI::Carp ();
 #Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
 use DBI ();
 use DBD::mysql ();
-
-# --
-# set otrs lib path!
-# --
-use lib "/opt/otrs/";
-use lib "/opt/otrs/Kernel/cpan-lib";
 
 use Kernel::Config;
 use Kernel::Config::Modules;
