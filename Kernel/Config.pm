@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.52 2002-08-04 17:24:40 martin Exp $
+# $Id: Config.pm,v 1.53 2002-08-05 00:11:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -426,8 +426,9 @@ sub Load {
     # notification sender
     $Self->{NotificationSenderName} = 'OpenTRS Notification Master';
     $Self->{NotificationSenderEmail} = 'otrs@'.$Self->{FQDN};
-
-    # new ticket
+    # --
+    # new ticket in queue
+    # --
     $Self->{NotificationSubjectNewTicket} = 'New ticket notification! (<OTRS_CUSTOMER_SUBJECT[10]>)';
     $Self->{NotificationBodyNewTicket} = "
 Hi,
@@ -443,8 +444,9 @@ http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 Your OpenTRS Notification Master
 
 ";
-
-    # follow up
+    # --
+    # ticket follow up from customer
+    # --
     $Self->{NotificationSubjectFollowUp} = 'You got follow up! (<OTRS_CUSTOMER_SUBJECT[10]>)';
     $Self->{NotificationBodyFollowUp} = "
 Hi <OTRS_USER_FIRSTNAME>,
@@ -454,6 +456,20 @@ you got a follow up!
 <snip>
 <OTRS_CUSTOMER_EMAIL[6]>
 <snip>
+
+http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OpenTRS Notification Master
+
+";
+    # --
+    # ticket lock timeout my system
+    # --
+    $Self->{NotificationSubjectLockTimeout} = 'Lock Timeout! (<OTRS_CUSTOMER_SUBJECT[10]>)';
+    $Self->{NotificationBodyLockTimeout} = "
+Hi <OTRS_USER_FIRSTNAME>,
+
+unlocked your locked ticket [<OTRS_TICKET_NUMBER>].
 
 http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 

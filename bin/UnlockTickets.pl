@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.3 2002-06-08 17:40:32 martin Exp $
+# $Id: UnlockTickets.pl,v 1.4 2002-08-05 00:09:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,13 +27,16 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
+use Kernel::System::Article;
+use Kernel::System::User;
+use Kernel::System::EmailSend;
 
 # --
 # common objects
@@ -49,6 +52,12 @@ $CommonObject{DBObject} = Kernel::System::DB->new(
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(
     %CommonObject,
 );
+$CommonObject{ArticleObject} = Kernel::System::Article->new(
+    %CommonObject,
+);
+$CommonObject{UserObject} = Kernel::System::User->new(
+    %CommonObject,
+);  
 
 my @ViewableLocks = @{$CommonObject{ConfigObject}->Get('ViewableLocks')};
 my @ViewableStats = @{$CommonObject{ConfigObject}->Get('ViewableStats')};
@@ -65,7 +74,7 @@ print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
 if ($Command eq '--all') {
     print " Unlock all tickets:\n";
     my @Tickets = ();
-    my $SQL = "SELECT st.tn, slt.name, st.ticket_answered, st.id FROM " .
+    my $SQL = "SELECT st.tn, slt.name, st.ticket_answered, st.id, st.user_id FROM " .
     " ticket as st, queue as sq, ticket_state tsd, ticket_lock_type slt " .
     " WHERE " .
     " st.ticket_state_id = tsd.id " .
@@ -85,13 +94,15 @@ if ($Command eq '--all') {
         push (@Tickets, \@RowTmp);
     }
     foreach (@Tickets) {
-        my @RowTmp = @{$_};
-        print " Unlocking ticket id $RowTmp[0] ...";
+        my @Row = @{$_};
+        print " Unlocking ticket id $Row[0] ...";
         if ($CommonObject{TicketObject}->SetLock(
-            TicketID => $RowTmp[3],
+            TicketID => $Row[3],
             Lock => 'unlock',
             UserID => 1,
         ) ) { 
+            # write notification email
+            &SendUnlockMail(TN => $Row[0], TicketID => $Row[3], UserID => $Row[4]);
             print " done.\n";
         }
         else {
@@ -106,7 +117,8 @@ if ($Command eq '--all') {
 elsif ($Command eq '--timeout') {
     print " Unlock old tickets:\n";
     my @Tickets = ();
-    my $SQL = "SELECT st.tn, slt.name, st.ticket_answered, st.id, st.timeout, sq.unlock_timeout".
+    my $SQL = "SELECT st.tn, slt.name, st.ticket_answered, st.id, st.timeout, ".
+    " sq.unlock_timeout, user_id ".
     " FROM " .
     " ticket as st, queue as sq, ticket_state tsd, ticket_lock_type slt " .
     " WHERE " .
@@ -131,14 +143,15 @@ elsif ($Command eq '--timeout') {
         }
     }
     foreach (@Tickets) {
-        my @RowTmp = @{$_};
-        print " Unlocking ticket id $RowTmp[0] ...";
+        my @Row = @{$_};
+        print " Unlocking ticket id $Row[0] ...";
         if ($CommonObject{TicketObject}->SetLock(
-            TicketID => $RowTmp[3],
+            TicketID => $Row[3],
             Lock => 'unlock',
             UserID => 1,
         ) ) { 
             # write notification email
+            &SendUnlockMail(TN => $Row[0], TicketID => $Row[3], UserID => $Row[6]);
             print " done.\n";
         }
         else {
@@ -159,5 +172,66 @@ else {
     exit (1);
 }
 # --
-
+sub SendUnlockMail {
+    my %Param = @_;
+    foreach (qw(UserID TicketID TN)) {
+        if (!$Param{$_}) {
+            $CommonObject{LogObject}->Log(Priority => 'error', Message => "Got no $_!");
+            return;
+        }
+    }
+    my %UserData = $CommonObject{UserObject}->GetUserData(%Param);
+    if ($UserData{UserEmail} && $UserData{UserSendLockTimeoutNotification}) {
+        my %Article = $CommonObject{TicketObject}->GetLastCustomerArticle(%Param);
+        # --
+        # prepare subject 
+        # --
+        $Param{Subject} = $CommonObject{ConfigObject}->Get('NotificationSubjectLockTimeout')
+          || 'No body found in Config.pm!';
+        $Article{Subject} =~ s/\n//g;
+        if ($Param{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+            my $SubjectChar = $1;
+            $Article{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+            $Param{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Article{Subject}/g;
+        }
+        $Param{Subject} = "[". $CommonObject{ConfigObject}->Get('TicketHook') .": $Param{TN}] $Param{Subject}";
+        # --
+        # prepare body 
+        # --
+        $Param{Body} = $CommonObject{ConfigObject}->Get('NotificationBodyLockTimeout')
+          || 'No body found in Config.pm!';
+        $Param{Body} =~ s/<OTRS_USER_FIRSTNAME>/$UserData{UserFirstname}/g;
+        $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
+        $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Param{TN}/g;
+        # --
+        # send notification
+        # --
+        my $EmailObject = Kernel::System::EmailSend->new(%CommonObject);
+        $EmailObject->Send(
+            %CommonObject,
+            To => $UserData{UserEmail},
+            ArticleType => 'email-notification-int',
+            SenderType => 'system',
+            HistoryType => 'SendAgentNotification',
+            HistoryComment => "Sent lock timeout notification to '$UserData{UserEmail}'.",
+            From => $CommonObject{ConfigObject}->Get('NotificationSenderName').
+              ' <'.$CommonObject{ConfigObject}->Get('NotificationSenderEmail').'>',
+            Email => $CommonObject{ConfigObject}->Get('NotificationSenderEmail'),
+            UserID => $CommonObject{ConfigObject}->Get('PostmasterUserID'),
+            Loop => 1,
+            %Param,
+        );
+        return;
+    }
+    else {
+        # --
+        # log notice
+        # --
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Send 'no' unlock notification for ticket '$Param{TN}'!",
+        );
+    }
+}
+# --
 
