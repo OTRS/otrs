@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.30 2003-07-12 08:42:24 martin Exp $
+# $Id: DB.pm,v 1.31 2003-12-07 23:52:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,53 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
+=head1 NAME
+
+Kernel::System::DB - global database interface
+
+=head1 SYNOPSIS
+
+All database functions to connect/insert/update/delete/... to a database. 
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create database object with database connect
+ 
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB; 
+ 
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+
+  $Self->{DBObject} = Kernel::System::DB->new(
+      ConfigObject => $ConfigObject,
+      LogObject    => $LogObject,
+      # if you don't use the follow params, then this are used 
+      # from Kernel/Config.pm!
+      DatabaseDSN  => 'DBI:odbc:database=123;host=localhost;', 
+      DatabaseUser => 'user',
+      DatabasePw   => 'somepass',
+      Type         => 'mysql',
+      Attribute    => {
+          LongTruncOk => 1,
+          LongReadLen => 100*1024,
+      },
+  );
+
+=cut
+    
 # --
 sub new {
     my $Type = shift;
@@ -62,6 +106,9 @@ sub new {
     # get database type (config option)
     if ($Self->{ConfigObject}->Get("Database::Type")) {
         $Self->{'DB::Type'} = $Self->{ConfigObject}->Get("Database::Type");
+    }
+    if ($Param{Type}) {
+        $Self->{'DB::Type'} = $Param{Type};
     }
     # set database functions
     if ($Self->{'DB::Type'} eq 'mysql') {
@@ -119,16 +166,23 @@ sub new {
     else {
         $Self->{LogObject}->Log(
           Priority => 'Error',
-          Message => "Unknown database type $Self->{'DB::Type'}! Set config ".
+          Message => "Unknown database type $Self->{'DB::Type'}! Set ".
               "option Database::Type to (mysql|postgresql|db2|sapdb|mssql|generic)."
         );
         return;
     }
     # check/get extra database config options
-    # (overwrite auto detection)
+    # (overwrite auto detection with config options)
     foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack)) {
         if (defined($Self->{ConfigObject}->Get("Database::$_"))) {
             $Self->{"DB::$_"} = $Self->{ConfigObject}->Get("Database::$_");
+        }
+    }
+    # check/get extra database config options
+    # (overwrite with params)
+    foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack)) {
+        if (defined($Param{$_})) {
+            $Self->{"DB::$_"} = $Param{$_};
         }
     }
     # do database connect 
@@ -138,6 +192,13 @@ sub new {
     return $Self;
 }
 # --
+
+=item Connect()
+
+to connect to a database
+  
+=cut
+
 sub Connect {
     my $Self = shift;
     # debug
@@ -160,6 +221,13 @@ sub Connect {
     return $Self->{dbh};
 }
 # --
+
+=item Disconnect()
+
+to disconnect to a database
+  
+=cut
+
 sub Disconnect {
     my $Self = shift;
     # debug
@@ -175,12 +243,15 @@ sub Disconnect {
     return 1;
 }
 # --
-sub GetDatabaseFunction {
-    my $Self = shift;
-    my $What = shift;
-    return $Self->{'DB::'.$What};
-}
-# --
+
+=item Quote()
+
+to quote strings 
+  
+  my $DBString = $Self->{DBObject}->Quote("This isn't a problem!");
+
+=cut
+
 sub Quote {
     my $Self = shift;
     my $Text = shift;
@@ -197,6 +268,31 @@ sub Quote {
     return $Text;
 }
 # --
+
+=item Error()
+
+to get database errors back
+
+  my $ErrorMessage = $Self->{DBObject}->Error();
+
+=cut
+
+sub Error {
+    my $Self = shift;
+    return $DBI::errstr;
+}
+# --
+
+=item Do()
+
+to insert, update or delete something
+  
+  $Self->{DBObject}->Do(SQL => "INSERT INTO table (name) VALUES ('dog')");
+
+  $Self->{DBObject}->Do(SQL => "DELETE FROM table");
+
+=cut
+
 sub Do {
     my $Self = shift;
     my %Param = @_;
@@ -225,6 +321,18 @@ sub Do {
     return 1;
 }
 # --
+
+=item Prepare()
+
+to send a select something to the database
+  
+  $Self->{DBObject}->Prepare(
+      SQL => "SELECT id, name FROM table",
+      Limit => 10
+  );
+
+=cut
+
 sub Prepare {
     my $Self = shift;
     my %Param = @_;
@@ -273,6 +381,22 @@ sub Prepare {
     return 1;
 }
 # --
+
+=item FetchrowArray()
+
+to get a select return
+  
+  $Self->{DBObject}->Prepare(
+      SQL => "SELECT id, name FROM table",
+      Limit => 10
+  );
+
+  while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+      print "$Row[0]:$Row[1]\n";
+  }
+
+=cut
+
 sub FetchrowArray {
     my $Self = shift;
     # work with cursers if database don't support limit
@@ -302,11 +426,33 @@ sub FetchrowHashref {
     return $Self->{Curser}->fetchrow_hashref();
 }
 # --
-sub Error {
+
+=item GetDatabaseFunction()
+
+to get database functions like Limit, DirectBlob, ...
+  
+  my $What = $Self->{DBObject}->GetDatabaseFunction('DirectBlob');
+
+=cut
+
+sub GetDatabaseFunction {
     my $Self = shift;
-    return $DBI::errstr;
+    my $What = shift;
+    return $Self->{'DB::'.$What};
 }
 # --
+
+=item GetTableData()
+
+to get table data back in a hash
+
+  my %Users = $Self->{DBObject}->GetTableData(
+      What => 'id, name',
+      Table => 'groups',
+  );
+
+=cut
+
 sub GetTableData {
     my $Self = shift;
     my %Param = @_;

@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.19 2003-10-29 20:37:12 martin Exp $
+# $Id: Log.pm,v 1.20 2003-12-07 23:52:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,8 +14,35 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $ ';
+$VERSION = '$Revision: 1.20 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::Log - global log interface
+
+=head1 SYNOPSIS
+
+All log functions. 
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+create log object 
+ 
+  use Kernel::Config;
+  use Kernel::System::Log;
+ 
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+
+=cut
 
 # --
 sub new {
@@ -55,6 +82,18 @@ sub new {
     return $Self;
 }
 # --
+
+=item Log()
+
+log something, log priorities are 'debug', 'info', 'notice' and 'error'.
+ 
+  $Self->{LogObject}->Log(
+      Priority => 'error', 
+      Message => "Need something!",
+   );
+ 
+=cut
+
 sub Log { 
     my $Self = shift;
     my %Param = @_;
@@ -114,12 +153,30 @@ sub Log {
     return 1;
 }
 # --
+    
+=item Error()
+    
+to get the error back from log
+    
+  my $Error = $Self->{LogObject}->Error('Message');
+ 
+=cut
+    
 sub Error {
     my $Self = shift;
     my $What = shift;
     return $Self->{Error}->{$What} || ''; 
 }
 # --
+    
+=item GetLog()
+    
+to get the tmp log data (from shared memory - ipc) in csv form
+    
+  my $CVSLog = $Self->{LogObject}->GetLog();
+ 
+=cut
+    
 sub GetLog {
     my $Self = shift;
     my $String = '';
@@ -129,6 +186,15 @@ sub GetLog {
     return $String;
 }
 # --
+    
+=item CleanUp()
+    
+to clean up tmp log data from shared memory (ipc)
+    
+  $Self->{LogObject}->CleanUp();
+ 
+=cut
+    
 sub CleanUp {
     my $Self = shift;
     if ($Self->{IPC}) {
