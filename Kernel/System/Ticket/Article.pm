@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.39 2003-10-29 21:12:29 martin Exp $
+# $Id: Article.pm,v 1.40 2003-11-02 11:41:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -702,7 +702,7 @@ sub GetArticle {
     }
 
     # get priority name
-    $Ticket{Priority} = $Self->PriorityIDLookup(ID => $Ticket{PriorityID});
+    $Ticket{Priority} = $Self->PriorityLookup(ID => $Ticket{PriorityID});
     # get queue name and other stuff
     my %Queue = $Self->{QueueObject}->QueueGet(ID => $Ticket{QueueID}, Cache => 1);
     # get state info
