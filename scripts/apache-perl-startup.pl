@@ -26,8 +26,6 @@ use DBI ();
 use DBD::mysql ();
 
 use Kernel::Config;
-use Kernel::Config::Modules;
-use Kernel::Config::ModulesCustomerPanel;
 
 use Kernel::System::Web::InterfaceAgent;
 use Kernel::System::Web::InterfaceCustomer;
