@@ -2,7 +2,7 @@
 # Installer.pm - provides the DB installer
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.5 2002-04-14 13:36:41 martin Exp $
+# $Id: Installer.pm,v 1.6 2002-04-22 22:05:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -88,58 +88,58 @@ sub Run {
           # FIXME !!! use $DB{Type}!!!
             # db
             my $CMD = $MYCMD . " -e 'create database $DB{Database}'";
-            $SetupOutput .= "<pre>CMD: $CMD <br>";
+            $SetupOutput .= "<pre><b>Create database CMD:</b> $CMD <br>";
             $SetupOutput .= $Self->SystemCall($CMD);
             if (!$Self->{$CMD}) {
-                $SetupOutput .= "false.";
+                $SetupOutput .= "<font color='red'><b>false</b>.</font>";
                 $Output .= $SetupOutput . $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "done.";
+                $SetupOutput .= "<b>done.</b>";
             }
             $SetupOutput .= "</pre>";
             # tables
             $CMD = $MYCMD . " $DB{Database} < $DirOfSQLFiles/OpenTRS-schema.mysql.sql";
-            $SetupOutput .= "<pre>CMD: $CMD <br>";
+            $SetupOutput .= "<pre><b>Create tables CMD:</B> $CMD <br>";
             $SetupOutput .= $Self->SystemCall($CMD);
             if (!$Self->{$CMD}) {
-                $SetupOutput .= "false.";
+                $SetupOutput .= "<font color='red'><b>false</b>.</font>";
                 $SetupOutput .= $SetupOutput . $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "done.";
+                $SetupOutput .= "<b>done.</b>";
             } 
             $SetupOutput .= "</pre>";
 
             # inital insert
             $CMD = $MYCMD . " $DB{Database} < $DirOfSQLFiles/initial_insert.sql";
 
-            $SetupOutput .= "<pre>CMD: $CMD <br>";
+            $SetupOutput .= "<pre><b>Inital inserts CMD:</b> $CMD <br>";
             $SetupOutput .= $Self->SystemCall($CMD);
             if (!$Self->{$CMD}) {
-                $SetupOutput .= "false.";
+                $SetupOutput .= "<font color='red'><b>false</b>.</font>";
                 $Output .= $SetupOutput . $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "done.";
+                $SetupOutput .= "<b>done.</b>";
             }
             $SetupOutput .= "</pre>";
 
             # user add
             $CMD = $MYCMD . " -e \"GRANT ALL PRIVILEGES ON $DB{Database}.* TO ".
                   " $DB{DatabaseUser}\@$DB{NewHost} IDENTIFIED BY '$DB{DatabasePw}' WITH GRANT OPTION\" ";
-            $SetupOutput .= "<pre>CMD: $CMD <br>";
+            $SetupOutput .= "<pre><b>Create db user CMD:</b> $CMD <br>";
             $SetupOutput .= $Self->SystemCall($CMD);
             if (!$Self->{$CMD}) {
-                $SetupOutput .= "false.";
+                $SetupOutput .= "<font color='red'><b>false</b>.</font>";
                 $Output .= $SetupOutput . $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "done.";
+                $SetupOutput .= "<b>done.</b>";
             }
             $SetupOutput .= "</pre>";
 
@@ -148,7 +148,7 @@ sub Run {
             # ReConfigure Config.pm
             # --
             if ($Self->ReConfigure(%DB)) {
-                $SetupOutput .= "Can't write Config.pm - please do some changes:<br>";
+                $SetupOutput .= "<u>Can't write Config.pm - please do some changes:</u><br>";
                 $SetupOutput .= "\$Self->{DatabaseHost} = '$DB{DatabaseHost}';<br>";
                 $SetupOutput .= "\$Self->{Database} = '$DB{Database}';<br>";
                 $SetupOutput .= "\$Self->{DatabaseUser} = '$DB{DatabaseUser}';<br>";
@@ -157,10 +157,10 @@ sub Run {
 
             }
             else {
-                $SetupOutput .= "Config.pm updated.<br>";
-                $SetupOutput .= "Your config ist finished. Please run shell> ". 
+                $SetupOutput .= "<font color='red'>Config.pm updated. - ";
+                $SetupOutput .= "Your config ist finished.</font><br>Please execute shell> ". 
                       "<b>/opt/OpenTRS/bin/SetPermissions.sh.sh</b><br>";
-                $SetupOutput .= "Security - Security - Security - Security - Security";
+                $SetupOutput .= "(Security - Security - Security - Security - Security)";
             }
 
             $Output .= $Self->{LayoutObject}->InstallerFinish(Ready => 1, Setup => $SetupOutput, %DB);
@@ -170,15 +170,15 @@ sub Run {
           # FIXME !!! use $DB{Type}!!!
             # drop database
             my $CMD .=  $MYCMD . " -e 'drop database $DB{Database}'"; 
-            $SetupOutput .= "CMD: $CMD <br>";
+            $SetupOutput .= "<b>Drop database CMD:</b> $CMD ";
             $SetupOutput .= $Self->SystemCall($CMD);
             if (!$Self->{$CMD}) {
-                $SetupOutput .= "false.";
+                $SetupOutput .= "<font color='red'><b>false</b>.</font>";
                 $Output .= $SetupOutput . $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "done.";
+                $SetupOutput .= "<b>done.</b><br><br> <b>Database deleted.</b>";
             }
             # user delete
 
