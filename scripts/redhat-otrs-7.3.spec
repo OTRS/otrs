@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs-7.3.spec,v 1.1 2003-02-15 12:02:19 martin Exp $
+# $Id: redhat-otrs-7.3.spec,v 1.2 2003-04-13 11:42:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -60,6 +60,17 @@ useradd $OTRSUSER || :
 useradd apache || :
 groupadd apache || :
 $RPM_BUILD_ROOT/opt/otrs/bin/SetPermissions.sh $RPM_BUILD_ROOT/opt/otrs $OTRSUSER apache apache apache
+
+%pre
+# backup old version templates (not compatible!)
+TOINSTALL=`echo %{version}| sed 's/..$//'`
+INSTALLEDVERSION=`cat /opt/otrs/RELEASE|grep VERSION|sed 's/VERSION = //'|sed 's/ /-/g'`
+if echo $INSTALLEDVERSION | grep -v "$TOINSTALL"; then
+    echo "backup old - not compatible templates (.$INSTALLEDVERSION)"
+    for foo in /opt/otrs/Kernel/Output/HTML/Standard/*.dtl;
+        do mv $foo $foo.$INSTALLEDVERSION.backup;
+    done
+fi
 
 %post
 # useradd
