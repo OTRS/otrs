@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.10 2002-02-19 22:20:19 martin Exp $
+# $Id: Agent.pm,v 1.11 2002-02-21 22:11:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -173,9 +173,8 @@ sub TicketZoom {
 
     # get StdResponsesStrg
     foreach (keys %StdResponses) {
-       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&ResponseID=$_&".
-       "TicketID=$Param{TicketID}\">" .
-          "$StdResponses{$_}</A></li>\n";
+       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink&Action=AgentCompose&".
+        "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
     }
 
     foreach my $ArticleTmp (@ArticleBox) {
@@ -250,7 +249,7 @@ sub TicketZoom {
 
     # select the output template
     my $Output = '';
-    if ($Article{ArticleType} =~ /^note/i) {
+    if ($Article{ArticleType} =~ /^note/i || $Article{SenderType} =~ /agent/i) {
         $Output = $Self->Output(TemplateFile => 'TicketZoomNote', Data => \%Param);
     }
     else {
@@ -349,8 +348,6 @@ sub AgentUtilSearchResult {
     my $Highlight = $Param{Highlight} || 0;
     my $HighlightStart = '<font color="orange"><b><i>';
     my $HighlightEnd = '</i></b></font>';
-    my $TextLongMax = $Param{TextLongMax} || 550;
-    my $TextWidthMax = $Param{TextWidthMax} || 100;
 
     $Self->{UtilSearchResultCounter}++;
 
@@ -358,8 +355,12 @@ sub AgentUtilSearchResult {
 
     # do some strips
     $Param{Text} =~ s/^\s*\n//mg;
-    $Param{Text} =~ s/^(.{$TextWidthMax}).*$/$1 [...]/gmi;
-    $Param{Text} =~ s/^(.{$TextLongMax}).*$/$1 [...]/ois;
+    $Param{Text} = $Self->Ascii2Html(
+        Text => $Param{Text},
+        NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+        VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
+      );
+
     if ($Highlight) {
         # do some html highlighting
         my @SParts = split('%', $Param{What});
