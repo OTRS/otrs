@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.1 2002-10-20 15:42:14 martin Exp $
+# $Id: Customer.pm,v 1.2 2002-11-10 22:50:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -198,8 +198,9 @@ sub CustomerTicketZoom {
         # --
         # the full part thread string
         # --
-        $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=CustomerZoom&ArticleID=$Article{ArticleID}\">" .
-        "$Article{SenderType} ($Article{ArticleType})</A> ";
+        $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=CustomerZoom&ArticleID=$Article{ArticleID}\" ";
+        $ThreadStrg .= 'onmouseover="window.status=\'$Text{"Zoom"}\'; return true;" onmouseout="window.status=\'\';">';
+        $ThreadStrg .= "$Article{SenderType} ($Article{ArticleType})</A> ";
         $ThreadStrg .= " $Article{CreateTime}";
         $ThreadStrg .= "<BR>";
         # --
