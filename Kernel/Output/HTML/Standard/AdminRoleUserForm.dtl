@@ -2,7 +2,7 @@
 # AdminRoleUserForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUserForm.dtl,v 1.1 2004-09-09 11:18:25 martin Exp $
+# $Id: AdminRoleUserForm.dtl,v 1.2 2004-09-30 23:59:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,17 +11,17 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Role <-> User Management"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Role <-> User Management"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="center" valign="top" class="table1">
+  <td align="center" class="mainbody">
   $Text{"Change user <-> role settings"}
   </td>
 </tr>
 <tr valign="top">
- <td class="table1" align="center">
+ <td align="center" class="mainbody">
  <table border="0" cellspacing="0">
   <th class="table1" width="50%">
     <b>$Text{"User"}:$Text{"Role"} (1:n)</b>
