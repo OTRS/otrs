@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.146 2004-08-19 13:12:45 martin Exp $
+# $Id: Agent.pm,v 1.147 2004-09-09 13:06:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.146 $';
+$VERSION = '$Revision: 1.147 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub NavigationBar {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    # run notification modules 
+    # run notification modules
     if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
         foreach my $Job (sort keys %Jobs) {
@@ -38,7 +38,7 @@ sub NavigationBar {
                     ConfigObject => $Self->{ConfigObject},
                     LogObject => $Self->{LogObject},
                     DBObject => $Self->{DBObject},
-                    LayoutObject => $Self, 
+                    LayoutObject => $Self,
                     UserID => $Self->{UserID},
                     Debug => $Self->{Debug},
                 );
@@ -49,7 +49,7 @@ sub NavigationBar {
                         Message => "Module: $Jobs{$Job}->{Module} loaded!",
                     );
                 }
-                # run module 
+                # run module
                 $Output .= $Object->Run(%Param, Config => $Jobs{$Job});
             }
             else {
@@ -62,7 +62,7 @@ sub NavigationBar {
     }
     # check lock count
     foreach (keys %{$Param{LockData}}) {
-        $Param{$_} = $Param{LockData}->{$_} || 0; 
+        $Param{$_} = $Param{LockData}->{$_} || 0;
     }
     if ($Param{New}) {
         $Output .= $Self->Notify(
@@ -88,7 +88,7 @@ sub TicketStdResponseString {
     foreach (qw(StdResponsesRef TicketID ArticleID)) {
         if (!$Param{$_}) {
             return "Need $_ in TicketStdResponseString()";
-        } 
+        }
     }
     # get StdResponsesStrg
     if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
@@ -142,30 +142,51 @@ sub AgentCustomerView {
 sub AgentCustomerViewTable {
     my $Self = shift;
     my %Param = @_;
-    if (ref($Param{Data}) eq 'HASH' && %{$Param{Data}}) {
-        my $Map = $Param{Data}->{Config}->{Map};
-        # build html table
-        $Param{Table} = '<table>';
+    my $ShownType = 1;
+    if (ref($Param{Data}) ne 'HASH') {
+        $Self->FatalError(Message => 'Need Hash ref in Data param');
+    }
+    elsif (ref($Param{Data}) eq 'HASH' && !%{$Param{Data}}) {
+        return '$Text{"none"}';
+    }
+    my $Map = $Param{Data}->{Config}->{Map};
+    if ($Param{Type} && $Param{Type} eq 'Lite') {
+        $ShownType = 2;
+        # check if min one lite view item is configured, if not, use
+        # the normal view also
+        my $Used = 0;
         foreach my $Field (@{$Map}) {
-            if ($Field->[3] && $Param{Data}->{$Field->[0]}) {
-                $Param{Table} .= "<tr><td><b>\$Text{\"$Field->[1]\"}:</b></td><td>";
-                if ($Field->[6]) {
-                    $Param{Table} .= "<a href=\"$Field->[6]\">";
-                }
-                $Param{Table} .= '<div title="'.$Self->Ascii2Html(Text => $Param{Data}->{$Field->[0]}).'">'.$Self->Ascii2Html(Text => $Param{Data}->{$Field->[0]}, Max => $Param{Max}).'</div>';
-                if ($Field->[6]) {
-                    $Param{Table} .= "</a>";
-                }
-                $Param{Table} .= "</td></tr>";
+            if ($Field->[3] == 2) {
+                $Used = 1;
             }
         }
-        $Param{Table} .= '</table>';
+        if (!$Used) {
+            $ShownType = 1;
+        }
     }
-    else {
-        $Param{Table} = '$Text{"none"}';
+    # build html table
+    foreach my $Field (@{$Map}) {
+        if ($Field->[3] && $Field->[3] >= $ShownType && $Param{Data}->{$Field->[0]}) {
+            my %Record = ();
+            if ($Field->[6]) {
+                $Record{LinkStart} = "<a href=\"$Field->[6]\">";
+                $Record{LinkStop} = "</a>";
+            }
+            if ($Field->[0]) {
+                $Record{ValueShort} = $Self->Ascii2Html(Text => $Param{Data}->{$Field->[0]}, Max => $Param{Max});
+            }
+            $Self->Block(
+                    Name => 'Row',
+                    Data => {
+                        Key => $Field->[1],
+                        Value => $Param{Data}->{$Field->[0]},
+                        %Record,
+                    },
+            );
+        }
     }
     # create & return output
-    return $Param{Table}; 
+    return $Self->Output(TemplateFile => 'AgentCustomerTableView', Data => \%Param);
 }
 # --
 sub AgentUtilSearchResult {
@@ -180,7 +201,7 @@ sub AgentUtilSearchResult {
     # check if just a only html email
     # --
     if (my $MimeTypeText = $Self->CheckMimeType(
-        %Param, 
+        %Param,
         Action => 'AgentZoom',
     )) {
         $Param{TextNote} = $MimeTypeText;
@@ -232,9 +253,9 @@ sub AgentUtilSearchResult {
             if ($_) {
                 $Param{$_} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
             }
-        } 
+        }
     }
-    # customer info string 
+    # customer info string
     $Param{CustomerTable} = $Self->AgentCustomerViewTable(
         Data => $Param{CustomerData},
         Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
@@ -247,7 +268,7 @@ sub AgentPreferencesForm {
     my $Self = shift;
     my %Param = @_;
 
-    foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('PreferencesView')}) { 
+    foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('PreferencesView')}) {
       foreach my $Group (@{$Self->{ConfigObject}->Get('PreferencesView')->{$Pref}}) {
         if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
           my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
@@ -258,16 +279,16 @@ sub AgentPreferencesForm {
           if ($Data) {
             if (ref($Data) eq 'HASH') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                Data => $Data, 
+                Data => $Data,
                 Name => 'GenericTopic',
-                SelectedID => $Self->{$PrefKey} || $DataSelected, 
+                SelectedID => $Self->{$PrefKey} || $DataSelected,
               );
             }
             else {
                 $PrefItem{'Option'} = '<input type="text" name="GenericTopic" value="'.
                      $Self->Ascii2Html(Text => $Self->{$PrefKey}) .'">';
             }
-          } 
+          }
           elsif ($Type eq 'CustomQueue') {
             # prepar custom selection
             $PrefItem{'Option'} = $Self->AgentQueueListOption(
@@ -306,8 +327,8 @@ sub AgentPreferencesForm {
           }
           else {
               $Param{$Pref} .= $Self->Output(
-                TemplateFile => 'AgentPreferences'.$Type, 
-                Data => \%PrefItem, 
+                TemplateFile => 'AgentPreferences'.$Type,
+                Data => \%PrefItem,
               );
           }
         }
@@ -352,7 +373,7 @@ sub AgentStatusView {
     # create & return output
     return $Self->Output(TemplateFile => 'AgentStatusView', Data => \%Param);
 }
-# --  
+# --
 sub AgentStatusViewTable {
     my $Self = shift;
     my %Param = @_;
@@ -384,13 +405,13 @@ sub AgentStatusViewTable {
 sub AgentQueueListOption {
     my $Self = shift;
     my %Param = @_;
-    my $Size = defined($Param{Size}) ? "size='$Param{Size}'" : ''; 
+    my $Size = defined($Param{Size}) ? "size='$Param{Size}'" : '';
     my $MaxLevel = defined($Param{MaxLevel}) ? $Param{MaxLevel} : 10;
     my $SelectedID = defined($Param{SelectedID}) ? $Param{SelectedID} : '';
     my $Selected = defined($Param{Selected}) ? $Param{Selected} : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $Multiple = $Param{Multiple} ? 'multiple' : '';
-    my $OnChangeSubmit = defined($Param{OnChangeSubmit}) ? $Param{OnChangeSubmit} : 
+    my $OnChangeSubmit = defined($Param{OnChangeSubmit}) ? $Param{OnChangeSubmit} :
      $Self->{ConfigObject}->Get('OnChangeSubmit');
     if ($OnChangeSubmit) {
         $OnChangeSubmit = " onchange=\"submit()\"";

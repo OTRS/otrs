@@ -1,0 +1,20 @@
+# --
+# AgentCustomerTableView - provides HTML customer table view
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentCustomerTableView.dtl,v 1.1 2004-09-09 13:06:47 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start customer table -->
+<table>
+<!-- dtl:block:Row -->
+<tr>
+  <td><b>$Text{"$QData{"Key"}"}:</b></td>
+  <td>$Data{"LinkStart"}<div title="$QData{"Value"}">$Data{"ValueShort"}</div>$Data{"LinkStop"}</td>
+</tr>
+<!-- dtl:block:Row -->
+</table>
+<!-- stop customer table -->
