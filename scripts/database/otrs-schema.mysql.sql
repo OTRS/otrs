@@ -617,7 +617,7 @@ CREATE TABLE auto_response
     text2 MEDIUMTEXT,
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
-    charset_id SMALLINT NOT NULL,
+    charset VARCHAR (80) NOT NULL,
     comment VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,

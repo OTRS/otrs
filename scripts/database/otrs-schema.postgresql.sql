@@ -590,7 +590,7 @@ CREATE TABLE auto_response
     text2 varchar,
     type_id smallint NOT NULL,
     system_address_id smallint NOT NULL,
-    charset_id smallint NOT NULL,
+    charset varchar (80) NOT NULL,
     comment varchar (100),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,

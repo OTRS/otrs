@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.14 2003-12-15 20:26:50 martin Exp $
+  $Id: otrs-schema.xml,v 1.15 2004-01-10 15:42:17 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.14  2003/12/15 20:26:50  martin
+  added more ticket free text options for tickets now we have 8 (not only 2) - improved also GenericAgent and Web-Frontend!
+
   Revision 1.13  2003/11/26 00:57:19  martin
   added group_customer_user for customer user<->group relations
 
@@ -667,7 +670,7 @@
   <column name="text2" required="false" type="LONGVARCHAR"/>
   <column name="type_id" required="true" type="SMALLINT"/>
   <column name="system_address_id" required="true" type="SMALLINT"/>
-  <column name="charset_id" required="true" type="SMALLINT"/>
+  <column name="charset" required="true" size="80" type="VARCHAR"/>
   <column name="comment" required="false" size="100" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
