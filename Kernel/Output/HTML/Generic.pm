@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.158 2004-10-28 10:10:42 martin Exp $
+# $Id: Generic.pm,v 1.159 2004-11-04 10:49:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.158 $';
+$VERSION = '$Revision: 1.159 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -166,14 +166,12 @@ sub new {
     # locate template files
     # --
     $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir')."/HTML/$Theme";
-    if (!$Self->{TemplateDir}) {
-        if (!$Self->{$_}) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "No templates found in '$Self->{TemplateDir}'! Check your Home in Kernel/Config.pm",
-            );
-            $Self->FatalError();
-        }
+    if (! -e $Self->{TemplateDir}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+        );
+        $Self->FatalDie();
     }
     return $Self;
 }
@@ -590,7 +588,7 @@ sub Output {
         # --
         foreach (1..3) {
             $Line =~ s{
-                \$(QData|Data|Env|Config|Include){"(.+?)"}
+                \$(QData|LQData|Data|Env|Config|Include){"(.+?)"}
             }
             {
               if ($1 eq "Data" || $1 eq "Env") {
@@ -624,6 +622,16 @@ sub Output {
                         # output replace with nothing!
                         "";
                       }
+                  }
+              }
+              # link encode
+              elsif ($1 eq "LQData") {
+                  if (defined $GlobalRef->{"DataRef"}->{$2}) {
+                      $Self->LinkEncode($GlobalRef->{"DataRef"}->{$2});
+                  }
+                  else {
+                      # output replace with nothing!
+                      "";
                   }
               }
               # replace with
@@ -923,6 +931,34 @@ sub FatalError {
     print $Self->Header(Area => 'Frontend', Title => 'Fatal Error');
     print $Self->Error(%Param);
     print $Self->Footer();
+    exit;
+}
+# --
+sub FatalDie {
+    my $Self = shift;
+    my %Param = @_;
+    if ($Param{Message}) {
+        $Self->{LogObject}->Log(
+          Caller => 1,
+          Priority => 'error',
+          Message => "$Param{Message}",
+        );
+    }
+    # get backend error messages
+    foreach (qw(Message Traceback)) {
+      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Error',
+          What => $_
+      ) || '';
+      $Param{'Backend'.$_} = $Self->Ascii2Html(
+          Text => $Param{'Backend'.$_},
+          HTMLResultMode => 1,
+      );
+    }
+    if (!$Param{Message}) {
+      $Param{Message} = $Param{BackendMessage};
+    }
+    die $Param{Message};
     exit;
 }
 # --
