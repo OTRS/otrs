@@ -1,8 +1,8 @@
 # --
 # AdminSession.pm - to control all session ids
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: AdminSession.pm,v 1.2 2002-04-08 14:17:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -58,9 +58,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
 
-        my @List = glob("$Self->{SessionDir}/*");
+#        my @List = glob("$Self->{SessionDir}/*");
+        my @List = $SessionObject->GetAllSessionIDs();
         foreach my $SessionID (@List) {
-            $SessionID =~ s!^.*/!!;
             my %Data = $SessionObject->GetSessionIDData(SessionID => $SessionID);
             $Output .= $Self->{LayoutObject}->AdminSessionTable(SessionID => $SessionID, %Data);
         }
