@@ -1,8 +1,8 @@
 # --
 # Login.dtl - provides HTML login screen
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.15 2004-03-05 11:30:27 martin Exp $
+# $Id: Login.dtl,v 1.16 2004-04-02 08:19:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,13 +31,13 @@ $Include{"css"}
 <center>
 
 <p>
-<font color="red">$Text{"$Data{"Message"}"}</font>
+<font color="red">$Quote{"$Text{"$Data{"Message"}"}"}</font>
 </p>
 
 <p>
 <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
 <input type="hidden" name="Action" value="Login">
-<input type="hidden" name="RequestedURL" value="$Data{"RequestedURL"}">
+<input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
 <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
 
 <table border="0" cellspacing="0" cellpadding="3" width="250">
@@ -49,7 +49,7 @@ $Include{"css"}
     <table cellspacing="8" cellpadding="2">
     <tr>
       <td class="table1">$Text{"Username"}:</td>
-      <td class="table1"><input type="text" name="User" value="$Data{"User"}" size="18"></td>
+      <td class="table1"><input type="text" name="User" value="$QData{"User"}" size="18"></td>
     </tr>
     <tr>
       <td class="table1">$Text{"Password"}:</td>
@@ -68,7 +68,7 @@ $Include{"css"}
 <p>
 <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
 <input type="hidden" name="Action" value="">
-<input type="hidden" name="RequestedURL" value="$Data{"RequestedURL"}">
+<input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
 
 <table border="0" cellspacing="0" cellpadding="3" width="250">
 <tr>
