@@ -16,6 +16,7 @@
 /opt/otrs/.fetchmailrc.dist
 /opt/otrs/.mailfilter.dist
 /opt/otrs/Kernel/Config.pm.dist
+/opt/otrs/Kernel/Config/Files/*
 /opt/otrs/Kernel/Config/GenericAgent.pm.dist
 /opt/otrs/Kernel/Config/GenericAgent.pm.examples
 /opt/otrs/Kernel/Config/Modules.pm
