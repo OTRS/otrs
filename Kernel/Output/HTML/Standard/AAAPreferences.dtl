@@ -40,3 +40,6 @@ $Text{"Select your screen after creating a new ticket via PhoneView."}
 
 $Text{"Closed Tickets"}
 $Text{"Show closed tickets."};
+
+$Text{"Max. shown Tickets a page in QueueView."}
+$Text{"Max. shown Tickets a page in Overview."}
