@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.26 2004-08-02 23:58:30 martin Exp $
+  $Id: otrs-schema.xml,v 1.27 2004-08-10 06:39:45 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.26  2004/08/02 23:58:30  martin
+  fixed bug 466 - Error in managing very long Message-IDs
+
   Revision 1.25  2004/07/30 09:08:53  martin
   addded infex to a_message_id of article table
 
@@ -510,6 +513,9 @@
   <column name="ticket_id" required="true" type="BIGINT"/>
   <column name="article_id" required="false" type="BIGINT"/>
   <column name="system_queue_id" required="false" type="SMALLINT"/>
+  <column name="owner_id" required="true" type="INTEGER"/>
+  <column name="priority_id" required="true" type="SMALLINT"/>
+  <column name="state_id" required="true" type="SMALLINT"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
