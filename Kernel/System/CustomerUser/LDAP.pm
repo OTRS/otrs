@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.6 2003-02-11 13:18:43 wiktor Exp $
+# $Id: LDAP.pm,v 1.7 2003-02-11 13:19:45 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -116,7 +116,7 @@ sub CustomerUserList {
     my %Users = ();
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
-        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFileds}}) {
+        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFields}}) {
             $CustomerString .= $entry->get_value($_).' ';
         }
         $Users{$entry->get_value($Self->{CustomerKey})} = $CustomerString;
