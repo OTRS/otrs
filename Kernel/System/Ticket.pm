@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.20 2002-09-10 23:18:39 martin Exp $
+# $Id: Ticket.pm,v 1.21 2002-09-23 20:35:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::EmailSend;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -459,18 +459,29 @@ sub GetCustomerNo {
 sub SetFreeText {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my $UserID = $Param{UserID};
-    my $Value = $Param{Value};
-    my $Key = $Param{Key};
-    my $Counter = $Param{Counter};
+    my $Value = $Param{Value} || '';
+    my $Key = $Param{Key} || '';
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID Counter)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # db quote
+    # --
     $Value = $Self->{DBObject}->Quote($Value);
     $Key = $Self->{DBObject}->Quote($Key);
+    # --
     # db update
-    my $SQL = "UPDATE ticket SET freekey$Counter = '$Key', " .
-    " freetext$Counter = '$Value', " .
-    " change_time = current_timestamp, change_by = $UserID " .
-    " WHERE id = $TicketID";
+    # --
+    my $SQL = "UPDATE ticket SET freekey$Param{Counter} = '$Key', " .
+    " freetext$Param{Counter} = '$Value', " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
