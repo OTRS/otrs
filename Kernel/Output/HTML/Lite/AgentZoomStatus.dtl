@@ -1,0 +1,65 @@
+# --
+# AgentZoomStatus.dtl - provides HTML AgentZoom for AgentZoom.pm
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
+# --
+# $Id: AgentZoomStatus.dtl,v 1.1 2003-03-05 17:50:19 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start ticket status -->
+    <table border="0" cellspacing="1" cellpadding="0" width="95%">
+    <tr>
+      <td><b>$Text{"State"}:</b></td>
+      <td><font color="red">$Data{"State"}</font></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Priority"}:</b></td>
+      <td><font color="red">$Data{"Priority"}</font></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Queue"}:</b></td>
+      <td><font color="red">$Data{"Queue"}</font></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Lock"}:</b></td>
+      <td><font color="red">$Data{"Lock"}</font></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"CustomerID"}:</b></td>
+      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Accounted time"}:</b></td>
+      <td>$Data{"TicketTimeUnits"}</td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Escalation in"}:</b></td>
+      <td>$Data{"TicketOverTime"}</td>
+    </tr>
+# --
+# use ticket is pending 
+# --
+<dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
+    $Data{"PendingUntilString"}
+    <tr>
+      <td><b>$Text{"Owner"}:</b></td>
+      <td>$Data{"Owner"}</td>
+    </tr>
+# --
+# use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
+# --
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
+    $Data{"TicketFreeString1"}
+    $Data{"TicketFreeString2"}
+    </table>
+# --
+# show customer info table 
+# --
+<dtl if ($Config{"ShowCustomerInfoZoom"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>"; }>
+    $Data{"CustomerInfo"}
+
+<!-- end ticket status -->

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.30 2003-02-09 21:02:35 martin Exp $
+# $Id: AgentZoom.pm,v 1.31 2003-03-05 17:50:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -192,10 +192,10 @@ sub Run {
         $Article{ArticleType} = $$Data{article_type};
         $Article{SenderType} = $$Data{sender_type};
         $Article{ArticleID} = $$Data{id};
-        $Article{From} = $$Data{a_from} || ' ';
-        $Article{To} = $$Data{a_to} || ' ';
-        $Article{Cc} = $$Data{a_cc} || ' ';
-        $Article{Subject} = $$Data{a_subject} || ' ';
+        $Article{From} = $$Data{a_from} || '';
+        $Article{To} = $$Data{a_to} || '';
+        $Article{Cc} = $$Data{a_cc} || '';
+        $Article{Subject} = $$Data{a_subject} || '';
         $Article{Text} = $$Data{a_body};
         $Article{CreateTime} = $$Data{create_time};
         $Article{FreeKey1} = $$Data{a_freekey1};
@@ -252,7 +252,7 @@ sub Run {
         $Ticket{ShowHTMLeMail} = 1;
         $Output = '';
     }
-    $Output .= $Self->{LayoutObject}->TicketZoom(
+    $Output .= $Self->{LayoutObject}->AgentZoom(
         TicketID => $Self->{TicketID},
         QueueID => $QueueID,
         MoveQueues => \%MoveQueues,

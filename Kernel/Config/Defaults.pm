@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.44 2003-03-04 00:12:51 martin Exp $
+# $Id: Defaults.pm,v 1.45 2003-03-05 17:50:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -431,6 +431,9 @@ sub LoadDefaults {
     # StdResponsesMethod
     # (should the standard responses selection be a form or links?) [Form|Link]
     $Self->{StdResponsesMethod} = 'Link';
+    # TicketZoomExpand
+    # (show article expanded int ticket zoom)
+    $Self->{TicketZoomExpand} = 0;
     # TimeUnits
     # (your choice of your used time units, minutes, hours, work units, ...)
 #    $Self->{TimeUnits} = ' (minutes)';

@@ -2,13 +2,16 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.63 2003-03-04 00:12:53 martin Exp $
+# $Id: CHANGES,v 1.64 2003-03-05 17:50:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2003/03/05) added "view all articles" config option for ticket zoom
+    view (TicketZoomExpand default is 0) 
+    http://lists.otrs.org/pipermail/otrs/2003-January/000784.html 
  - (2003/03/03) new ticket state implementation (added ticket_state_type
     table). Use "scripts/DBUpdate-to-1.1.(mysql|postgresql).sql".
     State name is now free settable (because of the ticket state name). 

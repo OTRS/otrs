@@ -1,0 +1,80 @@
+# --
+# AgentZoomBody.dtl - provides HTML AgentZoom for AgentZoom.pm
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
+# --
+# $Id: AgentZoomBody.dtl,v 1.1 2003-03-05 17:50:19 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start body ticket $Data{"TicketNumber"} -->
+<tr>
+  <td rowspan="2" valign="top" width="75%" class="table1">
+  <a name="$Data{"Article::ArticleID"}"></a>
+  $Data{"ArticleStrg"}
+  <hr>
+  <table border="0" width="100%" cellspacing="0" cellpadding="1">
+    <tr>
+      <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
+      <td width="85%"> $Data{"Article::From"}</td>
+    </tr>
+# --
+# check if To exists
+# -- 
+    <dtl if ($Data{"Article::To"} ne "") { $Data{"ArticleToString"} = "<tr><td valign="top"><b>$Text{"To"}:</b></td><td> $Data{"Article::To"}</td></tr>"; }>
+    $Data{"ArticleToString"}
+# --
+# check if Cc exists
+# -- 
+    <dtl if ($Data{"Article::Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Data{"Article::Cc"}</td></tr>"; }>
+    $Data{"ArticleCcString"}
+# --
+    <tr>
+      <td valign="top"><b>$Text{"Subject"}:</b></td>
+      <td> $Data{"Article::Subject"}</td>
+    </tr>
+# --
+# show the Article::FreeKey1-3 and Article::FreeValue1-3
+# --
+<dtl if ($Data{"Article::FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey1"}:</b></td><td> $Data{"Article::FreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"Article::FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey2"}:</b></td><td> $Data{"Article::FreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"Article::FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey3"}:</b></td><td> $Data{"Article::FreeValue3"}</td></tr>"; }>
+     $Data{"ArticleFreeString1"}
+     $Data{"ArticleFreeString2"}
+     $Data{"ArticleFreeString3"}
+# --
+# check if To exists
+# -- 
+    <dtl if ($Data{"Article::ATM"} ne "") { $Data{"ArticleATMString"} = "<tr><td valign="top"><b>$Text{"Attachment"}:</b></td><td> $Data{"Article::ATM"}</td></tr>"; }>
+    $Data{"ArticleATMString"}
+# --
+  </table>
+$Data{"Article::TextNote"}
+  <pre>
+$Data{"Article::Text"}
+  </pre>
+  </td> 
+  <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
+# --
+# show ticket status (state, lock, ...)
+$Data{"TicketStatus"} 
+# --
+  </td>
+</tr>
+<tr>
+  <td align="left" valign="middle" class="PriorityID-$Data{"PriorityID"}">
+    <table border="0" cellspacing="0" cellpadding="1" width="95%">
+    <tr>
+      <td>
+# --
+# show compose links
+$Data{"TicketAnswer"}
+# --
+      </td>
+    </tr>
+    </table>
+  </td>
+</tr>
+<!-- end body ticket -->

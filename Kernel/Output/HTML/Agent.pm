@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.90 2003-03-02 10:12:31 martin Exp $
+# $Id: Agent.pm,v 1.91 2003-03-05 17:50:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.90 $';
+$VERSION = '$Revision: 1.91 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -330,7 +330,7 @@ sub TicketView {
     }
 }
 # --
-sub TicketZoom {
+sub AgentZoom {
     my $Self = shift;
     my %Param = @_;
     # --
@@ -434,14 +434,6 @@ sub TicketZoom {
         $ArticleID = $LastCustomerArticleID;
     }
     # --
-    # get StdResponsesStrg
-    # --
-    $Param{StdResponsesStrg} = $Self->TicketStdResponseString(
-        StdResponsesRef => $Param{StdResponses},
-        TicketID => $Param{TicketID},
-        ArticleID => $ArticleID,
-    );
-    # --
     # build thread string
     # --
     my $ThreadStrg = '';
@@ -469,7 +461,7 @@ sub TicketZoom {
         # --
         # the full part thread string
         # --
-        $ThreadStrg .= "<a href=\"$BaseLink"."Action=AgentZoom&ArticleID=$Article{ArticleID}\"" .
+        $ThreadStrg .= "<a href=\"$BaseLink"."Action=AgentZoom&ArticleID=$Article{ArticleID}#$Article{ArticleID}\"" .
            'onmouseover="window.status=\''."\$Text{\"$Article{SenderType}\"} (".
            "\$Text{\"$Article{ArticleType}\"})".'\'; return true;" onmouseout="window.status=\'\';">'.
            "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</a> ";
@@ -495,97 +487,127 @@ sub TicketZoom {
 
     my $ArticleOB = $ArticleBox[$LastCustomerArticle];
     my %Article = %$ArticleOB;
-
-    foreach my $ArticleTmp (@ArticleBox) {
-        my %ArticleTmp1 = %$ArticleTmp;
-        if ($ArticleID eq $ArticleTmp1{ArticleID}) {
-            %Article = %ArticleTmp1;
+    my $Output = $Self->Output(TemplateFile => 'AgentZoomHead', Data => \%Param);
+    $Param{TicketStatus} .= $Self->Output(TemplateFile => 'AgentZoomStatus', Data => \%Param);
+    # --
+    # get shown article(s)
+    # --
+    my @NewArticleBox = ();
+    if (!$Self->{ConfigObject}->Get('TicketZoomExpand') || $Param{"ShowHTMLeMail"}) {
+        foreach my $ArticleTmp (@ArticleBox) {
+            if ($ArticleID eq $ArticleTmp->{ArticleID}) {
+                push(@NewArticleBox, $ArticleTmp); 
+            }
         }
     }
-    # --
-    # get attacment string
-    # --
-    my %AtmIndex = ();
-    if ($Article{Atms}) {
-        %AtmIndex = %{$Article{Atms}};
-    }
-    my $ATMStrg = '';
-    foreach (keys %AtmIndex) {
-        $AtmIndex{$_} = $Self->Ascii2Html(Text => $AtmIndex{$_});
-        $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
-          "ArticleID=$Article{ArticleID}&FileID=$_\" target=\"attachment\" ".
-          "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
-           ' return true;" onmouseout="window.status=\'\';">'.
-           $AtmIndex{$_}.'</a><br> ';
-    }
-    # --
-    # just body if html email
-    # --
-    if ($Param{"ShowHTMLeMail"}) {
-        # generate output
-        my $Output = "Content-Disposition: attachment; filename=";
-        $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
-        $Output .= "$Param{TicketID}-$Article{ArticleID}\n";
-        $Output .= "Content-Type: $Article{MimeType}; charset=$Article{ContentCharset}\n";
-        $Output .= "\n";
-        $Output .= $Article{"Text"};
-        return $Output;
-    }
-    # --
-    # do some strips && quoting
-    # --
-    foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 FreeValue3 ArticleType SenderType)) {
-        $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
-    }
-    # --
-    # check if just a only html email
-    # --
-    if (my $MimeTypeText = $Self->CheckMimeType(%Param, %Article)) {
-        $Param{"Article::TextNote"} = $MimeTypeText;
-        $Param{"Article::Text"} = '';
-    }
     else {
+        @NewArticleBox = @ArticleBox;
+    }
+    # --
+    # build shown article(s)
+    # --
+    my $BodyOutput = '';
+    foreach my $ArticleTmp (@NewArticleBox) {
+        %Article = %$ArticleTmp;
         # --
-        # html quoting
+        # just body if html email
         # --
-        $Param{"Article::Text"} = $Self->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-            Text => $Article{Text},
-            VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+        if ($Param{"ShowHTMLeMail"}) {
+            # generate output
+            my $Output = "Content-Disposition: attachment; filename=";
+            $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
+            $Output .= "$Param{TicketID}-$Article{ArticleID}\n";
+            $Output .= "Content-Type: $Article{MimeType}; charset=$Article{ContentCharset}\n";
+            $Output .= "\n";
+            $Output .= $Article{"Text"};
+            return $Output;
+        }
+        # --
+        # delete ArticleStrg and TicketStatus if it's not the first shown article
+        # --
+        if ($BodyOutput) {
+            $Param{ArticleStrg} = '';
+            $Param{TicketStatus} = '';
+        }
+        # --
+        # get StdResponsesStrg
+        # --
+        $Param{StdResponsesStrg} = $Self->TicketStdResponseString(
+            StdResponsesRef => $Param{StdResponses},
+            TicketID => $Param{TicketID},
+            ArticleID => $Article{ArticleID},
         );
         # --
-        # link quoting
+        # get attacment string
         # --
-        $Param{"Article::Text"} = $Self->LinkQuote(Text => $Param{"Article::Text"});
+        my %AtmIndex = ();
+        if ($Article{Atms}) {
+            %AtmIndex = %{$Article{Atms}};
+        }
+        $Param{"Article::ATM"} = '';
+        foreach (keys %AtmIndex) {
+            $AtmIndex{$_} = $Self->Ascii2Html(Text => $AtmIndex{$_});
+            $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
+              "ArticleID=$Article{ArticleID}&FileID=$_\" target=\"attachment\" ".
+              "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
+              ' return true;" onmouseout="window.status=\'\';">'.
+              $AtmIndex{$_}.'</a><br> ';
+        }
         # --
-        # do charset check
+        # do some strips && quoting
         # --
-        if (my $CharsetText = $Self->CheckCharset(
-            ContentCharset => $Article{ContentCharset},
-            TicketID => $Param{TicketID},
-            ArticleID => $Article{ArticleID} )) {
-            $Param{"Article::TextNote"} = $CharsetText;
+        foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
+            FreeValue3 ArticleType SenderType ArticleID)) {
+            $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
+        }
+        # --
+        # check if just a only html email
+        # --
+        if (my $MimeTypeText = $Self->CheckMimeType(%Param, %Article)) {
+            $Param{"Article::TextNote"} = $MimeTypeText;
+            $Param{"Article::Text"} = '';
+        }
+        else {
+            # --
+            # html quoting
+            # --
+            $Param{"Article::Text"} = $Self->Ascii2Html(
+                NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+                Text => $Article{Text},
+                VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+            );
+            # --
+            # link quoting
+            # --
+            $Param{"Article::Text"} = $Self->LinkQuote(Text => $Param{"Article::Text"});
+            # --
+            # do charset check
+            # --
+            if (my $CharsetText = $Self->CheckCharset(
+                ContentCharset => $Article{ContentCharset},
+                TicketID => $Param{TicketID},
+                ArticleID => $Article{ArticleID} )) {
+                $Param{"Article::TextNote"} = $CharsetText;
+            }
+        }
+        # --
+        # select the output template
+        # --
+        if ($Article{ArticleType} =~ /^note/i || 
+             ($Article{ArticleType} =~ /^phone/i && $Article{SenderType} eq 'agent') ||
+             $Article{SenderType} eq 'system' || $Article{SenderType} eq 'agent') {
+            # without compose links!
+            $BodyOutput .= $Self->Output(TemplateFile => 'AgentZoomBody', Data => \%Param);
+        }
+        else {
+            # without all!
+            $Param{TicketAnswer} .= $Self->Output(TemplateFile => 'AgentZoomAnswer', Data => \%Param);
+            $BodyOutput .= $Self->Output(TemplateFile => 'AgentZoomBody', Data => \%Param);
+            $Param{TicketAnswer} = '';
         }
     }
-
-    # get article id
-    $Param{"Article::ArticleID"} = $Article{ArticleID};
-
-    # select the output template
-    my $Output = '';
-    if ($Article{ArticleType} =~ /^note/i || 
-         ($Article{ArticleType} =~ /^phone/i && $Article{SenderType} eq 'agent')) {
-        # without compose links and with From ans Subject only!
-        $Output = $Self->Output(TemplateFile => 'TicketZoomNote', Data => \%Param);
-    }
-    elsif ($Article{SenderType} eq 'system' || $Article{SenderType} eq 'agent') {
-        # without compose links!
-        $Output = $Self->Output(TemplateFile => 'TicketZoomSystem', Data => \%Param);
-    }
-    else {
-        # without all!
-        $Output = $Self->Output(TemplateFile => 'TicketZoom', Data => \%Param);
-    }
+    $Output .= $BodyOutput;
+    $Output .= $Self->Output(TemplateFile => 'AgentZoomFooter', Data => \%Param);
     # return output
     return $Output;
 }
@@ -648,7 +670,6 @@ sub AgentTicketPrint {
         if ($Article{Atms}) {
             %AtmIndex = %{$Article{Atms}};
         }
-        my $ATMStrg = '';
         $Param{"Article::ATM"} = '';
         foreach (keys %AtmIndex) {
           $AtmIndex{$_} = $Self->Ascii2Html(Text => $AtmIndex{$_});

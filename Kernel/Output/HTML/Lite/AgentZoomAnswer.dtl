@@ -1,0 +1,65 @@
+# --
+# AgentZoomAnswer.dtl - provides HTML TicketZoom for AgentZoom.pm
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
+# --
+# $Id: AgentZoomAnswer.dtl,v 1.1 2003-03-05 17:50:19 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+   <p align="left">
+     <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
+     <br>
+     <table border="0">
+       <tr align="left">
+         <td>
+         $Data{"StdResponsesStrg"}
+         </td>
+       </tr>
+     </table>
+   </p>
+
+   <p align="left">
+     <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
+     <br>
+     <table border="0">
+       <tr align="left">
+         <td>
+     <li><a href="$Env{"Baselink"}Action=AgentPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"phone call"}'; return true;" onmouseout="window.status='';">$Text{"phone call"}</a></li>
+         </td>
+       </tr>
+     </table>
+   </p>
+
+   <p>
+     <b>$Text{"Article"}</b>
+     <table border="0">
+       <tr align="left">
+         <td>
+     <a href="$Env{"Baselink"}Action=AgentForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
+# -- 
+# check if bounce should be shown
+# -- 
+    <dtl if ($Data{"Article::ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
+  
+    <a href="$Env{"Baselink"}Action=AgentBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
+         </td>
+       </tr>
+     </table>
+   </p>
+
+   <p>
+     <b>$Text{"Change queue"}:</b>
+     <br>
+       <form action="$Env{"CGIHandle"}" method="get">
+       <input type="hidden" name="Action" value="AgentMove">
+       <input type="hidden" name="Subaction" value="InRage">
+       <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+       <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+       $Data{"MoveQueuesStrg"}
+       <input type="submit" value="$Text{"Move"}">
+       </form>
+   </p>
+
