@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.37 2004-07-29 06:14:56 martin Exp $
+# $Id: AgentForward.pm,v 1.38 2004-09-08 23:46:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,22 +17,22 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-    # allocate new hash for object 
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
     # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
     # check all needed objects
-    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject 
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject
       LogObject TicketObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
@@ -45,6 +45,7 @@ sub new {
     $Self->{From} = $Self->{ParamObject}->GetParam(Param => 'From') || '';
     $Self->{To} = $Self->{ParamObject}->GetParam(Param => 'To') || '';
     $Self->{Cc} = $Self->{ParamObject}->GetParam(Param => 'Cc') || '';
+    $Self->{Bcc} = $Self->{ParamObject}->GetParam(Param => 'Bcc') || '';
     $Self->{Subject} = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
     $Self->{Body} = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
     $Self->{InReplyTo} = $Self->{ParamObject}->GetParam(Param => 'InReplyTo') || '';
@@ -63,16 +64,11 @@ sub Run {
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-        # --
         # error page
-        # --
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => "Can't forward ticket, no TicketID is given!",
             Comment => 'Please contact the admin.',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # --
     # check permissions
@@ -81,9 +77,7 @@ sub Run {
         Type => 'forward',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
@@ -100,10 +94,10 @@ sub Form {
     my $Self = shift;
     my %Param = @_;
     my $Output;
- 
+
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Forward');
- 
+
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
 
@@ -129,7 +123,7 @@ sub Form {
         my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
         );
-        
+
         if ($OwnerID != $Self->{UserID}) {
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Sorry, the current owner is $OwnerLogin!",
@@ -139,7 +133,7 @@ sub Form {
             return $Output;
         }
     }
-    
+
     # get last customer article or selecte article ...
     my %Data = ();
     if ($Self->{ArticleID}) {
@@ -155,7 +149,7 @@ sub Form {
     # --
     # check if original content isn't text/plain or text/html, don't use it
     # --
-    if ($Data{'ContentType'}) { 
+    if ($Data{'ContentType'}) {
         if($Data{'ContentType'} =~ /text\/html/i) {
             $Data{Body} =~ s/\<.+?\>//gs;
         }
@@ -197,7 +191,7 @@ sub Form {
     );
 
     my %ArticleTypes;
-    my $ArticleTypesTmp = 
+    my $ArticleTypesTmp =
        $Self->{ConfigObject}->Get('DefaultForwardEmailType')
            || die 'No Config entry "DefaultForwardEmailType"!';
     my @ArticleTypePossible = @$ArticleTypesTmp;
@@ -217,9 +211,9 @@ sub Form {
         ArticleTypes => \%ArticleTypes,
         %Data,
     );
-    
+
     $Output .= $Self->{LayoutObject}->Footer();
-    
+
     return $Output;
 }
 # --
@@ -264,13 +258,11 @@ sub SendEmail {
     # --
     # check forward email address
     # --
-    foreach (qw(To Cc)) {
+    foreach (qw(To Cc Bcc)) {
         foreach my $Email (Mail::Address->parse($Self->{$_})) {
             my $Address = $Email->address();
             if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Address)) {
-                # --
                 # error page
-                # --
                 $Output = $Self->{LayoutObject}->Header(Title => 'Error');
                 $Output .= $Self->{LayoutObject}->Error(
                     Message => "Can't forward ticket to $Address! It's a local ".
@@ -299,7 +291,7 @@ sub SendEmail {
         );
         push(@Attachments, \%Attachment);
     }
-    # --    
+    # --
     # send email
     # --
     if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
@@ -307,6 +299,7 @@ sub SendEmail {
         From => $Self->{From},
         To => $Self->{To},
         Cc => $Self->{Cc},
+        Bcc => $Self->{Bcc},
         Subject => $Self->{Subject},
         Body => $Self->{Body},
         TicketID => $Self->{TicketID},
@@ -316,7 +309,7 @@ sub SendEmail {
         Charset => $Self->{Charset},
         InReplyTo => $Self->{InReplyTo},
         HistoryType => 'Forward',
-        HistoryComment => "\%\%$Self->{To}, $Self->{Cc}",
+        HistoryComment => "\%\%$Self->{To}, $Self->{Cc}, $Self->{Bcc}",
     )) {
       # --
       # time accounting
@@ -380,7 +373,7 @@ sub _Mask {
     # create html from
     $Param{SystemFromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{SystemFrom}, Max => 70);
     # do html quoting
-    foreach (qw(ReplyTo From To Cc Subject SystemFrom Body)) {
+    foreach (qw(ReplyTo From To Cc Bcc Subject SystemFrom Body)) {
         $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
             Text => $Param{$_},
             From => $Param{ContentCharset},
