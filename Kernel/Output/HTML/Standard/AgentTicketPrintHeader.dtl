@@ -7,6 +7,7 @@
 <table border="0" cellspacing="1" cellpadding="10" width="100%">
 <tr>
   <td>
+  <b>$Text{"Ticket-Info"}:</b>
 <table border="0" cellspacing="1" cellpadding="0" width="100%">
 <tr>
   <td width="20%"><b>$Text{"State"}:</b></td>
@@ -42,6 +43,26 @@
   <td>$QData{"Owner"} ($QData{"UserFirstname"} $QData{"UserLastname"})</td>
   <td> </td>
   <td> </td>
+<tr valign="top">
+  <td><b>$Text{"Linked-Object"}:</b></td><td colspan="3">
+<!-- dtl:block:LinkNormal -->
+    <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkNormal -->
+  </td>
+</tr>
+<tr valign="top">
+  <td><b>$Text{"Parent-Object"}:</b></td><td colspan="3">
+<!-- dtl:block:LinkParent -->
+  <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkParent -->
+  </td>
+</tr>
+<tr valign="top">
+  <td><b>$Text{"Child-Object"}:</b></td><td colspan="3">
+<!-- dtl:block:LinkChild -->
+    <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkChild -->
+  </td>
 </tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
@@ -65,5 +86,10 @@
     </table>
   </td>
 </tr>
+<tr>
+  <td colspan="4">
+  <b>$Text{"Customer-Info"}:</b>
+$Data{"CustomerTable"}
+  </td>
+</tr>
 </table>
-

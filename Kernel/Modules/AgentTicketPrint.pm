@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.12 2004-04-15 11:55:44 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.13 2004-09-23 08:26:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,20 +12,22 @@
 package Kernel::Modules::AgentTicketPrint;
 
 use strict;
+use Kernel::System::CustomerUser;
+use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -36,6 +38,11 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
 
+    # customer user object
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    # link object
+    $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
+
     return $Self;
 }
 # --
@@ -44,18 +51,11 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
-    # --
     # check needed stuff
-    # --
     if (!$Self->{TicketID} || !$QueueID) {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error();
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        return $Self->{LayoutObject}->Error(Message => 'Need TicketID!');
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'ro',
         TicketID => $Self->{TicketID},
@@ -64,13 +64,27 @@ sub Run {
         # error screen, don't show ticket
         # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
-    }  
-    # get content
-    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-    my %TicketLink = $Self->{TicketObject}->TicketLinkGet(
-        TicketID => $Self->{TicketID},
+    }
+    # get linked objects
+    my %Links = $Self->{LinkObject}->AllLinkedObjects(
+        Object => 'Ticket',
+        ObjectID => $Self->{TicketID},
         UserID => $Self->{UserID},
     );
+    foreach my $LinkType (sort keys %Links) {
+        my %ObjectType = %{$Links{$LinkType}};
+        foreach my $Object (sort keys %ObjectType) {
+            my %Data = %{$ObjectType{$Object}};
+            foreach my $Item (sort keys %Data) {
+                $Self->{LayoutObject}->Block(
+                    Name => "Link$LinkType",
+                    Data => $Data{$Item},
+                );
+            }
+        }
+    }
+    # get content
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $Ticket{TicketID});
     # article attachments
@@ -86,12 +100,31 @@ sub Run {
         User => $Ticket{Owner},
         Cached => 1
     );
+    # customer info
+    # customer info
+    my %CustomerData = ();
+    if ($Ticket{CustomerUserID}) {
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Ticket{CustomerUserID},
+        );
+    }
+    elsif ($Ticket{CustomerID}) {
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            CustomerID => $Ticket{CustomerID},
+        );
+    }
+    if (%CustomerData) {
+        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data => \%CustomerData,
+            Max => 100,
+        );
+    }
     # genterate output
     $Output .= $Self->{LayoutObject}->PrintHeader(Title => $Ticket{TicketNumber});
     $Output .= $Self->_MaskHeader(
         %UserInfo,
         %Ticket,
-        %TicketLink,
+        CustomerTable => $Param{CustomerTable} || '',
     );
     # show ticket
     $Output .= $Self->_Mask(
@@ -100,9 +133,8 @@ sub Run {
         ArticleBox => \@ArticleBox,
         %UserInfo,
         %Ticket,
-        %TicketLink,
     );
-    # add footer 
+    # add footer
     $Output .= $Self->{LayoutObject}->PrintFooter();
 
     # return output
