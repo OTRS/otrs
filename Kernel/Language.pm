@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.21 2003-07-07 13:31:58 martin Exp $
+# $Id: Language.pm,v 1.22 2003-12-08 20:24:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -180,7 +180,7 @@ sub FormatTimeString {
     my $Self = shift;
     my $String = shift || return;
     my $ReturnString = $Self->{DateFormat} || 'DateFormat needs to be translated!';
-    if ($String =~ /^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/) {
+    if ($String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/) {
         my ($Y,$M,$D, $T) = ($1, $2, $3, $4);
         $ReturnString =~ s/\%T/$T/g;
         $ReturnString =~ s/\%D/$D/g;
