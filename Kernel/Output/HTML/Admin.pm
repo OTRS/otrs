@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.13 2002-06-13 22:06:33 martin Exp $
+# $Id: Admin.pm,v 1.14 2002-07-09 10:42:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -133,10 +133,10 @@ sub AdminQueueResponsesForm {
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{Baselink} . "&Action=AdminQueueResponses";
 
-    foreach (sort keys %UserDataTmp){
+    foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
         $Param{AnswerQueueStrg} .= "<a href=\"$BaseLink&Subaction=Response&ID=$_\">$UserDataTmp{$_}</a><br>";
     }
-    foreach (sort keys %GroupDataTmp){
+    foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
         $Param{QueueAnswerStrg}.= "<a href=\"$BaseLink&Subaction=Queue&ID=$_\">$GroupDataTmp{$_}</a><br>";
     }
 
@@ -609,10 +609,10 @@ sub AdminUserGroupForm {
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{Baselink} . "&Action=AdminUserGroup";
 
-    foreach (sort keys %UserDataTmp){
+    foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
       $Param{UserStrg} .= "<A HREF=\"$BaseLink&Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
     }
-    foreach (sort keys %GroupDataTmp){
+    foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
       $Param{GroupStrg} .= "<A HREF=\"$BaseLink&Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
     }
     # return output

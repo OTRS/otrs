@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.37 2002-07-02 08:48:40 martin Exp $
+# $Id: Agent.pm,v 1.38 2002-07-09 10:42:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -175,7 +175,7 @@ sub TicketView {
     # --
     # get StdResponsesStrg
     # --
-    foreach (keys %StdResponses) {
+    foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
        $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&".
            "ResponseID=$_&TicketID=$Param{TicketID}\">$StdResponses{$_}</A></li>\n";
     }
@@ -264,7 +264,7 @@ sub TicketZoom {
     my $LastCustomerArticle = $#ArticleBox;
 
     # get StdResponsesStrg
-    foreach (keys %StdResponses) {
+    foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
        $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink&Action=AgentCompose&".
         "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
     }
