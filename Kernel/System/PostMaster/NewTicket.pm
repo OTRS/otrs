@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.3 2002-04-14 13:33:40 martin Exp $
+# $Id: NewTicket.pm,v 1.4 2002-05-01 17:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -190,16 +190,47 @@ sub Run {
         if (!$Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
             return;
         }
+
+        # --
+        # prepare subject (insert old subject)
+        # --
+        my $Subject = $Data{Subject} || 'No Std. Subject found!'; 
+        my $OldSubject = $GetParam{Subject} || 'Your email!';
+        $OldSubject =~ s/\n//g;
+        if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+            my $SubjectChar = $1;
+            $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+            $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
+        }
+        $Subject = "[". $Self->{ConfigObject}->Get('TicketHook') .": $NewTn] $Subject";
+
+        # --
+        # prepare body (insert old email)
+        # --
+        my $Body = $Data{Text} || 'No Std. Body found!'; 
+        my $OldBody = $GetParam{Body} || 'Your Message!';
+        if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+            my $Line = $1;
+            my @Body = split(/\n/, $OldBody);
+            my $NewOldBody = '';
+            foreach (my $i = 0; $i < $Line; $i++) {
+              $NewOldBody .= "> $Body[$i]\n";
+            }
+            $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+        }
+
+        # --
         # do article db insert
+        # --
         my $ArticleID = $ArticleObject->CreateArticleDB(
             TicketID => $TicketID,
             ArticleType => 'email-external',
             SenderType => 'system',
             From => "$Data{Realname} <$Data{Address}>",
             To => $GetParam{From},
-            Subject => "[". $Self->{ConfigObject}->Get('TicketHook') .": $NewTn] $Data{Subject}",
+            Subject => $Subject,
             MessageID => time() .".". rand(999999),
-            Body => $Data{Text},
+            Body => $Body,
             CreateUserID => $InmailUserID,
         );
         my $Email = Kernel::System::EmailSend->new(
@@ -213,12 +244,12 @@ sub Run {
             Email => $Data{Address},
             To => $GetParam{From},
             RealName => $Data{Realname},
-            Subject => "[". $Self->{ConfigObject}->Get('TicketHook') .": $NewTn] $Data{Subject}",
+            Subject => $Subject,
             UserID => $InmailUserID,
             TicketID => $TicketID,
             TicketObject => $TicketObject,
             ArticleID => $ArticleID,
-            Body => $Data{Text},
+            Body => $Body,
             InReplyTo => $GetParam{'Message-ID'},
             Loop => 1,
 			HistoryType => 'SendAutoReply',

@@ -1,8 +1,8 @@
 # --
 # PostMaster.pm - the global PostMaster module for OpenTRS
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.5 2002-04-14 13:33:01 martin Exp $
+# $Id: PostMaster.pm,v 1.6 2002-05-01 17:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,8 +39,16 @@ sub new {
 
     # get ConfigObject
     $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";
+
     # check needed objects
-    foreach ('SystemID', 'TicketHook', 'PostmasterUserID', 'DefaultPriority', 'DefaultState', 'X-Header') {
+    foreach (
+      'SystemID', 
+      'TicketHook', 
+      'PostmasterUserID', 
+      'DefaultPriority', 
+      'DefaultState', 
+      'X-Header',
+    ) {
         $Self->{$_} = $Param{ConfigObject}->Get($_) || die "Found no '$_' option in Config.pm!";
     }
 

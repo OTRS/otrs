@@ -1,8 +1,8 @@
 # --
 # PostMaster.pm - the global PostMaster module for OpenTRS
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.5 2002-04-14 13:33:40 martin Exp $
+# $Id: FollowUp.pm,v 1.6 2002-05-01 17:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +34,14 @@ sub new {
     }
 
     # check needed Objects
-    foreach ('DBObject', 'ConfigObject', 'ArticleObject', 'TicketObject', 'LogObject', 'LoopProtectionObject') {
+    foreach (
+      'DBObject', 
+      'ConfigObject', 
+      'ArticleObject', 
+      'TicketObject', 
+      'LogObject', 
+      'LoopProtectionObject',
+    ) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -154,6 +161,35 @@ sub Run {
         if (!$Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
             return;
         }
+
+        # --
+        # prepare subject (insert old subject)
+        # --
+        my $Subject = $Data{Subject} || 'No Std. Subject found!';
+        my $OldSubject = $GetParam{Subject} || 'Your email!';
+        $OldSubject =~ s/\n//g;
+        if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+            my $SubjectChar = $1;
+            $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+            $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
+        }
+        $Subject = "[". $Self->{ConfigObject}->Get('TicketHook') .": $Tn] $Subject";
+
+        # --
+        # prepare body (insert old email)
+        # --
+        my $Body = $Data{Text} || 'No Std. Body found!'; 
+        my $OldBody = $GetParam{Body} || 'Your Message!';
+        if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+            my $Line = $1;
+            my @Body = split(/\n/, $OldBody);
+            my $NewOldBody = '';
+            foreach (my $i = 0; $i < $Line; $i++) {
+              $NewOldBody .= "> $Body[$i]\n";
+            }
+            $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+        }
+
         # --
         # do article db insert
         # --
@@ -163,9 +199,9 @@ sub Run {
             SenderType => 'system',
             From => "$Data{Realname} <$Data{Address}>",
             To => $GetParam{From},
-            Subject => "[". $Self->{ConfigObject}->Get('TicketHook') .": $Tn] $Data{Subject}",
+            Subject => $Subject,
             MessageID => time() .".". rand(999999),
-            Body => $Data{Text},
+            Body => $Body,
             CreateUserID => $InmailUserID,
         );
 
@@ -183,12 +219,12 @@ sub Run {
             Email => $Data{Address},
             To => $GetParam{From},
             RealName => $Data{Realname},
-            Subject => "[". $Self->{ConfigObject}->Get('TicketHook') .": $Tn] $Data{Subject}",
+            Subject => $Subject, 
             UserID => $InmailUserID,
             TicketID => $TicketID,
             TicketObject => $TicketObject,
             ArticleID => $ArticleID,
-            Body => $Data{Text},
+            Body => $Body,
             InReplyTo => $GetParam{'Message-ID'},
             Loop => 1,
             HistoryType => 'SendAutoFollowUp',
