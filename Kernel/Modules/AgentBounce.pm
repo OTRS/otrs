@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.25 2003-09-28 13:53:55 martin Exp $
+# $Id: AgentBounce.pm,v 1.26 2003-09-28 14:49:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -312,9 +312,7 @@ sub Run {
               return $Output;
             }
         }
-        # --
         # set state
-        # --
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
             ID => $Param{BounceStateID},
         );
@@ -325,10 +323,7 @@ sub Run {
             State => $NextState,
             UserID => $Self->{UserID},
           );
-        # --
         # should i set an unlock?
-        # --
-        my %StateData = $Self->{StateObject}->StateGet(ID => $Param{BounceStateID});
         if ($StateData{TypeName} =~ /^close/i) {
           $Self->{TicketObject}->SetLock(
             TicketID => $Self->{TicketID},
@@ -336,9 +331,7 @@ sub Run {
             UserID => $Self->{UserID},
           );
         }
-        # --
         # redirect
-        # --
         if ($StateData{TypeName} =~ /^close/i) {
             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
         }
