@@ -2,17 +2,27 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.110.2.4 2004-04-02 11:55:27 martin Exp $
+# $Id: CHANGES,v 1.110.2.5 2004-04-11 17:00:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
+1.2.4 (2004-??-??)
+
+ - (2004/04/10) fixed not shown "this message is written in an 
+    other charset as your own" link in agent zoom
+ - (2004/04/08) fixed performance problem in Kernel::Language
+    module (get ~5% more performance of the webinterface)
+ - (2004/04/06) added missing priority options in SearchTicket()
+    of Kernel::System::Ticket.
+
 1.2.3 (2004-04-02)
 
  - (2004/03/29) fixed some html quote bugs
  - (2004/03/28) fixed bug 365 - null attachment kills pop import script
+    http://bugs.otrs.org/show_bug.cgi?id=365
  - (2004/03/25) updated pl language translation, Thanks to Tomasz Melissa!
  - (2004/03/25) fixed quote bug in AgentPhoneView, AgentEmail and 
     AgentCompose.
