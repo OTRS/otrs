@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.102 2004-04-27 12:28:25 martin Exp $
+# $Id: Ticket.pm,v 1.103 2004-04-29 11:08:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.102 $';
+$VERSION = '$Revision: 1.103 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -91,24 +91,14 @@ sub new {
     else {
         $Self->{TimeObject} = $Param{TimeObject};
     }
-    if (!$Param{UserObject}) {
-        $Self->{UserObject} = Kernel::System::User->new(%Param);
-    } 
-    else {
-        $Self->{UserObject} = $Param{UserObject};
-    }
+    $Self->{UserObject} = Kernel::System::User->new(%Param);
     if (!$Param{GroupObject}) {
         $Self->{GroupObject} = Kernel::System::Group->new(%Param);
     }
     else {
         $Self->{GroupObject} = $Param{GroupObject};
     }
-    if (!$Param{CustomerUserObject}) {
-        $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-    }
-    else {
-        $Self->{CustomerUserObject} = $Param{CustomerUserObject};
-    }
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     if (!$Param{CustomerGroupObject}) {
         $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
     }
@@ -3095,6 +3085,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.102 $ $Date: 2004-04-27 12:28:25 $
+$Revision: 1.103 $ $Date: 2004-04-29 11:08:33 $
 
 =cut
