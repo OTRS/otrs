@@ -2,7 +2,7 @@
 # Language.pm - provides multi language support
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.5 2002-05-05 13:31:35 martin Exp $
+# $Id: Language.pm,v 1.6 2002-05-09 23:41:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,11 +19,12 @@ use lib '../';
 # --
 use Kernel::Language::German;
 use Kernel::Language::English;
+use Kernel::Language::French;
 use Kernel::Language::Bavarian;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
