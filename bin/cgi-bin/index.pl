@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.3 2001-12-05 18:44:40 martin Exp $
+# $Id: index.pl,v 1.4 2001-12-10 14:22:55 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -52,39 +52,41 @@ $CommonObject{LogObject}->Log(
     Priority => 'debug', 
     MSG => 'Global OpenTRS handle started...',
 );
-
+# ... common objects ...
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{WebObject} = Kernel::System::WebRequest->new();
+$CommonObject{ParamObject} = Kernel::System::WebRequest->new();
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
 
 ### for later
-my $AuthObject = Kernel::System::Auth->new(%CommonObject);
+$CommonObject{AuthObject} = Kernel::System::Auth->new(%CommonObject);
 
 # --
 # get common parameters
 # --
-my $SessionID = $CommonObject{WebObject}->GetParam(Param => 'SessionID') || 'empty';
-my $Action = $CommonObject{WebObject}->GetParam(Param => 'Action') || 'Test';
-
+my %Param = ();
+$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => 'SessionID') || 'empty';
+$Param{Action} = $CommonObject{ParamObject}->GetParam(Param => 'Action') || 'Test';
 
 
 # --
-# prove of concept
+# prove of concept - create $GenericObject
 # --
-my $GenericObject = ('Kernel::Modules::' . $Action)->new (%CommonObject);
+my $GenericObject = ('Kernel::Modules::' . $Param{Action})->new (%CommonObject, %Param);
+# debug info
 $CommonObject{LogObject}->Log(
     Priority => 'debug', 
-    MSG => 'Kernel::Modules::' . $Action .'->new',
+    MSG => 'Kernel::Modules::' . $Param{Action} .'->new',
 );
+
 # --
-# ->Run $Action object
+# ->Run $Action with $GenericObject
 # --
 print $GenericObject->Run();
 $CommonObject{LogObject}->Log(
     Priority => 'debug', 
-    MSG => ''. 'Kernel::Modules::' . $Action .'->run',
+    MSG => ''. 'Kernel::Modules::' . $Param{Action} .'->run',
 );
 
 
