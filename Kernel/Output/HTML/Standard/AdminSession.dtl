@@ -2,7 +2,7 @@
 # AdminSession.dtl - provides global HTML AdminSession
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.dtl,v 1.4 2003-02-08 15:40:43 martin Exp $
+# $Id: AdminSession.dtl,v 1.4.2.1 2003-05-12 10:51:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@
 <tr valign="top" align="left">
   <td class="table1">
     <p>
-    <a href="$Env{"Baselink"}Action=AdminSession&Subaction=KillAll&WantSessionID=$Env{"SessionID"}">$Text{"kill all sessions"}</a>
+    <a href="$Env{"Baselink"}Action=AdminSession&Subaction=KillAll&WantSessionID=$Env{"SessionID"}">$Text{"kill all sessions"} ($Data{"Counter"})</a>
     </p>
   </td>
 </tr>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.10 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminSession.pm,v 1.10.2.1 2003-05-12 10:51:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.10.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,47 +42,37 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    my $Subaction = $Self->{Subaction}; 
-    my $SessionObject = $Self->{SessionObject};
     my $WantSessionID = $Self->{ParamObject}->GetParam(Param => 'WantSessionID') || '';
 
-    # print session screen
-    if ($Subaction eq '' || !$Subaction) {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Sessions');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminSession();
-
-        my @List = $SessionObject->GetAllSessionIDs();
-        foreach my $SessionID (@List) {
-            my %Data = $SessionObject->GetSessionIDData(SessionID => $SessionID);
-            $Output .= $Self->{LayoutObject}->AdminSessionTable(SessionID => $SessionID, %Data);
-        }
-        $Output .= $Self->{LayoutObject}->Footer();
-    }
     # kill session id
-    elsif ($Subaction eq 'Kill') {
+    if ($Self->{Subaction} eq 'Kill') {
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");    
         # FIXME
-        $SessionObject->RemoveSessionID(SessionID => $WantSessionID);    
+        $Self->{SessionObject}->RemoveSessionID(SessionID => $WantSessionID);    
     }
     # kill all session id
-    elsif ($Subaction eq 'KillAll') {
+    elsif ($Self->{Subaction} eq 'KillAll') {
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");    
         # FIXME
-        my @List = $SessionObject->GetAllSessionIDs();
+        my @List = $Self->{SessionObject}->GetAllSessionIDs();
         foreach my $SessionID (@List) {
             # killall sessions but not the own one!
             if ($WantSessionID ne $SessionID) {
-                $SessionObject->RemoveSessionID(SessionID => $SessionID);    
+                $Self->{SessionObject}->RemoveSessionID(SessionID => $SessionID);    
             }
         }
     }
-    # else ! error!
+    # else, show session list 
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-                Message => 'No Subaction!!',
-                Comment => 'Please contact your admin');
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Sessions');
+        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        my @List = $Self->{SessionObject}->GetAllSessionIDs();
+        my $Counter = @List;
+        $Output .= $Self->{LayoutObject}->AdminSession(Counter => $Counter);
+        foreach my $SessionID (@List) {
+            my %Data = $Self->{SessionObject}->GetSessionIDData(SessionID => $SessionID);
+            $Output .= $Self->{LayoutObject}->AdminSessionTable(SessionID => $SessionID, %Data);
+        }
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
