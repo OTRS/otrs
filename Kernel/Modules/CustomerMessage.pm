@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.3 2002-11-19 18:34:39 martin Exp $
+# $Id: CustomerMessage.pm,v 1.4 2002-12-19 23:56:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -175,7 +175,23 @@ sub Run {
             TicketID => $TicketID,
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             Answered => 0,
-         );
+          );
+          # --
+          # get attachment
+          # -- 
+          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+              Param => 'file_upload', 
+              Source => 'String',
+          );
+          if (%UploadStuff) {
+              $Self->{TicketObject}->WriteArticlePart(
+                  Content => $UploadStuff{UploadFilename},
+                  Filename => $UploadStuff{UploadRealFileName},
+                  ContentType => $UploadStuff{UploadContentType},
+                  ArticleID => $ArticleID, 
+                  UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+              );
+          }
          # --
          # redirect to zoom view
          # --        
@@ -251,6 +267,22 @@ sub Run {
                   No => $Self->{UserCustomerID}, 
                   UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                );
+          }
+          # --
+          # get attachment
+          # -- 
+          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+              Param => 'file_upload', 
+              Source => 'String',
+          );
+          if (%UploadStuff) {
+              $Self->{TicketObject}->WriteArticlePart(
+                  Content => $UploadStuff{UploadFilename},
+                  Filename => $UploadStuff{UploadRealFileName},
+                  ContentType => $UploadStuff{UploadContentType},
+                  ArticleID => $ArticleID, 
+                  UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+              );
           }
           # --
           # redirect
