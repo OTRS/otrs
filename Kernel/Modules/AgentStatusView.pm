@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.14 2003-04-24 19:46:44 martin Exp $
+# $Id: AgentStatusView.pm,v 1.14.2.1 2003-05-29 16:07:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::Modules::AgentStatusView;
 
 use strict;
 use Kernel::System::State;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.14.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,12 +35,12 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
-    # state object
+    # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     # --
     # all static variables
     # --
@@ -222,6 +223,24 @@ sub ShowTicketStatus {
     # get last article
     # --
     my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleIndex[$#ArticleIndex]);
+    # --
+    # user info
+    # --
+    my %UserInfo = $Self->{UserObject}->GetUserData(
+        User => $Article{Owner},
+        Cached => 1
+    ),
+    # --
+    # customer info (customer name)
+    # --
+    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        User => $Article{CustomerUserID},
+    );
+    if ($CustomerData{UserLogin}) {
+        $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+            UserLogin => $CustomerData{UserLogin},
+        );
+    }
     # Condense down the subject
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     my $Subject = $Article{Subject};
@@ -232,6 +251,7 @@ sub ShowTicketStatus {
         $Output .= $Self->{LayoutObject}->AgentStatusViewTable(
             %Article,
             Subject => $Subject,
+            %UserInfo,
         );
     }
     else {
