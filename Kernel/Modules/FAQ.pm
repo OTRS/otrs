@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.4 2004-01-21 22:51:06 martin Exp $
+# $Id: FAQ.pm,v 1.5 2004-02-27 21:04:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -115,7 +115,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->FAQNavigationBar();
         my @FAQIDs = $Self->{FAQObject}->Search(
             %Param,
-            States => ['external (customer)', 'public (all)'],
+            States => ['external (customer)', 'public (all)', 'internal (agent)'],
             LanguageIDs => \@LanguageIDs,
             CategoryIDs => \@CategoryIDs,
             UserID => $Self->{UserID},
