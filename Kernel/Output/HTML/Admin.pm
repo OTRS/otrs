@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.48 2004-02-09 01:40:15 martin Exp $
+# $Id: Admin.pm,v 1.49 2004-02-12 00:53:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,7 +101,6 @@ sub AdminCustomerUserForm {
               Data => $Data,
               Name => "GenericTopic::$PrefKey",
               SelectedID => defined ($Param{$PrefKey}) ? $Param{$PrefKey} : $DataSelected,
-              HTMLQuote => 0,
             );
           }
           elsif ($PrefKey eq 'UserTheme') {
