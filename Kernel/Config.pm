@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.12 2002-01-23 23:28:42 martin Exp $
+# $Id: Config.pm,v 1.13 2002-02-03 17:59:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -66,9 +66,9 @@ sub Load {
 #    $Self->{Database} = 'OpenTRS';
     $Self->{Database} = 'otrs';
     # database user
-    $Self->{DatabaseUser} = 'root';
+    $Self->{DatabaseUser} = 'otrs';
     # password of database user
-    $Self->{DatabasePw} = '';
+    $Self->{DatabasePw} = 'some-pass';
     # database DNS
     $Self->{DatabaseDSN} = 'DBI:mysql:database='.
         $Self->{Database}.';host='.$Self->{DatabaseHost}.';';
