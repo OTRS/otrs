@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.98 2003-04-03 12:38:07 martin Exp $
+# $Id: Agent.pm,v 1.99 2003-04-07 08:34:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.98 $';
+$VERSION = '$Revision: 1.99 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -522,7 +522,7 @@ sub AgentZoom {
     else {
       # resort article order
       if ($Self->{ConfigObject}->Get('TicketZoomExpandSort') eq 'reverse') {
-          @ArticleBox = sort {$b cmp $a} @ArticleBox;
+          @ArticleBox = reverse(@ArticleBox);
       }
       # show no email-notification* article
       foreach my $ArticleTmp (@ArticleBox) {
