@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.52 2004-05-30 16:40:34 martin Exp $
+# $Id: AgentUtilities.pm,v 1.53 2004-05-30 17:03:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -142,8 +142,12 @@ sub Run {
     }
     # show result site
     if ($Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate}) {
-        my $URL = "Action=AgentUtilities&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=$Self->{TakeLastSearch}&StartHit=$Self->{StartHit}";
+        # fill up profile name (e.g. with last-search)
+        if (!$Self->{Profile} || !$Self->{SaveProfile}) {
+            $Self->{Profile} = 'last-search';
+        }
         # store last queue screen
+        my $URL = "Action=AgentUtilities&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=$Self->{TakeLastSearch}&StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key => 'LastScreenQueue',
@@ -154,10 +158,6 @@ sub Run {
             Key => 'LastScreen',
             Value => $URL,
         );
-        # fill up profile name (e.g. with last-search)
-        if (!$Self->{Profile} || !$Self->{SaveProfile}) {
-            $Self->{Profile} = 'last-search';
-        }
         # save search profile (under last-search or real profile name)
         $Self->{SaveProfile} = 1; 
         # remember last search values
