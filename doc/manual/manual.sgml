@@ -16,6 +16,7 @@
 <!ENTITY procmail SYSTEM "procmail.sgml">
 <!ENTITY language-translation SYSTEM "language-translation.sgml">
 <!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
+<!ENTITY dtl SYSTEM "dtl.sgml">
 ]>
 
 <book id="index">
@@ -90,6 +91,8 @@ or implied warranty.
 &config-file;
 
 &language-translation;
+
+&dtl;
 
 &troubleshooting;
 

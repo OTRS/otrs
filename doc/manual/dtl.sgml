@@ -1,0 +1,325 @@
+<chapter id="dtl">
+<title>Customize the frontend</title>
+<para>
+It's possible to customize the frontend independently from OpenTRS releases. How? It's quite simply. The magic key is dtl (Dynamic Template Language). All frontend masks are located under <emphasis role='bold'>~otrs/Kernel/Output/HTML/&lt;THEME&gt;/*.dtl</emphasis>. Default is the "Standard" Theme. 
+</para>
+<para>
+So you have the power to customize each OpenTRS side like you want! Or to create new themes. 
+</para>
+
+<sect1>
+<title>The dtl syntax</title>
+<para>
+<emphasis role='bold'>Comment</emphasis>
+</para>
+<para>
+Comment is a simple '#'.
+<programlisting>
+# --
+# this is a comment
+# --
+</programlisting>
+</para>
+
+<para>
+<emphasis role='bold'>Set a variable</emphasis>
+</para>
+<para>
+<programlisting>
+&lt;dtl set $Data{"Test1"} = "German"&gt;
+</programlisting>
+</para>
+<para>
+Note: $Data{"xyz"} exists only the current dtl file and $Env{"xyz"} exists the whole dtl files.
+$Config{"xyz"} is read only!
+</para>
+
+<para>
+<emphasis role='bold'>Print a variable</emphasis>
+</para>
+<para>
+To print a variable on the screen, use simply:
+<programlisting>
+$Data{"xyz"} or $Env{"xyz"}
+</programlisting>
+</para>
+
+<para>
+<emphasis role='bold'>Text translations</emphasis>
+</para>
+<para>
+<programlisting>
+$Text{"This should be translated"}
+</programlisting>
+</para>
+<para>
+Take care, that the translation exists in the <emphasis role='bold'>"$HOME_OTRS/Kernel/Language/*.pm"</emphasis>
+ files. If there isn't a translation, the given text will be shown.
+</para>
+
+<para>
+<emphasis role='bold'>Condition</emphasis>
+</para>
+<para>
+<programlisting>
+&lt;dtl if ($Text{"Lock"} eq "Lock") { $Data{"FrontendLanguage"} = "English"; }&gt;
+</programlisting>
+</para>
+<para>
+It's only possible to store things into $Data{"xyz"} and $Env{"xyz"}.
+</para>
+
+<para>
+<emphasis role='bold'>Get a config option - $Config{}</emphasis>
+</para>
+<para>
+<programlisting>
+$Config{"Sendmail"}
+</programlisting>
+</para>
+
+<para>
+<emphasis role='bold'>Common environment variables - $Env{}</emphasis>
+</para>
+<para>
+<programlisting>
+    $Env{"SessionID"} --> the current session id
+    $Env{"Time"} --> the current time e. g. 'Thu Dec 27 16:00:55 2001'
+    $Env{"CGIHandle"} --> the current CGI handle e. g. 'index.pl'
+    $Env{"Charset"} --> the current site charset e. g. 'iso-8859-1'
+    $Env{"Baselink"} --> the baselink --> index.pl?SessionID=...
+    $Env{"UserFirstname"} --> e. g. Dirk
+    $Env{"UserLastname"} --> e. g. Hohndel
+    $Env{"UserLogin"} --> e. g. mgg@x11.org
+    $Env{"Action"} --> the current action
+    $Env{"Subaction"} --> the current subaction
+</programlisting>
+</para>
+
+<para>
+<emphasis role='bold'>System calls</emphasis>
+</para>
+<para>
+To get the output of a system command use:
+<programlisting>
+# execute system call
+&lt;dtl system-call $Data{"uptime"} = "uptime"&gt;
+
+# print
+$Data{"uptime"}
+</programlisting>
+or
+<programlisting>
+# execute system call
+&lt;dtl system-call $Data{"procinfo"} = "procinfo | head -n1 "&gt;
+
+# print
+$Data{"procinfo"}
+</programlisting>
+</para>
+
+<para>
+<emphasis role='bold'>Examples</emphasis>
+</para>
+<para>
+<programlisting>
+# set variable
+&lt;dtl set $Data{"Test1"} = "English"&gt;
+
+# print variable
+Echo: $Data{"Test1"} 
+
+# condition
+&lt;dtl if ($Text{"Lock"} ne "Lock") { $Data{"Test2"} = "Not English!"; }&gt;
+
+# print result
+Result: $Data{"Test1"}
+</programlisting>
+or
+<programlisting>
+# translation test
+Lock: $Text{"Lock"}
+
+# config options
+Sendmail: $Config{"Sendmail"}
+</programlisting>
+</para>
+
+</sect1>
+
+
+<sect1>
+<title>Examples of dtl files</title>
+
+<sect2>
+<title>Motd.dtl</title>
+<para>
+If you want to customize this file use the <emphasis role='bold'>~otrs/Kernel/Output/HTML/Standard/Motd.dtl</emphasis> file.
+<programlisting>
+&lt;p&gt;
+This is the message of the day. You can edit this in Kernel/Output/HTML/Standard/Motd.dtl.
+&lt;/p&gt;
+</programlisting>
+</para>
+</sect2>
+
+
+<sect2>
+<title>Login.dtl</title>
+<para>
+This is a example of the login screen. If you want to customize this screen use the
+<emphasis role='bold'>~otrs/Kernel/Output/HTML/&lt;THEME&gt;/Login.dtl</emphasis> file.
+<programlisting>
+# --
+# http headers
+# --
+Content-Type: text/html; charset=$Env{"Charset"};
+X-Powered-By: OpenTRS - Open Ticket Request System (http://otrs.org)
+
+# --
+# html comment
+# --
+
+&lt;!-- OpenTRS: Copyright 2002, OpenTRS Project. This Software is under the GPL. --&gt;
+&lt;!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            --&gt;
+&lt;!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt           --&gt;
+
+# --
+# set some html variables
+# --
+&lt;dtl set $Env{"BGCOLOR"} = "#BBDDFF"&gt;
+&lt;dtl set $Env{"BGTableColor0"} = "#000000"&gt;
+&lt;dtl set $Env{"BGTableColor1"} = "#FFFFFF"&gt;
+&lt;dtl set $Env{"BGTableColor2"} = "#EEEEEE"&gt;
+&lt;dtl set $Env{"FontColor0"} = "#000000"&gt;
+&lt;dtl set $Env{"FontColor1"} = "#FFFFFF"&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;OpenTRS :: $Text{"$Data{"Title"}"}&lt;/title&gt;
+&lt;/head&gt;
+&lt;!-- end header --&gt;
+&lt;body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}"&gt;
+
+&lt;center&gt;
+
+&lt;p&gt;
+&lt;font color="red"&gt;$Data{"Message"}&lt;/font&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded"&gt;
+&lt;input type="hidden" name="Action" value="Login"&gt;
+
+&lt;table border="0" cellspacing="0" cellpadding="3" width="240"&gt;
+&lt;tr bgcolor="$Env{"BGTableColor0"}"&gt;
+  &lt;td align="center"&gt;&lt;font color="$Env{"FontColor1"}"&gt;&lt;b&gt;$Text{"Welcome to OpenTRS"}&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td align="center" bgcolor="$Env{"BGTableColor1"}"&gt;
+    &lt;table cellspacing="8" cellpadding="2"&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Username:&lt;/td&gt;
+      &lt;td&gt;&lt;input type="text" name="User" value="$Data{"User"}" size="18"&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Password:&lt;/td&gt;
+      &lt;td&gt;&lt;input type="password" name="Password" size="18"&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;input type="submit" value="$Text{"Login"}"&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;/p&gt;
+
+# --
+# Message of the day data!
+# --
+$Data{"Motd"}
+
+&lt;/center&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+</programlisting>
+</para>
+</sect2>
+
+
+<sect2>
+<title>Header.dtl</title>
+<para>
+This is the default HTML header of each OpenTRS sides. If you want to customize this screen use the
+<emphasis role='bold'>~otrs/Kernel/Output/HTML/&lt;THEME&gt;/Login.dtl</emphasis>
+<programlisting>
+# --
+# http headers
+# --
+Content-Type: text/html; charset=$Env{"Charset"};
+
+# --
+# html comment
+# --
+
+&lt;!-- OpenTRS: Copyright 2002, OpenTRS Project. This Software is under the GPL. --&gt;
+&lt;!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            --&gt;
+&lt;!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt           --&gt;
+# --
+# set some html variables
+# --
+&lt;dtl set $Env{"BGCOLOR"} = "#BBDDFF"&gt;
+&lt;dtl set $Env{"BGTableColor0"} = "#000000"&gt;
+&lt;dtl set $Env{"BGTableColor1"} = "#FFFFFF"&gt;
+&lt;dtl set $Env{"BGTableColor2"} = "#EEEEEE"&gt;
+&lt;dtl set $Env{"FontColor0"} = "#000000"&gt;
+&lt;dtl set $Env{"FontColor1"} = "#FFFFFF"&gt;
+&lt;dtl set $Env{"Box0"} = "[ "&gt;
+&lt;dtl set $Env{"Box1"} = " ]"&gt;
+# --
+# check refresh
+# --
+&lt;dtl if ($Data{"Refresh"} ne "") { $Data{"MetaHttpEquiv"} = "&lt;meta http-equiv="refresh" content="$Data{"Refresh"}"&gt;"; }&gt;
+# --
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;OpenTRS :: $Text{"$Data{"Title"}"}&lt;/title&gt;
+&lt;/head&gt;
+&lt;!-- end header --&gt;
+</programlisting>
+</para>
+</sect2>
+</sect1>
+
+<sect1>
+<title>Create a new theme</title>
+<para>
+To create a new theme, create a new theme directory (mkdir ~otrs/Kernel/Output/HTML/NewTheme/). 
+Copy an existing theme into the new directors (cp ~otrs/Kernel/Output/HTML/Standart/*.dtl ~otrs/Kernel/Output/HTML/NewTheme/). 
+</para>
+<para>
+Modify the dtl files like you want.
+</para>
+<para>
+Add a new database entry for this theme. You have to do this via SQL. 
+<programlisting>
+shell:~> mysql -u root -p some-pass otrs
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1 to server version: 3.23.48-log
+
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+
+mysql> INSERT INTO theme
+    ->     (theme, valid_id, create_by, change_by, change_time)
+    ->     VALUES
+    ->     ('NewTheme', 1, 1, 1, current_timestamp);
+mysql>
+</programlisting>
+</para>
+<para>
+Ready. Goto the preferences page and change your theme.
+</para>
+</sect1>
+
+</chapter>
