@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.2 2002-05-30 15:00:50 martin Exp $
+# $Id: mkStats.pl,v 1.3 2002-06-04 21:22:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,8 +20,11 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+# use ../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../";
+
 use strict;
-use lib '/opt/OpenTRS/';
 use GD;
 use GD::Graph;
 use GD::Graph::lines;
