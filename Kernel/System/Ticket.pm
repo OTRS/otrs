@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.86 2004-04-17 14:32:53 martin Exp $
+# $Id: Ticket.pm,v 1.87 2004-04-18 11:46:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.86 $';
+$VERSION = '$Revision: 1.87 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2908,6 +2908,12 @@ sub TicketWorkflow {
             $Match3 = 1;
           }
         }
+        # check force option
+        if ($Step{ForceMatch}) {
+            $Match = 1;
+            $Match3 = 1;
+        }
+        # return new params
         if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{Type}}) {
             # debug log
             if ($Self->{Debug} > 3) {
@@ -2956,6 +2962,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2004-04-17 14:32:53 $
+$Revision: 1.87 $ $Date: 2004-04-18 11:46:25 $
 
 =cut
