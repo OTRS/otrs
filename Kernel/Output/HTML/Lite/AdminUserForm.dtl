@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.12 2003-02-08 15:40:41 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.12.2.1 2003-05-08 06:16:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -72,10 +72,6 @@
     <tr>
       <td>$Text{"Valid"}: </td>
       <td> $Data{"ValidOption"}</td>
-    </tr>
-    <tr>
-      <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$Data{"UserComment"}" size="40" maxlength="50"></td>
     </tr>
     $Data{"Preferences"}
     </table>
