@@ -17,6 +17,7 @@ From: HTML email test <html@example.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.0rc3) Gecko/20020523
 X-Accept-Language: en-us, en
 MIME-Version: 1.0
+X-CVS: $Id: test-email-4-html.box,v 1.2 2002-07-15 00:25:19 martin Exp $
 To: skywalker@otrs.org
 Subject: HTML Test
 Content-Type: text/html; charset=ISO-8859-15
