@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.28 2004-08-04 09:24:35 martin Exp $
+-- $Id: initial_insert.sql,v 1.29 2004-09-08 05:53:35 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.28  2004/08/04 09:24:35  martin
+-- moved customer notifications from Kernel/Config.pm to database
+--
 -- Revision 1.27  2004/08/01 10:49:24  martin
 -- fixed bug 450 - Spelling mistake in default FAQ entry
 --
@@ -725,9 +728,9 @@ INSERT INTO ticket
   ('1010001', 2, 1, 0, 1, 1, 3, 1, 1, 1012757943, current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO ticket_history
-  (name, history_type_id, ticket_id, article_id, valid_id, create_time, create_by, change_time, change_by)
+  (name, history_type_id, ticket_id, article_id, priority_id, owner_id, state_id, valid_id, create_time, create_by, change_time, change_by)
   VALUES
-  ('New Ticket [1010001] created.',1,1,1,1, current_timestamp,1,current_timestamp,1);
+  ('New Ticket [1010001] created.',1,1,1,3,1,1,1, current_timestamp,1,current_timestamp,1);
 
 INSERT INTO faq_item
   (f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
