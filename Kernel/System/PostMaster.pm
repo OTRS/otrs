@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.27 2003-03-18 15:35:30 wiktor Exp $
+# $Id: PostMaster.pm,v 1.28 2003-03-19 11:44:06 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -130,8 +130,10 @@ sub Run {
    # check if it's a forward
    # --
    if ($GetParam{'Subject'} !~ /\[$TicketHook:.*\].*\[$TicketHook:.*\-FW\]/i) {
-       undef $Tn;
-       undef $TicketID;
+       if ($GetParam{'Subject'} =~ /\[$TicketHook:.*\-FW\]/i) {
+           undef $Tn;
+           undef $TicketID;
+       };
    };
 
    # Follow up ...
