@@ -722,8 +722,7 @@ CREATE TABLE pop3_account
     create_by integer NOT NULL,
     change_time timestamp(0) NOT NULL,
     change_by integer NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (login)
+    PRIMARY KEY(id)
 );
 
 ----------------------------------------------------------------------------
