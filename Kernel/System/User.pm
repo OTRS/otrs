@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.26 2003-01-14 17:01:07 martin Exp $
+# $Id: User.pm,v 1.27 2003-01-14 20:00:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,10 +46,10 @@ sub new {
     # --
     # load generator customer preferences module
     # --
-    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PrefernecesModule')
+    my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
       || 'Kernel::System::User::Preferences::DB';
     eval "require $GeneratorModule";
-    $Self->{PrefernecesObject} = $GeneratorModule->new(%Param);
+    $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
 
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
 
@@ -455,12 +455,12 @@ sub GenerateRandomPassword {
 # --
 sub SetPreferences {
     my $Self = shift;
-    return $Self->{PrefernecesObject}->SetPreferences(@_);
+    return $Self->{PreferencesObject}->SetPreferences(@_);
 }
 # --
 sub GetPreferences {
     my $Self = shift;
-    return $Self->{PrefernecesObject}->GetPreferences(@_);
+    return $Self->{PreferencesObject}->GetPreferences(@_);
 }
 # --
 

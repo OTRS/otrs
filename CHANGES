@@ -2,13 +2,17 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.48 2003-01-12 09:56:45 martin Exp $
+# $Id: CHANGES,v 1.49 2003-01-14 20:00:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.0 RC2 (2003-01-??)
+ - (2003/01/14) fixed typos "preferneces != preferences typo" 
+    http://lists.otrs.org/pipermail/dev/2003-January/000074.html 
+    Thanks to Wiktor Wodecki!
+ - (2003/01/14) updated french translation! Thanks to Nicolas Goralski!
  - (2003/01/12) added spanisch translation! Thanks to Jorge Becerra!
  - (2003/01/11) fixed AgentPhone bug of Time() in subject - 
     Time(DateFormatLong) was shown
@@ -81,7 +85,7 @@
     consistent on different linux distributions!
  - (2002/11/15) fixed bug [48], custom modules don't work/load - 
     http://bugs.otrs.org/show_bug.cgi?id=48
- - (2002/11/15) added Dutch translation! Thanks to  Fred van Dijk!
+ - (2002/11/15) added Dutch translation! Thanks to Fred van Dijk!
  - (2002/11/14) added Bulgarian translation! Thanks to Vladimir Gerdjikov!
  - (2002/11/11) added new config file as Kernel/Config.pm.dist (will be used
     for >= OTRS 5.0 Beta9) if you want to test it with 0.5, use Kernel/Config.pm.dist 
