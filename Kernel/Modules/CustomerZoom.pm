@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.26 2004-07-29 20:49:28 martin Exp $
+# $Id: CustomerZoom.pm,v 1.26.2.1 2004-09-23 09:07:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.26.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,10 +49,8 @@ sub Run {
     my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
     # check needed stuff
     if (!$Self->{TicketID} || !$QueueID) {
-      $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->CustomerError();
-      $Output .= $Self->{LayoutObject}->CustomerFooter();
-      return $Output;
+        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
+        return $Self->{LayoutObject}->CustomerError(Message => 'Need TicketID!');
     }
     # check permissions
     if (!$Self->{TicketObject}->CustomerPermission(
@@ -64,16 +62,11 @@ sub Run {
     }
     # store last screen
     if ($Self->{Subaction} ne 'ShowHTMLeMail') {
-      if (!$Self->{SessionObject}->UpdateSessionID(
-        SessionID => $Self->{SessionID},
-        Key => 'LastScreen',
-        Value => $Self->{RequestedURL},
-      )) {
-        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->CustomerError();
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
-        return $Output;
-      }
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'LastScreen',
+            Value => $Self->{RequestedURL},
+        );
     }
     # --
     # fetch all std. responses
@@ -173,8 +166,17 @@ sub _Mask {
             $ArticleID = $Article{ArticleID};
         }
     }
-    if (!$ArticleID) {
+    # try to use the latest customer article
+    if (!$ArticleID && $LastCustomerArticleID) {
         $ArticleID = $LastCustomerArticleID;
+    }
+    # try to use the latest non internal agent article
+    if (!$ArticleID) {
+        foreach my $ArticleTmp (@ArticleBox) {
+            if ($ArticleTmp->{ArticleType} !~ /int/) {
+                $ArticleID = $ArticleTmp->{ArticleID};
+            }
+        }
     }
     # build thread string
     my $ThreadStrg = '';
