@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.4 2002-12-17 17:39:00 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.5 2002-12-19 23:49:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerTicketOverView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -53,7 +53,7 @@ sub new {
    # get params 
    # --
    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
-   $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
+   $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0; 
    if ($Self->{StartHit} >= 1000) {
        $Self->{StartHit} = 1000;
@@ -157,11 +157,21 @@ sub Run {
         $SQL .= "st.create_time_unix";
     }
 
-    if ($Self->{Order} eq 'Down') {
-        $SQL .= " DESC";
+    if ($Self->{SortBy} eq 'Age') {
+        if ($Self->{Order} eq 'Down') {
+            $SQL .= " ASC";
+        }
+        else {
+            $SQL .= " DESC";
+        }
     }
     else {
-        $SQL .= " ASC";
+        if ($Self->{Order} eq 'Down') {
+            $SQL .= " DESC";
+        }
+        else {
+            $SQL .= " ASC";
+        }
     }
 
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{StartHit}+$Self->{PageShown});
