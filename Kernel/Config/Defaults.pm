@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.64 2003-04-13 11:41:53 martin Exp $
+# $Id: Defaults.pm,v 1.65 2003-04-14 19:55:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -656,6 +656,9 @@ $Data{"Signature"}
     # (Max post master daemon email to own email-address a day.
     # Loop-Protection!) [default: 40]
     $Self->{PostmasterMaxEmails} = 40;
+    # PostMasterPOP3MaxSize 
+    # (max. email size)
+    $Self->{PostMasterPOP3MaxEmailSize} = 1024 * 6;
     # [Kernel::System::PostMaster::LoopProtection(FS|DB)] default is DB
     $Self->{LoopProtectionModule} = 'Kernel::System::PostMaster::LoopProtection::DB';
     # loop protection Log (just needed for FS module)
