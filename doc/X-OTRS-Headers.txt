@@ -2,7 +2,7 @@
 # X-OTRS-Headers.txt - useabile mail X-headers 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: X-OTRS-Headers.txt,v 1.5 2003-04-12 08:55:40 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.6 2003-12-14 22:19:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -41,11 +41,11 @@ X-OTRS-ArticleValue(1|2|3): [additional info value]
 ---------------------------------------------------
 Save additional info "value" to the incoming article (email).
 
-X-OTRS-TicketKey(1|2): [additional info key]
+X-OTRS-TicketKey(1|2|...|8): [additional info key]
 --------------------------------------------
 Save additional info "key" to the incoming ticket.
 
-X-OTRS-TicketValue(1|2): [additional info value]
+X-OTRS-TicketValue(1|2|...|8): [additional info value]
 ------------------------------------------------
 Save additional info "value" to the incoming ticket.
 
