@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.36 2004-02-02 23:20:15 martin Exp $
+# $Id: DB.pm,v 1.37 2004-02-13 00:52:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,7 +73,7 @@ sub new {
     bless ($Self, $Type);
 
     # 0=off; 1=updates; 2=+selects; 3=+Connects;
-    $Self->{Debug} = 0;
+    $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
     foreach (qw(ConfigObject LogObject)) {
@@ -122,6 +122,7 @@ sub new {
         $Self->{'DB::DirectBlob'} = 1;
         $Self->{'DB::QuoteSignle'} = '\\';
         $Self->{'DB::QuoteBack'} = '\\';
+        $Self->{'DB::QuoteSemicolon'} = '\\';
         $Self->{'DB::Attribute'} = {};
     }
     elsif ($Self->{'DB::Type'} eq 'postgresql') {
@@ -129,6 +130,7 @@ sub new {
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\\';
         $Self->{'DB::QuoteBack'} = '\\';
+        $Self->{'DB::QuoteSemicolon'} = '\\';
         $Self->{'DB::Attribute'} = {};
     }
     elsif ($Self->{'DB::Type'} eq 'oracle') {
@@ -136,6 +138,7 @@ sub new {
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\'';
         $Self->{'DB::QuoteBack'} = 0;
+        $Self->{'DB::QuoteSemicolon'} = '\'';
         $Self->{'DB::Attribute'} = {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
@@ -146,6 +149,7 @@ sub new {
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\\';
         $Self->{'DB::QuoteBack'} = '\\';
+        $Self->{'DB::QuoteSemicolon'} = '\\';
         $Self->{'DB::Attribute'} = {};
     }
     elsif ($Self->{'DB::Type'} eq 'sapdb') {
@@ -153,6 +157,7 @@ sub new {
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\'';
         $Self->{'DB::QuoteBack'} = 0;
+        $Self->{'DB::QuoteSemicolon'} = '\'';
         $Self->{'DB::Attribute'} = {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
@@ -164,6 +169,7 @@ sub new {
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\'';
         $Self->{'DB::QuoteBack'} = 0;
+        $Self->{'DB::QuoteSemicolon'} = '\'';
         $Self->{'DB::Attribute'} = {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
@@ -174,6 +180,7 @@ sub new {
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\\';
         $Self->{'DB::QuoteBack'} = '\\';
+        $Self->{'DB::QuoteSemicolon'} = '\\';
         $Self->{'DB::Attribute'} = {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
@@ -280,6 +287,9 @@ sub Quote {
     }
     if ($Self->{'DB::QuoteSignle'}) {
         $Text =~ s/'/$Self->{'DB::QuoteSignle'}'/g;
+    }
+    if ($Self->{'DB::QuoteSemicolon'}) {
+        $Text =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
     }
     return $Text;
 }
@@ -549,7 +559,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2004-02-02 23:20:15 $
+$Revision: 1.37 $ $Date: 2004-02-13 00:52:47 $
 
 =cut
 
