@@ -2,21 +2,21 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm.dist,v 1.12 2004-06-22 07:57:50 martin Exp $
+# $Id: Config.pm.dist,v 1.13 2004-08-10 06:56:39 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-#  Note: 
+#  Note:
 #
-#  -->> OTRS does have a lot of config settings. For more settings 
-#       (Notifications, TicketViewAccelerator, TicketNumberGenerator, 
-#       LDAP, PostMaster, Session, Preferences, ...) see 
-#       Kernel/Config/Defaults.pm and copy your wanted lines into "this" 
-#       config file. This file will not be changed on update! 
+#  -->> OTRS does have a lot of config settings. For more settings
+#       (Notifications, TicketViewAccelerator, TicketNumberGenerator,
+#       LDAP, PostMaster, Session, Preferences, ...) see
+#       Kernel/Config/Defaults.pm and copy your wanted lines into "this"
+#       config file. This file will not be changed on update!
 #
-# -- 
+# --
 package Kernel::Config;
 # --
 sub Load {
@@ -38,15 +38,15 @@ sub Load {
     # SystemID
     # (The identify of the system. Each ticket number and
     # each http session id starts with this number)
-    $Self->{SystemID} = 10; 
-    # TicketHook 
-    # (To set the Ticket identifier. Some people want to 
+    $Self->{SystemID} = 10;
+    # TicketHook
+    # (To set the Ticket identifier. Some people want to
     # set this to e. g. 'Call#', 'MyTicket#' or 'TN'.)
     $Self->{TicketHook} = 'Ticket#';
     # FQDN
     # (Full qualified domain name of your system.)
     $Self->{FQDN} = 'yourhost.example.com';
-    # AdminEmail 
+    # AdminEmail
     # (Email of the system admin.)
     $Self->{AdminEmail} = 'admin@example.com';
     # Organization
@@ -67,14 +67,14 @@ sub Load {
     # (The database user.)
     $Self->{DatabaseUser} = 'otrs';
     # DatabasePw
-    # (The password of database user. You also can use bin/CryptPassword.pl 
+    # (The password of database user. You also can use bin/CryptPassword.pl
     # for crypted passwords.)
     $Self->{DatabasePw} = 'some-pass';
     # DatabaseDSN
     # (The database DSN for MySQL ==> more: "man DBD::mysql")
     $Self->{DatabaseDSN} = "DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};";
 
-    # (The database DSN for PostgrSQL ==> more: "man DBD::Pg") 
+    # (The database DSN for PostgrSQL ==> more: "man DBD::Pg")
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};";
 
     # ---------------------------------------------------- #
@@ -83,8 +83,8 @@ sub Load {
     $Self->{Home} = '/opt/otrs';
 
     # **************************************************** #
-    # insert your own config settings "here"               # 
-    # config settings taken from Kernel/Config/Defaults.pm # 
+    # insert your own config settings "here"               #
+    # config settings taken from Kernel/Config/Defaults.pm #
     # **************************************************** #
     # $Self->{SessionUseCookie} = 0;
     # $Self->{CheckMXRecord} = 0;
@@ -112,7 +112,7 @@ use strict;
 use vars qw(@ISA $VERSION);
 use Kernel::Config::Defaults;
 push (@ISA, 'Kernel::Config::Defaults');
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # -----------------------------------------------------#
 
