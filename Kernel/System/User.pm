@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.39 2004-02-13 00:50:36 martin Exp $
+# $Id: User.pm,v 1.40 2004-04-07 17:25:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -256,9 +256,11 @@ sub SetPassword {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
         return;
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    # get old user data
+    my %User = $Self->GetUserData(User => $Param{UserLogin});
+    if (!$User{UserLogin}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No such User!");
+        return;
     }
     # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if 
     # crypt() is working correctly) :-/
@@ -280,6 +282,18 @@ sub SetPassword {
         }
         close (IO);
         chomp $CryptedPw;
+    }
+    # check pw
+    if ($CryptedPw eq $User{UserPw}) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice', 
+            Message => "Not possible to use the same password again!",
+        );
+        return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     my $NewPw = $Self->{DBObject}->Quote($CryptedPw);
     # update db
