@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.105 2004-03-05 11:37:22 martin Exp $
+# $Id: Generic.pm,v 1.106 2004-04-01 09:17:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.105 $';
+$VERSION = '$Revision: 1.106 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -310,7 +310,7 @@ sub Output {
     # --
     foreach (1..3) {
         $Output =~ s{
-            \$(Data|Env|Config|Include){"(.+?)"}
+            \$(QData|Data|Env|Config|Include){"(.+?)"}
         }
         {
             if ($1 eq "Data" || $1 eq "Env") {
@@ -320,6 +320,18 @@ sub Output {
                 else {
                     # output replace with nothing!
                     "";
+                }
+            }
+            elsif ($1 eq "QData") {
+                my $Text = $2;
+                if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+                    "";
+                }
+                elsif ($Text =~ /^(.+?)","(.+?)$/) {
+                    $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
+                }
+                else {
+                    $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
                 }
             }
             # replace with
