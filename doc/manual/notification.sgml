@@ -1,0 +1,78 @@
+<chapter id="notification">
+<title>System-Email-Notifications</title>
+<para>
+This chapter will show you more details about the system notifications for agents
+and customers.
+</para>
+
+<sect1 id="notification-agent">
+<title>Agent-Notifications</title>
+<para>
+A agent can get notifications about 'new ticket, 'ticket follow up', 
+'ticket in custom queue' and 'ticket lock timeout'.
+In oder to get notifications select you wanted queues (named 'custom queues')
+in agent interface =- Preferences =- Select your custom queues. 
+The notification text can be defined in Kernel/Config.pm.
+</para>
+<para>
+Important: The agent gets just notifications about changes the 'custom queues'.
+</para>
+<sect2>
+<title>new ticket</title>
+<para>
+Notification to the agent about new created tickets in a queue.
+</para>
+</sect2>
+<sect2>
+<title>ticket follow up</title>
+<para>
+Notification to the agent about a follow up for a ticket which is owned by the 
+agent.
+</para>
+</sect2>
+<sect2>
+<title>new ticket in custom queue</title>
+<para>
+Notification to the agent if a ticket is moved to one of the 'custom queues'.
+</para>
+</sect2>
+<sect2>
+<title>ticket lock timeout</title>
+<para>
+Notification to the agent if the OTRS system unlocked a unanswered ticket.
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="notification-customer">
+<title>Customer-Notifications (min 1.1)</title>
+<para>
+There are three types of (auto) customer notifications to give more transparency 
+to the customer.
+This notifications (if used or not) can be defined for each queue. 
+The notification text can be defined in Kernel/Config.pm.
+</para>
+<sect2>
+<title>ticket state</title>
+<para>
+The customer (sender) gets automatically a notification if the ticket state
+has changed.
+</para>
+</sect2>
+<sect2>
+<title>ticket owner</title>
+<para>
+The customer (sender) gets automatically a notification if the ticket owner
+has changed.
+</para>
+</sect2>
+<sect2>
+<title>ticket queue</title>
+<para>
+The customer (sender) gets automatically a notification if the ticket queue
+has changed.
+</para>
+</sect2>
+</sect1>
+
+</chapter>
