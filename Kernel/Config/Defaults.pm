@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.172 2004-11-11 10:47:37 martin Exp $
+# $Id: Defaults.pm,v 1.173 2004-11-28 11:24:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.172 $';
+$VERSION = '$Revision: 1.173 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,6 +44,19 @@ sub LoadDefaults {
     # (To set the Ticket identifier. Some people want to
     # set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.)
     $Self->{TicketHook} = 'Ticket#';
+
+    # TicketHookDivider
+    # (the divider between TicketHook# and number)
+#    $Self->{TicketHookDivider} = ': ';
+    $Self->{TicketHookDivider} = '';
+
+    # TicketSubjectMaxSize
+    # (Max size of the subjects in a reply)
+    $Self->{TicketSubjectSize} = 60;
+
+    # TicketSubjectRe
+    # (The text at the beginning of the subject in a reply)
+    $Self->{TicketSubjectRe} = 'Re';
 
     # FQDN
     # (Full qualified domain name of your system.)
@@ -199,9 +212,14 @@ sub LoadDefaults {
     # (Possible to change owner of ticket ot everyone) [0|1]
     $Self->{ChangeOwnerToEveryone} = 0;
 
-    # MaxFileUpload
+    # WebMaxFileUpload
     # (Max size for browser file uploads - default 5 MB)
-    $Self->{MaxFileUpload} = 1024 * 1024 * 5;
+    $Self->{WebMaxFileUpload} = 1024 * 1024 * 5;
+
+    # WebUploadCacheModule
+    # (select you WebUploadCacheModule module, default DB [DB|FS])
+    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::DB';
+#    $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::FS';
 
     # CheckEmailAddresses
     # (Check syntax of used email addresses)
@@ -1262,6 +1280,12 @@ $Data{"Signature"}
         Module => 'Kernel::System::PostMaster::Filter::MatchDBSource',
     };
 
+    # Job Name: 6-AgentInterface
+    # (a email agent interface)
+    $Self->{'PostMaster::PreFilterModule'}->{'999-AgentInterface'} = {
+        Module => 'Kernel::System::PostMaster::Filter::AgentInterface',
+#        AgentInterfaceAddress => 'otrs-agent@example.org',
+    };
     # --------------------------------------------------- #
     # Auto Response                                       #
     # --------------------------------------------------- #
@@ -1409,7 +1433,6 @@ $Data{"Signature"}
         PrefKey => 'UserSendMoveNotification',
         Activ => 1,
     };
-
 
     $Self->{PreferencesGroups}->{Password} = {
         Colum => 'Other Options',
@@ -2928,6 +2951,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.172 $ $Date: 2004-11-11 10:47:37 $
+$Revision: 1.173 $ $Date: 2004-11-28 11:24:39 $
 
 =cut
