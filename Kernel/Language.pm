@@ -2,7 +2,7 @@
 # Language.pm - provides multi language support
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.1 2001-12-05 18:42:32 martin Exp $
+# $Id: Language.pm,v 1.2 2001-12-21 17:49:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,8 +18,8 @@ use Kernel::Language::English;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.1 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
+$VERSION = '$Revision: 1.2 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub new {
@@ -33,7 +33,7 @@ sub new {
     $Self->{LogObject} = $Param{LogObject} || die "Got no LogObject!";
 
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
-    $Self->{DEBUG} = 3;
+    $Self->{DEBUG} = 0;
 
     # integrated languages
     my @Languages = ('German', 'English');

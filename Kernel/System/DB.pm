@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.2 2001-12-05 18:41:51 martin Exp $
+# $Id: DB.pm,v 1.3 2001-12-21 17:51:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,8 @@ use strict;
 use DBI;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
+$VERSION = '$Revision: 1.3 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub new {
@@ -27,7 +27,7 @@ sub new {
     bless ($Self, $Type);
 
     # 0=off; 1=updates; 2=+selects; 3=+Connects;
-    $Self->{DEBUG} = 2;
+    $Self->{Debug} = 0;
     
     # get config data
     my $ConfigObject = $Param{ConfigObject};
@@ -50,7 +50,7 @@ sub Connect {
     my $Self = shift;
 
     # debug
-    if ($Self->{DEBUG} > 2) {
+    if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
           Priority => 'debug', 
           MSG => "DB.pm->Connect: DB: $Self->{DB}, User: $Self->{USER}, Pw: $Self->{PW}",
@@ -67,7 +67,7 @@ sub Disconnect {
     my $Self = shift;
 
     # debug
-    if ($Self->{DEBUG} > 2) {
+    if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
           Priority => 'debug',
           MSG => "DB.pm->Disconnect",
@@ -93,7 +93,7 @@ sub Do {
     my $SQL = $Param{SQL};
 
     # debug
-    if ($Self->{DEBUG} > 0) {
+    if ($Self->{Debug} > 0) {
         $Self->{DoCounter}++;
         $Self->{LogObject}->Log(
           Priority => 'debug',
@@ -127,7 +127,7 @@ sub Prepare {
     }
 
     # debug
-    if ($Self->{DEBUG} > 1) {
+    if ($Self->{Debug} > 1) {
         $Self->{PrepareCounter}++;
         $Self->{LogObject}->Log(
           Priority => 'debug',
@@ -153,6 +153,54 @@ sub FetchrowHashref {
     return $Data;
 }
 # --
+sub GetTableData {
+    my $Self = shift;
+    my %Param = @_;
+    my $Table = $Param{Table};
+    my $What = $Param{What};
+    my $Whare = $Param{Where} || '';
+    my $Valid = $Param{Valid} || '';
+    my $Clamp = $Param{Clamp} || '';
+    my %Data;
+    my $SQL = "SELECT $What FROM $Table ";
+    $SQL .= " WHERE " . $Whare if ($Whare);
+    $SQL .= " WHERE valid_id in ( ${\(join ', ', $Self->GetValidIDs())} )" if ((!$Whare) && ($Valid));
+    $Self->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->FetchrowArray()) {
+        if ($RowTmp[2]) {
+            if ($Clamp) {
+                $Data{$RowTmp[0]} = $RowTmp[1] ." (". $RowTmp[2] . ")";
+            }
+            else {
+                $Data{$RowTmp[0]} = $RowTmp[1] ." ". $RowTmp[2];
+            }
+        }
+        else {
+            $Data{$RowTmp[0]} = $RowTmp[1];
+        }
+    }
+    return %Data;
+}
+# --
+sub GetValidIDs {
+    my $Self = shift;
+    my %Param = @_;
+    my @ValidIDs;
+    if ($Self->{ValidIDs}) {
+        my $ValidIDsTmp = $Self->{ValidIDs};
+        @ValidIDs = @$ValidIDsTmp;
+    }
+    else {
+        $Self->Prepare(SQL => "SELECT id FROM valid WHERE name = 'valid'");
+        while (my @RowTmp = $Self->FetchrowArray()) {
+            push(@ValidIDs, $RowTmp[0]);
+        }
+        $Self->{ValidIDs} = \@ValidIDs;
+    }
+    return @ValidIDs;
+}
+# --
+
 sub DESTROY {
     my $Self = shift;
     $Self->Disconnect();

@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.1 2001-12-02 18:24:13 martin Exp $
+# $Id: AuthSession.pm,v 1.2 2001-12-21 17:51:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,8 +14,8 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
+$VERSION = '$Revision: 1.2 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
 sub new {
@@ -34,8 +34,8 @@ sub new {
     $Self->{SessionSpool} = $ConfigObject->Get('SessionDir');
     $Self->{SystemID} = $ConfigObject->Get('SystemID');
  
-    # debug
-    $Self->{debug} = 1;    
+    # Debug
+    $Self->{Debug} = 0;    
 
     return $Self;
 }
@@ -72,8 +72,8 @@ sub GetSessionIDData {
     foreach (@StrgData) {
          my @PaarData = split(/=/, $_);
          $Data{$PaarData[0]} = $PaarData[1];
-         # debug
-         if ($Self->{debug}) {
+         # Debug
+         if ($Self->{Debug}) {
              print STDERR "$PaarData[0]=$PaarData[1]\n";
          } 
     }

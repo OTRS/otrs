@@ -2,7 +2,7 @@
 # Auth.pm - provides the authentification and user data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.1 2001-12-02 18:23:57 martin Exp $
+# $Id: Auth.pm,v 1.2 2001-12-21 17:51:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -37,11 +37,11 @@ sub new {
 sub Auth {
     my $Self = shift;
     my %Param = @_;
-    my $User = $Param{USER};
-    my $Pw = $Param{PW};
+    my $User = $Param{User} || return;
+    my $Pw = $Param{Pw} || return;
     my $UserID = '';
     my $GetPw = '';
-    my $SQL = "SELECT pw, id FROM sys_user WHERE login = '$User'";
+    my $SQL = "SELECT pw, id FROM user WHERE login = '$User'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) { 
         $GetPw = $RowTmp[0];
@@ -81,7 +81,7 @@ sub Auth {
 sub GetUserData {
     my $Self = shift;
     my %Param = @_;
-    my $User = $Param{USER};
+    my $User = $Param{User};
     my %Data;
 
     my $SQL = "SELECT su.id, su.salutation, su.first_name, su.last_name, sl.language, ".

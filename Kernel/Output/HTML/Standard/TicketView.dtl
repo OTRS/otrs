@@ -1,0 +1,88 @@
+# --
+# TicketView.dtl - provides HTML TicketView for AgentQueueView.pm
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: TicketView.dtl,v 1.1 2001-12-21 17:49:49 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start ticket -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor0"}">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+  <td align="right" bgcolor="$Env{"BGTableColor0"}">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+</tr>
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor2"}">
+  <a href="$Env{"Baselink"}&Action=Lock&TicketID=$Data{"TicketID"}">$Text{"Lock"}</a> -
+  <a href="$Env{"Baselink"}&Action=Zoom&TicketID=$Data{"TicketID"}">$Text{"Zoom"}</a> -
+  <a href="$Env{"Baselink"}&Action=History&TicketID=$Data{"TicketID"}">$Text{"History"}</a> -
+  <a href="$Env{"Baselink"}&Action=Note&TicketID=$Data{"TicketID"}">$Text{"Add Note"}</a> -
+  <a href="$Env{"Baselink"}&Action=Close&TicketID=$Data{"TicketID"}">$Text{"Close"}</a>
+  </td>
+  <td align="right" bgcolor="$Env{"BGTableColor2"}">
+  <b>$Text{"Created"}:</b> $Data{"Created"}
+  </td>
+</tr>
+</table>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td valign="top" width="75%">
+  <table border="0" width="100%" cellspacing="0" cellpadding="1">
+    <tr>
+      <td width="15%"><b>$Text{"From"}:</b></td>
+      <td width="85%"> $Data{"From"}</td>
+    <tr>
+    <tr>
+      <td><b>$Text{"To"}:</b></td>
+      <td> $Data{"To"}</td>
+    <tr>
+    <tr>
+      <td><b>$Text{"Subject"}:</b></td>
+      <td> $Data{"Subject"}</td>
+    <tr>
+  </table>
+  <pre>
+ $Data{"Text"}
+  </pre>
+  </td> 
+  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center">
+    <br>
+    <b>$Text{"State"}:</b> <font color="red">$Data{"State"}</font><br>
+    <b>$Text{"Priority"}:</b> <font color="red">$Data{"Priority"}</font><br>
+    <b>$Text{"Queue"}:</b> <font color="red">$Data{"Queue"}</font><br>
+    <b>$Text{"CustomerID"}:</b> <font color="red">$Data{"CustomerID"}</font><br>
+  
+   <p>
+     <b>$Text{"Compose Answer"}</b>
+     <br>
+     $Data{"StdResponsesStrg"}
+   </p>
+
+   <p>
+     <b>$Text{"Article"}</b>
+     <br>
+     <a href="$Env{"Baselink"}&Action=AgentForward">$Text{"Forward"}</a> - 
+     <a href="$Env{"Baselink"}&Action=AgentBounce">$Text{"Bounce"}</a>
+   </p>
+
+   <p>
+     <b>$Text{"Change queue"}</b>
+     <br>
+     ...
+   </p>
+
+
+  </td>
+</tr>
+</table>
+<!-- end ticket -->

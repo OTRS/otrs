@@ -1,8 +1,8 @@
 # --
-# Config.pl - Config file for OpenTRS kernel
+# Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.4 2001-12-16 01:37:12 martin Exp $
+# $Id: Config.pm,v 1.5 2001-12-21 17:49:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -64,7 +64,8 @@ sub Load {
     # database host
     $Self->{DatabaseHost} = 'localhost';
     # database name
-    $Self->{Database} = 'OpenTRS';
+#    $Self->{Database} = 'OpenTRS';
+    $Self->{Database} = 'otrs';
     # database user
     $Self->{DatabaseUser} = 'root';
     # password of database user
@@ -95,6 +96,10 @@ sub Load {
     $Self->{Home} = '/opt/OpenTRS';
     # directory for all sessen id informations
     $Self->{SessionDir} = $Self->{Home} . '/var/sessions';
+    # counter log
+    $Self->{CounterLog} = $Self->{Home} . '/var/log/TicketCounter.log';
+    # article fs dir
+    $Self->{ArticleDir} = $Self->{Home} . '/var/article';
 
     # --
     # web stuff

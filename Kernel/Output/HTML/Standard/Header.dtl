@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.1 2001-12-16 01:35:42 martin Exp $
+# $Id: Header.dtl,v 1.2 2001-12-21 17:49:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,7 @@ Content-Type: text/html; charset=$Env{"Charset"};
 <dtl set $Env{"BGCOLOR"} = "#BBDDFF">
 <dtl set $Env{"BGTableColor0"} = "#000000">
 <dtl set $Env{"BGTableColor1"} = "#FFFFFF">
+<dtl set $Env{"BGTableColor2"} = "#EEEEEE">
 <dtl set $Env{"FontColor0"} = "#000000">
 <dtl set $Env{"FontColor1"} = "#FFFFFF">
 <dtl set $Env{"Box0"} = "[">
@@ -34,11 +35,11 @@ Content-Type: text/html; charset=$Env{"Charset"};
 </STYLE>
 </head>
 <a name="top"></a>
-<body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}">
+<body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
 <table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left"><font color="$Env{"FontColor1"}"><b>OpenTRS</b></font></td>
-  <td align="right"><font color="$Env{"FontColor1"}">$Env{"Time"}</font> </td>
+  <td align="right"><font color="$Env{"FontColor1"}">$Env{"UserFirstname"} $Env{"UserLastname"} $Env{"UserLoginTop"} $Env{"Time"}</font> </td>
 </tr>
 </table>
 <!-- end header -->
