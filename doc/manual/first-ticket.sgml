@@ -4,7 +4,7 @@
 <sect1 id="what_e-mail_address">
 <title>How can somebody write e-mails to the OpenTRS?</title>
 <para>
-The default installation will accept e-mails to the e-mail address <email>otrs@localhost</email>. This is good to start a little playing. Use your favourite e-mail client and send an e-mail to this address (of course you have to be on this system). Or you can have a look in the admin section of OpenTRS to add different e-mail addresses like <email>info@foo.org</email>. But please take care that these e-mails will be delivered to the <emphasis role='bold'>local otrs account</emphasis> (to the <ulink url="http://www.procmail.org/">~otrs/.procmailrc</ulink>)! In case you are not familiar with the configuration of your sendmail or postfix have a look in the man-pages or send an e-mail to the <link linkend="mailinglists">mailinglist</link> <email>otrs@otrs.org</email>.
+The default installation will accept e-mails to the local user otrs (e-mail address <email>otrs@localhost</email>). This is good to start a little playing. Use your favourite e-mail client and send an e-mail to this address (of course you have to be on this system). Or you can have a look in the admin section of OpenTRS to add different e-mail addresses like <email>info@foo.org</email>. But please take care that these e-mails will be delivered to the <emphasis role='bold'>local otrs account</emphasis> (to the <ulink url="http://www.procmail.org/">~otrs/.procmailrc</ulink>)! In case you are not familiar with the configuration of your sendmail or postfix have a look in the man-pages or send an e-mail to the <link linkend="mailinglists">mailinglist</link> <email>otrs@otrs.org</email>.
 </para>
 
 <para>
@@ -14,7 +14,10 @@ Ok, ok, ... we show you two simple examples.
 <sect2>
 <title>Config of fetchmail</title>
 <para>
-In order to get email via a pop3 mailbox and SMTP to the <emphasis role='bold'>local otrs account</emphasis> use <ulink url="http://www.tuxedo.org/~esr/fetchmail/">fetchmail</ulink>. 
+In order to get e-mails from your mail server via a pop3 mailbox to the 
+<emphasis role='bold'>OpenTRS machine/local otrs account</emphasis> use 
+<ulink url="http://www.tuxedo.org/~esr/fetchmail/">fetchmail</ulink>. 
+Note: a working SMTP configuration on the OpenTRS machine is condition. 
 </para>
 
 <para>
@@ -30,13 +33,17 @@ poll mail.example.com protocol POP3 user joe password mama is otrs
 Don't forget to set the .fetchmailrc to 710 ("chmod 710 .fetchmailrc")!
 </para>
 <para>
-So if "fetchamil -a" is executed (maybe via cron), all emails will be frowarded to the local otrs account.
+So if "fetchmail -a" is executed (maybe via cron), all e-mails will be forwarded to the local otrs account.
 </para>
 </sect2>
 
 
 <sect2>
 <title>Config of sendmail in SuSE Linux</title>
+<para>
+If the machine (where OpenTRS is running) is you mail server, you can work directly with the 
+virtusertable or aliases. 
+</para>
 <para>
 Lets presume you have a plain SuSE Linux installation with sendmail as a default Mail Transfer Agent and you want to set up a OpenTRS e-mail account for the e-mail address <email>info@example.com</email>. All you have to do is to add a line to your /etc/mail/virtusertable file. 
 </para>
@@ -60,6 +67,7 @@ Lets presume you have a plain SuSE Linux installation with sendmail as a default
 #@baz.org                jane@example.net
 #
 
+# deliver this e-mails to the local user otrs!
 info@example.com         otrs
 support@example.com      otrs
 </programlisting>
