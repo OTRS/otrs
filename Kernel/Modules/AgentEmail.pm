@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.34.2.1 2004-09-11 07:53:33 martin Exp $
+# $Id: AgentEmail.pm,v 1.34.2.2 2004-10-08 10:31:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34.2.1 $';
+$VERSION = '$Revision: 1.34.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -570,12 +570,6 @@ sub Run {
                 );
             }
         }
-        # check if new owner is given (then send no agent notify)
-        my $NoAgentNotify = 0;
-        if ($NewUserID) {
-            $NoAgentNotify = 1;
-        }
-
           # get pre loaded attachment
           @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesData(
               FormID => $Self->{FormID},
@@ -594,8 +588,14 @@ sub Run {
         my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $TicketID);
         $GetParam{Subject} = "[$TicketHook: $Tn] $GetParam{Subject}";
         $GetParam{Body} .= "\n\n".$Signature;
+        # check if new owner is given (then send no agent notify)
+        my $NoAgentNotify = 0;
+        if ($NewUserID) {
+            $NoAgentNotify = 1;
+        }
         # send email
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
+            NoAgentNotify => $NoAgentNotify,
             Attach => \@Attachments,
             ArticleType => 'email-external',
             SenderType => 'agent',
@@ -628,6 +628,12 @@ sub Run {
               $Self->{TicketObject}->OwnerSet(
                   TicketID => $TicketID,
                   NewUserID => $NewUserID,
+                  UserID => $Self->{UserID},
+              );
+              # set lock
+              $Self->{TicketObject}->LockSet(
+                  TicketID => $TicketID,
+                  Lock => 'lock',
                   UserID => $Self->{UserID},
               );
           }
