@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.67 2002-12-08 20:55:53 martin Exp $
+# $Id: Agent.pm,v 1.68 2002-12-18 16:48:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -566,13 +566,6 @@ sub AgentPhone {
     my $Self = shift;
     my %Param = @_;
 
-    # build ArticleTypeID string
-    $Param{'NoteStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{NoteTypes},
-        Name => 'NoteID',
-#        Selected => $Self->{ConfigObject}->Get('DefaultPhoneNoteType'),
-    );
-
     # answered strg
     $Param{'AnsweredYesNoOption'} = $Self->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('YesNoOptions'),
@@ -587,6 +580,14 @@ sub AgentPhone {
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
     );
 
+    # --
+    # prepare errors!
+    # --
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = "* ".$Self->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
+    }
     # get output back
     return $Self->Output(TemplateFile => 'AgentPhone', Data => \%Param);
 }
@@ -599,7 +600,7 @@ sub AgentPhoneNew {
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
-        Selected => $Self->{ConfigObject}->Get('PhoneDefaultNewNextState'),
+        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('PhoneDefaultNewNextState'),
     );
     my %NewTo = ();
     if ($Param{To}) {
@@ -610,21 +611,42 @@ sub AgentPhoneNew {
     $Param{'ToStrg'} = $Self->OptionStrgHashRef(
         Data => \%NewTo, 
         Name => 'Dest',
+        SelectedID => $Param{ToSelected},
     );
+    # --
     # build priority string
-    $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
+    # --
+    if ($Param{PriorityID}) { 
+      $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{Priorities},
+        Name => 'PriorityID',
+        SelectedID => $Param{PriorityID},
+      );
+    } else {
+      $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{Priorities},
         Name => 'PriorityID',
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultPriority') || '3 normal',
-    );
+      );
+    }
+    # --
     # build customer string
+    # --
     if ($Self->{ConfigObject}->Get('ShowCustomerSelection')) {
         $Param{CustomerList}->{''} = '-';
         $Param{'CustomerStrg'} = $Self->OptionStrgHashRef(
             Data => $Param{CustomerList},
             Name => 'CustomerIDSelection',
-            SelectedID => $Param{CustomerID},
+            SelectedID => $Param{CustomerIDSelection},
         );
+    }
+    # --
+    # prepare errors!
+    # --
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = "* ".$Self->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
     }
     # get output back
     return $Self->Output(TemplateFile => 'AgentPhoneNew', Data => \%Param);

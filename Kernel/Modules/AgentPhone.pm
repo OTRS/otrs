@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.15 2002-10-30 00:39:07 martin Exp $
+# $Id: AgentPhone.pm,v 1.16 2002-12-18 16:48:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,12 @@ package Kernel::Modules::AgentPhone;
 
 use strict;
 use Kernel::System::SystemAddress;
+use Kernel::System::CustomerUser;
+use Kernel::System::EmailParser;
+use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -38,6 +41,9 @@ sub new {
     }
 
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
 
     return $Self;
 }
@@ -50,7 +56,6 @@ sub Run {
     my $QueueID = $Self->{QueueID};
     my $Subaction = $Self->{Subaction};
     my $NextScreen = $Self->{NextScreen} || 'AgentZoom';
-    my $BackScreen = $Self->{BackScreen};
     my $UserID = $Self->{UserID};
     my $UserLogin = $Self->{UserLogin};
     
@@ -59,28 +64,6 @@ sub Run {
         # header
         # --
         $Output .= $Self->{LayoutObject}->Header(Title => 'Phone call');
-
-        # get possible notes
-        my %NoteTypes = $Self->{DBObject}->GetTableData(
-            Table => 'article_type',
-            Valid => 1,
-            What => 'id, name'
-        );
-        foreach (keys %NoteTypes) {
-            if ($NoteTypes{$_} !~ /^note/i) {
-                delete $NoteTypes{$_};
-            }
-        }
-        # get next states
-        my %NextStates;
-        my $NextComposeTypePossibleTmp =
-           $Self->{ConfigObject}->Get('PhoneDefaultNextStatePossible')
-             || die 'No Config entry "PhoneDefaultNextStatePossible"!';
-        my @NextComposeTypePossible = @$NextComposeTypePossibleTmp;
-        foreach (@NextComposeTypePossible) {
-            $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
-        }
-
         # --
         # if there is no ticket id!
         # --
@@ -88,68 +71,21 @@ sub Run {
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --
-            # check own selection
+            # get customer list
             # --
-            my %NewTos = ();
-            if ($Self->{ConfigObject}->{PhoneViewOwnSelection}) {
-                %NewTos = %{$Self->{ConfigObject}->{PhoneViewOwnSelection}};
-            }
-            else {
-                # --
-                # SelectionType Queue or SystemAddress?    
-                # --
-                my %Tos = ();
-                if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
-                    %Tos = $Self->{QueueObject}->GetAllQueues();
-                }
-                else {
-                    %Tos = $Self->{DBObject}->GetTableData(
-                        Table => 'system_address',
-                        What => 'queue_id, id',
-                        Valid => 1,
-                        Clamp => 1,
-                    );
-                }
-                # --
-                # ASP? Just options where the user is in!
-                # --
-                if ($Self->{ConfigObject}->Get('PhoneViewASP')) {
-                    my %UserGroups = $Self->{UserObject}->GetGroups(UserID => $UserID);
-                    foreach (keys %Tos) {
-                        if ($UserGroups{$Self->{QueueObject}->GetQueueGroupID(QueueID => $_)}) {
-                            $NewTos{$_} = $Tos{$_};
-                        }
-                    }
-                }
-                else {
-                    %NewTos = %Tos;
-                }
-                # --
-                # build selection string
-                # --
-                foreach (keys %NewTos) {
-                    my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
-                    my $Srting = $Self->{ConfigObject}->Get('PhoneViewSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
-                    $Srting =~ s/<Queue>/$QueueData{Name}/g;
-                    $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
-                    if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') ne 'Queue') {
-                        my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $NewTos{$_});
-                        $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
-                        $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
-                    }
-                    $NewTos{$_} = $Srting;
-                }
-            }
+            my %CustomerList = $Self->{CustomerUserObject}->CustomerList(Valid => 1);
             # --
             # html output
             # --
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
               QueueID => $QueueID,
-              BackScreen => $BackScreen,
               NextScreen => $NextScreen,
-              NoteTypes => \%NoteTypes,
-              NextStates => \%NextStates,
-              To => \%NewTos,
+              NextStates => $Self->_GetNextStates(),
+              Priorities => $Self->_GetPriorities(),
+              CustomerList => \%CustomerList,
+              Body => '$Text{"$Config{"PhoneDefaultNewNoteText"}"}',
+              Subject => '$Config{"PhoneDefaultNewSubject"}',
+              To => $Self->_GetTos(),
            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -197,11 +133,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AgentPhone(
             TicketID => $TicketID,
             QueueID => $QueueID,
-            BackScreen => $BackScreen,
             NextScreen => $NextScreen,
             TicketNumber => $Tn,
-            NoteTypes => \%NoteTypes,
-            NextStates => \%NextStates,
+            NextStates => $Self->_GetNextStates(),
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -280,20 +214,79 @@ sub Run {
       }
     }
     elsif ($Subaction eq 'StoreNew') {
-        my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
+        my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
+        my $Text = $Self->{ParamObject}->GetParam(Param => 'Note') || '';
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
+        my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID') || '';
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest); 
-        my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '??';
+        my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+        my $CustomerIDSelection = $Self->{ParamObject}->GetParam(Param => 'CustomerIDSelection') || '';
+        if ($CustomerIDSelection) {
+            $CustomerID = $CustomerIDSelection;
+        }
+        # --
+        # check some values
+        # --
+        my %Error = ();
+        my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $From);
+        foreach my $Address (@Addresses) {
+            if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Address)) {
+                $Error{"From invalid"} .= $Self->{CheckItemObject}->CheckError();
+            }
+        }
+        if (!$From) {
+            $Error{"From invalid"} = 'invalid';
+        }
+        if (!$Subject) {
+            $Error{"Subject invalid"} = 'invalid';
+        }
+        if (%Error) {
+            # --
+            # header
+            # --
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Phone call');
+            my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+            $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+            # --
+            # get customer list
+            # --
+            my %CustomerList = $Self->{CustomerUserObject}->CustomerList(Valid => 1);
+            # --
+            # html output
+            # --
+            $Output .= $Self->{LayoutObject}->AgentPhoneNew(
+              QueueID => $QueueID,
+              NextScreen => $NextScreen,
+              NextStates => $Self->_GetNextStates(),
+              NextState => $NextState,
+              Priorities => $Self->_GetPriorities(),
+              PriorityID => $PriorityID,
+              CustomerList => \%CustomerList,
+              CustomerIDSelection => $CustomerIDSelection,
+              CustomerID => $CustomerID,
+              TimeUnits => $TimeUnits,
+              From => $From,
+              Body => $Text,
+              To => $Self->_GetTos(),
+              ToSelected => $Dest,
+              Subject => $Subject,
+              Errors => \%Error,
+           );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        # --
         # create new ticket
+        # --
         my $NewTn = $Self->{TicketObject}->CreateTicketNr();
-
+        # --
         # do db insert
+        # --
         my $TicketID = $Self->{TicketObject}->CreateTicketDB(
             TN => $NewTn,
             QueueID => $NewQueueID,
@@ -301,7 +294,7 @@ sub Run {
             # FIXME !!!
             GroupID => 1,
             StateID => $NextStateID,
-            Priority => 'normal',
+            PriorityID => $PriorityID,
             UserID => $Self->{UserID},
             CreateUserID => $Self->{UserID},
         );
@@ -382,6 +375,92 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+}
+# --
+sub _GetNextStates {
+    my $Self = shift;
+    my %Param = @_;
+    # get next states
+    my %NextStates;
+    my $NextComposeTypePossibleTmp = $Self->{ConfigObject}->Get('PhoneDefaultNextStatePossible')
+        || die 'No Config entry "PhoneDefaultNextStatePossible"!';
+    my @NextComposeTypePossible = @$NextComposeTypePossibleTmp;
+    foreach (@NextComposeTypePossible) {
+        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
+    }
+    return \%NextStates;
+}
+# --
+sub _GetPriorities {
+    my $Self = shift;
+    my %Param = @_;
+    # -- 
+    # get priority
+    # --
+    my %Priorities = $Self->{DBObject}->GetTableData(
+        What => 'id, id, name',
+        Table => 'ticket_priority',
+    );
+    return \%Priorities;
+}
+# --
+sub _GetTos {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check own selection
+    # --
+    my %NewTos = ();
+    if ($Self->{ConfigObject}->{PhoneViewOwnSelection}) {
+        %NewTos = %{$Self->{ConfigObject}->{PhoneViewOwnSelection}};
+    }
+    else {
+        # --
+        # SelectionType Queue or SystemAddress?    
+        # --
+        my %Tos = ();
+        if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
+            %Tos = $Self->{QueueObject}->GetAllQueues();
+        }
+        else {
+            %Tos = $Self->{DBObject}->GetTableData(
+                        Table => 'system_address',
+                        What => 'queue_id, id',
+                        Valid => 1,
+                        Clamp => 1,
+            );
+        }
+        # --
+        # ASP? Just options where the user is in!
+        # --
+        if ($Self->{ConfigObject}->Get('PhoneViewASP')) {
+            my %UserGroups = $Self->{UserObject}->GetGroups(UserID => $Self->{UserID});
+            foreach (keys %Tos) {
+                if ($UserGroups{$Self->{QueueObject}->GetQueueGroupID(QueueID => $_)}) {
+                    $NewTos{$_} = $Tos{$_};
+                }
+            }
+        }
+        else {
+            %NewTos = %Tos;
+        }
+        # --
+        # build selection string
+        # --
+        foreach (keys %NewTos) {
+            my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
+            my $Srting = $Self->{ConfigObject}->Get('PhoneViewSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
+            $Srting =~ s/<Queue>/$QueueData{Name}/g;
+            $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
+            if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') ne 'Queue') {
+                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $NewTos{$_});
+                $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
+                $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
+            }
+            $NewTos{$_} = $Srting;
+        }
+    }
+    return \%NewTos;
 }
 # --
 

@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.6 2002-10-25 13:30:22 martin Exp $
+# $Id: AgentPhone.dtl,v 1.7 2002-12-18 16:48:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0">
   <tr>
-    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Text{"$Config{"PhoneDefaultSubject"}"}" size="60"></td>
+    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Config{"PhoneDefaultSubject"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>

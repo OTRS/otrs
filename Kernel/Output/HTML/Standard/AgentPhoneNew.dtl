@@ -2,40 +2,13 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.6 2002-10-25 13:30:22 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.7 2002-12-18 16:48:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-
-<!-- This java script is just for nice to have funktions! -->
-<script language="JavaScript" type="text/javascript">
-<!--
-function submit_compose()
-{
-    if (document.compose.From.value == "") {
-        alert('$Text{"A message should have a From: recipient!"}');
-        document.compose.From.focus();
-        return false;
-    }
-    else if (document.compose.From.value.indexOf('@') == -1) {
-        alert('$Text{"You need a email address (e. g. customer@example.com) in From:!"}');
-        document.compose.From.focus();
-        return false;
-    }
-    else if (document.compose.Subject.value == "") {
-        alert('$Text{"A message should have a subject!"}');
-        document.compose.Subject.focus();
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-//-->
-</script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr bgcolor="$Env{"BGTableColor2"}">
@@ -59,29 +32,32 @@ function submit_compose()
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0">
   <tr>
-    <td>$Text{"From"}:</td><td><input type="text" name="From" value="" size="60"></td>
+    <td>$Text{"From"}:</td><td><input type="text" name="From" value="$Data{"From"}" size="60"> <font color="red">$Text{"$Data{"From invalid"}"}</font></td>
   </tr>
   <tr>
     <td>$Text{"To"}:</td><td>$Data{"ToStrg"}</td>
   </tr>
   <tr>
-    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Text{"$Config{"PhoneDefaultNewSubject"}"}" size="60"></td>
+    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Data{"Subject"}" size="60"> <font color="red">$Text{"$Data{"Subject invalid"}"}</font></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
 <textarea name="Note" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
-$Text{"$Config{"PhoneDefaultNewNoteText"}"}
+$Data{"Body"}
 </textarea>
     </td>
   </tr>
   <tr>
-    <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+    <td>$Text{"CustomerID"}:</td><td>$Data{"CustomerStrg"} <input type="text" name="CustomerID" value="$Data{"CustomerID"}" size="16"></td>
   </tr>
   <tr>
-    <td>$Text{"CustomerID"}:</td><td><input type="text" name="CustomerID" value="" size="16"></td>
+    <td>$Text{"Next ticket state"}:</td><td> $Data{"NextStatesStrg"}</td>
   </tr>
   <tr>
-    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
+    <td>$Text{"Priority"}:</td><td> $Data{"PriorityStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
   </tr>
   </table>
 <br>
