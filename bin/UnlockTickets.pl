@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.4 2002-08-05 00:09:05 martin Exp $
+# $Id: UnlockTickets.pl,v 1.5 2002-08-13 15:20:35 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -45,6 +45,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OpenTRS-UnlockTickets',
+    %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(
     %CommonObject,

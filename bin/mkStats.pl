@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.4 2002-06-08 17:40:32 martin Exp $
+# $Id: mkStats.pl,v 1.5 2002-08-13 15:20:35 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ umask 022;
 my $ConfigObject = Kernel::Config->new();
 my $LogObject = Kernel::System::Log->new(
     LogPrefix => 'OpenTRS-mkStats',
+    ConfigObject => $ConfigObject,
 );
 my $DBObject = Kernel::System::DB->new(
     ConfigObject => $ConfigObject,
