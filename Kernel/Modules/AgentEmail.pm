@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.18 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentEmail.pm,v 1.19 2004-04-16 08:53:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -494,6 +494,7 @@ sub _GetUsers {
             GroupID => $GID,
             Type => 'rw',
             Result => 'HASH',
+            Cached => 1,
         );
         foreach (keys %MemberList) {
             $ShownUsers{$_} = $AllGroupsMembers{$_};
@@ -546,6 +547,7 @@ sub _GetTos {
             UserID => $Self->{UserID}, 
             Type => 'create', 
             Result => 'HASH',
+            Cached => 1,
         );
         foreach (keys %Tos) {
             if ($UserGroups{$Self->{QueueObject}->GetQueueGroupID(QueueID => $_)}) {

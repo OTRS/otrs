@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.31 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentMove.pm,v 1.32 2004-04-16 08:53:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -216,9 +216,9 @@ sub Run {
     }
     else {
         # error?!
-        $Output = $Self->{LayoutObject}->Header(Title => "Error");
-	$Output .= $Self->{LayoutObject}->Error(
-            Message => "Can't move TicketID '$Self->{TicketID}'!",
+        $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
+	$Output .= $Self->{LayoutObject}->Warning(
+            Message => "",
             Comment => 'Please contact your admin',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -389,12 +389,14 @@ sub _GetUsers {
             UserID => $Self->{UserID},
             Type => 'rw',
             Result => 'HASH',
+            Cached => 1,
         );
         foreach (keys %Groups) {
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $_,
                     Type => 'rw',
                     Result => 'HASH',
+                    Cached => 1,
             );
             foreach (keys %MemberList) {
                     $ShownUsers{$_} = $AllGroupsMembers{$_} if ($AllGroupsMembers{$_});

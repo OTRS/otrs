@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.44 2004-04-15 08:39:03 martin Exp $
+# $Id: AgentUtilities.pm,v 1.45 2004-04-16 08:53:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -442,12 +442,14 @@ sub MaskForm {
             UserID => $Self->{UserID},
             Type => 'rw',
             Result => 'HASH',
+            Cached => 1,
         );
         foreach (keys %Groups) {
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $_,
                 Type => 'rw',
                 Result => 'HASH',
+                Cached => 1,
             );
             foreach (keys %MemberList) {
                 $ShownUsers{$_} = $AllGroupsMembers{$_};
