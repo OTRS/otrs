@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.128 2004-07-29 20:39:02 martin Exp $
+# $Id: Ticket.pm,v 1.129 2004-08-10 06:41:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.128 $';
+$VERSION = '$Revision: 1.129 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -51,8 +51,8 @@ All ticket functions.
 
 =item new()
 
-create a object 
- 
+create a object
+
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::System::DB;
@@ -62,7 +62,7 @@ create a object
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
-  my $DBObject = Kernel::System::DB->new( 
+  my $DBObject = Kernel::System::DB->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
   );
@@ -74,13 +74,12 @@ create a object
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # 0=off; 1=on;
@@ -126,11 +125,11 @@ sub new {
     }
     # get config static var
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
-        Type => 'Viewable', 
+        Type => 'Viewable',
         Result => 'Name',
     );
     $Self->{ViewableStates} = \@ViewableStates;
-    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType( 
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
         Type => 'Viewable',
         Result => 'ID',
     );
@@ -146,16 +145,16 @@ sub new {
     $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
 
     # --
-    # load ticket number generator 
+    # load ticket number generator
     # --
-    my $GeneratorModule = $Self->{ConfigObject}->Get('TicketNumberGenerator') 
+    my $GeneratorModule = $Self->{ConfigObject}->Get('TicketNumberGenerator')
       || 'Kernel::System::Ticket::Number::AutoIncrement';
     if (!eval "require $GeneratorModule") {
         die "Can't load ticket number generator backend module $GeneratorModule! $@";
     }
     push(@ISA, $GeneratorModule);
     # --
-    # load ticket index generator 
+    # load ticket index generator
     # --
     my $GeneratorIndexModule = $Self->{ConfigObject}->Get('TicketIndexModule')
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
@@ -163,7 +162,7 @@ sub new {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
     # --
-    # load article storage module 
+    # load article storage module
     # --
     my $StorageModule = $Self->{ConfigObject}->Get('TicketStorageModule')
       || 'Kernel::System::Ticket::ArticleStorageDB';
@@ -171,15 +170,15 @@ sub new {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
     # --
-    # load custom functions 
+    # load custom functions
     # --
     my $CustomModule = $Self->{ConfigObject}->Get('TicketCustomModule');
-    if ($CustomModule) { 
+    if ($CustomModule) {
         if (!eval "require $CustomModule") {
             die "Can't load ticket custom module $CustomModule! $@";
         }
     }
-    
+
     $Self->Init();
 
     return $Self;
@@ -191,7 +190,6 @@ sub Init {
     $Self->ArticleStorageInit();
     return 1;
 }
-# --
 
 =item TicketCreateNumber()
 
@@ -244,7 +242,6 @@ sub TicketCheckNumber {
     }
     return $Id;
 }
-# --
 
 =item TicketCreate()
 
@@ -258,9 +255,9 @@ creates a new ticket
         Priority => '3 normal'
         State => 'new',
         CustomerNo => '123465',
-        CustomerUser => 'customer@example.com', 
+        CustomerUser => 'customer@example.com',
         UserID => 123, # new owner
-        CreateUserID => 123, 
+        CreateUserID => 123,
   );
 
 =cut
@@ -282,11 +279,11 @@ sub TicketCreate {
     # StateID/State lookup!
     if (!$Param{StateID}) {
         my %State = $Self->{StateObject}->StateGet(Name => $Param{State});
-        $Param{StateID} = $State{ID}; 
+        $Param{StateID} = $State{ID};
     }
     elsif (!$Param{State}) {
-        my %State = $Self->{StateObject}->StateGet(ID => $Param{StateID}); 
-        $Param{State} = $State{Name}; 
+        my %State = $Self->{StateObject}->StateGet(ID => $Param{StateID});
+        $Param{State} = $State{Name};
     }
     if (!$Param{StateID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No StateID for '$Param{State}'!!!");
@@ -331,7 +328,7 @@ sub TicketCreate {
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # get ticket id
         my $TicketID = $Self->TicketIDLookup(
-            TicketNumber => $Param{TN}, 
+            TicketNumber => $Param{TN},
             UserID => $Param{UserID},
         );
         # history insert
@@ -360,13 +357,12 @@ sub TicketCreate {
     else {
         $Self->{LogObject}->Log(Priority => 'error', Message => "create db record failed!!!");
         return;
-    } 
+    }
 }
-# --
 
 =item TicketDelete()
 
-deletes a ticket from storage 
+deletes a ticket from storage
 
   $TicketObject->TicketDelete(
       TicketID => 123,
@@ -402,11 +398,10 @@ sub TicketDelete {
         return;
     }
 }
-# --
 
 =item TicketIDLookup()
 
-ticket id lookup by ticket number 
+ticket id lookup by ticket number
 
   my $TicketID = $TicketObject->TicketIDLookup(
       TicketNumber => '2004040510440485',
@@ -438,7 +433,6 @@ sub TicketIDLookup {
     }
     return $Id;
 }
-# --
 
 =item TicketNumberLookup()
 
@@ -469,11 +463,10 @@ sub TicketNumberLookup {
     }
 
 }
-# --
 
-=item TicketGet() 
+=item TicketGet()
 
-get ticket info (TicketNumber, State, StateID, Priority, PriorityID, 
+get ticket info (TicketNumber, State, StateID, Priority, PriorityID,
 Lock, LockID, Queue, QueueID, CustomerID, CustomerUserID, UserID, ...)
 
   my %Ticket = $TicketObject->TicketGet(
@@ -492,7 +485,7 @@ sub TicketGet {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
         return;
     }
-    # check if result is cached 
+    # check if result is cached
     if ($Self->{'Cache::GetTicket'.$Param{TicketID}}) {
         return %{$Self->{'Cache::GetTicket'.$Param{TicketID}}};
     }
@@ -558,7 +551,7 @@ sub TicketGet {
     # check ticket
     if (!$Ticket{TicketID}) {
         $Self->{LogObject}->Log(
-            Priority => 'error', 
+            Priority => 'error',
             Message => "No such TicketID ($Param{TicketID})!",
         );
         return;
@@ -580,9 +573,8 @@ sub TicketGet {
     # return ticket data
     return %Ticket;
 }
-# --
 
-=item TicketQueueID() 
+=item TicketQueueID()
 
 get ticket queue id
 
@@ -599,7 +591,7 @@ sub TicketQueueID {
     if (!$Param{TicketID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
         return;
-    } 
+    }
     my %Ticket = $Self->TicketGet(%Param, UserID => 1);
     if (%Ticket) {
         return $Ticket{QueueID};
@@ -608,7 +600,6 @@ sub TicketQueueID {
         return;
     }
 }
-# --
 
 =item MoveList()
 
@@ -618,12 +609,12 @@ to get the move queue list for a ticket (depends on workflow, if configured)
       Type => 'create',
       UserID => 123,
   );
-    
+
   my %Queues = $TicketObject->MoveList(
       QueueID => 123,
       UserID => 123,
   );
-    
+
   my %Queues = $TicketObject->MoveList(
       TicketID => 123,
       UserID => 123,
@@ -653,15 +644,14 @@ sub MoveList {
         ReturnType => 'Ticket',
         ReturnSubType => 'Queue',
         Data => \%Queues,
-    )) { 
+    )) {
         return $Self->TicketAclData();
     }
     # /workflow
     return %Queues;
 }
-# --
 
-=item MoveTicket() 
+=item MoveTicket()
 
 to move a ticket (send notification to agentsw of selected my queues)
 
@@ -696,7 +686,7 @@ sub MoveTicket {
     my %MoveList = $Self->MoveList(%Param);
     if (!$MoveList{$Param{QueueID}}) {
         $Self->{LogObject}->Log(
-            Priority => 'notice', 
+            Priority => 'notice',
             Message => "Permission denied on TicketID: $Param{TicketID}!",
         );
         return;
@@ -812,7 +802,6 @@ sub MoveQueueList {
     }
     return @Queue;
 }
-# --
 
 =item SetCustomerData()
 
@@ -870,7 +859,7 @@ sub SetCustomerData {
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'CustomerUpdate',
-            Name => "\%\%".$Param{History}, 
+            Name => "\%\%".$Param{History},
             CreateUserID => $Param{UserID},
         );
         # clear ticket cache
@@ -881,7 +870,6 @@ sub SetCustomerData {
         return;
     }
 }
-# --
 
 =item TicketFreeTextGet()
 
@@ -929,7 +917,6 @@ sub TicketFreeTextGet {
     # /workflow
     return $Self->{ConfigObject}->Get($Param{Type});
 }
-# --
 
 =item TicketFreeTextSet()
 
@@ -959,7 +946,7 @@ sub TicketFreeTextSet {
     }
     # check if update is needed
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
-    if ($Value eq $Ticket{"TicketFreeText$Param{Counter}"} && 
+    if ($Value eq $Ticket{"TicketFreeText$Param{Counter}"} &&
         $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}) {
         return 1;
     }
@@ -977,7 +964,7 @@ sub TicketFreeTextSet {
             TicketID => $Param{TicketID},
             QueueID => $Ticket{QueueID},
             HistoryType => 'TicketFreeTextUpdate',
-            Name => "\%\%FreeKey$Param{Counter}\%\%$Key\%\%FreeText$Param{Counter}\%\%$Value", 
+            Name => "\%\%FreeKey$Param{Counter}\%\%$Key\%\%FreeText$Param{Counter}\%\%$Value",
             CreateUserID => $Param{UserID},
         );
         # clear ticket cache
@@ -988,7 +975,6 @@ sub TicketFreeTextSet {
         return;
     }
 }
-# --
 
 =item TicketSetAnswered()
 
@@ -1038,8 +1024,8 @@ sub Permission {
       }
     }
     my $AccessOk = 0;
-    # run all TicketPermission modules 
-    if (ref($Self->{ConfigObject}->Get('Ticket::Permission')) eq 'HASH') { 
+    # run all TicketPermission modules
+    if (ref($Self->{ConfigObject}->Get('Ticket::Permission')) eq 'HASH') {
         my %Modules = %{$Self->{ConfigObject}->Get('Ticket::Permission')};
         foreach my $Module (sort keys %Modules) {
             # log try of load module
@@ -1090,7 +1076,7 @@ sub Permission {
                     # return because true is required
                     if ($Modules{$Module}->{Required}) {
                         $Self->{LogObject}->Log(
-                            Priority => 'notice', 
+                            Priority => 'notice',
                             Message => "Permission denied because module ".
                              "($Modules{$Module}->{Module}) is required ".
                              "(UserID: $Param{UserID} '$Param{Type}' on ".
@@ -1115,7 +1101,7 @@ sub Permission {
     # don't grant access to the ticket
     else {
         $Self->{LogObject}->Log(
-            Priority => 'notice', 
+            Priority => 'notice',
             Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on TicketID: $Param{TicketID})!",
         );
         return;
@@ -1132,9 +1118,9 @@ sub CustomerPermission {
         return;
       }
     }
-    # run all CustomerTicketPermission modules 
+    # run all CustomerTicketPermission modules
     my $AccessOk = 0;
-    if (ref($Self->{ConfigObject}->Get('CustomerTicket::Permission')) eq 'HASH') { 
+    if (ref($Self->{ConfigObject}->Get('CustomerTicket::Permission')) eq 'HASH') {
         my %Modules = %{$Self->{ConfigObject}->Get('CustomerTicket::Permission')};
         foreach my $Module (sort keys %Modules) {
             # log try of load module
@@ -1185,7 +1171,7 @@ sub CustomerPermission {
                     # return because true is required
                     if ($Modules{$Module}->{Required}) {
                         $Self->{LogObject}->Log(
-                            Priority => 'notice', 
+                            Priority => 'notice',
                             Message => "Permission denied because module ".
                              "($Modules{$Module}->{Module}) is required ".
                              "(UserID: $Param{UserID} '$Param{Type}' on ".
@@ -1210,13 +1196,12 @@ sub CustomerPermission {
     # don't grant access to the ticket
     else {
         $Self->{LogObject}->Log(
-            Priority => 'notice', 
+            Priority => 'notice',
             Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on TicketID: $Param{TicketID})!",
         );
         return;
     }
 }
-# --
 
 =item GetLockedTicketIDs()
 
@@ -1281,13 +1266,15 @@ sub GetLockedTicketIDs {
     }
     return @ViewableTickets;
 }
-# --
 
 =item GetSubscribedUserIDsByQueueID()
 
-...
+returns a array of user ids which selected the given queue id as
+custom queue.
 
-    ... 
+    my @UserIDs = $TicketObject->GetSubscribedUserIDsByQueueID(
+        QueueID => 1234,
+    );
 
 =cut
 
@@ -1313,7 +1300,7 @@ sub GetSubscribedUserIDsByQueueID {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         push (@UserIDs, $RowTmp[0]);
     }
-    # check if user is valid and check permissions 
+    # check if user is valid and check permissions
     my @CleanUserIDs = ();
     foreach (@UserIDs) {
         my %User = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
@@ -1323,9 +1310,6 @@ sub GetSubscribedUserIDsByQueueID {
     }
     return @CleanUserIDs;
 }
-# --
-
-# --
 
 =item TicketPendingTimeSet()
 
@@ -2381,13 +2365,12 @@ sub OwnerSet {
       return;
     }
 }
-# --
 
 =item OwnerList()
 
-returns the owner in the past as array with hash ref of the owner data 
+returns the owner in the past as array with hash ref of the owner data
 (name, email, ...)
-    
+
   my @Owner = $TicketObject->OwnerList(
       TicketID => 123,
   );
@@ -2484,7 +2467,7 @@ sub PriorityLookup {
     if ($Param{Type}) {
         if (!exists $Self->{"Ticket::Priority::PriorityLookup::$Param{Type}"}) {
             $Self->{LogObject}->Log(
-                Priority => 'error', 
+                Priority => 'error',
                 Message => "No TypeID for $Param{Type} found!",
             );
             return;
@@ -2496,7 +2479,7 @@ sub PriorityLookup {
     else {
         if (!exists $Self->{"Ticket::Priority::PriorityIDLookup::$Param{ID}"}) {
             $Self->{LogObject}->Log(
-                Priority => 'error', 
+                Priority => 'error',
                 Message => "No ID for $Param{ID} found!",
             );
             return;
@@ -2506,12 +2489,11 @@ sub PriorityLookup {
         }
     }
 }
-# --
 
 =item PrioritySet()
 
 to set the ticket priority
-    
+
   $TicketObject->PrioritySet(
       TicketID => 123,
       Priority => 'low',
@@ -2584,7 +2566,6 @@ sub PrioritySet {
         return;
     }
 }
-# --
 
 =item PriorityList()
 
@@ -2615,7 +2596,7 @@ sub PriorityList {
 #        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
 #        return;
 #    }
-    # sql 
+    # sql
     my %Data = $Self->{PriorityObject}->PriorityList(%Param);
 #delete $Data{2};
     # workflow
@@ -2678,7 +2659,20 @@ sub HistoryTicketStatusGet {
     }
     return %Ticket;
 }
-# --
+
+=item HistoryTicketGet()
+
+returns a hash of the ticket history info at this time.
+
+  my %HistoryData = $TicketObject->HistoryTicketGet(
+      StopYear => 2003,
+      StopMonth => 12,
+      StopDay => 24,
+      TicketID => 123,
+  );
+
+=cut
+
 sub HistoryTicketGet {
     my $Self = shift;
     my %Param = @_;
@@ -2848,7 +2842,15 @@ sub HistoryTicketGet {
         return %Ticket;
     }
 }
-# --
+
+=item HistoryTypeLookup()
+
+returns the id of the requested history type.
+
+  my $ID = $TicketObject->HistoryTypeLookup(Type => 'Move');
+
+=cut
+
 sub HistoryTypeLookup {
     my $Self = shift;
     my %Param = @_;
@@ -2881,14 +2883,13 @@ sub HistoryTypeLookup {
         return $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"};
     }
 }
-# --
 
 =item HistoryAdd()
 
 add a history entry to an ticket
 
   $TicketObject->HistoryAdd(
-      Name => 'Some Comment', 
+      Name => 'Some Comment',
       HistoryType => 'Move', # see system tables
       TicketID => 123,
       ArticleID => 1234, # not required!
@@ -2933,13 +2934,30 @@ sub HistoryAdd {
     if (!$Param{QueueID}) {
         $Param{QueueID} = $Self->TicketQueueID(TicketID => $Param{TicketID});
     }
+    # get owner
+    if (!$Param{OwnerID}) {
+        my %Ticket = $Self->TicketGet(%Param);
+        $Param{OwnerID} = $Ticket{OwnerID};
+    }
+    # get priority
+    if (!$Param{PriorityID}) {
+        my %Ticket = $Self->TicketGet(%Param);
+        $Param{PriorityID} = $Ticket{PriorityID};
+    }
+    # get state
+    if (!$Param{StateID}) {
+        my %Ticket = $Self->TicketGet(%Param);
+        $Param{StateID} = $Ticket{StateID};
+    }
     # db insert
     my $SQL = "INSERT INTO ticket_history " .
-    " (name, history_type_id, ticket_id, article_id, system_queue_id, valid_id, " .
+    " (name, history_type_id, ticket_id, article_id, system_queue_id, owner_id, ".
+    " priority_id, state_id, valid_id, " .
     " create_time, create_by, change_time, change_by) " .
         "VALUES " .
     "('$Param{Name}', $Param{HistoryTypeID}, $Param{TicketID}, ".
-    " $Param{ArticleID}, $Param{QueueID}, $Param{ValidID}, " .
+    " $Param{ArticleID}, $Param{QueueID}, $Param{OwnerID}, $Param{PriorityID}, ".
+    " $Param{StateID}, $Param{ValidID}, " .
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
@@ -2948,11 +2966,10 @@ sub HistoryAdd {
         return;
     }
 }
-# --
 
 =item HistoryGet()
 
-get ticket history as array with hashes 
+get ticket history as array with hashes
 (TicketID, ArticleID, Name, CreateBy, CreateTime and HistoryType)
 
   my @HistoryLines = $TicketObject->HistoryGet(
@@ -3007,7 +3024,6 @@ sub HistoryGet {
     }
     return @Lines;
 }
-# --
 
 =item HistoryDelete()
 
@@ -3042,7 +3058,15 @@ sub HistoryDelete {
         return;
     }
 }
-#--
+
+=item TicketAccountedTimeGet()
+
+returns the accounted time of a ticket.
+
+  my $AccountedTime = $TicketObject->TicketAccountedTimeGet(TicketID => 1234);
+
+=cut
+
 sub TicketAccountedTimeGet {
     my $Self = shift;
     my %Param = @_;
@@ -3069,7 +3093,20 @@ sub TicketAccountedTimeGet {
     }
     return $AccountedTime;
 }
-# --
+
+=item TicketAccountTime()
+
+account time to a ticket.
+
+  $TicketObject->TicketAccountTime(
+      TicketID => 1234,
+      ArticleID => 23542,
+      TimeUnit => 4,
+      UserID => 1,
+  );
+
+=cut
+
 sub TicketAccountTime {
     my $Self = shift;
     my %Param = @_;
@@ -3344,11 +3381,11 @@ sub TicketAclActionData {
     }
 }
 # --
-1; 
+1;
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -3356,6 +3393,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.128 $ $Date: 2004-07-29 20:39:02 $
+$Revision: 1.129 $ $Date: 2004-08-10 06:41:31 $
 
 =cut
