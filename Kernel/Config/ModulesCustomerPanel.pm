@@ -2,7 +2,7 @@
 # Kernel/Config/ModulesCustomerPanel.pm - config file of all used application modules
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ModulesCustomerPanel.pm,v 1.2 2002-10-20 12:04:11 martin Exp $
+# $Id: ModulesCustomerPanel.pm,v 1.3 2002-10-22 16:07:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,16 +13,22 @@ package Kernel::Config::ModulesCustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+# --
+# allow module Action=? (regexpr)
+# --
+$Kernel::Config::ModulesCustomerPanel::Allow = "^(Customer).+?";
+
 
 # --
 # all custom modules
 # --
-#use Kernel::Config::ModulesCustom;
+#use Kernel::Config::ModulesCustomerPanelCustom;
 
 # --
-# all OTRS modules 
+# all OTRS customer frontend modules 
 # --
 
 # system basic lib modules

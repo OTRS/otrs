@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.41 2002-10-22 15:14:54 martin Exp $
+# $Id: index.pl,v 1.42 2002-10-22 16:07:29 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -440,7 +440,7 @@ elsif (!$Param{SessionID}) {
 # --
 # run modules if exists a version value
 # --
-elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
+elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && eval '$Param{Action} =~ /$Kernel::Config::Modules::Allow/'){
     # --
     # check session id
     # --
