@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.13 2005-02-17 16:15:27 tr Exp $
+# $Id: XML.pm,v 1.14 2005-02-26 08:08:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -243,28 +243,28 @@ sub XMLHashSearch {
         }
     }
 
-    $SQL = "SELECT xml_key FROM xml_storage WHERE xml_type = '$Param{Type}' GROUP BY xml_key";   
+    $SQL = "SELECT xml_key FROM xml_storage WHERE xml_type = '$Param{Type}' GROUP BY xml_key";
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
-    }  
+    }
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         $Hash{$Data[0]} = 1;
-    }             
-    
+    }
+
     if ($Param{What}) {
         foreach my $And (@{$Param{What}}) {
             my %HashNew = ();
             my $SQL = '';
-            foreach my $Key (sort keys %{$And}) {   
+            foreach my $Key (sort keys %{$And}) {
                 if ($SQL) {
                     $SQL .= " OR ";
                 }
                 my $Value = $Self->{DBObject}->Quote($And->{$Key});
                 $Key = $Self->{DBObject}->Quote($Key);
-                $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";   
-                                 
-            }            
-            $SQL = "SELECT xml_key FROM xml_storage WHERE $SQL AND xml_type = '$Param{Type}' GROUP BY xml_key";
+                $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
+
+            }
+            $SQL = "SELECT xml_key FROM xml_storage WHERE $SQL AND xml_type = '$Param{Type}' GROUP BY xml_key";   
             if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
                 return;
             }
@@ -273,7 +273,7 @@ sub XMLHashSearch {
                     $HashNew{$Data[0]} = 1;
                 }
             }
-            %Hash = %HashNew;        
+            %Hash = %HashNew;
         }
     }
     foreach my $Key(keys %Hash) {
@@ -437,13 +437,13 @@ sub XMLParse2XMLHash {
 
 #    $XMLHash[1]{'IODEF-Document'} = $XMLHash[1]{'otrs_package'};
 #    $XMLHash[0]{Meta}[0]{Created} = 'admin';
-    
+
     return @XMLHash;
 }
 
 =item XMLHash2D()
 
-return a hash with long hash key and content 
+return a hash with long hash key and content
 
     my %Hash = $XMLObject->XMLHash2D(XMLHash => \@XMLHash);
 
@@ -545,7 +545,6 @@ sub XMLStructur2XMLHash {
       }
     }
     $Self->{Tll} = 0;
-    $Self->{XMLLevel} = 0;
     $Self->{XMLTagCount} = 0;
     $Self->{XMLHash} = {};
     $Self->{XMLHashReturn} = 1;
@@ -557,6 +556,7 @@ sub XMLStructur2XMLHash {
             $Output .= $Self->_XMLStructur2XMLHash(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
         }
     }
+#print STDERR $Output;
     eval "$Output" || die $!;
     $Self->{XMLHashReturn} = 0;
     return (\%{$Self->{XMLHash}});
@@ -573,22 +573,19 @@ sub _XMLStructur2XMLHash {
         if ($Param{Item}->{TagType} eq 'End') {
             return '';
         }
-        $S->{XMLLevel}++;
         $S->{XMLTagCount}++;
-#        $S->{XMLLevelTag}->{$S->{XMLLevel}} = $Param{Key};
         $S->{XMLLevelTag}->{$Param{Item}->{TagLevel}} = $Param{Key};
-#print STDERR "++++++++ $S->{XMLLevel} $Param{Key}\n";
-        if ($S->{Tll} && $S->{Tll} > $S->{XMLLevel}) {
-            foreach (($S->{XMLLevel}+1)..30) {
-                undef $S->{XMLLevelCount}->{$_}; #->{$Element} = 0;
+        if ($S->{Tll} && $S->{Tll} > $Param{Item}->{TagLevel}) {
+            foreach (($Param{Item}->{TagLevel}+1)..30) {
+                undef $S->{XMLLevelCount}->{$_};
             }
         }
         $S->{XMLLevelCount}->{$Param{Item}->{TagLevel}}->{$Param{Key}}++;
+
         # remember old level
-        $S->{Tll} = $S->{XMLLevel};
-    
+        $S->{Tll} = $Param{Item}->{TagLevel};
+
         my $Key = '';
-#        foreach (1..($S->{XMLLevel})) {
         foreach (1..$Param{Item}->{TagLevel}) {
 #print STDERR "############### $_ $Param{Item}->{TagLevel} $Param{Key}\n";
             $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
@@ -603,11 +600,8 @@ sub _XMLStructur2XMLHash {
                 $Output .= '$Self->{XMLHash}->'.$Key."{'$_'} = '$I';\n";
             }
         }
-        if (!$Param{Type}) {
-            $S->{XMLLevel} = $S->{XMLLevel} - 1;
-        }
-    } 
-    return $Output; 
+    }
+    return $Output;
 }
 
 =item XMLParse()
@@ -669,13 +663,13 @@ sub HS {
         $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
     }
     $S->{LastTag} = {
-        %Attr, 
+        %Attr,
         TagType => 'Start',
         Tag => $Element,
         TagLevel => $S->{XMLLevel},
         TagCount => $S->{XMLTagCount},
 #        TagKey => $Key,
-        TagLastLevel => $S->{XMLLevelTag}->{($S->{XMLLevel}-1)}, 
+        TagLastLevel => $S->{XMLLevelTag}->{($S->{XMLLevel}-1)},
     };
 }
 
@@ -726,6 +720,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2005-02-17 16:15:27 $
+$Revision: 1.14 $ $Date: 2005-02-26 08:08:34 $
 
 =cut
