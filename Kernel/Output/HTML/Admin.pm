@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.7 2002-05-01 17:31:13 martin Exp $
+# $Id: Admin.pm,v 1.8 2002-05-04 20:33:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -495,10 +495,11 @@ sub AdminUserForm {
     $Param{UserOption} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, login',
+            What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+                    " $Self->{ConfigObject}->{DatabaseUserTableUser}",
             Valid => 0,
             Clamp => 0,
-            Table => 'user',
+            Table => $Self->{ConfigObject}->{DatabaseUserTable},
           )
         },
         Size => 15,
