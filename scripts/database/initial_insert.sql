@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.2 2003-02-08 21:13:29 martin Exp $
+-- $Id: initial_insert.sql,v 1.3 2003-03-03 23:41:45 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.2  2003/02/08 21:13:29  martin
+-- added number prefix to priority for sort
+--
 -- Revision 1.1  2003/02/08 11:54:29  martin
 -- moved from install/database to scripts/database
 --
@@ -281,23 +284,41 @@ INSERT INTO charset
         ('Latin-15 (iso-8859-15)', 'iso-8859-15', 'Western European languages with euro.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ticket_state
-INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
-    VALUES ('new', 'ticket is new', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
-    VALUES ('closed successful', 'ticket is closed successful', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
-    VALUES ('closed unsuccessful', 'ticket is closed unsuccessful', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
-    VALUES ('open', 'ticket is open', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
-    VALUES ('removed', 'customer removed ticket (can reactivate)', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
-    VALUES ('pending reminder', 'ticket is pending for agent reminder', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
-    VALUES ('pending auto close+', 'ticket is pending for automatic close', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, valid_id, create_by, create_time, change_by, change_time)
-    VALUES ('pending auto close-', 'ticket is pending for automatic close', 1, 1, current_timestamp, 1, current_timestamp);
-
+INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('new', 'ticket is new', 1, 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('closed successful', 'ticket is closed successful', 3, 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('closed unsuccessful', 'ticket is closed unsuccessful', 3, 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('open', 'ticket is open', 2, 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('removed', 'customer removed ticket (can reactivate)', 6, 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('pending reminder', 'ticket is pending for agent reminder', 4, 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('pending auto close+', 'ticket is pending for automatic close', 5, 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('pending auto close-', 'ticket is pending for automatic close', 5, 1, 1, current_timestamp, 1, current_timestamp);
+-- ticket_state_type
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('new', 'all new state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('open', 'all open state types (default: viewable)', 1, current_timestamp, 1, current_timestamp); 
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('closed', 'all closed state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('pending reminder', 'all "pending reminder" state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('pending auto', 'all "pending auto *" state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+    VALUES
+    ('removed', 'all "removed" state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
 -- salutation
 INSERT INTO salutation
     (name, text, comment, valid_id, create_by, create_time, change_by, change_time)
