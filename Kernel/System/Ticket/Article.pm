@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.41 2003-11-02 15:10:45 martin Exp $
+# $Id: Article.pm,v 1.42 2003-12-14 21:02:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -331,20 +331,23 @@ sub GetIdOfArticle {
       }
     }
     # sql query
-    my $Id;
-    $Self->{DBObject}->Prepare(
-      SQL => "SELECT id FROM article " .
+    my $SQL = "SELECT id FROM article " .
         " WHERE " .
         " ticket_id = $Param{TicketID} " .
-        " AND " .
-        " a_message_id = '$Param{MessageID}' " .
-        " AND " .
-        " a_from = '$Param{From}' " .
-        " AND " .
-        " a_subject = '$Param{Subject}'" .
-        " AND " .
-        " incoming_time = '$Param{IncomingTime}'",
-    );
+        " AND ";
+    if ($Param{MessageID}) {
+        $SQL .= "a_message_id = '$Param{MessageID}' AND ";
+    }
+    if ($Param{MessageID}) {
+        $SQL .= "a_from = '$Param{From}' AND ";
+    }
+    if ($Param{MessageID}) {
+        $SQL .= "a_subject = '$Param{Subject}' AND ";
+    }
+    $SQL .= " incoming_time = '$Param{IncomingTime}'";
+    # start query
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    my $Id;
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Id = $RowTmp[0];
     }
