@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.20 2003-01-12 09:56:46 martin Exp $
+# $Id: Defaults.pm,v 1.21 2003-01-14 19:54:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1092,9 +1092,9 @@ Your OTRS Notification Master
     #                                                     #
     # ----------------------------------------------------#
 
-    # Customer::PrefernecesModule
+    # Customer::PreferencesModule
     # (customer preferences module)
-    $Self->{'Customer::PrefernecesModule'} = 'Kernel::System::CustomerUser::Preferences::DB';
+    $Self->{'Customer::PreferencesModule'} = 'Kernel::System::CustomerUser::Preferences::DB';
  
     # CustomerPreferencesTable* (needed for DB module)
     # (Stored CustomerPreferences table data.)
