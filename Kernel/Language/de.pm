@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.21 2003-03-28 18:50:09 martin Exp $
+# $Id: de.pm,v 1.22 2003-04-12 22:36:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Mar 11 00:40:04 2003 by
+    # Last translation Sun Apr 13 00:19:49 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -42,8 +42,8 @@ sub Data {
       'AddLink' => 'Link hinzufügen',
       'AdminArea' => 'Admin-Oberfläche',
       'agent' => 'Agent',
-      'All' => 'Alle',
       'all' => 'alle',
+      'All' => 'Alle',
       'Attention' => 'Achtung',
       'Bug Report' => 'Fehler berichten',
       'Cancel' => 'Abbrechen',
@@ -52,8 +52,8 @@ sub Data {
       'change!' => 'Ändern!',
       'click here' => 'hier klicken',
       'Comment' => 'Kommentar',
-      'customer' => 'Kunde',
       'Customer' => 'Kunde',
+      'customer' => 'Kunde',
       'Customer Info' => 'Kunden-Info',
       'day' => 'Tag',
       'days' => 'Tage',
@@ -78,7 +78,6 @@ sub Data {
       'hours' => 'Stunden',
       'Ignore' => 'Ignorieren',
       'invalid' => 'ungültig',
-      'invalid-temporarily' => 'vorübergehend ungültig',
       'Invalid SessionID!' => 'Ungültige SessionID!',
       'Language' => 'Sprache',
       'Languages' => 'Sprachen',
@@ -116,6 +115,7 @@ sub Data {
       'replace with' => 'ersetzen mit',
       'Reset' => 'Rücksetzen',
       'Salutation' => 'Anrede',
+      'Session has timed out. Please log in again.' => 'Session Zeitüberschreitung. Bitte neu anmelden.',
       'Signature' => 'Signatur',
       'Sorry' => 'Bedauere',
       'Stats' => 'Statistik',
@@ -134,7 +134,6 @@ sub Data {
       'update!' => 'Aktualisieren!',
       'User' => 'Benutzer',
       'Username' => 'Benutzername',
-      'valid' => 'gültig',
       'Valid' => 'Gültig',
       'Warning' => 'Warnung',
       'Welcome to OTRS' => 'Willkommen zu OTRS',
@@ -183,7 +182,7 @@ sub Data {
       'Send me a notification if there is a new ticket in my custom queues.' => 'Zusenden einer Mitteilung bei neuem Ticket in den bevorzugten Queues.',
       'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
       'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
-      'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Sperrzeit', 
+      'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Sperrzeit',
 
     # Template: AAATicket
       '1 very low' => '1 sehr niedrig',
@@ -244,8 +243,8 @@ sub Data {
       'Ticket' => 'Ticket',
       'To' => 'An',
       'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
-      'Unlock' => 'Freigeben',
       'unlock' => 'frei',
+      'Unlock' => 'Freigeben',
       'very high' => 'sehr hoch',
       'very low' => 'sehr niedrig',
       'View' => 'Ansicht',
@@ -302,7 +301,9 @@ sub Data {
       'Admin-Email' => '',
       'Body' => '',
       'OTRS-Admin Info!' => '',
+      'Permission' => 'Rechte',
       'Recipents' => 'Empfänger',
+      'send' => 'Senden',
 
     # Template: AdminEmailSent
       'Message sent to' => 'Nachricht gesendet an',
@@ -324,7 +325,6 @@ sub Data {
       'Attachment <-> Response' => 'Anlage <-> Antworten',
       'Auto Response <-> Queue' => 'Auto-Antworten <-> Queues',
       'Auto Responses' => 'Auto-Antworten',
-      'Bottom of Page' => 'Seitenende',
       'Charsets' => 'Zeichensätze',
       'Customer User' => 'Kunden-Benutzer',
       'Email Addresses' => 'E-Mail-Adressen',
@@ -362,7 +362,7 @@ sub Data {
       'Add queue' => 'Queue hinzufügen',
       'Change queue settings' => 'Queue ändern',
       'Customer Move Notify' => 'Kundeninfo Verschieben',
-      'Customer Owner Notify' => 'Kundeninfo Besitzer',,
+      'Customer Owner Notify' => 'Kundeninfo Besitzer',
       'Customer State Notify' => 'Kundeninfo Status',
       'Escalation time' => 'Eskalationszeit',
       'Follow up Option' => '',
@@ -508,6 +508,10 @@ sub Data {
 
     # Template: AgentCustomerHistoryTable
 
+    # Template: AgentCustomerMessage
+      'Follow up' => '',
+      'Next state' => 'Nächster Status',
+
     # Template: AgentCustomerView
       'Customer Data' => 'Kunden-Daten',
 
@@ -518,6 +522,10 @@ sub Data {
       'Forward article of ticket' => 'Weiterleitung des Artikels vom Ticket',
       'Forwarded message from' => 'Weitergeleitete Nachricht von',
       'Reply-To' => '',
+
+    # Template: AgentFreeText
+      'Change free text of ticket' => 'Ändern der freien Ticket Felder',
+      'Value' => 'Inhalt',
 
     # Template: AgentHistoryForm
       'History of' => 'Historie von',
@@ -543,9 +551,9 @@ sub Data {
     # Template: AgentMove
       'Move Ticket' => 'Ticket Verschieben',
       'New Queue' => 'Neue Queue',
+      'New user' => 'Neuer Besitzer',
 
     # Template: AgentNavigationBar
-      'FAQ' => '',
       'Locked tickets' => 'Eigene Tickets',
       'new message' => 'Neue Nachrichten',
       'PhoneView' => 'Telefon-Ansicht',
@@ -559,7 +567,6 @@ sub Data {
     # Template: AgentOwner
       'Change owner of ticket' => 'Ticket-Besitzer ändern',
       'Message for new Owner' => 'Nachricht an neuen Besitzer',
-      'New user' => 'Neuer Besitzer',
 
     # Template: AgentPending
       'Pending date' => 'Warten bis',
@@ -632,25 +639,18 @@ sub Data {
       'Escalation in' => 'Eskalation in',
       'printed by' => 'gedruckt von',
 
+    # Template: AgentUtilSearch
+      'Article free text' => 'Artikel-Freitext',
+      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Volltextsuche (z.B. "Mar*in" oder "Baue*" oder "martin+hallo")',
+      'search' => 'Suche',
+      'search (e. g. 10*5155 or 105658*)' => 'Suche (z.B. "10*5155" oder "105658*")',
+      'Ticket free text' => 'Ticket-Freitext',
+      'Ticket Search' => 'Ticket-Suche',
+
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Kunden-Historie-Suche',
       'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z.B. "ID342425").',
       'No * possible!' => 'Kein "*" möglich!',
-
-    # Template: AgentUtilSearchByText
-      'Article free text' => 'Artikel-Freitext',
-      'Fulltext search' => 'Volltext-Suche',
-      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Volltextsuche (z.B. "Mar*in" oder "Baue*" oder "martin+hallo")',
-      'In Queue' => '',
-      'Search in' => 'Suche in',
-      'Ticket free text' => 'Ticket-Freitext',
-      'With Priority' => 'Mit Priotität',
-      'With State' => 'Mit Status',
-
-    # Template: AgentUtilSearchByTicketNumber
-      'Ticket Search' => 'Ticket-Suche',
-      'search' => 'Suche',
-      'search (e. g. 10*5155 or 105658*)' => 'Suche (z.B. "10*5155" oder "105658*")',
 
     # Template: AgentUtilSearchNavBar
       'Results' => 'Ergebnis',
@@ -667,28 +667,32 @@ sub Data {
       'Provides an overview of all' => 'Bietet eine Übersicht von allen',
       'So you see what is going on in your system.' => 'Damit können Sie sehen, was in Ihrem System vorgeht.',
 
+    # Template: AgentZoomAgentIsCustomer
+      'Compose Follow up' => 'Follow up erstellen',
+      'Your own Ticket' => 'Ihr eigenes Ticket',
+
     # Template: AgentZoomAnswer
       'Compose Answer' => 'Antwort erstellen',
       'Contact customer' => 'Kunden kontaktieren',
       'phone call' => 'Anrufen',
 
+    # Template: AgentZoomArticle
+      'Split' => 'Teilen',
+
     # Template: AgentZoomBody
       'Change queue' => 'Wechsele Queue',
 
     # Template: AgentZoomHead
+      'Free Fields' => 'Freie Felder',
       'Print' => 'Drucken',
 
     # Template: AgentZoomStatus
 
     # Template: CustomerCreateAccount
-      'Create' => 'Erstellen',
       'Create Account' => 'Account erstellen',
 
     # Template: CustomerError
-      'Backend' => '',
-      'BackendMessage' => 'Backend-Nachricht',
-      'Click here to report a bug!' => 'Klicken Sie hier um einen Fehler zu berichten!',
-      'Handle' => '',
+      'Traceback' => '',
 
     # Template: CustomerFooter
       'Powered by' => '',
@@ -707,8 +711,6 @@ sub Data {
       'Request new password' => 'Neues Passwort beantragen',
 
     # Template: CustomerMessage
-      'Follow up' => '',
-      'Next state' => 'Nächster Status',
 
     # Template: CustomerMessageNew
 
@@ -734,12 +736,23 @@ sub Data {
     # Template: CustomerWarning
 
     # Template: Error
-      'Traceback' => '',
+      'Click here to report a bug!' => 'Klicken Sie hier um einen Fehler zu berichten!',
 
     # Template: Footer
       'Top of Page' => 'Seitenanfang',
 
     # Template: Header
+
+    # Template: InstallerBody
+      'Create Database' => 'Datenbank erstellen',
+      'Drop Database' => 'Datenbank löschen',
+      'Finished' => 'Fertig',
+      'System Settings' => 'System Einstellungen',
+
+    # Template: InstallerLicense
+      'accept license' => 'Lizenz anerkennen',
+      'don\'t accept license' => 'Lizenz nicht anerkennen',
+      'License' => 'Lizenz',
 
     # Template: InstallerStart
       'next step' => 'Nächster Schritt',
@@ -763,7 +776,7 @@ sub Data {
       'System FQDN' => '',
       'SystemID' => '',
       'Ticket Hook' => '',
-      'Ticket Number Generator' => '',
+      'Ticket Number Generator' => 'Ticket Nummer Generator',
       'Webfrontend' => 'Web-Oberfläche',
 
     # Template: Login
@@ -784,9 +797,7 @@ sub Data {
     # Template: QueueView
       'All tickets' => 'Alle Tickets',
       'Queues' => 'Queues',
-      'Show all' => 'Alle anzeigen',
       'Tickets available' => 'Tickets verfügbar',
-      'tickets' => 'Tickets',
       'Tickets shown' => 'Tickets angezeigt',
 
     # Template: SystemStats
@@ -820,10 +831,20 @@ sub Data {
       '(E-Mail of the system admin)' => '(E-Mail des System-Administrator)',
       'A message should have a From: recipient!' => 'Eine Nachricht sollte einen Absender (Von:) haben!',
       'Add language' => 'Sprache hinzufügen',
+      'Backend' => '',
+      'BackendMessage' => 'Backend-Nachricht',
+      'Bottom of Page' => 'Seitenende',
       'Change system language setting' => 'Ändere Systemsprache',
+      'Create' => 'Erstellen',
       'CustomerUser' => 'Kunden-Benutzer',
+      'FAQ' => '',
+      'Fulltext search' => 'Volltext-Suche',
+      'Handle' => '',
+      'In Queue' => '',
       'New ticket via call.' => 'Neues Ticket durch Anruf.',
+      'Search in' => 'Suche in',
       'Set customer id of a ticket' => 'Setze eine Kunden# eines Ticket',
+      'Show all' => 'Alle anzeigen',
       'System Language Management' => 'Systemsprache-Verwaltung',
       'Ticket limit:' => '',
       'Time till escalation' => 'Zeit bis zur Eskalation',
@@ -838,11 +859,16 @@ sub Data {
       'Update state' => 'Status aktualisieren',
       'Update system address' => 'System-E-Mail-Adresse aktualisieren',
       'Update user' => 'Benutzer aktualisieren',
+      'With Priority' => 'Mit Priotität',
+      'With State' => 'Mit Status',
       'You have to be in the admin group!' => 'Sie müssen dafür in der Admin-Gruppe sein!',
       'You have to be in the stats group!' => 'Sie müssen dafür in der Statistik-Gruppe sein!',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Im From-Feld wird eine E-Mail-Adresse (z.B. kunde@beispiel.de) benötigt!',
       'auto responses set' => 'Auto-Antworten aktiviert',
+      'invalid-temporarily' => 'vorübergehend ungültig',
       'store' => 'Speichern',
+      'tickets' => 'Tickets',
+      'valid' => 'gültig',
     );
 
     # $$STOP$$

@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.15 2003-03-14 15:09:00 martin Exp $
+# $Id: bg.pm,v 1.16 2003-04-12 22:36:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Feb  3 23:33:10 2003 by 
+    # Last translation Sun Apr 13 00:27:22 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -40,17 +40,19 @@ sub Data {
       '15 minutes' => '15 Минути',
       'AddLink' => 'Добавяне на връзка',
       'AdminArea' => 'Зона-Администратор',
+      'agent' => '',
       'all' => 'всички',
       'All' => 'Всички',
       'Attention' => 'Внимание',
       'Bug Report' => 'Отчет за грешка',
       'Cancel' => 'Отказ',
-      'Change' => 'Промяна',
       'change' => 'променете',
+      'Change' => 'Промяна',
       'change!' => 'променете!',
       'click here' => 'натиснете тук',
       'Comment' => 'Коментар',
       'Customer' => 'Потребител',
+      'customer' => '',
       'Customer Info' => 'Потребителски данни',
       'day' => 'ден',
       'days' => 'дни',
@@ -90,16 +92,17 @@ sub Data {
       'Name' => 'Име',
       'New message' => 'Ново съобщение',
       'New message!' => 'Ново съобщение!',
-      'no' => 'не',
       'No' => 'Не',
+      'no' => 'не',
+      'No entry found!' => '',
       'No suggestions' => 'Няма предположения',
       'none' => 'няма',
       'none - answered' => 'няма - отговорен',
       'none!' => 'няма!',
-      'off' => 'изключено',
       'Off' => 'Изключено',
-      'on' => 'включено',
+      'off' => 'изключено',
       'On' => 'Включено',
+      'on' => 'включено',
       'Password' => 'Парола',
       'Pending till' => 'В очакване до',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!',
@@ -111,12 +114,14 @@ sub Data {
       'replace with' => 'замести с',
       'Reset' => 'Рестартирай',
       'Salutation' => 'Обръщение',
+      'Session has timed out. Please log in again.' => '',
       'Signature' => 'Подпис',
       'Sorry' => 'Съжаляваме',
       'Stats' => 'Статистики',
       'Subfunction' => 'Подфункция',
       'submit' => 'изпратете',
       'submit!' => 'изпратете!',
+      'system' => '',
       'Take this User' => '',
       'Text' => 'Текст',
       'The recommended charset for your language is %s!' => 'Препоръчителният символен набор за Вашият език е %s',
@@ -133,8 +138,8 @@ sub Data {
       'Welcome to OTRS' => 'Добре дошли в OTRS',
       'Word' => 'Дума',
       'wrote' => 'записано',
-      'Yes' => 'Да',
       'yes' => 'да',
+      'Yes' => 'Да',
       'You got new message!' => 'Получихте ново съобщение!',
       'You have %s new message(s)!' => 'Вие имате %s ново/нови съобщение/съобщения!',
       'You have %s reminder ticket(s)!' => 'Вие имате %s оставащ/оставащи билет/билети!',
@@ -154,6 +159,7 @@ sub Data {
       'Sep' => 'Сеп',
 
     # Template: AAAPreferences
+      'Closed Tickets' => '',
       'Custom Queue' => 'Потребителска опашка',
       'Follow up notification' => 'Известие за наличност на следене на отговорът',
       'Frontend' => 'Зона-потребител',
@@ -163,6 +169,7 @@ sub Data {
       'Other Options' => 'Други настройки',
       'Preferences updated successfully!' => 'Предпочитанията са обновени успешно',
       'QueueView refresh time' => 'Време за обновяване на изгледът на опашката',
+      'Select your default spelling dictionary.' => '',
       'Select your frontend Charset.' => 'Изберете Вашият символен набор.',
       'Select your frontend language.' => 'Изберете Вашият език.',
       'Select your frontend QueueView.' => 'Изберете език за визуализация съдържанието на опашката.',
@@ -172,6 +179,8 @@ sub Data {
       'Send me a notification if a ticket is moved into a custom queue.' => 'Изпратете ми известие, ако билетът е преместен в някаква потребителска опашка.',
       'Send me a notification if a ticket is unlocked by the system.' => 'Изпратете ми известие, ако билетът е отключен от системата.',
       'Send me a notification if there is a new ticket in my custom queues.' => 'Изпратете ми известие, ако има нов(и) билет в моята потребителска опашка.',
+      'Show closed tickets.' => '',
+      'Spelling Dictionary' => '',
       'Ticket lock timeout notification' => 'Известие за продължителността на заключване на билетът',
 
     # Template: AAATicket
@@ -203,6 +212,7 @@ sub Data {
       'high' => 'висок',
       'History' => 'Хроника',
       'If it is not displayed correctly,' => 'Ако не се вижда коректно,',
+      'lock' => '',
       'Lock' => 'Заключи',
       'low' => 'нисък',
       'Move' => 'Преместване',
@@ -232,6 +242,7 @@ sub Data {
       'Ticket' => 'Билет',
       'To' => 'До',
       'to open it in a new window.' => 'да го отворите в нов прозорец',
+      'unlock' => 'отключи',
       'Unlock' => 'Отключи',
       'very high' => 'много висок',
       'very low' => 'много нисък',
@@ -289,7 +300,9 @@ sub Data {
       'Admin-Email' => 'еМейл от Admin',
       'Body' => 'Тяло на писмото',
       'OTRS-Admin Info!' => 'Информация от OTRS-Admin',
+      'Permission' => '',
       'Recipents' => 'Получатели',
+      'send' => '',
 
     # Template: AdminEmailSent
       'Message sent to' => 'Съобщението е изпратено до',
@@ -302,17 +315,13 @@ sub Data {
       'It\'s useful for ASP solutions.' => 'Това е подходящо за решения с ASP.',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Групата admin достъпва admin зоната, а stat групата достъпва stat зоната',
 
-    # Template: AdminLanguageForm
-      'Add language' => 'Добавяне на език',
-      'Change system language setting' => 'Промяна на настройките на системният език',
-      'System Language Management' => 'Управление на езиковите настройки',
-
     # Template: AdminLog
       'System Log' => 'Системен журнал',
 
     # Template: AdminNavigationBar
       'AdminEmail' => 'Admin еМейл',
       'AgentFrontend' => 'Зона-потребител',
+      'Attachment <-> Response' => '',
       'Auto Response <-> Queue' => 'Автоматичен отговор <-> Опашки',
       'Auto Responses' => 'Автоматичен отговор',
       'Charsets' => 'Символен набор',
@@ -326,7 +335,7 @@ sub Data {
       'Responses <-> Queue' => 'Отговори <-> Опашки',
       'Select Box' => 'Изберете кутия',
       'Session Management' => 'Управление на сесята',
-      'Status defs' => 'Дефиниции на състояния',
+      'Status' => '',
       'System' => 'Система',
       'User <-> Groups' => 'Потребител <-> Групи',
 
@@ -351,13 +360,20 @@ sub Data {
       '0 = no unlock' => '0 = без отключване',
       'Add queue' => 'Добавяне на опашка',
       'Change queue settings' => 'Промяна на настройките на опашката',
+      'Customer Move Notify' => '',
+      'Customer Owner Notify' => '',
+      'Customer State Notify' => '',
       'Escalation time' => 'Време за ескалация (увеличаване на приоритетът)',
       'Follow up Option' => 'Параметри за автоматично проследяване',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Ако билетът е затворен и потребителя изпрати заявка за проследяване, билетът ще бъде заключен за стария потребител',
       'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Ако билетът не получи отговор в определеното време, ще се покаже само този билет',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ако агентът заключи билетът и той(или тя) не изпрати отговор в определеното време, билетър ще се отключи автоматично. Така билетър ще стане видим за всички други агенти',
       'Key' => 'Ключ',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => '',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => '',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => '',
       'Queue Management' => 'Управление на опашка',
+      'Sub-Queue of' => '',
       'Systemaddress' => 'Системен адрес',
       'The salutation for email answers.' => 'Обръщението за отговорите по еМейл',
       'The signature for email answers.' => 'Подписът за отговорите по еМейл',
@@ -390,6 +406,10 @@ sub Data {
       'Add salutation' => 'Добавяне на обръщение',
       'Change salutation settings' => 'Промяна на настройките на обръщението',
       'customer realname' => 'име на потребителя',
+      'for agent firstname' => 'за агента - име',
+      'for agent lastname' => 'за агента - фамилия',
+      'for agent login' => '',
+      'for agent user id' => '',
       'Salutation Management' => 'Управление на обръщението',
 
     # Template: AdminSelectBoxForm
@@ -410,13 +430,12 @@ sub Data {
     # Template: AdminSignatureForm
       'Add signature' => 'Добавяне на подпис',
       'Change signature settings' => 'Промяна на настройките на подписът',
-      'for agent firstname' => 'за агента - име',
-      'for agent lastname' => 'за агента - фамилия',
       'Signature Management' => 'Управление на подписът',
 
     # Template: AdminStateForm
       'Add state' => 'Добавяне на състояние',
       'Change system state setting' => 'Промяна на настройките за системно състояние',
+      'State Type' => '',
       'System State Management' => 'Управление на системно състояние',
 
     # Template: AdminSystemAddressForm
@@ -457,33 +476,40 @@ sub Data {
 
     # Template: AgentClose
       ' (work units)' => ' (работни единици)',
+      'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
       'Close ticket' => 'Затворете бълетът',
       'Close type' => 'Тип затваряне',
       'Close!' => 'Затворете!',
       'Note Text' => 'Текст на билежката',
       'Note type' => 'Бележката е от тип',
-      'store' => 'съхранение',
+      'Options' => 'Настройки',
+      'Spell Check' => 'Проверка на правописа',
       'Time units' => 'Единици за времето',
+      'You need to account time!' => '',
 
     # Template: AgentCompose
-      'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
+      'A message must be spell checked!' => '',
       'Attach' => 'Прикачен файл',
       'Compose answer for ticket' => 'Създаване на отговор за този билет',
       'for pending* states' => 'за състояния в очакване* ',
       'Is the ticket answered' => 'Дали билетът е получил отговор',
-      'Options' => 'Настройки',
       'Pending Date' => 'В очакване-дата',
-      'Spell Check' => 'Проверка на правописа',
 
     # Template: AgentCustomer
       'Back' => 'Назад',
       'Change customer of ticket' => 'Промяна на потребителят на билета',
-      'Set customer id of a ticket' => 'Задаване на потребителски индикатив на билета',
+      'CustomerID' => 'Потребителски индикатив',
+      'Search Customer' => '',
+      'Set customer user and customer id of a ticket' => '',
 
     # Template: AgentCustomerHistory
       'Customer history' => 'Хроника на потребителят',
 
     # Template: AgentCustomerHistoryTable
+
+    # Template: AgentCustomerMessage
+      'Follow up' => 'Заявка за отговор',
+      'Next state' => '',
 
     # Template: AgentCustomerView
       'Customer Data' => 'Данни за потребителя',
@@ -496,12 +522,15 @@ sub Data {
       'Forwarded message from' => 'Препратено съобщение от',
       'Reply-To' => 'Отговор на',
 
+    # Template: AgentFreeText
+      'Change free text of ticket' => '',
+      'Value' => '',
+
     # Template: AgentHistoryForm
       'History of' => 'Хроника на',
 
     # Template: AgentMailboxNavBar
       'All messages' => 'Всички съобщения',
-      'CustomerID' => 'Потребителски индикатив',
       'down' => 'надолу',
       'Mailbox' => 'Пощенска кутия',
       'New' => 'Нови',
@@ -517,10 +546,13 @@ sub Data {
       'up' => 'нагоре',
 
     # Template: AgentMailboxTicket
-      'Add Note' => 'Добавяне на бележка',
+
+    # Template: AgentMove
+      'Move Ticket' => '',
+      'New Queue' => '',
+      'New user' => 'Нов потребител',
 
     # Template: AgentNavigationBar
-      'FAQ' => 'Често задавани въпроси',
       'Locked tickets' => 'Заключени билети',
       'new message' => 'ново съобщение',
       'PhoneView' => 'Преглед на телефоните',
@@ -534,11 +566,11 @@ sub Data {
     # Template: AgentOwner
       'Change owner of ticket' => 'Промяна собственикън на билета',
       'Message for new Owner' => 'Съобщение за нов собственик',
-      'New user' => 'Нов потребител',
 
     # Template: AgentPending
       'Pending date' => 'В очакване - дата',
       'Pending type' => 'В очакване - тип',
+      'Pending!' => '',
       'Set Pending' => 'В очакване - задаване',
 
     # Template: AgentPhone
@@ -547,7 +579,8 @@ sub Data {
       'Phone call at %s' => 'Телефонно обаждане в %s',
 
     # Template: AgentPhoneNew
-      'Search Customer' => '',
+      'Clear From' => '',
+      'create' => '',
       'new ticket' => 'нов билет',
 
     # Template: AgentPlain
@@ -582,9 +615,10 @@ sub Data {
 
     # Template: AgentStatusView
       'D' => 'D',
+      'of' => 'на',
+      'Site' => 'Място',
       'sort downward' => 'низходящо сортиране',
       'sort upward' => 'възходящо сортиране',
-      'Ticket limit:' => 'Ограничение по време:',
       'Ticket Status' => 'Състояние на билетът',
       'U' => 'U',
 
@@ -594,7 +628,7 @@ sub Data {
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Билетът е заключен!',
-      'unlock' => 'отключи',
+      'Ticket unlock!' => '',
 
     # Template: AgentTicketPrint
       'by' => '',
@@ -604,45 +638,60 @@ sub Data {
       'Escalation in' => 'Улеличение на приоритета в',
       'printed by' => '',
 
+    # Template: AgentUtilSearch
+      'Article free text' => 'Клауза свободен текст',
+      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Текстово търсене (примерно "Mar*in" или "Baue*" или "martin+hallo")',
+      'search' => 'търсене',
+      'search (e. g. 10*5155 or 105658*)' => 'търсене (примерно 10*5155 или 105658*)',
+      'Ticket free text' => 'Билет свободен текст',
+      'Ticket Search' => '',
+
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Търсене в хрониката на клиента',
       'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
       'No * possible!' => 'Не е възможно използване на символ *!',
 
-    # Template: AgentUtilSearchByText
-      'Article free text' => 'Клауза свободен текст',
-      'Fulltext search' => 'Текстово търсене',
-      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Текстово търсене (примерно "Mar*in" или "Baue*" или "martin+hallo")',
-      'Search in' => 'Търсене в',
-      'Ticket free text' => 'Билет свободен текст',
-      'With State' => '',
-
-    # Template: AgentUtilSearchByTicketNumber
-      'search' => 'търсене',
-      'search (e. g. 10*5155 or 105658*)' => 'търсене (примерно 10*5155 или 105658*)',
-
     # Template: AgentUtilSearchNavBar
       'Results' => 'Резултат',
-      'Site' => 'Място',
       'Total hits' => 'Общ брой попадения',
 
     # Template: AgentUtilSearchResult
 
     # Template: AgentUtilTicketStatus
+      'All closed tickets' => '',
       'All open tickets' => 'Всички отворени билети',
+      'closed tickets' => '',
       'open tickets' => 'Отворени билети',
+      'or' => '',
       'Provides an overview of all' => 'Осигурява общ преглед на всички',
       'So you see what is going on in your system.' => 'Какво става във Вашата система',
 
+    # Template: AgentZoomAgentIsCustomer
+      'Compose Follow up' => '',
+      'Your own Ticket' => '',
+
+    # Template: AgentZoomAnswer
+      'Compose Answer' => 'Създаване на отговор',
+      'Contact customer' => 'Контакт с клиента',
+      'phone call' => 'телефонно обаждане',
+
+    # Template: AgentZoomArticle
+      'Split' => '',
+
+    # Template: AgentZoomBody
+      'Change queue' => 'Промяна на опашката',
+
+    # Template: AgentZoomHead
+      'Free Fields' => '',
+      'Print' => '',
+
+    # Template: AgentZoomStatus
+
     # Template: CustomerCreateAccount
-      'Create' => 'Създаване',
       'Create Account' => 'Създаване на акаунт',
 
     # Template: CustomerError
-      'Backend' => 'Фонов',
-      'BackendMessage' => 'Фоново съобщение',
-      'Click here to report a bug!' => 'Натиснете тук, за да изпратите отчет за грешката!',
-      'Handle' => 'Манипулатор',
+      'Traceback' => '',
 
     # Template: CustomerFooter
       'Powered by' => 'С помощта на',
@@ -661,7 +710,6 @@ sub Data {
       'Request new password' => 'Завка за нова парола',
 
     # Template: CustomerMessage
-      'Follow up' => 'Заявка за отговор',
 
     # Template: CustomerMessageNew
 
@@ -679,7 +727,6 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
-      'of' => 'на',
 
     # Template: CustomerStatusViewTable
 
@@ -688,10 +735,23 @@ sub Data {
     # Template: CustomerWarning
 
     # Template: Error
+      'Click here to report a bug!' => 'Натиснете тук, за да изпратите отчет за грешката!',
 
     # Template: Footer
+      'Top of Page' => '',
 
     # Template: Header
+
+    # Template: InstallerBody
+      'Create Database' => '',
+      'Drop Database' => '',
+      'Finished' => '',
+      'System Settings' => '',
+
+    # Template: InstallerLicense
+      'accept license' => '',
+      'don\'t accept license' => '',
+      'License' => '',
 
     # Template: InstallerStart
       'next step' => 'следваща стъпка',
@@ -732,14 +792,11 @@ sub Data {
       'URL' => '',
 
     # Template: PrintHeader
-      'Print' => '',
 
     # Template: QueueView
       'All tickets' => 'Всички билети',
       'Queues' => 'Опашки',
-      'Show all' => 'Показване на всички',
       'Tickets available' => 'Налични билети',
-      'tickets' => 'билети',
       'Tickets shown' => 'Показани билети',
 
     # Template: SystemStats
@@ -752,18 +809,9 @@ sub Data {
       'Ticket escalation!' => 'Ескалация (увеличаване на приоритета) на билета!',
 
     # Template: TicketView
-      'Change queue' => 'Промяна на опашката',
-      'Compose Answer' => 'Създаване на отговор',
-      'Contact customer' => 'Контакт с клиента',
-      'phone call' => 'телефонно обаждане',
 
     # Template: TicketViewLite
-
-    # Template: TicketZoom
-
-    # Template: TicketZoomNote
-
-    # Template: TicketZoomSystem
+      'Add Note' => 'Добавяне на бележка',
 
     # Template: Warning
 
@@ -781,8 +829,22 @@ sub Data {
       '(Click here to add state)' => '(Натиснете тук, за да добавите ново системно състояние )',
       '(Ticket identifier. Some people want to set this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билетът. Някои хора желаят да зададат стойности, като \'Ticket#\', \'Call#\' или \'MyTicket#\')',
       'A message should have a From: recipient!' => 'Съобщението трябва да има попълнено поле ОТ:',
+      'Add language' => 'Добавяне на език',
+      'Backend' => 'Фонов',
+      'BackendMessage' => 'Фоново съобщение',
+      'Change system language setting' => 'Промяна на настройките на системният език',
+      'Create' => 'Създаване',
       'CustomerUser' => 'Клиент-потребител',
+      'FAQ' => 'Често задавани въпроси',
+      'Fulltext search' => 'Текстово търсене',
+      'Handle' => 'Манипулатор',
       'New ticket via call.' => 'Нов билет чрез обаждане',
+      'Search in' => 'Търсене в',
+      'Set customer id of a ticket' => 'Задаване на потребителски индикатив на билета',
+      'Show all' => 'Показване на всички',
+      'Status defs' => 'Дефиниции на състояния',
+      'System Language Management' => 'Управление на езиковите настройки',
+      'Ticket limit:' => 'Ограничение по време:',
       'Time till escalation' => 'Време до ескалация',
       'Update auto response' => 'Обновяване на автоматичният отговор',
       'Update charset' => 'Обновяване на символен набор',
@@ -795,10 +857,13 @@ sub Data {
       'Update state' => 'Обновяване на състояние',
       'Update system address' => 'Обновяване ан системният адрес',
       'Update user' => 'Обновяване на потребител',
+      'With State' => '',
       'You have to be in the admin group!' => 'Трябва да сте член на admin групата!',
       'You have to be in the stats group!' => 'Трябва да сте член на stat групата!',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Трябва да имате еМейл адрес (примерно customer@example.com) в поле ОТ:',
       'auto responses set' => 'набор автоматични отговори',
+      'store' => 'съхранение',
+      'tickets' => 'билети',
     );
 
     # $$STOP$$
