@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.149 2004-09-24 10:14:09 martin Exp $
+# $Id: Agent.pm,v 1.150 2004-10-21 10:09:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.149 $';
+$VERSION = '$Revision: 1.150 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -386,7 +386,7 @@ sub AgentQueueListOption {
       $UsedData{$Param{Data}->{$_}} = 1;
       my $UpQueue = $Param{Data}->{$_};
       $UpQueue =~ s/^(.*)::.+?$/$1/g;
-      if (! $Queue[$MaxLevel]) {
+      if (! $Queue[$MaxLevel] && $Queue[$#Queue] ne '') {
         $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
         my $Space = '';
         for (my $i = 0; $i < $#Queue; $i++) {
@@ -416,17 +416,6 @@ sub AgentQueueListOption {
     $Param{MoveQueuesStrg} .= '</select>';
 
     return $Param{MoveQueuesStrg};
-}
-# --
-sub AgentCustomerMessage {
-    my $Self = shift;
-    my %Param = @_;
-    # get output back
-    my $Output .= $Self->Notify(
-        Info =>
-          $Self->{LanguageObject}->Get('You are the customer user of this message - customer modus!'),
-    );
-    return $Output.$Self->Output(TemplateFile => 'AgentCustomerMessage', Data => \%Param);
 }
 # --
 sub AgentFreeText {
