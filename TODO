@@ -1,38 +1,35 @@
 # --
-# TODO - to do list of OpenTRS
+# TODO - todo list of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.14 2002-05-10 00:53:39 martin Exp $
+# $Id: TODO,v 1.15 2002-06-18 09:44:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-immediately:
-- AgentBounce
-- EmailToAll
-- KnowlageFAQ
-
+0.5 beta7
+- time accounting (http://lists.otrs.org/pipermail/otrs/2002-June/000059.html)
 - Customer handle (bin/cgi-bin/extern/index.pl) and modules
-
-- check types of auto responses! 
-
-- Email-notification of administrators.
-
-- Email-notification sent to problem reporter (by create, locked, deleted,
-     moved and closed)
-
 - Submitting update-info (via email or webinterface).
+- EmailToAllAgents
 
-- Deadlines for trouble tickets.
+0.5 beta8
+- send bulk answer (http://lists.otrs.org/pipermail/otrs/2002-June/000066.html)
 
-
-later:
+misc
+- KnowlageFAQ
+- check types of auto responses!
+- Email-notification of administrators.
+- Email-notification sent to problem reporter (by create, locked, deleted,
+   moved and closed) (http://lists.otrs.org/pipermail/dev/2002-June/000005.html)
 - rework of permissions/access-rights.
 - add ticket waiting_states and funktion (AgentPending).
 - rework the db scheme indexes 
 - add foreign-key to the XML db scheme
 - add a screen session management (for back and forward button)
-- rework of loop protection!
+
+1.0
+- sub-queues (http://lists.otrs.org/pipermail/otrs/2002-June/000065.html)
 
