@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.25 2003-02-03 19:45:58 martin Exp $
+# $Id: AgentQueueView.pm,v 1.26 2003-02-08 15:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,8 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.26 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
@@ -226,7 +226,7 @@ sub ShowTicket {
         " sa.a_body, st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, " .
         " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, " .
         " st.freetext1, st.freetext2, st.customer_id, sq.name as queue, sa.id as article_id, " .
-        " st.id, st.tn, sp.name, sd.name as state, st.queue_id, st.create_time, ".
+        " st.id, st.tn, sp.name, sp.id as priority_id, sd.name as state, st.queue_id, st.create_time, ".
         " sa.incoming_time, sq.escalation_time, st.ticket_answered, sa.a_content_type " .
         " FROM " .
         " article sa, ticket st, ticket_priority sp, ticket_state sd, article_sender_type sdt, queue sq " .
@@ -262,6 +262,7 @@ sub ShowTicket {
         %Ticket = (
             TicketNumber => $$Data{tn},
             Priority => $$Data{name},
+            PriorityID => $$Data{priority_id},
             State => $$Data{state},
             TicketID => $$Data{id},
             ArticleID => $$Data{article_id},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.28 2003-02-03 19:45:58 martin Exp $
+# $Id: AgentZoom.pm,v 1.29 2003-02-08 15:16:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,8 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.29 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
@@ -117,7 +117,7 @@ sub Run {
     " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ". 
     " sa.create_time, stt.name as sender_type, at.name as article_type, ".
     " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ".
-    " sl.name as lock_type, sp.name as priority, tsd.name as state, sa.content_path, ".
+    " sl.name as lock_type, sp.name as priority, sp.id as priority_id, tsd.name as state, sa.content_path, ".
     " sq.name as queue, st.create_time as ticket_create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
@@ -149,7 +149,7 @@ sub Run {
     " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ".
     " sa.create_time, stt.name, at.name, ".
     " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, ".
-    " sl.name, sp.name, tsd.name, sa.content_path, ".
+    " sl.name, sp.name, sp.id, tsd.name, sa.content_path, ".
     " sq.name, st.create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
@@ -176,6 +176,7 @@ sub Run {
         $Ticket{Lock} = $$Data{lock_type};
         $Ticket{Owner} = $$Data{login};
         $Ticket{Priority} = $$Data{priority};
+        $Ticket{PriorityID} = $$Data{priority_id};
         $Ticket{TicketFreeKey1} = $$Data{freekey1};
         $Ticket{TicketFreeValue1} = $$Data{freetext1};
         $Ticket{TicketFreeKey2} = $$Data{freekey2};
