@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.10 2002-12-08 20:49:58 martin Exp $
+# $Id: Article.pm,v 1.11 2002-12-17 18:02:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -25,7 +25,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -953,7 +953,7 @@ sub GetArticle {
       SQL => "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_reply_to, ".
         " sa. a_message_id, sa.a_body, " .
         " st.create_time_unix, sp.name, sd.name, sq.name, sq.id, sa.create_time, ".
-        " sa.a_content_type, sa.create_by, st.tn, ast.name " .
+        " sa.a_content_type, sa.create_by, st.tn, ast.name, st.customer_id " .
         " FROM " .
         " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq, ".
         " article_sender_type ast" .
@@ -998,6 +998,7 @@ sub GetArticle {
         if ($Row[14] && $Data{ContentType} =~ /^(.+?\/.+?)( |;)/i) {
             $Data{MimeType} = $1;
         } 
+        $Data{CustomerID} = $Row[18];
     }
     return %Data;
 }
