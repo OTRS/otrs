@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomNote.dtl,v 1.20 2002-10-20 11:43:14 martin Exp $
+# $Id: TicketZoomNote.dtl,v 1.21 2002-10-24 23:47:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,8 +25,14 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" bgcolor="$Env{"BGTableColor2"}" width="70%">
-  <a href="$Env{"Baselink"}Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Lock"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Unlock"}</a> -
+# --
+# check lock link
+# --
+<dtl set $Data{"LockText"} = "Lock">
+<dtl if ($Data{"Lock"} ne "unlock") { $Data{"LockText"} = "Unlock"; }>
+<dtl set $Data{"LockLink"} = "Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}">
+<dtl if ($Data{"Lock"} ne "unlock") { $Data{"LockLink"} = "Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}"; }>
+  <a href="$Env{"Baselink"}$Data{"LockLink"}">$Text{"$Data{"LockText"}"}</a> -
   <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}">$Text{"Priority"}</a> -
   <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}">$Text{"History"}</a> -
   <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}">$Text{"Owner"}</a> - 
