@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.26 2004-04-07 17:30:26 martin Exp $
+# $Id: customer.pl,v 1.27 2004-04-19 09:55:30 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -251,9 +251,22 @@ if ($Param{Action} eq "Login") {
             $Param{RequestedURL} = '';
         }
         # --
-        # redirect with new session id
+        # use login module (if configured)
         # --
-        print $LayoutObject->Redirect(OP => "$Param{RequestedURL}");
+        my $LoginModule = $CommonObject{ConfigObject}->Get('CustomerPanelLoginModule');
+        if ($LoginModule && eval "require $LoginModule") {
+            my $LoginModuleObject = $LoginModule->new(
+                %CommonObject,
+                LayoutObject => $LayoutObject,
+                %Param,
+                %UserData,
+            );
+            print $LoginModuleObject->Run();
+        }
+        else {
+            # redirect with new session id
+            print $LayoutObject->Redirect(OP => "$Param{RequestedURL}");
+        }
     }
     # --
     # login is vailid
