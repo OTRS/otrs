@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.3 2002-05-01 17:33:43 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.4 2002-05-10 00:09:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,4 +76,47 @@
 </tr>
 </table>
 <!-- end form -->
+<!-- start note -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor2"}" valign="top">
+  <td>
+    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" valign="top">
+  <td>
+  <p>
+  $Text{"All incoming emails with this "Email" (To:) will be dispatched in the selected queue!"}
+  </p>
+  <p>
+    $Text{"Example"}:
+    <hr>
+    <form action="/">
+      <table>
+       <tr>
+        <td>$Text{"Email"}:</td>
+        <td><input type="text" name="Email" value="support@company.com" size="50" maxlength="50"></td>
+       </tr>
+       <tr>
+        <td>$Text{"Realname"}:</td>
+        <td><input type="text" name="Realname" value="Support Team" size="50" maxlength="50"></td>
+       </tr>
+       <tr>
+        <td>$Text{"Queue"}:</td>
+        <td><select name="QueueID"  >
+<option VALUE="3">Tech (1)</option>
+<option VALUE="4">Misc (2)</option>
+<option VALUE="2">Raw (3)</option>
+</select>
+       </td>
+       </tr>
+      </table>
+    </form>
+    <hr>
+    </p>
+  </td>
+</tr>
+</table>
+
+<!-- end note -->
 
