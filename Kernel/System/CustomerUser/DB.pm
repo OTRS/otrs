@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.4 2003-01-03 00:34:23 martin Exp $
+# $Id: DB.pm,v 1.5 2003-01-19 16:35:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,7 +36,12 @@ sub new {
     # config options
     # --
     $Self->{CustomerTable} = $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{Table} 
-      || die "Got not customer table!";
+      || die "Need CustomerUser->Params->Table in Kernel/Config.pm!";
+    $Self->{CustomerKey} = $Self->{ConfigObject}->Get('CustomerUser')->{CustomerKey} 
+      || $Self->{ConfigObject}->Get('CustomerUser')->{Key} 
+      || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
+    $Self->{CustomerID} = $Self->{ConfigObject}->Get('CustomerUser')->{CustomerID} 
+      || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
 
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     
@@ -48,10 +53,22 @@ sub CustomerList {
     my %Param = @_;
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
     # --
+    # build SQL string
+    # --
+    my $SQL = '';
+    if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFileds}) {
+        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFileds}}) {
+            $SQL .= " ,$Entry ";
+        }
+    }
+    else {
+        $SQL .= " , customer_id, comment";
+    }
+    # --
     # get data
     # --
     my %Users = $Self->{DBObject}->GetTableData(
-        What => "customer_id, customer_id, comment ",
+        What => "$Self->{CustomerID} $SQL ",
         Table => $Self->{CustomerTable}, 
         Clamp => 1,
         Valid => $Valid,
@@ -67,7 +84,7 @@ sub CustomerUserList {
     # get data
     # --
     my %Users = $Self->{DBObject}->GetTableData(
-        What => "login, login, customer_id ",
+        What => "$Self->{CustomerKey}, login, customer_id ",
         Table => $Self->{CustomerTable}, 
         Clamp => 1,
         Valid => $Valid,
@@ -93,12 +110,12 @@ sub CustomerUserDataGet {
     foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
         $SQL .= " $Entry->[2], ";
     }
-    $SQL .= $Self->{ConfigObject}->Get('CustomerUser')->{Key}." FROM $Self->{CustomerTable} WHERE ";
+    $SQL .= $Self->{CustomerKey}." FROM $Self->{CustomerTable} WHERE ";
     if ($Param{User}) {
-        $SQL .= $Self->{ConfigObject}->Get('CustomerUser')->{Key}." = '$Param{User}'";
+        $SQL .= $Self->{CustomerKey}." = '$Param{User}'";
     }
     elsif ($Param{CustomerID}) {
-        $SQL .= $Self->{ConfigObject}->Get('CustomerUser')->{CustomerID}." = '$Param{CustomerID}'";
+        $SQL .= $Self->{CustomerID}." = '$Param{CustomerID}'";
     }
     # --
     # get inital data
@@ -253,7 +270,7 @@ sub CustomerUserUpdate {
     }
     $SQL .= " change_time = current_timestamp, ";
     $SQL .= " change_by = $Param{UserID} ";
-    $SQL .= " WHERE ".$Self->{ConfigObject}->Get('CustomerUser')->{Key}." = '$Param{ID}'";
+    $SQL .= " WHERE ".$Self->{CustomerKey}." = '$Param{ID}'";
   
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # --
