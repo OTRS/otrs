@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceAgent.pm,v 1.4 2005-02-17 11:56:08 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.5 2005-03-22 09:01:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -433,7 +433,7 @@ sub Run {
         # get params
         my $User = $Self->{ParamObject}->GetParam(Param => 'User') || '';
         # get user data
-        my %UserData = $Self->{UserObject}->GetUserData(User => $User);
+        my %UserData = $Self->{UserObject}->GetUserData(User => $User, Valid => 1);
         if (! $UserData{UserID}) {
             # show normal login
             print $Self->{LayoutObject}->Login(
@@ -735,6 +735,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2005-02-17 11:56:08 $
+$Revision: 1.5 $ $Date: 2005-03-22 09:01:41 $
 
 =cut
