@@ -126,6 +126,7 @@ use Kernel::Modules::AdminGroup;
 use Kernel::Modules::AdminUserGroup;
 use Kernel::Modules::AdminSystemAddress;
 use Kernel::Modules::AdminPOP3;
+use Kernel::Modules::AdminPostMasterFilter;
 use Kernel::Modules::AdminState;
 use Kernel::Modules::AdminNotification;
 use Kernel::Modules::AdminEmail;

@@ -1,0 +1,220 @@
+# --
+# AdminPostMasterFilter.dtl - provides HTML form for AdminSystemAddess
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminPostMasterFilter.dtl,v 1.1 2004-05-10 12:50:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr> 
+  <td align="left" colspan="2" class="table0">
+    <b>$Env{"Box0"}$Text{"PostMaster Filter Management"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr align="left" valign="top">
+  <td width="40%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">$Text{"Change"}:</td> 
+  </tr>
+  <tr>
+    <td align="left">
+    
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="Change">
+    $Data{"List"}
+    <br>
+    <input class="button" type="submit" value="$Text{"change"}">
+    <input class="button" type="submit" value="$Text{"delete"}">
+    </form>
+
+    </td>
+  </tr>
+  </table>
+
+  </td> 
+  <td width="60%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">
+# --
+# check subaction
+# --
+<dtl set $Data{"Headline"} = "Add">
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
+<dtl if ($Env{"Subaction"} eq "Change") { $Env{"Subaction"} = "Add"; }>
+# set subaction!
+<dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
+# check add link
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
+# --
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:</td>
+  </tr>
+  <tr>
+    <td>
+ 
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+    <input type="hidden" name="OldName" value="$QData{"Name"}">
+    <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td>$Text{"Filtername"}:</td><td celspan="3"><input type="text" name="Name" value="$QData{"Name"}"></td>
+    </tr>
+    <tr>
+      <td class="table2" colspan="4">$Text{"Match"}:</td>
+    </tr>
+    <tr>
+      <td>$Text{"Header"} 1: </td>
+      <td> $Data{"MatchHeader1"}</td>
+      <td>$Text{"Value"}: </td>
+      <td> <input type="text" name="MatchValue1" value="$QData{"MatchValue1"}" size="30" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Header"} 2: </td>
+      <td> $Data{"MatchHeader2"}</td>
+      <td>$Text{"Value"}: </td>
+      <td> <input type="text" name="MatchValue2" value="$QData{"MatchValue2"}" size="30" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Header"} 3: </td>
+      <td> $Data{"MatchHeader3"}</td>
+      <td>$Text{"Value"}: </td>
+      <td> <input type="text" name="MatchValue3" value="$QData{"MatchValue3"}" size="30" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Header"} 4: </td>
+      <td> $Data{"MatchHeader4"}</td>
+      <td>$Text{"Value"}: </td>
+      <td> <input type="text" name="MatchValue4" value="$QData{"MatchValue4"}" size="30" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td class="table2" colspan="4">$Text{"Set"}:</td>
+    </tr>
+    <tr>
+      <td>$Text{"Header"} 1: </td>
+      <td> $Data{"SetHeader1"}</td>
+      <td>$Text{"Value"}: </td>
+      <td> <input type="text" name="SetValue1" value="$QData{"SetValue1"}" size="30" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Header"} 2: </td>
+      <td> $Data{"SetHeader2"}</td>
+      <td>$Text{"Value"}: </td>
+      <td> <input type="text" name="SetValue2" value="$QData{"SetValue2"}" size="30" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Header"} 3: </td>
+      <td> $Data{"SetHeader3"}</td>
+      <td>$Text{"Value"}: </td>
+      <td> <input type="text" name="SetValue3" value="$QData{"SetValue3"}" size="30" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Header"} 4: </td>
+      <td> $Data{"SetHeader4"}</td>
+      <td>$Text{"Value"}: </td>
+      <td> <input type="text" name="SetValue4" value="$QData{"SetValue4"}" size="30" maxlength="50"></td>
+    </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
+    </from>
+
+    </td>
+  </tr>
+  </table>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+<!-- start note -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr valign="top">
+  <td class="table3">
+    $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+  </td>
+</tr>
+<tr valign="top">
+  <td class="table1">
+  <p>
+  $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
+  </p>
+  <p>
+    $Text{"Example"}:
+    <hr>
+    <form action="/">
+      $Text{"Match"}
+      <table>
+      <tr>
+        <td>$Text{"Header"} 1: </td>
+        <td> <select name="MatchHeader1">
+  <option value="">-</option>
+  <option value="Cc">Cc</option>
+  <option value="From">From</option>
+  <option value="In-Reply-To">In-Reply-To</option>
+
+  <option value="List-Id">List-Id</option>
+  <option value="Mailing-List">Mailing-List</option>
+  <option value="Message-ID">Message-ID</option>
+
+  <option value="Reply-To">Reply-To</option>
+  <option value="ReplyTo">ReplyTo</option>
+  <option value="Resent-From">Resent-From</option>
+  <option value="Resent-To">Resent-To</option>
+  <option value="Subject">Subject</option>
+  <option selected value="To">To</option>
+
+  <option value="X-Loop">X-Loop</option>
+  <option value="X-No-Loop">X-No-Loop</option>
+  <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
+
+</select></td>
+        <td>$Text{"Value"}: </td>
+        <td> <input type="text" name="Value1" value="(me|test)@example.com" size="30" maxlength="50"></td>
+      </tr>
+      </table>
+      $Text{"Set"}
+      <table>
+      <tr>
+        <td>$Text{"Header"} 1: </td>
+        <td> <select name="MatchHeader1">
+  <option value="">-</option>
+  <option value="Cc">Cc</option>
+  <option value="From">From</option>
+  <option value="In-Reply-To">In-Reply-To</option>
+
+  <option value="List-Id">List-Id</option>
+  <option value="Mailing-List">Mailing-List</option>
+  <option value="Message-ID">Message-ID</option>
+
+  <option value="Reply-To">Reply-To</option>
+  <option value="ReplyTo">ReplyTo</option>
+  <option value="Resent-From">Resent-From</option>
+  <option value="Resent-To">Resent-To</option>
+  <option value="Subject">Subject</option>
+  <option value="To">To</option>
+
+  <option value="X-Loop">X-Loop</option>
+  <option value="X-No-Loop">X-No-Loop</option>
+  <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
+  <option selected value="X-OTRS-Queue">X-OTRS-Queue</option>
+
+</select></td>
+        <td>$Text{"Value"}: </td>
+        <td> <input type="text" name="Value1" value="SomeQueue" size="30" maxlength="50"></td>
+      </tr>
+      </table>
+    </form>
+    <hr>
+    </p>
+  </td>
+</tr>
+</table>
+<!-- end note -->
