@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.5 2002-05-26 18:16:43 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.6 2002-05-26 21:28:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,7 +60,9 @@
     </tr>
     <tr>
       <td>$Text{"Unlock timeout"} ($Text{"minutes"}): </td>
-      <td> <input type="text" name="UnlockTimeout" value="$Data{"UnlockTimeout"}" size="10" maxlength="10"></td>
+      <td> <input type="text" name="UnlockTimeout" value="$Data{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 1 $Text{"day"} = 1440 $Text{"minutes"}</td>
+    </tr>
+</td>
     </tr>
     <tr>
       <td>$Text{"Escalation time"} ($Text{"minutes"}): </td>
