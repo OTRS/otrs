@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.14 2002-07-23 22:36:05 martin Exp $
+# $Id: User.pm,v 1.15 2002-08-26 21:56:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -321,16 +321,9 @@ sub UserUpdate {
       }
     }
     # --
-    # get old pw
+    # get old user data (pw)
     # --
     my %UserData = $Self->GetUserData(UserID => $Param{ID});
-    # --
-    # check pw
-    # --
-    my $GetPw = $UserData{UserPw} || '';
-    if ($GetPw ne $Param{Pw}) {
-        $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
-    }
     # --
     # quote params
     # -- 
@@ -358,6 +351,13 @@ sub UserUpdate {
           Priority => 'notice',
           Message => "User: '$Param{Login}' updated successfully ($Param{UserID})!",
         );
+        # --
+        # check pw
+        # --
+        my $GetPw = $UserData{UserPw} || '';
+        if ($GetPw ne $Param{Pw}) {
+            $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
+        }
         return 1;
     }
     else {
