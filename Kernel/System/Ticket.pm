@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.70 2004-02-17 14:37:56 martin Exp $
+# $Id: Ticket.pm,v 1.70.2.1 2004-04-16 17:23:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.70.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1364,6 +1364,21 @@ sub SearchTicket {
         $TicketNumber =~ s/\*/%/gi;
         $SQLExt .= " AND st.tn LIKE '".$Self->{DBObject}->Quote($TicketNumber)."'";
     }
+    # ticket priorities 
+    if ($Param{Priorities}) {
+        foreach (@{$Param{Priorities}}) {
+            my $ID = $Self->PriorityLookup(Type => $_);
+            if ($ID) {
+                push (@{$Param{PriorityIDs}}, $ID);
+            }
+            else {
+                return;
+            }
+        }
+    }
+    if ($Param{PriorityIDs}) {
+        $SQLExt .= " AND st.ticket_priority_id IN (${\(join ', ' , @{$Param{PriorityIDs}})})";
+    }
     # other ticket stuff 
     my %FieldSQLMap = (
         CustomerID => 'st.customer_id',
@@ -1477,6 +1492,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2004-02-17 14:37:56 $
+$Revision: 1.70.2.1 $ $Date: 2004-04-16 17:23:38 $
 
 =cut
