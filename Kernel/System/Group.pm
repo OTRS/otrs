@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.25 2004-05-02 06:31:23 martin Exp $
+# $Id: Group.pm,v 1.26 2004-05-02 06:41:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -137,15 +137,19 @@ sub GroupMemberAdd {
     }
     # check if update is needed
     my %Value = ();
-    my $SQL = "SELECT group_id, user_id, permission_key, permission_value FROM group_user ";
+    my $SQL = "SELECT permission_key, permission_value FROM group_user ".
+        " WHERE ".
+        " group_id = $Param{GID} ".
+        " AND ".
+        " user_id = $Param{UID} ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Value{$Row[0]}->{$Row[1]}->{$Row[2]} = $Row[3];
+        $Value{$Row[0]} = $Row[1];
     }
     # update permission 
     foreach (keys %{$Param{Permission}}) {
         # check if update is needed
-        if (defined($Value{$Param{GID}}->{$Param{UID}}->{$_}) && $Value{$Param{GID}}->{$Param{UID}}->{$_} eq $Param{Permission}->{$_}) {
+        if (defined($Value{$_}) && $Value{$_} eq $Param{Permission}->{$_}) {
 #            print STDERR "No updated neede! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
         }
         else {
@@ -495,6 +499,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2004-05-02 06:31:23 $
+$Revision: 1.26 $ $Date: 2004-05-02 06:41:26 $
 
 =cut
