@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.10 2002-07-13 12:26:40 martin Exp $
+# $Id: PostMaster.pm,v 1.11 2002-07-23 20:19:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -144,6 +144,8 @@ if ($Tn && $TicketID) {
     # get follow up option (possible or not)
     my $QueueObject = Kernel::System::Queue->new(
         DBObject => $Self->{DBObject},
+        LogObject => $Self->{LogObject},
+        ConfigObject => $Self->{ConfigObject},
     );
     my $FollowUpPossible = $QueueObject->GetFollowUpOption(
         QueueID => $QueueID,
