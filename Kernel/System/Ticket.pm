@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.137 2004-09-08 11:28:05 martin Exp $
+# $Id: Ticket.pm,v 1.138 2004-09-08 15:24:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.137 $';
+$VERSION = '$Revision: 1.138 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2450,6 +2450,57 @@ sub OwnerList {
     }
     return @UserInfo;
 }
+
+=item InvolvedAgents()
+
+returns array with hash ref of involved agents of a ticket
+
+  my @InvolvedAgents = $TicketObject->InvolvedAgents(
+      TicketID => 123,
+  );
+
+=cut
+
+sub InvolvedAgents {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db query
+    my @User = ();
+    my %UsedOwner = ();
+    my $SQL = "SELECT sh.name, sh.create_by ".
+        " FROM ".
+        " ticket_history sh, ticket_history_type ht ".
+        " WHERE ".
+        " sh.ticket_id = $Param{TicketID} ".
+        " AND ".
+        " ht.id = sh.history_type_id".
+        " ORDER BY sh.id";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        if ($Row[1] ne 1 && !$UsedOwner{$Row[1]}) {
+            $UsedOwner{$Row[1]} = $Row[1];
+            push (@User, $Row[1]);
+        }
+    }
+    my @UserInfo = ();
+    foreach (@User) {
+        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Cache => 1);
+        push (@UserInfo, \%User);
+    }
+    return @UserInfo;
+}
 # --
 sub PriorityLookup {
     my $Self = shift;
@@ -3428,6 +3479,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.137 $ $Date: 2004-09-08 11:28:05 $
+$Revision: 1.138 $ $Date: 2004-09-08 15:24:23 $
 
 =cut
