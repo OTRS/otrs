@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.183 2005-01-22 10:38:07 martin Exp $
+# $Id: Defaults.pm,v 1.184 2005-01-25 13:16:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.183 $';
+$VERSION = '$Revision: 1.184 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1738,6 +1738,10 @@ Your OTRS Notification Master
 ##        '2' => 'Second Queue!',
 #    };
 
+    # CustomerPanel::NewTicketQueueSelectionModule
+    # (own module layer for to selection in new ticket screen)
+    $Self->{'CustomerPanel::NewTicketQueueSelectionModule'} = 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
+
     # --------------------------------------------------- #
     # notification email about new password               #
     # --------------------------------------------------- #
@@ -3190,6 +3194,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.183 $ $Date: 2005-01-22 10:38:07 $
+$Revision: 1.184 $ $Date: 2005-01-25 13:16:06 $
 
 =cut

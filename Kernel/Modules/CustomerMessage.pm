@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.38 2004-10-18 08:46:10 martin Exp $
+# $Id: CustomerMessage.pm,v 1.39 2005-01-25 13:14:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,64 +59,23 @@ sub Run {
             $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
             # check own selection
             my %NewTos = ();
-            if ($Self->{ConfigObject}->{CustomerPanelOwnSelection}) {
-                foreach (keys %{$Self->{ConfigObject}->{CustomerPanelOwnSelection}}) {
-                    my $Value = $Self->{ConfigObject}->{CustomerPanelOwnSelection}->{$_};
-                    if ($_ =~ /^\d+$/) {
-                        $NewTos{$_} = $Value;
-                    }
-                    else {
-                        if ($Self->{QueueObject}->QueueLookup(Queue => $_)) {
-                            $NewTos{$Self->{QueueObject}->QueueLookup(Queue => $_)} = $Value;
-                        }
-                        else {
-                            $NewTos{$_} = $Value;
-                        }
-                    }
+            my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule') || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
+            if (eval "require $Module") {
+                my $Object = $Module->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Module loaded!",
+                    );
                 }
+                %NewTos = $Object->Run(Env => $Self);
             }
             else {
-                # SelectionType Queue or SystemAddress?
-                my %Tos = ();
-                if ($Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue') {
-                    %Tos = $Self->{TicketObject}->MoveList(
-                        CustomerUserID => $Self->{UserID},
-                        Type => 'rw',
-                        Action => $Self->{Action},
-                    );
-                }
-                else {
-                    my %Queues = $Self->{TicketObject}->MoveList(
-                        CustomerUserID => $Self->{UserID},
-                        Type => 'rw',
-                        Action => $Self->{Action},
-                    );
-                    my %SystemTos = $Self->{DBObject}->GetTableData(
-                        Table => 'system_address',
-                        What => 'queue_id, id',
-                        Valid => 1,
-                        Clamp => 1,
-                    );
-                    foreach (keys %Queues) {
-                        if ($SystemTos{$_}) {
-                            $Tos{$_} = $Queues{$_};
-                        }
-                    }
-                }
-                %NewTos = %Tos;
-                # build selection string
-                foreach (keys %NewTos) {
-                    my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
-                    my $Srting = $Self->{ConfigObject}->Get('CustomerPanelSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
-                    $Srting =~ s/<Queue>/$QueueData{Name}/g;
-                    $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
-                    if ($Self->{ConfigObject}->Get('CustomerPanelSelectionType') ne 'Queue') {
-                        my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $QueueData{SystemAddressID});
-                        $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
-                        $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
-                    }
-                    $NewTos{$_} = $Srting;
-                }
+                return $Self->{LayoutObject}->ErrorScreen();
             }
             # get priority
             my %Priorities = $Self->{TicketObject}->PriorityList(
