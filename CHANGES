@@ -2,13 +2,24 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.94 2003-09-29 21:04:10 martin Exp $
+# $Id: CHANGES,v 1.95 2003-10-29 21:19:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD
+ - (2003/10/29) added bin/CleanUp.pl to clean up of all tmp data 
+    like ipc, database or fs session and log stuff (added CleanUp() 
+    to Kernel::System::AuthSession::* and Kernel::System::Log).
+ - (2003/10/27) added "-c Kernel::Config::GenericAgentJobModule"
+    option to GenericAgent.pl to use it with more then one 
+    (Kernel::Config::GenericAgent) job file. For example you will be
+    able to have Kernel::Config::Delete and Kernel::Config::Move or
+    other job files to execute it on different times.
+ - (2003/10/14) changed phone default settings:
+    * new tickets are unlocked (not locked)
+    * subject and body is empty as default
  - (2003/09/28) improved next screen management after closing tickts
  - (2003/09/28) added <OTRS_TICKET_STATE> to agent compose answer screen
     as variable for new ticket state in composed message.
@@ -54,6 +65,9 @@ CVS HEAD
  - (2003/05/13) removed UNIQUE (not needed!) in pop3_account table
 
 1.1.4 (2003-??-??)
+ - (2003/10/27) fixed (removed) not needed database connects in
+    PostMaster(POP3).pl stuff (now just 1 database connect, not 3
+    connects)! Thanks to Jens Wilke!
  - (2003/09/39) added Czech translation file - Tomas Krmela!
  - (2003/09/29) added Polish translation file - Tomasz Melissa!
  - (2003/09/16) fixed order of user checking/adding in rpm spec files
