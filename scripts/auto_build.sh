@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.12 2003-01-15 18:31:10 martin Exp $
+# $Id: auto_build.sh,v 1.13 2003-02-15 12:04:25 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,9 +20,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.12 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.13 $>"
 echo "Copyright (c) 2002-2003 Martin Edenhofer <martin@otrs.org>"
-
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
@@ -34,7 +33,7 @@ ARCHIVE_DIR="otrs"
 PACKAGE=otrs
 PACKAGE_BUILD_DIR="/tmp/$PACKAGE-build"
 PACKAGE_DEST_DIR="/tmp/$PACKAGE-packages"
-PACKAGE_TMP_SPEC="/tmp/$PACKAGE-spec.$$"
+PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
 
 if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     # --
@@ -94,12 +93,14 @@ mkdir $PACKAGE_DEST_DIR/RPMS/suse/7.3
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/8.x
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat/7.x
+mkdir $PACKAGE_DEST_DIR/RPMS/redhat/8.0
 mkdir $PACKAGE_DEST_DIR/SRPMS
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/7.3
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/8.x
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/7.x
+mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/8.0
 
 # --
 # build 
@@ -145,7 +146,7 @@ find -name ".#*" | xargs rm -rf
 rm -rf Kernel/Config.pm 
 
 # build html docu
-$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC > /dev/null
+#$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC > /dev/null
 mkdir doc/manual
 mkdir doc/manual/html
 mkdir doc/manual/pdf
@@ -170,14 +171,24 @@ SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION-$RELEASE.tar.bz2
 tar -cjf $SOURCE_LOCATION $ARCHIVE_DIR/ $ARCHIVE_DIR/.*rc $ARCHIVE_DIR/.mailfilter || exit 1;
 cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 
-
+# --
+# create rpm spec files
+# --
+DESCRIPTION=$PATH_TO_CVS_SRC/scripts/auto_build/description.txt
+FILES=$PATH_TO_CVS_SRC/scripts/auto_build/files.txt
+#echo $FILES
 # --
 # build SuSE 8.x rpm 
 # --
 specfile=$PACKAGE_TMP_SPEC
-cat $ARCHIVE_DIR/scripts/suse-otrs.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile
+# replace version and release
+cat $ARCHIVE_DIR/scripts/suse-otrs-8.0.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
+# replace sourced files 
+perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1 
+# replace package description
+perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
 rpm -ba --clean $specfile || exit 1;
-rm -f $specfile
+rm $specfile || exit 1;
 
 mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/8.x/
 mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/8.x/
@@ -186,25 +197,50 @@ mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/
 # build SuSE 7.3 rpm 
 # --
 specfile=$PACKAGE_TMP_SPEC
-cat $ARCHIVE_DIR/scripts/suse-otrs-7.3.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile
+cat $ARCHIVE_DIR/scripts/suse-otrs-7.3.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
+# replace sourced files 
+perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1 
+# replace package description
+perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
 rpm -ba --clean $specfile || exit 1;
-rm -f $specfile
+rm $specfile || exit 1;
 
 mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/7.3/
 mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/7.3/
 
 # --
-# build Redhat 7.x rpm
+# build Redhat 7.3 rpm
 # --
-cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros
+cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros || exit 1
 specfile=$PACKAGE_TMP_SPEC
-cat $ARCHIVE_DIR/scripts/redhat-otrs.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile
+cat $ARCHIVE_DIR/scripts/redhat-otrs-7.3.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
+# replace sourced files 
+perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1 
+# replace package description
+perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
 rpm -ba --clean $specfile || exit 1;
-rm -f $specfile
-rm -f ~/.rpmmacros
+rm $specfile || exit 1;
+rm ~/.rpmmacros || exit 1;
 
 mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/redhat/7.x/
 mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/redhat/7.x/
+
+# --
+# build Redhat 8.0 rpm
+# --
+cp $ARCHIVE_DIR/scripts/redhat-rpmmacros ~/.rpmmacros || exit 1
+specfile=$PACKAGE_TMP_SPEC
+cat $ARCHIVE_DIR/scripts/redhat-otrs-8.0.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
+# replace sourced files 
+perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1 
+# replace package description
+perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< $DESCRIPTION');while(<IN>){\$i.=\$_;}\$spec=~s/<DESCRIPTION>/\$i/g;print \$spec;" > $specfile
+rpm -ba --clean $specfile || exit 1;
+rm $specfile || exit 1;
+rm ~/.rpmmacros || exit 1;
+
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/redhat/8.0/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/redhat/8.0/
 
 # --
 # stats
