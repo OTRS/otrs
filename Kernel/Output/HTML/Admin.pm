@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.37 2003-04-09 19:45:10 martin Exp $
+# $Id: Admin.pm,v 1.38 2003-04-12 23:42:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -75,6 +75,7 @@ sub AdminEmail {
         Data => $Param{GroupList},
         Size => 6,
         Name => 'GroupIDs',
+        Multiple => 1,
     );
 
     # create & return output
