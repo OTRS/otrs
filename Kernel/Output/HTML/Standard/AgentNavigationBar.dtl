@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.34 2004-07-15 19:27:36 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.35 2004-07-16 12:23:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,10 +31,10 @@
         <div title="$Text{"Overview of all open Tickets"}"><a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}queue.png" alt="$Text{"QueueView"}"><br>$Text{"QueueView"}</a></div>
       </td>
       <td valign="top" align="center" class="nav">
-        <div title="$Text{"Create new Phone Ticket"}"><a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"Create new Phone Ticket"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}new.png" alt="$Text{"Create new Phone Ticket"}"><br>$Text{"Phone Ticket"}</a></div>
+        <div title="$Text{"Create new Phone Ticket"}"><a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"Create new Phone Ticket"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}new.png" alt="$Text{"Create new Phone Ticket"}"><br>$Text{"Phone-Ticket"}</a></div>
       </td>
       <td valign="top" align="center" class="nav">
-        <div title="$Text{"Create new Email Ticket"}"><a href="$Env{"Baselink"}Action=AgentEmail" onmouseover="window.status='$Text{"Create new Email Ticket"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}mail_new.png" alt="$Text{"Create new Email Ticket"}"><br>$Text{"Email Ticket"}</a></div>
+        <div title="$Text{"Create new Email Ticket"}"><a href="$Env{"Baselink"}Action=AgentEmail" onmouseover="window.status='$Text{"Create new Email Ticket"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}mail_new.png" alt="$Text{"Create new Email Ticket"}"><br>$Text{"Email-Ticket"}</a></div>
       </td>
       <td valign="top" align="center" class="nav">
         <div title="$Text{"Search Tickets"}"><a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Search"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}search.png" alt="$Text{"Search"}"><br>$Text{"Search"}</a></div>
