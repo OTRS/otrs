@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.27 2003-02-25 22:55:00 martin Exp $
+# $Id: AgentPhone.pm,v 1.28 2003-03-02 08:34:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -288,6 +288,9 @@ sub Run {
                 if ($CustomerUserData{UserCustomerID}) {
                     $CustomerID = $CustomerUserData{UserCustomerID};
                 } 
+                if ($CustomerUserData{UserLogin}) {
+                    $CustomerUser = $CustomerUserData{UserLogin};
+                } 
             }
             # if more the one customer user exists, show list
             # and clean CustomerUserID and CustomerID
@@ -313,6 +316,9 @@ sub Run {
             }
             if ($CustomerUserData{UserCustomerID}) {
                 $CustomerID = $CustomerUserData{UserCustomerID};
+            } 
+            if ($CustomerUserData{UserLogin}) {
+                $CustomerUser = $CustomerUserData{UserLogin};
             } 
             $Error{"ExpandCustomerName"} = 1;
         }
