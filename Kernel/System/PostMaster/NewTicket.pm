@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.6 2002-05-18 09:56:47 martin Exp $
+# $Id: NewTicket.pm,v 1.7 2002-05-20 23:28:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -277,20 +277,19 @@ sub Run {
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
     );
-    my $Cc = '';
+    my $To = '';
     foreach (@UserIDs) {
         my %UserData = $UserObject->GetUserData(UserID => $_);
         if ($UserData{UserLogin} && $UserData{UserSendNewTicketNotification}) {
-            $Cc .= "$UserData{UserLogin}, ";
+            $To .= "$UserData{UserLogin}, ";
         }
     }
-    if ($Cc) {
-# FIXME!! Get data from db table!!!
+    if ($To) {
         # --
         # prepare subject (insert old subject)
         # --
-#        my $Subject = $Data{Subject} || 'No Std. Subject found!';
-        my $Subject = 'New ticket notification! (<OTRS_CUSTOMER_SUBJECT[10]>)';
+        my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectNewTicket') 
+          || 'No subject found in Config.pm!';
         my $OldSubject = $GetParam{Subject} || 'Your email!';
         $OldSubject =~ s/\n//g;
         if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
@@ -303,20 +302,9 @@ sub Run {
         # --
         # prepare body (insert old email)
         # --
-#        my $Body = $Data{Text} || 'No Std. Body found!';
-        my $Body = "
-Hi,
-
-new ticket [$NewTn]!
-
-<snip>
-<OTRS_CUSTOMER_EMAIL[6]>
-<snip>
-
-http://yourhost.example.com/otrs/index.pl?Action=AgentZoom?TicketID=$TicketID
-
-Your OpenTRS Notification Master
-";
+        my $Body = $Self->{ConfigObject}->Get('NotificationBodyNewTicket')
+          || 'No body found in Config.pm!';
+        $Body =~ s/<OTRS_TICKET_ID>/$TicketID/g;
         my $OldBody = $GetParam{Body} || 'Your Message!';
         if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
             my $Line = $1;
@@ -327,7 +315,8 @@ Your OpenTRS Notification Master
             }
             $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
         }
-        my $From = 'ticket@bogen.net';
+        my $From = $Self->{ConfigObject}->Get('NotificationSenderName').
+              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>';
 
         # --
         # send notification
@@ -345,10 +334,10 @@ Your OpenTRS Notification Master
             TicketObject => $TicketObject,
             HistoryType => 'SendAgentNotification',
 
-            From => $From,
+            From => $Self->{ConfigObject}->Get('NotificationSenderName').
+              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
             Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
-            To => $Cc,
-            RealName => 'lala', 
+            To => $To,
             Subject => $Subject, 
             UserID => $Self->{ConfigObject}->Get('PostmasterUserID'),
             Body => $Body, 

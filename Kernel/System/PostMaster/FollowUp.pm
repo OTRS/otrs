@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.8 2002-05-14 01:37:24 martin Exp $
+# $Id: FollowUp.pm,v 1.9 2002-05-20 23:28:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::PostMaster::AutoResponse;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -264,17 +264,39 @@ sub Run {
        }
        # check UserSendFollowUpNotification
        if ($Preferences{UserSendFollowUpNotification}) {
-         my $From = $Self->{ConfigObject}->Get('NotificationSenderName').
-              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>';
-         my $Subject = '['.$Self->{ConfigObject}->Get('TicketHook').": $Tn] ". 
-              $Self->{ConfigObject}->Get('NotificationSubject');
-         my $Body = "
-Hi $Preferences{UserFirstname},
+         # --
+         # prepare subject (insert old subject)
+         # --
+         my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectFollowUp') 
+              || 'No subject found in Config.pm!';
+         my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
+         my $OldSubject = $GetParam{Subject} || 'Your email!';
+         $OldSubject =~ s/(\[$TicketHook: $Tn\]|\n)//g;
+         if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+            my $SubjectChar = $1;
+            $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+            $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
+         }
+         $Subject = "[". $Self->{ConfigObject}->Get('TicketHook') .": $Tn] $Subject";
 
-you got a follow up!
+         # --
+         # prepare body (insert old email)
+         # --
+         my $Body = $Self->{ConfigObject}->Get('NotificationBodyFollowUp') 
+          || 'No body found in Config.pm!';
+         $Body =~ s/<OTRS_TICKET_ID>/$TicketID/g;
+         $Body =~ s/<OTRS_USER_FIRSTNAME>/$Preferences{UserFirstname}/g; 
+         my $OldBody = $GetParam{Body} || 'Your Message!';
+         if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+            my $Line = $1;
+            my @Body = split(/\n/, $OldBody);
+            my $NewOldBody = '';
+            foreach (my $i = 0; $i < $Line; $i++) {
+              $NewOldBody .= "> $Body[$i]\n";
+            }
+            $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+         }
 
-Your OpenTRS Notification Master
-";
          # --
          # send notification
          # --
@@ -287,10 +309,10 @@ Your OpenTRS Notification Master
             TicketObject => $TicketObject,
             HistoryType => 'SendAgentNotification',
 
-            From => $From,
+            From => $Self->{ConfigObject}->Get('NotificationSenderName').
+              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>', 
             Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
             To => $Preferences{UserLogin},
-            RealName => $Data{Realname},
             Subject => $Subject, 
             UserID => $Self->{ConfigObject}->Get('PostmasterUserID'),
             Body => $Body, 
