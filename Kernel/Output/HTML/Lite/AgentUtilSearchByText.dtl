@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByText.dtl,v 1.1 2002-07-14 23:52:54 martin Exp $
+# $Id: AgentUtilSearchByText.dtl,v 1.2 2002-07-18 23:28:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@ $Text{"Search in"}:
     <td><input type="checkbox" name="What" value="CustomerID" $Data{"CustomerIDCheckBox"}></td>
   </tr>
   <tr>
-    <td>$Text{"Ticket  free text"}</td>
+    <td>$Text{"Ticket free text"}</td>
     <td><input type="checkbox" name="What" value="TicketFreeText" $Data{"TicketFreeTextCheckBox"}></td>
     <td>$Text{"Article free text"}</td>
     <td><input type="checkbox" name="What" value="ArticleFreeText" $Data{"ArticleFreeTextCheckBox"}></td>

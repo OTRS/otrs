@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoom.dtl,v 1.8 2002-07-02 08:44:55 martin Exp $
+# $Id: TicketZoom.dtl,v 1.9 2002-07-18 23:28:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,6 +29,7 @@
   <a href="$Env{"Baselink"}&Action=AgentHistory&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"History"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentOwner&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Owner"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Add Note"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentCustomer&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Customer"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Close"}</a>
   </td>
   <td align="right" bgcolor="$Env{"BGTableColor2"}">
@@ -75,7 +76,7 @@ $Data{"Article::Text"}
     <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
     <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
     <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
-    <tr><td><b>$Text{"CustomerID"}:</b></td><td><font color="red">$Data{"CustomerID"}</font></td></tr>
+    <tr><td><b>$Text{"CustomerID"}:</b></td><td>$Data{"CustomerID"}</td></tr>
     <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
     <tr><td colspan="2"></td></tr>
     <tr><td colspan="2">

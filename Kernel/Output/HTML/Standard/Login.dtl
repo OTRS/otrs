@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.7 2002-06-08 22:06:34 martin Exp $
+# $Id: Login.dtl,v 1.8 2002-07-18 23:28:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,7 +55,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <center>
 
 <p>
-<font color="red">$Data{"Message"}</font>
+<font color="red">$Text{"$Data{"Message"}"}</font>
 </p>
 
 <p>
@@ -71,11 +71,11 @@ X-Wanted: I think you are smart. I'm looking for smart people!
   <td align="center" bgcolor="$Env{"BGTableColor1"}">
     <table cellspacing="8" cellpadding="2">
     <tr>
-      <td>Username:</td>
+      <td>$Text{"Username"}:</td>
       <td><input type="text" name="User" value="$Data{"User"}" size="18"></td>
     </tr>
     <tr>
-      <td>Password:</td>
+      <td>$Text{"Password"}:</td>
       <td><input type="password" name="Password" size="18"></td>
     </tr>
     </table>

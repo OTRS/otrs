@@ -1,8 +1,8 @@
 # --
-# AgentUtilSearchByTicketNumber.dtl - provides HTML form for AgentUtilities.pm
+# AgentUtilSearchByCustomerID.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByTicketNumber.dtl,v 1.2 2002-07-18 23:28:19 martin Exp $
+# $Id: AgentUtilSearchByCustomerID.dtl,v 1.1 2002-07-18 23:28:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
   <td align="left" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"}-$Text{"search"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Customer history search"}$Env{"Box1"}</font></b>
   </font>
   </td>
 </tr>
@@ -20,19 +20,22 @@
   <td align="center" valign="top">
 
 <p>
-
-$Config{"TicketHook"}-$Text{"search (e. g. 10*5155 or 105658*)"}
+$Text{"Customer history search (e. g. "ID342425")."} $Text{"No * possible!"}
+<br>
+<font color="red">$Text{"$Data{"Message"}"}</font>
 <form action="$Env{"CGIHandle"}" method="post">
-<input type="hidden" name="Action" value="AgentUtilities">
-<input type="hidden" name="Subaction" value="SearchByTn">
+<input type="hidden" name="Action" value="AgentCustomer">
+<input type="hidden" name="Subaction" value="CustomerID">
+<input type="hidden" name="Search" value="1">
 <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
-<input type="text" name="Want" size="30" value="$Data{"What"}">
+$Text{"CustomerID"} <input type="text" name="CustomerID" size="20" value="$Data{"CustomerID"}">
+<br>
 <input type="submit" value="$Text{"go"}">
 </form>
 
 </p>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->
