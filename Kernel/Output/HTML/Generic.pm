@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.64 2002-12-03 21:25:52 martin Exp $
+# $Id: Generic.pm,v 1.65 2002-12-20 20:40:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -53,7 +53,7 @@ sub new {
     # --
     # check needed objects
     # --
-    foreach ('ConfigObject', 'LogObject') {
+    foreach (qw(ConfigObject LogObject)) {
         die "Got no $_!" if (!$Self->{$_});
     } 
 
@@ -98,7 +98,10 @@ sub new {
     # Baselink 
     # --
     $Self->{Baselink}  = "$Self->{CGIHandle}?";
-    $Self->{Time}      = localtime();
+    $Self->{Time}      = $Self->{LanguageObject}->Time(
+        Action => 'GET', 
+        Format => 'DateFormatLong',
+    );
     $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
     $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
@@ -893,6 +896,12 @@ sub CheckMimeType {
     return $Output;
 }
 # --
+sub ReturnValue {
+    my $Self = shift;
+    my $What = shift;
+    return $Self->{$What};
+}
+# --
 sub GetRelease {
     my $Self = shift;
     my %Param = @_;
@@ -954,4 +963,3 @@ sub Attachment {
 # --
 
 1;
- 
