@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.18 2002-08-26 21:58:01 martin Exp $
+# $Id: NewTicket.pm,v 1.19 2002-09-09 19:33:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -171,7 +171,9 @@ sub Run {
         "ArticleID=$ArticleID). $Comment"
     );
     
+    # --
     # send auto response
+    # --
     my $AutoResponse = Kernel::System::PostMaster::AutoResponse->new(
         DBObject => $DBObject,
     );
@@ -179,6 +181,14 @@ sub Run {
         QueueID => $QueueID,
         Type => $AutoResponseType,
     );
+
+    # --
+    # check reply to
+    # --
+    if ($GetParam{ReplyTo}) {
+        $GetParam{From} = $GetParam{ReplyTo};
+    }
+
     if ($Data{Text} && $Data{Realname} && $Data{Address} && !$GetParam{'X-OTRS-Loop'}) {
         # --
         # check / loop protection!
@@ -314,10 +324,12 @@ sub Run {
         # --
         # prepare body (insert old email)
         # --
+        my $From = $GetParam{From} || '';
         my $Body = $Self->{ConfigObject}->Get('NotificationBodyNewTicket')
           || 'No body found in Config.pm!';
         $Body =~ s/<OTRS_TICKET_ID>/$TicketID/g;
         $Body =~ s/<OTRS_QUEUE>/$Queue/g;
+        $Body =~ s/<OTRS_CUSTOMER_FROM>/$From/g;
         my $OldBody = $GetParam{Body} || 'Your Message!';
         if ($Body =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
             my $Line = $1;
@@ -332,8 +344,6 @@ sub Run {
             }
             $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
         }
-        my $From = $Self->{ConfigObject}->Get('NotificationSenderName').
-              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>';
 
         # --
         # send notification
