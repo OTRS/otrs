@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.25 2003-07-01 18:26:26 martin Exp $
+# $Id: Installer.pm,v 1.26 2003-09-28 20:32:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,7 +86,7 @@ sub Run {
     # --
     my %Dist = ();
     $Dist{Vendor} = "Unix/Linux";
-    $Dist{Webserver} = "no webserver detected, restart your webserver";
+    $Dist{Webserver} = "restart your webserver";
     if (-f "/etc/SuSE-release") {
         $Dist{Vendor} = "SuSE";
         $Dist{Webserver} = "rcapache restart";
