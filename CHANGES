@@ -2,16 +2,38 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.23 2002-10-03 21:15:36 martin Exp $
+# $Id: CHANGES,v 1.24 2002-10-15 09:56:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-0.5 BETA8 (2002-09-??)
- - moved Kernel::System::Article to Kernel::System::Ticket::Article! The
-    ArticleObject exists not longer in Kernel::Modules::*, use TicketObject.
+0.5 BETA8 (2002-10-??)
+ - added config support for AgentPreferences module (Kernel/Config/Preferences.pm)
+ - added AgentStatusView module (overview of all open tickets) - (Thanks to Phil Davis)!
+ - added support of generic session id name (e. g. SessionID, OTRS, ...)
+ - added more flexibility for option string in Kernel::Modules::AgentPhone
+    [Kernel::Config::Phone]
+      # PhoneViewASP -> useful for ASP
+      # (Possible to create in all queue? Not only queue which
+      # the own groups) [0|1]
+      $Self->{PhoneViewASP} = 1;
+      # PhoneViewSelectionType 
+      # (To: seection type. Queue => show all queues, SystemAddress => show all system 
+      # addresses;) [Queue|SystemAddress]
+       $Self->{PhoneViewSelectionType} = 'SystemAddress';
+      # PhoneViewSelectionString
+      # (String for To: selection.) 
+      $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
+      # PhoneViewOwnSelection
+      # (If this is in use, "just this selection is valid" for the PhoneView.)
+      $Self->{PhoneViewOwnSelection} = {
+        # QueueID => String
+        '1' => 'First Queue!',
+        '2' => 'Second Queue!',
+      };
+    [...]
  - added attachment support for agent compose answer
  - added Kernel::Modules::AdminEmail feature - a admin can send (via admin 
     interface) info to one or more agents.
@@ -23,7 +45,8 @@
     - http://lists.otrs.org/pipermail/otrs/2002-September/000203.html
  - created config file (Kernel/Config/GenericAgent.pm) for bin/GenericAgent.pl
  - splited Kernel/Config.pm info Kernel/Config.pm, Kernel/Config/Postmaster.pm 
-    and Kernel/Config/Notification.pm to get a better overview.
+    Kernel/Config/Phone.pm and Kernel/Config/Notification.pm and renamed some 
+    config variables to get a better overview.
  - added new/current french translation - Thanks to Bernard Choppy! 
  - added module support for log (Kernel/Config.pm --> $Self->{LogModule})
      * "Kernel::System::Log::SysLog" for syslogd (default)
@@ -32,6 +55,8 @@
     $Self->{LoginURL}, $Self->{LogoutURL}) and added two example alternate 
     login pages scripts/login.pl (Perl) and scripts/login.php (PHP)
  - added backup and restore script (scripts/(backup|restore).sh)
+ - moved Kernel::System::Article to Kernel::System::Ticket::Article! The
+    ArticleObject exists not longer in Kernel::Modules::*, use TicketObject.
  - fixed Bug [30] Kernel/System/DB.pm - DB quoting http://bugs.otrs.org/show_bug.cgi?id=30
     Thanks to Marc Scheuffler!
  - fixed Bug [28] Base64 Encoded mail fails - http://bugs.otrs.org/show_bug.cgi?id=28
