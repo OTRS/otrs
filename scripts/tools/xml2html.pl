@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2html.pl,v 1.6 2005-01-12 17:42:43 martin Exp $
+# $Id: xml2html.pl,v 1.7 2005-03-02 09:34:25 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,15 +28,21 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::DB;
 use Kernel::System::XML;
 
 my $ConfigObject = Kernel::Config->new();
 my $LogObject    = Kernel::System::Log->new(
     ConfigObject => $ConfigObject,
 );
+my $DBObject    = Kernel::System::DB->new(
+    ConfigObject => $ConfigObject,
+    LogObject => $LogObject,
+);
 my $XMLObject = Kernel::System::XML->new(
     ConfigObject => $ConfigObject,
     LogObject => $LogObject,
+    DBObject => $DBObject,
 );
 
 my $Title = 'xml2html: ';
