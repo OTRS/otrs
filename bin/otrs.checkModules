@@ -1,11 +1,23 @@
 #!/usr/bin/perl -w
 # --
-# $Id: otrs.checkModules,v 1.6 2004-12-10 08:48:49 martin Exp $
+# bin/otrs.checkModules - to check needed cpan framework modules
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# This programm is based on pminst from Tom Christiansen.
-# This is free software.  You may modify it and distribute it
-# under Perl's Artistic Licence.  Modified versions must be
-# clearly indicated.
+# $Id: otrs.checkModules,v 1.7 2005-01-16 19:49:05 martin Exp $
+# --
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
 # use ../ as lib location
@@ -14,15 +26,9 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
-use File::Find;
-
-if (@ARGV == 0) {
-    @ARGV = ('.');
-}
-
+# config
 my @NeededModules = (qw(
     CGI
-    XML::Parser
     Date::Pcalc
     DBI DBD::mysql
     Digest::MD5
@@ -34,32 +40,9 @@ my @NeededModules = (qw(
     GD GD::Text GD::Graph GD::Graph::lines GD::Text::Align
 ));
 
-my %InstalledModules = ();
-
-no lib '.';
-
-for $startdir (@INC) {
-    find(\&wanted, $startdir);
-}
-
-sub wanted {
-    if (-d && /^[a-z]/) {
-        # this is so we don't go down site_perl etc too early
-        $File::Find::prune = 1;
-        return;
-    }
-    return unless /\.pm$/;
-    local $_ = $File::Find::name;
-    $tmpname = $_;
-    $tmpname =~ s{^\Q$startdir/}{};
-    s{^\Q$startdir/}{};
-    s/\.pm$//;
-    s{/}{::}g;
-    $InstalledModules{lc($_)} = 1;
-}
-
+# try to load modules
 foreach (@NeededModules) {
-    if ($InstalledModules{lc($_)}) {
+    if (eval "require $_") {
         print sprintf(" %20s %s\n", $_, '... ok');
     }
     else {
@@ -77,4 +60,5 @@ foreach (@NeededModules) {
         }
     }
 }
+exit;
 
