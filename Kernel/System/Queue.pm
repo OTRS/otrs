@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.2 2001-12-26 20:12:05 martin Exp $
+# $Id: Queue.pm,v 1.3 2002-04-13 15:47:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -234,6 +234,23 @@ sub GetFollowUpLockOption {
         $Return = $RowTmp[0];
     }
     return $Return;
+}
+# --
+sub GetQueueGroupID {
+    my $Self = shift;
+    my %Param = @_;
+    my $QueueID = $Param{QueueID} || return;
+    my $GID = '';
+        my $SQL = "SELECT group_id " .
+        " FROM " .
+        " queue " .
+        " WHERE " .
+        " id = $QueueID";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $GID = $RowTmp[0];
+    }
+    return $GID;
 }
 # --
 
