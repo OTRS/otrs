@@ -11,33 +11,32 @@ We try to keep the installation as easy as possible. But the OTRS is a very powe
 This section is a guide for installing OTRS on a SuSE Linux. We tested the SuSE Linux versions 7.3, 8.0 and 8.1. Before starting the installation have a look at <ulink url="http://www.otrs.org/"><citetitle>http://otrs.org/</citetitle></ulink> and check if a newer and better version of the rpm file is available. If so please download it and use the newer documentation and the newer rpm.
 </para>
 <para>
-Install the otrs.rpm with YaST (YaST2) or on the command line with rpm (what ever you prefer). Please be aware of the fact that OpenTRS needs some Perl-Modules which are not installed by default in a typical SuSE installation. So it might be a good idea to use YaST to install the rpm because it will handle and solve all the dependencies.
+Install the otrs.rpm with YaST (YaST2) or on the command line with rpm (what ever you prefer). Please be aware of the fact that OTRS needs some Perl-Modules which are not installed by default in a typical SuSE installation. So it might be a good idea to use YaST to install the rpm because it will handle and solve all the dependencies.
 </para>
 <para>
 In case you prefer the command line rpm way (you have to have installed the needed modules first otherwise rpm will ask you to do so):
 <screen>
 ernie:~ # rpm -ivh /tmp/otrs.rpm 
 otrs                        ##################################################
-Check OpenTRS user (/etc/passwd)... otrs added.
-SetPermissions.sh &lt;$Revision: 1.7 $> - set OpenTRS file permissions
-Copyright (c) 2002 Martin Edenhofer &lt;martin@otrs.org>
+Check OTRS user (/etc/passwd)... otrs exists.
+SetPermissions.sh $Revisio : 1.16 $ - set OTRS file permissions
+Copyright (c) 2002 Martin Edenhofer martin at otrs.org
 Setting file permissions... 
-chown -R root.root /opt/OpenTRS
-chown otrs.nogroup /opt/OpenTRS
-chown otrs.nogroup /opt/OpenTRS/.fetchmailrc
-chmod 0710 /opt/OpenTRS/.fetchmailrc
-chown otrs.nogroup /opt/OpenTRS/.procmailrc
-chmod 0644 /opt/OpenTRS/.procmailrc
-chown -R otrs.nogroup /opt/OpenTRS/var/
-chown -R wwwrun.nogroup /opt/OpenTRS/var/sessions/
-otrs.nogroup /opt/OpenTRS/var/log/TicketCounter.log
-chmod -R 755 /opt/OpenTRS/bin/
-(chown &amp;&amp; chmod 700) otrs.root /opt/OpenTRS/bin/DeleteSessionIDs.pl
-chmod: getting attributes of `otrs.root': No such file or directory
-(chown &amp;&amp; chmod 700) otrs.root /opt/OpenTRS/bin/UnlockTickets.pl
-(chown &amp;&amp; chmod 700) otrs.root /opt/OpenTRS/bin/otrs.getConfig
-Updating etc/sysconfig/otrs...
-insserv: script postfix: service sendmail already provided!
+chown -R 0:0 /opt/otrs
+chown otrs:nogroup /opt/otrs
+chown otrs:nogroup /opt/otrs/.fetchmailrc
+chmod 0710 /opt/otrs/.fetchmailrc
+chown otrs:nogroup /opt/otrs/.procmailrc
+chmod 0644 /opt/otrs/.procmailrc
+chown otrs:nogroup /opt/otrs/.mailfilter
+chmod 0600 /opt/otrs/.mailfilter
+chown -R otrs:nogroup /opt/otrs/var/
+chown -R wwwrun:nogroup /opt/otrs/var/sessions/
+chown otrs:nogroup /opt/otrs/var/log/TicketCounter.log
+chmod -R 755 /opt/otrs/bin/
+(chown &amp;&amp; chmod 700) otrs:0 /opt/otrs/bin/DeleteSessionIDs.pl
+(chown &amp;&amp; chmod 700) otrs:0 /opt/otrs/bin/UnlockTickets.pl
+(chown &amp;&amp; chmod 700) otrs:0 /opt/otrs/bin/otrs.getConfig
 
 Next steps: 
 
@@ -45,18 +44,18 @@ Next steps:
  Execute 'SuSEconfig' to configure the webserver.
 
 [start Apache and MySQL]
- Execute 'rcapache start' and 'rcmysql start' in case they don't run.
+ Execute 'rcapache restart' and 'rcmysql start' in case they don't run.
 
-[install the OpenTRS database]
+[install the OTRS database]
  Use a webbrowser and open this link:
  http://localhost/otrs/installer.pl
 
-[OpenTRS services]
- Start OpenTRS 'rcotrs start-force' (rcotrs {start|stop|status|restart|start-force|stop-force}).
+[OTRS services]
+ Start OTRS 'rcotrs start-force' (rcotrs {start|stop|status|restart|start-force|stop-force}).
 
 Have fun!
 
- Your OpenTRS Team
+ Your OTRS Team
  http://otrs.org/
 
 ernie:~ # 
@@ -66,44 +65,44 @@ Know it's time to start SuSEconfig:
 ernie:~ # SuSEconfig 
 Starting SuSEconfig, the SuSE Configuration Tool...
 Running in full featured mode.
-Reading /etc/rc.config and updating the system...
+Reading /etc/sysconfig and updating the system...
+Executing /sbin/conf.d/SuSEconfig.3ddiag...
 Executing /sbin/conf.d/SuSEconfig.aaa_at_first...
 Executing /sbin/conf.d/SuSEconfig.alljava...
 Executing /sbin/conf.d/SuSEconfig.apache...
-Installing new /etc/httpd/httpd.conf
-Installing new /etc/httpd/suse_include.conf
+Including /opt/otrs/scripts/apache-httpd.include.conf
+Executing /sbin/conf.d/SuSEconfig.bootsplash...
 Executing /sbin/conf.d/SuSEconfig.doublecheck...
-Executing /sbin/conf.d/SuSEconfig.fonts...
-Executing /sbin/conf.d/SuSEconfig.groff...
+Executing /sbin/conf.d/SuSEconfig.guile...
 Executing /sbin/conf.d/SuSEconfig.hostname...
-Executing /sbin/conf.d/SuSEconfig.inittab...
+Executing /sbin/conf.d/SuSEconfig.ispell...
+Executing /sbin/conf.d/SuSEconfig.libgnomeprint...
+Executing /sbin/conf.d/SuSEconfig.libxml2...
 Executing /sbin/conf.d/SuSEconfig.man_info...
-Executing /sbin/conf.d/SuSEconfig.news...
+Executing /sbin/conf.d/SuSEconfig.pango...
 Executing /sbin/conf.d/SuSEconfig.perl...
 Executing /sbin/conf.d/SuSEconfig.permissions...
-Checking permissions and ownerships - using /etc/permissions.d/postfix...
-setting /usr/sbin/sendmail to root.root 0555.
-Checking permissions and ownerships - using /etc/permissions.d/sendmail...
-setting /usr/sbin/sendmail to root.mail 2555.
 Executing /sbin/conf.d/SuSEconfig.postfix...
-Installing new /etc/postfix/main.cf
+Setting up postfix local as MDA...
+Setting SPAM protection to "off"...
 Executing /sbin/conf.d/SuSEconfig.profiles...
-Executing /sbin/conf.d/SuSEconfig.sendmail...
-Executing /sbin/conf.d/SuSEconfig.sortpasswd...
+Executing /sbin/conf.d/SuSEconfig.scpm...
 Finished.
 </screen>
 </para>
 <para>
-Once you installed the otrs.rpm on your system you have to reload the apache by rcapache reload to force apache to reload the config file. In case you haven't started the apache or mysql yet, it is a good time to do so (rcapache start and rcmysql start).
+Once you installed the otrs.rpm on your system you have to restart the apache by rcapache restart to force apache to reload the config file. 
 <screen>
-ernie:~ # rcapache reload
- PERL PHP4 Python Reload httpd                              done
+ernie:~ # rcapache restart
+Shutting down httpd                                         done
+Starting httpd [ PERL ]                                     done
+ernie:~ # 
 </screen>
 
 Now you have to setup the databases. Please open <ulink url="http://localhost/otrs/installer.pl"><citetitle>http://localhost/otrs/installer.pl</citetitle></ulink> to do so.
 
 <screenshot>
-<screeninfo>installer.pl screen</screeninfo>
+<screeninfo>installer.pl screen - database (1/4)</screeninfo>
 <graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer.png"></graphic>
 </screenshot>
 </para>
@@ -113,26 +112,41 @@ It is not a good idea to use the default passwords. You install a very important
 </para>
 </warning>
 <para>
+<screenshot>
+<screeninfo>installer.pl screen - database (2/4)</screeninfo>
+<graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer1.png"></graphic>
+</screenshot>
+<screenshot>
+<screeninfo>installer.pl screen - system (3/4)</screeninfo>
+<graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer2.png"></graphic>
+</screenshot>
+<screenshot>
+<screeninfo>installer.pl screen - finish (4/4)</screeninfo>
+<graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer3.png"></graphic>
+</screenshot>
+</para>
+<para>
 And because we want to keep the system as secure as possible we change some permissions by using the following script:
 <screen>
-ernie:~ # /opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS otrs wwwrun
-SetPermissions.sh &lt;$Revision: 1.7 $> - set OpenTRS file permissions
-Copyright (c) 2002 Martin Edenhofer &lt;martin@otrs.org>
+ernie:~ # /opt/otrs/bin/SetPermissions.sh /opt/otrs otrs wwwrun
+SetPermissions.sh $Revisio : 1.16 $ - set OTRS file permissions
+Copyright (c) 2002 Martin Edenhofer martin at otrs.org
 Setting file permissions... 
-chown -R root.root /opt/OpenTRS
-chown otrs.nogroup /opt/OpenTRS
-chown otrs.nogroup /opt/OpenTRS/.fetchmailrc
-chmod 0710 /opt/OpenTRS/.fetchmailrc
-chown otrs.nogroup /opt/OpenTRS/.procmailrc
-chmod 0644 /opt/OpenTRS/.procmailrc
-chown -R otrs.nogroup /opt/OpenTRS/var/
-chown -R wwwrun.nogroup /opt/OpenTRS/var/sessions/
-otrs.nogroup /opt/OpenTRS/var/log/TicketCounter.log
-chmod -R 755 /opt/OpenTRS/bin/
-(chown &amp;&amp; chmod 700) otrs.root /opt/OpenTRS/bin/DeleteSessionIDs.pl
-chmod: getting attributes of `otrs.root': No such file or directory
-(chown &amp;&amp; chmod 700) otrs.root /opt/OpenTRS/bin/UnlockTickets.pl
-(chown &amp;&amp; chmod 700) otrs.root /opt/OpenTRS/bin/otrs.getConfig
+chown -R 0:0 /opt/otrs/
+chown otrs:nogroup /opt/otrs/
+chown otrs:nogroup /opt/otrs//.fetchmailrc
+chmod 0710 /opt/otrs//.fetchmailrc
+chown otrs:nogroup /opt/otrs//.procmailrc
+chmod 0644 /opt/otrs//.procmailrc
+chown otrs:nogroup /opt/otrs//.mailfilter
+chmod 0600 /opt/otrs//.mailfilter
+chown -R otrs:nogroup /opt/otrs//var/
+chown -R wwwrun:nogroup /opt/otrs//var/sessions/
+chown otrs:nogroup /opt/otrs//var/log/TicketCounter.log
+chmod -R 755 /opt/otrs//bin/
+(chown && chmod 700) otrs:0 /opt/otrs//bin/DeleteSessionIDs.pl
+(chown && chmod 700) otrs:0 /opt/otrs//bin/UnlockTickets.pl
+(chown && chmod 700) otrs:0 /opt/otrs//bin/otrs.getConfig
 ernie:~ #
 </screen>
 
@@ -140,24 +154,24 @@ OK, know it it time to fire up the otrs. Do so on the command line:
 
 <screen>
 ernie:~ # rcotrs restart-force
-Shutting down OpenTRS 
- Disable /opt/OpenTRS/bin/PostMaster.pl ... done.
+Shutting down OTRS 
+ Disable /opt/otrs/bin/PostMaster.pl ... done.
 no crontab for otrs
  Shutting down cronjobs ... failed!
-Shutting down OpenTRS (completely)
+Shutting down OTRS (completely)
  Shutting down Apache ... done.
  Shutting down MySQL ... done.
                                                                      done
-Starting OpenTRS (completely)
+Starting OTRS (completely)
  Starting Apache ... done.
  Starting MySQL ... done.
-Starting OpenTRS
+Starting OTRS
  Checking Apache ... done.
  Checking MySQL ... done.
  Checking database connect... (It looks Ok!).
- Enable /opt/OpenTRS/bin/PostMaster.pl ... done.
+ Enable /opt/otrs/bin/PostMaster.pl ... done.
  Checking otrs spool dir...  done.
- Creating cronjobs (source /opt/OpenTRS/var/cron/*) ... done.
+ Creating cronjobs (source /opt/otrs/var/cron/*) ... done.
 
   -->> http://ernie.example.com/otrs/index.pl &lt;&lt;-- 
                                                                      done
