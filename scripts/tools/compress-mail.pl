@@ -3,33 +3,33 @@
 # scripts/tools/compress-mail.pl - compress email, zip attachments
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: compress-mail.pl,v 1.1 2004-01-31 14:45:52 martin Exp $
+# $Id: compress-mail.pl,v 1.2 2004-12-07 09:27:55 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
 # use ../ as lib location
-use File::Basename; 
+use File::Basename;
 use FindBin qw($RealBin);
-use lib dirname($RealBin). "../";
+use lib dirname($RealBin). "/../";
 use lib dirname($RealBin)."/../Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,7 +44,7 @@ use Kernel::System::DB;
 use Kernel::System::EmailParser;
 
 # --
-# create common objects 
+# create common objects
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
@@ -55,6 +55,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 my @Email = <STDIN>;
 $CommonObject{ParseObject} = Kernel::System::EmailParser->new(
     Email => \@Email,
+    NoHTMLChecks => 1,
     %CommonObject,
 );
 my $MSGID = $CommonObject{ParseObject}->GetParam(WHAT => 'Message-ID') || 'No Message-ID';
@@ -106,6 +107,9 @@ if (!$Touch) {
         Priority => 'notice',
         Message => "No changes ($MSGID)!",
     );
+    my $Header = $CommonObject{ParseObject}->{HeaderObject}->as_string();
+    print $Header;
+    print "\n";
     foreach (@Email) {
         print $_;
     }
@@ -117,5 +121,6 @@ else {
     );
     my $Header = $CommonObject{ParseObject}->{HeaderObject}->as_string();
     print $Header;
+    print "\n";
     print $Entity->body_as_string();
 }
