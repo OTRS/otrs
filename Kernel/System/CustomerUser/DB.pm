@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.18 2003-10-16 21:06:45 martin Exp $
+# $Id: DB.pm,v 1.19 2003-10-29 21:14:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,6 +58,8 @@ sub new {
             DatabaseUser => $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{User},
             DatabasePw => $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{Password},
         ) || die $DBI::errstr;
+        # remember that we have the DBObject not from parent call
+        $Self->{NotParentDBObject} = 1;
     }
     # --
     # create check item object
@@ -518,5 +520,12 @@ sub GenerateRandomPassword {
     return $Password;
 }
 # --
-
+sub DESTROY {
+    my $Self = shift;
+    # disconnect if it's not a parent DBObject
+    if ($Self->{NotParentDBObject}) {
+        $Self->{DBObject}->Disconnect();
+    }
+}
+# --
 1;
