@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.44 2004-10-08 10:32:52 martin Exp $
+# $Id: AgentEmail.pm,v 1.45 2004-10-09 10:09:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -394,9 +394,13 @@ sub Run {
             }
         }
         # check some values
-        foreach my $Email (Mail::Address->parse($GetParam{To})) {
-            if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
-                $Error{"To invalid"} .= $Self->{CheckItemObject}->CheckError();
+        foreach (qw(To Cc Bcc)) {
+            if ($GetParam{$_}) {
+                foreach my $Email (Mail::Address->parse($GetParam{$_})) {
+                    if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
+                        $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
+                    }
+                }
             }
         }
         if (!$GetParam{To} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0) {
