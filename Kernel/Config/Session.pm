@@ -2,7 +2,7 @@
 # Kernel/Config/Session.pm - Session config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Session.pm,v 1.1 2002-10-15 09:18:55 martin Exp $
+# $Id: Session.pm,v 1.2 2002-10-22 15:16:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Session;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -64,7 +64,7 @@ sub LoadSession {
     # session, you don't have to login again.) [0|1]
     # Note: If the client browser disabled html cookies, the system
     # will work as usual, append SessionID to links!
-#    $Self->{SessionUseCookie} = 1;
+    $Self->{SessionUseCookie} = 1;
 
     # SessionDir
     # directory for all sessen id informations (just needed if 
