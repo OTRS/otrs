@@ -1,72 +1,104 @@
 # --
-# AgentMailboxTicket.dtl - provides HTML form for agent mailbox 
+# AgentMailboxTicket.dtl - provides HTML form for agent mailbox
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentMailboxTicket.dtl,v 1.9 2002-11-10 23:10:34 martin Exp $
+# $Id: AgentMailboxTicket.dtl,v 1.10 2002-12-25 09:33:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
-<!-- start form -->
+<!-- start ticket -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left" width="50%"> 
-   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b> <font color="red">$Text{"$Data{"Message"}"}</font>
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="65%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b> <font color="red">$Text{"$Data{"Message"}"}
+  </font>
   </td>
-  <td align="right" width="49%">
-   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
+  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="34%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
+  </font>
   </td>
 </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}" width="70%">
-  <td width="70%">
-    <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Text{"Zoom"}</a> -
-    <a href="$Env{"Baselink"}Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Unlock"}'; return true;" onmouseout="window.status='';">$Text{"Unlock"}</a> -
-    <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';">$Text{"Priority"}</a> -
-    <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';">$Text{"History"}</a> -
-    <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';">$Text{"Owner"}</a> -
-    <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Add Note"}'; return true;" onmouseout="window.status='';">$Text{"Add Note"}</a> -
-    <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}">$Text{"Customer"}</a> -
-    <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';">$Text{"Close"}</a>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor2"}" width="65%">
+  <a href="$Env{"Baselink"}Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Unlock"}'; return true;" onmouseout="window.status='';">$Text{"Unlock"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Text{"Zoom"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';">$Text{"Priority"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';">$Text{"History"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';">$Text{"Owner"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Add Note"}'; return true;" onmouseout="window.status='';">$Text{"Add Note"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}">$Text{"Customer"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';">$Text{"Close"}</a>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor2"}" width="30%">
-    <b>$Text{"Created"}:</b> $Data{"Created"}
-  </td>
-</tr>
-<tr bgcolor="$Env{"BGTableColor1"}" valign="top" colspan="2">
-  <td>
-  <table border="0">
-    <tr>
-      <td><b>$Text{"From"}:</b></td><td> $Data{"From"}</td>
-    </tr>
-    <tr>
-      <td><b>$Text{"To"}:</b></td><td> $Data{"To"}</td>
-    </tr>
-    <tr>
-      <td><b>$Text{"Subject"}:</b></td><td> $Data{"Subject"}</td>
-    </tr>
-  </table>
-  </td>
-  <td align="left" bgcolor="$Env{"BGTableColor2"}"> 
-  <table border="0">
-    <tr>
-      <td>$Text{"State"}:</td><td> <font color="red">$Text{"$Data{"State"}"}</font></td>
-    </tr>
-    <tr>
-      <td>$Text{"Priority"}:</td><td> <font color="red">$Text{"$Data{"Priority"}"}</font></td>
-    </tr>
-    <tr>
-      <td>$Text{"Queue"}:</td><td> $Data{"Queue"}</td>
-    </tr>
-    <tr>
-      <td>$Text{"CustomerID"}:</td><td> $Data{"CustomerID"}</td>
-    </tr>
-  </table>
+  <td align="right" bgcolor="$Env{"BGTableColor2"}" width="34%">
+  <b>$Text{"Created"}:</b> $Data{"Created"}
   </td>
 </tr>
 </table>
-<!-- end form -->
 
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td valign="top" width="60%">
+  <table border="0" width="100%" cellspacing="0" cellpadding="1">
+    <tr>
+      <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
+      <td width="85%"> $Data{"From"}</td>
+    <tr>
+    <tr>
+      <td valign="top"><b>$Text{"To"}:</b></td>
+      <td> $Data{"To"}</td>
+    <tr>
+# --
+# show cc?
+# --
+    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Data{"Cc"}</td></tr>"; }>
+    $Data{"ArticleCcString"}
+
+    <tr>
+      <td valign="top"><b>$Text{"Subject"}:</b></td>
+      <td> $Data{"Subject"}</td>
+    <tr>
+# --
+# show ArticleFreeKey1-3 and ArticleFreeValue1-3
+# --
+<dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey1"}:</b></td><td> $Data{"ArticleFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey2"}:</b></td><td> $Data{"ArticleFreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"ArticleFreeKey3"}:</b></td><td> $Data{"ArticleFreeValue3"}</td></tr>"; }>
+     $Data{"ArticleFreeString1"}
+     $Data{"ArticleFreeString2"}
+     $Data{"ArticleFreeString3"}
+# --
+  </table>
+  </td> 
+  <td width="20%" bgcolor="$Env{"BGTableColor2"}" align="left" valign="top">
+    <table border="0">
+    <tr valign="top"><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
+    <tr valign="top"><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
+    <tr valign="top"><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
+    </table>
+  </td>
+  <td width="20%" bgcolor="$Env{"BGTableColor2"}" align="left" valign="top">
+    <table border="0">
+    <tr valign="top"><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td></tr>
+# --
+# use ticket is pending 
+# --
+<dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr valign="top"><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
+    $Data{"PendingUntilString"}
+# --
+# show TicketFreeKey1-2 and TicketFreeValue1-2
+# --
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr valign="top"><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
+    $Data{"TicketFreeString1"}
+    $Data{"TicketFreeString2"}
+# --
+    </table>
+  </td>
+</tr>
+</table>
+<!-- end ticket -->
