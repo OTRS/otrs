@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.28 2003-02-08 15:12:55 martin Exp $
+# $Id: Defaults.pm,v 1.29 2003-02-09 02:00:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -199,11 +199,11 @@ sub LoadDefaults {
     # ----------------------------------------------------#
     # default limit for Tn search
     # [default: 150]
-    $Self->{SearchLimitTn} = 80;
+    $Self->{SearchLimitTn} = 150;
 
     # default limit for Txt search
     # [default: 150]
-    $Self->{SearchLimitTxt} = 80;
+    $Self->{SearchLimitTxt} = 150;
 
     # defaut of shown article a page
     # [default: 15]
@@ -1126,6 +1126,12 @@ Your OTRS Notification Master
     #                                                     #
     # ----------------------------------------------------#
 
+    # ShowCustomerInfo*
+    # (show customer user info on Phone, Zoom and Queue view)
+    $Self->{ShowCustomerInfoPhone} = 1;
+    $Self->{ShowCustomerInfoZoom} = 1;
+    $Self->{ShowCustomerInfoQueue} = 0;
+
     # CustomerUser 
     # (customer user database backend and settings)
     $Self->{CustomerUser} = {
@@ -1154,9 +1160,9 @@ Your OTRS Notification Master
             [ 'UserLastname', 'Lastname', 'last_name', 1, 1, 'var' ],
             [ 'UserLogin', 'Login', 'login', 1, 1, 'var' ],
             [ 'UserPassword', 'Password', 'pw', 0, 1, 'var' ],
-            [ 'UserEmail', 'Email', 'email', 1, 1, 'var' ],
+#            [ 'UserEmail', 'Email', 'email', 1, 1, 'var' ],
 #            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}' ],
-            [ 'UserCustomerID', 'CustomerID', 'customer_id', 1, 1, 'var' ],
+#            [ 'UserCustomerID', 'CustomerID', 'customer_id', 1, 1, 'var' ],
             [ 'UserComment', 'Comment', 'comment', 1, 0, 'var' ],
             [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int' ],
         ],

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.31 2003-02-09 00:09:01 martin Exp $
+# $Id: TicketView.dtl,v 1.32 2003-02-09 02:00:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -79,43 +79,40 @@ $Data{"Text"}
    <p align="left">
     <table border="0">
     <tr>
-      <td class="PriorityID-$Data{"PriorityID"}"><b>$Text{"State"}:</b></td>
-      <td class="PriorityID-$Data{"PriorityID"}"><font color="red">$Data{"State"}</font></td>
+      <td><b>$Text{"State"}:</b></td>
+      <td><font color="red">$Data{"State"}</font></td>
     </tr>
     <tr>
-      <td class="PriorityID-$Data{"PriorityID"}"><b>$Text{"Priority"}:</b></td>
-      <td class="PriorityID-$Data{"PriorityID"}"><font color="red">$Data{"Priority"}</font></td>
+      <td><b>$Text{"Priority"}:</b></td>
+      <td><font color="red">$Data{"Priority"}</font></td>
     </tr>
     <tr>
-      <td class="PriorityID-$Data{"PriorityID"}"><b>$Text{"Queue"}:</b></td>
-      <td class="PriorityID-$Data{"PriorityID"}"><font color="red">$Data{"Queue"}</font></td>
+      <td><b>$Text{"Queue"}:</b></td>
+      <td><font color="red">$Data{"Queue"}</font></td>
     </tr>
     <tr>
-      <td class="PriorityID-$Data{"PriorityID"}"><b>$Text{"CustomerID"}:</b></td>
-      <td class="PriorityID-$Data{"PriorityID"}"><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td>
+      <td><b>$Text{"CustomerID"}:</b></td>
+      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td>
     </tr>
     <tr>
-      <td class="PriorityID-$Data{"PriorityID"}"><b>$Text{"Escalation in"}:</b></td>
-      <td class="PriorityID-$Data{"PriorityID"}">$Data{"TicketOverTime"}</td>
+      <td><b>$Text{"Escalation in"}:</b></td>
+      <td>$Data{"TicketOverTime"}</td>
     </tr>
 # --
 # show TicketFreeKey1-2 and TicketFreeValue1-2
 # --
-<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td class="PriorityID-$Data{"PriorityID"}"><b>$Data{"TicketFreeKey1"}:</b></td><td class="PriorityID-$Data{"PriorityID"}">$Data{"TicketFreeValue1"}</td></tr>"; }>
-<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td class="PriorityID-$Data{"PriorityID"}"><b>$Data{"TicketFreeKey2"}:</b></td><td class="PriorityID-$Data{"PriorityID"}">$Data{"TicketFreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
 # --
    </table>
 
 # --
-# uncomment this if customer info should be shown
+# show customer info table 
 # --
-#   <p align="left">
-#    <hr>
-#    $Data{"CustomerTable"}
-#    <hr>
-#   </p>
+<dtl if ($Config{"ShowCustomerInfoQueue"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>"; }>
+    $Data{"CustomerInfo"}
 
    <br>
 
@@ -139,7 +136,7 @@ $Data{"Text"}
        </td></tr></table>
      </p>
 
-     <p class="PriorityID-$Data{"PriorityID"}">
+     <p>
        <b>$Text{"Change queue"}:</b>
        <form action="$Env{"CGIHandle"}" method="get">
        <input type="hidden" name="Action" value="AgentMove">

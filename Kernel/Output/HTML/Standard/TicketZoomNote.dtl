@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomNote.dtl,v 1.30 2003-02-09 00:09:01 martin Exp $
+# $Id: TicketZoomNote.dtl,v 1.31 2003-02-09 02:00:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -126,14 +126,13 @@ $Data{"Article::Text"}
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
     </table>
-# --
-# uncomment this if customer info should be shown
-# --
-#    <hr>
-#    $Data{"CustomerTable"}
-#    <hr>
 
-    <br>
+# --
+# show customer info table 
+# --
+<dtl if ($Config{"ShowCustomerInfoZoom"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>"; }>
+    $Data{"CustomerInfo"}
+# --
 
     <table border="0" cellspacing="0" cellpadding="1" width="95%">
     <tr>
