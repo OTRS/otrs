@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.50 2004-07-16 13:07:30 martin Exp $
+# $Id: TicketView.dtl,v 1.51 2004-09-11 08:05:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -168,7 +168,46 @@ $Data{"Body"}
       <td>
 # --
 # show compose links
-$Data{"TicketAnswer"}
+<!-- dtl:block:AgentIsCustomer -->
+   <p align="left">
+     <b>$Text{"Your own Ticket"}:</b>
+     <br>
+     <table border="0">
+       <tr align="left">
+         <td>
+     <li><a href="$Env{"Baselink"}Action=AgentCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
+         </td>
+       </tr>
+     </table>
+   </p>
+<!-- dtl:block:AgentIsCustomer -->
+
+<!-- dtl:block:AgentAnswer -->
+   <p align="left">
+     <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
+     <br>
+     <table border="0">
+       <tr align="left">
+         <td>
+         $Data{"StdResponsesStrg"}
+         </td>
+       </tr>
+     </table>
+   </p>
+
+   <p align="left">
+     <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
+     <br>
+     <table border="0">
+       <tr align="left">
+         <td>
+<dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"phone call"}'; return true;" onmouseout="window.status='';">$Text{"phone call"}</a></li>"; }>
+$Data{"AgentPhoneStrg"}
+         </td>
+       </tr>
+     </table>
+   </p>
+<!-- dtl:block:AgentAnswer -->
 # --
       </td>
     </tr>
