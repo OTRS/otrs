@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.47 2004-11-16 12:25:50 martin Exp $
+# $Id: AgentEmail.pm,v 1.48 2004-11-27 01:56:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -609,9 +609,11 @@ sub Run {
           }
 
         # prepare subject
-        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
         my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $TicketID);
-        $GetParam{Subject} = "[$TicketHook: $Tn] $GetParam{Subject}";
+        $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+            TicketNumber => $Tn,
+            Subject => $GetParam{Subject} || '',
+        );
         $GetParam{Body} .= "\n\n".$Signature;
         # check if new owner is given (then send no agent notify)
         my $NoAgentNotify = 0;

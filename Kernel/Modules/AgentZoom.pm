@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.80 2004-11-26 13:45:54 martin Exp $
+# $Id: AgentZoom.pm,v 1.81 2004-11-27 01:54:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.80 $';
+$VERSION = '$Revision: 1.81 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -285,12 +285,12 @@ sub MaskAgentZoom {
     $Param{ArticleStrg} = '<table border="0" width="100%" cellspacing="0" cellpadding="0">';
     foreach my $ArticleTmp (@ArticleBox) {
       my %Article = %$ArticleTmp;
-      $TicketOverTime = $Article{TicketOverTime}; 
-      if ($Article{ArticleType} !~ /^email-notification/i) { 
-        my $TmpSubject = $Article{Subject};
-        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-        $TmpSubject =~ s/^..: //;
-        $TmpSubject =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
+      $TicketOverTime = $Article{TicketOverTime};
+      if ($Article{ArticleType} !~ /^email-notification/i) {
+        my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
+            TicketNumber => $Article{TicketNumber},
+            Subject => $Article{Subject} || '',
+        );
         my $TitleShort = $Self->{LayoutObject}->Ascii2Html(Text => $Article{From}, Max => 16).': '.$Self->{LayoutObject}->Ascii2Html(Text => $TmpSubject, Max => 20).' - $TimeLong{"'.$Article{Created}.'"}';
         my $Title = $Self->{LayoutObject}->Ascii2Html(Text => $Article{From}, Max => 50).': '.$Self->{LayoutObject}->Ascii2Html(Text => $TmpSubject, Max => 200).' - $TimeLong{"'.$Article{Created}.'"}';
         $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';

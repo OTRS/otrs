@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.102 2004-11-16 12:26:16 martin Exp $
+# $Id: AgentPhone.pm,v 1.103 2004-11-27 01:56:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.102 $';
+$VERSION = '$Revision: 1.103 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -92,8 +92,10 @@ sub Run {
             my %CustomerData = ();
             if ($ArticleID) {
                 %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $ArticleID);
-                my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-                $Article{Subject} =~ s/\[${TicketHook}:\s*\d+\](\s|)//;
+                $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
+                    TicketNumber => $Article{TicketNumber},
+                    Subject => $Article{Subject} || '',
+                );
                 # check if original content isn't text/plain or text/html, don't use it
                 if ($Article{'ContentType'}) {
                     if($Article{'ContentType'} =~ /text\/html/i) {

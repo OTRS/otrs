@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.8 2004-11-05 15:24:11 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.9 2004-11-27 01:54:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -278,10 +278,10 @@ sub Run {
             }
             else {
                 # Condense down the subject
-                my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-                my $Subject = $Data{Subject};
-                $Subject =~ s/^RE://i;
-                $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
+                my $Subject = $Self->{TicketObject}->TicketSubjectClean(
+                    TicketNumber => $Data{TicketNumber},
+                    Subject => $Data{Subject} || '',
+                );
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Data{Age}, Space => ' ');
                 # customer info string
                 $Data{CustomerName} = '('.$Data{CustomerName}.')' if ($Data{CustomerName});
