@@ -2,7 +2,7 @@
 # InstallerFinish.dtl - provides HTML form for Installer
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerFinish.dtl,v 1.5 2003-04-12 20:30:17 martin Exp $
+# $Id: InstallerFinish.dtl,v 1.6 2003-04-12 23:04:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 <!-- start form -->
 <dtl system-call $Data{"user"} = "whoami">
 
-To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.
+$Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
 </p>
 
 #<p>
@@ -21,33 +21,33 @@ To be able to use OTRS you have to enter the following line in your command line
 #(SetPermission.sh &lt;OTRS_HOME&gt; &lt;OTRS_USER&gt; &lt;WEB_SERVERUSER&gt; &lt;OTRS_GROUP&gt;)
 #</p>
 <p>
-<b>Restart your webserver:</b><br>
+<b>$Text{"Restart your webserver"}:</b><br>
 <font color='red'>$Data{"Webserver"}</font>
 </p>
 
 <p>
-After doing so your OTRS is up and running.
+$Text{"After doing so your OTRS is up and running."}
 </p>
 
 <p>
 <table>
   <tr>
-    <td><b>Start page:</b></td>
+    <td><b>$Text{"Start page"}:</b></td>
     <td><a href="http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl">http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl</a></td>
   </tr>
   <tr> 
-    <td><b>admin-user:</b></td>
+    <td><b>$Text{"Admin-User"}:</b></td>
     <td>root@localhost</td>
   </tr>
   <tr>
-   <td><b>password:</b></td>
+   <td><b>$Text{"Password"}:</b></td>
    <td>root</td>
   </tr>
 </table>
 </p>
  
 <p>
-<b>Have a lot of fun!<br>
-Your OTRS Team</b>
+<b>$Text{"Have a lot of fun!"}<br>
+$Text{"Your OTRS Team"}</b>
 
 <!-- end form -->

@@ -2,7 +2,7 @@
 # InstallerStart.dtl - provides HTML form for Installer
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerStart.dtl,v 1.5 2003-04-12 20:30:17 martin Exp $
+# $Id: InstallerStart.dtl,v 1.6 2003-04-12 23:04:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,39 +14,39 @@
 <input type="hidden" name="Subaction" value="DB">
 <table cols="2" width="100%">
   <tr>
-    <td width="20%">DB Admin User:</td><td><input type="text" name="DBUser" value="root"></td>
+    <td width="20%">$Text{"DB Admin User"}:</td><td><input type="text" name="DBUser" value="root"></td>
   </tr>
   <tr>
-    <td>DB Admin Password:</td><td><input type="password" name="DBPassword" value=""><font color="red"> (* your MySQL DB should have a root password! Default is empty!)</font></td>
+    <td>$Text{"DB Admin Password"}:</td><td><input type="password" name="DBPassword" value=""><font color="red"> (* $Text{"your MySQL DB should have a root password! Default is empty!"})</font></td>
   </tr>
   <tr>
-    <td>DB Host:</td><td><input type="text" name="DBHost" value="$Config{"DatabaseHost"}"></td>
+    <td>$Text{"DB Host"}:</td><td><input type="text" name="DBHost" value="$Config{"DatabaseHost"}"></td>
   </tr>
   <tr>
-    <td>DB Type:</td><td>
+    <td>$Text{"DB Type"}:</td><td>
           <select name="DBType">
             <option value="MySQL" selected="selected">MySQL</option>
           </select>
    </td>
   </tr>
   <tr>
-    <td>OTRS DB Name:</td><td><input type="text" name="DBName" value="$Config{"Database"}"></td>
+    <td>$Text{"OTRS DB Name"}:</td><td><input type="text" name="DBName" value="$Config{"Database"}"></td>
   </tr>
   <tr>
-    <td>OTRS DB User:</td><td><input type="text" name="OTRSDBUser" value="$Config{"DatabaseUser"}"></td>
+    <td>$Text{"OTRS DB User"}:</td><td><input type="text" name="OTRSDBUser" value="$Config{"DatabaseUser"}"></td>
   </tr>
   <tr>
-    <td>OTRS DB Password:</td><td><input type="password" name="OTRSDBPassword" value="hot"> <font color="red">(default 'hot')</font></td>
+    <td>$Text{"OTRS DB Password"}:</td><td><input type="password" name="OTRSDBPassword" value="hot"> <font color="red">($Text{"default 'hot'"})</font></td>
   </tr>
   <tr>
-    <td>OTRS DB connect host:</td><td><input type="text" name="OTRSDBConnectHost" value="localhost"></td>
+    <td>$Text{"OTRS DB connect host"}:</td><td><input type="text" name="OTRSDBConnectHost" value="localhost"></td>
   </tr>
 
   <tr>
-    <td>Create new database:</td><td><input type="radio" name="DBAction" checked value="Create"></td>
+    <td>$Text{"Create new database"}:</td><td><input type="radio" name="DBAction" checked value="Create"></td>
   </tr>
   <tr>
-    <td>Delete old database:</td><td><input type="radio" name="DBAction" value="Delete"></td>
+    <td>$Text{"Delete old database"}:</td><td><input type="radio" name="DBAction" value="Delete"></td>
   </tr>
 </table>
 <br>
