@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.3 2004-06-22 09:59:36 martin Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.4 2004-06-22 10:04:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
 
 <table width="700" border="0" cellspacing="1" cellpadding="3">
 <tr align="left">
-  <td colspan="2" class="table2">$Config{"TicketHook"} $Text{"and"} $Text{"CustomerID"}</td>
+  <td colspan="2" class="table2">$Config{"TicketHook"}</td>
 </tr>
 <tr align="left">
   <td width="50%">$Config{"TicketHook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
