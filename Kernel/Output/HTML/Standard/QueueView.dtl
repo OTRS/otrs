@@ -2,7 +2,7 @@
 # QueueView.dtl - provides HTML QueueView for AgentQueueView.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: QueueView.dtl,v 1.5 2003-02-08 15:40:44 martin Exp $
+# $Id: QueueView.dtl,v 1.6 2003-03-14 15:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@
 <tr>
   <td class="table1">
   $Text{"Tickets shown"}: $Data{"TicketsShown"} -
-  $Text{"Ticket available"}: $Data{"TicketsAvail"} -
+  $Text{"Tickets available"}: $Data{"TicketsAvail"} -
   $Text{"Show all"} 
   <a href="$Env{"Baselink"}Action=AgentQueueView&QueueID=$Data{"QueueID"}&Limit=$Data{"TicketsAvail"}" onmouseover="window.status='$Text{"Show all"} $Data{"TicketsAvail"} $Text{"tickets"}'; return true;" onmouseout="window.status='';">$Data{"TicketsAvail"}</a> 
   $Text{"tickets"} -
