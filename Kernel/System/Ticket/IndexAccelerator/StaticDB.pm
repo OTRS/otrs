@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.21 2004-10-01 08:53:32 martin Exp $
+# $Id: StaticDB.pm,v 1.22 2004-10-01 11:23:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -542,7 +542,11 @@ sub GetOverTimeTickets {
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 40);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Row[2] && $Row[1]) {
-            my $DiffTime = ($Row[1] + ($Row[2] * 60)) - $Self->{TimeObject}->SystemTime();
+            my $CountedTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $Row[1],
+                StopTime => $Self->{TimeObject}->SystemTime(),
+            );
+            my $DiffTime = ($Row[2]*60) - $CountedTime;
             if ($DiffTime < 0) {
                 push (@TicketIDsOverTime, $Row[0]);
             }

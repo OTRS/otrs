@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.163 2004-09-24 12:10:18 martin Exp $
+# $Id: Defaults.pm,v 1.164 2004-10-01 11:23:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.163 $';
+$VERSION = '$Revision: 1.164 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,10 +43,6 @@ sub LoadDefaults {
     # (To set the Ticket identifier. Some people want to
     # set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.)
     $Self->{TicketHook} = 'Ticket#';
-
-    # TicketDivider
-    # (The part between TicketHook and TicketNumber)
-    $Self->{TicketDivider} = ': ';
 
     # FQDN
     # (Full qualified domain name of your system.)
@@ -102,20 +98,11 @@ sub LoadDefaults {
 #    $Self->{TimeZone} = 0;
 #    $Self->{TimeZone} = +9;
 
-    # TimeWeekdaysCounted
-    # (counted days for sla time used)
-    $Self->{TimeWeekdaysCounted} = {
-        Mon => 1,
-        Tue => 1,
-        Wed => 1,
-        Thu => 1,
-        Fri => 1,
-        Sat => 0,
-        Sun => 0, 
-    };
+    # Time*
+    # (Used for ticket escalation and system unlock calculation)
 
     # TimeWorkingHours
-    # (counted hours for sla time used)
+    # (counted hours for working time used)
     $Self->{TimeWorkingHours} = {
         Mon => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
         Tue => [ 8,9,10,11,12,13,14,15,16,17,18,19,20 ],
@@ -127,7 +114,7 @@ sub LoadDefaults {
     };
 
     # TimeVacationDays
-    # adde new own days with:
+    # adde new days with:
     # "$Self->{TimeVacationDays}->{10}->{27} = 'Some Info';"
 
     $Self->{TimeVacationDays} = {
@@ -164,6 +151,18 @@ sub LoadDefaults {
 #              11 => 'Some Day',
 #          },
 #        },
+    };
+
+    # SendNoPendingNotificationTime
+    # (send no pending notification this hours)
+    $Self->{SendNoPendingNotificationTime} = {
+        Mon => [ 0,1,2,3,4,5,6 ],
+        Tue => [ 0,1,2,3,4,5,6 ],
+        Wed => [ 0,1,2,3,4,5,6 ],
+        Thu => [ 0,1,2,3,4,5,6 ],
+        Fri => [ 0,1,2,3,4,5,6,21,22,23 ],
+        Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
+        Sun => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
     };
 
     # CustomQueue
@@ -347,7 +346,7 @@ sub LoadDefaults {
 
     # TextAreaNoteWindow
     # (width of compose note windows)
-    $Self->{TextAreaNoteWindow} = 60;
+    $Self->{TextAreaNoteWindow} = 70;
 
     # Highligh*
     # (Set the age and the color for highlighting of old queue
@@ -705,27 +704,6 @@ sub LoadDefaults {
         AgentOwner => 1,
     };
 
-    # UncountedUnlockTime
-    # (don't count this hours as unlock time - weekdays: Mon,Tue,Wed,Thu,Fri,Sat,Sun;)
-    $Self->{UncountedUnlockTime} = {
-        Fri => [ 16,17,18,19,20,21,22,23 ],
-        Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
-        Sun => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
-        Mon => [ 0,1,2,3,4,5,6,7,8 ],
-    };
-
-    # SendNoPendingNotificationTime
-    # (send no pending notification this hours)
-    $Self->{SendNoPendingNotificationTime} = {
-        Mon => [ 0,1,2,3,4,5,6 ],
-        Tue => [ 0,1,2,3,4,5,6 ],
-        Wed => [ 0,1,2,3,4,5,6 ],
-        Thu => [ 0,1,2,3,4,5,6 ],
-        Fri => [ 0,1,2,3,4,5,6,21,22,23 ],
-        Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
-        Sun => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
-    };
-
     # Lock::ForceNewStateAfterLock
     # (force a new ticket state after lock action)
 #    $Self->{'Lock::ForceNewStateAfterLock'} = {
@@ -820,7 +798,7 @@ sub LoadDefaults {
 #            sl => 'Slovenian',
 #            da => 'Dansk',
             tr => 'tr',
-            jp => 'jp',
+#            jp => 'jp',
     };
     # default theme
     # (the default html theme) [default: Standard]
@@ -1074,6 +1052,10 @@ $Data{"Signature"}
     # PostMasterPOP3MaxSize
     # (max. email size)
     $Self->{PostMasterPOP3MaxEmailSize} = 1024 * 6;
+    # PostMasterPOP3ReconnectMessage
+    # (bin/PostMasterPOP3.pl will reconnect to pop3 host after n
+    # messages)
+    $Self->{PostMasterPOP3ReconnectMessage} = 20;
     # [Kernel::System::PostMaster::LoopProtection(FS|DB)] default is DB
     $Self->{LoopProtectionModule} = 'Kernel::System::PostMaster::LoopProtection::DB';
     # loop protection Log (just needed for FS module)

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.75 2004-10-01 08:53:32 martin Exp $
+# $Id: Article.pm,v 1.76 2004-10-01 11:23:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1019,7 +1019,11 @@ sub ArticleGet {
     }
     # get escalation time
     if ($Queue{EscalationTime} && $Ticket{EscalationStartTime} && !$Ticket{Answered} && ($Param{TicketID}||$Param{TicketOverTime}) && $StateData{TypeName} !~ /^close/i) {
-        $LastCustomerCreateTime = (($Ticket{EscalationStartTime} + ($Queue{EscalationTime}*60)) - $Self->{TimeObject}->SystemTime());
+        my $CountedTime = $Self->{TimeObject}->WorkingTime(
+            StartTime => $Ticket{EscalationStartTime},
+            StopTime => $Self->{TimeObject}->SystemTime(),
+        );
+        $LastCustomerCreateTime = ($Queue{EscalationTime}*60) - $CountedTime;
     }
     foreach my $Part (@Content) {
         $Part->{TicketOverTime} = $LastCustomerCreateTime;

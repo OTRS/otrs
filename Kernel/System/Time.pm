@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.pm,v 1.6 2004-09-28 17:47:15 martin Exp $
+# $Id: Time.pm,v 1.7 2004-10-01 11:23:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -267,6 +267,107 @@ sub MailTimeStamp {
     return $TimeString;
 }
 
+=item WorkingTime()
+
+get the working time in secondes between this times
+
+    my $WorkingTime = $TimeObject->WorkingTime(
+        StartTime => $Created,
+        StopTime => $Self->SystemTime(),
+    );
+
+=cut
+
+sub WorkingTime {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(StartTime StopTime)) {
+      if (!defined($Param{$_})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my %TimeWorkingHours = %{$Self->{ConfigObject}->Get('TimeWorkingHours')};
+    my %TimeVacationDays = %{$Self->{ConfigObject}->Get('TimeVacationDays')};
+    my %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get('TimeVacationDaysOneTime')};
+    my $Counted = 0;
+    my ($ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay) = localtime($Param{StartTime});
+    $AYear = $AYear+1900;
+    $AMonth = $AMonth+1;
+    my $ADate = "$AYear-$AMonth-$ADay";
+    my ($BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay) = localtime($Param{StopTime});
+    $BYear = $BYear+1900;
+    $BMonth = $BMonth+1;
+    my $BDate = "$BYear-$BMonth-$BDay";
+    while ($Param{StartTime} < $Param{StopTime}) {
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($Param{StartTime});
+        $Year = $Year+1900;
+        $Month = $Month+1;
+        my $CDate = "$Year-$Month-$Day";
+        my %LDay = (
+            1 => 'Mon',
+            2 => 'Tue',
+            3 => 'Wed',
+            4 => 'Thu',
+            5 => 'Fri',
+            6 => 'Sat',
+            0 => 'Sun',
+        );
+        # count noting becouse of vacation
+        if ($TimeVacationDays{$Month}->{$Day} || $TimeVacationDaysOneTime{$Year}->{$Month}->{$Day}) {
+            # do noting
+#print STDERR "Vacation: $Year-$Month-$Day\n";
+        }
+        else {
+#print STDERR "NoVacation: $Year-$Month-$Day $WDay $LDay{$WDay} $TimeWorkingHours{$LDay{$WDay}}\n";
+#            %TimeWorkingHours
+            if ($TimeWorkingHours{$LDay{$WDay}}) {
+                foreach (@{$TimeWorkingHours{$LDay{$WDay}}}) {
+#print STDERR "$Year-$Month-$Day: $LDay{$WDay}: $_\n";
+                    # count minutes
+                    if ($CDate eq $ADate && $AHour == $_ && $CDate eq $BDate && $BHour == $_) {
+                        $Counted = $Counted + ($BMin-$AMin)*60;
+#                         print STDERR "SameHDay.. $_:00 ".($BMin-$AMin)."\n";
+                    }
+                    # do nothing
+                    elsif ($CDate eq $ADate && $AHour > $_) {
+#                         print STDERR "StartDay.. $_:00 (not counted)\n";
+                    }
+                    # count minutes
+                    elsif ($CDate eq $ADate && $AHour == $_) {
+                        $Counted = $Counted + (60-$AMin)*60;
+#                         print STDERR "StartDay.. $_:00 ".(60-$AMin)."\n";
+                    }
+                    # do nothing
+                    elsif ($CDate eq $BDate && $BHour < $_) {
+#                         print STDERR "StopDay.. $_:00 (not counted)\n";
+                    }
+                    # count minutes
+                    elsif ($CDate eq $BDate && $BHour == $_) {
+                        $Counted = $Counted + $BMin*60;
+#                         print STDERR "StopDay.. $_:00 ".$BMin."\n";
+                    }
+                    # count full hour
+                    else {
+                        $Counted = $Counted + (60*60);
+#                         print STDERR "Counted.. $Year-$Month-$Day $_:00 ($WDay/$LDay{$WDay}):".(60*60)."\n";
+                    }
+                    if ($Param{StartTime} > $Param{StopTime} - $Counted) {
+#                        print STDERR "Stop reached at $Year-$Month-$Day ($WDay): $_:00\n";
+                        last;
+                    }
+#print STDERR "($Param{StartTime} < $Param{StopTime} - $Counted)\n";
+                }
+            }
+        }
+        # reduce time
+        $Param{StartTime} = $Param{StartTime} + 60*60*24;
+    }
+#    print STDERR "Counted: $Counted\n";
+    return $Counted;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -281,6 +382,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2004-09-28 17:47:15 $
+$Revision: 1.7 $ $Date: 2004-10-01 11:23:20 $
 
 =cut

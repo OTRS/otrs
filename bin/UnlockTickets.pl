@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.17 2004-09-29 09:35:54 martin Exp $
+# $Id: UnlockTickets.pl,v 1.18 2004-10-01 11:23:20 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
@@ -95,7 +95,7 @@ if ($Command eq '--all') {
             TicketID => $Row[2],
             Lock => 'unlock',
             UserID => 1,
-        ) ) { 
+        ) ) {
             print " done.\n";
         }
         else {
@@ -111,7 +111,7 @@ elsif ($Command eq '--timeout') {
     print " Unlock old tickets:\n";
     my @Tickets = ();
     my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.timeout, ".
-    " sq.unlock_timeout, user_id ".
+    " sq.unlock_timeout  ".
     " FROM " .
     " ticket as st, queue as sq " .
     " WHERE " .
@@ -125,63 +125,13 @@ elsif ($Command eq '--timeout') {
     " AND " .
     " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
-        # get lock date
-#        my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime($RowTmp[3]-(60*60*24*1.5));
-        my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime($RowTmp[3]);
-        $Y = $Y+1900;
-        $M++;
-        my $LockDay = "$Y-$M-$D";
-        # get current date
-        my ($Ns,$Nm,$Nh, $ND,$NM,$NY, $Nwd,$Nyd,$Ndst) = localtime(time());
-        $NY = $NY+1900;
-        $NM++;
-        my $ToDay = "$NY-$NM-$ND";
-        # get delta days
-        my $Dd = Delta_Days($Y,$M,$D, $NY,$NM,$ND);
-        if ($Debug) {
-            print STDERR "Delta_Days: $Dd\n";
-        }
-        # get not counted time (hours)
-        my $UncountedUnlockTime = 0; 
-        foreach (0..$Dd) {
-            my ($year,$month,$day) = Add_Delta_Days($Y,$M,$D, $_);
-            my $Dow = Day_of_Week($year,$month,$day);
-            $Dow = Day_of_Week_Abbreviation($Dow);
-            if ($Debug) {
-                print STDERR "$Dow: $year,$month,$day .($Ns,$Nm,$Nh).\n";
-            }
-            # get not counted time
-            my $CountDay = "$year-$month-$day";
-            if ($CommonObject{ConfigObject}->Get('UncountedUnlockTime')->{$Dow}) {
-                foreach (@{$CommonObject{ConfigObject}->Get('UncountedUnlockTime')->{$Dow}}) {
-                    if ($CountDay ne $ToDay && $CountDay ne $LockDay) {
-                        $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
-                        if ($Debug) {
-                            print STDERR "InTime 1 h.\n";
-                        } 
-                    }
-                    elsif ($CountDay eq $LockDay && $CountDay ne $ToDay && $h <= $_) {
-                        $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
-                        if ($Debug) {
-                            print STDERR "LockDay 1 h ($h <= $_).\n";
-                        }
-                    }
-                    elsif ($CountDay eq $ToDay && $Nh >= $_) {
-                        $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
-                        if ($Debug) {
-                            print STDERR "EndToday 1 h ($Nh <= $_)\n";
-                        }
-                    }
-                    if ($Debug) {
-                        print STDERR "UncountedUnlockTime($CountDay/$_): $UncountedUnlockTime - $CountDay - $ToDay - $LockDay\n";
-                    }
-                }
-            }
-        }
-#print STDERR "not counted time: $UncountedUnlockTime \n";
-        if (($RowTmp[3] + ($RowTmp[4]*60) + $UncountedUnlockTime) <= time()) {
-            push (@Tickets, \@RowTmp);
+    while (my @Row = $CommonObject{DBObject}->FetchrowArray()) {
+        my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
+            StartTime => $Row[3],
+            StopTime => $CommonObject{TimeObject}->SystemTime(),
+        );
+        if ($CountedTime >= $Row[4]*60) {
+            push (@Tickets, \@Row);
         }
     }
     foreach (@Tickets) {
@@ -191,7 +141,7 @@ elsif ($Command eq '--timeout') {
             TicketID => $Row[2],
             Lock => 'unlock',
             UserID => 1,
-        ) ) { 
+        ) ) {
             print " done.\n";
         }
         else {
@@ -201,7 +151,7 @@ elsif ($Command eq '--timeout') {
     exit (0);
 }
 # --
-# show usage 
+# show usage
 # --
 else {
     print "usage: $0 [options] \n";
