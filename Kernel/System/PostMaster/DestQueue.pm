@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DestQueue.pm,v 1.4 2002-07-21 20:56:45 martin Exp $
+# $Id: DestQueue.pm,v 1.5 2002-07-21 22:54:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -45,16 +45,19 @@ sub GetQueueID {
     my $ParseObject = $Self->{ParseObject};
     my $DBObject = $Self->{DBObject};
     my $Queue = $Self->{ConfigObject}->Get('DefaultQueue');
-    my $GetParamTmp = $Param{Params};
-    my %GetParam = %$GetParamTmp;
+    my %GetParam = %{$Param{Params}};
     my $QueueID;
-    # get all addresses
+    # --
+    # get all system addresses
+    # --
     my %SystemAddresses = $DBObject->GetTableData(
         Table => 'system_address',
         What => 'value0, queue_id',
         Valid => 1
     );
-    # check possible to and cc emailaddresses
+    # --
+    # check possible to and cc emailaddresses 
+    # --
     my @EmailAddresses = $ParseObject->SplitAddressLine(Line => $GetParam{To} .",". $GetParam{Cc});
     foreach (@EmailAddresses) {
         my $Address = $ParseObject->GetEmailAddress(Email => $_);
@@ -72,8 +75,9 @@ sub GetQueueID {
             }
         }
     }
-
+    # --
     # if there exists a X-OTRS-Queue header
+    # --
     if ($GetParam{'X-OTRS-Queue'}) {
         if ($Self->{Debug} > 0) {
             print STDERR "* there exists a X-OTRS-Queue header: $GetParam{'X-OTRS-Queue'} " .
@@ -82,9 +86,10 @@ sub GetQueueID {
         $Queue = $GetParam{'X-OTRS-Queue'};
         $QueueID = undef;
     }
-
+    # --
     # get dest queue
-    if (!$QueueID) {
+    # --
+    if (!$QueueID && $Queue) {
         my $QueueObject = Kernel::System::Queue->new(
             DBObject => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
