@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.1 2002-05-27 07:23:08 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.2 2002-05-30 15:11:28 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -10,10 +10,17 @@
 -- --
 
 -- --
+-- Beta5 bug fixed (thanks to Heiko Baumann)
+-- --
+ALTER TABLE user_preferences DROP PRIMARY KEY;
+ALTER TABLE user_preferences ADD INDEX index_user_preferences_user_id (user_id);
+
+
+-- --
 -- set db to BETA5 state
 -- --
 -- modify table ticket
-ALTER TABLE ticket ADD ticket_answered SMALLINT DEFAULT 0;
+ALTER TABLE ticket ADD ticket_answered SMALLINT NOT NULL DEFAULT 0;
 
 -- add ticket_history_type
 INSERT INTO ticket_history_type
