@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.20 2003-03-30 18:30:35 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.21 2003-04-01 20:05:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,11 @@
 # --
 # check if the admin link should be shown
 # --
-<dtl if ($Env{"UserIsGroup[admin]"} eq "Yes") { $Data{"AdminLink"} = "<td valign="top" align="center" class="navitem"><a href="$Env{"Baselink"}Action=Admin" onmouseover="window.status='$Text{"AdminArea"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}admin.png" alt="$Text{"AdminArea"}"><br>$Text{"AdminArea"}</a></td>"; }>
+<dtl if ($Env{"UserIsGroup[admin]"} eq "Yes") { $Data{"AdminLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=Admin" onmouseover="window.status='$Text{"AdminArea"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}admin.png" alt="$Text{"AdminArea"}"><br>$Text{"AdminArea"}</a></td>"; }>
 # --
 # check if the stats link should be shown
 # --
-<dtl if ($Env{"UserIsGroup[stats]"} eq "Yes") { $Data{"StatsLink"} = "<td valign="top" align="center" class="navitem"><a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}stats.png" alt="$Text{"Stats"}"><br>$Text{"Stats"}</a></td>"; }>
+<dtl if ($Env{"UserIsGroup[stats]"} eq "Yes") { $Data{"StatsLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}stats.png" alt="$Text{"Stats"}"><br>$Text{"Stats"}</a></td>"; }>
 
 <!-- start NavigationBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
@@ -24,19 +24,19 @@
   <td valign="top" align="left" width="70%" class="nav">
     <table cellspacing="1" cellpadding="3">
     <tr>
-      <td valign="top" align="center">
+      <td valign="top" align="center" class="nav">
         <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}exit.png" alt="$Text{"Logout"}"><br>$Text{"Logout"}</a>
       </td>
-      <td valign="top" align="center"> 
+      <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}/queue.png" alt="$Text{"QueueView"}"><br>$Text{"QueueView"}</a>
       </td>
-      <td valign="top" align="center"> 
+      <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"PhoneView"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}new.png" alt="$Text{"PhoneView"}"><br>$Text{"PhoneView"}</a> 
       </td>
-      <td valign="top" align="center"> 
+      <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Utilities"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}search.png" alt="$Text{"Utilities"}"><br>$Text{"Utilities"}</a>
       </td>
-      <td valign="top" align="center"> 
+      <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=AgentPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}prefer.png" alt="$Text{"Preferences"}"><br>$Text{"Preferences"}</a>
       </td>
       $Data{"StatsLink"}
@@ -44,13 +44,13 @@
     </tr>
     </table>
   </td>
-  <td valign="top" align="right" width="30%" class="table1">   
+  <td valign="top" align="right" width="30%" class="nav">   
     <table>
     <tr>
-      <td valign="top" align="center"> 
+      <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New" onmouseover="window.status='$Text{"new message"} ($Data{"New"})'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}new-message.png" alt="$Text{"new message"}"><br>$Text{"new message"} ($Data{"New"})</a>      
       </td>
-      <td valign="top" align="center"> 
+      <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=AgentMailbox" onmouseover="window.status='$Text{"Locked tickets"} ($Data{"All"})'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}personal.png" alt="$Text{"Locked tickets"}"><br>$Text{"Locked tickets"} ($Data{"All"})</a> 
       </td>
     </tr>
