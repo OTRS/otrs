@@ -1,8 +1,8 @@
 # --
-# Kernel/System/State.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/System/State.pm - All state related function should be here eventually
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.4 2003-07-10 02:10:18 martin Exp $
+# $Id: State.pm,v 1.5 2004-01-09 16:41:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -223,6 +223,32 @@ sub StateGetStatesByType {
         else {
             return @ID;
         }
+    }
+}
+# --
+sub StateList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
+        return;
+    }
+    # sql 
+    my $SQL = "SELECT id, name ".
+        " FROM ".
+        " ticket_state ".
+        " WHERE ".
+        " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+    my %Data = ();
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Data{$Row[0]} = $Row[1];
+        }
+        return %Data;
+    }
+    else {
+        return;
     }
 }
 # --
