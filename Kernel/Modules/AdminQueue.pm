@@ -2,7 +2,7 @@
 # AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.3 2002-06-09 09:56:04 martin Exp $
+# $Id: AdminQueue.pm,v 1.4 2002-06-18 18:07:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -128,7 +128,7 @@ sub Run {
 #        " workflow_id = $GetParam{WorkflowID}, " .
         " system_address_id = $GetParam{SystemAddressID}, " .
         " salutation_id = $GetParam{SalutationID}, " .
-        " signature_id = $GetParam{SalutationID}, " .
+        " signature_id = $GetParam{SignatureID}, " .
         " valid_id = $GetParam{ValidID}, " .
         " change_time = current_timestamp, " .
         " change_by = $Self->{UserID} " .
