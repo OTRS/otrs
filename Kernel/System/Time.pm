@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.pm,v 1.3 2004-04-05 17:27:55 martin Exp $
+# $Id: Time.pm,v 1.4 2004-08-18 08:41:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,11 @@
 package Kernel::System::Time;
 
 use strict;
+use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -34,14 +35,14 @@ This module is managing time functions.
 
 =item new()
 
-create a language object 
- 
+create a language object
+
   use Kernel::Config;
   use Kernel::System::Time;
 
   my $ConfigObject = Kernel::Config->new();
 
-  my $TimeObject = Kernel::System::Time->new( 
+  my $TimeObject = Kernel::System::Time->new(
       ConfigObject => $ConfigObject,
   );
 
@@ -55,29 +56,28 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # get common objects 
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
     foreach (qw(ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
-    } 
+    }
 
-    # 0=off; 1=on; 
+    # 0=off; 1=on;
     $Self->{Debug} = 0;
 
     $Self->{TimeZone} = $Self->{ConfigObject}->Get('TimeZone') || 0;
     $Self->{TimeSecDiff} = $Self->{TimeZone}*60*60;
 
     return $Self;
-}   
-# --
+}
 
 =item SystemTime()
-    
-returns the number of non-leap seconds since what ever time the 
-system considers to be the epoch (that's 00:00:00, January 1, 1904 
+
+returns the number of non-leap seconds since what ever time the
+system considers to be the epoch (that's 00:00:00, January 1, 1904
 for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
 
     my $SystemTime = $TimeObject->SystemTime();
@@ -88,15 +88,13 @@ sub SystemTime {
     my $Self = shift;
     return time()+$Self->{TimeSecDiff};
 }
-# --
 
 =item SystemTime2TimeStamp()
-    
+
 returns a time stamp in "yyyy-mm-dd 24:60:60" format.
 
     my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
         Unix => $UnixTime,
-        TimeZone => +2,
     );
 
 =cut
@@ -117,15 +115,13 @@ sub SystemTime2TimeStamp {
     );
     return "$Year-$Month-$Day $Hour:$Min:$Sec";
 }
-# --
 
 =item SystemTime2Date()
-    
+
 returns a array of time params.
 
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $TimeObject->SystemTime2Date(
         SystemTime => $TimeObject->SystemTime(),
-        TimeZone => +2,
     );
 
 =cut
@@ -140,7 +136,7 @@ sub SystemTime2Date {
         return;
       }
     }
-    # create ArticleContentPath
+    # get time format
     my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($Param{SystemTime});
     $Year = $Year+1900;
     $Month = $Month+1;
@@ -152,12 +148,50 @@ sub SystemTime2Date {
 
     return ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay);
 }
-# --
+1;
+
+=item TimeStamp2SystemTime()
+
+returns the number of non-leap seconds since what ever time the
+system considers to be the epoch (that's 00:00:00, January 1, 1904
+for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
+
+    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
+        String => '2004-08-14 22:45:00',
+    );
+
+=cut
+
+sub TimeStamp2SystemTime {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(String)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if ($Param{String} =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
+        my $SytemTime = eval {timelocal($6,$5,$4,$3,($2-1), $1)};
+        if ($SytemTime) {
+            return $SytemTime;
+        }
+        else {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Date '$Param{String}'!");
+            return;
+        }
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Date '$Param{String}'!");
+        return;
+    }
+}
 1;
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -167,6 +201,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2004-04-05 17:27:55 $
+$Revision: 1.4 $ $Date: 2004-08-18 08:41:57 $
 
 =cut
