@@ -2,7 +2,7 @@
 # AgentAttachment.pm - to get the attachments 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.1 2002-04-13 15:46:33 martin Exp $
+# $Id: AgentAttachment.pm,v 1.2 2002-04-14 13:30:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -95,13 +95,27 @@ sub Run {
         UserID => $Self->{UserID})) {
 
         # --
-        # geta attachment
-        my %Data = $Self->{ArticleObject}->GetAttachment(
+        # geta attachment & strip file path
+        $Self->{File} =~ s/\.\.\///g;
+        if (my %Data = $Self->{ArticleObject}->GetAttachment(
           ArticleID => $Self->{ArticleID},
           File => $Self->{File},
-        );
-        return $Self->{LayoutObject}->Attachment(%Data);
-
+        )) {
+            return $Self->{LayoutObject}->Attachment(%Data);  
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
+              Message => "No such attacment ($Self->{File})!",
+              Comment => 'Please contact your admin'
+            );
+            $Self->{LogObject}->Log(
+              Message => "No such attacment ($Self->{File})! May be an attack!!!",
+              Priority => 'error',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
     }
     else {
         # --
