@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.151 2004-08-24 07:45:11 martin Exp $
+# $Id: Defaults.pm,v 1.152 2004-09-08 11:31:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.151 $';
+$VERSION = '$Revision: 1.152 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -196,7 +196,7 @@ sub LoadDefaults {
     $Self->{ChangeOwnerToEveryone} = 0;
 
     # MaxFileUpload
-    # (Max size for file uploads - default 5 MB)
+    # (Max size for browser file uploads - default 5 MB)
     $Self->{MaxFileUpload} = 1024 * 1024 * 5;
 
     # CheckEmailAddresses
@@ -1786,6 +1786,7 @@ Your OTRS Notification Master
             [ 'UserEmail', 'Email', 'email', 0, 1, 'var', '', 0 ],
 #            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}', 0 ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
+            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
             [ 'UserComment', 'Comment', 'comments', 1, 0, 'var', '', 0 ],
             [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int', '', 0 ],
         ],
@@ -1843,6 +1844,7 @@ Your OTRS Notification Master
 #            [ 'UserLogin', 'Username', 'uid', 1, 1, 'var', '', 0 ],
 #            [ 'UserEmail', 'Email', 'mail', 1, 1, 'var', '', 0 ],
 #            [ 'UserCustomerID', 'CustomerID', 'mail', 0, 1, 'var', '', 0 ],
+##            [ 'UserCustomerIDs', 'CustomerIDs', 'second_customer_ids', 1, 0, 'var', '', 0 ],
 #            [ 'UserPhone', 'Phone', 'telephonenumber', 1, 0, 'var', '', 0 ],
 #            [ 'UserAddress', 'Address', 'postaladdress', 1, 0, 'var', '', 0 ],
 #            [ 'UserComment', 'Comment', 'description', 1, 0, 'var', '', 0 ],
