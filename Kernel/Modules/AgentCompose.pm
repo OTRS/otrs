@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.20 2002-07-31 23:35:48 martin Exp $
+# $Id: AgentCompose.pm,v 1.21 2002-08-01 02:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -225,7 +225,6 @@ sub Form {
         StdResponse => $QueueObject->GetStdResponse(ID => $Self->{ResponseID}),
         TicketID => $TicketID,
         QueueID => $QueueID,
-        NextScreen => $Self->{NextScreen},
         LockState => $LockState,
         NextStates => \%NextStates,
         %Data,
@@ -242,7 +241,6 @@ sub SendEmail {
     my $Output = '';
     my $QueueID = $Self->{QueueID};
     my $TicketID = $Self->{TicketID};
-    my $NextScreen = $Self->{NextScreen} || '';
     my $NextStateID = $Self->{NextStateID} || '??';
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
     my $UserID = $Self->{UserID};
@@ -317,9 +315,7 @@ sub SendEmail {
       # --
       # redirect
       # --
-      return $Self->{LayoutObject}->Redirect(
-          OP => "&Action=$NextScreen&QueueID=$QueueID",
-      );
+      return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
       # --

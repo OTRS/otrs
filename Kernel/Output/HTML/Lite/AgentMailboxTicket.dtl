@@ -2,7 +2,7 @@
 # AgentMailboxTicket.dtl - provides HTML form for agent mailbox 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailboxTicket.dtl,v 1.3 2002-05-10 00:12:35 martin Exp $
+# $Id: AgentMailboxTicket.dtl,v 1.4 2002-08-01 02:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,13 +21,15 @@
 </tr>
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td colspan="3">
-    <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Zoom"}</a> -
-    <a href="$Env{"Baselink"}&Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Unlock"}</a> -
-    <a href="$Env{"Baselink"}&Action=&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Pending"}</a> -
-    <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Add Note"}</a> -
-    <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Close"}</a> -
-    <a href="$Env{"Baselink"}&Action=&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Start work"}</a> -
-    <a href="$Env{"Baselink"}&Action=&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}&NextScreen=AgentMailbox">$Text{"Stop work"}</a>
+    <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$Data{"TicketID"}">$Text{"Zoom"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}">$Text{"Unlock"}</a> -
+    <a href="$Env{"Baselink"}&Action=&TicketID=$Data{"TicketID"}">$Text{"Pending"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentPriority&TicketID=$Data{"TicketID"}">$Text{"Priority"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentHistory&TicketID=$Data{"TicketID"}">$Text{"History"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentOwner&TicketID=$Data{"TicketID"}">$Text{"Owner"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}">$Text{"Add Note"}</a> -
+   <a href="$Env{"Baselink"}&Action=AgentCustomer&TicketID=$Data{"TicketID"}">$Text{"Customer"}</a> -
+    <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}">$Text{"Close"}</a>
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}" valign="top">

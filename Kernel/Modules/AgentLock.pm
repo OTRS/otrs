@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.5 2002-07-15 00:28:14 martin Exp $
+# $Id: AgentLock.pm,v 1.6 2002-08-01 02:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -50,7 +50,6 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $QueueID = $Self->{QueueID};
-    my $NextScreen = $Self->{NextScreen} || '';
 
     # --
     # check needed stuff
@@ -83,14 +82,23 @@ sub Run {
     # start with actions
     # --
     if ($Self->{Subaction} eq 'Unlock') {
+        # --
         # set unlock
+        # --
         if ($Self->{TicketObject}->SetLock(
           TicketID => $Self->{TicketID},
           Lock => 'unlock',
           UserID => $Self->{UserID},
         )) {
-          # mk redirekt
-          return $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen&QueueID=$QueueID");
+          # --
+          # redirekt
+          # --
+          if ($Self->{QueueID}) {
+             return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
+          }
+          else {
+             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+          }
         }
         else {
           $Output = $Self->{LayoutObject}->Header(Title => 'Error');
@@ -100,20 +108,31 @@ sub Run {
         } 
     }
     else {
+        # --
         # set lock
+        # --
         if ($Self->{TicketObject}->SetLock(
           TicketID => $Self->{TicketID},
           Lock => 'lock',
           UserID => $Self->{UserID},
         ) &&
+        # --
 	    # set user id
+        # --
     	$Self->{TicketObject}->SetOwner(
             TicketID => $Self->{TicketID},
 	        UserID => $Self->{UserID},
 	        NewUserID => $Self->{UserID},
         )) {
-          # mk redirekt
-          return $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen&QueueID=$QueueID");
+          # --
+          # redirekt
+          # --
+          if ($Self->{QueueID}) {
+             return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
+          }
+          else {
+             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+          }
         }
         else {
           $Output = $Self->{LayoutObject}->Header(Title => 'Error');

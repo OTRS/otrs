@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.5 2002-07-21 22:52:00 martin Exp $
+# $Id: AgentOwner.pm,v 1.6 2002-08-01 02:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -73,11 +73,9 @@ sub Run {
             NewUserID => $Self->{NewUserID},
 		)) {
           # --
-          # print redirect
+          # redirect
           # --
-          return $Self->{LayoutObject}->Redirect(
-			OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID"
-	      );
+          return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
         }
         else {
           $Output = $Self->{LayoutObject}->Header(Title => "Error");

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.4 2002-07-13 12:21:44 martin Exp $
+# $Id: AgentPriority.pm,v 1.5 2002-08-01 02:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -57,8 +57,6 @@ sub Run {
     my $TicketID = $Self->{TicketID};
     my $QueueID = $Self->{QueueID};
     my $Subaction = $Self->{Subaction};
-    my $NextScreen = $Self->{NextScreen} || '';
-    my $BackScreen = $Self->{BackScreen};
     my $UserID    = $Self->{UserID};
     my $PriorityID = $Self->{PriorityID};
 
@@ -90,16 +88,18 @@ sub Run {
     }
 
     if ($Subaction eq 'Update') {
+        # --
 		# set id
+        # --
         $Self->{TicketObject}->SetPriority(
 			TicketID => $TicketID,
 			PriorityID => $PriorityID,
 			UserID => $UserID,
 		);
+        # --
         # print redirect
-        $Output .= $Self->{LayoutObject}->Redirect(
-			OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID"
-		);
+        # --
+        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
         # print form
@@ -119,14 +119,12 @@ sub Run {
             OptionStrg => \%States,
  			TicketID => $TicketID,
             Priority => $Priority,
-            BackScreen => $Self->{BackScreen},
-            NextScreen => $Self->{NextScreen},
             TicketNumber => $Tn,
             QueueID => $QueueID,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 # --
 

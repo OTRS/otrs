@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.14 2002-07-31 23:17:23 martin Exp $
+# $Id: AgentZoom.pm,v 1.15 2002-08-01 02:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -41,6 +41,7 @@ sub new {
       'ConfigObject',
       'UserObject',
       'ArticleObject',
+      'SessionObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -83,7 +84,19 @@ sub Run {
         # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }  
-
+    # --
+    # store last screen
+    # --
+    if (!$Self->{SessionObject}->UpdateSessionID(
+      SessionID => $Self->{SessionID},
+      Key => 'LastScreen',
+      Value => $Self->{RequestedURL},
+    )) {
+      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error();
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }  
 
     my @NotShownArticleTypes = (qw(email-notification-int)); 
     # fetch all queues

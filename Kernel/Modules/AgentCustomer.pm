@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.4 2002-07-21 21:11:00 martin Exp $
+# $Id: AgentCustomer.pm,v 1.5 2002-08-01 02:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCustomer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -58,8 +58,6 @@ sub Run {
     my $TicketID = $Self->{TicketID};
     my $QueueID = $Self->{QueueID};
     my $Subaction = $Self->{Subaction};
-    my $NextScreen = $Self->{NextScreen} || '';
-    my $BackScreen = $Self->{BackScreen};
     my $UserID    = $Self->{UserID};
 
     # --
@@ -77,16 +75,23 @@ sub Run {
     }
 
     if ($Subaction eq 'Update') {
-		# set id
+        # --
+		# set customer id
+        # --
         if ($Self->{TicketObject}->SetCustomerNo(
 			TicketID => $TicketID,
 			No => $Self->{CustomerID},
 			UserID => $UserID,
 		)) {
-          # print redirect
-          $Output .= $Self->{LayoutObject}->Redirect(
-			OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID"
-	      );
+          # --
+          # redirect
+          # --
+          if ($Self->{QueueID}) {
+             return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
+          }
+          else {
+             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+          }
         }
         else {
           # error?!
@@ -113,8 +118,6 @@ sub Run {
           $Output .= $Self->{LayoutObject}->AgentCustomer(
             CustomerID => $TicketCustomerID,
  			TicketID => $TicketID,
-            BackScreen => $Self->{BackScreen},
-            NextScreen => $Self->{NextScreen},
             TicketNumber => $Tn,
             QueueID => $QueueID,
           );
@@ -207,8 +210,6 @@ sub Run {
           $Output .= $Self->{LayoutObject}->AgentCustomerHistory(
             CustomerID => $TicketCustomerID,
  			TicketID => $TicketID,
-            BackScreen => $Self->{BackScreen},
-            NextScreen => $Self->{NextScreen},
             HistoryTable => $OutputTables,
             QueueID => $QueueID,
           );

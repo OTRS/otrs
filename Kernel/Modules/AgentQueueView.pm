@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.16 2002-07-17 22:34:55 martin Exp $
+# $Id: AgentQueueView.pm,v 1.17 2002-08-01 02:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -83,6 +83,20 @@ sub Run {
     my %Param = @_;
     my $QueueID = $Self->{QueueID};
 
+    # --
+    # store last screen
+    # --
+    if (!$Self->{SessionObject}->UpdateSessionID(
+      SessionID => $Self->{SessionID},
+      Key => 'LastScreen',
+      Value => $Self->{RequestedURL},
+    )) {
+      my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error();
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }
+
     # starting with page ...
     my $Refresh = '';
     if ($Self->{UserRefreshTime}) {
@@ -92,10 +106,8 @@ sub Run {
         Title => 'QueueView',
         Refresh => $Refresh,
     );
-
     # get user lock data
     my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $Self->{UserID});
-
     # build NavigationBar 
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
