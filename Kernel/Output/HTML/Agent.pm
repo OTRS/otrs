@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.62 2002-10-30 00:39:07 martin Exp $
+# $Id: Agent.pm,v 1.63 2002-11-11 00:18:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -56,7 +56,8 @@ sub QueueView {
            $QueueStrg .= '<b>';
            $Param{SelectedQueue} = $Queue{Queue};
         }
-        $QueueStrg .= "<a href=\"$Self->{Baselink}Action=AgentQueueView&QueueID=$Queue{QueueID}\">";
+        $QueueStrg .= "<a href=\"$Self->{Baselink}Action=AgentQueueView&QueueID=$Queue{QueueID}\"";
+        $QueueStrg .= ' onmouseover="window.status=\'$Text{"Queue"}: '.$Queue{Queue}.'\'; return true;" onmouseout="window.status=\'\';">';
         # should i highlight this queue
         if ($Queue{MaxAge} >= $Self->{HighlightAge2}) {
             $QueueStrg .= "<font color='$Self->{HighlightColor2}'>";
@@ -197,8 +198,11 @@ sub TicketView {
     }
     else {
        foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-         $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}Action=AgentCompose&".
-           "ResponseID=$_&TicketID=$Param{TicketID}\">$StdResponses{$_}</A></li>\n";
+         $Param{StdResponsesStrg} .= "\n<li><a href=\"$Self->{Baselink}Action=AgentCompose&".
+           "ResponseID=$_&TicketID=$Param{TicketID}\" ".
+           'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '.
+           'onmouseout="window.status=\'\';">'.
+           "$StdResponses{$_}</a></li>\n";
        }
     }
 
@@ -319,8 +323,11 @@ sub TicketZoom {
     }
     else {
         foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-          $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$BaseLink"."Action=AgentCompose&".
-           "ResponseID=$_&ArticleID=$ArticleID\">$StdResponses{$_}</A></li>\n";
+          $Param{StdResponsesStrg} .= "\n<li><a href=\"$BaseLink"."Action=AgentCompose&".
+           "ResponseID=$_&ArticleID=$ArticleID\" ".
+           'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '.
+           'onmouseout="window.status=\'\';">'.
+           "$StdResponses{$_}</A></li>\n";
         }
     }
     # --
@@ -350,11 +357,15 @@ sub TicketZoom {
         # --
         # the full part thread string
         # --
-        $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=AgentZoom&ArticleID=$Article{ArticleID}\">" .
-        "$Article{SenderType} ($Article{ArticleType})</A> ";
+        $ThreadStrg .= "<a href=\"$BaseLink"."Action=AgentZoom&ArticleID=$Article{ArticleID}\"" .
+           'onmouseover="window.status=\''."$Article{SenderType} ($Article{ArticleType})".
+           '\'; return true;" onmouseout="window.status=\'\';">'.
+           "$Article{SenderType} ($Article{ArticleType})</a> ";
         if ($Article{ArticleType} =~ /^email/) {
-            $ThreadStrg .= " (<A HREF=\"$BaseLink"."Action=AgentPlain&ArticleID=$Article{ArticleID}\">" .
-            $Self->{LanguageObject}->Get('plain') . "</A>)";
+            $ThreadStrg .= " (<a href=\"$BaseLink"."Action=AgentPlain&ArticleID=$Article{ArticleID}\"".
+             'onmouseover="window.status=\''.$Self->{LanguageObject}->Get('plain').
+             '\'; return true;" onmouseout="window.status=\'\';">'.
+            $Self->{LanguageObject}->Get('plain') . "</a>)";
         }
         $ThreadStrg .= " $Article{CreateTime}";
         $ThreadStrg .= "<BR>";
@@ -390,7 +401,10 @@ sub TicketZoom {
     foreach (@ATMs) {
         my $FileName = $Self->LinkEncode($_) || '???';
         $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
-          'ArticleID='.$Article{ArticleID}.'&File='.$FileName.'" target="attachment">'.$_.'</a><br> ';
+          "ArticleID=$Article{ArticleID}&File=$FileName\ target=\"attachment\" ".
+          "onmouseover=\"window.status='\$Text{\"Download\"}: $FileName';".
+           ' return true;" onmouseout="window.status=\'\';">'.
+           $_.'</a><br> ';
     }
 
     # --
@@ -731,7 +745,11 @@ sub AgentUtilSearchResult {
     # --
     # check if just a only html email
     # --
-    if (my $MimeTypeText = $Self->CheckMimeType(%Param, Text => $Param{Body})) {
+    if (my $MimeTypeText = $Self->CheckMimeType(
+        %Param, 
+        Text => $Param{Body}, 
+        Action => 'AgentZoom',
+    )) {
         $Param{TextNote} = $MimeTypeText;
         $Param{Body} = '';
     }
@@ -752,6 +770,7 @@ sub AgentUtilSearchResult {
         # do charset check
         # --
         if (my $CharsetText = $Self->CheckCharset(
+            Action => 'AgentZoom',
             ContentCharset => $Param{ContentCharset},
             TicketID => $Param{TicketID},
             ArticleID => $Param{ArticleID} )) {
@@ -821,36 +840,48 @@ sub AgentUtilSearchCouter {
 sub AgentCompose {
     my $Self = shift;
     my %Param = @_;
-
     # --
     # build next states string
     # --
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
-        Name => 'ComposeStateID'
+        Name => 'ComposeStateID',
+        Selected => $Param{NextState}
     );
-
     # --
     # answered strg
     # --
-    $Param{'AnsweredYesNoOption'} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name => 'Answered',
-        Selected => 'Yes',
-    );
-
+    if ($Param{AnsweredID}) {
+        $Param{'AnsweredYesNoOption'} = $Self->OptionStrgHashRef(
+            Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+            Name => 'Answered',
+            SelectedID => $Param{AnsweredID},
+        );
+    }
+    else {
+        $Param{'AnsweredYesNoOption'} = $Self->OptionStrgHashRef(
+            Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+            Name => 'Answered',
+            Selected => 'Yes',
+        );
+    }
     # --
     # prepare 
     # --
     # create FromHTML (to show)
     $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70);
     # do html quoting
-    foreach ('ReplyTo', 'From', 'To', 'Cc', 'Subject') {
+    foreach (qw(ReplyTo From To Cc Subject Body)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
-    # email quoted print decode
-    $Param{Body} = $Self->Ascii2Html(Text => $Param{Body});
-
+    # --
+    # prepare errors!
+    # --
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = "* ".$Self->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
+    }
     # --
     # create & return output
     # --
@@ -1082,6 +1113,74 @@ sub AgentStatusViewTable {
     }
 }
 # --
+sub AgentSpelling {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # do html quoteing
+    # --
+    foreach (qw(Body)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_});
+    }
+    # --
+    # spellcheck
+    # --
+    if ($Param{SpellCheck}) {
+      $Param{SpellCheckString} = '<table border="0" width="580" cellspacing="0" cellpadding="1">';
+      $Param{SpellCheckString} .= '<tr><th width="50">Line</th><th width="100">Word</th>';
+      $Param{SpellCheckString} .= '<th width="330"colspan="2">replace with</th>';
+      $Param{SpellCheckString} .= '<th width="50">Change</th><th width="50">Ignore</th></tr>';
+      $Param{SpellCounter} = 0;
+      foreach (sort {$a <=> $b} keys %{$Param{SpellCheck}}) {
+        my $WrongWord = $Param{SpellCheck}->{$_}->{Word};
+        if ($WrongWord) {
+          $Param{SpellCounter} ++;
+          if ($Param{SpellCounter} <= 300) {
+            $Param{SpellCheckString} .= "<tr><td align='center'>$Param{SpellCheck}->{$_}->{Line}</td><td><font color='red'>$WrongWord</font></td><td>";
+            my %ReplaceWords = ();
+            if ($Param{SpellCheck}->{$_}->{Replace}) {
+              foreach my $ReplaceWord (@{$Param{SpellCheck}->{$_}->{Replace}}) {
+                $ReplaceWords{$WrongWord."::".$ReplaceWord} = $ReplaceWord;
+              }
+            }
+            else {
+                $ReplaceWords{$WrongWord.'::0'} = 'No suggestions';
+            }
+            $Param{SpellCheckString}  .= $Self->OptionStrgHashRef(
+               Data => \%ReplaceWords, 
+               Name => "SpellCheckReplace",
+               OnClick => "change_selected($Param{SpellCounter})"
+            );
+            $Param{SpellCheckString} .= '</td><td> or ';
+            $Param{SpellCheckString} .= '<input type="text" name="SpellCheckOrReplace::'.$WrongWord.'" value="" size="16" onKeyDown="change_selected('.$Param{SpellCounter}.')">';
+            $Param{SpellCheckString} .= '</td><td align="center">';
+            $Param{SpellCheckString} .= '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Replace">';
+            $Param{SpellCheckString} .= '</td><td align="center">';
+            $Param{SpellCheckString} .= '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Ignore" checked="checked">';
+            $Param{SpellCheckString} .= '</td></tr>';
+          }
+        }
+      } 
+      $Param{SpellCheckString} .= '</table>';
+      if ($Param{SpellCounter} == 0) {
+        $Param{SpellCheckString} = '';
+      }
+    }
+    # --
+    # dict language selection
+    # --
+    my %Languages = ( 'English' => 'English', 'German' => 'German' );
+    $Param{SpellLanguageString}  .= $Self->OptionStrgHashRef(
+        Data => \%Languages,
+        Name => "SpellLanguage",
+        Selected => $Param{SpellLanguage}, 
+    );
+    # --
+    # create & return output
+    # --
+    return $Self->Output(TemplateFile => 'AgentSpelling', Data => \%Param);
+}
+# --  
 
 1;
  
