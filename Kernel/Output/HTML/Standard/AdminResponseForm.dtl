@@ -2,7 +2,7 @@
 # AdminResponseForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseForm.dtl,v 1.4 2002-05-12 15:06:27 martin Exp $
+# $Id: AdminResponseForm.dtl,v 1.5 2002-05-26 18:15:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -72,4 +72,24 @@
 </tr>
 </table>
 <!-- end form -->
+
+<!-- start note -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor2"}" valign="top">
+  <td>
+    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" valign="top">
+  <td>
+  <p>
+  $Text{"A response is default text to write faster answer (with default text) to customers."}
+  </p>
+  <p>
+  $Text{"Attention"}: <a href="$Env{"CGIHandle"}?SessionID=$Env{"SessionID"}&Action=AdminQueueResponses">$Text{"Don't forget to add a new response a queue!"}</a>
+  </p>
+  </td>
+</tr>
+</table>
+<!-- end note -->
 

@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.4 2002-05-14 00:16:48 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.5 2002-05-26 18:15:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -64,7 +64,7 @@
     </tr>
     <tr>
       <td>$Text{"Escalation time"} ($Text{"minutes"}): </td>
-      <td> <input type="text" name="EscalationTime" value="$Data{"EscalationTime"}" size="10" maxlength="10"></td>
+      <td> <input type="text" name="EscalationTime" value="$Data{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 1 $Text{"day"} = 1440 $Text{"minutes"}</td>
     </tr>
     <tr>
       <td>$Text{"Follow up Option"}: </td>
@@ -72,7 +72,7 @@
     </tr>
     <tr>
       <td>$Text{"Ticket lock after a follow up"}: </td>
-      <td> <input type="text" name="FollowUpLock" value="$Data{"FollowUpLock"}" size="1" maxlength="1"><td>
+      <td> $Data{"FollowUpLockYesNoOption"}<td>
     </tr>
     <tr>
       <td>$Text{"Systemaddress"}: </td>
