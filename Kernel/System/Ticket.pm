@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.15 2002-07-13 12:31:40 martin Exp $
+# $Id: Ticket.pm,v 1.16 2002-07-15 22:09:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Queue;
 use Kernel::System::User;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -291,7 +291,7 @@ sub GetLastCustomerArticle {
       return;
     }
     # --
-    # dn query
+    # db query
     # --
     my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
     " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time" .
@@ -323,20 +323,57 @@ sub GetLastCustomerArticle {
 sub SetCustomerNo {
     my $Self = shift;
     my %Param = @_;
-    my $TicketID = $Param{TicketID};
-    my $UserID = $Param{UserID};
-    my $No = $Param{No};
-    $No = $Self->{DBObject}->Quote($No);
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID No)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
     # db update
-    my $SQL = "UPDATE ticket SET customer_id = '$No', " .
-    " change_time = current_timestamp, change_by = $UserID " .
-    " WHERE id = $TicketID";
+    # --
+    $Param{No} = $Self->{DBObject}->Quote($Param{No});
+    my $SQL = "UPDATE ticket SET customer_id = '$Param{No}', " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID} ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # history insert
+        $Self->AddHistoryRow(
+            TicketID => $Param{TicketID},
+            HistoryType => 'CustomerUpdate',
+            Name => "CustomerID updated to '$Param{No}'.",
+            CreateUserID => $Param{UserID},
+        );
         return 1;
     }
     else {
         return;
     }
+}
+# --
+sub GetCustomerNo {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    # --
+    # db query
+    # --
+    my $SQL = "SELECT customer_id FROM ticket WHERE id = $Param{TicketID}";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    $Param{CustomerID} = '';
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $Param{CustomerID} = $RowTmp[0];
+    }
+    return $Param{CustomerID};
 }
 # --
 sub SetFreeText {
