@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.159 2004-11-04 10:49:54 martin Exp $
+# $Id: Generic.pm,v 1.160 2004-11-16 12:24:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.159 $';
+$VERSION = '$Revision: 1.160 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -748,7 +748,7 @@ sub Output {
             my $Target = $2;
             my $End = $3;
             my $RealEnd = $4;
-            if ($Target =~ /^(http:|https:|#|ftp:)/i || $Target !~ /(\.pl|\.php|\.cgi)(\?|$)/) {
+            if ($Target =~ /^(http:|https:|#|ftp:)/i || $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/) {
                 "$AHref$Target$End$RealEnd";
             }
             else {
@@ -764,7 +764,7 @@ sub Output {
             my $Target = $2;
             my $End = $3;
             if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID} ||
-                 $Target !~ /(\.pl|\.php|\.cgi)(\?|$)/) {
+                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/) {
                 "$AHref$Target$End";
             }
             else {
