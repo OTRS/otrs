@@ -2,7 +2,7 @@
 # AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
+# $Id: AdminQueue.pm,v 1.3 2002-06-09 09:56:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +32,14 @@ sub new {
     }
 
     # check all needed objects
-    foreach ('ParamObject', 'DBObject', 'QueueObject', 'LayoutObject', 'ConfigObject', 'LogObject') {
+    foreach (
+        'ParamObject', 
+        'DBObject',  
+        'QueueObject', 
+        'LayoutObject', 
+        'ConfigObject', 
+        'LogObject',
+    ) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -138,16 +145,15 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
-    # add new user
+    # --
+    # add new queue
+    # --
     elsif ($Param{Subaction} eq 'AddAction') {
         my %GetParam;
-        $GetParam{Pw} = '';
-        $GetParam{Pw} = crypt($GetParam{Pw}, $Self->{UserID});
         my @Params = (
             'Name',
             'GroupID',
             'UnlockTimeout',
-#            'WorkflowID',
             'SystemAddressID',
             'SalutationID',
             'SignatureID',
@@ -159,60 +165,27 @@ sub Run {
         );
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-            $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
         }
-        # check !!!
-        $GetParam{UnlockTimeout} = 0 if (!$GetParam{UnlockTimeout});
-        $GetParam{EscalationTime} = 0 if (!$GetParam{EscalationTime});
-        $GetParam{FollowUpLock} = 0 if (!$GetParam{FollowUpLock});
-        my $SQL = "INSERT INTO queue " .
-        "(name, " .
-            " group_id, " .
-            " unlock_timeout, " .
-#            " workflow_id, " .
-            " system_address_id, " .
-            " salutation_id, " .
-            " signature_id, " .
-            " escalation_time, " .
-            " follow_up_id, " .
-            " follow_up_lock, " .
-            " valid_id, " .
-            " comment, " .
-            " create_time, " .
-            " create_by, " .
-            " change_time, " .
-            " change_by)" .
-            " VALUES " .
-            " ('$GetParam{Name}', " .
-            " $GetParam{GroupID}, " .
-            " $GetParam{UnlockTimeout}, " .
-#            " $GetParam{WorkflowID}, " .
-            " $GetParam{SystemAddressID}, " .
-            " $GetParam{SalutationID}, " .
-            " $GetParam{SignatureID}, " .
-            " $GetParam{EscalationTime}, " .
-            " $GetParam{FollowUpID}, " .
-            " $GetParam{FollowUpLock}, " .
-            " $GetParam{ValidID}, " .
-            " '$GetParam{Comment}', " .
-            " current_timestamp, " .
-            " $Self->{UserID}, " .
-            " current_timestamp, " .
-            " $Self->{UserID})";
-        if ($Self->{DBObject}->Do(SQL => $SQL)) {
+
+        # --
+        # create new queue
+        # --
+        if ($Self->{QueueObject}->QueueAdd(%GetParam, UserID => $Self->{UserID})) {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->AdminNavigationBar();
             $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
+                Message => 'Can\'t create Queue!!',
                 Comment => 'Please contact your admin',
             );
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # --
     # else ! print form
+    # --
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Queue add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
