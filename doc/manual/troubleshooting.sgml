@@ -25,6 +25,21 @@ rpm -Uvh otrs.rpm
 
 </sect2>
 
+<sect2>
+<title>SuSE Linux and Postfix</title>
+<para>
+Postfix isn't configured with Procmail out of the box. You have to enable Procmail in /etc/postfix/main.cf:
+<screen>
+[...]
+mailbox_command = /usr/bin/procmail
+[...]
+</screen>
+And to restart the Postfix daemon (rcpostfix restart).
+</para>
+
+</sect2>
+
+
 </sect1>
 
 <sect1 id="problems_with_redhat">
