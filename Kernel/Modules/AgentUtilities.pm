@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.63 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentUtilities.pm,v 1.64 2004-09-30 08:20:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -174,28 +174,13 @@ sub Run {
             # insert new profile params
             foreach my $Key (keys %GetParam) {
                 if ($GetParam{$Key}) {
-                  if (ref($GetParam{$Key}) eq 'ARRAY') {
-                    foreach (@{$GetParam{$Key}}) {
-                        $Self->{SearchProfileObject}->SearchProfileAdd(
-                            Base => 'TicketSearch',
-                            Name => $Self->{Profile},
-                            Type => 'ARRAY',
-                            Key => $Key,
-                            Value => $_,
-                            UserLogin => $Self->{UserLogin},
-                        );
-                    }
-                  }
-                  else {
                     $Self->{SearchProfileObject}->SearchProfileAdd(
                         Base => 'TicketSearch',
                         Name => $Self->{Profile},
-                        Type => 'SCALAR',
                         Key => $Key,
                         Value => $GetParam{$Key},
                         UserLogin => $Self->{UserLogin},
                     );
-                  }
                 }
             }
         }

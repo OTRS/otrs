@@ -2,7 +2,7 @@
 # Kernel/System/SearchProfile.pm - module to manage search profiles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SearchProfile.pm,v 1.1 2004-09-10 12:50:53 martin Exp $
+# $Id: SearchProfile.pm,v 1.2 2004-09-30 08:19:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::SearchProfile;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -79,19 +79,19 @@ to add a search profile item
   $SearchProfileObject->SearchProfileAdd(
       Base => 'TicketSearch',
       Name => 'last-search',
-      Type => 'SCALAR',    # SCALAR|ARRAY
       Key => 'Body',
-      Value => $String,
+      Value => $String,    # SCALAR|ARRAYREF
       UserLogin => 123,
   );
 
 =cut
 
 sub SearchProfileAdd {
-    my $Self = shift;
+    my $Self  = shift;
     my %Param = @_;
+    my @Data  = ();
     # check needed stuff
-    foreach (qw(Base Name Type Key UserLogin)) {
+    foreach (qw(Base Name Key UserLogin)) {
       if (!defined($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -101,22 +101,30 @@ sub SearchProfileAdd {
     if (!defined($Param{Value})) {
         return 1;
     }
+    if (ref($Param{Value}) eq 'ARRAY') {
+        @Data = @{$Param{Value}};
+        $Param{Type} = 'ARRAY';
+    }
+    else {
+        @Data = ($Param{Value});
+        $Param{Type} = 'SCALAR';
+    }
     # qoute params
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    my $SQL = "INSERT INTO search_profile (login, profile_name, ".
+    foreach my $Value (@Data) {
+        my $Value = $Self->{DBObject}->Quote($Value);
+        my $SQL = "INSERT INTO search_profile (login, profile_name, ".
             " profile_type, profile_key, profile_value)".
             " VALUES ".
             " ('$Param{Base}::$Param{UserLogin}', '$Param{Name}', ".
-            " '$Param{Type}', '$Param{Key}', '$Param{Value}') ";
-
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        return 1;
+            " '$Param{Type}', '$Param{Key}', '$Value') ";
+        if (!$Self->{DBObject}->Do(SQL => $SQL)) {
+            return;
+        }
     }
-    else {
-        return;
-    }
+    return 1;
 }
 
 =item SearchProfileGet()
@@ -264,6 +272,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-09-10 12:50:53 $
+$Revision: 1.2 $ $Date: 2004-09-30 08:19:39 $
 
 =cut
