@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.5 2004-02-13 00:50:37 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.6 2004-02-26 21:42:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -62,7 +62,7 @@ sub Run {
     elsif ($Self->{Subaction} eq 'UpdateCustomQueues') {
         $Output = $Self->UpdateCustomQueues();
     }
-    elsif ($Self->{Subaction} =~ /^User/) {
+    elsif ($Self->{Subaction}) {
         $Output = $Self->UpdateGeneric();
     }
     else {
