@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.38 2003-01-03 00:30:28 martin Exp $
+# $Id: Ticket.pm,v 1.39 2003-01-04 03:35:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,16 +19,18 @@ use Kernel::System::Ticket::History;
 use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
 use Kernel::System::Ticket::Owner;
+use Kernel::System::Ticket::SendAutoResponse;
+use Kernel::System::Ticket::SendNotification;
+use Kernel::System::Ticket::SendArticle;
 use Kernel::System::Ticket::TimeAccounting;
 use Kernel::System::Queue;
 use Kernel::System::User;
 use Kernel::System::AutoResponse;
-use Kernel::System::SendAutoResponse;
-use Kernel::System::SendNotification;
+use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -39,6 +41,9 @@ $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
     'Kernel::System::Ticket::Priority',
     'Kernel::System::Ticket::Owner',
     'Kernel::System::Ticket::TimeAccounting',
+    'Kernel::System::Ticket::SendAutoResponse',
+    'Kernel::System::Ticket::SendNotification',
+    'Kernel::System::Ticket::SendArticle',
 );
 
 # --
@@ -55,19 +60,18 @@ sub new {
     # --
     # create common needed module objects
     # --
-    $Param{QueueObject} = Kernel::System::Queue->new(%Param);
-    $Param{UserObject} = Kernel::System::User->new(%Param);
-    $Param{SendAutoResponse} = Kernel::System::SendAutoResponse->new(%Param, TicketObject => $Self);
-    $Param{SendNotification} = Kernel::System::SendNotification->new(%Param, TicketObject => $Self);
-    $Param{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
-    $Param{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
+    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    $Self->{UserObject} = Kernel::System::User->new(%Param);
+    $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
+    $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
+    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     # --
     # get needed objects
     # --
-    foreach (qw(ConfigObject LogObject DBObject UserObject QueueObject SendAutoResponse 
-      SendNotification AutoResponse LoopProtectionObject)) {
+    foreach (qw(ConfigObject LogObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->InitSendArticle();
     # --
     # load ticket number generator 
     # --
@@ -82,22 +86,6 @@ sub new {
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
     eval "require $GeneratorIndexModule";
     push(@ISA, $GeneratorIndexModule);
-    # --
-    # load ticket compress module 
-    # --
-    my $CompressModule = $Self->{ConfigObject}->Get('TicketCompressModule')
-      || 'Kernel::System::Ticket::Compress::Plain';
-    eval "require $CompressModule";
-    push(@ISA, $CompressModule);
-    $Self->CompressInit(%Param);
-    # --
-    # load ticket crypt module 
-    # --
-    my $CryptModule = $Self->{ConfigObject}->Get('TicketCryptModule')
-      || 'Kernel::System::Ticket::Crypt::Plain';
-    eval "require $CryptModule";
-    push(@ISA, $CryptModule);
-    $Self->CryptInit(%Param);
     # --
     # load article storage module 
     # --
