@@ -29,7 +29,7 @@ use Kernel::Config;
 
 use Kernel::System::Web::InterfaceAgent;
 use Kernel::System::Web::InterfaceCustomer;
-use Kernel::System::Web::InterfaceFAQPublic;
+use Kernel::System::Web::InterfacePublic;
 use Kernel::System::Web::Request;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::DB;
