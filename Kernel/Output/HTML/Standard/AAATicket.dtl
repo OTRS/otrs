@@ -54,6 +54,9 @@ $Text{"phone"}
 $Text{"sms"}
 $Text{"webrequest"}
 
+$Text{"lock"}
+$Text{"unlock"}
+
 $Text{"very low"}
 $Text{"low"}
 $Text{"normal"}
