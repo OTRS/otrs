@@ -2,7 +2,7 @@
 # TicketView.dtl - provides HTML TicketView for AgentQueueView.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.1 2001-12-21 17:49:49 martin Exp $
+# $Id: TicketView.dtl,v 1.2 2001-12-23 13:34:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,11 +22,12 @@
 </tr>
 <tr>
   <td align="left" bgcolor="$Env{"BGTableColor2"}">
-  <a href="$Env{"Baselink"}&Action=Lock&TicketID=$Data{"TicketID"}">$Text{"Lock"}</a> -
-  <a href="$Env{"Baselink"}&Action=Zoom&TicketID=$Data{"TicketID"}">$Text{"Zoom"}</a> -
-  <a href="$Env{"Baselink"}&Action=History&TicketID=$Data{"TicketID"}">$Text{"History"}</a> -
-  <a href="$Env{"Baselink"}&Action=Note&TicketID=$Data{"TicketID"}">$Text{"Add Note"}</a> -
-  <a href="$Env{"Baselink"}&Action=Close&TicketID=$Data{"TicketID"}">$Text{"Close"}</a>
+  <a href="$Env{"Baselink"}&Action=AgentLock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Lock"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Zoom"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentPriority&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Priority"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentHistory&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"History"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Add Note"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Close"}</a>
   </td>
   <td align="right" bgcolor="$Env{"BGTableColor2"}">
   <b>$Text{"Created"}:</b> $Data{"Created"}
@@ -63,7 +64,7 @@
     <b>$Text{"CustomerID"}:</b> <font color="red">$Data{"CustomerID"}</font><br>
   
    <p>
-     <b>$Text{"Compose Answer"}</b>
+     <b>$Text{"Compose Answer"}:</b>
      <br>
      $Data{"StdResponsesStrg"}
    </p>
@@ -76,9 +77,18 @@
    </p>
 
    <p>
-     <b>$Text{"Change queue"}</b>
+     <b>$Text{"Change queue"}:</b>
      <br>
-     ...
+       <form action="$Env{"CGIHandle"}" method="get">
+       <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+       <input type="hidden" name="Action" value="AgentMove">
+       <input type="hidden" name="Subaction" value="InRage">
+       <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+       <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+       <font size="-1">
+       $Data{"MoveQueuesStrg"}
+       <input type="submit" value="$Text{"Move"}">
+       </form>
    </p>
 
 
