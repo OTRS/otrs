@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.2 2003-02-08 22:03:41 martin Exp $
+  $Id: otrs-schema.xml,v 1.3 2003-02-09 20:52:49 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.2  2003/02/08 22:03:41  martin
+  changed ticket.user_id and ticket.group_id from smalin (max 32767) to integer (2147483647)
+
   Revision 1.1  2003/02/08 11:54:29  martin
   moved from install/database to scripts/database
 
@@ -350,6 +353,7 @@
   <column name="other_read" required="false" type="SMALLINT"/>
   <column name="other_write" required="false" type="SMALLINT"/>
   <column name="customer_id" required="false" size="150" type="VARCHAR"/>
+  <column name="customer_user_id" required="false" size="250" type="VARCHAR"/>
   <column name="timeout" required="false" type="INTEGER"/>
   <column name="until_time" required="false" type="INTEGER"/>
   <column name="freekey1" required="false" size="150" type="VARCHAR"/>

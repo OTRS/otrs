@@ -287,6 +287,7 @@ CREATE TABLE ticket
     other_read smallint,
     other_write smallint,
     customer_id varchar (150),
+    customer_user_id varchar (250),
     timeout integer,
     until_time integer,
     freekey1 varchar (150),

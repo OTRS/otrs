@@ -321,6 +321,7 @@ CREATE TABLE ticket
     other_read SMALLINT,
     other_write SMALLINT,
     customer_id VARCHAR (150),
+    customer_user_id VARCHAR (250),
     timeout INTEGER,
     until_time INTEGER,
     freekey1 VARCHAR (150),
