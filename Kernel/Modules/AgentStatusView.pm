@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.11 2003-03-19 20:56:05 martin Exp $
+# $Id: AgentStatusView.pm,v 1.12 2003-04-15 21:00:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,10 +59,7 @@ sub new {
     # viewable tickets a page
     $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit') || 6000; 
 
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0;
-    if ($Self->{StartHit} >= 1000) {
-        $Self->{StartHit} = 1000;
-    }
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
     $Self->{PageShown} = $Self->{ConfigObject}->Get('AgentStatusView::ViewableTicketsPage') || 50;
     $Self->{ViewType} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'Open';
     if ($Self->{ViewType} =~ /^close/i) {
@@ -219,6 +216,20 @@ sub ShowTicketStatus {
         TicketID => $TicketID, 
         SenderType => 'customer',
     );
+    # --
+    #
+    # --
+    if (!@ArticleIndex) {
+        $Self->{LogObject}->Log(
+           Priority => 'error',
+           Message => "No customer article found!! (TicketID=$TicketID)",
+           Comment => 'Please contact your admin',
+        );
+        return;
+    }
+    # --
+    # get last article
+    # --
     my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $ArticleIndex[$#ArticleIndex]);
     # Condense down the subject
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
