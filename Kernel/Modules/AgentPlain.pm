@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPlain.pm - to get a plain view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.12 2003-03-06 22:11:59 martin Exp $
+# $Id: AgentPlain.pm,v 1.13 2003-07-07 22:15:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -77,11 +77,25 @@ sub Run {
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
     if ($Text) {
-        $Output .= $Self->{LayoutObject}->ArticlePlain(
-            Backscreen => $Self->{BackScreen},
-            Text => $Text,
-            TicketID => $Self->{TicketID},
-            ArticleID => $Self->{ArticleID},
+    # Ascii2Html
+        $Text = $Self->{LayoutObject}->Ascii2Html(Text => $Text);
+        $Text =~ s/\n/<br>\n/g;
+        # do some highlightings
+        $Text =~ s/^((From|To|Cc|Subject|Reply-To|Organization|X-Company):.*)/<font color=\"red\">$1<\/font>/gm;
+        $Text =~ s/^(Date:.*)/<FONT COLOR=777777>$1<\/font>/m;
+        $Text =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<blink>$1<\/blink>/gmi;
+        $Text =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<font color=\"blue\">$1$2<\/font>/gmi;
+        $Text =~ s/^((Resent-.*):.*)/<font color=\"green\">$1<\/font>/gmi;
+        $Text =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
+        $Text =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
+
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentPlain', 
+            Data => {
+                Text => $Text,
+                TicketID => $Self->{TicketID},
+                ArticleID => $Self->{ArticleID},
+            }
         );
     }
     else {

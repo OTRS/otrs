@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.18 2003-04-22 20:59:33 martin Exp $
+# $Id: AgentCustomer.pm,v 1.19 2003-07-07 22:15:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -220,29 +220,43 @@ sub Form {
     foreach my $TicketID (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
         my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
-        $OutputTables .= $Self->{LayoutObject}->AgentCustomerHistoryTable(
-            %Ticket,
-            %Article,
+        $OutputTables .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentCustomerHistoryTable',
+            Data => {
+                %Ticket,
+                %Article,
+                Age => $Self->{LayoutObject}->CustomerAge(Age => $Ticket{Age}, Space => ' '),
+            }
         );
+
     }
     if (!$OutputTables && $Self->{Search}) {
-        $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
-              %Param,
-              CustomerID => $Self->{CustomerID},
-              Message => 'No entry found!',
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentUtilSearchByCustomerID', 
+            Data => {
+                %Param, 
+                Message => 'No entry found!', 
+                CustomerID => $Self->{CustomerID},
+            },
         );
     }
     elsif ($Self->{Search}) {
-        $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
-              %Param,
-              CustomerID => $Self->{CustomerID},
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentUtilSearchByCustomerID', 
+            Data => {
+                %Param, 
+                CustomerID => $Self->{CustomerID},
+            },
         );
     }
     if ($OutputTables) {
-        $Output .= $Self->{LayoutObject}->AgentCustomerHistory(
-            CustomerID => $TicketCustomerID,
- 			TicketID => $Self->{TicketID},
-            HistoryTable => $OutputTables,
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentCustomerHistory',
+            Data => {
+                CustomerID => $TicketCustomerID,
+                TicketID => $Self->{TicketID},
+                HistoryTable => $OutputTables,
+            }
         );
    }
    $Output .= $Self->{LayoutObject}->Footer();

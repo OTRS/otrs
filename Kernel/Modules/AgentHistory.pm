@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.11 2003-04-17 08:07:40 martin Exp $
+# $Id: AgentHistory.pm,v 1.12 2003-07-07 22:15:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -105,20 +105,27 @@ sub Run {
     }
     # get shown user info
     my @NewLines = ();
+    my $Table = '';
     foreach my $DataTmp (@Lines) {
         my %Data = %{$DataTmp};
         my %UserInfo = $Self->{UserObject}->GetUserData(
             User => $Data{CreateBy}, 
             Cached => 1
         );
-        push(@NewLines, {%Data, %UserInfo});
+        $Table .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentHistoryRow', 
+            Data => {%Data, %UserInfo},
+        );
     }
     # get output
-    $Output .= $Self->{LayoutObject}->AgentHistory(
-        TicketNumber => $Tn, 
-        TicketID => $Self->{TicketID},
-        Data => \@NewLines,
-    );
+    $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentHistoryForm', 
+            Data => {
+                TicketNumber => $Tn, 
+                TicketID => $Self->{TicketID},
+                History => $Table,
+            },
+        );
     # add footer
     $Output .= $Self->{LayoutObject}->Footer();
 

@@ -2,7 +2,7 @@
 # AgentHistoryRow.dtl - provides HTML form for history
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistoryRow.dtl,v 1.8 2003-04-17 08:45:26 martin Exp $
+# $Id: AgentHistoryRow.dtl,v 1.9 2003-07-07 22:15:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,19 +16,19 @@
 <!-- start row-->
 <tr> 
   <td>
-  $Data{"HistoryType"}
+  $Quote{"$Data{"HistoryType"}"}
   </td>
   <td>
-  $Data{"Name"}
+  $Quote{"$Data{"Name"}","100"}
   </td>
   <td align="CENTER">
     $Data{"Link"}
   </td>
   <td>
-  $Data{"CreateBy"} ($Data{"UserFirstname"} $Data{"UserLastname"})
+  $Quote{"$Data{"CreateBy"}"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","20"})
   </td>
   <td>
-  $Data{"CreateTime"}
+  $TimeLong{"$Data{"CreateTime"}"}
   </td>
 </tr>
 <!-- end row -->

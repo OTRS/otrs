@@ -2,7 +2,7 @@
 # AgentCustomerHistoryTable.dtl - provides HTML form for AgentCustomer.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerHistoryTable.dtl,v 1.7 2003-02-08 15:40:43 martin Exp $
+# $Id: AgentCustomerHistoryTable.dtl,v 1.8 2003-07-07 22:15:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,9 +11,9 @@
 <!-- start recorde -->
 <tr>
   <td align="center"><a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
-  <td>$Text{"From"}: $Data{"From"}<br>$Text{"Subject"}: $Data{"Subject"}</td>
-  <td>$Text{"State"}: $Data{"State"}<br>$Text{"Lock"}: $Data{"Lock"}</td>
-  <td>$Text{"Queue"}: $Data{"Queue"}<br>$Text{"Priority"}: $Data{"Priority"}</td>
+  <td>$Text{"From"}: $Quote{"$Data{"From"}","20"}<br>$Text{"Subject"}: $Quote{"$Data{"Subject"}","16"}</td>
+  <td>$Text{"State"}: $Quote{"$Data{"State"}","20"}<br>$Text{"Lock"}: $Quote{"$Data{"Lock"}","16"}</td>
+  <td>$Text{"Queue"}: $Quote{"$Data{"Queue"}","20"}<br>$Text{"Priority"}: $Quote{"$Data{"Priority"}","16"}</td>
   <td>$Data{"Age"}</td>
 </tr>
 <!-- end recorde -->

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.120 2003-07-07 22:03:01 martin Exp $
+# $Id: Agent.pm,v 1.121 2003-07-07 22:15:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.120 $';
+$VERSION = '$Revision: 1.121 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -421,27 +421,6 @@ sub TicketEscalation {
     return $Output;
 }
 # --
-sub ArticlePlain {
-    my $Self = shift;
-    my %Param = @_;
-
-    # Ascii2Html
-    $Param{Text} = $Self->Ascii2Html(Text => $Param{Text});
-    $Param{Text} =~ s/\n/<br>\n/g;
-
-    # do some highlightings
-    $Param{Text} =~ s/^((From|To|Cc|Subject|Reply-To|Organization|X-Company):.*)/<font color=\"red\">$1<\/font>/gm;
-    $Param{Text} =~ s/^(Date:.*)/<FONT COLOR=777777>$1<\/font>/m;
-    $Param{Text} =~ s/^((X-Mailer|User-Agent|X-OS):.*(Mozilla|Win?|Outlook|Microsoft|Internet Mail Service).*)/<blink>$1<\/blink>/gmi;
-    $Param{Text} =~ s/(^|^<blink>)((X-Mailer|User-Agent|X-OS|X-Operating-System):.*)/<font color=\"blue\">$1$2<\/font>/gmi;
-    $Param{Text} =~ s/^((Resent-.*):.*)/<font color=\"green\">$1<\/font>/gmi;
-    $Param{Text} =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
-    $Param{Text} =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentPlain', Data => \%Param);
-}
-# --
 sub AgentNote {
     my $Self = shift;
     my %Param = @_;
@@ -703,29 +682,6 @@ sub AgentCustomerViewTable {
     }
     # create & return output
     return $Param{Table}; 
-}
-# --
-sub AgentCustomerHistory {
-    my $Self = shift;
-    my %Param = @_;
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentCustomerHistory', Data => \%Param);
-}
-# --
-sub AgentCustomerHistoryTable {
-    my $Self = shift;
-    my %Param = @_;
-    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
-    # do html quoteing
-    foreach (qw(State Queue Owner Lock)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 16);
-    }
-    foreach (qw(From Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 20);
-    }
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentCustomerHistoryTable', Data => \%Param);
 }
 # --
 sub AgentOwner {
@@ -1141,30 +1097,6 @@ sub AgentMailboxNavBar {
     # create & return output
     # --
     return $Self->Output(TemplateFile => 'AgentMailboxNavBar', Data => \%Param);
-}
-# --
-sub AgentHistory {
-    my $Self = shift;
-    my %Param = @_;
-    my @Lines = @{$Param{Data}};
-
-    foreach my $Data (@Lines) {
-      # --
-      # html qouting
-      # --
-      foreach (qw(Name HistoryType CreateBy CreateTime)) {
-        $$Data{$_} = $Self->Ascii2Html(Text => $$Data{$_}, Max => 100);
-      }
-      $$Data{CreateTime} = $Self->{LanguageObject}->FormatTimeString($$Data{CreateTime});
-      # --
-      # get html string
-      # --
-      $Param{History} .= $Self->Output(TemplateFile => 'AgentHistoryRow', Data => $Data);
-    }
-    # --
-    # create & return output
-    # --
-    return $Self->Output(TemplateFile => 'AgentHistoryForm', Data => \%Param);
 }
 # --
 sub TicketLocked {
