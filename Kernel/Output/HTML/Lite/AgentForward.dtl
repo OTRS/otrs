@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.dtl,v 1.12 2004-09-08 23:46:58 martin Exp $
+# $Id: AgentForward.dtl,v 1.13 2004-10-12 13:54:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -69,14 +69,14 @@ function BookCheckSubmit()
 </script>
 
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table2">
-  <b>$Env{"Box0"}$Text{"Forward article of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
+  <td class="contenthead">
+    $Env{"Box0"}$Text{"Forward article of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
-<tr> 
-  <td align="left" valign="top" class="table1">
+<tr>
+  <td class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post" name="compose">
   <input type="hidden" name="Action" value="AgentForward">
@@ -89,35 +89,35 @@ function BookCheckSubmit()
   <input type="hidden" name="InReplyTo" value="$Data{"InReplyTo"}">
   <table border="0">
     <tr>
-      <td width="20%">$Text{"From"}:</td>
-      <td width="80%">$Data{"SystemFromHTML"} <input type="hidden" name="From" value="$Data{"SystemFrom"}"></td>
+      <td width="20%" class="contentkey">$Text{"From"}:</td>
+      <td width="80%" class="contentvalue">$Data{"SystemFromHTML"} <input type="hidden" name="From" value="$Data{"SystemFrom"}"></td>
     </tr>
     <tr>
-      <td>$Text{"To"}:</td>
-      <td><input type="text" name="To" value="" size="80"></td>
+      <td class="contentkey">$Text{"To"}:</td>
+      <td class="contentvalue"><input type="text" name="To" value="" size="80"></td>
     </tr>
     <tr>
-      <td>$Text{"Cc"}:</td>
-      <td><input type="text" name="Cc" value="" size="80"></td>
+      <td class="contentkey">$Text{"Cc"}:</td>
+      <td class="contentvalue"><input type="text" name="Cc" value="" size="80"></td>
     </tr>
     <tr>
-      <td>$Text{"Bcc"}:</td>
-      <td><input type="text" name="Bcc" value="" size="80"></td>
+      <td class="contentkey">$Text{"Bcc"}:</td>
+      <td class="contentvalue"><input type="text" name="Bcc" value="" size="80"></td>
     </tr>
     <tr>
-      <td>$Text{"Subject"}:</td>
-      <td><input type="text" name="Subject" value="$Data{"Subject"}" size="80"></td>
+      <td class="contentkey">$Text{"Subject"}:</td>
+      <td class="contentvalue"><input type="text" name="Subject" value="$Data{"Subject"}" size="80"></td>
     </tr>
     <tr>
-      <td>$Text{"Options"}:</td>
-      <td>
+      <td class="contentkey">$Text{"Options"}:</td>
+      <td class="contentvalue">
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
        $Env{"Box0"}<a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$Text{"Address Book"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}contents.png">$Text{"Address Book"}</a>$Env{"Box1"}
       </td>
     </tr>
     <tr>
-      <td valign="top">$Text{"Text"}:</td>
-      <td>
+      <td class="contentkey">$Text{"Text"}:</td>
+      <td class="contentvalue">
 <pre>
 <textarea name="Body" rows="25" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
 
@@ -131,7 +131,7 @@ $Text{"From"}: $Data{"From"}
 $Text{"To"}: $Data{"To"}
 $Text{"Cc"}: $Data{"Cc"}
 $Text{"Reply-To"}: $Data{"ReplyTo"}
-$Text{"Subject"}: $Data{"Subject"} 
+$Text{"Subject"}: $Data{"Subject"}
 $Data{"Body"}
 ---- $Text{"End forwarded message"} ----
 </textarea>
@@ -139,16 +139,16 @@ $Data{"Body"}
       </td>
     </tr>
     <tr>
-      <td>$Text{"Next ticket state"}:</td>
-      <td>$Data{"NextStatesStrg"}</td>
+      <td class="contentkey">$Text{"Next ticket state"}:</td>
+      <td class="contentvalue">$Data{"NextStatesStrg"}</td>
     </tr>
     <tr>
-      <td>$Text{"Article type"}:</td>
-      <td>$Data{"ArticleTypesStrg"}</td>
+      <td class="contentkey">$Text{"Article type"}:</td>
+      <td class="contentvalue">$Data{"ArticleTypesStrg"}</td>
     </tr>
     <tr>
-      <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
-      <td><input type="text" name="TimeUnits" value="" size="3"></td>
+      <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+      <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
     </tr>
   </table>
   <br>

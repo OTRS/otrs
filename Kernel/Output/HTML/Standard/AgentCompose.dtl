@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.32 2004-08-19 15:38:49 martin Exp $
+# $Id: AgentCompose.dtl,v 1.33 2004-10-12 13:53:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -79,12 +79,12 @@ function FAQSubmit()
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table2">
-    <b>$Env{"Box0"}$Text{"Compose answer for ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
+  <td class="mainhead2">
+    $Env{"Box0"}$Text{"Compose answer for ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" class="table1">
+  <td class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
   <input type="hidden" name="Action" value="AgentCompose">

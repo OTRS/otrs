@@ -1,8 +1,8 @@
 # --
 # NoteBounce.dtl - provides HTML form for bounce mask
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.dtl,v 1.8 2003-03-22 07:03:44 martin Exp $
+# $Id: AgentBounce.dtl,v 1.9 2004-10-12 13:53:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,12 +35,12 @@ function submit_bounce()
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table2">
-    <b>$Env{"Box0"}$Text{"Bounce ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
+  <td class="contenthead">
+    $Env{"Box0"}$Text{"Bounce ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" class="table1">
+  <td class="mainbody">
 
 <p>
 
@@ -53,32 +53,32 @@ function submit_bounce()
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0">
   <tr>
-    <td width="20%">$Text{"Bounce to"}:</td>
-    <td width="80%"><input type="text" name="BounceTo" value="" size="60"></td>
+    <td width="20%" class="contentkey">$Text{"Bounce to"}:</td>
+    <td width="80%" class="contentvalue"><input type="text" name="BounceTo" value="" size="60"></td>
   </tr>
   <tr>
-    <td>$Text{"Next ticket state"}:</td>
-    <td>$Data{"NextStatesStrg"}</td>
+    <td class="contentkey">$Text{"Next ticket state"}:</td>
+    <td class="contentvalue">$Data{"NextStatesStrg"}</td>
   </tr>
   <tr>
-    <td>$Text{"Inform sender"}:</td>
-    <td><input type="checkbox" name="InformSender" value="1"></td>
+    <td class="contentkey">$Text{"Inform sender"}:</td>
+    <td class="contentvalue"><input type="checkbox" name="InformSender" value="1"></td>
   </tr>
   <tr>
-    <td>$Text{"From"}:</td>
-    <td>$Data{"FromHTML"}</td>
+    <td class="contentkey">$Text{"From"}:</td>
+    <td class="contentvalue">$Data{"FromHTML"}</td>
   </tr>
   <tr>
-    <td>$Text{"To"}:</td>
-    <td><input type="text" name="To" value="$Data{"To"}" size="60"></td>
+    <td class="contentkey">$Text{"To"}:</td>
+    <td class="contentvalue"><input type="text" name="To" value="$Data{"To"}" size="60"></td>
   </tr>
   <tr>
-    <td>$Text{"Subject"}:</td>
-    <td><input type="text" name="Subject" value="$Data{"Subject"}" size="60"></td>
+    <td class="contentkey">$Text{"Subject"}:</td>
+    <td class="contentvalue"><input type="text" name="Subject" value="$Data{"Subject"}" size="60"></td>
   </tr>
   <tr>
-    <td>$Text{"Text"}:</td>
-    <td>
+    <td class="contentkey">$Text{"Text"}:</td>
+    <td class="contentvalue">
 <textarea name="Body" rows="15" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
 $Data{"Salutation"}
 
@@ -95,8 +95,9 @@ $Data{"Signature"}
   <input class="button" type="submit" value="$Text{"Send mail!"}" onclick="return submit_bounce();">
   </form>
 
-</p>
-  </td> 
+  </p>
+
+  </td>
 </tr>
 </table>
 <!-- end bounce form -->

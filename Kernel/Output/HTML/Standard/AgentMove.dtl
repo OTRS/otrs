@@ -1,8 +1,8 @@
 # --
 # NoteForm.dtl - provides HTML form for note mask
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.dtl,v 1.8 2004-09-27 13:26:33 martin Exp $
+# $Id: AgentMove.dtl,v 1.9 2004-10-12 13:54:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ alert(start_elements);
         alert('$Text{"Queue ID"}');
         document.compose.DestQueueID.focus();
         return false;
-    } 
+    }
 }
 //-->
 </script>
@@ -27,7 +27,7 @@ alert(start_elements);
 <!--
 
 function change_selected(sel)
-{ 
+{
    start_elements = (sel + 5);
    if (document.compose.elements[0].name == "$Config{"SessionName"}") {
        start_elements = start_elements + 1;
@@ -47,28 +47,34 @@ function submit_compose()
         alert('$Text{"Queue ID"}');
         document.compose.DestQueueID.focus();
         return false;
-    } 
+    }
 }
 //-->
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table2">
-    <b>$Env{"Box0"}$Text{"Move Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
+  <td class="contenthead">
+    $Env{"Box0"}$Text{"Move Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
-</table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 #<tr>
-#  <td align="left" colspan="2" class="table2">
+#  <td class="menu">
 #    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
 #  </td>
 #</tr>
 <tr>
-  <td align="left" valign="top" colspan="2" class="table1">
+  <td class="mainbody">
 
-<p>
+  <br>
+
+  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+  <tr>
+    <td colspan="2" class="contenthead">$Text{"Options"}</td>
+  </tr>
+  <tr>
+  <td class="contentbody">
+
 #$Data{"TicketUnlock"}
   <form action="$Env{"CGIHandle"}" method="get" name="compose">
   <input type="hidden" name="Action" value="AgentMove">
@@ -77,46 +83,47 @@ function submit_compose()
 #  <input type="hidden" name="DestQueueID" value="">
   <input type="hidden" name="ExpandQueueUsers" value="">
   <input type="hidden" name="AllUsers" value="0">
- 
+
   <table border="0" width="100%">
-  <tr valign="top">
-    <td>$Text{"New Queue"}:</td>
-    <td></td>
-    <td>$Data{"MoveQueuesStrg"} $Data{"LatestQueue"}</td>
-  </tr>
-  <tr valign="top">
-    <td width="18%">$Text{"New Owner"}:</td>
-    <td width="2%"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
-    <td width="80%">$Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
+  <tr>
+    <td class="contentkey">$Text{"New Queue"}:</td>
+    <td class="contentvalue"></td>
+    <td class="contentvalue">$Data{"MoveQueuesStrg"} $Data{"LatestQueue"}</td>
   </tr>
   <tr>
-    <td>$Text{"Previous Owner"}:</td>
-    <td><input type="radio" name="UserSelection" value="Old"></td>
-    <td>$Data{"OldUserStrg"}</td>
+    <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
+    <td width="2%" class="contentvalue"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
+    <td width="80%" class="contentvalue">$Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
   </tr>
   <tr>
-    <td valign="top">$Text{"Note"}:</td>
-    <td></td>
-    <td>
-<textarea name="Comment" rows="8" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}
-</textarea>
+    <td class="contentkey">$Text{"Previous Owner"}:</td>
+    <td class="contentvalue"><input type="radio" name="UserSelection" value="Old"></td>
+    <td class="contentvalue">$Data{"OldUserStrg"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"Note"}:</td>
+    <td class="contentvalue"></td>
+    <td class="contentvalue"><textarea name="Comment" rows="8" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}</textarea>
     </td>
   </tr>
 
 # --
-# use ticket is move  
+# use ticket is move
 # --
-<dtl if ($Config{"MoveSetState"} eq "1") { $Data{"NextStatesString"} = "<tr><td width="20%">$Text{"Next ticket state"}:</td><td></td><td width="80%">$Data{"NextStatesStrg"}</td></tr>"; }>
+<dtl if ($Config{"MoveSetState"} eq "1") { $Data{"NextStatesString"} = "<tr><td width="20%" class="contentkey">$Text{"Next ticket state"}:</td><td></td><td width="80%">$Data{"NextStatesStrg"}</td></tr>"; }>
     $Data{"NextStatesString"}
 #
   </table>
-  <br>
   <input class="button" type="submit" value="$Text{"Move"}" onclick="return submit_compose();">
-
   </form>
-</p>
 
-  </td> 
+    </td>
+  </tr>
+  </table>
+
+  <br>
+
+  </td>
 </tr>
 </table>
 <!-- end form -->

@@ -2,7 +2,7 @@
 # AgentNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.30 2004-09-27 13:26:33 martin Exp $
+# $Id: AgentNote.dtl,v 1.31 2004-10-12 13:54:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,7 +60,7 @@ function SpellCheckSubmit()
 <tr>
   <td class="mainbody">
 
-<br>
+  <br>
 
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
@@ -141,6 +141,7 @@ function SpellCheckSubmit()
   <input type="hidden" name="spell_lang" value="">
 </form>
 
+  <br>
 
   </td>
 </tr>
