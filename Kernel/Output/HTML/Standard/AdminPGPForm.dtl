@@ -2,7 +2,7 @@
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGPForm.dtl,v 1.3 2004-08-06 13:33:07 martin Exp $
+# $Id: AdminPGPForm.dtl,v 1.4 2004-08-10 06:47:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -80,7 +80,7 @@
         <td class="table3">$Text{"Type"}</td>
         <td class="table3">$Text{"Identifer"}</td>
         <td class="table3">$Text{"Bit"}</td>
-        <td class="table3">$Text{"Key"}</td>
+        <td class="table3">$Text{"Key"}/$Text{"Fingerprint"}</td>
         <td class="table3">$Text{"Created"}/$Text{"Expires"}</td>
         <td class="table3">$Text{"Delete"}</td>
     </tr>
@@ -89,9 +89,10 @@
         <td valign="top">$QData{"Type"}</td>
         <td valign="top">$QData{"Identifer","80"}</td>
         <td valign="top">$QData{"Bit"}</td>
-        <td valign="top"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Key=$QData{"Key"}">$QData{"Key"}</a></td>
+        <td valign="top"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Key=$QData{"Key"}">$QData{"Key"}</a>
+        <div title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</div></td>
         <td valign="top">$QData{"Created"}<br>$QData{"Expires"}</td>
-        <td valign="top" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Key=$QData{"Key"}">x</a></td>
+        <td valign="top" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Key=$QData{"FingerprintShort"}">x</a></td>
     </tr>
 <!-- dtl:block:Row -->
 
