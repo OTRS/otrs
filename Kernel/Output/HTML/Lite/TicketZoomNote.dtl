@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomNote.dtl,v 1.28 2003-02-09 02:00:09 martin Exp $
+# $Id: TicketZoomNote.dtl,v 1.29 2003-02-23 22:13:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -145,7 +145,6 @@ $Data{"Article::Text"}
        <input type="hidden" name="Subaction" value="InRage">
        <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-       <font size="-1">
        $Data{"MoveQueuesStrg"}
        <input type="submit" value="$Text{"Move"}">
        </form>
