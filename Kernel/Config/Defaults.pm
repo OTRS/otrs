@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.23 2003-01-19 16:39:19 martin Exp $
+# $Id: Defaults.pm,v 1.24 2003-01-23 22:26:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -299,6 +299,10 @@ sub LoadDefaults {
     # default: ["'open'", "'new'"]
     $Self->{ViewableStats} = ["'open'", "'new'", "'pending auto close-'", "'pending auto close+'", "'pending reminder'"];
 
+    # UnlockStats
+    # (Tickets which can be unlocked by bin/UnlockTickets.pl)
+    $Self->{UnlockStats} = ["'open'", "'new'"];
+
     # ViewableSenderTypes 
     #  default:  ["'customer'"]
     $Self->{ViewableSenderTypes} = ["'customer'"];
@@ -372,6 +376,7 @@ sub LoadDefaults {
             bg => 'Bulgarian',
             fi => 'Suomi',
             es => 'Espaniol',
+            pt_BR => 'Português Brasileiro',
 #            cs => 'Czech', 
 #            hu => 'Hungarian',
 #            pl => 'Polski',
