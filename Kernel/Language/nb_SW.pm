@@ -1,14 +1,14 @@
 # -- 
-# Kernel/Language/sv.pm - Swedish language translation
+# Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.1 2004-05-28 21:31:21 robert Exp $
+# $Id: nb_SW.pm,v 1.1 2004-05-30 16:48:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::sv;
+package Kernel::Language::nb_SW.pm;
 
 use strict;
 
