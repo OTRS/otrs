@@ -2,7 +2,7 @@
 # Kernel/Modules/Admin.pm - provides admin main page 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.5 2003-02-08 15:16:29 martin Exp $
+# $Id: Admin.pm,v 1.6 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject PermissionObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -42,19 +42,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
-    my $QueueID = $Self->{QueueID};
-    my $Subaction = $Self->{Subaction};
-    my $NextScreen = $Self->{NextScreen} || '';
-    my $BackScreen = $Self->{BackScreen};
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
-
-    # permission check
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission(Message => 'You have to be in the admin group!');
-        return $Output;
-    }
 
     # build output    
     $Output .= $Self->{LayoutObject}->Header(Title => "Admin Area");

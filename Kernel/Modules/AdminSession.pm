@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.9 2003-02-08 15:16:29 martin Exp $
+# $Id: AdminSession.pm,v 1.10 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject PermissionObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -45,13 +45,6 @@ sub Run {
     my $Subaction = $Self->{Subaction}; 
     my $SessionObject = $Self->{SessionObject};
     my $WantSessionID = $Self->{ParamObject}->GetParam(Param => 'WantSessionID') || '';
-
-    # --
-    # permission check
-    # --
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        return $Self->{LayoutObject}->NoPermission();
-    }
 
     # print session screen
     if ($Subaction eq '' || !$Subaction) {

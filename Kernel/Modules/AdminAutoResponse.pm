@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponse.pm,v 1.8 2003-02-08 15:16:29 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.9 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject PermissionObject LayoutObject ConfigObject LogObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -52,17 +52,6 @@ sub Run {
     $Param{Subaction} = $Self->{Subaction};
     $Param{NextScreen} = 'AdminAutoResponse';
 
-    # --  
-    # permission check
-    # -- 
-    if (!$Self->{PermissionObject}->Section(
-            UserID => $Self->{UserID},
-            Section => 'Admin',
-        )) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
-    }
-   
     my @Params = (
         'ID',
         'Name',

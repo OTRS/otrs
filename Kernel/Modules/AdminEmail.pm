@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.7 2003-03-06 22:11:58 martin Exp $
+# $Id: AdminEmail.pm,v 1.8 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminEmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,7 @@ sub new {
     # --
     # check needed Opjects
     # --
-    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject PermissionObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -45,12 +45,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    # --
-    # permission check
-    # --
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        return $Self->{LayoutObject}->NoPermission();
-    }
     # --
     # send email(s)
     # --

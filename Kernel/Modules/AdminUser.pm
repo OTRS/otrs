@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.13 2003-02-08 15:16:29 martin Exp $
+# $Id: AdminUser.pm,v 1.14 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $ ';
+$VERSION = '$Revision: 1.14 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,12 +43,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     $Param{NextScreen} = 'AdminUser';
-    # -- 
-    # permission check
-    # --
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        return $Self->{LayoutObject}->NoPermission();
-    }
     # -- 
     # get user data 2 form
     # --

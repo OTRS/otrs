@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCharset.pm - to add/update/delete system charsets
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCharset.pm,v 1.5 2003-02-08 15:16:29 martin Exp $
+# $Id: AdminCharset.pm,v 1.6 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminCharset;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject PermissionObject LayoutObject ConfigObject LogObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -44,13 +44,6 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $NextScreen = 'AdminCharset';
-    # --
-    # permission check
-    # --
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
-    }
     # --
     # get queue data 2 form
     # --

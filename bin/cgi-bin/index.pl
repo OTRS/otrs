@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.57 2003-03-19 15:20:22 wiktor Exp $
+# $Id: index.pl,v 1.58 2003-03-23 21:34:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -566,8 +566,19 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
             %Param, 
             %UserData,
         );
-
+        # -- 
+        # module permisson check
+        # --
+        my $Group = $CommonObject{ConfigObject}->Get('Module::Permission')->{$Param{Action}} || '';
+        if ($Group && $UserData{"UserIsGroup[$Group]"} ne 'Yes') {
+            print $CommonObject{LayoutObject}->NoPermission(
+                Message => "You have to be in the $Group group!",
+            );
+            exit (0);
+        }
+        # --
         # debug info
+        # --
         if ($Debug) {
             $CommonObject{LogObject}->Log(
                 Priority => 'debug',
@@ -582,8 +593,9 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
             %Param,
             %UserData,
         );
-
+        # --
         # debug info
+        # --
         if ($Debug) {
             $CommonObject{LogObject}->Log(
                 Priority => 'debug',

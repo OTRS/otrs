@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.8 2003-02-08 15:16:29 martin Exp $
+# $Id: AdminResponse.pm,v 1.9 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,14 +51,6 @@ sub Run {
     my $Output = '';
     $Param{Subaction} = $Self->{Subaction} || ''; 
     $Param{NextScreen} = 'AdminResponse';
-
-    # --
-    # permission check
-    # --
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
-    }
 
     my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'Response');
     my %GetParam;

@@ -2,18 +2,23 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.70 2003-03-13 15:30:00 martin Exp $
+# $Id: CHANGES,v 1.71 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2003/03/23) added generic module/group permission concept
+    -=> add "$Self->{'Module::Permission'}->{'module'} = 'group';"
+    to Kernel/Config.pm like
+     "$Self->{'Module::Permission'}->{'AdminAutoResponse'} = 'users';"
+    to let the users groups able to change the auto responses.
  - (2003/03/13) improved create customer account - send account login
     via email to requester (added config text for email)
  - (2003/03/13) added SendNoAutoResponseRegExp config option to send no 
     auto responses if regexp is matching. (Default is
-    '(MAILDER-DAEMON|postmaster|abuse)@.+?\..+?')
+    '(MAILER-DAEMON|postmaster|abuse)@.+?\..+?')
  - (2003/02/11) improved ticket search (merged fulltext and ticket number
     rearch)
  - (2003/03/10) added customer email notification on move, state update

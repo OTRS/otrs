@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.7 2003-02-08 15:16:29 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.8 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject PermissionObject)) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -45,12 +45,6 @@ sub Run {
     my $Output = '';
     $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
     $Param{NextScreen} = 'AdminQueueAutoResponse';
-    
-    # permission check
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
-    }
     
     if ($Self->{Subaction} eq 'Change') {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Queue <-> Auto Response');

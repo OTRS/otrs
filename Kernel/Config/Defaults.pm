@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.57 2003-03-14 15:09:00 martin Exp $
+# $Id: Defaults.pm,v 1.58 2003-03-23 21:34:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1546,6 +1546,35 @@ Your OTRS Notification Master
 #        '2' => 'Second Queue!',
 #    };
 
+    # --------------------------------------------------- #
+    # module group permissions
+    # --------------------------------------------------- #
+    # Module => Group
+    $Self->{'Module::Permission'}->{'Admin'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminAttachment'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminAutoResponse'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminCharset'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminCustomerUser'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminEmail'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminGroup'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminLog'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminPOP3'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminQueue'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminQueueAutoResponse'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminQueueResponses'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminResponse'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminResponseAttachment'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminSalutation'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminSelectBox'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminSession'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminSignature'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminState'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminSystemAddress'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminUser'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminUserGroup'} = 'admin';
+
+    $Self->{'Module::Permission'}->{'SystemStats'} = 'stats';
+    # --------------------------------------------------- #
 }
 # --
 sub Get {

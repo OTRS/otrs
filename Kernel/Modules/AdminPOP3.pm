@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3.pm,v 1.4 2003-02-08 15:16:29 martin Exp $
+# $Id: AdminPOP3.pm,v 1.5 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject PermissionObject LayoutObject ConfigObject LogObject)) {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -48,13 +48,6 @@ sub Run {
     my $Output = '';
     my $NextScreen = 'AdminPOP3';
     my @Params = (qw(ID Login Password Host Comment ValidID QueueID Trusted DispatchingBy));
-    # --
-    # permission check
-    # --
-    if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
-    }
     # --
     # get data 2 form
     # --

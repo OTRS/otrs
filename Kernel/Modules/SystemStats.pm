@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/SystemStats.pm - show stats of otrs
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.6 2003-02-08 15:16:30 martin Exp $
+# $Id: SystemStats.pm,v 1.7 2003-03-23 21:34:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $ ';
+$VERSION = '$Revision: 1.7 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,15 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'ParamObject',
-      'DBObject',
-      'QueueObject',
-      'LayoutObject',
-      'ConfigObject',
-      'LogObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
     
@@ -59,14 +51,6 @@ sub Run {
     my $DataDir = $Self->{ConfigObject}->Get('StatsPicDir') || '/opt/OpenTRS/var/pics/stats';
     
     if ($Subaction eq '' || !$Subaction) {
-
-        # permission check
-        if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Stats')) {
-          $Output .= $Self->{LayoutObject}->NoPermission(
-            Message => 'You have to be in the stats group!'
-          );
-          return $Output;
-        }
 
         # fetch files
         my @Index;
