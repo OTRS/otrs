@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.10 2002-05-10 00:51:59 martin Exp $
+# $Id: AgentCompose.pm,v 1.11 2002-05-14 01:38:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -233,7 +233,7 @@ sub Form {
 sub SendEmail {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
+    my $Output = '';
     my $QueueID = $Self->{QueueID};
     my $TicketID = $Self->{TicketID};
     my $NextScreen = $Self->{NextScreen} || '';
@@ -242,40 +242,37 @@ sub SendEmail {
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
     my $UserID = $Self->{UserID};
     
-    # save article
-    my $ArticleID = $Self->{ArticleObject}->CreateArticleDB(
-        TicketID => $TicketID,
-        ArticleType => 'email-external',
-        SenderType => 'agent',
-        From => $Self->{From},
-        To => $Self->{To},
-        Cc => $Self->{Cc},
-        Subject => $Self->{Subject},
-        Body => $Self->{Body},
-        CreateUserID => $UserID,
-    );
+    # --
     # send email
+    # --
     my $EmailObject = Kernel::System::EmailSend->new(
         DBObject => $Self->{DBObject},
         ConfigObject => $Self->{ConfigObject},
         LogObject => $Self->{LogObject},
     );
-    $EmailObject->Send(
+    my $ArticleID = $EmailObject->Send(
+        DBObject => $Self->{DBObject},
+        ArticleObject => $Self->{ArticleObject},
+        ArticleType => 'email-external',
+        ArticleSenderType => 'agent',
+        TicketID => $TicketID,
+        TicketObject => $Self->{TicketObject},
+        HistoryType => 'SendAnswer',
+
         From => $Self->{From},
         Email => $Self->{Email},
         To => $Self->{To},
         Cc => $Self->{Cc},
         Subject => $Self->{Subject},
-        Body => $Self->{Body},
-        TicketID => $TicketID,
-        ArticleID => $ArticleID,
         UserID => $UserID,
-        Charset => $Charset,
+        Body => $Self->{Body},
         InReplyTo => $Self->{InReplyTo},
-        DBObject => $Self->{DBObject},
-        TicketObject => $Self->{TicketObject},
+        Charset => $Charset,
     );
+
+    # --
     # set state
+    # --
     if ($Self->{TicketObject}->GetState(TicketID => $TicketID)  ne $NextState) {
         $Self->{TicketObject}->SetState(
             TicketID => $TicketID,
@@ -284,7 +281,9 @@ sub SendEmail {
             UserID => $UserID,
         );
     }
+    # --
     # should i set an unlock?
+    # --
     if ($NextState =~ /^close/i) {
         $Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
@@ -292,7 +291,9 @@ sub SendEmail {
             UserID => $UserID,
         );
     }
+    # --
     # make redirect
+    # --
     $Output .= $Self->{LayoutObject}->Redirect(
         OP => "&Action=$NextScreen&QueueID=$QueueID",
     );

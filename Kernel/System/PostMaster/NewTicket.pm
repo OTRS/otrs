@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.4 2002-05-01 17:32:25 martin Exp $
+# $Id: NewTicket.pm,v 1.5 2002-05-14 01:37:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -82,7 +82,6 @@ sub Run {
         TN => $NewTn,
         QueueID => $QueueID,
         Lock => 'unlock',
-        # FIXME !!!
         GroupID => 1,
         Priority => $GetParam{'X-OTRS-Priority'},
         State => $GetParam{'X-OTRS-State'},
@@ -220,40 +219,34 @@ sub Run {
         }
 
         # --
-        # do article db insert
+        # send email
         # --
-        my $ArticleID = $ArticleObject->CreateArticleDB(
-            TicketID => $TicketID,
-            ArticleType => 'email-external',
-            SenderType => 'system',
-            From => "$Data{Realname} <$Data{Address}>",
-            To => $GetParam{From},
-            Subject => $Subject,
-            MessageID => time() .".". rand(999999),
-            Body => $Body,
-            CreateUserID => $InmailUserID,
-        );
-        my $Email = Kernel::System::EmailSend->new(
+        my $EmailObject = Kernel::System::EmailSend->new(
             ConfigObject => $Self->{ConfigObject},
             DBObject => $Self->{DBObject},
             LogObject => $Self->{LogObject},
         );
-        $Email->Send(
+        my $ArticleID = $EmailObject->Send(
             DBObject => $DBObject,
+            ArticleObject => $ArticleObject,
+            ArticleType => 'email-external',
+            ArticleSenderType => 'system',
+            TicketID => $TicketID,
+            TicketObject => $TicketObject,
+            HistoryType => 'SendAutoReply',
+
             From => "$Data{Realname} <$Data{Address}>",
             Email => $Data{Address},
             To => $GetParam{From},
             RealName => $Data{Realname},
             Subject => $Subject,
             UserID => $InmailUserID,
-            TicketID => $TicketID,
-            TicketObject => $TicketObject,
-            ArticleID => $ArticleID,
             Body => $Body,
             InReplyTo => $GetParam{'Message-ID'},
             Loop => 1,
-			HistoryType => 'SendAutoReply',
-        );
+         );
+
+
         # do log
         $LogObject->Log(
             Message => "Sent auto reply for Ticket [$NewTn] (TicketID=$TicketID, " .
