@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.110 2003-04-30 15:19:11 martin Exp $
+# $Id: Agent.pm,v 1.111 2003-05-13 10:30:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.110 $';
+$VERSION = '$Revision: 1.111 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -257,7 +257,10 @@ sub TicketView {
         $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
     }
     foreach (qw(Priority State Queue Owner Lock CustomerIDHTML)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
+        $Param{$_} = $Self->Ascii2Html(
+            Text => $Param{$_}, 
+            Max => $Self->{ConfigObject}->Get('ViewableTicketStatusQueueMaxSize'),
+        ) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     # --
@@ -295,7 +298,7 @@ sub TicketView {
     # --
     $Param{CustomerTable} = $Self->AgentCustomerViewTable(
         Data => $Param{CustomerData},
-        Max => 15,
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
     );
     # --
     # check if just a only html email
@@ -392,7 +395,10 @@ sub AgentZoom {
         $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
     }
     foreach (qw(Priority State Owner Queue CustomerIDHTML Lock)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
+        $Param{$_} = $Self->Ascii2Html(
+            Text => $Param{$_}, 
+            Max => $Self->{ConfigObject}->Get('ViewableTicketStatusZoomMaxSize'),
+        ) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     if ($Param{UntilTime}) {
@@ -451,7 +457,7 @@ sub AgentZoom {
     # --
     $Param{CustomerTable} = $Self->AgentCustomerViewTable(
         Data => $Param{CustomerData},
-        Max => 15,
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoZoomMaxSize'),
     );
     # --
     # build article stuff
@@ -955,7 +961,7 @@ sub AgentPhone {
     # --
     $Param{CustomerTable} = $Self->AgentCustomerViewTable(
         Data => $Param{CustomerData},
-        Max => 15,
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoPhoneMaxSize'),
     );
     # --
     # pending data string
@@ -1032,7 +1038,7 @@ sub AgentPhoneNew {
     # --
     $Param{CustomerTable} = $Self->AgentCustomerViewTable(
         Data => $Param{CustomerData},
-        Max => 15,
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoPhoneMaxSize'),
     );
     # --
     # do html quoting
@@ -1712,10 +1718,16 @@ sub AgentMailboxTicket {
     # --
     $Param{CustomerIDHTML} = $Param{CustomerID} || '';
     foreach (qw(State Priority Queue)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 18);
+        $Param{$_} = $Self->Ascii2Html(
+            Text => $Param{$_}, 
+            Max => $Self->{ConfigObject}->Get('ViewableTicketStatusMailboxMaxSize'),
+        );
     }
     foreach (qw(CustomerIDHTML)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 10);
+        $Param{$_} = $Self->Ascii2Html(
+            Text => $Param{$_}, 
+            Max => $Self->{ConfigObject}->Get('ViewableTicketStatusMailboxMaxSize')-4,
+        );
     }
     # --
     # create & return output
