@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.18 2003-07-31 21:20:32 martin Exp $
+# $Id: Log.pm,v 1.19 2003-10-29 20:37:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $ ';
+$VERSION = '$Revision: 1.19 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,32 +26,22 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
-    # --
     # get config object 
-    # --
     if (!$Param{ConfigObject}) {
         die "Got no ConfigObject!"; 
     }
-    # --
     # check log prefix 
-    # --
     $Self->{LogPrefix} = $Param{LogPrefix} || '?LogPrefix?';
     $Self->{LogPrefix} .= '-'.$Param{ConfigObject}->Get('SystemID');
-    # --
     # load log backend
-    # --
     my $GenericModule = $Param{ConfigObject}->Get('LogModule')
       || 'Kernel::System::Log::SysLog';
     if (!eval "require $GenericModule") {
         die "Can't load log backend module $GenericModule! $@";
     }
-    # --
     # create backend handle
-    # --
     $Self->{Backend} = $GenericModule->new(%Param);
-    # --
-    # ipc stuff
-    # --
+    # check/load ipc stuff
     if (eval "require IPC::SysV") {
         $Self->{IPC} = 1;
         $Self->{IPCKey} = "444423".$Param{ConfigObject}->Get('SystemID');
@@ -71,17 +61,13 @@ sub Log {
     my $Priority = $Param{Priority} || 'debug';
     my $Message = $Param{MSG} || $Param{Message} || '???';
     my $Caller = $Param{Caller} || 0;
-    # --
     # returns the context of the current subroutine and sub-subroutine!
-    # --
     my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+0);
     my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+1);
     if (!$Subroutine2) {
       $Subroutine2 = $0;
     }
-    # --
     # log backend
-    # --
     $Self->{Backend}->Log(
         Priority => $Priority,
         Caller => $Caller,
@@ -90,9 +76,7 @@ sub Log {
         Module => $Subroutine2,
         Line => $Line1,
     );
-    # --
     # if error, write it to STDERR
-    # --
     if ($Priority =~ /error/i) {
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: ".localtime()."\n\n", $^V;
         $Error .= " Message: $Message\n\n";
@@ -116,15 +100,11 @@ sub Log {
         }
         $Error .= "\n";
         print STDERR $Error;
-        # --
         # store data (for the frontend)
-        # --
         $Self->{Error}->{Message} = $Message;
         $Self->{Error}->{Traceback} = $Error;
     }
-    # --
     # write shm cache log
-    # --
     if ($Priority !~ /debug/i && $Self->{IPC}) {
         $Priority = lc($Priority);
         my $Data = localtime().";;$Priority;;$Self->{LogPrefix};;$Subroutine2;;$Line1;;$Message;;\n";
@@ -147,6 +127,20 @@ sub GetLog {
         shmread($Self->{Key}, $String, 0, $Self->{IPCSize}) || die "$!";
     }
     return $String;
+}
+# --
+sub CleanUp {
+    my $Self = shift;
+    if ($Self->{IPC}) {
+        if (!shmctl($Self->{Key}, 0, 0)) {
+            $Self->Log(
+                Priority => 'error',
+                Message => "Can't remove shm for log: $!",
+            );
+            return;
+        }
+    }
+    return 1;
 }
 # --
 
