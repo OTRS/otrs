@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketOverView.pm,v 1.32 2004-09-27 13:36:53 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.33 2004-10-02 08:16:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -109,11 +109,10 @@ sub Run {
     if ($Self->{Type} eq 'MyTickets') {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
-            CustomerUserLogin => $Self->{UserID}, 
+            CustomerUserLogin => $Self->{UserID},
             StateType => $StateType,
             OrderBy => $Self->{Order},
             SortBy => $Self->{SortBy},
-
             CustomerUserID => $Self->{UserID},
             Permission => 'ro',
         );
@@ -121,6 +120,7 @@ sub Run {
     else {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
+            CustomerID => [$Self->{CustomerUserObject}->CustomerIDs(User => $Self->{UserLogin})],
             StateType => $StateType,
             OrderBy => $Self->{Order},
             SortBy => $Self->{SortBy},
