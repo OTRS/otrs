@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.75 2004-04-18 11:51:59 martin Exp $
+# $Id: AgentPhone.pm,v 1.76 2004-04-18 11:54:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -254,7 +254,7 @@ sub Run {
         )) {
           # time accounting
           if ($TimeUnits) {
-            $Self->{TicketObject}->AccountTime(
+            $Self->{TicketObject}->TicketAccountTime(
               TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
               TimeUnit => $TimeUnits,
@@ -262,14 +262,14 @@ sub Run {
             );
           }
           # set state
-          $Self->{TicketObject}->SetState(
+          $Self->{TicketObject}->StateSet(
             TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             State => $NextState,
             UserID => $Self->{UserID},
           );
           # set answerd
-          $Self->{TicketObject}->SetAnswered(
+          $Self->{TicketObject}->TicketSetAnswered(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Answered => $Answered,
@@ -277,7 +277,7 @@ sub Run {
          # should i set an unlock? yes if the ticket is closed
          my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
          if ($StateData{TypeName} =~ /^close/i) {
-             $Self->{TicketObject}->SetLock(
+             $Self->{TicketObject}->LockSet(
                  TicketID => $Self->{TicketID},
                  Lock => 'unlock',
                  UserID => $Self->{UserID},
@@ -285,7 +285,7 @@ sub Run {
          }
          # set pending time if next state is a pending state
          elsif ($StateData{TypeName} =~ /^pending/i) {
-             $Self->{TicketObject}->SetPendingTime(
+             $Self->{TicketObject}->TicketPendingTimeSet(
                  UserID => $Self->{UserID},
                  TicketID => $Self->{TicketID},
                  %GetParam,
@@ -538,7 +538,7 @@ sub Run {
         # set ticket free text
         foreach (1..8) {
             if (defined($TicketFree{"TicketFreeKey$_"})) {
-                $Self->{TicketObject}->SetTicketFreeText(
+                $Self->{TicketObject}->TicketFreeTextSet(
                     TicketID => $TicketID,
                     Key => $TicketFree{"TicketFreeKey$_"},
                     Value => $TicketFree{"TicketFreeText$_"},
@@ -575,14 +575,14 @@ sub Run {
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
           # set lock (get lock type)
-          $Self->{TicketObject}->SetLock(
+          $Self->{TicketObject}->LockSet(
               TicketID => $TicketID,
               Lock => $Self->{ConfigObject}->Get('PhoneDefaultNewLock'),
               UserID => $Self->{UserID},
           );
           # set owner (if new user id is given)
           if ($NewUserID) {
-              $Self->{TicketObject}->SetOwner(
+              $Self->{TicketObject}->OwnerSet(
                   TicketID => $TicketID,
                   NewUserID => $NewUserID,
                   UserID => $Self->{UserID},
