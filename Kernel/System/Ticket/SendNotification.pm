@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/SendNotification.pm - send notifications to agent
-# Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.4 2003-03-11 18:34:34 martin Exp $
+# $Id: SendNotification.pm,v 1.5 2003-12-15 20:23:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendNotification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -255,6 +255,17 @@ sub SendCustomerNotification {
         if ($GetParam{$_}) {
             $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
             $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+        }
+    }
+    # --
+    # set new To address if customer user id is used
+    # --
+    if ($Article{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        if ($CustomerUser{UserEmail}) {
+            $Article{From} = $CustomerUser{UserEmail};
         }
     }
     # --
