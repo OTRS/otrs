@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.30 2002-11-11 00:39:48 martin Exp $
+# $Id: Ticket.pm,v 1.31 2002-11-27 14:29:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -81,44 +81,11 @@ sub new {
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
     eval "require $GeneratorIndexModule";
     push(@ISA, $GeneratorIndexModule);
-    # --
-    # ArticleDataDir
-    # --
-    $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
-       || die "Got no ArticleDir!";
-    # --
-    # get time
-    # --
-    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
-    $Self->{Year} = $Year+1900;
-    $Self->{Month} = $Month+1;
-    $Self->{Month}  = "0$Self->{Month}" if ($Self->{Month} <10);
-    $Self->{Day} = $Day;
-    $Self->{ArticleContentPath} = $Self->{Year}.'/'.$Self->{Month}.'/'. $Self->{Day};
 
     # --
-    # check fs write permissions!
+    # article init and check fs write permissions!
     # --
-    my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/check_permissons.$$";
-    if (-d $Path) {
-        File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
-    } 
-    if (mkdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
-        if (!rmdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
-            die "Can't remove $Self->{ArticleDataDir}/check_permissons_$$: $!\n";
-        }
-        if (File::Path::mkpath([$Path], 0, 0775)) {
-            File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
-        }
-    }
-    else {
-        my $Error = $!;
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Can't create $Self->{ArticleDataDir}/check_permissons_$$: $Error, Try: \$OTRS_HOME/bin/SetPermissions.sh !",
-        );
-        die "Error: Can't create $Self->{ArticleDataDir}/check_permissons_$$: $Error \n\n Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n"; 
-    }
+    $Self->ArticleInit();
 
     return $Self;
 }
@@ -224,6 +191,27 @@ sub CreateTicketDB {
         $Self->{LogObject}->Log(Priority => 'error', Message => "create db record failed!!!");
         return;
     } 
+}
+# --
+sub DeleteTicket {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket WHERE id = $Param{TicketID}")) {
+        $Self->DeleteArticleOfTicket(%Param);
+        return 1;
+    }
+    else {
+        return;
+    }
 }
 # --
 sub GetIdOfTN {
