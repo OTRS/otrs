@@ -2,13 +2,14 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.42 2002-12-27 18:41:47 martin Exp $
+# $Id: CHANGES,v 1.43 2003-01-04 03:28:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-0.5 BETA9 (2002-12-??)
+1.0 RC1 (2003-01-??)
+ - (2003/01/02) added attachments support for std. responses  
  - (2002/12/27) added filters (All, Open, New, Pending, Reminder) to 
     AgentMailbox (locked-ticket-view)
  - (2002/12/24) added pending feature for tickets
@@ -29,16 +30,6 @@
     in your lan! 
  - (2002/12/18) added more error handling to AgentPhone
  - (2002/12/12) added finnish translation - Thanks to Antti Kämäräinen! 
- - (2002/12/08) added TicketCryptModule feature - crypt plain emails and
-    attachments with backend modules Kernel::System::Ticket::Crypt::Plain
-    (not crypted - default) or Kernel::System::Ticket::Crypt::Blowfish
-    (Blowfish encryption algorithm). TicketCryptModule option in 
-    Kernel/Config.pm!
- - (2002/12/08) added TicketCompressModule feature - compress plain emails 
-    and attachments with backend modules 
-    Kernel::System::Ticket::Compress::Plain (not compressed - default) or 
-    Kernel::System::Ticket::Compress::Zlib (compressed with Compress::Zlib).
-    TicketCompressModule option in Kernel/Config.pm!
  - (2002/12/08) added working PostMasterDaemon.pl and PostMasterClient.pl, 
     alternative to PostMaster.pl. How it works: If the PostMasterDaemon.pl 
     is running, pipe email through PostMasterClient.pl like (PostMaster.pl)

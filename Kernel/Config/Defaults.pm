@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.15 2003-01-03 16:24:00 martin Exp $
+# $Id: Defaults.pm,v 1.16 2003-01-04 03:29:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -307,21 +307,6 @@ sub LoadDefaults {
     $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageDB';
     # FS is faster but webserver user should be the otrs user)
 #    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
-
-    # TicketCompressModule 
-    # (Warning: change it not if your system is in use! Just on setup time!)
-    # (should the plain emails and  attachments be compressed!?)
-    # Note: lib module required Compress::Zlib!
-    $Self->{'TicketCompressModule'} = 'Kernel::System::Ticket::Compress::Plain';
-#    $Self->{TicketCompressModule} = 'Kernel::System::Ticket::Compress::Zlib';
-  
-    # TicketCryptModule 
-    # (Warning: change it not if your system is in use! Just on setup time!)
-    # (should the plain emails and attachments be crypted!?)
-    $Self->{'TicketCryptModule'} = 'Kernel::System::Ticket::Crypt::Plain';
-    # Blowfish needs 'Crypt::CBC and Crypt::Blowfish' modules from cpan!
-#    $Self->{'TicketCryptModule'} = 'Kernel::System::Ticket::Crypt::Blowfish';
-#    $Self->{'TicketCryptModule::Key'} = 'my secret key';
 
     # ----------------------------------------------------#
     # TicketNumberGenerator                               # 
