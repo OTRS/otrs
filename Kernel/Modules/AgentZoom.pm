@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.48 2004-02-10 00:07:52 martin Exp $
+# $Id: AgentZoom.pm,v 1.49 2004-02-12 00:35:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -408,9 +408,7 @@ sub MaskAgentZoom {
             }
         }
         # select the output template
-        if ($Article{ArticleType} =~ /^note/i ||
-             ($Article{ArticleType} =~ /^phone/i && $Article{SenderType} eq 'agent') ||
-             $Article{SenderType} eq 'system' || $Article{SenderType} eq 'agent') {
+        if ($Article{ArticleType} =~ /^note/i) {
             # without compose links!
             if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
               $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
@@ -422,13 +420,6 @@ sub MaskAgentZoom {
                 TemplateFile => 'AgentZoomArticle',
                 Data => {%Param, %Article},
             );
-            # show also compose link if customer user is there
-            if ($Article{CustomerUserID}) {
-                $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AgentZoomAnswer',
-                    Data => {%Param, %Article},
-                );
-            }
             $BodyOutput .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentZoomBody', 
                 Data => {%Param, %Article},
