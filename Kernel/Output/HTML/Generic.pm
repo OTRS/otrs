@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.27 2002-05-21 21:43:55 martin Exp $
+# $Id: Generic.pm,v 1.28 2002-05-26 18:20:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -59,6 +59,10 @@ sub new {
     $Self->{Title}     = 'Open Ticket Request System' . ' - ' . $Self->{Time};
     $Self->{TableTitle}= 'OpenTRS - Open Ticket Request System';
     $Self->{HistoryCounter} = 0;
+    $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
+    $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
+    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
+    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
 
     # load theme
     my $Theme = $Self->{UserTheme} || 'Standard';
