@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.48 2004-05-04 15:11:12 martin Exp $
+# $Id: de.pm,v 1.49 2004-05-04 16:23:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1097,6 +1097,7 @@ sub Data {
       'tickets' => 'Tickets',
       'valid' => 'gültig',
       'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" nicht gefunden! Ticket konnte nicht verknüpft werden!',
+      'Passwords dosn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
     );
 
     # $$STOP$$

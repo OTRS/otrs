@@ -101,6 +101,7 @@ $Text{"You have %s new message(s)!"}
 $Text{"You have %s reminder ticket(s)!"} 
 
 $Text{"The recommended charset for your language is %s!"}
+$Text{"Passwords dosn't match! Please try it again!"}
 
 $Text{"No suggestions"}
 $Text{"Word"}
