@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.1 2002-10-03 21:10:13 martin Exp $
+# $Id: AdminEmail.pm,v 1.2 2002-10-20 12:06:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminEmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,6 +36,8 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
 
+    $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
+
     return $Self;
 }
 # --
@@ -54,8 +56,6 @@ sub Run {
     # send email(s)
     # --
     if ($Subaction eq 'Send') {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Admin-Email');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # --
         # get recipients address
         # --
@@ -69,7 +69,7 @@ sub Run {
         # check needed stuff
         # --
         foreach (qw(From Subject Body Bcc)) {
-            $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+            $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || $Param{$_} || '';
             if (!$Param{$_}) {
                 $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
                 $Output .= $Self->{LayoutObject}->Warning(
@@ -83,21 +83,13 @@ sub Run {
         # --
         # send mail
         # --
-        if (open( MAIL, "|".$Self->{ConfigObject}->Get('Sendmail')." '$Param{From}' " )) {
-            print MAIL "From: $Param{From}\n"; 
-            print MAIL "Bcc: $Param{Bcc}\n"; 
-            print MAIL "Subject: $Param{Subject}\n"; 
-            print MAIL "X-Mailer: OTRS Admin-Email ($VERSION) (http://otrs.org/)\n"; 
-            print MAIL "\n"; 
-            print MAIL "$Param{Body}\n"; 
-            close(MAIL);
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Admin-Email');
+        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        if ($Self->{EmailObject}->SendNormal(%Param)) {
             $Output .= $Self->{LayoutObject}->AdminEmailSent(%Param);
         }
         else {
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => "Can't use ".$Self->{ConfigObject}->Get('Sendmail').": $!!",
-                Comment => 'Please contact your admin',
-            );
+            $Output .= $Self->{LayoutObject}->Error();
         }
         $Output .= $Self->{LayoutObject}->Footer();
     }
