@@ -100,7 +100,20 @@ Your multi group setup is ready.
 <title>Multi Setup</title>
 <para>
 If you want a productiv and a test system or you want to host more the one 
-OTRS systems on one machine it's possible to setup more then one OTRS on one machine. 
+OTRS systems on one machine you have to make sure that each OTRS has a unique
+SystemID.
+</para>
+<para>
+Add the following to each Kernel/Config.pm
+<programlisting>
+    # SystemID
+    # (The identify of the system. Each ticket number and
+    # each http session id starts with this number)
+    $Self->{SystemID} = n
+</programlisting>
+where n is a reasonable low integer that is unique across the system!
+
+Also note that you cannot run more than one OTRS System through mod_perl.
 </para>
 </sect1>
 
