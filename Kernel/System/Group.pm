@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.3 2002-07-21 22:46:31 martin Exp $
+# $Id: Group.pm,v 1.4 2002-07-24 12:38:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -90,7 +90,9 @@ sub MemberList {
           " WHERE " .
           " g.id = gu.group_id AND ".
           " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = gu.user_id AND ".
-          " g.name = '$Param{Group}'";
+          " g.name = '$Param{Group}' AND ".
+          " su.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
+
     }
     else {
         $Suffix = 'Group';
@@ -99,7 +101,8 @@ sub MemberList {
           " group_user gu, $Self->{ConfigObject}->{DatabaseUserTable} su ".
           " WHERE ".
           " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = gu.user_id AND ".
-          " gu.group_id = $Param{GroupID}";
+          " gu.group_id = $Param{GroupID} AND ".
+          " su.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
     }
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
