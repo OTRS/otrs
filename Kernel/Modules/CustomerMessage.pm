@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.19 2003-11-26 00:52:55 martin Exp $
+# $Id: CustomerMessage.pm,v 1.20 2003-12-07 23:59:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -109,7 +109,7 @@ sub Run {
                 Table => 'ticket_priority',
             );
             # html output
-            $Output .= $Self->{LayoutObject}->CustomerMessageNew(
+            $Output .= $Self->_MaskNew(
                 To => \%NewTos,
                 Priorities => \%Priorities,
             );
@@ -128,7 +128,7 @@ sub Run {
             # get ticket number
             my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
             # print form ...
-            $Output .= $Self->{LayoutObject}->CustomerMessage(
+            $Output .= $Self->_Mask(
                 TicketID => $Self->{TicketID},
                 QueueID => $Self->{QueueID},
                 TicketNumber => $Tn,
@@ -350,5 +350,41 @@ sub _GetNextStates {
     return \%NextStates;
 }
 # --
-
+sub _MaskNew {
+    my $Self = shift;
+    my %Param = @_;
+    # build to string
+    my %NewTo = ();
+    if ($Param{To}) {
+        foreach (keys %{$Param{To}}) {
+             $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
+        }
+    }
+    $Param{'ToStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%NewTo,
+        Name => 'Dest',
+    );
+    # build priority string
+    $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{Priorities},
+        Name => 'PriorityID',
+        Selected => $Self->{ConfigObject}->Get('CustomerDefaultPriority') || '3 normal',
+    );
+    # get output back
+    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerMessageNew', Data => \%Param);
+}
+# --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'ComposeStateID',
+        Selected => $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType')
+    );
+    # get output back
+    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerMessage', Data => \%Param);
+}
+# --
 1;
