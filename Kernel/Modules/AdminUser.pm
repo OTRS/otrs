@@ -2,7 +2,7 @@
 # AdminUser.pm - to add/update/delete user
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.5 2002-05-01 17:31:38 martin Exp $
+# $Id: AdminUser.pm,v 1.6 2002-05-04 20:28:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $ ';
+$VERSION = '$Revision: 1.6 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -41,7 +41,7 @@ sub new {
       'LogObject',
       'UserObject',
     ) {
-        die "Got no $_" if (!$Self->{$_});
+        die "Got no $_!" if (!$Self->{$_});
     }
 
     return $Self;
@@ -52,106 +52,59 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     $Param{NextScreen} = 'AdminUser';
-    
+    # -- 
     # permission check
+    # --
     if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
         $Output .= $Self->{LayoutObject}->NoPermission();
         return $Output;
     }
-    
+    # -- 
     # get user data 2 form
+    # --
     if ($Self->{Subaction} eq 'Change') {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my %PreferencesData = $Self->{UserObject}->GetPreferences(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->Header(Title => 'User ändern');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        # --
         # get user data
-        my $SQL = "SELECT salutation, first_name, last_name, login, pw, " .
-        " comment, valid_id, create_time, create_by, change_time, change_by" .
-        " FROM " .
-        " user " .
-        " WHERE " .
-        " id = $UserID";
+        # --
+        my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
+        $Output .= $Self->{LayoutObject}->AdminUserForm(%UserData);
 
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        my @Data = $Self->{DBObject}->FetchrowArray();
-        $Output .= $Self->{LayoutObject}->AdminUserForm(
-            ID => $UserID,
-            Salutation => $Data[0],
-            Fristname => $Data[1],
-            Lastname => $Data[2],
-            Login => $Data[3],
-            Pw => $Data[4],
-            Comment => $Data[8],
-            ValidID => $Data[9],
-            %PreferencesData,
-        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
+    # --
     # update action
+    # --
     elsif ($Self->{Subaction} eq 'ChangeAction') {
+        # --
+        # get params
+        # --
         my %GetParam;
-        my @Params = ('ID',
-            'Salutation',
-            'Login',
-            'Fristname',
-            'Lastname',
-            'Language',
-            'ValidID',
-            'Charset',
-            'Theme',
-            'Comment',
-            'Pw',
-        );
-        foreach (@Params) {
+        my $UserParamsTmp = $Self->{ConfigObject}->{UserPreferencesMaskUse};
+        foreach (my @UserParams = @$UserParamsTmp) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-            $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
-            $GetParam{$_} = '' if (!exists $GetParam{$_});
         }
-        # get old pw
-        my $GetPw = '';
-        my $SQL = "SELECT pw FROM user WHERE id = $GetParam{ID}";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-            $GetPw = $RowTmp[0];
-        }
-        if ($GetPw ne $GetParam{Pw}) {
-            $GetParam{Pw} = crypt($GetParam{Pw}, $GetParam{Login});
-        }
-        
-        $SQL = "UPDATE user SET " .
-        " salutation = '$GetParam{Salutation}', " .
-        " first_name = '$GetParam{Fristname}'," .
-        " last_name = '$GetParam{Lastname}', " .
-        " login = '$GetParam{Login}', " .
-        " pw = '$GetParam{Pw}', " .
-        " comment = '$GetParam{Comment}', " .
-        " valid_id = $GetParam{ValidID}, " .
-        " change_time = current_timestamp, " .
-        " change_by = $Self->{UserID} " .
-        " WHERE id = $GetParam{ID}";
-
         # --
-        # pref update db
+        # update user
         # --
-        $Self->{UserObject}->SetPreferences(
-            UserID => $GetParam{ID},
-            Key => 'UserCharset',
-            Value => $GetParam{Charset},
-        );
-        $Self->{UserObject}->SetPreferences(
-            UserID => $GetParam{ID},
-            Key => 'UserTheme',
-            Value => $GetParam{Theme},
-        );
-        $Self->{UserObject}->SetPreferences(
-            UserID => $GetParam{ID},
-            Key => 'UserLanguage',
-            Value => $GetParam{Language},
-        );
-
-
-        if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        if ($Self->{UserObject}->UserUpdate(%GetParam, UserID => $Self->{UserID})) {
+            # --
+            # pref update db
+            # --
+            my $UserPrefsTmp = $Self->{ConfigObject}->{UserPreferences};
+            my %UserPrefs = %$UserPrefsTmp;
+            foreach (keys %UserPrefs) {
+              $Self->{UserObject}->SetPreferences(
+                UserID => $GetParam{ID},
+                Key => $_,
+                Value => $GetParam{$UserPrefs{$_}},
+              );
+            }
+            # --
+            # redirect
+            # --
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {
@@ -163,73 +116,37 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # --
     # add new user
+    # --
     elsif ($Self->{Subaction} eq 'AddAction') {
+        # --
+        # get params
+        # --
         my %GetParam;
-        my @Params = ('Salutation',
-            'Login',
-            'Fristname',
-            'Lastname',
-            'Language',
-            'ValidID',
-            'Theme', 
-            'Charset',
-            'Comment',
-            'Pw',
-        );
-        foreach (@Params) {
+        my $UserParamsTmp = $Self->{ConfigObject}->{UserPreferencesMaskUse};
+        foreach (my @UserParams = @$UserParamsTmp) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-            $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
         }
-        $GetParam{Pw} = crypt($GetParam{Pw}, $GetParam{Login});
-        my $SQL = "INSERT INTO user " .
-            "(salutation, " .
-            " first_name, " .
-            " last_name, " .
-            " login, " .
-            " pw, " .
-            " comment, " .
-            " valid_id, create_time, create_by, change_time, change_by)" .
-            " VALUES " .
-            " ('$GetParam{Salutation}', " .
-            " '$GetParam{Fristname}', " .
-            " '$GetParam{Lastname}', " .
-            " '$GetParam{Login}', " .
-            " '$GetParam{Pw}', " .
-            " '$GetParam{Comment}', " .
-            " $GetParam{ValidID}, current_timestamp, $Self->{UserID}, ".
-            " current_timestamp, $Self->{UserID})";
-
-        if ($Self->{DBObject}->Do(SQL => $SQL)) {
-            # --
-            # get new user id
-            # --
-            my $SQL = "SELECT id FROM user WHERE login = '$GetParam{Login}'";
-            my $UserID;
-            $Self->{DBObject}->Prepare(SQL => $SQL);
-            while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-                $UserID = $RowTmp[0];
-            }
-
+        # --
+        # add user
+        # --
+        if (my $UserID = $Self->{UserObject}->UserAdd(%GetParam, UserID => $Self->{UserID})) {
             # --
             # pref update db
             # --
-            $Self->{UserObject}->SetPreferences(
-              UserID => $UserID,
-              Key => 'UserCharset',
-              Value => $GetParam{Charset},
-            );
-            $Self->{UserObject}->SetPreferences(
-              UserID => $UserID,
-              Key => 'UserTheme',
-              Value => $GetParam{Theme},
-            );
-            $Self->{UserObject}->SetPreferences(
-              UserID => $UserID,
-              Key => 'UserLanguage',
-              Value => $GetParam{Language},
-            );
-
+            my $UserPrefsTmp = $Self->{ConfigObject}->{UserPreferences};
+            my %UserPrefs = %$UserPrefsTmp;
+            foreach (keys %UserPrefs) {
+              $Self->{UserObject}->SetPreferences(
+                UserID => $UserID,
+                Key => $_,
+                Value => $GetParam{$UserPrefs{$_}},
+              );
+            }
+            # --
+            # redirect
+            # --
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {
@@ -242,7 +159,9 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # --
     # else ! print form
+    # --
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'User add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
