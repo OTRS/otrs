@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.77 2004-10-07 14:07:04 martin Exp $
+# $Id: Article.pm,v 1.78 2004-10-08 08:59:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1166,8 +1166,9 @@ send article via email and create article with attachments
           Type => 'SMIME',
           Key => '3b630c80',
       },
-      HistoryType => 'OwnerUpdate', # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+      HistoryType => 'OwnerUpdate',  # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
       HistoryComment => 'Some free text!',
+      NoAgentNotify => 0,            # if you don't want to send agent notifications
       UserID => 123,
   );
 
