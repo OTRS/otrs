@@ -2,7 +2,7 @@
 # AgentHistoryForm.dtl - provides HTML form for history
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistoryForm.dtl,v 1.5 2003-01-03 00:21:24 martin Exp $
+# $Id: AgentHistoryForm.dtl,v 1.6 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,22 +11,21 @@
 
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left"> 
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"History of"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+<tr> 
+  <td align="left" class="table0"> 
+    <b>$Env{"Box0"}$Text{"History of"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
-  <td align="right">
-  <b><font color="$Env{"FontColor1"}">-</font></b>
+  <td align="right" class="table0">
+    <b>-</b>
   </td>
 </tr>
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor2"}" colspan="2">
+  <td align="left" colspan="2" class="table2">
     <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';">$Text{"Back"}</a>
-  </font>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top" colspan="2">
+<tr>
+  <td align="center" valign="top" colspan="2" class="table1">
 
 <!-- start history -->
 <table border="0" cellspacing="1" cellpadding="1" width="100%">

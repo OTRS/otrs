@@ -2,29 +2,25 @@
 # AdminSessionTable.dtl - provides global HTML AdminSessionTable
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSessionTable.dtl,v 1.8 2003-01-12 19:58:50 martin Exp $
+# $Id: AdminSessionTable.dtl,v 1.9 2003-02-08 15:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start -->
-<table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr valign="top" align="left" bgcolor="$Env{"BGTableColor2"}">
-  <td>
-  <font color="$Env{"FontColor0"}">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr valign="top" align="left">
+  <td class="table2">
     $Env{"Box0"}$Text{"SessionID"}: $Data{"SessionID"}$Env{"Box1"}
-  </font>
   </td>
 </tr>
 <tr valign="top" align="left">
-  <td>
-  <font color="$Env{"FontColor0"}">
+  <td class="table1">
     <p>
     $Data{"Output"}
     </p>
     <a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">$Text{"kill session"}</a>
-  </font>
   </td>
 </tr>
 </table>

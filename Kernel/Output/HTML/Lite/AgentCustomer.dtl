@@ -2,34 +2,28 @@
 # AgentCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.dtl,v 1.6 2003-01-12 19:58:38 martin Exp $
+# $Id: AgentCustomer.dtl,v 1.7 2003-02-08 15:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Change customer of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
-  </font>
-  </td>
-  <td align="right" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">-</font></b>
-  </font>
+  <td align="left" class="table0">
+    <b>$Env{"Box0"}$Text{"Change customer of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
 </tr>
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor2"}" colspan="2">
+  <td align="left" class="table2">
     <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';">$Text{"Back"}</a>
-  </font>
   </td>
 </tr>
 </table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top" colspan="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <td align="center" valign="top" class="table1">
 
 <p>
 $Text{"Set customer id of a ticket"}:
@@ -52,4 +46,3 @@ $Data{"CustomerStrg"}
 </tr>
 </table>
 <!-- end form -->
-

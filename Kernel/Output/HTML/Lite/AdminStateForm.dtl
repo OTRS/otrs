@@ -2,7 +2,7 @@
 # AdminStateForm.dtl - provides HTML form for AdminState
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminStateForm.dtl,v 1.6 2003-01-12 19:58:50 martin Exp $
+# $Id: AdminStateForm.dtl,v 1.7 2003-02-08 15:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,13 +10,13 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left" colspan="2">
-    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"System State Management"}$Env{"Box1"}</font></b>
+<tr>
+  <td align="left" colspan="2" class="table0">
+    <b>$Env{"Box0"}$Text{"System State Management"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
-  <td width="30%">
+<tr align="center" valign="top">
+  <td width="30%" class="table1">
     $Text{"Change system state setting"}:
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
@@ -27,7 +27,7 @@
     <input type="submit" value="$Text{"change"}">
     </form>
   </td> 
-  <td width="70%">
+  <td width="70%" class="table1">
 # --
 # check subaction
 # --
@@ -63,4 +63,3 @@
 </tr>
 </table>
 <!-- end form -->
-

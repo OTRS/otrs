@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.dtl,v 1.9 2003-01-03 00:21:24 martin Exp $
+# $Id: AgentForward.dtl,v 1.10 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,13 +39,13 @@ function submit_forward()
 
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr bgcolor="$Env{"BGTableColor2"}">
-  <td align="left"> 
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Forward article of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+<tr> 
+  <td align="left" class="table2"> 
+  <b>$Env{"Box0"}$Text{"Forward article of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="left" valign="top">
+<tr> 
+  <td align="left" valign="top" class="table1">
 
   <form action="$Env{"CGIHandle"}" method="post" name="forward">
   <input type="hidden" name="Action" value="AgentForward">
@@ -57,19 +57,24 @@ function submit_forward()
   <input type="hidden" name="InReplyTo" value="$Data{"InReplyTo"}">
   <table border="0">
     <tr>
-      <td>$Text{"From"}:</td><td>$Data{"SystemFromHTML"} <input type="hidden" name="From" value="$Data{"SystemFrom"}"></td>
+      <td width="20%">$Text{"From"}:</td>
+      <td width="80%">$Data{"SystemFromHTML"} <input type="hidden" name="From" value="$Data{"SystemFrom"}"></td>
     </tr>
     <tr>
-      <td>$Text{"To"}:</td><td><input type="text" name="To" value="" size="65"></td>
+      <td>$Text{"To"}:</td>
+      <td><input type="text" name="To" value="" size="65"></td>
     </tr>
     <tr>
-      <td>$Text{"Cc"}:</td><td><input type="text" name="Cc" value="" size="65"></td>
+      <td>$Text{"Cc"}:</td>
+      <td><input type="text" name="Cc" value="" size="65"></td>
     </tr>
     <tr>
-      <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Data{"Subject"}" size="65"></td>
+      <td>$Text{"Subject"}:</td>
+      <td><input type="text" name="Subject" value="$Data{"Subject"}" size="65"></td>
     </tr>
     <tr>
-      <td valign="top">$Text{"Text"}:</td><td>
+      <td valign="top">$Text{"Text"}:</td>
+      <td>
 <pre>
 <textarea name="Body" rows="25" cols="80" wrap="$Env{"BrowserWrap"}">
 
@@ -91,13 +96,16 @@ $Data{"Body"}
       </td>
     </tr>
     <tr>
-      <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+      <td>$Text{"Next ticket state"}:</td>
+      <td>$Data{"NextStatesStrg"}</td>
     </tr>
     <tr>
-      <td>$Text{"Article type"}:</td><td>$Data{"ArticleTypesStrg"}</td>
+      <td>$Text{"Article type"}:</td>
+      <td>$Data{"ArticleTypesStrg"}</td>
     </tr>
     <tr>
-      <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
+      <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+      <td><input type="text" name="TimeUnits" value="" size="3"></td>
     </tr>
   </table>
   <br>
@@ -108,4 +116,3 @@ $Data{"Body"}
 </tr>
 </table>
 <!-- end forward form -->
-

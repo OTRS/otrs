@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentTicketPrint.dtl,v 1.1 2003-01-09 20:36:29 martin Exp $
+# $Id: AgentTicketPrint.dtl,v 1.2 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@
   <tr>
     <td>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor1"}">
+<tr bgcolor="#ffffff">
   <td valign="top" width="100%" class="small">
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>

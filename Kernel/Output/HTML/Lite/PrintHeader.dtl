@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.1 2003-01-09 20:48:18 martin Exp $
+# $Id: PrintHeader.dtl,v 1.2 2003-02-08 15:40:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,17 +21,9 @@ Pragma: no-cache
 # --
 # html comment
 # --
-
 <!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
 <!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
 <!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
-# --
-# set some html variables
-# --
-<dtl set $Env{"BGCOLOR"} = "#FFFFFF">
-<dtl set $Env{"FontColor0"} = "#000000">
-<dtl set $Env{"FontColor1"} = "#000000">
-
 # --
 <html>
 <head>
@@ -50,7 +42,7 @@ Pragma: no-cache
 </style>
 </head>
 <a name="top"></a>
-<body onLoad="window.print();" bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
+<body onLoad="window.print();" bgcolor="#ffffff" text="#000000" Link="#557799" ALink="#557799" VLink="#557799">
 <!-- end header -->
 <table border="0" width="640" cellpadding="0" cellspacing="1" bgcolor="#000000">
 <tr>

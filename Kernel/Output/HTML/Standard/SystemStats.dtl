@@ -2,7 +2,7 @@
 # systemStats.dtl - provides HTML stats 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.dtl,v 1.3 2003-01-03 00:21:25 martin Exp $
+# $Id: SystemStats.dtl,v 1.4 2003-02-08 15:40:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,15 +10,15 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="center"> 
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Stats"}$Env{"Box1"}</font></b>
+<tr>
+  <td align="center" class="table0"> 
+    <b>$Env{"Box0"}$Text{"Stats"}$Env{"Box1"}</b>
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top" colspan="2">
+<tr> 
+  <td align="center" valign="top" colspan="2" class="table1">
 
   <table>
     <TR>
@@ -26,7 +26,7 @@
       <TH>$Text{"Tickets"}</TH>
     </TR>
     $Data{"CounterOutput"}
-     <TR ALIGN=CENTER>
+     <TR ALIGN="CENTER">
        <TD>$Text{"all"}</TD>
        <TD>$Data{"TicketCounter"}</TD>
      </TR>
@@ -40,4 +40,3 @@ $Data{"Output"}
 </tr>
 </table>
 <!-- end form -->
-

@@ -2,7 +2,7 @@
 # AgentHistoryRow.dtl - provides HTML form for history
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistoryRow.dtl,v 1.4 2003-01-03 00:21:24 martin Exp $
+# $Id: AgentHistoryRow.dtl,v 1.5 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,4 +32,3 @@
   </td>
 </tr>
 <!-- end row -->
-

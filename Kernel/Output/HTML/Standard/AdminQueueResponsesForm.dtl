@@ -2,7 +2,7 @@
 # AdminQueueResponsesForm.dtl - provides HTML form for AdminQueueResponses
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponsesForm.dtl,v 1.6 2003-01-12 19:59:35 martin Exp $
+# $Id: AdminQueueResponsesForm.dtl,v 1.7 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,23 +10,23 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left" colspan="2">
-    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Std. Responses <-> Queue Management"}$Env{"Box1"}</font></b>
+<tr>
+  <td align="left" colspan="2" class="table0">
+    <b>$Env{"Box0"}$Text{"Std. Responses <-> Queue Management"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top" colspan="2">
+<tr> 
+  <td align="center" valign="top" colspan="2" class="table1">
   $Text{"Change answer <-> queue settings"}
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}" valign="top">
-  <td align="right">
+<tr valign="top">
+  <td align="right" width="50%" class="table1">
     <b>$Text{"Answer"}:$Text{"Queue"} (1:n)</b>
     <br>
     $Data{"AnswerQueueStrg"}
   </td>
-  <td align="left">
+  <td align="left" width="50%" class="table1">
     <b>$Text{"Answer"}:$Text{"Queue"} (n:1)</b>
     <br>
     $Data{"QueueAnswerStrg"}
@@ -34,4 +34,3 @@
 </tr>
 </table>
 <!-- end form -->
-

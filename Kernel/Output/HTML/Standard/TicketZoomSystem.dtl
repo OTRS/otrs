@@ -1,33 +1,31 @@
 # --
-# TicketZoom.dtl - provides HTML TicketZoom for AgentZoom.pm
+# TicketZoomSystem.dtl - provides HTML TicketZoom for AgentZoom.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomSystem.dtl,v 1.23 2003-02-03 19:45:58 martin Exp $
+# $Id: TicketZoomSystem.dtl,v 1.24 2003-02-08 15:40:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start ticket -->
+<!-- start ticket $Data{"TicketNumber"} -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="50%">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Zoom"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
-  </font>
+  <td align="left" width="50%" class="table0">
+    <b>$Env{"Box0"}$Text{"Zoom"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="50%">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
-  </font>
+  <td align="right" width="50%" class="table0">
+    <b>$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</b>
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor2"}" width="70%">
+  <td align="left" width="70%" class="table2">
 # --
 # check lock link
-# -- 
+# --
 <dtl set $Data{"LockText"} = "Lock">
 <dtl if ($Data{"Lock"} ne "unlock") { $Data{"LockText"} = "Unlock"; }>
 <dtl set $Data{"LockLink"} = "Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}">
@@ -42,14 +40,14 @@
   <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';">$Text{"Pending"}</a> -
   <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';">$Text{"Close"}</a>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor2"}" width="30%">
-  <b>$Text{"Created"}:</b> $Data{"Created"}
+  <td align="right" width="30%" class="table2">
+    <b>$Text{"Created"}:</b> $Data{"Created"}
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td valign="top" width="75%" class="small">
+<tr>
+  <td valign="top" width="75%" class="table1">
   $Data{"ArticleStrg"}
   <hr>
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
@@ -61,10 +59,25 @@
       <td valign="top"><b>$Text{"To"}:</b></td>
       <td> $Data{"Article::To"}</td>
     </tr>
+# --
+# check if Cc exists
+# -- 
+    <dtl if ($Data{"Article::Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $Data{"Article::Cc"}</td></tr>"; }>
+    $Data{"ArticleCcString"}
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
       <td> $Data{"Article::Subject"}</td>
     </tr>
+# --
+# show the Article::FreeKey1-3 and Article::FreeValue1-3
+# --
+<dtl if ($Data{"Article::FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey1"}:</b></td><td> $Data{"Article::FreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"Article::FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey2"}:</b></td><td> $Data{"Article::FreeValue2"}</td></tr>"; }>
+<dtl if ($Data{"Article::FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$Data{"Article::FreeKey3"}:</b></td><td> $Data{"Article::FreeValue3"}</td></tr>"; }>
+     $Data{"ArticleFreeString1"}
+     $Data{"ArticleFreeString2"}
+     $Data{"ArticleFreeString3"}
+# --
     <tr>
       <td valign="top"><b>$Text{"Attachment"}:</b></td>
       <td> $Data{"Article::ATM"}</td>
@@ -75,21 +88,45 @@ $Data{"Article::TextNote"}
 $Data{"Article::Text"}
   </pre>
   </td> 
-  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="left" valign="top">
-    <table border="0" cellspacing="0" cellpadding="1" width="95%">
-    <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
-    <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
-    <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
-    <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
-    <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td></tr>
-    <tr><td><b>$Text{"Accounted time"}:</b></td><td>$Data{"TicketTimeUnits"}</td></tr>
-    <tr><td><b>$Text{"Escalation in"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+  <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
+    <table border="0" cellspacing="1" cellpadding="0" width="95%">
+    <tr>
+      <td><b>$Text{"State"}:</b></td>
+      <td><font color="red">$Data{"State"}</font></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Priority"}:</b></td>
+      <td><font color="red">$Data{"Priority"}</font></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Queue"}:</b></td>
+      <td><font color="red">$Data{"Queue"}</font></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Lock"}:</b></td>
+      <td><font color="red">$Data{"Lock"}</font></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"CustomerID"}:</b></td>
+      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Accounted time"}:</b></td>
+      <td>$Data{"TicketTimeUnits"}</td>
+    </tr>
+    <tr>
+      <td><b>$Text{"Escalation in"}:</b></td>
+      <td>$Data{"TicketOverTime"}</td>
+    </tr>
 # --
 # use ticket is pending 
 # --
 <dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
     $Data{"PendingUntilString"}
-    <tr><td><b>$Text{"Owner"}:</b></td><td>$Data{"Owner"}</td></tr>
+    <tr>
+      <td><b>$Text{"Owner"}:</b></td>
+      <td>$Data{"Owner"}</td>
+    </tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
 # --
@@ -97,7 +134,6 @@ $Data{"Article::Text"}
 <dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
     $Data{"TicketFreeString1"}
     $Data{"TicketFreeString2"}
-# --
     </table>
 # --
 # uncomment this if customer info should be shown
@@ -109,7 +145,8 @@ $Data{"Article::Text"}
     <br>
 
     <table border="0" cellspacing="0" cellpadding="1" width="95%">
-    <tr><td>
+    <tr>
+      <td>
 
    <p>
      <b>$Text{"Change queue"}:</b>

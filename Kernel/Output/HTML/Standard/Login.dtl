@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.11 2003-01-03 00:21:24 martin Exp $
+# $Id: Login.dtl,v 1.12 2003-02-08 15:40:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,43 +14,57 @@
 Content-Type: text/html; charset=$Env{"UserCharset"};
 X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org)
 X-Wanted: I think you are smart. I'm looking for smart people!
+
+
 # --
 # html comment
 # --
-
-
 <!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
 <!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
 <!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
 
 # --
-# set some html variables
-# --
-<dtl set $Env{"BGCOLOR"} = "#BBDDFF">
-<dtl set $Env{"BGTableColor0"} = "#000000">
-<dtl set $Env{"BGTableColor1"} = "#FFFFFF">
-<dtl set $Env{"BGTableColor2"} = "#EEEEEE">
-<dtl set $Env{"FontColor0"} = "#000000">
-<dtl set $Env{"FontColor1"} = "#FFFFFF">
-# --
 <html>
 <head>
     <title>OTRS :: $Text{"$Data{"Title"}"}</title>
+# --
+# css settings
+# --
 <style type="text/css">
 <!--
-  p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i
-    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;}
-  pre
-    { font-family:Courier;font-size:12px; }
+# body
+  body  
+   { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#BBDDFF;color:black; }
+  a
+    { color:#557799;}
   a:hover
-    { color: #002244; text-decoration: none; }
+    { color:#002244;text-decoration:none; }
+  pre
+    { font-family:Courier,monospace,fixed;font-size:12px; }
+  td,th   
+    { font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .header
+    { color:#ffffff;background-color:#000000;font-size:13px; }
+  a.headeritem
+    { color:#ffffff; }
+  .footer
+    { color:#ffffff;background-color:#000000;font-size:13px; }
+  a.footeritem
+    { color:#ffffff; }
   .small
-    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:8px; }
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+# table color
+  .Table0
+    { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+  .Table1
+    { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+  .Table2
+    { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
 //-->
 </style>
 </head>
 <!-- end header -->
-<body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
+<body>
 
 <center>
 
@@ -65,19 +79,19 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
 
 <table border="0" cellspacing="0" cellpadding="3" width="250">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="center"><font color="$Env{"FontColor1"}"><b>$Text{"Welcome to OTRS"}</b></font></td>
+<tr>
+  <td class="table0" align="center"><b>$Text{"Welcome to OTRS"}</b></td>
 </tr>
 <tr>
-  <td align="center" bgcolor="$Env{"BGTableColor1"}">
+  <td class="table1" align="center">
     <table cellspacing="8" cellpadding="2">
     <tr>
-      <td>$Text{"Username"}:</td>
-      <td><input type="text" name="User" value="$Data{"User"}" size="18"></td>
+      <td class="table1">$Text{"Username"}:</td>
+      <td class="table1"><input type="text" name="User" value="$Data{"User"}" size="18"></td>
     </tr>
     <tr>
-      <td>$Text{"Password"}:</td>
-      <td><input type="password" name="Password" size="18"></td>
+      <td class="table1">$Text{"Password"}:</td>
+      <td class="table1"><input type="password" name="Password" size="18"></td>
     </tr>
     </table>
   <input type="submit" value="$Text{"Login"}">
@@ -95,15 +109,15 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <input type="hidden" name="RequestedURL" value="$Data{"RequestedURL"}">
 
 <table border="0" cellspacing="0" cellpadding="3" width="250">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="center"><font color="$Env{"FontColor1"}"><b>$Text{"Language"}</b></font></td>
+<tr>
+  <td class="table0" align="center"><b>$Text{"Language"}</b></td>
 </tr>
 <tr>
-  <td align="center" bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" class="table1">
     <table cellspacing="8" cellpadding="2">
     <tr>
-      <td>$Text{"Language"}:</td>
-      <td>$Data{"Language"}</td>
+      <td class="table1">$Text{"Language"}:</td>
+      <td class="table1">$Data{"Language"}</td>
     </tr>
     </table>
   <input type="submit" value="$Text{"submit"}">
@@ -123,4 +137,3 @@ $Data{"Motd"}
 </body>
 </html>
 <!-- end footer -->
-

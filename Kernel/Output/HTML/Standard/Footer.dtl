@@ -2,29 +2,28 @@
 # Footer.dtl - provides global HTML footer 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Footer.dtl,v 1.9 2003-01-03 00:21:24 martin Exp $
+# $Id: Footer.dtl,v 1.10 2003-02-08 15:40:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start footer -->
-<table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left">
-  <font color="$Env{"FontColor1"}">$Env{"Box0"}</font>
-   <a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';"><font color="$Env{"FontColor1"}">$Text{"QueueView"}</font></a>
-   <font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
+  <td align="left" class="footer">
+  $Env{"Box0"}
+   <a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"QueueView"}</a>
+   $Env{"Box1"}
    - 
-   <font color="$Env{"FontColor1"}">$Env{"Box0"}</font>
-   <a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"PhoneView"}'; return true;" onmouseout="window.status='';"><font color="$Env{"FontColor1"}">$Text{"PhoneView"}</font></a>
-   <font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
-  </font>
+   $Env{"Box0"}
+   <a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"PhoneView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"PhoneView"}</a>
+   $Env{"Box1"}
   </td>
-  <td align="right">
-   <font color="$Env{"FontColor1"}">$Env{"Box0"}</font>
-   <a href="#top" onmouseover="window.status='$Text{"top"}'; return true;" onmouseout="window.status='';"><font color="$Env{"FontColor1"}">$Text{"top"}</font></a>
-   <font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
+  <td align="right" class="footer">
+   $Env{"Box0"}
+   <a href="#top" onmouseover="window.status='$Text{"top"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"top"}</a>
+   $Env{"Box1"}
   </td>
 </tr>
 

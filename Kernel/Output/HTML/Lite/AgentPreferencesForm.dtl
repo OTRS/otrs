@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.13 2003-01-12 19:58:39 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.14 2003-02-08 15:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,27 +10,27 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
-<tr bgcolor="$Env{"BGTableColor0"}" align="center">
-  <td width="33%">
-    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Frontend"}$Env{"Box1"}</font></b>
+<tr align="center">
+  <td width="33%" class="table0">
+    <b>$Env{"Box0"}$Text{"Frontend"}$Env{"Box1"}</b>
   </td>
-  <td width="33%"> 
-    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Mail Management"}$Env{"Box1"}</font></b>
+  <td width="33%" class="table0"> 
+    <b>$Env{"Box0"}$Text{"Mail Management"}$Env{"Box1"}</b>
   </td>
-  <td width="33%">
-    <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Other Options"}$Env{"Box1"}</font></b>
+  <td width="33%" class="table0">
+    <b>$Env{"Box0"}$Text{"Other Options"}$Env{"Box1"}</b>
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="1" cols="3">
-<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
-  <td>
+<tr align="center" valign="top">
+  <td class="table1">
     $Data{"Frontend"}  
   </td>
-  <td>
+  <td class="table1">
     $Data{"Mail Management"}  
   </td> 
-  <td>
+  <td class="table1">
     $Data{"Other Options"}  
   </td>
 </tr>

@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.18 2003-01-03 16:14:57 martin Exp $
+# $Id: AgentCompose.dtl,v 1.19 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,13 +44,13 @@ function SpellCheckSubmit()
 
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr bgcolor="$Env{"BGTableColor2"}">
-  <td align="left"> 
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Compose answer for ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+<tr>
+  <td align="left" class="table2"> 
+    <b>$Env{"Box0"}$Text{"Compose answer for ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="left" valign="top">
+<tr>
+  <td align="left" valign="top" class="table1">
 
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
   <input type="hidden" name="Action" value="AgentCompose">
@@ -85,7 +85,8 @@ function SpellCheckSubmit()
       </td>
     </tr>
     <tr>
-      <td valign="top">$Text{"Text"}:</td><td>
+      <td valign="top">$Text{"Text"}:</td>
+      <td>
 <pre>
 <textarea name="Body" rows="25" cols="80" wrap="$Env{"BrowserWrap"}">
 $Data{"ResponseFormat"}
@@ -103,16 +104,20 @@ $Data{"ResponseFormat"}
       <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<!--<input type="button" class="button" onclick="attach()" value="$Text{"Attach"}">--><a name="attachment"></td>
     </tr>
     <tr>
-      <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+      <td>$Text{"Next ticket state"}:</td>
+      <td>$Data{"NextStatesStrg"}</td>
     </tr>
     <tr>
-      <td>$Text{"Pending Date"} ($Text{"for pending* states"}):</td><td>$Data{"PendingDateString"}</td>
+      <td>$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+      <td>$Data{"PendingDateString"}</td>
     </tr>
     <tr>
-      <td>$Text{"Is the ticket answered"}:</td><td>$Data{"AnsweredYesNoOption"}</td>
+      <td>$Text{"Is the ticket answered"}:</td>
+      <td>$Data{"AnsweredYesNoOption"}</td>
     </tr>
     <tr>
-      <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
+      <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+      <td><input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
     </tr>
   </table>
   <br>
@@ -125,9 +130,7 @@ $Data{"ResponseFormat"}
   <input type="hidden" name="spell_lang" value="">
   </form>
 
-
   </td> 
 </tr>
 </table>
 <!-- end compose form -->
-

@@ -2,7 +2,7 @@
 # AgentPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.dtl,v 1.1 2003-01-12 19:58:39 martin Exp $
+# $Id: AgentPending.dtl,v 1.2 2003-02-08 15:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,17 +11,15 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor2"}">
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Set Pending"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
-  </font>
+  <td align="left" class="table2">
+    <b>$Env{"Box0"}$Text{"Set Pending"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor2"}">
-  <b><font color="$Env{"FontColor0"}">-</font></b>
-  </font>
+  <td align="right" class="table2"> 
+     <b>-</b>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="left" valign="top" colspan="2">
+<tr>
+  <td align="left" valign="top" colspan="2" class="table1">
 <p>
 
 <form action="$Env{"CGIHandle"}" method="post">
@@ -33,29 +31,34 @@
   <table border="0" width="100%">
   <tr>
     <td width="20%">$Text{"Subject"}:</td>
-    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="60"></td>
+    <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultPendingNoteSubject"}"}" size="60"></td>
   </tr>
   <tr>
-    <td>$Text{"Note Text"}:</td><td>
+    <td>$Text{"Note Text"}:</td>
+    <td>
 <textarea name="Text" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
-$Text{"$Config{"DefaultCloseNoteText"}"}
+$Text{"$Config{"DefaultPendingNoteText"}"}
 </textarea>
     </td>
   </tr>
   <tr>
-    <td>$Text{"Note type"}:</td><td>$Data{"NoteTypesStrg"}</td>
+    <td>$Text{"Note type"}:</td>
+    <td>$Data{"NoteTypesStrg"}</td>
   </tr>
   <tr>
-    <td>$Text{"Pending type"}:</td><td>$Data{"NextStatesStrg"}</td>
+    <td>$Text{"Pending type"}:</td>
+    <td>$Data{"NextStatesStrg"}</td>
   </tr>
   <tr>
-    <td>$Text{"Pending date"}:</td><td>$Data{"DateString"}</td>
+    <td>$Text{"Pending date"}:</td>
+    <td>$Data{"DateString"}</td>
   </tr>
 #  <tr>
 #    <td>$Text{"Next Queue"}:</td><td>$Data{"MoveQueuesStrg"}</td>
 #  </tr>
   <tr>
-    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
+    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+    <td><input type="text" name="TimeUnits" value="" size="3"></td>
   </tr>
   </table>
 <br>
@@ -68,4 +71,3 @@ $Text{"$Config{"DefaultCloseNoteText"}"}
 </tr>
 </table>
 <!-- end form -->
-

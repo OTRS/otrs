@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.12 2003-01-03 00:21:23 martin Exp $
+# $Id: Header.dtl,v 1.13 2003-02-08 15:40:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,15 +28,8 @@ Pragma: no-cache
 # --
 # set some html variables
 # --
-<dtl set $Env{"BGCOLOR"} = "#BEC3BE">
-<dtl set $Env{"BGTableColor0"} = "#BEC3BE">
-<dtl set $Env{"BGTableColor1"} = "#BEC3BE">
-<dtl set $Env{"BGTableColor2"} = "#BEC3BE">
-<dtl set $Env{"FontColor0"} = "#000000">
-<dtl set $Env{"FontColor1"} = "#000000">
-#<dtl set $Env{"Box0"} = "[">
-#<dtl set $Env{"Box1"} = "]">
-
+<dtl set $Env{"Box0"} = "">
+<dtl set $Env{"Box1"} = "">
 # --
 # check refresh
 # --
@@ -52,28 +45,67 @@ Pragma: no-cache
     <title>OTRS :: $Text{"$Data{"Title"}"}</title>
 <style type="text/css">
 <!--
-  p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr
-    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px; }
-  pre
-    { font-family:Courier;font-size:12px; }
+# body
+  body 
+   { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#ededed;color:black; }
+  a
+    { color:blue;} 
   a:hover 
-    { color: #002244; text-decoration: none; }
+    { color:#002244;text-decoration:none; }
+  pre
+    { font-family:Courier,monospace,fixed;font-size:12px; }
+  td,th
+    { font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .header
+    { color:#000000;background-color:#ededed;font-size:13px; } 
+  a.headeritem
+    { color:#222222; }
+  .footer
+    { color:#000000;background-color:#ededed;font-size:13px; } 
+  a.footeritem
+    { color:#222222; }
   .small
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+# table color
+  .table0
+    { color:#000000;background-color:#ededed;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+  .table1
+    { color:#000000;background-color:#ededed;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+  .table2
+    { color:#000000;background-color:#ededed;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+# article type color 
+  .agent-email-external
+    { background-color:#ccffcc; }
+  .agent-note-internal
+    { background-color:#ffcccc; }
+  .agent-note-external
+    { background-color:#eeeeee; }
+# priority id color
+  .PriorityID-1
+    { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-2
+    { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-3
+    { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-4
+    { background-color:#ffcccc;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-5
+    { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
 //-->
 </style>
 </head>
 <a name="top"></a>
-<body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
-<table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<body>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" width="30%">
-   <font color="$Env{"FontColor1"}"><b>$Env{"Box0"}OTRS || </b></font>
-   <a href="$Env{"Baselink"}">home</a> <font color="$Env{"FontColor1"}"><b>$Env{"Box1"}</b></font>
+  <td align="left" width="30%" class="header">
+   <b>$Env{"Box0"}OTRS || </b>
+   <a href="$Env{"Baselink"}" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">home</a> <b>$Env{"Box1"}</b>
   </td>
-  <td align="right" width="70%">
-   <font color="$Env{"FontColor1"}">$Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"Time"}</font> 
+  <td align="right" width="70%" class="header">
+   $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}
   </td>
 </tr>
 </table>
+<hr>
 <!-- end header -->

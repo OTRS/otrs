@@ -2,7 +2,7 @@
 # AgentUtilSearchByTicketNumber.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByTicketNumber.dtl,v 1.5 2003-01-03 00:21:24 martin Exp $
+# $Id: AgentUtilSearchByTicketNumber.dtl,v 1.6 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,13 +11,13 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"}-$Text{"search"}$Env{"Box1"}</font></b>
+  <td align="left" class="table0">
+  <b>$Env{"Box0"}$Config{"TicketHook"}-$Text{"search"}$Env{"Box1"}</b>
   </font>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top">
+<tr>
+  <td align="center" valign="top" class="table1">
 
 <p>
 
@@ -35,4 +35,3 @@ $Config{"TicketHook"}-$Text{"search (e. g. 10*5155 or 105658*)"}
 </tr>
 </table>
 <!-- end form -->
-

@@ -2,7 +2,7 @@
 # CustomerCreateAccount.dtl - provides customer HTML CustomerCreateAccount screen
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerCreateAccount.dtl,v 1.4 2003-01-03 00:21:24 martin Exp $
+# $Id: CustomerCreateAccount.dtl,v 1.5 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,11 +11,11 @@
 <!-- start -->
 <p>
 <table border="0" cellspacing="0" cellpadding="3" width="100%">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left"><font color="$Env{"FontColor1"}"><b>$Text{"Create Account"}</b></font></td>
+<tr> 
+  <td align="left" class="table0"><b>$Text{"Create Account"}</b></td>
 </tr>
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor1"}">
+  <td align="left" class="table1"> 
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="CustomerCreateAccount">
     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
@@ -56,4 +56,3 @@
 </table>
 </p>
 <!-- stop -->
-

@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.12 2003-02-03 22:52:19 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.13 2003-02-08 15:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,16 +22,16 @@ function SpellCheckSubmit()
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}">
-  <td align="left"> 
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Phone call"} / $Text{"new ticket"}$Env{"Box1"}</font></b>
+<tr>
+  <td align="left" class="table2"> 
+    <b>$Env{"Box0"}$Text{"Phone call"} / $Text{"new ticket"}$Env{"Box1"}</b>
   </td>
-  <td align="right">
-  <b><font color="$Env{"FontColor0"}">-</font></b>
+  <td align="right" class="table2">
+    <b>-</b>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="left" valign="top" colspan="2">
+<tr>
+  <td align="left" valign="top" colspan="2" class="table1">
 
 <p>
 
@@ -64,7 +64,7 @@ function SpellCheckSubmit()
     </td>
   </tr>
   <tr>
-    <td valign="top">$Text{"Text"}:</td><td>
+    <td valign="top">$Text{"Text"}:</td><td class="table1">
 <textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
 $Data{"Body"}
 </textarea>
@@ -107,4 +107,3 @@ $Data{"Body"}
 </tr>
 </table>
 <!-- end form -->
-

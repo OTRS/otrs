@@ -2,7 +2,7 @@
 # AgentUtilSearchByCustomerID.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByCustomerID.dtl,v 1.3 2003-01-03 00:21:24 martin Exp $
+# $Id: AgentUtilSearchByCustomerID.dtl,v 1.4 2003-02-08 15:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,13 +11,13 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Customer history search"}$Env{"Box1"}</font></b>
+  <td align="left" class="table0"">
+  <b>$Env{"Box0"}$Text{"Customer history search"}$Env{"Box1"}</b>
   </font>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top">
+<tr>
+  <td align="center" valign="top" class="table1">
 
 <p>
 $Text{"Customer history search (e. g. "ID342425")."} $Text{"No * possible!"}
@@ -38,4 +38,3 @@ $Text{"CustomerID"} <input type="text" name="CustomerID" size="20" value="$Data{
 </tr>
 </table>
 <!-- end form -->
-

@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides HTML form for Installer
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerSystem.dtl,v 1.2 2003-01-03 00:21:23 martin Exp $
+# $Id: InstallerSystem.dtl,v 1.3 2003-02-08 15:40:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,75 +14,79 @@
 <input type="hidden" name="Subaction" value="Finish">
 <table cols="3" width="100%">
   <tr>
-    <td colspan="3"><b>System:</b></td>
+    <td colspan="3"><b>$Text{"System"}:</b></td>
   </tr>
   <tr>
-    <td width="20%">SystemID:</td>
-    <td width="40%"><input type="text" name="SystemID" value="$Config{"SystemID"}" size="2"></td>
-    <td>(The identify of the system. Each ticket number and each http session id starts with this number)</td>
+    <td width="20%">$Text{"SystemID"}:</td>
+    <td width="40%">$Data{"SystemIDString"}</td>
+    <td>$Text{"(The identify of the system. Each ticket number and each http session id starts with this number)"}</td>
   </tr>
   <tr>
-    <td>System FQDN:</td>
+    <td>$Text{"System FQDN"}:</td>
     <td><input type="text" name="FQDN" value="$Config{"FQDN"}" size="40"></td>
-    <td>(Full qualified domain name of your system)</td>
+    <td>$Text{"(Full qualified domain name of your system)"}</td>
   </tr>
   <tr>
-    <td>AdminEmail:</td>
+    <td>$Text{"AdminEmail"}:</td>
     <td><input type="text" name="AdminEmail" value="$Config{"AdminEmail"}" size="40"></td>
-    <td>(Email of the system admin)</td>
+    <td>$Text{"(Email of the system admin)"}</td>
   </tr>
   <tr>
-    <td>Organization:</td>
+    <td>$Text{"Organization"}:</td>
     <td><input type="text" name="Organization" value="$Config{"Organization"}" size="40"></td>
     <td></td>
   </tr>
   <tr>
-    <td>LogModule:</td>
+    <td>$Text{"LogModule"}:</td>
     <td><select name="LogModule">
           <option value="Kernel::System::Log::SysLog" selected>Syslog</option>
           <option value="Kernel::System::Log::File">File</option>
         </select></td>
-    <td>(Used log backend)</td>
+    <td>$Text{"(Used log backend)"}</td>
   </tr>
   <tr>
-    <td>Logfile:</td>
+    <td>$Text{"Logfile"}:</td>
     <td><input type="text" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" size="40"></td>
-    <td>(Logfile just needed for File-LogModule!!)</td>
+    <td>$Text{"(Logfile just needed for File-LogModule!)"}</td>
   </tr>
   <tr>
-    <td colspan="3"><b>Ticket:</b></td>
+    <td>$Text{"CheckMXRecord"}:</td>
+    <td><select name="CheckMXRecord">
+        <option value="1" selected>$Text{"Yes"}</option> 
+        <option value="0">$Text{"No"}</option> 
+      </select></td>
+    <td>$Text{"(Checks MX recordes of used email addresses by composing an answer. Don't use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)"}</td>
   </tr>
   <tr>
-    <td>Ticket Hook:</td>
+    <td colspan="3"><b>$Text{"Ticket"}:</b></td>
+  </tr>
+  <tr>
+    <td>$Text{"Ticket Hook"}:</td>
     <td><input type="text" name="TicketHook" value="$Config{"TicketHook"}" size="20"></td>
-    <td>(Ticket identifier. Some people want toset this to e. g. 'Ticket#', 'Call#' or 'MyTicket#')</td>
+    <td>$Text{"(Ticket identifier. Some people want toset this to e. g. 'Ticket#', 'Call#' or 'MyTicket#')"}</td>
   </tr>
   <tr>
-    <td>Ticket Number Generator:</td>
+    <td>$Text{"Ticket Number Generator"}:</td>
     <td><select name="TicketNumberGenerator">
           <option value="Kernel::System::Ticket::Number::AutoIncrement">AutoIncrement</option>
           <option value="Kernel::System::Ticket::Number::Random">Random</option>
           <option value="Kernel::System::Ticket::Number::DateChecksum" selected>DateChecksum</option>
           <option value="Kernel::System::Ticket::Number::Date">Date</option>
         </select></td>
-    <td>(Used ticket number format)</td>
+    <td>$Text{"(Used ticket number format)"}</td>
   </tr>
   <tr>
-    <td colspan="3"><b>Webfrontend:</b></td>
+    <td colspan="3"><b>$Text{"Webfrontend"}:</b></td>
   </tr>
   <tr>
-    <td>Default Charset:</td>
+    <td>$Text{"Default Charset"}:</td>
     <td><input type="text" name="DefaultCharset" value="$Config{"DefaultCharset"}" size="40"></td>
     <td></td>
   </tr>
   <tr>
-    <td>Default Language:</td>
-    <td><select name="DefaultLanguage">
-          <option value="English" selected>English</option>
-          <option value="German">German</option>
-          <option value="French">French</option>
-        </select></td>
-    <td>(Used default language)</td>
+    <td>$Text{"Default Language"}:</td>
+    <td>$Data{"LanguageString"}</td>
+    <td>$Text{"(Used default language)"}</td>
   </tr>
 </table>
 <br>

@@ -2,7 +2,7 @@
 # CustomerMessageNew.dtl - provides HTML form for customer message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessageNew.dtl,v 1.4 2003-01-12 19:59:05 martin Exp $
+# $Id: CustomerMessageNew.dtl,v 1.5 2003-02-08 15:40:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,17 +27,14 @@ function submit_compose()
 //-->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="left"> 
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"new ticket"}$Env{"Box1"}</font></b>
-  </td>
-  <td align="right">
-  <b><font color="$Env{"FontColor1"}">-</font></b>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <td align="left" class="table2"> 
+    <b>$Env{"Box0"}$Text{"new ticket"}$Env{"Box1"}</b>
   </td>
 </tr>
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="left" valign="top" colspan="2">
+<tr>
+  <td align="left" valign="top" class="table1">
 
 <p>
 
@@ -76,4 +73,3 @@ function submit_compose()
 </tr>
 </table>
 <!-- end form -->
-

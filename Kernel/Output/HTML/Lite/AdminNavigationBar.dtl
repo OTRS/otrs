@@ -2,39 +2,39 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.14 2003-01-12 19:58:50 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.15 2003-02-08 15:40:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start NavigationBar -->
-<table bgcolor="$Env{"BGTableColor2"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
 <tr valign="top">
-  <td align="left">
+  <td align="left" class="table2">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout">$Text{"Logout"}</a>$Env{"Box1"}
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentQueueView">$Text{"AgentFrontend"}</a>$Env{"Box1"}
   </td>
-  <td align="right">
+  <td align="right" class="table2">
     $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
   </td>
 </table> 
-<table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="4">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="4">
 <tr>
-  <th>$Text{"User"} & $Text{"Groups"}</th>
-  <th>$Text{"Queue"} & $Text{"Responses"}</th>
-  <th>$Text{"System"}</th>
-  <th>$Text{"Misc"}</th>
+  <th class="table1">$Text{"User"} & $Text{"Groups"}</th>
+  <th class="table1">$Text{"Queue"} & $Text{"Responses"}</th>
+  <th class="table1">$Text{"System"}</th>
+  <th class="table1">$Text{"Misc"}</th>
 </tr>
 <tr valign="top" align="left">
-  <td>
+  <td class="table1">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUser">$Text{"User"}</a>$Env{"Box1"} 
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminGroup">$Text{"Groups"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUserGroup">$Text{"User <-> Groups"}</a>$Env{"Box1"}
   </td>
-  <td> 
+  <td class="table1"> 
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueue">$Text{"Queue"}</a>$Env{"Box1"} 
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminResponse">$Text{"Responses"}</a>$Env{"Box1"} 
@@ -47,7 +47,7 @@
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminAttachment">$Text{"Attachment"}</a>$Env{"Box1"} 
   </td>
-  <td> 
+  <td class="table1">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSalutation">$Text{"Salutation"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSignature">$Text{"Signature"}</a>$Env{"Box1"} 
@@ -58,7 +58,7 @@
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminState">$Text{"Status defs"}</a>$Env{"Box1"}
   </td>
-  <td>
+  <td class="table1">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCustomerUser">$Text{"Customer User"}</a>$Env{"Box1"} 
     <br> 
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPOP3">$Text{"POP3 Account"}</a>$Env{"Box1"} 
@@ -73,4 +73,5 @@
   </td>
 </tr>
 </table>
+<hr>
 <!-- end NavigationBar -->

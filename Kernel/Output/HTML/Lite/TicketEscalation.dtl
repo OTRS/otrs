@@ -1,31 +1,28 @@
 # --
-# Warning.dtl - provides HTML Warning screen
+# TicketEscalation.dtl - provides HTML ticket escalation screen
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketEscalation.dtl,v 1.6 2003-01-12 19:59:05 martin Exp $
+# $Id: TicketEscalation.dtl,v 1.7 2003-02-08 15:40:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
 <!-- start escalation -->
-<table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr bgcolor="$Env{"BGTableColor2"}">
-  <td align="center" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Ticket escalation!"}$Env{"Box1"}</font></b>
-  </font>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="center" class="table0">
+    <b>$Env{"Box0"}$Text{"Ticket escalation!"}$Env{"Box1"}</b>
   </td>
 </tr>
 <tr>
-  <td align="center">
+  <td align="center" class="table1">
     <table>
         <tr>
-            <td valign="top">$Text{"$Data{"Message"}"}</td>
+            <td valign="top" class="table1">$Text{"$Data{"Message"}"}</td>
         </tr>
     </table>
   </td>
 </tr>
 </table>
 <!-- stop escalation -->
-

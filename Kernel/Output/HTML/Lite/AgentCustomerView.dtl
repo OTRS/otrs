@@ -2,7 +2,7 @@
 # AgentCustomerView.dtl - provides HTML for AgentCustomerView.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerView.dtl,v 1.3 2003-01-12 19:58:38 martin Exp $
+# $Id: AgentCustomerView.dtl,v 1.4 2003-02-08 15:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,19 +11,17 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Customer Data"}: $Data{"CustomerID"}$Env{"Box1"}</font></b>
-  </font>
+  <td align="left" class="table0">
+    <b>$Env{"Box0"}$Text{"Customer Data"}: $Data{"CustomerID"}$Env{"Box1"}</b>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">-</font></b>
-  </font>
+  <td align="right" class="table0"> 
+    <b>-</b>
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td align="center" valign="top" colspan="2">
+<tr> 
+  <td align="center" valign="top" colspan="2" class="table1">
 
 <p>
 
@@ -35,4 +33,3 @@ $Data{"Table"}
 </tr>
 </table>
 <!-- end form -->
-
