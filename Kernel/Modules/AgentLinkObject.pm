@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.pm,v 1.2 2004-09-16 22:04:00 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.3 2004-09-20 11:14:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -143,7 +143,7 @@ sub Run {
 
     # show link objects
     $Param{'LinkToObject'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => {$Self->{LinkObject}->LinkObjects()},
+        Data => {$Self->{LinkObject}->LinkObjects(SourceObject => $Self->{SourceObject})},
         Name => 'DestinationObject',
         SelectedID => $Self->{DestinationObject},
     );
