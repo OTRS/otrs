@@ -2,7 +2,7 @@
 # Kernel/Config/Phone.pm - Phone config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Phone.pm,v 1.1 2002-10-15 09:18:55 martin Exp $
+# $Id: Phone.pm,v 1.2 2002-11-25 00:01:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Phone;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,9 +32,9 @@ sub LoadPhone {
     $Self->{PhoneDefaultArticleType} = 'phone';
     $Self->{PhoneDefaultSenderType} = 'agent'; 
     # default note subject
-    $Self->{PhoneDefaultSubject} = '$Text{"Phone call at"} \''. localtime() ."'";
+    $Self->{PhoneDefaultSubject} = '$Text{"Phone call at %s", "'.localtime().'"}';
     # default note text
-    $Self->{PhoneDefaultNoteText} = 'Customer called ';
+    $Self->{PhoneDefaultNoteText} = 'Customer called';
     # next possible states after phone
     $Self->{PhoneDefaultNextStatePossible} = [
         'open', 
@@ -52,9 +52,9 @@ sub LoadPhone {
     $Self->{PhoneDefaultNewArticleType} = 'phone';
     $Self->{PhoneDefaultNewSenderType} = 'customer';
     # default note subject
-    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at"} \''. localtime() ."'";
+    $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "'.localtime().'"}';
     # default note text
-    $Self->{PhoneDefaultNewNoteText} = 'New ticket via call. ';
+    $Self->{PhoneDefaultNewNoteText} = 'New ticket via call.';
     # default next state
     $Self->{PhoneDefaultNewNextState} = 'open';
     # default history type
