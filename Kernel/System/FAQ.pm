@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.12 2004-03-24 11:07:30 martin Exp $
+# $Id: FAQ.pm,v 1.13 2004-03-24 11:10:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -575,7 +575,7 @@ sub CategoryGet {
 # --
 
 =item CategoryAdd()
-    
+
 add a category
     
   my $ID = $FAQObject->CategoryAdd(
@@ -583,7 +583,7 @@ add a category
       Comment => 'some comment ...',
       UserID => 123,
   );
-    
+
 =cut
 
 sub CategoryAdd {
@@ -633,16 +633,16 @@ sub CategoryAdd {
 # --
 
 =item CategoryUpdate()
-    
+
 update a category
-    
+
   $FAQObject->CategoryUpdate(
       ID => 1,
       Name => 'Some Category',
       Comment => 'some comment ...',
       UserID => 123,
   );
-    
+
 =cut
 
 sub CategoryUpdate {
@@ -679,14 +679,14 @@ sub CategoryUpdate {
 # --
 
 =item CategoryDelete()
-    
+
 delete a category
-    
+
   $FAQObject->CategoryDelete(
       ID => 1,
       UserID => 123,
   );
-    
+
 =cut
 
 sub CategoryDelete {
@@ -705,9 +705,9 @@ sub CategoryDelete {
 # --
 
 =item StateTypeList()
-    
+
 get the state type list as hash
-    
+
   my %StateTypes = $FAQObject->StateTypeList(
       UserID => 123,
   );
@@ -735,9 +735,9 @@ sub StateTypeList {
 # --
 
 =item StateList()
-    
+
 get the state list as hash
-    
+
   my %States = $FAQObject->StateList(
       UserID => 123,
   );
@@ -765,9 +765,9 @@ sub StateList {
 # --
 
 =item StateUpdate()
-    
-update a state 
-    
+
+update a state
+
   $FAQObject->StateUpdate(
       ID => 1,
       Name => 'public',
@@ -804,9 +804,9 @@ sub StateUpdate {
 # --
 
 =item StateAdd()
-    
-add a state 
-    
+
+add a state
+
   my $ID = $FAQObject->StateAdd(
       ID => 1,
       Name => 'public',
@@ -844,9 +844,9 @@ sub StateAdd {
 # --
 
 =item StateGet()
-    
+
 get a state as hash
-    
+
   my %State = $FAQObject->StateGet(
       ID => 1,
       UserID => 123,
@@ -885,13 +885,13 @@ sub StateGet {
 # --
 
 =item LanguageList()
-    
+
 get the language list as hash
-    
+
   my %Languages = $FAQObject->LanguageList(
       UserID => 123,
   );    
-        
+
 =cut
 
 sub LanguageList {
@@ -915,15 +915,15 @@ sub LanguageList {
 # --
 
 =item LanguageUpdate()
-    
+
 update a language
-    
+
   $FAQObject->LanguageUpdate(
       ID => 1,
       Name => 'Some Category',
       UserID => 123,
   );
-    
+
 =cut
 
 sub LanguageUpdate {
@@ -953,14 +953,14 @@ sub LanguageUpdate {
 # --
 
 =item LanguageAdd()
-    
+
 add a language
-    
+
   my $ID = $FAQObject->LanguageAdd(
       Name => 'Some Category',
       UserID => 123,
   );
-    
+
 =cut
 
 sub LanguageAdd {
@@ -991,14 +991,14 @@ sub LanguageAdd {
 # --
 
 =item LanguageGet()
-    
+
 get a language as hash
-    
+
   my %Language = $FAQObject->LanguageGet(
       ID => 1,
       UserID => 123,
   );
-    
+
 =cut
 
 sub LanguageGet {
@@ -1031,16 +1031,16 @@ sub LanguageGet {
 # --
 
 =item Search()
-    
+
 search in articles
-    
+
   my @IDs = $FAQObject->Search(
       What => '*some text*',
       Keywords => '*webserver*',
       States = ['public', 'internal'],
       UserID => 123,
   );
-    
+
 =cut
 
 sub Search {
@@ -1106,6 +1106,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2004-03-24 11:07:30 $
+$Revision: 1.13 $ $Date: 2004-03-24 11:10:30 $
 
 =cut
