@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.10 2002-10-03 17:29:23 martin Exp $
+# $Id: AgentMailbox.pm,v 1.11 2002-12-25 09:33:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,15 +32,8 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject
+      UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -86,7 +79,7 @@ sub Run {
     my %LastSenderType;
     my %LastSenderID;
     foreach  (@ViewableTickets) {
-        my $SQL = "SELECT sdt.name, sa.create_by " .
+        my $SQL = "SELECT sdt.name, sa.create_by, st.until_time " .
           " FROM " .
           " article_sender_type sdt, article sa, ticket st " .
           " WHERE " .
