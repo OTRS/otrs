@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.50 2004-09-29 09:03:56 martin Exp $
+# $Id: NewTicket.pm,v 1.51 2004-10-28 15:05:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -235,7 +235,7 @@ sub Run {
             State => 'removed',
         );
         $Self->{LogObject}->Log(
-            Priority => 'error', 
+            Priority => 'error',
             Message => "Can't process email with MessageID <$GetParam{'Message-ID'}>! ".
               "Please create a bug report with this email (var/spool/) on http://bugs.otrs.org/!",
         );
@@ -303,7 +303,7 @@ sub Run {
         "ArticleID=$ArticleID). $Comment"
     );
 
-    return 1;
+    return $TicketID;
 }
 # --
 
