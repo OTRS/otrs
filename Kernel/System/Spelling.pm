@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Spelling.pm - the global spellinf module
+# Kernel/System/Spelling.pm - the global spelling module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.7 2003-04-09 21:26:01 martin Exp $
+# $Id: Spelling.pm,v 1.8 2003-12-04 22:57:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Spelling;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -28,9 +28,7 @@ sub new {
 
     $Self->{Debug} = 0;
 
-    # --
     # get needed objects
-    # --
     foreach (qw(ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
@@ -44,27 +42,25 @@ sub new {
 sub Check {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Text)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # get needed dict
-    # --
     if ($Param{SpellLanguage}) {
         $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
     }
-    # --
-    # ignored words
-    # --
-    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec 
-      Fwd DNS http CC ca html tm COM mmunity Co op https netscape webmail bcc jpg gif 
-      email Tel ie eg otrs suse redhat debian caldera php perl java unsubscribe);
+    # default ignored words
+    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Fwd DNS CC ca tm COM Co op netscape bcc jpg gif email Tel ie eg otrs suse redhat debian caldera php perl java unsubscribe);
+    # add configured ignored words
+    if (ref($Self->{ConfigObject}->Get('SpellCheckerIgnore')) eq 'ARRAY') {
+        foreach (@{$Self->{ConfigObject}->Get('SpellCheckerIgnore')}) {
+            push (@Ignore, $_);
+        }
+    }
     # don't correct emails
     $Param{Text} =~ s/<.+?\@.+?>//g;
     $Param{Text} =~ s/\s.+?\@.+?\s/ /g;
@@ -120,9 +116,7 @@ sub Check {
                 $Lines++;
             }
         }
-        # --
         # drop double words and add line of double word
-        # --
         my %DoubleWords;
         foreach (sort {$a <=> $b} keys %Data) {
             if ($DoubleWords{$Data{$_}->{Word}}) {
@@ -133,9 +127,7 @@ sub Check {
                 $DoubleWords{$Data{$_}->{Word}} = $Data{$_};
             }
         }
-        # --
         # remove ignored words
-        # --
         foreach (sort keys %Data) {
             foreach my $IgnoreWord (@Ignore) {
                 if ($Data{$_}->{Word} && $Data{$_}->{Word} =~ /^$IgnoreWord$/i) {

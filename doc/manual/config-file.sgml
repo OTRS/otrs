@@ -538,6 +538,10 @@ or <ulink url="http://aspell.sourceforge.net/">aspell</ulink>.
 #    $Self->{SpellChecker} = '';
     $Self->{SpellChecker} = '/usr/bin/ispell';
     $Self->{SpellCheckerDictDefault} = 'english';
+
+    # SpellCheckerIgnore
+    # (A list of ignored words.)
+    $Self->{SpellCheckerIgnore} = ['www', 'webmail', 'https', 'http', 'html'];
 [...]
 </programlisting>
 </example>

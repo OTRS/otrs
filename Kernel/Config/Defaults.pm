@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.91 2003-12-04 21:21:29 martin Exp $
+# $Id: Defaults.pm,v 1.92 2003-12-04 22:57:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.91 $';
+$VERSION = '$Revision: 1.92 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -337,10 +337,14 @@ sub LoadDefaults {
 
     # SpellChecker
     # (If ispell or aspell is available, then we will provide a spelling
-    # checker) 
+    # checker.) 
 #    $Self->{SpellChecker} = '';
     $Self->{SpellChecker} = '/usr/bin/ispell';
     $Self->{SpellCheckerDictDefault} = 'english';
+
+    # SpellCheckerIgnore
+    # (A list of ignored words.)
+    $Self->{SpellCheckerIgnore} = ['www', 'webmail', 'https', 'http', 'html'];
 
     # DemoSystem
     # (If this is true, no agent preferences, like language and theme, via agent 
