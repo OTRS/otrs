@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.22 2004-04-28 22:26:22 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.23 2004-07-08 11:20:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $ ';
+$VERSION = '$Revision: 1.23 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -137,18 +137,41 @@ sub Run {
             # update preferences
             foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
               foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
-                my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
-                my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
-                my $Value = $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey");
-                $Value = defined $Value ? $Value : '';
-                if ($Type eq 'Generic' && $PrefKey && !$Self->{CustomerUserObject}->SetPreferences(
-                  UserID => $GetParam{ID},
-                  Key => $PrefKey,
-                  Value => $Value,
-                )) {
-                  my $Output .= $NavBar.$Self->{LayoutObject}->Error();
-                  $Output .= $Self->{LayoutObject}->Footer();
-                  return $Output;
+                my $PrefKey = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{PrefKey} || '';
+                my $Type = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Type} || '';
+                if ($Type eq 'Generic' && $PrefKey) {
+                    if (!$Self->{CustomerUserObject}->SetPreferences(
+                      UserID => $GetParam{ID},
+                      Key => $PrefKey,
+                      Value => $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey"),
+                    )) {
+                        my $Output = $NavBar.$Self->{LayoutObject}->Error();
+                        $Output .= $Self->{LayoutObject}->Footer();
+                        return $Output;
+                    }
+                }
+                if ($Type eq 'Upload' && $PrefKey) {
+                    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                        Param => "GenericTopic::$PrefKey",
+                        Source => 'String',
+                    );
+                    if ($UploadStuff{Content}) {
+                      $Self->{CustomerUserObject}->SetPreferences(
+                        UserID => $GetParam{ID},
+                        Key => $PrefKey,
+                        Value => $UploadStuff{Content},
+                      );
+                      $Self->{CustomerUserObject}->SetPreferences(
+                        UserID => $GetParam{ID},
+                        Key => $PrefKey."::Filename",
+                        Value => $UploadStuff{Filename},
+                      );
+                      $Self->{CustomerUserObject}->SetPreferences(
+                        UserID => $GetParam{ID},
+                        Key => $PrefKey."::ContentType",
+                        Value => $UploadStuff{ContentType},
+                      );
+                    }
                 }
               }
             }
@@ -187,18 +210,41 @@ sub Run {
             # update preferences
             foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
               foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
-                my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
-                my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
-                my $Value = $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey");
-                $Value = defined $Value ? $Value : '';
-                if ($Type eq 'Generic' && $PrefKey && !$Self->{CustomerUserObject}->SetPreferences(
-                  UserID => $User, 
-                  Key => $PrefKey,
-                  Value => $Value,
-                )) {
-                  my $Output = $NavBar.$Self->{LayoutObject}->Error();
-                  $Output .= $Self->{LayoutObject}->Footer();
-                  return $Output;
+                my $PrefKey = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{PrefKey} || '';
+                my $Type = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Type} || '';
+                if ($Type eq 'Generic' && $PrefKey) {
+                    if (!$Self->{CustomerUserObject}->SetPreferences(
+                      UserID => $User,
+                      Key => $PrefKey,
+                      Value => $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey"),
+                    )) {
+                        my $Output = $NavBar.$Self->{LayoutObject}->Error();
+                        $Output .= $Self->{LayoutObject}->Footer();
+                        return $Output;
+                    }
+                }
+                if ($Type eq 'Upload' && $PrefKey) {
+                    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                        Param => "GenericTopic::$PrefKey",
+                        Source => 'String',
+                    );
+                    if ($UploadStuff{Content}) {
+                      $Self->{CustomerUserObject}->SetPreferences(
+                        UserID => $User,
+                        Key => $PrefKey,
+                        Value => $UploadStuff{Content},
+                      );
+                      $Self->{CustomerUserObject}->SetPreferences(
+                        UserID => $User,
+                        Key => $PrefKey."::Filename",
+                        Value => $UploadStuff{Filename},
+                      );
+                      $Self->{CustomerUserObject}->SetPreferences(
+                        UserID => $User,
+                        Key => $PrefKey."::ContentType",
+                        Value => $UploadStuff{ContentType},
+                      );
+                    }
                 }
               }
             }
