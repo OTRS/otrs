@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: File.pm,v 1.2 2002-09-01 19:44:14 martin Exp $
+# $Id: File.pm,v 1.3 2002-10-24 23:56:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,8 +14,10 @@ package Kernel::System::Log::File;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
+
+umask 002;
 
 # --
 sub new {
@@ -104,7 +106,10 @@ sub Log {
         # --
         # print error screen
         # --
-        print STDERR "Can't open $Self->{LogFile}: $!\n";
+        print STDERR "\n";
+        print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";
+        print STDERR "\n";
+        $Self->{Error}->{Message} = "Can't write $Self->{LogFile}: $!"; 
         return; 
     }
 }
