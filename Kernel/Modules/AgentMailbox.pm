@@ -2,7 +2,7 @@
 # AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.4 2002-04-24 22:55:20 martin Exp $
+# $Id: AgentMailbox.pm,v 1.5 2002-06-09 13:01:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -53,7 +53,9 @@ sub Run {
     my $Output;
     my $QueueID = $Self->{QueueID};
 
+    # --
     # starting with page ...
+    # --
     $Output .= $Self->{LayoutObject}->Header(
       Refresh => $Self->{Refresh},
       Title => 'Locked Tickets',
@@ -61,36 +63,40 @@ sub Run {
     my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
-    # get data viewable tickets...
+    # --
+    # get locked  viewable tickets...
+    # --
     my @ViewableTickets;
     my @ViewableLockIDs = (2);
     my $SQL = "SELECT id, tn " .
-	" FROM " .
-	" ticket " .
-	" WHERE " .
-	" user_id = $Self->{UserID} " .
-	" AND ".
-	" ticket_lock_id in ( ${\(join ', ', @ViewableLockIDs)} ) " .
-	" ORDER BY create_time";
+      " FROM " .
+      " ticket " .
+      " WHERE " .
+      " user_id = $Self->{UserID} " .
+      " AND ".
+      " ticket_lock_id in ( ${\(join ', ', @ViewableLockIDs)} ) " .
+      " ORDER BY create_time";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         push (@ViewableTickets, $RowTmp[0]);
     }
 
+    # --
     # get ViewableArticle
+    # --
     my %ViewableArticle;
     foreach (@ViewableTickets) {
         my $SQL = "SELECT sa.id, st.tn " .
-	" FROM " .
-	" article sa, ticket st " .
-	" WHERE " .
-	" sa.ticket_id = $_ " .
-	" AND " .
-	" sa.ticket_id = st.id " .
-	" GROUP BY st.tn " .
-	" ORDER BY sa.create_time DESC"; 
+          " FROM " .
+          " article sa, ticket st " .
+          " WHERE " .
+          " sa.ticket_id = $_ " .
+          " AND " .
+          " sa.ticket_id = st.id " .
+          " GROUP BY st.tn, sa.id, sa.id, sa.create_time " .
+          " ORDER BY sa.create_time ASC"; 
 
-        $Self->{DBObject}->Prepare(SQL => $SQL);
+        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
 
         while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
             $ViewableArticle{$RowTmp[0]} = $RowTmp[1];
@@ -102,16 +108,16 @@ sub Run {
     my %LastSenderID;
     foreach  (@ViewableTickets) {
         my $SQL = "SELECT sdt.name, sa.create_by " .
-	" FROM " .
-	" article_sender_type sdt, article sa, ticket st " .
-	" WHERE " .
-	" st.id = $_ " .
-	" AND " .
-	" sa.ticket_id = st.id " .
-	" AND " .
-	" sdt.id = sa.article_sender_type_id" .
-	" ORDER BY " .
-	" sa.create_time";
+          " FROM " .
+          " article_sender_type sdt, article sa, ticket st " .
+          " WHERE " .
+          " st.id = $_ " .
+          " AND " .
+          " sa.ticket_id = st.id " .
+          " AND " .
+          " sdt.id = sa.article_sender_type_id" .
+          " ORDER BY " .
+          " sa.create_time";
 
         $Self->{DBObject}->Prepare(SQL => $SQL);
 
@@ -136,7 +142,8 @@ sub Run {
         " and " .
         " sp.id = st.ticket_priority_id " .
         " and " .
-        " st.ticket_state_id = sd.id";
+        " st.ticket_state_id = sd.id " .
+        " ";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
 
