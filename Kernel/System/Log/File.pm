@@ -1,11 +1,11 @@
 # --
-# Kernel/System/Log/File.pm - file log backend 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/System/Log/File.pm - file log backend
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: File.pm,v 1.7 2003-11-14 10:01:12 martin Exp $
+# $Id: File.pm,v 1.8 2005-02-10 13:37:10 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::Log::File;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.8 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 umask 002;
@@ -25,11 +25,11 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get logfile location
-    $Self->{LogFile} = $Param{ConfigObject}->Get('LogModule::LogFile') 
+    $Self->{LogFile} = $Param{ConfigObject}->Get('LogModule::LogFile')
       || die 'Need LogModule::LogFile param in Config.pm';
     # get log file suffix
     if ($Param{ConfigObject}->Get('LogModule::LogFile::Date')) {
@@ -42,7 +42,7 @@ sub new {
     return $Self;
 }
 # --
-sub Log { 
+sub Log {
     my $Self = shift;
     my %Param = @_;
     # --
@@ -84,7 +84,7 @@ sub Log {
         print STDERR "\n";
         print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";
         print STDERR "\n";
-        return; 
+        return;
     }
 }
 # --
