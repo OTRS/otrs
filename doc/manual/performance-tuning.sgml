@@ -15,7 +15,7 @@ There are several options to improve the performance via OTRS.
 <sect2>
 <title>TicketIndexModule</title>
 <para>
-You have three backend modules for the ticket index.
+You have two backend modules for the ticket index.
 </para> 
 <para>
 Kernel/Config.pm
@@ -39,15 +39,8 @@ trouble till ~ 50.000 tickets in your system.
 
 <listitem>
 <para>
-Kernel::System::Ticket::IndexAccelerator::FS, write the shown tickets in a file. 
-Use bin/RebuildTicketIndex.pl for initial index building.
-</para>
-</listitem>
-
-<listitem>
-<para>
 Kernel::System::Ticket::IndexAccelerator::StaticDB, the most powerfull module, it 
-should be used over 80.000 tickets in a system - use a extra ticket_index table, 
+should be used over 50.000 tickets in a system - use a extra ticket_index table, 
 works like a view. Use bin/RebuildTicketIndex.pl for initial index building.
 </para>
 </listitem>
