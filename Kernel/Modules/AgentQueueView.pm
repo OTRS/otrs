@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.7 2002-04-24 22:58:12 martin Exp $
+# $Id: AgentQueueView.pm,v 1.8 2002-05-12 22:03:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -51,9 +51,6 @@ sub new {
     # default viewable tickets a page
     $Self->{ViewableTickets} = $Self->{ConfigObject}->Get('ViewableTickets');
 
-    # default reload time
-    $Self->{Refresh} = $Self->{ConfigObject}->Get('Refresh');
- 
     # viewable tickets a page
     $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit')
         || $Self->{ViewableTickets};
@@ -102,7 +99,7 @@ sub Run {
     # starting with page ...
     my $Output = $Self->{LayoutObject}->Header(
         Title => 'QueueView',
-        Refresh => $Self->{Refresh},
+        Refresh => 60 * ($Self->{UserRefreshTime} || $Self->{ConfigObject}->Get('Refresh')),
     );
 
     # get user lock data
