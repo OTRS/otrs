@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.56 2003-07-07 22:26:51 martin Exp $
+# $Id: Ticket.pm,v 1.57 2003-07-10 02:24:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -183,7 +183,8 @@ sub CreateTicketDB {
     # StateID lookup!
     # --
     if (!$Param{StateID}) {
-        $Param{StateID} = $Self->StateLookup(State => $Param{State});
+        my %State = $Self->{StateObject}->StateGet(Name => $Param{State});
+        $Param{StateID} = $State{ID}; 
     }
     if (!$Param{StateID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No StateID!!!");
@@ -316,27 +317,21 @@ sub GetTicket {
     my $Self = shift;
     my %Param = @_;
     my %Ticket = ();
-    # --
     # check needed stuff
-    # --
     if (!$Param{TicketID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+        return;
     }
-    # --
     # db query
-    # --
-    my $SQL = "SELECT st.id, st.queue_id, sq.name, tsd.id, tsd.name, slt.id, slt.name, ".
+    my $SQL = "SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, slt.id, slt.name, ".
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
         " st.customer_id, st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
         " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, st.ticket_answered, st.until_time, ".
         " st.customer_user_id, st.freetext1, st.freetext2, st.freekey1, st.freekey2 ".
         " FROM ".
-        " ticket st, ticket_state tsd, ticket_lock_type slt, ticket_priority sp, ".
+        " ticket st, ticket_lock_type slt, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
         " WHERE ".
-        " tsd.id = st.ticket_state_id ".
-        " AND ".
         " slt.id = st.ticket_lock_id ".
         " AND ".
         " sp.id = st.ticket_priority_id ".
@@ -352,47 +347,45 @@ sub GetTicket {
         $Ticket{QueueID} = $Row[1];
         $Ticket{Queue} = $Row[2];
         $Ticket{StateID} = $Row[3];
-        $Ticket{State} = $Row[4];
-        $Ticket{LockID} = $Row[5];
-        $Ticket{Lock} = $Row[6];
-        $Ticket{PriorityID} = $Row[7];
-        $Ticket{Priority} = $Row[8];
-        $Ticket{Age} = time() - $Row[9];
-        $Ticket{CreateTimeUnix} = $Row[9];
-        $Ticket{Created} = $Row[10];
-        $Ticket{GroupID} = $Row[11];
-        $Ticket{TicketNumber} = $Row[12];
-        $Ticket{CustomerID} = $Row[13];
-        $Ticket{CustomerUserID} = $Row[19];
-        $Ticket{UserID} = $Row[14];
-        $Ticket{OwnerID} = $Row[15];
-        $Ticket{Owner} = $Row[16];
-        $Ticket{Answered} = $Row[17];
-        $Ticket{RealTillTimeNotUsed} = $Row[18];
-        $Ticket{TicketFreeText1} = $Row[20] || '';
-        $Ticket{TicketFreeText2} = $Row[21] || '';
-        $Ticket{TicketFreeKey1} = $Row[22] || '';
-        $Ticket{TicketFreeKey2} = $Row[23] || '';
+        $Ticket{LockID} = $Row[4];
+        $Ticket{Lock} = $Row[5];
+        $Ticket{PriorityID} = $Row[6];
+        $Ticket{Priority} = $Row[7];
+        $Ticket{Age} = time() - $Row[8];
+        $Ticket{CreateTimeUnix} = $Row[8];
+        $Ticket{Created} = $Row[9];
+        $Ticket{GroupID} = $Row[10];
+        $Ticket{TicketNumber} = $Row[11];
+        $Ticket{CustomerID} = $Row[12];
+        $Ticket{CustomerUserID} = $Row[18];
+        $Ticket{UserID} = $Row[13];
+        $Ticket{OwnerID} = $Row[14];
+        $Ticket{Owner} = $Row[15];
+        $Ticket{Answered} = $Row[16];
+        $Ticket{RealTillTimeNotUsed} = $Row[17];
+        $Ticket{TicketFreeText1} = $Row[19] || '';
+        $Ticket{TicketFreeText2} = $Row[20] || '';
+        $Ticket{TicketFreeKey1} = $Row[21] || '';
+        $Ticket{TicketFreeKey2} = $Row[22] || '';
     }
-    # --
     # check ticket
-    # --
     if (!$Ticket{TicketID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "No such TicketID ($Param{TicketID})!");
-      return;
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "No such TicketID ($Param{TicketID})!",
+        );
+        return;
     }
-    # --
     # get state info
-    # --
-    my %StateData = $Self->{StateObject}->StateGet(Name => $Ticket{State});
+    my %StateData = $Self->{StateObject}->StateGet(ID => $Ticket{StateID}, Cache => 1);
     $Ticket{StateType} = $StateData{TypeName};
+    $Ticket{State} = $StateData{Name};
     if (!$Ticket{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i) {
         $Ticket{UntilTime} = 0;
     }
     else {
         $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - time();
     }
-
     return %Ticket;
 }
 # --
@@ -400,22 +393,16 @@ sub GetQueueIDOfTicketID {
     my $Self = shift;
     my %Param = @_;
     my $Id;
-    # --
     # check needed stuff
-    # --
     if (!$Param{TicketID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+        return;
     } 
-    # --
     # check cache
-    # --
     if ($Self->{"GetQueueIDOfTicketID::$Param{TicketID}"}) {
         return $Self->{"GetQueueIDOfTicketID::$Param{TicketID}"};
     }
-    # --
     # db query
-    # --
     my $SQL = "SELECT queue_id FROM ticket WHERE id = $Param{TicketID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -428,9 +415,7 @@ sub GetQueueIDOfTicketID {
         );
         return;
     }
-    # --
     # store
-    # --
     $Self->{"GetQueueIDOfTicketID::$Param{TicketID}"} = $Id;
     return $Id;
 }
