@@ -1,0 +1,34 @@
+<chapter id="install_quick">
+<title>Install - The quick way.</title>
+<para>
+This install way is intended for <ulink url="http://www.suse.de/"><citetitle>SuSE Linux</citetitle></ulink> users. For other distributions please have a look at <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>.
+</para>
+<para>
+Install the otrs.rpm with YaST (YaST2) or rpm what ever you prefer. Please be aware of the fact that OpenTRS needs some Perl-Modules which are not installed by default in a typical SuSE installation. In case you use YaST you will not have troubles because YaST will tell you what packages have to be installed.
+</para>
+<para>
+Once you installed the otrs.rpm in your system you have to reload the apache by rcapache reload to force him to reload the config file.
+<screen>
+skywalker:~ # rcapache reload
+ PERL PHP4 Python Reload httpd                              done
+</screen>
+Of course you have to have started the mysql database allready (please see the
+mysql docu for help). After that you have to start otrs with rcotrs start
+<screen>
+skywalker:~ # rcotrs start
+Starting OpenTRS
+ Starting mysql ... done.
+ Checking database connect... (It looks Ok!).
+ Checking otrs spool dir...  done.
+ Starting httpd ... done.
+</screen>
+Than fire up your favorate webbrowser and have a look at <ulink url="http://localhost/cgi-bin/index.pl"><citetitle>http://localhost/cgi-bin/index.pl</citetitle></ulink>
+<screenshot>
+<screeninfo>login screen</screeninfo>
+<graphic srccredit="login screen - screenshot" scale="40" fileref="screenshots/login.png"></graphic>
+</screenshot>
+</para>
+<para>
+In case you have problems to install OpenTRS please have a look into the <link linkend="troubleshooting">trouble-shooting section</link>.
+</para>
+</chapter>

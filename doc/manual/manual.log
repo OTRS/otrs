@@ -1,0 +1,225 @@
+This is pdfTeX, Version 3.14159-13d (Web2C 7.3.1) (format=pdfjadetex 2001.9.23)  30 JAN 2002 16:01
+**manual.tex
+(manual.tex[/var/lib/texmf/pdftex/config/pdftex.cfg]
+JadeTeX 2001/07/19: 3.11
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 1.
+(/usr/share/texmf/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2000/01/12 PSNFSS-v8.1 font definitions for T1/ptm.
+)
+Elements will be labelled
+Jade begin document sequence at 20
+(manual.aux)
+\openout1 = `manual.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 20.
+LaTeX Font Info:    Try loading font information for T2A+cmr on input line 20.
+ (/usr/share/texmf/tex/latex/cyrillic/t2acmr.fd
+File: t2acmr.fd 1999/01/07 v1.0 Computer Modern Cyrillic font definitions
+)
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 20.
+
+(/usr/share/texmf/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LECO/omseco/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LECX/omsecx/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LECY/omsecy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LEGR/omsegr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LEHA/omseha/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LEIP/omseip/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LELA/omsela/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for LETI/omseti/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+Package hyperref Info: Link coloring ON on input line 20.
+
+(/usr/share/texmf/tex/latex/hyperref/nameref.sty
+Package: nameref 2000/05/08 v2.18 Cross-referencing by name of section
+\c@section@level=\count116
+) (manual.out) (manual.out)
+\openout3 = `manual.out'.
+
+LaTeX Info: Redefining \ref on input line 20.
+LaTeX Info: Redefining \pageref on input line 20.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 109.
+
+(/usr/share/texmf/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2000/01/12 PSNFSS-v8.1 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <29.859> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 109.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <20.736> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 149.
+ [1.0.31[/var/lib/texmf/dvips/config/pdftex.map]]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 323.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 374.
+
+ (/usr/share/texmf/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2000/01/12 PSNFSS-v8.1 font definitions for TS1/ptm.
+) [2.0.31
+
+]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <24.883> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 559.
+LaTeX Font Info:    Font shape `T1/phv/bx/it' in size <20.736> not available
+(Font)              Font shape `T1/phv/b/it' tried instead on input line 580.
+LaTeX Font Info:    Font shape `T1/phv/b/it' in size <20.736> not available
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 580.
+ [3.0.31
+
+]
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 753.
+
+[4.0.31
+
+]
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 1904.
+
+ (/usr/share/texmf/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2000/01/12 PSNFSS-v8.1 font definitions for T1/pcr.
+)
+Overfull \hbox (0.67543pt too wide) in paragraph at lines 2098--2103
+ []\T1/ptm/m/n/10.8 3) RE-FER-RALS AND DIS-PATCH-ING. If the trou-ble ticket sy
+s-tem is thor-oughly enough 
+ []
+
+Warning (ext1): destination with the same identifier (name{page.1}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.2154       NOC's standard alert system.\endPar{}
+                                                  \endNode{}\Node% [1.0.31
+
+]
+Overfull \hbox (6.86446pt too wide) in paragraph at lines 2295--2303
+ []\T1/ptm/m/n/10.8 8) AC-COUNT-ABIL-ITY ("CYA"), FA-CIL-I-TAT-ING CUS-TOMER FO
+LLOW-THROUGH, 
+ []
+
+Warning (ext1): destination with the same identifier (name{page.2}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.2303 ...ode{}\endPar{}\endNode{}\endSeq{}\endSpS
+                                                  {}\endNode{}\Node% [2.0.31]
+Overfull \hbox (11.44473pt too wide) in paragraph at lines 2567--2567
+ [] \T1/pcr/m/n/10.8 PERL PHP4 Python Reload httpd                             
+ done 
+ []
+
+
+Overfull \hbox (20.51361pt too wide) in paragraph at lines 2600--2634
+ \T1/ptm/m/n/12 Than fire up your fa-vo-rate web-browser and have a look at [] 
+ []  \T1/ptm/m/it/12 http://localhost/cgi-bin/index.pl 
+ []
+
+<screenshots/login.png 817.05249pt, 632.36249pt, obj 148>
+File: screenshots/login.png Graphic file (type png)
+
+<use screenshots/login.png>
+Warning (ext1): destination with the same identifier (name{page.1}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.2660 {1}}
+           % [1.0.31
+
+ <./screenshots/login.png>]
+Warning (ext1): destination with the same identifier (name{page.2}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.2667 ...de{}.\endPar{}\endNode{}\endSeq{}\endSpS
+                                                  {}\endNode{}\Node% [2.0.31]
+Overfull \hbox (7.8896pt too wide) in paragraph at lines 2855--2889
+ []\T1/ptm/m/n/12 First you have to start your fa-vo-rate web-browser and have 
+a look at []  []  \T1/ptm/m/it/12 http://localhost/cgi-
+ []
+
+File: screenshots/login.png Graphic file (type png)
+<use screenshots/login.png>
+<screenshots/admin-interface.png 817.05249pt, 632.36249pt, obj 173>
+File: screenshots/admin-interface.png Graphic file (type png)
+
+<use screenshots/admin-interface.png>
+Warning (ext1): destination with the same identifier (name{page.3}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.2951 {}}\endPar{}\endNode{}\endNode{}\endPar{}
+                                                \endNode{}\Node% [3.0.31
+
+]
+<screenshots/add-new-user.png 817.05249pt, 632.36249pt, obj 181>
+File: screenshots/add-new-user.png Graphic file (type png)
+
+<use screenshots/add-new-user.png>
+Warning (ext1): destination with the same identifier (name{page.4}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.3034 {1}}
+           % [4.0.31 <./screenshots/admin-interface.png> <./screenshots/add-new
+-user.png>] <screenshots/first-screen.png 817.05249pt, 632.36249pt, obj 196>
+File: screenshots/first-screen.png Graphic file (type png)
+
+<use screenshots/first-screen.png>
+<screenshots/raw-queue.png 817.05249pt, 632.36249pt, obj 199>
+File: screenshots/raw-queue.png Graphic file (type png)
+
+<use screenshots/raw-queue.png> [5.0.31 <./screenshots/first-screen.png> <./scr
+eenshots/raw-queue.png>] [6.0.31]
+Overfull \hbox (13.34879pt too wide) in paragraph at lines 3325--3340
+ []\T1/ptm/m/n/12 The very first step should be a visit to []  []  \T1/ptm/m/it
+/12 http://www.suse.de/de/support/download/updates/
+ []
+
+[7.0.31
+
+] [8.0.31
+
+] [9.0.31] [10.0.31
+
+] [11.0.31
+
+] [12.0.31
+
+] [13.0.31] [14.0.31]
+[15.0.31] [16.0.31] [17.0.31] [18.0.31] [19.0.31] (manual.aux) ) 
+Here is how much of TeX's memory you used:
+ 945 strings out of 15997
+ 8233 string characters out of 99018
+ 141875 words of memory out of 384000
+ 13256 multiletter control sequences out of 10000+15000
+ 34218 words of font info for 41 fonts, out of 400000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 22i,12n,39p,471b,1092s stack positions out of 300i,100n,500p,50000b,4000s
+<8r.enc>
+Output written on manual.pdf (25 pages, 182124 bytes).

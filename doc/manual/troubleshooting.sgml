@@ -1,0 +1,34 @@
+<chapter id="troubleshooting">
+<title>Troubleshooting</title>
+<para>
+We split this section into different parts per distribution. Of course you can set up your own system with your own linux system. But please understand that we can not provide any support for that. OpenTRS is much to complecated and has to many links to other components of the system that we are lucky to have access to mechanisms like RPM. We will try to support as many platforms as possilbe but time is a valuable resource. ;-)
+</para>
+<sect1>
+<title>General problems with OpenTRS on SuSE Linux</title>
+<para>
+The very first step should be a visit to <ulink url="http://www.suse.de/de/support/download/updates/"><citetitle>http://www.suse.de/de/support/download/updates/</citetitle></ulink> which is the page where you can find the latest patches and updates for your SuSE Linux. Please check especialy for fixes about Apache, MySQL, Perl and of course OpenTRS. YaST2 users should be able to use the Yast Online Update mechanism. Otherwise download the rpm files and install them with rpm -Uvh foo.rpm
+</para>
+<para>
+The second step should be a visit to the <ulink url="http://www.otrs.org/"><citetitle>OpenTRS Homepage</citetitle></ulink>. We will provide the very latest fixes and howtos there.
+</para>
+<para>
+The third step is writting an e-mail to the developer team of OpenTRS. We will be more than happy to provide you with any support you need.
+</para>
+</sect1>
+
+<sect1>
+<title>General problems with OpenTRS on other distributions (e.g. Redhat)</title>
+<para>
+Frankly we have not tried to install it on a Redhat yet. It should be a problem but there is no ready to use RPM. We are working on it. Same for other distributions.
+</para>
+</sect1>
+
+<sect1>
+<title>Problems with Apache</title>
+<para>
+Most people who have problems with the Apache did build their own very special Apache. Of course you are welcome to do so but in case you run into trouble we suggest to your the vanilla version which is provided by your favorate distribution.
+</para>
+
+</sect1>
+
+</chapter>

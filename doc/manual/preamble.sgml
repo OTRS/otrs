@@ -1,0 +1,148 @@
+<dedication>
+<para>
+This manual is dedicated to the nice folks of <ulink url="http://www.cafe-lucas.de/"><citetitle>Cafe Lucas</citetitle></ulink> and <ulink url="http://www.enchilada.de/"><citetitle>Echilada</citetitle></ulink> (two restaurants in Nuernberg). Thanks for the happy hour! Today we hang out mostly in Frankfurt but we still remember the good times in Nuernberg.
+</para>
+</dedication>
+
+<preface>
+<title>Foreword</title>
+<para>
+Please be aware of the fact that this document is in an alpha phase!!!
+</para>
+<para>
+Anyhow we are keen on your feedback. Please do not hesitate to send us an e-mail to <email>feedback@otrs.org</email>
+</para>
+<para>
+Many people do not have an idea what a trouble ticket system is and why you may need one. We will try to give you an idea about it in this document and want to refere to <ulink url="http://www.faqs.org/rfcs/rfc1297.html"><citetitle>RFC 1297</citetitle></ulink>:
+<blockquote>
+<attribution>RFC 1297</attribution>
+<para>
+PURPOSES OF A NOC TROUBLE TICKET SYSTEM
+</para>
+<para>
+   A good Network Operations Trouble Ticket System should serve many
+   purposes:
+</para>
+<para>
+     1) SHORT-TERM MEMORY AND COMMUNICATION ("Hospital Chart").  The
+      primary purpose of the trouble ticket system is to act as short-
+      term memory about specific problems for the NOC as a whole.  In a
+      multi-operator or multi-shift NOC, calls and problem updates come
+      in without regard to who worked last on a particular problem.
+      Problems extend over shifts, and problems may be addressed by
+      several different operators on the same shift.  The trouble ticket
+      (like a hospital chart) provides a complete history of the
+      problem, so that any operator can come up to speed on a problem
+      and take the next appropriate step without having to consult with
+      other operators who are working on something else, or have gone
+      home, or are on vacation.  In single-room NOCs, an operator may
+      ask out loud if someone else knows about or is working on a
+      problem, but the system should allow for more formal communication
+      as well.
+ </para>
+<para> 
+      2) SCHEDULING and WORK ASSIGNMENT.  NOCs typically work with many
+      simultaneous problems with different priorities.  An on-line
+      trouble ticket system can provide real time (or even constantly
+      displayed and updated) lists of open problems, sorted by priority.
+      This would allow operators to sort their work at the beginning of
+      a shift, and to pick their next task during the shift.  It also
+      would allow supervisors and operators to keep track of the current
+      NOC workload, and to call in and assign additional staff as
+      appropriate.
+</para>
+<para>
+      It may be useful to allow current priorities of tickets change
+      according to time of day, or in response to timer alerts.
+</para>
+<para>
+      3) REFERRALS AND DISPATCHING.  If the trouble ticket system is
+      thoroughly enough integrated with a mail system, or if the system
+      is used by Network Engineers as well as Network Operators, then
+      some problems can be dispatched simply by placing the appropriate
+      Engineer or Operator name in an "assigned to" field of the trouble
+      ticket.
+</para>
+<para>
+      4) ALARM CLOCK.  Typically, most of the time a trouble ticket is
+      open, it is waiting for something to happen.  There should almost
+      always be a timer associated with every wait.  If a ticket is
+      referred to a phone company, there will be an escalation time
+      before which the phone company is supposed to call back with an
+      update on the problem.  For tickets referred to remote site
+      personnel, there may be other more arbitrary timeouts such as
+</para>
+<para>
+      "Monday morning".  Tickets referred to local engineers or
+      programmers should also have timeouts ("Check in a couple of days
+      if you don't hear back from me").  A good trouble ticket system
+      will allow a timeout to be set for each ticket.  This alarm will
+      generate an alert for that ticket at the appropriate time.
+      Preferably, the system should allow text to be attached to that
+      timer with a shorthand message about what the alert involves
+      ("Remind Site: TT xxx") (The full story can always be found by
+      checking the trouble ticket).  These alerts should feed into the
+      NOC's standard alert system.
+</para>
+<para>
+      The Alarm Clock can also assist (or enforce!) administrative
+      escalation.  An escalation timer could automatically be set based
+      on the type of network, severity of the problem, and the time the
+      outage occurred.
+</para>
+<para>
+      5) OVERSIGHT BY ENGINEERS AND CUSTOMER/SITE REPRESENTATIVES.  NOCs
+      frequently operate more than one network, or at least have people
+      (engineers, customer representatives, etc) who are responsible for
+      subsets of the total network.  For these individual
+      representatives, summaries of trouble tickets can be filtered by
+      network or by node, and delivered electronically to the various
+      engineers or site representatives.  Each of these reports includes
+      a summary of the previous day's trouble tickets for those sites, a
+      listing of older trouble tickets still open, and a section listing
+      recurrent problems.  These reports allow the site reps to keep
+      aware the current outages and trends for their particular sites.
+      The trouble ticket system also allows network access to the the
+      details of individual trouble tickets, so those receiving the
+      general reports can get more detail on any of their problems by
+      referencing the trouble ticket number.
+</para>
+<para>
+      6) STATISTICAL ANALYSIS.  The fixed-form fields of trouble tickets
+      allow categorizations of tickets, which are useful for analyzing
+      equipment and NOC performance.  These include, Mean Time Between
+      Failure and Mean Time to Repair reports for specific equipment.
+      The fields may also be of use for generating statistical quality
+      control reports, which allow deteriorating equipment to be
+      detected and serviced before it fails completely.  Ticket
+      breakdowns by network a NOC costs to be apportioned appropriately,
+      and help in developing staffing and funding models.  A good
+      trouble ticket system should make this statistical information in
+      a format suitable for spreadsheets and graphics programs.
+</para>
+<para>
+      7) FILTERING CURRENT ALERTS.  It would be possible to use network
+      status information from the trouble ticket system to filter the
+      alerts that are displayed on the alert system.  For instance, if
+      node XXX is known to be down because the trouble ticket is
+</para>
+<para>
+      currently open on it, the alert display for that node could
+      automatically be acknowledged.  Trouble tickets could potentially
+      contain much further information useful for expert system analysis
+      of current network alert information.
+</para>
+<para>
+      8) ACCOUNTABILITY ("CYA"), FACILITATING CUSTOMER FOLLOW-THROUGH,
+      AND NOC IMAGE).  Keeping user-complaint tickets facilities the
+      kind of follow through with end-users that generates happy clients
+      (and good NOC image) for normal trouble-fixing situations.  But
+      also, by their nature, NOCs deal with crises; they occasionally
+      find themselves with major outages, and angry users or
+      administrators.  The trouble ticket system documents the NOC's
+      (and the rest of the organization's) efforts to solve problems in
+      case of complaints.
+</para>
+</blockquote>
+</para>
+</preface>

@@ -1,0 +1,146 @@
+<chapter id="faq">
+<title>FAQ</title>
+<qandaset>
+
+<qandaentry id="faq_agent">
+<question>
+<para>
+This document refers to agents. What is an agent in the context of OpenTRS?
+</para>
+</question>
+<answer>
+<para>
+An Agent is a human being who works with the system. User would be an alternative term.
+</para>
+<para>
+Geeks: Of course a script could act like an agent. Feel free to do so!
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+Can I use OpenTRS only with SuSE Linux?
+</para>
+</question>
+<answer>
+<para>
+No, but we developed it on a SuSE Linux and frankly we did not do much testing on a Redhat, Debian, ... 
+</para>
+<para>
+But we will provide additional installation informations on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. And we are more that happy to recieve some feedback from you about how you installed OpenTRS on other platforms.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>How stable is OpenTRS?</para>
+</question>
+<answer>
+<para>
+Please be aware of the fact that you are dealing with a beta-version. New versions are anounced on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. But never the less it is quite a stable system and you shouldn't run in any trouble. But we can not guarentee it!
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>What hardware do I need?</para>
+</question>
+<answer>
+<para>
+We suggest an IBM OS/390. *SCNR* ;-)
+</para>
+<para>
+Some of our test enviroments are Pentium II 300 with 64 MB RAM and they do a pretty good job. Of course the more RAM and the faster the CPU the better. 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>How does OpenTRS scale?</para>
+</question>
+<answer>
+<para>
+This is depending on the hardware and the enviroment you are using. At the moment OpenTRS is a one box system. With little work you can set up a webserver-cluster and you can split the database to a seperate box. We are planing to support some sort of clustering mechanism. But this is not the highest priority for the development.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Can I use my nice Oracle or DB2?</para>
+</question>
+<answer>
+<para>
+At the moment we only support MySQL as a database. Frankly we do trust in a MySQL as much as in a DB2 (for this application). Anybody how is willing to send some time to port it to other databases is more than welcome to the OpenTRS team!
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Can I install OpenTRS on a Windows box?</para>
+</question>
+<answer>
+<para>
+Theoraticly yes, but we are not the big windows gurus and haven't ever tried to set up a Windows box with an Apache, Perl and MySQL.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+I did everything the right way, but it does not work. Why?
+</para>
+</question>
+<answer>
+<para>
+Do not panic!
+</para>
+<para>
+We tried our very best to make a simple and smooth installation procedure. But of course as with any old style open source project we know how to install our software and sometimes we forget to update our documentation. Please do not hesitate do send us an e-mail!!!
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>How can I become a part of the OpenTRS developer comunity?</para>
+</question>
+<answer>
+<para>
+Welcome! Anybody who is willing to help us and has the time is more than welcome. Please send us an e-mail.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>I do like the OpenTRS but would feel more comfortable by using a commercial product.</para>
+</question>
+<answer>
+<para>
+We can not help you. Sorry.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Do you support the RFC 1297?</para>
+</question>
+<answer>
+<para>
+Yes, OpenTRS supports this RFC.
+</para>
+</answer>
+</qandaentry>
+
+
+</qandaset>
+</chapter>

@@ -1,0 +1,80 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+<!ENTITY preamble SYSTEM "preamble.sgml">
+<!ENTITY install SYSTEM "install.sgml">
+<!ENTITY first-steps SYSTEM "first-steps.sgml">
+<!ENTITY troubleshooting SYSTEM "troubleshooting.sgml">
+<!ENTITY faq SYSTEM "faq.sgml">
+<!ENTITY bibliography SYSTEM "bibliography.sgml">
+<!ENTITY fdl SYSTEM "fdl.sgml">
+<!ENTITY coreteam SYSTEM "coreteam.sgml">
+]>
+
+<book>
+<bookinfo>
+        <title>OpenTRS - Manual</title>
+<authorgroup>
+        <author>
+                <firstname>Martin</firstname>
+                <surname>Edenhofer</surname>
+                <affiliation>
+                        <orgname>OpenTRS core team</orgname>
+                        <address>
+                        <email>martin@otrs.org</email>
+                        </address>
+                </affiliation>
+        </author>
+
+        <author>
+                <firstname>Stefan</firstname>
+                <surname>Wintermeyer</surname>
+                <affiliation>
+                        <orgname>OpenTRS core team</orgname>
+                        <address>
+                        <email>stefan@otrs.org</email>
+                        </address>
+                </affiliation>
+        </author>
+</authorgroup>
+
+<edition>Hurrican</edition>
+<pubdate>2002</pubdate>
+<copyright>
+<year>2002</year>
+<holder>Martin Edenhofer and Stefan Wintermeyer</holder>
+</copyright>
+
+<date>2002-01-30</date>
+
+<revhistory>
+<revision>
+<revnumber>0.42</revnumber>
+<date>30.01.02</date>
+<revremark>first draft</revremark>
+</revision>
+</revhistory>
+
+<keywordset>
+<keyword>otrs</keyword>
+<keyword>OpenTRS</keyword>
+<keyword>ticket</keyword>
+</keywordset>
+
+</bookinfo>
+
+&preamble;
+
+&install;
+
+&first-steps;
+
+&troubleshooting;
+
+&faq;
+
+&bibliography;
+
+&coreteam;
+
+&fdl;
+
+</book>

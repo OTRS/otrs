@@ -1,0 +1,90 @@
+<bibliography><title>Bibliography</title>
+
+<biblioentry>
+<authorgroup>
+<author><firstname>Kurt</firstname><surname>Fleischmann</surname></author>
+<author><firstname>Roland</firstname><surname>Haidl</surname></author>
+<author><firstname>Carsten</firstname><surname>H&ouml;ger</surname></author>
+<author><firstname>Daniel</firstname><surname>Meier</surname></author>
+<author><firstname>R&uuml;diger</firstname><surname>M&uuml;ller</surname></author>
+<author><firstname>Karine</firstname><surname>Nguyen</surname></author>
+<author><firstname>Rainer</firstname><surname>Obesser</surname></author>
+<author><firstname>Edith</firstname><surname>Parzefall</surname></author>
+</authorgroup>
+<copyright>
+<year>2000</year>
+<holder>SuSE GmbH</holder>
+</copyright>
+<publisher><publishername>SuSE Press</publishername></publisher>
+<title>SuSE eMail Server II (Installation - Konfiguration - Administration</title>
+</biblioentry>
+
+<biblioentry>
+<authorgroup>
+<author><firstname>Bryan</firstname><surname>Costales</surname></author>
+<author><firstname>Eric</firstname><surname>Allman</surname></author>
+</authorgroup>
+<copyright>
+<year>1997</year>
+<holder>O'Reilly</holder>
+</copyright>
+<publisher><publishername>O'Reilly</publishername></publisher>
+<title>sendmail</title>
+<isbn>1565922220</isbn>
+</biblioentry>
+
+<biblioentry>
+<authorgroup>
+<author><firstname>Ben</firstname><surname>Laurie</surname></author>
+<author><firstname>Peter</firstname><surname>Laurie</surname></author>
+</authorgroup>
+<copyright>
+<year>1999</year>
+<holder>O'Reilly</holder>
+</copyright>
+<publisher><publishername>O'Reilly</publishername></publisher>
+<title>Apache. Das umfassende Referenzwerk.</title>
+<isbn>3897211270</isbn>
+</biblioentry>
+
+<biblioentry>
+<authorgroup>
+<author><firstname>Richard</firstname><surname>Blum</surname></author>
+</authorgroup>
+<copyright>
+<year>2001</year>
+<holder>SAMS</holder>
+</copyright>
+<publisher><publishername>SAMS</publishername></publisher>
+<title>Postfix</title>
+<isbn>0672321149</isbn>
+</biblioentry>
+
+<biblioentry>
+<authorgroup>
+<author><firstname>Eric</firstname><surname>Rescorla</surname></author>
+</authorgroup>
+<copyright>
+<year>2000</year>
+<holder>Addison Wesley</holder>
+</copyright>
+<publisher><publishername>Addison Wesley</publishername></publisher>
+<title>SSL and TLS</title>
+<isbn>0201615983</isbn>
+</biblioentry>
+
+<biblioentry>
+<biblioset relation=journal>
+<title>iX</title>
+<publisher><publishername>Heise Verlage</publishername></publisher>
+</biblioset>
+<biblioset relation=article>
+<title>Winnetou und Old SSLeay</title>
+<author><firstname>Holger</firstname><surname>Reif</surname></author>
+<copyright><year>1998</year><holder>Heise Verlag</holder></copyright>
+<pagenums>page 128</pagenums>
+</biblioset>
+</biblioentry>
+
+</bibliography>
+
