@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.154 2004-09-24 10:05:17 martin Exp $
+# $Id: Generic.pm,v 1.155 2004-09-27 12:31:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.154 $';
+$VERSION = '$Revision: 1.155 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -409,7 +409,6 @@ sub Output {
                 Priority => 'error',
                 Message => "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!",
             );
-            $Self->FatalError();
         }
     }
     else {
