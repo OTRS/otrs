@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.74 2003-01-05 16:03:37 martin Exp $
+# $Id: Agent.pm,v 1.75 2003-01-07 00:36:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.74 $';
+$VERSION = '$Revision: 1.75 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1168,7 +1168,8 @@ sub AgentPreferencesForm {
                   Selected => $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
               );
           }
-          if ($Type eq 'Password' && $Self->{ConfigObject}->Get('AuthModule') =~ /ldap/i) {
+          if ($Type eq 'Password' && ($Self->{ConfigObject}->Get('AuthModule') =~ /ldap/i ||
+               $Self->{ConfigObject}->Get('DemoSystem'))) {
               # do nothing if the auth module is ldap
           }
           else {
