@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.17 2003-04-17 22:22:03 martin Exp $
+# $Id: Log.pm,v 1.18 2003-07-31 21:20:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $ ';
+$VERSION = '$Revision: 1.18 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,7 +55,7 @@ sub new {
     if (eval "require IPC::SysV") {
         $Self->{IPC} = 1;
         $Self->{IPCKey} = "444423".$Param{ConfigObject}->Get('SystemID');
-        $Self->{IPCSize} = 4*1024;
+        $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 4*1024;
         # init session data mem (at first a dummy for RH8 workaround)
         shmget(($Self->{IPCKey}+1), 1, 0777 | 0001000);
         # init session data mem (the real one) 
