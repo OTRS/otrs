@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.66 2004-07-08 18:52:17 robert Exp $
+# $Id: AgentCompose.pm,v 1.67 2004-07-16 22:56:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,21 +16,22 @@ use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 use Kernel::System::State;
 use Kernel::System::CustomerUser;
+use Kernel::System::WebUploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-   
-    # allocate new hash for object 
-    my $Self = {}; 
+
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
@@ -46,11 +47,15 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{UploadCachObject} = Kernel::System::WebUploadCache->new(%Param);
     # anyway, we need to check the email syntax (removed it, because the admins should configure it)
 #    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # get params
-    foreach (qw(From To Cc Bcc Subject Body InReplyTo ResponseID ComposeStateID 
-      Answered ArticleID TimeUnits Year Month Day Hour Minute)) {
+    foreach (qw(From To Cc Bcc Subject Body InReplyTo ResponseID ComposeStateID
+      Answered ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
+      AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+      AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+      AttachmentDelete9 AttachmentDelete10 FormID)) {
         my $Value = $Self->{ParamObject}->GetParam(Param => $_);
         $Self->{$_} = defined $Value ? $Value : '';
     }
@@ -64,6 +69,10 @@ $Data{"StdResponse"}
 
 $Data{"Signature"}
 ';
+    # create form id
+    if (!$Self->{FormID}) {
+        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+    }
     return $Self;
 }
 # --
@@ -71,7 +80,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    
+
     if ($Self->{Subaction} eq 'SendEmail') {
         $Output = $Self->SendEmail();
     }
@@ -86,11 +95,11 @@ sub Form {
     my %Param = @_;
     my $Output;
     my %Error = ();
-    # -- 
+    # --
     # start with page ...
     # --
     $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose');
-    # -- 
+    # --
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
@@ -156,9 +165,7 @@ sub Form {
             return $Output;
         }
     }
-    # -- 
     # get last customer article or selecte article ...
-    # --
     my %Data = ();
     if ($Self->{ArticleID}) {
         %Data = $Self->{TicketObject}->ArticleGet(
@@ -196,7 +203,7 @@ sub Form {
         }
         elsif ($Data{'ContentType'} !~ /text\/plain/i) {
             $Data{Body} = "-> no quotable message <-";
-        } 
+        }
     }
     # --
     # prepare body, subject, ReplyTo ...
@@ -219,15 +226,15 @@ sub Form {
     }
     else {
         $Data{To} = $Data{From};
-        # try to remove some wrong text to from line (by way of ...) 
-        # added by some strange mail programs on bounce 
+        # try to remove some wrong text to from line (by way of ...)
+        # added by some strange mail programs on bounce
         $Data{To} =~ s/(.+?\<.+?\@.+?\>)\s+\(by\s+way\s+of\s+.+?\)/$1/ig;
     }
     # get to email (just "some@example.com")
     foreach my $Email (Mail::Address->parse($Data{To})) {
         $Data{ToEmail} = $Email->address();
     }
-    # use database email   
+    # use database email
     if ($Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i) {
         $Output .= $Self->{LayoutObject}->Notify(
             Info => 'To: (%s) replaced with database email!", "$Quote{"'.$Data{To}.'"}',
@@ -247,7 +254,7 @@ sub Form {
     $Data{Salutation} = $Self->{QueueObject}->GetSalutation(%Ticket);
     # prepare customer realname
     if ($Data{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
-        # get realname 
+        # get realname
         my $From = '';
         if ($Ticket{CustomerUserID}) {
             $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Ticket{CustomerUserID});
@@ -267,7 +274,7 @@ sub Form {
         $Data{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
         $Data{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
     }
-    # replace customer data 
+    # replace customer data
     foreach (keys %Customer) {
         if ($Customer{$_}) {
             $Data{Signature} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$_}/gi;
@@ -315,30 +322,48 @@ sub Form {
         %Data,
     );
     $Output .= $Self->{LayoutObject}->Footer();
-    
+
     return $Output;
 }
 # --
 sub SendEmail {
     my $Self = shift;
     my %Param = @_;
+    my %Error = ();
     my $Output = '';
     my $QueueID = $Self->{QueueID};
     my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
         ID => $Self->{ComposeStateID},
     );
     my $NextState = $StateData{Name};
-    # --
-    # get attachment
-    # -- 
-    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-        Param => 'file_upload',
-        Source => 'string',
+
+    # attachment delete
+    foreach (1..10) {
+        if ($Self->{"AttachmentDelete$_"}) {
+            $Error{AttachmentDelete} = 1;
+            $Self->{UploadCachObject}->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $_,
+            );
+        }
+    }
+    # attachment upload
+    if ($Self->{AttachmentUpload}) {
+        $Error{AttachmentUpload} = 1;
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param => "file_upload",
+            Source => 'string',
+        );
+        $Self->{UploadCachObject}->FormIDAddFile(
+            FormID => $Self->{FormID},
+            %UploadStuff,
+        );
+    }
+    # get all attachments meta data
+    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        FormID => $Self->{FormID},
     );
-    # --
     # check some values
-    # --
-    my %Error = ();
     foreach (qw(From To Cc Bcc)) {
         if ($Self->{$_}) {
             foreach my $Email (Mail::Address->parse($Self->{$_})) {
@@ -368,7 +393,7 @@ sub SendEmail {
         my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
         my $Output = $Self->{LayoutObject}->Header(Title => 'Compose');
         my %Data = ();
-        foreach (qw(From To Cc Bcc Subject Body InReplyTo Answered ArticleID 
+        foreach (qw(From To Cc Bcc Subject Body InReplyTo Answered ArticleID
           TimeUnits Year Month Day Hour Minute)) {
             $Data{$_} = $Self->{$_};
         }
@@ -383,17 +408,29 @@ sub SendEmail {
             AnsweredID => $Self->{Answered},
             %Data,
             Errors => \%Error,
+            Attachments => \@Attachments,
         );
         $Output .= $Self->{LayoutObject}->Footer();
-        return $Output; 
+        return $Output;
     }
     # replace <OTRS_TICKET_STATE> with next ticket state name
     if ($NextState) {
         $Self->{Body} =~ s/<OTRS_TICKET_STATE>/$NextState/g;
     }
+    # get pre loaded attachments
+    my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+        FormID => $Self->{FormID},
+    );
+    # get submit attachment
+    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+        Param => 'file_upload',
+        Source => 'String',
+    );
+    if (%UploadStuff) {
+        push (@AttachmentData, \%UploadStuff);
+    }
     # send email
     if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
-        Attach => [\%UploadStuff],
         ArticleType => 'email-external',
         SenderType => 'agent',
         TicketID => $Self->{TicketID},
@@ -408,6 +445,7 @@ sub SendEmail {
         Body => $Self->{Body},
         InReplyTo => $Self->{InReplyTo},
         Charset => $Self->{LayoutObject}->{UserCharset},
+        Attach => \@AttachmentData,
         StdAttachmentIDs => \@StdAttachmentIDs,
     )) {
         # time accounting
@@ -487,6 +525,7 @@ sub _GetNextStates {
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
+    $Param{FormID} = $Self->{FormID};
     # build next states string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
@@ -542,6 +581,13 @@ sub _Mask {
         Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
     );
+    # show attachments
+    foreach my $DataRef (@{$Param{Attachments}}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Attachment',
+            Data => $DataRef,
+        );
+    }
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentCompose', Data => \%Param);
 }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.30 2004-07-16 12:30:07 martin Exp $
+# $Id: AgentEmail.pm,v 1.31 2004-07-16 22:56:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,12 @@ use strict;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
+use Kernel::System::WebUploadCache;
 use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,6 +48,13 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{UploadCachObject} = Kernel::System::WebUploadCache->new(%Param);
+    # get form id
+    $Self->{FormID} = $Self->{ParamObject}->GetParam(Param => 'FormID');
+    # create form id
+    if (!$Self->{FormID}) {
+        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+    }
 
     return $Self;
 }
@@ -135,6 +143,7 @@ sub Run {
     }
     # create new ticket and article
     elsif ($Self->{Subaction} eq 'StoreNew') {
+        my %Error = ();
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
@@ -198,11 +207,41 @@ sub Run {
             Config => \%TicketFreeText,
             Ticket => \%TicketFree,
         );
+        # get params
         my %GetParam = ();
-        foreach (qw(Year Month Day Hour Minute)) {
+        foreach (qw(AttachmentUpload
+            Year Month Day Hour Minute
+            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+            AttachmentDelete9 AttachmentDelete10 )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
-        my %Error = ();
+        # attachment delete
+        foreach (1..10) {
+            if ($GetParam{"AttachmentDelete$_"}) {
+                $Error{AttachmentDelete} = 1;
+                $Self->{UploadCachObject}->FormIDRemoveFile(
+                     FormID => $Self->{FormID},
+                    FileID => $_,
+                );
+            }
+        }
+        # attachment upload
+        if ($GetParam{AttachmentUpload}) {
+            $Error{AttachmentUpload} = 1;
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param => "file_upload",
+                Source => 'string',
+            );
+            $Self->{UploadCachObject}->FormIDAddFile(
+                FormID => $Self->{FormID},
+                %UploadStuff,
+            );
+        }
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
         # Expand Customer Name
         my %CustomerUserData = ();
         if ($ExpandCustomerName == 1) {
@@ -270,9 +309,7 @@ sub Run {
             $Error{NoSubmit} = 1;
             $CustomerUser = $SelectedCustomerUser;
         }
-        # --
         # show customer info
-        # --
         my %CustomerData = ();
         if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
             if ($CustomerUser) {
@@ -286,9 +323,7 @@ sub Run {
                 );
             }
         }
-        # --
         # check some values
-        # --
         foreach my $Email (Mail::Address->parse($To)) {
             if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
                 $Error{"To invalid"} .= $Self->{CheckItemObject}->CheckError();
@@ -334,6 +369,7 @@ sub Run {
               Subject => $Self->{LayoutObject}->Ascii2Html(Text => $Subject),
               Body => $Self->{LayoutObject}->Ascii2Html(Text => $Text),
               Errors => \%Error,
+              Attachments => \@Attachments,
               %GetParam,
               %TicketFreeTextHTML,
             );
@@ -394,11 +430,19 @@ sub Run {
         }
         # get sender queue from
         my %Queue = $Self->{QueueObject}->GetSystemAddress(QueueID => $NewQueueID);
-        # get attachment
-        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param => 'file_upload',
-            Source => 'string',
-        );
+          # get pre loaded attachment
+          my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+              FormID => $Self->{FormID},
+          );
+          # get submit attachment
+          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+              Param => 'file_upload',
+              Source => 'String',
+          );
+          if (%UploadStuff) {
+              push (@Attachments, \%UploadStuff);
+          }
+
         # prepare subject
         my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
         my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $TicketID);
@@ -412,7 +456,7 @@ sub Run {
         $Text .= "\n".$Signature;
         # send email
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
-            Attach => [\%UploadStuff],
+            Attach => \@Attachments,
             ArticleType => 'email-external',
             SenderType => 'agent',
             TicketID => $TicketID,
@@ -430,6 +474,8 @@ sub Run {
             HistoryComment => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryComment') || "\%\%$To, $Cc, $Bcc",
         );
         if ($ArticleID) {
+          # remove pre submited attachments
+          $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
           # set lock (get lock type)
           $Self->{TicketObject}->LockSet(
               TicketID => $TicketID,
@@ -439,7 +485,7 @@ sub Run {
           # set owner (if new user id is given)
           if ($NewUserID) {
               $Self->{TicketObject}->OwnerSet(
-                  TicketID => $TicketID, 
+                  TicketID => $TicketID,
                   NewUserID => $NewUserID,
                   UserID => $Self->{UserID},
               );
@@ -629,6 +675,7 @@ sub _GetTos {
 sub _MaskEmailNew {
     my $Self = shift;
     my %Param = @_;
+    $Param{FormID} = $Self->{FormID};
     # build string
     $Param{Users}->{''} = '-';
     $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -707,7 +754,13 @@ sub _MaskEmailNew {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
     }
-
+    # show attachments
+    foreach my $DataRef (@{$Param{Attachments}}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Attachment',
+            Data => $DataRef,
+        );
+    }
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentEmailNew', Data => \%Param);
 }

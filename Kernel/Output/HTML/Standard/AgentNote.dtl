@@ -1,8 +1,8 @@
 # --
 # AgentNote.dtl - provides HTML form for note mask
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.26 2004-01-23 02:22:28 martin Exp $
+# $Id: AgentNote.dtl,v 1.27 2004-07-16 22:59:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ function submit_compose()
         alert('$Text{"A message should have a body!"}');
         document.compose.Body.focus();
         return false;
-    } 
+    }
     else if (document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
         alert('$Text{"You need to account time!"}');
         document.compose.TimeUnits.focus();
@@ -38,7 +38,7 @@ function submit_compose()
 <script language="JavaScript" type="text/javascript">
 <!--
 function SpellCheckSubmit()
-{   
+{
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
@@ -47,8 +47,8 @@ function SpellCheckSubmit()
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
-  <td align="left" class="table0"> 
+<tr>
+  <td align="left" class="table0">
     <b>$Env{"Box0"}$Text{"Add note to ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
   <td align="right" class="table0">
@@ -70,27 +70,36 @@ function SpellCheckSubmit()
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+<input type="hidden" name="FormID" value="$Data{"FormID"}">
   <table border="0" width="100%">
   <tr>
     <td width="15%">$Text{"Subject"}:</td>
-    <td width="85%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultNoteSubject"}"}" size="70"></td>
+    <td width="85%"><input type="text" name="Subject" value="$QData{"Subject"}" size="70"></td>
   </tr>
   <tr>
     <td>$Text{"Options"}:</td>
     <td>
-       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"} 
+       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
        $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td>$Text{"Text"}:</td>
+    <td valign="top">$Text{"Text"}:</td>
     <td>
-<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"DefaultNoteText"}"}</textarea>
+<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
     </td>
   </tr>
   <tr>
-    <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<!--<input type="button" class="button" onclick="attach()" value="$Text{"Attach"}">--><a name="attachment"></td>
+    <td valign="top">$Text{"Attachment"}:</td><td>
+     <table cellspacing="0" cellpadding="0" width="300">
+<!-- dtl:block:Attachment -->
+       <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
+<!-- dtl:block:Attachment -->
+      <tr><td colspan="2">
+       <input name="file_upload" type="file" size="30" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
+       </td></tr>
+       </table>
+    </td>
   </tr>
   <tr>
     <td>$Text{"Note type"}:</td>
@@ -120,7 +129,7 @@ function SpellCheckSubmit()
 </form>
 
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->

@@ -1,8 +1,8 @@
 # --
-# AgentCompose.dtl - provides HTML form for AgentCompose 
+# AgentCompose.dtl - provides HTML form for AgentCompose
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.29 2004-03-25 10:15:50 martin Exp $
+# $Id: AgentCompose.dtl,v 1.30 2004-07-16 22:59:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,12 +19,12 @@ function submit_compose()
         alert('$Text{"A message should have a To: recipient!"}');
         document.compose.To.focus();
         return false;
-    } 
+    }
     else if (document.compose.Subject.value == "") {
         alert('$Text{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
-    } 
+    }
     else if (document.spelling.was_spell_checked != true && $Config{"FrontendNeedSpellCheck"}) {
         alert('$Text{"A message must be spell checked!"}');
         document.compose.Body.focus();
@@ -34,7 +34,7 @@ function submit_compose()
         alert('$Text{"You need to account time!"}');
         document.compose.Subject.focus();
         return false;
-    } 
+    }
     else {
         return true;
     }
@@ -63,7 +63,7 @@ function BookCheckSubmit()
     window.open('', 'book', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.book.submit()
     document.book.was_spell_checked=true;
-} 
+}
 // -->
 </script>
 
@@ -79,7 +79,7 @@ function FAQSubmit()
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table2"> 
+  <td align="left" class="table2">
     <b>$Env{"Box0"}$Text{"Compose answer for ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
 </tr>
@@ -89,11 +89,11 @@ function FAQSubmit()
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
   <input type="hidden" name="Action" value="AgentCompose">
   <input type="hidden" name="Subaction" value="SendEmail">
-  <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-  <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-  <input type="hidden" name="Email" value="$Data{"Email"}">
-  <input type="hidden" name="InReplyTo" value="$Data{"InReplyTo"}">
+  <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
+  <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+  <input type="hidden" name="Email" value="$QData{"Email"}">
+  <input type="hidden" name="InReplyTo" value="$QData{"InReplyTo"}">
+  <input type="hidden" name="FromID" value="$QData{"FromID"}">
   <table border="0" width="100%">
     <tr>
       <td width="20%">$Text{"From"}:</td>
@@ -139,13 +139,22 @@ $Data{"ResponseFormat"}
       </td>
     </tr>
 # --
-# use there are std. attachments for this response 
+# use there are std. attachments for this response
 # --
 <dtl if ($Data{"StdAttachmentsStrg"} ne "") { $Data{"StdAttachmentsTable"} = "<tr><td>$Text{"Std. Attachment"}:</td><td>$Data{"StdAttachmentsStrg"}</td></tr>"; }>
     $Data{"StdAttachmentsTable"}
 #
     <tr>
-      <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<!--<input type="button" class="button" onclick="attach()" value="$Text{"Attach"}">--><a name="attachment"></td>
+      <td valign="top">$Text{"Attachment"}:</td><td>
+     <table cellspacing="0" cellpadding="0" width="300">
+<!-- dtl:block:Attachment -->
+       <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
+<!-- dtl:block:Attachment -->
+       <tr><td colspan="2">
+       <input name="file_upload" type="file" size="30" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
+       </td></tr>
+       </table>
+      </td>
     </tr>
     <tr>
       <td>$Text{"Next ticket state"}:</td>
@@ -189,7 +198,7 @@ $Data{"ResponseFormat"}
   <input type="hidden" name="What" value="">
   </form>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end compose form -->

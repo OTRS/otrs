@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.88 2004-07-16 12:30:07 martin Exp $
+# $Id: AgentPhone.pm,v 1.89 2004-07-16 22:56:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,12 @@ use strict;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
+use Kernel::System::WebUploadCache;
 use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.88 $';
+$VERSION = '$Revision: 1.89 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,6 +46,14 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{UploadCachObject} = Kernel::System::WebUploadCache->new(%Param);
+
+    # get form id
+    $Self->{FormID} = $Self->{ParamObject}->GetParam(Param => 'FormID');
+    # create form id
+    if (!$Self->{FormID}) {
+        $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
+    }
 
     return $Self;
 }
@@ -272,16 +281,18 @@ sub Run {
             );
           }
           # get attachment
-          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-              Param => 'file_upload',
-              Source => 'String',
-          );
-          if (%UploadStuff) {
-              $Self->{TicketObject}->ArticleWriteAttachment(
-                  %UploadStuff,
-                  ArticleID => $ArticleID,
-                  UserID => $Self->{UserID},
+          foreach ('', 1..9) {
+              my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                  Param => "file_upload$_",
+                  Source => 'String',
               );
+              if (%UploadStuff) {
+                  $Self->{TicketObject}->ArticleWriteAttachment(
+                      %UploadStuff,
+                      ArticleID => $ArticleID,
+                      UserID => $Self->{UserID},
+                  );
+              }
           }
           # set state
           $Self->{TicketObject}->StateSet(
@@ -332,6 +343,7 @@ sub Run {
     }
     # create new ticket and article
     elsif ($Self->{Subaction} eq 'StoreNew') {
+        my %Error = ();
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
@@ -367,12 +379,58 @@ sub Run {
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+        foreach (1..2) {
+            my $Item = $Self->{ParamObject}->GetParam(Param => "ExpandCustomerName$_") || 0;
+            if ($_ == 1 && $Item) {
+                $ExpandCustomerName = 1;
+            }
+            elsif ($_ == 2 && $Item) {
+                $ExpandCustomerName = 2;
+            }
+        }
         # get free text params
         my %TicketFree = ();
         foreach (1..8) {
             $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
         }
+
+        # get params
+        my %GetParam = ();
+        foreach (qw(AttachmentUpload
+            Year Month Day Hour Minute
+            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+            AttachmentDelete9 AttachmentDelete10 )) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        }
+        # attachment delete
+        foreach (1..10) {
+            if ($GetParam{"AttachmentDelete$_"}) {
+                $Error{AttachmentDelete} = 1;
+                $Self->{UploadCachObject}->FormIDRemoveFile(
+                     FormID => $Self->{FormID},
+                    FileID => $_,
+                );
+            }
+        }
+        # attachment upload
+        if ($GetParam{AttachmentUpload}) {
+            $Error{AttachmentUpload} = 1;
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param => "file_upload",
+                Source => 'string',
+            );
+            $Self->{UploadCachObject}->FormIDAddFile(
+                FormID => $Self->{FormID},
+                %UploadStuff,
+            );
+        }
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
+
         # get free text config options
         my %TicketFreeText = ();
         foreach (1..8) {
@@ -393,15 +451,11 @@ sub Run {
             Config => \%TicketFreeText,
             Ticket => \%TicketFree,
         );
-        my %GetParam = ();
-        foreach (qw(Year Month Day Hour Minute)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-        }
-        my %Error = ();
+
         # Expand Customer Name
         my %CustomerUserData = ();
         if ($ExpandCustomerName == 1) {
-            # search customer 
+            # search customer
             my %CustomerUserList = ();
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
                 Search => $From,
@@ -531,6 +585,7 @@ sub Run {
               ToSelected => $Dest,
               Subject => $Self->{LayoutObject}->Ascii2Html(Text => $Subject),
               Errors => \%Error,
+              Attachments => \@Attachments,
               %GetParam,
               %TicketFreeTextHTML,
             );
@@ -540,7 +595,7 @@ sub Run {
                 my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUser);
                 @TicketIDs = $Self->{TicketObject}->TicketSearch(
                     Result => 'ARRAY',
-                    Limit => $Self->{ConfigObject}->Get('PhoneViewMaxShownCustomerTickets') || '10', 
+                    Limit => $Self->{ConfigObject}->Get('PhoneViewMaxShownCustomerTickets') || '10',
                     CustomerID => \@CustomerIDs,
 
                     UserID => $Self->{UserID},
@@ -635,7 +690,18 @@ sub Run {
                   UserID => $Self->{UserID},
               );
           }
-          # get attachment
+          # get pre loaded attachment
+          my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+              FormID => $Self->{FormID},
+          );
+          foreach my $Ref (@AttachmentData) {
+              $Self->{TicketObject}->ArticleWriteAttachment(
+                  %{$Ref},
+                  ArticleID => $ArticleID,
+                  UserID => $Self->{UserID},
+              );
+          }
+          # get submit attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
               Param => 'file_upload',
               Source => 'String',
@@ -647,6 +713,8 @@ sub Run {
                   UserID => $Self->{UserID},
               );
           }
+          # remove pre submited attachments
+          $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
           # should i set an unlock?
           my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
           if ($StateData{TypeName} =~ /^close/i) {
@@ -772,7 +840,7 @@ sub _GetTos {
         %NewTos = %{$Self->{ConfigObject}->{PhoneViewOwnSelection}};
     }
     else {
-        # SelectionType Queue or SystemAddress?    
+        # SelectionType Queue or SystemAddress?
         my %Tos = ();
         if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
             %Tos = $Self->{TicketObject}->MoveList(
@@ -792,8 +860,8 @@ sub _GetTos {
         }
         # get create permission queues
         my %UserGroups = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID}, 
-            Type => 'create', 
+            UserID => $Self->{UserID},
+            Type => 'create',
             Result => 'HASH',
             Cached => 1,
         );
@@ -836,14 +904,14 @@ sub _MaskPhone {
         Name => 'NextStateID',
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
     );
-    # customer info string 
+    # customer info string
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
         Data => $Param{CustomerData},
         Max => $Self->{ConfigObject}->Get('ShowCustomerInfoComposeMaxSize'),
     );
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
-        %Param, 
+        %Param,
         Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
     );
@@ -860,6 +928,7 @@ sub _MaskPhone {
 sub _MaskPhoneNew {
     my $Self = shift;
     my %Param = @_;
+    $Param{FormID} = $Self->{FormID};
     # build string
     $Param{Users}->{''} = '-';
     $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -907,7 +976,7 @@ sub _MaskPhoneNew {
             OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
     }
-    # customer info string 
+    # customer info string
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
         Data => $Param{CustomerData},
         Max => $Self->{ConfigObject}->Get('ShowCustomerInfoComposeMaxSize'),
@@ -937,6 +1006,13 @@ sub _MaskPhoneNew {
         foreach (keys %{$Param{Errors}}) {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
+    }
+    # show attachments
+    foreach my $DataRef (@{$Param{Attachments}}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Attachment',
+            Data => $DataRef,
+        );
     }
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentPhoneNew', Data => \%Param);
