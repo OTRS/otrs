@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.2 2004-12-02 12:02:20 martin Exp $
+# $Id: Package.pm,v 1.3 2004-12-02 12:16:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -223,11 +223,16 @@ sub RepositoryAdd {
     }
     # check if package already exists
     if ($Self->RepositoryGet(Name => $Structur{Name}->{Content}, Version => $Structur{Version}->{Content})) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Package $Structur{Name}->{Content}-$Structur{Version}->{Content} already in local repository!",
-        );
-        return;
+#        $Self->{LogObject}->Log(
+#            Priority => 'error',
+#            Message => "Package $Structur{Name}->{Content}-$Structur{Version}->{Content} already in local repository!",
+#        );
+#        return;
+        my $SQL = "DELETE FROM package_repository WHERE ".
+            " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
+            " AND ".
+            " version = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'";
+        $Self->{DBObject}->Do(SQL => $SQL);
     }
     my $SQL = "INSERT INTO package_repository (name, version, vendor, filename, ".
             " content_size, content_type, content, install_status, ".
@@ -564,7 +569,7 @@ sub PackageUpgrade {
     # install files
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         foreach my $File (@{$Structur{Filelist}}) {
-            if (-e $Self->{Home}/$File->{Location}) {
+            if (-e "$Self->{Home}/$File->{Location}") {
                 print STDERR "Notice: Overwrite $File->{Location}!\n";
             }
             if (open(OUT, "> $Self->{Home}/$File->{Location}")) {
@@ -771,7 +776,7 @@ sub PackageOnlineList {
         foreach my $Package ($Self->RepositoryList()) {
             if ($Newest{$Data}->{Name} eq $Package->{Name}->{Content}) {
                 $Newest{$Data}->{Local} = 1;
-                if ($Package->{Status} eq 'not installed') {
+                if ($Package->{Status} eq 'installed') {
                     $Newest{$Data}->{Installed} = 1;
                     if ($Newest{$Data}->{Version} > $Package->{Version}->{Content}) {
                         $Newest{$Data}->{Upgrade} = 1;
@@ -1172,6 +1177,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2004-12-02 12:02:20 $
+$Revision: 1.3 $ $Date: 2004-12-02 12:16:40 $
 
 =cut
