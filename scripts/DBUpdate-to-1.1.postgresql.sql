@@ -2,13 +2,24 @@
 -- Update an existing OTRS database from 1.0 to 1.1 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.9 2003-04-12 21:34:12 martin Exp $
+-- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.10 2003-04-12 22:06:21 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
 --
 -- --
 
+--
+-- drop not used ticket log types
+--
+DELETE FROM ticket_history_type WHERE name = 'WatingForClose+';
+DELETE FROM ticket_history_type WHERE name = 'WatingForClose-';
+DELETE FROM ticket_history_type WHERE name = 'WatingForReminder';
+DELETE FROM ticket_history_type WHERE name = 'Open';
+DELETE FROM ticket_history_type WHERE name = 'Reopen';
+DELETE FROM ticket_history_type WHERE name = 'Close unsuccessful';
+DELETE FROM ticket_history_type WHERE name = 'Close successful';
+--DELETE FROM ticket_history_type WHERE name = '';
 -- 
 -- add ticket free text update log type
 -- 

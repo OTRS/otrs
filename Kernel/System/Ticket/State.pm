@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/State.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.13 2003-03-10 21:25:51 martin Exp $
+# $Id: State.pm,v 1.14 2003-04-12 22:06:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -123,7 +123,6 @@ sub SetState {
     my $Self = shift;
     my %Param = @_;
     my $ArticleID = $Param{ArticleID} || '';
-
     # --
     # check needed stuff
     # --
@@ -172,34 +171,13 @@ sub SetState {
       # --
       # add history
       # --
-      my $HistoryType = '';
-      if ($Param{State} =~ /closed successful/i) {
-        $HistoryType = 'Close successful';
-      }
-      elsif ($Param{State} =~ /closed unsuccessful/i) {
-        $HistoryType = 'Close unsuccessful';
-      }
-      elsif ($Param{State} =~ /open/i) {
-        $HistoryType = 'Open';
-      }
-      elsif ($Param{State} =~ /new/i) {
-        $HistoryType = 'NewTicket';
-      }
-      else {
-        $HistoryType = 'Misc';
-      }
-      # --
-      # add history
-      # --
-      if ($HistoryType) {
-        $Self->AddHistoryRow(
-            TicketID => $Param{TicketID},
-            ArticleID => $ArticleID,
-            HistoryType => $HistoryType,
-            Name => "Changed Ticket State from '$CurrentState' to '$Param{State}'.",
-            CreateUserID => $Param{UserID},
-        );
-      }
+      $Self->AddHistoryRow(
+          TicketID => $Param{TicketID},
+          ArticleID => $ArticleID,
+          HistoryType => 'StateUpdate',
+          Name => "Old: '$CurrentState' New: '$Param{State}'",
+          CreateUserID => $Param{UserID},
+      );
       # --
       # send customer notification email
       # --
@@ -209,7 +187,6 @@ sub SetState {
           TicketID => $Param{TicketID},
           UserID => $Param{UserID},
       );
-
       return 1;
     }
     else {
@@ -219,4 +196,3 @@ sub SetState {
 # --
 
 1;
-
