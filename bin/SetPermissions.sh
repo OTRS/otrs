@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.12 2002-10-05 16:05:35 martin Exp $
+# $Id: SetPermissions.sh,v 1.13 2002-10-17 17:10:07 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.12 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.13 $> - set OTRS file permissions"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 if ! test $1 || ! test $2 || ! test $3; then 
@@ -52,8 +52,8 @@ fi
 # --
 echo "Setting file permissions... "
 # set all files to root.root (safe is safe)
-echo "chown -R root.root $OTRSDEST"
-chown -R root.root $OTRSDEST
+echo "chown -R 0.0 $OTRSDEST"
+chown -R 0.0 $OTRSDEST
 
 # set the $HOME to the OTRS user
 echo "chown $OTRSUSER.$OTRSGROUP $OTRSDEST"
@@ -103,19 +103,19 @@ echo "chmod -R 755 $OTRSDEST/bin/"
 chmod -R 755 $OTRSDEST/bin/
 
 # set the DeleteSessionIDs.pl just to OTRS user
-echo "(chown && chmod 700) $OTRSUSER.root $OTRSDEST/bin/DeleteSessionIDs.pl"
+echo "(chown && chmod 700) $OTRSUSER.0 $OTRSDEST/bin/DeleteSessionIDs.pl"
 chmod 700 $OTRSDEST/bin/DeleteSessionIDs.pl
-chown $OTRSUSER.root $OTRSDEST/bin/DeleteSessionIDs.pl 
+chown $OTRSUSER.0 $OTRSDEST/bin/DeleteSessionIDs.pl 
 
 # set the UnlockTickets.pl just to OTRS user
-echo "(chown && chmod 700) $OTRSUSER.root $OTRSDEST/bin/UnlockTickets.pl"
+echo "(chown && chmod 700) $OTRSUSER.0 $OTRSDEST/bin/UnlockTickets.pl"
 chmod 700 $OTRSDEST/bin/UnlockTickets.pl
-chown $OTRSUSER.root $OTRSDEST/bin/UnlockTickets.pl
+chown $OTRSUSER.0 $OTRSDEST/bin/UnlockTickets.pl
 
 # set the bin/otrs.getConfig just to OTRS user
-echo "(chown && chmod 700) $OTRSUSER.root $OTRSDEST/bin/otrs.getConfig"
+echo "(chown && chmod 700) $OTRSUSER.0 $OTRSDEST/bin/otrs.getConfig"
 chmod 700 $OTRSDEST/bin/otrs.getConfig
-chown $OTRSUSER.root $OTRSDEST/bin/otrs.getConfig
+chown $OTRSUSER.0 $OTRSDEST/bin/otrs.getConfig
 
 exit;
 
