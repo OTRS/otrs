@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.67 2004-01-23 03:54:37 martin Exp $
+# $Id: Ticket.pm,v 1.68 2004-02-02 22:01:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -603,6 +603,20 @@ sub GetMoveQueueList {
     return @Queue;
 }
 # --
+
+=item SetCustomerData()
+
+Set customer data of ticket.
+  
+  $TicketObject->SetCustomerData(
+      No => 'client123',
+      User => 'client-user-123',
+      TicketID => 123,
+      UserID => 23,
+  );
+
+=cut
+
 sub SetCustomerData {
     my $Self = shift;
     my %Param = @_;
@@ -652,6 +666,21 @@ sub SetCustomerData {
     }
 }
 # --
+
+=item SetTicketFreeText()
+
+Set ticket free text.
+  
+  $TicketObject->SetTicketFreeText(
+      Counter => 1,
+      Key => 'Planet',
+      Value => 'Sun',
+      TicketID => 123,
+      UserID => 23,
+  );
+
+=cut
+
 sub SetTicketFreeText {
     my $Self = shift;
     my %Param = @_;
@@ -693,6 +722,15 @@ sub SetTicketFreeText {
     }
 }
 # --
+
+=item SetAnswered()
+
+Set if ticket is answered.
+  
+  $TicketObject->SetAnswered(TicketID => 123, UserID => 23);
+
+=cut
+
 sub SetAnswered {
     my $Self = shift;
     my %Param = @_;
@@ -882,6 +920,15 @@ sub CustomerPermission {
     }
 }
 # --
+
+=item GetLockedTicketIDs()
+
+Get locked ticket ids for an agent.
+  
+  my @TicketIDs = $TicketObject->GetLockedTicketIDs(UserID => 23);
+
+=cut
+
 sub GetLockedTicketIDs {
     my $Self = shift;
     my %Param = @_;
@@ -999,6 +1046,138 @@ sub GetCustomerTickets {
         push(@TicketIDs, $Row[0]);
     }
     return @TicketIDs;
+}
+# --
+
+=item GetTicketLink()
+
+Get ticket links.
+  
+  $TicketObject->GetTicketLink(
+      TicketID => 1422,
+      UserID => 23,
+  );
+
+=cut
+
+sub GetTicketLink {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    # db query
+    my %Tickets = ();
+    my %Used = ();
+    my $Counter = 0;
+    my $SQL = "SELECT st.id, st.tn ".
+        " FROM ".
+        " ticket st, ticket_link tl ".
+        " WHERE ".
+        " (st.id = tl.ticket_id_master OR st.id = tl.ticket_id_slave) ".
+        " AND ".
+        " (tl.ticket_id_master = $Param{TicketID} OR tl.ticket_id_slave = $Param{TicketID})";
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 60);
+    while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if (!$Used{$Row[0]}) {
+            if ($Row[0] ne $Param{TicketID}) {
+                $Counter++;
+                $Tickets{"TicketLink$Counter"} = $Row[1];
+                $Tickets{"TicketLinkID$Counter"} = $Row[0];
+                $Used{$Row[0]} = 1;
+            }
+        }
+    }
+    return %Tickets;
+}
+# --
+
+=item AddTicketLink()
+
+Add a ticket link.
+  
+  $TicketObject->AddTicketLink(
+      MasterTicketID => 3541,
+      SlaveTicketID => 1422,
+      UserID => 23,
+  );
+
+=cut
+
+sub AddTicketLink {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(MasterTicketID SlaveTicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    # create db record
+    my $SQL = "INSERT INTO ticket_link (ticket_id_master, ticket_id_slave) ".
+    " VALUES ($Param{MasterTicketID}, $Param{SlaveTicketID}) ";
+        
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+
+=item DeleteTicketLink()
+
+Delete a ticket link.
+  
+  $TicketObject->DeleteTicketLink(
+      MasterTicketID => 3541,
+      SlaveTicketID => 1422,
+      UserID => 23,
+  );
+
+=cut
+
+sub DeleteTicketLink {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(MasterTicketID SlaveTicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    # db query
+    my $SQL = "DELETE FROM ticket_link ".
+        " WHERE ".
+        " ticket_id_master = $Param{MasterTicketID} ".
+        " AND ".
+        " ticket_id_slave = $Param{SlaveTicketID} ".
+        " ";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
 }
 # --
 
@@ -1267,6 +1446,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2004-01-23 03:54:37 $
+$Revision: 1.68 $ $Date: 2004-02-02 22:01:27 $
 
 =cut
