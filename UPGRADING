@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UPGRADING,v 1.5 2002-10-24 23:59:03 martin Exp $
+# $Id: UPGRADING,v 1.6 2002-10-25 11:47:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -30,6 +30,8 @@ These instructions are for people upgrading OTRS to a newer release.
 
 *) Update the new Kernel/Config.pm (and Kernel/Config/*.pm) with your setting 
    (use the newer Kernel/Config.pm - normally new releases have more config settings)
+
+*) Execute $OTRS_HOME/bin/SetPermissions.sh !
 
 *) Restart your services (e. g. rcotrs restart-force or each service manually)
  
