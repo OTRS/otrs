@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.21 2003-03-13 23:20:39 martin Exp $
+# $Id: AgentBounce.pm,v 1.22 2003-06-17 11:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -271,7 +271,7 @@ sub Run {
             To => $Param{BounceTo},
             From => $Param{From},
             Email => $Param{Email},
-            HistoryType => 'SendAnswer',
+            HistoryType => 'Bounce',
         )) {
            # error page 
            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
