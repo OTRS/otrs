@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.3 2004-08-06 06:16:22 martin Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.4 2004-08-10 06:52:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,7 +56,7 @@ sub Run {
         my %KeyList = ();
         my $CryptObjectPGP = Kernel::System::Crypt->new(%{$Self}, CryptType => 'PGP');
         if ($CryptObjectPGP) {
-            my @PublicKeys = $CryptObjectPGP->SearchPublicKey(
+            my @PublicKeys = $CryptObjectPGP->PublicKeySearch(
                 Search => $SearchAddress[0]->address(),
             );
             foreach my $DataRef (@PublicKeys) {
