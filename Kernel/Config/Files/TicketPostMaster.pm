@@ -175,10 +175,10 @@
 
     # Job Name: 6-AgentInterface
     # (a email agent interface)
-    $Self->{'PostMaster::PreFilterModule'}->{'999-AgentInterface'} = {
-        Module => 'Kernel::System::PostMaster::Filter::AgentInterface',
+#    $Self->{'PostMaster::PreFilterModule'}->{'999-AgentInterface'} = {
+#        Module => 'Kernel::System::PostMaster::Filter::AgentInterface',
 #        AgentInterfaceAddress => 'otrs-agent@example.org',
-    };
+#    };
     # --------------------------------------------------- #
     # Auto Response                                       #
     # --------------------------------------------------- #
