@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.65 2004-01-19 23:49:29 martin Exp $
+# $Id: Ticket.pm,v 1.66 2004-01-23 00:46:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,10 +35,50 @@ use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
+use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::Ticket - ticket lib
+
+=head1 SYNOPSIS
+
+All ticket functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object 
+ 
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB;
+  use Kernel::System::Group;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $DBObject = Kernel::System::DB->new( 
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $TicketObject = Kernel::System::Ticket->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      DBObject => $DBObject,
+  );
+
+=cut
 
 @ISA = (
     'Kernel::System::Ticket::Article',
@@ -79,6 +119,7 @@ sub new {
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
     # --
     # get needed objects
     # --
@@ -488,22 +529,19 @@ sub MoveByTicketID {
             CreateUserID => $Param{UserID},
         );
         # send move notify to queue subscriber 
-        my $To = '';
         foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Param{QueueID})) {
             my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
-            if ($UserData{UserEmail} && $UserData{UserSendMoveNotification}) {
-                $To .= "$UserData{UserEmail}, ";
+            if ($UserData{UserSendMoveNotification}) {
+                # send agent notification
+                $Self->SendNotification(
+                    Type => 'Move',
+                    UserData => \%UserData,
+                    CustomerMessageParams => { Queue => $Queue },
+                    TicketID => $Param{TicketID},
+                    UserID => $Param{UserID},
+                );
             }
         }
-        # send agent notification
-        $Self->SendNotification(
-            Type => 'Move',
-            To => $To,
-            CustomerMessageParams => { Queue => $Queue },
-            TicketNumber => $Self->GetTNOfId(ID => $Param{TicketID}),
-            TicketID => $Param{TicketID},
-            UserID => $Param{UserID},
-        );
         # send customer notification email
         my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
         $Self->SendCustomerNotification(
@@ -963,6 +1001,52 @@ sub GetCustomerTickets {
     return @TicketIDs;
 }
 # --
+
+=item SearchTicket()
+
+To find tickets in your system.
+  
+  my @TicketIDs = $TicketObject->SearchTicket(
+      # result (required)
+      Result => 'ARRAY' || 'HASH',
+
+      # ticket properties (optional)
+      Queue => 'system queue',
+      States => ['new', 'open'],
+      Priorities => ['1 very low', '2 low', '3 normal'],
+      Locks => ['unlock'],
+      Owner => '123',
+      CustomerID => '123',
+      CustomerUserLogin => 'uid123',
+
+      # 1..8 (optional)
+      TicketFreeKey1 => 'Product',
+      TicketFreeText1 => 'adasd',
+
+      # article stuff (optional)
+      From => '%spam@example.com%',
+      To => '%support@example.com%',
+      Cc => '%client@example.com%',
+      Subject => '%VIRUS 32%',
+      Body => '%VIRUS 32%', 
+
+      # tickets older the 60 minutes (optional)
+      TicketCreateTimeOlderMinutes => 60,
+      # tickets newer then 60 minutes (optional)
+      TicketCreateTimeNewerMinutes => 60,
+
+      # tickets with create time older then .... (optional)
+      TicketCreateTimeOlderDate => '2004-01-19 00:00:01',
+      # tickets with create time newer then ... (optional)
+      TicketCreateTimeNewerDate => '2004-01-09 23:59:59',
+
+      # search user (optional)
+      UserID => 123,
+      Permission => 'ro' || 'rw', 
+  );
+
+=cut
+
 sub SearchTicket {
     my $Self = shift;
     my %Param = @_;
@@ -1045,7 +1129,7 @@ sub SearchTicket {
         # get users groups
         my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
             UserID => $Param{UserID},
-            Type => 'ro',
+            Type => $Param{Permission} || 'ro',
             Result => 'ID',
         );
         $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
@@ -1154,3 +1238,19 @@ sub SearchTicket {
 }
 # --
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).  
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.66 $ $Date: 2004-01-23 00:46:37 $
+
+=cut
