@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.99 2004-01-20 00:02:27 martin Exp $
+# $Id: Generic.pm,v 1.100 2004-01-23 02:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.99 $';
+$VERSION = '$Revision: 1.100 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -819,6 +819,12 @@ sub OptionStrgHashRef {
     $Output .= "<select name=\"$Name\" $Multiple $OnStuff $Size>\n";
     if ($PossibleNone) {
         $Output .= '<option VALUE="">$Text{"none"}</option>';
+    }
+    # hash cleanup
+    foreach (keys %Data) {
+        if (!defined($Data{$_}) {
+            delete $Data{$_};
+        }
     }
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         if ((defined($_)) && ($Data{$_})) {
