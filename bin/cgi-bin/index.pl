@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.10 2001-12-30 00:37:48 martin Exp $
+# $Id: index.pl,v 1.11 2002-01-02 00:44:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '/home/martin/src/otrs/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -60,6 +60,7 @@ use Kernel::Modules::AgentClose;
 use Kernel::Modules::AgentUtilities;
 use Kernel::Modules::AgentCompose;
 use Kernel::Modules::AgentPreferences;
+use Kernel::Modules::AgentMailbox;
 use Kernel::Modules::Admin;
 use Kernel::Modules::AdminSession;
 use Kernel::Modules::AdminSelectBox;
@@ -107,6 +108,7 @@ $Param{Action} = $CommonObject{ParamObject}->GetParam(Param => 'Action') || 'Age
 $Param{Subaction} = $CommonObject{ParamObject}->GetParam(Param => 'Subaction') || '';
 $Param{QueueID} = $CommonObject{ParamObject}->GetParam(Param => 'QueueID') || 0;
 $Param{TicketID} = $CommonObject{ParamObject}->GetParam(Param => 'TicketID') || '';
+$Param{NextScreen} = $CommonObject{ParamObject}->GetParam(Param => 'NextScreen') || '';
 
 # --
 # check request type
