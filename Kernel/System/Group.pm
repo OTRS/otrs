@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.20 2004-04-16 08:08:21 martin Exp $
+# $Id: Group.pm,v 1.21 2004-04-19 09:54:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -386,12 +386,17 @@ sub GroupMemberList {
     # create cache key
     my $CacheKey = 'GroupMemberList::'.$Param{Type}.'::'.$Param{Result}.'::';
     if ($Param{UserID}) {
-      $CacheKey .= $Param{UserID};
+      $CacheKey .= 'UserID::'.$Param{UserID};
     }
     else {
-      $CacheKey .= $Param{GroupID};
+      $CacheKey .= 'GroupID::'.$Param{GroupID};
     }
+#print STDERR "$CacheKey -\n";
     # check cache
+#$Param{Cached} = 1;
+    if ($Self->{ForceCache}) {
+         $Param{Cached} = $Self->{ForceCache};
+    }
     if ($Param{Cached} && $Self->{$CacheKey}) {
         if (ref($Self->{$CacheKey}) eq 'ARRAY') {
             return @{$Self->{$CacheKey}};
@@ -400,6 +405,7 @@ sub GroupMemberList {
             return %{$Self->{$CacheKey}};
         }
     }
+#print STDERR "not cached $CacheKey\n";
     # sql
     my %Data = (); 
     my @Name = ();
@@ -423,6 +429,7 @@ sub GroupMemberList {
     else {
       $SQL .= " gu.group_id = $Param{GroupID}";
     }
+#print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my $Key = '';
@@ -474,6 +481,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2004-04-16 08:08:21 $
+$Revision: 1.21 $ $Date: 2004-04-19 09:54:18 $
 
 =cut
