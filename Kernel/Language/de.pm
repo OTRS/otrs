@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/de.pm - provides de language translation
-# Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.56 2004-08-25 07:42:36 martin Exp $
+# $Id: de.pm,v 1.56.2.1 2004-11-04 10:47:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.56.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -572,7 +572,7 @@ sub Data {
 
     # Template: AdminRoleGroupChangeForm
       'create' => 'Erstellen',
-      'move_into' => 'Verscheiben in',
+      'move_into' => 'Verschieben in',
       'owner' => 'Besitzer',
       'Permissions to change the ticket owner in this group/queue.' => 'Rechte, um den Besitzer eines Ticket in einer Gruppe/Queue zu ändern.',
       'Permissions to change the ticket priority in this group/queue.' => 'Rechte, um die Priorität eines Tickets in einer Gruppe/Queue zu ändern.',
