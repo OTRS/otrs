@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.5 2002-11-04 00:07:46 martin Exp $
+# $Id: IPC.pm,v 1.6 2002-12-15 13:03:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -102,7 +102,7 @@ sub WriteSHM {
 # --
 sub ReadSHM {
     my $Self = shift;
-    # read session data fro mem
+    # read session data from mem
     my $String = '';
     shmread($Self->{Key}, $String, 0, $Self->GetSHMDataSize()) || die "$!";
     my @Lines = split(/\n/, $String);
