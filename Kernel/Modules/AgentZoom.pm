@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.17 2002-08-06 19:15:44 martin Exp $
+# $Id: AgentZoom.pm,v 1.18 2002-09-23 13:46:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -184,10 +184,10 @@ sub Run {
         $Ticket{Lock} = $$Data{lock_type};
         $Ticket{Owner} = $$Data{login};
         $Ticket{Priority} = $$Data{priority};
-        $Ticket{FreeKey1} = $$Data{freekey1};
-        $Ticket{FreeValue1} = $$Data{freetext1};
-        $Ticket{FreeKey2} = $$Data{freekey2};
-        $Ticket{FreeValue2} = $$Data{freetext2};
+        $Ticket{TicketFreeKey1} = $$Data{freekey1};
+        $Ticket{TicketFreeValue1} = $$Data{freetext1};
+        $Ticket{TicketFreeKey2} = $$Data{freekey2};
+        $Ticket{TicketFreeValue2} = $$Data{freetext2};
         $Ticket{Created} = $$Data{ticket_create_time};
         $Ticket{GroupID} = $$Data{group_id};
         $Ticket{Age} = time() - $$Data{create_time_unix};

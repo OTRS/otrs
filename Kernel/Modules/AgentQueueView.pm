@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.18 2002-08-06 19:16:58 martin Exp $
+# $Id: AgentQueueView.pm,v 1.19 2002-09-23 13:46:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -287,12 +287,12 @@ sub ShowTicket {
             Queue => $$Data{queue},
             MoveQueues => \%MoveQueues,
             CustomerID => $$Data{customer_id},
-            FreeKey1 => $$Data{a_freekey1},
-            FreeValue1 => $$Data{a_freetext1},
-            FreeKey2 => $$Data{a_freekey2},
-            FreeValue2 => $$Data{a_freetext2},
-            FreeKey3 => $$Data{a_freekey3},
-            FreeValue3 => $$Data{a_freetext3},
+            ArticleFreeKey1 => $$Data{a_freekey1},
+            ArticleFreeValue1 => $$Data{a_freetext1},
+            ArticleFreeKey2 => $$Data{a_freekey2},
+            ArticleFreeValue2 => $$Data{a_freetext2},
+            ArticleFreeKey3 => $$Data{a_freekey3},
+            ArticleFreeValue3 => $$Data{a_freetext3},
             TicketFreeKey1 => $$Data{freekey1},
             TicketFreeValue1 => $$Data{freetext1},
             TicketFreeKey2 => $$Data{freekey2},
