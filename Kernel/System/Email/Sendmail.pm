@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Sendmail.pm,v 1.11 2004-02-17 08:38:30 martin Exp $
+# $Id: Sendmail.pm,v 1.12 2004-08-01 20:46:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,10 @@
 package Kernel::System::Email::Sendmail;
 
 use strict;
-use MIME::Words qw(:all);
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,21 +23,24 @@ sub new {
     my $Type = shift;
     my %Param = @_;
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
+    # debug
+    $Self->{Debug} = $Param{Debug} || 0;
     # check all needed objects
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+    # create encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(
+        %Param,
+    );
     # get config data
     $Self->{Sendmail} = $Self->{ConfigObject}->Get('SendmailModule::CMD');
-    $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
-    $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
 
     return $Self;
 }
@@ -46,57 +49,31 @@ sub Send {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Body)) {
+    foreach (qw(Header Body From To ToArray)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
-    if (!$Param{To} && !$Param{Cc} && !$Param{Bcc}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need To, Cc or Bcc!");
-        return;
+    # from
+    my $Arg = quotemeta($Param{From});
+    # recipient
+    foreach (@{$Param{ToArray}}) {
+        $Arg.= ' '.quotemeta($_);
     }
-    if (!$Param{From}) {
-        $Param{From} = $Self->{ConfigObject}->Get('AdminEmail') || 'otrs@localhost';
-    }
-    if (!$Param{Header}) {
-        $Param{Header} = "From: $Param{From}\n";
-        foreach (qw(To Cc Bcc)) {
-            $Param{Header} .= "$_: $Param{$_}\n" if ($Param{$_});
-        }
-        $Param{Header} .= "Subject: $Param{Subject}\n";
-        $Param{Header} .= "X-Mailer: OTRS Mail Service ($VERSION)\n";
-        $Param{Header} .= "Organization: $Self->{Organization}\n" if ($Self->{Organization});
-        $Param{Header} .= "X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org/)\n";
-        $Param{Header} .= "Message-ID: <".time().".".rand(999999)."\@$Self->{FQDN}>\n";
-        $Param{Header} .= "Content-Type: $Param{ContentType}\n" if ($Param{ContentType});
-
-    }
-    my $To = '';
-    foreach (qw(To Cc Bcc)) {
-        if (!$To) {
-            $To .= "$Param{$_}" if ($Param{$_});
-        }
-        else {
-            $To .= ", $Param{$_}" if ($Param{$_});
-        }
-    }
-    # get sender 
-    # - SOLO_adress patch by Robert Kehl (2003-03-11) -
-    my @SOLO_address = Mail::Address->parse($Param{From});
-    my $RealFrom = quotemeta($SOLO_address[0]->address());
     # send mail
-    if (open( MAIL, "|".$Self->{Sendmail}." $RealFrom " )) {
-        print MAIL $Param{Header};
+    if (open( MAIL, "| $Self->{Sendmail} $Arg")) {
+        # set handle to binmode if utf-8 is used
+        $Self->{EncodeObject}->SetIO(\*MAIL);
+        print MAIL ${$Param{Header}};
         print MAIL "\n";
-        print MAIL $Param{Body};
+        print MAIL ${$Param{Body}};
         close(MAIL);
-        # debug 
-        if ($Self->{Debug}) {
+        # debug
+        if ($Self->{Debug} > 2) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Sent email to '$To' from '$Param{From}'. ".
-                  "Subject => $Param{Subject};",
+                Message => "Sent email to '$Param{To}' from '$Param{From}'.",
             );
         }
         return 1;
@@ -104,8 +81,8 @@ sub Send {
     else {
         # log error
         $Self->{LogObject}->Log(
-            Priority => 'error', 
-            Message => "Can't use ".$Self->{Sendmail}.": $!!",
+            Priority => 'error',
+            Message => "Can't use $Self->{Sendmail}: $!!",
         );
         return;
     }

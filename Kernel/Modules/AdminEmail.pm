@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.14 2004-04-07 07:15:02 martin Exp $
+# $Id: AdminEmail.pm,v 1.15 2004-08-01 20:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,12 +12,9 @@
 package Kernel::Modules::AdminEmail;
 
 use strict;
-use MIME::Words qw(:all);
-use MIME::Entity;
-use Mail::Internet; 
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -38,8 +35,6 @@ sub new {
     }
 
     $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
-    $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
 
     return $Self;
 }
@@ -105,38 +100,17 @@ sub Run {
         # clean up
         $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
         $Param{Body} =~ s/\r/\n/g;
-        # build mail ...
-        # do some encode
-        foreach (qw(From To Bcc Subject)) {
-            if ($Param{$_}) {
-                $Param{$_} = encode_mimewords($Param{$_}, Charset => $Self->{LayoutObject}->{UserCharset}) || '';
-            }
-        }   
-        my $Header = {
-            From => $Param{From},
-            To => $Param{To},
-            Bcc => $Param{Bcc},   
-            Subject => $Param{Subject},
-            'X-Mailer' => "OTRS Mail Service ($VERSION)",
-            'X-Powered-By' => 'OTRS - Open Ticket Request System (http://otrs.org/)',
-            'Message-ID' => "<".time().".".rand(999999)."\@$Self->{FQDN}>",
-            Organization => $Self->{Organization},
-            Type => 'text/plain; charset='.$Self->{LayoutObject}->{UserCharset},
-            Encoding => '8bit',   
-        };
-        my $Entity = MIME::Entity->build(%{$Header}, Data => $Param{Body});
-        # get header
-        my $head = $Entity->head;
         # send mail
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         if ($Self->{SendmailObject}->Send(
             From => $Param{From},
             To => $Param{To},
-            Bcc => $Param{Bcc},   
+            Bcc => $Param{Bcc},
             Subject => $Param{Subject},
-            Header => $head->as_string(),
-            Body => $Entity->body_as_string(),
+            Type => 'text/plain',
+            Charset => $Self->{LayoutObject}->{UserCharset},
+            Body => $Param{Body},
         )) {
             $Output .= $Self->_MaskSent(%Param);
         }
@@ -151,7 +125,7 @@ sub Run {
         my %Users = $Self->{UserObject}->UserList(Valid => 1);
         my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
         $Output .= $Self->_Mask(
-            UserList => \%Users, 
+            UserList => \%Users,
             GroupList => \%Groups,
             %Param,
         );

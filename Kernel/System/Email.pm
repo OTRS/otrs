@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.3 2004-01-10 12:48:22 martin Exp $
+# $Id: Email.pm,v 1.4 2004-08-01 20:46:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,12 @@
 package Kernel::System::Email;
 
 use strict;
+use MIME::Words qw(:all);
+use MIME::Entity;
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -33,8 +36,8 @@ Global module to send email via sendmail or SMTP.
 
 =item new()
 
-create a object 
- 
+create a object
+
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::System::DB;
@@ -43,7 +46,7 @@ create a object
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
-  my $DBObject = Kernel::System::DB->new( 
+  my $DBObject = Kernel::System::DB->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
   );
@@ -60,14 +63,14 @@ sub new {
     my $Type = shift;
     my %Param = @_;
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
     # debug level
-    $Param{Debug} = 0;
+    $Self->{Debug} = $Param{Debug} || 0;
     # check all needed objects
     foreach (qw(ConfigObject LogObject DBObject)) {
         die "Got no $_" if (!$Self->{$_});
@@ -81,18 +84,24 @@ sub new {
     # create backend object
     $Self->{Backend} = $GenericModule->new(%Param);
 
+    $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
+    $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
+    $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
+
     return $Self;
 }
 # --
 
 =item Send()
 
-To send an email.
+To send an email without already created header:
 
     if ($SendObject->Send(
-      From => 'me@example.com', 
-      To => 'friend@example.com', 
+      From => 'me@example.com',
+      To => 'friend@example.com',
       Subject => 'Some words!',
+      Type => 'text/plain',
+      Charset => 'iso-8859-15',
       Body => 'Some nice text',)) {
         print "Email sent!\n";
     }
@@ -100,19 +109,117 @@ To send an email.
         print "Email not sent!\n";
     }
 
+To send an email with already created header:
+
+    if ($SendObject->Send(
+      From => 'me@example.com',
+      To => 'friend@example.com',
+      Header => $Header,
+      Body => $Body,)) {
+        print "Email sent!\n";
+    }
+    else {
+        print "Email not sent!\n";
+    }
 =cut
 
 sub Send {
     my $Self = shift;
     my %Param = @_;
-    return $Self->{Backend}->Send(%Param);
+
+    # check needed stuff
+    foreach (qw(Body)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!$Param{To} && !$Param{Cc} && !$Param{Bcc}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need To, Cc or Bcc!");
+        return;
+    }
+    # check from
+    if (!$Param{From}) {
+        $Param{From} = $Self->{ConfigObject}->Get('AdminEmail') || 'otrs@localhost';
+    }
+
+    if (!$Param{Header}) {
+        my %Header = ();
+        foreach (qw(From To Cc Bcc Subject Organization Charset)) {
+            if ($Param{$_}) {
+                $Header{$_} = $Param{$_};
+            }
+        }
+        # do some encode
+        foreach (qw(From To Cc Bcc Subject)) {
+            if ($Header{$_} && $Param{Charset}) {
+                $Header{$_} = encode_mimewords($Header{$_}, Charset => $Param{Charset}) || '';
+            }
+        }
+        $Header{'X-Mailer'} = "OTRS Mail Service ($VERSION)";
+        $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
+        $Header{'Type'} = $Param{Type} || 'text/plain';
+        if ($Param{Charset} && $Param{Charset} =~ /utf(8|-8)/i) {
+            $Header{'Encoding'} = '8bit';
+#            $Header{'Encoding'} = 'base64';
+        }
+        else {
+            $Header{'Encoding'} = '7bit';
+        }
+        $Header{'Message-ID'} = "Message-ID: <".time().".".rand(999999)."\@$Self->{FQDN}>";
+        my $Entity = MIME::Entity->build(%Header, Data => $Param{Body});
+        # get header
+        my $head = $Entity->head;
+        $Param{Header} = $head->as_string();
+
+        $Param{Body} = $Entity->body_as_string();
+    }
+    # get recipients
+    my $To = '';
+    my @ToArray = ();
+    foreach (qw(To Cc Bcc)) {
+        if ($Param{$_}) {
+            foreach my $Email (Mail::Address->parse($Param{$_})) {
+                push (@ToArray, $Email->address());
+                if ($To) {
+                    $To .= ', ';
+                }
+                $To .= $Email->address();
+            }
+        }
+    }
+    if ($Self->{SendmailBcc}) {
+        push (@ToArray, $Self->{SendmailBcc});
+        $To .= ", $Self->{SendmailBcc}";
+    }
+
+    # get sender
+    my @Sender = Mail::Address->parse($Param{From});
+    my $RealFrom = $Sender[0]->address();
+
+    # debug
+    if ($Self->{Debug} > 1) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Sent email to '$To' from '$RealFrom'. ".
+                "Subject => $Param{Subject};",
+        );
+    }
+
+    return $Self->{Backend}->Send(
+        From => $RealFrom,
+        To => $To,
+        ToArray => \@ToArray,
+        Header => \$Param{Header},
+        Body => \$Param{Body},
+    );
 }
 # --
 1;
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -122,7 +229,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2004-01-10 12:48:22 $
+$Revision: 1.4 $ $Date: 2004-08-01 20:46:13 $
 
 =cut
 
