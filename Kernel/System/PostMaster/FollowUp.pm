@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.22 2003-01-03 00:34:23 martin Exp $
+# $Id: FollowUp.pm,v 1.23 2003-01-04 03:42:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -65,14 +65,6 @@ sub Run {
     my $LogObject = $Self->{LogObject};
 
     my $OldState = $TicketObject->GetState(TicketID => $TicketID) || '';
-
-    # create ob
-    my $EmailObject = Kernel::System::EmailSend->new(
-        ConfigObject => $Self->{ConfigObject},
-        LogObject => $Self->{LogObject} ,
-        DBObject => $Self->{DBObject}, 
-        TicketObject => $TicketObject,
-    );
 
     # do db insert
     my $ArticleID = $TicketObject->CreateArticle(

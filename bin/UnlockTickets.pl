@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.8 2002-11-10 23:02:18 martin Exp $
+# $Id: UnlockTickets.pl,v 1.9 2003-01-04 03:39:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -36,7 +36,6 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::User;
-use Kernel::System::EmailSend;
 
 # --
 # common objects

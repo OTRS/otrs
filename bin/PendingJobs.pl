@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PendingJobs.pl - check pending tickets
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.1 2002-12-25 09:27:38 martin Exp $
+# $Id: PendingJobs.pl,v 1.2 2003-01-04 03:39:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -36,7 +36,6 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::User;
-use Kernel::System::EmailSend;
 
 # --
 # common objects
