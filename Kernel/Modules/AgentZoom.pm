@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.3 2002-04-13 11:16:03 martin Exp $
+# $Id: AgentZoom.pm,v 1.4 2002-04-13 15:47:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,9 @@
 package Kernel::Modules::AgentZoom;
 
 use strict;
-use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +31,8 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 
+    foreach (
+      'ParamObject', 
       'DBObject', 
       'TicketObject', 
       'LayoutObject', 
@@ -40,6 +40,7 @@ sub new {
       'QueueObject', 
       'ConfigObject',
       'UserObject',
+      'ArticleObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -61,11 +62,6 @@ sub Run {
     my %MoveQueues = $Self->{QueueObject}->GetAllQueues(QUEUEID => $QueueID);
     # fetch all std. responses
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $QueueID);
-    # create article object
-    my $ArticleObject = Kernel::System::Article->new(
-        DBObject => $Self->{DBObject}, 
-        ConfigObject => $Self->{ConfigObject},
-    );
     
     my %Ticket;
     $Ticket{TicketID} = $TicketID;
@@ -128,7 +124,7 @@ sub Run {
             $Ticket{TmpCounter}++;
             $Ticket{Age} = time() - $$Data{create_time_unix};
         }
-        my @AtmIndex = $ArticleObject->GetAtmIndex(
+        my @AtmIndex = $Self->{ArticleObject}->GetAtmIndex(
             ContentPath => $$Data{content_path},
             ArticleID => $$Data{id},
         );
@@ -152,22 +148,21 @@ sub Run {
         push (@ArticleBox, \%Article);
     }
    
-   # genterate output
+    # --
+    # genterate output
+    # --
     $Output .= $Self->{LayoutObject}->Header(Title => "Zoom Ticket $Ticket{TicketNumber}");
     my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
-    # checl permissions
-    my %Groups = $Self->{UserObject}->GetGroups(UserID => $UserID);
-    my $OK = 0;
-    foreach (keys %Groups) {
-        if ($Ticket{GroupID} eq $_) { 
-            $OK = 1;
-        }
-    }
-
-    # show or don't show ticket
-    if ($OK) {
+    # --
+    # check permissions
+    # --
+    if ($Self->{PermissionObject}->Ticket(
+        TicketID => $TicketID,
+        UserID => $Self->{UserID})) {
+        # --
+        # show ticket
         $Output .= $Self->{LayoutObject}->TicketZoom(
             TicketID => $TicketID,
             QueueID => $QueueID,
@@ -177,10 +172,12 @@ sub Run {
             ArticleID => $Self->{ArticleID},
             %Ticket
         );
-    } 
-    else {
-        $Output .= $Self->{LayoutObject}->NoPermission(WithHeader => 'no');
     }
+    else {
+        # --
+        # error screen, don't show ticket
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    } 
    
     # add footer 
     $Output .= $Self->{LayoutObject}->Footer();

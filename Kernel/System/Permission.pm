@@ -1,8 +1,8 @@
 # --
 # Permission.pm - to control the access permissions 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Permission.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: Permission.pm,v 1.2 2002-04-13 15:47:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Permission;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('DBObject', 'LogObject') {
+    foreach ('DBObject', 'LogObject', 'UserObject', 'QueueObject') {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -47,23 +47,32 @@ sub new {
 sub Section {
     my $Self = shift;
     my %Param = @_;
-    my $UserID = $Param{UserID};
+    my $UserID = $Param{UserID} || return;
     my $Section = 'Permission' . $Param{Section};
 
-    my $SQL = "SELECT sug.id FROM " .
-     " group_user as sug, groups as sg" .
-     " WHERE " .
-     " user_id = $UserID " .
-     " and " .
-     " sg.name = '$Self->{$Section}' " .
-     " and " .
-     " sg.id = sug.group_id ";	
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    my $GroupID = '';
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $GroupID = $RowTmp[0];
+    my %Groups = $Self->{UserObject}->GetGroups(UserID => $UserID);
+    foreach (keys %Groups) {
+        if ($Groups{$_} eq $Self->{$Section}) {
+            return 1;
+        }
     }
-    return $GroupID;
+    return;
+}
+# --
+sub Ticket {
+    my $Self = shift;
+    my %Param = @_;
+    my $TicketID = $Param{TicketID} || return;
+    my $UserID = $Param{UserID} || return;
+    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
+    my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $QueueID);
+    my %Groups = $Self->{UserObject}->GetGroups(UserID => $UserID);
+    foreach (keys %Groups) {
+        if ($_ eq $GID) {
+            return 1;
+        }
+    }
+    return;
 }
 # --
 
