@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.18 2002-11-25 00:19:58 martin Exp $
+# $Id: Admin.pm,v 1.19 2002-12-07 18:57:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -508,6 +508,7 @@ sub AdminSignatureForm {
 sub AdminCustomerUserForm {
     my $Self = shift;
     my %Param = @_;
+    my $Output = '';
 
     # build ValidID string
     $Param{'ValidOption'} = $Self->OptionStrgHashRef(
@@ -523,18 +524,32 @@ sub AdminCustomerUserForm {
     );
 
     $Param{UserOption} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => "id, login, id",
-            Valid => 0,
-            Clamp => 1,
-            Table => 'customer_user',
-          )
-        },
+        Data => $Param{UserList},
         Size => 15,
         Name => 'ID',
         SelectedID => $Param{ID},
     );
+    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+      if ($Entry->[0]) {
+          if ($Entry->[0] =~ /^UserPasswor/i) {
+              $Param{Type} = 'password';
+          }
+          else {
+              $Param{Type} = 'text';
+          }
+          if ($Entry->[0] =~ /^ValidID/i) {
+              $Param{Value} = $Param{'ValidOption'}; 
+          }
+          else {
+             my $Value = $Param{$Entry->[0]} || '';
+             $Param{Value} = "<input type=\"$Param{Type}\" name=\"$Entry->[0]\" value=\"$Value\" size=\"35\" maxlength=\"50\">";
+          }
+          $Param{Preferences} .= $Self->Output(
+                TemplateFile => 'AdminCustomerUserGeneric',
+                Data => { Item => $Entry->[1], %Param},
+          );
+      }
+    }
 
     foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
       foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
@@ -650,7 +665,7 @@ sub AdminUserForm {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
                   Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'), 
                   Name => "GenericTopic::$PrefKey",
-                  Selected => $Param{UserLanguage},
+                  SelectedID => $Param{UserLanguage},
               );
           }
           elsif ($PrefKey eq 'UserCharset') {

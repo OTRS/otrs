@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.3 2002-11-15 14:57:38 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.4 2002-12-07 18:57:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $ ';
+$VERSION = '$Revision: 1.4 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -56,14 +56,15 @@ sub Run {
     # get user data 2 form
     # --
     if ($Self->{Subaction} eq 'Change') {
-        my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+        my $User = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         # --
         # get user data
         # --
-        my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(UserID => $UserID);
+        my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
+        my %UserList = $Self->{CustomerUserObject}->CustomerUserList(Valid => 0);
         my $Output = $Self->{LayoutObject}->Header(Title => 'Customer user update');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminCustomerUserForm(%UserData);
+        $Output .= $Self->{LayoutObject}->AdminCustomerUserForm(%UserData, UserList => \%UserList);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -75,9 +76,10 @@ sub Run {
         # get params
         # --
         my %GetParam;
-        foreach (qw(ID Login Pw Email Salutation Firstname Lastname CustomerID ValidID Comment)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+            $GetParam{$Entry->[0]} = $Self->{ParamObject}->GetParam(Param => $Entry->[0]) || '';
         }
+        $GetParam{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         # --
         # update user
         # --
@@ -125,13 +127,13 @@ sub Run {
         # get params
         # --
         my %GetParam;
-        foreach (qw(Login Pw Email Salutation Firstname Lastname CustomerID ValidID Comment)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+            $GetParam{$Entry->[0]} = $Self->{ParamObject}->GetParam(Param => $Entry->[0]) || '';
         }
         # --
         # add user
         # --
-        if (my $UserID = $Self->{CustomerUserObject}->CustomerUserAdd(%GetParam, UserID => $Self->{UserID})) {
+        if (my $User = $Self->{CustomerUserObject}->CustomerUserAdd(%GetParam, UserID => $Self->{UserID})) {
             # --
             # update preferences
             # --
@@ -142,7 +144,7 @@ sub Run {
                 my $Value = $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey");
                 $Value = defined $Value ? $Value : '';
                 if ($Type eq 'Generic' && $PrefKey && !$Self->{CustomerUserObject}->SetPreferences(
-                  UserID => $UserID, 
+                  UserID => $User, 
                   Key => $PrefKey,
                   Value => $Value,
                 )) {
@@ -175,7 +177,8 @@ sub Run {
     else {
         my $Output = $Self->{LayoutObject}->Header(Title => 'CustomerUser add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminCustomerUserForm();
+        my %UserList = $Self->{CustomerUserObject}->CustomerUserList(Valid => 0);
+        $Output .= $Self->{LayoutObject}->AdminCustomerUserForm(UserList => \%UserList);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }

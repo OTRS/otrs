@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.2 2002-11-21 22:45:20 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.3 2002-12-07 18:57:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,42 +48,6 @@
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="ID" value="$Data{"UserID"}">
     <table border="0" cellspacing="0" cellpadding="3">
-    <tr>
-      <td>$Text{"Login"}: </td>
-      <td> <input type="text" name="Login" value="$Data{"UserLogin"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"Password"}: </td>
-      <td> <input type="password" name="Pw" value="$Data{"UserPw"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"Email"}: </td>
-      <td> <input type="text" name="Email" value="$Data{"UserEmail"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"Salutation"}: </td>
-      <td> <input type="text" name="Salutation" value="$Data{"UserSalutation"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"Firstname"}: </td>
-      <td> <input type="text" name="Firstname" value="$Data{"UserFirstname"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"Lastname"}: </td>
-      <td> <input type="text" name="Lastname" value="$Data{"UserLastname"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"CustomerID"}: </td>
-      <td> <input type="text" name="CustomerID" value="$Data{"UserCustomerID"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"Valid"}: </td>
-      <td> $Data{"ValidOption"}</td>
-    </tr>
-    <tr>
-      <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$Data{"UserComment"}" size="50" maxlength="50"></td>
-    </tr>
     $Data{"Preferences"}
     </table>
     <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
