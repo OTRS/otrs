@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.130 2004-05-02 11:28:14 martin Exp $
+# $Id: Defaults.pm,v 1.131 2004-05-10 12:34:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.130 $';
+$VERSION = '$Revision: 1.131 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -365,7 +365,6 @@ sub LoadDefaults {
     # some user options or to redirect not accept new application 
     # news)
 #    $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo';
-
     # Kernel::Modules::AgentInfo check key, if this user preferences key 
     # is true, then the message is already accepted
 #    $Self->{InfoKey} = 'wpt22';
@@ -907,6 +906,7 @@ $Data{"Signature"}
       'Resent-From',
       'Precedence',
       'Mailing-List',
+      'List-Id',
       'References',
       'In-Reply-To',
       'X-Loop',
@@ -982,6 +982,11 @@ $Data{"Signature"}
 #        },
 #    };
 
+    # module to use database filter storage (use it at first)
+    $Self->{'PostMaster::PreFilterModule'}->{'000-MatchDBSource'} = {
+        Module => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+    };
+
     # --------------------------------------------------- #
     # Auto Response                                       #
     # --------------------------------------------------- #
@@ -1030,7 +1035,7 @@ $Data{"Signature"}
 
     # SessionMaxIdleTime
     # (After this time (in seconds) without new http request, then 
-    # the user get loged off)
+    # the user get logged off)
     $Self->{SessionMaxIdleTime} = 4*60*60;
 
     # SessionDeleteIfTimeToOld
@@ -1341,7 +1346,12 @@ Your OTRS Notification Master
     # this module will be used. This interface use useful to check
     # some user options or to redirect not accept new application 
     # news)
-#    $Self->{CustomerPanelPreApplicationModule} = 'Kernel::Modules::CustomerLicenseAccept';
+#    $Self->{CustomerPanelPreApplicationModule} = 'Kernel::Modules::CustomerAccept';
+    # Kernel::Modules::CustomerAccept check key, if this user preferences key 
+    # is true, then the message is already accepted
+#    $Self->{'CustomerPanel::InfoKey'} = 'CustomerAccept1';
+    # shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.dtl
+#    $Self->{'CustomerPanel::InfoFile'} = 'CustomerAccept';
 
     # CustomerPanelLostPassword
     # (use lost passowrd feature)
