@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.101 2004-01-24 18:39:02 martin Exp $
+# $Id: Defaults.pm,v 1.102 2004-02-02 22:12:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.101 $';
+$VERSION = '$Revision: 1.102 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1691,7 +1691,7 @@ Your OTRS Notification Master
     # FAQ settings
     # --------------------------------------------------- #
  
-    $Self->{'FAQ::Field1'} = 'Sympthom';
+    $Self->{'FAQ::Field1'} = 'Symptom';
     $Self->{'FAQ::Field2'} = 'Problem';
     $Self->{'FAQ::Field3'} = 'Solution';
     $Self->{'FAQ::Field4'} = 'field4';
@@ -1707,6 +1707,7 @@ Your OTRS Notification Master
     $Self->{'Module::Permission'}->{'AdminAutoResponse'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminCharset'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminCustomerUser'} = 'admin';
+    $Self->{'Module::Permission'}->{'AdminCustomerUserGroup'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminEmail'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminGroup'} = 'admin';
     $Self->{'Module::Permission'}->{'AdminLog'} = 'admin';
