@@ -155,6 +155,13 @@ This glossary covers OTRS terms.
 </glossentry>
 
 <glossentry>
+<glossterm>Ticket CustomerUser</glossterm>
+<glossdef>
+<para>The CustomerUser (the sender). Default is the email address.</para>
+</glossdef>
+</glossentry>
+
+<glossentry>
 <glossterm>Ticket Escalation Time</glossterm>
 <glossdef>
 <para>If an escalation time is set for a queue (Admin Interface -> Queue) and 
@@ -179,10 +186,13 @@ ticket is accessible via QueueView.</para>
 <para>email-external: customer email</para>
 </glossdef>
 <glossdef>
+<para>email-internal: email to other agents e. g. for feedback (not shown in customer interface)</para>
+</glossdef>
+<glossdef>
 <para>email-notification-ext: email notification to customer</para>
 </glossdef>
 <glossdef>
-<para>email-notification-int: email notification to agent</para>
+<para>email-notification-int: email notification to agent (not shown in customer interface)</para>
 </glossdef>
 <glossdef>
 <para>phone: phone note</para>
@@ -191,15 +201,15 @@ ticket is accessible via QueueView.</para>
 <para>webrequest: request from the customer web interface</para>
 </glossdef>
 <glossdef>
-<para>note-internal: note just shown for agents (agent to agent)</para>
+<para>note-internal: note just shown for agents (agent to agent - not shown in customer interface)</para>
 </glossdef>
 <glossdef>
 <para>note-external: note shown for agent and customer (should _not_ be used as communication between customer and agent!)</para>
 </glossdef>
-<para>note-report (note used for reporting - should be used by monitoring tools like Nagius (http://www.nagios.org/)
+<para>note-report (note used for reporting - should be used by monitoring tools like Nagius (http://www.nagios.org/)</para>
 </glossdef>
 <glossdef>
-<para>[not used at this moment: fax, sms, email-internal]</para>
+<para>[not used at this moment: fax, sms]</para>
 </glossdef>
 </glossentry>
 
