@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.36 2002-12-25 09:29:53 martin Exp $
+# $Id: Ticket.pm,v 1.37 2002-12-27 18:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,7 +28,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -658,14 +658,36 @@ sub GetLockedTicketIDs {
     my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
     my $SQL = "SELECT ti.id " .
       " FROM " .
-      " ticket ti, ticket_lock_type slt" .
+      " ticket ti, ticket_lock_type slt, queue as sq" .
       " WHERE " .
       " ti.user_id = $Param{UserID} " .
       " AND ".
       " slt.id = ti.ticket_lock_id " .
       " AND ".
-      " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) " .
-      " ORDER BY ti.create_time";
+      " sq.id = ti.queue_id".
+      " AND ".
+      " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) ORDER BY ";
+    # sort by
+    if (!$Param{SortBy} || $Param{SortBy} =~ /^CreateTime$/i) {
+        $SQL .= "ti.create_time";
+    }
+    elsif ($Param{SortBy} =~ /^Queue$/i) {
+        $SQL .= " sq.name";
+    }
+    elsif ($Param{SortBy} =~ /^CustomerID$/i) {
+        $SQL .= " ti.customer_id";
+    }
+    else {
+        $SQL .= "ti.create_time";
+    }
+    # order
+    if ($Param{OrderBy} && $Param{OrderBy} eq 'Down') {
+        $SQL .= " DESC";
+    }
+    else {
+        $SQL .= " ASC";
+    }
+
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         push (@ViewableTickets, $RowTmp[0]);
@@ -685,7 +707,11 @@ sub GetLockedCount {
     }
     my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
     my %Data;
-    $Data{'OverTime'} = 0;
+    $Data{'Reminder'} = 0;
+    $Data{'Pending'} = 0;
+    $Data{'All'} = 0;
+    $Data{'New'} = 0;
+    $Data{'Open'} = 0;
     $Self->{DBObject}->Prepare(
        SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
               " ti.until_time, ts.name " .
@@ -708,21 +734,25 @@ sub GetLockedCount {
     );
 
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        if (!$Data{"ID$RowTmp[2]"}) {
-          $Data{'Count'}++;
+        if (!$Param{"ID$RowTmp[2]"}) {
+          $Data{'All'}++;
           # --
           # put all tickets to ToDo where last sender type is customer or ! UserID
           # --
           if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
-            $Data{'ToDo'}++;
+              $Data{'New'}++;
           }
-          if ($RowTmp[5] && $RowTmp[6] =~ /^pending/i && $RowTmp[6] !~ /^pending auto/i && $RowTmp[5] <= time()) {
-            $Data{'OverTime'}++;
+          if ($RowTmp[5] && $RowTmp[6] =~ /^pending/i) {
+              $Data{'Pending'}++;
+              if ($RowTmp[6] !~ /^pending auto/i && $RowTmp[5] <= time()) {
+                  $Data{'Reminder'}++;
+              }
           }
         }
-        $Data{"ID$RowTmp[2]"} = 1;
+        $Param{"ID$RowTmp[2]"} = 1;
         $Data{"MaxAge"} = $RowTmp[4];
     }
+    $Data{'Open'} = $Data{'All'} - $Data{'Pending'} + $Data{'Reminder'};
     return %Data;
 }
 # --
