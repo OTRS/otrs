@@ -2,7 +2,7 @@
 # Kernel/Config/ModulesCustomerPanel.pm - config file of all used application modules
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ModulesCustomerPanel.pm,v 1.3 2002-10-22 16:07:29 martin Exp $
+# $Id: ModulesCustomerPanel.pm,v 1.4 2002-12-17 18:04:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::ModulesCustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,6 +39,7 @@ use Kernel::System::EmailSend;
 # web agent middle ware modules
 use Kernel::Modules::CustomerZoom;
 use Kernel::Modules::CustomerTicketOverView;
+use Kernel::Modules::CustomerAttachment;
 use Kernel::Modules::CustomerMessage;
 use Kernel::Modules::CustomerPreferences;
 

@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.5 2002-12-17 17:39:00 martin Exp $
+# $Id: Customer.pm,v 1.6 2002-12-17 18:04:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -271,7 +271,7 @@ sub CustomerTicketZoom {
     my $ATMStrg = '';
     foreach (@ATMs) {
         my $FileName = $Self->LinkEncode($_) || '???';
-        $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
+        $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=CustomerAttachment&'.
           'ArticleID='.$Article{ArticleID}.'&File='.$FileName.'" target="attachment">'.$_.'</a><br> ';
     }
     # --
