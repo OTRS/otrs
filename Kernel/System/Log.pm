@@ -2,7 +2,7 @@
 # Syslog.pm - a wrapper for xyz::Syslog 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.2 2002-06-12 22:17:28 martin Exp $
+# $Id: Log.pm,v 1.3 2002-06-15 10:40:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Sys::Syslog qw(:DEFAULT setlogsock);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -43,7 +43,7 @@ sub Log {
     openlog($Self->{LogPrefix}, 'cons,pid', 'user');
 
     if ($Priority =~ /debug/i) {
-        my ($Package, $Filename, $Line, $Subroutine, $Hasargs) = caller(0);
+        my ($Package, $Filename, $Line, $Subroutine, $Hasargs) = caller(1);
         syslog('debug', "[Debug][$Subroutine][$Line] $MSG");
     }
     elsif ($Priority =~ /info/i) {
@@ -51,7 +51,7 @@ sub Log {
         syslog('info', "[Info][$Subroutine] $MSG");
     }
     elsif ($Priority =~ /notice/i) {
-        my ($Package, $Filename, $Line, $Subroutine, $Hasargs) = caller(0);
+        my ($Package, $Filename, $Line, $Subroutine, $Hasargs) = caller(1);
         syslog('notice', "[Notice][$Subroutine] $MSG");
     }
     elsif ($Priority =~ /error/i) {
