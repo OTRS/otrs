@@ -2,12 +2,18 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.7 2002-08-06 19:31:58 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.8 2002-09-23 20:32:34 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
 --
 -- --
+
+-- --
+-- BETA 8 upgrate
+-- --
+-- add ticket_index index
+ALTER TABLE ticket_index ADD INDEX index_ticket_id (ticket_id);
 
 -- --
 -- BETA 7 upgrate
