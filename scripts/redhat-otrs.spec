@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs.spec,v 1.12 2003-01-09 20:55:37 martin Exp $
+# $Id: redhat-otrs.spec,v 1.13 2003-01-15 18:30:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -54,8 +54,9 @@ Authors:
     - Admin web interface for changing system things
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
-    - Multi language support (english, german, french, finnish, dutch and bulgarian)
+    - Multi language support (bulgarian, dutch, english, finnish, french, german and spanish)
     - customize the output templates (dtl) release independently
+    - Webinterface with attachment support
     - easy and logical to use
 
    Email-Interface:
@@ -178,6 +179,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /opt/otrs/var/log/TicketCounter.log
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
+%config(noreplace) /opt/otrs/.mailfilter
 %config(noreplace) /opt/otrs/Kernel/Output/HTML/Standard/*.dtl
 %config(noreplace) /opt/otrs/Kernel/Output/HTML/Lite/*.dtl
 %config(noreplace) /opt/otrs/Kernel/Language/*.pm

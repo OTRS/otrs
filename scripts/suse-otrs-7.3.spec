@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.16 2003-01-09 20:55:37 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.17 2003-01-15 18:30:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ Version:      0.5
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs 
-Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail perl-IO-stringy
+Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail perl-MIME-Base64
 Autoreqprov:  on
 Release:      BETA7
 Source0:      otrs-%{version}-%{release}.tar.bz2
@@ -54,8 +54,9 @@ Authors:
     - Admin web interface for changing system things
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
-    - Multi language support (english, german, french, finnish, dutch and bulgarian)
+    - Multi language support (bulgarian, dutch, english, finnish, french, german and spanish)
     - customize the output templates (dtl) release independently
+    - Webinterface with attachment support
     - easy and logical to use
 
    Email-Interface:
@@ -198,6 +199,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /opt/otrs/var/log/TicketCounter.log
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
+%config(noreplace) /opt/otrs/.mailfilter
 %config(noreplace) /opt/otrs/Kernel/Output/HTML/Standard/*.dtl
 %config(noreplace) /opt/otrs/Kernel/Output/HTML/Lite/*.dtl
 %config(noreplace) /opt/otrs/Kernel/Language/*.pm

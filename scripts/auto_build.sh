@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.11 2003-01-09 20:56:53 martin Exp $
+# $Id: auto_build.sh,v 1.12 2003-01-15 18:31:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.11 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.12 $>"
 echo "Copyright (c) 2002-2003 Martin Edenhofer <martin@otrs.org>"
 
 
@@ -108,6 +108,7 @@ rm -rf $PACKAGE_BUILD_DIR || exit 1;
 mkdir -p $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 
 cp -a $PATH_TO_CVS_SRC/.*rc $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
+cp -a $PATH_TO_CVS_SRC/.mailfilter $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 
 # --
@@ -115,7 +116,7 @@ cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 # --
 RELEASEFILE=$PACKAGE_BUILD_DIR/$ARCHIVE_DIR/RELEASE
 echo "PRODUCT = $PRODUCT" > $RELEASEFILE 
-echo "VERSION = $VERSION" >> $RELEASEFILE 
+echo "VERSION = $VERSION $RELEASE" >> $RELEASEFILE 
 echo "BUILDDATE = `date`" >> $RELEASEFILE 
 echo "BUILDHOST = `hostname -f`" >> $RELEASEFILE 
 
@@ -158,7 +159,7 @@ cp -R /tmp/OTRSDOC-package/sgml/* doc/manual/sgml/
 # --
 cd $PACKAGE_BUILD_DIR/ || exit 1;
 SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION-$RELEASE.tar.gz
-tar -czf $SOURCE_LOCATION $ARCHIVE_DIR/ $ARCHIVE_DIR/.*rc || exit 1;
+tar -czf $SOURCE_LOCATION $ARCHIVE_DIR/ $ARCHIVE_DIR/.*rc $ARCHIVE_DIR/.mailfilter || exit 1;
 cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 
 # --
@@ -166,7 +167,7 @@ cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 # --
 cd $PACKAGE_BUILD_DIR/ || exit 1;
 SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION-$RELEASE.tar.bz2
-tar -cjf $SOURCE_LOCATION $ARCHIVE_DIR/ $ARCHIVE_DIR/.*rc || exit 1;
+tar -cjf $SOURCE_LOCATION $ARCHIVE_DIR/ $ARCHIVE_DIR/.*rc $ARCHIVE_DIR/.mailfilter || exit 1;
 cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 
 
