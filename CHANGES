@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.115 2004-03-25 10:44:00 martin Exp $
+# $Id: CHANGES,v 1.116 2004-03-30 09:15:14 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,6 +11,8 @@
 
 CVS head 
 
+ - (2004/03/30) added ability to reverse the Queue sorting (added
+    AgentQueueSort setting)
  - (2004/03/12) added customer panel MyTickets and GroupTickets 
     feature.
  - (2004/03/11) added mulit serach options to customer serach e. g.
