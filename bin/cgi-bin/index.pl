@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.27 2002-05-17 23:49:08 martin Exp $
+# $Id: index.pl,v 1.28 2002-05-18 09:57:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 0;
@@ -183,7 +183,7 @@ if ($Param{Action} eq "Login") {
         }
         elsif ($Param{RequestedURL} =~ /SessionID=/) {
             # drop old session id
-            $Param{RequestedURL} =~ s/SessionID=(&|.+?&)/&/g; 
+            $Param{RequestedURL} =~ s/SessionID(=&|=.+?&|=.+?$)/&/g; 
         }
         else {
             # no session id
