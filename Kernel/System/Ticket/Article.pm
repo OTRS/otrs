@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.70.2.4 2004-10-01 16:22:32 martin Exp $
+# $Id: Article.pm,v 1.70.2.5 2004-10-06 08:38:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70.2.4 $';
+$VERSION = '$Revision: 1.70.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -651,6 +651,17 @@ sub ArticleLastCustomerArticle {
     else {
         my @Index = $Self->ArticleIndex(TicketID => $Param{TicketID});
         if (@Index) {
+            # return latest non internal article
+            foreach (reverse @Index) {
+                my %Article = $Self->ArticleGet(
+                    ArticleID => $_,
+                    TicketOverTime => 1,
+                );
+                if ($Article{ArticleType} !~ /int/) {
+                    return %Article;
+                }
+            }
+            # if we got no internal article, return the latest one
             return $Self->ArticleGet(ArticleID => $Index[$#Index], TicketOverTime => 1);
         }
         else {
