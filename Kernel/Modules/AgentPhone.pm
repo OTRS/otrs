@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.80 2004-04-27 12:29:43 martin Exp $
+# $Id: AgentPhone.pm,v 1.81 2004-04-28 22:43:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.80 $';
+$VERSION = '$Revision: 1.81 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -252,7 +252,7 @@ sub Run {
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID},
             HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultHistoryComment') || '$$',
+            HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultHistoryComment') || '%%',
         )) {
           # time accounting
           if ($TimeUnits) {
@@ -580,7 +580,7 @@ sub Run {
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID},
             HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryComment') || '$$',
+            HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultNewHistoryComment') || '%%',
             AutoResponseType => 'auto reply',
             OrigHeader => {
               From => $From,
