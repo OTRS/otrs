@@ -1,0 +1,186 @@
+# --
+# AgentPreferencesForm.dtl - provides HTML form for AgentPreferences 
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentPreferencesForm.dtl,v 1.1 2001-12-30 00:33:14 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<br>
+
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left"> 
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Change Password"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+<p>
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="UpdatePw">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+  <table border="0">
+  <tr>
+    <td>$Text{"New password"}:</td><td><input type="password" name="NewPw" value="" size="12"></td>
+  </tr>
+  <tr>
+    <td>$Text{"New password again"}:</td><td><input type="password" name="NewPw1" value="" size="12"></td>
+  </tr>
+  </table>
+<br>
+<input type="submit" value="$Text{"update"}">
+</form>
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Select your custom queues"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+<p>
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="UpdateCustomQueues">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+<br>
+<select name="QueueID" multiple size="16">
+$Data{"QueueDataStrg"}
+</select>
+<br>
+<input type="submit" value="$Text{"update"}">
+</form>
+</p>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Select your frontend language"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+<p>
+
+$Text{"currently"}: <b>$Env{"UserLanguage"}</b> 
+<br>
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="UpdateLanguage">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+<br>
+$Data{"LanguageOption"}
+<br>
+<input type="submit" value="$Text{"update"}">
+</form>
+</p>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+
+
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Select your frontend Charset"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+<p>
+
+$Text{"currently"}: <b>$Env{"UserCharset"}</b>
+<br>
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="UpdateCharset">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+<br>
+$Data{"CharsetOption"}
+<br>
+<input type="submit" value="$Text{"update"}">
+</form>
+</p>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+
+
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Select your frontend theme"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top" colspan="2">
+
+<p>
+
+$Text{"currently"}: <b>$Env{"UserTheme"}</b>
+<br>
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="UpdateTheme">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
+<br>
+$Data{"ThemeOption"}
+<br>
+<input type="submit" value="$Text{"update"}">
+</form>
+</p>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+

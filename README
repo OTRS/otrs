@@ -1,0 +1,66 @@
+# --
+# README - readme file of OpenTRS
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: README,v 1.1 2001-12-30 00:33:14 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+What is OpenTRS?
+================
+
+  OpenTRS has been developed with many features to manage customer
+  emails and telephone calls.
+
+  Feature list:
+  - Agent web interface for viewing and working on all customer requests.
+  - Admin web interface for changing system things.
+  - Customer web interface for viewing and sending infos to the agents.
+  - Central database which contains all configuration, customer information.
+  - Custom queue view.
+  - Ticket locking.
+  - Ticket autoreplies (standard responses)
+  - Ticket history, evolution of ticket status and actions taken on ticket
+  - Abaility to add notes (with different note types) to a ticket.
+  - Ticket zoom feature
+  - Tickets can be bounced or forwarded to other email addresses.
+  - Ticket can be moved to a different queue (this is helpful if emails are 
+     for a specific subject)
+  - Fulltext search.
+  - Ticket priority.
+  - Creation and configuration of user accounts, and groups
+  - Creation of standard responses
+  - Signature and Salutation configuration
+  - Multi language support.
+
+License:
+========
+  It is distributed under the GNU General Public License - see the
+  accompanying COPYING file for more details.
+
+On what hardware does it run?
+=============================
+
+  On all! You need Perl! My System is a Pentium II 500 with 256 MB RAM and
+  a 8 GB SCSI Harddisk. I can easily handle ~120.000 tickets, without problems.
+  For more then ~120.000 or ~300 tickets a day please ask the list about the
+  requirements.
+
+Software requirements?
+======================
+
+  On all Perl-Platforms! You need:
+    * min. Perl5
+    * Database (e. g. MySQL)
+    * Webpserver (mod_perl isn't required but very nice to have)
+
+  Currently tested:
+
+    * SuSE Linux 7.2, Perl 5.6.0, MySQL 3.23.37 and Apache 1.3.19.
+
+    ... and you? ;-)
+
+

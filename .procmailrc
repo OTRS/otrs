@@ -1,0 +1,48 @@
+# --
+# .procmailrc - procmailrc of the OpenTRS user
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: .procmailrc,v 1.1 2001-12-30 00:33:14 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+#SYS_HOME=/opt/OpenTRS/
+SYS_HOME=$HOME
+
+MONTHFOLDER=`date +%Y-%m`
+YEARFOLDER=`date +%Y`
+PATH=/bin:/usr/bin:/usr/bin
+LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
+VERBOSE=yes
+
+# --
+# example for queue pre sort
+# --
+:0 fhw :
+* TO:.*edenhofer
+| formail -I "X-OTRS-Queue: Privat"
+
+# --
+# example for add free form key and value (max 3) 
+# --
+:0 fhw :
+* TO:.*edenhofer
+| formail -I "X-OTRS-ArticleKey1: Test" |  formail -I "X-OTRS-ArticleValue1: True!"
+
+# --
+# some mail into the system
+# --
+:0c :
+| $SYS_HOME/bin/PostMaster.pl
+
+# --
+# backup of all incoming emails
+# --
+:0
+$SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
+
+
+

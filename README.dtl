@@ -1,0 +1,75 @@
+# --
+# README.dtl - dtl (dynamic template language) description of OpenTRS
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: README.dtl,v 1.1 2001-12-30 00:33:14 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+What is dtl (dynamic template language)?
+========================================
+dtl is a language to customize the OpenTRS frontend release independently!
+
+How can I use dtl?
+==================
+It's easy to use. Have a look at "$HOME_OTRS/Kernel/Output/HTML/Standard/Test.dtl" 
+to get a overview of the funktions.
+
+Note: The customized .dtl files can used for all further OpenTRS releases.
+
+Used Syntax:
+============
+
+  Comment: '#' 
+  ========
+
+  Set a variable: 
+  ===============
+   e. g. <dtl set $Data{"Test1"} = "German">
+
+    Used variables to set:  
+    ----------------------
+     $Data{"xyz"} (exists only the current dtl file) and $Env{"xyz"} (exists 
+     the whole dtl files). $Config{"xyz"} is read only!
+
+  To print a variable:
+  ====================
+    e. g. $Data{"xyz"} or $Env{"xyz"}
+
+  To translate text:
+  ==================
+    e. g. $Text{"This should be translated"} 
+ 
+    Take care, that the translation exists in the "$HOME_OTRS/Kernel/Language/*.pm" 
+    files. If there isn't a translation, the given text will be shown.
+
+  To store the output of an external program:
+  ===========================================
+    e. g. <dtl system-call $Data{"uptime"} = "uptime">
+
+  Condition:
+  ==========
+    e. g. <dtl if ($Text{"Lock"} eq "Lock") { $Data{"FrontendLanguage"} = "English"; }>
+    
+    It's only possible to store things into $Data{"xyz"} and $Env{"xyz"}.
+
+  To get config options:
+  ======================
+    e. g. $Config{"Sendmail"} 
+
+  Common $Env{} variables:
+  ========================
+    $Env{"SessionID"} --> the current session id 
+    $Env{"Time"} --> the current time e. g. 'Thu Dec 27 16:00:55 2001'  
+    $Env{"CGIHandle"} --> the current CGI handle e. g. 'index.pl' 
+    $Env{"Charset"} --> the current site charset e. g. 'iso-8859-1'
+    $Env{"Baselink"} --> the baselink --> index.pl?SessionID=...
+    $Env{"UserFirstname"} --> e. g. Dirk 
+    $Env{"UserLastname"} --> e. g. Hohndel 
+    $Env{"UserLogin"} --> e. g. mgg@x11.org
+    $Env{"Action"} --> the current action
+    $Env{"Subaction"} --> the current subaction
+
