@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.36 2003-07-07 22:05:25 martin Exp $
+# $Id: AgentZoom.pm,v 1.37 2003-07-12 08:23:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,6 +45,8 @@ sub new {
     if (!defined($Self->{ZoomExpandSort})) {
         $Self->{ZoomExpandSort} = $Self->{ConfigObject}->Get('TicketZoomExpandSort');
     }
+    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
+    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
     # customer user object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     return $Self;
@@ -199,36 +201,6 @@ sub MaskAgentZoom {
         }
     }
     # --
-    # prepare escalation time (if needed)
-    # --
-    if ($Param{Answered}) {
-        $Param{TicketOverTime} = '$Text{"none - answered"}';
-    }
-    elsif ($Param{TicketOverTime}) {
-      $Param{TicketOverTimeSuffix} = '';
-      # colloring  
-      $Param{TicketOverTimeFont} = '';
-      $Param{TicketOverTimeFontEnd} = '';
-      if ($Param{TicketOverTime} <= -60*20) {
-          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
-          $Param{TicketOverTimeFontEnd} = '</font>';
-      }
-      elsif ($Param{TicketOverTime} <= -60*40) {
-          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
-          $Param{TicketOverTimeFontEnd} = '</font>';
-      }
-
-      $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
-          Age => $Param{TicketOverTime},
-          Space => '<br>',
-      );
-      $Param{TicketOverTime} = $Param{TicketOverTimeFont}.
-        $Param{TicketOverTime}.$Param{TicketOverTimeFontEnd};
-    }
-    else {
-        $Param{TicketOverTime} = '-';
-    }
-    # --
     # get MoveQueuesStrg
     # --
     if ($Self->{ConfigObject}->Get('MoveType') =~ /^form$/i) {
@@ -270,9 +242,11 @@ sub MaskAgentZoom {
     my $Counter = '';
     my $Space = '';
     my $LastSenderType = '';
+    my $TicketOverTime = 0;
     $Param{ArticleStrg} = '<table border="0" width="100%" cellspacing="0" cellpadding="0">';
     foreach my $ArticleTmp (@ArticleBox) {
       my %Article = %$ArticleTmp;
+      $TicketOverTime = $Article{TicketOverTime}; 
       if ($Article{ArticleType} !~ /^email-notification/i) {
         $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
         if ($LastSenderType ne $Article{SenderType}) {
@@ -311,6 +285,35 @@ sub MaskAgentZoom {
     }
     $ThreadStrg .= '</table>';
     $Param{ArticleStrg} .= $ThreadStrg;
+    # --
+    # prepare escalation time (if needed)
+    # --
+    if ($Param{Answered}) {
+        $Param{TicketOverTime} = '$Text{"none - answered"}';
+    }
+    elsif ($TicketOverTime) {
+      # colloring  
+      if ($TicketOverTime <= -60*20) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+      elsif ($TicketOverTime <= -60*40) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+
+      $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+          Age => $TicketOverTime,
+          Space => '<br>',
+      );
+      if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
+        $Param{TicketOverTime} = $Param{TicketOverTimeFont}.
+            $Param{TicketOverTime}.$Param{TicketOverTimeFontEnd};
+      }
+    }
+    else {
+        $Param{TicketOverTime} = '-';
+    }
     # --
     # get shown article(s)
     # --
