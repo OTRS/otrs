@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.12 2002-05-14 00:12:44 martin Exp $
+# $Id: German.pm,v 1.13 2002-05-14 02:19:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -113,6 +113,17 @@ sub Data {
     $Self->{'description'} = 'Beschreibung';
     $Self->{'Key'} = 'Schlüssel';
     $Self->{'top'} = 'hoch';
+    $Self->{'Line'} = 'Zeile';
+    $Self->{'Subfunction'} = 'Unterfunktion';
+    $Self->{'Module'} = 'Modul';
+    $Self->{'Modulefile'} = 'Moduldatei';
+    $Self->{'No Permission'} = 'Keine Erlaubnis';
+    $Self->{'You have to be in the admin group!'} = 'Sie müssen hierfür in der Admin-Gruppe sein!';
+    $Self->{'You have to be in the stats group!'} = 'Sie müssen hierfür in der Statistik-Gruppe sein!';
+    $Self->{'Message'} = 'Nachricht';
+    $Self->{'Error'} = 'Fehler';
+    $Self->{'Bug Report'} = 'Fehler berichten';
+    $Self->{'Click her to report a bug!'} = 'Klicken Sie hier um einen Fehler zu berichten!';
     $Self->{'AgentFrontend'} = 'AgentOberfläche';
     $Self->{'Groups'} = 'Gruppen';
     $Self->{'User'} = 'Benutzer';
