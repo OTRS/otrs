@@ -2,7 +2,7 @@
 # Kernel/Config/CustomerPanel.pm - CustomerPanel config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPanel.pm,v 1.2 2002-10-20 12:05:16 martin Exp $
+# $Id: CustomerPanel.pm,v 1.3 2002-10-20 15:44:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::CustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,9 +34,8 @@ sub LoadCustomerPanel {
     $Self->{CustomerPanelUserID} = 1;
 
     # ----------------------------------------------------#
-    # URL login and logout settings                       #
+    # login and logout settings                           #
     # ----------------------------------------------------#
-
     # CustomerPanelLoginURL
     # (If this is anything other than '', then it is assumed to be the
     # URL of an alternate login screen which will be used in place of 
@@ -51,8 +50,17 @@ sub LoadCustomerPanel {
     $Self->{CustomerPanelLogoutURL} = '';
 #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
-
-
+    # CustomerPanelLostPassword
+    # (use lost passowrd feature)
+    $Self->{CustomerPanelLostPassword} = 1;
+ 
+    # CustomerPanelCreateAccount
+    # (use create cutomer account self feature)
+    $Self->{CustomerPanelCreateAccount} = 1;
+ 
+    # ----------------------------------------------------#
+    # customer message settings                           #
+    # ----------------------------------------------------#
     # default note type
     $Self->{CustomerPanelArticleType} = 'webrequest';
     $Self->{CustomerPanelSenderType} = 'customer'; 
@@ -88,9 +96,9 @@ sub LoadCustomerPanel {
 #        '2' => 'Second Queue!',
 #    };
     
-    # --
-    # notification email for new password
-    # --
+    # ----------------------------------------------------#
+    # notification email for new password                 #
+    # ----------------------------------------------------#
     $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS Password!';
     $Self->{CustomerPanelBodyLostPassword} = "
 Hi <OTRS_USERFIRSTNAME>,
