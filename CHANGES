@@ -2,12 +2,25 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.20 2002-08-25 01:07:47 martin Exp $
+# $Id: CHANGES,v 1.21 2002-09-05 09:38:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+0.5 BETA8 (2002-09-??)
+ - created config file (Kernel/Config/GenericAgent.pm) for bin/GenericAgent.pl
+ - split Kernel/Config.pm info Kernel/Config.pm, Kernel/Config/Postmaster.pm 
+    and Kernel/Config/Notification.pm to get a better overview.
+ - added new/current french translation - Thanks to Bernard Choppy! 
+ - added module support for log (Kernel/Config.pm --> $Self->{LogModule})
+     * "Kernel::System::Log::SysLog" for syslogd (default)
+     * "Kernel::System::Log::File" for log file 
+ - added alternate login and logout URL feature (Kernel/Config.pm --> 
+    $Self->{LoginURL}, $Self->{LogoutURL}) and added two example alternate 
+    login pages scripts/login.pl (Perl) and scripts/login.php (PHP)
+ - added backup and restore script (scripts/(backup|restore).sh)
 
 0.5 BETA7 (2002-08-06)
  - improved screen session management (next screen, last screen) added back 
