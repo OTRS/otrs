@@ -322,6 +322,13 @@ mysql>
 <para>
 Ready. Goto the preferences page and change your theme.
 </para>
+<para>
+If you want to use your new theme as default theme (login, ...), add the 
+following config option to your Kernel/Config.pm.
+<programlisting>
+    $Self->{DefaultTheme} = 'NewTheme';
+</programlisting>
+</para>
 </sect1>
 
 </chapter>
