@@ -1,8 +1,8 @@
 # --
 # AdminLog.dtl - provides HTML form for AdminLog
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.dtl,v 1.8 2004-09-30 05:45:30 martin Exp $
+# $Id: AdminLog.dtl,v 1.9 2005-01-10 23:19:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,12 +27,15 @@
       <td class="contentkey" width="60%">$Text{"Message"}</td>
     </tr>
 <!-- dtl:block:Row -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpasive"; }>
     <tr class="contentbody">
-      <td class="contentvalue">$Data{"StartFont"}$QData{"Time"}$Data{"StartFont"}</td>
-      <td class="contentvalue">$Data{"StartFont"}$QData{"Priority"}$Data{"StartFont"}</td>
-      <td class="contentvalue">$Data{"StartFont"}$QData{"Facility"}$Data{"StopFont"}</td>
-      <td class="contentvalue">$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
+      <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Time"}$Data{"StartFont"}</td>
+      <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Priority"}$Data{"StartFont"}</td>
+      <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Facility"}$Data{"StopFont"}</td>
+      <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
     </tr>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchpasive") { $Env{"Color"} = "searchactive"; }>
 <!-- dtl:block:Row -->
     </table>
     </p>
