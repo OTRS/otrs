@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceCustomer.pm,v 1.1 2004-11-16 12:03:41 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.2 2005-01-06 10:02:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -233,6 +233,8 @@ sub Run {
             );
             # create new session id
             my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
+                _UserLogin => $PostUser,
+                _UserPw => $PostPw,
                 %UserData,
                 UserLastRequest => $Self->{TimeObject}->SystemTime(),
                 UserType => 'Customer',
@@ -744,6 +746,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-11-16 12:03:41 $
+$Revision: 1.2 $ $Date: 2005-01-06 10:02:25 $
 
 =cut
