@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.10.2.1 2003-05-12 10:51:25 martin Exp $
+# $Id: AdminSession.pm,v 1.10.2.2 2003-05-29 10:32:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10.2.1 $';
+$VERSION = '$Revision: 1.10.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,13 +47,11 @@ sub Run {
     # kill session id
     if ($Self->{Subaction} eq 'Kill') {
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");    
-        # FIXME
         $Self->{SessionObject}->RemoveSessionID(SessionID => $WantSessionID);    
     }
     # kill all session id
     elsif ($Self->{Subaction} eq 'KillAll') {
         $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");    
-        # FIXME
         my @List = $Self->{SessionObject}->GetAllSessionIDs();
         foreach my $SessionID (@List) {
             # killall sessions but not the own one!
@@ -64,15 +62,27 @@ sub Run {
     }
     # else, show session list 
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Sessions');
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Session Management');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my @List = $Self->{SessionObject}->GetAllSessionIDs();
+        my $Table = '';
         my $Counter = @List;
-        $Output .= $Self->{LayoutObject}->AdminSession(Counter => $Counter);
+        my %MetaData = ();
+        $MetaData{UserSession} = 0;
+        $MetaData{CustomerSession} = 0;
+        $MetaData{UserSessionUniq} = 0;
+        $MetaData{CustomerSessionUniq} = 0;
         foreach my $SessionID (@List) {
             my %Data = $Self->{SessionObject}->GetSessionIDData(SessionID => $SessionID);
-            $Output .= $Self->{LayoutObject}->AdminSessionTable(SessionID => $SessionID, %Data);
+            $MetaData{"$Data{UserType}Session"}++;
+            if (!$MetaData{"$Data{UserLogin}"}) {
+                $MetaData{"$Data{UserType}SessionUniq"}++;
+                $MetaData{"$Data{UserLogin}"} = 1;
+            }
+            $Table .= $Self->{LayoutObject}->AdminSessionTable(SessionID => $SessionID, %Data);
         }
+        $Output .= $Self->{LayoutObject}->AdminSession(Counter => $Counter, %MetaData);
+        $Output .= $Table;
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
@@ -80,4 +90,3 @@ sub Run {
 # --
 
 1;
-
