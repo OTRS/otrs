@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.25 2004-05-02 10:31:02 martin Exp $
+# $Id: AgentEmail.pm,v 1.26 2004-05-04 15:23:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -420,7 +420,7 @@ sub Run {
             Charset => $Self->{LayoutObject}->{UserCharset},
             UserID => $Self->{UserID},
             HistoryType => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryComment'),
+            HistoryComment => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryComment') || "\%\%$To, $Cc, $Bcc",
         );
         if ($ArticleID) {
           # set lock (get lock type)
