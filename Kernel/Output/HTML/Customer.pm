@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.29 2004-03-12 18:42:53 martin Exp $
+# $Id: Customer.pm,v 1.30 2004-03-30 11:57:44 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -102,7 +102,7 @@ sub CustomerStatusView {
     for (my $i = 1; $i < ($Pages+1); $i++) {
         $Self->{UtilSearchResultCounter}++;
         $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=CustomerTicketOverView".
-         "&StartHit=". (($i-1)*$Param{PageShown}) .= '&SortBy=$Data{"SortBy"}&Order=$Data{"Order"}&Type=$Data{"Type"}">';
+         "&StartHit=". (($i-1)*$Param{PageShown}) .= '&SortBy=$Data{"SortBy"}&Order=$Data{"Order"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}">';
          if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{PageShown}) == ($i)) {
              $Param{PageNavBar} .= '<b>'.($i).'</b>';
          }
