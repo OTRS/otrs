@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.14 2004-09-24 15:07:45 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.15 2004-11-04 11:14:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -196,11 +196,6 @@ sub _Mask {
             $Article{"Body"} = '';
         }
         else {
-            # charset quoting
-            $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-                Text => $Article{Body},
-                From => $Article{ContentCharset},
-            );
             # html quoting
             $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
                 NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,

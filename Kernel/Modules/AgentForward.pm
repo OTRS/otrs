@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.41 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentForward.pm,v 1.42 2004-11-04 11:16:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -374,10 +374,6 @@ sub _Mask {
     $Param{SystemFromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{SystemFrom}, Max => 70);
     # do html quoting
     foreach (qw(ReplyTo From To Cc Bcc Subject SystemFrom Body)) {
-        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Param{$_},
-            From => $Param{ContentCharset},
-        );
         $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
     }
     # create & return output

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.29 2004-10-07 12:31:39 martin Exp $
+# $Id: AgentMailbox.pm,v 1.30 2004-11-04 11:16:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -130,7 +130,7 @@ sub Run {
     # --
     my $Counter = 0;
     foreach my $TicketID (@ViewableTickets) {
-        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID); 
+        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
         my $Shown = 0;
         my $Message = '';
         # --
@@ -156,16 +156,16 @@ sub Run {
                  $Article{State} !~ /^pending auto/i) {
                 $Shown = 1;
             }
-        } 
+        }
         elsif ($Self->{Subaction} eq 'All') {
             $Shown = 1;
-        } 
-        else { 
+        }
+        else {
             $Shown = 1;
             if ($Article{StateType} =~ /^pending/i) {
                 $Shown = 0;
             }
-        } 
+        }
         if ($Shown) {
             $Counter++;
             $Output .= $Self->MaskMailboxTicket(
@@ -185,7 +185,7 @@ sub MaskMailboxTicket {
     my $Self = shift;
     my %Param = @_;
     $Param{Message} = $Self->{LayoutObject}->{LanguageObject}->Get($Param{Message}).' ';
-    # get ack actions 
+    # get ack actions
     $Self->{TicketObject}->TicketAcl(
         Data => '-',
         Action => $Self->{Action},
@@ -193,7 +193,7 @@ sub MaskMailboxTicket {
         ReturnType => 'Action',
         ReturnSubType => '-',
         UserID => $Self->{UserID},
-    ); 
+    );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
     # check if the pending ticket is Over Time
     if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
@@ -206,7 +206,7 @@ sub MaskMailboxTicket {
             $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
         }
         $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
-            Age => $Param{UntilTime}, 
+            Age => $Param{UntilTime},
             Space => '<br>',
         );
         if ($Param{UntilTime} < -1) {
@@ -215,16 +215,9 @@ sub MaskMailboxTicket {
     }
     # do some strips && quoting
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # do some strips && quoting
-    foreach (qw(From To Cc Subject Body)) {
-        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Param{$_},
-            From => $Param{ContentCharset},
-        );
-    }
     # create & return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentMailboxTicket', 
+        TemplateFile => 'AgentMailboxTicket',
         Data => {%Param, %AclAction},
     );
 }

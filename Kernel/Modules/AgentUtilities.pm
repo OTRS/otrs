@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.64 2004-09-30 08:20:12 martin Exp $
+# $Id: AgentUtilities.pm,v 1.65 2004-11-04 11:14:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -261,12 +261,6 @@ sub Run {
           if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
             # get first article data
             my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle(TicketID => $_);
-            foreach (qw(From To Cc Subject)) {
-                $Data{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-                    Text => $Data{$_},
-                    From => $Data{ContentCharset},
-                ) || '-';
-            }
             # get whole article (if configured!)
             if ($Self->{ConfigObject}->Get('AgentUtilArticleTreeCSV') && $GetParam{ResultForm} eq 'CSV') {
                 my @Article = $Self->{TicketObjectSearch}->ArticleGet(
@@ -316,11 +310,6 @@ sub Run {
                     $Data{Body} = '';
                 }
                 else {
-                    # charset convert
-                    $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-                        Text => $Data{Body},
-                        From => $Data{ContentCharset},
-                    );
                     # do some text quoting
                     $Data{Body} = $Self->{LayoutObject}->Ascii2Html(
                         NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,

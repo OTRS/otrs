@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.6 2004-09-30 08:20:12 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.7 2004-11-04 11:13:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -281,12 +281,6 @@ sub Run {
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Data{Age}, Space => ' ');
                 # customer info string
                 $Data{CustomerName} = '('.$Data{CustomerName}.')' if ($Data{CustomerName});
-                foreach (qw(From To Cc Subject)) {
-                    $Data{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-                        Text => $Data{$_},
-                        From => $Data{ContentCharset},
-                    ) || '-';
-                }
                 # add blocks to template
                 $Self->{LayoutObject}->Block(
                     Name => 'Record',

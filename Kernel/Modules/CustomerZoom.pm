@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.28 2004-09-27 13:36:53 martin Exp $
+# $Id: CustomerZoom.pm,v 1.29 2004-11-04 11:13:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -251,14 +251,6 @@ sub _Mask {
             Type => 'inline',
             ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
             Content => $Article{Body},
-        );
-    }
-    # do some strips && quoting
-    foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 FreeValue3)) {
-        # charset encode
-        $Param{"Article::$_"} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Article{$_},
-            From => $Article{ContentCharset},
         );
     }
     # check if just a only html email
