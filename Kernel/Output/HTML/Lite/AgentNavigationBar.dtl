@@ -1,8 +1,8 @@
 # --
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.21 2004-10-23 08:42:50 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.22 2005-01-10 23:16:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,11 @@
 
     <table border="0" cellspacing="2" cellpadding="3">
     <tr>
+<!-- dtl:block:ItemPre -->
+      <td valign="top" align="center" class="nav">
+        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"$QData{"Name"}"}</a></div>
+      </td>
+<!-- dtl:block:ItemPre -->
 <!-- dtl:block:ItemArea -->
       <td valign="top" align="center" class="nav">
         <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem">$Text{"$QData{"Name"}"}</a></div>

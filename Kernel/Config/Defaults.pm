@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.179 2005-01-06 09:48:48 martin Exp $
+# $Id: Defaults.pm,v 1.180 2005-01-10 23:17:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.179 $';
+$VERSION = '$Revision: 1.180 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2321,6 +2321,7 @@ Your OTRS Notification Master
             Image => 'exit.png',
             Link => 'Action=Logout',
             NavBar => '',
+            Block => 'ItemPre',
             Prio => 1,
           },
         ],
@@ -2340,13 +2341,12 @@ Your OTRS Notification Master
           },
           {
             Description => 'Ticket-Area',
+            Type => 'Menu',
             Block => 'ItemArea',
             Name => 'Agent',
             Image => 'desktop.png',
             Link => 'Action=AgentQueueView',
-            NavBar => '',
-#            NavBarHighlightOn => 'Ticket',
-            NavBarNotShown => 'Ticket',
+            NavBar => 'Ticket',
             Prio => 10,
           },
         ],
@@ -2396,15 +2396,17 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentPreferences'} = {
         Description => 'Agent Preferences',
-        NavBarName => 'Ticket',
+#        NavBarName => 'Ticket',
         NavBar => [
           {
             Description => 'Agent Preferences',
             Name => 'Preferences',
             Image => 'prefer.png',
             Link => 'Action=AgentPreferences',
-            NavBar => 'Ticket',
-            Prio => 80,
+#            NavBar => 'Ticket',
+#            Type => 'Menu',
+#            Block => 'Item',
+            Prio => 11000,
          },
        ],
     };
@@ -2517,7 +2519,7 @@ Your OTRS Notification Master
             Image => 'stats.png',
             Link => 'Action=SystemStats',
             NavBar => 'Ticket',
-            Prio => 85,
+            Prio => 10000,
           },
         ],
     };
@@ -2531,14 +2533,13 @@ Your OTRS Notification Master
           {
             GroupRo => 'faq',
             Description => 'FAQ-Area',
+            Type => 'Menu',
             Block => 'ItemArea',
             Name => 'FAQ',
             Image => 'help.png',
             Link => 'Action=FAQ',
-            NavBar => '',
-#            NavBarHighlightOn => 'FAQ',
-            NavBarNotShown => 'FAQ',
-            Prio => 1700,
+            NavBar => 'FAQ',
+            Prio => 90000,
           },
           {
             Group => 'faq',
@@ -2626,14 +2627,13 @@ Your OTRS Notification Master
         NavBar => [
           {
             Description => 'Admin-Area',
+            Type => 'Menu',
             Block => 'ItemArea',
             Name => 'Admin',
             Image => 'admin.png',
             Link => 'Action=Admin',
-            NavBar => '',
-#            NavBarHighlightOn => 'Admin',
-            NavBarNotShown => 'Admin',
-            Prio => 2000,
+            NavBar => 'Admin',
+            Prio => 100000,
           },
         ],
         NavBarModule => {
@@ -3190,6 +3190,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.179 $ $Date: 2005-01-06 09:48:48 $
+$Revision: 1.180 $ $Date: 2005-01-10 23:17:58 $
 
 =cut

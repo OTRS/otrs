@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.167 2005-01-09 13:43:28 martin Exp $
+# $Id: Generic.pm,v 1.168 2005-01-10 23:17:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.167 $';
+$VERSION = '$Revision: 1.168 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -388,7 +388,14 @@ sub Output {
          $TemplateString = $Param{Template};
     }
     elsif ($Param{TemplateFile}) {
-        if (open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")) {
+        my $File = '';
+        if (-f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl") {
+            $File = "$Self->{TemplateDir}/$Param{TemplateFile}.dtl";
+        }
+        else {
+            $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
+        }
+        if (open (TEMPLATEIN, "< $File")) {
             while (my $Line = <TEMPLATEIN>) {
                 $TemplateString .= $Line;
             }
@@ -397,7 +404,7 @@ sub Output {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!",
+                Message => "Can't read $File: $!",
             );
         }
     }
@@ -1553,15 +1560,26 @@ sub NavigationBar {
     my %Param = @_;
     my $Output = '';
     if (!$Param{Type}) {
-        if (!$Self->{ModuleReg}->{NavBarName}) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Need NavBarName in Module registry!",
-            );
-            $Self->FatalError();
-        }
-        $Param{Type} = $Self->{ModuleReg}->{NavBarName};
+#        if (!$Self->{ModuleReg}->{NavBarName}) {
+#            $Self->{LogObject}->Log(
+#                Priority => 'error',
+#                Message => "Need NavBarName in Module registry!",
+#            );
+#            $Self->FatalError();
+#        }
+        $Param{Type} = $Self->{ModuleReg}->{NavBarName} || $Self->{LastNavBarName} || 'Ticket';
     }
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key => 'LastNavBarName',
+        Value => $Param{Type},
+    );
+    my $NavBarType = $Self->{ConfigObject}->Get('Frontend::NavBarStyle') || 'Classic';
+    $Self->Block(
+        Name => $NavBarType,
+        Data => \%Param,
+    );
+
     # run notification modules
     if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
@@ -1608,10 +1626,15 @@ sub NavigationBar {
         if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
             my @Items = @{$Hash{NavBar}};
             foreach my $Item (@Items) {
-                if (($Item->{NavBar} && $Item->{NavBar} eq $Param{Type}) || (!$Item->{NavBar} && $Item->{NavBarNotShown} && $Param{Type} !~ /^$Item->{NavBarNotShown}/) || (!$Item->{NavBar} && !$Item->{NavBarNotShown})) {
+                if (($Item->{NavBar} && $Item->{NavBar} eq $Param{Type}) || ($Item->{Type}&& $Item->{Type} eq 'Menu') || !$Item->{NavBar}) {
                     # highligt avtive area link
-                    if ($Item->{NavBarHighlightOn} && $Item->{NavBarHighlightOn} eq $Param{Type}) {
-                        $Item->{ItemAreaCSSSuffix} = 'active';
+                    if (($Item->{Type} && $Item->{Type} eq 'Menu') && ($Item->{NavBar} && $Item->{NavBar} eq $Param{Type})) {
+                        if (!$Self->{ConfigObject}->Get('Frontend::NavBarStyle::ShowSelectedArea')) {
+                            next;
+                        }
+                        else {
+                            $Item->{ItemAreaCSSSuffix} = 'active';
+                        }
                     }
                     # get permissions from module if no permissions are defined for the icon
                     if (!$Item->{GroupRo} && !$Item->{Group}) {
