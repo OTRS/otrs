@@ -841,7 +841,17 @@ CREATE TABLE postmaster_filter
 );
 
 # -----------------------------------------------------------------------
-# search_profile 
+# generic_agent_jobs
+# -----------------------------------------------------------------------
+
+CREATE TABLE generic_agent_jobs (
+  job_name varchar(200) NOT NULL,
+  job_key varchar(200) NOT NULL,
+  job_value varchar(200) NOT NULL
+);
+
+# -----------------------------------------------------------------------
+# search_profile
 # -----------------------------------------------------------------------
 drop table if exists search_profile;
 

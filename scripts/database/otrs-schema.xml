@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.23 2004-05-10 12:57:02 martin Exp $
+  $Id: otrs-schema.xml,v 1.24 2004-07-18 00:53:14 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.23  2004/05/10 12:57:02  martin
+  added postmaster_filter table
+
   Revision 1.22  2004/05/04 15:15:24  martin
   changed user_id size from 40 to 100
 
@@ -838,6 +841,13 @@
   <column name="f_type" required="true" size="20" type="VARCHAR"/>
   <column name="f_key" required="true" size="200" type="VARCHAR"/>
   <column name="f_value" required="true" size="200" type="VARCHAR"/>
+</table>
+
+<!-- generic_agent_jobs -->
+<table name="generic_agent_jobs">
+  <column name="job_name" required="true" size="200" type="VARCHAR"/>
+  <column name="job_key" required="true" size="200" type="VARCHAR"/>
+  <column name="job_value" required="true" size="200" type="VARCHAR"/>
 </table>
 
 <!-- search_profile -->

@@ -1,11 +1,11 @@
 # --
-# Kernel/System/GenericAgent.pm - generic agent system module 
+# Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.1 2004-05-24 19:01:43 martin Exp $
+# $Id: GenericAgent.pm,v 1.2 2004-07-18 00:53:14 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -29,7 +29,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
- 
+
     my %Map = (
       TicketNumber => 'SCALAR',
       From => 'SCALAR',
@@ -85,7 +85,7 @@ sub new {
       TicketFreeText7 => 'ARRAY',
       TicketFreeKey8 => 'ARRAY',
       TicketFreeText8 => 'ARRAY',
-      'TimeSearchType::None' => 'SCALAR', 
+      'TimeSearchType::None' => 'SCALAR',
       TicketCreateTimeStopDay => 'SCALAR',
       TicketCreateTimeStartYear => 'SCALAR',
       TicketCreateTimePoint => 'SCALAR',
@@ -93,10 +93,15 @@ sub new {
       TicketCreateTimeStartDay => 'SCALAR',
       TicketCreateTimeStartMonth => 'SCALAR',
       TicketCreateTimeStopMonth => 'SCALAR',
+      ScheduleLastRun => 'SCALAR',
+      ScheduleLastRunUnixTime => 'SCALAR',
+      ScheduleDays => 'ARRAY',
+      ScheduleMinutes => 'ARRAY',
+      ScheduleHours => 'ARRAY',
     );
-   
+
     $Self->{Map} = \%Map;
-    
+
     return $Self;
 }
 # --
@@ -224,14 +229,14 @@ sub JobAdd {
     foreach my $Key (keys %{$Param{Data}}) {
         if (ref($Param{Data}->{$Key}) eq 'ARRAY') {
           foreach (@{$Param{Data}->{$Key}}) {
-          if ($_) {
+          if (defined($_)) {
             my $SQL = "INSERT INTO generic_agent_jobs (job_name, ".
               "job_key, job_value) VALUES ".
               " ('".$Self->{DBObject}->Quote($Param{Name})."', '$Key', '".
               $Self->{DBObject}->Quote($_)."')";
             $Self->{DBObject}->Do(SQL => $SQL);
           }
-          } 
+          }
         }
         else {
             if ($Param{Data}->{$Key}) {

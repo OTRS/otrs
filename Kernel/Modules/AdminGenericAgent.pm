@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface 
+# Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.1 2004-05-24 19:01:32 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.2 2004-07-18 00:53:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,18 +15,18 @@ use strict;
 use Kernel::System::Priority;
 use Kernel::System::State;
 use Kernel::System::GenericAgent;
-    
+
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-    
+
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -63,14 +63,14 @@ sub Run {
     my %DBParam = $Self->{GenericAgentObject}->JobGet(Name => $Self->{Profile}) if ($Self->{Profile});
     # get signle params
     my %GetParam = ();
-    foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin 
+    foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
       Agent ResultForm TimeSearchType
-      TicketCreateTimePointFormat TicketCreateTimePoint 
+      TicketCreateTimePointFormat TicketCreateTimePoint
       TicketCreateTimePointStart
-      TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth 
+      TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
       TicketCreateTimeStartYear
-      TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth 
-      TicketCreateTimeStopYear 
+      TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
+      TicketCreateTimeStopYear
       NewCustomerID NewCustomerUserLogin
       NewStateID NewQueueID NewPriorityID NewUserID
       NewNoteFrom NewNoteSubject NewNoteBody NewModule
@@ -79,6 +79,7 @@ sub Run {
       NewParamKey5 NewParamKey6 NewParamKey7 NewParamKey8
       NewParamValue5 NewParamValue6 NewParamValue7 NewParamValue8
       NewLockID NewDelete NewCMD
+      ScheduleLastRun
     )) {
         # load profiles string params (press load profile)
         if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
@@ -95,7 +96,8 @@ sub Run {
     }
     # get array params
     foreach (qw(LockIDs StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs
-      TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2 
+      ScheduleDays ScheduleMinutes ScheduleHours
+      TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
       TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
       TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
       TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8)) {
@@ -129,7 +131,7 @@ sub Run {
         $GetParam{ResultForm} = '';
     }
     if ($GetParam{ResultForm} eq 'Print' || $GetParam{ResultForm} eq 'CSV') {
-        $Self->{SearchPageShown} = $Self->{SearchLimit}; 
+        $Self->{SearchPageShown} = $Self->{SearchLimit};
     }
     # show result site
     if ($Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate}) {
@@ -141,7 +143,7 @@ sub Run {
             return $Output;
         }
         # save search profile (under last-search or real profile name)
-        $Self->{SaveProfile} = 1; 
+        $Self->{SaveProfile} = 1;
         # remember last search values
         if ($Self->{SaveProfile} && $Self->{Profile}) {
             # remove/clean up old profile stuff
@@ -272,15 +274,15 @@ sub Run {
             );
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-            NullOption => 1, 
+            NullOption => 1,
             Ticket => \%GetParam,
             Config => \%TicketFreeText,
         );
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->MaskForm(
-            %GetParam, 
+            %GetParam,
             %TicketFreeTextHTML,
-            Profile => $Self->{Profile}, 
+            Profile => $Self->{Profile},
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -298,7 +300,7 @@ sub MaskForm {
         Valid => 1,
     );
     $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%ShownUsers, 
+        Data => \%ShownUsers,
         Name => 'UserIDs',
         Multiple => 1,
         Size => 5,
@@ -311,24 +313,61 @@ sub MaskForm {
         Size => 5,
         SelectedID => $Param{NewUserID},
     );
-    $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { '', '-', $Self->{DBObject}->GetTableData(
-                      What => 'job_name, job_name',
-                      Table => 'generic_agent_jobs',
-                    ) }, 
-        Name => 'Profile',
-        SelectedID => $Param{Profile},
+    my %Hours = ();
+    foreach (0..23) {
+        $Hours{$_} = sprintf("%02d", $_);
+    }
+    $Param{'ScheduleHours'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%Hours,
+        Name => 'ScheduleHours',
+        Size => 6,
+        Multiple => 1,
+        SelectedIDRefArray => $Param{ScheduleHours},
+    );
+    my %Minutes = ();
+    foreach (1..59) {
+        $Minutes{$_} = sprintf("%02d", $_);
+    }
+    $Param{'ScheduleMinutes'} = $Self->{LayoutObject}->OptionStrgHashRef(
+#        Data => \%Minutes,
+        Data => {
+            10 => '10',
+            20 => '20',
+            30 => '30',
+            40 => '40',
+            50 => '50',
+            60 => '60',
+        },
+        Name => 'ScheduleMinutes',
+        Size => 6,
+        Multiple => 1,
+        SelectedIDRefArray => $Param{ScheduleMinutes},
+    );
+    $Param{'ScheduleDays'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+            1 => '1 Mon',
+            2 => '2 Thu',
+            3 => '3 Wen',
+            4 => '4 Th',
+            5 => '5 Fri',
+            6 => '6 Sat',
+            0 => '7 Sun',
+        },
+        Name => 'ScheduleDays',
+        Size => 6,
+        Multiple => 1,
+        SelectedIDRefArray => $Param{ScheduleDays},
     );
     $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { '', '-', $Self->{GenericAgentObject}->JobList(), }, 
+        Data => { '', '-', $Self->{GenericAgentObject}->JobList(), },
         Name => 'Profile',
         SelectedID => $Param{Profile},
     );
     $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{StateObject}->StateList(
-             UserID => $Self->{UserID}, 
+             UserID => $Self->{UserID},
              Action => $Self->{Action},
-             ) 
+             ),
         },
         Name => 'StateIDs',
         Multiple => 1,
@@ -393,30 +432,30 @@ sub MaskForm {
         SelectedID => $Param{NewPriorityID},
     );
     $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
-            1 => 1, 
-            2 => 2, 
-            3 => 3, 
-            4 => 4, 
-            5 => 5, 
-            6 => 6, 
-            7 => 7, 
-            8 => 8, 
-            9 => 9, 
+        Data => {
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            4 => 4,
+            5 => 5,
+            6 => 6,
+            7 => 7,
+            8 => 8,
+            9 => 9,
         },
         Name => 'TicketCreateTimePoint',
         SelectedID => $Param{TicketCreateTimePoint},
     );
     $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
-            'Last' => 'last', 
-            'Before' => 'before', 
+        Data => {
+            'Last' => 'last',
+            'Before' => 'before',
         },
         Name => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
     $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
+        Data => {
             day => 'day(s)',
             week => 'week(s)',
             month => 'month(s)',
@@ -465,7 +504,7 @@ sub MaskForm {
     );
     # html search mask output
     my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminGenericAgent', 
+        TemplateFile => 'AdminGenericAgent',
         Data => \%Param,
     );
     return $Output;
