@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.64 2004-01-09 16:45:17 martin Exp $
+# $Id: Ticket.pm,v 1.65 2004-01-19 23:49:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -63,7 +63,7 @@ sub new {
     bless ($Self, $Type);
 
     # 0=off; 1=on;
-    $Self->{Debug} = 0;
+    $Self->{Debug} = $Param{Debug} || 0;
     # --
     # create common needed module objects
     # --
@@ -976,6 +976,7 @@ sub SearchTicket {
         State => 'st.ticket_state_id', 
         Ticket => 'st.tn',
         Queue => 'sq.name', 
+        Priority => 'st.ticket_priority_id', 
         Age => 'st.create_time_unix',
     );
     # check options
@@ -1077,7 +1078,7 @@ sub SearchTicket {
     foreach my $Key (keys %FieldSQLMapFullText) {
         if ($Param{$Key}) {
             $Param{$Key} =~ s/\*/%/gi;
-            $SQLExt .= " AND $FieldSQLMapFullText{$Key} LIKE '\%".$Self->{DBObject}->Quote($Param{$Key})."%'";
+            $SQLExt .= " AND $FieldSQLMapFullText{$Key} LIKE '".$Self->{DBObject}->Quote($Param{$Key})."'";
         }
     }
     # ticket free text
@@ -1091,6 +1092,41 @@ sub SearchTicket {
         if ($Param{"TicketFreeText$_"}) {
             $Param{"TicketFreeText$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND st.freetext$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeText$_"})."'";
+        }
+    }
+    # get tickets older then x minutes
+    if ($Param{TicketCreateTimeOlderMinutes}) {
+        my $Time = time()-($Param{TicketCreateTimeOlderMinutes}*60);
+        $SQLExt .= " AND st.create_time_unix <= ".$Self->{DBObject}->Quote($Time);
+    }
+    # get tickets newer then x minutes
+    if ($Param{TicketCreateTimeNewerMinutes}) {
+        my $Time = time()-($Param{TicketCreateTimeNewerMinutes}*60);
+        $SQLExt .= " AND st.create_time_unix >= ".$Self->{DBObject}->Quote($Time);
+    }
+    # get tickets older then xxxx-xx-xx xx:xx date 
+    if ($Param{TicketCreateTimeOlderDate}) {
+        # check time format
+        if ($Param{TicketCreateTimeOlderDate} !~ /\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d/) {
+            $Self->{LogObject}->Log( 
+                Priority => 'error',  
+                Message => "No valid time format '$Param{TicketCreateTimeOlderDate}'!",
+            );
+        }
+        else {
+            $SQLExt .= " AND st.create_time <= '".$Self->{DBObject}->Quote($Param{TicketCreateTimeOlderDate})."'";
+        }
+    }
+    # get tickets newer then xxxx-xx-xx xx:xx date 
+    if ($Param{TicketCreateTimeNewerDate}) {
+        if ($Param{TicketCreateTimeNewerDate} !~ /\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d/) {
+            $Self->{LogObject}->Log( 
+                Priority => 'error',  
+                Message => "No valid time format '$Param{TicketCreateTimeNewerDate}'!",
+            );
+        }
+        else {
+            $SQLExt .= " AND st.create_time >= '".$Self->{DBObject}->Quote($Param{TicketCreateTimeNewerDate})."'";
         }
     }
     # database query
