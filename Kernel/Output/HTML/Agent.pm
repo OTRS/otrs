@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.32 2002-06-05 22:55:34 martin Exp $
+# $Id: Agent.pm,v 1.33 2002-06-14 19:56:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,9 +36,8 @@ sub QueueView {
     my %Param = @_;
     my $QueueStrg = '';
     my $QueueID = $Param{QueueID} || 0;
-    my $QueuesTmp = $Param{Queues};
-    my @QueuesNew = @$QueuesTmp;
-    my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || '?';
+    my @QueuesNew = @{$Param{Queues}};
+    my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || -1;
  
     # build queue string
     foreach my $QueueRef (@QueuesNew) {
@@ -772,7 +771,7 @@ sub AgentMailboxTicket {
     if ($Param{ViewType} eq 'New' && $Param{LastSenderID} eq $Param{UserID}) {
         return;
     }
-    
+
     if ($Param{LastSenderID} ne $Param{UserID}) {
         $Param{Message} = 'New message!';
     }
