@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.70.2.8 2004-10-07 14:11:08 martin Exp $
+# $Id: Article.pm,v 1.70.2.9 2004-10-14 15:17:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70.2.8 $';
+$VERSION = '$Revision: 1.70.2.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1848,6 +1848,10 @@ sub SendCustomerNotification {
     foreach (qw(Subject Body)) {
         if (!$Notification{$_}) {
             $Notification{$_} = "No CustomerNotifiaction $_ for $Param{Type} found!";
+        }
+        # fix 1.3.x bug (wrong database content)
+        else {
+            $Notification{$_} =~ s/index\.pl/customer.pl/g;
         }
     }
 
