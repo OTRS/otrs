@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.12 2003-03-06 22:11:59 martin Exp $
+# $Id: AgentOwner.pm,v 1.13 2003-03-10 23:32:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -120,9 +120,13 @@ sub Run {
         # --
         # get user of own groups
         # --
-        my %AllGroupsMembers = ();
+        my %ShownUsers = ();
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type => 'Long',
+            Valid => 1,
+        );
         if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
-            %AllGroupsMembers = $Self->{UserObject}->UserList(Valid => 1);
+            %ShownUsers = %AllGroupsMembers;
         }
         else {
             my %Groups = $Self->{GroupObject}->GroupUserList(
@@ -137,7 +141,7 @@ sub Run {
                     Result => 'HASH',
                 );
                 foreach (keys %MemberList) {
-                    $AllGroupsMembers{$_} = $MemberList{$_};
+                    $ShownUsers{$_} = $AllGroupsMembers{$_};
                 }
             }
         }
@@ -145,7 +149,7 @@ sub Run {
         # print change form
         # --
 	    $Output .= $Self->{LayoutObject}->AgentOwner(
-            OptionStrg => \%AllGroupsMembers,
+            OptionStrg => \%ShownUsers,
  			TicketID => $Self->{TicketID},
             OwnerID => $OwnerID,
             BackScreen => $Self->{BackScreen},

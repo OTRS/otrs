@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.30 2003-03-06 22:11:57 martin Exp $
+# $Id: User.pm,v 1.31 2003-03-10 23:32:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -418,10 +418,20 @@ sub UserList {
     my $Self = shift;
     my %Param = @_;
     my $Valid = $Param{Valid} || 0;
+    my $Type = $Param{Type} || 'Short';
+    if ($Type eq 'Short') {
+        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+            " $Self->{ConfigObject}->{DatabaseUserTableUser}";
+    }
+    else {
+        $Param{What} = "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
+            " last_name, first_name, ".
+            " $Self->{ConfigObject}->{DatabaseUserTableUser}";
+    }
     my %Users = $Self->{DBObject}->GetTableData(
-        What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
-            " $Self->{ConfigObject}->{DatabaseUserTableUser}",
+        What => $Param{What},
         Table => $Self->{ConfigObject}->{DatabaseUserTable},
+        Clamp => 1,
         Valid => $Valid,
     );
     return %Users;
