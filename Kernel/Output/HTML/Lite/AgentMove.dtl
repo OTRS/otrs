@@ -2,7 +2,7 @@
 # NoteForm.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.dtl,v 1.6 2003-11-05 23:06:32 martin Exp $
+# $Id: AgentMove.dtl,v 1.7 2003-12-08 00:10:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,6 +76,7 @@ function submit_compose()
   <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}">
 #  <input type="hidden" name="DestQueueID" value="">
   <input type="hidden" name="ExpandQueueUsers" value="">
+  <input type="hidden" name="AllUsers" value="0">
  
   <table border="0" width="100%">
   <tr valign="top">
@@ -86,7 +87,7 @@ function submit_compose()
   <tr valign="top">
     <td width="18%">$Text{"New Owner"}:</td>
     <td width="2%"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
-    <td width="80%">$Data{"OwnerStrg"}</td>
+    <td width="80%">$Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
   </tr>
   <tr>
     <td>$Text{"Previous Owner"}:</td>
