@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUser.pm,v 1.4 2004-12-02 09:29:53 martin Exp $
+# $Id: AdminRoleUser.pm,v 1.5 2004-12-06 22:24:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminRoleUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -135,32 +135,6 @@ sub Run {
                 UID => $ID,
                 RID => $RoleID,
                 Active => $Active,
-                UserID => $Self->{UserID},
-            );
-        }
-        # get new groups
-        my %Permissions = ();
-        foreach (@{$Self->{ConfigObject}->Get('System::Permission')}) {
-            my @IDs = $Self->{ParamObject}->GetArray(Param => $_);
-            $Permissions{$_} = \@IDs;
-        }
-        # get group data
-        my %GroupData = $Self->{GroupObject}->GroupList(Valid => 1);
-        my %NewPermission = ();
-        foreach (keys %GroupData) {
-            foreach my $Permission (keys %Permissions) {
-                $NewPermission{$Permission} = 0;
-                my @Array = @{$Permissions{$Permission}};
-                foreach my $ID (@Array) {
-                    if ($_ == $ID) {
-                        $NewPermission{$Permission} = 1;
-                    }
-                }
-            }
-            $Self->{GroupObject}->GroupMemberAdd(
-                UID => $ID,
-                GID => $_,
-                Permission => { %NewPermission },
                 UserID => $Self->{UserID},
             );
         }
