@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.162 2004-09-24 10:05:17 martin Exp $
+# $Id: Defaults.pm,v 1.163 2004-09-24 12:10:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.162 $';
+$VERSION = '$Revision: 1.163 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2220,7 +2220,7 @@ Your OTRS Notification Master
           {
             Description => 'Overview of all open Tickets',
             Name => 'QueueView',
-            Image => 'queue.png',
+            Image => 'overview.png',
             Link => 'Action=AgentQueueView',
             NavBar => 'Ticket',
             Prio => 10,
@@ -2228,7 +2228,7 @@ Your OTRS Notification Master
           {
             Description => 'Ticket-Area',
             Block => 'ItemArea',
-            Name => 'Ticket-Area',
+            Name => 'Agent',
             Image => 'desktop.png',
             Link => 'Action=AgentQueueView',
             NavBar => '',
@@ -2245,7 +2245,7 @@ Your OTRS Notification Master
           {
             Description => 'Create new Phone Ticket',
             Name => 'Phone-Ticket',
-            Image => 'new.png',
+            Image => 'phone-new.png',
             Link => 'Action=AgentPhone',
             NavBar => 'Ticket',
             Prio => 20,
@@ -2410,7 +2410,7 @@ Your OTRS Notification Master
             GroupRo => 'faq',
             Description => 'FAQ-Area',
             Block => 'ItemArea',
-            Name => 'FAQ-Area',
+            Name => 'FAQ',
             Image => 'help.png',
             Link => 'Action=FAQ',
             NavBar => '',
@@ -2448,7 +2448,7 @@ Your OTRS Notification Master
           {
             Description => 'New Article',
             Name => 'New Article',
-            Image => 'create.png',
+            Image => 'new.png',
             Link => 'Action=FAQArticle',
             NavBar => 'FAQ',
             Prio => 1702,
@@ -2496,7 +2496,7 @@ Your OTRS Notification Master
           {
             Description => 'Admin-Area',
             Block => 'ItemArea',
-            Name => 'Admin-Area',
+            Name => 'Admin',
             Image => 'admin.png',
             Link => 'Action=Admin',
             NavBar => '',
@@ -2707,7 +2707,7 @@ Your OTRS Notification Master
           {
             Description => 'Create new Ticket',
             Name => 'New Ticket',
-            Image => 'create.png',
+            Image => 'new.png',
             Link => 'Action=CustomerMessage',
             Prio => 10,
           },
