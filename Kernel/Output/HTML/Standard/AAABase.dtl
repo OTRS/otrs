@@ -70,6 +70,7 @@ $Text{"all"}
 $Text{"Sorry"}
 $Text{"update!"}
 $Text{"update"}
+$Text{"Update"}
 $Text{"submit!"}
 $Text{"submit"}
 $Text{"change!"}
@@ -131,3 +132,4 @@ $Text{"To: (%s) replaced with database email!"}
 $Text{"Don't show closed Tickets"}
 $Text{"Show closed Tickets"}
 $Text{"New Article"}
+$Text{"(Click here to add)"}
