@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.2 2005-03-04 11:54:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,6 +50,13 @@ sub new {
     }
     $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
+    # ticket id lookup
+    if (!$Self->{TicketID} && $Self->{ParamObject}->GetParam(Param => 'TicketNumber')) {
+        $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
+            TicketNumber => $Self->{ParamObject}->GetParam(Param => 'TicketNumber'),
+            UserID => $Self->{UserID},
+        );
+    }
     # customer user object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     # link object
