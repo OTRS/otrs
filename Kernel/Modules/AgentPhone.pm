@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.60 2004-03-02 21:11:37 martin Exp $
+# $Id: AgentPhone.pm,v 1.61 2004-03-05 08:30:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,6 +45,10 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+
+    use Kernel::System::FAQ;
+    $Self->{FAQObject} = Kernel::System::FAQ->new(%Param);
+
 
     return $Self;
 }
@@ -322,6 +326,34 @@ sub Run {
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+
+
+        my $FAQ = $Self->{ParamObject}->GetParam(Param => 'FAQ') || '';
+
+        if ($FAQ && $ExpandCustomerName == 4) {
+            my @FAQIDs = $Self->{FAQObject}->Search(
+                What => $FAQ, 
+                States => ['external (customer)', 'public (all)', 'internal (agent)'],
+#                LanguageIDs => \@LanguageIDs,
+#                CategoryIDs => \@CategoryIDs,
+                UserID => $Self->{UserID},
+            ); 
+            if (@FAQIDs) {
+                my %FAQ = $Self->{FAQObject}->ArticleGet(
+                    ID => $FAQIDs[0], 
+                    UserID => $Self->{UserID},
+                );
+                $Subject = $FAQ{Subject}; 
+                $Text = '';
+                foreach (1..6) {
+                    if ($FAQ{"Field$_"}) {
+                        $Text .= $FAQ{"Field$_"}."\n";
+                    }
+                }
+            }
+        }
+
+
         my %TicketFree = ();
         foreach (1..8) {
             $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
@@ -394,6 +426,10 @@ sub Run {
         elsif ($ExpandCustomerName == 3) {
             $Error{NoSubmit} = 1;
             $CustomerUser = $SelectedCustomerUser;
+        }
+        # 'just' no submit
+        elsif ($ExpandCustomerName == 4) {
+            $Error{NoSubmit} = 1;
         }
         # --
         # show customer info

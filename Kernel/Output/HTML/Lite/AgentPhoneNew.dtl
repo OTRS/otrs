@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.30 2004-03-02 21:23:58 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.31 2004-03-05 08:32:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,6 +93,9 @@ function clear_field()
 <dtl if ($Config{"ShowCustomerInfoCompose"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>"; }>
     $Data{"CustomerInfo"}
 # --
+$Text{"FAQ-Insert"}: $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='4'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Insert"}'; return true;">$Text{"Insert"}</a>$Env{"Box1"}
+<input type="text" name="FAQ" value="" onSubmit="document.compose.ExpandCustomerName.value='4';">
+
   </td>
   </tr>
   <tr>
