@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.46 2004-04-19 11:21:02 martin Exp $
+# $Id: AgentUtilities.pm,v 1.47 2004-04-19 11:21:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -412,12 +412,10 @@ sub Run {
         my %TicketFreeText = ();
         foreach (1..8) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                TicketID => $Self->{TicketID},
                 Type => "TicketFreeKey$_",
                 UserID => $Self->{UserID},
             );
             $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                TicketID => $Self->{TicketID},
                 Type => "TicketFreeText$_",
                 UserID => $Self->{UserID},
             );
