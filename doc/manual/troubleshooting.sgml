@@ -67,9 +67,9 @@ shell:~ # cd ~otrs
 </programlisting>
 It's important to be in the $HOME of the otrs user.
 <programlisting>
-shell:/opt/OpenTRS # perl -cw bin/cgi-bin/index.pl 
+shell:/opt/otrs # perl -cw bin/cgi-bin/index.pl 
 bin/cgi-bin/index.pl syntax OK
-shell:/opt/OpenTRS #
+shell:/opt/otrs #
 </programlisting>
 If you get an error message, in most cases you have to install missing perl modules from <ulink url="http://www.cpan.org/">CPAN</ulink>.
 </para>
@@ -114,7 +114,7 @@ module DBD::Pg: Shared object "libpq.so.2" not found at
 index.pl: [Thu Sep 19 16:52:18 2002] index.pl: [Thu Sep 19 16:52:18 2002]
 index.pl: [Thu Sep 19 16:52:18 2002] index.pl: at (eval 124) line 3 Perhaps
 a required shared library or dll isn't installed where expected at   
-/usr/local/OpenTRS/bin/cgi-bin/../../Kernel/System/DB.pm line 67
+/usr/local/otrs/bin/cgi-bin/../../Kernel/System/DB.pm line 67
 [...]
 </para>
 <para>
@@ -199,14 +199,14 @@ If everything is working, but you can't see the incoming emails, check if the ~o
 <para>
 Example:
 <programlisting>
-shell:~ # cat /usr/share/doc/packages/otrs/test-email-1.box | /opt/OpenTRS/bin/PostMaster.pl 
+shell:~ # cat /usr/share/doc/packages/otrs/test-email-1.box | /opt/otrs/bin/PostMaster.pl 
 shell:~ #
 </programlisting>
 May there is an error message, then you have to fix it. If not and you see this email in the postmaster queue, the procmail program isn't configured with your MTA (check the MTA log file, e. .g /var/log/mail) or the $HOME of the otrs user isn't correct (check $HOME and $HOME/.procmailrc).
 </para>
 </sect2>
 
-<sect2 id="problems_lost_opentrs_root_pw">
+<sect2 id="problems_lost_otrs_root_pw">
 <title>Lost root password of OTRS</title>
 <para>
 I lost the root password of OTRS ("Login failed! Your username or password was entered incorrectly."). 
