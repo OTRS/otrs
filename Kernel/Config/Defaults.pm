@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.181 2005-01-13 17:36:42 martin Exp $
+# $Id: Defaults.pm,v 1.182 2005-01-22 10:33:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.181 $';
+$VERSION = '$Revision: 1.182 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2322,7 +2322,7 @@ Your OTRS Notification Master
             Link => 'Action=Logout',
             NavBar => '',
             Block => 'ItemPre',
-            Prio => 1,
+            Prio => 100,
           },
         ],
     };
@@ -2337,7 +2337,7 @@ Your OTRS Notification Master
             Image => 'overview.png',
             Link => 'Action=AgentQueueView',
             NavBar => 'Ticket',
-            Prio => 10,
+            Prio => 100,
           },
           {
             Description => 'Ticket-Area',
@@ -2347,7 +2347,7 @@ Your OTRS Notification Master
             Image => 'desktop.png',
             Link => 'Action=AgentQueueView',
             NavBar => 'Ticket',
-            Prio => 10,
+            Prio => 200,
           },
         ],
     };
@@ -2361,7 +2361,7 @@ Your OTRS Notification Master
             Image => 'phone-new.png',
             Link => 'Action=AgentPhone',
             NavBar => 'Ticket',
-            Prio => 20,
+            Prio => 200,
           },
         ],
     };
@@ -2376,7 +2376,7 @@ Your OTRS Notification Master
             Image => 'mail_new.png',
             Link => 'Action=AgentEmail',
             NavBar => 'Ticket',
-            Prio => 21,
+            Prio => 210,
           },
         ],
     };
@@ -2390,7 +2390,7 @@ Your OTRS Notification Master
             Image => 'search.png',
             Link => 'Action=AgentUtilities',
             NavBar => 'Ticket',
-            Prio => 30,
+            Prio => 300,
          },
        ],
     };
@@ -2406,7 +2406,7 @@ Your OTRS Notification Master
 #            NavBar => 'Ticket',
 #            Type => 'Menu',
 #            Block => 'Item',
-            Prio => 11000,
+            Prio => 1000,
          },
        ],
     };
@@ -2519,7 +2519,7 @@ Your OTRS Notification Master
             Image => 'stats.png',
             Link => 'Action=SystemStats',
             NavBar => 'Ticket',
-            Prio => 10000,
+            Prio => 400,
           },
         ],
     };
@@ -2539,7 +2539,7 @@ Your OTRS Notification Master
             Image => 'help.png',
             Link => 'Action=FAQ',
             NavBar => 'FAQ',
-            Prio => 90000,
+            Prio => 8300,
           },
           {
             Group => 'faq',
@@ -2548,7 +2548,7 @@ Your OTRS Notification Master
             Image => 'new.png',
             Link => 'Action=FAQ&Subaction=Add',
             NavBar => 'FAQ',
-            Prio => 1702,
+            Prio => 200,
           },
           {
             GroupRo => 'faq',
@@ -2557,7 +2557,7 @@ Your OTRS Notification Master
             Image => 'search.png',
             Link => 'Action=FAQ&Subaction=Search',
             NavBar => 'FAQ',
-            Prio => 1701,
+            Prio => 300,
           },
           {
             GroupRo => 'faq',
@@ -2566,7 +2566,7 @@ Your OTRS Notification Master
             Image => 'list.png',
             Link => 'Action=FAQ&Subaction=SystemHistory',
             NavBar => 'FAQ',
-            Prio => 1703,
+            Prio => 310,
           },
         ],
     };
@@ -2599,7 +2599,7 @@ Your OTRS Notification Master
             Image => 'fileopen.png',
             Link => 'Action=FAQCategory',
             NavBar => 'FAQ',
-            Prio => 1704,
+            Prio => 900,
           },
         ],
     };
@@ -2615,7 +2615,7 @@ Your OTRS Notification Master
             Image => 'fileopen.png',
             Link => 'Action=FAQLanguage',
             NavBar => 'FAQ',
-            Prio => 1705,
+            Prio => 901,
           },
         ],
     };
@@ -2633,7 +2633,7 @@ Your OTRS Notification Master
             Image => 'admin.png',
             Link => 'Action=Admin',
             NavBar => 'Admin',
-            Prio => 100000,
+            Prio => 10000,
           },
         ],
         NavBarModule => {
@@ -2685,7 +2685,7 @@ Your OTRS Notification Master
             Image => 'folder_yellow.png',
             Link => 'Action=AdminCustomerUser&Nav=Agent',
             NavBar => 'Ticket',
-            Prio => 86,
+            Prio => 9000,
           }
         ],
         NavBarModule => {
@@ -2993,7 +2993,7 @@ Your OTRS Notification Master
             Name => 'Logout',
             Image => 'exit.png',
             Link => 'Action=Logout',
-            Prio => 1,
+            Prio => 10,
           },
         ],
     };
@@ -3005,14 +3005,14 @@ Your OTRS Notification Master
             Name => 'MyTickets',
             Image => 'ticket.png',
             Link => 'Action=CustomerTicketOverView&Type=MyTickets',
-            Prio => 20,
+            Prio => 100,
           },
           {
             Description => 'CompanyTickets',
             Name => 'CompanyTickets',
             Image => 'tickets.png',
             Link => 'Action=CustomerTicketOverView&Type=CompanyTickets',
-            Prio => 21,
+            Prio => 110,
           },
         ],
     };
@@ -3024,7 +3024,7 @@ Your OTRS Notification Master
             Name => 'New Ticket',
             Image => 'new.png',
             Link => 'Action=CustomerMessage',
-            Prio => 10,
+            Prio => 200,
           },
         ],
     };
@@ -3042,7 +3042,7 @@ Your OTRS Notification Master
             Name => 'Search',
             Image => 'search.png',
             Link => 'Action=CustomerTicketSearch',
-            Prio => 30,
+            Prio => 300,
           },
         ],
     };
@@ -3054,7 +3054,7 @@ Your OTRS Notification Master
             Name => 'FAQ-Area',
             Image => 'help.png',
             Link => 'Action=CustomerFAQ',
-            Prio => 30,
+            Prio => 400,
           },
         ],
     };
@@ -3066,7 +3066,7 @@ Your OTRS Notification Master
             Name => 'Preferences',
             Image => 'prefer.png',
             Link => 'Action=CustomerPreferences',
-            Prio => 40,
+            Prio => 1000,
           },
         ],
     };
@@ -3190,6 +3190,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.181 $ $Date: 2005-01-13 17:36:42 $
+$Revision: 1.182 $ $Date: 2005-01-22 10:33:33 $
 
 =cut
