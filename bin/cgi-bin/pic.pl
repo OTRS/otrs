@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OTRS
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.16.2.1 2003-05-04 14:37:24 martin Exp $
+# $Id: pic.pl,v 1.16.2.2 2003-05-25 22:56:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.16.2.1 $';
+$VERSION = '$Revision: 1.16.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -201,6 +201,7 @@ sub GetImage {
       );
     }
     open (DATA, "< $HtdocsPath/$File") or print STDERR "$! \n";
+    binmode(DATA);
     while (<DATA>) {
         $Data .= $_;
     }
