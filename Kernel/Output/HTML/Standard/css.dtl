@@ -2,7 +2,7 @@
 # css.dtl - css file
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: css.dtl,v 1.6 2004-09-27 13:27:30 martin Exp $
+# $Id: css.dtl,v 1.7 2004-09-30 06:01:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@
   a.navitemareaactive { color:#cd9931;font-size:11px; }
   a.navitemareaactive:hover { color:#002244;font-size:11px; }
 # menu bar
-  .menu { color:#000000;background-color:#eeeeee;font-size:10px;vertical-align:top; }
+  .menu { color:#000000;background-color:#eeeeee;font-size:12px;vertical-align:top; }
   a.menuitem { color:#557799;font-size:12px; }
   a.menuitem:hover { color:#002244;font-size:12px; }
 # footer
@@ -56,8 +56,10 @@
 # content
   .contenthead { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
   .contentbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+  .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
   .contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .searchactive { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .searchpasive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 
 # table color
 # table0 = header for tables
