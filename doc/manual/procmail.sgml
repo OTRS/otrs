@@ -1,0 +1,60 @@
+<chapter id="procmail">
+<title>Dispatching with procmail</title>
+<para>
+Procmail is a very common e-mail filter in the Linux enviroment. It will be probably installed on your system. If not have a look at the <ulink url="http://www.procmail.org/"><citetitle>procmail homepage</citetitle></ulink>.
+</para>
+<sect1 id="xheader_otrs_queue">
+<title>The X-OTRS-Queue Mail-Header</title>
+<para>
+The X-OTRS-Queue Mail-Header is parsed by OpenTRS and OpenTRS will pipe these e-mails direct in this queue. Procmail and fromail can be used to create a powerfull dispatcher tool.
+</para>
+</sect1>
+
+<sect1 id="procmailex">
+<title>Examples</title>
+<para>
+The following examples are copied from the procmailex man-page. Feel free to have a look into it (actually it is quite a good idea). Of course we changed the wording a bit (to fit it into the queueing idea).
+</para>
+
+<para>
+Sort out all mail coming from the scuba-dive mailing list into the scuba queue.
+
+<screen>
+:0
+* ^TOscuba
+| formail -I "X-OTRS-Queue: scuba"
+</screen>
+
+Forward all mail from peter about compilers into the william queue.
+<screen>
+:0
+* ^From.*peter
+* ^Subject:.*compilers
+| formail -I "X-OTRS-Queue: william"
+</screen>
+
+And here a last example. 
+
+<screen>
+# --
+# Examples for queue presorting.
+# --
+
+:0 fhw :
+* ^List-Id:.*OpenAntiVirus
+| formail -I "X-OTRS-Queue: OpenAntiVirus"
+
+:0 fhw :
+* ^Sender:.*example.com
+| formail -I "X-OTRS-Queue: example"
+
+:0 fhw :
+* TO:.*BUGTRAQ
+| formail -I "X-OTRS-Queue: BUGTRAQ"
+
+</screen>
+
+Please have a look into the procmailex man-page for more examples.
+</para>
+</sect1>
+</chapter>
