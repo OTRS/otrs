@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.14.2.1 2003-05-18 20:22:12 martin Exp $
+# $Id: DB.pm,v 1.14.2.2 2003-05-21 22:45:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14.2.1 $';
+$VERSION = '$Revision: 1.14.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,9 +46,22 @@ sub new {
       || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
     $Self->{CustomerID} = $Self->{ConfigObject}->Get('CustomerUser')->{CustomerID} 
       || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
-
+    # --
+    # create new db connect if DSN is given
+    # --
+    if ($Self->{ConfigObject}->Get('CustomerUser')->{Params}->{DSN}) {
+        $Self->{DBObject} = Kernel::System::DB->new(
+            LogObject => $Param{LogObject},
+            ConfigObject => $Param{ConfigObject},
+            DatabaseDSN => $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{DSN},
+            DatabaseUser => $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{User},
+            DatabasePw => $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{Password},
+        ) || die $DBI::errstr;
+    }
+    # --
+    # create check item object
+    # --
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
-    
     return $Self;
 }
 # --
