@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# $Id: otrs.checkModules,v 1.2 2003-01-23 22:50:09 martin Exp $
+# $Id: otrs.checkModules,v 1.3 2003-02-11 15:29:29 wiktor Exp $
 # --
 # This programm is based on pminst from Tom Christiansen.
 # This is free software.  You may modify it and distribute it 
@@ -28,7 +28,7 @@ my @NeededModules = (qw(
     Email::Valid 
     IO::Scalar IO::Wrap 
     MIME::Base64 MIME::Tools Mail::Internet
-    Net::DNS Net::POP3
+    Net::DNS Net::POP3 Net::LDAP
     GD GD::Text GD::Graph GD::Graph::lines GD::Text::Align
 ));
 
@@ -63,6 +63,9 @@ foreach (@NeededModules) {
     else {
         if ($_ =~ /^GD/) {
             print sprintf(" %20s %s\n", $_, '... not installed! (for stats - not required)');
+        }
+	elsif ($_ =~ /^Net::LDAP/) {
+            print sprintf(" %20s %s\n", $_, '... not installed! (for directory authentication - not required)');
         }
         else {
             print sprintf(" %20s %s\n", $_, '... not installed! (required)');
