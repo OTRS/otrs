@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.6 2003-02-09 10:31:19 martin Exp $
+# $Id: AgentStatusView.pm,v 1.7 2003-03-02 14:03:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Modules::AgentStatusView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,14 +59,20 @@ sub new {
    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
    # viewable tickets a page
-   $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit')
-       || 600; 
+   $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit') || 6000; 
 
    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0;
    if ($Self->{StartHit} >= 1000) {
        $Self->{StartHit} = 1000;
    }
    $Self->{PageShown} = $Self->{ConfigObject}->Get('AgentStatusView::ViewableTicketsPage') || 50;
+   $Self->{ViewType} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'Open';
+   if ($Self->{ViewType} =~ /^close/i) {
+       $Self->{ViewType} = 'Closed';
+   }
+   else {
+       $Self->{ViewType} = 'Open';
+   }
 
    return $Self;
 }
@@ -122,9 +128,14 @@ sub Run {
        " ug.user_id = u.". $Self->{ConfigObject}->Get('DatabaseUserTableUserID') .
        " AND ".
        " q.id = st.queue_id ".
-       " AND ".
-       " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-       " ORDER BY ";
+       " AND ";
+    if ($Self->{ViewType} =~ /closed/i) {
+       $SQL .= " tsd.name not in ( ${\(join ', ', @ViewableStats)} ) ";
+    }
+    else {
+       $SQL .= " tsd.name in ( ${\(join ', ', @ViewableStats)} ) ";
+    }
+    $SQL .= " ORDER BY ";
 
     if ($Self->{SortBy} eq 'Owner') {
         $SQL .= "u.".$Self->{ConfigObject}->Get('DatabaseUserTableUser');
@@ -185,7 +196,7 @@ sub Run {
         PageShown => $Self->{PageShown},
         AllHits => $AllHits,
         StartHit => $Self->{StartHit},
-
+        Type => $Self->{ViewType},
     );
     # get page footer
     $Output .= $Self->{LayoutObject}->Footer();
