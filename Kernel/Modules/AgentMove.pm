@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AgentMove.pm - move tickets to queues 
+# Kernel/Modules/AgentMove.pm - move tickets to queues
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.35 2004-05-24 21:05:48 martin Exp $
+# $Id: AgentMove.pm,v 1.36 2004-09-15 12:31:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,16 +24,16 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
-    # make all Params to local 
+    # make all Params to local
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) { 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
     $Self->{StateObject} = Kernel::System::State->new(%Param);
@@ -58,13 +58,9 @@ sub Run {
     foreach (qw(TicketID)) {
       if (!$Self->{$_}) {
         # error page
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
           Message => "Need $_!",
-          Comment => 'Please contact the admin.',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
       }
     }
     # check permissions
@@ -74,6 +70,21 @@ sub Run {
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+    # check if ticket is locked
+    if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
+            TicketID => $Self->{TicketID},
+        );
+        if ($OwnerID != $Self->{UserID}) {
+            my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => "Can't move, the current owner is $OwnerLogin!",
+                Comment => 'Please change the owner first.',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
     }
     # move queue
     if (!$Self->{DestQueueID} || $Self->{ExpandQueueUsers}) {
@@ -161,7 +172,7 @@ sub Run {
                 StateID => $Self->{NewStateID},
                 UserID => $Self->{UserID},
             );
-        } 
+        }
         # new owner!
         my $UserSelection = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
@@ -213,7 +224,7 @@ sub Run {
                 HistoryComment => '%%Move',
             );
         }
-        # redirect 
+        # redirect
         return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
@@ -243,7 +254,7 @@ sub AgentMove {
     if ($Param{OldUser}) {
         my $Counter = 0;
         foreach my $User (reverse @{$Param{OldUser}}) {
-          if ($Counter) { 
+          if ($Counter) {
             if (!$UserHash{$User->{UserID}}) {
                 $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
                   "$User->{UserFirstname} ($User->{UserLogin})";
@@ -255,7 +266,7 @@ sub AgentMove {
     if (!%UserHash) {
         $UserHash{''} = '-';
     }
-    # build string 
+    # build string
     $Param{'OldUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%UserHash,
         SelectedID => $Param{OldUser}->[0]->{UserID}.'1',
@@ -271,7 +282,7 @@ sub AgentMove {
         $Data{$ID} =~ s/^(.*)::/$1/;
         my @Queue = split(/::/, $Data{$ID});
         $UsedData{$Data{$ID}} = 1;
-        my $UpQueue = $Data{$ID}; 
+        my $UpQueue = $Data{$ID};
         $UpQueue =~ s/^(.*)::.+?$/$1/g;
         $Queue[$#Queue] = $Self->{LayoutObject}->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
         my $Space = '|';
@@ -318,14 +329,14 @@ sub AgentMove {
                  $Queue[$#Queue].'</a>';
             if ($LatestQueueID eq $ID) {
                 $Param{MoveQueuesStrg} .= '  <font color="red">--&gt; $Text{"Latest Queue!"} &lt;--</font>';
-            } 
+            }
             $Param{MoveQueuesStrg} .= '<br>';
         }
         delete $Data{$ID};
     }
     # --
     # build next states string
-    # -- 
+    # --
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NewStateID',
@@ -361,7 +372,7 @@ sub AgentMove {
 sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
-    # get users 
+    # get users
     my %ShownUsers = $Self->{UserObject}->UserList(
         Type => 'Long',
         Valid => 1,
