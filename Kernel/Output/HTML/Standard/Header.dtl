@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.21 2002-11-10 23:10:34 martin Exp $
+# $Id: Header.dtl,v 1.22 2002-11-10 23:24:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -64,7 +64,6 @@ Pragma: no-cache
 </head>
 <a name="top"></a>
 <body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
-<a href="/gif/penguin.gif"><img src="/gif/penguin.gif"></a> <a href="/cgi-bin/test.pl?q">test</a>
 <table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" width="30%">
