@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.76 2004-11-04 13:03:03 martin Exp $
+# $Id: AgentZoom.pm,v 1.77 2004-11-11 10:34:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.76 $';
+$VERSION = '$Revision: 1.77 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -412,6 +412,7 @@ sub MaskAgentZoom {
                         DBObject => $Self->{DBObject},
                         LayoutObject => $Self->{LayoutObject},
                         TicketObject => $Self->{TicketObject},
+                        TicketID => $Self->{TicketID},
                         ArticleID => $Article{ArticleID},
                         UserID => $Self->{UserID},
                         Debug => $Self->{Debug},
@@ -458,50 +459,73 @@ sub MaskAgentZoom {
         if ($Article{Atms}) {
             %AtmIndex = %{$Article{Atms}};
         }
-        $Article{"ATM"} = '<table border="0" cellspacing="0" cellpadding="1">';
-        foreach my $FileID (keys %AtmIndex) {
-            my %File = %{$AtmIndex{$FileID}};
-            # check viewer
-            my $Viewer = '';
-            if ($Self->{ConfigObject}->Get('MIME-Viewer')) {
-                foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
-                    if ($File{ContentType} =~ /^$_/i) {
-                        $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
-                    }
-                }
-            }
-            # build link
-            $File{Filename} = $Self->{LayoutObject}->Ascii2Html(Text => $File{Filename});
-            # download type
-            my $Type = $Self->{ConfigObject}->Get('Agent::DownloadType') || 'attachment';
-            # if attachment will be forced to download, don't open a new download window!
-            my $Target = '';
-            if ($Type =~ /inline/i) {
-                $Target = 'target="attachment" ';
-            }
-            my $Link = "\$Env{\"Baselink\"}Action=AgentAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID";
-            $Article{"ATM"} .= "<tr><td>$File{Filename}</td>";
-            $Article{"ATM"} .= "<td><a href=\"$Link\" $Target".
-              "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';".
-              ' return true;" onmouseout="window.status=\'\';">'.
-              "<img src=\"\$Env{\"Images\"}disk-s.png\" border=\"0\" alt=\"\$Text{\"Download\"}\"></a></td><td> ";
-             if ($Viewer) {
-                 $Article{"ATM"} .= "<a href=\"$Link&Viewer=1\" target=\"attachment\" ".
-              "onmouseover=\"window.status='\$Text{\"View\"}: $File{Filename}';".
-              ' return true;" onmouseout="window.status=\'\';">'.
-              "<img src=\"\$Env{\"Images\"}screen-s.png\" border=\"0\" alt=\"\$Text{\"Viewer\"}\"></a>";
-             }
-             $Article{"ATM"} .= "</td><td align='right'> $File{Filesize}</td></tr>";
-        }
-        $Article{"ATM"} .= '</table>';
+        # add block for attachments
         if (%AtmIndex) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachment',
                 Data => {
                     Key => 'Attachment',
-                    Value => $Article{"ATM"},
                 },
             );
+        }
+        foreach my $FileID (keys %AtmIndex) {
+            my %File = %{$AtmIndex{$FileID}};
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleAttachmentRow',
+                Data => {
+                    %File,
+                },
+            );
+             # run article attachment modules
+             if (ref($Self->{ConfigObject}->Get('Frontend::ArticleAttachmentModule')) eq 'HASH') {
+                my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleAttachmentModule')};
+                foreach my $Job (sort keys %Jobs) {
+                    # log try of load module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                        );
+                    }
+                    if (eval "require $Jobs{$Job}->{Module}") {
+                        my $Object = $Jobs{$Job}->{Module}->new(
+                            ConfigObject => $Self->{ConfigObject},
+                            LogObject => $Self->{LogObject},
+                            DBObject => $Self->{DBObject},
+                            LayoutObject => $Self->{LayoutObject},
+                            TicketObject => $Self->{TicketObject},
+                            TicketID => $Self->{TicketID},
+                            ArticleID => $Article{ArticleID},
+                            UserID => $Self->{UserID},
+                            Debug => $Self->{Debug},
+                        );
+                        # log loaded module
+                        if ($Self->{Debug} > 1) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'debug',
+                                Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                            );
+                        }
+                        # run module
+                        my %Data = $Object->Run(
+                            File => {%File, FileID => $FileID, },
+                            Article => \%Article,
+                        );
+                        if (%Data) {
+                            $Self->{LayoutObject}->Block(
+                                Name => 'ArticleAttachmentRowLink',
+                                Data => { %Data },
+                            );
+                        }
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message => "Can't load module $Jobs{$Job}->{Module}!",
+                        );
+                    }
+                }
+             }
         }
         # do some strips && quoting
         foreach (qw(From To Cc Subject)) {
