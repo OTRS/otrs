@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.8 2003-04-23 17:43:42 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.9 2004-01-10 15:32:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,10 +88,11 @@ sub DeleteArticleOfTicket {
     # delete attachments and plain emails
     # --
     my @Articles = $Self->GetArticleIndex(TicketID => $Param{TicketID});
-    foreach (@Articles) {    
-        # --
+    foreach (@Articles) {
+        # delete from db
+        $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $_");
+        $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $_");
         # delete from fs
-        # --
         my $ContentPath = $Self->GetArticleContentPath(ArticleID => $_);
         system("rm -rf $Self->{ArticleDataDir}/$ContentPath/$_/*");
     } 
@@ -99,9 +100,7 @@ sub DeleteArticleOfTicket {
     # delete articles
     # --
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
-        # --
         # delete history´
-        # --
         if ($Self->DeleteHistoryOfTicket(TicketID => $Param{TicketID})) {
             return 1;
         }
@@ -232,16 +231,27 @@ sub GetArticlePlain {
     my $Data = '';
     if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt")) {
         # can't open article
-        $Self->{LogObject}->Log(
-            Priority => 'error', 
-            Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
-        );
-        return;
+        # try database
+        my $SQL = "SELECT body FROM article_plain ".
+        " WHERE ".
+        " article_id = $Param{ArticleID}";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Data = $Row[0];
+        }
+        if ($Data) {
+            return $Data;
+        }
+        else {
+            $Self->{LogObject}->Log(
+              Priority => 'error',
+              Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
+            );
+            return;
+        }
     }
     else {
-        # --
         # read whole article
-        # --
         while (<DATA>) {
             $Data .= $_;
         }
@@ -277,6 +287,18 @@ sub GetArticleAtmIndex {
         s!^.*/!!;
         $Index{$Counter} = $_ if ($_ ne 'plain.txt');
     }
+    # try database (if there is no index in fs)
+    if (!%Index) {
+        my $SQL = "SELECT filename FROM article_attachment ".
+        " WHERE ".
+        " article_id = $Param{ArticleID}".
+        " ORDER BY id";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+           $Counter++;
+           $Index{$Counter} = $Row[0];
+        }
+    }
     return %Index;
 }
 # --
@@ -308,11 +330,31 @@ sub GetArticleAttachment {
         return %Data;
     }
     else {
-        $Self->{LogObject}->Log(
+        # try database
+        my $SQL = "SELECT content_type, content FROM article_attachment ".
+        " WHERE ".
+        " article_id = $Param{ArticleID}";
+        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID});
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Data{ContentType} = $Row[0];
+            # decode attachemnt if it's e. g. a postgresql backend!!!
+            if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+                $Data{Content} = decode_base64($Row[1]);
+            }
+            else {
+                $Data{Content} = $Row[1];
+            }
+        }
+        if ($Data{Content}) {
+            return %Data;
+        }
+        else {
+            $Self->{LogObject}->Log(
               Priority => 'error',
               Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Index{$Param{FileID}}!",
-        );
-        return;
+            );
+            return;
+        }
     }
 }
 # --
