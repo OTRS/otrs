@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.7 2002-04-22 22:25:36 martin Exp $
+# $Id: suse-otrs.spec,v 1.8 2002-05-05 15:57:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -131,6 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /opt/OpenTRS/Kernel/Config.pm
 %config(noreplace) /opt/OpenTRS/var/log/TicketCounter.log
 %config(noreplace) /opt/OpenTRS/.procmailrc
+%config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Standard/Motd.dtl
 
 /etc/init.d/otrs
 /usr/sbin/rcotrs
@@ -152,7 +153,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc INSTALL TODO COPYING READM* doc/* install*
 
 
-%changelog 
+%changelog
+* Sat May 05 2002 - martin+rpm@otrs.org
+- added Kernel/Output/HTML/Standard/Motd.dtl as config file 
 * Thu Apr 16 2002 - martin+rpm@otrs.org
 - moved to SuSE 8.0 support
 * Sun Feb 03 2002 - martin+rpm@otrs.org
