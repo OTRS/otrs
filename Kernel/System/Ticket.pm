@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.88 2004-04-18 12:11:20 martin Exp $
+# $Id: Ticket.pm,v 1.89 2004-04-18 12:25:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.88 $';
+$VERSION = '$Revision: 1.89 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2866,6 +2866,10 @@ sub TicketWorkflow {
     }
     # check workflow config
     my %Workflow = %{$Self->{ConfigObject}->Get('TicketWorkflow')};
+#    my $Match = 1;
+#    my $Match3 = 0;
+    my %NewData = ();
+    my $UseNewParams = 0;
     foreach my $StepT (sort keys %Workflow) {
         my %Step = %{$Workflow{$StepT}};
         my $Match = 1;
@@ -2914,8 +2918,8 @@ sub TicketWorkflow {
             $Match3 = 1;
         }
         # build new data hash 
-        my %NewData = ();
-        my $UseNewParams = 0;
+#        my %NewData = ();
+#        my $UseNewParams = 0;
         if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{Type}}) {
             $UseNewParams = 1;
             # debug log
@@ -2965,10 +2969,14 @@ sub TicketWorkflow {
             }
         }
         # return new params
-        if ($UseNewParams) {
+        if ($UseNewParams && $Step{StopAfterMatch}) {
             $Self->{TicketWorkflowData} = \%NewData;
             return 1;
         }
+    }
+    if ($UseNewParams) {
+        $Self->{TicketWorkflowData} = \%NewData;
+        1;
     }
     return;
 }
@@ -2991,6 +2999,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.88 $ $Date: 2004-04-18 12:11:20 $
+$Revision: 1.89 $ $Date: 2004-04-18 12:25:34 $
 
 =cut
