@@ -2,7 +2,7 @@
 # Kernel/Language/German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.23 2002-07-18 23:30:08 martin Exp $
+# $Id: German.pm,v 1.24 2002-08-05 17:29:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -352,6 +352,8 @@ sub Data {
     $Self->{'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.'} = 'Zusenden einer Mitteilung wenn ein Kunden eine Nachfrage stellt uns ich der Eigner bin.';
     $Self->{'Send new ticket notification'} = 'Zusenden einer Mitteilung bei neuem Ticket';
     $Self->{'Send me a notification if there is a new ticket in my custom queues.'} = 'Zusenden einer Mitteilung bei neuem Ticket in der/den individuellen Queue(s).';
+    $Self->{'Send ticket lock timeout notification'} = 'Zusenden einer Mitteilung bei einem lock Zeitüberschreitung';
+    $Self->{'Send me a notification if a ticket is unlocked by the system.'} = 'Zusenden einer Mitteilung wenn ein Ticket vom System freigegeben (unlocked) wird.';
   
     $Self->{'Frontend language'} = 'Bedien-Sprache auswählen';
     $Self->{' 2 minutes'} = ' 2 Minuten';
@@ -377,6 +379,8 @@ sub Data {
     $Self->{'Phone call'} = 'Anruf';
     $Self->{'phone call'} = 'Anrufen';
     $Self->{'Phone call at'} = 'Anruf um';
+    $Self->{'A message should have a From: recipient!'} = 'Eine Nachricht sollte einen Absender im Von: haben!';
+    $Self->{'You need a email address (e. g. customer@example.com) in From:!'} = 'Im From-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!';
 
     # states
     $Self->{'new'} = 'neu';
