@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.139 2004-08-11 14:04:43 martin Exp $
+# $Id: Generic.pm,v 1.140 2004-08-19 13:12:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.139 $';
+$VERSION = '$Revision: 1.140 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1033,7 +1033,7 @@ sub OptionStrgHashRef {
          }
     }
     foreach (@Order) {
-        if ((defined($_)) && ($Data{$_})) {
+        if (defined($_) && defined($Data{$_})) {
             # check if SelectedIDRefArray exists
             if ($SelectedIDRefArray && ref($SelectedIDRefArray) eq 'ARRAY') {
                 foreach my $ID (@{$SelectedIDRefArray}) {
