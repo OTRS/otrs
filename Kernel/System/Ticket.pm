@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.94 2004-04-18 15:01:48 martin Exp $
+# $Id: Ticket.pm,v 1.95 2004-04-19 09:53:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.94 $';
+$VERSION = '$Revision: 1.95 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -85,8 +85,18 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
     # create common needed module objects
     $Self->{TimeObject} = Kernel::System::Time->new(%Param);
-    $Self->{UserObject} = Kernel::System::User->new(%Param);
-    $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+    if (!$Param{UserObject}) {
+        $Self->{UserObject} = Kernel::System::User->new(%Param);
+    } 
+    else {
+        $Self->{UserObject} = $Param{UserObject};
+    }
+    if (!$Param{GroupObject}) {
+        $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+    }
+    else {
+        $Self->{GroupObject} = $Param{GroupObject};
+    }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
@@ -165,6 +175,7 @@ sub new {
 # --
 sub Init {
     my $Self = shift;
+
     $Self->ArticleStorageInit();
     return 1;
 }
@@ -3022,6 +3033,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.94 $ $Date: 2004-04-18 15:01:48 $
+$Revision: 1.95 $ $Date: 2004-04-19 09:53:07 $
 
 =cut
