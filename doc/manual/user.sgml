@@ -30,6 +30,7 @@ User backends (for DB and LDAP) are planned for OTRS 2.0.
 
 <sect1 id="user-auth-backend">
 <title>User Auth Backend</title>
+
 <sect2>
 <title>Database (default)</title>
 <para>
@@ -42,6 +43,7 @@ The default user auth backend is the otrs database.
 </programlisting>
 </para>
 </sect2>
+
 <sect2>
 <title>LDAP</title>
 <para>
@@ -97,6 +99,27 @@ Please note, that in version 1.x you have to create a db entry for the ldap user
 automatically on first login in versions < 1.1
 </para>
 </sect2>
+
+<sect2>
+<title>HTTPBasicAuth</title>
+<para>
+If you a "single sign on" solution, use http basic authentication (for all
+your systems) and use the HTTPBasicAuth module (no otrs login is required!).
+<programlisting>
+    [Kernel/Config.pm]
+    # This is the auth. module againt $ENV{REMOTE_USER} (apache
+    # http-basic-auth)
+    $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasicAuth';
+    # Note:
+    # If you use this module, you should use as fallback the following
+    # config settings if user isn't login through apache ($ENV{REMOTE_USER})
+    $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
+    $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
+    [...]
+</programlisting>
+</para>
+</sect2>
+
 </sect1>
 
 </chapter>

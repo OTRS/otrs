@@ -223,6 +223,27 @@ your tree manager) so you can't create customer user via the Admin- or Customer-
 </programlisting>
 </para>
 </sect2>
+
+<sect2>
+<title>HTTPBasicAuth</title>
+<para>
+If you a "single sign on" solution for your customers, use http basic authentication (for all
+your systems) and use the HTTPBasicAuth module (no otrs login is required!).
+<programlisting>
+    [Kernel/Config.pm]
+    # This is the auth. module againt $ENV{REMOTE_USER} (apache
+    # http-basic-auth)
+    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
+    # Note:
+    # If you use this module, you should use as fallback the following
+    # config settings if user isn't login through apache ($ENV{REMOTE_USER})
+    $Self->{CustomerPanelLoginURL} = 'http://host/not-authorised-for-otrs.html';
+    $Self->{CustomerPanelLogoutURL} = 'http://host/thanks-for-using-otrs.html';
+    [...]
+</programlisting>
+</para>
+</sect2>
+
 </sect1>
 
 <sect1 id="customer-self-registration">
