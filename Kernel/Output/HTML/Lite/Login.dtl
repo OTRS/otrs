@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.4 2002-07-18 23:28:30 martin Exp $
+# $Id: Login.dtl,v 1.5 2002-08-27 21:36:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,16 +12,16 @@
 # http headers
 # --
 Content-Type: text/html; charset=$Env{"UserCharset"};
-X-Powered-By: OpenTRS - Open Ticket Request System (http://otrs.org)
+X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org)
 X-Wanted: I think you are smart. I'm looking for smart people!
 # --
 # html comment
 # --
 
 
-<!-- OpenTRS: Copyright 2002, OpenTRS Project. This Software is under the GPL. -->
-<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
-<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt           -->
+<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
+<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
+<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
 
 # --
 # set some html variables
@@ -35,7 +35,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 # --
 <html>
 <head>
-    <title>OpenTRS :: $Text{"$Data{"Title"}"}</title>
+    <title>OTRS :: $Text{"$Data{"Title"}"}</title>
 <style type="text/css">
 <!--
   p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i
@@ -61,7 +61,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 
 <table border="0" cellspacing="0" cellpadding="3" width="240">
 <tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="center"><font color="$Env{"FontColor1"}"><b>$Text{"Welcome to OpenTRS"}</b></font></td>
+  <td align="center"><font color="$Env{"FontColor1"}"><b>$Text{"Welcome to ORS"}</b></font></td>
 </tr>
 <tr>
   <td align="center" bgcolor="$Env{"BGTableColor1"}">

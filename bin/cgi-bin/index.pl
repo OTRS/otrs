@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 # --
-# index.pl - the global CGI handle file (incl. auth) for OpenTRS
+# index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.35 2002-08-13 15:06:10 martin Exp $
+# $Id: index.pl,v 1.36 2002-08-27 21:36:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -295,7 +295,7 @@ elsif ($Param{Action} eq "Logout"){
                 # --
                 print $CommonObject{LayoutObject}->Login(
                     Title => 'Logout',
-                    Message => 'Logout successful. Thank you for using OpenTRS!',
+                    Message => 'Logout successful. Thank you for using OTRS!',
                     %Param,
                 );
             }

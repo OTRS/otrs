@@ -2,7 +2,7 @@
 # Kernel/Language/German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.24 2002-08-05 17:29:03 martin Exp $
+# $Id: German.pm,v 1.25 2002-08-27 21:36:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -365,7 +365,7 @@ sub Data {
     $Self->{'Change priority of ticket'} = 'Priorität ändern für Ticket';
     # some other words ...
     $Self->{'AddLink'} = 'Link hinzufügen';
-    $Self->{'Logout successful. Thank you for using OpenTRS!'} = 'Abmelden erfolgreich! Danke für die Benutzung von OpenTRS!';
+    $Self->{'Logout successful. Thank you for using OTRS!'} = 'Abmelden erfolgreich! Danke für die Benutzung von OTRS!';
 #    $Self->{} = '';
 #    $Self->{} = '';
 
