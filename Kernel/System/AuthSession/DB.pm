@@ -2,30 +2,30 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.15 2004-04-19 19:52:02 martin Exp $
+# $Id: DB.pm,v 1.16 2004-11-04 11:02:04 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::AuthSession::DB; 
+package Kernel::System::AuthSession::DB;
 
 use strict;
 use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
- 
+
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # check needed objects
@@ -36,15 +36,15 @@ sub new {
     # get more common params
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
     # Debug 0=off 1=on
-    $Self->{Debug} = 0;    
+    $Self->{Debug} = 0;
     # session table data
-    $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('SessionTable') 
-     || 'session';
+    $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('SessionTable')
+     || 'sessions';
     # id row
-    $Self->{SQLSessionTableID} = $Self->{ConfigObject}->Get('SessionTableID') 
+    $Self->{SQLSessionTableID} = $Self->{ConfigObject}->Get('SessionTableID')
      || 'session_id';
     # value row
-    $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('SessionTableValue') 
+    $Self->{SQLSessionTableValue} = $Self->{ConfigObject}->Get('SessionTableValue')
      || 'value';
 
     return $Self;
@@ -138,9 +138,9 @@ sub GetSessionIDData {
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Strg = $Row[0];
-    } 
+    }
     # split data
-    my @StrgData = split(/;/, $Strg); 
+    my @StrgData = split(/;/, $Strg);
     foreach (@StrgData) {
          my @PaarData = split(/:/, $_);
          if ($PaarData[1]) {
@@ -155,7 +155,7 @@ sub GetSessionIDData {
                 Priority => 'debug',
                 Message => "GetSessionIDData: '$PaarData[0]:".decode_base64($PaarData[1])."'",
              );
-         } 
+         }
     }
     # return data
     return %Data;
@@ -204,7 +204,7 @@ sub RemoveSessionID {
     $Self->{DBObject}->Do(
          SQL => "DELETE FROM $Self->{SQLSessionTable} ".
                 " WHERE $Self->{SQLSessionTableID} = '$SessionID'"
-    ) || return 0; 
+    ) || return 0;
     # log event
     $Self->{LogObject}->Log(
         Priority => 'notice',
@@ -225,8 +225,8 @@ sub UpdateSessionID {
       || (!exists $SessionData{$Key} && $Value eq '')) {
         return 1;
     }
-    # update the value 
-    $SessionData{$Key} = $Value; 
+    # update the value
+    $SessionData{$Key} = $Value;
     # set new data sting
     my $NewDataToStore = '';
     foreach (keys %SessionData) {
