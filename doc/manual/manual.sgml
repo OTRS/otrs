@@ -16,6 +16,7 @@
 <!ENTITY online-resources SYSTEM "online-resources.sgml">
 <!ENTITY basics-about-tt SYSTEM "basics-about-tt.sgml">
 <!ENTITY receiving-email SYSTEM "receiving_email.sgml">
+<!ENTITY sending-email SYSTEM "sending_email.sgml">
 <!ENTITY language-translation SYSTEM "language-translation.sgml">
 <!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
 <!ENTITY user SYSTEM "user.sgml">
@@ -70,6 +71,8 @@ or implied warranty.
 &ticket-topics;
 
 &receiving-email;
+
+&sending-email;
 
 &config-file;
 

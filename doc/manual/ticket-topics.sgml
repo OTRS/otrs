@@ -48,7 +48,7 @@ The ticket history shows you all actions on this ticket.
 <sect1 id="ticket-topics-add-note">
 <title>Add note to ticket</title>
 <para>
-Each agent is able to add notes to tickets. Maybe he/she isn't sure to give a qualified answer. And you can select the type of note (internal, external, ...).
+Each agent is able to add notes to tickets. Maybe he/she isn't sure to give a qualified answer. And you can select the type of note (internal, external, ...). the customer gets not notification about a new note.
 <screenshot>
 <screeninfo>note screen</screeninfo>
 <graphic srccredit="ticket note screen" scale="40" fileref="screenshots/ticket-note.png"></graphic>

@@ -23,7 +23,7 @@ Kernel/Config/Defaults.pm into Kernel/Config.pm and change the values like you w
 </para>
 
 <para>
-Now we will descripe some config features in this chapter.
+Now we will descripe some config features in this chapter (of course not all!).
 </para>
 
 <sect1 id="configfile-tickethook">
@@ -88,6 +88,38 @@ The OTRS log method.
 [...]
 </programlisting>
 </example>
+</sect1>
+
+<sect1 id="configfile-checkemail">
+<title>Check Email Options</title>
+<para>
+There are two options to check the used emails in the OTRS frontend.
+</para>
+<para>
+<example>
+<title>Kernel/Config.pm - CheckEmailAddresses</title>
+<programlisting>
+[...]
+    # CheckEmailAddresses
+    # (Check syntax of used email addresses)
+    $Self->{CheckEmailAddresses} = 1;
+[...]
+</programlisting>
+</example>
+<para>
+<example>
+<title>Kernel/Config.pm - CheckMXRecord</title>
+<programlisting>
+[...]
+    # CheckMXRecord
+    # (Check mx recorde of used email addresses)
+    $Self->{CheckMXRecord} = 1;
+[...]
+</programlisting>
+</example>
+Disable this if you use OTRS in an network without external DNS lookup.
+Or you can't send emails via the agent interface.
+</para>
 </sect1>
 
 <sect1 id="configfile-postmaster"> 
@@ -447,6 +479,66 @@ The OTRS session management.
 [...]
 </programlisting>
 </example>
+</sect1>
+
+<sect1 id="configfile-spell">
+<title>SpellChecker</title>
+<para>
+The OTRS is able to use a spell checker like 
+<ulink url="http://fmg-www.cs.ucla.edu/fmg-members/geoff/ispell.html">ispell</ulink> 
+or <ulink url="http://aspell.sourceforge.net/">aspell</ulink>.
+</para>
+<para>
+<example>
+<title>Kernel/Config.pm - SpellChecker</title>
+<programlisting>
+[...]
+    # SpellChecker
+    # (If ispell or aspell is available, then we will provide a spelling
+    # checker) 
+#    $Self->{SpellChecker} = '';
+    $Self->{SpellChecker} = '/usr/bin/ispell';
+    $Self->{SpellCheckerDictDefault} = 'english';
+[...]
+</programlisting>
+</example>
+</para>
+<para>
+Possible agent dictionaries.
+<example>
+<title>Kernel/Config.pm - SpellChecker - Agent Preferences</title>
+<programlisting>
+[...]
+    $Self->{PreferencesGroups}->{SpellDict} = {
+        Colum => 'Other Options',
+        Label => 'Spelling Dictionary',
+        Desc => 'Select your default spelling dictionary.',
+        Type => 'Generic',
+        Data => {
+            # installed dict catalog (check your insalled catalogues, 
+            # e. g. deutsch -=> german!)
+            # dict => frontend
+            'english' => 'English',
+            'deutsch' => 'Deutsch',
+        },
+        PrefKey => 'UserSpellDict',
+        Activ => 1,
+    };
+[...]
+</programlisting>
+</example>
+</para>
+<para>
+Maybe you want that the answer to the customer must be spell checked.
+<example>
+<title>Kernel/Config.pm - SpellChecker - Must be spell checked</title>
+<programlisting>
+    # FrontendNeedSpellCheck
+    # (compose message must be spell checked)
+    $Self->{FrontendNeedSpellCheck} = 0;
+</programlisting>
+</example>
+</para>
 </sect1>
 
 </chapter>
