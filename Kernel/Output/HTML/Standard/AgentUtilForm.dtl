@@ -2,7 +2,7 @@
 # AgentUtilForm.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilForm.dtl,v 1.1 2001-12-23 13:25:16 martin Exp $
+# $Id: AgentUtilForm.dtl,v 1.2 2002-01-20 22:20:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" bgcolor="$Env{"BGTableColor0"}">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Ticket# search"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"} $Text{"search"}$Env{"Box1"}</font></b>
   </font>
   </td>
   <td align="right" bgcolor="$Env{"BGTableColor0"}">
@@ -27,7 +27,7 @@
 
 <p>
 
-$Text{"Ticket# search (e. g. 10*5155 or 105658*)"}
+$Config{"TicketHook"} $Text{"search (e. g. 10*5155 or 105658*)"}
 <form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="AgentUtilities">
 <input type="hidden" name="Subaction" value="SearchByTn">

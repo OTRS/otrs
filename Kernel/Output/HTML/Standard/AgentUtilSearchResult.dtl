@@ -2,7 +2,7 @@
 # AgentUtilSearchResult.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResult.dtl,v 1.1 2001-12-23 13:25:16 martin Exp $
+# $Id: AgentUtilSearchResult.dtl,v 1.2 2002-01-20 22:20:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@
 
 <tr bgcolor="$Env{"BGTableColor0"}">
   <td align="left">
-  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Ticket Number"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
   </td>
   <td align="right">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b></font></b>
