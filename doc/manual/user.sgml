@@ -94,9 +94,21 @@ LDAP entries shall conform to the PosixAccount and inetOrgPerson schema. An exam
     preferredLanguage: fr
     comment: technical support
 </programlisting>
-
-Please note, that in version 1.x you have to create a db entry for the ldap user. This is done
-automatically on first login in versions < 1.1
+Please note, that in version 1.x you have to create a db entry for the ldap user. 
+This is done automatically on first login in versions < 1.1.x.
+</para>
+<para>
+This will be the config option to map the LDAP attributes to database. Default is:
+<programlisting>
+    # UserSyncLDAPMap 
+    # (map if agent should create/synced from LDAP to DB after login)
+    $Self->{UserSyncLDAPMap} = {
+        # DB -> LDAP
+        Firstname => 'givenName',
+        Lastname => 'sn',
+        Email => 'mail',
+    };
+</programlisting>
 </para>
 </sect2>
 
