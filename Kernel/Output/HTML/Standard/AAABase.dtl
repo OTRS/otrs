@@ -59,6 +59,9 @@ $Text{"Password"}
 $Text{"Salutation"}
 $Text{"Signature"}
 $Text{"Customer"}
+$Text{"customer"}
+$Text{"agent"}
+$Text{"system"}
 $Text{"Customer Info"}
 $Text{"go!"}
 $Text{"go"}
