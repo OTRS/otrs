@@ -3,7 +3,7 @@
 # Cron.sh - start|stop OTRS Cronjobs
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Cron.sh,v 1.3 2002-08-27 23:37:11 martin Exp $
+# $Id: Cron.sh,v 1.4 2002-10-01 08:54:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,14 +20,23 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-OTRS_ROOT=/opt/OpenTRS
+# find otrs root
+#OTRS_ROOT=/opt/OpenTRS
+if test -e $HOME/var/cron; then 
+    OTRS_ROOT=$HOME
+else 
+    echo "No cronjobs in $HOME/var/cron found!";
+    echo " a) Run this script just as OTRS user.";
+    echo " b) Check the \$HOME of the OTRS user. It must be the root dir of your OTRS system (e. g. /opt/otrs). ";
+    exit 5;
+fi
 
 CRON_DIR=$OTRS_ROOT/var/cron
-CRON_TMP_FILE=$OTRS_ROOT/var/tmp/cron
+CRON_TMP_FILE=/tmp/otrs-cron-tmp.$$
 CRON_USER=""
 #CRON_USER=" -u otrs "
 
-echo "Cron.sh - start/stop cronjobs - <\$Revision: 1.3 $> "
+echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.4 $> "
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # 
@@ -39,7 +48,8 @@ case "$1" in
     # ------------------------------------------------------
     start)
       if mkdir -p $CRON_DIR; cat $CRON_DIR/* > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
-        echo "done";
+        rm -rf $CRON_TMP_FILE
+        echo "(using $OTRS_ROOT) done";
         exit 0;
       else
         echo "failed";
