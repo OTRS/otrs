@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.6 2002-09-17 12:53:08 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.7 2002-09-23 14:45:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ Provides:     otrs
 Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail
 Autoreqprov:  on
 Release:      BETA7
-Source0:      otrs-%{version}-%{release}.tar.gz
+Source0:      otrs-%{version}-%{release}.tar.bz2
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -86,10 +86,12 @@ cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # Install init-Script and rc.config entry
 install -d -m 755 $RPM_BUILD_ROOT/etc/init.d
 install -d -m 755 $RPM_BUILD_ROOT/usr/sbin
+install -d -m 755 $RPM_BUILD_ROOT/etc/rc.config.d
 install -d -m 744 $RPM_BUILD_ROOT/var/adm/fillup-templates
 
 # check suse release
 install -m 644 scripts/suse-fillup-template-rc.config.otrs $RPM_BUILD_ROOT/var/adm/fillup-templates/rc.config.otrs
+install -m 644 scripts/suse-rcotrs-config $RPM_BUILD_ROOT/etc/rc.config.d/otrs
 
 install -m 755 scripts/suse-rcotrs $RPM_BUILD_ROOT/etc/init.d/otrs
 rm -f $RPM_BUILD_ROOT/sbin/otrs
@@ -158,6 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Lite/*.dtl
 %config(noreplace) /opt/OpenTRS/Kernel/Language/*.pm
 %config(noreplace) /opt/OpenTRS/var/cron/*
+%config(noreplace) /etc/rc.config.d/otrs
 
 /etc/init.d/otrs
 /usr/sbin/rcotrs
@@ -181,6 +184,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Sep 22 2002 - martin+rpm@otrs.org
+- added /etc/rc.config.d/otrs for rc script (Thanks to Lars Müller)
 * Fri Sep 06 2002 - martin+rpm@otrs.org
 - added Kernel/Config/*.pm
 * Sat Jun 16 2002 - martin+rpm@otrs.org

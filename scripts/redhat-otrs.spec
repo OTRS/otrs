@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs.spec,v 1.1 2002-09-17 12:49:56 martin Exp $
+# $Id: redhat-otrs.spec,v 1.2 2002-09-23 14:45:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ Provides:     otrs
 Requires:     perl perl-CGI perl-DBI perl-MIME-Base64 perl-Date-Calc perl-DBD-MySQL perl-Digest-MD5 perl-URI mod_perl apache mysql mysqlclient9 mysql-server fetchmail procmail sendmail
 Autoreqprov:  on
 Release:      BETA7
-Source0:      otrs-%{version}-%{release}.tar.gz
+Source0:      otrs-%{version}-%{release}.tar.bz2
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -85,9 +85,10 @@ mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # Install init-Script 
 install -d -m 755 $RPM_BUILD_ROOT/etc/rc.d/init.d
+install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
 
 install -m 755 scripts/redhat-rcotrs $RPM_BUILD_ROOT/etc/rc.d/init.d/otrs
-
+install -m 644 scripts/redhat-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
 
 %post
 # useradd
@@ -143,6 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Lite/*.dtl
 %config(noreplace) /opt/OpenTRS/Kernel/Language/*.pm
 %config(noreplace) /opt/OpenTRS/var/cron/*
+%config(noreplace) /etc/sysconfig/otrs
 
 /etc/rc.d/init.d/otrs
 
@@ -164,6 +166,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Sep 22 2002 - martin+rpm@otrs.org
+- added /etc/sysconfig/otrs for rc script (Thanks to Lars Müller)
 * Thu Sep 17 2002 - martin+rpm@otrs.org
 - port for Redhat 7.3
 * Fri Sep 06 2002 - martin+rpm@otrs.org
