@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.78 2004-10-08 08:59:50 martin Exp $
+# $Id: Article.pm,v 1.79 2004-11-28 11:16:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.78 $';
+$VERSION = '$Revision: 1.79 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -40,7 +40,7 @@ create an article
 
   my $ArticleID = $TicketObject->ArticleCreate(
       TicketID => 123,
-      ArticleType => 'note-internal' # email-external|email-internal|phone|fax|...
+      ArticleType => 'note-internal', # email-external|email-internal|phone|fax|...
       SenderType => 'agent',         # agent|system|customer
       From => 'Some Agent <email@example.com>',   # not required but useful
       To => 'Some Customer A <customer-a@example.com>', # not required but useful
@@ -50,7 +50,7 @@ create an article
       Body => 'the message text',                 # required
       MessageID => '<asdasdasd.123@example.com>', # not required but useful
       ContentType => 'text/plain; charset=ISO-8859-15',
-      HistoryType => 'OwnerUpdate',  # Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+      HistoryType => 'OwnerUpdate',  # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
       HistoryComment => 'Some free text!',
       UserID => 123,
 
@@ -921,7 +921,7 @@ sub ArticleGet {
     }
     $SQL .= " AND ".
         " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ".
-        " ORDER BY sa.id ASC";
+        " ORDER BY sa.create_time, sa.id ASC";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     my %Ticket = ();
@@ -1052,6 +1052,7 @@ sub ArticleGet {
         my $CountedTime = $Self->{TimeObject}->WorkingTime(
             StartTime => $Ticket{EscalationStartTime},
             StopTime => $Self->{TimeObject}->SystemTime(),
+            Queue => $Queue{Name},
         );
         $LastCustomerCreateTime = ($Queue{EscalationTime}*60) - $CountedTime;
     }
@@ -1545,21 +1546,23 @@ sub ArticleSend {
         );
     }
     # get header
-    my $head = $Entity->head;
+#    my $head = $Entity->head;
     # send mail
-    if ($Self->{SendmailObject}->Send(
+    my ($HeadRef, $BodyRef) = $Self->{SendmailObject}->Send(
         From => $Param{From},
         To => $Param{To},
         Cc => $Param{Cc},
         Bcc => $Param{Bcc},
-        Subject => $Param{Subject},
-        Header => $head->as_string(),
-        Body => $Entity->body_as_string(),
-    )) {
+        Entity => $Entity,
+#        Header => $head->as_string(),
+#        Body => $Entity->body_as_string(),
+    );
+    if ($HeadRef && $BodyRef) {
         # write article to fs
         if (!$Self->ArticleWritePlain(
             ArticleID => $Param{ArticleID},
-            Email => $head->as_string."\n".$Entity->body_as_string,
+            Email => ${$HeadRef}."\n".${$BodyRef},
+#            Email => $head->as_string."\n".$Entity->body_as_string,
 #            Email => $head->as_string."\n".$NotCryptedBody,
             UserID => $Param{UserID})
         ) {
@@ -1572,8 +1575,8 @@ sub ArticleSend {
         }
         # log
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
+            Priority => 'notice',
+            Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
         );
         return $Param{ArticleID};
     }
@@ -1758,16 +1761,21 @@ sub SendAgentNotification {
     $Notification{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/g;
     $Notification{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/g if (defined $GetParam{Comment});
 
-    # get ticket hook
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     # prepare subject (insert old subject)
+    $GetParam{Subject} = $Self->TicketSubjectClean(
+        TicketNumber => $Article{TicketNumber},
+        Subject => $GetParam{Subject} || '',
+    );
     if ($Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
         my $SubjectChar = $1;
-        $GetParam{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
         $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
     }
-    $Notification{Subject} = "[$TicketHook: $Article{TicketNumber}] $Notification{Subject}";
+    $Notification{Subject} = $Self->TicketSubjectBuild(
+        TicketNumber => $Article{TicketNumber},
+        Subject => $Notification{Subject} || '',
+    );
+
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
     if ($Article{CustomerUserID}) {
         my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -1829,6 +1837,7 @@ sub SendAgentNotification {
              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
         To => $User{UserEmail},
         Subject => $Notification{Subject},
+        'Reply-To' => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
         Type => 'text/plain',
         Charset => $Notification{Charset},
         Body => $Notification{Body},
@@ -2003,16 +2012,21 @@ sub SendCustomerNotification {
         }
     }
 
-    # get ticket hook
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     # prepare subject (insert old subject)
+    $Article{Subject} = $Self->TicketSubjectClean(
+        TicketNumber => $Article{TicketNumber},
+        Subject => $Article{Subject} || '',
+    );
     if ($Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
         my $SubjectChar = $1;
-        $Article{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
         $Article{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Article{Subject}/g;
     }
-    $Notification{Subject} = "[$TicketHook: $Article{TicketNumber}] $Notification{Subject}";
+    $Notification{Subject} = $Self->TicketSubjectBuild(
+        TicketNumber => $Article{TicketNumber},
+        Subject => $Notification{Subject} || '',
+    );
+
     # prepare body (insert old email)
     if ($Notification{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
         my $Line = $1;
@@ -2162,15 +2176,16 @@ sub SendAutoResponse {
         $Param{Body} =~ s/<OTRS_EMAIL_DATE\[.*\]>/$EmailDate/g;
     }
     # prepare subject (insert old subject)
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     my $Subject = $Param{Subject} || 'No Std. Subject found!';
     if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
         my $SubjectChar = $1;
-        $GetParam{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
         $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
         $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
     }
-    $Subject = "[$TicketHook: $Article{TicketNumber}] $Subject";
+    $Subject = $Self->TicketSubjectBuild(
+        TicketNumber => $Article{TicketNumber},
+        Subject => $Subject || '',
+    );
     # prepare body (insert old email)
     if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
         my $Line = $1;
