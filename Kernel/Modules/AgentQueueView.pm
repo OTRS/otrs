@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.64 2004-07-22 05:47:26 martin Exp $
+# $Id: AgentQueueView.pm,v 1.65 2004-09-11 08:25:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -361,6 +361,7 @@ sub ShowTicket {
     # customer info string
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
         Data => \%CustomerData,
+        Type => 'Lite',
         Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
     );
     # get StdResponsesStrg
@@ -415,14 +416,14 @@ sub ShowTicket {
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
     # create output
     if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
-        $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentZoomAgentIsCustomer',
+        $Self->{LayoutObject}->Block(
+            Name => 'AgentIsCustomer',
             Data => {%Param, %Article, %AclAction},
         );
     }
     else {
-        $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentZoomAnswer',
+        $Self->{LayoutObject}->Block(
+            Name => 'AgentAnswer',
             Data => {%Param, %Article, %AclAction},
         );
     }
