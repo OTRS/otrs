@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.16 2003-02-08 15:05:12 martin Exp $
+# $Id: customer.pl,v 1.17 2003-02-25 18:20:38 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -473,11 +473,28 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
             ValidID => 1,
             UserID => $CommonObject{ConfigObject}->Get('CustomerPanelUserID'),
         )) {
-            print $CommonObject{LayoutObject}->CustomerLogin(
-                Title => 'Login',
-                Message => "New account created. Login as '$GetParams{UserLogin}'",
-                User => $GetParams{UserLogin},
-            );
+            if ($CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')) {
+                # --
+                # redirect to alternate login
+                # --
+                $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
+                print $CommonObject{LayoutObject}->Redirect(
+                    ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
+                     "?RequestedURL=$Param{RequestedURL}&User=$GetParams{UserLogin}&".
+                     "Reason=NewAccountCreated",
+                );
+            }
+            else {
+                # --
+                # login screen
+                # --
+                print $CommonObject{LayoutObject}->CustomerLogin(
+                    Title => 'Login',
+                    Message => "New account created. Login as '$GetParams{UserLogin}'",
+
+                    User => $GetParams{UserLogin},
+                );
+            }
         }
         else {
             print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
