@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerHeader.dtl,v 1.1 2002-10-20 15:28:49 martin Exp $
+# $Id: CustomerHeader.dtl,v 1.2 2002-12-17 17:45:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -74,11 +74,11 @@ Pragma: no-cache
 <tr>
   <td class="navbar" valign="top"> 
     <p>
-    <li>Home</li>
-    <li>Products</li>
-    <li>Support</li>
-    <li><b><a href="">Online-Support</a></b></li>
-    <li>Contact</li>
+    <li>$Text{"Home"}</li>
+    <li>$Text{"Products"}</li>
+    <li>$Text{"Support"}</li>
+    <li><b><a href="">$Text{"Online-Support"}</a></b></li>
+    <li>$Text{"Contact"}</li>
     </p>
   </td>
   <td>
