@@ -1,8 +1,8 @@
 # --
 # TODO - to do list of OpenTRS
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+todo@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.10 2002-02-03 22:48:20 martin Exp $
+# $Id: TODO,v 1.11 2002-04-14 13:43:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,6 @@ immediately:
 - AdminLanguages
 
 - AgentPhoneView
-- AgentForward
 - AgentBounce
 
 - KnowlageFAQ
@@ -25,8 +24,6 @@ immediately:
 - Customer handle (bin/cgi-bin/extern/index.pl) and modules
 
 - check types of auto responses! 
-
-- Article.pm && umask!
 
 - Email-notification of administrators.
 
@@ -46,3 +43,4 @@ later:
 - add foreign-key to the XML db scheme
 - add a screen session management (for back and forward button)
 - rework of loop protection!
+
