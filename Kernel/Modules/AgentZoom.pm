@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.77 2004-11-11 10:34:39 martin Exp $
+# $Id: AgentZoom.pm,v 1.78 2004-11-25 16:24:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -407,15 +407,9 @@ sub MaskAgentZoom {
                 }
                 if (eval "require $Jobs{$Job}->{Module}") {
                     my $Object = $Jobs{$Job}->{Module}->new(
-                        ConfigObject => $Self->{ConfigObject},
-                        LogObject => $Self->{LogObject},
-                        DBObject => $Self->{DBObject},
-                        LayoutObject => $Self->{LayoutObject},
-                        TicketObject => $Self->{TicketObject},
+                        %{$Self},
                         TicketID => $Self->{TicketID},
                         ArticleID => $Article{ArticleID},
-                        UserID => $Self->{UserID},
-                        Debug => $Self->{Debug},
                     );
                     # log loaded module
                     if ($Self->{Debug} > 1) {
@@ -489,15 +483,9 @@ sub MaskAgentZoom {
                     }
                     if (eval "require $Jobs{$Job}->{Module}") {
                         my $Object = $Jobs{$Job}->{Module}->new(
-                            ConfigObject => $Self->{ConfigObject},
-                            LogObject => $Self->{LogObject},
-                            DBObject => $Self->{DBObject},
-                            LayoutObject => $Self->{LayoutObject},
-                            TicketObject => $Self->{TicketObject},
+                            %{$Self},
                             TicketID => $Self->{TicketID},
                             ArticleID => $Article{ArticleID},
-                            UserID => $Self->{UserID},
-                            Debug => $Self->{Debug},
                         );
                         # log loaded module
                         if ($Self->{Debug} > 1) {
