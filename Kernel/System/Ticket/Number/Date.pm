@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Date.pm,v 1.6 2003-02-08 15:09:41 martin Exp $
+# $Id: Date.pm,v 1.7 2003-03-18 15:35:30 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::Date;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
@@ -122,11 +122,16 @@ sub GetTNByString {
     # --
     # check ticket number
     # --
-    if ($String =~ /$TicketHook:+.{0,1}(\d{8,40})/i) {
+    if ($String =~ /$TicketHook:+.{0,1}(\d{8,40})\-FW/i) {
         return $1;
     }
     else {
-        return;
+        if ($String =~ /$TicketHook:+.{0,1}(\d{8,40})/i) {
+            return $1;
+        }
+        else {
+            return;
+        }
     }
 }
 # --
