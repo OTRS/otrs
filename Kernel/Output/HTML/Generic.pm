@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.13 2002-02-03 18:01:53 martin Exp $
+# $Id: Generic.pm,v 1.14 2002-02-05 21:32:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::Installer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -299,13 +299,32 @@ sub Ascii2Html {
     my %Param = @_;
     my $Text = $Param{Text} || return;
     my $Max  = $Param{Max} || '';
+    my $VMax = $Param{VMax} || '';
     my $Mime = $Param{MIME} || '';
+
+    # mime decode
     if ($Mime) {
         $Text = decode_mimewords($Text);
     }
+
+    # max width
     if ($Max) {
         $Text =~ s/^(.{$Max}).*$/$1 [...]/;
     }
+
+    # max lines
+    if ($VMax) {
+        my @TextList = split ('\n', $Text);
+        $Text = '';
+        my $Counter = 1;
+        foreach (@TextList) {
+          $Text .= $_ . "\n" if ($Counter <= $VMax);
+          $Counter++;
+        }
+        $Text .= "[...]\n" if ($Counter >= $VMax);
+    }
+
+    # html quoting
     $Text =~ s/&/&amp;/g;
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;

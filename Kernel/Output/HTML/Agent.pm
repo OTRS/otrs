@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.8 2002-02-03 23:33:26 martin Exp $
+# $Id: Agent.pm,v 1.9 2002-02-05 21:32:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -102,8 +102,14 @@ sub TicketView {
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
 
     # do some text quoting
-    $Param{Text} = $Self->Ascii2Html(Text => $Param{Text});
-    $Param{Text} = $Self->LinkQuote(Text => $Param{Text});
+    $Param{Text} = $Self->Ascii2Html(
+        Text => $Param{Text}, 
+        VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
+    );
+    # do link quoting
+    $Param{Text} = $Self->LinkQuote(
+        Text => $Param{Text},
+    );
 
     # get MoveQueuesStrg
     $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
@@ -232,9 +238,18 @@ sub TicketZoom {
     }
     $Article{Text} =~ s/^(.{32766}).*$/$1 [...]/g;
     $Article{Text} =~ s/^(.{100}).*$/$1 [.]/gmi;
-    $Param{"Article::Text"} = $Self->Ascii2Html(Text => $Article{Text});
-    $Param{"Article::Text"} = $Self->LinkQuote(Text => $Param{"Article::Text"}); 
 
+    # html quoting
+    $Param{"Article::Text"} = $Self->Ascii2Html(
+        Text => $Article{Text},
+        VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+    );
+    # link quoting
+    $Param{"Article::Text"} = $Self->LinkQuote(
+        Text => $Param{"Article::Text"},
+    );
+
+    # select the output template
     my $Output = '';
     if ($Article{ArticleType} =~ /^note/i) {
         $Output = $Self->Output(TemplateFile => 'TicketZoomNote', Data => \%Param);
