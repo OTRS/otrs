@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.19 2002-05-30 14:25:34 martin Exp $
+# $Id: German.pm,v 1.20 2002-06-03 22:03:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -276,7 +276,7 @@ sub Data {
     $Self->{Logout} = 'Abmelden';
     $Self->{QueueView} = 'Queue-Ansicht';
     $Self->{PhoneView} = 'Telefon-Ansicht';
-    $Self->{Utilities} = 'Werkzeug';
+    $Self->{Utilities} = 'Werkzeuge';
     $Self->{AdminArea} = 'AdminBereich';
     $Self->{Preferences} = 'Einstellungen';
     $Self->{'Locked tickets'} = 'Eigene Tickets';
@@ -324,7 +324,7 @@ sub Data {
     $Self->{'Change Password'} = 'Passwort ändern';
     $Self->{'New password'} = 'Neues Passwort';
     $Self->{'New password again'} = 'Neues Passwort wiederholen';
-    $Self->{'Select your custom queues'} = 'Bevorzugten Queues auswählen';
+    $Self->{'Select your custom queues'} = 'Bevorzugte Queues auswählen';
     $Self->{'Select your QueueView refresh time'} = 'Queue-Ansicht Aktualisierungszeit auswählen';
     $Self->{'Select your frontend language'} = 'Oberflächen-Sprache auswählen';
     $Self->{'Select your frontend Charset'} = 'Zeichensatz für Darstellung auswählen';
