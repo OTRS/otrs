@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm.dist,v 1.1 2002-11-10 23:59:15 martin Exp $
+# $Id: Config.pm.dist,v 1.2 2002-12-01 16:41:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,28 +10,28 @@
 # --
 #  Note: 
 #
-#  -->> OTRS do have a lot of config settings. For more settings 
+#  -->> OTRS does have a lot of config settings. For more settings 
 #       (Notifications, TicketViewAccelerator, TicketNumberGenerator, 
 #       LDAP, PostMaster, Session, Preferences, ...) see 
-#       Kernel/Config/Defaults.pm and copy wanted lines into this config 
-#       file. This file will not be changed on update! 
+#       Kernel/Config/Defaults.pm and copy your wanted lines into "this" 
+#       config file. This file will not be changed on update! 
 #
 # -- 
 package Kernel::Config;
 # --
 sub Load {
     my $Self = shift;
-    # ----------------------------------------------------#
-    # ----------------------------------------------------#
-    #                                                     #
-    #         Start of your own config options!!!         #
-    #                                                     #
-    # ----------------------------------------------------#
-    # ----------------------------------------------------#
+    # -----------------------------------------------------#
+    # -----------------------------------------------------#
+    #                                                      #
+    #         Start of your own config options!!!          #
+    #                                                      #
+    # -----------------------------------------------------#
+    # -----------------------------------------------------#
 
-    # ----------------------------------------------------#
-    # system data                                         #
-    # ----------------------------------------------------#
+    # -----------------------------------------------------#
+    # system data                                          #
+    # -----------------------------------------------------#
     # SecureMode
     # (Enable this so you can't use the installer.pl)
     $Self->{SecureMode} = 1;
@@ -54,9 +54,9 @@ sub Load {
     # Organization X-Header)
     $Self->{Organization} = 'Example Company';
 
-    # ----------------------------------------------------#
-    # database settings                                   #
-    # ----------------------------------------------------#
+    # -----------------------------------------------------#
+    # database settings                                    #
+    # -----------------------------------------------------#
     # DatabaseHost
     # (The database host.)
     $Self->{DatabaseHost} = 'localhost';
@@ -75,34 +75,35 @@ sub Load {
     # (The database DSN for PostgrSQL ==> more: "man DBD::Pg") 
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};";
 
-    # ----------------------------------------------------#
+    # -----------------------------------------------------#
     # fs root directory
-    # ----------------------------------------------------#
+    # -----------------------------------------------------#
     $Self->{Home} = '/opt/OpenTRS';
 
-    # ----------------------------------------------------#
-    # own config settings                                 # 
-    # ----------------------------------------------------#
+    # -----------------------------------------------------#
+    # own config settings                                  # 
+    # config settings taken from Kernel/Config/Defaults.pm # 
+    # -----------------------------------------------------#
     # $Self->{SessionUseCookie} = 0;
 
-    # ----------------------------------------------------#
-    # data inserted by installer                          #
-    # ----------------------------------------------------#
+    # -----------------------------------------------------#
+    # data inserted by installer                           #
+    # -----------------------------------------------------#
     # $DIBI$
 
-    # ----------------------------------------------------#
+    # -----------------------------------------------------#
 }
 
-# ----------------------------------------------------#
-# needed system stuff                                 #
-# ----------------------------------------------------#
+# -----------------------------------------------------#
+# needed system stuff                                  #
+# -----------------------------------------------------#
 use strict;
 use vars qw(@ISA $VERSION);
 use Kernel::Config::Defaults;
 push (@ISA, 'Kernel::Config::Defaults');
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
-# ----------------------------------------------------#
+# -----------------------------------------------------#
 
 1;
 
