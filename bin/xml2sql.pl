@@ -3,7 +3,7 @@
 # xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2sql.pl,v 1.2 2005-01-21 08:17:07 martin Exp $
+# $Id: xml2sql.pl,v 1.3 2005-01-22 16:08:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.2 $';
+my $VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
@@ -44,19 +44,16 @@ getopt('hton', \%Opts);
 if ($Opts{'h'}) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
     print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: xml2sql.pl -t <DATABASE_TYPE> -o <OUTPUTDIR> -n <NAME> \n";
+    print "usage: xml2sql.pl -t <DATABASE_TYPE> [-o <OUTPUTDIR> -n <NAME>]\n";
     exit 1;
 }
 
 # name
-if (!$Opts{n}) {
+if (!$Opts{n} && $Opts{o}) {
     die "ERROR: Need -n <NAME>";
 }
 # output dir
-if (!$Opts{o}) {
-    die "ERROR: Need -o <OUTPUTDIR>";
-}
-elsif (! -e $Opts{o}) {
+if ($Opts{o} && ! -e $Opts{o}) {
     die "ERROR: <OUTPUTDIR> $Opts{o} doesn' exist!";
 }
 # database type
@@ -78,7 +75,6 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{XMLObject} = Kernel::System::XML->new(%CommonObject);
 
-my $LastTag;
 my @Table = ();
 my @File = <STDIN>;
 my $FileString = '';
@@ -97,22 +93,36 @@ $Head .= $CommonObject{DBObject}->{"DB::Comment"}."-----------------------------
 # get database sql from parsed xml
 my @SQL = $CommonObject{DBObject}->SQLProcessor(Database => \@XMLARRAY);
 # write create script
-open (OUT, "> $Opts{o}/$Opts{n}-schema.$Opts{t}.sql") || die "Can't write: $!";
-print "writing: $Opts{o}/$Opts{n}-schema.$Opts{t}.sql\n";
+if ($Opts{o}) {
+    open (OUT, "> $Opts{o}/$Opts{n}-schema.$Opts{t}.sql") || die "Can't write: $!";
+    print "writing: $Opts{o}/$Opts{n}-schema.$Opts{t}.sql\n";
+}
+else {
+    *OUT = *STDOUT;
+}
 print OUT $Head;
 foreach (@SQL) {
     print OUT "$_".$CommonObject{DBObject}->{"DB::ShellCommit"}."\n";
 }
-close (OUT);
+if ($Opts{o}) {
+    close (OUT);
+}
 
 # get database sql from parsed xml
 my @SQLPost = $CommonObject{DBObject}->SQLProcessorPost();
 # write post script
-open (OUT, "> $Opts{o}/$Opts{n}-schema-post.$Opts{t}.sql") || die "Can't write: $!";
-print "writing: $Opts{o}/$Opts{n}-schema-post.$Opts{t}.sql\n";
+if ($Opts{o}) {
+    open (OUT, "> $Opts{o}/$Opts{n}-schema-post.$Opts{t}.sql") || die "Can't write: $!";
+    print "writing: $Opts{o}/$Opts{n}-schema-post.$Opts{t}.sql\n";
+}
+else {
+    *OUT = *STDOUT;
+}
 print OUT $Head;
 foreach (@SQLPost) {
     print OUT "$_".$CommonObject{DBObject}->{"DB::ShellCommit"}."\n";
 }
-close (OUT);
+if ($Opts{o}) {
+    close (OUT);
+}
 
