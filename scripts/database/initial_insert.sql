@@ -2,9 +2,14 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.5 2003-03-10 21:25:50 martin Exp $
+-- $Id: initial_insert.sql,v 1.6 2003-03-13 19:02:02 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.5  2003/03/10 21:25:50  martin
+-- added customer email notification on move, state update
+--     or owner update (config option for each queue).
+--     http://lists.otrs.org/pipermail/dev/2002-June/000005.html
+--
 -- Revision 1.4  2003/03/08 17:58:00  martin
 -- changed reserved SQL words (read, write) to (permission_read, permission_write)
 --
@@ -671,7 +676,7 @@ INSERT INTO article
   VALUES 
   (1,1,3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 
   'Welcome to OTRS!', '<007@localhost>',
-  'Welcome to OTRS!thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://docu.otrs.org/. You can alsotake advantage of our mailing lists http://lists.otrs.org/.Your OTRS Team    Manage your communication!',
+  'Welcome to OTRS!thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsotake advantage of our mailing lists http://lists.otrs.org/.Your OTRS Team    Manage your communication!',
   1012757943, '2002/02/3', 1, current_timestamp,1,current_timestamp,1);
 
 INSERT INTO ticket 
