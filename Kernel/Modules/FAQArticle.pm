@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQArticle.pm - to add/update/delete faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticle.pm,v 1.3 2004-01-21 00:42:26 martin Exp $
+# $Id: FAQArticle.pm,v 1.4 2004-01-24 18:39:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    my @Params = qw(ID Name CategoryID StateID LanguageID Subject UserID Field1 Field2 Field3 FreeKey1 FreeKey2 FreeKey3 Keywords);
+    my @Params = qw(ID Name CategoryID StateID LanguageID Subject UserID Field1 Field2 Field3 Field4 Field5 Field6 FreeKey1 FreeKey2 FreeKey3 Keywords);
     my %GetParam;
     foreach (@Params) {
         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
