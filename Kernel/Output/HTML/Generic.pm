@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.75 2003-02-09 21:06:20 martin Exp $
+# $Id: Generic.pm,v 1.76 2003-02-14 13:49:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -779,7 +779,7 @@ sub OptionStrgHashRef {
     my %Param = @_;
     my $Output = '';
     my $Name = $Param{Name} || '';
-    my $Max = $Param{Max} || '';
+    my $Max = $Param{Max} || 80;
     my $Multiple = $Param{Multiple} || '';
     $Multiple = 'multiple' if ($Multiple);
     my $Selected = $Param{Selected} || '';
@@ -1013,7 +1013,8 @@ sub Attachment {
 sub BuildDateSelection {
     my $Self = shift;
     my %Param = @_;
-    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+    my $PendingDiffTime = $Self->{ConfigObject}->Get('PendingDiffTime') || 0;
+    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time+$PendingDiffTime);
     $Y = $Y+1900;
     $M++;
     # year
