@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.5 2004-01-26 00:27:19 martin Exp $
+# $Id: ru.pm,v 1.6 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:18:47 2004 by 
+    # Last translation Tue Feb  3 00:44:18 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -303,10 +303,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'Получить номер заявки',
       'Type' => 'Тип',
       'Useable options' => 'Используемые опции',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Кодировка',
-      'System Charset Management' => 'Управление системной кодировкой',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Управление пользователями (для клиентов)',
@@ -674,6 +670,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Заявка заблокирована!',
       'Ticket unlock!' => '',
@@ -987,6 +987,7 @@ sub Data {
       'Article free text' => 'Свободный текст статьи',
       'Backend' => 'Фон',
       'BackendMessage' => 'Фоновое сообщение',
+      'Charset' => 'Кодировка',
       'Charsets' => 'Кодировки',
       'Create' => 'Создать',
       'Customer info' => 'Данные о клиенте',
@@ -1002,6 +1003,7 @@ sub Data {
       'Set customer id of a ticket' => 'Задать ID клиента заявки',
       'Show all' => 'Показать все',
       'Status defs' => 'Определение статуса',
+      'System Charset Management' => 'Управление системной кодировкой',
       'System Language Management' => 'Настройка системного языка',
       'Ticket available' => 'Имеющиеся Заявки',
       'Ticket free text' => 'Свободный текст заявки',

@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti K‰m‰r‰inen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.19 2004-01-26 00:27:19 martin Exp $
+# $Id: fi.pm,v 1.20 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:12:55 2004 by 
+    # Last translation Tue Feb  3 00:41:49 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -303,10 +303,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'n‰hd‰ksesi tiketin numeron',
       'Type' => 'Tyyppi',
       'Useable options' => 'K‰ytett‰v‰t asetukset',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Kirjaisinasetus',
-      'System Charset Management' => 'J‰rjestelm‰n kirjaisinasetusten hallinta',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Asiakas-k‰ytt‰jien hallinta',
@@ -674,6 +670,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Tiketti lukittu!',
       'Ticket unlock!' => '',
@@ -983,6 +983,7 @@ sub Data {
     # Misc
       'A message should have a From: recipient!' => '',
       'AgentFrontend' => 'Tukin‰kym‰',
+      'Charset' => 'Kirjaisinasetus',
       'Charsets' => 'Kirjaisinasetus',
       'Create' => 'Luo',
       'Fulltext search' => 'Tekstihaku',
@@ -994,6 +995,7 @@ sub Data {
       'Set customer id of a ticket' => 'Aseta tiketin asiakasnumero#',
       'Show all' => 'Yhteens‰',
       'Status defs' => 'Tikettien tilam‰‰ritykset',
+      'System Charset Management' => 'J‰rjestelm‰n kirjaisinasetusten hallinta',
       'System Language Management' => 'J‰rjestelm‰n kielen hallinta',
       'Ticket free text' => 'Etsi koko tiketist‰',
       'Ticket limit:' => 'Tikettien max m‰‰r‰',

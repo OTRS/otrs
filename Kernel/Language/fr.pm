@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Yann Richard <ze at nawak-online.org>
 # --
-# $Id: fr.pm,v 1.26 2004-01-30 14:04:02 robert Exp $
+# $Id: fr.pm,v 1.27 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:14:08 2004 by 
+    # Last translation Tue Feb  3 00:42:14 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -304,10 +304,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'pour avoir le numéro du ticket',
       'Type' => 'Type',
       'Useable options' => 'Options accessibles',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Jeu de caractère',
-      'System Charset Management' => 'Gestion du jeu de caractères système',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestion des clients utilisateurs',
@@ -675,6 +671,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket verrouillé&nbsp;!',
       'Ticket unlock!' => 'Rendre le Ticket&nbsp;!',
@@ -985,6 +985,7 @@ sub Data {
       'A message should have a From: recipient!' => 'Un message devrait avoir un champ From:',
       'AgentFrontend' => 'Interface du technicien',
       'Article free text' => 'Texte dans l\'article',
+      'Charset' => 'Jeu de caractère',
       'Charsets' => 'Jeu de Charactère',
       'Create' => 'Créer',
       'Feature not activ!' => 'Fonction non activé',
@@ -997,6 +998,7 @@ sub Data {
       'Set customer id of a ticket' => 'Définir le numéro de client d\'un ticket',
       'Show all' => 'Tout montrer',
       'Status defs' => 'Définitions des Status',
+      'System Charset Management' => 'Gestion du jeu de caractères système',
       'System Language Management' => 'Gestion des langues du système',
       'Ticket free text' => 'Texte du ticket',
       'Ticket limit:' => 'limitation des Ticket',

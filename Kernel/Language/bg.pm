@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.20 2004-01-26 00:27:18 martin Exp $
+# $Id: bg.pm,v 1.21 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:10:07 2004 by 
+    # Last translation Tue Feb  3 00:40:38 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -303,10 +303,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'за да получите номера на билета',
       'Type' => 'Тип',
       'Useable options' => 'Използваеми опции',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Символен набор',
-      'System Charset Management' => 'Управление на символният набор',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Управление на клиент-потребители',
@@ -674,6 +670,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Билетът е заключен!',
       'Ticket unlock!' => '',
@@ -987,6 +987,7 @@ sub Data {
       'Article free text' => 'Клауза свободен текст',
       'Backend' => 'Фонов',
       'BackendMessage' => 'Фоново съобщение',
+      'Charset' => 'Символен набор',
       'Charsets' => 'Символен набор',
       'Create' => 'Създаване',
       'CustomerUser' => 'Клиент-потребител',
@@ -1000,6 +1001,7 @@ sub Data {
       'Set customer id of a ticket' => 'Задаване на потребителски индикатив на билета',
       'Show all' => 'Показване на всички',
       'Status defs' => 'Дефиниции на състояния',
+      'System Charset Management' => 'Управление на символният набор',
       'System Language Management' => 'Управление на езиковите настройки',
       'Ticket free text' => 'Билет свободен текст',
       'Ticket limit:' => 'Ограничение по време:',

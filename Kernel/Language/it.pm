@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.6 2004-01-26 00:27:19 martin Exp $
+# $Id: it.pm,v 1.7 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:15:24 2004 by 
+    # Last translation Tue Feb  3 00:42:30 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -305,10 +305,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'per avere il numero del ticket',
       'Type' => 'Tipo',
       'Useable options' => 'Opzioni utilizzabili',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Set di caratteri',
-      'System Charset Management' => 'Gestione del set di caratteri di sistema',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestione clienti',
@@ -676,6 +672,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket già preso in gestione!',
       'Ticket unlock!' => 'Ticket libero!',
@@ -987,6 +987,7 @@ sub Data {
       'A message should have a From: recipient!' => 'Un messaggio dovrebbe avere un mittente!',
       'AgentFrontend' => 'Area Tecnici',
       'Article free text' => 'Testo libero articolo',
+      'Charset' => 'Set di caratteri',
       'Charsets' => 'Set di caratteri',
       'Create' => 'Crea',
       'Customer info' => 'Informazioni sul cliente',
@@ -1001,6 +1002,7 @@ sub Data {
       'Search in' => 'Cerca in',
       'Set customer id of a ticket' => 'Imposta il cliente associato al ticket',
       'Show all' => 'Mostra tutti i',
+      'System Charset Management' => 'Gestione del set di caratteri di sistema',
       'System Language Management' => 'Gestione lingua del sistema',
       'Ticket free text' => 'Testo del ticket',
       'With Priority' => 'Con priorità',

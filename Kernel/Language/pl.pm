@@ -3,7 +3,7 @@
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.5 2004-01-26 00:27:19 martin Exp $
+# $Id: pl.pm,v 1.6 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:16:59 2004 by 
+    # Last translation Tue Feb  3 00:43:23 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -305,10 +305,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'by wstawic numer zgloszenia',
       'Type' => 'Typ',
       'Useable options' => 'Uzyteczne opcje',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Charset',
-      'System Charset Management' => 'Konfiguracja systemowego charsetu',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Konfiguracja uzytkownikow',
@@ -676,6 +672,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Zgloszenie zablokowane!',
       'Ticket unlock!' => 'Zgloszenie odblokowane!',
@@ -990,6 +990,7 @@ sub Data {
       'Backend' => 'Backend',
       'BackendMessage' => 'Komunikat Backend',
       'Bottom of Page' => 'Dol strony',
+      'Charset' => 'Charset',
       'Charsets' => 'Charsety',
       'Closed' => 'Zamkniete',
       'Create' => 'Utworz',
@@ -1004,6 +1005,7 @@ sub Data {
       'Search in' => 'Szukaj w',
       'Set customer id of a ticket' => 'Ustaw ID klienta dla zgloszenia',
       'Show all' => 'Pokaz wszystko',
+      'System Charset Management' => 'Konfiguracja systemowego charsetu',
       'System Language Management' => 'Konfiguracja jezyka systemu',
       'Ticket free text' => 'Dowolny tekst zgloszenia',
       'Ticket limit:' => 'Limit zgloszenia',

@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.14 2004-01-26 00:27:19 martin Exp $
+# $Id: es.pm,v 1.15 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:12:00 2004 by 
+    # Last translation Tue Feb  3 00:41:31 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -304,10 +304,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'para obtener el número del ticket',
       'Type' => 'Tipo',
       'Useable options' => 'Opciones accesibles',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Juego de caracteres',
-      'System Charset Management' => 'Gesti&oactue;n del juego de caracteres',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestion clientes',
@@ -675,6 +671,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket bloqueado!',
       'Ticket unlock!' => 'Ticket desbloqueado!',
@@ -985,6 +985,7 @@ sub Data {
       'A message should have a From: recipient!' => 'Loe mensajes deben tener un origen From:!',
       'AgentFrontend' => 'Interface Agente',
       'Article free text' => 'Texto libre del articulo',
+      'Charset' => 'Juego de caracteres',
       'Charsets' => 'Juego de Caracteres',
       'Create' => 'Crear',
       'CustomerUser' => 'Usuario Cliente',
@@ -998,6 +999,7 @@ sub Data {
       'Set customer id of a ticket' => 'Definir el número de cliente del ticket',
       'Show all' => 'Mostrar todos',
       'Status defs' => '',
+      'System Charset Management' => 'Gesti&oactue;n del juego de caracteres',
       'System Language Management' => 'Gestión de idiomas del sistema',
       'Ticket free text' => 'Texto del ticket',
       'Ticket limit:' => 'Limite de Ticket:',

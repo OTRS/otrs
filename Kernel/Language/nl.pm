@@ -4,7 +4,7 @@
 # Maintenance responsibility taken over by Hans Bakker (h.bakker@a-net.nl)
 # Copyright (C) 2003 A-NeT Internet Services bv
 # --
-# $Id: nl.pm,v 1.17 2004-01-26 00:27:19 martin Exp $
+# $Id: nl.pm,v 1.18 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:16:11 2004 by 
+    # Last translation Tue Feb  3 00:42:52 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -305,10 +305,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'voor het ticket-nummer',
       'Type' => 'Type',
       'Useable options' => 'Te gebruiken opties',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'karakterset',
-      'System Charset Management' => 'Systeem karakterset beheer',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'klantgebruiker beheer',
@@ -676,6 +672,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket vergrendeld!',
       'Ticket unlock!' => 'Ticket ontgrendeld!',
@@ -988,6 +988,7 @@ sub Data {
       'Article free text' => 'Artikel tekst',
       'Backend' => 'Systeemkant',
       'BackendMessage' => 'Bericht van Systeemkant',
+      'Charset' => 'karakterset',
       'Charsets' => 'Karaktersets',
       'Create' => 'Maken',
       'Customer info' => 'Klanten info',
@@ -1003,6 +1004,7 @@ sub Data {
       'Set customer id of a ticket' => 'Stel het klantnummer in van een ticket',
       'Show all' => 'Alle getoond',
       'Status defs' => 'Status definities',
+      'System Charset Management' => 'Systeem karakterset beheer',
       'System Language Management' => 'Systeemtaal beheer',
       'Ticket available' => 'Ticket beschikbaar',
       'Ticket free text' => 'Ticket tekst',

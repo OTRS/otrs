@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.36 2004-01-26 00:27:19 martin Exp $
+# $Id: de.pm,v 1.37 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Sun Jan 25 23:28:34 2004 by 
+    # Last translation Tue Feb  3 00:39:39 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -304,10 +304,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'Um die Ticketnummer des Ticket zu bekommen',
       'Type' => 'Typ',
       'Useable options' => 'Verfügbare Optionen',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Zeichensatz',
-      'System Charset Management' => 'Zeichensatz-Verwaltung',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Kunden-Benutzer-Verwaltung',
@@ -675,6 +671,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket gesperrt!',
       'Ticket unlock!' => 'Ticket freigeben!',
@@ -779,7 +779,7 @@ sub Data {
       'Last update' => 'Letzte Änderungen',
       'Problem' => '',
       'Solution' => 'Lösung',
-      'Sympthom' => '',
+      'Symptom' => '',
 
     # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
@@ -988,6 +988,7 @@ sub Data {
       'Backend' => '',
       'BackendMessage' => 'Backend-Nachricht',
       'Bottom of Page' => 'Seitenende',
+      'Charset' => 'Zeichensatz',
       'Charsets' => 'Zeichensätze',
       'Closed' => 'Geschlossen',
       'Create' => 'Erstellen',
@@ -997,6 +998,8 @@ sub Data {
       'Search in' => 'Suche in',
       'Show all' => 'Alle anzeigen',
       'Shown Tickets' => 'Angezeigte Tickets',
+      'Sympthom' => '',
+      'System Charset Management' => 'Zeichensatz-Verwaltung',
       'Time till escalation' => 'Zeit bis zur Eskalation',
       'With Priority' => 'Mit Priotität',
       'With State' => 'Mit Status',

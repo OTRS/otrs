@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.12 2004-01-26 00:27:19 martin Exp $
+# $Id: pt_BR.pm,v 1.13 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:18:08 2004 by 
+    # Last translation Tue Feb  3 00:44:00 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -304,10 +304,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'para obter o número do bilhete',
       'Type' => 'Tipo',
       'Useable options' => 'Opções acessíveis',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Conjunto de Caracteres',
-      'System Charset Management' => 'Gerênciamento de Conjunto de Caracteres do Sistema',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gerênciamento de Clientes',
@@ -675,6 +671,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Bilhete bloqueado!',
       'Ticket unlock!' => '',
@@ -985,6 +985,7 @@ sub Data {
       'A message should have a From: recipient!' => 'Uma mensagem deve conter um From: remetente!',
       'AgentFrontend' => 'Interface do Agente',
       'Article free text' => 'Texto livre do artigo',
+      'Charset' => 'Conjunto de Caracteres',
       'Charsets' => 'Conjunto de Caracteres',
       'Create' => 'Criar',
       'CustomerUser' => 'Usuário Cliente',
@@ -998,6 +999,7 @@ sub Data {
       'Set customer id of a ticket' => 'Definir a identificação do cliente de um bilhete',
       'Show all' => 'Mostrar todos os',
       'Status defs' => 'Estados',
+      'System Charset Management' => 'Gerênciamento de Conjunto de Caracteres do Sistema',
       'System Language Management' => 'Gerênciamento de Idiomas do Sistema',
       'Ticket free text' => 'Texto livre do bilhete',
       'Ticket limit:' => 'Limite do Bilhete:',

@@ -2,7 +2,7 @@
 # Kernel/Language/cz.pm - provides cz language translation
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # --
-# $Id: cz.pm,v 1.5 2004-01-26 00:27:19 martin Exp $
+# $Id: cz.pm,v 1.6 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Mon Jan 26 01:11:10 2004 by 
+    # Last translation Tue Feb  3 00:41:12 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['windows-1250', ];
@@ -304,10 +304,6 @@ sub Data {
       'to get the ticket number of the ticket' => 'pro získání èísla Ticketu',
       'Type' => 'Typ',
       'Useable options' => 'Nastavení',
-
-    # Template: AdminCharsetForm
-      'Charset' => 'Znaková sada',
-      'System Charset Management' => 'Správa znakovách sad',
 
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Správa klientù',
@@ -675,6 +671,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Tiket je zamknut!',
       'Ticket unlock!' => 'Tiket je odemknut!',
@@ -985,6 +985,7 @@ sub Data {
       'A message should have a From: recipient!' => 'Vaše zpráva by mìla mít OD: odesílatel!',
       'AgentFrontend' => 'Zóna operátorù',
       'Article free text' => 'Text artiklu',
+      'Charset' => 'Znaková sada',
       'Charsets' => 'Znakové sady',
       'Create' => 'Vytvoøit',
       'Customer info' => 'Informace o klientovi',
@@ -1000,6 +1001,7 @@ sub Data {
       'Search in' => 'Hledat v',
       'Set customer id of a ticket' => 'Nastavení klient ID v tiketu',
       'Show all' => 'ZObrazit vše',
+      'System Charset Management' => 'Správa znakovách sad',
       'System Language Management' => 'Správa jazykù',
       'Ticket free text' => 'Text tiketu',
       'With Priority' => 'S prioritou',

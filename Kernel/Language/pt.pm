@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.4 2004-01-30 14:08:30 martin Exp $
+# $Id: pt.pm,v 1.5 2004-02-02 23:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan 22 00:29:01 2004 by 
+    # Last translation Tue Feb  3 00:43:42 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -38,6 +38,7 @@ sub Data {
       ' 2 minutes' => ' 2 minutos',
       ' 5 minutes' => ' 5 minutos',
       ' 7 minutes' => ' 7 minutos',
+      '(Click here to add)' => '',
       '10 minutes' => '10 minutos',
       '15 minutes' => '15 minutos',
       'AddLink' => 'Adicionar link',
@@ -47,6 +48,7 @@ sub Data {
       'all' => 'todos',
       'All' => 'Todos',
       'Attention' => 'Atenção',
+      'before' => '',
       'Bug Report' => 'Relatório de Erros',
       'Cancel' => 'Cancelar',
       'change' => 'alterar',
@@ -58,6 +60,7 @@ sub Data {
       'customer' => 'cliente',
       'Customer Info' => 'Informação do Cliente',
       'day' => 'dia',
+      'day(s)' => '',
       'days' => 'dias',
       'description' => 'descrição',
       'Description' => 'Descrição',
@@ -85,6 +88,7 @@ sub Data {
       'Invalid SessionID!' => 'Identificador de Sessão Inválido',
       'Language' => 'Idioma',
       'Languages' => 'Idiomas',
+      'last' => '',
       'Line' => 'Linha',
       'Lite' => 'Lite',
       'Login failed! Your username or password was entered incorrectly.' => 'Login inválido! O utilizador ou password foram introduzidos incorrectamente.',
@@ -94,6 +98,7 @@ sub Data {
       'minutes' => 'minutos',
       'Module' => 'Módulo',
       'Modulefile' => 'Ficheiro de Módulo',
+      'month(s)' => '',
       'Name' => 'Nome',
       'New Article' => 'Novo Artigo',
       'New message' => 'Nova mensagem',
@@ -105,6 +110,7 @@ sub Data {
       'none' => 'Nada',
       'none - answered' => 'nada  - respondido',
       'none!' => 'Nada!',
+      'Normal' => '',
       'Off' => 'Desligado',
       'off' => 'desligado',
       'On' => 'Ligado',
@@ -116,6 +122,7 @@ sub Data {
       'please do not edit!' => 'por favor não editar!',
       'Please go away!' => 'Sair, por favor',
       'possible' => 'possível',
+      'Preview' => '',
       'QueueView' => 'QueueView',
       'reject' => 'rejeitar',
       'replace with' => 'substituir por',
@@ -139,14 +146,17 @@ sub Data {
       'To: (%s) replaced with database email!' => 'Para: (%s) substituido pelo email da base de dados',
       'top' => 'início',
       'update' => 'actualizar',
+      'Update' => '',
       'update!' => 'actualizar!',
       'User' => 'Utilizador',
       'Username' => 'Nome de Utilizador',
       'Valid' => 'Válido',
       'Warning' => 'Aviso',
+      'week(s)' => '',
       'Welcome to OTRS' => 'Bem-vindo ao OTRS',
       'Word' => 'Palavra',
       'wrote' => 'escreveu',
+      'year(s)' => '',
       'yes' => 'sim',
       'Yes' => 'Sim',
       'You got new message!' => 'Recebeu uma mensagem nova',
@@ -295,10 +305,6 @@ sub Data {
       'Type' => 'Tipo',
       'Useable options' => 'Opções acessíveis',
 
-    # Template: AdminCharsetForm
-      'Charset' => 'Conjunto de Caracteres',
-      'System Charset Management' => 'Gerênciamento de Conjunto de Caracteres do Sistema',
-
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestão de Users de Clientes',
       'Customer user will be needed to to login via customer panels.' => 'Um user de cliente é necessário para se logar pelo painel de clientes',
@@ -352,7 +358,8 @@ sub Data {
       'Logout' => 'Sair',
       'Misc' => 'Variedades',
       'Notifications' => 'Notificações',
-      'POP3 Account' => 'Conta POP3',
+      'PostMaster Filter' => '',
+      'PostMaster POP3 Account' => '',
       'Responses' => 'Respostas',
       'Responses <-> Queue' => 'Respostas <-> Queues',
       'Select Box' => 'Caixa de Seleção',
@@ -362,11 +369,12 @@ sub Data {
       'User <-> Groups' => 'Utilizador <-> Grupos',
 
     # Template: AdminNotificationForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Uma resposta é um texto padrão para compôr respostas rápidas (com texto padrão) para clientes.',
-      'Don\'t forget to add a new response a queue!' => 'Não se esqueça de adicionar a nova resposta a uma Queue!',
-      'Next state' => 'Próximo estado',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Notification Management' => 'Gestão de Notificação',
-      'The current ticket state is' => 'O estado corrento do ticket é',
+      'Notifications are sent to an agent or a customer.' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Todos os emails de entrada com uma conta será despachado na Queue selecionada!',
@@ -376,6 +384,11 @@ sub Data {
       'Login' => 'Login',
       'POP3 Account Management' => 'Gestão de Contas POP3',
       'Trusted' => 'Confiável',
+
+    # Template: AdminPostMasterFilterForm
+      'Match' => '',
+      'PostMasterFilter Management' => '',
+      'Set' => '',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Gestão de Queues <-> Auto-Resposta',
@@ -420,7 +433,11 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Modificar Resposta <-> Configurações de Anexos',
 
     # Template: AdminResponseForm
+      'A response is default text to write faster answer (with default text) to customers.' => 'Uma resposta é um texto padrão para compôr respostas rápidas (com texto padrão) para clientes.',
+      'Don\'t forget to add a new response a queue!' => 'Não se esqueça de adicionar a nova resposta a uma Queue!',
+      'Next state' => 'Próximo estado',
       'Response Management' => 'Gestão de Respostas',
+      'The current ticket state is' => 'O estado corrento do ticket é',
 
     # Template: AdminSalutationForm
       'customer realname' => 'Nome do cliente',
@@ -654,6 +671,10 @@ sub Data {
 
     # Template: AgentStatusViewTableNotAnswerd
 
+    # Template: AgentTicketLink
+      'Link' => '',
+      'Link to' => '',
+
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket bloqueado!',
       'Ticket unlock!' => 'Ticket desbloqueado!',
@@ -749,11 +770,8 @@ sub Data {
       'Traceback' => 'Retroceder',
 
     # Template: CustomerFAQArticleHistory
-      'delete' => 'Eliminar',
-      'edit' => 'Editar',
+      'Edit' => 'Editar',
       'FAQ History' => 'Histórico da FAQ',
-      'print' => 'Imprimir',
-      'view' => 'Vista',
 
     # Template: CustomerFAQArticlePrint
       'Category' => 'Categorias',
@@ -761,7 +779,7 @@ sub Data {
       'Last update' => 'Última Actualização',
       'Problem' => 'Problema',
       'Solution' => 'Solução',
-      'Sympthom' => 'Sintoma',
+      'Symptom' => 'Sintoma',
 
     # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => 'Sistema de Histórico da FAQ',
@@ -831,6 +849,7 @@ sub Data {
       'You really want to delete this article?' => 'Deseja mesmo eliminar este artigo?',
 
     # Template: FAQArticleForm
+      'Comment (internal)' => '',
       'Filename' => 'Nome do Ficheiro',
       'Short Description' => 'Pequena Descrição',
 
@@ -841,12 +860,11 @@ sub Data {
     # Template: FAQArticleSystemHistory
 
     # Template: FAQArticleView
-      'history' => 'Histórico',
 
     # Template: FAQCategoryForm
       'FAQ Category' => 'Categoria da FAQ',
 
-    # Template: FAQLanguageForm	
+    # Template: FAQLanguageForm
       'FAQ Language' => 'Idioma da FAQ',
 
     # Template: FAQNavigationBar
@@ -856,6 +874,9 @@ sub Data {
     # Template: FAQSearch
 
     # Template: FAQSearchResult
+
+    # Template: FAQStateForm
+      'FAQ State' => '',
 
     # Template: Footer
       'Top of Page' => 'Topo da Página',
@@ -905,7 +926,7 @@ sub Data {
       '(Full qualified domain name of your system)' => '(Nome completo do domínio do seu sistema)',
       '(Logfile just needed for File-LogModule!)' => '(Ficheiro de registo para File-LogModule)',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(A identidade do sistema. Cada número de Ticket e cada id. da sessão http, inicia com este número)',
-      '(Ticket identifier. Some people want to set this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador do Ticket. Algumas pessoas gostam de usar por exemplo \'Ticket#\, \'Chamada#\' ou \'MeuTicket#\')',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
       '(Used default language)' => '(Idioma padrão utilizado)',
       '(Used log backend)' => '()',
       '(Used ticket number format)' => '(Formato de Ticket utilizado)',
@@ -919,6 +940,7 @@ sub Data {
       'SystemID' => 'ID do sistema',
       'Ticket Hook' => 'Identificador do Ticket',
       'Ticket Number Generator' => 'Gerador de Números de Tickets',
+      'Use utf-8 it your database supports it!' => '',
       'Webfrontend' => 'Interface Web',
 
     # Template: Login
@@ -961,10 +983,12 @@ sub Data {
     # Template: Warning
 
     # Misc
+      '(Ticket identifier. Some people want to set this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador do Ticket. Algumas pessoas gostam de usar por exemplo \'Ticket#\, \'Chamada#\' ou \'MeuTicket#\')',
       'A message should have a From: recipient!' => 'Uma mensagem deve conter um De: remetente!',
       'AdminArea' => 'Área de Administração',
       'AgentFrontend' => 'Interface do Agente',
       'Article free text' => 'Texto livre do artigo',
+      'Charset' => 'Conjunto de Caracteres',
       'Charsets' => 'Conjunto de Caracteres',
       'Create' => 'Criar',
       'CustomerUser' => 'Utilizador do Cliente',
@@ -974,10 +998,13 @@ sub Data {
       'New state' => 'Novo estado',
       'New ticket via call.' => 'Novo Ticket via chamada telefónica.',
       'New user' => 'Novo Utilizador',
+      'POP3 Account' => 'Conta POP3',
       'Search in' => 'Procurar em',
       'Set customer id of a ticket' => 'Definir a identificação do cliente de um ticket',
       'Show all' => 'Mostrar todos os',
       'Status defs' => 'Estados',
+      'Sympthom' => 'Sintoma',
+      'System Charset Management' => 'Gerênciamento de Conjunto de Caracteres do Sistema',
       'System Language Management' => 'Gestão de Idiomas do Sistema',
       'Ticket free text' => 'Texto livre do ticket',
       'Ticket limit:' => 'Limite do Ticket:',
@@ -992,6 +1019,7 @@ sub Data {
       'store' => 'armazenar',
       'tickets' => 'tickets',
       'valid' => 'válido',
+      'view' => 'Vista',
     );
 
     # $$STOP$$
