@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.80 2004-04-06 09:43:01 martin Exp $
+# $Id: Ticket.pm,v 1.81 2004-04-07 11:07:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.80 $';
+$VERSION = '$Revision: 1.81 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -700,7 +700,14 @@ sub MoveTicket {
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
         ); 
-
+        # should I unlock a ticket after move?
+        if ($Self->{ConfigObject}->Get('Move::ForceUnlockAfterMove')) {
+            $Self->LockSet(
+                TicketID => $Param{TicketID},
+                Lock => 'unlock',
+                UserID => $Param{UserID},
+            );
+        }
         return 1;
     }
     else {
@@ -1480,7 +1487,9 @@ To find tickets in your system.
       # ticket properties (optional)
       Queue => 'system queue',
       States => ['new', 'open'],
+      StateIDs => [3, 4],
       Priorities => ['1 very low', '2 low', '3 normal'],
+      PriorityIDs => [1, 2, 3],
       Locks => ['unlock'],
       UserIDs => [1, 12, 455, 32]
       Owner => '123',
@@ -1629,6 +1638,21 @@ sub TicketSearch {
         my $TicketNumber = $Param{TicketNumber};
         $TicketNumber =~ s/\*/%/gi;
         $SQLExt .= " AND st.tn LIKE '".$Self->{DBObject}->Quote($TicketNumber)."'";
+    }
+    # ticket priorities 
+    if ($Param{Priorities}) {
+        foreach (@{$Param{Priorities}}) {
+            my $ID = $Self->PriorityLookup(Type => $_);
+            if ($ID) {
+                push (@{$Param{PriorityIDs}}, $ID);
+            }
+            else {
+                return;
+            }
+        }
+    }
+    if ($Param{PriorityIDs}) {
+        $SQLExt .= " AND st.ticket_priority_id IN (${\(join ', ' , @{$Param{PriorityIDs}})})";
     }
     # other ticket stuff 
     my %FieldSQLMap = (
@@ -1892,12 +1916,18 @@ sub LockSet {
               }
           }
       }
-      # for SAG - 2004-02-27 OTRS GmbH - ME
-#      my %TicketData = $Self->TicketGet(%Param);
-#      if ($TicketData{StateType} =~ /^new/i) {
-#          $Self->StateSet(%Param, State => 'open');
-#      }
-      # / for SAG - 2004-02-27 OTRS GmbH - ME
+      # should I unlock a ticket after move?
+      if ($Param{Lock} =~ /^lock$/i) {
+          if ($Self->{ConfigObject}->Get('Lock::ForceNewStateAfterLock')) {
+            my %States = %{$Self->{ConfigObject}->Get('Lock::ForceNewStateAfterLock')};
+            my %Ticket = $Self->TicketGet(%Param); 
+            foreach (keys %States) {
+              if ($_ eq $Ticket{State} && $States{$_}) {
+                  $Self->StateSet(%Param, State => $States{$_});
+              }
+            }
+          }
+      }
       return 1;
     }
     else {
@@ -2571,6 +2601,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.80 $ $Date: 2004-04-06 09:43:01 $
+$Revision: 1.81 $ $Date: 2004-04-07 11:07:01 $
 
 =cut
