@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.63 2004-01-05 20:05:48 martin Exp $
+# $Id: index.pl,v 1.64 2004-01-21 00:02:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -622,12 +622,11 @@ print STDERR $CommonObject{LayoutObject}->Redirect(
         # -- 
         # module permisson check
         # --
-#        my $Group = $CommonObject{ConfigObject}->Get('Module::Permission')->{$Param{Action}} || '';
         my $Access = 1;
         my $AccessOk = 0;
         my %ConfigMap = (
             'Module::Permission' => 'UserIsGroup',
-            'Module::PermissionRo' => 'UserIsGroupRo',
+            'Module::Permission::Ro' => 'UserIsGroupRo',
         );
         foreach my $Map (keys %ConfigMap) {
           my $Group = '';
