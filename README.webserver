@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.5 2002-08-25 01:07:47 martin Exp $
+# $Id: README.webserver,v 1.6 2002-10-24 23:58:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -96,6 +96,10 @@ c)
   =====================
 
 d)
+  Web-Installer
+  =============
+   http://yourhost/otrs/installer.pl
+ 
   First login
   ===========
    http://yourhost/otrs/index.pl
