@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.27 2004-01-22 20:12:53 martin Exp $
+# $Id: Installer.pm,v 1.28 2004-09-29 11:48:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -90,24 +90,24 @@ sub Run {
     if (-f "/etc/SuSE-release") {
         $Dist{Vendor} = "SuSE";
         $Dist{Webserver} = "rcapache restart";
-    } 
+    }
     if (-f "/etc/redhat-release") {
         $Dist{Vendor} = "Redhat";
         $Dist{Webserver} = "service httpd restart";
-    } 
-    
+    }
+
     # --
     # print form
     # --
     if (!$Self->{Subaction}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'License');
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'InstallerBody', 
+            TemplateFile => 'InstallerBody',
             Data => {
                 Item => 'License',
                 Step => '1/4',
                 Body => $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerLicense', 
+                    TemplateFile => 'InstallerLicense',
                     Data => {},
                 ),
             }
@@ -128,10 +128,10 @@ sub Run {
            );
            $Output .= $Self->{LayoutObject}->Footer();
         }
-        else { 
+        else {
            $Output .= $Self->{LayoutObject}->Header(Title => 'Create Database');
            $Output .= $Self->{LayoutObject}->Output(
-               TemplateFile => 'InstallerBody', 
+               TemplateFile => 'InstallerBody',
                Data => {
                     Item => 'Create Database',
                     Step => '2/4',
@@ -155,7 +155,7 @@ sub Run {
         $DB{Password} = $Self->{ParamObject}->GetParam(Param => 'DBPassword') || '';
         $DB{DatabaseHost} = $Self->{ParamObject}->GetParam(Param => 'DBHost') || '';
         $DB{Type} = $Self->{ParamObject}->GetParam(Param => 'DBType') || '';
-        $DB{Database} = $Self->{ParamObject}->GetParam(Param => 'DBName') || ''; 
+        $DB{Database} = $Self->{ParamObject}->GetParam(Param => 'DBName') || '';
         $DB{DBAction} = $Self->{ParamObject}->GetParam(Param => 'DBAction') || '';
         $DB{DatabaseUser} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBUser') || '';
         $DB{DatabasePw} = $Self->{ParamObject}->GetParam(Param => 'OTRSDBPassword') || '';
@@ -172,8 +172,8 @@ sub Run {
         }
         # connect to database
         my $DBH = DBI->connect(
-            "DBI:mysql:database=;host=$DB{DatabaseHost};", 
-            $DB{User}, 
+            "DBI:mysql:database=;host=$DB{DatabaseHost};",
+            $DB{User},
             $DB{Password},
         );
         if (!$DBH) {
@@ -184,7 +184,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        
+
         my $SetupOutput = '';
 
         if ($DB{DBAction} eq 'Create') {
@@ -199,13 +199,13 @@ sub Run {
                 $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
                 $SetupOutput .= "</table><br> ---==> $DBI::errstr";
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody', 
+                    TemplateFile => 'InstallerBody',
                     Data => {
                         Item => 'Create Database',
                         Step => '2/4',
                         Body => $SetupOutput,
                     }
-                ); 
+                );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
@@ -226,13 +226,13 @@ sub Run {
                     $SetupOutput .= "</table><br> ---==> $DBI::errstr";
                     print STDERR "ERR: $DBI::errstr - $_\n";
                     $Output .= $Self->{LayoutObject}->Output(
-                        TemplateFile => 'InstallerBody', 
+                        TemplateFile => 'InstallerBody',
                         Data => {
                             Item => 'Create Database',
                             Step => '2/4',
                             Body => $SetupOutput,
                         },
-                    ); 
+                    );
                     $Output .= $Self->{LayoutObject}->Footer();
                     return $Output;
                 }
@@ -252,13 +252,13 @@ sub Run {
                     $SetupOutput .= "</table><br> ---==> $DBI::errstr";
                     print STDERR "ERR: $DBI::errstr - $_\n";
                     $Output .= $Self->{LayoutObject}->Output(
-                        TemplateFile => 'InstallerBody', 
+                        TemplateFile => 'InstallerBody',
                         Data => {
                             Item => 'Create Database',
                             Step => '2/4',
                             Body => $SetupOutput,
                         },
-                    ); 
+                    );
                     $Output .= $Self->{LayoutObject}->Footer();
                     return $Output;
                 }
@@ -274,13 +274,13 @@ sub Run {
                 $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
                 $SetupOutput .= "</table><br> ---==> $DBI::errstr";
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody', 
+                    TemplateFile => 'InstallerBody',
                     Data => {
                         Item => 'Create Database',
                         Step => '2/4',
                         Body => $SetupOutput,
                     }
-                ); 
+                );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
@@ -297,13 +297,13 @@ sub Run {
                 $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
                 $SetupOutput .= "</table><br> ---==> $DBI::errstr";
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody', 
+                    TemplateFile => 'InstallerBody',
                     Data => {
                         Item => 'Create Database',
                         Step => '2/4',
                         Body => $SetupOutput,
                     }
-                ); 
+                );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
@@ -328,13 +328,13 @@ sub Run {
                 $SetupOutput .= "<p> ---==> <b><font color='green'>Database setup successful!</font></b></p>";
                 $SetupOutput .= "<p><a href='installer.pl?Subaction=System'>Next Step</a></p>";
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody', 
+                    TemplateFile => 'InstallerBody',
                     Data => {
                         Item => 'Create Database',
                         Step => '2/4',
                         Body => $SetupOutput,
                     }
-                ); 
+                );
             }
 
         }
@@ -350,7 +350,7 @@ sub Run {
                 $SetupOutput .= "<font color='red'><b>false</b>.</font></td></tr>";
                 $SetupOutput .= "</table><br> ---==> $DBI::errstr";
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody', 
+                    TemplateFile => 'InstallerBody',
                     Data => {
                         Item => 'Drop Database',
                         Step => '4/4',
@@ -366,7 +366,7 @@ sub Run {
                 $SetupOutput .= " ---==> <b><font color='green'>Database deleted.</font></b>";
             }
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'InstallerBody', 
+                TemplateFile => 'InstallerBody',
                 Data => {
                     Item => 'Drop Database',
                     Step => '4/4',
@@ -410,12 +410,12 @@ sub Run {
         $Param{DefaultCharset} = $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
         $Output .= $Self->{LayoutObject}->Header(Title => 'System Settings');
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'InstallerBody', 
+            TemplateFile => 'InstallerBody',
             Data => {
                 Item => 'System Settings',
                 Step => '3/4',
                 Body => $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerSystem', 
+                    TemplateFile => 'InstallerSystem',
                     Data => \%Param,
                 ),
             }
@@ -431,10 +431,10 @@ sub Run {
         # ReConfigure Config.pm
         # --
         my %Config = ();
-        foreach (qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile 
+        foreach (qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
           TicketHook TicketNumberGenerator DefaultCharset DefaultLanguage CheckMXRecord)) {
             my $Value = $Self->{ParamObject}->GetParam(Param => $_);
-            $Config{$_} = defined $Value ? $Value : ''; 
+            $Config{$_} = defined $Value ? $Value : '';
         }
         if ($Self->ReConfigure(
             %Config,
@@ -450,7 +450,7 @@ sub Run {
            my $OTRSHandle = $ENV{SCRIPT_NAME};
            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
            $Output .= $Self->{LayoutObject}->Output(
-               TemplateFile => 'InstallerBody', 
+               TemplateFile => 'InstallerBody',
                Data => {
                    Item => 'Finished',
                    Step => '4/4',
@@ -495,7 +495,7 @@ sub ReConfigure {
     # --
     # read config file
     # --
-    open (IN, "< $Self->{Path}/../../Kernel/Config.pm") || 
+    open (IN, "< $Self->{Path}/../../Kernel/Config.pm") ||
         return "Can't open $Self->{Path}/../../Kernel/Config.pm: $!";
     while (<IN>) {
         if ($_ =~ /^#/) {
@@ -507,11 +507,11 @@ sub ReConfigure {
             # replace config with %Param
             # --
             foreach (keys %Param) {
-                if ($Param{$_} =~ /^[0-9]+$/) {
-                    $NewConfig =~ s/(\$Self->{$_} =.+?);/\$Self->{$_} = $Param{$_};/g;  
+                if ($Param{$_} =~ /^[0-9]+$/ && $Param{$_} !~ /^0/) {
+                    $NewConfig =~ s/(\$Self->{$_} =.+?);/\$Self->{$_} = $Param{$_};/g;
                 }
                 else {
-                    $NewConfig =~ s/(\$Self->{$_} =.+?');/\$Self->{$_} = '$Param{$_}';/g;  
+                    $NewConfig =~ s/(\$Self->{$_} =.+?');/\$Self->{$_} = '$Param{$_}';/g;
                 }
             }
             $Config .= $NewConfig;
@@ -522,20 +522,20 @@ sub ReConfigure {
     foreach (sort keys %Param) {
         if ($Config !~ /\$Self->{$_} =.+?;/) {
             if ($Param{$_} =~ /^[0-9]+$/) {
-                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{$_} = $Param{$_};/g;  
+                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{$_} = $Param{$_};/g;
             }
             else {
-                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{$_} = '$Param{$_}';/g;  
+                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{$_} = '$Param{$_}';/g;
             }
         }
     }
     # --
     # write new config file
     # --
-    open (OUT, "> $Self->{Path}/../../Kernel/Config.pm") || 
+    open (OUT, "> $Self->{Path}/../../Kernel/Config.pm") ||
         return "Can't open $Self->{Path}/../../Kernel/Config.pm: $!";
     print OUT $Config;
-    close (OUT); 
+    close (OUT);
 
     return;
 }
