@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.121 2004-04-04 12:13:11 martin Exp $
+# $Id: Defaults.pm,v 1.122 2004-04-07 11:06:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.121 $';
+$VERSION = '$Revision: 1.122 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -479,6 +479,17 @@ sub LoadDefaults {
         Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
         Sun => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
     };
+
+    # Lock::ForceNewStateAfterLock
+    # (force a new ticket state after lock action)
+#    $Self->{'Lock::ForceNewStateAfterLock'} = {
+#        'new' => 'open',
+#    };
+
+    # Move::ForceUnlockAfterMove
+    # (force to unlock a ticket after move action)
+    $Self->{'Move::ForceUnlockAfterMove'} = 1;
+
     # --------------------------------------------------- #
     # TicketNumberGenerator                               # 
     # --------------------------------------------------- #
@@ -569,8 +580,8 @@ sub LoadDefaults {
     $Self->{DefaultTheme} = 'Standard';
     # OnChangeSubmit 
     # (Use the onchange=submit() function for ticket move in
-    # QueueView and TicketZoom) [default: 1] [0|1]
-    $Self->{OnChangeSubmit} = 1;
+    # QueueView and TicketZoom) [default: 0] [0|1]
+    $Self->{OnChangeSubmit} = 0;
     # StdResponsesMethod
     # (should the standard responses selection be a form or links?) [Form|Link]
     $Self->{StdResponsesMethod} = 'Link';
@@ -967,6 +978,10 @@ $Data{"Signature"}
     # Note: If the client browser disabled html cookies, the system
     # will work as usual, append SessionID to links!
     $Self->{SessionUseCookie} = 1;
+
+    # SessionUseCookieAfterBrowserClose
+    # (store cookies in browser after closing a browser) [0|1]
+    $Self->{SessionUseCookieAfterBrowserClose} = 0;
 
     # SessionDir
     # directory for all sessen id informations (just needed if 
