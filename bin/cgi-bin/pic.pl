@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.6 2002-09-01 13:06:15 martin Exp $
+# $Id: pic.pl,v 1.7 2002-10-15 09:15:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -73,10 +73,21 @@ $CommonObject{PermissionObject} = Kernel::System::Permission->new(%CommonObject)
 # get common parameters
 # --
 my %Param = ();
-$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => 'SessionID') || '';
+# get session id
+my $SessionID = $CommonObject{ConfigObject}->Get('SessionName') || 'SessionID';
+$Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => $SessionID) || '';
 $Param{Action} = $CommonObject{ParamObject}->GetParam(Param => 'Action') || '';
 $Param{Pic} = $CommonObject{ParamObject}->GetParam(Param => 'Pic') || '';
-
+# --
+# Check if the brwoser sends the SessionID cookie and set the SessionID-cookie 
+# as SessionID! GET or POST SessionID have the lowest priority.
+# --
+if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
+  $Param{SessionIDCookie} = $CommonObject{ParamObject}->GetCookie(Key => $SessionID);
+  if ($Param{SessionIDCookie}) {
+    $Param{SessionID} = $Param{SessionIDCookie};
+  }
+}
 # --
 # check session id
 # --
@@ -175,7 +186,6 @@ sub GetImage {
         MSG => "Open image $HtdocsPath/$File.",
       );
     }
-
     open (DATA, "< $HtdocsPath/$File") or print STDERR "$! \n";
     while (<DATA>) {
         $Data .= $_;
