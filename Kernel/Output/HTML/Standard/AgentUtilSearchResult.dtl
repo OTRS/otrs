@@ -2,7 +2,7 @@
 # AgentUtilSearchResult.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResult.dtl,v 1.14 2003-07-12 08:41:21 martin Exp $
+# $Id: AgentUtilSearchResult.dtl,v 1.15 2003-07-14 12:12:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,15 +39,15 @@
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td width="15%"><b>$Text{"From"}:</b></td>
-      <td> $Quote{"$Data{"From"}","80"}</td>
+      <td> $Data{"From"}</td>
     </tr>
     <tr> 
       <td><b>$Text{"To"}:</b></td>
-      <td> $Quote{"$Data{"To"}","80"}</td>
+      <td> $Data{"To"}</td>
     </tr>
     <tr>
       <td><b>$Text{"Subject"}:</b></td>
-      <td> $Quote{"$Data{"Subject"}","80"}</td>
+      <td> $Data{"Subject"}</td>
     </tr>
   </table>
 $Data{"TextNote"}
