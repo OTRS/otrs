@@ -2,14 +2,12 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.56 2004-04-14 15:54:39 martin Exp $
+# $Id: Article.pm,v 1.57 2004-04-15 08:34:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
-package Kernel::System::Ticket::Article;
 
 use strict;
 use MIME::Words qw(:all);
@@ -18,7 +16,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -201,7 +199,7 @@ sub ArticleCreate {
                 $Self->HistoryAdd(
                     TicketID => $Param{TicketID},
                     HistoryType => 'LoopProtection',
-                    Name => "Sent no auto response (LoopProtection)!",
+                    Name => "\%\%$OrigHeader{From}",
                     CreateUserID => $Param{UserID},
                 );
                 # do log
@@ -1193,7 +1191,7 @@ sub BounceArticle {
         TicketID => $Param{TicketID},
         ArticleID => $Param{ArticleID},
         HistoryType => $HistoryType,
-        Name => "Bounced email to '$To'.",
+        Name => "\%\%$To",
         CreateUserID => $Param{UserID},
     );
     return 1;
@@ -1361,7 +1359,7 @@ sub SendAgentNotification {
     $Self->HistoryAdd(
         TicketID => $Param{TicketID},
         HistoryType => 'SendAgentNotification',
-        Name => "Sent '$Param{Type}' notification to '$User{UserEmail}'.",
+        Name => "\%\%$Param{Type}\%\%$User{UserEmail}",
         CreateUserID => $Param{UserID},
     );
 
@@ -1500,7 +1498,7 @@ sub SendCustomerNotification {
             SenderType => 'system',
             TicketID => $Param{TicketID},
             HistoryType => 'SendCustomerNotification',
-            HistoryComment => "Sent notification to '$Article{From}'.",
+            HistoryComment => "\%\%$Article{From}",
             From => "$Address{RealName} <$Address{Email}>", 
             To => $Article{From},
             Subject => $Param{Subject},
@@ -1669,7 +1667,7 @@ sub SendAutoResponse {
         SenderType => 'system',
         TicketID => $Param{TicketID},
         HistoryType => $Param{HistoryType}, 
-        HistoryComment => "Sent auto response to '$ToAll'",
+        HistoryComment => "\%\%$ToAll",
         From => "$Param{Realname} <$Param{Address}>",
         To => $GetParam{From},
         Cc => $Cc,

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.82 2004-04-14 15:54:40 martin Exp $
+# $Id: Ticket.pm,v 1.83 2004-04-15 08:34:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,6 @@ use strict;
 use Time::Local;
 use Kernel::System::Time;
 use Kernel::System::Ticket::Article;
-use Kernel::System::Ticket::TimeAccounting;
 use Kernel::System::State;
 use Kernel::System::Lock;
 use Kernel::System::Queue;
@@ -30,8 +29,8 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
-use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.82 $';
+use vars qw($VERSION);
+$VERSION = '$Revision: 1.83 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -72,11 +71,6 @@ create a object
   );
 
 =cut
-
-@ISA = (
-    'Kernel::System::Ticket::Article',
-    'Kernel::System::Ticket::TimeAccounting',
-);
 
 # --
 sub new {
@@ -137,7 +131,6 @@ sub new {
     if (!eval "require $GeneratorModule") {
         die "Can't load ticket number generator backend module $GeneratorModule! $@";
     }
-    push(@ISA, $GeneratorModule); 
     # --
     # load ticket index generator 
     # --
@@ -146,7 +139,6 @@ sub new {
     if (!eval "require $GeneratorIndexModule") {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
-    push(@ISA, $GeneratorIndexModule);
     # --
     # load article storage module 
     # --
@@ -155,8 +147,16 @@ sub new {
     if (!eval "require $StorageModule") {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
-    push(@ISA, $StorageModule);
-
+    # --
+    # load custom functions 
+    # --
+    my $CustomModule = $Self->{ConfigObject}->Get('TicketCustomModule');
+    if ($CustomModule) { 
+        if (!eval "require $CustomModule") {
+            die "Can't load ticket custom module $CustomModule! $@";
+        }
+    }
+    
     $Self->Init();
 
     return $Self;
@@ -315,7 +315,7 @@ sub TicketCreate {
         $Self->HistoryAdd(
             TicketID => $TicketID,
             HistoryType => 'NewTicket',
-            Name => "Ticket=[$Param{TN}], ID=[$TicketID] created (Q=$Queue;P=$Param{Priority};S=$Param{State}).",
+            Name => "\%\%$Param{TN}\%\%$Queue\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
             CreateUserID => $Param{UserID},
         );
         # set customer data if given
@@ -653,6 +653,9 @@ sub MoveTicket {
         # update not needed
         return 1;
     }
+    # remember to old queue
+    my $OldQueueID = $Self->TicketQueueID(TicketID => $Param{TicketID});
+    my $OldQueue = $Self->{QueueObject}->QueueLookup(QueueID => $OldQueueID);
     # db update
     my $SQL = "UPDATE ticket SET ".
       " queue_id = ".$Self->{DBObject}->Quote($Param{QueueID}).
@@ -668,15 +671,9 @@ sub MoveTicket {
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'Move',
-            Name => "Ticket moved to Queue '$Queue' (ID=$Param{QueueID}).",
+            Name => "\%\%$Queue\%\%$Param{QueueID}\%\%$OldQueue\%\%$OldQueueID",
             CreateUserID => $Param{UserID},
         );
-#        $Self->HistoryAdd(
-#            TicketID => $Param{TicketID},
-#            HistoryType => 'Move',
-#            Name => "\%\%$Queue\%\%$Param{QueueID}",
-#            CreateUserID => $Param{UserID},
-#        );
         # send move notify to queue subscriber 
         foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Param{QueueID})) {
             my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
@@ -804,7 +801,7 @@ sub SetCustomerData {
           " change_time = current_timestamp, change_by = $Param{UserID} " .
           " WHERE id = $Param{TicketID} ";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
-            $Param{History} = "CustomerID updated to '$Param{No}'. ";
+            $Param{History} = "CustomerID=$Param{No};";
         }
     }
     # db customer user update
@@ -814,7 +811,7 @@ sub SetCustomerData {
           " change_time = current_timestamp, change_by = $Param{UserID} " .
           " WHERE id = $Param{TicketID} ";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
-            $Param{History} .= "CustomerUser updated to '$Param{User}'.";
+            $Param{History} .= "CustomerUser=$Param{User};";
         }
     }
     if ($Param{History}) {
@@ -822,7 +819,7 @@ sub SetCustomerData {
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'CustomerUpdate',
-            Name => $Param{History}, 
+            Name => "\%\%".$Param{History}, 
             CreateUserID => $Param{UserID},
         );
         return 1;
@@ -880,7 +877,7 @@ sub TicketFreeTextSet {
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'TicketFreeTextUpdate',
-            Name => "FreeKey$Param{Counter}: '$Key' FreeText$Param{Counter}: '$Value'", 
+            Name => "\%\%FreeKey$Param{Counter}\%\%$Key\%\%FreeText$Param{Counter}\%\%$Value", 
             CreateUserID => $Param{UserID},
         );
         return 1;
@@ -1330,9 +1327,9 @@ sub TicketPendingTimeSet {
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'SetPendingTime',
-            Name => 'Set Pending Time to '.sprintf("%02d", $Param{Year}).
-              '/'.sprintf("%02d", $Param{Month}).'/'.sprintf("%02d", $Param{Day}).' '.
-              sprintf("%02d", $Param{Hour}).':'.sprintf("%02d", $Param{Minute}).'.',
+            Name => '%%'.sprintf("%02d", $Param{Year}).
+              '-'.sprintf("%02d", $Param{Month}).'-'.sprintf("%02d", $Param{Day}).' '.
+              sprintf("%02d", $Param{Hour}).':'.sprintf("%02d", $Param{Minute}).'',
             CreateUserID => $Param{UserID},
         );
         return 1;
@@ -1890,7 +1887,7 @@ sub LockSet {
           TicketID => $Param{TicketID},
           CreateUserID => $Param{UserID},
           HistoryType => $HistoryType,
-          Name => "Ticket $Param{Lock}.",
+          Name => "\%\%$Param{Lock}",
         );
       }
 
@@ -2003,7 +2000,7 @@ sub StateSet {
           TicketID => $Param{TicketID},
           ArticleID => $ArticleID,
           HistoryType => 'StateUpdate',
-          Name => "Old: '$Ticket{State}' New: '$Param{State}'",
+          Name => "\%\%$Ticket{State}\%\%$Param{State}",
           CreateUserID => $Param{UserID},
       );
       # send customer notification email
@@ -2184,7 +2181,7 @@ sub OwnerSet {
           TicketID => $Param{TicketID},
           CreateUserID => $Param{UserID},
           HistoryType => 'OwnerUpdate',
-          Name => "New Owner is '$Param{NewUser}' (ID=$Param{NewUserID}).",
+          Name => "\%\%$Param{NewUser}\%\%$Param{NewUserID}",
       );
       # send agent notify
       if ($Param{UserID} ne $Param{NewUserID} && 
@@ -2400,8 +2397,8 @@ sub PrioritySet {
           TicketID => $Param{TicketID},
           CreateUserID => $Param{UserID},
           HistoryType => 'PriorityUpdate',
-          Name => "Priority update from '$TicketData{Priority}' ($TicketData{PriorityID})".
-              " to '$Param{Priority}' ($Param{PriorityID}).",
+          Name => "\%\%$TicketData{Priority}\%\%$TicketData{PriorityID}".
+              "\%\%$Param{Priority}\%\%$Param{PriorityID}",
       );
       return 1;
     }
@@ -2449,6 +2446,7 @@ sub PriorityList {
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{$Row[0]} = $Row[1];
         }
+#delete $Data{2};
         return %Data;
     }
     else {
@@ -2645,6 +2643,83 @@ sub HistoryDelete {
     }
 }
 #--
+sub TicketAccountedTimeGet {
+    my $Self = shift;
+    my %Param = @_;
+    my $AccountedTime = 0;
+    # check needed stuff
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db query
+    my $SQL = "SELECT time_unit " .
+        " FROM " .
+        " time_accounting " .
+        " WHERE " .
+        " ticket_id = $Param{TicketID} " .
+        "  ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $AccountedTime = $AccountedTime + $Row[0];
+    }
+    return $AccountedTime;
+}
+# --
+sub TicketAccountTime {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID ArticleID TimeUnit UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # check some wrong formats
+    my $TimeUnit = $Param{TimeUnit};
+    $TimeUnit =~ s/,/\./g;
+    $TimeUnit = int($TimeUnit);
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db update
+    my $SQL = "INSERT INTO time_accounting ".
+      " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) ".
+      " VALUES ".
+      " ($Param{TicketID}, $Param{ArticleID}, $TimeUnit, ".
+      " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}) ";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # add history
+      my $AccountedTime = $Self->TicketAccountedTimeGet(TicketID => $Param{TicketID});
+      my $HistoryComment = "\%\%$Param{TimeUnit}"; 
+      if ($TimeUnit ne $Param{TimeUnit}) {
+          $HistoryComment = "$TimeUnit time unit(s) accounted ($Param{TimeUnit} is invalid).";
+      }
+      else {
+          $HistoryComment .= "\%\%$AccountedTime";
+      }
+      $Self->HistoryAdd(
+          TicketID => $Param{TicketID},
+          ArticleID => $Param{ArticleID},
+          CreateUserID => $Param{UserID},
+          HistoryType => 'TimeAccounting',
+          Name => $HistoryComment, 
+      );
+      return 1;
+    }
+    else {
+      return;
+    }
+}
+# --
 1; 
 
 =head1 TERMS AND CONDITIONS
@@ -2655,10 +2730,8 @@ This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
 did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
-=cut
-
 =head1 VERSION
 
-$Revision: 1.82 $ $Date: 2004-04-14 15:54:40 $
+$Revision: 1.83 $ $Date: 2004-04-15 08:34:28 $
 
 =cut

@@ -3,19 +3,17 @@
 # queue ticket index module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.19 2004-03-12 18:35:10 martin Exp $
+# $Id: RuntimeDB.pm,v 1.20 2004-04-15 08:34:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
-
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {

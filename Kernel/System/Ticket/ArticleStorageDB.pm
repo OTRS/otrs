@@ -2,21 +2,19 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.16 2004-04-14 15:54:39 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.17 2004-04-15 08:34:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::Ticket::ArticleStorageDB;
-
 use strict;
 use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
