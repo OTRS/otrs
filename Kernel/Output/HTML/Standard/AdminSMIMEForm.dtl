@@ -2,7 +2,7 @@
 # AdminSMIMEForm.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIMEForm.dtl,v 1.6 2004-09-28 19:52:09 martin Exp $
+# $Id: AdminSMIMEForm.dtl,v 1.7 2004-10-18 19:23:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,39 +18,42 @@
 <tr>
   <td width="40%" class="mainbody">
 
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Search">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
     <td class="contenthead">$Text{"Search"}:</td>
   </tr>
   <tr>
     <td class="contentbody">
-
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Search">
     <table>
       <tr>
         <td class="contentkey">$Text{"Search for"}:</td>
         <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
       </tr>
     </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
     <input class="button" type="submit" value="$Text{"Search"}">
-    </form>
-
     </td>
   </tr>
   </table>
+  </form>
+
   <br>
+
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="AddCertificate">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
     <td class="contenthead">$Text{"Add Certificate"}:</td>
   </tr>
   <tr>
     <td class="contentbody">
-
-    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="AddCertificate">
     <table border="0" cellspacing="0" cellpadding="3">
 #    <tr>
 #      <td class="contentkey">$Text{"Ascii"}: </td>
@@ -61,13 +64,21 @@
       <td class="contentvalue"> <input name="file_upload" type="file" size="35" class="fixed"></td>
     </tr>
     </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
     <input class="button" type="submit" value="$Text{"Add"}">
-    </form>
-
     </td>
   </tr>
   </table>
+  </form>
+
   <br>
+
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="AddPrivate">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
     <td class="contenthead">$Text{"Add Private Key"}:</td>
@@ -75,9 +86,6 @@
   <tr>
     <td class="contentbody">
 
-    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="AddPrivate">
     <table border="0" cellspacing="0" cellpadding="3">
 #    <tr>
 #      <td>$Text{"Ascii"}: </td>
@@ -92,12 +100,16 @@
       <td><input type="password" name="Secret" value="$QData{"Secret"}" size="20"></td>
     </tr>
     </table>
-    <input class="button" type="submit" value="$Text{"Add"}">
-    </form>
 
     </td>
   </tr>
+  <tr>
+    <td class="contentfooter">
+    <input class="button" type="submit" value="$Text{"Add"}">
+    </td>
+  </tr>
   </table>
+  </form>
 
   </td>
   <td width="60%" class="mainbody">

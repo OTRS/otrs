@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNotificationForm.dtl,v 1.7 2004-10-06 19:40:52 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.8 2004-10-18 19:23:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,47 +18,47 @@
 <tr>
   <td width="30%" class="mainbody">
 
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Change">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
     <td class="contenthead">$Text{"Change"}:</td>
   </tr>
   <tr>
     <td class="contentbody">
-
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Change">
     $Data{"NotificationOption"}
-    <br>
-    <input class="button" type="submit" value="$Text{"change"}">
-    </form>
-
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+    <input class="button" type="submit" value="$Text{"Change"}">
     </td>
   </tr>
   </table>
+  </form>
 
   </td>
   <td width="70%" class="mainbody">
 
+# --
+# check subaction
+# --
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}">"; }>
+# --
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+  <input type="hidden" name="ID" value="$QData{"ID"}">
+  <input type="hidden" name="Charset" value="$Env{"Charset"}">
+  <input type="hidden" name="Language" value="$QData{"Language"}">
+  <input type="hidden" name="Type" value="$QData{"Type"}">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
     <td class="contenthead">$Text{"Notification"}:</td>
   </tr>
   <tr>
     <td class="contentbody">
-# --
-# check subaction
-# --
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}">"; }>
-# --
-
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-    <input type="hidden" name="ID" value="$QData{"ID"}">
-    <input type="hidden" name="Charset" value="$Env{"Charset"}">
-    <input type="hidden" name="Language" value="$QData{"Language"}">
-    <input type="hidden" name="Type" value="$QData{"Type"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td class="contentkey">$Text{"Type"}: </td>
@@ -73,12 +73,16 @@
       <td class="contentvalue"> <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea></td>
     </tr>
     </table>
-    $Data{"Botton"}
-    </form>
 
     </td>
   </tr>
+  <tr>
+    <td class="contentfooter">
+    $Data{"Botton"}
+    </td>
+  </tr>
   </table>
+  </form>
 
   </td>
 </tr>
