@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.42 2003-12-29 17:25:10 martin Exp $
+# $Id: AgentZoom.pm,v 1.43 2004-01-09 17:06:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -181,12 +181,6 @@ sub Run {
 sub MaskAgentZoom {
     my $Self = shift;
     my %Param = @_;
-    if ($Param{Lock} =~ /unlock/) {
-        $Param{Locked} = 2;
-    }
-    else {
-        $Param{Locked} = 1;
-    }
     $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
     if ($Param{UntilTime}) {
         if ($Param{UntilTime} < -1) {
