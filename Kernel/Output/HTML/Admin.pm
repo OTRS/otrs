@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.6 2002-04-12 16:33:35 martin Exp $
+# $Id: Admin.pm,v 1.7 2002-05-01 17:31:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -24,6 +24,15 @@ sub AdminNavigationBar {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
+}
+# --
+sub AdminSession {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AdminSession', Data => \%Param);
 }
 # --
 sub AdminSessionTable {
