@@ -1,1 +1,79 @@
-xfilter "/opt/otrs/bin/PostMaster.pl"
+# --
+# .mailfilter - mailfilter of the OTRS user
+# Copyright (C) 2003 Wiktor Wodecki <wiktor.wodecki@net-m.de>
+# --
+# $Id: .mailfilter,v 1.2 2003-01-18 12:21:23 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+#SYS_HOME=/opt/otrs
+SYS_HOME=$HOME
+
+import DEFAULT
+LOCALDEFAULT=$DEFAULT
+DEFAULT=${SYS_HOME}/var/spool/`date +%s`${FROM}${SIZE}
+MONTHFOLDER=`date +%Y-%m`
+YEARFOLDER=`date +%Y`
+
+# --
+# Remove all X-OTRS Header (allow this only for trusted email)
+# e. g. from *@example.com
+# --
+if (/^To:.*@example.com/)
+{
+	xfilter "grep -vi '^X-OTRS-'"
+}
+
+# or just not emails with "X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
+#if (/^X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r/)
+#{
+#	xfilter "grep -vi '^X-OTRS-'"
+#}
+
+
+# --
+# Examples for queue presorting.
+# --
+if (/^To:.*@example.com/)
+{
+	xfilter "formail -I \"X-OTRS-Queue: example\""
+}
+
+if (/^List-Id:.*OpenAntiVirus/)
+{
+	xfilter "formail -I \"X-OTRS-Queue: OpenAntiVirus\""
+}
+
+# --
+# Example for add free form key and value (max 3). 
+# --
+if (/^To:.*@example.com/)
+{
+	xfilter "formail -I \"X-OTRS-ArticleKey1: Test\""
+	xfilter "formail -I \"X-OTRS-ArticleValue1: True!\""
+}
+
+# --
+# Backup of all incoming emails. 
+# It's always better to have a backup of all incoming emails!
+# --
+cc ${SYS_HOME}/var/INBOX.Backup.${MONTHFOLDER}
+
+# --
+# Pipe all email into the PostMaster process.
+# --
+xfilter "${SYS_HOME}/bin/PostMaster.pl"
+
+# --
+# spool all the rest (which the PostMaster.pl can't process!) 
+# If the database is down or the PostMaster.pl exit was not '0'!
+# --
+to $DEFAULT
+
+# --
+# end of .mailfilter
+# --
+
