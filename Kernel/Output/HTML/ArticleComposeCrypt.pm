@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.1 2004-07-30 09:55:10 martin Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.2 2004-08-04 13:15:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,24 +52,24 @@ sub Run {
         }
     }
     my @SearchAddress = Mail::Address->parse($Recipient);
-    if ($#SearchAddress > 0) {
-        $Self->{Error}->{Recipient} = 1;
-        $Self->{LayoutObject}->Block(
-            Name => 'Option',
-            Data => {
-                Key => 'Crypt',
-                Invalid => '* Just one recipient for crypt possible!',
-            },
-        );
-        return;
-    }
-    if ($#SearchAddress == 0) {
+    if (@SearchAddress) {
         my @PublicKeys = $Self->{CryptObject}->SearchPublicKey(Search => $SearchAddress[0]->address());
         my %KeyList = ();
         foreach my $DataRef (@PublicKeys) {
             $KeyList{"PGP::$DataRef->{Key}"} = "PGP: $DataRef->{Key} $DataRef->{Identifer}";
         }
         if (%KeyList) {
+            if ($#SearchAddress > 0 && $Param{CryptKeyID}) {
+                $Self->{Error}->{Recipient} = 1;
+                $Self->{LayoutObject}->Block(
+                    Name => 'Option',
+                    Data => {
+                        Key => 'Crypt',
+                        Invalid => '* Just one recipient for crypt possible!',
+                    },
+                );
+                return;
+            }
             $KeyList{''} = '-none-';
             my $List = $Self->{LayoutObject}->OptionStrgHashRef(
                 Data => \%KeyList,
