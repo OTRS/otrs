@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.8 2002-10-03 17:29:23 martin Exp $
+# $Id: AgentBounce.pm,v 1.9 2002-10-24 23:59:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentBounce;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -55,10 +55,6 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $NextScreen = $Self->{NextScreen} || '';
-    my $BackScreen = $Self->{BackScreen};
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
-    
     # --
     # check needed stuff
     # --
@@ -100,22 +96,36 @@ sub Run {
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Bounce');
         # --
+        # check if plain article exists
+        # --
+        if (!$Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID})) {
+            $Output .= $Self->{LayoutObject}->Error();
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        # --
         # get lock state && permissions
         # --
         if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
+            # --
             # set owner
+            # --
             $Self->{TicketObject}->SetOwner(
               TicketID => $Self->{TicketID},
-              UserID => $UserID,
-              NewUserID => $UserID,
+              UserID => $Self->{UserID},
+              NewUserID => $Self->{UserID},
             );
+            # --
             # set lock
+            # --
             if ($Self->{TicketObject}->SetLock(
               TicketID => $Self->{TicketID},
               Lock => 'lock',
-              UserID => $UserID
+              UserID => $Self->{UserID},
             )) {
+                # --
                 # show lock state
+                # --
                 $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
             }
          }
@@ -124,7 +134,7 @@ sub Run {
               TicketID => $Self->{TicketID},
             );
   
-            if ($OwnerID != $UserID) {
+            if ($OwnerID != $Self->{UserID}) {
               $Output .= $Self->{LayoutObject}->Error(
                 Message => "Sorry, the current owner is $OwnerLogin",
                 Comment => 'Please change the owner first.',
