@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.3 2002-06-04 21:22:10 martin Exp $
+# $Id: mkStats.pl,v 1.4 2002-06-08 17:40:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,12 +31,14 @@ use GD::Graph::lines;
 use Date::Calc qw(:all);
 use Kernel::System::DB;
 use Kernel::Config;
-use Kernel::System::Syslog;
+use Kernel::System::Log;
 
 umask 022;
 
 my $ConfigObject = Kernel::Config->new();
-my $LogObject = Kernel::System::Syslog->new();
+my $LogObject = Kernel::System::Log->new(
+    LogPrefix => 'OpenTRS-mkStats',
+);
 my $DBObject = Kernel::System::DB->new(
     ConfigObject => $ConfigObject,
     LogObject => $LogObject,

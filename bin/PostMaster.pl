@@ -3,7 +3,7 @@
 # PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.5 2002-06-04 21:22:10 martin Exp $
+# $Id: PostMaster.pl,v 1.6 2002-06-08 17:40:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,20 +33,23 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 1;
 
 use Kernel::Config;
-use Kernel::System::Syslog;
+use Kernel::System::Log;
 use Kernel::System::PostMaster;
 
 # --
 # create common objects 
 # --
 my %CommonObject = ();
-$CommonObject{LogObject} = Kernel::System::Syslog->new();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
+    LogPrefix => 'OpenTRS-PM',
+);
 # debug info
 if ($Debug) {
     $CommonObject{LogObject}->Log(
@@ -55,8 +58,6 @@ if ($Debug) {
     );
 }
 # ... common objects ...
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-
 my @Email = <STDIN>;
 $CommonObject{PostMaster} = Kernel::System::PostMaster->new(%CommonObject, Email => \@Email);
 $CommonObject{PostMaster}->Run();

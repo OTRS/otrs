@@ -3,7 +3,7 @@
 # DeleteSessionIDs.pl - to delete all existing or expired session ids
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DeleteSessionIDs.pl,v 1.2 2002-06-04 21:22:10 martin Exp $
+# $Id: DeleteSessionIDs.pl,v 1.3 2002-06-08 17:40:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,11 +27,11 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
-use Kernel::System::Syslog;
+use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::AuthSession;
 
@@ -39,9 +39,9 @@ use Kernel::System::AuthSession;
 # common objects
 # --
 my %CommonObject = ();
-$CommonObject{LogObject} = Kernel::System::Syslog->new();
-$CommonObject{ConfigObject} = Kernel::Config->new(
-    %CommonObject,
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
+    LogPrefix => 'OpenTRS-DeleteSessionIDs',
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(
     %CommonObject,

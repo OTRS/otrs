@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OpenTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.3 2002-05-30 15:09:59 martin Exp $
+# $Id: pic.pl,v 1.4 2002-06-08 17:40:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,20 +20,20 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-# OpenTRS root directory
+# use ../ as lib location
 use lib '../..';
 
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 # all OpenTRS modules
 # --
 use Kernel::Config;
-use Kernel::System::Syslog;
+use Kernel::System::Log;
 use Kernel::System::WebRequest;
 use Kernel::System::DB;
 use Kernel::System::AuthSession;
@@ -46,7 +46,10 @@ use Kernel::System::Permission;
 # create common objects 
 # --
 my %CommonObject = ();
-$CommonObject{LogObject} = Kernel::System::Syslog->new();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
+    LogPrefix => 'OpenTRS-Pic',
+);
 # --
 # debug info
 # --
@@ -57,7 +60,6 @@ if ($Debug) {
     );
 }
 # ... common objects ...
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{ParamObject} = Kernel::System::WebRequest->new();
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);

@@ -3,7 +3,7 @@
 # instaler.pl - the OpenTRS Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.2 2002-04-22 21:59:58 martin Exp $
+# $Id: installer.pl,v 1.3 2002-06-08 17:40:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,17 +25,17 @@
 use lib '../../';
 use strict;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+use vars qw($VERSION $Debug);
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-my $Debug = 0;
+$Debug = 1;
 
 # --
 # all OpenTRS Installer modules
 # --
 use Kernel::Config;
-use Kernel::System::Syslog;
+use Kernel::System::Log;
 use Kernel::System::WebRequest;
 use Kernel::System::DB;
 use Kernel::Modules::Test;
@@ -46,7 +46,10 @@ use Kernel::Output::HTML::Generic;
 # create common objects 
 # --
 my %CommonObject = ();
-$CommonObject{LogObject} = Kernel::System::Syslog->new();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
+    LogPrefix => 'OpenTRS-Installer',
+);
 # debug info
 if ($Debug) {
     $CommonObject{LogObject}->Log(
@@ -55,7 +58,6 @@ if ($Debug) {
     );
 }
 # ... common objects ...
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{ParamObject} = Kernel::System::WebRequest->new();
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
 
