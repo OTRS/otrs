@@ -33,6 +33,7 @@ $Text{"Subfunction"}
 $Text{"Line"}
 $Text{"Example"}
 $Text{"Examples"}
+$Text{"invalid"}
 
 $Text{" 2 minutes"}
 $Text{" 5 minutes"}
@@ -48,6 +49,7 @@ $Text{"AddLink"}
 $Text{"Hit"}
 $Text{"Hits"}
 $Text{"Text"}
+$Text{"Lite"}
 
 $Text{"User"}
 $Text{"Username"}
@@ -89,6 +91,9 @@ $Text{"Stats"}
 $Text{"Please answer this ticket(s) to get back to the normal queue view!"}
 
 $Text{"You got new message!"}
+$Text{"You have %s new message(s)!"} 
+$Text{"You have %s reminder ticket(s)!"} 
+
 $Text{"The recommended charset for your language is %s!"}
 
 $Text{"No suggestions"}
