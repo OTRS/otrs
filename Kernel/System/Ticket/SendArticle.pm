@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.10 2003-04-14 22:57:24 martin Exp $
+# $Id: SendArticle.pm,v 1.11 2003-04-14 23:21:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -115,24 +115,26 @@ sub SendArticle {
     # --
     if ($Param{Attach}) {
         foreach my $Tmp (@{$Param{Attach}}) {
-            my %Upload = %{$Tmp}; 
-            # --
-            # add attachments to article
-            # --
-            $Self->WriteArticlePart(
+            my %Upload = %{$Tmp};
+            if ($Upload{Content} && $Upload{Filename}) {
+              # --
+              # add attachments to article
+              # --
+              $Self->WriteArticlePart(
                 %Upload,
                 ArticleID => $Param{ArticleID},
                 UserID => $Param{UserID},
-            );
-            # --
-            # attach file to email
-            # --
-            $Entity->attach(
+              );
+              # --
+              # attach file to email
+              # --
+              $Entity->attach(
                 Filename => $Upload{Filename},
                 Data     => $Upload{Content},
                 Type     => $Upload{ContentType},
                 Encoding => "base64",
-            );
+              );
+            }
         }
     }
     # --
