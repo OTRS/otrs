@@ -21,12 +21,12 @@ rpm -Uvh otrs.rpm
 <qandaentry>
 <question>
 <para>
-What ist OpenTRS?
+What ist OTRS?
 </para>
 </question>
 <answer>
 <para>
-OpenTRS is a Ticket Request System with many features to manage customer telephone calls and e-mails.
+OTRS is a Ticket Request System with many features to manage customer telephone calls and e-mails.
 </para>
 </answer>
 </qandaentry>
@@ -34,7 +34,7 @@ OpenTRS is a Ticket Request System with many features to manage customer telepho
 <qandaentry>
 <question>
 <para>
-What stands OpenTRS for?
+What stands OTRS for?
 </para>
 </question>
 <answer>
@@ -47,7 +47,7 @@ Open Trouble-Ticket Request System.
 <qandaentry>
 <question>
 <para>
-What does OpenTRS cost?
+What does OTRS cost?
 </para>
 </question>
 <answer>
@@ -60,7 +60,7 @@ Nothing, it`s <ulink url="http://www.gnu.org/copyleft/gpl.txt">GPL</ulink>.
 <qandaentry id="faq_agent">
 <question>
 <para>
-This document refers to agents. What is an agent in the context of OpenTRS?
+This document refers to agents. What is an agent in the context of OTRS?
 </para>
 </question>
 <answer>
@@ -79,7 +79,7 @@ Geeks: Of course a script could act like an agent. Feel free to do so!
 </question>
 <answer>
 <para>
-OpenTRS is working with database id references. If you would delete a user      
+OTRS is working with database id references. If you would delete a user      
 (or queue, ...) from the database, your delete the reference info. Important
 infos like owner or queue.
 </para>
@@ -92,7 +92,7 @@ history, ...) but not activ for the application.
 
 <qandaentry>
 <question>
-<para>Can OpenTRS receive email?</para>
+<para>Can OTRS receive email?</para>
 </question>
 <answer>
 <para>
@@ -106,7 +106,7 @@ The $HOME/bin/PostMaster.pl program receive the emails and sorts the email to th
 
 <qandaentry>
 <question>
-<para>Can OpenTRS send email?</para>
+<para>Can OTRS send email?</para>
 </question>
 <answer>
 <para>
@@ -131,7 +131,7 @@ Yes.
 
 <qandaentry>
 <question>
-<para>Is OpenTRS multi user and multi group able?</para>
+<para>Is OTRS multi user and multi group able?</para>
 </question>
 <answer>
 <para>
@@ -155,7 +155,7 @@ domains 'marketing@clientdomain.com' with one system!
 <qandaentry>
 <question>
 <para>
-Can I use OpenTRS only with SuSE Linux?
+Can I use OTRS only with SuSE Linux?
 </para>
 </question>
 <answer>
@@ -163,7 +163,7 @@ Can I use OpenTRS only with SuSE Linux?
 No, but we developed it on a SuSE Linux and frankly we did not do much testing on a Redhat, Debian, ... 
 </para>
 <para>
-But we will provide additional installation informations on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. And we are more that happy to recieve some feedback from you about how you installed OpenTRS on other platforms.
+But we will provide additional installation informations on <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>. And we are more that happy to recieve some feedback from you about how you installed OTRS on other platforms.
 </para>
 </answer>
 </qandaentry>
@@ -184,7 +184,7 @@ But again, your are on the safe side by using SuSE Linux. It will provide you wi
 
 <qandaentry>
 <question>
-<para>How stable is OpenTRS?</para>
+<para>How stable is OTRS?</para>
 </question>
 <answer>
 <para>
@@ -209,11 +209,11 @@ Some of our test enviroments are Pentium II 300 with 64 MB RAM and they do a pre
 
 <qandaentry>
 <question>
-<para>How does OpenTRS scale and how big can it become?</para>
+<para>How does OTRS scale and how big can it become?</para>
 </question>
 <answer>
 <para>
-This is depending on the hardware and the enviroment you are using. At the moment OpenTRS is a one box system. With little work you can set up a webserver-cluster and you can split the database to a seperate box. We are planing to support some sort of clustering mechanism. But this is not the highest priority for the development.
+This is depending on the hardware and the enviroment you are using. At the moment OTRS is a one box system. With little work you can set up a webserver-cluster and you can split the database to a seperate box. We are planing to support some sort of clustering mechanism. But this is not the highest priority for the development.
 </para>
 <para>
 There are OTRS installations which handle 20,000 tickets (e-mails) a day and don't show any sign of stress. 
@@ -227,7 +227,7 @@ There are OTRS installations which handle 20,000 tickets (e-mails) a day and don
 </question>
 <answer>
 <para>
-At the moment we only support <ulink url="http://www.mysql.com">MySQL</ulink> as the default database. Frankly we do trust in a <ulink url="http://www.mysql.com">MySQL</ulink> as much as in a DB2 (for this application). Anybody who is willing to spend some time to port it to other databases is more than welcome to the OpenTRS team!
+At the moment we only support <ulink url="http://www.mysql.com">MySQL</ulink> as the default database. Frankly we do trust in a <ulink url="http://www.mysql.com">MySQL</ulink> as much as in a DB2 (for this application). Anybody who is willing to spend some time to port it to other databases is more than welcome to the OTRS team!
 </para>
 <para>
 Note: The code is designed to support different databases! 
@@ -262,7 +262,7 @@ Of course it is a very good idea to change this default password!
 
 <qandaentry>
 <question>
-<para>Works OpenTRS with <ulink url="http://perl.apache.org//">mod_perl</ulink>?</para>
+<para>Works OTRS with <ulink url="http://perl.apache.org//">mod_perl</ulink>?</para>
 </question>
 <answer>
 <para>
@@ -273,18 +273,18 @@ Of course.
 
 <qandaentry>
 <question>
-<para>Is it possible to customize OpenTRS?</para>
+<para>Is it possible to customize OTRS?</para>
 </question>
 <answer>
 <para>
-Of course. You can customize OpenTRS like you want. Take advantage of the dtl (dynamic template language) to customize the OpenTRS frontend release independently (more: README.dtl)! 
+Of course. You can customize OTRS like you want. Take advantage of the dtl (dynamic template language) to customize the OTRS frontend release independently (more: README.dtl)! 
 </para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para>Can I install OpenTRS on a Windows box?</para>
+<para>Can I install OTRS on a Windows box?</para>
 </question>
 <answer>
 <para>
@@ -295,7 +295,7 @@ Theoraticly yes, but we are not the big windows gurus and haven't ever tried to 
 
 <qandaentry>
 <question>
-<para>How can I become a part of the OpenTRS developer comunity?</para>
+<para>How can I become a part of the OTRS developer comunity?</para>
 </question>
 <answer>
 <para>
@@ -306,7 +306,7 @@ Welcome! Anybody who is willing to help us and has the time is more than welcome
 
 <qandaentry>
 <question>
-<para>I do like the OpenTRS but would feel more comfortable by using a commercial product.</para>
+<para>I do like the OTRS but would feel more comfortable by using a commercial product.</para>
 </question>
 <answer>
 <para>
@@ -321,7 +321,7 @@ We can not help you. Sorry.
 </question>
 <answer>
 <para>
-OpenTRS is working with the most browser such lynx, w3m, Netscape, Mozilla, IE and Konqueror  
+OTRS is working with the most browser such lynx, w3m, Netscape, Mozilla, IE and Konqueror  
 (You don't need Java Script or Java Applets!).
 </para>
 </answer>
@@ -333,14 +333,14 @@ OpenTRS is working with the most browser such lynx, w3m, Netscape, Mozilla, IE a
 </question>
 <answer>
 <para>
-Yes it's possible. You can choose between four different OpenTRS formats.  
+Yes it's possible. You can choose between four different OTRS formats.  
 AutoIncrement ("SystemID.Counter" e. g.  1010138 or 1010139), 
 Date ("Year.Month.Day.SystemID.Counter" e. g. 200206231010138 or 200206231010139),  
 Random ("SystemID.Random" e. g. 100057866352 or 103745394596) and my favorite one 
 DateChecksum ("Year.Month.Day.SystemID.Counter.CheckSum" e. g. 2002070110101520 and 2002070110101535). 
 </para>
 <para>
-Further it's possible to create a own ticket number format (like you want). See the OpenTRS documentation. 
+Further it's possible to create a own ticket number format (like you want). See the OTRS documentation. 
 </para>
 </answer>
 </qandaentry>
@@ -351,7 +351,7 @@ Further it's possible to create a own ticket number format (like you want). See 
 </question>
 <answer>
 <para>
-Yes, OpenTRS supports this RFC.
+Yes, OTRS supports this RFC.
 </para>
 </answer>
 </qandaentry>

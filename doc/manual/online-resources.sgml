@@ -1,15 +1,15 @@
 <appendix id="online-resources">
 <title>Online resources</title>
 <para>
-We try to support you with the very last information about OpenTRS and give you a good way to provide us with your feedback.
+We try to support you with the very last information about OTRS and give you a good way to provide us with your feedback.
 </para>
 <sect1 id="otrs_homepage">
-<title>OpenTRS Homepage</title>
+<title>OTRS Homepage</title>
 <para>
 Our homepage can be found at <ulink url="http://www.otrs.org/"><citetitle>http://www.otrs.org/</citetitle></ulink>.
 <screenshot>
-<screeninfo>OpenTRS Homepage</screeninfo>
-<graphic srccredit="OpenTRS Homepage" scale="40" fileref="screenshots/homepage-otrs.png"></graphic>
+<screeninfo>OTRS Homepage</screeninfo>
+<graphic srccredit="OTRS Homepage" scale="40" fileref="screenshots/homepage-otrs.png"></graphic>
 </screenshot>
 </para>
 </sect1>
@@ -23,7 +23,7 @@ We provide three major mailinglists. <email>announce@otrs.org</email> is a low t
 The second mailinglist is <email>otrs@otrs.org</email>. It is a medium to high traffic list with all sorts of questions and support to the product. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
 </para>
 <para>
-The third mailinglist is <email>dev@otrs.org</email>. It is a medium to high traffic list. The OpenTRS developers discuss various design and implementation issues here. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
+The third mailinglist is <email>dev@otrs.org</email>. It is a medium to high traffic list. The OTRS developers discuss various design and implementation issues here. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
 </para>
 </sect1>
 

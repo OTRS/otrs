@@ -1,18 +1,18 @@
 <chapter id="troubleshooting">
 <title>Troubleshooting</title>
 <para>
-We split this section into different parts per distribution. Of course you can set up your own system with your own linux system. But please understand that we can not provide any support for that. OpenTRS is much to complecated and has to many links to other components of the system that we are lucky to have access to mechanisms like RPM. We will try to support as many platforms as possilbe but time is a valuable resource. ;-)
+We split this section into different parts per distribution. Of course you can set up your own system with your own linux system. But please understand that we can not provide any support for that. OTRS is much to complecated and has to many links to other components of the system that we are lucky to have access to mechanisms like RPM. We will try to support as many platforms as possilbe but time is a valuable resource. ;-)
 </para>
 <sect1 id="problems_with_suse">
-<title>General problems with OpenTRS on SuSE Linux</title>
+<title>General problems with OTRS on SuSE Linux</title>
 <para>
-The very first step should be a visit to <ulink url="http://www.suse.de/de/support/download/updates/"><citetitle>http://www.suse.de/de/support/download/updates/</citetitle></ulink> which is the page where you can find the latest patches and updates for your SuSE Linux. Please check especialy for fixes about Apache, MySQL, Perl and of course OpenTRS. YaST2 users should be able to use the Yast Online Update mechanism. Otherwise download the rpm files and deinstall the old package with "rpm --nodeps -e otrs" and install them th new with "rpm -i foo.rpm"
+The very first step should be a visit to <ulink url="http://www.suse.de/de/support/download/updates/"><citetitle>http://www.suse.de/de/support/download/updates/</citetitle></ulink> which is the page where you can find the latest patches and updates for your SuSE Linux. Please check especialy for fixes about Apache, MySQL, Perl and of course OTRS. YaST2 users should be able to use the Yast Online Update mechanism. Otherwise download the rpm files and deinstall the old package with "rpm --nodeps -e otrs" and install them th new with "rpm -i foo.rpm"
 </para>
 <para>
-The second step should be a visit to the <ulink url="http://www.otrs.org/"><citetitle>OpenTRS Homepage</citetitle></ulink>. We will provide the very latest fixes and howtos there.
+The second step should be a visit to the <ulink url="http://www.otrs.org/"><citetitle>OTRS Homepage</citetitle></ulink>. We will provide the very latest fixes and howtos there.
 </para>
 <para>
-The third step is writting an e-mail to the developer team of OpenTRS. We will be more than happy to provide you with any support you need.
+The third step is writting an e-mail to the developer team of OTRS. We will be more than happy to provide you with any support you need.
 </para>
 
 <sect2>
@@ -46,7 +46,7 @@ And to restart the Postfix daemon (rcpostfix restart).
 </sect1>
 
 <sect1 id="problems_with_redhat">
-<title>General problems with OpenTRS on other distributions (e.g. Redhat)</title>
+<title>General problems with OTRS on other distributions (e.g. Redhat)</title>
 <para>
 Frankly we have not tried to install it on a Redhat yet. It should be a problem but there is no ready to use RPM. We are working on it. Same for other distributions.
 </para>
@@ -168,7 +168,7 @@ Note: Just for SuSE Linux RPMs.
 <sect2 id="problems_with_receiving_emails">
 <title>Problems with receiving emails</title>
 <para>
-If everything is working, but you can't see the incoming emails, check if the ~otrs/bin/PostMaster.pl program is working correctly. Pipe an example email through the PorstMaster.pl. There are two example emails in the default OpenTRS package (~otrs/doc/test-email-*.box or /usr/share/doc/packages/otrs/test-email-*.box).   
+If everything is working, but you can't see the incoming emails, check if the ~otrs/bin/PostMaster.pl program is working correctly. Pipe an example email through the PorstMaster.pl. There are two example emails in the default OTRS package (~otrs/doc/test-email-*.box or /usr/share/doc/packages/otrs/test-email-*.box).   
 </para>
 <para>
 Example:
@@ -181,12 +181,12 @@ May there is an error message, then you have to fix it. If not and you see this 
 </sect2>
 
 <sect2 id="problems_lost_opentrs_root_pw">
-<title>Lost root password of OpenTRS</title>
+<title>Lost root password of OTRS</title>
 <para>
-I lost the root password of OpenTRS ("Login failed! Your username or password was entered incorrectly."). 
+I lost the root password of OTRS ("Login failed! Your username or password was entered incorrectly."). 
 </para>
 <para>
-Reset of the OpenTRS root password:
+Reset of the OTRS root password:
 <programlisting>
 shell:~ # mysql -u root -p otrs
 mysql> UPDATE system_user SET pw='roK20XGbWEsSM' where login='root@localhost';

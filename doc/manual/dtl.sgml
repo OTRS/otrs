@@ -1,10 +1,10 @@
 <chapter id="dtl">
 <title>Customize the frontend</title>
 <para>
-It's possible to customize the frontend independently from OpenTRS releases. How? It's quite simply. The magic key is dtl (Dynamic Template Language). All frontend masks are located under <emphasis role='bold'>~otrs/Kernel/Output/HTML/&lt;THEME&gt;/*.dtl</emphasis>. Default is the "Standard" Theme. 
+It's possible to customize the frontend independently from OTRS releases. How? It's quite simply. The magic key is dtl (Dynamic Template Language). All frontend masks are located under <emphasis role='bold'>~otrs/Kernel/Output/HTML/&lt;THEME&gt;/*.dtl</emphasis>. Default is the "Standard" Theme. 
 </para>
 <para>
-So you have the power to customize each OpenTRS side like you want! Or to create new themes. 
+So you have the power to customize each OTRS side like you want! Or to create new themes. 
 </para>
 
 <sect1>
@@ -174,15 +174,15 @@ This is a example of the login screen. If you want to customize this screen use 
 # http headers
 # --
 Content-Type: text/html; charset=$Env{"UserCharset"};
-X-Powered-By: OpenTRS - Open Ticket Request System (http://otrs.org)
+X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org)
 
 # --
 # html comment
 # --
 
-&lt;!-- OpenTRS: Copyright 2002, OpenTRS Project. This Software is under the GPL. --&gt;
-&lt;!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            --&gt;
-&lt;!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt           --&gt;
+&lt;!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. --&gt;
+&lt;!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         --&gt;
+&lt;!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        --&gt;
 
 # --
 # set some html variables
@@ -195,7 +195,7 @@ X-Powered-By: OpenTRS - Open Ticket Request System (http://otrs.org)
 &lt;dtl set $Env{"FontColor1"} = "#FFFFFF"&gt;
 &lt;html&gt;
 &lt;head&gt;
-    &lt;title&gt;OpenTRS :: $Text{"$Data{"Title"}"}&lt;/title&gt;
+    &lt;title&gt;OTRS :: $Text{"$Data{"Title"}"}&lt;/title&gt;
 &lt;/head&gt;
 &lt;!-- end header --&gt;
 &lt;body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}"&gt;
@@ -212,7 +212,7 @@ X-Powered-By: OpenTRS - Open Ticket Request System (http://otrs.org)
 
 &lt;table border="0" cellspacing="0" cellpadding="3" width="240"&gt;
 &lt;tr bgcolor="$Env{"BGTableColor0"}"&gt;
-  &lt;td align="center"&gt;&lt;font color="$Env{"FontColor1"}"&gt;&lt;b&gt;$Text{"Welcome to OpenTRS"}&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+  &lt;td align="center"&gt;&lt;font color="$Env{"FontColor1"}"&gt;&lt;b&gt;$Text{"Welcome to OTRS"}&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
   &lt;td align="center" bgcolor="$Env{"BGTableColor1"}"&gt;
@@ -251,7 +251,7 @@ $Data{"Motd"}
 <sect2>
 <title>Header.dtl</title>
 <para>
-This is the default HTML header of each OpenTRS sides. If you want to customize this screen use the
+This is the default HTML header of each OTRS sides. If you want to customize this screen use the
 <emphasis role='bold'>~otrs/Kernel/Output/HTML/&lt;THEME&gt;/Login.dtl</emphasis>
 <programlisting>
 # --
@@ -263,9 +263,9 @@ Content-Type: text/html; charset=$Env{"UserCharset"};
 # html comment
 # --
 
-&lt;!-- OpenTRS: Copyright 2002, OpenTRS Project. This Software is under the GPL. --&gt;
-&lt;!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            --&gt;
-&lt;!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt           --&gt;
+&lt;!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. --&gt;
+&lt;!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         --&gt;
+&lt;!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        --&gt;
 # --
 # set some html variables
 # --
@@ -284,7 +284,7 @@ Content-Type: text/html; charset=$Env{"UserCharset"};
 # --
 &lt;html&gt;
 &lt;head&gt;
-    &lt;title&gt;OpenTRS :: $Text{"$Data{"Title"}"}&lt;/title&gt;
+    &lt;title&gt;OTRS :: $Text{"$Data{"Title"}"}&lt;/title&gt;
 &lt;/head&gt;
 &lt;!-- end header --&gt;
 </programlisting>

@@ -2,9 +2,9 @@
 <title>Dispatching of incoming email</title>
 
 <sect1 id="dispatching_via_otrs">
-<title>With OpenTRS</title>
+<title>With OTRS</title>
 <para>
-OpenTRS is able to dispatch incoming emails via "To" address. Configurable via admin interface.
+OTRS is able to dispatch incoming emails via "To" address. Configurable via admin interface.
 </para>
 
 <para>
@@ -32,7 +32,7 @@ Procmail is a very common e-mail filter in the Linux enviroment. It will be prob
 <emphasis role='bold'>The X-OTRS-Queue Mail-Header</emphasis>
 </para>
 <para>
-The X-OTRS-Queue Mail-Header is parsed by OpenTRS and OpenTRS will pipe these e-mails direct in this queue. Procmail and fromail can be used to create a powerfull dispatcher tool.
+The X-OTRS-Queue Mail-Header is parsed by OTRS and OTRS will pipe these e-mails direct in this queue. Procmail and fromail can be used to create a powerfull dispatcher tool.
 </para>
 
 <para>
@@ -65,10 +65,10 @@ And here a last example, the whole .procmailrc.
 <title>.procmailrc</title>
 <screen>
 # --
-# .procmailrc - procmailrc of the OpenTRS user
+# .procmailrc - procmailrc of the OTRS user
 # Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
 # --
-# $Id: procmail.sgml,v 1.5 2002-07-08 21:00:21 martin Exp $
+# $Id: procmail.sgml,v 1.6 2002-09-01 12:09:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -142,7 +142,7 @@ Please have a look into the procmailex man-page for more examples.
 <title>Example with procmail and a webform</title>
 <para>
 This is an example for a webform to generate an email for
-OpenTRS. You will find this perl scrtipt in $OTRS_HOME/scripts/webform.pl
+OTRS. You will find this perl scrtipt in $OTRS_HOME/scripts/webform.pl
 </para>
 
 <para>
@@ -162,7 +162,7 @@ my $Sendmail = '/usr/sbin/sendmail -t -i -f ';
 my $OpenTRSEmail = 'otrs-system@example.com';
 # topics and dest. queues
 my %Topics = (
-    # topic => OpenTRS queue
+    # topic => OTRS queue
     'Info' => 'info',
     'Support' => 'support',
     'Bugs' => 'bugs',
@@ -172,12 +172,12 @@ my %Topics = (
 );
 </screen>
 
-Take care, that your used $OpenTRSEmail and the used OpenTRS queues exists in your 
-OpenTRS system.
+Take care, that your used $OpenTRSEmail and the used OTRS queues exists in your 
+OTRS system.
 </para>
 
 <para>
-Now, change the OpenTRS .procmailrc from:
+Now, change the OTRS .procmailrc from:
 <screen>
 # --
 # Remove all X-OTRS Header (allow this only for trusted email)

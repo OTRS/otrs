@@ -3,7 +3,7 @@
                 <firstname>Martin</firstname>
                 <surname>Edenhofer</surname>
                 <affiliation>
-                        <orgname>OpenTRS core team</orgname>
+                        <orgname>OTRS core team</orgname>
                         <address>
                         <email>martin@otrs.org</email>
                         </address>
@@ -14,7 +14,7 @@
                 <firstname>Stefan</firstname>
                 <surname>Wintermeyer</surname>
                 <affiliation>
-                        <orgname>OpenTRS core team</orgname>
+                        <orgname>OTRS core team</orgname>
                         <address>
                         <email>stefan@otrs.org</email>
                         </address>
@@ -25,7 +25,7 @@
                 <firstname>Sebastian</firstname>
                 <surname>Wormser</surname>
                 <affiliation>
-                        <orgname>OpenTRS core team</orgname>
+                        <orgname>OTRS core team</orgname>
                         <address>
                         <email>sibbi@sibbi.com</email>
                         </address>

@@ -28,7 +28,7 @@ and then you will run in trouble.
 <sect1>
 <title>FQDN</title>
 <para>
-The OpenTRS full qualified domain name. Will be used for email messages id's.
+The OTRS full qualified domain name. Will be used for email messages id's.
 </para>
 <example>
 <title>Kernel/Config.pm - FQDN</title>
@@ -45,7 +45,7 @@ The OpenTRS full qualified domain name. Will be used for email messages id's.
 <sect1>
 <title>Log</title>
 <para>
-The OpenTRS log method (since 0.5 Beta8). 
+The OTRS log method (since 0.5 Beta8). 
 </para>
 <example>
 <title>Kernel/Config.pm - LogModule</title>
@@ -70,7 +70,7 @@ The OpenTRS log method (since 0.5 Beta8).
 <sect1>
 <title>Authentication</title>
 <para>
-The OpenTRS authentication method (since 0.5 Beta7). 
+The OTRS authentication method (since 0.5 Beta7). 
 </para>
 <example>
 <title>Kernel/Config.pm - AuthModule</title>
@@ -103,7 +103,7 @@ The OpenTRS authentication method (since 0.5 Beta7).
 <sect1 id="maxpostmasteremails"> 
 <title>Max. Postmaster email</title> 
 <para> 
-OpenTRS is able to send automatically email replay. So it's possibe to create an email loop (of course we check bulk headers but other some strange systems not!). 
+OTRS is able to send automatically email replay. So it's possibe to create an email loop (of course we check bulk headers but other some strange systems not!). 
 </para>
 <example>
 <title>Kernel/Config.pm - MaxPostMasterEmails</title>
@@ -121,7 +121,7 @@ OpenTRS is able to send automatically email replay. So it's possibe to create an
 <sect1 id="ticketnumberformat">
 <title>Ticket number format</title>
 <para> 
-You can choose between four different OpenTRS formats. AutoIncrement is default. 
+You can choose between four different OTRS formats. AutoIncrement is default. 
 </para>
 <example>
 <title>Kernel/Config.pm - TicketNumberGenerator</title>
@@ -194,7 +194,7 @@ A nice example is the <ulink url="http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel
 <title>Move into any queue</title>
 <para>
 Should the agent be able to move tickets into queue which it isn't member of the group
-(Helpfully if you use OpenTRS in ASP (Application Service Provider) mode).
+(Helpfully if you use OTRS in ASP (Application Service Provider) mode).
 </para>
 <example>
 <title>Kernel/Config.pm - Move into any queue</title>
@@ -229,7 +229,7 @@ Some people want to set the "Custom Queue" name (The queue of your favorite queu
 <sect1>
 <title>Agent notification</title>
 <para>
-If there is a new ticket or a follow up for a ticket, OpenTRS will inform the agent(s).
+If there is a new ticket or a follow up for a ticket, OTRS will inform the agent(s).
 </para>
 <example>
 <title>Kernel/Config.pm - Agent notification</title>
@@ -239,7 +239,7 @@ If there is a new ticket or a follow up for a ticket, OpenTRS will inform the ag
     # notification stuff                                  #
     # ----------------------------------------------------#
     # notification sender
-    $Self-&gt;{NotificationSenderName} = 'OpenTRS Notification Master';
+    $Self-&gt;{NotificationSenderName} = 'OTRS Notification Master';
     $Self-&gt;{NotificationSenderEmail} = 'otrs@'.$Self-&gt;{FQDN};
 
     # new ticket
@@ -255,7 +255,7 @@ there is a new ticket!
 
 http://$Self-&gt;{FQDN}/otrs/index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_ID&gt;
 
-Your OpenTRS Notification Master
+Your OTRS Notification Master
 
 ";
 
@@ -272,7 +272,7 @@ you got a follow up!
 
 http://$Self-&gt;{FQDN}/otrs/index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_ID&gt;
 
-Your OpenTRS Notification Master
+Your OTRS Notification Master
 
 ";
 [...]
@@ -283,7 +283,7 @@ Your OpenTRS Notification Master
 <sect1>
 <title>Session management</title>
 <para>
-The OpenTRS session management. 
+The OTRS session management. 
 </para>
 <example>
 <title>Kernel/Config.pm - Session management</title>
