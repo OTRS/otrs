@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.75 2004-10-08 11:24:03 martin Exp $
+# $Id: AgentZoom.pm,v 1.76 2004-11-04 13:03:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -504,12 +504,6 @@ sub MaskAgentZoom {
             );
         }
         # do some strips && quoting
-        foreach (qw(From To Cc Subject Body)) {
-            $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-                Text => $Article{$_},
-                From => $Article{ContentCharset},
-            );
-        }
         foreach (qw(From To Cc Subject)) {
             if ($Article{$_}) {
                 $Self->{LayoutObject}->Block(
