@@ -2,7 +2,7 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.12 2002-07-08 21:08:13 martin Exp $
+# $Id: CHANGES,v 1.13 2002-07-11 07:00:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -23,13 +23,16 @@
         check sum and the counter will be rotated daily like 2002070110101520 and 2002070110101535.
      * "Kernel::System::Ticket::Number::Random" --> random ticket numbers "SystemID.Random" 
          like 100057866352 and 103745394596.
+ - updated redhat init script (Thanks to Pablo Ruiz Garcia)
+ - fixed bug [21] " in email adresses are missing - http://bugs.otrs.org/show_bug.cgi?id=21
+    (Thanks to Christoph Kaulich)
+ - fixed bug [19] Responses sort randomly - http://bugs.otrs.org/show_bug.cgi?id=19
  - fixed SetPermissions.sh (permission for var/log/TicketCounter.log) (Thanks to 
     Pablo Ruiz Garcia)
  - fixed bug [16] Attachment download - http://bugs.otrs.org/show_bug.cgi?id=16
     (Thanks to Christoph Kaulich)
  - fixed bug [15] typo in suse-rcotrs (redhat-rcotrs is not affected) - 
     http://bugs.otrs.org/show_bug.cgi?id=15
- - updated redhat init script (Thanks to Pablo Ruiz Garcia)
 
 0.5 BETA6 (2002-06-17)
  - added AgentBounce module
