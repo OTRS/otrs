@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.9 2004-08-01 11:12:18 martin Exp $
+# $Id: Encode.pm,v 1.10 2004-08-01 20:06:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -161,6 +161,9 @@ Convert one charset to an other charset.
       To => 'iso-8859-1',
   );
 
+There is also a Force => 1 option if you need to force the
+already converted string.
+
 =cut
 
 sub Convert {
@@ -189,7 +192,9 @@ sub Convert {
     }
     # encode is needed
     else {
-
+        if ($Param{Force}) {
+            Encode::_utf8_off($Param{Text});
+        }
         if (! eval { Encode::from_to($Param{Text}, $Param{From}, $Param{To}) } ) {
             print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
         }
@@ -317,6 +322,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2004-08-01 11:12:18 $
+$Revision: 1.10 $ $Date: 2004-08-01 20:06:20 $
 
 =cut
