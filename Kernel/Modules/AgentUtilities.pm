@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.47 2004-04-19 11:21:27 martin Exp $
+# $Id: AgentUtilities.pm,v 1.48 2004-04-20 09:33:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,11 @@ package Kernel::Modules::AgentUtilities;
 
 use strict;
 use Kernel::System::CustomerUser;
+use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -37,6 +38,7 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
 
     return $Self;
@@ -514,7 +516,7 @@ sub MaskForm {
         OnChangeSubmit => 0,
     );
     $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{TicketObject}->PriorityList(UserID => $Self->{UserID}) },
+        Data => { $Self->{PriorityObject}->PriorityList(UserID => $Self->{UserID}) },
         Name => 'PriorityIDs',
         Multiple => 1,
         Size => 5,

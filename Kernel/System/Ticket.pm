@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.96 2004-04-19 19:50:52 martin Exp $
+# $Id: Ticket.pm,v 1.97 2004-04-20 09:31:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,7 @@ use Time::Local;
 use Kernel::System::Time;
 use Kernel::System::Ticket::Article;
 use Kernel::System::State;
+use Kernel::System::Priority;
 use Kernel::System::Lock;
 use Kernel::System::Queue;
 use Kernel::System::User;
@@ -30,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.96 $';
+$VERSION = '$Revision: 1.97 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -124,6 +125,7 @@ sub new {
     $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
+    $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
@@ -2553,34 +2555,23 @@ sub PriorityList {
         return;
     }
     # check needed stuff
-    if (!$Param{QueueID} && !$Param{TicketID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
-        return;
-    }
+#    if (!$Param{QueueID} && !$Param{TicketID}) {
+#        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
+#        return;
+#    }
     # sql 
-    my $SQL = "SELECT id, name ".
-        " FROM ".
-        " ticket_priority ";
-    my %Data = ();
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            $Data{$Row[0]} = $Row[1];
-        }
+    my %Data = $Self->{PriorityObject}->PriorityList(%Param);
 #delete $Data{2};
-        # workflow
-        if ($Self->TicketWorkflow(
-            %Param,
-            Type => 'Priority',
-            Data => \%Data,
-         )) {
-            return $Self->TicketWorkflowData();
-        }
-        # /workflow
-        return %Data;
+    # workflow
+    if ($Self->TicketWorkflow(
+        %Param,
+        Type => 'Priority',
+        Data => \%Data,
+    )) {
+        return $Self->TicketWorkflowData();
     }
-    else {
-        return;
-    }
+    # /workflow
+    return %Data;
 }
 # --
 sub HistoryTypeLookup {
@@ -3052,6 +3043,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.96 $ $Date: 2004-04-19 19:50:52 $
+$Revision: 1.97 $ $Date: 2004-04-20 09:31:28 $
 
 =cut
