@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.12 2002-05-30 12:12:51 martin Exp $
+# $Id: DB.pm,v 1.13 2002-06-08 20:32:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -63,9 +63,13 @@ sub Connect {
     # --
     # db connect
     # --
-    $Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}) 
-       || return;
-
+    if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}))) { 
+        $Self->{LogObject}->Log(
+          Priority => 'Error',
+          MSG => $DBI::errstr,
+        );
+        return;
+    }
     return $Self->{dbh};
 }
 # --
@@ -112,8 +116,12 @@ sub Do {
     # --
     # doing
     # --
-    $Self->{dbh}->do($SQL);
-
+    if (!$Self->{dbh}->do($SQL)) {
+        $Self->{LogObject}->Log(
+          Priority => 'Error',
+          MSG => $DBI::errstr,
+        );
+    }
     return 1;
 }
 # --
@@ -149,8 +157,20 @@ sub Prepare {
     # --
     # do
     # --
-    $Self->{Curser} = $Self->{dbh}->prepare($SQL) || return;
-    $Self->{Curser}->execute() || return;
+    if (!($Self->{Curser} = $Self->{dbh}->prepare($SQL))) {
+        $Self->{LogObject}->Log(
+          Priority => 'Error',
+          MSG => $DBI::errstr,
+        );
+        return;
+    }
+    if (!$Self->{Curser}->execute()) {
+        $Self->{LogObject}->Log(
+          Priority => 'Error',
+          MSG => $DBI::errstr,
+        );
+        return;
+    }
     return 1;
 }
 # --
