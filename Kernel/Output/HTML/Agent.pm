@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.27 2002-05-21 21:43:19 martin Exp $
+# $Id: Agent.pm,v 1.28 2002-05-26 18:20:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,10 +39,6 @@ sub QueueView {
     my $QueuesTmp = $Param{Queues};
     my @QueuesNew = @$QueuesTmp;
     my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || '?';
-    $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
-    $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
-    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
-    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2'); 
  
     # build queue string
     foreach my $QueueRef (@QueuesNew) {
@@ -50,36 +46,36 @@ sub QueueView {
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
         # should i highlight this queue
         if ($QueueID eq $Queue{QueueID}) {
-           $QueueStrg .= '<B>';
+           $QueueStrg .= '<b>';
            $Param{SelectedQueue} = $Queue{Queue};
         }
-        $QueueStrg .= "<A HREF=\"$Self->{Baselink}&Action=AgentQueueView&QueueID=$Queue{QueueID}\">";
+        $QueueStrg .= "<a href=\"$Self->{Baselink}&Action=AgentQueueView&QueueID=$Queue{QueueID}\">";
         # should i highlight this queue
         if ($Queue{MaxAge} >= $Self->{HighlightAge2}) {
-            $QueueStrg .= "<FONT COLOR=$Self->{HighlightColor2}>";
+            $QueueStrg .= "<font color='$Self->{HighlightColor2}'>";
         }
         elsif ($Queue{MaxAge} >= $Self->{HighlightAge1}) {
-            $QueueStrg .= "<FONT COLOR=$Self->{HighlightColor1}>";
+            $QueueStrg .= "<font color='$Self->{HighlightColor1}'>";
         }
         # the oldest queue
         if ($Queue{QueueID} == $QueueIDOfMaxAge) {
-            $QueueStrg .= "<BLINK>";
+            $QueueStrg .= "<blink>";
         }
         # QueueStrg
         $QueueStrg .= "$Queue{Queue} ($Queue{Count})";
         # the oldest queue
         if ($Queue{QueueID} == $QueueIDOfMaxAge) {
-            $QueueStrg .= "</BLINK>";
+            $QueueStrg .= "</blink>";
         }
         # should i highlight this queue
         if ($Queue{MaxAge} >= $Self->{HighlightAge1}
               || $Queue{MaxAge} >= $Self->{HighlightAge2}) {
-            $QueueStrg .= "</FONT>";
+            $QueueStrg .= "</font>";
         }
-        $QueueStrg .= "</A>";
+        $QueueStrg .= "</a>";
         # should i highlight this queue
         if ($QueueID eq $Queue{QueueID}) {
-           $QueueStrg .= '</B>';
+           $QueueStrg .= '</b>';
         }
         $QueueStrg .= ' - ';
     }
@@ -100,6 +96,39 @@ sub TicketView {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150, MIME => 1) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+    # prepare escalation time
+    if ($Param{Answered}) {
+      $Param{TicketOverTime} = 'none - answered';
+    } 
+    elsif ($Param{TicketOverTime}) { 
+      $Param{TicketOverTimeSuffix} = '';
+
+      # colloring  
+      $Param{TicketOverTimeFont} = '';
+      $Param{TicketOverTimeFontEnd} = '';
+      if ($Param{TicketOverTime} >= -60*20) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+      elsif ($Param{TicketOverTime} >= -60*40) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+
+      # create string
+      if (!($Param{TicketOverTime} =~ s/-(.*?)/$1/g)) {
+         $Param{TicketOverTimeSuffix} = '-';
+      } 
+      $Param{TicketOverTime} = $Self->CustomerAge(
+          Age => $Param{TicketOverTime}, 
+          Space => '<br>',
+      );
+      $Param{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeSuffix}.
+        $Param{TicketOverTime}.$Param{TicketOverTimeFontEnd}; 
+    }
+    else {
+      $Param{TicketOverTime} = 'none';
+    }
 
     # do some text quoting
     $Param{Text} = $Self->Ascii2Html(
@@ -142,6 +171,39 @@ sub TicketZoom {
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     $Param{Owner} = $Self->Ascii2Html(Text => $Param{Owner}, Max => 20) || ''; 
+
+    # prepare escalation time
+    if ($Param{Answered}) {
+      $Param{TicketOverTime} = 'none - answered';
+    }
+    elsif ($Param{TicketOverTime}) { 
+      $Param{TicketOverTimeSuffix} = '';
+
+      # colloring  
+      $Param{TicketOverTimeFont} = '';
+      $Param{TicketOverTimeFontEnd} = '';
+      if ($Param{TicketOverTime} >= -60*20) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+      elsif ($Param{TicketOverTime} >= -60*40) {
+          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
+          $Param{TicketOverTimeFontEnd} = '</font>';
+      }
+
+      if (!($Param{TicketOverTime} =~ s/-(.*?)/$1/g)) {
+         $Param{TicketOverTimeSuffix} = '-';
+      }
+      $Param{TicketOverTime} = $Self->CustomerAge(
+          Age => $Param{TicketOverTime}, 
+          Space => '<br>',
+      );
+      $Param{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeSuffix}.
+        $Param{TicketOverTime}.$Param{TicketOverTimeFontEnd}; 
+    }
+    else {
+      $Param{TicketOverTime} = 'none';
+    }
 
     # get MoveQueuesStrg
     $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
@@ -284,6 +346,19 @@ sub TicketZoom {
     return $Output;
 }
 # --
+sub TicketEscalation {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    $Param{Message} = 'Please go away!' if (!$Param{Message});
+
+    # create output
+    $Output .= $Self->Output(TemplateFile => 'TicketEscalation', Data => \%Param);
+
+    # return output
+    return $Output;
+}
+# --
 sub ArticlePlain {
     my $Self = shift;
     my %Param = @_;
@@ -327,6 +402,13 @@ sub AgentPhone {
         Data => $Param{NoteTypes},
         Name => 'NoteID',
 #        Selected => $Self->{ConfigObject}->Get('DefaultPhoneNoteType'),
+    );
+
+    # answered strg
+    $Param{'AnsweredYesNoOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'Answered',
+        Selected => 'Yes',
     );
 
     # build next states string
@@ -479,6 +561,13 @@ sub AgentCompose {
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'ComposeStateID'
+    );
+
+    # answered strg
+    $Param{'AnsweredYesNoOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'Answered',
+        Selected => 'Yes',
     );
 
     # prepare 

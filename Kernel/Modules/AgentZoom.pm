@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.6 2002-05-04 20:29:51 martin Exp $
+# $Id: AgentZoom.pm,v 1.7 2002-05-26 18:21:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -87,7 +87,7 @@ sub Run {
     " sq.name as queue, st.create_time as ticket_create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
-    " st.freetext2, st.customer_id, sq.group_id ".
+    " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time ".
     " FROM ".
     " article sa, ticket st, article_sender_type stt, article_type at, ".
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
@@ -113,28 +113,33 @@ sub Run {
     " GROUP BY sa.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-        if (!$Ticket{TmpCounter}) {
-            $Ticket{TicketNumber} = $$Data{tn};
-            $Ticket{State} = $$Data{state};
-            $Ticket{CustomerID} = $$Data{customer_id};
-            $Ticket{Queue} = $$Data{queue};
-            $Ticket{QueueID} = $QueueID;
-            $Ticket{Lock} = $$Data{lock_type};
-            $Ticket{Owner} = $$Data{login};
-            $Ticket{Priority} = $$Data{priority};
-            $Ticket{FreeKey1} = $$Data{freekey1};
-            $Ticket{FreeValue1} = $$Data{freetext1};
-            $Ticket{FreeKey2} = $$Data{freekey2};
-            $Ticket{FreeValue2} = $$Data{freetext2};
-            $Ticket{Created} = $$Data{ticket_create_time};
-            $Ticket{GroupID} = $$Data{group_id};
-            $Ticket{TmpCounter}++;
-            $Ticket{Age} = time() - $$Data{create_time_unix};
+        # get escalation_time
+        if ($$Data{escalation_time} && $$Data{sender_type} eq 'customer') {
+            $Ticket{TicketOverTime} = (time() - ($$Data{create_time_unix} + ($$Data{escalation_time}*60)));
         }
+        # ticket data
+        $Ticket{TicketNumber} = $$Data{tn};
+        $Ticket{State} = $$Data{state};
+        $Ticket{CustomerID} = $$Data{customer_id};
+        $Ticket{Queue} = $$Data{queue};
+        $Ticket{QueueID} = $QueueID;
+        $Ticket{Lock} = $$Data{lock_type};
+        $Ticket{Owner} = $$Data{login};
+        $Ticket{Priority} = $$Data{priority};
+        $Ticket{FreeKey1} = $$Data{freekey1};
+        $Ticket{FreeValue1} = $$Data{freetext1};
+        $Ticket{FreeKey2} = $$Data{freekey2};
+        $Ticket{FreeValue2} = $$Data{freetext2};
+        $Ticket{Created} = $$Data{ticket_create_time};
+        $Ticket{GroupID} = $$Data{group_id};
+        $Ticket{Age} = time() - $$Data{create_time_unix};
+        $Ticket{Answered} = $$Data{ticket_answered};
+        # article attachments
         my @AtmIndex = $Self->{ArticleObject}->GetAtmIndex(
             ContentPath => $$Data{content_path},
             ArticleID => $$Data{id},
         );
+        # article data
         my %Article;
         $Article{ArticleType} = $$Data{article_type};
         $Article{SenderType} = $$Data{sender_type};
@@ -170,6 +175,7 @@ sub Run {
         UserID => $Self->{UserID})) {
         # --
         # show ticket
+        # --
         $Output .= $Self->{LayoutObject}->TicketZoom(
             TicketID => $TicketID,
             QueueID => $QueueID,
