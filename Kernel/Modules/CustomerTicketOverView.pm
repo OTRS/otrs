@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.13 2003-04-24 19:51:42 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.14 2003-04-24 19:56:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,18 +96,31 @@ sub Run {
     # to get the output faster!
     print $Output; $Output = '';
     # --
+    # check if just open tickets should be shown
+    # --
+    my $SQLExt = '';
+    if (!$Self->{UserShowClosedTickets}|| (!defined $Self->{UserShowClosedTickets} 
+      && $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
+        my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+            Type => 'Viewable',
+            Result => 'ID',
+        );
+        $SQLExt .= " AND ";
+        $SQLExt .= " st.ticket_state_id in ( ${\(join ', ', @ViewableStateIDs)} ) ";
+    }
+    # --
     # get data (viewable tickets...)
     # --
     my $AllTickets = 0; 
     my $SQL = "SELECT count(*) FROM ".
        " ticket st ".
        " WHERE ".
-       " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'";
+       " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'".
+       $SQLExt;
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $AllTickets = $Row[0];
     }
-
     my @ViewableTickets = ();
     $SQL = "SELECT st.id FROM " .
        " ticket st, ticket_state tsd, queue q, " . 
@@ -119,18 +132,9 @@ sub Run {
        " AND ".
        " q.id = st.queue_id ".
        " AND ".
-       " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'";
-    # check if just open tickets should be shown
-    if (!$Self->{UserShowClosedTickets}|| (!defined $Self->{UserShowClosedTickets} 
-      && $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
-        my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type => 'Viewable',
-            Result => 'ID',
-        );
-        $SQL .= " AND ";
-        $SQL .= " st.ticket_state_id in ( ${\(join ', ', @ViewableStateIDs)} )";
-    }
-    $SQL .= " ORDER BY ";
+       " st.customer_id = '".$Self->{DBObject}->Quote($Self->{UserCustomerID})."'".
+       $SQLExt.
+       " ORDER BY ";
 
     if ($Self->{SortBy} eq 'Owner') {
         $SQL .= "u.".$Self->{ConfigObject}->Get('DatabaseUserTableUser');
