@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.71 2004-09-09 15:11:33 martin Exp $
+# $Id: Article.pm,v 1.72 2004-09-10 15:01:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.72 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -292,10 +292,37 @@ MessageID => $Param{MessageID},
         }
     }
     elsif ($Param{HistoryType} =~ /^FollowUp$/i || $Param{HistoryType} =~ /^AddNote$/i) {
-        # get owner
-        my ($OwnerID, $Owner) = $Self->OwnerCheck(TicketID => $Param{TicketID});
-        if ($OwnerID ne $Self->{ConfigObject}->Get('PostmasterUserID') && $OwnerID ne $Param{UserID}) {
-            my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
+        # send agent notification to all agents
+        if ($Ticket{OwnerID} == 1 || $Ticket{Lock} eq 'unlock') {
+            my @OwnerIDs = ();
+            if ($Self->{ConfigObject}->Get('PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner')) {
+                @OwnerIDs = ($Ticket{OwnerID});
+            }
+            else {
+                @OwnerIDs = $Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID});
+            }
+            foreach (@OwnerIDs) {
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $_,
+                    Cached => 1,
+                    Valid => 1,
+                );
+                if ($UserData{UserSendFollowUpNotification}) {
+                    # send notification
+                    $Self->SendAgentNotification(
+                        Type => $Param{HistoryType},
+                        UserData => \%UserData,
+                        CustomerMessageParams => \%Param,
+                        TicketID => $Param{TicketID},
+                        Queue => $Param{Queue},
+                        UserID => $Param{UserID},
+                    );
+                }
+            }
+        }
+        # send agent notification the agents who locked the ticket
+        else {
+            my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Ticket{OwnerID});
             if ($Preferences{UserSendFollowUpNotification}) {
                 # send notification
                 $Self->SendAgentNotification(
@@ -309,6 +336,7 @@ MessageID => $Param{MessageID},
             }
         }
     }
+    # send forced notifications
     if ($Param{ForceNotificationToUserID} && ref($Param{ForceNotificationToUserID}) eq 'ARRAY') {
         my %AlreadySent = ();
         foreach (@{$Param{ForceNotificationToUserID}}) {
