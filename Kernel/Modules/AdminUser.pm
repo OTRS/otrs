@@ -2,7 +2,7 @@
 # AdminUser.pm - to add/update/delete user
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.2 2002-04-08 20:40:12 martin Exp $
+# $Id: AdminUser.pm,v 1.3 2002-04-12 16:33:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,6 +54,7 @@ sub Run {
     # get user data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+        my %PreferencesData = $Self->{DBObject}->GetPreferences(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->Header(Title => 'User ändern');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data
@@ -63,6 +64,7 @@ sub Run {
         " user " .
         " WHERE " .
         " id = $UserID";
+
         $Self->{DBObject}->Prepare(SQL => $SQL);
         my @Data = $Self->{DBObject}->FetchrowArray();
         $Output .= $Self->{LayoutObject}->AdminUserForm(
@@ -77,6 +79,7 @@ sub Run {
             ThemeID => $Data[7],
             Comment => $Data[8],
             ValidID => $Data[9],
+            %PreferencesData,
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -88,10 +91,10 @@ sub Run {
             'Login',
             'Fristname',
             'Lastname',
-            'LanguageID',
+            'Language',
             'ValidID',
-            'CharsetID',
-            'ThemeID', 
+            'Charset',
+            'Theme',
             'Comment',
             'Pw',
         );
@@ -117,14 +120,32 @@ sub Run {
         " last_name = '$GetParam{Lastname}', " .
         " login = '$GetParam{Login}', " .
         " pw = '$GetParam{Pw}', " .
-        " language_id = $GetParam{LanguageID}, " .
-        " charset_id = $GetParam{CharsetID}, " .
-        " theme_id = $GetParam{ThemeID}, " .
         " comment = '$GetParam{Comment}', " .
         " valid_id = $GetParam{ValidID}, " .
         " change_time = current_timestamp, " .
         " change_by = $Self->{UserID} " .
         " WHERE id = $GetParam{ID}";
+
+        # --
+        # pref update db
+        # --
+        $Self->{DBObject}->SetPreferences(
+            UserID => $GetParam{ID},
+            Key => 'UserCharset',
+            Value => $GetParam{Charset},
+        );
+        $Self->{DBObject}->SetPreferences(
+            UserID => $GetParam{ID},
+            Key => 'UserTheme',
+            Value => $GetParam{Theme},
+        );
+        $Self->{DBObject}->SetPreferences(
+            UserID => $GetParam{ID},
+            Key => 'UserLanguage',
+            Value => $GetParam{Language},
+        );
+
+
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
@@ -144,10 +165,10 @@ sub Run {
             'Login',
             'Fristname',
             'Lastname',
-            'LanguageID',
+            'Language',
             'ValidID',
-            'ThemeID', 
-            'CharsetID',
+            'Theme', 
+            'Charset',
             'Comment',
             'Pw',
         );
@@ -162,9 +183,6 @@ sub Run {
             " last_name, " .
             " login, " .
             " pw, " .
-            " language_id, " .
-            " charset_id, " .
-            " theme_id, " .
             " comment, " .
             " valid_id, create_time, create_by, change_time, change_by)" .
             " VALUES " .
@@ -173,12 +191,40 @@ sub Run {
             " '$GetParam{Lastname}', " .
             " '$GetParam{Login}', " .
             " '$GetParam{Pw}', " .
-            " $GetParam{LanguageID}, " .
-            " $GetParam{CharsetID}, " .
-            " $GetParam{ThemeID}, " .
             " '$GetParam{Comment}', " .
-            " $GetParam{ValidID}, current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
+            " $GetParam{ValidID}, current_timestamp, $Self->{UserID}, ".
+            " current_timestamp, $Self->{UserID})";
+
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
+            # --
+            # get new user id
+            # --
+            my $SQL = "SELECT id FROM user WHERE login = '$GetParam{Login}'";
+            my $UserID;
+            $Self->{DBObject}->Prepare(SQL => $SQL);
+            while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+                $UserID = $RowTmp[0];
+            }
+
+            # --
+            # pref update db
+            # --
+            $Self->{DBObject}->SetPreferences(
+              UserID => $UserID,
+              Key => 'UserCharset',
+              Value => $GetParam{Charset},
+            );
+            $Self->{DBObject}->SetPreferences(
+              UserID => $UserID,
+              Key => 'UserTheme',
+              Value => $GetParam{Theme},
+            );
+            $Self->{DBObject}->SetPreferences(
+              UserID => $UserID,
+              Key => 'UserLanguage',
+              Value => $GetParam{Language},
+            );
+
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {

@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.19 2002-04-08 20:40:29 martin Exp $
+# $Id: Generic.pm,v 1.20 2002-04-12 16:33:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::Installer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -81,35 +81,44 @@ sub Output {
         my $Tmp = $Param{Data};
         %Data = %$Tmp;
     }
-
+    # --
     # create %Env for this round!
+    # --
     my %Env = ();
     if (!$Self->{EnvRef}) {
+        # --
         # build OpenTRS env
+        # --
         %Env = %ENV;
         $Env{SessionID} = $Self->{SessionID};
         $Env{Time} = $Self->{Time};
         $Env{CGIHandle} = $Self->{CGIHandle};
-        $Env{Charset} = $Self->{UserCharset} || 'iso-8859-1';
+        $Env{Charset} = $Self->{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset');
         $Env{Baselink} = $Self->{Baselink};
+        $Env{Action} = $Self->{Action};
+        $Env{Subaction} = $Self->{Subaction};
+        $Env{QueueID} = $Self->{QueueID};
+        # --
+        # user data
+        # --
         $Env{UserFirstname} = $Self->{UserFirstname};
         $Env{UserLastname} = $Self->{UserLastname};
         $Env{UserLogin} = $Self->{UserLogin};
         $Env{UserLoginTop} = '('. $Self->{UserLogin} .')' if ($Env{UserLogin});
-        $Env{UserTheme} = $Self->{UserTheme};
-        $Env{UserCharset} = $Self->{UserCharset}; 
-        $Env{UserLanguage} = $Self->{UserLanguage};
-        $Env{Action} = $Self->{Action};
-        $Env{Subaction} = $Self->{Subaction};
-        $Env{QueueID} = $Self->{QueueID};
+        $Env{UserTheme} = $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme');
+        $Env{UserCharset} = $Self->{UserCharset} || $Env{Charset};
+        $Env{UserLanguage} = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
     }  
     else {
+        # --
         # get %Env from $Self->{EnvRef} 
+        # --
         my $Tmp = $Self->{EnvRef};
         %Env = %$Tmp;
     }
- 
+    # -- 
     # create refs
+    # --
     my $EnvRef = \%Env;
     my $DataRef = \%Data;
     my $GlobalRef = {EnvRef=> $EnvRef, DataRef => $DataRef},
@@ -464,7 +473,7 @@ sub OptionStrgHashRef {
             }
             else {
               $Output .= "    <option VALUE=\"$_\">".
-                      $Self->{LanguageObject}->Get($Data{$_}) ."</option>\n";
+                     $Self->{LanguageObject}->Get($Data{$_}) ."</option>\n";
             }
         }
     }

@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.5 2002-02-03 23:33:26 martin Exp $
+# $Id: Admin.pm,v 1.6 2002-04-12 16:33:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -500,37 +500,37 @@ sub AdminUserForm {
     $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, charset',
+            What => 'charset, charset',
             Table => 'charset',
             Valid => 1,
           )
         },
-        Name => 'CharsetID',
-        SelectedID => $Param{CharsetID},
+        Name => 'Charset',
+        Selected => $Param{UserCharset},
     );
 
     $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, theme',
+            What => 'theme, theme',
             Table => 'theme',
             Valid => 1,
           )
         },
-        Name => 'ThemeID',
-        SelectedID => $Param{ThemeID},
+        Name => 'Theme',
+        Selected => $Param{UserTheme},
     );
 
     $Param{'LanguageOption'} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, language',
+            What => 'Language, language',
             Table => 'language',
             Valid => 1,
           )
         },
-        Name => 'LanguageID',
-        SelectedID => $Param{LanguageID},
+        Name => 'Language',
+        Selected => $Param{UserLanguage},
     );
 
     return $Self->Output(TemplateFile => 'AdminUserForm', Data => \%Param);
