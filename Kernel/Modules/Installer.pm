@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.12 2002-09-01 13:05:21 martin Exp $
+# $Id: Installer.pm,v 1.13 2002-09-19 18:04:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -47,6 +47,12 @@ sub Run {
     my $Output = '';
     my $Subaction = $Self->{Subaction} || ''; 
     my $DirOfSQLFiles = '/usr/share/doc/packages/otrs/install/database';
+    if (! -d $DirOfSQLFiles) {
+        $DirOfSQLFiles = '/usr/share/doc/packages/otrs-7.3/install/database';
+        if (! -d $DirOfSQLFiles) {
+            $DirOfSQLFiles = '/usr/share/doc/otrs/install/database';
+        }
+    }
 
     # print form
     if ($Subaction eq '' || !$Subaction) {
@@ -168,9 +174,9 @@ sub Run {
 
             }
             else {
-                $SetupOutput .= "<br>To be able to use OTRS you have to enter the following two lines in your command line (Terminal/Shell):<br>"; 
-                $SetupOutput .= "<b><font color='red'>/opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS otrs wwwrun<br>";
-                $SetupOutput .= "rcotrs restart-force</font></b><br>";
+                $SetupOutput .= "<br>To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell):<br>"; 
+                $SetupOutput .= "<b><font color='red'><!--/opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS otrs wwwrun<br>-->";
+                $SetupOutput .= "'rcapache restart' (SuSE)</bont> or <font color='red'>'service httpd restart' (Redhat)</font></b><br>";
                 $SetupOutput .= "<br>After doing so your OTRS is up and running.";
             }
 
