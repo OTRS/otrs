@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.15 2003-04-16 21:25:04 martin Exp $
+# $Id: auto_build.sh,v 1.16 2003-04-30 15:24:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.15 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.16 $>"
 echo "Copyright (c) 2002-2003 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
@@ -164,7 +164,7 @@ cp -R /tmp/OTRSDOC-package/sgml/* doc/manual/sgml/
 # --
 cd $PACKAGE_BUILD_DIR/ || exit 1;
 SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION-$RELEASE.tar.gz
-tar -czf $SOURCE_LOCATION $ARCHIVE_DIR/ $ARCHIVE_DIR/.*rc $ARCHIVE_DIR/.mailfilter || exit 1;
+tar -czf $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
 cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 
 # --
@@ -172,7 +172,7 @@ cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 # --
 cd $PACKAGE_BUILD_DIR/ || exit 1;
 SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION-$RELEASE.tar.bz2
-tar -cjf $SOURCE_LOCATION $ARCHIVE_DIR/ $ARCHIVE_DIR/.*rc $ARCHIVE_DIR/.mailfilter || exit 1;
+tar -cjf $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
 cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 
 # --
