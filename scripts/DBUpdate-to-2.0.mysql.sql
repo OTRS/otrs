@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.8 2004-10-06 19:39:31 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.9 2004-10-13 12:45:53 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.mysql.sql | mysql -f -u root otrs
@@ -94,6 +94,29 @@ CREATE TABLE process_id
     process_id varchar (200) NOT NULL,
     process_host varchar (200) NOT NULL,
     process_create integer NOT NULL
+);
+
+--
+-- improve faq table
+--
+ALTER TABLE faq_item ADD f_number VARCHAR (200);
+UPDATE faq_item SET f_number = 0 WHERE f_number IS NULL;
+ALTER TABLE faq_item CHANGE f_number f_number VARCHAR (200) NOT NULL;
+
+CREATE TABLE faq_attachment
+(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    faq_id BIGINT NOT NULL,
+    filename VARCHAR (250),
+    content_type VARCHAR (250),
+    content_size VARCHAR (30),
+    content LONGBLOB,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    INDEX faq_id (faq_id)
 );
 
 --

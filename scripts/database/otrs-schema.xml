@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.35 2004-10-01 08:53:31 martin Exp $
+  $Id: otrs-schema.xml,v 1.36 2004-10-13 12:45:53 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.35  2004/10/01 08:53:31  martin
+  improved ticket escalation, added new ticket table col.
+
   Revision 1.34  2004/09/16 09:42:46  martin
   added table for Kernel::System::PID support
 
@@ -964,9 +967,10 @@
 <!-- faq_item -->
 <table name="faq_item">
   <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER"/>
+  <column name="f_number" required="true" size="200" type="VARCHAR"/>
+  <column name="f_subject" required="false" size="200" type="VARCHAR"/>
   <column name="f_name" required="true" size="200" type="VARCHAR"/>
   <column name="f_language_id" required="true" type="SMALLINT"/>
-  <column name="f_subject" required="false" size="200" type="VARCHAR"/>
   <column name="state_id" required="true" type="SMALLINT"/>
   <column name="category_id" required="true" type="SMALLINT"/>
   <column name="f_keywords" required="false" type="LONGVARCHAR"/>
@@ -1046,6 +1050,22 @@
   </unique>
 </table>
 
+<!-- faq - attachments -->
+<table name="faq_attachment">
+  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
+  <column name="faq_id" required="true" type="BIGINT"/>
+  <column name="filename" required="false" size="250" type="VARCHAR"/>
+  <column name="content_size" required="false" size="30" type="VARCHAR"/>
+  <column name="content_type" required="false" size="250" type="VARCHAR"/>
+  <column name="content" required="true" type="LONGVARCHAR"/>
+  <column name="create_time" required="true" type="DATE"/>
+  <column name="create_by" required="true" type="INTEGER"/>
+  <column name="change_time" required="true" type="DATE"/>
+  <column name="change_by" required="true" type="INTEGER"/>
+  <index name="faq_id">
+    <index-column name="faq_id"/>
+  </index>
+</table>
 
 </database>
 </app-data>

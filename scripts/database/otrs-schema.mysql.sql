@@ -964,9 +964,10 @@ drop table if exists faq_item;
 CREATE TABLE faq_item
 (   
     id INTEGER NOT NULL AUTO_INCREMENT,
+    f_number VARCHAR (200) NOT NULL,
+    f_subject VARCHAR (200),
     f_name VARCHAR (200) NOT NULL,
     f_language_id SMALLINT NOT NULL,
-    f_subject VARCHAR (200),
     state_id SMALLINT NOT NULL,
     category_id SMALLINT NOT NULL,
     f_keywords MEDIUMTEXT,
@@ -1065,5 +1066,26 @@ CREATE TABLE faq_state_type
     name VARCHAR (200) NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
+);
+
+# -----------------------------------------------------------------------
+# faq_attachment
+# -----------------------------------------------------------------------
+drop table if exists faq_attachment;
+
+CREATE TABLE faq_attachment
+(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    faq_id BIGINT NOT NULL,
+    filename VARCHAR (250),
+    content_type VARCHAR (250),
+    content_size VARCHAR (30),
+    content LONGBLOB,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    INDEX faq_id (faq_id)
 );
 
