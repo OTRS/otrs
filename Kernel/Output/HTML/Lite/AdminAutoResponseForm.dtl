@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.6 2002-10-15 09:51:46 martin Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.7 2002-11-19 17:21:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -105,6 +105,13 @@
      </tr>
      <tr>
       <td><b>&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</b></td><td>$Text{"to get the first 5 lines of the email"}</td>
+     </tr>
+      <td><b>&lt;OTRS_CUSTOMER_FROM&gt;</b></td><td>$Text{"to get the from line of the email"}</td>
+     </tr>
+      <td><b>&lt;OTRS_CUSTOMER_REALNAME&gt;</b></td><td>$Text{"to get the realname of the sender (if given)"}</td>
+     </tr>
+     </tr>
+      <td><b>&lt;OTRS_TICKET_NUMBER&gt;</b></td><td>$Text{"to get the ticket number of the ticket"}</td>
      </tr>
     </table>
    </p>
