@@ -118,6 +118,10 @@ Also note that you cannot run more than one OTRS System through mod_perl-1
 mod_perl-1, start a new httpd on an other ip-address or port. mod_perl-2 can
 handle this with one httpd.
 </para>
+<para>
+Note: If you use the "scripts/apache-perl-startup.pl" for mod_perl, change
+the "use lib" directory (e. g. /opt/otrs or /opt/otrs2)!
+</para>
 </sect1>
 
 </chapter>
