@@ -2,7 +2,7 @@
 # AdminPOP3Form.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3Form.dtl,v 1.9 2004-01-24 18:40:35 martin Exp $
+# $Id: AdminPOP3Form.dtl,v 1.10 2004-02-23 23:25:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -46,7 +46,7 @@
     <input type="hidden" name="ID" value="$Data{"ID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
-      <td>$Text{"Login"}: </td>
+      <td>$Text{"Username"}: </td>
       <td> <input type="text" name="Login" value="$Data{"Login"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
@@ -104,7 +104,7 @@
     <form action="/">
       <table>
       <tr>
-        <td>$Text{"Login"}: </td>
+        <td>$Text{"Username"}: </td>
         <td> <input type="text" name="Login" value="mail2" size="35" maxlength="50"></td>
       </tr>
       <tr>

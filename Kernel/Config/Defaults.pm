@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.111 2004-02-23 16:01:43 martin Exp $
+# $Id: Defaults.pm,v 1.112 2004-02-23 23:25:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.111 $';
+$VERSION = '$Revision: 1.112 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1458,7 +1458,7 @@ Your OTRS Notification Master
             [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var' ],
             [ 'UserFirstname', 'Firstname', 'first_name', 1, 1, 'var' ],
             [ 'UserLastname', 'Lastname', 'last_name', 1, 1, 'var' ],
-            [ 'UserLogin', 'Login', 'login', 1, 1, 'var' ],
+            [ 'UserLogin', 'Username', 'login', 1, 1, 'var' ],
             [ 'UserPassword', 'Password', 'pw', 0, 1, 'var' ],
             [ 'UserEmail', 'Email', 'email', 0, 1, 'var' ],
 #            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}' ],
@@ -1513,7 +1513,7 @@ Your OTRS Notification Master
 #            [ 'UserSalutation', 'Title', 'title', 1, 0, 'var' ],
 #            [ 'UserFirstname', 'Firstname', 'givenname', 1, 1, 'var' ],
 #            [ 'UserLastname', 'Lastname', 'sn', 1, 1, 'var' ],
-#            [ 'UserLogin', 'Login', 'uid', 1, 1, 'var' ],
+#            [ 'UserLogin', 'Username', 'uid', 1, 1, 'var' ],
 #            [ 'UserEmail', 'Email', 'mail', 1, 1, 'var' ],
 #            [ 'UserCustomerID', 'CustomerID', 'mail', 0, 1, 'var' ],
 #            [ 'UserPhone', 'Phone', 'telephonenumber', 1, 0, 'var' ],
