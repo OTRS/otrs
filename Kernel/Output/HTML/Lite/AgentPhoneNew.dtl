@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.38 2004-10-06 19:44:35 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.39 2004-10-08 11:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -85,7 +85,17 @@ function clear_field()
 <tr>
   <td class="mainbody">
 
-<p>
+#<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+#<input type="hidden" name="Action" value="$Env{"Action"}">
+#<input type="hidden" name="Subaction" value="StoreNew">
+#<input type="hidden" name="FormID" value="$QData{"FormID"}">
+#<input type="hidden" name="ExpandCustomerName" value="2">
+#<input type="hidden" name="Subject" value="Example Subject">
+#<input type="hidden" name="Body" value="Name:
+#Product:
+#Comment:">
+#<input type="submit" name="" value="Example Template">
+#<hr>
 
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
 <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -216,13 +226,6 @@ function clear_field()
     <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
     <td class="contentvalue"> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
   </tr>
-# select lock state
-#<dtl if ($Config{"PhoneDefaultNewLock"} eq "lock") { $Data{"LockSelectionYes"} = "checked"; }>
-#<dtl if ($Config{"PhoneDefaultNewLock"} eq "unlock") { $Data{"LockSelectionNo"} = "checked"; }>
-#  <tr>
-#    <td class="contentkey">$Text{"Lock Ticket"}:</td>
-#    <td class="contentvalue"> <input type="radio" name="Lock" value="lock" $Data{"LockSelectionYes"}>$Text{"Yes"} <input type="radio" name="Lock" value="unlock" $Data{"LockSelectionNo"}>$Text{"No"}</td>
-#  </tr>
   </table>
 <br>
 <input class="button" type="submit" name="Create" value="$Text{"create"}" onclick="return submit_compose();">
@@ -248,8 +251,6 @@ function clear_field()
   <input type="hidden" name="Subject" value="">
   <input type="hidden" name="What" value="">
 </form>
-
-</p>
 
   </td>
 </tr>
