@@ -1,8 +1,8 @@
 # --
-# Kernel/System/PostMaster.pm - the global PostMaster module for OpenTRS
+# Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.11 2002-07-23 20:19:04 martin Exp $
+# $Id: PostMaster.pm,v 1.12 2002-10-03 17:54:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,17 +12,15 @@ package Kernel::System::PostMaster;
 
 use strict;
 use Kernel::System::DB;
-use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::EmailParser;
 use Kernel::System::Ticket;
-use Kernel::System::Article;
 use Kernel::System::Queue;
 use Kernel::System::PostMaster::FollowUp;
 use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -55,13 +53,6 @@ sub new {
     # create db object
     $Self->{DBObject} = Kernel::System::DB->new(%Param);
 
-    # create LoopProtectionObject
-    $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(
-        DBObject => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        LogObject => $Self->{LogObject},
-    );
-
     # get email 
     $Self->{Email} = $Param{Email} || die "Got no EmailBody!";
     my $EmailTmp = $Param{Email} || die "Got no EmailBody!";
@@ -90,17 +81,9 @@ sub Run {
          LogObject => $Self->{LogObject},
          LoopProtectionObject => $Self->{LoopProtectionObject}, 
     );
-    my $ArticleObject = Kernel::System::Article->new(
-         TicketObject => $TicketObject,
-         DBObject => $Self->{DBObject},
-         LogObject => $Self->{LogObject},
-         ConfigObject => $Self->{ConfigObject},
-         LoopProtectionObject => $Self->{LoopProtectionObject},
-    );
     my $NewTicket = Kernel::System::PostMaster::NewTicket->new(
         ParseObject => $Self->{ParseObject},
         DBObject => $Self->{DBObject},
-        ArticleObject => $ArticleObject,
         TicketObject => $TicketObject,
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
@@ -117,7 +100,7 @@ sub Run {
     # --
     if ($GetParam{'X-OTRS-Ignore'} =~ /yes/i) {
        $Self->{LogObject}->Log(
-           MSG => "Droped Email (From: $GetParam{'From'}, MSG-ID: $GetParam{'Message-ID'}) " .
+           Message => "Droped Email (From: $GetParam{'From'}, Message-ID: $GetParam{'Message-ID'}) " .
            "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam{'X-OTRS-Ignore'})."
        );
        exit (0);
@@ -131,7 +114,6 @@ sub Run {
 if ($Tn && $TicketID) {
     my $FollowUp = Kernel::System::PostMaster::FollowUp->new(
             DBObject => $Self->{DBObject},
-            ArticleObject => $ArticleObject,
             TicketObject => $TicketObject,
             LogObject => $Self->{LogObject},
             ConfigObject => $Self->{ConfigObject},
@@ -161,7 +143,7 @@ if ($Tn && $TicketID) {
     # create a new ticket
     if ($FollowUpPossible =~ /new ticket/i && $State =~ /^close/i) {
         $Self->{LogObject}->Log(
-            MSG=>"Follow up for [$Tn] but follow up not possible($State). Create new ticket."
+            Message=>"Follow up for [$Tn] but follow up not possible($State). Create new ticket."
         );
         # send mail && create new article
         $NewTicket->Run(
@@ -176,7 +158,7 @@ if ($Tn && $TicketID) {
     # reject follow up
     elsif ($FollowUpPossible =~ /reject/i && $State =~ /^close/i) {
         $Self->{LogObject}->Log(
-            MSG=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
+            Message=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
         );
         # send reject mail && and add article to ticket
         $FollowUp->Run(
@@ -230,7 +212,7 @@ sub CheckFollowUp {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
             Priority => 'debug',
-            MSG => "CheckFollowUp Subject: '$Subject', SystemID: '$Self->{SystemID}',".
+            Message => "CheckFollowUp Subject: '$Subject', SystemID: '$Self->{SystemID}',".
              " TicketHook: '$Self->{TicketHook}'",
         );
     }
@@ -240,14 +222,14 @@ sub CheckFollowUp {
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                MSG => "CheckFollowUp: Tn: $Tn found!",
+                Message => "CheckFollowUp: Tn: $Tn found!",
             );
         }
         if ($TicketID) {
             if ($Self->{Debug} > 0) {
                 $Self->{LogObject}->Log(
                   Priority => 'debug',
-                  MSG => "CheckFollowUp: ja, it's a follow up ($Tn/$TicketID)",
+                  Message => "CheckFollowUp: ja, it's a follow up ($Tn/$TicketID)",
                 );
             }
             return ($Tn, $TicketID);
@@ -269,7 +251,7 @@ sub GetEmailParams {
         if ($Self->{Debug} > 1) {
           $Self->{LogObject}->Log(
               Priority => 'debug',
-              MSG => "$_: " . $Self->{ParseObject}->GetParam(WHAT => $_),
+              Message => "$_: " . $Self->{ParseObject}->GetParam(WHAT => $_),
           );
         }
         $GetParam{$_} = $Self->{ParseObject}->GetParam(WHAT => $_);
