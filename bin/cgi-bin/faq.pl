@@ -3,7 +3,7 @@
 # faq.pl - the global CGI handle file for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: faq.pl,v 1.3 2004-10-13 12:44:41 martin Exp $
+# $Id: faq.pl,v 1.4 2004-11-16 12:03:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,104 +41,12 @@ my $Debug = 0;
 # --
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
-# --
-# all framework needed  modules
-# (if you use mod_perl with startup.pl, drop this "use Kernel::.." and add
-# this to your startup.pl)
-# --
-use Kernel::Config;
-use Kernel::System::Log;
-use Kernel::System::WebRequest;
-use Kernel::System::DB;
-use Kernel::System::User;
-use Kernel::Output::HTML::Generic;
-use Kernel::Modules::CustomerFAQ;
+# load agent web interface
+use Kernel::System::Web::InterfaceFAQPublic();
 
-# --
-# create common framework objects 1/2
-# --
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => $CommonObject{ConfigObject}->Get('CGILogPrefix'),
-    %CommonObject,
-);
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{ParamObject} = Kernel::System::WebRequest->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
-# --
-# debug info
-# --
-if ($Debug) {
-    $CommonObject{LogObject}->Log(
-        Priority => 'debug',
-        Message => 'Global handle started...',
-    );
-}
-my %Param = ();
-# definde frame work params
-my $FramworkPrams = {
-    Lang => '',
-    Action => '',
-    Subaction => '',
-};
-foreach my $Key (keys %{$FramworkPrams}) {
-    $Param{$Key} = $CommonObject{ParamObject}->GetParam(Param => $Key)
-      || $FramworkPrams->{$Key};
-}
-# --
-# create common framework objects 2/2
-# --
-$CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-    %CommonObject,
-    Lang => $Param{Lang},
-);
-# --
-# check common objects
-# --
-if (!$CommonObject{DBObject}) {
-    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
-    print $CommonObject{LayoutObject}->CustomerError(
-        Message => $DBI::errstr,
-        Comment => 'Please contact your admin'
-    );
-    print $CommonObject{LayoutObject}->CustomerFooter();
-    exit (1);
-}
-if ($CommonObject{ParamObject}->Error()) {
-    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
-    print $CommonObject{LayoutObject}->CustomerError(
-        Message => $CommonObject{ParamObject}->Error(),
-        Comment => 'Please contact your admin'
-    );
-    print $CommonObject{LayoutObject}->CustomerFooter();
-    exit (1);
-}
-# --
-# prove of concept! - create $GenericObject
-# --
-my $GenericObject = ('Kernel::Modules::CustomerFAQ')->new(
-    UserID => 1,
-    %CommonObject,
-    %Param,
-);
-# --
-# ->Run $Action with $GenericObject
-# --
-print $GenericObject->Run(States => ['public (all)']);
-# --
-# debug info
-# --
-if ($Debug) {
-    $CommonObject{LogObject}->Log(
-        Priority => 'debug',
-        Message => 'Global handle stopped.',
-    );
-}
-# --
-# db disconnect && undef %CommonObject %% undef %
-# --
-$CommonObject{DBObject}->Disconnect();
-undef %Param;
-undef %CommonObject;
+# create new object
+my $InterfaceFAQ = Kernel::System::Web::InterfaceFAQPublic->new(Debug => $Debug);
+
+# execute object
+$InterfaceFAQ->Run();
 
