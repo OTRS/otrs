@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user
+# Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.2 2002-10-25 11:46:00 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.3 2002-11-15 14:57:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -83,6 +83,28 @@ sub Run {
         # --
         if ($Self->{CustomerUserObject}->CustomerUserUpdate(%GetParam, UserID => $Self->{UserID})) {
             # --
+            # update preferences
+            # --
+            foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
+              foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
+                my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
+                my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
+                my $Value = $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey");
+                $Value = defined $Value ? $Value : '';
+                if ($Type eq 'Generic' && $PrefKey && !$Self->{CustomerUserObject}->SetPreferences(
+                  UserID => $GetParam{ID},
+                  Key => $PrefKey,
+                  Value => $Value,
+                )) {
+                  my $Output = $Self->{LayoutObject}->Header();
+                  $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+                  $Output .= $Self->{LayoutObject}->Error();
+                  $Output .= $Self->{LayoutObject}->Footer();
+                  return $Output;
+                }
+              }
+            }
+            # --
             # redirect
             # --
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
@@ -110,6 +132,28 @@ sub Run {
         # add user
         # --
         if (my $UserID = $Self->{CustomerUserObject}->CustomerUserAdd(%GetParam, UserID => $Self->{UserID})) {
+            # --
+            # update preferences
+            # --
+            foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
+              foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
+                my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
+                my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
+                my $Value = $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey");
+                $Value = defined $Value ? $Value : '';
+                if ($Type eq 'Generic' && $PrefKey && !$Self->{CustomerUserObject}->SetPreferences(
+                  UserID => $UserID, 
+                  Key => $PrefKey,
+                  Value => $Value,
+                )) {
+                  my $Output = $Self->{LayoutObject}->Header();
+                  $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+                  $Output .= $Self->{LayoutObject}->Error();
+                  $Output .= $Self->{LayoutObject}->Footer();
+                  return $Output;
+                }
+              }
+            }
             # --
             # redirect
             # --

@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.16 2002-10-15 09:30:15 martin Exp $
+# $Id: Admin.pm,v 1.17 2002-11-15 14:58:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -536,6 +536,73 @@ sub AdminCustomerUserForm {
         SelectedID => $Param{ID},
     );
 
+    foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
+      foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
+#        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
+          my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
+          my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
+          my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
+          my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
+          if ($Data) {
+            $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+              Data => $Data,
+              Name => "GenericTopic::$PrefKey",
+              SelectedID => $Param{$PrefKey}, 
+            );
+          }
+          elsif ($PrefKey eq 'UserLanguage') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'language, language',
+                      Valid => 1,
+                      Clamp => 0,
+                      Table => 'language',
+                    )
+                  },
+                  Name => "GenericTopic::$PrefKey",
+                  Selected => $Param{UserLanguage},
+              );
+          }
+          elsif ($PrefKey eq 'UserCharset') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'charset, charset',
+                      Table => 'charset',
+                      Valid => 1,
+                    )
+                  },
+                  Name => "GenericTopic::$PrefKey",
+                  Selected => $Param{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
+              );
+          }
+          elsif ($PrefKey eq 'UserTheme') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'theme, theme',
+                      Table => 'theme',
+                      Valid => 1,
+                    )
+                  },
+                  Name => "GenericTopic::$PrefKey",
+                  Selected => $Param{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
+              );
+          }
+          if ($Type eq 'Password' || $Type eq 'CustomQueue') {
+              # do nothing if the auth! is not a preference!
+          }
+          else {
+              $Param{Preferences} .= $Self->Output(
+                TemplateFile => 'AdminCustomerUserPreferences'.$Type,
+                Data => \%PrefItem,
+              );
+          }
+#        }
+      }
+    }
+
     return $Self->Output(TemplateFile => 'AdminCustomerUserForm', Data => \%Param);
 }
 # --
@@ -572,53 +639,72 @@ sub AdminUserForm {
         SelectedID => $Param{ID},
     );
 
-    $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'charset, charset',
-            Table => 'charset',
-            Valid => 1,
-          )
-        },
-        Name => 'Charset',
-        Selected => $Param{UserCharset},
-    );
-
-    $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'theme, theme',
-            Table => 'theme',
-            Valid => 1,
-          )
-        },
-        Name => 'Theme',
-        Selected => $Param{UserTheme},
-    );
-
-    $Param{'LanguageOption'} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'language, language',
-            Table => 'language',
-            Valid => 1,
-          )
-        },
-        Name => 'Language',
-        Selected => $Param{UserLanguage},
-    );
-
-    $Param{'SendFollowUpNotificationYesNoOption'} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name => 'UserSendFollowUpNotification',
-        SelectedID => $Param{UserSendFollowUpNotification},
-    );
-
-    $Param{'SendNewTicketNotificationYesNoOption'} = $Self->OptionStrgHashRef(
-        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name => 'UserSendNewTicketNotification',
-        SelectedID => $Param{UserSendNewTicketNotification},
-    );
+    foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('PreferencesView')}) {
+      foreach my $Group (@{$Self->{ConfigObject}->Get('PreferencesView')->{$Pref}}) {
+#        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
+          my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
+          my $Data = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Data};
+          my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
+          my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
+          if ($Data) {
+            $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+              Data => $Data,
+              Name => "GenericTopic::$PrefKey",
+              SelectedID => $Param{$PrefKey}, 
+            );
+          }
+          elsif ($PrefKey eq 'UserLanguage') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'language, language',
+                      Valid => 1,
+                      Clamp => 0,
+                      Table => 'language',
+                    )
+                  },
+                  Name => "GenericTopic::$PrefKey",
+                  Selected => $Param{UserLanguage},
+              );
+          }
+          elsif ($PrefKey eq 'UserCharset') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'charset, charset',
+                      Table => 'charset',
+                      Valid => 1,
+                    )
+                  },
+                  Name => "GenericTopic::$PrefKey",
+                  Selected => $Param{UserCharset} || $Self->{ConfigObject}->Get('DefaultCharset'),
+              );
+          }
+          elsif ($PrefKey eq 'UserTheme') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                  Data => {
+                    $Self->{DBObject}->GetTableData(
+                      What => 'theme, theme',
+                      Table => 'theme',
+                      Valid => 1,
+                    )
+                  },
+                  Name => "GenericTopic::$PrefKey",
+                  Selected => $Param{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
+              );
+          }
+          if ($Type eq 'Password' || $Type eq 'CustomQueue') {
+              # do nothing if the auth! is not a preference!
+          }
+          else {
+              $Param{Preferences} .= $Self->Output(
+                TemplateFile => 'AdminUserPreferences'.$Type,
+                Data => \%PrefItem,
+              );
+          }
+#        }
+      }
+    }
 
 
     return $Self->Output(TemplateFile => 'AdminUserForm', Data => \%Param);

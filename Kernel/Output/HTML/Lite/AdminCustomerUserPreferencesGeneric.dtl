@@ -1,0 +1,23 @@
+# --
+# AdminUserPreferencesGeneric.dtl - provides HTML form for AgentPreferences 
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminCustomerUserPreferencesGeneric.dtl,v 1.1 2002-11-15 14:57:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<tr> 
+  <td>
+    <font color="$Env{"FontColor0"}">$Text{"$Data{"Label"}"}</font>:
+    <br>
+    <i class="small">($Text{"$Data{"Desc"}"})</i>
+  </td>
+  <td>
+  $Data{"Option"}
+  </td>
+</tr>
+<!-- end form -->
+

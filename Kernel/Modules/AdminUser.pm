@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminUser.pm - to add/update/delete user
+# Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.10 2002-10-25 11:46:00 martin Exp $
+# $Id: AdminUser.pm,v 1.11 2002-11-15 14:57:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $ ';
+$VERSION = '$Revision: 1.11 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -76,25 +76,31 @@ sub Run {
         foreach (my @UserParams = @$UserParamsTmp) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
+        $GetParam{Preferences} = $Self->{ParamObject}->GetParam(Param => 'Preferences') || '';
         # --
         # update user
         # --
         if ($Self->{UserObject}->UserUpdate(%GetParam, UserID => $Self->{UserID})) {
             # --
-            # pref update db
+            # update preferences
             # --
-            my %UserPrefs = %{$Self->{ConfigObject}->{UserPreferences}};
-            foreach (keys %UserPrefs) {
-              if (!$Self->{UserObject}->SetPreferences(
-                UserID => $GetParam{ID},
-                Key => $_,
-                Value => $Self->{ParamObject}->GetParam(Param => $UserPrefs{$_}) || '',
-              )) {
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-                $Output .= $Self->{LayoutObject}->Error();
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
+            foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('PreferencesView')}) {
+              foreach my $Group (@{$Self->{ConfigObject}->Get('PreferencesView')->{$Pref}}) {
+                my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
+                my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
+                my $Value = $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey");
+                $Value = defined $Value ? $Value : '';
+                if ($Type eq 'Generic' && $PrefKey && !$Self->{UserObject}->SetPreferences(
+                  UserID => $GetParam{ID},
+                  Key => $PrefKey,
+                  Value => $Value,
+                )) {
+                  my $Output = $Self->{LayoutObject}->Header();
+                  $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+                  $Output .= $Self->{LayoutObject}->Error();
+                  $Output .= $Self->{LayoutObject}->Footer();
+                  return $Output;
+                }
               }
             }
             # --
@@ -122,25 +128,31 @@ sub Run {
         foreach (my @UserParams = @$UserParamsTmp) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
+        $GetParam{Preferences} = $Self->{ParamObject}->GetParam(Param => 'Preferences') || '';
         # --
         # add user
         # --
         if (my $UserID = $Self->{UserObject}->UserAdd(%GetParam, UserID => $Self->{UserID})) {
             # --
-            # pref update db
+            # update preferences
             # --
-            my %UserPrefs = %{$Self->{ConfigObject}->{UserPreferences}};
-            foreach (keys %UserPrefs) {
-              if (!$Self->{UserObject}->SetPreferences(
-                UserID => $UserID,
-                Key => $_,
-                Value => $Self->{ParamObject}->GetParam(Param => $UserPrefs{$_}) || '',
-              )) {
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-                $Output .= $Self->{LayoutObject}->Error();
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
+            foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('PreferencesView')}) {
+              foreach my $Group (@{$Self->{ConfigObject}->Get('PreferencesView')->{$Pref}}) {
+                my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
+                my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
+                my $Value = $Self->{ParamObject}->GetParam(Param => "GenericTopic::$PrefKey");
+                $Value = defined $Value ? $Value : '';
+                if ($Type eq 'Generic' && $PrefKey && !$Self->{UserObject}->SetPreferences(
+                  UserID => $UserID,
+                  Key => $PrefKey,
+                  Value => $Value,
+                )) {
+                  my $Output = $Self->{LayoutObject}->Header();
+                  $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+                  $Output .= $Self->{LayoutObject}->Error();
+                  $Output .= $Self->{LayoutObject}->Footer();
+                  return $Output;
+                }
               }
             }
             # --
