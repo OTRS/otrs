@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.9 2004-03-13 17:09:22 martin Exp $
+# $Id: FAQ.pm,v 1.10 2004-03-24 11:02:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -28,6 +28,31 @@ All faq functions. E. g. to add faqs or to get faqs.
 =head1 PUBLIC INTERFACE
 
 =over 4
+
+=cut
+
+=item new()
+    
+create a faq object 
+    
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB;
+  use Kernel::System::FAQ;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $DBObject = Kernel::System::DB->new( 
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $FAQObject = Kernel::System::FAQ->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      DBObject => $DBObject,
+  );
 
 =cut
 
@@ -48,6 +73,18 @@ sub new {
     return $Self;
 }
 # --
+
+=item ArticleGet()
+
+get an article
+
+  my %Article = $FAQObject->ArticleGet(
+      ID => 1, 
+      UserID => 123,
+   );
+
+=cut
+
 sub ArticleGet {
     my $Self = shift;
     my %Param = @_;
@@ -110,6 +147,27 @@ sub ArticleGet {
     return %Data;
 }
 # --
+
+=item ArticleAdd()
+
+add an article
+
+  my $ID = $FAQObject->ArticleAdd(
+      CategoryID => 1,
+      StateID => 1,
+      LanguageID => 1,
+      Subject => 'Some Text',
+      Field1 => 'Problem...',
+      Field2 => 'Solution...',
+      FreeKey1 => 'Software',
+      FreeText1 => 'Apache 3.4.2',
+      FreeKey2 => 'OS',
+      FreeText2 => 'OpenBSD 4.2.2',
+      UserID => 123,
+  );
+
+=cut
+
 sub ArticleAdd {
     my $Self = shift;
     my %Param = @_;
@@ -177,6 +235,27 @@ sub ArticleAdd {
 
 }
 # --
+
+=item ArticleUpdate()
+    
+update an article
+
+  $FAQObject->ArticleUpdate(
+      CategoryID => 1,
+      StateID => 1,
+      LanguageID => 1,
+      Subject => 'Some Text',
+      Field1 => 'Problem...',
+      Field2 => 'Solution...',
+      FreeKey1 => 'Software',
+      FreeText1 => 'Apache 3.4.2',
+      FreeKey2 => 'OS',
+      FreeText2 => 'OpenBSD 4.2.2',
+      UserID => 123,
+  );
+
+=cut
+
 sub ArticleUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -231,6 +310,18 @@ sub ArticleUpdate {
     }
 }
 # --
+
+=item ArticleDelete()
+    
+delete an article
+
+  $FAQObject->ArticleDelete(
+      ID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub ArticleDelete {
     my $Self = shift;
     my %Param = @_;
@@ -254,6 +345,19 @@ sub ArticleDelete {
     }
 }
 # --
+
+=item ArticleHistoryAdd()
+    
+add an history to an article
+
+  $FAQObject->ArticleHistoryAdd(
+      ID => 1,
+      Name => 'Updated Article.',
+      UserID => 123,
+  );
+
+=cut
+
 sub ArticleHistoryAdd {
     my $Self = shift;
     my %Param = @_;
@@ -283,6 +387,18 @@ sub ArticleHistoryAdd {
     }
 }
 # --
+
+=item ArticleHistoryAdd()
+    
+get a array with hachref (Name, Created) with history of an article back
+    
+  my @Data = $FAQObject->ArticleHistoryGet(
+      ID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub ArticleHistoryGet {
     my $Self = shift;
     my %Param = @_;
@@ -311,6 +427,18 @@ sub ArticleHistoryGet {
     return @Data;
 }
 # --
+
+=item ArticleHistoryDelete()
+    
+delete an history of an article
+    
+  $FAQObject->ArticleHistoryDelete(
+      ID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub ArticleHistoryDelete {
     my $Self = shift;
     my %Param = @_;
@@ -331,6 +459,17 @@ sub ArticleHistoryDelete {
     return 1;
 }
 # --
+
+=item HistoryGet()
+    
+get the system history
+    
+  my @Data = $FAQObject->HistoryGet(
+      UserID => 123,
+  );
+
+=cut
+
 sub HistoryGet {
     my $Self = shift;
     my %Param = @_;
@@ -363,6 +502,17 @@ sub HistoryGet {
     return @Data;
 }
 # --
+
+=item CategoryList()
+    
+get the category list as hash
+    
+  my %Categories = $FAQObject->CategoryList(
+      UserID => 123,
+  );
+
+=cut
+
 sub CategoryList {
     my $Self = shift;
     my %Param = @_;
@@ -382,6 +532,18 @@ sub CategoryList {
     return %List;
 }
 # --
+
+=item CategoryGet()
+    
+get a category as hash
+    
+  my %Category = $FAQObject->CategoryGet(
+      ID => 1,
+      UserID => 123,
+  );
+    
+=cut
+
 sub CategoryGet {
     my $Self = shift;
     my %Param = @_;
@@ -411,6 +573,19 @@ sub CategoryGet {
     return %Data;
 }
 # --
+
+=item CategoryAdd()
+    
+add a category
+    
+  my $ID = $FAQObject->CategoryAdd(
+      Name => 'Some Category',
+      Comment => 'some comment ...',
+      UserID => 123,
+  );
+    
+=cut
+
 sub CategoryAdd {
     my $Self = shift;
     my %Param = @_;
@@ -456,6 +631,20 @@ sub CategoryAdd {
     }
 }
 # --
+
+=item CategoryUpdate()
+    
+update a category
+    
+  $FAQObject->CategoryUpdate(
+      ID => 1,
+      Name => 'Some Category',
+      Comment => 'some comment ...',
+      UserID => 123,
+  );
+    
+=cut
+
 sub CategoryUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -488,6 +677,18 @@ sub CategoryUpdate {
     }
 }
 # --
+
+=item CategoryDelete()
+    
+delete a category
+    
+  $FAQObject->CategoryDelete(
+      ID => 1,
+      UserID => 123,
+  );
+    
+=cut
+
 sub CategoryDelete {
     my $Self = shift;
     my %Param = @_;
@@ -502,6 +703,17 @@ sub CategoryDelete {
 
 }
 # --
+
+=item StateTypeList()
+    
+get the state type list as hash
+    
+  my %StateTypes = $FAQObject->StateTypeList(
+      UserID => 123,
+  );
+
+=cut
+
 sub StateTypeList {
     my $Self = shift;
     my %Param = @_;
@@ -521,6 +733,17 @@ sub StateTypeList {
     return %List;
 }
 # --
+
+=item StateList()
+    
+get the state list as hash
+    
+  my %States = $FAQObject->StateList(
+      UserID => 123,
+  );
+
+=cut
+
 sub StateList {
     my $Self = shift;
     my %Param = @_;
@@ -540,6 +763,20 @@ sub StateList {
     return %List;
 }
 # --
+
+=item StateUpdate()
+    
+update a state 
+    
+  $FAQObject->StateUpdate(
+      ID => 1,
+      Name => 'public',
+      TypeID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub StateUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -565,6 +802,20 @@ sub StateUpdate {
     }
 }
 # --
+
+=item StateAdd()
+    
+add a state 
+    
+  my $ID = $FAQObject->StateAdd(
+      ID => 1,
+      Name => 'public',
+      TypeID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub StateAdd {
     my $Self = shift;
     my %Param = @_;
@@ -591,6 +842,18 @@ sub StateAdd {
     }
 }
 # --
+
+=item StateGet()
+    
+get a state as hash
+    
+  my %State = $FAQObject->StateGet(
+      ID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub StateGet {
     my $Self = shift;
     my %Param = @_;
@@ -620,6 +883,17 @@ sub StateGet {
     return %Data;
 }
 # --
+
+=item LanguageList()
+    
+get the language list as hash
+    
+  my %Languages = $FAQObject->LanguageList(
+      UserID => 123,
+  );    
+        
+=cut  
+
 sub LanguageList {
     my $Self = shift;
     my %Param = @_;
@@ -639,6 +913,19 @@ sub LanguageList {
     return %List;
 }
 # --
+
+=item LanguageUpdate()
+    
+update a language
+    
+  $FAQObject->LanguageUpdate(
+      ID => 1,
+      Name => 'Some Category',
+      UserID => 123,
+  );
+    
+=cut
+
 sub LanguageUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -664,6 +951,18 @@ sub LanguageUpdate {
     }
 }
 # --
+
+=item LanguageAdd()
+    
+add a language
+    
+  my $ID = $FAQObject->LanguageAdd(
+      Name => 'Some Category',
+      UserID => 123,
+  );
+    
+=cut
+
 sub LanguageAdd {
     my $Self = shift;
     my %Param = @_;
@@ -690,6 +989,18 @@ sub LanguageAdd {
     }
 }
 # --
+
+=item LanguageGet()
+    
+get a language as hash
+    
+  my %Language = $FAQObject->LanguageGet(
+      ID => 1,
+      UserID => 123,
+  );
+    
+=cut
+
 sub LanguageGet {
     my $Self = shift;
     my %Param = @_;
@@ -718,6 +1029,20 @@ sub LanguageGet {
     return %Data;
 }
 # --
+
+=item Search()
+    
+search in articles
+    
+  my @IDs = $FAQObject->Search(
+      What => '*some text*',
+      Keywords => '*webserver*',
+      States = ['public', 'internal'],
+      UserID => 123,
+  );
+    
+=cut
+
 sub Search {
     my $Self = shift;
     my %Param = @_;
@@ -781,6 +1106,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2004-03-13 17:09:22 $
+$Revision: 1.10 $ $Date: 2004-03-24 11:02:42 $
 
 =cut
