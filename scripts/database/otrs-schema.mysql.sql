@@ -95,7 +95,7 @@ CREATE TABLE groups
 (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -178,7 +178,7 @@ CREATE TABLE charset
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     charset VARCHAR (50) NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -197,7 +197,7 @@ CREATE TABLE ticket_state
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     type_id SMALLINT NOT NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -217,7 +217,7 @@ CREATE TABLE ticket_state_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (120) NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -236,7 +236,7 @@ CREATE TABLE salutation
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     text MEDIUMTEXT NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -256,7 +256,7 @@ CREATE TABLE signature
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     text MEDIUMTEXT NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -279,7 +279,7 @@ CREATE TABLE system_address
     value2 VARCHAR (200),
     value3 VARCHAR (200),
     queue_id INTEGER NOT NULL,
-    comment VARCHAR (200),
+    comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -297,7 +297,7 @@ CREATE TABLE follow_up_possible
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    comment VARCHAR (200),
+    comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -328,7 +328,7 @@ CREATE TABLE queue
     lock_notify SMALLINT NOT NULL,
     state_notify SMALLINT NOT NULL,
     owner_notify SMALLINT NOT NULL,
-    comment VARCHAR (200),
+    comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -435,7 +435,7 @@ CREATE TABLE ticket_history_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -454,7 +454,7 @@ CREATE TABLE article_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -473,7 +473,7 @@ CREATE TABLE article_sender_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -570,7 +570,7 @@ CREATE TABLE standard_response
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (80) NOT NULL,
     text MEDIUMTEXT NOT NULL,
-    comment VARCHAR (80),
+    comments VARCHAR (80),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -604,7 +604,7 @@ CREATE TABLE auto_response_type
 (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
-    comment VARCHAR (80),
+    comments VARCHAR (80),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -629,7 +629,7 @@ CREATE TABLE auto_response
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
     charset VARCHAR (80) NOT NULL,
-    comment VARCHAR (100),
+    comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -674,28 +674,6 @@ CREATE TABLE time_accounting
     PRIMARY KEY(id),
     INDEX time_accouning_ticket_id(ticket_id)
 
-);
-
-
-# -----------------------------------------------------------------------
-# faq
-# -----------------------------------------------------------------------
-drop table if exists faq;
-
-CREATE TABLE faq
-(
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    text VARCHAR (255) NOT NULL,
-    language_id SMALLINT NOT NULL,
-    comment VARCHAR (80),
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
 );
 
 # -----------------------------------------------------------------------
@@ -755,7 +733,7 @@ CREATE TABLE customer_user
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
-    comment VARCHAR (250) NOT NULL,
+    comments VARCHAR (250) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -801,7 +779,7 @@ CREATE TABLE standard_attachment
     content_type varchar (150) NOT NULL,
     content MEDIUMTEXT NOT NULL,
     filename varchar (250) NOT NULL,
-    comment varchar (150),
+    comments varchar (150),
     valid_id smallint NOT NULL,
     create_time DATETIME NOT NULL, 
     create_by integer NOT NULL,
@@ -839,7 +817,7 @@ CREATE TABLE pop3_account
     host varchar (200) NOT NULL,
     queue_id integer NOT NULL,
     trusted smallint NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time DATETIME NOT NULL,
     create_by integer NOT NULL,

@@ -156,7 +156,7 @@ CREATE TABLE charset
     id serial,
     name varchar (200) NOT NULL,
     charset varchar (50) NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -173,7 +173,7 @@ CREATE TABLE ticket_state
 (
     id serial,
     name varchar (100) NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     type_id smallint NOT NULL,
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE ticket_state_type
 (
     id serial,
     name VARCHAR (120) NOT NULL,
-    comment VARCHAR (250),
+    comments VARCHAR (250),
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -208,7 +208,7 @@ CREATE TABLE salutation
     id serial,
     name varchar (100) NOT NULL,
     text varchar NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -226,7 +226,7 @@ CREATE TABLE signature
     id serial,
     name varchar (100) NOT NULL,
     text varchar NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -247,7 +247,7 @@ CREATE TABLE system_address
     value2 varchar (200), 
     value3 varchar (200),
     queue_id smallint NOT NULL,
-    comment varchar (200),
+    comments varchar (200),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -263,7 +263,7 @@ CREATE TABLE follow_up_possible
 (
     id serial,
     name varchar (100) NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -292,7 +292,7 @@ CREATE TABLE queue
     lock_notify smallint NOT NULL,
     state_notify smallint NOT NULL,
     owner_notify smallint NOT NULL,
-    comment varchar (200),
+    comments varchar (200),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -390,7 +390,7 @@ CREATE TABLE ticket_history_type
 (
     id serial,
     name varchar (100) NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -407,7 +407,7 @@ CREATE TABLE article_type
 (
     id serial,
     name varchar (100) NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -424,7 +424,7 @@ CREATE TABLE article_sender_type
 (
     id serial,
     name varchar (100) NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -512,7 +512,7 @@ CREATE TABLE standard_response
     id serial,
     name varchar (80) NOT NULL,
     text varchar NOT NULL,
-    comment varchar (80),
+    comments varchar (80),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -545,7 +545,7 @@ CREATE TABLE standard_attachment
     content_type varchar (150) NOT NULL,
     content varchar NOT NULL,
     filename varchar (250) NOT NULL,
-    comment varchar (150),
+    comments varchar (150),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -577,7 +577,7 @@ CREATE TABLE auto_response_type
 (
     id serial,
     name varchar (50) NOT NULL,
-    comment varchar (80),
+    comments varchar (80),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -600,7 +600,7 @@ CREATE TABLE auto_response
     type_id smallint NOT NULL,
     system_address_id smallint NOT NULL,
     charset varchar (80) NOT NULL,
-    comment varchar (100),
+    comments varchar (100),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -641,25 +641,6 @@ CREATE TABLE time_accounting
     PRIMARY KEY(id)
 );
 create  INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
-
------------------------------------------------------------------------------
--- faq
------------------------------------------------------------------------------
-CREATE TABLE faq
-(
-    id serial,
-    name varchar (200) NOT NULL,
-    text varchar (255) NOT NULL,
-    language_id smallint NOT NULL,
-    comment varchar (80),
-    valid_id smallint NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by integer NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by integer NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
 
 -----------------------------------------------------------------------------
 -- session
@@ -709,7 +690,7 @@ CREATE TABLE customer_user
     salutation varchar (50),
     first_name varchar (100) NOT NULL,
     last_name varchar (100) NOT NULL,
-    comment varchar (250) NOT NULL,
+    comments varchar (250) NOT NULL,
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
@@ -752,7 +733,7 @@ CREATE TABLE pop3_account
     host varchar (200) NOT NULL,
     queue_id integer NOT NULL,
     trusted smallint NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,

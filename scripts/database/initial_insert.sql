@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.17 2004-02-01 21:01:03 martin Exp $
+-- $Id: initial_insert.sql,v 1.18 2004-02-02 23:00:23 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.17  2004/02/01 21:01:03  martin
+-- added german notifications
+--
 -- Revision 1.16  2004/01/31 14:47:42  martin
 -- replaced 8bit char with 7bit char for utf-8 compat.
 --
@@ -258,141 +261,141 @@ INSERT INTO theme
 
 -- charset
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Latin-1 (iso-8859-1)', 'iso-8859-1', 'Western European languages.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Latin-2 (iso-8859-2)', 'iso-8859-2', 'Slavic and Central  European  languages.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Latin-3 (iso-8859-3)', 'iso-8859-3', 'Esperanto, Galician, Maltese, and Turkish.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Latin-4 (iso-8859-4)', 'iso-8859-4', 'Estonian, Latvian, and Lithuanian.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Cyrillic (iso-8859-5)', 'iso-8859-5', 'Bulgarian, Byelorussian, Macedonian, Russian, Serbian  and  Ukrainian.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Greek (iso-8859-7)', 'iso-8859-7', 'Modern monotonic Greek.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Unicode (UTF-8)', 'UTF-8', 'Unicode UTF-8', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Cyrillic Charset (KOI8-R)', 'KOI8-R', 'Unicode UTF-8', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Cyrillic Charset (Windows-1251)', 'Windows-1251', 'Windows-1251 - cp1251', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Turkish (iso-8859-9)', 'iso-8859-9', 'Turkish.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO charset
-        (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
+        (name, charset, comments, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Latin-15 (iso-8859-15)', 'iso-8859-15', 'Western European languages with euro.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ticket_state
-INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('new', 'ticket is new', 1, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('closed successful', 'ticket is closed successful', 3, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('closed unsuccessful', 'ticket is closed unsuccessful', 3, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('open', 'ticket is open', 2, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('removed', 'customer removed ticket (can reactivate)', 6, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('pending reminder', 'ticket is pending for agent reminder', 4, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('pending auto close+', 'ticket is pending for automatic close', 5, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state (name, comment, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('pending auto close-', 'ticket is pending for automatic close', 5, 1, 1, current_timestamp, 1, current_timestamp);
 -- ticket_state_type
-INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('new', 'all new state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('open', 'all open state types (default: viewable)', 1, current_timestamp, 1, current_timestamp); 
-INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('closed', 'all closed state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('pending reminder', 'all "pending reminder" state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('pending auto', 'all "pending auto *" state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('removed', 'all "removed" state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
 -- salutation
 INSERT INTO salutation
-    (name, text, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'std. salutation', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO salutation
-    (name, text, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('system standard salutation (de/buiss)', 'Sehr geehrter <OTRS_CUSTOMER_REALNAME>,Danke fuer Ihre Anfrage.', 'std. salutation', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- signature
 INSERT INTO signature
-    (name, text, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('system standard signature (en)', 'Your OTRS-Team - <OTRS_FIRST_NAME> <OTRS_LAST_NAME> --', 'std signature', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO signature
-    (name, text, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('system standard signature (de/buiss)', 'Ihr OTRS Team--   <OTRS_FIRST_NAME> <OTRS_LAST_NAME> --', 'std. signature', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- system_address
 INSERT INTO system_address
-    (value0, value1, comment, valid_id, queue_id, create_by, create_time, change_by, change_time)
+    (value0, value1, comments, valid_id, queue_id, create_by, create_time, change_by, change_time)
     VALUES
     ('otrs@localhost', 'OTRS System', 'Std. Address', 1, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- follow_up_possible
 INSERT INTO follow_up_possible
-    (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('possible', 'Follow ups after closed(+|-) possible. Ticket will be reopen.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO follow_up_possible
-    (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('reject', 'Follow ups after closed(+|-) not possible. No new ticket will be created.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO follow_up_possible
-    (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('new ticket', 'Follow ups after closed(+|-) not possible. A new ticket will be created.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- queue
 INSERT INTO queue
-    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'master queue', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO queue
-    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all incoming tickets', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO queue
-    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all junk tickets', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO queue
-    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, escalation_time, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 'all misk tickets', 1, 1, current_timestamp, 1, current_timestamp);
 
@@ -640,45 +643,45 @@ INSERT INTO queue_standard_response
 
 -- auto_response_type
 INSERT INTO auto_response_type
-    (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('auto reply', 'auto replay after a new ticket.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO auto_response_type
-    (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('auto reject', 'auto reject.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO auto_response_type
-    (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('auto follow up', 'auto follow up after a follow up.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO auto_response_type
-    (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('auto reply/new ticket', 'auto reply after a follow up. Because the ticket is closed.', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO auto_response_type
-    (name, comment, valid_id, create_by, create_time, change_by, change_time)
+    (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('auto remove', 'auto remove after a remove e-mail.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- auto_response
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_time, create_by, change_time, change_by)
     VALUES
     (1, 1, 'default reply', 'This is a demo text which is send to every inquery.It could contain something like:Thanks for your e-mail. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asapHave fun with OTRS! :-)  Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[20]>', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_time, create_by, change_time, change_by)
     VALUES
     (2, 1, 'default reject', 'Reject.', 'thank you for your e-mail. But you forgot importand infos. Pleace write again with all informations. Thanks', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_time, create_by, change_time, change_by)
     VALUES
     (3, 1, 'default follow up', 'Thanks for your follow up e-mailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[20]>', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_time, create_by, change_time, change_by)
     VALUES
     (4, 1, 'default closed -> new ticket', 'New ticket after follow up.', 'thank you for your e-mail. The old ticket is closed. You have a new ticket now.', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_time, create_by, change_time, change_by)
     VALUES
     (5, 1, 'default remove', 'Ticket removed.', 'thank you for your remove e-mail. The ticket is closed.', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 
@@ -691,17 +694,6 @@ INSERT INTO queue_auto_response
     (queue_id, auto_response_id, create_by, create_time, change_by, change_time)
     VALUES
     (11, 2, 1, current_timestamp, 1, current_timestamp);
-
--- faq
-INSERT INTO faq
-    (name, text, comment, language_id, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('What is OTRS?', 'Open Ticket Request System ...', 'test fax', 1, 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO faq
-    (name, text, comment, language_id, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('Was ist OTRS?', 'Open Ticket Request System ...', 'test faq', 2, 1, 1, current_timestamp, 1, current_timestamp);
-
 
 -- --
 -- welcome ticket
