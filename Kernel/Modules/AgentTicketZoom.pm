@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.4 2005-04-01 08:19:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -218,6 +218,29 @@ sub MaskAgentZoom {
     );
 
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    # age design
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    if ($Param{UntilTime}) {
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
+        }
+        $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => '<br>');
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} .= "</font>";
+        }
+    }
+    # get MoveQueuesStrg
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i) {
+        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Name => 'DestQueueID',
+            Data => $Param{MoveQueues},
+            SelectedID => $Param{QueueID},
+        );
+    }
+    $Self->{LayoutObject}->Block(
+        Name => 'Header',
+        Data => {%Param, %AclAction},
+    );
     # run ticket menu modules
     if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule')) eq 'HASH') {
         my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule')};
@@ -243,28 +266,6 @@ sub MaskAgentZoom {
             }
         }
     }
-    # age design
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    $Param{SLAAge} = $Self->{LayoutObject}->CustomerAge(Age => $Param{SLAAge}, Space => ' ');
-    if ($Param{UntilTime}) {
-        if ($Param{UntilTime} < -1) {
-            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
-        }
-        $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => '<br>');
-        if ($Param{UntilTime} < -1) {
-            $Param{PendingUntil} .= "</font>";
-        }
-    }
-    # --
-    # get MoveQueuesStrg
-    # --
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i) {
-        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Name => 'DestQueueID',
-            Data => $Param{MoveQueues},
-            SelectedID => $Param{QueueID},
-        );
-    }
     # --
     # customer info string
     # --
@@ -281,7 +282,7 @@ sub MaskAgentZoom {
     # --
     # build article stuff
     # --
-    my $BaseLink = $Self->{LayoutObject}->{Baselink}."TicketID=$Self->{TicketID}&QueueID=$Self->{QueueID}&";
+    my $BaseLink = $Self->{LayoutObject}->{Baselink}."TicketID=$Self->{TicketID}&";
     my @ArticleBox = @{$Param{ArticleBox}};
     # get selected or last customer article
     my $CounterArray = 0;
@@ -309,7 +310,6 @@ sub MaskAgentZoom {
     my $Space = '';
     my $LastSenderType = '';
     my $TicketOverTime = 0;
-    $Param{ArticleStrg} = '<table border="0" width="100%" cellspacing="0" cellpadding="0">';
     foreach my $ArticleTmp (@ArticleBox) {
       my %Article = %$ArticleTmp;
       $TicketOverTime = $Article{TicketOverTime};
@@ -337,7 +337,7 @@ sub MaskAgentZoom {
         # --
         # the full part thread string
         # --
-        $ThreadStrg .= "<a href=\"$BaseLink"."Action=AgentZoom&ArticleID=$Article{ArticleID}#$Article{ArticleID}\" " .
+        $ThreadStrg .= "<a href=\"$BaseLink"."Action=AgentTicketZoom&ArticleID=$Article{ArticleID}#$Article{ArticleID}\" " .
            'onmouseover="window.status=\''."\$Text{\"$Article{SenderType}\"} (".
            "\$Text{\"$Article{ArticleType}\"})".'\'; return true;" onmouseout="window.status=\'\';">'.
            "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</a> ";
@@ -356,7 +356,6 @@ sub MaskAgentZoom {
         $ThreadStrg .= '</div></td></tr>';
       }
     }
-    $ThreadStrg .= '</table>';
     $Param{ArticleStrg} .= $ThreadStrg;
     # --
     # prepare escalation time (if needed)
@@ -412,7 +411,7 @@ sub MaskAgentZoom {
     # build shown article(s)
     # --
     $Param{TicketStatus} .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentZoomStatus',
+        TemplateFile => 'AgentTicketZoomStatus',
         Data => {%Param, %AclAction},
     );
     my $BodyOutput = '';
@@ -507,30 +506,6 @@ sub MaskAgentZoom {
                 }
              }
         }
-        # do some strips && quoting
-        foreach (qw(From To Cc Subject)) {
-            if ($Article{$_}) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => {
-                        Key => $_,
-                        Value => $Article{$_},
-                    },
-                );
-            }
-        }
-        foreach (qw(1 2 3 4 5)) {
-            if ($Article{"FreeText$_"}) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleFreeText',
-                    Data => {
-                        Key => $Article{"FreeKey$_"},
-                        Value => $Article{"FreeText$_"},
-                    },
-                );
-            }
-        }
-
         # check if just a only html email
         if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article)) {
             $Article{"BodyNote"} = $MimeTypeText;
@@ -556,6 +531,34 @@ sub MaskAgentZoom {
                 $Article{"BodyNote"} = $CharsetText;
             }
         }
+        $Self->{LayoutObject}->Block(
+             Name => 'Body',
+             Data => {%Param, %Article, %AclAction},
+        );
+        # do some strips && quoting
+        foreach (qw(From To Cc Subject)) {
+            if ($Article{$_}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        Key => $_,
+                        Value => $Article{$_},
+                    },
+                );
+            }
+        }
+        foreach (qw(1 2 3 4 5)) {
+            if ($Article{"FreeText$_"}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleFreeText',
+                    Data => {
+                        Key => $Article{"FreeKey$_"},
+                        Value => $Article{"FreeText$_"},
+                    },
+                );
+            }
+        }
+
         # select the output template
         if ($Article{ArticleType} =~ /^note/i) {
             # without compose links!
@@ -567,10 +570,6 @@ sub MaskAgentZoom {
             }
             $Self->{LayoutObject}->Block(
                 Name => 'AgentArticleCom',
-                Data => {%Param, %Article, %AclAction},
-            );
-            $BodyOutput .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentZoomBody',
                 Data => {%Param, %Article, %AclAction},
             );
         }
@@ -592,23 +591,17 @@ sub MaskAgentZoom {
                 Name => 'AgentArticleCom',
                 Data => {%Param, %Article, %AclAction},
             );
-            $BodyOutput .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentZoomBody',
-                Data => {%Param, %Article, %AclAction},
-            );
         }
     }
-    my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentZoomHead',
-        Data => {%Param, %AclAction},
-    );
-    $Output .= $BodyOutput;
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentZoomFooter',
+    $Self->{LayoutObject}->Block(
+        Name => 'Footer',
         Data => {%Param, %AclAction},
     );
     # return output
-    return $Output;
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketZoom',
+        Data => {%Param, %AclAction},
+    );
 }
 # --
 1;

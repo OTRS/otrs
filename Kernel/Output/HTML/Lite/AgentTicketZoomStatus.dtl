@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomStatus.dtl,v 1.13 2005-02-15 12:06:39 martin Exp $
+# $Id: AgentTicketZoomStatus.dtl,v 1.1 2005-04-01 08:19:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
