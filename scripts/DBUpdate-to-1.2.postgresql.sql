@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.9 2004-02-01 21:01:03 martin Exp $
+-- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.10 2004-02-02 22:11:04 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
@@ -37,10 +37,21 @@ CREATE TABLE search_profile
 );
 
 --
+-- ticket link table 
+--
+CREATE TABLE ticket_link
+(
+    ticket_id_master serial NOT NULL,
+    ticket_id_slave serial NOT NULL
+);
+
+--
 -- add move/create/owner/priority/... options to group_user table
 --
 ALTER TABLE group_user ADD permission_key VARCHAR (20);
-ALTER TABLE group_user ADD permission_value SMALLINT NOT NULL;
+ALTER TABLE group_user ADD permission_value SMALLINT;
+UPDATE TABLE SET permission_value = 0;
+ALTER TABLE ALTER COLUMN permission_value NOT NULL;
 
 UPDATE group_user SET permission_key = 'ro', permission_value = 1 WHERE permission_read = 1;
 UPDATE group_user SET permission_key = 'rw', permission_value = 1 WHERE permission_write = 1;
