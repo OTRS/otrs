@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.3 2005-01-24 15:47:25 martin Exp $
+# $Id: XML.pm,v 1.4 2005-02-07 16:40:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -117,8 +117,12 @@ sub XMLHashAdd {
                 SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('$Param{Type}', '$Param{Key}', '$Key', '$Value')",
             );
         }
+        return 1;
     }
-    return 1;
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no \%ValueHASH from XMLHashValue()");
+        return;
+    }
 }
 
 =item XMLHashGet()
@@ -608,6 +612,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2005-01-24 15:47:25 $
+$Revision: 1.4 $ $Date: 2005-02-07 16:40:51 $
 
 =cut
