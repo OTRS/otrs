@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.67 2005-02-10 20:37:26 martin Exp $
+# $Id: AgentUtilities.pm,v 1.68 2005-02-11 06:50:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -115,6 +115,7 @@ sub Run {
         }
         # get array params
         foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs
+          CreatedQueueIDs CreatedUserIDs
           TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
           TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
           TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
@@ -559,6 +560,13 @@ sub MaskForm {
         Size => 5,
         SelectedIDRefArray => $Param{UserIDs},
     );
+    $Param{'CreatedUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%ShownUsers,
+        Name => 'CreatedUserIDs',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{CreatedUserIDs},
+    );
     $Param{'ResultFormStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             Preview => 'Preview',
@@ -599,6 +607,18 @@ sub MaskForm {
         Multiple => 1,
         Name => 'QueueIDs',
         SelectedIDRefArray => $Param{QueueIDs},
+        OnChangeSubmit => 0,
+    );
+    $Param{'CreatedQueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
+        Data => { $Self->{QueueObject}->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type => 'ro',
+          ),
+        },
+        Size => 5,
+        Multiple => 1,
+        Name => 'CreatedQueueIDs',
+        SelectedIDRefArray => $Param{CreatedQueueIDs},
         OnChangeSubmit => 0,
     );
     $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
