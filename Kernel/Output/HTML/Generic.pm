@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.2 2001-12-05 19:15:34 martin Exp $
+# $Id: Generic.pm,v 1.3 2001-12-05 20:32:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Words qw(:all);
 use Kernel::Language;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -31,8 +31,8 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    $Self->{FileHandle} = 'index.pl';
-    $Self->{ImagePath} = '/images';
+    $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
+
     $Self->{SessionID} = $Param{SessionID};
 #    $Self->{Baselink}  = "$Self->{FileHandle}?SessionID=$Self->{SessionID}";
     $Self->{Time}      = localtime();
@@ -44,7 +44,7 @@ sub new {
     my $Theme = $Self->{UserTheme} || 'Standard';
 
     # locate template files
-    $Self->{TemplateDir} = '/home/martin/src/otrs/Kernel/Output/HTML/'. $Theme;
+    $Self->{TemplateDir} = '../../Kernel/Output/HTML/'. $Theme;
 
     # get log object
     $Self->{LogObject} = $Param{LogObject} || die "Got no LogObject!";
@@ -70,17 +70,19 @@ sub Output {
         %Data = %$Tmp;
     }
 
+    # build OpenTRS env
     my %Env = %ENV;
     $Env{SessionID} = $Self->{SessionID};
     $Env{Time} = $Self->{Time};
+    $Env{CGIHandle} = $Self->{CGIHandle};
+
+    # read template
     my $Output = '';
     open (IN, "< $Self->{TemplateDir}/$Param{TemplateFile}")  
          ||  die "Can't read $Param{TemplateFile}: $!";
     while (<IN>) {
         $Output .= $_;
-
     }
-
 
     # text translation
     $Output =~ s{
