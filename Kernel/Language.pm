@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.11 2002-11-24 23:59:00 martin Exp $
+# $Id: Language.pm,v 1.12 2002-12-01 14:16:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -199,7 +199,7 @@ sub DESTROY {
         print TEMPLATEOUT "# Kernel/Language/$Self->{UserLanguage}.pm - provides $Self->{UserLanguage} language translation\n";
         print TEMPLATEOUT "# Copyright (C) 2002 ??? <???>\n";
         print TEMPLATEOUT "# --\n";
-        print TEMPLATEOUT "# \$Id: Language.pm,v 1.11 2002-11-24 23:59:00 martin Exp $\n";
+        print TEMPLATEOUT "# \$Id: Language.pm,v 1.12 2002-12-01 14:16:05 martin Exp $\n";
         print TEMPLATEOUT "# --\n";
         print TEMPLATEOUT "# This software comes with ABSOLUTELY NO WARRANTY. For details, see\n";
         print TEMPLATEOUT "# the enclosed file COPYING for license information (GPL). If you\n";
@@ -210,7 +210,7 @@ sub DESTROY {
         print TEMPLATEOUT "use strict;\n";
         print TEMPLATEOUT "\n";
         print TEMPLATEOUT "use vars qw(\$VERSION);\n";
-        print TEMPLATEOUT "\$VERSION = '\$Revision: 1.11 $';\n";
+        print TEMPLATEOUT "\$VERSION = '\$Revision: 1.12 $';\n";
         print TEMPLATEOUT '$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;';
         print TEMPLATEOUT "\n";
         print TEMPLATEOUT "# --\n";
@@ -243,7 +243,6 @@ sub DESTROY {
                         else {
                             $Words{$Key} = '';
                         }
-#                        print TEMPLATEOUT "    \$Self->{T}->{'$Key'} = '$Words{$Key}';\n";
                         print TEMPLATEOUT "    \$Hash{'$QuoteKey'} = '$Words{$Key}';\n";
                     }
                 }
@@ -251,24 +250,18 @@ sub DESTROY {
         }
 
         print TEMPLATEOUT "\n    # Misc\n";
-#        foreach my $Key (sort keys %{$Self->{Translation}}) {
-        foreach my $Key (sort keys %{$Self}) {
-#            if (!$UniqWords{$Key} && $Key && $Self->{Translation}->{$Key} !~ /HASH\(/) {
-            if (!$UniqWords{$Key} && $Key && $Self->{$Key} !~ /HASH\(/) {
+        foreach my $Key (sort keys %{$Self->{Translation}}) {
+            if (!$UniqWords{$Key} && $Key && $Self->{Translation}->{$Key} !~ /HASH\(/) {
                 $UniqWords{$Key} = 1;
                 my $QuoteKey = $Key;
                 $QuoteKey =~ s/'/\\'/g;
-#                $Key =~ s/'/\\'/g;
-                if (defined $Self->{$Key}) {
-#                if (defined $Self->{Translation}->{$Key}) {
-                    $Self->{$Key} =~ s/'/\\'/g;
+                if (defined $Self->{Translation}->{$Key}) {
+                    $Self->{Translation}->{$Key} =~ s/'/\\'/g;
                 }
                 else {
-                    $Self->{$Key} = '';
+                    $Self->{Translation}->{$Key} = '';
                 }
-#                print TEMPLATEOUT "    \$Self->{'$Key'} = '$Self->{$Key}';\n";
-#                print TEMPLATEOUT "    \$Hash{'$QuoteKey'} = '$Self->{Translation}->{$Key}';\n";
-                print TEMPLATEOUT "    \$Hash{'$QuoteKey'} = '$Self->{$Key}';\n";
+                print TEMPLATEOUT "    \$Hash{'$QuoteKey'} = '$Self->{Translation}->{$Key}';\n";
             }
         }
 
