@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.5 2002-05-17 22:13:10 martin Exp $
+# $Id: Login.dtl,v 1.6 2002-06-04 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,6 +42,10 @@ X-Wanted: I think you are smart. I'm looking for smart people!
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;}
   pre
     { font-family:Courier;font-size:12px; }
+  a:hover
+    { color: #002244; text-decoration: none; }
+  .small
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:8px; }
 //-->
 </style>
 </head>

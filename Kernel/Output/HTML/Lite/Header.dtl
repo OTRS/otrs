@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.4 2002-05-12 22:06:56 martin Exp $
+# $Id: Header.dtl,v 1.5 2002-06-04 22:57:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,6 +47,8 @@ X-Wanted: I think you are smart. I'm looking for smart people!
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px; }
   pre
     { font-family:Courier;font-size:12px; }
+  .small
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:8px; }
 //-->
 </STYLE>
 </head>
