@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.17 2004-02-13 00:50:37 martin Exp $
+# $Id: CustomerUser.pm,v 1.18 2004-04-02 15:31:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,8 +65,7 @@ sub CustomerSourceList {
     my $Self = shift; 
     my %Param = @_;
     my %Data = ();
-    $Data{CustomerUser} = $Self->{ConfigObject}->Get("CustomerUser")->{Name} || 'No Name';
-    foreach (1..10) {
+    foreach ('', 1..10) {
         if ($Self->{ConfigObject}->Get("CustomerUser$_")) {
             $Data{"CustomerUser$_"} = $Self->{ConfigObject}->Get("CustomerUser$_")->{Name} || "No Name $_";
         }
@@ -77,11 +76,11 @@ sub CustomerSourceList {
 sub CustomerSearch {
     my $Self = shift; 
     my %Param = @_;
-    my %Data = $Self->{CustomerUser}->CustomerSearch(%Param); 
-    foreach (1..10) {
+    my %Data = ();
+    foreach ('', 1..10) {
         if ($Self->{"CustomerUser$_"}) {
             my %SubData = $Self->{"CustomerUser$_"}->CustomerSearch(%Param);
-            %Data = (%Data, %SubData);
+            %Data = (%SubData, %Data);
         }
     }
     return %Data;
@@ -103,30 +102,27 @@ sub CustomerUserList {
 sub CustomerName {
     my $Self = shift;
     my %Param = @_;
-    my $Name = $Self->{CustomerUser}->CustomerName(%Param) || ''; 
-    foreach (1..10) {
+    foreach ('', 1..10) {
         if ($Self->{"CustomerUser$_"}) {
-            $Name = $Self->{"CustomerUser$_"}->CustomerName(%Param);
+            my $Name = $Self->{"CustomerUser$_"}->CustomerName(%Param);
+            if ($Name) {
+                return $Name;
+            }
         }
     }
-    return $Name;
+    return;
 }
 # --
 sub CustomerUserDataGet {
     my $Self = shift;
     my %Param = @_;
-    my %Data = $Self->{CustomerUser}->CustomerUserDataGet(%Param);
-    if (%Data) {
-        $Data{Source} = "CustomerUser";
-        $Data{Config} = $Self->{ConfigObject}->Get("CustomerUser");
-    }
-    foreach (1..10) {
+    foreach ('', 1..10) {
         if ($Self->{"CustomerUser$_"}) {
             my %GetData = $Self->{"CustomerUser$_"}->CustomerUserDataGet(
                 %Param,
             );
             if (%GetData) {
-                %Data = (
+                return (
                     %GetData, 
                     Source => "CustomerUser$_",
                     Config => $Self->{ConfigObject}->Get("CustomerUser$_"),
@@ -134,7 +130,7 @@ sub CustomerUserDataGet {
             }
         }
     }
-    return %Data;
+    return;
 }
 # --
 sub CustomerUserAdd {
