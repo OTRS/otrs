@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.23 2003-02-08 15:09:38 martin Exp $
+# $Id: PostMaster.pm,v 1.24 2003-02-20 13:51:47 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,10 +17,11 @@ use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::System::PostMaster::FollowUp;
 use Kernel::System::PostMaster::NewTicket;
+use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,6 +57,14 @@ sub new {
     $Self->{ParseObject} = Kernel::System::EmailParser->new(
         Email => \@Email,
         OrigEmail => \@EmailOrig,
+    );
+
+    $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
+         DBObject => $Self->{DBObject}, 
+         ParseObject => $Self->{ParseObject},
+         ConfigObject => $Self->{ConfigObject},
+         LogObject => $Self->{LogObject},
+         LoopProtectionObject => $Self->{LoopProtectionObject}, 
     );
 
     # for debug 0=off; 1=info; 2=on; 3=with GetHeaderParam;
@@ -102,13 +111,16 @@ sub Run {
    # --
    # ticket section
    # --
+   # check for hardwired queue info
+   my $Queue = $Self->{DestQueueObject}->GetQueueID(Params => \%GetParam);
+
    # check if follow up
    my ($Tn, $TicketID) = $Self->CheckFollowUp(
        Subject => $GetParam{'Subject'}, 
        TicketObject => $TicketObject,
    );
    # Follow up ...
-   if ($Tn && $TicketID) {
+   if ($Tn && $TicketID  && !$Queue) {
         my $FollowUp = Kernel::System::PostMaster::FollowUp->new(
             DBObject => $Self->{DBObject},
             TicketObject => $TicketObject,
@@ -285,6 +297,5 @@ sub GetEmailParams {
     );
     return %GetParam;
 }
-# --
 
 1;
