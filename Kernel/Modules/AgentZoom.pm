@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.64 2004-04-29 10:11:00 martin Exp $
+# $Id: AgentZoom.pm,v 1.65 2004-05-11 08:35:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -391,16 +391,33 @@ sub MaskAgentZoom {
         if ($Article{Atms}) {
             %AtmIndex = %{$Article{Atms}};
         }
-        $Article{"ATM"} = '';
+        $Article{"ATM"} = '<table border="0" cellspacing="1" cellpadding="3">';
         foreach my $FileID (keys %AtmIndex) {
             my %File = %{$AtmIndex{$FileID}};
+            # check viewer
+            my $Viewer = '';
+            foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
+                if ($File{ContentType} =~ /^$_/i) {
+                    $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
+                }
+            }
+            # build link
             $File{Filename} = $Self->{LayoutObject}->Ascii2Html(Text => $File{Filename});
-            $Article{"ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
-              "ArticleID=$Article{ArticleID}&FileID=$FileID\" target=\"attachment\" ".
+            my $Link = "\$Env{\"Baselink\"}Action=AgentAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID";
+            $Article{"ATM"} .= "<tr><td>$File{Filename}</td>";
+            $Article{"ATM"} .= "<td><a href=\"$Link\" target=\"attachment\" ".
               "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';".
               ' return true;" onmouseout="window.status=\'\';">'.
-              "$File{Filename}</a> $File{Filesize}<br>";
+              "<img src=\"\$Env{\"Images\"}disk-s.png\" border=\"0\" alt=\"\$Text\"Download\"}\"></a></td><td> ";
+             if ($Viewer) {
+                 $Article{"ATM"} .= "<a href=\"$Link&Viewer=1\" target=\"attachment\" ".
+              "onmouseover=\"window.status='\$Text{\"View\"}: $File{Filename}';".
+              ' return true;" onmouseout="window.status=\'\';">'.
+              "<img src=\"\$Env{\"Images\"}screen-s.png\" border=\"0\" alt=\"\$Text{\"Viewer\"}\"></a>";
+             }
+             $Article{"ATM"} .= "</td><td align='right'> $File{Filesize}</td></tr>";
         }
+        $Article{"ATM"} .= '</table>';
         # do some strips && quoting
         foreach (qw(From To Cc Subject Body)) {
             $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
