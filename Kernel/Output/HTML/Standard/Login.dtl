@@ -1,8 +1,8 @@
 # --
 # Login.dtl - provides HTML login screen
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.20 2004-12-23 06:40:44 martin Exp $
+# $Id: Login.dtl,v 1.21 2005-02-07 08:44:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -40,7 +40,7 @@ $Include{"css"}
 <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
 <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
 
-<table border="0" cellspacing="0" cellpadding="3" width="250">
+<table border="0" cellspacing="0" cellpadding="3" width="270">
 <tr>
   <td align="center" class="singleboxhead">$Text{"Welcome to OTRS"}</td>
 </tr>
@@ -70,7 +70,7 @@ $Include{"css"}
 <input type="hidden" name="Action" value="">
 <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
 
-<table border="0" cellspacing="0" cellpadding="3" width="250">
+<table border="0" cellspacing="0" cellpadding="3" width="270">
 <tr>
   <td align="center" class="singleboxhead">$Text{"Language"}</td>
 </tr>
@@ -92,7 +92,7 @@ $Include{"css"}
 <!-- dtl:block:LostPassword -->
 <p>
 <center>
-<table border="0" cellspacing="0" cellpadding="3" width="250">
+<table border="0" cellspacing="0" cellpadding="3" width="270">
 <tr>
   <td align="center" class="singleboxhead">$Text{"Lost your password?"}</td>
 </tr>
