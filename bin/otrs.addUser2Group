@@ -2,7 +2,7 @@
 # --
 # otrs.addUser2Group - Add User to a Group
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addUser2Group,v 1.2 2002-08-13 15:29:25 martin Exp $
+# $Id: otrs.addUser2Group,v 1.3 2002-10-24 12:32:38 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -17,11 +17,6 @@ BEGIN{
    }
 }
 
-
-
-
-
-use lib '/opt/OpenTRS/';
 use strict;
 
 
