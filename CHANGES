@@ -2,7 +2,7 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.9 2002-06-24 12:56:43 martin Exp $
+# $Id: CHANGES,v 1.10 2002-07-02 08:49:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,8 @@
 # --
 
 0.5 BETA7 (2002-07-??)
+ - added content_type col. to article table to handle differen charsets correctly
+    (use script/DBUpdate.(mysql|postgresql).sql to upgrate existing databases).
  - added generic ticket number generator (Kernel/Config.pm --> $Self->{TicketNumberGenerator})
      * "Kernel::System::Ticket::Number::AutoIncrement" (default) --> auto increment 
         ticket numbers "SystemID.Counter" like 1010138 and 1010139. 
