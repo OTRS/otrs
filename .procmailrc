@@ -1,8 +1,8 @@
 # --
 # .procmailrc - procmailrc of the OpenTRS user
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: .procmailrc,v 1.1 2001-12-30 00:33:14 martin Exp $
+# $Id: .procmailrc,v 1.2 2002-01-12 15:30:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,11 @@ MONTHFOLDER=`date +%Y-%m`
 YEARFOLDER=`date +%Y`
 PATH=/bin:/usr/bin:/usr/bin
 LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
-VERBOSE=yes
+VERBOSE=on 
+
+# tmp spool file
+SPOOLFILETIME=`date +%Y-%m-%d_%k-%M-%S`
+SPOOLFILE=`mktemp $SYS_HOME/var/spool/otrs-$SPOOLFILETIME.XXXXXX` || exit 1
 
 # --
 # example for queue pre sort
@@ -33,16 +37,23 @@ VERBOSE=yes
 | formail -I "X-OTRS-ArticleKey1: Test" |  formail -I "X-OTRS-ArticleValue1: True!"
 
 # --
+# backup of all incoming emails
+# --
+:0 c :
+$SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
+
+
+# --
 # some mail into the system
 # --
-:0c :
+:0 :
 | $SYS_HOME/bin/PostMaster.pl
 
 # --
-# backup of all incoming emails
+# spool all the rest (which the PostMaster.pl can't process!) 
 # --
-:0
-$SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
+:0 :
+$SPOOLFILE
 
 
 
