@@ -69,7 +69,7 @@
 (define %bf-size%
   (case %visual-acuity%
     (("tiny") 7pt)
-    (("normal") 9pt)
+    (("normal") 10pt)
     (("presbyopic") 8pt)
     (("large-type") 16pt)))
 
