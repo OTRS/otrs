@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.31 2002-06-05 22:47:16 martin Exp $
+# $Id: Generic.pm,v 1.32 2002-06-06 00:09:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -97,6 +97,16 @@ sub new {
       UserLanguage => $Self->{UserLanguage},
       LogObject => $Self->{LogObject},
     );
+
+    # --
+    # should the admin link shown?
+    # --
+    if ($Self->{PermissionObject} && !$Self->{PermissionObject}->Section(
+      UserID => $Self->{UserID},
+      Section => 'Admin')
+    ){
+      $Self->{UserIsAdmin}='No';
+    }
 
     return $Self;
 }
