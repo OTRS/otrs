@@ -1,27 +1,75 @@
 <appendix id="coreteam">
 <title>The OpenTRS core team</title>
 <para>
-OpenTRS was created in the third or fourth quater of the year 2001 (nobody remembers the exact date). The core team consists of Martin Edenhofer and Stefan Wintermeyer.
+OpenTRS was created in the third or fourth quater of the year 2001 (nobody remembers the exact date). In those glory days the core team consisted of Martin Edenhofer and Stefan Wintermeyer.
 </para>
 
 <sect1 id="martin_edenhofer">
 <title>Martin Edenhofer</title>
+<informaltable frame='none'>
+<tgroup cols='2'>
+<colspec colwidth='1*'/>
+<colspec colwidth='4*'/>
+<tbody>
+<row><entry>E-Mail:</entry><entry><email>martin@otrs.org</email></entry></row>
+<row><entry>Homepage:</entry><entry><ulink url="http://martin.edenhofer.de/"><citetitle>http://martin.edenhofer.de/</citetitle></ulink></entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+
 <para>
-<email>martin@otrs.org</email>
-</para>
-<para>
-we will insert some information when time comes but go a head and visit his homepage at <ulink url="http://martin.edenhofer.de/"><citetitle>http://martin.edenhofer.de/</citetitle></ulink>
+Without Martin the otrs wouldn't exist. He is a brilliant coder. We will insert some more information about Martin sometime. He is just to shy. ;-)
 </para>
 </sect1>
 
 <sect1 id="stefan_wintermeyer">
 <title>Stefan Wintermeyer</title>
+<informaltable frame='none'>
+<tgroup cols='2'>
+<colspec colwidth='1*'/>
+<colspec colwidth='4*'/>
+<tbody>
+<row><entry>E-Mail:</entry><entry><email>stefan@otrs.org</email></entry></row>
+<row><entry>Homepage:</entry><entry><ulink url="http://www.wintermeyer.de/"><citetitle>http://www.wintermeyer.de/</citetitle></ulink></entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+
 <para>
-<email>stefan@otrs.org</email>
+Here is his "official" vita (German version only):
 </para>
+<blockquote>
 <para>
-we will insert some information when time comes but go a head and visit his homepage at <ulink url="http://www.wintermeyer.de/"><citetitle>http://www.wintermeyer.de/</citetitle></ulink>
+Stefan Wintermeyer arbeitet seit dem ersten ZX81 Selbstbausatz mit Computern.
+1994 kam seine Leidenschaft für Linux dazu, die ihn schließlich 1998 zur SuSE
+Linux AG brachte. Als Vice President Support der SuSE Linux AG setzte er sich
+für eine größere Verbreitung und Benutzerfreundlichkeit von Linux ein und
+unterstützt konsequent echte Linuxlösungen im unternehmerischen Einsatz. Aus
+seinem Engagement bei der SuSE Linux AG blieb ihm die Vorliebe für die
+gleichnamige Distribution. Seit Juni 2001 arbeitet er bei der Lufthansa Systems
+in Frankfurt und betreut dort den Einsatz von Linux in verschiedenen Projekten.
+Stefan Wintermeyer setzt sich nachhaltig für die Verwendung offener Standards
+ein und propagiert Linux als das Betriebssystem für Server und Thin Clients.
 </para>
+</blockquote>
 </sect1>
 
+<sect1 id="sebastian_wormser">
+<title>Sebastian Wormser</title>
+<informaltable frame='none'>
+<tgroup cols='2'>
+<colspec colwidth='1*'/>
+<colspec colwidth='4*'/>
+<tbody>
+<row><entry>E-Mail:</entry><entry><email>sibbi@sibbi.org</email></entry></row>
+<row><entry>Homepage:</entry><entry><ulink url="http://sibbi.org/"><citetitle>http://sibbi.org/</citetitle></ulink></entry></row>
+<row><entry>joined the team:</entry><entry>01.05.2002</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+
+<para>
+We are very happy that Sebastian Wormser (Sibbi) finally joined our team. We have worked on a commercial trouble ticket system in the past (the stts at <ulink url="http://www.suse.de/">SuSE</ulink>). So it is sort of a reunion but for an open source and total new (probably better) version. 
+</para>
+</sect1>
 </appendix>
