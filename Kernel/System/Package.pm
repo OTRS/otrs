@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.12 2004-12-23 11:50:18 martin Exp $
+# $Id: Package.pm,v 1.13 2005-01-06 09:46:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use File::Copy;
 use LWP::UserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -867,11 +867,15 @@ sub PackageOnlineList {
                 $Newest{$Data}->{Local} = 1;
                 if ($Package->{Status} eq 'installed') {
                     $Newest{$Data}->{Installed} = 1;
-                    if ($Newest{$Data}->{Version} > $Package->{Version}->{Content}) {
+#                    if ($Newest{$Data}->{Version} > $Package->{Version}->{Content}) {
+#                    if (!$Self->_CheckVersion(Version1 => $Package->{Version}->{Content}, Version2 => $Newest{$Data}->{Version}, Type => 'Max')) {
+                    if (!$Self->_CheckVersion(Version1 => $Newest{$Data}->{Version}, Version2 => $Package->{Version}->{Content}, Type => 'Min')) {
                         $Newest{$Data}->{Upgrade} = 1;
                     }
                     # check if version or lower is already installed
-                    elsif ($Newest{$Data}->{Version} <= $Package->{Version}->{Content}) {
+#                    elsif ($Newest{$Data}->{Version} <= $Package->{Version}->{Content}) {
+#                    elsif (!$Self->_CheckVersion(Version1 => $Package->{Version}->{Content}, Version2 => $Newest{$Data}->{Version}, Type => 'Min')) {
+                    elsif (!$Self->_CheckVersion(Version1 => $Newest{$Data}->{Version}, Version2 => $Package->{Version}->{Content}, Type => 'Max')) {
                         $InstalledSameVersion = 1;
                     }
                 }
@@ -1362,6 +1366,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2004-12-23 11:50:18 $
+$Revision: 1.13 $ $Date: 2005-01-06 09:46:19 $
 
 =cut
