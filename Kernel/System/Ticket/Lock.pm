@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Lock.pm - the sub module of the global Ticket.pm handle
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.10 2003-02-08 15:09:40 martin Exp $
+# $Id: Lock.pm,v 1.11 2004-01-23 01:03:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Lock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,22 +43,16 @@ sub IsTicketLocked {
 sub LockLookup {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{Type}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
       return;
     }
-    # --
     # check if we ask the same request?
-    # --
     if (exists $Self->{"Ticket::Lock::Lookup::$Param{Type}"}) {
         return $Self->{"Ticket::Lock::Lookup::$Param{Type}"};
     }
-    # --
     # db query
-    # --
     my $SQL = "SELECT id " .
     " FROM " .
     " ticket_lock_type " .
@@ -69,9 +63,7 @@ sub LockLookup {
         # store result
         $Self->{"Ticket::Lock::Lookup::$Param{Type}"} = $Row[0];
     }
-    # --
     # check if data exists
-    # --
     if (!exists $Self->{"Ticket::Lock::Lookup::$Param{Type}"}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No TypeID for $Param{Type} found!");
         return;
@@ -84,15 +76,11 @@ sub LockLookup {
 sub SetLock {
     my $Self = shift;
     my %Param = @_;
-    # --
     # lookup!
-    # --
     if ((!$Param{LockID}) && ($Param{Lock})) {
         $Param{LockID} = $Self->LockLookup(Type => $Param{Lock});
     }
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID LockID Lock)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -103,36 +91,26 @@ sub SetLock {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need LockID or Lock!");
         return;
     }
-    # --
     # check if update is needed
-    # --
     if (($Self->IsTicketLocked(TicketID => $Param{TicketID}) && $Param{Lock} eq 'lock') ||
         (!$Self->IsTicketLocked(TicketID => $Param{TicketID}) && $Param{Lock} eq 'unlock')) {
         # update not needed
         return 1;
     }
-    # --
     # db update
-    # --
     my $SQL = "UPDATE ticket SET ticket_lock_id = $Param{LockID}, " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # -- 
       # update ticket view index
-      # --
       $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
-      # --
       # set lock time it event is 'lock'
-      # --
       if ($Param{Lock} eq 'lock') {
         $SQL = "UPDATE ticket SET timeout = ". time() . 
           " WHERE id = $Param{TicketID} "; 
         $Self->{DBObject}->Do(SQL => $SQL);
       }
-      # --
       # add history
-      # --
       my $HistoryType = '';
       if ($Param{Lock} =~ /^unlock$/i) {
         $HistoryType = 'Unlock';
@@ -153,34 +131,26 @@ sub SetLock {
         );
       }
 
-      # --
       # send unlock notify
-      # --
       if ($Param{Lock} =~ /^unlock$/i) {
           my %TicketData = $Self->GetTicket(%Param);
-          # --
           # check if the current user is the current owner, if not send a notify
-          # --
           my $To = '';
           my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
           if ($TicketData{UserID} ne $Param{UserID} && $Notification) {
-              # --
               # get user data of owner
-              # --
               my %Preferences = $Self->{UserObject}->GetUserData(UserID => $TicketData{UserID});
-              if ($Preferences{UserEmail} && $Preferences{UserSendLockTimeoutNotification}) {
-                  $To = $Preferences{UserEmail};
+              if ($Preferences{UserSendLockTimeoutNotification}) {
+                  # send
+                  $Self->SendNotification(
+                      Type => 'LockTimeout',
+                      UserData => \%Preferences,
+                      CustomerMessageParams => {}, 
+                      TicketID => $Param{TicketID},
+                      UserID => $Param{UserID},
+                  );
               }
           }
-          # send
-          $Self->SendNotification(
-              Type => 'LockTimeout',
-              To => $To,
-              CustomerMessageParams => {}, 
-              TicketNumber => $Self->GetTNOfId(ID => $Param{TicketID}),
-              TicketID => $Param{TicketID},
-              UserID => $Param{UserID},
-          );
       }
       return 1;
     }

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Owner.pm - the sub module of the global ticket handle
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Owner.pm,v 1.9 2003-07-14 12:22:55 martin Exp $
+# $Id: Owner.pm,v 1.10 2004-01-23 01:03:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Owner;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,14 +124,11 @@ sub SetOwner {
         }
         # get user data
         my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
-        # --
         # send agent notification
-        # --
         $Self->SendNotification(
             Type => 'OwnerUpdate',
-            To => $Preferences{UserEmail},
+            UserData => \%Preferences,
             CustomerMessageParams => \%Param,
-            TicketNumber => $Self->GetTNOfId(ID => $Param{TicketID}),
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
         );
