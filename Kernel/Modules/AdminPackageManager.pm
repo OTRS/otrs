@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.13 2004-12-23 11:49:57 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.14 2005-01-14 07:16:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -193,6 +193,29 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUpgrade(String => $Package)) {
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+            }
+            else {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
+        }
+    }
+    # ------------------------------------------------------------ #
+    # reinstall package
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'ReinstallPackage') {
+        my $Name = $Self->{ParamObject}->GetParam(Param => 'Name') || '';
+        my $Version = $Self->{ParamObject}->GetParam(Param => 'Version') || '';
+        my %Frontend = ();
+        my $Package = $Self->{PackageObject}->RepositoryGet(
+            Name => $Name,
+            Version => $Version,
+        );
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        else {
+            if ($Self->{PackageObject}->PackageReinstall(String => $Package)) {
                 return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
