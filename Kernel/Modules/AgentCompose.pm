@@ -1,0 +1,246 @@
+# --
+# AgentCompose.pm - to compose and send a message
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentCompose.pm,v 1.1 2001-12-26 20:03:07 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+package Kernel::Modules::AgentCompose;
+
+use strict;
+use Kernel::System::EmailSend;
+use Kernel::System::Article;
+
+use vars qw($VERSION);
+$VERSION = '$Revision: 1.1 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+# --
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+   
+    # allocate new hash for object 
+    my $Self = {}; 
+    bless ($Self, $Type);
+    
+    # get common opjects
+    foreach (keys %Param) {
+        $Self->{$_} = $Param{$_};
+    }
+
+    # check all needed objects
+    foreach ('ParamObject', 'DBObject', 'QueueObject', 'LayoutObject', 'ConfigObject', 'LogObject') {
+        die "Got no $_" if (!$Self->{$_});
+    }
+
+    # get params
+    $Self->{From} = $Self->{ParamObject}->GetParam(Param => 'From') || '';
+    $Self->{To} = $Self->{ParamObject}->GetParam(Param => 'To') || '';
+    $Self->{Cc} = $Self->{ParamObject}->GetParam(Param => 'Cc') || '';
+    $Self->{Subject} = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
+    $Self->{Body} = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
+    $Self->{Email} = $Self->{ParamObject}->GetParam(Param => 'Email') || '';
+    $Self->{InReplyTo} = $Self->{ParamObject}->GetParam(Param => 'InReplyTo') || '';
+    $Self->{ResponseID} = $Self->{ParamObject}->GetParam(Param => 'ResponseID') || '';
+    $Self->{NextStateID} = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
+    return $Self;
+}
+# --
+sub Run {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output;
+    
+    if ($Self->{Subaction} eq 'SendEmail') {
+        $Output = $Self->SendEmail();
+    }
+    else {
+        $Output = $Self->Form();
+    }
+    return $Output;
+}
+# --
+sub Form {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output;
+    my $TicketID = $Self->{TicketID};
+    my $UserID = $Self->{UserID};
+    my $UserLogin = $Self->{UserLogin};
+  
+    # start with page ...
+    $Output .= $Self->{LayoutObject}->Header();
+ 
+    # check needed stuff
+    if (!$TicketID) {
+        $Output .= $Self->{LayoutObject}->Error(
+                Message => "Got no TicketID!",
+                Comment => 'System Error!',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+ 
+    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
+    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
+    my $QueueObject = Kernel::System::Queue->new(
+        QueueID => $QueueID,
+        DBObject => $Self->{DBObject}
+    );
+    
+    # get lock state && permissions
+    my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
+    if (!$LockState) {
+        $Self->{TicketObject}->SetOwner(
+            TicketID => $TicketID,
+            UserID => $UserID,
+            UserLogin => $UserLogin,
+        );
+        $Self->{TicketObject}->SetLock(
+            TicketID => $TicketID,
+            Lock => 'lock',
+            UserID => $UserID
+        );
+    }
+    else {
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+            TicketID => $TicketID,
+        );
+        
+        if ($OwnerID != $UserID) {
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => "Sorry, the current owner is $OwnerLogin",
+                Comment => 'Please change the owner first.',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+    }
+    
+    # get last customer article ...
+    my %Data = $Self->{TicketObject}->GetLastCustomerArticle(
+        TicketID => $TicketID,
+    );
+    # body ...
+    $Data{Body} =~ s/\n/\n> /g;
+    $Data{Body} = "\n> " . $Data{Body};
+    # subject ...
+    $Data{Subject} =~ s/\[Ticket#$Tn\] //g;
+    $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
+    $Data{Subject} = "[Ticket#$Tn] " . $Data{Subject};
+    # to ...
+    $Data{To} = $Data{From};
+    # from ...
+    my %Address = $QueueObject->GetSystemAddress();
+    $Data{From} = "$Address{RealName} <$Address{Email}>";
+    $Data{Email} = $Address{Email};
+    $Data{RealName} = $Address{RealName};
+    # Signature
+    my $Signature = $QueueObject->GetSignature();
+    $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+    $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+    # get next states
+    my %NextStates;
+    foreach ('open', 'closed succsessful', 'closed unsuccsessful') {
+        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
+    }
+    # build view ...
+    $Output .= $Self->{LayoutObject}->AgentCompose(
+        TicketNumber => $Tn,
+        Salutation => $QueueObject->GetSalutation(),
+        Signature => $Signature,
+        StdResponse => $QueueObject->GetStdResponse(ID => $Self->{ResponseID}),
+        TicketID => $TicketID,
+        QueueID => $QueueID,
+        NextScreen => $Self->{NextScreen},
+        LockState => $LockState,
+        NextStates => \%NextStates,
+        %Data,
+    );
+    
+    $Output .= $Self->{LayoutObject}->Footer();
+    
+    return $Output;
+}
+# --
+sub SendEmail {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output;
+    my $QueueID = $Self->{QueueID};
+    my $TicketID = $Self->{TicketID};
+    my $NextScreen = $Self->{NextScreen} || '';
+    my $Charset = $Self->{UserCharset} || '';
+    my $NextStateID = $Self->{NextStateID} || '??';
+    my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
+    my $UserID = $Self->{UserID};
+    
+    # save article
+    my $ArticleObject = Kernel::System::Article->new(
+        DBObject => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject => $Self->{LogObject},
+    );
+    my $ArticleID = $ArticleObject->CreateArticleDB(
+        TicketID => $TicketID,
+        ArticleType => 'email',
+        SenderType => 'agent',
+        From => $Self->{From},
+        To => $Self->{To},
+        Cc => $Self->{Cc},
+        Subject => $Self->{Subject},
+        Body => $Self->{Body},
+        CreateUserID => $UserID,
+    );
+    # send email
+    my $EmailObject = Kernel::System::EmailSend->new(
+        DBObject => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject => $Self->{LogObject},
+    );
+    $EmailObject->Send(
+        From => $Self->{From},
+        Email => $Self->{Email},
+        To => $Self->{To},
+        Cc => $Self->{Cc},
+        Subject => $Self->{Subject},
+        Body => $Self->{Body},
+        TicketID => $TicketID,
+        ArticleID => $ArticleID,
+        UserID => $UserID,
+        Charset => $Charset,
+        InReplyTo => $Self->{InReplyTo},
+        DBObject => $Self->{DBObject},
+        TicketObject => $Self->{TicketObject},
+    );
+    # set state
+    if ($Self->{TicketObject}->GetState(TicketID => $TicketID)  ne $NextState) {
+        $Self->{TicketObject}->SetState(
+            TicketID => $TicketID,
+            ArticleID => $ArticleID,
+            State => $NextState,
+            UserID => $UserID,
+        );
+    }
+    # should i set an unlock?
+    if ($NextState =~ /^close/i) {
+        $Self->{TicketObject}->SetLock(
+            TicketID => $TicketID,
+            Lock => 'unlock',
+            UserID => $UserID,
+        );
+    }
+    # make redirect
+    $Output .= $Self->{LayoutObject}->Redirect(
+        OP => "&Action=$NextScreen&QueueID=$QueueID",
+    );
+    return $Output;
+}
+# --
+
+1;
