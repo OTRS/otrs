@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LinkObject.pm,v 1.1 2004-09-11 07:59:07 martin Exp $
+# $Id: LinkObject.pm,v 1.2 2004-09-20 11:10:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -83,18 +83,45 @@ sub new {
 
 get a all linable objects
 
-    my %LinkObjects = $LinkObject->LinkObjects();
+    my %LinkObjects = $LinkObject->LinkObjects(SourceObject => 'Ticket');
 
 =cut
 
 sub LinkObjects {
     my $Self = shift;
     my %Param = @_;
-    if (!$Self->{ConfigObject}->Get('LinkObject::Objects')) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "LinkObject::Objects in Config!");
+    my %ObjectList = ();
+    # check needed object
+    if (!$Param{SourceObject}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SourceObject!");
         return;
     }
-    return %{$Self->{ConfigObject}->Get('LinkObject::Objects')};
+    # get config options
+    if (!$Self->{ConfigObject}->Get('LinkObject')) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "LinkObject in Config!");
+        return;
+    }
+    # get objects
+    my %Objects = %{$Self->{ConfigObject}->Get('LinkObject')};
+    if (!$Objects{$Param{SourceObject}}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No Object '$Param{SourceObject}' configured!");
+        return;
+    }
+    # get linkable objects
+    if ($Objects{$Param{SourceObject}}->{LinkObjects}) {
+        foreach (@{$Objects{$Param{SourceObject}}->{LinkObjects}}) {
+            if ($Objects{$_}) {
+                $ObjectList{$_} = $Objects{$_}->{Name};
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "No Object '$_' configured!",
+                );
+            }
+        }
+    }
+    return %ObjectList;
 }
 
 =item LoadBackend()
@@ -300,6 +327,48 @@ sub LinkedObjects {
     }
     return %Linked;
 }
+sub AllLinkedObjects {
+    my $Self = shift;
+    my %Param = @_;
+    my %Links = ();
+    foreach (qw(Object ObjectID UserID)) {
+        if (!$Param{$_}) {
+             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # get objects
+    my %Objects = %{$Self->{ConfigObject}->Get('LinkObject')};
+    foreach my $Object (keys %Objects) {
+        $Self->LoadBackend(Module => $Object);
+        my %CLinked = $Self->LinkedObjects(
+            LinkType => 'Child',
+            LinkObject1 => $Param{Object},
+            LinkID1 => $Param{ObjectID},
+            LinkObject2 => $Object,
+            UserID => $Param{UserID},
+        );
+        $Links{Child}->{$Object} = \%CLinked;
+        my %PLinked = $Self->LinkedObjects(
+            LinkType => 'Parent',
+            LinkObject2 => $Param{Object},
+            LinkID2 => $Param{ObjectID},
+            LinkObject1 => $Object,
+            UserID => $Param{UserID},
+        );
+        $Links{Parent}->{$Object} = \%PLinked;
+        my %NLinked = $Self->LinkedObjects(
+            LinkType => 'Normal',
+            LinkObject1 => $Param{Object},
+            LinkID1 => $Param{ObjectID},
+            LinkObject2 => $Object,
+            UserID => $Param{UserID},
+        );
+        $Links{Normal}->{$Object} = \%NLinked;
+    }
+    return %Links;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -314,6 +383,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-09-11 07:59:07 $
+$Revision: 1.2 $ $Date: 2004-09-20 11:10:55 $
 
 =cut
