@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.2 2002-07-21 16:47:59 martin Exp $
+# $Id: Group.pm,v 1.3 2002-07-21 22:46:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -55,6 +55,63 @@ sub GetGroupIdByName {
        $ID=$RowTmp[0];
     }
     return $ID;
+}
+# --
+sub MemberList {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{Group} && !$Param{GroupID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no Group or GroupID!");
+        return;
+    }
+    # --
+    # check if we ask the same request?
+    # --
+    if ($Param{GroupID} && $Self->{"MemberList::$Param{GroupID}"}) {
+        return %{$Self->{"MemberList::$Param{GroupID}"}};
+    }
+    if ($Param{Group} && $Self->{"MemberList::$Param{Group}"}) {
+        return %{$Self->{"MemberList::$Param{Group}"}};
+    }
+    # --
+    # get data
+    # --
+    my %MemberData = ();
+    my $SQL = '';
+    my $Suffix = '';
+    if ($Param{Group}) {
+        $Suffix = 'GroupID';
+        $SQL = "SELECT gu.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
+          " FROM " .
+          " group_user gu, groups g, $Self->{ConfigObject}->{DatabaseUserTable} su ".
+          " WHERE " .
+          " g.id = gu.group_id AND ".
+          " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = gu.user_id AND ".
+          " g.name = '$Param{Group}'";
+    }
+    else {
+        $Suffix = 'Group';
+        $SQL = "SELECT gu.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
+          " FROM ".
+          " group_user gu, $Self->{ConfigObject}->{DatabaseUserTable} su ".
+          " WHERE ".
+          " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = gu.user_id AND ".
+          " gu.group_id = $Param{GroupID}";
+    }
+    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+        return;
+    }
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $MemberData{$Row[0]} = $Row[1];
+    }
+    # --
+    # store result
+    # --
+    $Self->{"MemberList::$Suffix"} = \%MemberData;
+    return %MemberData; 
 } 
 # --
 sub MemberAdd {
