@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.8 2003-04-14 19:48:49 martin Exp $
+# $Id: SendArticle.pm,v 1.9 2003-04-14 22:27:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,11 +13,12 @@ package Kernel::System::Ticket::SendArticle;
 
 use strict;
 use MIME::Words qw(:all);
+use MIME::Entity;
 use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -100,7 +101,6 @@ sub SendArticle {
         'In-Reply-To' => $InReplyTo,
         'X-Mailer' => "OTRS Mail Service ($VERSION)",
         'X-Powered-By' => 'OTRS - Open Ticket Request System (http://otrs.org/)',
-        'X-MimeTools' => MIME::Tools->version,
         Organization => $Self->{Organization},
         Type => 'text/plain; charset='.$Charset,
         Encoding => '8bit',
