@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleCheckPGP.pm,v 1.2 2004-08-04 13:14:19 martin Exp $
+# $Id: ArticleCheckPGP.pm,v 1.3 2004-08-10 06:51:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,6 +66,13 @@ sub Check {
     }
     # check mime pgp
     else {
+# check body
+#if (body =~ application/pgp-encrypted
+
+# if crypted, decrypt it
+
+# remember that it was crypted!
+
         # write email to fs
         my $Message = $Self->{TicketObject}->ArticlePlain(
             ArticleID => $Self->{ArticleID},
@@ -73,32 +80,64 @@ sub Check {
         );
         use MIME::Parser;
         my $parser = MIME::Parser->new();
-#        $parser->decode_bodies(0);
         $parser->decode_headers(0);
         $parser->extract_nested_messages(0);
         $parser->output_to_core("ALL");
-        my $entity = $parser->parse_data($Message);
-#print STDERR "+++ ".$entity->mime_type()."\n";
-#        if ( $entity->effective_type() eq 'multipart/signed' ) {
-        my $Head = $entity->head();
+        my $Entity = $parser->parse_data($Message);
+#print STDERR "+++ ".$Entity->mime_type()."\n";
+#        if ( $Entity->effective_type() eq 'multipart/signed' ) {
+        my $Head = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
         my $ContentType = $Head->get('Content-Type');
         # check if we need to decrypt it
         if ($ContentType && $ContentType =~ /multipart\/encrypted/i && $ContentType =~ /application\/pgp/i) {
             # decrypt
-            my $Cryped = $entity->parts(1)->as_string;
+            my $Cryped = $Entity->parts(1)->as_string;
             # Encrypt it
             my %Decrypt = $Self->{CryptObject}->Decrypt(
                 Message => $Cryped,
             );
             if ($Decrypt{Successful}) {
-                $entity = $parser->parse_data($Decrypt{Data});
-                my $Head = $entity->head();
+                $Entity = $parser->parse_data($Decrypt{Data});
+                my $Head = $Entity->head();
                 $Head->unfold();
                 $Head->combine('Content-Type');
                 $ContentType = $Head->get('Content-Type');
-print STDERR "$ContentType--\n";
+#print STDERR "$ContentType--\n";
+
+                use Kernel::System::EmailParser;
+
+                my $ParserObject = Kernel::System::EmailParser->new(
+                    %{$Self},
+                    Entity => $Entity,
+                );
+#print STDERR $Entity->body_as_string."\n";
+               my $Body = $ParserObject->GetMessageBody();
+#               print STDERR "$Body\n";
+               # updated article body
+               $Self->{TicketObject}->ArticleUpdate(
+                   ArticleID => $Self->{ArticleID},
+                   Key => 'Body',
+                   Value => $Body,
+                   UserID => $Self->{UserID},
+               );
+               # delete crypted attachments
+               $Self->{TicketObject}->ArticleDeleteAttachment(
+                   ArticleID => $Self->{ArticleID},
+                   UserID => $Self->{UserID},
+               );
+               # write attachments to the storage
+               foreach my $Attachment ($ParserObject->GetAttachments()) {
+                   $Self->{TicketObject}->ArticleWriteAttachment(
+                       Content => $Attachment->{Content},
+                       Filename => $Attachment->{Filename},
+                       ContentType => $Attachment->{ContentType},
+                       ArticleID => $Self->{ArticleID},
+                       UserID => $Self->{UserID},
+                   );
+               }
+
                 push (@Return, {
                     Key => 'Crypted',
                     Value => $Decrypt{Message},
@@ -118,8 +157,8 @@ print STDERR "$ContentType--\n";
         }
         if ($ContentType && $ContentType =~ /multipart\/signed/i && $ContentType =~ /application\/pgp/i) {
 #    $parser->decode_bodies(0);
-            my $signed_text    = $entity->parts(0)->as_string;
-            my $signature_text = $entity->parts(1)->body_as_string;
+            my $signed_text    = $Entity->parts(0)->as_string();
+            my $signature_text = $Entity->parts(1)->body_as_string();
             # according to RFC3156 all line endings MUST be CR/LF
             $signed_text =~ s/\x0A/\x0D\x0A/g;
             $signed_text =~ s/\x0D+/\x0D/g;
