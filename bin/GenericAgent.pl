@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.1 2002-07-13 14:03:46 martin Exp $
+# $Id: GenericAgent.pl,v 1.2 2002-07-13 14:30:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -70,7 +70,7 @@ my %Jobs = (
      },
    },
    # --
-   # [name of job] -> move all tickets from tricky to exters
+   # [name of job] -> move all tickets from tricky to experts
    # --
    'move tickets from tricky to experts' => {
       # get all tickets with this properties  
