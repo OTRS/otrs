@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.3 2002-07-21 18:50:01 martin Exp $
+# $Id: AgentCustomer.pm,v 1.4 2002-07-21 21:11:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCustomer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -149,8 +149,8 @@ sub Run {
            || die 'No Config entry "ViewableSenderTypes"!';
 
         foreach my $TicketID (@TicketIDs) {
-          my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, " .
-            " sa.a_body, st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, " .
+          my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_subject, " .
+            " st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, " .
             " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, " .
             " st.freetext1, st.freetext2, st.customer_id, sq.name as queue, sa.id as article_id, " .
             " st.id, st.tn, sp.name, sd.name as state, st.queue_id, st.create_time, ".

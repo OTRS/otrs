@@ -1,8 +1,8 @@
 # --
-# AgentCompose.pm - to compose and send a message
+# Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.17 2002-07-13 12:21:43 martin Exp $
+# $Id: AgentCompose.pm,v 1.18 2002-07-21 21:11:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -97,7 +97,9 @@ sub Form {
     my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
     my $QueueObject = Kernel::System::Queue->new(
         QueueID => $QueueID,
-        DBObject => $Self->{DBObject}
+        DBObject => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject => $Self->{LogObject},
     );
 
     # get lock state && permissions
