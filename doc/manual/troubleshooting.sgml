@@ -16,7 +16,7 @@ The third step is writting an e-mail to the developer team of OpenTRS. We will b
 </para>
 
 <sect2>
-<title>SuSE 8.0</title>
+<title>SuSE Linux 8.0</title>
 <para>Unfortantely the otrs.rpm which is on the SuSE 8.0 distribution is a buggy one (it was not a SuSE mistake). Please download the newest version from our <ulink url="http://www.otrs.org/">Homepage</ulink> and install it with YaST or manually by 
 <screen>
 rpm -Uvh otrs.rpm
@@ -39,13 +39,96 @@ Frankly we have not tried to install it on a Redhat yet. It should be a problem 
 <para>
 Most people who have problems with the Apache did build their own very special Apache. Of course you are welcome to do so but in case you run into trouble we suggest to your the vanilla version which is provided by your favorate distribution.
 </para>
+
+<sect2>
+<title>Internal Server Error</title>
+<para>
+In this case check the syntax of the index.pl file to find the error:
+<programlisting>
+shell:~ # cd ~otrs
+</programlisting>
+It's important to be in the $HOME of the otrs user.
+<programlisting>
+shell:/opt/OpenTRS # perl -cw bin/cgi-bin/index.pl 
+bin/cgi-bin/index.pl syntax OK
+shell:/opt/OpenTRS #
+</programlisting>
+If you get an error message, in most cases you have to install missing perl modules from <ulink url="http://www.cpan.org/">CPAN</ulink>.
+</para>
+<para>
+Install CPAN modules via cpan shell:
+<programlisting>
+shell:~ # perl -MCPAN -e shell;
+ -- (may you have to configure cpan first) --
+
+cpan shell -- CPAN exploration and modules installation (v1.59_54)
+ReadLine support enabled
+
+cpan> install Digest::MD5
+[installing Digest::MD5 module]
+cpan> 
+</programlisting>
+Check the perl syntax again (perl -cw bin/cgi-bin/index.pl) and install further missing modules if necessary.
+</para>
+</sect2>
+
+<sect2>
+<title>Error: Can't connect to database!</title>
+<para>
+If your browser get the message "Error: Can't connect to database!" after you changed the database settings, restart the webserver. mod_perl reads the ~otrs/Kernel/Config.pm only on startup. 
+</para>
+<para>
+If the "Error: Can't connect to database!" message is still there, check the error log of your webserver (e. g. /var/log/httpd/error_log).
+</para>
+</sect2>
 </sect1>
 
 <sect1 id="problems_with_mysql">
 <title>Problems with MySQL</title>
 <para>
-Please doublecheck all passwords. Mostly people setup the system with a wrong password. In this case it is the easiest way to re-setup the system. You can call the setup program by browsing to <ulink url="http://localhost/otrs/installer.pl"><citetitle>http://localhost/otrs/installer.pl</citetitle></ulink>.
+Please doublecheck all passwords. Mostly people setup the system with a wrong password. In this case it is the easiest way to re-setup the system. 
+</para>
+
+<sect2>
+<title>Check the database connect</title>
+<para>
+To check the database connect use '~otrs/bin/CheckDB.pl' . Is the output "It looks Ok!", you don't have problems with MySQL. If not, read the error message.
+</para>
+</sect2>
+
+<sect2>
+<title>Lost root password of MySQL</title>
+<para>
+Follow: <ulink url="http://www.mysql.com/documentation/mysql/bychapter/manual_Problems.html#Resetting_permissions">http://www.mysql.com/documentation/mysql/bychapter/manual_Problems.html#Resetting_permissions</ulink>
+</para>
+</sect2>
+
+<sect2>
+<title>http://localhost/otrs/installer.pl</title>
+<para> 
+If you want to set up the otrs database again, you can call the setup program by browsing to <ulink url="http://localhost/otrs/installer.pl"><citetitle>http://localhost/otrs/installer.pl</citetitle></ulink>.
+</para>
+<para>
+Note: Just for SuSE Linux RPMs.
+</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="problems_with_receiving_emails">
+<title>Problems with receiving emails</title>
+<para>
+If everything is working, but you can't see the incoming emails, check if the ~otrs/bin/PostMaster.pl program is working correctly. Pipe an example email through the PorstMaster.pl. There are two example emails in the default OpenTRS package (~otrs/doc/test-email-*.box or /usr/share/doc/packages/otrs/test-email-*.box).   
+</para>
+<para>
+Example:
+<programlisting>
+shell:~ # cat /usr/share/doc/packages/otrs/test-email-1.box | /opt/OpenTRS/bin/PostMaster.pl 
+shell:~ #
+</programlisting>
+May there is an error message, then you have to fix it. If not and you see this email in the postmaster queue, the procmail program isn't configured with your MTA (check the MTA log file, e. .g /var/log/mail) or the $HOME of the otrs user isn't correct (check $HOME and $HOME/.procmailrc).
 </para>
 </sect1>
+
 
 </chapter>
