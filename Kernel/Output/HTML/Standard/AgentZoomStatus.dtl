@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomStatus.dtl,v 1.4 2003-12-15 20:26:50 martin Exp $
+# $Id: AgentZoomStatus.dtl,v 1.5 2003-12-19 01:01:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,19 +13,19 @@
     <table border="0" cellspacing="1" cellpadding="0" width="95%">
     <tr valign="top">
       <td><b>$Text{"State"}:</b></td>
-      <td><font color="red">$Quote{"$Text{"$Data{"State"}"}","18"}</font></td>
+      <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Priority"}:</b></td>
-      <td><font color="red">$Quote{"$Text{"$Data{"Priority"}"}","18"}</font></td>
+      <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Queue"}:</b></td>
-      <td><font color="red">$Quote{"$Data{"Queue"}","18"}</font></td>
+      <td><font color="red"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","18"}</div></font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"Lock"}:</b></td>
-      <td><font color="red">$Quote{"$Text{"$Data{"Lock"}"}","18"}</font></td>
+      <td><font color="red"><div title="$Quote{"$Text{"$Data{"Lock"}"}"}">$Quote{"$Text{"$Data{"Lock"}"}","18"}</div></font></td>
     </tr>
     <tr valign="top">
       <td><b>$Text{"CustomerID"}:</b></td>
@@ -46,7 +46,7 @@
     $Data{"PendingUntilString"}
     <tr  valign="top">
       <td><b>$Text{"Owner"}:</b></td>
-      <td>$Quote{"$Data{"Owner"}","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</td>
+      <td><div title="$Data{"Owner"} ($Data{"UserFirstname"}$Data{"UserLastname"})">$Quote{"$Data{"Owner"}","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</div></td>
     </tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeText1-2
