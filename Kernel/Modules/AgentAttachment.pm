@@ -2,7 +2,7 @@
 # AgentAttachment.pm - to get the attachments 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.2 2002-04-14 13:30:06 martin Exp $
+# $Id: AgentAttachment.pm,v 1.3 2002-04-30 00:19:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -96,7 +96,7 @@ sub Run {
 
         # --
         # geta attachment & strip file path
-        $Self->{File} =~ s/\.\.\///g;
+        $Self->{File} =~ s/(\.\.\/||^\/)//g;
         if (my %Data = $Self->{ArticleObject}->GetAttachment(
           ArticleID => $Self->{ArticleID},
           File => $Self->{File},
