@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.5 2003-01-03 19:54:46 martin Exp $
+# $Id: de.pm,v 1.6 2003-01-05 23:32:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
@@ -57,7 +57,7 @@ sub Data {
       'days' => 'Tage',
       'Description' => 'Beschreibung',
       'description' => 'Beschreibung',
-      'Don\'t work with UserID 1 (System account)! Create new users!' => '',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Arbeite nicht mit UserID 1 (System Account)! Erstelle neue Benutzer!',
       'Done' => 'Fertig',
       'end' => 'runter',
       'Error' => 'Fehler',
@@ -602,6 +602,7 @@ sub Data {
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Volltextsuche (z. B. "Mar*in" oder "Baue*" oder "martin+hallo")',
       'Search in' => 'Suche in',
       'Ticket free text' => 'Ticket frei Text',
+      'With State' => 'Mit Status',
 
     # Template: AgentUtilSearchByTicketNumber
       'search' => 'Suchen',
