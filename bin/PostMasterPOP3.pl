@@ -3,7 +3,7 @@
 # PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.6 2003-03-06 23:17:50 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.7 2003-03-11 17:51:37 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my $Debug = 0;
@@ -47,15 +47,18 @@ use Kernel::System::POP3Account;
 # get options
 # --
 my %Opts = ();
-getopt('upsh', \%Opts);
+getopt('upshd', \%Opts);
 if ($Opts{'h'}) {
     print "PostMasterPOP3.pl <Revision $VERSION> - POP3 to OTRS\n";
-    print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: PostMasterPOP3.pl -s <POP3-SERVER> -u <USER> -p <PASSWORD>\n";
+    print "Copyright (c) 2001-2003 Martin Edenhofer <martin\@otrs.org>\n";
+    print "usage: PostMasterPOP3.pl -s <POP3-SERVER> -u <USER> -p <PASSWORD> [-d on]\n";
     exit 1;
 }
 if (!$Opts{'t'}) {
     $Opts{'t'} = 60;
+}
+if (!$Opts{'d'}) {
+    $Opts{'d'} = 0;
 }
 
 # --
@@ -122,7 +125,7 @@ sub FetchMail {
     my $QueueID = $Param{QueueID} || 0;
     my $Trusted = $Param{Trusted} || 0;
     # connect to host
-    my $PopObject = Net::POP3->new($Host, Timeout => $Opts{'t'});
+    my $PopObject = Net::POP3->new($Host, Timeout => $Opts{'t'}, Debug => $Opts{'d'});
     if (!$PopObject) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
@@ -144,7 +147,7 @@ sub FetchMail {
     my $FetchCounter = 0;
     if ($NOM > 0) {
         foreach my $Messageno ( sort { $a <=> $b } keys %{$PopObject->list()}) {
-            print "message $Messageno/$NOM ($User\@$Host)\n";
+            print "Message $Messageno/$NOM ($User\@$Host)\n";
             # check message size
             my $MessageSize = int($PopObject->list($Messageno) / 1024);
             if ($MessageSize > $MaxEmailSize) {
@@ -170,7 +173,7 @@ sub FetchMail {
        }
     }
     else {
-         print "no messages ($User\@$Host)\n\n";
+         print "No messages ($User\@$Host)\n";
     }
     # log status
     $CommonObject{LogObject}->Log(
@@ -178,5 +181,6 @@ sub FetchMail {
         Message => "Fetched $FetchCounter email(s) from $User\@$Host.",
     );
     $PopObject->quit();
+    print "Connection to $Host closed.\n\n";
 }
 # --
