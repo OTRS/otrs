@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.28 2002-05-26 18:20:45 martin Exp $
+# $Id: Agent.pm,v 1.29 2002-05-26 19:40:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -98,7 +98,7 @@ sub TicketView {
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
     # prepare escalation time
     if ($Param{Answered}) {
-      $Param{TicketOverTime} = 'none - answered';
+      $Param{TicketOverTime} = '$Text{"none - answered"}';
     } 
     elsif ($Param{TicketOverTime}) { 
       $Param{TicketOverTimeSuffix} = '';
@@ -127,7 +127,7 @@ sub TicketView {
         $Param{TicketOverTime}.$Param{TicketOverTimeFontEnd}; 
     }
     else {
-      $Param{TicketOverTime} = 'none';
+      $Param{TicketOverTime} = '$Text{"none"}';
     }
 
     # do some text quoting
