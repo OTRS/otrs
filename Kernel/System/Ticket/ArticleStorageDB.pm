@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.9 2003-04-23 17:43:42 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.10 2003-07-12 08:08:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -98,12 +98,11 @@ sub WriteArticlePlain {
     # --
     # write article to db 1:1
     # --
-    my $SQL = "INSERT INTO article_plain ".
+    if ($Self->{DBObject}->Do(SQL => "INSERT INTO article_plain ".
           " (article_id, body, create_time, create_by, change_time, change_by) " .
           " VALUES ".
           " ($Param{ArticleID}, '".$Self->{DBObject}->Quote($Param{Email})."', ".
-          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})")) {
         return 1;
     }
     else {
@@ -151,16 +150,15 @@ sub WriteArticlePart {
     # write attachment to db
     # --
     foreach (qw(Filename ContentType Content)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+       $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    my $SQL = "INSERT INTO article_attachment ".
+    if ($Self->{DBObject}->Do(SQL => "INSERT INTO article_attachment ".
         " (article_id, filename, content_type, content, ".
         " create_time, create_by, change_time, change_by) " .
         " VALUES ".
         " ($Param{ArticleID}, '$Param{Filename}', '$Param{ContentType}', ".
         " '$Param{Content}', ".
-        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})")) {
         return 1;
     }
     else {
