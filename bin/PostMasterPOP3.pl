@@ -1,20 +1,20 @@
 #!/usr/bin/perl -w
 # --
 # PostMasterPOP3.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.12 2004-08-03 18:16:08 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.13 2004-09-16 09:40:27 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -36,6 +36,7 @@ use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
+use Kernel::System::PID;
 use Kernel::System::PostMaster;
 use Kernel::System::POP3Account;
 
@@ -46,7 +47,7 @@ my %Opts = ();
 getopt('upshd', \%Opts);
 if ($Opts{'h'}) {
     print "PostMasterPOP3.pl <Revision $VERSION> - POP3 to OTRS\n";
-    print "Copyright (c) 2001-2003 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
     print "usage: PostMasterPOP3.pl -s <POP3-SERVER> -u <USER> -p <PASSWORD> [-d 1-2]\n";
     exit 1;
 }
@@ -60,7 +61,7 @@ if (!$Opts{'popd'}) {
     $Opts{'popd'} = 0;
 }
 # --
-# create common objects 
+# create common objects
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
@@ -69,9 +70,15 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
 $CommonObject{POP3Account} = Kernel::System::POP3Account->new(%CommonObject);
-# MaxEmailSize 
+# MaxEmailSize
 my $MaxEmailSize = $CommonObject{ConfigObject}->Get('PostMasterPOP3MaxEmailSize') || 1024 * 6;
+# create pid lock
+if (!$CommonObject{PIDObject}->PIDCreate(Name => 'PostMasterPOP3')) {
+    print "Notice: PostMaster.pl is already running!\n";
+    exit 1;
+}
 # debug info
 if ($Opts{'d'} > 1) {
     $CommonObject{LogObject}->Log(
@@ -82,14 +89,20 @@ if ($Opts{'d'} > 1) {
 my %List = ();
 if ($Opts{'s'} || $Opts{'u'} || $Opts{'p'}) {
     if (!$Opts{'s'}) {
+        # delete pid lock
+        $CommonObject{PIDObject}->PIDDelete(Name => 'PostMasterPOP3');
         print STDERR "ERROR: Need -s <POP3-SERVER>\n";
         exit 1;
     }
     if (!$Opts{'u'}) {
+        # delete pid lock
+        $CommonObject{PIDObject}->PIDDelete(Name => 'PostMasterPOP3');
         print STDERR "ERROR: Need -u <USER>\n";
         exit 1;
     }
     if (!$Opts{'p'}) {
+        # delete pid lock
+        $CommonObject{PIDObject}->PIDDelete(Name => 'PostMasterPOP3');
         print STDERR "ERROR: Need -p <PASSWORD>\n";
         exit 1;
     }
@@ -113,7 +126,9 @@ if ($Opts{'d'} > 1) {
         Message => 'Global OTRS email handle (PostMasterPOP3.pl) stoped.',
     );
 }
-# --
+# delete pid lock
+$CommonObject{PIDObject}->PIDDelete(Name => 'PostMasterPOP3');
+
 exit (0);
 
 # --
@@ -158,10 +173,10 @@ sub FetchMail {
                 );
             }
             else {
-                # get message (header and body)	
+                # get message (header and body)
                 my $Lines = $PopObject->get($Messageno);
                 $CommonObject{PostMaster} = Kernel::System::PostMaster->new(
-                    %CommonObject, 
+                    %CommonObject,
                     Email => $Lines,
                     Trusted => $Trusted,
                     Debug => $Opts{'d'},
