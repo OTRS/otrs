@@ -2,7 +2,7 @@
 # AdminLog.dtl - provides HTML form for AdminLog
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.dtl,v 1.7 2004-06-25 15:33:30 martin Exp $
+# $Id: AdminLog.dtl,v 1.8 2004-09-30 05:45:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,33 +11,33 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"System Log"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"System Log"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td class="table1" align="left" valign="top">
+  <td class="mainbody">
 
-<p>
-<table border="0" width="100%" cellspacing="0" cellpadding="2">
-<tr>
-    <td class="table3" width="20%">$Text{"Time"}</td>
-    <td class="table3">$Text{"Priority"}</td>
-    <td class="table3">$Text{"Facility"}</td>
-    <td class="table3" width="60%">$Text{"Message"}</td>
-</tr>
+    <p>
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+    <tr class="contenthead">
+      <td class="contentkey" width="20%">$Text{"Time"}</td>
+      <td class="contentkey">$Text{"Priority"}</td>
+      <td class="contentkey">$Text{"Facility"}</td>
+      <td class="contentkey" width="60%">$Text{"Message"}</td>
+    </tr>
 <!-- dtl:block:Row -->
-<tr>
-    <td valign="top">$Data{"StartFont"}$QData{"Time"}$Data{"StartFont"}</td>
-    <td valign="top">$Data{"StartFont"}$QData{"Priority"}$Data{"StartFont"}</td>
-    <td valign="top">$Data{"StartFont"}$QData{"Facility"}$Data{"StopFont"}</td>
-    <td valign="top">$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
-</tr>
+    <tr class="contentbody">
+      <td class="contentvalue">$Data{"StartFont"}$QData{"Time"}$Data{"StartFont"}</td>
+      <td class="contentvalue">$Data{"StartFont"}$QData{"Priority"}$Data{"StartFont"}</td>
+      <td class="contentvalue">$Data{"StartFont"}$QData{"Facility"}$Data{"StopFont"}</td>
+      <td class="contentvalue">$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
+    </tr>
 <!-- dtl:block:Row -->
-</table>
-</p>
+    </table>
+    </p>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->
