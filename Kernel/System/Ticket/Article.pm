@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.49 2004-02-13 00:50:36 martin Exp $
+# $Id: Article.pm,v 1.50 2004-02-17 13:28:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,40 +23,30 @@ sub CreateArticle {
     my %Param = @_;
     my $ValidID 	= $Param{ValidID} || 1;
     my $IncomingTime    = time();
-    # --
     # create ArticleContentPath
-    # --
     if (!$Self->{ArticleContentPath}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleContentPath!");
         return;
     }
-    # --
     # lockups if no ids!!!
-    # --
     if (($Param{ArticleType}) && (!$Param{ArticleTypeID})) {
         $Param{ArticleTypeID} = $Self->ArticleTypeLookup(ArticleType => $Param{ArticleType}); 
     }
     if (($Param{SenderType}) && (!$Param{SenderTypeID})) {
         $Param{SenderTypeID} = $Self->ArticleSenderTypeLookup(SenderType => $Param{SenderType});
     }
-    # --
     # check needed stuff
-    # --
     foreach (qw(TicketID UserID ArticleTypeID SenderTypeID HistoryType HistoryComment)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # add 'no body found!' if there is no body there!
-    # --
     if (!$Param{Body}) {
         $Param{Body} = 'no body found!';
     }
-    # --
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
-    # --
     elsif ($Param{ContentType} && $Param{ContentType} !~ /\btext\b/i) {
         $Param{AttachContentType} = $Param{ContentType};
         $Param{AttachBody} = $Param{Body};
@@ -71,11 +61,9 @@ sub CreateArticle {
     foreach (qw(From To Cc Subject MessageID ReplyTo)) {
         $Param{$_} =~ s/\n|\r//g if ($Param{$_});
     }
-    # --
-    # DB Quoting
-    # --
+    # DB quoting
     my %DBParam = ();
-    foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
+    foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType TicketID ArticleTypeID SenderTypeID )) {
         if ($Param{$_}) {
             # qb quoting
             $DBParam{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -84,15 +72,13 @@ sub CreateArticle {
             $DBParam{$_} = '';
         }
     }
-    # --
     # do db insert
-    # --
     if (!$Self->{DBObject}->Do(SQL => "INSERT INTO article ".
       " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
       " a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, ".
       " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
       " VALUES ".
-      " ($Param{TicketID}, $Param{ArticleTypeID}, $Param{SenderTypeID}, ".
+      " ($DBParam{TicketID}, $DBParam{ArticleTypeID}, $DBParam{SenderTypeID}, ".
       " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
       " '$DBParam{Subject}', ". 
       " '$DBParam{MessageID}', '$DBParam{Body}', '$DBParam{ContentType}', ".
@@ -100,19 +86,23 @@ sub CreateArticle {
       " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})")) {
         return;
     }
-    # --
     # get article id 
-    # --
     my $ArticleID = $Self->GetIdOfArticle(
         TicketID => $Param{TicketID},
-        MessageID => $DBParam{MessageID},
-        From => $DBParam{From},
-        Subject => $DBParam{Subject},
+        MessageID => $Param{MessageID},
+        From => $Param{From},
+        Subject => $Param{Subject},
         IncomingTime => $IncomingTime
     ); 
-    # --
+    # return if there is not article created
+    if (!$ArticleID) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't get ArticleID from INSERT!",
+        );
+        return;
+    }
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
-    # --
     if ($Param{AttachContentType} && $Param{AttachBody}) {
         my $FileName = 'unknown';
         if ($Param{AttachContentType} =~ /name="(.+?)"/i) {
@@ -126,19 +116,7 @@ sub CreateArticle {
             UserID => $Param{UserID},
         );
     }
-    # --
-    # return if there is not article created
-    # --
-    if (!$ArticleID) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't get ArticleID from INSERT!",
-        );
-        return;
-    }
-    # --
     # add history row
-    # --
     $Self->AddHistoryRow(
         ArticleID => $ArticleID,
         TicketID => $Param{TicketID},
@@ -146,27 +124,21 @@ sub CreateArticle {
         HistoryType => $Param{HistoryType},
         Name => $Param{HistoryComment},
     );
-    # --
     # send auto response
-    # --
     my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
     my %State = $Self->{StateObject}->StateGet(ID => $Ticket{StateID});
     # --
     # send if notification should be sent (not for closed tickets)!?
     # --
     if ($Param{AutoResponseType} && $Param{AutoResponseType} eq 'auto reply' && ($State{TypeName} eq 'closed' || $State{TypeName} eq 'removed')) {
-        # --
         # add history row
-        # --
         $Self->AddHistoryRow(
             TicketID => $Param{TicketID},
             HistoryType => 'Misc',
             Name => "Sent no auto response or agent notification because ticket is state-type '$State{TypeName}'!",
             CreateUserID => $Param{UserID},
         );
-        # --
         # return ArticleID
-        # --
         return $ArticleID;
     }
     if ($Param{AutoResponseType} && $Param{OrigHeader}) {
@@ -250,9 +222,7 @@ sub CreateArticle {
     # send no agent notification!?
     # --
     if ($Param{NoAgentNotify}) {
-        # --
         # return ArticleID
-        # --
         return $ArticleID;
     }
     # --
