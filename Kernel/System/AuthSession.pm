@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.11 2002-04-14 13:32:35 martin Exp $
+# $Id: AuthSession.pm,v 1.12 2002-05-14 00:24:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -283,7 +283,7 @@ sub UpdateSessionID {
     my $Self = shift;
     my %Param = @_;
     my $Key = $Param{Key} || die 'No Key!';
-    my $Value = $Param{Value} || die 'No Value!';
+    my $Value = $Param{Value} || '';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
 
