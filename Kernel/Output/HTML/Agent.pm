@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.77 2003-01-10 17:38:33 martin Exp $
+# $Id: Agent.pm,v 1.78 2003-02-03 19:44:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -169,6 +169,13 @@ sub TicketView {
       $Param{TicketOverTime} = '$Text{"none"}';
     }
     # --
+    # customer info string 
+    # --
+    $Param{CustomerTable} = $Self->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => 15,
+    );
+    # --
     # check if just a only html email
     # --
     if (my $MimeTypeText = $Self->CheckMimeType(%Param, Action => 'AgentZoom')) {
@@ -296,6 +303,13 @@ sub TicketZoom {
         SelectedID => $Param{QueueID},
         Data => $Param{MoveQueues},
         OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit'),
+    );
+    # --
+    # customer info string 
+    # --
+    $Param{CustomerTable} = $Self->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => 15,
     );
     # --
     # build article stuff
@@ -727,6 +741,13 @@ sub AgentPhone {
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
     );
     # --
+    # customer info string 
+    # --
+    $Param{CustomerTable} = $Self->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => 15,
+    );
+    # --
     # pending data string
     # --
     $Param{PendingDateString} = $Self->BuildDateSelection(%Param);
@@ -753,6 +774,18 @@ sub AgentPhoneNew {
         Name => 'NextStateID',
         Selected => $Param{NextState} || $Self->{ConfigObject}->Get('PhoneDefaultNewNextState'),
     );
+    # --
+    # build from string
+    # --
+    if ($Param{FromOptions} && %{$Param{FromOptions}}) {
+      $Param{'CustomerUserStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{FromOptions}, 
+        Name => 'CustomerUser',
+      ).'<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>';
+    }
+    # --
+    # build so string
+    # --
     my %NewTo = ();
     if ($Param{To}) {
         foreach (keys %{$Param{To}}) {
@@ -764,6 +797,10 @@ sub AgentPhoneNew {
         Name => 'Dest',
         SelectedID => $Param{ToSelected},
     );
+    # do html quoting
+    foreach (qw(From To Cc)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
+    }
     # --
     # build priority string
     # --
@@ -840,12 +877,28 @@ sub AgentCustomer {
 sub AgentCustomerView {
     my $Self = shift;
     my %Param = @_;
+    $Param{Table} = $Self->AgentCustomerViewTable(%Param);
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentCustomerView', Data => \%Param);
+}
+# --
+sub AgentCustomerViewTable {
+    my $Self = shift;
+    my %Param = @_;
     if (%{$Param{Data}}) {
         # build html table
         $Param{Table} = '<table>';
         foreach my $Field (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
             if ($Field->[3]) {
-                $Param{Table} .= "<tr><td>\$Text{\"$Field->[1]\"}:</td><td>".$Param{Data}->{$Field->[0]}."</td></tr>";
+                $Param{Table} .= "<tr><td><b>\$Text{\"$Field->[1]\"}:</b></td><td>";
+                if ($Field->[6]) {
+                    $Param{Table} .= "<a href=\"$Field->[6]\">";
+                }
+                $Param{Table} .= $Self->Ascii2Html(Text => $Param{Data}->{$Field->[0]}, Max => $Param{Max});
+                if ($Field->[6]) {
+                    $Param{Table} .= "</a>";
+                }
+                $Param{Table} .= "</td></tr>";
             }
         }
         $Param{Table} .= '</table>';
@@ -854,7 +907,7 @@ sub AgentCustomerView {
         $Param{Table} = '$Text{"None"}';
     }
     # create & return output
-    return $Self->Output(TemplateFile => 'AgentCustomerView', Data => \%Param);
+    return $Param{Table}; 
 }
 # --
 sub AgentCustomerHistory {
@@ -1232,11 +1285,17 @@ sub AgentPreferencesForm {
           my $Type = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Type} || '';
           my %PrefItem = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
           if ($Data) {
-            $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-              Data => $Data, 
-              Name => 'GenericTopic',
-              SelectedID => $Self->{$PrefKey}, 
-            );
+            if (ref($Data) eq 'HASH') {
+              $PrefItem{'Option'} = $Self->OptionStrgHashRef(
+                Data => $Data, 
+                Name => 'GenericTopic',
+                SelectedID => $Self->{$PrefKey}, 
+              );
+            }
+            else {
+                $PrefItem{'Option'} = '<input type="text" name="GenericTopic" value="'.
+                     $Self->Ascii2Html(Text => $Self->{$PrefKey}) .'">';
+            }
           } 
           elsif ($Type eq 'CustomQueue') {
             my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
@@ -1451,7 +1510,7 @@ sub AgentSpelling {
             $Param{SpellCheckString}  .= $Self->OptionStrgHashRef(
                Data => \%ReplaceWords, 
                Name => "SpellCheckReplace",
-               CoChange => "change_selected($Param{SpellCounter})"
+               OnChange => "change_selected($Param{SpellCounter})"
             ).
               '</td><td> or '.
               '<input type="text" name="SpellCheckOrReplace::'.$WrongWord.'" value="" size="16" onchange="change_selected('.$Param{SpellCounter}.')">'.
@@ -1459,7 +1518,7 @@ sub AgentSpelling {
               '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Replace">'.
               '</td><td align="center">'.
               '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Ignore" checked="checked">'.
-              '</td></tr>';
+              '</td></tr>'."\n";
           }
         }
       } 
