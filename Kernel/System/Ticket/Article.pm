@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.37 2003-07-13 19:32:30 martin Exp $
+# $Id: Article.pm,v 1.38 2003-09-28 09:21:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -589,6 +589,21 @@ sub GetArticle {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID or TicketID!");
         return;
     }
+    # article type lookup
+    my $ArticleTypeSQL = '';
+    if ($Param{ArticleType} && (ref($Param{ArticleType}) eq 'ARRAY')) {
+        foreach (@{$Param{ArticleType}}) {
+            if ($Self->ArticleTypeLookup(ArticleType => $_)) {
+                if ($ArticleTypeSQL) {
+                    $ArticleTypeSQL .= ',';
+                }
+                $ArticleTypeSQL .= $Self->ArticleTypeLookup(ArticleType => $_);
+            }
+        }
+        if ($ArticleTypeSQL) {
+            $ArticleTypeSQL = " AND sa.article_type_id IN ($ArticleTypeSQL)";
+        }
+    }
     # sql query
     my @Content = ();
     my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, ".
@@ -611,9 +626,14 @@ sub GetArticle {
         $SQL .= " sa.ticket_id = $Param{TicketID}";
     }
     $SQL .= " AND ".
-        " sa.ticket_id = st.id ".
-        " AND ".
-        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ORDER BY sa.id ASC";
+        " sa.ticket_id = st.id ";
+    # add article types
+    if ($ArticleTypeSQL) {
+        $SQL .= $ArticleTypeSQL;
+    }
+    $SQL .= " AND ".
+        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ".
+        " ORDER BY sa.id ASC";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     my %Ticket = ();
@@ -644,12 +664,21 @@ sub GetArticle {
         if ($Row[12] && $Data{ContentType} =~ /charset=(.*)(| |\n)/i) {
             $Data{ContentCharset} = $1;
         }
-        if ($Row[12] && $Data{ContentType} =~ /^(.+?\/.+?)( |;)/i) {
+        else {
+            $Data{ContentCharset} = '';
+        }
+        if ($Row[12] && $Data{ContentType} =~ /^(.+?\/.*)( |;|)/i) {
             $Data{MimeType} = $1;
         } 
+        else {
+            $Data{MimeType} = '';
+        }
+        $Ticket{CustomerID} = $Row[16];
+        $Ticket{CustomerUserID} = $Row[19];
         $Data{CustomerID} = $Row[16];
         $Data{CustomerUserID} = $Row[19];
         $Data{UserID} = $Row[20];
+        $Ticket{UserID} = $Row[20];
         $Data{Owner} = $Row[21];
         $Data{ArticleTypeID} = $Row[22];
         $Data{FreeKey1} = $Row[23]; 
