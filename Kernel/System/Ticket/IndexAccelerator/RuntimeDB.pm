@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.23 2004-10-01 11:23:20 martin Exp $
+# $Id: RuntimeDB.pm,v 1.24 2004-11-04 11:24:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -238,7 +238,7 @@ sub GetOverTimeTickets {
     # get data (viewable tickets...)
     my @TicketIDsOverTime = ();
     my %TicketIDs = ();
-    my $SQL = "SELECT st.id, st.escalation_start_time, q.escalation_time, st.ticket_priority_id ".
+    my $SQL = "SELECT st.id, st.escalation_start_time, q.escalation_time, st.ticket_priority_id, q.name ".
         " FROM ".
         " queue q, ticket st ".
         " WHERE ".
@@ -272,6 +272,7 @@ sub GetOverTimeTickets {
             my $CountedTime = $Self->{TimeObject}->WorkingTime(
                 StartTime => $Row[1],
                 StopTime => $Self->{TimeObject}->SystemTime(),
+                Queue => $Row[4],
             );
             my $DiffTime = ($Row[2]*60) - $CountedTime;
             if ($DiffTime < 0) {
