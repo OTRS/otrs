@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.11 2002-05-12 18:36:06 martin Exp $
+# $Id: German.pm,v 1.12 2002-05-14 00:12:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -91,8 +91,10 @@ sub Data {
     $Self->{'all'} = 'alle';
     $Self->{'All'} = 'All';
     $Self->{'Sorry'} = 'Bedauere';
-    $Self->{'No'} = 'Kein';
+    $Self->{'No'} = 'Nein';
     $Self->{'no'} = 'kein';
+    $Self->{'Yes'} = 'Ja';
+    $Self->{'yes'} = 'ja';
     $Self->{'update!'} = 'aktualisieren!';
     $Self->{'submit!'} = 'übermitteln!';
     $Self->{'change!'} = 'ändern!';
@@ -107,6 +109,9 @@ sub Data {
     $Self->{'Group'} = 'Gruppe';
     $Self->{'Response'} = 'Antwort';
     $Self->{'Preferences'} = 'Einstellungen';
+    $Self->{'Description'} = 'Beschreibung';
+    $Self->{'description'} = 'Beschreibung';
+    $Self->{'Key'} = 'Schlüssel';
     $Self->{'top'} = 'hoch';
     $Self->{'AgentFrontend'} = 'AgentOberfläche';
     $Self->{'Groups'} = 'Gruppen';
@@ -167,6 +172,8 @@ sub Data {
     $Self->{'Change queue settings'} = 'Ändern einer Queue';
     $Self->{'Update queue'} = 'Queue aktualisieren';
     $Self->{'(Click here to add a queue)'} = '(Hier klicken - Queue hinzufügen)';
+    $Self->{'Unlock timeout'} = 'Freigabe Zeitüberschreitung';
+    $Self->{'Escalation time'} = 'Eskalationszeit';
     # Response
     $Self->{'Response Management'} = 'Antworten Verwaltung';
     $Self->{'Add response'} = 'Antwort hinzufügen';
