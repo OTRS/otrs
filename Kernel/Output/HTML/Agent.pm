@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.84 2003-02-08 21:45:49 martin Exp $
+# $Id: Agent.pm,v 1.85 2003-02-08 22:51:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.84 $';
+$VERSION = '$Revision: 1.85 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -556,6 +556,7 @@ sub AgentTicketPrint {
             %AtmIndex = %{$Article{Atms}};
         }
         my $ATMStrg = '';
+        $Param{"Article::ATM"} = '';
         foreach (keys %AtmIndex) {
           $AtmIndex{$_} = $Self->Ascii2Html(Text => $AtmIndex{$_});
           $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
