@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.67 2004-05-11 08:45:13 martin Exp $
+# $Id: AgentZoom.pm,v 1.68 2004-05-11 10:13:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -410,7 +410,7 @@ sub MaskAgentZoom {
             $Article{"ATM"} .= "<td><a href=\"$Link\" target=\"attachment\" ".
               "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';".
               ' return true;" onmouseout="window.status=\'\';">'.
-              "<img src=\"\$Env{\"Images\"}disk-s.png\" border=\"0\" alt=\"\$Text\"Download\"}\"></a></td><td> ";
+              "<img src=\"\$Env{\"Images\"}disk-s.png\" border=\"0\" alt=\"\$Text{\"Download\"}\"></a></td><td> ";
              if ($Viewer) {
                  $Article{"ATM"} .= "<a href=\"$Link&Viewer=1\" target=\"attachment\" ".
               "onmouseover=\"window.status='\$Text{\"View\"}: $File{Filename}';".
