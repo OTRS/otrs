@@ -135,7 +135,7 @@ and change it in Kernel/Config.pm.
 </para>
 </sect2>
 
-<sect2>
+<sect2 id="problems_lost_mysql_root_pw">
 <title>Lost root password of MySQL</title>
 <para>
 Follow: <ulink url="http://www.mysql.com/documentation/mysql/bychapter/manual_Problems.html#Resetting_permissions">http://www.mysql.com/documentation/mysql/bychapter/manual_Problems.html#Resetting_permissions</ulink>
@@ -154,7 +154,10 @@ Note: Just for SuSE Linux RPMs.
 
 </sect1>
 
-<sect1 id="problems_with_receiving_emails">
+<sect1 id="problems_misc">
+<title>Problems - misc</title>
+
+<sect2 id="problems_with_receiving_emails">
 <title>Problems with receiving emails</title>
 <para>
 If everything is working, but you can't see the incoming emails, check if the ~otrs/bin/PostMaster.pl program is working correctly. Pipe an example email through the PorstMaster.pl. There are two example emails in the default OpenTRS package (~otrs/doc/test-email-*.box or /usr/share/doc/packages/otrs/test-email-*.box).   
@@ -167,11 +170,9 @@ shell:~ #
 </programlisting>
 May there is an error message, then you have to fix it. If not and you see this email in the postmaster queue, the procmail program isn't configured with your MTA (check the MTA log file, e. .g /var/log/mail) or the $HOME of the otrs user isn't correct (check $HOME and $HOME/.procmailrc).
 </para>
-</sect1>
+</sect2>
 
-<sect1>
-<title>Problems - misc</title>
-<sect2>
+<sect2 id="problems_lost_opentrs_root_pw">
 <title>Lost root password of OpenTRS</title>
 <para>
 I lost the root password of OpenTRS ("Login failed! Your username or password was entered incorrectly."). 
@@ -186,6 +187,7 @@ mysql>
 And the password of user 'root@localhost' will be 'root'. The password is crypted like 'man 3 crypt' with crypt().
 </para>
 </sect2>
+
 </sect1>
 
 </chapter>
