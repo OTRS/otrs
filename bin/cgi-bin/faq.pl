@@ -3,7 +3,7 @@
 # faq.pl - the global CGI handle file for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: faq.pl,v 1.1 2004-01-21 22:49:39 martin Exp $
+# $Id: faq.pl,v 1.2 2004-02-05 16:08:46 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -125,7 +125,7 @@ my $GenericObject = ('Kernel::Modules::CustomerFAQ')->new(
 # --
 # ->Run $Action with $GenericObject
 # --
-print $GenericObject->Run();
+print $GenericObject->Run(States => ['public (all)']);
 # --
 # debug info
 # --

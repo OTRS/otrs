@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQ.pm,v 1.1 2004-01-21 22:49:39 martin Exp $
+# $Id: CustomerFAQ.pm,v 1.2 2004-02-05 16:08:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,6 +47,9 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+    if (!$Param{States}) {
+        $Param{States} = ['external (customer)', 'public (all)'];
+    }
 
     $Output .= $Self->{LayoutObject}->CustomerHeader(Area => 'FAQ');
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar() if ($Self->{Action});
@@ -89,7 +92,7 @@ sub Run {
             $Param{Overview} .= "<b>$Categories{$_}</b><br>";
             my @FAQIDs = $Self->{FAQObject}->Search(
                 %Param,
-                States => ['external (customer)', 'public (all)'],
+                States => $Param{States},
 #                LanguageIDs => \@LanguageIDs,
                 CategoryIDs => [$_],
                 UserID => $Self->{UserID},
@@ -116,7 +119,7 @@ sub Run {
 
         my @FAQIDs = $Self->{FAQObject}->Search(
             %Param,
-            States => ['external (customer)', 'public (all)'],
+            States => $Param{States}, 
             LanguageIDs => \@LanguageIDs,
             CategoryIDs => \@CategoryIDs,
             UserID => $Self->{UserID},
