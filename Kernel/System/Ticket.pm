@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.113 2004-06-09 11:43:17 martin Exp $
+# $Id: Ticket.pm,v 1.114 2004-06-09 11:44:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.113 $';
+$VERSION = '$Revision: 1.114 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -528,7 +528,7 @@ sub TicketGet {
         $Ticket{PriorityID} = $Row[6];
         $Ticket{Priority} = $Row[7];
         $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
-        $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Row[8]);
+#        $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Row[8]);
         $Ticket{CreateTimeUnix} = $Row[8];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[8]);
         $Ticket{GroupID} = $Row[10];
@@ -1908,7 +1908,7 @@ sub TicketSearch {
     my %Tickets = ();
     my @TicketIDs = ();
     $Self->{DBObject}->Prepare(SQL => $SQL.$SQLExt, Limit => $Limit);
-print STDERR "SQL: $SQL$SQLExt\n";
+#print STDERR "SQL: $SQL$SQLExt\n";
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Tickets{$Row[0]} = $Row[1];
         push (@TicketIDs, $Row[0]);
@@ -3240,6 +3240,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.113 $ $Date: 2004-06-09 11:43:17 $
+$Revision: 1.114 $ $Date: 2004-06-09 11:44:33 $
 
 =cut
