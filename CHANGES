@@ -2,12 +2,20 @@
 # Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.131.2.4 2004-10-18 07:29:20 martin Exp $
+# $Id: CHANGES,v 1.131.2.5 2004-11-04 10:47:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+1.3.3 (200?-??-??)
+ - (2004/11/04) fixed upper queue rename with () or + chars
+ - (2004/11/04) fixed bug 604 - Typo in AgentStatusView.pm
+ - (2004/10/29) spell check rewritten
+ - (2004/10/26) added unlock option to bulk feature
+ - (2004/10/18) fixed bug 551 - FAQ on E-mail new only takes over the
+    subject and not the text
+
 1.3.2 (2004-10-15)
  - (2004/10/14) fixed bug 570 - Stat generation script fails under postgres
  - (2004/10/14) fixed bug 573 - Clicked link to check ticket status and here's
