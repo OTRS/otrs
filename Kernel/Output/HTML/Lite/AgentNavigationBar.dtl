@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.2 2002-04-14 18:24:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,17 +22,14 @@
   </td>
   <td align="right" width="70%">
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentUtilities">$Text{"Utilities"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=SystemStats">$Text{"Stats"}</a>$Env{"Box1"} 
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentPreferences">$Text{"Preferences"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=SystemStats">$Text{"Stats"}</a>$Env{"Box1"}
     $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentFAQ">$Text{"FAQ"}</a>$Env{"Box1"} 
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentLocked&Subaction=New">$Text{"new message"} ($Data{"LockToDo"})</a>$Env{"Box1"} 
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentLocked">$Text{"Locked tickets"} ($Data{"LockCount"})</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentMailbox&Subaction=New">$Text{"new message"} ($Data{"LockToDo"})</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AgentMailbox">$Text{"Locked tickets"} ($Data{"LockCount"})</a>$Env{"Box1"} 
   </td>
 </tr>
 </table>
-
-<hr>
-
 <!-- end NavigationBar -->

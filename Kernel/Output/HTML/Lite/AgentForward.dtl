@@ -1,8 +1,8 @@
 # --
 # AgentCompose.dtl - provides HTML form for AgentCompose 
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.3 2002-04-14 18:24:44 martin Exp $
+# $Id: AgentForward.dtl,v 1.1 2002-04-14 18:24:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left"> 
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Compose answer for ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Forward article of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
   </td>
 </tr>
 </table>
@@ -21,7 +21,7 @@
   <td align="left" valign="top" colspan="2">
 
   <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="AgentCompose">
+  <input type="hidden" name="Action" value="AgentForward">
   <input type="hidden" name="Subaction" value="SendEmail">
   <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
   <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
@@ -31,13 +31,13 @@
   <input type="hidden" name="InReplyTo" value="$Data{"InReplyTo"}">
   <table border="0">
     <tr>
-      <td>$Text{"From"}:</td><td>$Data{"FromHTML"} <input type="hidden" name="From" value="$Data{"From"}"></td>
+      <td>$Text{"From"}:</td><td>$Data{"SystemFromHTML"} <input type="hidden" name="From" value="$Data{"SystemFrom"}"></td>
     </tr>
     <tr>
-      <td>$Text{"To"}:</td><td><input type="text" name="To" value="$Data{"To"}" size="65"></td>
+      <td>$Text{"To"}:</td><td><input type="text" name="To" value="" size="65"></td>
     </tr>
     <tr>
-      <td>$Text{"Cc"}:</td><td><input type="text" name="Cc" value="$Data{"Cc"}" size="65"></td>
+      <td>$Text{"Cc"}:</td><td><input type="text" name="Cc" value="" size="65"></td>
     </tr>
     <tr>
       <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Data{"Subject"}" size="65"></td>
@@ -46,13 +46,20 @@
       <td valign="top">$Text{"Text"}:</td><td>
 <pre>
 <textarea name="Body" rows="25" cols="80">
-$Data{"Salutation"}
-$Data{"To"} $Text{"wrote"}:
-$Data{"Body"}
 
-$Data{"StdResponse"}
 
 $Data{"Signature"}
+
+---- $Text{"Forwarded message from"} $Data{"From"} ----
+
+$Text{"Date"}: $Data{"Date"}
+$Text{"From"}: $Data{"From"}
+$Text{"To"}: $Data{"To"}
+$Text{"Cc"}: $Data{"Cc"}
+$Text{"Reply-To"}: $Data{"ReplyTo"}
+$Text{"Subject"}: $Data{"Subject"} 
+$Data{"Body"}
+---- $Text{"End forwarded message"} ----
 </textarea>
 </pre>
       </td>
@@ -60,6 +67,10 @@ $Data{"Signature"}
     <tr>
       <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
     </tr>
+    <tr>
+      <td>$Text{"Atricle type"}:</td><td>$Data{"ArticleTypesStrg"}</td>
+    </tr>
+
   </table>
   <br>
   <input type="submit" value="$Text{"Send mail!"}">

@@ -1,8 +1,8 @@
 # --
 # TicketView.dtl - provides HTML TicketView for AgentQueueView.pm
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.4 2002-02-19 22:20:56 martin Exp $
+# $Id: TicketView.dtl,v 1.5 2002-04-14 18:24:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,11 +11,11 @@
 <!-- start ticket -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}">
+  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="60%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
   </font>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor0"}">
+  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="40%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
   </font>
   </td>
@@ -74,7 +74,7 @@ $Data{"Text"}
    <p>
      <b>$Text{"Article"}</b>
      <br>
-     <a href="$Env{"Baselink"}&Action=AgentForward">$Text{"Forward"}</a> - 
+     <a href="$Env{"Baselink"}&Action=AgentForward&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Forward"}</a> - 
      <a href="$Env{"Baselink"}&Action=AgentBounce">$Text{"Bounce"}</a>
    </p>
 
