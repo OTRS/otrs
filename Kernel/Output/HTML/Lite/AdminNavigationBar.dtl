@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.17 2003-02-23 22:22:32 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.18 2003-09-28 15:46:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,15 +10,35 @@
 # --
 <!-- start NavigationBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
-<tr valign="top">
-  <td align="left" class="table2">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout">$Text{"Logout"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentQueueView">$Text{"AgentFrontend"}</a>$Env{"Box1"}
+<tr>
+  <td valign="top" align="left" width="80%" class="nav">
+    <table cellspacing="1" cellpadding="3">
+    <tr>
+      <td align="center">
+        <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}exit.png"><br>$Text{"Logout"}</a>
+      </td>
+      <td align="center">
+        <a href="$Env{"Baselink"}Action=" onmouseover="window.status='$Text{"AgentFrontend"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}admin.png"><br>$Text{"AgentFrontend"}</a>
+      </td>
+    </tr>
+    </table>
   </td>
-  <td align="right" class="table2">
-    $Env{"Box0"}<a href="#end">$Text{"Bottom of Page"}</a>$Env{"Box1"}
+  <td valign="top" align="right" width="20%" class="table1">
+    <table>
+    <tr>
+      <td align="center">
+        -
+      </td>
+    </tr>
+  </table>
   </td>
+</tr>
 </table> 
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <td align="left" class="table0"><b>$Env{"Box0"}Admin Area$Env{"Box1"}</b></td>
+</tr>
+</table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="4">
 <tr>
   <th class="table1">$Text{"User"} & $Text{"Groups"}</th>
@@ -27,14 +47,14 @@
   <th class="table1">$Text{"Misc"}</th>
 </tr>
 <tr valign="top" align="left">
-  <td class="table1">
+  <td class="nav">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUser">$Text{"User"}</a>$Env{"Box1"} 
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminGroup">$Text{"Groups"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUserGroup">$Text{"User <-> Groups"}</a>$Env{"Box1"}
   </td>
-  <td class="table1"> 
+  <td class="nav"> 
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminQueue">$Text{"Queue"}</a>$Env{"Box1"} 
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminResponse">$Text{"Responses"}</a>$Env{"Box1"} 
@@ -49,7 +69,7 @@
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminResponseAttachment">$Text{"Attachment <-> Response"}</a>$Env{"Box1"} 
   </td>
-  <td class="table1">
+  <td class="nav">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSalutation">$Text{"Salutation"}</a>$Env{"Box1"}
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSignature">$Text{"Signature"}</a>$Env{"Box1"} 
@@ -58,9 +78,9 @@
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCharset">$Text{"Charsets"}</a>$Env{"Box1"} 
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminState">$Text{"Status defs"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminState">$Text{"Status"}</a>$Env{"Box1"}
   </td>
-  <td class="table1">
+  <td class="nav">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminCustomerUser">$Text{"Customer User"}</a>$Env{"Box1"} 
     <br> 
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPOP3">$Text{"POP3 Account"}</a>$Env{"Box1"} 
@@ -75,5 +95,4 @@
   </td>
 </tr>
 </table>
-<hr>
 <!-- end NavigationBar -->
