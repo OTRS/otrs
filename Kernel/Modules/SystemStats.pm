@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.13 2004-08-03 13:07:52 martin Exp $
+# $Id: SystemStats.pm,v 1.14 2004-09-20 19:22:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $ ';
+$VERSION = '$Revision: 1.14 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,9 +44,8 @@ sub Run {
     my %Param = @_;
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # print page ...
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Overview');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Stats', Title => 'Overview');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
 
         my %Config = %{$Self->{ConfigObject}->Get('SystemStatsMap')};
         foreach my $Stats (sort keys %Config) {
