@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.7 2002-09-19 22:23:44 martin Exp $
+# $Id: EmailParser.pm,v 1.8 2002-11-09 02:23:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,9 +17,10 @@ use MIME::Parser;
 use MIME::QuotedPrint;
 use MIME::Base64;
 use MIME::Words qw(:all);
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -42,7 +43,8 @@ sub GetParam {
     my %Param = @_;
     my $What = $Param{WHAT} || return;
 
-    my $Header = $Self->GetHeader();
+    my $Header = $Self->GetHeader(); 
+    $Header->unfold();
     $Header->combine($What);
     my $Line = $Header->get($What) || '';
     $Line = decode_mimewords($Line);
@@ -53,23 +55,21 @@ sub GetParam {
 sub GetEmailAddress {
     my $Self = shift;
     my %Param = @_;
-    my $TestAddress = $Param{Email};
-    my $RealAddress = $TestAddress;
+    my $Email = '';
+    foreach (Mail::Address->parse($Param{Email})) {
+        $Email = $_->address();
 
-    $TestAddress =~ s/\(.*?\)//g;
-
-    if ($TestAddress =~ /<(.*?)>/) {
-        $RealAddress= $1;
     }
-    $RealAddress =~ s/ //g;
-    return $RealAddress;
+    return $Email;
 }
 # --
 sub SplitAddressLine {
     my $Self = shift;
     my %Param = @_;
-    my $Line = $Param{Line};
-    my @GetParam = split(/,/, $Line);
+    my @GetParam = ();
+    foreach (Mail::Address->parse($Param{Line})) {
+        push (@GetParam, $_->format());
+    }
     return @GetParam;
 }
 # --
