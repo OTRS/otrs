@@ -26,12 +26,13 @@ name is free settable.
 
 <para>
 Use the Admin-Interface (Status defs) if you want to change or add ticket states. 
+<screenshot>
+<screeninfo>ticket zoom</screeninfo>
+<graphic srccredit="admin state - screenshot" scale="40" fileref="screenshots/admin-state.png"></graphic>
+</screenshot>
 </para>
 
 <para> 
-<itemizedlist mark='opencircle'>
-<listitem>
-<para>
 Take care that you also update the default state "new" in your Kernel/Config.pm 
 (if you changed the name "new").
 <programlisting>
@@ -44,9 +45,6 @@ Take care that you also update the default state "new" in your Kernel/Config.pm
     $Self->{PhoneDefaultNewNextState} = 'open';
     [...]
 </programlisting>
-</para>
-</listitem>
-</itemizedlist>
 </para>
 
 </chapter>
