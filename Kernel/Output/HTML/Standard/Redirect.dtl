@@ -1,8 +1,8 @@
 # --
 # Redirect.dtl - provides global HTML redirect header
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Redirect.dtl,v 1.4 2003-02-15 12:00:34 martin Exp $
+# $Id: Redirect.dtl,v 1.5 2004-12-02 00:39:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,6 +13,6 @@
 Content-Type: text/html; charset=$Env{"UserCharset"};
 Status: 302 Moved
 location: $Data{"Redirect"}
-X-Powered-By: $Env{"Product"} $Env{"Version"} - Open Ticket Request System (http://otrs.org)
+X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
 
 document <a href="$Data{"Redirect"}">moved</a>

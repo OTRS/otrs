@@ -1,8 +1,8 @@
 # --
-# Footer.dtl - provides global HTML footer 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Footer.dtl - provides global HTML footer
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFooter.dtl,v 1.6 2004-01-21 22:46:18 martin Exp $
+# $Id: CustomerFooter.dtl,v 1.7 2004-12-02 00:39:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="right" class="small">$Text{"Powered by"} <a href="http://otrs.org/" class="small">$Env{"Product"} $Env{"Version"}</a></td>
+  <td align="right" class="small">$Text{"Powered by"} <a href="http://otrs.org/" class="small">$Config{"Product"} $Config{"Version"}</a></td>
 </tr>
 </table>
 

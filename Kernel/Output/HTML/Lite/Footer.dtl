@@ -1,8 +1,8 @@
 # --
-# Footer.dtl - provides global HTML footer 
+# Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Footer.dtl,v 1.8 2004-03-22 13:12:10 martin Exp $
+# $Id: Footer.dtl,v 1.9 2004-12-02 00:40:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@
   $Env{"Box0"}
    <a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"QueueView"}</a>
    $Env{"Box1"}
-   - 
+   -
    $Env{"Box0"}
    <a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"PhoneView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"PhoneView"}</a>
    $Env{"Box1"}
@@ -31,7 +31,7 @@
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="right" class="small">$Text{"Powered by"} $Env{"Product"} $Env{"Version"}</td>
+  <td align="right" class="small">$Text{"Powered by"} $Config{"Product"} $Config{"Version"}</td>
 </tr>
 </table>
 
