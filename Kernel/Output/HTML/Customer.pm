@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.27 2004-02-19 14:34:03 martin Exp $
+# $Id: Customer.pm,v 1.27.2.1 2004-02-29 16:29:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.27.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub CustomerLogin {
         Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
         Name => 'Lang',
         SelectedID => $Self->{UserLanguage},
-        OnChange => 'submit()'
+        OnChange => 'submit()',
+        HTMLQuote => 0,
+        LanguageTranslation => 0,
     );
     # get lost password output
     if ($Self->{ConfigObject}->Get('CustomerPanelLostPassword')
