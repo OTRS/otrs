@@ -41,6 +41,7 @@ IO-Stringy.zip</screen></para>
 </caution>
 <para>Download <ulink url="http://www.robertkehl.de/otrs/RC2-mod_perl-Win32.zip">mod_perl</ulink> from <ulink url="http://www.robertkehl.de/otrs">robertkehl.de/otrs</ulink> and unpack it into <computeroutput>D:\Perl\packages</computeroutput>.</para>
 </section>
+</section>
 
 <section>
 <title>Choosing And Installing The Webserver</title>
