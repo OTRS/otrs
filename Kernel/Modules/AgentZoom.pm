@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: AgentZoom.pm,v 1.2 2002-02-07 00:03:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -76,7 +76,7 @@ sub Run {
     " sq.name as queue, st.create_time as ticket_create_time, ".
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
-    " st.freetext2, st.customer_id ".
+    " st.freetext2, st.customer_id, sq.group_id ".
     " FROM ".
     " article sa, ticket st, article_sender_type stt, article_type at, user su, " .
     " ticket_lock_type sl, " .
@@ -116,6 +116,7 @@ sub Run {
             $Ticket{FreeKey2} = $$Data{freekey2};
             $Ticket{FreeValue2} = $$Data{freetext2};
             $Ticket{Created} = $$Data{ticket_create_time};
+            $Ticket{GroupID} = $$Data{group_id};
             $Ticket{TmpCounter}++;
             $Ticket{Age} = time() - $$Data{create_time_unix};
         }
@@ -147,18 +148,36 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Header(Title => "Zoom Ticket $Ticket{TicketNumber}");
     my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
- 
-    $Output .= $Self->{LayoutObject}->TicketZoom(
-        TicketID => $TicketID,
-        QueueID => $QueueID,
-        MoveQueues => \%MoveQueues,
-        StdResponses => \%StdResponses,
-        ArticleBox => \@ArticleBox,
-        ArticleID => $Self->{ArticleID},
-        %Ticket
-    );
-    
+
+    # checl permissions
+    my %Groups = $Self->{DBObject}->GetGroups(UserID => $UserID);
+    my $OK = 0;
+    foreach (keys %Groups) {
+        if ($Ticket{GroupID} eq $_) { 
+            $OK = 1;
+        }
+    }
+
+    # show or don't show ticket
+    if ($OK) {
+        $Output .= $Self->{LayoutObject}->TicketZoom(
+            TicketID => $TicketID,
+            QueueID => $QueueID,
+            MoveQueues => \%MoveQueues,
+            StdResponses => \%StdResponses,
+            ArticleBox => \@ArticleBox,
+            ArticleID => $Self->{ArticleID},
+            %Ticket
+        );
+    } 
+    else {
+        $Output .= $Self->{LayoutObject}->NoPermission(WithHeader => 'no');
+    }
+   
+    # add footer 
     $Output .= $Self->{LayoutObject}->Footer();
+
+    # return outpu
     return $Output;
 }
 # --

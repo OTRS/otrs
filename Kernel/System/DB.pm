@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.5 2002-01-12 14:11:27 martin Exp $
+# $Id: DB.pm,v 1.6 2002-02-07 00:03:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,15 @@ package Kernel::System::DB;
 use strict;
 use DBI;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+use Kernel::System::User;
+
+use vars qw(@ISA $VERSION);
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+@ISA = (
+    'Kernel::System::User',
+);
 
 # --
 sub new {
@@ -198,40 +204,6 @@ sub GetValidIDs {
         $Self->{ValidIDs} = \@ValidIDs;
     }
     return @ValidIDs;
-}
-# --
-sub GetLockedCount {
-    my $Self = shift;
-    my %Param = @_;
-    my $UserID = $Param{UserID};
-    my @LockIDs = (2);
-    my %Data;
-
-    $Self->Prepare(
-       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by" .
-              " FROM " .
-              " ticket ti, article ar, article_sender_type st" .
-              " WHERE " .
-              " ti.user_id = $UserID " .
-              " AND " .
-              " ti.ticket_lock_id in ( ${\(join ', ', @LockIDs)} )" .
-              " AND " .
-              " ar.ticket_id = ti.id " .
-              " AND " .
-              " st.id = ar.article_sender_type_id " .
-              " ORDER BY ar.create_time DESC",
-    );
-
-    while (my @RowTmp = $Self->FetchrowArray()) {
-        if (!$Data{"ID$RowTmp[2]"}) {
-          $Data{'Count'}++;
-          if ($RowTmp[1] ne 'agent' || $RowTmp[3] ne $UserID) {
-            $Data{'ToDo'}++;
-          }
-        }
-        $Data{"ID$RowTmp[2]"} = 1;
-    }
-    return %Data;
 }
 # --
 sub DESTROY {
