@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.126 2004-07-05 08:12:51 martin Exp $
+# $Id: Ticket.pm,v 1.127 2004-07-07 12:39:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.126 $';
+$VERSION = '$Revision: 1.127 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -710,7 +710,7 @@ sub MoveTicket {
       "  where id = ".$Self->{DBObject}->Quote($Param{TicketID})."";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
-        my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID}); 
+        my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         # update ticket view index
@@ -723,9 +723,13 @@ sub MoveTicket {
             Name => "\%\%$Queue\%\%$Param{QueueID}\%\%$OldQueue\%\%$OldQueueID",
             CreateUserID => $Param{UserID},
         );
-        # send move notify to queue subscriber 
+        # send move notify to queue subscriber
         foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Param{QueueID})) {
-            my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
+            my %UserData = $Self->{UserObject}->GetUserData(
+                UserID => $_,
+                Cached => 1,
+                Valid => 1,
+            );
             if ($UserData{UserSendMoveNotification}) {
                 # send agent notification
                 $Self->SendAgentNotification(
@@ -744,7 +748,7 @@ sub MoveTicket {
             CustomerMessageParams => { %Preferences, Queue => $Queue },
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
-        ); 
+        );
         # should I unlock a ticket after move?
         if ($Self->{ConfigObject}->Get('Move::ForceUnlockAfterMove')) {
             $Self->LockSet(
@@ -2663,6 +2667,7 @@ sub HistoryTicketStatusGet {
             StopYear => $Param{StopYear},
             StopMonth => $Param{StopMonth},
             StopDay => $Param{StopDay},
+            Force => $Param{Force} || 0,
         );
         if (%TicketData) {
             $Ticket{$TicketID} = \%TicketData;
@@ -3314,6 +3319,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.126 $ $Date: 2004-07-05 08:12:51 $
+$Revision: 1.127 $ $Date: 2004-07-07 12:39:14 $
 
 =cut
