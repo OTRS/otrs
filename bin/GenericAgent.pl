@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.12 2003-05-20 20:21:14 martin Exp $
+# $Id: GenericAgent.pl,v 1.13 2003-07-13 11:55:55 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -95,15 +95,16 @@ foreach my $Job (keys %Jobs) {
     else {
         if (! $Jobs{$Job}->{Queue}) {
             my @Tickets = $CommonObject{TicketObject}->GetOverTimeTickets();
-            foreach my $Data (@Tickets) {
-                $Tickets{$Data->{TicketID}} = $Data->{TicketNumber};
+            foreach (@Tickets) {
+                $Tickets{$_} = $CommonObject{TicketObject}->GetTNOfId(ID => $_); 
             }
         }
         else {
             my @Tickets = $CommonObject{TicketObject}->GetOverTimeTickets();
-            foreach my $Data (@Tickets) {
-                if ($Data->{Queue} eq $Jobs{$Job}->{Queue}) {
-                    $Tickets{$Data->{TicketID}} = $Data->{TicketNumber};
+            foreach (@Tickets) {
+                my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
+                if ($Ticket{Queue} eq $Jobs{$Job}->{Queue}) {
+                    $Tickets{$_} = $Ticket{TicketNumber};
                 }
             }
         }
@@ -129,7 +130,7 @@ sub Run {
     if ($Jobs{$Job}->{New}->{Queue}) {
         print "  - Move Ticket to Queue $Jobs{$Job}->{New}->{Queue}\n";
         $CommonObject{TicketObject}->MoveByTicketID(
-            QueueID => $CommonObject{QueueObject}->QueueLookup(Queue=>$Jobs{$Job}->{New}->{Queue}),
+            QueueID => $CommonObject{QueueObject}->QueueLookup(Queue=>$Jobs{$Job}->{New}->{Queue}, Cache => 1),
             UserID => $UserIDOfGenericAgent,
             TicketID => $TicketID,
         );
