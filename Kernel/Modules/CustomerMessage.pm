@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.11 2003-03-04 00:12:50 martin Exp $
+# $Id: CustomerMessage.pm,v 1.12 2003-03-10 15:03:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub Run {
     my $Output;
     my $QueueID = $Self->{QueueID};
     my $Subaction = $Self->{Subaction};
-    my $NextScreen = $Self->{NextScreen} || 'CustomerZoom';
+    my $NextScreen = $Self->{NextScreen} || $Self->{ConfigObject}->Get('CustomerNextScreenAfterNewTicket');
     my $BackScreen = $Self->{BackScreen};
     my $UserID = $Self->{UserID};
     my $UserLogin = $Self->{UserLogin};
