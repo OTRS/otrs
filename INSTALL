@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.26 2003-01-15 18:32:12 martin Exp $
+# $Id: INSTALL,v 1.27 2003-01-16 21:59:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -28,10 +28,13 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
 1. Install CPAN Modules (if needed):
    ---------------------------------
-   a) Install the RPMs if your distributions provides RPMs for
-      the CPAN modules. 
+   Note: use "bin/otrs.checkModules" to get an overview of all installed and 
+   required cpan modules.
 
-   b) Install the modules via CPAN (http://www.cpan.org/)
+   a) Install the RPMs if your distributions provides RPMs for
+      the required CPAN modules. 
+
+   b) Install the required modules via CPAN shell (http://www.cpan.org/)
       perl -MCPAN -e shell;
       ...
       install Digest::MD5
@@ -138,8 +141,8 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
 11. Cronjobs for the OTRS user:
     ---------------------------
-    There are several OTRS demo cronjobs in $OTRS_HOME/var/cron/*.dist. 
-    Make copies of all of the demo cronjobs:
+    There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist. 
+    Make copies of all of the default cronjobs:
  
       cd var/cron
       for foo in *.dist; do cp $foo `basename $foo .dist`; done
