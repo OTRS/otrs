@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.17 2003-04-12 23:03:36 martin Exp $
+# $Id: bg.pm,v 1.18 2004-01-20 00:02:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -29,7 +29,8 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
-    $Self->{DateInputFormat} = '%D.%M.%Y - %T';
+    $Self->{DateInputFormat} = '%D.%M.%Y';
+    $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
     %Hash = (
     # Template: AAABase
@@ -39,7 +40,7 @@ sub Data {
       '10 minutes' => '10 Минути',
       '15 minutes' => '15 Минути',
       'AddLink' => 'Добавяне на връзка',
-      'AdminArea' => 'Зона-Администратор',
+      'Admin-Area' => 'Зона-Администратор',
       'agent' => '',
       'all' => 'всички',
       'All' => 'Всички',

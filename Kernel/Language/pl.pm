@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/pl.pm - provides pl language translation
-# Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.2 2003-09-29 20:58:09 martin Exp $
+# $Id: pl.pm,v 1.3 2004-01-20 00:02:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,8 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
-    $Self->{DateInputFormat} = '%D.%M.%Y - %T';
+    $Self->{DateInputFormat} = '%D.%M.%Y';
+    $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
     %Hash = (
     # Template: AAABase
@@ -41,7 +42,7 @@ sub Data {
       '10 minutes' => '10 Minut',
       '15 minutes' => '15 Minut',
       'AddLink' => 'Dodaj link',
-      'AdminArea' => 'Administracja',
+      'Admin-Area' => 'Administracja',
       'agent' => 'Agent',
       'all' => 'wszystkie',
       'All' => 'Wszystkie',

@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2002 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: bb.pm,v 1.8 2003-03-14 15:09:00 martin Exp $
+# $Id: bb.pm,v 1.9 2004-01-20 00:02:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,7 +30,8 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
-    $Self->{DateInputFormat} = '%D.%M.%Y - %T';
+    $Self->{DateInputFormat} = '%D.%M.%Y';
+    $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
     %Hash = (
     # Template: AAABase
@@ -40,7 +41,7 @@ sub Data {
       '10 minutes' => '10 Minutn',
       '15 minutes' => '15 Minutn',
       'AddLink' => 'Link hinzufügen',
-      'AdminArea' => 'AdminBereich',
+      'Admin-Area' => 'Admin-Bereich',
       'all' => 'alle',
       'All' => 'All',
       'Attention' => 'Achtung',

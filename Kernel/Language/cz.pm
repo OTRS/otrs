@@ -2,7 +2,7 @@
 # Kernel/Language/cz.pm - provides cz language translation
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # --
-# $Id: cz.pm,v 1.2 2003-12-02 22:30:13 martin Exp $
+# $Id: cz.pm,v 1.3 2004-01-20 00:02:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,7 +30,8 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D/%M/%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %Y %T';
-    $Self->{DateInputFormat} = '%D/%M/%Y - %T';
+    $Self->{DateInputFormat} = '%D/%M/%Y';
+    $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
 
     %Hash = (
     # Template: AAABase
@@ -40,7 +41,7 @@ sub Data {
       '10 minutes' => '10 minut',
       '15 minutes' => '15 minut',
       'AddLink' => 'Pøidat odkaz',
-      'AdminArea' => 'Administraèní zóna',
+      'Admin-Area' => 'Administraèní zóna',
       'agent' => 'operator',
       'all' => 'vše',
       'All' => 'Vše',

@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.16 2003-07-02 22:18:22 martin Exp $
+# $Id: fi.pm,v 1.17 2004-01-20 00:02:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -29,7 +29,8 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
-    $Self->{DateInputFormat} = '%D.%M.%Y - %T';
+    $Self->{DateInputFormat} = '%D.%M.%Y';
+    $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
     %Hash = (
     # Template: AAABase
@@ -39,7 +40,7 @@ sub Data {
       '10 minutes' => '10 Minuuttia',
       '15 minutes' => '15 Minuuttia',
       'AddLink' => 'Lisää linkki',
-      'AdminArea' => 'Ylläpito',
+      'Admin-Area' => 'Ylläpito',
       'agent' => '',
       'all' => 'kaikki',
       'All' => 'Kaikki',

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.55 2004-01-10 15:36:14 martin Exp $
+# $Id: AgentCompose.pm,v 1.56 2004-01-20 00:02:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -507,7 +507,11 @@ sub _Mask {
         }
     }
     # pending data string
-    $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(%Param);
+    $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Format => 'DateInputFormatLong',
+        DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
+    );
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentCompose', Data => \%Param);
 }

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.14 2004-01-10 15:36:14 martin Exp $
+# $Id: AgentPending.pm,v 1.15 2004-01-20 00:02:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -242,6 +242,8 @@ sub _Mask {
         OnChangeSubmit => 0,
     );
     $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+        Format => 'DateInputFormatLong',
+        DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
         StartYear => 243
     );
 

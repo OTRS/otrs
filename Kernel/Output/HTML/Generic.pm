@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.98 2004-01-09 12:51:08 martin Exp $
+# $Id: Generic.pm,v 1.99 2004-01-20 00:02:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.98 $';
+$VERSION = '$Revision: 1.99 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1023,19 +1023,21 @@ sub PageNavBar {
 sub BuildDateSelection {
     my $Self = shift;
     my %Param = @_;
-    my $PendingDiffTime = $Self->{ConfigObject}->Get('PendingDiffTime') || 0;
-    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time+$PendingDiffTime);
+    my $Prefix = $Param{'Prefix'} || '';
+    my $DiffTime = $Param{'DiffTime'} || 0;
+    my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
+    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time()+$DiffTime);
     $Y = $Y+1900;
     $M++;
     # year
     my %Year = ();
-    foreach ($Y-3..$Y+10) {
+    foreach ($Y-4..$Y+10) {
         $Year{$_} = $_;
     }
     $Param{Year} = $Self->OptionStrgHashRef(
-        Name => 'Year',
+        Name => $Prefix.'Year',
         Data => \%Year,
-        SelectedID => $Param{Year} || $Y,
+        SelectedID => $Param{$Prefix.'Year'} || $Y,
     );
     # month
     my %Month = ();
@@ -1044,9 +1046,9 @@ sub BuildDateSelection {
         $Month{$_} = $Tmp;
     }
     $Param{Month} = $Self->OptionStrgHashRef(
-        Name => 'Month',
+        Name => $Prefix.'Month',
         Data => \%Month,
-        SelectedID => $Param{Month} || $M,
+        SelectedID => $Param{$Prefix.'Month'} || $M,
     );
     # day
     my %Day = ();
@@ -1055,32 +1057,34 @@ sub BuildDateSelection {
         $Day{$_} = $Tmp;
     }
     $Param{Day} = $Self->OptionStrgHashRef(
-        Name => 'Day',
+        Name => $Prefix.'Day',
         Data => \%Day,
-        SelectedID => $Param{Day} || $D,
+        SelectedID => $Param{$Prefix.'Day'} || $D,
     );
-    # hour
-    my %Hour = ();
-    foreach (0..23) {
-        my $Tmp = sprintf("%02d", $_);
-        $Hour{$_} = $Tmp;
+    if ($Format eq 'DateInputFormatLong') {
+        # hour
+        my %Hour = ();
+        foreach (0..23) {
+            my $Tmp = sprintf("%02d", $_);
+            $Hour{$_} = $Tmp;
+        }
+        $Param{Hour} = $Self->OptionStrgHashRef(
+            Name => $Prefix.'Hour',
+            Data => \%Hour,
+            SelectedID => $Param{$Prefix.'Hour'} || $h,
+        );
+        # minute
+        my %Minute = ();
+        foreach (0..59) {
+            my $Tmp = sprintf("%02d", $_);
+            $Minute{$_} = $Tmp;
+        }
+        $Param{Minute} = $Self->OptionStrgHashRef(
+            Name => $Prefix.'Minute',
+            Data => \%Minute,
+            SelectedID => $Param{$Prefix.'Minute'} || $m,
+        );
     }
-    $Param{Hour} = $Self->OptionStrgHashRef(
-        Name => 'Hour',
-        Data => \%Hour,
-        SelectedID => $Param{Hour} || $h,
-    );
-    # minute
-    my %Minute = ();
-    foreach (0..59) {
-        my $Tmp = sprintf("%02d", $_);
-        $Minute{$_} = $Tmp;
-    }
-    $Param{Minute} = $Self->OptionStrgHashRef(
-        Name => 'Minute',
-        Data => \%Minute,
-        SelectedID => $Param{Minute} || $m,
-    );
     #DateFormat
     return $Self->{LanguageObject}->Time(
         Action => 'Return',

@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.3 2003-05-17 12:03:43 martin Exp $
+# $Id: it.pm,v 1.4 2004-01-20 00:02:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,8 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D/%M/%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %Y %T';
-    $Self->{DateInputFormat} = '%D/%M/%Y - %T';
+    $Self->{DateInputFormat} = '%D/%M/%Y';
+    $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
 
     %Hash = (
     # Template: AAABase
@@ -41,7 +42,7 @@ sub Data {
       '10 minutes' => '10 minuti',
       '15 minutes' => '15 minuti',
       'AddLink' => 'Aggiungi link',
-      'AdminArea' => 'Area Amministrazione',
+      'Admin-Area' => 'Area Amministrazione',
       'agent' => 'operatore',
       'all' => 'tutti',
       'All' => 'Tutti',
