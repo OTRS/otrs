@@ -1,17 +1,24 @@
 <appendix id="credits">
 <title>Credits</title>
 <para>
-As most open source projects we have to thank many people for there help. This is a non-complete list of those folks:
+As most open source projects we have to thank many people for there help. 
+This is a non-complete list of those folks:
 </para>
 <para>
-Martin Scherbaum, Carsten Gross, Harald M&uuml;ller, Stefan Schmidt, Milisav Radmanic, Uli Hecht, Norman Walsh, Heiko Baumann, Atif Ghaffar, Pablo Ruiz Garcia, Dan Rau, Christoph Kaulich, Mark Jackson, Diane Shieh, Bernard Choppy, Carl Bailey, Phil Davis, Edwin D. Vinas, Lars M&uuml;ller, Bryan Fullerton, Vladimir Gerdjikov
+Martin Scherbaum, Carsten Gross, Harald M&uuml;ller, Stefan Schmidt, Milisav Radmanic, 
+Uli Hecht, Norman Walsh, Heiko Baumann, Atif Ghaffar, Pablo Ruiz Garcia, Dan Rau, 
+Christoph Kaulich, Mark Jackson, Diane Shieh, Bernard Choppy, Carl Bailey, Phil Davis, 
+Edwin D. Vinas, Lars M&uuml;ller, Bryan Fullerton, Vladimir Gerdjikov, Fred van Dijk,
+Sebastien Guilbaud
 </para>
 <para>
 And we appriciate all the help and assistance on the OTRS mailinglists. Thank you! :-)
 </para>
 <para><emphasis role='bold'>mirrors</emphasis></para>
 <para>
-The project pretty soon reached a point where our ftp server didn't have enough bandwidth to serve the demand. Here is a list of people who rescued us by setting up mirrors. We appreciate your help!
+The project pretty soon reached a point where our ftp server didn't have enough 
+bandwidth to serve the demand. Here is a list of people who rescued us by setting 
+up mirrors. We appreciate your help!
 </para>
 <para>
 Nils Jeppe (mirror Hamburg), Bryan Fullerton (ftp.samurai.com), Eberhard Moenkeberg (ftp.gwdg.de)
