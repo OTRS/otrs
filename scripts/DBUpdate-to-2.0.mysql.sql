@@ -2,10 +2,10 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.4 2004-09-28 19:23:18 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.5 2004-09-29 09:50:01 martin Exp $
 -- --
 --
--- usage: cat DBUpdate-to-1.3.mysql.sql | mysql -f -u root otrs
+-- usage: cat DBUpdate-to-2.0.mysql.sql | mysql -f -u root otrs
 --
 -- --
 
@@ -71,7 +71,12 @@ CREATE TABLE role_user
     change_by INTEGER NOT NULL
 );
 
-ALTER TABLE search_profile ADD profile_type VARCHAR (30) NOT NULL;
+--
+-- improve search profile table
+--
+ALTER TABLE search_profile ADD profile_type VARCHAR (30);
+UPDATE search_profile SET profile_type='TicketSearch' where profile_type IS NULL ;
+ALTER TABLE search_profile CHANGE profile_type profile_type VARCHAR (30) NOT NULL;
 
 --
 -- process_id
