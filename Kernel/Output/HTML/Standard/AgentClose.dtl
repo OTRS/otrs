@@ -2,7 +2,7 @@
 # AgentClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.1 2001-12-23 13:25:16 martin Exp $
+# $Id: AgentClose.dtl,v 1.2 2001-12-26 20:13:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,7 +42,7 @@
   </tr>
   <tr>
     <td>$Text{"Note Text"}:</td><td>
-<textarea name="Note" rows="15" cols="60">
+<textarea name="Text" rows="15" cols="60">
 </textarea>
     </td>
   </tr>

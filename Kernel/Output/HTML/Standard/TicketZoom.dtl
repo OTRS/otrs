@@ -2,7 +2,7 @@
 # TicketZoom.dtl - provides HTML TicketZoom for AgentZoom.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketZoom.dtl,v 1.1 2001-12-23 13:25:16 martin Exp $
+# $Id: TicketZoom.dtl,v 1.2 2001-12-26 20:13:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,6 +26,7 @@
   <a href="$Env{"Baselink"}&Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Unock"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentPriority&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Priority"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentHistory&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"History"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentOwner&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Owner"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Add Note"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Close"}</a>
   </td>
@@ -58,17 +59,17 @@
     <tr>
   </table>
   <pre>
- $Data{"Article::Text"}
+$Data{"Article::Text"}
   </pre>
   </td> 
-  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center">
+  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
     <br>
     <table border="0" cellspacing="1" cellpadding="1" cols="2">
-    <tr><td align="right"><b>$Text{"State"}:</b></td><td> <font color="red">$Data{"State"}</font></td></tr>
-    <tr><td align="right"><b>$Text{"Priority"}:</b></td><td> <font color="red">$Data{"Priority"}</font></td></tr>
-    <tr><td align="right"><b>$Text{"Queue"}:</b></td><td> <font color="red">$Data{"Queue"}</font></td></tr>
-   </table>
-
+      <tr><td align="right"><b>$Text{"State"}:</b></td><td> <font color="red">$Data{"State"}</font></td></tr>
+      <tr><td align="right"><b>$Text{"Priority"}:</b></td><td> <font color="red">$Data{"Priority"}</font></td></tr>
+      <tr><td align="right"><b>$Text{"Queue"}:</b></td><td> <font color="red">$Data{"Queue"}</font></td></tr>
+      <tr><td align="right"><b>$Text{"Lock"}:</b></td><td> <font color="red">$Data{"Lock"}</font></td></tr>
+    </table>
 
    <p>
      <b>$Text{"Owner"}:</b>

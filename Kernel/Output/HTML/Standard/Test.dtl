@@ -2,7 +2,7 @@
 # Test.dtl - provides HTML test page 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Test.dtl,v 1.1 2001-12-16 01:35:42 martin Exp $
+# $Id: Test.dtl,v 1.2 2001-12-26 20:13:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,12 +22,14 @@
 
 <p>
 
-<dtl set $Data{"Test1"} = "English">
+<dtl set $Data{"Test1"} = "German">
 a) Set $Data{\"Test1\"} = "$Data{"Test1"}"
 <br>
+Echo ($Text{\"Lock\"}): $Text{"Lock"}
+<br>
 
-<dtl if ($Text{"Lock"} eq "Ziehen") { $Data{"Test1"} = "Deutsch"; }>
-b) if ($Text{\"Lock\"} eq "Ziehen") { $Data{\"Test:\"} = "Deutsch"; }<br>
+<dtl if ($Text{"Lock"} eq "Lock") { $Data{"Test1"} = "English"; }>
+b) if ($Text{\"Lock\"} eq "Lock") { $Data{\"Test:\"} = "English"; }<br>
 
 Result: $Data{"Test1"}
 </p>
