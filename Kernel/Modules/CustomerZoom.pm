@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.30 2005-02-15 11:58:12 martin Exp $
+# $Id: CustomerZoom.pm,v 1.31 2005-03-11 06:12:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -259,11 +259,6 @@ sub _Mask {
         $Param{"Article::Text"} = '';
     }
     else {
-        # charset encode
-        $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Article{Body},
-            From => $Article{ContentCharset},
-        );
         # html quoting
         $Param{"Article::Text"} = $Self->{LayoutObject}->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
@@ -283,7 +278,7 @@ sub _Mask {
     # get article id
     $Param{"Article::ArticleID"} = $Article{ArticleID};
     # select the output template
-    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerTicketZoom', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerTicketZoom', Data => {%Article, %Param});
 }
 # --
 1;
