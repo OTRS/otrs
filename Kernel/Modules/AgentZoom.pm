@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.23 2002-12-15 13:02:13 martin Exp $
+# $Id: AgentZoom.pm,v 1.24 2002-12-20 02:19:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -214,11 +214,11 @@ sub Run {
     # article attachments
     # --
     foreach my $Article (@ArticleBox) {
-        my @AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
+        my %AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
             ContentPath => $Article->{ContentPath},
             ArticleID => $Article->{ArticleID},
         );
-        $Article->{Atms} = \@AtmIndex;
+        $Article->{Atms} = \%AtmIndex;
     }
     # --
     # genterate output

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.68 2002-12-18 16:48:41 martin Exp $
+# $Id: Agent.pm,v 1.69 2002-12-20 02:19:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -401,17 +401,18 @@ sub TicketZoom {
     # --
     # get attacment string
     # --
-    my $ATMsTmp = $Article{Atms};
-    my @ATMs = ();
-    @ATMs = @$ATMsTmp if ($ATMsTmp);
+    my %AtmIndex = ();
+    if ($Article{Atms}) {
+        %AtmIndex = %{$Article{Atms}};
+    }
     my $ATMStrg = '';
-    foreach (@ATMs) {
-        my $FileName = $Self->LinkEncode($_) || '???';
+    foreach (keys %AtmIndex) {
+        $AtmIndex{$_} = $Self->Ascii2Html(Text => $AtmIndex{$_});
         $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
-          "ArticleID=$Article{ArticleID}&File=$FileName\" target=\"attachment\" ".
-          "onmouseover=\"window.status='\$Text{\"Download\"}: $FileName';".
+          "ArticleID=$Article{ArticleID}&FileID=$_\" target=\"attachment\" ".
+          "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
            ' return true;" onmouseout="window.status=\'\';">'.
-           $_.'</a><br> ';
+           $AtmIndex{$_}.'</a><br> ';
     }
 
     # --

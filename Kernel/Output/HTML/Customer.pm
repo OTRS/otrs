@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.6 2002-12-17 18:04:12 martin Exp $
+# $Id: Customer.pm,v 1.7 2002-12-20 02:19:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -265,14 +265,18 @@ sub CustomerTicketZoom {
     # --
     # get attacment string
     # --
-    my $ATMsTmp = $Article{Atms};
-    my @ATMs = ();
-    @ATMs = @$ATMsTmp if ($ATMsTmp);
+    my %AtmIndex = ();
+    if ($Article{Atms}) {
+        %AtmIndex = %{$Article{Atms}};
+    }
     my $ATMStrg = '';
-    foreach (@ATMs) {
-        my $FileName = $Self->LinkEncode($_) || '???';
+    foreach (keys %AtmIndex) {
+        $AtmIndex{$_} = $Self->Ascii2Html(Text => $AtmIndex{$_});
         $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=CustomerAttachment&'.
-          'ArticleID='.$Article{ArticleID}.'&File='.$FileName.'" target="attachment">'.$_.'</a><br> ';
+          'ArticleID='.$Article{ArticleID}.'&FileID='.$_.'" target="attachment" '.
+          "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
+          ' return true;" onmouseout="window.status=\'\';">'.
+          $AtmIndex{$_}.'</a><br> ';
     }
     # --
     # just body if html email

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentAttachment.pm - to get the attachments 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.6 2002-10-03 17:29:23 martin Exp $
+# $Id: AgentAttachment.pm,v 1.7 2002-12-20 02:19:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -45,7 +45,7 @@ sub new {
 
     # get ArticleID
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
-    $Self->{File} = $Self->{ParamObject}->GetParam(Param => 'File');
+    $Self->{FileID} = $Self->{ParamObject}->GetParam(Param => 'FileID');
 
     return $Self;
 }
@@ -57,14 +57,14 @@ sub Run {
     # --
     # check params
     # --
-    if (!$Self->{File} || !$Self->{ArticleID}) {
+    if (!$Self->{FileID} || !$Self->{ArticleID}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
-            Message => 'File and ArticleID are needed!',
+            Message => 'FileID and ArticleID are needed!',
             Comment => 'Please contact your admin'
         );
         $Self->{LogObject}->Log(
-            Message => 'File and ArticleID are needed!',
+            Message => 'FileID and ArticleID are needed!',
             Priority => 'error',
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -93,22 +93,22 @@ sub Run {
         UserID => $Self->{UserID})) {
 
         # --
-        # geta attachment & strip file path
-        $Self->{File} =~ s/(\.\.\/||^\/)//g;
+        # geta attachment
+        # -- 
         if (my %Data = $Self->{TicketObject}->GetArticleAttachment(
           ArticleID => $Self->{ArticleID},
-          File => $Self->{File},
+          FileID => $Self->{FileID},
         )) {
             return $Self->{LayoutObject}->Attachment(%Data);  
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Error(
-              Message => "No such attacment ($Self->{File})!",
+              Message => "No such attacment ($Self->{FileID})!",
               Comment => 'Please contact your admin'
             );
             $Self->{LogObject}->Log(
-              Message => "No such attacment ($Self->{File})! May be an attack!!!",
+              Message => "No such attacment ($Self->{FileID})! May be an attack!!!",
               Priority => 'error',
             );
             $Output .= $Self->{LayoutObject}->Footer();

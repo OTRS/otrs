@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.4 2002-12-17 18:09:02 martin Exp $
+# $Id: CustomerZoom.pm,v 1.5 2002-12-20 02:19:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -191,11 +191,11 @@ sub Run {
     # article attachments
     # --
     foreach my $Article (@ArticleBox) {
-        my @AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
+        my %AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
             ContentPath => $Article->{ContentPath},
             ArticleID => $Article->{ArticleID},
         );
-        $Article->{Atms} = \@AtmIndex;
+        $Article->{Atms} = \%AtmIndex;
     }
     # --
     # check permission
