@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.5 2004-02-27 21:04:53 martin Exp $
+# $Id: FAQ.pm,v 1.6 2004-03-05 08:09:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -99,10 +99,15 @@ sub Run {
                 my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
                 $AllArticle{$Data{ID}} = "<a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>";
                 $AllArticle{$Data{ID}} .= "[$Data{Language}/$Data{Category}] $Data{Subject} (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})</a><br>";
+                $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}";
             }
+            $Param{Overview} .= '<table border="0" width="100%">';
             foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
-                $Param{Overview} .= $AllArticle{$_};
+                my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID});
+#                $Param{Overview} .= $AllArticle{$_};
+                $Param{Overview} .= "<tr><td>[$Data{Language}]</td><td><a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>$Data{Subject}</a></td><td align='right'>(\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})</td></tr>\n";
             }
+            $Param{Overview} .= '</table>';
         }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQOverview', 
@@ -123,7 +128,7 @@ sub Run {
         my %AllArticle = ();
         foreach (@FAQIDs) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID});
-            $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}</td><td> (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})";
+            $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}</td><td align='right'> (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})";
         }
         foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
