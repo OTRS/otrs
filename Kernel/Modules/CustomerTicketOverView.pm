@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.1 2002-10-20 15:40:29 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.2 2002-12-16 23:15:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerTicketOverView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -47,9 +47,6 @@ sub new {
    # --
    # all static variables
    # --
-   $Self->{ViewableStats} = $Self->{ConfigObject}->Get('ViewableStats')
-          || die 'No Config entry "ViewableStats"!';
-
    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
           || die 'No Config entry "ViewableSenderTypes"!';
    # --
@@ -107,9 +104,8 @@ sub Run {
    # --
    # get data (viewable tickets...)
    # --
-   my @ViewableTickets = ();
-   my @ViewableStats = @{$Self->{ViewableStats}};
-   my $SQL = "SELECT st.id, st.queue_id FROM " .
+   my $AllTickets = 0; 
+   my $SQL = "SELECT count(*) FROM " .
        " ticket st, ticket_state tsd, queue q, " . 
          $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
        " WHERE " .
@@ -119,8 +115,24 @@ sub Run {
        " AND ".
        " q.id = st.queue_id ".
        " AND ".
-#       " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-#       " AND ".
+       " st.customer_id = '$Self->{UserCustomerID}' ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $AllTickets = $Row[0];
+    }
+
+
+   my @ViewableTickets = ();
+   $SQL = "SELECT st.id, st.queue_id FROM " .
+       " ticket st, ticket_state tsd, queue q, " . 
+         $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
+       " WHERE " .
+       " tsd.id = st.ticket_state_id " .
+       " AND " .
+       " st.user_id = u.". $Self->{ConfigObject}->Get('DatabaseUserTableUserID') .
+       " AND ".
+       " q.id = st.queue_id ".
+       " AND ".
        " st.customer_id = '$Self->{UserCustomerID}' ".
        " ORDER BY ";
 
@@ -174,6 +186,7 @@ sub Run {
         Limit => $Self->{Limit},
         SortBy => $Self->{SortBy},
         Order => $Self->{Order},
+        AllTickets => $AllTickets,
     );
     # get page footer
     $Output .= $Self->{LayoutObject}->CustomerFooter();
