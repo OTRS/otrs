@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.dtl,v 1.4 2004-10-13 12:46:58 martin Exp $
+# $Id: AgentLinkObject.dtl,v 1.5 2004-11-26 13:36:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@
 
       <table border="0">
         <tr>
-          <td class="contentkey">$Text{"Link Object"} "$Text{"$Env{"SourceObject"}"}" $Text{"with"}:</td>
+          <td class="contentkey">$Text{"Link Object"} "$Text{"$QData{"SourceObject"}"}" $Text{"with"}:</td>
           <td class="contentvalue">$Data{"LinkToObject"}</td>
         </tr>
       </table>
@@ -82,7 +82,7 @@
       <table border="0">
 <!-- dtl:block:SearchItem -->
       <tr>
-          <td class="contentkey">$QData{"Text"}</td>
+          <td class="contentkey">$Text{"$QData{"Text"}"}</td>
           <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"Value"}"></td>
       </tr>
 <!-- dtl:block:SearchItem -->
