@@ -1,8 +1,8 @@
 # --
 # TicketZoom.dtl - provides HTML TicketZoom for AgentZoom.pm
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketZoomNote.dtl,v 1.5 2002-04-08 16:11:19 martin Exp $
+# $Id: TicketZoomNote.dtl,v 1.6 2002-04-13 15:49:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,11 +44,11 @@
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
       <td width="85%"> $Data{"Article::From"}</td>
-    <tr>
+    </tr>
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
       <td> $Data{"Article::Subject"}</td>
-    <tr>
+    </tr>
   </table>
   <pre>
 $Data{"Article::Text"}
