@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.21 2002-06-05 22:46:35 martin Exp $
+# $Id: German.pm,v 1.22 2002-06-15 10:34:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -315,6 +315,9 @@ sub Data {
     $Self->{'wrote'} = 'schrieb';
     $Self->{'Compose answer for ticket'} = 'Antwort erstellen für';
     $Self->{'Ticket locked!'} = 'Ticket gesperrt!';
+    $Self->{'A message should have a To: recipient!'} = 'Eine Nachricht sollte einen Empfänger im An: haben!';
+    $Self->{'A message should have a subject!'} = 'Eine Nachricht sollte ein Betreff haben!';
+    $Self->{'You need a email address (e. g. customer@example.com) in To:!'} = 'Im An-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!';
     # forward
     $Self->{'Forward article of ticket'} = 'Weiterleitung des Artikels vom Ticket';
     $Self->{'Article type'} = 'Artikel-Typ';
