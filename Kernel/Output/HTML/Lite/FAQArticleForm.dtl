@@ -2,7 +2,7 @@
 # FAQArticleForm.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticleForm.dtl,v 1.5 2004-02-01 22:47:00 martin Exp $
+# $Id: FAQArticleForm.dtl,v 1.6 2004-02-03 02:24:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -84,7 +84,7 @@
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field6"}"}: </td>
       <td class="table1">
-<textarea name="Field6" rows="4" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field3"}</textarea>
+<textarea name="Field6" rows="4" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field6"}</textarea>
       </td>
     </tr>
     </table>
