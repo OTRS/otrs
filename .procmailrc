@@ -2,7 +2,7 @@
 # .procmailrc - procmailrc of the OpenTRS user
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: .procmailrc,v 1.4 2002-01-16 22:40:20 martin Exp $
+# $Id: .procmailrc,v 1.5 2002-02-03 23:08:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,17 +19,25 @@ LOGFILE=$SYS_HOME/var/log/procmail-$MONTHFOLDER.log
 VERBOSE=on 
 
 # --
+# Remove all X-OTRS Header (allow this only for trusted email)
+# e. g. from *@example.com
+# --
+:0 fhw :
+* !^From.*@example.com
+| grep -vi '^X-OTRS-'
+
+# --
 # Example for queue pre sort.
 # --
 :0 fhw :
-* TO:.*edenhofer
+* TO:.*example.com
 | formail -I "X-OTRS-Queue: Privat"
 
 # --
 # Example for add free form key and value (max 3). 
 # --
 :0 fhw :
-* TO:.*edenhofer
+* TO:.*example.com
 | formail -I "X-OTRS-ArticleKey1: Test" |  formail -I "X-OTRS-ArticleValue1: True!"
 
 # --
