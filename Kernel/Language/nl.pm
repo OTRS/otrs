@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: nl.pm,v 1.3 2002-12-20 19:08:21 martin Exp $
+# $Id: nl.pm,v 1.4 2002-12-25 09:21:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,8 +13,8 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
+$VERSION = '$Revision: 1.4 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
     my $Self = shift;
@@ -22,586 +22,597 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Fri Dec 20 19:52:30 2002 by 
+    # Last translation Wed Dec 25 01:01:05 2002 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
+    $Self->{DateInputFormat} = '%D.%M.%Y - %T';
 
+    %Hash = (
     # Template: AAABase
-    $Hash{' 2 minutes'} = ' 2 minuten';
-    $Hash{' 5 minutes'} = ' 5 minuten';
-    $Hash{' 7 minutes'} = ' 7 minuten';
-    $Hash{'10 minutes'} = '10 minuten';
-    $Hash{'15 minutes'} = '15 minuten';
-    $Hash{'AddLink'} = 'Link toevoegen';
-    $Hash{'AdminArea'} = 'Administratiegedeelte';
-    $Hash{'All'} = 'Alle';
-    $Hash{'all'} = 'alle';
-    $Hash{'Attention'} = 'Let op';
-    $Hash{'Bug Report'} = 'Foutrapport';
-    $Hash{'Cancel'} = '';
-    $Hash{'Change'} = 'Veranderen';
-    $Hash{'change'} = 'veranderen';
-    $Hash{'change!'} = 'veranderen!';
-    $Hash{'click here'} = 'klik hier';
-    $Hash{'Comment'} = 'Commentaar';
-    $Hash{'Customer'} = 'Klant';
-    $Hash{'Customer info'} = 'Klanten info';
-    $Hash{'day'} = 'dag';
-    $Hash{'days'} = 'dagen';
-    $Hash{'description'} = 'omschrijving';
-    $Hash{'Description'} = 'Omschrijving';
-    $Hash{'Done'} = '';
-    $Hash{'end'} = 'Onderkant';
-    $Hash{'Error'} = 'Fout';
-    $Hash{'Example'} = 'Voorbeeld';
-    $Hash{'Examples'} = 'Voorbeelden';
-    $Hash{'Feature not acitv!'} = '';
-    $Hash{'go'} = 'start';
-    $Hash{'go!'} = 'start!';
-    $Hash{'Group'} = 'Groep';
-    $Hash{'Hit'} = 'Gevonden';
-    $Hash{'Hits'} = '';
-    $Hash{'hour'} = 'uur';
-    $Hash{'hours'} = 'uren';
-    $Hash{'Ignore'} = '';
-    $Hash{'invalid'} = '';
-    $Hash{'Invalid SessionID!'} = '';
-    $Hash{'Language'} = 'Taal';
-    $Hash{'Languages'} = 'Talen';
-    $Hash{'Line'} = 'Regel';
-    $Hash{'Lite'} = '';
-    $Hash{'Login failed! Your username or password was entered incorrectly.'} = '';
-    $Hash{'Logout successful. Thank you for using OTRS!'} = 'Afgemeld! Wij danken u voor het gebruikeen van OTRS!';
-    $Hash{'Message'} = 'Bericht';
-    $Hash{'minute'} = 'minuut';
-    $Hash{'minutes'} = 'minuten';
-    $Hash{'Module'} = 'Module';
-    $Hash{'Modulefile'} = 'Modulebestand';
-    $Hash{'Name'} = 'Naam';
-    $Hash{'New message'} = 'Nieuw bericht';
-    $Hash{'New message!'} = 'Nieuw bericht!';
-    $Hash{'no'} = 'nee';
-    $Hash{'No'} = 'Nee';
-    $Hash{'No suggestions'} = '';
-    $Hash{'none'} = 'geen';
-    $Hash{'none - answered'} = 'geen - beantwoord';
-    $Hash{'none!'} = 'niet ingevoerd!';
-    $Hash{'Off'} = 'Uit';
-    $Hash{'off'} = 'uit';
-    $Hash{'on'} = 'aan';
-    $Hash{'On'} = 'Aan';
-    $Hash{'Password'} = 'Wachtwoord';
-    $Hash{'Please answer this ticket(s) to get back to the normal queue view!'} = 'A.u.b. geëscaleerde tickets beantwoorden om terug tekomen in de normale wachtwij';
-    $Hash{'Please contact your admin'} = '';
-    $Hash{'please do not edit!'} = 'A.u.b. niet wijzigen!';
-    $Hash{'QueueView'} = 'Wachtrij weergave';
-    $Hash{'replace with'} = '';
-    $Hash{'Reset'} = '';
-    $Hash{'Salutation'} = 'Aanhef';
-    $Hash{'Signature'} = 'Handtekening';
-    $Hash{'Sorry'} = 'Sorry';
-    $Hash{'Stats'} = 'Statistiek';
-    $Hash{'Subfunction'} = 'sub-functie';
-    $Hash{'submit'} = 'versturen';
-    $Hash{'submit!'} = 'versturen!';
-    $Hash{'Text'} = '';
-    $Hash{'The recommended charset for your language is %s!'} = '';
-    $Hash{'Theme'} = '';
-    $Hash{'There is no account with that login name.'} = '';
-    $Hash{'top'} = 'Bovenkant';
-    $Hash{'update'} = 'verversen';
-    $Hash{'update!'} = 'verversen!';
-    $Hash{'User'} = 'Gebruikers';
-    $Hash{'Username'} = 'Gebruikersnaam';
-    $Hash{'Valid'} = 'Geldig';
-    $Hash{'Warning'} = '';
-    $Hash{'Welcome to OTRS'} = '';
-    $Hash{'Word'} = '';
-    $Hash{'wrote'} = 'schreef';
-    $Hash{'yes'} = 'ja';
-    $Hash{'Yes'} = 'Ja';
-    $Hash{'You got new message!'} = 'Nieuw bericht binnen!';
+      ' 2 minutes' => ' 2 minuten',
+      ' 5 minutes' => ' 5 minuten',
+      ' 7 minutes' => ' 7 minuten',
+      '10 minutes' => '10 minuten',
+      '15 minutes' => '15 minuten',
+      'AddLink' => 'Link toevoegen',
+      'AdminArea' => 'Administratiegedeelte',
+      'All' => 'Alle',
+      'all' => 'alle',
+      'Attention' => 'Let op',
+      'Bug Report' => 'Foutrapport',
+      'Cancel' => '',
+      'change' => 'veranderen',
+      'Change' => 'Veranderen',
+      'change!' => 'veranderen!',
+      'click here' => 'klik hier',
+      'Comment' => 'Commentaar',
+      'Customer' => 'Klant',
+      'Customer info' => 'Klanten info',
+      'day' => 'dag',
+      'days' => 'dagen',
+      'description' => 'omschrijving',
+      'Description' => 'Omschrijving',
+      'Done' => '',
+      'end' => 'Onderkant',
+      'Error' => 'Fout',
+      'Example' => 'Voorbeeld',
+      'Examples' => 'Voorbeelden',
+      'Feature not acitv!' => '',
+      'go' => 'start',
+      'go!' => 'start!',
+      'Group' => 'Groep',
+      'Hit' => 'Gevonden',
+      'Hits' => '',
+      'hour' => 'uur',
+      'hours' => 'uren',
+      'Ignore' => '',
+      'invalid' => '',
+      'Invalid SessionID!' => '',
+      'Language' => 'Taal',
+      'Languages' => 'Talen',
+      'Line' => 'Regel',
+      'Lite' => '',
+      'Login failed! Your username or password was entered incorrectly.' => '',
+      'Logout successful. Thank you for using OTRS!' => 'Afgemeld! Wij danken u voor het gebruikeen van OTRS!',
+      'Message' => 'Bericht',
+      'minute' => 'minuut',
+      'minutes' => 'minuten',
+      'Module' => 'Module',
+      'Modulefile' => 'Modulebestand',
+      'Name' => 'Naam',
+      'New message' => 'Nieuw bericht',
+      'New message!' => 'Nieuw bericht!',
+      'no' => 'nee',
+      'No' => 'Nee',
+      'No suggestions' => '',
+      'none' => 'geen',
+      'none - answered' => 'geen - beantwoord',
+      'none!' => 'niet ingevoerd!',
+      'Off' => 'Uit',
+      'off' => 'uit',
+      'On' => 'Aan',
+      'on' => 'aan',
+      'Password' => 'Wachtwoord',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'A.u.b. geëscaleerde tickets beantwoorden om terug tekomen in de normale wachtwij',
+      'Please contact your admin' => '',
+      'please do not edit!' => 'A.u.b. niet wijzigen!',
+      'QueueView' => 'Wachtrij weergave',
+      'replace with' => '',
+      'Reset' => '',
+      'Salutation' => 'Aanhef',
+      'Signature' => 'Handtekening',
+      'Sorry' => 'Sorry',
+      'Stats' => 'Statistiek',
+      'Subfunction' => 'sub-functie',
+      'submit' => 'versturen',
+      'submit!' => 'versturen!',
+      'Text' => '',
+      'The recommended charset for your language is %s!' => '',
+      'Theme' => '',
+      'There is no account with that login name.' => '',
+      'top' => 'Bovenkant',
+      'update' => 'verversen',
+      'update!' => 'verversen!',
+      'User' => 'Gebruikers',
+      'Username' => 'Gebruikersnaam',
+      'Valid' => 'Geldig',
+      'Warning' => '',
+      'Welcome to OTRS' => '',
+      'Word' => '',
+      'wrote' => 'schreef',
+      'yes' => 'ja',
+      'Yes' => 'Ja',
+      'You got new message!' => '',
+      'You have %s new message(s)!' => '',
+      'You have %s reminder ticket(s)!' => '',
 
     # Template: AAAMonth
-    $Hash{'Apr'} = '';
-    $Hash{'Aug'} = '';
-    $Hash{'Dec'} = '';
-    $Hash{'Feb'} = '';
-    $Hash{'Jan'} = '';
-    $Hash{'Jul'} = '';
-    $Hash{'Jun'} = '';
-    $Hash{'Mar'} = '';
-    $Hash{'May'} = '';
-    $Hash{'Nov'} = '';
-    $Hash{'Oct'} = '';
-    $Hash{'Sep'} = '';
+      'Apr' => '',
+      'Aug' => '',
+      'Dec' => '',
+      'Feb' => '',
+      'Jan' => '',
+      'Jul' => '',
+      'Jun' => '',
+      'Mar' => '',
+      'May' => '',
+      'Nov' => '',
+      'Oct' => '',
+      'Sep' => '',
 
     # Template: AAAPreferences
-    $Hash{'Custom Queue'} = '';
-    $Hash{'Follow up notification'} = 'Bericht bij vervolgvragen';
-    $Hash{'Frontend'} = '';
-    $Hash{'Mail Management'} = '';
-    $Hash{'Move notification'} = 'Notitie verplaatsen';
-    $Hash{'New ticket notification'} = 'Bericht bij een nieuw ticket';
-    $Hash{'Other Options'} = '';
-    $Hash{'Preferences updated successfully!'} = '';
-    $Hash{'QueueView refresh time'} = '';
-    $Hash{'Select your frontend Charset.'} = 'Karakterset voor weergave kiezen';
-    $Hash{'Select your frontend language.'} = 'Kies een taal voor weergave';
-    $Hash{'Select your frontend QueueView.'} = 'Wachtrij weergave kiezen';
-    $Hash{'Select your frontend Theme.'} = 'weergave thema kiezen';
-    $Hash{'Select your QueueView refresh time.'} = 'Verversingstijd van de wachtrijweergave kiezen';
-    $Hash{'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.'} = 'Stuur een bericht als een klant een vervolgvraag stelt en ik de eigenaar van het ticket ben.';
-    $Hash{'Send me a notification if a ticket is moved into a custom queue.'} = ' Stuur mij een bericht als een bericht wordt verplaatst in een aangepaste wachtrij';
-    $Hash{'Send me a notification if a ticket is unlocked by the system.'} = 'Stuur  me een bericht als een ticket wordt ontgrendeld door het systeemk.';
-    $Hash{'Send me a notification if there is a new ticket in my custom queues.'} = 'Stuur mij een bericht als er een nieuw ticket in mijn aangepaste wachtrij komt.';
-    $Hash{'Ticket lock timeout notification'} = 'Bericht van tijdsoverschreiding van een vergrendeling';
+      'Custom Queue' => '',
+      'Follow up notification' => 'Bericht bij vervolgvragen',
+      'Frontend' => '',
+      'Mail Management' => '',
+      'Move notification' => 'Notitie verplaatsen',
+      'New ticket notification' => 'Bericht bij een nieuw ticket',
+      'Other Options' => '',
+      'Preferences updated successfully!' => '',
+      'QueueView refresh time' => '',
+      'Select your frontend Charset.' => 'Karakterset voor weergave kiezen',
+      'Select your frontend language.' => 'Kies een taal voor weergave',
+      'Select your frontend QueueView.' => 'Wachtrij weergave kiezen',
+      'Select your frontend Theme.' => 'weergave thema kiezen',
+      'Select your QueueView refresh time.' => 'Verversingstijd van de wachtrijweergave kiezen',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Stuur een bericht als een klant een vervolgvraag stelt en ik de eigenaar van het ticket ben.',
+      'Send me a notification if a ticket is moved into a custom queue.' => ' Stuur mij een bericht als een bericht wordt verplaatst in een aangepaste wachtrij',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Stuur  me een bericht als een ticket wordt ontgrendeld door het systeemk.',
+      'Send me a notification if there is a new ticket in my custom queues.' => 'Stuur mij een bericht als er een nieuw ticket in mijn aangepaste wachtrij komt.',
+      'Ticket lock timeout notification' => 'Bericht van tijdsoverschreiding van een vergrendeling',
 
     # Template: AAATicket
-    $Hash{'Action'} = 'Actie';
-    $Hash{'Age'} = 'Leeftijd';
-    $Hash{'Article'} = 'Artikel';
-    $Hash{'Attachment'} = 'Bijlage';
-    $Hash{'Attachments'} = '';
-    $Hash{'Bcc'} = '';
-    $Hash{'Bounce'} = 'Terugsturen';
-    $Hash{'Cc'} = 'Cc';
-    $Hash{'Close'} = 'Sluiten';
-    $Hash{'closed successful'} = 'succesvol gesloten';
-    $Hash{'closed unsuccessful'} = 'niet succesvol gesloten';
-    $Hash{'Compose'} = 'Maken';
-    $Hash{'Created'} = 'Gemaakt';
-    $Hash{'Createtime'} = 'Gemaakt op';
-    $Hash{'email'} = 'email';
-    $Hash{'eMail'} = '';
-    $Hash{'email-external'} = 'Email naar extern';
-    $Hash{'email-internal'} = 'Email naar intern';
-    $Hash{'Forward'} = 'Doorsturen';
-    $Hash{'From'} = 'Van';
-    $Hash{'high'} = 'hoog';
-    $Hash{'History'} = 'Geschiedenis';
-    $Hash{'If it is not displayed correctly,'} = 'Als dit niet juist wordt weergegeven,';
-    $Hash{'Lock'} = 'Vergrendelen';
-    $Hash{'low'} = 'laag';
-    $Hash{'Move'} = 'Verplaatsen';
-    $Hash{'new'} = 'nieuw';
-    $Hash{'normal'} = 'normaal';
-    $Hash{'note-external'} = 'Notitie voor extern';
-    $Hash{'note-internal'} = 'Notitie voor intern';
-    $Hash{'note-report'} = 'Notitie voor rapportage';
-    $Hash{'open'} = 'open';
-    $Hash{'Owner'} = 'Eigenaar';
-    $Hash{'Pending'} = 'Wachtend';
-    $Hash{'phone'} = 'telefoon';
-    $Hash{'plain'} = 'zonder opmaak';
-    $Hash{'Priority'} = 'Prioriteit';
-    $Hash{'Queue'} = '';
-    $Hash{'removed'} = 'verwijderd';
-    $Hash{'Sender'} = 'Afzender';
-    $Hash{'sms'} = '';
-    $Hash{'State'} = 'Status';
-    $Hash{'Subject'} = 'Betreft';
-    $Hash{'This is a'} = 'Dit is een';
-    $Hash{'This is a HTML email. Click here to show it.'} = 'Dit is een Email in HTML-formaat. Hier klikken om te bekijken.';
-    $Hash{'This message was written in a character set other than your own.'} = 'Dit bericht is geschreven in een andere karakterset dan degene die u nu heeft ingesteld.';
-    $Hash{'Ticket'} = 'Ticket';
-    $Hash{'To'} = 'Aan';
-    $Hash{'to open it in a new window.'} = 'om deze in een nieuw venster getoond te krijgen';
-    $Hash{'Unlock'} = 'Vrijgeven';
-    $Hash{'very high'} = 'zeer hoog';
-    $Hash{'very low'} = 'zeer laag';
-    $Hash{'View'} = 'Weergave';
-    $Hash{'webrequest'} = '';
-    $Hash{'Zoom'} = 'Inhoud';
+      'Action' => 'Actie',
+      'Age' => 'Leeftijd',
+      'Article' => 'Artikel',
+      'Attachment' => 'Bijlage',
+      'Attachments' => '',
+      'Bcc' => '',
+      'Bounce' => 'Terugsturen',
+      'Cc' => 'Cc',
+      'Close' => 'Sluiten',
+      'closed successful' => 'succesvol gesloten',
+      'closed unsuccessful' => 'niet succesvol gesloten',
+      'Compose' => 'Maken',
+      'Created' => 'Gemaakt',
+      'Createtime' => 'Gemaakt op',
+      'email' => 'email',
+      'eMail' => '',
+      'email-external' => 'Email naar extern',
+      'email-internal' => 'Email naar intern',
+      'Forward' => 'Doorsturen',
+      'From' => 'Van',
+      'high' => 'hoog',
+      'History' => 'Geschiedenis',
+      'If it is not displayed correctly,' => 'Als dit niet juist wordt weergegeven,',
+      'Lock' => 'Vergrendelen',
+      'low' => 'laag',
+      'Move' => 'Verplaatsen',
+      'new' => 'nieuw',
+      'normal' => 'normaal',
+      'note-external' => 'Notitie voor extern',
+      'note-internal' => 'Notitie voor intern',
+      'note-report' => 'Notitie voor rapportage',
+      'open' => 'open',
+      'Owner' => 'Eigenaar',
+      'Pending' => 'Wachtend',
+      'phone' => 'telefoon',
+      'plain' => 'zonder opmaak',
+      'Priority' => 'Prioriteit',
+      'Queue' => '',
+      'removed' => 'verwijderd',
+      'Sender' => 'Afzender',
+      'sms' => '',
+      'State' => 'Status',
+      'Subject' => 'Betreft',
+      'This is a' => 'Dit is een',
+      'This is a HTML email. Click here to show it.' => 'Dit is een Email in HTML-formaat. Hier klikken om te bekijken.',
+      'This message was written in a character set other than your own.' => 'Dit bericht is geschreven in een andere karakterset dan degene die u nu heeft ingesteld.',
+      'Ticket' => 'Ticket',
+      'To' => 'Aan',
+      'to open it in a new window.' => 'om deze in een nieuw venster getoond te krijgen',
+      'Unlock' => 'Vrijgeven',
+      'very high' => 'zeer hoog',
+      'very low' => 'zeer laag',
+      'View' => 'Weergave',
+      'webrequest' => '',
+      'Zoom' => 'Inhoud',
 
     # Template: AAAWeekDay
-    $Hash{'Fri'} = '';
-    $Hash{'Mon'} = '';
-    $Hash{'Sat'} = '';
-    $Hash{'Sun'} = '';
-    $Hash{'Thu'} = '';
-    $Hash{'Tue'} = '';
-    $Hash{'Wed'} = '';
+      'Fri' => '',
+      'Mon' => '',
+      'Sat' => '',
+      'Sun' => '',
+      'Thu' => '',
+      'Tue' => '',
+      'Wed' => '',
 
     # Template: AdminAutoResponseForm
-    $Hash{'Add auto response'} = 'Automatisch antwoord toevoegen';
-    $Hash{'Auto Response From'} = '';
-    $Hash{'Auto Response Management'} = 'Automatisch-antwoorden beheer';
-    $Hash{'Change auto response settings'} = 'Wijzigen van een automatisch-antwoord';
-    $Hash{'Charset'} = '';
-    $Hash{'Note'} = '';
-    $Hash{'Response'} = 'Antwoord';
-    $Hash{'to get the first 20 character of the subject'} = '';
-    $Hash{'to get the first 5 lines of the email'} = '';
-    $Hash{'to get the from line of the email'} = '';
-    $Hash{'to get the realname of the sender (if given)'} = '';
-    $Hash{'to get the ticket number of the ticket'} = '';
-    $Hash{'Type'} = '';
-    $Hash{'Useable options'} = 'Te gebruiken opties';
+      'Add auto response' => 'Automatisch antwoord toevoegen',
+      'Auto Response From' => '',
+      'Auto Response Management' => 'Automatisch-antwoorden beheer',
+      'Change auto response settings' => 'Wijzigen van een automatisch-antwoord',
+      'Charset' => '',
+      'Note' => '',
+      'Response' => 'Antwoord',
+      'to get the first 20 character of the subject' => '',
+      'to get the first 5 lines of the email' => '',
+      'to get the from line of the email' => '',
+      'to get the realname of the sender (if given)' => '',
+      'to get the ticket number of the ticket' => '',
+      'Type' => '',
+      'Useable options' => 'Te gebruiken opties',
 
     # Template: AdminCharsetForm
-    $Hash{'Add charset'} = 'Karakterset toevoegen';
-    $Hash{'Change system charset setting'} = 'Andere systeem karakterset';
-    $Hash{'System Charset Management'} = 'Systeem karakterset beheer';
+      'Add charset' => 'Karakterset toevoegen',
+      'Change system charset setting' => 'Andere systeem karakterset',
+      'System Charset Management' => 'Systeem karakterset beheer',
 
     # Template: AdminCustomerUserForm
-    $Hash{'Add customer user'} = '';
-    $Hash{'Change customer user settings'} = '';
-    $Hash{'Customer User Management'} = '';
-    $Hash{'Customer user will be needed to to login via customer panels.'} = '';
+      'Add customer user' => '',
+      'Change customer user settings' => '',
+      'Customer User Management' => '',
+      'Customer user will be needed to to login via customer panels.' => '',
 
     # Template: AdminCustomerUserGeneric
 
     # Template: AdminCustomerUserPreferencesGeneric
 
     # Template: AdminEmail
-    $Hash{'Admin-Email'} = '';
-    $Hash{'Body'} = '';
-    $Hash{'OTRS-Admin Info!'} = '';
-    $Hash{'Recipents'} = '';
+      'Admin-Email' => '',
+      'Body' => '',
+      'OTRS-Admin Info!' => '',
+      'Recipents' => '',
 
     # Template: AdminEmailSent
-    $Hash{'Message sent to'} = '';
+      'Message sent to' => '',
 
     # Template: AdminGroupForm
-    $Hash{'Add group'} = 'Groep toevoegen';
-    $Hash{'Change group settings'} = 'Wijzigen van een groep';
-    $Hash{'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).'} = 'Maak nieuwe groepen om toegangsrechten te regelen voor verschillende groepen van agenten (bijv. verkoopafdeling, supportafdeling, enz. enz.).';
-    $Hash{'Group Management'} = 'Groepenbeheer';
-    $Hash{'It\'s useful for ASP solutions.'} = 'Zeer bruikbaar voor ASP-oplossingen.';
-    $Hash{'The admin group is to get in the admin area and the stats group to get stats area.'} = 'Leden van de admingroep mogen in het administratiegedeelte, leden van de Stats groep hebben toegang tot het statitsiekgedeelte.';
+      'Add group' => 'Groep toevoegen',
+      'Change group settings' => 'Wijzigen van een groep',
+      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Maak nieuwe groepen om toegangsrechten te regelen voor verschillende groepen van agenten (bijv. verkoopafdeling, supportafdeling, enz. enz.).',
+      'Group Management' => 'Groepenbeheer',
+      'It\'s useful for ASP solutions.' => 'Zeer bruikbaar voor ASP-oplossingen.',
+      'The admin group is to get in the admin area and the stats group to get stats area.' => 'Leden van de admingroep mogen in het administratiegedeelte, leden van de Stats groep hebben toegang tot het statitsiekgedeelte.',
 
     # Template: AdminLanguageForm
-    $Hash{'Add language'} = 'Taal toevoegen';
-    $Hash{'Change system language setting'} = 'Andere Systeemtaal';
-    $Hash{'System Language Management'} = 'Systeemtaal beheer';
+      'Add language' => 'Taal toevoegen',
+      'Change system language setting' => 'Andere Systeemtaal',
+      'System Language Management' => 'Systeemtaal beheer',
 
     # Template: AdminLog
-    $Hash{'System Log'} = '';
+      'System Log' => '',
 
     # Template: AdminNavigationBar
-    $Hash{'AdminEmail'} = '';
-    $Hash{'AgentFrontend'} = 'Agent weergave';
-    $Hash{'Auto Response <-> Queue'} = 'Automatische antwoorden <-> Wachtrijen';
-    $Hash{'Auto Responses'} = 'Automatische antwoorden';
-    $Hash{'Charsets'} = '';
-    $Hash{'Customer User'} = '';
-    $Hash{'Email Addresses'} = 'Email-adressen';
-    $Hash{'Groups'} = 'Groepen';
-    $Hash{'Logout'} = 'Afmelden';
-    $Hash{'POP3 Account'} = '';
-    $Hash{'Responses'} = 'Antwoorden';
-    $Hash{'Responses <-> Queue'} = 'Antwoorden <-> Wachtrijen';
-    $Hash{'Select Box'} = '';
-    $Hash{'Session Management'} = 'Sessiebeheer';
-    $Hash{'Status defs'} = '';
-    $Hash{'User <-> Groups'} = 'Gebruikers <-> Groepen';
+      'AdminEmail' => '',
+      'AgentFrontend' => 'Agent weergave',
+      'Auto Response <-> Queue' => 'Automatische antwoorden <-> Wachtrijen',
+      'Auto Responses' => 'Automatische antwoorden',
+      'Charsets' => '',
+      'Customer User' => '',
+      'Email Addresses' => 'Email-adressen',
+      'Groups' => 'Groepen',
+      'Logout' => 'Afmelden',
+      'POP3 Account' => '',
+      'Responses' => 'Antwoorden',
+      'Responses <-> Queue' => 'Antwoorden <-> Wachtrijen',
+      'Select Box' => '',
+      'Session Management' => 'Sessiebeheer',
+      'Status defs' => '',
+      'User <-> Groups' => 'Gebruikers <-> Groepen',
 
     # Template: AdminPOP3Form
-    $Hash{'Add POP3 Account'} = '';
-    $Hash{'All incoming emails with one account will be dispatched in the selected queue!'} = '';
-    $Hash{'Change POP3 Account setting'} = '';
-    $Hash{'Host'} = '';
-    $Hash{'If your account is trusted, the x-otrs header (for priority, ...) will be used!'} = '';
-    $Hash{'Login'} = '';
-    $Hash{'POP3 Account Management'} = '';
-    $Hash{'Trusted'} = '';
+      'Add POP3 Account' => '',
+      'All incoming emails with one account will be dispatched in the selected queue!' => '',
+      'Change POP3 Account setting' => '',
+      'Host' => '',
+      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => '',
+      'Login' => '',
+      'POP3 Account Management' => '',
+      'Trusted' => '',
 
     # Template: AdminQueueAutoResponseForm
-    $Hash{'Queue <-> Auto Response Management'} = 'Wachtrij<-> Automatisch antwoorden toekenning';
+      'Queue <-> Auto Response Management' => 'Wachtrij<-> Automatisch antwoorden toekenning',
 
     # Template: AdminQueueAutoResponseTable
 
     # Template: AdminQueueForm
-    $Hash{'0 = no escalation'} = '';
-    $Hash{'0 = no unlock'} = '';
-    $Hash{'Add queue'} = 'Wachtrij toevoegen';
-    $Hash{'Change queue settings'} = 'Wachtrij wijzigen';
-    $Hash{'Escalation time'} = 'Escalatietijd';
-    $Hash{'Follow up Option'} = '';
-    $Hash{'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.'} = '';
-    $Hash{'If a ticket will not be answered in thos time, just only this ticket will be shown.'} = '';
-    $Hash{'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.'} = '';
-    $Hash{'Key'} = 'Sleutel';
-    $Hash{'Queue Management'} = 'Wachtrijbeheer';
-    $Hash{'Systemaddress'} = '';
-    $Hash{'The salutation for email answers.'} = '';
-    $Hash{'The signature for email answers.'} = '';
-    $Hash{'Ticket lock after a follow up'} = '';
-    $Hash{'Unlock timeout'} = 'Vrijgave tijdoverschrijding';
-    $Hash{'Will be the sender address of this queue for email answers.'} = '';
+      '0 = no escalation' => '',
+      '0 = no unlock' => '',
+      'Add queue' => 'Wachtrij toevoegen',
+      'Change queue settings' => 'Wachtrij wijzigen',
+      'Escalation time' => 'Escalatietijd',
+      'Follow up Option' => '',
+      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => '',
+      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => '',
+      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '',
+      'Key' => 'Sleutel',
+      'Queue Management' => 'Wachtrijbeheer',
+      'Systemaddress' => '',
+      'The salutation for email answers.' => '',
+      'The signature for email answers.' => '',
+      'Ticket lock after a follow up' => '',
+      'Unlock timeout' => 'Vrijgave tijdoverschrijding',
+      'Will be the sender address of this queue for email answers.' => '',
 
     # Template: AdminQueueResponsesChangeForm
-    $Hash{'Change %s settings'} = '';
-    $Hash{'Std. Responses <-> Queue Management'} = 'Standaard antwoordenn <-> Wachtrij beheer';
+      'Change %s settings' => '',
+      'Std. Responses <-> Queue Management' => 'Standaard antwoordenn <-> Wachtrij beheer',
 
     # Template: AdminQueueResponsesForm
-    $Hash{'Answer'} = '';
-    $Hash{'Change answer <-> queue settings'} = 'Wijzigen van antwoorden <-> wachtrij toekenning';
+      'Answer' => '',
+      'Change answer <-> queue settings' => 'Wijzigen van antwoorden <-> wachtrij toekenning',
 
     # Template: AdminResponseForm
-    $Hash{'A response is default text to write faster answer (with default text) to customers.'} = 'Een antworord is een standaard-tekst om sneller antwoorden te kunnen opstellen.';
-    $Hash{'Add response'} = 'Antwoord toevoegen';
-    $Hash{'Change response settings'} = 'Antwoord wijzigen';
-    $Hash{'Don\'t forget to add a new response a queue!'} = 'Een antwoord moet ook een wachtrij toegekend krijgen!';
-    $Hash{'Response Management'} = 'Antwoordenbeheer';
+      'A response is default text to write faster answer (with default text) to customers.' => 'Een antworord is een standaard-tekst om sneller antwoorden te kunnen opstellen.',
+      'Add response' => 'Antwoord toevoegen',
+      'Change response settings' => 'Antwoord wijzigen',
+      'Don\'t forget to add a new response a queue!' => 'Een antwoord moet ook een wachtrij toegekend krijgen!',
+      'Response Management' => 'Antwoordenbeheer',
 
     # Template: AdminSalutationForm
-    $Hash{'Add salutation'} = 'Aanhef toevoegen';
-    $Hash{'Change salutation settings'} = 'Aanhef wijzigen';
-    $Hash{'customer realname'} = 'werkelijke klantnaam';
-    $Hash{'Salutation Management'} = 'Aanhef beheer';
+      'Add salutation' => 'Aanhef toevoegen',
+      'Change salutation settings' => 'Aanhef wijzigen',
+      'customer realname' => 'werkelijke klantnaam',
+      'Salutation Management' => 'Aanhef beheer',
 
     # Template: AdminSelectBoxForm
-    $Hash{'Max Rows'} = 'Max. rijen';
+      'Max Rows' => 'Max. rijen',
 
     # Template: AdminSelectBoxResult
-    $Hash{'Limit'} = '';
-    $Hash{'Select Box Result'} = '';
-    $Hash{'SQL'} = '';
+      'Limit' => '',
+      'Select Box Result' => '',
+      'SQL' => '',
 
     # Template: AdminSession
-    $Hash{'kill all sessions'} = 'Alle sessies wissen';
+      'kill all sessions' => 'Alle sessies wissen',
 
     # Template: AdminSessionTable
-    $Hash{'kill session'} = 'Sessie wissen';
-    $Hash{'SessionID'} = '';
+      'kill session' => 'Sessie wissen',
+      'SessionID' => '',
 
     # Template: AdminSignatureForm
-    $Hash{'Add signature'} = 'Handtekening toevoegen';
-    $Hash{'Change signature settings'} = 'Handtekening wijzigen';
-    $Hash{'for agent firstname'} = 'voor voornaam van agent';
-    $Hash{'for agent lastname'} = 'voor achternaam van agent';
-    $Hash{'Signature Management'} = 'handtekeningbeheer';
+      'Add signature' => 'Handtekening toevoegen',
+      'Change signature settings' => 'Handtekening wijzigen',
+      'for agent firstname' => 'voor voornaam van agent',
+      'for agent lastname' => 'voor achternaam van agent',
+      'Signature Management' => 'handtekeningbeheer',
 
     # Template: AdminStateForm
-    $Hash{'Add state'} = 'Status toevoegen';
-    $Hash{'Change system state setting'} = 'Wijzig systeemstatus';
-    $Hash{'System State Management'} = 'Systeem-status beheer';
+      'Add state' => 'Status toevoegen',
+      'Change system state setting' => 'Wijzig systeemstatus',
+      'System State Management' => 'Systeem-status beheer',
 
     # Template: AdminSystemAddressForm
-    $Hash{'Add system address'} = 'Systeem emailadres toevoegen';
-    $Hash{'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!'} = 'Alle binnenkomede emails met deze "To:" worden in de gekozen wachtrij geplaatst.';
-    $Hash{'Change system address setting'} = 'Systeemadres wijzigen';
-    $Hash{'Email'} = 'Email';
-    $Hash{'Realname'} = '';
-    $Hash{'System Email Addresses Management'} = 'Email systeemadressen beheer';
+      'Add system address' => 'Systeem emailadres toevoegen',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomede emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
+      'Change system address setting' => 'Systeemadres wijzigen',
+      'Email' => 'Email',
+      'Realname' => '',
+      'System Email Addresses Management' => 'Email systeemadressen beheer',
 
     # Template: AdminUserForm
-    $Hash{'Add user'} = 'Gebruiker toevoegen';
-    $Hash{'Change user settings'} = 'Wijzigen van gebruikersinstellingen';
-    $Hash{'Don\'t forget to add a new user to groups!'} = 'Vergeet niet om groepen aan deze gebruiker toe te kennen!';
-    $Hash{'Firstname'} = 'Voornaam';
-    $Hash{'Lastname'} = 'Achternaam';
-    $Hash{'User Management'} = 'Gebruikersbeheer';
-    $Hash{'User will be needed to handle tickets.'} = 'Gebruikers zijn nodig om Tickets te behandelen.';
+      'Add user' => 'Gebruiker toevoegen',
+      'Change user settings' => 'Wijzigen van gebruikersinstellingen',
+      'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
+      'Firstname' => 'Voornaam',
+      'Lastname' => 'Achternaam',
+      'User Management' => 'Gebruikersbeheer',
+      'User will be needed to handle tickets.' => 'Gebruikers zijn nodig om Tickets te behandelen.',
 
     # Template: AdminUserGroupChangeForm
-    $Hash{'Change  settings'} = '';
-    $Hash{'User <-> Group Management'} = 'Gebruiker <-> Groep beheer';
+      'Change  settings' => '',
+      'User <-> Group Management' => 'Gebruiker <-> Groep beheer',
 
     # Template: AdminUserGroupForm
-    $Hash{'Change user <-> group settings'} = 'Wijzigen van gebruiker <-> groep toekenning';
+      'Change user <-> group settings' => 'Wijzigen van gebruiker <-> groep toekenning',
 
     # Template: AdminUserPreferencesGeneric
 
     # Template: AgentBounce
-    $Hash{'A message should have a To: recipient!'} = 'Een bericht moet een Aan: ontvanger te hebben!';
-    $Hash{'Bounce ticket'} = '';
-    $Hash{'Bounce to'} = '';
-    $Hash{'Inform sender'} = '';
-    $Hash{'Next ticket state'} = 'Volgende status van het ticket';
-    $Hash{'Send mail!'} = 'bericht versturen!';
-    $Hash{'You need a email address (e. g. customer@example.com) in To:!'} = 'In het Aan-veld hebben we een Email-adres nodig!';
-    $Hash{'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.'} = '';
+      'A message should have a To: recipient!' => 'Een bericht moet een Aan: ontvanger te hebben!',
+      'Bounce ticket' => '',
+      'Bounce to' => '',
+      'Inform sender' => '',
+      'Next ticket state' => 'Volgende status van het ticket',
+      'Send mail!' => 'bericht versturen!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld hebben we een Email-adres nodig!',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => '',
 
     # Template: AgentClose
-    $Hash{' (work units)'} = '';
-    $Hash{'Close ticket'} = '';
-    $Hash{'Close type'} = '';
-    $Hash{'Close!'} = '';
-    $Hash{'Note Text'} = '';
-    $Hash{'Note type'} = 'Notitie-type';
-    $Hash{'store'} = 'bewaren';
-    $Hash{'Time units'} = '';
+      ' (work units)' => '',
+      'Close ticket' => '',
+      'Close type' => '',
+      'Close!' => '',
+      'Note Text' => '',
+      'Note type' => 'Notitie-type',
+      'store' => 'bewaren',
+      'Time units' => '',
 
     # Template: AgentCompose
-    $Hash{'A message should have a subject!'} = 'Een bericht moet een ondewerp hebben!';
-    $Hash{'Attach'} = '';
-    $Hash{'Compose answer for ticket'} = 'Bericht opstellen voor';
-    $Hash{'Is the ticket answered'} = '';
-    $Hash{'Options'} = '';
-    $Hash{'Spell Check'} = '';
+      'A message should have a subject!' => 'Een bericht moet een ondewerp hebben!',
+      'Attach' => '',
+      'Compose answer for ticket' => 'Bericht opstellen voor',
+      'for pending* states' => '',
+      'Is the ticket answered' => '',
+      'Options' => '',
+      'Pending Date' => '',
+      'Spell Check' => '',
 
     # Template: AgentCustomer
-    $Hash{'Back'} = 'Terug';
-    $Hash{'Change customer of ticket'} = '';
-    $Hash{'Set customer id of a ticket'} = 'Stel het klantnummer in van een ticket';
+      'Back' => 'Terug',
+      'Change customer of ticket' => '',
+      'Set customer id of a ticket' => 'Stel het klantnummer in van een ticket',
 
     # Template: AgentCustomerHistory
-    $Hash{'Customer history'} = '';
+      'Customer history' => '',
 
     # Template: AgentCustomerHistoryTable
 
     # Template: AgentCustomerView
-    $Hash{'Customer Data'} = '';
+      'Customer Data' => '',
 
     # Template: AgentForward
-    $Hash{'Article type'} = 'Artikel-type';
-    $Hash{'Date'} = '';
-    $Hash{'End forwarded message'} = '';
-    $Hash{'Forward article of ticket'} = 'Artikel van ticket doorsturen';
-    $Hash{'Forwarded message from'} = '';
-    $Hash{'Reply-To'} = '';
+      'Article type' => 'Artikel-type',
+      'Date' => '',
+      'End forwarded message' => '',
+      'Forward article of ticket' => 'Artikel van ticket doorsturen',
+      'Forwarded message from' => '',
+      'Reply-To' => '',
 
     # Template: AgentHistoryForm
-    $Hash{'History of'} = '';
+      'History of' => '',
 
     # Template: AgentMailboxTicket
-    $Hash{'Add Note'} = 'Notitie toevoegen';
-    $Hash{'CustomerID'} = 'Klant #';
+      'Add Note' => 'Notitie toevoegen',
+      'CustomerID' => 'Klant #',
 
     # Template: AgentNavigationBar
-    $Hash{'FAQ'} = '';
-    $Hash{'Locked tickets'} = 'Eigen tickets';
-    $Hash{'new message'} = 'Nieuw bericht';
-    $Hash{'PhoneView'} = 'Telefoon weergave';
-    $Hash{'Preferences'} = 'Voorkeuren';
-    $Hash{'Utilities'} = 'Tools';
+      'FAQ' => '',
+      'Locked tickets' => 'Eigen tickets',
+      'new message' => 'Nieuw bericht',
+      'PhoneView' => 'Telefoon weergave',
+      'Preferences' => 'Voorkeuren',
+      'Utilities' => 'Tools',
 
     # Template: AgentNote
-    $Hash{'Add note to ticket'} = 'Notitie toevoegen aan ticket';
-    $Hash{'Note!'} = '';
+      'Add note to ticket' => 'Notitie toevoegen aan ticket',
+      'Note!' => '',
 
     # Template: AgentOwner
-    $Hash{'Change owner of ticket'} = '';
-    $Hash{'Message for new Owner'} = '';
-    $Hash{'New user'} = '';
+      'Change owner of ticket' => '',
+      'Message for new Owner' => '',
+      'New user' => '',
+
+    # Template: AgentPending
+      'Pending date' => '',
+      'Pending type' => '',
+      'Set Pending' => '',
 
     # Template: AgentPhone
-    $Hash{'Customer called'} = '';
-    $Hash{'Phone call'} = 'Telefoongesprek';
-    $Hash{'Phone call at %s'} = '';
+      'Customer called' => '',
+      'Phone call' => 'Telefoongesprek',
+      'Phone call at %s' => '',
 
     # Template: AgentPhoneNew
-    $Hash{'new ticket'} = 'nieuw ticket';
+      'new ticket' => 'nieuw ticket',
 
     # Template: AgentPlain
-    $Hash{'ArticleID'} = '';
-    $Hash{'Plain'} = 'zonder opmaak';
-    $Hash{'TicketID'} = '';
+      'ArticleID' => '',
+      'Plain' => 'zonder opmaak',
+      'TicketID' => '',
 
     # Template: AgentPreferencesCustomQueue
-    $Hash{'Select your custom queues'} = 'Voorkeurs wachtrijen kiezen';
+      'Select your custom queues' => 'Voorkeurs wachtrijen kiezen',
 
     # Template: AgentPreferencesForm
 
     # Template: AgentPreferencesGeneric
 
     # Template: AgentPreferencesPassword
-    $Hash{'Change Password'} = 'Wachtwoord wijzigen';
-    $Hash{'New password'} = 'Nieuw wachtwoord';
-    $Hash{'New password again'} = 'Nieuw wachtwoord herhalen';
+      'Change Password' => 'Wachtwoord wijzigen',
+      'New password' => 'Nieuw wachtwoord',
+      'New password again' => 'Nieuw wachtwoord herhalen',
 
     # Template: AgentPriority
-    $Hash{'Change priority of ticket'} = 'Prioriteit wijzigen voor ticket';
-    $Hash{'New state'} = '';
+      'Change priority of ticket' => 'Prioriteit wijzigen voor ticket',
+      'New state' => '',
 
     # Template: AgentSpelling
-    $Hash{'Apply these changes'} = '';
-    $Hash{'Discard all changes and return to the compose screen'} = '';
-    $Hash{'Return to the compose screen'} = '';
-    $Hash{'Spell Checker'} = '';
-    $Hash{'spelling error(s)'} = '';
-    $Hash{'The message being composed has been closed.  Exiting.'} = '';
-    $Hash{'This window must be called from compose window'} = '';
+      'Apply these changes' => '',
+      'Discard all changes and return to the compose screen' => '',
+      'Return to the compose screen' => '',
+      'Spell Checker' => '',
+      'spelling error(s)' => '',
+      'The message being composed has been closed.  Exiting.' => '',
+      'This window must be called from compose window' => '',
 
     # Template: AgentStatusView
-    $Hash{'D'} = '';
-    $Hash{'sort downward'} = '';
-    $Hash{'sort upward'} = '';
-    $Hash{'Ticket limit:'} = '';
-    $Hash{'Ticket Status'} = '';
-    $Hash{'U'} = '';
+      'D' => '',
+      'sort downward' => '',
+      'sort upward' => '',
+      'Ticket limit:' => '',
+      'Ticket Status' => '',
+      'U' => '',
 
     # Template: AgentStatusViewTable
 
     # Template: AgentStatusViewTableNotAnswerd
 
     # Template: AgentTicketLocked
-    $Hash{'Ticket locked!'} = 'Ticket vergrendeld!';
-    $Hash{'unlock'} = 'vrijgeven';
+      'Ticket locked!' => 'Ticket vergrendeld!',
+      'unlock' => 'vrijgeven',
 
     # Template: AgentUtilSearchByCustomerID
-    $Hash{'Customer history search'} = 'zoeken in klantgeschiednis';
-    $Hash{'Customer history search (e. g. "ID342425").'} = 'Klantgeschiedenis zoeken (bijv. "ID342425").';
-    $Hash{'No * possible!'} = 'Geen * mogelijk!';
+      'Customer history search' => 'zoeken in klantgeschiednis',
+      'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
+      'No * possible!' => 'Geen * mogelijk!',
 
     # Template: AgentUtilSearchByText
-    $Hash{'Article free text'} = '';
-    $Hash{'Fulltext search'} = 'Zoeken in alle tekst';
-    $Hash{'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")'} = 'Zoeken in tekst (bijv. "Mar*in" of "Boe*" of "Martin+hallo")';
-    $Hash{'Search in'} = '';
-    $Hash{'Ticket free text'} = '';
+      'Article free text' => '',
+      'Fulltext search' => 'Zoeken in alle tekst',
+      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Zoeken in tekst (bijv. "Mar*in" of "Boe*" of "Martin+hallo")',
+      'Search in' => '',
+      'Ticket free text' => '',
 
     # Template: AgentUtilSearchByTicketNumber
-    $Hash{'search'} = 'zoeken';
-    $Hash{'search (e. g. 10*5155 or 105658*)'} = 'zoeken (bijv. 10*5155 of 105658*)';
+      'search' => 'zoeken',
+      'search (e. g. 10*5155 or 105658*)' => 'zoeken (bijv. 10*5155 of 105658*)',
 
     # Template: AgentUtilSearchNavBar
-    $Hash{'Results'} = '';
-    $Hash{'Site'} = '';
-    $Hash{'Total hits'} = 'Totaal gevonden';
+      'Results' => '',
+      'Site' => '',
+      'Total hits' => 'Totaal gevonden',
 
     # Template: AgentUtilSearchResult
 
     # Template: AgentUtilTicketStatus
-    $Hash{'All open tickets'} = '';
-    $Hash{'open tickets'} = '';
-    $Hash{'Provides an overview of all'} = '';
-    $Hash{'So you see what is going on in your system.'} = '';
+      'All open tickets' => '',
+      'open tickets' => '',
+      'Provides an overview of all' => '',
+      'So you see what is going on in your system.' => '',
 
     # Template: CustomerCreateAccount
-    $Hash{'Create'} = '';
-    $Hash{'Create Account'} = '';
+      'Create' => '',
+      'Create Account' => '',
 
     # Template: CustomerError
-    $Hash{'Backend'} = '';
-    $Hash{'BackendMessage'} = '';
-    $Hash{'Click here to report a bug!'} = 'Klik hier om een fout te rapporteren';
-    $Hash{'Handle'} = '';
+      'Backend' => '',
+      'BackendMessage' => '',
+      'Click here to report a bug!' => 'Klik hier om een fout te rapporteren',
+      'Handle' => '',
 
     # Template: CustomerFooter
-    $Hash{'Powered by'} = '';
+      'Powered by' => '',
 
     # Template: CustomerHeader
-    $Hash{'Contact'} = '';
-    $Hash{'Home'} = '';
-    $Hash{'Online-Support'} = '';
-    $Hash{'Products'} = '';
-    $Hash{'Support'} = '';
+      'Contact' => '',
+      'Home' => '',
+      'Online-Support' => '',
+      'Products' => '',
+      'Support' => '',
 
     # Template: CustomerLogin
 
     # Template: CustomerLostPassword
-    $Hash{'Lost your password?'} = '';
-    $Hash{'Request new password'} = '';
+      'Lost your password?' => '',
+      'Request new password' => '',
 
     # Template: CustomerMessage
-    $Hash{'Follow up'} = '';
+      'Follow up' => '',
 
     # Template: CustomerMessageNew
 
     # Template: CustomerNavigationBar
-    $Hash{'Create new Ticket'} = '';
-    $Hash{'My Tickets'} = 'Mijn tickets';
-    $Hash{'New Ticket'} = 'Nieuw ticket';
-    $Hash{'Ticket-Overview'} = '';
-    $Hash{'Welcome %s'} = 'Welkom %s';
+      'Create new Ticket' => '',
+      'My Tickets' => 'Mijn tickets',
+      'New Ticket' => 'Nieuw ticket',
+      'Ticket-Overview' => '',
+      'Welcome %s' => 'Welkom %s',
 
     # Template: CustomerPreferencesForm
 
@@ -610,12 +621,12 @@ sub Data {
     # Template: CustomerPreferencesPassword
 
     # Template: CustomerStatusView
-    $Hash{'of'} = '';
+      'of' => '',
 
     # Template: CustomerStatusViewTable
 
     # Template: CustomerTicketZoom
-    $Hash{'Accounted time'} = '';
+      'Accounted time' => '',
 
     # Template: CustomerWarning
 
@@ -626,63 +637,63 @@ sub Data {
     # Template: Header
 
     # Template: InstallerStart
-    $Hash{'next step'} = '';
+      'next step' => '',
 
     # Template: InstallerSystem
-    $Hash{'(Email of the system admin)'} = '';
-    $Hash{'(Full qualified domain name of your system)'} = '';
-    $Hash{'(Logfile just needed for File-LogModule!)'} = '';
-    $Hash{'(The identify of the system. Each ticket number and each http session id starts with this number)'} = '';
-    $Hash{'(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')'} = '';
-    $Hash{'(Used default language)'} = '';
-    $Hash{'(Used log backend)'} = '';
-    $Hash{'(Used ticket number format)'} = '';
-    $Hash{'Default Charset'} = '';
-    $Hash{'Default Language'} = '';
-    $Hash{'Logfile'} = '';
-    $Hash{'LogModule'} = '';
-    $Hash{'Organization'} = '';
-    $Hash{'System'} = '';
-    $Hash{'System FQDN'} = '';
-    $Hash{'SystemID'} = '';
-    $Hash{'Ticket Hook'} = '';
-    $Hash{'Ticket Number Generator'} = '';
-    $Hash{'Webfrontend'} = '';
+      '(Email of the system admin)' => '',
+      '(Full qualified domain name of your system)' => '',
+      '(Logfile just needed for File-LogModule!)' => '',
+      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
+      '(Used default language)' => '',
+      '(Used log backend)' => '',
+      '(Used ticket number format)' => '',
+      'Default Charset' => '',
+      'Default Language' => '',
+      'Logfile' => '',
+      'LogModule' => '',
+      'Organization' => '',
+      'System' => '',
+      'System FQDN' => '',
+      'SystemID' => '',
+      'Ticket Hook' => '',
+      'Ticket Number Generator' => '',
+      'Webfrontend' => '',
 
     # Template: Login
 
     # Template: LostPassword
 
     # Template: NoPermission
-    $Hash{'No Permission'} = 'Geen rechten';
+      'No Permission' => 'Geen rechten',
 
     # Template: Notify
-    $Hash{'Info'} = '';
+      'Info' => '',
 
     # Template: QueueView
-    $Hash{'All tickets'} = 'Alle tickets';
-    $Hash{'Queues'} = 'Wachtrij';
-    $Hash{'Show all'} = 'Alle getoond';
-    $Hash{'Ticket available'} = 'Ticket beschikbaar';
-    $Hash{'tickets'} = 'tickets';
-    $Hash{'Tickets shown'} = 'Tickets getoond';
+      'All tickets' => 'Alle tickets',
+      'Queues' => 'Wachtrij',
+      'Show all' => 'Alle getoond',
+      'Ticket available' => 'Ticket beschikbaar',
+      'tickets' => 'tickets',
+      'Tickets shown' => 'Tickets getoond',
 
     # Template: SystemStats
-    $Hash{'Graphs'} = 'Diagrammen';
-    $Hash{'Tickets'} = '';
+      'Graphs' => 'Diagrammen',
+      'Tickets' => '',
 
     # Template: Test
-    $Hash{'OTRS Test Page'} = '';
+      'OTRS Test Page' => '',
 
     # Template: TicketEscalation
-    $Hash{'Ticket escalation!'} = 'Ticket escalatie!';
+      'Ticket escalation!' => 'Ticket escalatie!',
 
     # Template: TicketView
-    $Hash{'Change queue'} = 'Wachtrij wisselen';
-    $Hash{'Compose Answer'} = 'Antwoord opstellen';
-    $Hash{'Contact customer'} = 'Klant contacteren';
-    $Hash{'phone call'} = 'telefoongesprek';
-    $Hash{'Time till escalation'} = 'Tijd tot escalatie';
+      'Change queue' => 'Wachtrij wisselen',
+      'Compose Answer' => 'Antwoord opstellen',
+      'Contact customer' => 'Klant contacteren',
+      'Escalation in' => '',
+      'phone call' => 'telefoongesprek',
 
     # Template: TicketViewLite
 
@@ -695,34 +706,36 @@ sub Data {
     # Template: Warning
 
     # Misc
-    $Hash{'(Click here to add a group)'} = '(Hier klikken - groep toevoegen)';
-    $Hash{'(Click here to add a queue)'} = '(Hier klikken - Wachtrij toevoegen)';
-    $Hash{'(Click here to add a response)'} = '(Hier klikken - Antwoord toevoegen)';
-    $Hash{'(Click here to add a salutation)'} = '(Hier klikken - Aanhef toevoegen)';
-    $Hash{'(Click here to add a signature)'} = '(Hier klikken - handtekening toevoegen)';
-    $Hash{'(Click here to add a system email address)'} = '(Hier klikken - systeem-emailadres toevoegen)';
-    $Hash{'(Click here to add a user)'} = '(Hier klikken - Gebruiker toevoegen)';
-    $Hash{'(Click here to add an auto response)'} = '(Hier klikken - Automatisch antwoord toevoegen)';
-    $Hash{'(Click here to add charset)'} = '(Hier klikken - karakterset toevoegen';
-    $Hash{'(Click here to add language)'} = '(Hier klikken - taal toevoegen)';
-    $Hash{'(Click here to add state)'} = '(Hier klikken - Status toevoegen)';
-    $Hash{'A message should have a From: recipient!'} = 'Een bericht moet een Van: afzender hebben!';
-    $Hash{'New ticket via call.'} = '';
-    $Hash{'Update auto response'} = 'Automatisch antwoord aktualiseren';
-    $Hash{'Update charset'} = 'Karakterset actualiseren';
-    $Hash{'Update group'} = 'Groep aktualiseren';
-    $Hash{'Update language'} = 'Taal actualiseren';
-    $Hash{'Update queue'} = 'Wachtrij actualiseren';
-    $Hash{'Update response'} = 'Antwoorden actualiseren';
-    $Hash{'Update salutation'} = 'Aanhef actualiseren';
-    $Hash{'Update signature'} = 'Handtekening akcualiseren';
-    $Hash{'Update state'} = 'Status actualiseren';
-    $Hash{'Update system address'} = 'Systeem emailadres actualiseren';
-    $Hash{'Update user'} = 'Gebruiker actualiseren';
-    $Hash{'You have to be in the admin group!'} = 'U moet hiervoor in de admin-groep staan!';
-    $Hash{'You have to be in the stats group!'} = 'U moet hiervoor in de statisiek groep staan!';
-    $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = 'In het Van-veld hebben we een Email-adres nodig!';
-    $Hash{'auto responses set'} = 'Automatische antwoorden ingesteld';
+      '(Click here to add a group)' => '(Hier klikken - groep toevoegen)',
+      '(Click here to add a queue)' => '(Hier klikken - Wachtrij toevoegen)',
+      '(Click here to add a response)' => '(Hier klikken - Antwoord toevoegen)',
+      '(Click here to add a salutation)' => '(Hier klikken - Aanhef toevoegen)',
+      '(Click here to add a signature)' => '(Hier klikken - handtekening toevoegen)',
+      '(Click here to add a system email address)' => '(Hier klikken - systeem-emailadres toevoegen)',
+      '(Click here to add a user)' => '(Hier klikken - Gebruiker toevoegen)',
+      '(Click here to add an auto response)' => '(Hier klikken - Automatisch antwoord toevoegen)',
+      '(Click here to add charset)' => '(Hier klikken - karakterset toevoegen',
+      '(Click here to add language)' => '(Hier klikken - taal toevoegen)',
+      '(Click here to add state)' => '(Hier klikken - Status toevoegen)',
+      'A message should have a From: recipient!' => 'Een bericht moet een Van: afzender hebben!',
+      'New ticket via call.' => '',
+      'Time till escalation' => 'Tijd tot escalatie',
+      'Update auto response' => 'Automatisch antwoord aktualiseren',
+      'Update charset' => 'Karakterset actualiseren',
+      'Update group' => 'Groep aktualiseren',
+      'Update language' => 'Taal actualiseren',
+      'Update queue' => 'Wachtrij actualiseren',
+      'Update response' => 'Antwoorden actualiseren',
+      'Update salutation' => 'Aanhef actualiseren',
+      'Update signature' => 'Handtekening akcualiseren',
+      'Update state' => 'Status actualiseren',
+      'Update system address' => 'Systeem emailadres actualiseren',
+      'Update user' => 'Gebruiker actualiseren',
+      'You have to be in the admin group!' => 'U moet hiervoor in de admin-groep staan!',
+      'You have to be in the stats group!' => 'U moet hiervoor in de statisiek groep staan!',
+      'You need a email address (e. g. customer@example.com) in From:!' => 'In het Van-veld hebben we een Email-adres nodig!',
+      'auto responses set' => 'Automatische antwoorden ingesteld',
+    );
 
     # $$STOP$$
 
