@@ -2,7 +2,7 @@
 # Kernel/System/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.2 2002-10-03 17:50:11 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.3 2002-11-19 17:08:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -65,10 +65,25 @@ sub Send {
         }
         chomp $GetParam{$_};
     }
+    # --
+    # replace all scaned email x-headers with <OTRS_CUSTOMER_X-HEADER>
+    # --
     foreach (keys %GetParam) {
-        if ($GetParam{$_}) {
+        if (defined $GetParam{$_}) {
             $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
         }
+    }
+    # --
+    # replace some special stuff
+    #  --
+    $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Param{TicketNumber}/gi;
+    # prepare customer realname
+    if ($Param{Body} =~ /<OTRS_CUSTOMER_REALNAME>/) {
+        # get realname 
+        my $From = $GetParam{From} || '';
+        $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+        $From =~ s/( $)|(  $)//g;
+        $Param{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
     }
     # --
     # check reply to
