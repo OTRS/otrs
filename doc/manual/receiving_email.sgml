@@ -21,7 +21,7 @@ your bin/PostMasterPOP3.pl every 10 minutes (see also chapter cronjobs).
 </sect1>
 
 <sect1 id="receiving-email-cmd">
-<title>Via command line programm and e. g. procmail</title>
+<title>Via command line program and e. g. procmail</title>
 <para>
 OTRS is able to receive emails via a command line programm (bin/PostMaster.pl).
 </para>
@@ -122,7 +122,7 @@ And here a last example, the whole .procmailrc.
 # .procmailrc - procmailrc of the OTRS user
 # Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
 # --
-# $Id: receiving_email.sgml,v 1.2 2003-01-18 12:30:46 stefan Exp $
+# $Id: receiving_email.sgml,v 1.3 2003-01-23 20:00:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -263,7 +263,7 @@ be dispatched to the topic=>queue.
 In order to get e-mails from your mail server via a POP3 or IMAP mailbox to the 
 <emphasis role='bold'>OTRS machine/local otrs account and to procmail</emphasis> 
 use <ulink url="http://www.tuxedo.org/~esr/fetchmail/">fetchmail</ulink>.
-Note: A working SMTP configuration on the OTRS machine is condition.
+Note: A working SMTP configuration on the OTRS machine is a condition.
 </para>
 
 <para>

@@ -4,7 +4,7 @@
 <sect1 id="login-and-new-user">
 <title>Login as root and create a new account</title>
 <para>
-Let's presume that you have an installed OpenTRS system on your system and of course you do not want to waste too much time and see results quickly.
+Let's presume that you have an installed OTRS system on your system and of course you do not want to waste too much time and see results quickly.
 </para>
 
 <para>
@@ -17,7 +17,7 @@ Login as root@localhost who by default has assigned the password root. Please ch
 </para>
 
 <para>
-You are the root user of OpenTRS now. That means that you can do everything! You have the power, you are admin of the system. Normally you will not want to work as root and of course you need an account for all agents. So the first thing is to go into the admin interface.
+You are the root user of OTRS now. That means that you can do everything! You have the power, you are admin of the system. Normally you will not want to work as root and of course you need an account for all agents. So the first thing is to go into the admin interface.
 <screenshot>
 <screeninfo>admin interface</screeninfo>
 <graphic srccredit="admin interface" scale="40" fileref="screenshots/admin-interface.png"></graphic>
@@ -25,7 +25,7 @@ You are the root user of OpenTRS now. That means that you can do everything! You
 </para>
 
 <para>
-The admin interface is the central of your power. You can create and delete users, groups, queues and all sort of usefull stuff here. Browse around and give it a try. But for now we want to create a new user at once.
+The admin interface is the central of your power. You can create and delete users, groups, queues and all sort of useful stuff here. Browse around and give it a try. But for now we want to create a new user at once.
 <screenshot>
 <screeninfo>add new user interface</screeninfo>
 <graphic srccredit="add new user interface" scale="40" fileref="screenshots/add-new-user.png"></graphic>

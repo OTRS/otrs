@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.8 2003-01-14 23:27:37 martin Exp $
+# $Id: README.webserver,v 1.9 2003-01-23 20:00:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -77,7 +77,7 @@ b)
     PerlSendHeader On
   </Location>
 
-  May you want use a mod_perl startup script. Compiled modules on startup 
+  You may want to use a mod_perl startup script. Compiled modules on startup 
   (speed!)! Use the mod_perl startup script which comes with otrs 
   (scripts/apache-perl-startup.pl).
  

@@ -4,7 +4,7 @@
 <sect1 id="ticket-topics-answer-ticket-email">
 <title>Answer ticket via email</title>
 <para>
-It's quite simply to answer tickets via email. Goto the QueueView or TicketZoom and click on one of tle listed items under "Compose Answer (email)". A new screen will be opened, the compose screen. The cool thing is, that the compose screen includes the item-standard answer!  
+It's quite simple to answer tickets via email. Goto the QueueView or TicketZoom and click on one of tle listed items under "Compose Answer (email)". A new screen will be opened, the compose screen. The cool thing is, that the compose screen includes the item-standard answer!  
 <screenshot>
 <screeninfo>compose screen</screeninfo>
 <graphic srccredit="ticket compose screen - screenshot" scale="40" fileref="screenshots/ticket-compose.png"></graphic>
@@ -15,7 +15,7 @@ It's quite simply to answer tickets via email. Goto the QueueView or TicketZoom 
 <sect1 id="ticket-topics-answer-ticket-phone">
 <title>Answer ticket via phone</title>
 <para>
-It's quite simply to answer tickets via phone. Just click on "phone call" (near Contact customer (phone)). A new screen will be opened. Write down the phone notes an select new ticket type (open, closed, ...).
+It's quite simple to answer tickets via phone. Just click on "phone call" (near Contact customer (phone)). A new screen will be opened. Write down the phone notes an select new ticket type (open, closed, ...).
 <screenshot>
 <screeninfo>phone screen</screeninfo>
 <graphic srccredit="ticket phone screen" scale="40" fileref="screenshots/ticket-phone.png"></graphic>
@@ -26,7 +26,7 @@ It's quite simply to answer tickets via phone. Just click on "phone call" (near 
 <sect1 id="ticket-topics-zoom">
 <title>Zoom ticket</title>
 <para>
-Zoom ticket is a detail view of one ticket. The screenshot shows you the ticket data (State, Priority, the Queue of the ticket, the Lock state, Owner and the article tree. Article tree means the whole communication thread.
+Zoom ticket is a detailed view of one ticket. The screenshot shows you the ticket data (State, Priority, the Queue of the ticket, the Lock state, Owner and the article tree. Article tree means the whole communication thread.
 <screenshot>
 <screeninfo>ticket zoom</screeninfo>
 <graphic srccredit="ticket zoom - screenshot" scale="40" fileref="screenshots/ticket-zoom.png"></graphic>
@@ -48,7 +48,7 @@ The ticket history shows you all actions on this ticket.
 <sect1 id="ticket-topics-add-note">
 <title>Add note to ticket</title>
 <para>
-Each agent is able to add notes to tickets. Maybe he/she isn't sure to give a qualified answer. And you can select the type og note (internal, external, ...).
+Each agent is able to add notes to tickets. Maybe he/she isn't sure to give a qualified answer. And you can select the type of note (internal, external, ...).
 <screenshot>
 <screeninfo>note screen</screeninfo>
 <graphic srccredit="ticket note screen" scale="40" fileref="screenshots/ticket-note.png"></graphic>
@@ -70,7 +70,7 @@ Close Tickets.
 <sect1 id="ticket-topics-forward">
 <title>Forward ticket</title>
 <para>
-Forward tickets if the email wasn't for your OpenTRS system.
+Forward tickets if the email wasn't for your OTRS system.
 <screenshot>
 <screeninfo>forward screen</screeninfo>
 <graphic srccredit="ticket forward screen" scale="40" fileref="screenshots/ticket-forward.png"></graphic>
