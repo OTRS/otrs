@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketViewLite.dtl,v 1.18 2004-05-24 07:51:55 martin Exp $
+# $Id: TicketViewLite.dtl,v 1.19 2004-07-09 06:46:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,11 @@
 <tr>
   <td align="left" width="60%" class="table2">
 # should we show the lock action
-<dtl if ($Data{"AgentLock"} ne "0") { $Data{"AgentLockStrg"} = "<a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';" title="$Text{"Lock it to work on it!"}">$Text{"Lock"}</a> -"; }>
+<dtl set $Data{"LockText"} = "Lock">
+<dtl if ($Data{"Lock"} eq "lock") { $Data{"LockText"} = "Unlock"; }>
+<dtl set $Data{"LockLink"} = "Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}">
+<dtl if ($Data{"Lock"} eq "unlock") { $Data{"LockLink"} = "Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}"; }>
+<dtl if ($Data{"AgentLock"} ne "0") { $Data{"AgentLockStrg"} = "<a href="$Env{"Baselink"}$Data{"LockLink"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';" title="$Text{"Lock it to work on it!"}">$Text{"$Data{"LockText"}"}</a> -"; }>
 $Data{"AgentLockStrg"}
 # should we show the zoom action
 <dtl if ($Data{"AgentZoom"} ne "0") { $Data{"AgentZoomStrg"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the detail view of this ticket!"}">$Text{"Zoom"}</a>"; }>
@@ -55,36 +59,32 @@ $Data{"AgentCloseStrg"}
 <tr>
   <td valign="top" width="60%" class="table1">
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
+# From:, To:, Cc:
+<!-- dtl:block:Row -->
     <tr>
-      <td valign="top" width="15%" class="table1"><b>$Text{"From"}:</b></td>
-      <td width="85%" class="table1"> <div title="$QData{"From"}">$QData{"From","80"}</div></td>
+      <td valign="top" width="15%" class="table1"><b>$Text{"$Data{"Key"}"}:</b></td>
+      <td width="85%" class="table1"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
     </tr>
+<!-- dtl:block:Row -->
+# show the Article::FreeKey1-3 and Article::FreeText1-3
+<!-- dtl:block:ArticleFreeText -->
     <tr>
-      <td valign="top" class="table1"><b>$Text{"To"}:</b></td>
-      <td class="table1"> <div title="$QData{"To"}">$QData{"To","80"}</div></td>
+      <td valign="top" width="15%" class="table1"><b>$QData{"Key"}:</b></td>
+      <td width="85%" class="table1"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
     </tr>
+<!-- dtl:block:ArticleFreeText -->
 # --
-# show cc?
+# show FreeKey1-3 and FreeText1-3 (in other way like the block, so you could add link or somethin else)
 # --
-    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top" class="table1"><b>$Text{"Cc"}:</b></td><td> <div title="$QData{"Cc"}">$QData{"Cc","80"}</div></td></tr>"; }>
-    $Data{"ArticleCcString"}
-
-    <tr>
-      <td valign="top" class="table1"><b>$Text{"Subject"}:</b></td>
-      <td class="table1"> <div title="$QData{"Subject"}">$QData{"Subject","80"}</div></td>
-    </tr>
-# --
-# show ArticleFreeKey1-3 and ArticleFreeValue1-3
-# --
-<dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"ArticleFreeKey1"}:</b></td><td> $QData{"ArticleFreeValue1"}</td></tr>"; }>
-<dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"ArticleFreeKey2"}:</b></td><td> $QData{"ArticleFreeValue2"}</td></tr>"; }>
-<dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"ArticleFreeKey3"}:</b></td><td> $QData{"ArticleFreeValue3"}</td></tr>"; }>
-     $Data{"ArticleFreeString1"}
-     $Data{"ArticleFreeString2"}
-     $Data{"ArticleFreeString3"}
+#<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>"; }>
+#     $Data{"ArticleFreeString1"}
+#     $Data{"ArticleFreeString2"}
+#     $Data{"ArticleFreeString3"}
 # --
   </table>
-  </td> 
+  </td>
   <td width="20%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
     <table border="0">
     <tr valign="top">

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.48 2004-05-24 07:51:55 martin Exp $
+# $Id: TicketView.dtl,v 1.49 2004-07-09 06:46:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,15 +28,19 @@
 <tr>
   <td align="left" width="60%" class="table2">
 # should we show the lock action
-<dtl if ($Data{"AgentLock"} ne "0") { $Data{"AgentLockStrg"} = "<a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';" title="$Text{"Lock it to work on it!"}">$Text{"Lock"}</a> -"; }>
+<dtl set $Data{"LockText"} = "Lock">
+<dtl if ($Data{"Lock"} eq "lock") { $Data{"LockText"} = "Unlock"; }>
+<dtl set $Data{"LockLink"} = "Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}">
+<dtl if ($Data{"Lock"} eq "unlock") { $Data{"LockLink"} = "Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}"; }>
+<dtl if ($Data{"AgentLock"} ne "0") { $Data{"AgentLockStrg"} = "<a href="$Env{"Baselink"}$Data{"LockLink"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';" title="$Text{"Lock it to work on it!"}">$Text{"$Data{"LockText"}"}</a> -"; }>
 $Data{"AgentLockStrg"}
 # should we show the zoom action
 <dtl if ($Data{"AgentZoom"} ne "0") { $Data{"AgentZoomStrg"} = "<a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the detail view of this ticket!"}">$Text{"Zoom"}</a>"; }>
 $Data{"AgentZoomStrg"}
-# 
-# incase you want to add an delete link, replace DestQueueID with "delete" queue id 
+#
+# incase you want to add an delete link, replace DestQueueID with "delete" queue id
 #  <a href="$Env{"Baselink"}Action=AgentMove&TicketID=$Data{"TicketID"}&DestQueueID=1" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Delete"}</a> -
-# 
+#
 # should we show the priority action
 <dtl if ($Data{"AgentPriority"} ne "0") { $Data{"AgentPriorityStrg"} = " - <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket priority!"}">$Text{"Priority"}</a>"; }>
 $Data{"AgentPriorityStrg"}
@@ -61,40 +65,43 @@ $Data{"AgentCloseStrg"}
 <tr>
   <td valign="top" width="75%" class="table1">
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
+# From:, To:, Cc:
+<!-- dtl:block:Row -->
     <tr>
-      <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> <div title="$QData{"From"}">$QData{"From","80"}</div></td>
+      <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
+      <td width="85%"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
     </tr>
+<!-- dtl:block:Row -->
+# show the Article::FreeKey1-3 and Article::FreeText1-3
+<!-- dtl:block:ArticleFreeText -->
     <tr>
-      <td valign="top"><b>$Text{"To"}:</b></td>
-      <td> <div title="$QData{"To"}">$QData{"To","80"}</div></td>
+      <td valign="top" width="15%"><b>$QData{"Key"}:</b></td>
+      <td width="85%"> <div title="$QData{"Value"}">$QData{"Value","80"}</div></td>
     </tr>
+<!-- dtl:block:ArticleFreeText -->
 # --
-# show cc?
+# show FreeKey1-3 and FreeText1-3 (in other way like the block, so you could add link or somethin else)
 # --
-    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> <div title="$QData{"Cc"}">$QData{"Cc","80"}</div></td></tr>"; }>
-    $Data{"ArticleCcString"}
+#<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>"; }>
+#     $Data{"ArticleFreeString1"}
+#     $Data{"ArticleFreeString2"}
+#     $Data{"ArticleFreeString3"}
+# show article options like signed, crypted, ...
+<!-- dtl:block:ArticleOption-->
+    <tr>
+      <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
+      <td width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","80"}$Data{"StopFont"}</div></div></td>
+    </tr>
+<!-- dtl:block:ArticleOption -->
 
-    <tr>
-      <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> <div title="$QData{"Subject"}">$QData{"Subject","80"}</div></td>
-    </tr>
-# --
-# show FreeKey1-3 and FreeText1-3
-# --
-<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>"; }>
-<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>"; }>
-<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>"; }>
-     $Data{"ArticleFreeString1"}
-     $Data{"ArticleFreeString2"}
-     $Data{"ArticleFreeString3"}
-# --
   </table>
 $Data{"BodyNote"}
 <div class="message">
 $Data{"Body"}
 </div>
-  </td> 
+  </td>
   <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
    <p align="left">
     <table border="0">
@@ -145,7 +152,7 @@ $Data{"Body"}
    </table>
 
 # --
-# show customer info table 
+# show customer info table
 # --
 <dtl if ($Config{"ShowCustomerInfoQueue"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>"; }>
     $Data{"CustomerInfo"}
@@ -153,7 +160,7 @@ $Data{"Body"}
    <br>
 
     <table border="0" cellspacing="0" cellpadding="1" width="95%">
-    <tr> 
+    <tr>
       <td>
 # --
 # show compose links
@@ -165,7 +172,7 @@ $Data{"TicketAnswer"}
   </p>
   <p>
     <table border="0" cellspacing="0" cellpadding="1" width="95%">
-    <tr> 
+    <tr>
       <td>
        <b>$Text{"Change queue"}:</b><br>
        <form action="$Env{"CGIHandle"}" method="get">
@@ -180,7 +187,7 @@ $Data{"TicketAnswer"}
     </tr>
     </table>
 
-   </p>  
+   </p>
   </td>
 </tr>
 </table>

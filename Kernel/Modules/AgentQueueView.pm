@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.61 2004-05-13 08:22:44 martin Exp $
+# $Id: AgentQueueView.pm,v 1.62 2004-07-09 06:46:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -25,12 +25,14 @@ sub new {
     my $Type = shift;
     my %Param = @_;
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
     # get common opjects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
+    # set debug
+    $Self->{Debug} = 0;
     # check all needed objects
     foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
@@ -116,7 +118,7 @@ sub Run {
     );
     # get user lock data
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-    # build NavigationBar 
+    # build NavigationBar
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     # to get the output faster!
     print $Output; $Output = '';
@@ -227,20 +229,68 @@ sub ShowTicket {
         Type => 'move_into',
     );
     # get last article
-    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID); 
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
+    # run article modules
+    if (ref($Self->{ConfigObject}->Get('Frontend::ArticlePreViewModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    );
+            }
+            if (eval "require $Jobs{$Job}->{Module}") {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    LayoutObject => $Self->{LayoutObject},
+                    TicketObject => $Self->{TicketObject},
+                    ArticleID => $Article{ArticleID},
+                    UserID => $Self->{UserID},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                    );
+                }
+                # run module
+                my %Data = $Object->Check(Article=> \%Article, %Param, Config => $Jobs{$Job});
+                if (%Data) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ArticleOption',
+                        Data => \%Data,
+                    );
+                }
+                # filter option
+                $Object->Filter(Article=> \%Article, %Param, Config => $Jobs{$Job});
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Jobs{$Job}->{Module}!",
+                );
+            }
+        }
+    }
     # fetch all std. responses ...
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $Article{QueueID});
     # --
     # customer info
     # --
-    my %CustomerData = (); 
+    my %CustomerData = ();
     if ($Self->{ConfigObject}->Get('ShowCustomerInfoQueue')) {
-        if ($Article{CustomerUserID}) { 
+        if ($Article{CustomerUserID}) {
             %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $Article{CustomerUserID},
             );
         }
-        elsif ($Article{CustomerID}) { 
+        elsif ($Article{CustomerID}) {
             %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 CustomerID => $Article{CustomerID},
             );
@@ -256,6 +306,29 @@ sub ShowTicket {
             From => $Article{ContentCharset},
         );
     }
+    foreach (qw(From To Cc Subject)) {
+        if ($Article{$_}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Row',
+                Data => {
+                    Key => $_,
+                    Value => $Article{$_},
+                },
+            );
+        }
+    }
+    foreach (qw(1 2 3 4 5)) {
+        if ($Article{"FreeText$_"}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleFreeText',
+                Data => {
+                    Key => $Article{"FreeKey$_"},
+                    Value => $Article{"FreeText$_"},
+                },
+            );
+        }
+    }
+    # create human age
     $Article{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ');
     # --
     # prepare escalation time
@@ -280,12 +353,12 @@ sub ShowTicket {
       if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
         $Article{TicketOverTime} = $Param{TicketOverTimeFont}.
             $Article{TicketOverTime}.$Param{TicketOverTimeFontEnd};
-      } 
+      }
     }
     else {
         $Article{TicketOverTime} = '$Text{"none"}';
     }
-    # customer info string 
+    # customer info string
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
         Data => \%CustomerData,
         Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
@@ -330,7 +403,7 @@ sub ShowTicket {
             SelectedID => $Article{QueueID},
         );
     }
-    # get ack actions 
+    # get ack actions
     $Self->{TicketObject}->TicketAcl(
         Data => '-',
         Action => $Self->{Action},
@@ -357,13 +430,13 @@ sub ShowTicket {
     my $TicketView = $Self->{UserQueueView} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueView}->{DataSelected};
     if ($TicketView ne 'TicketViewLite') {
         return $Self->{LayoutObject}->Output(
-            TemplateFile => 'TicketView', 
+            TemplateFile => 'TicketView',
             Data => {%Param, %Article, %AclAction},
         );
     }
     else {
         return $Self->{LayoutObject}->Output(
-            TemplateFile => 'TicketViewLite', 
+            TemplateFile => 'TicketViewLite',
             Data => {%Param, %Article, %AclAction},
         );
     }
@@ -376,16 +449,16 @@ sub BuildQueueView {
         UserID => $Self->{UserID},
         QueueID => $Self->{QueueID},
         ShownQueueIDs => $Param{QueueIDs},
-    ); 
+    );
     # check shown tickets
     if ($Self->{MaxLimit} < $Data{TicketsAvail}) {
         # set max shown
         $Data{TicketsAvail} = $Self->{MaxLimit};
     }
-    # check start option, if higher then tickets available, set 
+    # check start option, if higher then tickets available, set
     # it to the last ticket page (Thanks to Stefan Schmidt!)
-    if ($Self->{Start} > $Data{TicketsAvail}) { 
-           my $PageShown = $Self->{ViewableTickets}; 
+    if ($Self->{Start} > $Data{TicketsAvail}) {
+           my $PageShown = $Self->{ViewableTickets};
            my $Pages = int(($Data{TicketsAvail} / $PageShown) + 0.99999);
            $Self->{Start} = (($Pages - 1) * $PageShown) + 1;
     }
@@ -402,13 +475,13 @@ sub BuildQueueView {
 # --
 sub _MaskQueueView {
     my $Self = shift;
-    my %Param = @_; 
+    my %Param = @_;
     my $QueueID = $Param{QueueID} || 0;
     my @QueuesNew = @{$Param{Queues}};
     my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || -1;
     my %AllQueues = %{$Param{AllQueues}};
     my %Counter = ();
-    my %UsedQueue = (); 
+    my %UsedQueue = ();
     my @ListedQueues = ();
     my $Level = 0;
     $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
