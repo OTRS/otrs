@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.25 2003-03-10 14:21:32 wiktor Exp $
+# $Id: FollowUp.pm,v 1.26 2003-04-14 19:48:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,12 +34,7 @@ sub new {
     }
 
     # check needed Objects
-    foreach (
-      'DBObject', 
-      'ConfigObject', 
-      'TicketObject', 
-      'LogObject', 
-    ) {
+    foreach (qw(DBObject ConfigObject TicketObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -54,20 +49,15 @@ sub Run {
     my $GetParamTmp = $Param{GetParam};
     my %GetParam = %$GetParamTmp;
     my $Tn = $Param{Tn};
-    my $Email = $Param{Email};
     my $State = $Param{State} || '';
 	my $Comment = $Param{Comment} || '';
     my $Lock = $Param{Lock} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
-    my $DBObject = $Self->{DBObject};
-    my $TicketObject = $Self->{TicketObject};
-    my $LogObject = $Self->{LogObject};
-
-    my $OldState = $TicketObject->GetState(TicketID => $TicketID) || '';
+    my $OldState = $Self->{TicketObject}->GetState(TicketID => $TicketID) || '';
 
     # do db insert
-    my $ArticleID = $TicketObject->CreateArticle(
+    my $ArticleID = $Self->{TicketObject}->CreateArticle(
         TicketID => $TicketID,
         ArticleType => 'email-external',
         SenderType => 'customer',
@@ -99,14 +89,26 @@ sub Run {
         print "Subject: $GetParam{Subject}\n";
         print "MessageID: $GetParam{'Message-ID'}\n";
     }
+    # --    
+    # write plain email to the storage
     # --
-    # write to fs
-    # --
-    $TicketObject->WriteArticle(
-        ArticleID => $ArticleID, 
-        Email => $Email,
+    $Self->{TicketObject}->WriteArticlePlain(
+        ArticleID => $ArticleID,
+        Email => $Self->{ParseObject}->GetPlainEmail(),
         UserID => $InmailUserID,
     );
+    # --    
+    # write attachments to the storage
+    # --
+    foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
+        $Self->{TicketObject}->WriteArticlePart(
+            Content => $Attachment->{Content}, 
+            Filename => $Attachment->{Filename},
+            ContentType => $Attachment->{ContentType},
+            ArticleID => $ArticleID,
+            UserID => $InmailUserID,
+        );
+    }
     # --
     # set free article text
     # --
@@ -115,7 +117,7 @@ sub Run {
     while ($CounterTmp <= 3) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
-            $TicketObject->SetArticleFreeText(
+            $Self->{TicketObject}->SetArticleFreeText(
                 ArticleID => $ArticleID,
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},
@@ -133,7 +135,7 @@ sub Run {
     # set state 
     # --
     if ($State && ($OldState ne $State)) {
-	    $TicketObject->SetState(
+	    $Self->{TicketObject}->SetState(
     	    State => $State,
         	TicketID => $TicketID,
 	        UserID => $InmailUserID,
@@ -145,8 +147,8 @@ sub Run {
     # --
     # set lock
     # --
-    if ($Lock && !$TicketObject->IsTicketLocked(TicketID => $TicketID) && $OldState =~ /^close/i) {
-       $TicketObject->SetLock( 
+    if ($Lock && !$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID) && $OldState =~ /^close/i) {
+       $Self->{TicketObject}->SetLock( 
            TicketID => $TicketID,
            Lock => 'lock',
            UserID => => $InmailUserID,
@@ -158,14 +160,14 @@ sub Run {
     # --
     # set unanswered
     # --
-    $TicketObject->SetAnswered(
+    $Self->{TicketObject}->SetAnswered(
         TicketID => $TicketID,
         UserID => $InmailUserID,
         Answered => 0,
     );
 
     # write log
-    $LogObject->Log(
+    $Self->{LogObject}->Log(
         Priority => 'notice',
         Message => "FollowUp Article to Ticket [$Tn] created (TicketID=$TicketID, " .
 			"ArticleID=$ArticleID). $Comment"

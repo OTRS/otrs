@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.25 2003-04-11 17:46:39 martin Exp $
+# $Id: Article.pm,v 1.26 2003-04-14 19:48:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,10 +13,8 @@ package Kernel::System::Ticket::Article;
 
 use strict;
 
-use MIME::Words qw(:all);
-
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -273,77 +271,6 @@ sub CreateArticle {
     # return ArticleID
     # --
     return $ArticleID;
-}
-# --
-sub WriteArticleParts {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # check needed stuff
-    # --
-    foreach (qw(UserID Part ArticleID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
-    }
-
-    my $Path = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
-
-    $Self->{PartCounter}++;
-
-    if ($Param{Part}->parts() > 0) {
-        my $PartCounter1 = 0;
-        foreach ($Param{Part}->parts()) {
-            $PartCounter1++;
-            # --
-            # debug
-            # --
-            if ($Self->{Debug} > 0) {
-              $Self->{LogObject}->Log(Message => "Sub part($Self->{PartCounter}/$PartCounter1)!");
-            }
-            # --
-            # there is a part in the current part
-            # --
-            $Self->WriteArticleParts(
-                Part => $_, 
-                ArticleID => $Param{ArticleID},
-                UserID => $Param{UserID},
-            );
-        }
-    }
-    else {
-        # --
-        # get attachment meta stuff
-        # --
-        my %PartData = ();
-        $PartData{ContentType} = $Param{Part}->effective_type();
-        $PartData{Content} = $Param{Part}->bodyhandle()->as_string();
-        # --
-        # check if there is no recommended_filename -> add file-NoFilenamePartCounter
-        # --
-        if (!$Param{Part}->head()->recommended_filename()) {
-            $Self->{NoFilenamePartCounter}++;
-            $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
-        }
-        else {
-            $PartData{Filename} = $Param{Part}->head()->recommended_filename();
-        }
-        $PartData{Filename} = decode_mimewords($PartData{Filename});
-        # --
-        # debug
-        # --
-        if ($Self->{Debug} > 0) {
-            $Self->{LogObject}->Log(
-                Message => "->WriteAtm: '$PartData{Filename}' '$PartData{ContentType}'",
-            );
-        }
-        # --
-        # write attachment to backend           
-        # --
-        $Self->WriteArticlePart(%PartData, %Param);
-    }
-    return 1;
 }
 # --
 sub GetArticleContentPath {

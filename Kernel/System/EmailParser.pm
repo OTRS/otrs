@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.12 2003-04-07 08:40:54 martin Exp $
+# $Id: EmailParser.pm,v 1.13 2003-04-14 19:48:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,9 +33,13 @@ sub new {
 
     $Self->{Debug} = 0;
 
-    $Self->{OrigEmail} = $Param{OrigEmail};
     $Self->{Email} = new Mail::Internet($Param{Email});
     return $Self;
+}
+# --
+sub GetPlainEmail {
+    my $Self = shift;
+    return $Self->{Email}->as_string();
 }
 # --
 sub GetParam {
@@ -43,7 +47,7 @@ sub GetParam {
     my %Param = @_;
     my $What = $Param{WHAT} || return;
 
-    my $Header = $Self->GetHeader(); 
+    my $Header = $Self->{Email}->head();
     $Header->unfold();
     $Header->combine($What);
     my $Line = $Header->get($What) || '';
@@ -72,24 +76,6 @@ sub SplitAddressLine {
     return @GetParam;
 }
 # --
-sub GetHeader {
-    my $Self = shift;
-    my %Param = @_;
-    if (!exists $Self->{Header}) {
-        $Self->{Header} = $Self->{Email}->head();
-    }
-    return $Self->{Header};
-}
-# --
-sub GetBody {
-    my $Self = shift;
-    my %Param = @_;
-    if (!exists $Self->{Body}) {
-        $Self->{Body} = $Self->{Email}->body();
-    }
-    return $Self->{Body};
-}
-# --
 sub GetContentType {
     my $Self = shift;
     my $ContentType = shift || '';
@@ -104,21 +90,16 @@ sub GetContentType {
 sub GetMessageBody {
     my $Self = shift;
     my %Param = @_;
-    my $Email = $Self->{OrigEmail}; 
-    my @EmailTmp = @$Email;
     my $Parser = new MIME::Parser;
     $Parser->output_to_core("ALL");
-    my $Data; 
-    my $Strg = join('', @EmailTmp);
-    eval { $Data = $Parser->parse_data($Strg) };
-    my $PartCounter = 0;
+    $Self->{ParserParts} = $Parser->parse_data($Self->{Email}->as_string());
 
-    if ($Data->parts() == 0) {
+    if ($Self->{ParserParts}->parts() == 0) {
+        $Self->{MimeEmail} = 0;
         if ($Self->{Debug} > 0) {
             print STDERR 'No Mime Email' . "\n";
         }
-        my @Body = @{$Self->GetBody()};
-        my $BodyStrg = join('', @Body);
+        my $BodyStrg = join('', @{$Self->{Email}->body()});
         # --
         # quoted printable!
         # --
@@ -131,46 +112,85 @@ sub GetMessageBody {
         return $BodyStrg;
     }
     else {
+        $Self->{MimeEmail} = 1;
         if ($Self->{Debug} > 0) {
             print STDERR 'Mime Email' . "\n";
         }
-        $Self->GetTheFirstAtm(Part => $Data);
-        return $Self->{MailBody};
+        my @Attachments = $Self->GetAttachments();
+        my %Attachment = %{$Attachments[0]};
+        $Self->{ContentType} = $Attachment{ContentTypeLong};
+        return $Attachment{Content};
     }
     return
 }
 # --
-sub GetTheFirstAtm {
+sub GetAttachments {
     my $Self = shift;
     my %Param = @_;
-    my $Part = $Param{Part};
+    if (!$Self->{MimeEmail}) {
+        return;
+    }
+    elsif ($Self->{Attachments}) {
+        return @{$Self->{Attachments}};
+    }
+    else {
+        $Self->PartsAttachments(Part => $Self->{ParserParts});
+        if ($Self->{Attachments}) {
+            return @{$Self->{Attachments}};
+        }
+        else { 
+            return;
+        }
+    }
+}
+# --
+sub PartsAttachments {
+    my $Self = shift;
+    my %Param = @_;
+    my $Part = $Param{Part} || $Self->{ParserParts};
     my $PartCounter = $Param{PartCounter} || 0;
     my $SubPartCounter = $Param{SubPartCounter} || 0;
+    $Self->{PartCounter}++;
     if ($Part->parts() > 0) {
 	    $PartCounter++;
 	    foreach ($Part->parts()) {
 		    $SubPartCounter++;
-                    if ($Self->{Debug} > 0) {
+            if ($Self->{Debug} > 0) {
  		        print STDERR "Sub part($PartCounter/$SubPartCounter)!\n";
-                    }
-		    $Self->GetTheFirstAtm(Part => $_, PartCounter => $PartCounter);
+            }
+		    $Self->PartsAttachments(Part => $_, PartCounter => $PartCounter);
 	    }
     }
     else {
-	    my $Filename = $Part->head()->recommended_filename() || "file-$PartCounter.$SubPartCounter";
-	    if ($Self->{Debug} > 0) {
-		    print STDERR '->GotArticle::Atm->Filename:' . $Filename . "\n";
-	    }
-        if (!$Self->{ContentType}) {
-            $Self->{ContentType} = $Part->head()->mime_type()."; ";
-            if ($Part->head()->mime_attr('content-type.charset')) {    
-                $Self->{ContentType} .= "charset=".
-                   $Part->head()->mime_attr('content-type.charset');
-            }
+        # --
+        # get attachment meta stuff
+        # --
+        my %PartData = ();
+        $PartData{ContentType} = $Part->effective_type();
+        $PartData{ContentTypeLong} = $Part->head()->mime_type()."; ";
+        if ($Part->head()->mime_attr('content-type.charset')) {    
+            $Self->{ContentType} .= "charset=".
+            $Part->head()->mime_attr('content-type.charset');
         }
-        if (!exists $Self->{MailBody}) {
-            $Self->{MailBody} = $Part->bodyhandle()->as_string();
+        $PartData{Content} = $Part->bodyhandle()->as_string();
+        # --
+        # check if there is no recommended_filename -> add file-NoFilenamePartCounter
+        # --
+        if (!$Part->head()->recommended_filename()) {
+            $Self->{NoFilenamePartCounter}++;
+            $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
         }
+        else {
+            $PartData{Filename} = decode_mimewords($Part->head()->recommended_filename());
+        }
+        # --
+        # debug
+        # --
+        if ($Self->{Debug} > 0) {
+            print STDERR "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}'\n";
+        }
+        # store data
+        push(@{$Self->{Attachments}}, \%PartData);
     }
 }
 # --

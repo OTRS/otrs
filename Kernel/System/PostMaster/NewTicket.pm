@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.37 2003-03-11 16:47:16 martin Exp $
+# $Id: NewTicket.pm,v 1.38 2003-04-14 19:49:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,12 +13,11 @@ package Kernel::System::PostMaster::NewTicket;
 
 use strict;
 use Kernel::System::AutoResponse;
-use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::Queue;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,12 +32,9 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
     
     # get all objects
-    foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject)) {
+    foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject DestQueueObject)) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
-
-    # get dest queue object
-    $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(%Param);
 
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
 
@@ -52,7 +48,6 @@ sub Run {
     my %Param = @_;
     my $InmailUserID = $Param{InmailUserID};
     my %GetParam = %{$Param{GetParam}};
-    my $Email = $Param{Email};
      
     my $Comment = $Param{Comment} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
@@ -252,14 +247,25 @@ sub Run {
         }
     }
     # --    
-    # write it to the fs
+    # write plain email to the storage
     # --
-    $Self->{TicketObject}->WriteArticle(
+    $Self->{TicketObject}->WriteArticlePlain(
         ArticleID => $ArticleID, 
-        Email => $Email,
+        Email => $Self->{ParseObject}->GetPlainEmail(),
         UserID => $InmailUserID,
     );
-    
+    # --    
+    # write attachments to the storage
+    # --
+    foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
+        $Self->{TicketObject}->WriteArticlePart(
+            Content => $Attachment->{Content}, 
+            Filename => $Attachment->{Filename},
+            ContentType => $Attachment->{ContentType},
+            ArticleID => $ArticleID,
+            UserID => $InmailUserID,
+        );
+    }
     # do log
     $Self->{LogObject}->Log(
 	Priority => 'notice',

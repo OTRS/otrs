@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.7 2003-04-12 14:00:52 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.8 2003-04-14 19:48:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,10 +13,10 @@ package Kernel::System::Ticket::ArticleStorageDB;
 
 use strict;
 use MIME::Base64;
-use MIME::Parser;
+use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,39 +83,6 @@ sub DeleteArticleOfTicket {
     }
 }
 # --
-sub WriteArticle {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # check needed stuff
-    # --
-    foreach (qw(ArticleID Email UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
-    }
-    if ($Self->WriteArticlePlain(%Param)) {
-        # --
-        # write article parts
-        # --
-        my $Parser = new MIME::Parser;
-        $Parser->output_to_core("ALL");
-        my $Data = $Parser->parse_data($Param{Email});
-        foreach my $Part ($Data->parts()) {
-            $Self->WriteArticleParts(
-                Part => $Part, 
-                ArticleID => $Param{ArticleID},
-                UserID => $Param{UserID},
-            );
-        }
-        return 1;
-    }
-    else {
-        return;
-    }
-}
-# --
 sub WriteArticlePlain {
     my $Self = shift;
     my %Param = @_;
@@ -129,19 +96,12 @@ sub WriteArticlePlain {
       }
     }
     # --
-    # write plain article
-    # --
-    my $PlainString = '';
-    foreach (@{$Param{Email}}) {
-        $PlainString .= $_;
-    }
-    # --
     # write article to db 1:1
     # --
     my $SQL = "INSERT INTO article_plain ".
           " (article_id, body, create_time, create_by, change_time, change_by) " .
           " VALUES ".
-          " ($Param{ArticleID}, '".$Self->{DBObject}->Quote($PlainString)."', ".
+          " ($Param{ArticleID}, '".$Self->{DBObject}->Quote($Param{Email})."', ".
           " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
@@ -166,7 +126,7 @@ sub WriteArticlePart {
     # --
     # check used name (we want just uniq names)
     # --
-    my $NewFileName = $Param{Filename};
+    my $NewFileName = decode_mimewords($Param{Filename});
     my %UsedFile = ();
     my %Index = $Self->GetArticleAtmIndex(ArticleID => $Param{ArticleID});
     foreach (keys %Index) {
@@ -190,7 +150,7 @@ sub WriteArticlePart {
     # --
     # write attachment to db
     # --
-    foreach (keys %Param) {
+    foreach (qw(Filename ContentType Content)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     my $SQL = "INSERT INTO article_attachment ".

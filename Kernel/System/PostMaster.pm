@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.29 2003-04-13 09:54:25 martin Exp $
+# $Id: PostMaster.pm,v 1.30 2003-04-14 19:48:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,14 +49,12 @@ sub new {
     # should i use the x-otrs header?
     $Self->{Trusted} = defined $Param{Trusted} ? $Param{Trusted} : 1;
 
-    # get email 
-    $Self->{Email} = $Param{Email} || die "Got no EmailBody!";
-    my $EmailTmp = $Param{Email} || die "Got no EmailBody!";
-    my @Email = @$EmailTmp;
-    my @EmailOrig = @Email;
+    # check email 
+    if (!$Param{Email}) {
+        die "Got no EmailBody!";
+    }
     $Self->{ParseObject} = Kernel::System::EmailParser->new(
-        Email => \@Email,
-        OrigEmail => \@EmailOrig,
+        Email => $Param{Email},
     );
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
          DBObject => $Self->{DBObject}, 
@@ -93,6 +91,7 @@ sub Run {
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
         LoopProtectionObject => $Self->{LoopProtectionObject},
+        DestQueueObject => $Self->{DestQueueObject},
         Debug => $Self->{Debug},
     );
     # --
@@ -176,7 +175,6 @@ sub Run {
           $NewTicket->Run(
             InmailUserID => $Self->{PostmasterUserID},
             GetParam => \%GetParam,
-            Email => $Self->{Email},
             Comment => "Because the old ticket [$Tn] is '$State'",
             AutoResponseType => 'auto reply/new ticket',
           );
@@ -194,7 +192,6 @@ sub Run {
             GetParam => \%GetParam,
             Lock => $Lock,
             Tn => $Tn,
-            Email => $Self->{Email},
             QueueID => $QueueID,
             Comment => 'Follow up rejected.',
             AutoResponseType => 'auto reject',
@@ -209,7 +206,6 @@ sub Run {
             GetParam => \%GetParam,
             Lock => $Lock,
             Tn => $Tn,
-            Email => $Self->{Email},
             State => $Self->{ConfigObject}->Get('PostmasterFollowUpState') || 'open',
             QueueID => $QueueID,
             AutoResponseType => 'auto follow up',
@@ -231,7 +227,6 @@ sub Run {
         $NewTicket->Run(
             InmailUserID => $Self->{PostmasterUserID},
             GetParam => \%GetParam,
-            Email => $Self->{Email},
             QueueID => $Param{QueueID},
             AutoResponseType => 'auto reply',
           );

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.6 2003-04-08 21:36:23 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.7 2003-04-14 19:48:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::ArticleStorageFS;
 use strict;
 use File::Path;
 use File::Basename;
-use MIME::Parser;
+use MIME::Words qw(:all);
 
 # --
 # to get it writable for the otrs group (just in case)
@@ -22,7 +22,7 @@ use MIME::Parser;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -114,40 +114,6 @@ sub DeleteArticleOfTicket {
     }
 }
 # --
-sub WriteArticle {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # check needed stuff
-    # --
-    foreach (qw(ArticleID Email UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
-    }
-    if ($Self->WriteArticlePlain(%Param)) { 
-        # --
-        # write article parts
-        # --
-        my $Parser = new MIME::Parser;
-        $Parser->output_to_core("ALL");
-        my $Data = $Parser->parse_data($Param{Email});
-
-        foreach my $Part ($Data->parts()) {
-            $Self->WriteArticleParts(
-                Part => $Part,
-                ArticleID => $Param{ArticleID},
-                UserID => $Param{UserID},
-            );
-        }
-        return 1;
-    }
-    else {
-        return;
-    }
-}
-# --
 sub WriteArticlePlain {
     my $Self = shift;
     my %Param = @_;
@@ -160,11 +126,6 @@ sub WriteArticlePlain {
         return;
       }
     }
-    my $PlainString = '';
-    foreach (@{$Param{Email}}) {
-        $PlainString .= $_;
-    }
-
     my $Path = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
     # --
     # debug
@@ -180,7 +141,7 @@ sub WriteArticlePlain {
     # write article to fs 
     # --
     if (open (DATA, "> $Path/plain.txt")) { 
-        print DATA $PlainString;
+        print DATA $Param{Email};
         close (DATA);
         return 1;
     }
@@ -209,7 +170,7 @@ sub WriteArticlePart {
     # --
     # check used name (we want just uniq names)
     # --
-    my $NewFileName = $Param{Filename};
+    my $NewFileName = decode_mimewords($Param{Filename});
     my %UsedFile = ();
     my @Index = $Self->GetArticleAtmIndex(
         ArticleID => $Param{ArticleID},
