@@ -1,8 +1,8 @@
 # --
 # AdminAttachmentForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.8 2004-10-18 19:23:04 martin Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.9 2005-02-16 16:49:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

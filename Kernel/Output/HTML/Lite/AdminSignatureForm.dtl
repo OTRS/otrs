@@ -1,8 +1,8 @@
 # --
 # AdminSignatureForm.dtl - provides HTML form for AdminSignature
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSignatureForm.dtl,v 1.17 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminSignatureForm.dtl,v 1.18 2005-02-16 16:49:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

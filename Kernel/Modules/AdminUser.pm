@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.22 2005-02-15 11:58:12 martin Exp $
+# $Id: AdminUser.pm,v 1.23 2005-02-16 16:49:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $ ';
+$VERSION = '$Revision: 1.23 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -62,7 +62,7 @@ sub Run {
     elsif ($Self->{Subaction} eq 'ChangeAction') {
         # get params
         my %GetParam;
-        foreach (qw(ID Salutation Login Firstname Lastname Email ValidID) {
+        foreach (qw(ID Salutation Login Firstname Lastname Email ValidID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam(Param => 'Preferences') || '';
@@ -133,7 +133,7 @@ sub Run {
     elsif ($Self->{Subaction} eq 'AddAction') {
         # get params
         my %GetParam;
-        foreach (qw(ID Salutation Login Firstname Lastname Email ValidID) {
+        foreach (qw(ID Salutation Login Firstname Lastname Email ValidID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam(Param => 'Preferences') || '';

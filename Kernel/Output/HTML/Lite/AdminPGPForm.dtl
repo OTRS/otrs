@@ -2,7 +2,7 @@
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGPForm.dtl,v 1.9 2005-01-10 23:20:54 martin Exp $
+# $Id: AdminPGPForm.dtl,v 1.10 2005-02-16 16:49:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"PGP Key Management"}$Env{"Box1"}
+    $Env{"Box0"}$Text{"PGP Management"}$Env{"Box1"}
   </td>
 </tr>
 <tr>

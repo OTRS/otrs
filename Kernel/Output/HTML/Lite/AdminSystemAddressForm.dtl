@@ -1,8 +1,8 @@
 # --
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddess
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.16 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.17 2005-02-16 16:49:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

@@ -2,7 +2,7 @@
 # AdminCustomerUserGroupForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGroupForm.dtl,v 1.3 2005-02-15 13:46:38 martin Exp $
+# $Id: AdminCustomerUserGroupForm.dtl,v 1.4 2005-02-16 16:49:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
   <td class="mainhead">
-    <b>$Env{"Box0"}$Text{"Customer User <-> Group Management"}$Env{"Box1"}</b>
+    $Env{"Box0"}$Text{"Customer Users <-> Groups Management"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
