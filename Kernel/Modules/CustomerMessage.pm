@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.22 2003-12-15 17:58:37 martin Exp $
+# $Id: CustomerMessage.pm,v 1.23 2004-01-08 10:17:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -279,7 +279,16 @@ sub Run {
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             CreateUserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
         );
-
+        # set Customer ID
+        if ($Self->{UserCustomerID} || $Self->{UserLogin}) {
+            $Self->{TicketObject}->SetCustomerData(
+                TicketID => $TicketID,
+                No => $Self->{UserCustomerID},
+                User => $Self->{UserLogin},
+                UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+        }
+      # create article
       if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,
             ArticleType => $Self->{ConfigObject}->Get('CustomerPanelNewArticleType'),
@@ -301,15 +310,6 @@ sub Run {
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
-          # set Customer ID
-          if ($Self->{UserCustomerID} || $Self->{UserLogin}) {
-              $Self->{TicketObject}->SetCustomerData(
-                  TicketID => $TicketID,
-                  No => $Self->{UserCustomerID}, 
-                  User => $Self->{UserLogin},
-                  UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-               );
-          }
           # get attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
               Param => 'file_upload', 
