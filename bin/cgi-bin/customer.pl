@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.8 2002-11-24 23:51:35 martin Exp $
+# $Id: customer.pl,v 1.9 2002-11-29 17:06:55 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -216,11 +216,10 @@ if ($Param{Action} eq "Login") {
         # --
         my $LayoutObject = Kernel::Output::HTML::Generic->new(
           SetCookies => {
-	      SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-		  Key => $Param{SessionName},
-		  Value => $NewSessionID,
-		  Expires => '+24h',
-              ),
+            SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
+              Key => $Param{SessionName},
+              Value => $NewSessionID,
+            ),
           },
           SessionID => $NewSessionID, 
           SessionName => $Param{SessionName},
@@ -283,10 +282,9 @@ elsif ($Param{Action} eq "Logout"){
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-		  Key => $Param{SessionName},
-		  Value => '',
-		  Expires => '-24d',
-	      ),
+                  Key => $Param{SessionName},
+                  Value => '',
+              ),
           },
           %CommonObject,
           %Param,
