@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.46 2002-07-24 08:56:12 martin Exp $
+# $Id: Config.pm,v 1.47 2002-07-24 21:34:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -139,6 +139,7 @@ sub Load {
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
 
     # This is an example configuration for an LDAP auth. backend.
+    # (take care that Net::LDAP is installed!)
 #    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
 #    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
 #    $Self->{'AuthModule::LDAP::BaseDN'} = 'cn=Manager,dc=example,dc=com';
@@ -575,6 +576,14 @@ Your OpenTRS Notification Master
     $Self->{DefaultForwardEmailType} = [
         'email-external',
         'email-internal',
+    ];
+
+    # ----------------------------------------------------#
+    # add std responses when a new queue is created       #
+    # ----------------------------------------------------#
+    # array of std responses
+    $Self->{StdResponse2QueueByCreating} = [
+        'empty answer',
     ];
 
     # ----------------------------------------------------#
