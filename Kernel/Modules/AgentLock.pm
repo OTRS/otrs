@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.17 2004-09-28 13:48:51 martin Exp $
+# $Id: AgentLock.pm,v 1.18 2004-09-30 05:36:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,16 +48,11 @@ sub Run {
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-        # --
         # error page
-        # --
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
+        return $Self->{LayoutObject}->ErrorScreen(
             Message => "Can't lock Ticket, no TicketID is given!",
             Comment => 'Please contact the admin.',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
     # --
     # check permissions
@@ -66,9 +61,7 @@ sub Run {
         Type => 'lock',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     # --
