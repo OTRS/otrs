@@ -44,8 +44,8 @@
 
     # Ticket::NewMessageMode
     # (mode of new message is counted)
-#    $Self->{'Ticket::NewMessageMode'} = 'ArticleLastSender';
-    $Self->{'Ticket::NewMessageMode'} = 'ArticleSeen';
+    $Self->{'Ticket::NewMessageMode'} = 'ArticleLastSender';
+#    $Self->{'Ticket::NewMessageMode'} = 'ArticleSeen';
 
     # --------------------------------------------------- #
     # TicketFreeText                                      #
