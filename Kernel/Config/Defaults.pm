@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.125 2004-04-20 08:24:35 martin Exp $
+# $Id: Defaults.pm,v 1.126 2004-04-22 13:19:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.125 $';
+$VERSION = '$Revision: 1.126 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -354,7 +354,7 @@ sub LoadDefaults {
     # PreApplicationModule 
     # (Used for every request, if defined, the PreRun() function of
     # this module will be used. This interface use useful to check
-    # some user options or to redirect no accept new application 
+    # some user options or to redirect not accept new application 
     # news)
 #    $Self->{PreApplicationModule} = 'Kernel::Modules::AgentWorkingGroupSelection';
 
@@ -479,6 +479,25 @@ sub LoadDefaults {
     # TicketCustomModule
     # (custom functions to refedine Kernel::System::Ticket functions)
 #    $Self->{TicketCustomModule} = 'Kernel::System::Ticket::Custom';
+
+    $Self->{'TicketACL::Default::Action'} = {
+        AgentClose => 1,
+        AgentPending => 1,
+        AgentNote => 1,
+        AgentHistory => 1,
+        AgentPriority => 1,
+        AgentFreeText => 1,
+        AgentHistory => 1,
+        AgentCompose => 1,
+        AgentBounce => 1,
+        AgentTicketPrint => 1,
+        AgentForward => 1,
+        AgentTicketLink => 1,
+        AgentPrint => 1,
+        AgentPhone => 1,
+        AgentCustomer => 1,
+        AgentOwner => 1,
+    };
 
     # UncountedUnlockTime
     # (don't count this hours as unlock time - weekdays: Mon,Tue,Wed,Thu,Fri,Sat,Sun;)
@@ -631,7 +650,10 @@ sub LoadDefaults {
     # FrontendNeedSpellCheck
     # (compose message must be spell checked)
     $Self->{FrontendNeedSpellCheck} = 0;
-
+    # FrontendBulkFeature
+    # (a agent frontend feature to work on more then one ticket 
+    # at on time)
+    $Self->{FrontendBulkFeature} = 1;
     # --------------------------------------------------- #
     # TicketFreeText                                      #
     # (define free text options for frontend)             #
@@ -1295,7 +1317,7 @@ Your OTRS Notification Master
     # CustomerPanelPreApplicationModule 
     # (Used for every request, if defined, the PreRun() function of
     # this module will be used. This interface use useful to check
-    # some user options or to redirect no accept new application 
+    # some user options or to redirect not accept new application 
     # news)
 #    $Self->{CustomerPanelPreApplicationModule} = 'Kernel::Modules::CustomerLicenseAccept';
 
