@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.11 2002-12-15 00:58:23 martin Exp $
+# $Id: Defaults.pm,v 1.12 2002-12-18 17:27:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -94,6 +94,14 @@ sub LoadDefaults {
     # MaxFileUpload
     # (Max size for file uploads - default 5 MB)
     $Self->{MaxFileUpload} = 1024 * 1024 * 5;
+
+    # CheckEmailAddresses
+    # (Check used email addresses)
+    $Self->{CheckEmailAddresses} = 1;
+
+    # CheckMXRecord
+    # (Check mx recorde of used email addresses)
+    $Self->{CheckMXRecord} = 1;
 
     # ----------------------------------------------------#
     # database settings                                   #
@@ -998,10 +1006,6 @@ Your OTRS Notification Master
     # CustomerPanelCreateAccount
     # (use create cutomer account self feature)
     $Self->{CustomerPanelCreateAccount} = 1;
-
-    # CustomerPanelMXCheck
-    # (check mx of customer email addresses)
-    $Self->{CustomerPanelMXCheck} = 1;
 
     # CustomerPriority
     # (If the customer can set the ticket priority)
