@@ -2,13 +2,19 @@
 # Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.131.2.2 2004-10-07 14:15:39 martin Exp $
+# $Id: CHANGES,v 1.131.2.3 2004-10-14 15:35:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-1.3.2 (2004-xx-xx)
+1.3.2 (2004-10-15)
+ - (2004/10/14) fixed bug 573 - Clicked link to check ticket status and here's
+    what I got
+ - (2004/10/12) replaced COUNTER with DATA in Kernel/System/Ticket/Number/*.pm
+    (because of win32 systems and use strict mode)
+ - (2004/10/12) fixed agent can be customer modus
+ - (2004/10/10) fixed wrong lable attachments in db backend
  - (2004/10/07) fixed bug 562 Content-Transfer-Encoding: 7bit and german umlaut
  - (2004/10/07) fixed bug 565 HighlightColor* in AgentMailbox
  - (2004/10/06) fixed link quote of https links
