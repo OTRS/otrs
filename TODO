@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.53 2004-02-16 03:10:36 martin Exp $
+# $Id: TODO,v 1.53.2.1 2004-02-23 10:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,7 @@
 # --
 
 1.3
+- support of time zones
 - prevent unauthorized person submit ticket via email via PostMaster*.pl
 - remove header/footer of spelling window
 - change time column format of time_accounting table from int to
@@ -20,9 +21,9 @@
 - delete option for records (martin)
 - add info that a ticket is already closed!
 - add attachment option to phone view
-- master ticket feature
 
 2.0
+- master ticket feature
 - Multiple Attachements on http://localhost/otrs/index.pl?Action=AgentCompose
 - user info backend (LDAP and DB)
 - allow users to add or change stored replies for their queue without giving them full admin rights

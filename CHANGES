@@ -2,12 +2,27 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.110 2004-02-16 03:10:07 martin Exp $
+# $Id: CHANGES,v 1.110.2.1 2004-02-23 10:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+CVS head 
+
+ - (2004/02/23) updated to CGI 3.04
+
+1.2.2 (2004-02-23)
+
+ - (2004/02/17) changed screen after moved ticket (like OTRS 1.1)
+ - (2004/02/17) added null option to search options 
+    http://bugs.otrs.org/show_bug.cgi?id=321
+ - (2004/02/17) fixed double quote bug in GetIdOfArticle()/CreateArticle()
+    http://bugs.otrs.org/show_bug.cgi?id=319
+ - (2004/02/17) fixed bug 317 - Return Path set to invalid email 
+    http://bugs.otrs.org/show_bug.cgi?id=317
+
 1.2.1 (2004-02-14)
 
  - (2004/02/14) fixed escalation bug 290 - 
