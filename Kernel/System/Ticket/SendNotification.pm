@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendNotification.pm - send notifications to agent
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.13 2004-02-08 22:22:14 martin Exp $
+# $Id: SendNotification.pm,v 1.14 2004-04-05 17:10:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendNotification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -160,7 +160,7 @@ sub SendNotification {
     );
 
     # write history
-    $Self->AddHistoryRow(
+    $Self->HistoryTicketAdd(
         TicketID => $Param{TicketID},
         HistoryType => 'SendAgentNotification',
         Name => "Sent '$Param{Type}' notification to '$User{UserEmail}'.",
@@ -218,7 +218,7 @@ sub SendCustomerNotification {
         return;
     }
     # get owner data
-    my ($OwnerID, $Owner) = $Self->CheckOwner(TicketID => $Param{TicketID});
+    my ($OwnerID, $Owner) = $Self->OwnerCheck(TicketID => $Param{TicketID});
     my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
     foreach (keys %Preferences) {
         if ($Preferences{$_}) {

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.17 2004-03-12 18:35:10 martin Exp $
+# $Id: StaticDB.pm,v 1.18 2004-04-05 17:10:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -32,7 +32,7 @@ sub TicketAcceleratorUpdate {
     # check if ticket is shown or not
     my $IndexUpdateNeeded = 0;
     my $IndexSelcected = 0;
-    my %TicketData = $Self->GetTicket(%Param);
+    my %TicketData = $Self->TicketGet(%Param);
     my %IndexTicketData = $Self->GetIndexTicket(%Param);
     if (!%IndexTicketData) {
         $IndexUpdateNeeded = 1;
@@ -130,7 +130,7 @@ sub TicketAcceleratorAdd {
       }
     }
     # get ticket data
-    my %TicketData = $Self->GetTicket(%Param);
+    my %TicketData = $Self->TicketGet(%Param);
     # write/append index 
     foreach (keys %TicketData) {
         $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});
@@ -188,7 +188,7 @@ sub TicketLockAcceleratorAdd {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # get ticket data
-    my %TicketData = $Self->GetTicket(%Param);
+    my %TicketData = $Self->TicketGet(%Param);
     # write/append index 
     foreach (keys %TicketData) {
         $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});

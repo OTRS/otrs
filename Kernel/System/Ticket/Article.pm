@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.54 2004-03-12 18:35:10 martin Exp $
+# $Id: Article.pm,v 1.55 2004-04-05 17:10:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -123,7 +123,7 @@ sub CreateArticle {
         );
     }
     # add history row
-    $Self->AddHistoryRow(
+    $Self->HistoryTicketAdd(
         ArticleID => $ArticleID,
         TicketID => $Param{TicketID},
         CreateUserID => $Param{UserID},
@@ -131,14 +131,14 @@ sub CreateArticle {
         Name => $Param{HistoryComment},
     );
     # send auto response
-    my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
+    my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
     my %State = $Self->{StateObject}->StateGet(ID => $Ticket{StateID});
     # --
     # send if notification should be sent (not for closed tickets)!?
     # --
     if ($Param{AutoResponseType} && $Param{AutoResponseType} eq 'auto reply' && ($State{TypeName} eq 'closed' || $State{TypeName} eq 'removed')) {
         # add history row
-        $Self->AddHistoryRow(
+        $Self->HistoryTicketAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'Misc',
             Name => "Sent no auto response or agent notification because ticket is state-type '$State{TypeName}'!",
@@ -160,7 +160,7 @@ sub CreateArticle {
             # --
             if (!$Self->{LoopProtectionObject}->Check(To => $OrigHeader{From})) {
                 # add history row
-                $Self->AddHistoryRow(
+                $Self->HistoryTicketAdd(
                     TicketID => $Param{TicketID},
                     HistoryType => 'LoopProtection',
                     Name => "Sent no auto response (LoopProtection)!",
@@ -209,7 +209,7 @@ sub CreateArticle {
         # --
         elsif ($Data{Text} && $Data{Realname} && $Data{Address} && $OrigHeader{'X-OTRS-Loop'}) {
             # add history row
-            $Self->AddHistoryRow(
+            $Self->HistoryTicketAdd(
                 TicketID => $Param{TicketID},
                 HistoryType => 'Misc',
                 Name => "Sent no auto-response because the sender don't want ".
@@ -257,7 +257,7 @@ sub CreateArticle {
     }
     elsif ($Param{HistoryType} =~ /^FollowUp$/i || $Param{HistoryType} =~ /^AddNote$/i) {
         # get owner
-        my ($OwnerID, $Owner) = $Self->CheckOwner(TicketID => $Param{TicketID});
+        my ($OwnerID, $Owner) = $Self->OwnerCheck(TicketID => $Param{TicketID});
         if ($OwnerID ne $Self->{ConfigObject}->Get('PostmasterUserID') && $OwnerID ne $Param{UserID}) {
             my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
             if ($Preferences{UserSendFollowUpNotification}) {

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/TimeAccouning.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TimeAccounting.pm,v 1.8 2004-04-01 08:58:35 martin Exp $
+# $Id: TimeAccounting.pm,v 1.9 2004-04-05 17:10:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::TimeAccounting;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,7 +79,7 @@ sub AccountTime {
           $HistoryComment = "$TimeUnit time unit(s) accounted ($Param{TimeUnit} is invalid).";
       }
       $HistoryComment .= " Now total $AccountedTime time unit(s).";
-      $Self->AddHistoryRow(
+      $Self->HistoryTicketAdd(
           TicketID => $Param{TicketID},
           ArticleID => $Param{ArticleID},
           CreateUserID => $Param{UserID},

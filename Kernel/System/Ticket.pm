@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.75 2004-04-05 13:00:25 martin Exp $
+# $Id: Ticket.pm,v 1.76 2004-04-05 17:10:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,11 +15,6 @@ use strict;
 use Time::Local;
 use Kernel::System::Time;
 use Kernel::System::Ticket::Article;
-use Kernel::System::Ticket::State;
-use Kernel::System::Ticket::History;
-use Kernel::System::Ticket::Lock;
-use Kernel::System::Ticket::Priority;
-use Kernel::System::Ticket::Owner;
 use Kernel::System::Ticket::SendAutoResponse;
 use Kernel::System::Ticket::SendNotification;
 use Kernel::System::Ticket::SendArticle;
@@ -39,7 +34,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -83,11 +78,6 @@ create a object
 
 @ISA = (
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Ticket::State',
-    'Kernel::System::Ticket::History',
-    'Kernel::System::Ticket::Lock',
-    'Kernel::System::Ticket::Priority',
-    'Kernel::System::Ticket::Owner',
     'Kernel::System::Ticket::TimeAccounting',
     'Kernel::System::Ticket::SendAutoResponse',
     'Kernel::System::Ticket::SendNotification',
@@ -185,7 +175,35 @@ sub Init {
     return 1;
 }
 # --
+
+=item TicketCreateNumber()
+
+creates a new ticket number
+
+  my $TicketNumber = $TicketObject->TicketCreateNumber();
+
+=cut
+
+# just for compat
+sub TicketCreateNumber {
+    my $Self = shift;
+    return $Self->CreateTicketNr(@_);
+}
+
+=item TicketCheckNumber()
+
+checks if the ticket number exists, returns ticket id if exists
+
+  my $TicketID = $TicketObject->TicketCheckNumber(Tn => '200404051004575');
+
+=cut
+
+# just for compat
 sub CheckTicketNr {
+    my $Self = shift;
+    return $Self->TicketCheckNumber(@_);
+}
+sub TicketCheckNumber {
     my $Self = shift;
     my %Param = @_;
     my $Id = '';
@@ -210,7 +228,27 @@ sub CheckTicketNr {
     return $Id;
 }
 # --
-sub CreateTicketDB {
+
+=item TicketCreate()
+
+creates a new ticket
+
+  my $TicketID = $TicketObject->TicketCreate(
+        TN => $TicketObject->TicketCreateNumber(),
+        QueueID => 123,
+        Lock => 'unlock',
+        GroupID => 1,
+        Priority => '3 normal'
+        State => 'new',
+        CustomerNo => '123465',
+        CustomerUser => 'customer@example.com', 
+        UserID => 123, # new owner
+        CreateUserID => 123, 
+  );
+
+=cut
+
+sub TicketCreate {
     my $Self = shift;
     my %Param = @_;
     my $GroupID = $Param{GroupID};
@@ -239,7 +277,7 @@ sub CreateTicketDB {
     }
     # LockID lookup!
     if (!$Param{LockID} && $Param{Lock}) {
-        $Param{LockID} = $Self->LockLookup(Type => $Param{Lock});
+        $Param{LockID} = $Self->{LockObject}->LockLookup(Type => $Param{Lock});
     }
     if (!$Param{LockID} && !$Param{Lock}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No LockID and no LockType!!!");
@@ -275,10 +313,13 @@ sub CreateTicketDB {
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # get ticket id
-        my $TicketID = $Self->GetIdOfTN(TN => $Param{TN}, Age => $Age);
+        my $TicketID = $Self->TicketIDLookup(
+            TicketNumber => $Param{TN}, 
+            UserID => $Param{UserID},
+        );
         # history insert
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
-        $Self->AddHistoryRow(
+        $Self->HistoryTicketAdd(
             TicketID => $TicketID,
             HistoryType => 'NewTicket',
             Name => "Ticket=[$Param{TN}], ID=[$TicketID] created (Q=$Queue;P=$Param{Priority};S=$Param{State}).",
@@ -304,7 +345,19 @@ sub CreateTicketDB {
     } 
 }
 # --
-sub DeleteTicket {
+
+=item TicketDelete()
+
+deletes a ticket from storage 
+
+  $TicketObject->TicketDelete(
+      TicketID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+sub TicketDelete {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -332,13 +385,25 @@ sub DeleteTicket {
     }
 }
 # --
-sub GetIdOfTN {
+
+=item TicketIDLookup()
+
+ticket id lookup by ticket number 
+
+  my $TicketID = $TicketObject->TicketIDLookup(
+      TicketNumber => '2004040510440485',
+      UserID => 123,
+  );
+
+=cut
+
+sub TicketIDLookup {
     my $Self = shift;
     my %Param = @_;
     my $Id;
     # check needed stuff
-    if (!$Param{TN}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TN!");
+    if (!$Param{TicketNumber}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketNumber!");
       return;
     }
     # db quote
@@ -348,40 +413,59 @@ sub GetIdOfTN {
     # db query
     my $SQL = "SELECT id FROM ticket " .
     " WHERE " .
-    " tn = '$Param{TN}' ";
-    if ($Param{Age}) {
-        $SQL .= " AND create_time_unix = $Param{Age}";
-    }
+    " tn = '$Param{TicketNumber}' ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Id = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Id = $Row[0];
     }
     return $Id;
 }
 # --
-sub GetTNOfId {
+
+=item TicketNumberLookup()
+
+ticket number lookup by ticket id
+
+  my $TicketNumber = $TicketObject->TicketNumberLookup(
+      TicketID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+sub TicketNumberLookup {
     my $Self = shift;
     my %Param = @_;
     my $Tn = '';
     # check needed stuff
-    if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
       return;
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    my %Ticket = $Self->TicketGet(%Param);
+    if (%Ticket) {
+        return $Ticket{TicketNumber};
     }
-    # db query
-    my $SQL = "SELECT tn FROM ticket WHERE id = $Param{ID}";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Tn = $RowTmp[0];
+    else {
+        return;
     }
-    return $Tn;
+
 }
 # --
-sub GetTicket {
+
+=item TicketGet() 
+
+get ticket info (TicketNumber, State, StateID, Priority, PriorityID, 
+Lock, LockID, Queue, QueueID, CustomerID, CustomerUserID, UserID, ...)
+
+  my %Ticket = $TicketObject->TicketGet(
+      TicketID => 123,
+      UserID => 123,
+  );
+    
+=cut
+
+sub TicketGet {
     my $Self = shift;
     my %Param = @_;
     my %Ticket = ();
@@ -479,37 +563,56 @@ sub GetTicket {
     return %Ticket;
 }
 # --
-sub GetQueueIDOfTicketID {
+
+=item TicketQueueID() 
+
+get ticket queue id
+
+  my $QueueID = $TicketObject->TicketQueueID(
+      TicketID => 123,
+  );
+    
+=cut
+
+sub TicketQueueID {
     my $Self = shift;
     my %Param = @_;
-    my $Id;
     # check needed stuff
     if (!$Param{TicketID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
         return;
     } 
-    # check cache
-    if ($Self->{"GetQueueIDOfTicketID::$Param{TicketID}"}) {
-        return $Self->{"GetQueueIDOfTicketID::$Param{TicketID}"};
+    my %Ticket = $Self->TicketGet(%Param, UserID => 1);
+    if (%Ticket) {
+        return $Ticket{QueueID};
     }
-    # db query
-    my $SQL = "SELECT queue_id FROM ticket WHERE id = ".$Self->{DBObject}->Quote($Param{TicketID})."";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Id = $RowTmp[0];
-    }
-    if (!$Id) {
-        $Self->{LogObject}->Log(
-            Priority => 'error', 
-            Message => "No such TicketID '$Param{TicketID}'!",
-        );
+    else {
         return;
     }
-    # store
-    $Self->{"GetQueueIDOfTicketID::$Param{TicketID}"} = $Id;
-    return $Id;
 }
 # --
+
+=item MoveList()
+
+to get the move queue list for a ticket (depends on workflow, if configured)
+
+  my %Queues = $TicketObject->MoveList(
+      Type => 'create',
+      UserID => 123,
+  );
+    
+  my %Queues = $TicketObject->MoveList(
+      QueueID => 123,
+      UserID => 123,
+  );
+    
+  my %Queues = $TicketObject->MoveList(
+      TicketID => 123,
+      UserID => 123,
+  );
+
+=cut
+
 sub MoveList {
     my $Self = shift;
     my %Param = @_;
@@ -518,13 +621,31 @@ sub MoveList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
         return;
     }
+    # check needed stuff
+    if (!$Param{QueueID} && !$Param{TicketID} && !$Param{Type}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID, TicketID or Type!");
+        return;
+    }
 # TicketID!!!
     my %Queues = $Self->{QueueObject}->GetAllQueues(%Param);
 #delete $Queues{315};
     return %Queues;
 }
 # --
-sub MoveByTicketID {
+
+=item MoveTicket() 
+
+to move a ticket (send notification to agentsw of selected my queues)
+
+  $TicketObject->MoveList(
+      QueueID => 123,
+      TicketID => 123,
+      UserID => 123,
+  );
+    
+=cut
+
+sub MoveTicket {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -535,7 +656,7 @@ sub MoveByTicketID {
       }
     }
     # move needed?
-    if ($Param{QueueID} == $Self->GetQueueIDOfTicketID(TicketID => $Param{TicketID})) {
+    if ($Param{QueueID} == $Self->TicketQueueID(TicketID => $Param{TicketID})) {
         # update not needed
         return 1;
     }
@@ -551,7 +672,7 @@ sub MoveByTicketID {
         # update ticket view index
         $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
         # history insert
-        $Self->AddHistoryRow(
+        $Self->HistoryTicketAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'Move',
             Name => "Ticket moved to Queue '$Queue' (ID=$Param{QueueID}).",
@@ -692,7 +813,7 @@ sub SetCustomerData {
     }
     if ($Param{History}) {
         # history insert
-        $Self->AddHistoryRow(
+        $Self->HistoryTicketAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'CustomerUpdate',
             Name => $Param{History}, 
@@ -706,11 +827,11 @@ sub SetCustomerData {
 }
 # --
 
-=item SetTicketFreeText()
+=item TicketFreeTextSet()
 
 Set ticket free text.
   
-  $TicketObject->SetTicketFreeText(
+  $TicketObject->TicketFreeTextSet(
       Counter => 1,
       Key => 'Planet',
       Value => 'Sun',
@@ -720,7 +841,7 @@ Set ticket free text.
 
 =cut
 
-sub SetTicketFreeText {
+sub TicketFreeTextSet {
     my $Self = shift;
     my %Param = @_;
     my $Value = $Param{Value} || '';
@@ -733,7 +854,7 @@ sub SetTicketFreeText {
       }
     }
     # check if update is needed
-    my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
+    my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
     if ($Value eq $Ticket{"TicketFreeText$Param{Counter}"} && 
         $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}) {
         return 1;
@@ -750,7 +871,7 @@ sub SetTicketFreeText {
     " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # history insert
-        $Self->AddHistoryRow(
+        $Self->HistoryTicketAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'TicketFreeTextUpdate',
             Name => "FreeKey$Param{Counter}: '$Key' FreeText$Param{Counter}: '$Value'", 
@@ -1056,7 +1177,24 @@ sub GetLockedTicketIDs {
     return @ViewableTickets;
 }
 # --
-sub SetPendingTime {
+
+=item TicketPendingTimeSet()
+
+set ticket pending time
+  
+  $TicketObject->TicketPendingTimeSet(
+      Year => 2003,
+      Month => 08,
+      Day => 14,
+      Hour => 22,
+      Minute => 05,
+      TicketID => 123,
+      UserID => 23,
+  );
+
+=cut
+
+sub TicketPendingTimeSet {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -1079,7 +1217,7 @@ sub SetPendingTime {
     " WHERE id = $Param{TicketID} ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # history insert
-        $Self->AddHistoryRow(
+        $Self->HistoryTicketAdd(
             TicketID => $Param{TicketID},
             HistoryType => 'SetPendingTime',
             Name => 'Set Pending Time to '.sprintf("%02d", $Param{Year}).
@@ -1199,18 +1337,18 @@ sub GetCustomerTickets {
 }
 # --
 
-=item GetTicketLink()
+=item TicketLinkGet()
 
 Get ticket links.
   
-  $TicketObject->GetTicketLink(
+  $TicketObject->TicketLinkGet(
       TicketID => 1422,
       UserID => 23,
   );
 
 =cut
 
-sub GetTicketLink {
+sub TicketLinkGet {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -1250,11 +1388,11 @@ sub GetTicketLink {
 }
 # --
 
-=item AddTicketLink()
+=item TicketLinkAdd()
 
 Add a ticket link.
   
-  $TicketObject->AddTicketLink(
+  $TicketObject->TicketLinkAdd(
       MasterTicketID => 3541,
       SlaveTicketID => 1422,
       UserID => 23,
@@ -1262,7 +1400,7 @@ Add a ticket link.
 
 =cut
 
-sub AddTicketLink {
+sub TicketLinkAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -1289,11 +1427,11 @@ sub AddTicketLink {
 }
 # --
 
-=item DeleteTicketLink()
+=item TicketLinkDelete()
 
 Delete a ticket link.
   
-  $TicketObject->DeleteTicketLink(
+  $TicketObject->TicketLinkDelete(
       MasterTicketID => 3541,
       SlaveTicketID => 1422,
       UserID => 23,
@@ -1301,7 +1439,7 @@ Delete a ticket link.
 
 =cut
 
-sub DeleteTicketLink {
+sub TicketLinkDelete {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -1331,11 +1469,11 @@ sub DeleteTicketLink {
 }
 # --
 
-=item SearchTicket()
+=item TicketSearch()
 
 To find tickets in your system.
   
-  my @TicketIDs = $TicketObject->SearchTicket(
+  my @TicketIDs = $TicketObject->TicketSearch(
       # result (required)
       Result => 'ARRAY' || 'HASH',
 
@@ -1380,7 +1518,7 @@ To find tickets in your system.
 
 =cut
 
-sub SearchTicket {
+sub TicketSearch {
     my $Self = shift;
     my %Param = @_;
     my $Result = $Param{Result} || 'HASH';
@@ -1441,8 +1579,8 @@ sub SearchTicket {
     # ticket locks
     if ($Param{Locks}) {
         foreach (@{$Param{Locks}}) {
-            if ($Self->LockLookup(Type => $_)) {
-                push (@{$Param{LockIDs}}, $Self->LockLookup(Type => $_)); 
+            if ($Self->{LockObject}->LockLookup(Type => $_)) {
+                push (@{$Param{LockIDs}}, $Self->{LockObject}->LockLookup(Type => $_)); 
             }
             else {
                 return;
@@ -1623,7 +1761,803 @@ sub SearchTicket {
     }
 }
 # --
-1;
+
+=item LockIsTicketLocked()
+
+check if a ticket is locked or not
+
+  if ($TicketObject->LockIsTicketLocked(TicketID => 123)) {
+      print "Ticket not locked!\n";
+  }
+  else {
+      print "Ticket is not locked!\n";
+  }
+
+=cut
+
+sub LockIsTicketLocked {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    my %TicketData = $Self->TicketGet(%Param);
+    # check lock state
+    if ($TicketData{Lock} =~ /^lock$/i) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+
+=item LockSet()
+
+to set a ticket lock or unlock
+
+  $TicketObject->LockSet(
+      Lock => 'lock',
+      TicketID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+# --
+sub LockSet {
+    my $Self = shift;
+    my %Param = @_;
+    # lookup!
+    if ((!$Param{LockID}) && ($Param{Lock})) {
+        $Param{LockID} = $Self->{LockObject}->LockLookup(Type => $Param{Lock});
+    }
+    # check needed stuff
+    foreach (qw(TicketID UserID LockID Lock)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if (!$Param{Lock} && !$Param{LockID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need LockID or Lock!");
+        return;
+    }
+    # check if update is needed
+    if (($Self->LockIsTicketLocked(TicketID => $Param{TicketID}) && $Param{Lock} eq 'lock') ||
+        (!$Self->LockIsTicketLocked(TicketID => $Param{TicketID}) && $Param{Lock} eq 'unlock')) {
+        # update not needed
+        return 1;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db update
+    my $SQL = "UPDATE ticket SET ticket_lock_id = $Param{LockID}, " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " WHERE id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # clear ticket cache
+      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+      # update ticket view index
+      $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
+      # set lock time it event is 'lock'
+      if ($Param{Lock} eq 'lock') {
+        $SQL = "UPDATE ticket SET timeout = ".$Self->{TimeObject}->SystemTime(). 
+          " WHERE id = $Param{TicketID} "; 
+        $Self->{DBObject}->Do(SQL => $SQL);
+      }
+      # add history
+      my $HistoryType = '';
+      if ($Param{Lock} =~ /^unlock$/i) {
+        $HistoryType = 'Unlock';
+      }
+      elsif ($Param{Lock} =~ /^lock$/i) {
+        $HistoryType = 'Lock';
+      }
+      else {
+        $HistoryType = 'Misc';
+      }
+
+      if ($HistoryType) {
+        $Self->HistoryTicketAdd(
+          TicketID => $Param{TicketID},
+          CreateUserID => $Param{UserID},
+          HistoryType => $HistoryType,
+          Name => "Ticket $Param{Lock}.",
+        );
+      }
+
+      # send unlock notify
+      if ($Param{Lock} =~ /^unlock$/i) {
+          my %TicketData = $Self->TicketGet(%Param);
+          # check if the current user is the current owner, if not send a notify
+          my $To = '';
+          my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
+          if ($TicketData{UserID} ne $Param{UserID} && $Notification) {
+              # get user data of owner
+              my %Preferences = $Self->{UserObject}->GetUserData(UserID => $TicketData{UserID});
+              if ($Preferences{UserSendLockTimeoutNotification}) {
+                  # send
+                  $Self->SendNotification(
+                      Type => 'LockTimeout',
+                      UserData => \%Preferences,
+                      CustomerMessageParams => {}, 
+                      TicketID => $Param{TicketID},
+                      UserID => $Param{UserID},
+                  );
+              }
+          }
+      }
+      # for SAG - 2004-02-27 OTRS GmbH - ME
+#      my %TicketData = $Self->TicketGet(%Param);
+#      if ($TicketData{StateType} =~ /^new/i) {
+#          $Self->StateSet(%Param, State => 'open');
+#      }
+      # / for SAG - 2004-02-27 OTRS GmbH - ME
+      return 1;
+    }
+    else {
+      return;
+    }
+}
+# --
+
+=item StateSet()
+    
+to set a ticket state 
+
+  $TicketObject->SateSet(
+      State => 'open',
+      TicketID => 123,
+      UserID => 123,
+  );
+
+  $TicketObject->SateSet(
+      StateID => 3,
+      TicketID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+sub StateSet {
+    my $Self = shift;
+    my %Param = @_;
+    my $ArticleID = $Param{ArticleID} || '';
+    # check needed stuff
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if (!$Param{State} && !$Param{StateID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need StateID or State!");
+        return;
+    }
+    # state id lookup
+    if (!$Param{StateID}) {
+        my %State = $Self->{StateObject}->StateGet(Name => $Param{State}, Cache => 1);
+        $Param{StateID} = $State{ID} || return;
+    }
+    # state lookup
+    if (!$Param{State}) {
+        my %State = $Self->{StateObject}->StateGet(ID => $Param{StateID}, Cache => 1);
+        $Param{State} = $State{Name} || return;
+    } 
+    # check if update is needed
+    my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
+    if ($Param{State} eq $Ticket{State}) {
+      # update is not needed
+      return 1;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db update
+    my $SQL = "UPDATE ticket SET ticket_state_id = $Param{StateID}, " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID} ";
+
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # clear ticket cache
+      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+      # update ticket view index
+      $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
+      # add history
+      $Self->HistoryTicketAdd(
+          TicketID => $Param{TicketID},
+          ArticleID => $ArticleID,
+          HistoryType => 'StateUpdate',
+          Name => "Old: '$Ticket{State}' New: '$Param{State}'",
+          CreateUserID => $Param{UserID},
+      );
+      # send customer notification email
+      $Self->SendCustomerNotification(
+          Type => 'StateUpdate',
+		  CustomerMessageParams => \%Param,
+          TicketID => $Param{TicketID},
+          UserID => $Param{UserID},
+      );
+      return 1;
+    }
+    else {
+      return;
+    }
+}
+# --
+
+=item StateList()
+
+to get the state list for a ticket (depends on workflow, if configured)
+
+  my %States = $TicketObject->StateList(
+      TicketID => 123,
+      UserID => 123,
+  );
+
+  my %States = $TicketObject->StateList(
+      QueueID => 123,
+      UserID => 123,
+  );
+
+  my %States = $TicketObject->StateList(
+      TicketID => 123,
+      Type => 'open',
+      UserID => 123,
+  );
+
+=cut
+
+sub StateList {
+    my $Self = shift;
+    my %Param = @_;
+    my %States = ();
+    # check needed stuff
+    if (!$Param{UserID} && !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
+        return;
+    }
+    # check needed stuff
+    if (!$Param{QueueID} && !$Param{TicketID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID, TicketID!");
+        return;
+    }
+    # check needed stuff
+    if (!$Param{Type}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
+        return;
+    }
+    # get states by type
+    if ($Param{Type}) {
+        %States = $Self->{StateObject}->StateGetStatesByType(
+            Type => $Param{Type}, 
+            Result => 'HASH',
+        );
+    }
+# TicketID!!!
+#delete $States{4}; # remove open!
+    return %States;
+}
+# --
+
+=item OwnerCheck()
+    
+to get the ticket owner
+
+  my ($OwnerID, $Owner) = $TicketObject->OwnerCheck(TicketID => 123);
+
+=cut
+
+sub OwnerCheck {
+    my $Self = shift;
+    my %Param = @_;
+    my $SQL = '';
+    # check needed stuff
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db query
+    if ($Param{UserID}) {
+        $SQL = "SELECT user_id, user_id " .
+        " FROM " .
+        " ticket " .
+        " WHERE " .
+        " id = $Param{TicketID} " .
+        " AND " .
+        " user_id = $Param{UserID}";
+    }
+    else {
+        $SQL = "SELECT st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} " .
+        " FROM " .
+        " ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su " .
+        " WHERE " .
+        " st.id = $Param{TicketID} " .
+        " AND " .
+        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}";
+    }
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Param{SearchUserID} = $Row[0];
+        $Param{SearchUser} = $Row[1];
+    }
+    if ($Param{SearchUserID}) {
+      return $Param{SearchUserID}, $Param{SearchUser};
+    } 
+    else {
+      return;
+    }
+}
+# --
+
+=item OwnerSet()
+
+to set the ticket owner (notification to the new owner will be sent)
+
+  $TicketObject->OwnerSet(
+      TicketID => 123,
+      NewUserID => 555,
+      UserID => 213,
+  );
+
+=cut
+
+sub OwnerSet {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if (!$Param{NewUserID} && !$Param{NewUser}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need NewUserID or NewUser!");
+        return;
+    }
+    # lookup if no NewUserID is given
+    if (!$Param{NewUserID}) {
+      $Param{NewUserID} = $Self->{UserObject}->GetUserIdByName(User => $Param{NewUser})||return;
+    }
+    # lookup if no NewUser is given
+    if (!$Param{NewUser}) {
+      $Param{NewUser} = $Self->{UserObject}->GetUserByID(UserID => $Param{NewUserID})||return;
+    }
+    # check if update is needed!
+    if ($Self->OwnerCheck(TicketID => $Param{TicketID}, UserID => $Param{NewUserID})) {
+        # update is "not" needed!
+        return 1;
+    }
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db update
+    my $SQL = "UPDATE ticket SET user_id = $Param{NewUserID}, " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # add history
+      $Self->HistoryTicketAdd(
+          TicketID => $Param{TicketID},
+          CreateUserID => $Param{UserID},
+          HistoryType => 'OwnerUpdate',
+          Name => "New Owner is '$Param{NewUser}' (ID=$Param{NewUserID}).",
+      );
+      # send agent notify
+      if ($Param{UserID} ne $Param{NewUserID} && 
+           $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
+        if (!$Param{Comment}) {
+            $Param{Comment} = '';
+        }
+        # get user data
+        my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
+        # send agent notification
+        $Self->SendNotification(
+            Type => 'OwnerUpdate',
+            UserData => \%Preferences,
+            CustomerMessageParams => \%Param,
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+        );
+      }
+      # send customer notification email
+      my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
+      $Self->SendCustomerNotification(
+          Type => 'OwnerUpdate',
+          CustomerMessageParams => \%Preferences,
+          TicketID => $Param{TicketID},
+          UserID => $Param{UserID},
+      );
+      return 1;
+    }
+    else {
+      return;
+    }
+}
+# --
+
+=item OwnerList()
+
+returns the owner in the past as array with hash ref of the owner data 
+(name, email, ...)
+    
+  my @Owner = $TicketObject->OwnerList(
+      TicketID => 123,
+  );
+
+=cut
+
+sub OwnerList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db query
+    my @User = ();
+    my $SQL = "SELECT sh.name, ht.name, sh.create_by ".
+        " FROM ".
+        " ticket_history sh, ticket_history_type ht ".
+        " WHERE ".
+        " sh.ticket_id = $Param{TicketID} ".
+        " AND ".
+        " ht.name IN ('OwnerUpdate', 'NewTicket')  ".
+        " AND ".
+        " ht.id = sh.history_type_id".
+        " ORDER BY sh.id";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        if ($Row[1] eq 'NewTicket') {
+            if ($Row[2] ne '1') {
+                push (@User, $Row[2]);
+            }
+        }
+        elsif ($Row[1] eq 'OwnerUpdate') {
+            if ($Row[0] =~ /^New Owner is '.+?' \(ID=(.+?)\)/) {
+                push (@User, $1);
+            }
+        }
+    }
+    my @UserInfo = ();
+    foreach (@User) {
+        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Cache => 1);
+        push (@UserInfo, \%User);
+    }
+    return @UserInfo;
+}
+# --
+sub PriorityLookup {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{Type} && !$Param{ID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type or ID!");
+      return;
+    }
+    # check if we ask the same request?
+    if ($Param{Type}) {
+        if (exists $Self->{"Ticket::Priority::PriorityLookup::$Param{Type}"}) {
+            return $Self->{"Ticket::Priority::PriorityLookup::$Param{Type}"};
+        }
+    }
+    else {
+        if (exists $Self->{"Ticket::Priority::PriorityIDLookup::$Param{ID}"}) {
+            return $Self->{"Ticket::Priority::PriorityIDLookup::$Param{ID}"};
+        }
+    }
+    # db query
+    my $SQL = '';
+    if ($Param{Type}) {
+        $SQL = "SELECT id FROM ticket_priority WHERE name = '".$Self->{DBObject}->Quote($Param{Type})."'";
+    }
+    else {
+        $SQL = "SELECT name FROM ticket_priority WHERE id = ".$Self->{DBObject}->Quote($Param{ID})."";
+    }
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        if ($Param{Type}) {
+            $Self->{"Ticket::Priority::PriorityLookup::$Param{Type}"} = $Row[0];
+        }
+        else {
+            $Self->{"Ticket::Priority::PriorityIDLookup::$Param{ID}"} = $Row[0];
+        }
+    }
+    # check if data exists
+    if ($Param{Type}) {
+        if (!exists $Self->{"Ticket::Priority::PriorityLookup::$Param{Type}"}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "No TypeID for $Param{Type} found!",
+            );
+            return;
+        }
+        else {
+            return $Self->{"Ticket::Priority::PriorityLookup::$Param{Type}"};
+        }
+    }
+    else {
+        if (!exists $Self->{"Ticket::Priority::PriorityIDLookup::$Param{ID}"}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "No ID for $Param{ID} found!",
+            );
+            return;
+        }
+        else {
+            return $Self->{"Ticket::Priority::PriorityIDLookup::$Param{ID}"};
+        }
+    }
+}
+# --
+
+=item PrioritySet()
+
+to set the ticket priority
+    
+  $TicketObject->PrioritySet(
+      TicketID => 123,
+      Priority => 'low',
+      UserID => 213,
+  );
+
+  $TicketObject->PrioritySet(
+      TicketID => 123,
+      PriorityID => 2,
+      UserID => 213,
+  );
+
+=cut
+
+sub PrioritySet {
+    my $Self = shift;
+    my %Param = @_;
+    # lookup!
+    if (!$Param{PriorityID} && $Param{Priority}) {
+        $Param{PriorityID} = $Self->PriorityLookup(Type => $Param{Priority});
+    }
+    if ($Param{PriorityID} && !$Param{Priority}) {
+        $Param{Priority} = $Self->PriorityLookup(ID => $Param{PriorityID});
+    }
+    # check needed stuff
+    foreach (qw(TicketID UserID PriorityID Priority)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my %TicketData = $Self->TicketGet(%Param);
+    # check if update is needed
+    if ($TicketData{Priority} eq $Param{Priority}) {
+       # update not needed
+       return 1;
+    }
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db update
+    my $SQL = "UPDATE ticket SET ticket_priority_id = $Param{PriorityID}, " .
+        " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " WHERE id = $Param{TicketID} ";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # add history
+      $Self->HistoryTicketAdd(
+          TicketID => $Param{TicketID},
+          CreateUserID => $Param{UserID},
+          HistoryType => 'PriorityUpdate',
+          Name => "Priority update from '$TicketData{Priority}' ($TicketData{PriorityID})".
+              " to '$Param{Priority}' ($Param{PriorityID}).",
+      );
+      return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+
+=item PriorityList()
+
+to get the priority list for a ticket (depends on workflow, if configured)
+
+  my %Priorities = $TicketObject->PriorityList(
+      TicketID => 123,
+      UserID => 123,
+  );
+
+  my %Priorities = $TicketObject->PriorityList(
+      QueueID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+sub PriorityList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{UserID} && !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
+        return;
+    }
+    # check needed stuff
+    if (!$Param{QueueID} && !$Param{TicketID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID or TicketID!");
+        return;
+    }
+    # sql 
+    my $SQL = "SELECT id, name ".
+        " FROM ".
+        " ticket_priority ";
+    my %Data = ();
+    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Data{$Row[0]} = $Row[1];
+        }
+        return %Data;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub HistoryTypeLookup {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{Type}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
+      return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # check if we ask the same request?
+    if (exists $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"}) {
+        return $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"};
+    }
+    # db query
+    my $SQL = "SELECT id FROM ticket_history_type WHERE name = '$Param{Type}'";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"} = $Row[0];
+    }
+    # check if data exists
+    if (!exists $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No TypeID for $Param{Type} found!");
+        return;
+    }
+    else {
+        return $Self->{"Ticket::History::HistoryTypeLookup::$Param{Type}"};
+    }
+}
+# --
+
+=item HistoryTicketAdd()
+
+add a history entry to an ticket
+
+  $TicketObject->HistoryTicketAdd(
+      Name => 'Some Comment', 
+      HistoryType => 'Move', # see system tables
+      TicketID => 123,
+      ArticleID => 1234, # not required!
+      UserID => 123,
+      CreateUserID => 123,
+  );
+
+=cut
+
+sub HistoryTicketAdd {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{Name}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Name!");
+      return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # lookup!
+    if ((!$Param{HistoryTypeID}) && ($Param{HistoryType})) {
+        $Param{HistoryTypeID} = $Self->HistoryTypeLookup(Type => $Param{HistoryType});
+    }
+    # check needed stuff
+    foreach (qw(TicketID CreateUserID HistoryTypeID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if (!$Param{ArticleID}) {
+        $Param{ArticleID} = 0;
+    }
+    # get ValidID!
+    if (!$Param{ValidID}) {
+        $Param{ValidID} = $Self->{DBObject}->GetValidIDs();
+    }
+    # db insert
+    my $SQL = "INSERT INTO ticket_history " .
+    " (name, history_type_id, ticket_id, article_id, valid_id, " .
+    " create_time, create_by, change_time, change_by) " .
+        "VALUES " .
+    "('$Param{Name}', $Param{HistoryTypeID}, $Param{TicketID}, ".
+    " $Param{ArticleID}, $Param{ValidID}, " .
+    " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+
+=item HistoryTicketDelete()
+    
+delete a ticket history (from storage)
+
+  $TicketObject->HistoryTicketDelete(
+      TicketID => 123,
+      UserID => 123,
+  );
+    
+=cut
+
+sub HistoryTicketDelete {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # delete from db
+    if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket_history WHERE ticket_id = $Param{TicketID}")) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+#--
+1; 
 
 =head1 TERMS AND CONDITIONS
 
@@ -1637,6 +2571,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2004-04-05 13:00:25 $
+$Revision: 1.76 $ $Date: 2004-04-05 17:10:54 $
 
 =cut

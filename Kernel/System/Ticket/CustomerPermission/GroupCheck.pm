@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/GroupCheck.pm - 
 # the sub module of the global ticket handle
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GroupCheck.pm,v 1.2 2004-04-01 08:58:36 martin Exp $
+# $Id: GroupCheck.pm,v 1.3 2004-04-05 17:10:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::CustomerPermission::GroupCheck;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ sub Run {
       }
     }
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Param{TicketID});
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
     # get ticket group
     my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
     # get user groups 

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.13 2004-03-12 18:35:10 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.14 2004-04-05 17:10:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,18 +53,14 @@ sub SendAutoResponse {
     # --
     my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
     if ($GetParam{From} =~ /$NoAutoRegExp/i) {
-        # --
         # add it to ticket history
-        # --
-        $Self->AddHistoryRow(
+        $Self->HistoryTicketAdd(
             TicketID => $Param{TicketID},
             CreateUserID => $Param{UserID},
             HistoryType => 'Misc',
             Name => "Sent not auto response, SendNoAutoResponseRegExp is matching.",
         );
-        # --
         # log
-        # --
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "Sent not auto response to '$GetParam{From}' because config".
@@ -191,9 +187,7 @@ sub SendAutoResponse {
         InReplyTo => $GetParam{'Message-ID'},
         Loop => 1,
     );
-    # --
     # log
-    # --
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message => "Sent auto response ($Param{HistoryType}) for Ticket [$Param{TicketNumber}]".

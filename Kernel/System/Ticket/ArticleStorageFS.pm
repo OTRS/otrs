@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.12 2004-03-12 18:35:32 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.13 2004-04-05 17:10:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,7 +87,7 @@ sub DeleteArticleOfTicket {
     # delete articles
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
         # delete history
-        if ($Self->DeleteHistoryOfTicket(TicketID => $Param{TicketID})) {
+        if ($Self->HistoryTicketDelete(TicketID => $Param{TicketID})) {
             return 1;
         }
         else {
