@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.14 2005-02-08 13:00:56 martin Exp $
+-- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.15 2005-02-15 12:22:25 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.postgresql.sql | mysql -f -u root otrs
@@ -145,6 +145,18 @@ CREATE TABLE sessions (
     UNIQUE (session_id)
 );
 CREATE INDEX index_session_id ON sessions (session_id);
+
+--
+--  create table article_flag
+--
+CREATE TABLE article_flag (
+    article_id INTEGER NOT NULL,
+    article_flag VARCHAR (50) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    PRIMARY KEY(article_id)
+);
+CREATE INDEX create_by ON article_flag (create_by);
 
 --
 -- xml_storage table

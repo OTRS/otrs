@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.40 2005-02-08 12:59:11 martin Exp $
+  $Id: otrs-schema.xml,v 1.41 2005-02-15 12:22:25 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.40  2005/02/08 12:59:11  martin
+  added xml_storage table for xml backend
+
   Revision 1.39  2004/12/02 09:38:46  martin
   moved to otrs.org xml based translator to sql
 
@@ -847,6 +850,20 @@
   <ForeignKey ForeignTable="system_user">
     <Reference Local="create_by" Foreign="id"/>
     <Reference Local="change_by" Foreign="id"/>
+  </ForeignKey>
+</Table>
+
+<!-- article_flag -->
+<Table Name="article_flag">
+  <Column Name="article_id" Required="true" PrimaryKey="true" Type="BIGINT"/>
+  <Column Name="article_flag" Required="true" Size="50" Type="VARCHAR"/>
+  <Column Name="create_time" Required="true" Type="DATE"/>
+  <Column Name="create_by" Required="true" Type="INTEGER"/>
+  <Index Name="create_by">
+    <IndexColumn Name="create_by"/>
+  </Index>
+  <ForeignKey ForeignTable="system_user">
+    <Reference Local="create_by" Foreign="id"/>
   </ForeignKey>
 </Table>
 
