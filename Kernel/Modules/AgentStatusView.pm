@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.10 2003-03-13 16:49:49 martin Exp $
+# $Id: AgentStatusView.pm,v 1.11 2003-03-19 20:56:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,9 +119,11 @@ sub Run {
     # --
     my @ViewableTickets = ();
     my $SQL = "SELECT st.id, st.queue_id FROM " .
-       " ticket st, queue q ".
+       " ticket st, queue q, ticket_state tsd ".
        " WHERE " .
        " q.group_id IN ( ${\(join ', ', @GroupIDs)} )".
+       " AND ".
+       " st.ticket_state_id = tsd.id ".
        " AND ".
        " q.id = st.queue_id ".
        " AND ";
@@ -134,7 +136,7 @@ sub Run {
     $SQL .= " ORDER BY ";
 
     if ($Self->{SortBy} eq 'Owner') {
-        $SQL .= "u.".$Self->{ConfigObject}->Get('DatabaseUserTableUser');
+        $SQL .= " st.user_id ";
     }
     elsif ($Self->{SortBy} eq 'CustomerID') {
         $SQL .= "st.customer_id";
