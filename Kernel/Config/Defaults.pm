@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.102 2004-02-02 22:12:23 martin Exp $
+# $Id: Defaults.pm,v 1.103 2004-02-02 22:36:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.102 $';
+$VERSION = '$Revision: 1.103 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1437,7 +1437,7 @@ Your OTRS Notification Master
             [ 'UserEmail', 'Email', 'email', 0, 1, 'var' ],
 #            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}' ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var' ],
-            [ 'UserComment', 'Comment', 'comment', 1, 0, 'var' ],
+            [ 'UserComment', 'Comment', 'comments', 1, 0, 'var' ],
             [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int' ],
         ],
     };
