@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.6 2002-05-01 17:32:25 martin Exp $
+# $Id: PostMaster.pm,v 1.7 2002-06-23 09:54:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -227,12 +227,12 @@ sub CheckFollowUp {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
             Priority => 'debug',
-            MSG => "CheckFollowUp Subject: '$Subject', SystemID: '$Self->{SystemID}', TicketHook: '$Self->{TicketHook}'",
+            MSG => "CheckFollowUp Subject: '$Subject', SystemID: '$Self->{SystemID}',".
+             " TicketHook: '$Self->{TicketHook}'",
         );
     }
 
-    if ($Subject =~ /$Self->{TicketHook}:+.{0,1}($Self->{SystemID}\d{2,10})/i) {
-        my $Tn = $1;
+    if (my $Tn = $TicketObject->GetTNByString($Subject)) {
         my $TicketID = $TicketObject->CheckTicketNr(Tn => $Tn);
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
