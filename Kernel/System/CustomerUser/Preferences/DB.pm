@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.6 2003-05-01 21:45:59 martin Exp $
+# $Id: DB.pm,v 1.7 2004-01-10 15:34:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser::Preferences::DB;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -90,12 +90,6 @@ sub GetPreferences {
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Data{$RowTmp[0]} = $RowTmp[1];
-    }
-    # --
-    # check needed preferences
-    # --
-    if (!$Data{UserCharset}) {
-        $Data{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
     }
     # --
     # return data
