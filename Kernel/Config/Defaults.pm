@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.153 2004-09-08 12:04:55 martin Exp $
+# $Id: Defaults.pm,v 1.154 2004-09-08 22:02:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.153 $';
+$VERSION = '$Revision: 1.154 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1622,9 +1622,12 @@ Your OTRS Notification Master
     # CustomerPanelOwnSelection
     # (If this is in use, "just this selection is valid" for the CustomMessage.)
 #    $Self->{CustomerPanelOwnSelection} = {
-#        # QueueID => String
-#        '1' => 'First Queue!',
-#        '2' => 'Second Queue!',
+#        # Queue => Frontend-Name
+#        'Junk' => 'First Queue!',
+#        'Misc' => 'Second Queue!',
+#        # QueueID => Frontend-Name (or optional with QueueID)
+##        '1' => 'First Queue!',
+##        '2' => 'Second Queue!',
 #    };
 
     # --------------------------------------------------- #

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.34 2004-04-29 10:50:52 martin Exp $
+# $Id: CustomerMessage.pm,v 1.35 2004-09-08 22:03:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,22 +17,22 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
     # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
        ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -49,7 +49,7 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $NextScreen = $Self->{NextScreen} || $Self->{ConfigObject}->Get('CustomerNextScreenAfterNewTicket');
-    
+
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # header
         $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Message');
@@ -60,10 +60,23 @@ sub Run {
             # check own selection
             my %NewTos = ();
             if ($Self->{ConfigObject}->{CustomerPanelOwnSelection}) {
-                %NewTos = %{$Self->{ConfigObject}->{CustomerPanelOwnSelection}};
+                foreach (keys %{$Self->{ConfigObject}->{CustomerPanelOwnSelection}}) {
+                    my $Value = $Self->{ConfigObject}->{CustomerPanelOwnSelection}->{$_};
+                    if ($_ =~ /^\d+$/) {
+                        $NewTos{$_} = $Value;
+                    }
+                    else {
+                        if ($Self->{QueueObject}->QueueLookup(Queue => $_)) {
+                            $NewTos{$Self->{QueueObject}->QueueLookup(Queue => $_)} = $Value;
+                        }
+                        else {
+                            $NewTos{$_} = $Value;
+                        }
+                    }
+                }
             }
             else {
-                # SelectionType Queue or SystemAddress?    
+                # SelectionType Queue or SystemAddress?
                 my %Tos = ();
                 if ($Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue') {
                     %Tos = $Self->{TicketObject}->MoveList(
