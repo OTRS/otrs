@@ -2,7 +2,7 @@
 # Login.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerLogin.dtl,v 1.11 2005-03-11 06:00:09 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.12 2005-03-24 11:17:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,8 +16,9 @@ $Include{"CustomerHeader"}
 <!-- start login -->
 
 <p>
+<center>
 <font color="red">$Quote{"$Text{"$Data{"Message"}"}"}</font>
-<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<table border="0" cellspacing="0" cellpadding="3" width="300">
 <tr>
   <td class="singleboxhead">$Text{"Login"}</td>
 </tr>
@@ -48,7 +49,7 @@ $Include{"CustomerHeader"}
 </p>
 <!-- dtl:block:LostPassword -->
 <p>
-<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<table border="0" cellspacing="0" cellpadding="3" width="300">
 <tr>
   <td class="singleboxhead">$Text{"Lost your password?"}</td>
 </tr>
@@ -81,7 +82,7 @@ $Include{"CustomerHeader"}
 <input type="hidden" name="Action" value="">
 <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
 
-<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<table border="0" cellspacing="0" cellpadding="3" width="300">
 <tr>
   <td class="singleboxhead">$Text{"Language"}</td>
 </tr>
@@ -102,7 +103,7 @@ $Include{"CustomerHeader"}
 
 <!-- dtl:block:CreateAccount -->
 <p>
-<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<table border="0" cellspacing="0" cellpadding="3" width="300">
 <tr>
   <td class="singleboxhead">$Text{"Create Account"}</td>
 </tr>
@@ -114,27 +115,27 @@ $Include{"CustomerHeader"}
    <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td>$Text{"Salutation"}: </td>
-      <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="25" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Firstname"}: </td>
-      <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="25" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Lastname"}: </td>
-      <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="25" maxlength="50"></td>
     </tr>
 #    <tr>
 #      <td>$Text{"Login"}: </td>
-#      <td> <input type="text" name="Login" value="$QData{"UserLogin"}" size="35" maxlength="50"></td>
+#      <td> <input type="text" name="Login" value="$QData{"UserLogin"}" size="25" maxlength="50"></td>
 #    </tr>
     <tr>
       <td>$Text{"Email"}/$Text{"Login"}: </td>
-      <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="35" maxlength="50"></td>
+      <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="25" maxlength="50"></td>
     </tr>
 #    <tr>
 #      <td>$Text{"CustomerID"}: </td>
-#      <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="35" maxlength="50"></td>
+#      <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="25" maxlength="50"></td>
 #    </tr>
     </table>
     <input class="button" type="submit" value="$Text{"create"}">
@@ -142,6 +143,7 @@ $Include{"CustomerHeader"}
   </td>
 </tr>
 </table>
+</center>
 </p>
 <!-- dtl:block:CreateAccount -->
 <!-- stop login -->
