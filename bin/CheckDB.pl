@@ -3,7 +3,7 @@
 # CheckDB.pl - to check the db access
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckDB.pl,v 1.5 2002-08-13 15:28:38 martin Exp $
+# $Id: CheckDB.pl,v 1.6 2002-08-27 14:01:24 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -37,7 +37,7 @@ use Kernel::System::DB;
 my $ConfigObject = Kernel::Config->new();
 my $LogObject = Kernel::System::Log->new(
     LogPrefix => 'OpenTRS-CheckDB.pl',
-    %CommonObject,
+    ConfigObject => $ConfigObject,
 );
 my $DBObject = Kernel::System::DB->new(
     LogObject => $LogObject,
