@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.26 2002-05-21 20:22:18 martin Exp $
+# $Id: Generic.pm,v 1.27 2002-05-21 21:43:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -123,7 +123,11 @@ sub Output {
     # --
     my $EnvRef = \%Env;
     my $DataRef = \%Data;
-    my $GlobalRef = {EnvRef=> $EnvRef, DataRef => $DataRef},
+    my $GlobalRef = {
+        EnvRef => $EnvRef, 
+        DataRef => $DataRef, 
+        ConfigRef => $Self->{ConfigObject},
+    };
   
     # read template
     my $Output = '';
@@ -139,7 +143,7 @@ sub Output {
         # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
         # --
         $Output =~ s{
-          <dtl\W(system-call|set)\W\$(Data|Env)\{\"(.+?)\"\}\W=\W\"(.+?)\">
+          <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
         }
         {
           my $Data = '';
