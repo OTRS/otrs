@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.6 2002-06-04 00:16:38 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.7 2002-08-04 14:11:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,12 +51,16 @@
     <input type="hidden" name="ID" value="$Data{"UserID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
-      <td>$Text{"Login/Email"}: </td>
+      <td>$Text{"Login"}: </td>
       <td> <input type="text" name="Login" value="$Data{"UserLogin"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Password"}: </td>
       <td> <input type="password" name="Pw" value="$Data{"UserPw"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Email"}: </td>
+      <td> <input type="text" name="Email" value="$Data{"UserEmail"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td>$Text{"Salutation"}: </td>
