@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.21 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentEmail.pm,v 1.22 2004-04-23 07:34:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,11 +84,13 @@ sub Run {
                 $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "TicketFreeKey$_",
+                    Action => $Self->{Action},
                     UserID => $Self->{UserID},
                 ); 
                 $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "TicketFreeText$_",
+                    Action => $Self->{Action},
                     UserID => $Self->{UserID},
                 );
             }
@@ -174,11 +176,13 @@ sub Run {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "TicketFreeKey$_",
+                Action => $Self->{Action},
                 UserID => $Self->{UserID},
             ); 
             $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "TicketFreeText$_",
+                Action => $Self->{Action},
                 UserID => $Self->{UserID},
             );
         }
