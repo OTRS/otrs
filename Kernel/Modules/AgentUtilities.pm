@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.21 2003-03-12 05:43:05 martin Exp $
+# $Id: AgentUtilities.pm,v 1.22 2003-04-01 16:19:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -292,7 +292,7 @@ sub Search {
     my $Age = '?';
     my $SQL = "";
     if ($SqlExt) {
-        $SQL = "SELECT st.id, sa.id as article_id ".
+        $SQL = "SELECT sa.id ".
           " FROM ".
           " article sa, ticket st, queue sq ".
           " WHERE ".
@@ -330,13 +330,14 @@ sub Search {
     $SQL .= " ORDER BY st.id DESC";
 #    $SQL .= " GROUP BY st.id, sa.id ORDER BY st.id DESC";
 #    " ORDER BY sa.incoming_time DESC";
+
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimit});
-    my @ViewableArticleIDs = ();
+    my @ViewableIDs = ();
     my $Counter = 0;
     while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
-         push (@ViewableArticleIDs, $Row[0]);
+         push (@ViewableIDs, $Row[0]);
     }
-    foreach (@ViewableArticleIDs) {
+    foreach (@ViewableIDs) {
       $Counter++;
       # --
       # build search result
