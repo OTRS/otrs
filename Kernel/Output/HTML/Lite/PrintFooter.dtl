@@ -2,13 +2,13 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintFooter.dtl,v 1.1 2003-01-09 20:48:18 martin Exp $
+# $Id: PrintFooter.dtl,v 1.2 2004-07-05 10:10:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-    <font size="-2"><b>$Text{"URL"}:</b> http://$Data{"Host"}</font>
+    <font size="-2"><b>$Text{"URL"}:</b> http://$QData{"Host","100"}</font>
     </td>
   </tr>
   </table>
