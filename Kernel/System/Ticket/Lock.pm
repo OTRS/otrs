@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Lock.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.4 2002-07-13 12:28:27 martin Exp $
+# $Id: Lock.pm,v 1.5 2002-08-06 19:09:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Lock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -133,7 +133,13 @@ sub SetLock {
     " change_time = current_timestamp, change_by = $Param{UserID} " .
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+      # -- 
+      # update ticket view index
+      # --
+      $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
+      # --
       # set lock time it event is 'lock'
+      # --
       if ($Param{Lock} eq 'lock') {
         $SQL = "UPDATE ticket SET timeout = ". time() . 
           " WHERE id = $Param{TicketID} "; 
