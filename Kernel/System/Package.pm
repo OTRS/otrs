@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.11 2004-12-23 05:59:34 martin Exp $
+# $Id: Package.pm,v 1.12 2004-12-23 11:50:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use File::Copy;
 use LWP::UserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -787,7 +787,7 @@ sub PackageOnlineList {
         return;
       }
     }
-    my $XML = $Self->_Download(URL => $Param{URL}."/repository.xml");
+    my $XML = $Self->_Download(URL => $Param{URL}."/otrs.xml");
     if (!$XML) {
         return ();
     }
@@ -1362,6 +1362,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2004-12-23 05:59:34 $
+$Revision: 1.12 $ $Date: 2004-12-23 11:50:18 $
 
 =cut
