@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159-13d (Web2C 7.3.1) (format=pdfjadetex 2001.9.23)  30 JAN 2002 16:01
+This is pdfTeX, Version 3.14159-13d (Web2C 7.3.1) (format=pdfjadetex 2001.9.23)  21 FEB 2002 18:37
 **manual.tex
 (manual.tex[/var/lib/texmf/pdftex/config/pdftex.cfg]
 JadeTeX 2001/07/19: 3.11
@@ -86,140 +86,161 @@ File: ts1ptm.fd 2000/01/12 PSNFSS-v8.1 font definitions for TS1/ptm.
 
 ]
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <24.883> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 559.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 653.
 LaTeX Font Info:    Font shape `T1/phv/bx/it' in size <20.736> not available
-(Font)              Font shape `T1/phv/b/it' tried instead on input line 580.
+(Font)              Font shape `T1/phv/b/it' tried instead on input line 674.
 LaTeX Font Info:    Font shape `T1/phv/b/it' in size <20.736> not available
-(Font)              Font shape `T1/phv/b/sl' tried instead on input line 580.
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 674.
  [3.0.31
 
 ]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 753.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 847.
 
 [4.0.31
 
+] [5.0.31]
+Warning (ext1): destination with the same identifier (name{page.1}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.2994 ...more arbitrary timeouts such as\endPar{}
+                                                  \endNode{}\Node% [1.0.31
+
 ]
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 1904.
+Warning (ext1): destination with the same identifier (name{page.2}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.3170       case of complaints.\endPar{}
+                                         \endNode{}\endPar{}\endNode{}\endPa...
+[2.0.31]
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 3213.
 
  (/usr/share/texmf/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2000/01/12 PSNFSS-v8.1 font definitions for T1/pcr.
 )
-Overfull \hbox (0.67543pt too wide) in paragraph at lines 2098--2103
- []\T1/ptm/m/n/10.8 3) RE-FER-RALS AND DIS-PATCH-ING. If the trou-ble ticket sy
-s-tem is thor-oughly enough 
- []
-
-Warning (ext1): destination with the same identifier (name{page.1}) already exi
-sts!
-\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
-                                                  \@pdfview \Hy@RestoreLasts...
-l.2154       NOC's standard alert system.\endPar{}
-                                                  \endNode{}\Node% [1.0.31
-
-]
-Overfull \hbox (6.86446pt too wide) in paragraph at lines 2295--2303
- []\T1/ptm/m/n/10.8 8) AC-COUNT-ABIL-ITY ("CYA"), FA-CIL-I-TAT-ING CUS-TOMER FO
-LLOW-THROUGH, 
- []
-
-Warning (ext1): destination with the same identifier (name{page.2}) already exi
-sts!
-\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
-                                                  \@pdfview \Hy@RestoreLasts...
-l.2303 ...ode{}\endPar{}\endNode{}\endSeq{}\endSpS
-                                                  {}\endNode{}\Node% [2.0.31]
-Overfull \hbox (11.44473pt too wide) in paragraph at lines 2567--2567
- [] \T1/pcr/m/n/10.8 PERL PHP4 Python Reload httpd                             
- done 
- []
-
-
-Overfull \hbox (20.51361pt too wide) in paragraph at lines 2600--2634
- \T1/ptm/m/n/12 Than fire up your fa-vo-rate web-browser and have a look at [] 
- []  \T1/ptm/m/it/12 http://localhost/cgi-bin/index.pl 
- []
-
-<screenshots/login.png 817.05249pt, 632.36249pt, obj 148>
-File: screenshots/login.png Graphic file (type png)
-
-<use screenshots/login.png>
-Warning (ext1): destination with the same identifier (name{page.1}) already exi
-sts!
-\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
-                                                  \@pdfview \Hy@RestoreLasts...
-l.2660 {1}}
-           % [1.0.31
-
- <./screenshots/login.png>]
-Warning (ext1): destination with the same identifier (name{page.2}) already exi
-sts!
-\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
-                                                  \@pdfview \Hy@RestoreLasts...
-l.2667 ...de{}.\endPar{}\endNode{}\endSeq{}\endSpS
-                                                  {}\endNode{}\Node% [2.0.31]
-Overfull \hbox (7.8896pt too wide) in paragraph at lines 2855--2889
- []\T1/ptm/m/n/12 First you have to start your fa-vo-rate web-browser and have 
-a look at []  []  \T1/ptm/m/it/12 http://localhost/cgi-
- []
-
-File: screenshots/login.png Graphic file (type png)
-<use screenshots/login.png>
-<screenshots/admin-interface.png 817.05249pt, 632.36249pt, obj 173>
-File: screenshots/admin-interface.png Graphic file (type png)
-
-<use screenshots/admin-interface.png>
 Warning (ext1): destination with the same identifier (name{page.3}) already exi
 sts!
 \new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
                                                   \@pdfview \Hy@RestoreLasts...
-l.2951 {}}\endPar{}\endNode{}\endNode{}\endPar{}
-                                                \endNode{}\Node% [3.0.31
+l.3238 ...ode{}\endPar{}\endNode{}\endSeq{}\endSpS
+                                                  {}\endNode{}\Node% [3.0.31]
+Overfull \hbox (11.44473pt too wide) in paragraph at lines 3550--3550
+ [] \T1/pcr/m/n/10.8 PERL PHP4 Python Reload httpd                             
+ done 
+ []
 
-]
-<screenshots/add-new-user.png 817.05249pt, 632.36249pt, obj 181>
-File: screenshots/add-new-user.png Graphic file (type png)
+<screenshots/installer.png 817.05249pt, 632.36249pt, obj 224>
+File: screenshots/installer.png Graphic file (type png)
 
-<use screenshots/add-new-user.png>
+<use screenshots/installer.png>
+Warning (ext1): destination with the same identifier (name{page.1}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.3691 {}}\endPar{}\endNode{}\endNode{}\endPar{}
+                                                \endNode{}\endSeq{}\endDispl...
+[1.0.31
+
+] <screenshots/login.png 817.05249pt, 632.36249pt, obj 233>
+File: screenshots/login.png Graphic file (type png)
+
+<use screenshots/login.png>
+Warning (ext1): destination with the same identifier (name{page.2}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.3800 {}}\endPar{}\endNode{}\endNode{}\endPar{}
+                                                \endNode{}\Node% [2.0.31 <./scr
+eenshots/installer.png>]
+Warning (ext1): destination with the same identifier (name{page.3}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.3824 ...DisplayGroup{}\endNode{}\endSeq{}\endSpS
+                                                  {}\endNode{}\Node% [3.0.31 <.
+/screenshots/login.png>]
+File: screenshots/login.png Graphic file (type png)
+ <use screenshots/login.png>
+<screenshots/admin-interface.png 817.05249pt, 632.36249pt, obj 260>
+File: screenshots/admin-interface.png Graphic file (type png)
+
+<use screenshots/admin-interface.png>
 Warning (ext1): destination with the same identifier (name{page.4}) already exi
 sts!
 \new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
                                                   \@pdfview \Hy@RestoreLasts...
-l.3034 {1}}
-           % [4.0.31 <./screenshots/admin-interface.png> <./screenshots/add-new
--user.png>] <screenshots/first-screen.png 817.05249pt, 632.36249pt, obj 196>
+l.4156 {}}\endPar{}\endNode{}\endNode{}\endPar{}
+                                                \endNode{}\Node% [4.0.31
+
+]
+<screenshots/add-new-user.png 817.05249pt, 632.36249pt, obj 268>
+File: screenshots/add-new-user.png Graphic file (type png)
+
+<use screenshots/add-new-user.png>
+Warning (ext1): destination with the same identifier (name{page.5}) already exi
+sts!
+\new@pdflink ...Hy@SaveLastskip \pdfdest name {#1}
+                                                  \@pdfview \Hy@RestoreLasts...
+l.4242 {1}}
+           % [5.0.31 <./screenshots/admin-interface.png> <./screenshots/add-new
+-user.png>] <screenshots/first-screen.png 817.05249pt, 632.36249pt, obj 284>
 File: screenshots/first-screen.png Graphic file (type png)
 
 <use screenshots/first-screen.png>
-<screenshots/raw-queue.png 817.05249pt, 632.36249pt, obj 199>
+<screenshots/raw-queue.png 817.05249pt, 632.36249pt, obj 287>
 File: screenshots/raw-queue.png Graphic file (type png)
 
-<use screenshots/raw-queue.png> [5.0.31 <./screenshots/first-screen.png> <./scr
-eenshots/raw-queue.png>] [6.0.31]
-Overfull \hbox (13.34879pt too wide) in paragraph at lines 3325--3340
- []\T1/ptm/m/n/12 The very first step should be a visit to []  []  \T1/ptm/m/it
-/12 http://www.suse.de/de/support/download/updates/
+<use screenshots/raw-queue.png> [6.0.31 <./screenshots/first-screen.png>]
+[7.0.31 <./screenshots/raw-queue.png>]
+Overfull \hbox (11.44473pt too wide) in paragraph at lines 4686--4686
+ []\T1/pcr/m/n/10.8 #  A domain-specific form of alias-ing, al-low-ing mul-ti-p
+le virtual[] 
  []
 
-[7.0.31
 
-] [8.0.31
+Overfull \hbox (11.44473pt too wide) in paragraph at lines 4694--4694
+ []\T1/pcr/m/n/10.8 #jax@bar.com             er-ror:D.S.N:unavailable Ad-dress 
+invalid[] 
+ []
+
+[8.0.31
 
 ] [9.0.31] [10.0.31
 
-] [11.0.31
+] [11.0.31] [12.0.31
 
-] [12.0.31
+] [13.0.31] [14.0.31
 
-] [13.0.31] [14.0.31]
-[15.0.31] [16.0.31] [17.0.31] [18.0.31] [19.0.31] (manual.aux) ) 
+] [15.0.31]
+[16.0.31
+
+] [17.0.31] <screenshots/homepage-otrs.png 817.05249pt, 632.36249pt,
+obj 445>
+File: screenshots/homepage-otrs.png Graphic file (type png)
+ <use screenshots/homepage-otrs.png> [18.0.31
+
+ <./screenshots/homepage-otrs.png>] <screenshots/bugs-otrs-org.png 817.05249pt,
+ 632.36249pt, obj 466>
+File: screenshots/bugs-otrs-org.png Graphic file (type png)
+
+<use screenshots/bugs-otrs-org.png> [19.0.31 <./screenshots/bugs-otrs-org.png>]
+[20.0.31
+
+] [21.0.31
+
+] [22.0.31] [23.0.31] [24.0.31] [25.0.31] [26.0.31] [27.0.31] [28.0.31] [29.0.3
+1
+
+] (manual.aux) ) 
 Here is how much of TeX's memory you used:
- 945 strings out of 15997
- 8233 string characters out of 99018
- 141875 words of memory out of 384000
- 13256 multiletter control sequences out of 10000+15000
- 34218 words of font info for 41 fonts, out of 400000 for 1000
+ 1251 strings out of 15997
+ 11063 string characters out of 99018
+ 142841 words of memory out of 384000
+ 13454 multiletter control sequences out of 10000+15000
+ 38584 words of font info for 44 fonts, out of 400000 for 1000
  14 hyphenation exceptions out of 1000
- 22i,12n,39p,471b,1092s stack positions out of 300i,100n,500p,50000b,4000s
+ 22i,11n,39p,1140b,1094s stack positions out of 300i,100n,500p,50000b,4000s
 <8r.enc>
-Output written on manual.pdf (25 pages, 182124 bytes).
+Output written on manual.pdf (37 pages, 385706 bytes).

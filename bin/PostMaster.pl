@@ -3,7 +3,7 @@
 # PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.2 2002-01-10 20:10:01 martin Exp $
+# $Id: PostMaster.pl,v 1.3 2002-04-08 14:17:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,8 +23,13 @@
 use lib '/opt/OpenTRS/';
 use strict;
 
+# --
+# to get it readable for the webserver user (just in case)
+# --
+umask 022;
+
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 1;

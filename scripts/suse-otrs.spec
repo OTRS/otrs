@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.5 2002-02-03 22:48:20 martin Exp $
+# $Id: suse-otrs.spec,v 1.6 2002-04-08 14:17:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -29,6 +29,7 @@ BuildRoot:    /var/tmp/%{name}-buildroot
 The Open Ticket Request System (http://otrs.org/) is a web based ticket system.
 
 Feedback: feedback@otrs.org
+
 
 Authors:
 --------
