@@ -46,12 +46,9 @@ use Kernel::System::Log;
 use Kernel::System::Log::SysLog;
 #use Kernel::System::Log::File;
 
+use Kernel::System::Ticket;
 use Kernel::System::Ticket::ArticleStorageDB;
 #use Kernel::System::Ticket::ArticleStorageFS;
-use Kernel::System::Ticket::Compress::Plain;
-#use Kernel::System::Ticket::Compress::Zlib;
-use Kernel::System::Ticket::Crypt::Plain;
-#use Kernel::System::Ticket::Crypt::Blowfish;
 use Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 #use Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use Kernel::System::Ticket::Number::DateChecksum;
