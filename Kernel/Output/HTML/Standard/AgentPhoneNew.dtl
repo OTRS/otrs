@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.4 2002-10-15 09:20:21 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.5 2002-10-20 10:45:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -52,7 +52,7 @@ function submit_compose()
 <p>
 
 <form action="$Env{"CGIHandle"}" method="post" name="compose">
-<input type="hidden" name="Action" value="AgentPhone">
+<input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="StoreNew">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
@@ -76,6 +76,9 @@ $Text{"$Config{"PhoneDefaultNewNoteText"}"}
   </tr>
   <tr>
     <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"CustomerID"}:</td><td><input type="text" name="CustomerID" value="" size="16"></td>
   </tr>
   <tr>
     <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
