@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.87 2003-04-23 17:43:41 martin Exp $
+# $Id: Generic.pm,v 1.87.2.1 2003-05-13 14:19:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.87 $';
+$VERSION = '$Revision: 1.87.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -374,17 +374,18 @@ sub Output {
     if (!$Self->{SessionIDCookie}) {
         # rewrite a hrefs
         $Output =~ s{
-            (<a.+?href=")(.+?)(">|".+?>)
+            (<a.+?href=")(.+?)(\#.+?|)(">|".+?>)
         }
         { 
             my $AHref = $1;
             my $Target = $2;
             my $End = $3;
+            my $RealEnd = $4;
             if ($Target =~ /^(http:|https:|#|ftp:)/i || $Target !~ /(\.pl|\.php|\.cgi)(\?|$)/) {
-                "$AHref$Target$End"; 
+                "$AHref$Target$End$RealEnd"; 
             } 
             else {
-                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End"; 
+                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End$RealEnd"; 
             }
         }iegx;
         # rewrite img src
