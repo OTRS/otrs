@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.16 2004-01-09 12:44:28 martin Exp $
+# $Id: EmailParser.pm,v 1.17 2004-01-10 09:25:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,17 +63,24 @@ sub GetParam {
     $Self->{HeaderObject}->unfold();
     $Self->{HeaderObject}->combine($What);
     my $Line = $Self->{HeaderObject}->get($What) || '';
-    $Line = decode_mimewords($Line);
     chomp ($Line);
-    if ($Line) {
-        return $Self->{EncodeObject}->Decode(
-            Text => $Line,
-            From => $Self->GetCharset(),
-        );
-    } 
-    else {
-        return $Line;
+    my $ReturnLine = '';
+    foreach my $Array (decode_mimewords($Line)) {
+        foreach (@{$Array}) {
+            $ReturnLine .= $Self->{EncodeObject}->Decode(
+                Text => $Array->[0],
+                From => $Array->[1] || 'us-ascii',
+            );
+        }
     }
+    # debug
+    if ($Self->{Debug}) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            Message => "Get: $What; ReturnLine: $ReturnLine; OrigLine: $Line",
+        );
+    }
+    return $ReturnLine;
 }
 # --
 sub GetEmailAddress {
