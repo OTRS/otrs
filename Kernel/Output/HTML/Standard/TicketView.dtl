@@ -1,8 +1,9 @@
 # --
 # TicketView.dtl - provides HTML TicketView for AgentQueueView.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.9 2002-04-14 19:05:38 martin Exp $
+# $Id: TicketView.dtl,v 1.10 2002-04-24 22:51:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,18 +58,22 @@ $Data{"Text"}
   </pre>
   </td> 
   <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
-   <p>
+   <p align="left">
     <br>
-    <b>$Text{"State"}:</b> <font color="red">$Data{"State"}</font><br>
-    <b>$Text{"Priority"}:</b> <font color="red">$Data{"Priority"}</font><br>
-    <b>$Text{"Queue"}:</b> <font color="red">$Data{"Queue"}</font><br>
-    <b>$Text{"CustomerID"}:</b> <font color="red">$Data{"CustomerID"}</font><br>
-   </p>  
+    <table border="0">
+    <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
+    <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
+    <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
+    <tr><td><b>$Text{"CustomerID"}:</b></td><td><font color="red">$Data{"CustomerID"}</font></td></tr>
 
-   <p>
+    <tr><td colspan="2"></td></tr>
+    <tr><td colspan="2">   
+   <p align="left">
      <b>$Text{"Compose Answer"}:</b>
      <br>
+     <table border="0"><tr align="left"><td>
      $Data{"StdResponsesStrg"}
+     </td></tr></table>
    </p>
 
    <p>
@@ -92,6 +97,11 @@ $Data{"Text"}
        <input type="submit" value="$Text{"Move"}">
        </form>
    </p>
+
+   </td></tr>
+   </table>
+   </p>  
+
 
 
   </td>

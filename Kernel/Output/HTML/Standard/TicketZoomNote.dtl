@@ -1,8 +1,9 @@
 # --
 # TicketZoom.dtl - provides HTML TicketZoom for AgentZoom.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+#               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomNote.dtl,v 1.6 2002-04-13 15:49:29 martin Exp $
+# $Id: TicketZoomNote.dtl,v 1.7 2002-04-24 22:51:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,12 +57,15 @@ $Data{"Article::Text"}
   </td> 
   <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
     <br>
-    <table border="0" cellspacing="1" cellpadding="1" cols="2">
-      <tr><td align="right"><b>$Text{"State"}:</b></td><td> <font color="red">$Data{"State"}</font></td></tr>
-      <tr><td align="right"><b>$Text{"Priority"}:</b></td><td> <font color="red">$Data{"Priority"}</font></td></tr>
-      <tr><td align="right"><b>$Text{"Queue"}:</b></td><td> <font color="red">$Data{"Queue"}</font></td></tr>
-      <tr><td align="right"><b>$Text{"Lock"}:</b></td><td> <font color="red">$Data{"Lock"}</font></td></tr>
-    </table>
+    <table border="0">
+    <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
+    <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
+    <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
+    <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
+    <tr><td><b>$Text{"CustomerID"}:</b></td><td><font color="red">$Data{"CustomerID"}</font></td></tr>
+
+    <tr><td colspan="2"></td></tr>
+    <tr><td colspan="2">
 
    <p>
      <b>$Text{"Owner"}:</b>
@@ -69,12 +73,6 @@ $Data{"Article::Text"}
      $Data{"Owner"}
    </p>
  
-   <p>
-     <b>$Text{"CustomerID"}:</b>
-     <br>
-     $Data{"CustomerID"}
-   </p>
-
    <p>
      <b>$Text{"Change queue"}:</b>
      <br>
@@ -89,7 +87,10 @@ $Data{"Article::Text"}
        <input type="submit" value="$Text{"Move"}">
        </form>
    </p>
-
+ 
+   </td>
+   </tr>
+   </table>
 
   </td>
 </tr>
