@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.170 2005-01-11 09:27:57 martin Exp $
+# $Id: Generic.pm,v 1.171 2005-01-11 10:05:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.170 $';
+$VERSION = '$Revision: 1.171 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1792,7 +1792,10 @@ sub WindowTabStart {
         );
         $Self->FatalError();
     }
-    foreach my $Hash (@{$Param{Tab}}) {
+    my @Tabs = @{$Param{Tab}};
+    my $Size = int(100/($#Tabs+1));
+    foreach my $Hash (@Tabs) {
+        $Hash->{Size} = $Size;
         if ($Hash->{Ready}) {
             $Hash->{Image} = 'ready.png';
         }
