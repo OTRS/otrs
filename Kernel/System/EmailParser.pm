@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.15 2003-10-29 21:13:33 martin Exp $
+# $Id: EmailParser.pm,v 1.16 2004-01-09 12:44:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,9 +18,10 @@ use MIME::QuotedPrint;
 use MIME::Base64;
 use MIME::Words qw(:all);
 use Mail::Address;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,11 +35,18 @@ sub new {
     $Self->{Debug} = 0;
 
     # check needed objects
-    foreach (qw(LogObject)) {
+    foreach (qw(LogObject ConfigObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # create Mail::Internet object
     $Self->{Email} = new Mail::Internet($Param{Email});
+    # create a Mail::Header object
+    $Self->{HeaderObject} = $Self->{Email}->head();
+
+    $Self->GetReturnContentType();
+
     return $Self;
 }
 # --
@@ -52,13 +60,20 @@ sub GetParam {
     my %Param = @_;
     my $What = $Param{WHAT} || return;
 
-    my $Header = $Self->{Email}->head();
-    $Header->unfold();
-    $Header->combine($What);
-    my $Line = $Header->get($What) || '';
+    $Self->{HeaderObject}->unfold();
+    $Self->{HeaderObject}->combine($What);
+    my $Line = $Self->{HeaderObject}->get($What) || '';
     $Line = decode_mimewords($Line);
     chomp ($Line);
-    return $Line;
+    if ($Line) {
+        return $Self->{EncodeObject}->Decode(
+            Text => $Line,
+            From => $Self->GetCharset(),
+        );
+    } 
+    else {
+        return $Line;
+    }
 }
 # --
 sub GetEmailAddress {
@@ -81,14 +96,55 @@ sub SplitAddressLine {
     return @GetParam;
 }
 # --
-sub GetContentType {
+sub GetCharset {
     my $Self = shift;
     my $ContentType = shift || '';
     if ($Self->{ContentType}) {
         return $Self->{ContentType};
     }
     else {
-        return $ContentType;
+        if ($ContentType) {
+            return $ContentType;
+        }
+        else {
+            $Self->{HeaderObject}->unfold();
+            $Self->{HeaderObject}->combine('Content-Type');
+            my $Line = $Self->{HeaderObject}->get('Content-Type') || '';
+            $Line = decode_mimewords($Line);
+            chomp ($Line);
+            if ($Line =~ /charset/i) {
+                $Line =~ s/.+?\scharset=("|'|)(\w+)/$2/gi; 
+                $Line =~ s/"|'//ig;
+print STDERR "GetCharset: $Line\n";
+                return $Line;
+            }
+            else {
+                return 'ISO-8859-1';
+            }
+        }
+    }
+}
+# --
+sub GetReturnContentType {
+    my $Self = shift;
+    my $ContentType = shift || '';
+    if ($Self->{ReturnContentType}) {
+        return $Self->{ReturnContentType};
+    }
+    $Self->{HeaderObject}->unfold();
+    $Self->{HeaderObject}->combine('Content-Type');
+    my $Line = $Self->{HeaderObject}->get('Content-Type') || '';
+    $Line = decode_mimewords($Line);
+    chomp ($Line);
+
+    if ($Self->{EncodeObject}->EncodeInternalUsed()) {
+         my $InternalCharset = $Self->{EncodeObject}->EncodeInternalUsed();
+         $Line =~ s/(charset=)(.*)/$1$InternalCharset/ig;
+    print STDERR "GetReturnContentType: $Line\n";
+         return $Line;
+    }
+    else {
+        return $Line;
     }
 }
 # --
@@ -105,16 +161,18 @@ sub GetMessageBody {
             print STDERR 'No Mime Email' . "\n";
         }
         my $BodyStrg = join('', @{$Self->{Email}->body()});
-        # --
         # quoted printable!
-        # --
         if ($Self->GetParam(WHAT => 'Content-Transfer-Encoding') =~ /quoted-printable/i) {
             $BodyStrg = MIME::QuotedPrint::decode($BodyStrg);
         }
+        # base 64 encode
         elsif ($Self->GetParam(WHAT => 'Content-Transfer-Encoding') =~ /base64/i) {
             $BodyStrg = decode_base64($BodyStrg);
         }
-        return $BodyStrg;
+        return $Self->{EncodeObject}->Decode(
+            Text => $BodyStrg, 
+            From => $Self->GetCharset(),
+        );
     }
     else {
         $Self->{MimeEmail} = 1;
@@ -124,7 +182,10 @@ sub GetMessageBody {
         my @Attachments = $Self->GetAttachments();
         my %Attachment = %{$Attachments[0]};
         $Self->{ContentType} = $Attachment{ContentTypeLong};
-        return $Attachment{Content};
+        return $Self->{EncodeObject}->Decode(
+            Text => $Attachment{Content}, 
+            From => $Self->GetCharset(),
+        );
     }
     return
 }
