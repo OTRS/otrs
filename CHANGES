@@ -2,19 +2,29 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.34 2002-11-27 21:27:16 martin Exp $
+# $Id: CHANGES,v 1.35 2002-12-01 16:43:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 0.5 BETA9 (2002-??-??)
+ - (2002/12/01) moved GenericAgent.pm to GenericAgent.pm.dist to have tarball 
+    updates easier. 
+ - (2002/12/01) moved finally to new config file Kernel/Config.pm.dist! Learn 
+    more -=> INSTALL -=> "Demo config files"!
+ - (2002/12/01) added "enchant LDAP auth" patch from Wiktor Wodecki for
+    Kernel/System/Auth/LDAP.pm and Kernel/System/CustomerAuth/LDAP.pm -
+    http://lists.otrs.org/pipermail/dev/2002-November/000043.html.
+    Thanks Wiktor!
+ - (2002/11/28) fixed bug 39 - added mime encode for attachment file names
+    http://bugs.otrs.org/show_bug.cgi?id=39 - Thanks to Christoph Kaulich!
  - (2002/11/27) added support for attachments in database or fs (needs to update 
     the database (scripts/DBUpdate.(mysql|postgesql).sql)! The main reason is
     because a lot of people have problems with the file permissions of the local
     otrs and webserver user (often incoming emails are shown some times again).
-    "ArticlePlainStorage" and "ArticleAttachmentStorage" (db|fs) in Kernel/Config.pm
-    (default is db).
+    "ArticlePlainStorage" and "ArticleAttachmentStorage" (db|fs) in 
+    Kernel/Config.pm (default is db).
  - (2002/11/27) added backend modules for loop protection of PostMaster.pl
     "LoopProtectionModule" in Kernel/Config.pm (default is DB) -
     Kernel::System::PostMaster::LoopProtection::(DB|FS).
@@ -34,7 +44,7 @@
  - (2002/11/15) added Dutch translation! Thanks to  Fred van Dijk!
  - (2002/11/14) added Bulgarian translation! Thanks to Vladimir Gerdjikov!
  - (2002/11/11) added new config file as Kernel/Config.pm.dist (will be used
-    for >= OTRS 1.0) if you want to test it with 0.5, use Kernel/Config.pm.dist 
+    for >= OTRS 5.0 Beta9) if you want to test it with 0.5, use Kernel/Config.pm.dist 
     as Kernel/Config.pm (cp Kernel/Config.pm.dist Kernel/Config.pm)!
     Kernel/Config/Defaults.pm is the config file with all defaults. If you want 
     to change this settings, add the needed entry to Kernel/Config.pm(.dist)
