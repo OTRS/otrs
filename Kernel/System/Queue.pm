@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: Queue.pm,v 1.2 2001-12-26 20:12:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub GetSystemAddress {
     my $Self = shift;
     my %Param = @_;
     my %Adresss;
-    my $SQL = "SELECT sa.name, sa.realname FROM system_address as sa, queue as sq " .
+    my $SQL = "SELECT sa.value0, sa.value1 FROM system_address as sa, queue as sq " .
 	" WHERE " .
 	" sq.id = $Self->{OueueID} " .
 	" and " .
