@@ -1,8 +1,8 @@
 # --
 # Kernel/System/FAQ.pm - all faq funktions
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.2 2004-01-08 11:45:43 martin Exp $
+# $Id: FAQ.pm,v 1.3 2004-01-21 00:38:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -65,7 +65,7 @@ sub ArticleGet {
             " i.free_key1, i.free_value1, i.free_key2, i.free_value2, ".
             " i.free_key3, i.free_value3, i.free_key4, i.free_value4, ".
             " i.create_time, i.create_by, i.change_time, i.change_by, ".
-            " i.category_id, i.state_id, c.name, s.name, l.name ".
+            " i.category_id, i.state_id, c.name, s.name, l.name, i.f_keywords ".
             " FROM faq_item i, faq_category c, faq_state s, faq_language l ".
             " WHERE ".
             " i.state_id = s.id AND ".
@@ -100,6 +100,7 @@ sub ArticleGet {
             Category => $Row[23],
             State => $Row[24],
             Language => $Row[25],
+            Keywords => $Row[26],
         );
     }
     return %Data;
@@ -125,14 +126,14 @@ sub ArticleAdd {
         }
     }
     my $SQL = "INSERT INTO faq_item (f_name, f_language_id, f_subject, ".
-            " category_id, state_id, ".
+            " category_id, state_id, f_keywords, ".
             " f_field1, f_field2, f_field3, f_field4, f_field5, f_field6, ".
             " free_key1, free_value1, free_key2, free_value2, ".
             " free_key3, free_value3, free_key4, free_value4, ".
             " create_time, create_by, change_time, change_by)".
             " VALUES ".
             " ('$Param{Name}', $Param{LanguageID}, '$Param{Subject}', ".
-            " $Param{CategoryID}, $Param{StateID}, ".
+            " $Param{CategoryID}, $Param{StateID}, '$Param{Keywords}', ".
             " '$Param{Field1}', '$Param{Field2}', '$Param{Field3}', ".
             " '$Param{Field4}', '$Param{Field5}', '$Param{Field6}', ".
             " '$Param{FreeKey1}', '$Param{FreeText1}', ".
@@ -143,6 +144,21 @@ sub ArticleAdd {
             " current_timestamp, $Param{UserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # get id
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT id FROM faq_item WHERE ".
+              "f_name = '$Param{Name}' AND f_language_id = $Param{LanguageID} ".
+              " AND f_subject = '$Param{Subject}'",
+        );
+        my $ID = 0;
+        while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $ID = $Row[0]; 
+        }
+        $Self->ArticleHistoryAdd(
+            Name => 'Created', 
+            ID => $ID, 
+            UserID => $Param{UserID},
+        );
         return 1;
     }
     else {
@@ -173,6 +189,7 @@ sub ArticleUpdate {
     my $SQL = "UPDATE faq_item SET f_name = '$Param{Name}', ".
             " f_language_id = $Param{LanguageID}, f_subject = '$Param{Subject}', ".
             " category_id = $Param{CategoryID}, state_id = $Param{StateID}, ".
+            " f_keywords = '$Param{Keywords}', ".
             " f_field1 = '$Param{Field1}', f_field2 = '$Param{Field2}', ".
             " f_field3 = '$Param{Field3}', f_field4 = '$Param{Field4}', ".
             " f_field5 = '$Param{Field5}', f_field6 = '$Param{Field6}', ".
@@ -184,6 +201,11 @@ sub ArticleUpdate {
             " WHERE id = $Param{ID} ";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        $Self->ArticleHistoryAdd(
+            Name => 'Updated', 
+            ID => $Param{ID}, 
+            UserID => $Param{UserID},
+        );
         return 1;
     }
     else {
@@ -218,7 +240,7 @@ sub ArticleHistoryAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ID Comment UserID)) {
+    foreach (qw(ID Name UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -228,7 +250,7 @@ sub ArticleHistoryAdd {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    my $SQL = "INSERT INTO faq_history (name, item_id ".
+    my $SQL = "INSERT INTO faq_history (name, item_id, ".
             " create_time, create_by, change_time, change_by)".
             " VALUES ".
             " ('$Param{Name}', $Param{ID}, ".
@@ -247,20 +269,24 @@ sub ArticleHistoryGet {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ID Comment UserID)) {
+    foreach (qw(ID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    my %Data = ();
+    my @Data = ();
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name FROM faq_history WHERE item_id = $Param{ID}",
+        SQL => "SELECT name, create_time FROM faq_history WHERE item_id = $Param{ID}",
     );
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Data{$Row[0]} = $Row[1];
+        my %Record = (
+            Name => $Row[0],
+            Created => $Row[1],
+        );
+        push (@Data, \%Record);
     }
-    return %Data;
+    return @Data;
 }
 # --
 sub ArticleHistoryDelete {
@@ -277,6 +303,38 @@ sub ArticleHistoryDelete {
         SQL => "DELETE FROM faq_history WHERE item_id = $Param{ID}",
     );
     return 1;
+}
+# --
+sub HistoryGet {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # query
+    my $SQL = "SELECT i.id, h.name, h.create_time, h.create_by FROM".
+        " faq_item i, faq_state s, faq_history h WHERE".
+        " s.id = i.state_id AND h.item_id = i.id";
+    if ($Param{States} && ref($Param{States}) eq 'ARRAY' && @{$Param{States}}) {
+        $SQL .= " AND s.name IN ('${\(join '\', \'', @{$Param{States}})}') ";
+    }
+    $SQL .= ' ORDER BY create_time DESC';
+    my @Data = ();
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        my %Record = (
+            ID => $Row[0],
+            Name => $Row[1],
+            Created => $Row[2],
+            CreatedBy => $Row[3],
+        );
+        push (@Data, \%Record);
+    }
+    return @Data;
 }
 # --
 sub CategoryList {
@@ -607,14 +665,14 @@ sub Search {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(What UserID)) {
+    foreach (qw(UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    my $SQL = "SELECT id FROM faq_item WHERE ".
-        "";
+    my $SQL = "SELECT i.id FROM faq_item i, faq_state s WHERE ".
+        " s.id = i.state_id AND ";
     my $Ext = '';
     foreach (qw(f_subject f_field1 f_field2 f_field3 f_field4 f_field5 f_field6)) {
         if ($Ext) {
@@ -623,16 +681,27 @@ sub Search {
         else {
             $Ext .= ' (';
         }
-        $Ext .= " $_ LIKE '%".$Param{What}."%'";
+        if (defined($Param{What})) {
+            $Ext .= " i.$_ LIKE '%".$Param{What}."%'";
+        }
+        else {
+            $Ext .= " i.$_ LIKE '%'";
+        }
     }
     $Ext .= ' )';
-    if ($Param{LanguageID}) {
-        $Ext .= " AND f_language_id = $Param{LanguageID}";
+    if ($Param{LanguageIDs} && ref($Param{LanguageIDs}) eq 'ARRAY' && @{$Param{LanguageIDs}}) {
+        $Ext .= " AND i.f_language_id IN (${\(join ', ', @{$Param{LanguageIDs}})} )";
     }
-    if ($Param{CategoryIDs} && ref($Param{CategoryIDs}) eq 'ARRAY') {
-        $Ext .= " AND category_id IN (${\(join ', ', @{$Param{CategoryIDs}})} )";
+    if ($Param{CategoryIDs} && ref($Param{CategoryIDs}) eq 'ARRAY' && @{$Param{CategoryIDs}}) {
+        $Ext .= " AND i.category_id IN (${\(join ', ', @{$Param{CategoryIDs}})} )";
     }
-    $SQL .= $Ext." ORDER BY change_time";
+    if ($Param{States} && ref($Param{States}) eq 'ARRAY' && @{$Param{States}}) {
+        $Ext .= " AND s.name IN ('${\(join '\', \'', @{$Param{States}})}')";
+    }
+    if ($Param{Keyword}) { 
+        $Ext .= " AND i.f_keywords LIKE '%".$Self->{DBObject}->Quote($Param{Keyword})."%'"; 
+    }
+    $SQL .= $Ext." ORDER BY i.change_time, i.f_language_id";
     my @List = ();
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 500);
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -655,6 +724,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2004-01-08 11:45:43 $
+$Revision: 1.3 $ $Date: 2004-01-21 00:38:38 $
 
 =cut
