@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.28 2003-07-07 13:46:11 martin Exp $
+# $Id: DB.pm,v 1.29 2003-07-09 09:07:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -89,18 +89,28 @@ sub new {
         $Self->{'DB::Limit'} = 0;
         $Self->{'DB::DirectBlob'} = 0;
         $Self->{'DB::QuoteSignle'} = '\'';
-        $Self->{'DB::QuoteBack'} = '';
+        $Self->{'DB::QuoteBack'} = 0;
         $Self->{'DB::Attribute'} = {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
         };
         $Self->{'DB::CurrentTimestamp'} = 'timestamp';
     }
+    elsif ($Self->{'DB::Type'} eq 'mssql') {
+        $Self->{'DB::Limit'} = 'limit';
+        $Self->{'DB::DirectBlob'} = 0;
+        $Self->{'DB::QuoteSignle'} = '\'';
+        $Self->{'DB::QuoteBack'} = 0;
+        $Self->{'DB::Attribute'} = {
+            LongTruncOk => 1,
+            LongReadLen => 100*1024,
+        };
+    }
     elsif ($Self->{'DB::Type'} eq 'generic') {
-        $Self->{'DB::QuoteSignle'} = '\\';
-        $Self->{'DB::QuoteBack'} = '\\';
         $Self->{'DB::Limit'} = 0;
         $Self->{'DB::DirectBlob'} = 0;
+        $Self->{'DB::QuoteSignle'} = '\\';
+        $Self->{'DB::QuoteBack'} = '\\';
         $Self->{'DB::Attribute'} = {
             LongTruncOk => 1,
             LongReadLen => 100*1024,
@@ -110,7 +120,7 @@ sub new {
         $Self->{LogObject}->Log(
           Priority => 'Error',
           Message => "Unknown database type $Self->{'DB::Type'}! Set config ".
-              "option DB::Type to (mysql|postgresql|db2|sapdb|generic)"
+              "option Database::Type to (mysql|postgresql|db2|sapdb|mssql|generic)."
         );
         return;
     }
