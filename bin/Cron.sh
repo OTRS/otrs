@@ -3,18 +3,18 @@
 # Cron.sh - start|stop OTRS Cronjobs
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Cron.sh,v 1.9 2004-08-25 07:58:42 martin Exp $
+# $Id: Cron.sh,v 1.10 2004-09-03 16:08:06 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -43,7 +43,7 @@ fi
 CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
 
-echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.9 $> "
+echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.10 $> "
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 #
@@ -54,7 +54,7 @@ case "$1" in
     # start
     # ------------------------------------------------------
     start)
-      if mkdir -p $CRON_DIR; cd $CRON_DIR && ls * |grep -v '.dist'|grep -v '.rpm'| grep -v CVS | grep -v Entries | grep -v Repository | xargs cat > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
+      if mkdir -p $CRON_DIR; cd $CRON_DIR && ls * |grep -v '.dist'|grep -v '.rpm'| grep -v CVS | grep -v Entries | grep -v Repository | grep -v Root | xargs cat > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
         rm -rf $CRON_TMP_FILE
         echo "(using $OTRS_ROOT) done";
         exit 0;
