@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.120 2004-06-03 10:52:23 martin Exp $
+# $Id: Generic.pm,v 1.121 2004-06-04 09:51:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.120 $';
+$VERSION = '$Revision: 1.121 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1094,11 +1094,11 @@ sub PageNavBar {
     my $Limit = $Param{Limit} || 0;
     $Param{AllHits} = 0 if (!$Param{AllHits});
     $Param{StartHit} = 0 if (!$Param{AllHits});
-    my $Pages = int(($Param{AllHits} / $Param{SearchPageShown}) + 0.99999);
-    my $Page = int(($Param{StartHit} / $Param{SearchPageShown}) + 0.99999);
+    my $Pages = int(($Param{AllHits} / $Param{PageShown}) + 0.99999);
+    my $Page = int(($Param{StartHit} / $Param{PageShown}) + 0.99999);
     # build Results (1-5 or 16-30)
-    if ($Param{AllHits} >= ($Param{StartHit}+$Param{SearchPageShown})) {
-        $Param{Results} = $Param{StartHit}."-".($Param{StartHit}+$Param{SearchPageShown}-1);
+    if ($Param{AllHits} >= ($Param{StartHit}+$Param{PageShown})) {
+        $Param{Results} = $Param{StartHit}."-".($Param{StartHit}+$Param{PageShown}-1);
     }
     else {
         $Param{Results} = "$Param{StartHit}-$Param{AllHits}";
@@ -1113,7 +1113,7 @@ sub PageNavBar {
     # build page nav bar
     for (my $i = 1; $i <= $Pages; $i++) {
         $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}".
-         "StartHit=". ((($i-1)*$Param{SearchPageShown})+1);
+         "StartHit=". ((($i-1)*$Param{PageShown})+1);
          $Param{SearchNavBar} .= '">';
          if ($Page == $i) {
              $Param{SearchNavBar} .= '<b>'.($i).'</b>';
@@ -1123,8 +1123,13 @@ sub PageNavBar {
          }
          $Param{SearchNavBar} .= '</a> ';
     }
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentUtilSearchNavBar', Data => \%Param);
+    # return data
+    return (
+        TotalHits => $Param{TotalHits},
+        Result => $Param{Results},
+        SiteNavBar => $Param{SearchNavBar},
+        Link => $Param{Link},
+    );
 }
 # --
 sub BuildDateSelection {
