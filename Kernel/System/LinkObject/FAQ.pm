@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/FAQ.pm - to link faq objects
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.1 2004-09-11 07:59:08 martin Exp $
+# $Id: FAQ.pm,v 1.2 2004-09-20 19:23:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -85,8 +85,8 @@ sub LinkSearch {
         );
         push (@ResultWithData, {
             %Article,
-            ID => $_,
-            Identifier => $Article{Subject},
+            Title => $Article{Subject},
+            Number => $Article{ID},
           },
         );
     }
@@ -111,6 +111,7 @@ sub LinkItemData {
     return (
         %Article,
         Number => $Article{ID},
+        Title => $Article{Subject},
         Body => $Body,
     );
 }
