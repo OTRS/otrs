@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.19 2003-10-29 21:14:25 martin Exp $
+# $Id: DB.pm,v 1.20 2003-12-14 22:15:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,7 +151,9 @@ sub CustomerSearch {
                 }
                 $SQLExt .= " $_ LIKE '".$Self->{DBObject}->Quote($Param{Search})."' ";
             }
-            $SQL .= $SQLExt;
+            if ($SQLExt) {
+                $SQL .= "($SQLExt)";
+            }
         }
         else {
             $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{Search})."' ";
