@@ -2,7 +2,7 @@
 # EmailSend.pm - the global email send module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.9 2002-06-16 20:43:01 martin Exp $
+# $Id: EmailSend.pm,v 1.10 2002-07-13 03:36:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Words qw(:all);
 use Mail::Internet;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach ('ConfigObject', 'LogObject', 'DBObject') {
+    foreach (qw(ConfigObject LogObject DBObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -72,28 +72,35 @@ sub Send {
 #    $Subject = encode_mimeword($Subject) if ($Subject);
 
     # --
-    # create article
+    # check needed stuff
     # --
-    if ($Param{ArticleObject} && $Param{TicketID} && $Param{ArticleType} &&
-         $Param{ArticleSenderType} ) {
-
-         $Param{ArticleID} = $Param{ArticleObject}->CreateArticleDB(
-            TicketID => $Param{TicketID},
-            ArticleType => $Param{ArticleType},
-            SenderType => $Param{ArticleSenderType},
-            From => $From,
-            To => $To,
-            Cc => $Cc,
-            Subject => $Subject,
-            MessageID => "<$Time.$Random.$Param{TicketID}.0.$UserID\@$Self->{FQDN}>",
-            Body => $Body,
-            CreateUserID => $UserID,
-        );
-
+    foreach (qw(TicketID UserID ArticleObject TicketObject From Body Email)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    if (!$Param{ArticleType} && !$Param{ArticleTypeID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleType or ArticleTypeID!");
+        return;
+    }
+    if (!$Param{SenderType} && !$Param{SenderTypeID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SenderType or SenderTypeID!");
+        return;
     }
 
-    foreach ('ArticleID', 'TicketID') {
-        $Param{$_} = 0 if (!$Param{$_});
+    # --
+    # create article
+    # --
+    my $MessageID = "<$Time.$Random.$Param{TicketID}.$UserID\@$Self->{FQDN}>";
+    if ($Param{ArticleID} = $Param{ArticleObject}->CreateArticle(
+        %Param,
+        MessageID => $MessageID, 
+    )) {
+      ####
+    }
+    else {
+      return;
     }
 
     # --
@@ -105,7 +112,7 @@ sub Send {
     push @Mail, "Bcc: $Self->{SendmailBcc}\n" if ($Self->{SendmailBcc});
     push @Mail, "Subject: $Subject\n";
     push @Mail, "In-Reply-To: $InReplyTo\n" if ($InReplyTo);
-    push @Mail, "Message-ID: <$Time.$Random.$Param{TicketID}.$Param{ArticleID}.$UserID\@$Self->{FQDN}>\n";
+    push @Mail, "Message-ID: $MessageID\n";
     push @Mail, "X-Mailer: Open-Ticket-Request-System Mail Service ($VERSION)\n";
     push @Mail, "X-Powered-By: OpenTRS (http://otrs.org/)\n";
     push @Mail, "X-OTRS-Loop: $RetEmail\n";
@@ -120,46 +127,30 @@ sub Send {
     # --
     # send mail
     # --
-    open( MAIL, "|$Self->{Sendmail} '$RetEmail' " );
-    print MAIL @Mail;
-    close(MAIL);
-
-    # --
-    # write article to fs
-    # --
-    if ($Param{ArticleID}) {
-        my $ArticleObject = Kernel::System::Article->new(
-          DBObject => $Self->{DBObject},
-          ConfigObject => $Self->{ConfigObject},
+    if (open( MAIL, "|$Self->{Sendmail} '$RetEmail' " )) {
+        print MAIL @Mail;
+        close(MAIL);
+        # -- 
+        # write article to fs
+        # -- 
+        if (!$Param{ArticleObject}->WriteArticle(ArticleID => $Param{ArticleID}, Email => \@Mail)) {
+          return; 
+        }
+        # -- 
+        # log
+        # -- 
+        $Self->{LogObject}->Log(
+          MSG => "Sent email to '$ToOrig' from '$From'. HistoryType => $HistoryType, Subject => $Subject;",
         );
-        $ArticleObject->WriteArticle(ArticleID => $Param{ArticleID}, Email => \@Mail);
-    }
 
-    # --
-    # write history
-    # --
-    if ($TicketObject) {
-        $TicketObject->AddHistoryRow(
-          TicketID => $Param{TicketID},
-          ArticleID => $Param{ArticleID},
-          HistoryType => $HistoryType,
-          Name => "Sent email to '$ToOrig'.",
-          CreateUserID => $UserID,
-        );
-    }
-
-    # --
-    # log
-    # --
-    $Self->{LogObject}->Log(
-        MSG => "Sent email to '$ToOrig' from '$From'. HistoryType => $HistoryType, Subject => $Subject;",
-    );
-
-    if ($Param{ArticleID}) {
         return $Param{ArticleID};
     }
     else {
-        return 1;
+         $Self->{LogObject}->Log(
+           Priority => 'error', 
+           Message => "Can't use $Self->{Sendmail}: $!!",
+         );
+         return;
     }
 }
 # --
@@ -174,7 +165,7 @@ sub Bounce {
     my $ToOrig = $To;
     my $Cc = $Param{Cc} || '';
     my $TicketObject = $Param{TicketObject} || '';
-    my $HistoryType = $Param{HistoryType} || 'SendAnswer';
+    my $HistoryType = $Param{HistoryType} || 'Bounce';
     my $RetEmail = $Param{Email};
     # --
     # build bounce mail ...
