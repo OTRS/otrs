@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.2 2004-08-04 13:15:00 martin Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.3 2004-08-06 06:16:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,7 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{CryptObject} = Kernel::System::Crypt->new(%Param, CryptType => 'PGP');
+
     return $Self;
 }
 # --
@@ -53,10 +53,24 @@ sub Run {
     }
     my @SearchAddress = Mail::Address->parse($Recipient);
     if (@SearchAddress) {
-        my @PublicKeys = $Self->{CryptObject}->SearchPublicKey(Search => $SearchAddress[0]->address());
         my %KeyList = ();
-        foreach my $DataRef (@PublicKeys) {
-            $KeyList{"PGP::$DataRef->{Key}"} = "PGP: $DataRef->{Key} $DataRef->{Identifer}";
+        my $CryptObjectPGP = Kernel::System::Crypt->new(%{$Self}, CryptType => 'PGP');
+        if ($CryptObjectPGP) {
+            my @PublicKeys = $CryptObjectPGP->SearchPublicKey(
+                Search => $SearchAddress[0]->address(),
+            );
+            foreach my $DataRef (@PublicKeys) {
+                $KeyList{"PGP::$DataRef->{Key}"} = "PGP: $DataRef->{Key} - $DataRef->{Identifer}";
+            }
+        }
+        my $CryptObjectSMIME = Kernel::System::Crypt->new(%{$Self}, CryptType => 'SMIME');
+        if ($CryptObjectSMIME) {
+            my @PublicKeys = $CryptObjectSMIME->CertificateSearch(
+                Search => $SearchAddress[0]->address(),
+            );
+            foreach my $DataRef (@PublicKeys) {
+                $KeyList{"SMIME::$DataRef->{Hash}"} = "SMIME: $DataRef->{Hash} - $DataRef->{Email}";
+            }
         }
         if (%KeyList) {
             if ($#SearchAddress > 0 && $Param{CryptKeyID}) {

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeSign.pm,v 1.1 2004-07-30 09:55:10 martin Exp $
+# $Id: ArticleComposeSign.pm,v 1.2 2004-08-06 06:16:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,6 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{CryptObject} = Kernel::System::Crypt->new(%Param, CryptType => 'PGP');
     return $Self;
 }
 # --
@@ -48,12 +47,26 @@ sub Run {
     if (!$Param{From}) {
         return;
     }
-    my @SearchAddress = Mail::Address->parse($Param{From});
-    my @PrivateKeys = $Self->{CryptObject}->SearchPrivateKey(Search => $SearchAddress[0]->address());
     my %KeyList = ();
-    foreach my $DataRef(@PrivateKeys) {
-        $KeyList{"PGP::Inline::$DataRef->{Key}"} = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifer}";
-        $KeyList{"PGP::Detached::$DataRef->{Key}"} = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifer}";
+    my @SearchAddress = Mail::Address->parse($Param{From});
+    my $CryptObjectPGP = Kernel::System::Crypt->new(%{$Self}, CryptType => 'PGP');
+    if ($CryptObjectPGP) {
+        my @PrivateKeys = $CryptObjectPGP->SearchPrivateKey(
+            Search => $SearchAddress[0]->address(),
+        );
+        foreach my $DataRef (@PrivateKeys) {
+            $KeyList{"PGP::Inline::$DataRef->{Key}"} = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifer}";
+            $KeyList{"PGP::Detached::$DataRef->{Key}"} = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifer}";
+        }
+    }
+    my $CryptObjectSMIME = Kernel::System::Crypt->new(%{$Self}, CryptType => 'SMIME');
+    if ($CryptObjectSMIME) {
+        my @PrivateKeys = $CryptObjectSMIME->PrivateSearch(
+            Search => $SearchAddress[0]->address(),
+        );
+        foreach my $DataRef (@PrivateKeys) {
+            $KeyList{"SMIME::Detached::$DataRef->{Hash}"} = "SMIME-Detached: $DataRef->{Hash} $DataRef->{Email}";
+        }
     }
     if (%KeyList) {
         $KeyList{''} = '-none-';
