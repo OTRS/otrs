@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.15 2002-10-03 21:12:54 martin Exp $
+# $Id: Admin.pm,v 1.16 2002-10-15 09:30:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -155,13 +155,13 @@ sub AdminQueueResponsesForm {
     my %UserDataTmp = %$UserData;
     my $GroupData = $Param{SecondData};
     my %GroupDataTmp = %$GroupData;
-    my $BaseLink = $Self->{Baselink} . "&Action=AdminQueueResponses";
+    my $BaseLink = $Self->{Baselink} . "Action=AdminQueueResponses&";
 
     foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
-        $Param{AnswerQueueStrg} .= "<a href=\"$BaseLink&Subaction=Response&ID=$_\">$UserDataTmp{$_}</a><br>";
+        $Param{AnswerQueueStrg} .= "<a href=\"$BaseLink"."Subaction=Response&ID=$_\">$UserDataTmp{$_}</a><br>";
     }
     foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
-        $Param{QueueAnswerStrg}.= "<a href=\"$BaseLink&Subaction=Queue&ID=$_\">$GroupDataTmp{$_}</a><br>";
+        $Param{QueueAnswerStrg}.= "<a href=\"$BaseLink"."Subaction=Queue&ID=$_\">$GroupDataTmp{$_}</a><br>";
     }
 
     return $Self->Output(TemplateFile => 'AdminQueueResponsesForm', Data => \%Param);
@@ -181,7 +181,7 @@ sub AdminQueueResponsesChangeForm {
     $NeType = 'Queue' if ($Param{Type} eq 'Response');
 
     foreach (sort keys %FirstDataTmp){
-        $Param{OptionStrg0} .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{Baselink}&Action=Admin$Param{Type}&Subaction=Change&ID=$_\">" .
+        $Param{OptionStrg0} .= "<B>$Param{Type}:</B> <A HREF=\"$Self->{Baselink}Action=Admin$Param{Type}&Subaction=Change&ID=$_\">" .
         "$FirstDataTmp{$_}</A> (id=$_)<BR>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }
@@ -386,12 +386,12 @@ sub AdminQueueAutoResponseTable {
     my %Param = @_;
     my $DataTmp = $Param{Data};
     my @Data = @$DataTmp;
-    my $BaseLink = $Self->{Baselink} . "&Action=AdminQueueAutoResponse";
+    my $BaseLink = $Self->{Baselink} . "Action=AdminQueueAutoResponse&";
     $Param{DataStrg} = '<br>';
 
     foreach (@Data){
       my %ResponseData = %$_;
-      $Param{DataStrg} .= "<B>*</B> <A HREF=\"$Self->{Baselink}&Action=AdminAutoResponse&Subaction=" .
+      $Param{DataStrg} .= "<B>*</B> <A HREF=\"$Self->{Baselink}Action=AdminAutoResponse&Subaction=" .
         "Change&ID=$ResponseData{ID}\">$ResponseData{Name}</A> ($ResponseData{Type}) <BR>";
     }
     if (@Data == 0) {
@@ -503,6 +503,40 @@ sub AdminSignatureForm {
     );
 
     return $Self->Output(TemplateFile => 'AdminSignatureForm', Data => \%Param);
+}
+# --
+sub AdminCustomerUserForm {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+
+    $Param{UserOption} = $Self->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => "id, login, id",
+            Valid => 0,
+            Clamp => 1,
+            Table => 'customer_user',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        SelectedID => $Param{ID},
+    );
+
+    return $Self->Output(TemplateFile => 'AdminCustomerUserForm', Data => \%Param);
 }
 # --
 sub AdminUserForm {
@@ -631,13 +665,13 @@ sub AdminUserGroupForm {
     my %UserDataTmp = %$UserData;
     my $GroupData = $Param{GroupData};
     my %GroupDataTmp = %$GroupData;
-    my $BaseLink = $Self->{Baselink} . "&Action=AdminUserGroup";
+    my $BaseLink = $Self->{Baselink} . "Action=AdminUserGroup&";
 
     foreach (sort {$UserDataTmp{$a} cmp $UserDataTmp{$b}} keys %UserDataTmp){
-      $Param{UserStrg} .= "<A HREF=\"$BaseLink&Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
+      $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
     }
     foreach (sort {$GroupDataTmp{$a} cmp $GroupDataTmp{$b}} keys %GroupDataTmp){
-      $Param{GroupStrg} .= "<A HREF=\"$BaseLink&Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
+      $Param{GroupStrg} .= "<A HREF=\"$BaseLink"."Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
     }
     # return output
     return $Self->Output(TemplateFile => 'AdminUserGroupForm', Data => \%Param);
@@ -659,7 +693,7 @@ sub AdminUserGroupChangeForm {
 
 
     foreach (sort keys %FirstDataTmp){
-        $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink&Action=Admin$Type&Subaction=Change&ID=$_\">" .
+        $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"."Action=Admin$Type&Subaction=Change&ID=$_\">" .
           "$FirstDataTmp{$_}</A> (id=$_)<BR>";
         $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
     }
