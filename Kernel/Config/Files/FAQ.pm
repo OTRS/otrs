@@ -1,0 +1,137 @@
+
+    # --------------------------------------------------- #
+    # FAQ settings
+    # --------------------------------------------------- #
+
+    $Self->{'FAQ::FAQHook'} = 'FAQ#';
+    $Self->{'FAQ::Default::State'} = 'internal (agent)';
+
+    $Self->{'FAQ::Field1'} = 'Symptom';
+    $Self->{'FAQ::Field2'} = 'Problem';
+    $Self->{'FAQ::Field3'} = 'Solution';
+    $Self->{'FAQ::Field4'} = 'field4';
+    $Self->{'FAQ::Field5'} = 'field5';
+    $Self->{'FAQ::Field6'} = 'Comment (internal)';
+
+    # --------------------------------------------------- #
+    # link object settings                                #
+    # what objects are known by the system                #
+    # --------------------------------------------------- #
+    $Self->{'LinkObject'}->{'FAQ'} = {
+        Name => 'FAQ Object',
+        Type => 'Object',
+        LinkObjects => ['Ticket', 'FAQ'],
+    };
+
+    # --------------------------------------------------- #
+    # faq interface
+    # --------------------------------------------------- #
+    $Self->{'Frontend::Module'}->{'FAQ'} = {
+        Group => 'faq',
+        GroupRo => 'faq',
+        Description => 'FAQ-Area',
+        NavBarName => 'FAQ',
+        NavBar => [
+          {
+            GroupRo => 'faq',
+            Description => 'FAQ-Area',
+            Type => 'Menu',
+            Block => 'ItemArea',
+            Name => 'FAQ',
+            Image => 'help.png',
+            Link => 'Action=FAQ',
+            NavBar => 'FAQ',
+            Prio => 8300,
+          },
+          {
+            Group => 'faq',
+            Description => 'New Article',
+            Name => 'New Article',
+            Image => 'new.png',
+            Link => 'Action=FAQ&Subaction=Add',
+            NavBar => 'FAQ',
+            Prio => 200,
+          },
+          {
+            GroupRo => 'faq',
+            Description => 'FAQ-Search',
+            Name => 'Search',
+            Image => 'search.png',
+            Link => 'Action=FAQ&Subaction=Search',
+            NavBar => 'FAQ',
+            Prio => 300,
+          },
+          {
+            GroupRo => 'faq',
+            Description => 'History',
+            Name => 'History',
+            Image => 'list.png',
+            Link => 'Action=FAQ&Subaction=SystemHistory',
+            NavBar => 'FAQ',
+            Prio => 310,
+          },
+        ],
+    };
+#    $Self->{'Frontend::Module'}->{'FAQState'} = {
+#        GroupRo => '',
+#        Group => 'faq',
+#        Description => 'FAQ-State',
+#        NavBarName => 'FAQ',
+#        NavBar => [
+#          {
+#            Description => 'State',
+#            Name => 'State',
+#            Image => 'fileopen.png',
+#            Link => 'Action=FAQState',
+#            NavBar => 'FAQ',
+#            Prio => 920,
+#          },
+#        ],
+#    };
+    $Self->{'Frontend::Module'}->{'FAQCategory'} = {
+        GroupRo => '',
+        Group => 'faq',
+        Description => 'FAQ-Category',
+        NavBarName => 'FAQ',
+        NavBar => [
+          {
+            Description => 'Category',
+            Name => 'Category',
+            Image => 'fileopen.png',
+            Link => 'Action=FAQCategory',
+            NavBar => 'FAQ',
+            Prio => 900,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'FAQLanguage'} = {
+        GroupRo => '',
+        Group => 'faq',
+        Description => 'FAQ-Language',
+        NavBarName => 'FAQ',
+        NavBar => [
+          {
+            Description => 'Language',
+            Name => 'Language',
+            Image => 'fileopen.png',
+            Link => 'Action=FAQLanguage',
+            NavBar => 'FAQ',
+            Prio => 910,
+          },
+        ],
+    };
+
+    # customer panel
+    $Self->{'CustomerFrontend::Module'}->{'CustomerFAQ'} = {
+        Description => 'Customer faq.',
+        NavBar => [
+          {
+            Description => 'FAQ-Area',
+            Name => 'FAQ-Area',
+            Image => 'help.png',
+            Link => 'Action=CustomerFAQ',
+            Prio => 400,
+          },
+        ],
+    };
+
