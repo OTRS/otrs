@@ -1,9 +1,9 @@
 # --
 # AgentZoomBody.dtl - provides HTML AgentZoom for AgentZoom.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.19 2004-11-26 13:20:41 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.20 2005-02-17 07:10:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -105,7 +105,7 @@ $Data{"TicketStatus"}
      <table border="0">
        <tr align="left">
          <td>
-     <li><a href="$Env{"Baselink"}Action=AgentCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
+     <li><a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
          </td>
        </tr>
      </table>
@@ -131,7 +131,7 @@ $Data{"TicketStatus"}
      <table border="0">
        <tr align="left">
          <td>
-<dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"phone call"}'; return true;" onmouseout="window.status='';">$Text{"phone call"}</a></li>"; }>
+<dtl if ($Data{"AgentTicketPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"phone call"}'; return true;" onmouseout="window.status='';">$Text{"phone call"}</a></li>"; }>
 $Data{"AgentPhoneStrg"}
          </td>
        </tr>
@@ -146,15 +146,15 @@ $Data{"AgentPhoneStrg"}
      <table border="0">
        <tr align="left">
          <td>
-     <a href="$Env{"Baselink"}Action=AgentForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
+     <a href="$Env{"Baselink"}Action=AgentTicketForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
 # check if bounce should be shown
     <dtl if ($Data{"ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
     <dtl if ($Data{"SenderType"} ne "customer") { $Data{"ArticleBounceString"} = ""; }>
-    <a href="$Env{"Baselink"}Action=AgentBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
+    <a href="$Env{"Baselink"}Action=AgentTicketBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
 # check if split should be shown
     <dtl if ($Data{"SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
 
-    <a href="$Env{"Baselink"}Action=AgentPhone&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
+    <a href="$Env{"Baselink"}Action=AgentTicketPhone&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
          </td>
        </tr>
      </table>
@@ -172,7 +172,7 @@ $Data{"AgentPhoneStrg"}
    <p>
      <b>$Text{"Change queue"}:</b><br>
        <form action="$Env{"CGIHandle"}" method="get">
-       <input type="hidden" name="Action" value="AgentMove">
+       <input type="hidden" name="Action" value="AgentTicketMove">
        <input type="hidden" name="Subaction" value="InRage">
        <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
        <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
