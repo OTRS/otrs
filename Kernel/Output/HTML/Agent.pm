@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.107 2003-04-22 21:38:20 martin Exp $
+# $Id: Agent.pm,v 1.108 2003-04-24 20:05:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.107 $';
+$VERSION = '$Revision: 1.108 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1021,7 +1021,6 @@ sub AgentPhoneNew {
         );
     }
     else {
-print STDERR "$Param{ToSelected} ..\n";
         $Param{'ToStrg'} = $Self->OptionStrgHashRef(
             Data => \%NewTo, 
             Name => 'Dest',
