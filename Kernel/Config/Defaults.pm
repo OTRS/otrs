@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.120 2004-03-30 08:48:17 wiktor Exp $
+# $Id: Defaults.pm,v 1.121 2004-04-04 12:13:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.120 $';
+$VERSION = '$Revision: 1.121 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -796,6 +796,10 @@ $Data{"Signature"}
     $Self->{LoopProtectionModule} = 'Kernel::System::PostMaster::LoopProtection::DB';
     # loop protection Log (just needed for FS module)
     $Self->{LoopProtectionLog} = '<OTRS_CONFIG_Home>/var/log/LoopProtection';
+
+    # PostmasterAutoHTML2Text
+    # (sould OTRS convert html email only to text?)
+    $Self->{PostmasterAutoHTML2Text} = 1;
 
     # PostmasterUserID
     # (The post master db-uid.) [default: 1]
