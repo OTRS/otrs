@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.24 2003-04-11 17:40:22 martin Exp $
+# $Id: AgentUtilities.pm,v 1.25 2003-04-15 21:04:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -344,7 +344,7 @@ sub Search {
       # --
       # build search result
       # --
-      if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
+      if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
         my %Data = ();
         my %Article = ();
         if ($SqlExt) {
