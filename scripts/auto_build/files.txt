@@ -12,9 +12,9 @@
 %config(noreplace) /opt/otrs/var/cron/*
 
 /opt/otrs/RELEASE
-/opt/otrs/opt/otrs/.procmailrc.dist
-/opt/otrs/opt/otrs/.fetchmailrc.dist
-/opt/otrs/opt/otrs/.mailfilter.dist
+/opt/otrs/.procmailrc.dist
+/opt/otrs/.fetchmailrc.dist
+/opt/otrs/.mailfilter.dist
 /opt/otrs/Kernel/Config.pm.dist
 /opt/otrs/Kernel/Config/GenericAgent.pm.dist
 /opt/otrs/Kernel/Config/GenericAgent.pm.examples
