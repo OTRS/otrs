@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.136 2004-08-01 11:04:32 martin Exp $
+# $Id: Generic.pm,v 1.137 2004-08-03 12:56:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.136 $';
+$VERSION = '$Revision: 1.137 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -113,7 +113,7 @@ sub new {
             if ($1 =~ /(\d)\.(\d)/) {
                 $Self->{BrowserMajorVersion} = $1;
                 $Self->{BrowserMinorVersion} = $2;
-                if ($1 == 5 && $2 == 5) {
+                if ($1 == 5 && $2 == 5 || $1 == 6 && $2 == 0) {
                     $Self->{BrowserBreakDispositionHeader} = 1;
                 }
             }
@@ -746,8 +746,13 @@ sub Header {
         $Param{'Area'} = $Param{'Title'};
         $Param{'Title'} = '';
     }
+    # fix IE bug if in filename is the word attachment
+    my $File = $Param{Filename} || $Self->{Action} || 'unknown';
+    if ($Self->{BrowserBreakDispositionHeader}) {
+        $File =~ s/attachment/bttachment/gi;
+    }
     # set file name for "save page as"
-    $Param{"ContentDisposition"} = "filename=\"".($Param{Filename} || '$Env{"Action"}').'.html"';
+    $Param{"ContentDisposition"} = "filename=\"$File.html\"";
     # create & return output
     $Output .= $Self->Output(TemplateFile => "Header$Type", Data => \%Param);
     return $Output;
@@ -768,8 +773,13 @@ sub PrintHeader {
     if (!$Param{Width}) {
         $Param{Width} = 640;
     }
+    # fix IE bug if in filename is the word attachment
+    my $File = $Param{Filename} || $Self->{Action} || 'unknown';
+    if ($Self->{BrowserBreakDispositionHeader}) {
+        $File =~ s/attachment/bttachment/gi;
+    }
     # set file name for "save page as"
-    $Param{"ContentDisposition"} = "filename=\"".($Param{Filename} || '$Env{"Action"}').'.html"';
+    $Param{"ContentDisposition"} = "filename=\"$File.html\"";
     # create & return output
     $Output .= $Self->Output(TemplateFile => 'PrintHeader', Data => \%Param);
     return $Output;
