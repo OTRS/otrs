@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.34 2002-06-09 08:28:19 martin Exp $
+# $Id: Generic.pm,v 1.35 2002-06-13 22:05:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -107,14 +107,26 @@ sub new {
       LogObject => $Self->{LogObject},
     );
 
-    # --
-    # should the admin link shown?
-    # --
-    if ($Self->{PermissionObject} && $Self->{PermissionObject}->Section(
-      UserID => $Self->{UserID},
-      Section => 'Admin')
-    ){
-      $Self->{UserIsAdmin}='Yes';
+    if ($Self->{PermissionObject}) {
+        # --
+        # should the admin link be shown?
+        # --
+        if ($Self->{PermissionObject}->Section(
+            UserID => $Self->{UserID},
+            Section => 'Admin')
+        ){
+          $Self->{UserIsAdmin}='Yes';
+        }
+
+        # --
+        # should the stats link be shown?
+        # --
+        if ($Self->{PermissionObject}->Section(
+            UserID => $Self->{UserID},
+            Section => 'Stats')
+        ){
+            $Self->{UserIsStats}='Yes';
+        }
     }
 
     return $Self;
@@ -463,10 +475,10 @@ sub OptionStrgHashRef {
     $Multiple = 'multiple' if ($Multiple);
     my $Selected = $Param{Selected} || '';
     my $SelectedID = $Param{SelectedID} || '';
+    my $PossibleNone = $Param{PossibleNone} || '';
     my $Size = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
-    my $DataTmp = $Param{Data};
-    my %Data = %$DataTmp;
+    my %Data = %{$Param{Data}};
     my $OnChangeSubmit = $Param{OnChangeSubmit} || '';
     if ($OnChangeSubmit) {
         $OnChangeSubmit = 'onchange="submit()"';
@@ -511,6 +523,9 @@ sub OptionStrgHashRef {
     # build select string
     # --
     $Output .= "<select name=\"$Name\" $Multiple $OnChangeSubmit $Size>\n";
+    if ($PossibleNone) {
+        $Output .= '<option VALUE="">$Text{"none"}</option>';
+    }
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         if ((defined($_)) && ($Data{$_})) {
             if ($_ eq $SelectedID || $Data{$_} eq $Selected) {
