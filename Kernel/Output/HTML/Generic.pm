@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.59 2002-10-31 23:27:02 martin Exp $
+# $Id: Generic.pm,v 1.60 2002-11-09 02:31:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -582,7 +582,7 @@ sub Footer {
 sub Ascii2Html {
     my $Self = shift;
     my %Param = @_;
-    my $Text = $Param{Text} || return;
+    my $Text = defined $Param{Text} ? $Param{Text} : return;
     my $Max  = $Param{Max} || '';
     my $VMax = $Param{VMax} || '';
     my $NewLine = $Param{NewLine} || '';
@@ -760,7 +760,6 @@ sub OptionStrgHashRef {
         }
     }
     $Output .= "</select>\n";
-
     return $Output;
 }
 # --
