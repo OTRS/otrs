@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.78 2003-02-03 19:44:34 martin Exp $
+# $Id: Agent.pm,v 1.79 2003-02-03 21:43:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.78 $';
+$VERSION = '$Revision: 1.79 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -439,7 +439,7 @@ sub TicketZoom {
     # --
     # do some strips && quoting
     # --
-    foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 FreeValue3)) {
+    foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 FreeValue3 ArticleType SenderType)) {
         $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
     }
     # --

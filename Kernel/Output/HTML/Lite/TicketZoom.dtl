@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoom.dtl,v 1.24 2003-02-03 19:45:58 martin Exp $
+# $Id: TicketZoom.dtl,v 1.25 2003-02-03 21:42:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -139,9 +139,15 @@ $Data{"Article::Text"}
    <p>
      <b>$Text{"Article"}</b>
      <br>
-     <a href="$Env{"Baselink"}Action=AgentForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a> -
-     <a href="$Env{"Baselink"}Action=AgentBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"Bounce"}</a>
+     <a href="$Env{"Baselink"}Action=AgentForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a> 
+# -- 
+# check if bounce should be shown
+# -- 
+    <dtl if ($Data{"Article::ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
+
+    <a href="$Env{"Baselink"}Action=AgentBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"Article::ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
    </p>
+
 
    <p>
      <b>$Text{"Change queue"}:</b>
