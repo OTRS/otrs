@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.30 2003-04-12 09:41:25 martin Exp $
+# $Id: Header.dtl,v 1.31 2003-04-12 23:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,13 +47,13 @@ Pragma: no-cache
 <style type="text/css">
 <!--
 # body
-  body { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
+  body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
   a { color:#557799;} 
   a:hover { color:#002244;text-decoration:none; }
   pre { font-family:Courier,monospace,fixed;font-size:12px; }
-  td,th { font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
 # header
-  .header { color:#ffffff;background-color:#000000;font-size:13px; } 
+  .header { color:#ffffff;background-color:#000000;font-size:12px; } 
   a.headeritem { color:#ffffff;text-decoration:none; }
   a.headeritem:hover { color:#eeeeee;text-decoration:none; }
 # nav bar
@@ -69,41 +69,38 @@ Pragma: no-cache
   a.footeritem { color:#ffffff;text-decoration:none; }
   a.footeritem:hover { color:#eeeeee;text-decoration:none; }
 # small
-  .small { color:#000000;font-family:Geneva,Arial,Helvetica,sans-serif;font-size:10px; }
-  a.small { color:#111111;text-decoration:none;font-family:Geneva,Arial,Helvetica,sans-serif;font-size:10px; }
+  .small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+  a.small { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
 # form
   form {margin:0px;}
-  input {font-family:Geneva,Arial,Helvetica,Helvetica,sans-serif;font-size:12px;}
-  .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Arial,Helvetica,sans-serif;font-weight:normal;}
+  input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
+  .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Helvetica,Arial,sans-serif;font-weight:normal;}
 # table color
-  .table0 { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
-  .table1 { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
-  .table2 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+  .table0 { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;}
+  .table1 { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
+  .table2 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
 # article type color 
   .agent-email-external { background-color:#ccffcc; }
   .agent-note-internal { background-color:#ffcccc; }
   .agent-note-external { background-color:#eeeeee; }
 # priority id color
-  .PriorityID-1 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
-  .PriorityID-2 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
-  .PriorityID-3 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
-  .PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
-  .PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+  .PriorityID-1 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  .PriorityID-2 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  .PriorityID-3 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  .PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+  .PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
 //-->
 </style>
 </head>
 <a name="top"></a>
 <body>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" width="18%" class="header">
+  <td align="left" width="20%" class="header">
   <a href="$Env{"Baselink"}" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem"><b>$Env{"Box0"}OTRS$Env{"Box1"}</b></a>
   </td>
   <td align="right" width="80%" class="header">
    $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}
-  </td>
-  <td align="left" width="2%" class="header">
-  <a href="#end" onmouseover="window.status='$Text{"Bottom of Page"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}down.png" alt="$Text{"Bottom of Page"}"></a>
   </td>
 </tr>
 </table>

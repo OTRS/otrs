@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.13 2003-03-22 07:03:44 martin Exp $
+# $Id: Login.dtl,v 1.14 2003-04-12 23:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <!--
 # body
   body  
-   { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
+   { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
   a
     { color:#557799;}
   a:hover
@@ -42,7 +42,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
   pre
     { font-family:Courier,monospace,fixed;font-size:12px; }
   td,th   
-    { font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif; }
+    { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
   .header
     { color:#ffffff;background-color:#000000;font-size:13px; }
   a.headeritem
@@ -61,16 +61,16 @@ X-Wanted: I think you are smart. I'm looking for smart people!
   form
    {margin:0px;}
   input
-   {font-family:Geneva,Arial,Helvetica,sans-serif;font-size:12px;}
+   {font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;}
   .button
    {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
 # table color
   .Table0
-    { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+    { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;}
   .Table1
-    { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+    { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
   .Table2
-    { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Arial,Helvetica,sans-serif;}
+    { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
 //-->
 </style>
 </head>
