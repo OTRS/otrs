@@ -2,7 +2,7 @@
 # AgentPlain.pm - to get a plain view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.5 2002-06-08 20:34:29 martin Exp $
+# $Id: AgentPlain.pm,v 1.6 2002-07-13 03:29:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -89,7 +89,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Error(
-                Message => "No Article (ArticleID=$ArticleID) found! Maybe there is no plain email in filesystem!",
+                Message => "Can't read plain article! Maybe there is no plain email in filesystem! Read BackendMessage.",
                 Comment => 'Please contact your admin!',
             );
         }
