@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.16 2002-02-03 20:08:23 martin Exp $
+# $Id: index.pl,v 1.17 2002-04-08 20:40:45 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ use lib '/opt/OpenTRS/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -125,7 +125,7 @@ if ($Param{Action} eq "Login") {
         my %Data = $AuthObject->GetUserData(User => $User);
         # check needed data
         if (!$Data{UserID} || $Data{ThemeID}) {
-            print $CommonObject{LayoutObject}->Header();
+            print $CommonObject{LayoutObject}->Header(Title => 'Login');
             print $CommonObject{LayoutObject}->Login(Message => 'Panic! No UserData!!!');
             print $CommonObject{LayoutObject}->Footer();
             exit (0);
@@ -138,7 +138,7 @@ if ($Param{Action} eq "Login") {
     }
     # login is vailid
     else {
-        print $CommonObject{LayoutObject}->Header();
+        print $CommonObject{LayoutObject}->Header(Title => 'Login');
         print $CommonObject{LayoutObject}->Login(Message => 'Login invalid!!!');
         print $CommonObject{LayoutObject}->Footer();
     }
@@ -175,7 +175,7 @@ elsif ($Param{Action} eq "Logout"){
 # show login site
 # --
 elsif (!$Param{SessionID}) {
-    print $CommonObject{LayoutObject}->Header();
+    print $CommonObject{LayoutObject}->Header(Title => 'Login');
     print $CommonObject{LayoutObject}->Login();
     print $CommonObject{LayoutObject}->Footer();
 }
@@ -185,7 +185,7 @@ elsif (!$Param{SessionID}) {
 elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
     # check session id
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
-        print $CommonObject{LayoutObject}->Header();
+        print $CommonObject{LayoutObject}->Header(Title => 'Login');
         print $CommonObject{LayoutObject}->Login(Message => $Kernel::System::AuthSession::CheckSessionID);
         print $CommonObject{LayoutObject}->Footer();
     }
@@ -205,7 +205,7 @@ else {
     # create new LayoutObject with '%Param'
     my %Data = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $Param{SessionID});
     $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject, %Param, %Data);
-    print $CommonObject{LayoutObject}->Header();
+    print $CommonObject{LayoutObject}->Header(Title => 'Error');
     print $CommonObject{LayoutObject}->Error(
        Message => "Action '$Param{Action}' not found!",
        Comment => "Contact your admin!",
