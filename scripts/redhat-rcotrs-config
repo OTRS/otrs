@@ -1,0 +1,73 @@
+# --
+# rcscript config settings for OTRS (http://otrs.org/)
+# --
+# $Id: redhat-rcotrs-config,v 1.1 2002-09-23 14:43:40 martin Exp $
+# --
+
+# 
+# program name
+# 
+OTRS_PROG="OTRS"
+
+# 
+# OTRS home (root) directory
+#
+OTRS_ROOT=/opt/OpenTRS
+
+# if one of this is false, it will not be checked at the startup!
+# Note: (may be the database isn't on the same host! --> DB_RUNNING=0) 
+# 
+OTRS_DB_RUNNING=1
+OTRS_HTTP_RUNNING=1
+OTRS_CRON_RUNNING=1
+
+#
+# Used database [mysql|postgresql]
+# Note: Take care, that you have changed the Config.pm database settings!
+#
+OTRS_USED_DB=mysqld
+#OTRS_USED_DB_TEST="ps --pid $(cat /var/lib/mysql/$HOST.pid)"
+OTRS_USED_DB_TEST="/sbin/service mysqld status | grep 'is running'"
+# --- The Wonderfull redhat's mysql init script does not have a status check.. sucks
+#OTRS_USED_DB=PostgreSQL
+#OTRS_USED_DB_RCSCRIPT="service postgresql status| grep 'is running' > /dev/null 2>&1"
+
+
+#
+# Used webserver [apache]
+#
+OTRS_USED_WEBSERVER=httpd   #Redhat's default httpd is apache..
+OTRS_USED_WEBSERVER_TEST="/sbin/service httpd status | grep 'is running'"
+
+#
+# cron stuff
+# 
+OTRS_CRON_DIR=$OTRS_ROOT/var/cron
+OTRS_CRON_TMP_FILE=$OTRS_ROOT/var/tmp/cron
+OTRS_CRON_USER=" -u otrs "
+
+# 
+# location of PostMaster.pl 
+# 
+OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
+
+#
+# location of CheckDB.pl 
+#
+OTRS_CHECKDB=$OTRS_ROOT/bin/CheckDB.pl
+
+# 
+# location of OTRS spool dir
+# 
+OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
+
+# 
+# OTRS location - means http://host/$OTRS_HTTP_LOCATION/index.pl
+# 
+OTRS_HTTP_LOCATION="otrs"
+
+# 
+# get host name
+#
+OTRS_HOST=`hostname -f`
+

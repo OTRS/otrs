@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.17 2002-09-01 13:03:26 martin Exp $
+# $Id: suse-rcotrs,v 1.18 2002-09-23 14:43:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -27,6 +27,8 @@
 #
 test -r /etc/rc.config && . /etc/rc.config
 
+test -r /etc/rc.config.d/otrs && . /etc/rc.config.d/otrs
+
 test -r /etc/sysconfig/otrs && . /etc/sysconfig/otrs
 
 # Shell functions sourced from /etc/rc.status:
@@ -41,75 +43,28 @@ test -r /etc/sysconfig/otrs && . /etc/sysconfig/otrs
 test -s /etc/rc.status && . /etc/rc.status
 
 # 
-# if one of this is false, it will not be checked at the startup!
-# Note: (may be the database isn't on the same host! --> DB_RUNNING=0) 
-# 
-DB_RUNNING=1
-HTTP_RUNNING=1
-CRON_RUNNING=1
-
-# 
-# OTRS home (root) directory
-#
-OTRS_ROOT=/opt/OpenTRS
-
-# 
-# Used database [mysql|postgresql]
-# Note: Take care, that you have changed the Config.pm database settings!
-# 
-USED_DB=MySQL
-USED_DB_RCSCRIPT=rcmysql
-#USED_DB=PostgreSQL
-#USED_DB_RCSCRIPT=rcpostgresql
-
-#
-# Used webserver [apache]
-#
-USED_WEBSERVER=Apache
-USED_WEBSERVER_RCSCRIPT=rcapache
-
-#
-# cron stuff
-# 
-CRON_DIR=$OTRS_ROOT/var/cron
-CRON_TMP_FILE=$OTRS_ROOT/var/tmp/cron
-CRON_USER=" -u otrs "
-
-# 
 # check needed files
 # 
-OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
+if ! test -r $OTRS_ROOT; then
+    echo "Error: $OTRS_ROOT not found!"
+    exit 5
+fi
+
 if ! test -r $OTRS_POSTMASTER; then
     echo "Error: $OTRS_POSTMASTER not found!"
     exit 5
 fi
 
-OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
 if ! test -d $OTRS_SPOOLDIR; then
     echo "Error: $OTRS_SPOOLDIR not found!"
     exit 5
 fi
 
-OTRS_CHECKDB=$OTRS_ROOT/bin/CheckDB.pl
 if ! test -r $OTRS_CHECKDB; then
     echo "Error: $OTRS_CHECKDB not found!"
     exit 5
 fi
  
-
-# 
-# get host name
-#
-HOST=`hostname -f`
-# 
-# OTRS location - means http://host/$OTRS_HTTP_LOCATION/index.pl
-# 
-OTRS_HTTP_LOCATION="otrs"
-# 
-# program name
-# 
-PROG="OTRS"
-
 # reset status of this service
 rc_reset
 
@@ -126,18 +81,18 @@ case "$1" in
     # start
     # ------------------------------------------------------
     start)
-      echo "Starting $PROG"
+      echo "Starting $OTRS_PROG"
 
       # --
       # start webserver
       # --
-      if test $HTTP_RUNNING -gt 0; then
-        if $USED_WEBSERVER_RCSCRIPT status > /dev/null 2>&1 ; then
-          echo " Checking $USED_WEBSERVER ... done."
+      if test $OTRS_HTTP_RUNNING -gt 0; then
+        if $OTRS_USED_WEBSERVER_RCSCRIPT status > /dev/null 2>&1 ; then
+          echo " Checking $OTRS_USED_WEBSERVER ... done."
           rc_status
         else
-          echo " Checking $USED_WEBSERVER ... failed!"
-          echo "  --> Please start the webserver at first! ($USED_WEBSERVER_RCSCRIPT start) <--"
+          echo " Checking $OTRS_USED_WEBSERVER ... failed!"
+          echo "  --> Please start the webserver at first! ($OTRS_USED_WEBSERVER_RCSCRIPT start) <--"
           rc_failed
           exit 1
         fi
@@ -148,13 +103,13 @@ case "$1" in
       # --
       # check database
       # --
-      if test $DB_RUNNING -gt 0; then
-        if $USED_DB_RCSCRIPT status > /dev/null 2>&1 ; then 
-          echo " Checking $USED_DB ... done."
+      if test $OTRS_DB_RUNNING -gt 0; then
+        if $OTRS_USED_DB_RCSCRIPT status > /dev/null 2>&1 ; then 
+          echo " Checking $OTRS_USED_DB ... done."
           rc_status 
         else 
-          echo " Checking $USED_DB ... failed."
-          echo "  --> Please start the database at first! ($USED_DB_RCSCRIPT start) <--"
+          echo " Checking $OTRS_USED_DB ... failed."
+          echo "  --> Please start the database at first! ($OTRS_USED_DB_RCSCRIPT start) <--"
           rc_failed
           rc_status -v 
           exit 1;
@@ -177,7 +132,7 @@ case "$1" in
           echo " Try the web installer to configure your database: "
           echo ""
           echo ""
-          echo "     -->> http://$HOST/$OTRS_HTTP_LOCATION/installer.pl <<-- "
+          echo "     -->> http://$OTRS_HOST/$OTRS_HTTP_LOCATION/installer.pl <<-- "
           echo ""                               
           echo ""
           echo "----------------------------------------------------------------------------"
@@ -221,12 +176,12 @@ case "$1" in
       # --
       # start cron stuff
       # --
-      if test $CRON_RUNNING -gt 0; then
-        if mkdir -p $CRON_DIR; cat $CRON_DIR/* > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE ; then
-          echo " Creating cronjobs (source $CRON_DIR/*) ... done."
+      if test $OTRS_CRON_RUNNING -gt 0; then
+        if mkdir -p $OTRS_CRON_DIR; cat $OTRS_CRON_DIR/* > $OTRS_CRON_TMP_FILE && crontab $OTRS_CRON_USER $OTRS_CRON_TMP_FILE ; then
+          echo " Creating cronjobs (source $OTRS_CRON_DIR/*) ... done."
           rc_status
         else
-          echo " Creating cronjobs (source $CRON_DIR/*) ... failed!"
+          echo " Creating cronjobs (source $OTRS_CRON_DIR/*) ... failed!"
           rc_failed
           exit 1
         fi
@@ -235,7 +190,7 @@ case "$1" in
       fi
 
       echo ""
-      echo "  -->> http://$HOST/$OTRS_HTTP_LOCATION/index.pl <<-- "
+      echo "  -->> http://$OTRS_HOST/$OTRS_HTTP_LOCATION/index.pl <<-- "
 
       # show status
       rc_status -v
@@ -244,7 +199,7 @@ case "$1" in
     # stop
     # ------------------------------------------------------
     stop)
-      echo "Shutting down $PROG "
+      echo "Shutting down $OTRS_PROG "
 
       # --
       # disable PostMaster.pl
@@ -260,8 +215,8 @@ case "$1" in
       # --
       # stop cron stuff
       # --
-      if test $CRON_RUNNING -gt 0; then
-        if crontab $CRON_USER -r ; then
+      if test $OTRS_CRON_RUNNING -gt 0; then
+        if crontab $OTRS_CRON_USER -r ; then
           echo " Shutting down cronjobs ... done."
           rc_status
         else
@@ -281,17 +236,17 @@ case "$1" in
     # start-force
     # ------------------------------------------------------
     start-force)
-      echo "Starting $PROG (completely)"
+      echo "Starting $OTRS_PROG (completely)"
 
       # --
       # start webserver
       # --
-      if test $HTTP_RUNNING -gt 0; then
-        if $USED_WEBSERVER_RCSCRIPT restart > /dev/null 2>&1 ; then
-          echo " Starting $USED_WEBSERVER ... done."
+      if test $OTRS_HTTP_RUNNING -gt 0; then
+        if $OTRS_USED_WEBSERVER_RCSCRIPT restart > /dev/null 2>&1 ; then
+          echo " Starting $OTRS_USED_WEBSERVER ... done."
           rc_status
         else
-          echo " Starting $USED_WEBSERVER ... failed!"
+          echo " Starting $OTRS_USED_WEBSERVER ... failed!"
           rc_failed
           exit 1
         fi
@@ -302,14 +257,14 @@ case "$1" in
       # --
       # check database
       # --
-      if test $DB_RUNNING -gt 0; then
-        if $USED_DB_RCSCRIPT restart > /dev/null 2>&1 ; then 
+      if test $OTRS_DB_RUNNING -gt 0; then
+        if $OTRS_USED_DB_RCSCRIPT restart > /dev/null 2>&1 ; then 
           # just in case, some databases can't get ready so fast!
           sleep 5;
-          echo " Starting $USED_DB ... done."
+          echo " Starting $OTRS_USED_DB ... done."
           rc_status 
         else 
-          echo " Starting $USED_DB ... failed."
+          echo " Starting $OTRS_USED_DB ... failed."
           rc_failed
           rc_status -v 
           exit 1;
@@ -338,17 +293,17 @@ case "$1" in
       # --
       # stop force
       # --
-      echo "Shutting down $PROG (completely)"
+      echo "Shutting down $OTRS_PROG (completely)"
 
       # --
       # webserver
       # --
-      if test $HTTP_RUNNING -gt 0; then
-        if $USED_WEBSERVER_RCSCRIPT stop > /dev/null 2>&1 ; then
-          echo " Shutting down $USED_WEBSERVER ... done."
+      if test $OTRS_HTTP_RUNNING -gt 0; then
+        if $OTRS_USED_WEBSERVER_RCSCRIPT stop > /dev/null 2>&1 ; then
+          echo " Shutting down $OTRS_USED_WEBSERVER ... done."
           rc_status 
         else
-          echo " Shutting down $USED_WEBSERVER ... failed."
+          echo " Shutting down $OTRS_USED_WEBSERVER ... failed."
           rc_failed
         fi
       fi
@@ -356,12 +311,12 @@ case "$1" in
       # --
       # database
       # --
-      if test $DB_RUNNING -gt 0; then
-        if $USED_DB_RCSCRIPT stop > /dev/null 2>&1 ; then
-          echo " Shutting down $USED_DB ... done."
+      if test $OTRS_DB_RUNNING -gt 0; then
+        if $OTRS_USED_DB_RCSCRIPT stop > /dev/null 2>&1 ; then
+          echo " Shutting down $OTRS_USED_DB ... done."
           rc_status 
         else
-          echo " Shutting down $USED_DB ... failed."
+          echo " Shutting down $OTRS_USED_DB ... failed."
           rc_failed
         fi
       fi
@@ -416,12 +371,12 @@ case "$1" in
       # --
       # webserver
       # --
-      $USED_WEBSERVER_RCSCRIPT status
+      $OTRS_USED_WEBSERVER_RCSCRIPT status
 
       # --
       # database
       # --
-      $USED_DB_RCSCRIPT status
+      $OTRS_USED_DB_RCSCRIPT status
 
       # --
       # db check
