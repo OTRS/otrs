@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.12 2003-02-25 18:46:14 martin Exp $
+# $Id: Customer.pm,v 1.13 2003-03-02 08:33:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -384,7 +384,7 @@ sub CustomerMessageNew {
     $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{Priorities},
         Name => 'PriorityID',
-        Selected => $Self->{ConfigObject}->Get('PhoneDefaultPriority') || '3 normal',
+        Selected => $Self->{ConfigObject}->Get('CustomerDefaultPriority') || '3 normal',
     );
     if ($Self->{ConfigObject}->Get('CustomerPriority')) {
         $Param{'PriorityString'} = '<tr><td>$Text{"Priority"}:</td><td>$Data{"PriorityStrg"}</td></tr>';
