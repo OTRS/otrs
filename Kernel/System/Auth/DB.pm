@@ -2,7 +2,7 @@
 # Kernel/System/Auth/DB.pm - provides the db authentification 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.5 2003-02-15 11:56:02 martin Exp $
+# $Id: DB.pm,v 1.6 2003-04-03 13:14:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::System::Auth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,19 +96,21 @@ sub Auth {
     # crypt() is working correctly) :-/
     # --
     my $CryptedPw = '';
+    my $Salt = $GetPw;
+    $Salt =~ s/^(..).*/$1/;
     if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
-        $CryptedPw = crypt($Pw, $User);
+        $CryptedPw = crypt($Pw, $Salt);
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
         );
-        my $TempUser = $User;
-        $TempUser =~ s/'/\\'/g;
+        my $TempSalt = $Salt;
+        $TempSalt =~ s/'/\\'/g;
         my $TempPw = $Pw;
         $TempPw =~ s/'/\\'/g;
-        my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
+        my $CMD = "perl -e \"print crypt('$TempPw', '$TempSalt');\"";
         open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
         while (<IO>) {
             $CryptedPw .= $_;
@@ -122,7 +124,7 @@ sub Auth {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: '$User' tried to login with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$RemoteAddr)",
+          Message => "User: '$User' tried to login with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
     # --
