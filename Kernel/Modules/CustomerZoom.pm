@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.2 2002-12-01 14:33:53 martin Exp $
+# $Id: CustomerZoom.pm,v 1.3 2002-12-15 13:02:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -56,19 +56,12 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
-
     # --
     # check needed stuff
     # --
-    if (!$Self->{TicketID}) {
-      # --
-      # error page
-      # --
+    if (!$Self->{TicketID} || !$QueueID) {
       $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->CustomerError(
-          Message => "Can't show history, no TicketID is given!",
-          Comment => 'Please contact the admin.',
-      );
+      $Output .= $Self->{LayoutObject}->CustomerError();
       $Output .= $Self->{LayoutObject}->CustomerFooter();
       return $Output;
     }

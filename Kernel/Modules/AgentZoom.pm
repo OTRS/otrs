@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.22 2002-11-27 18:36:08 martin Exp $
+# $Id: AgentZoom.pm,v 1.23 2002-12-15 13:02:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -56,19 +56,12 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
-
     # --
     # check needed stuff
     # --
-    if (!$Self->{TicketID}) {
-      # --
-      # error page
-      # --
+    if (!$Self->{TicketID} || !$QueueID) {
       $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error(
-          Message => "Can't show history, no TicketID is given!",
-          Comment => 'Please contact the admin.',
-      );
+      $Output .= $Self->{LayoutObject}->Error();
       $Output .= $Self->{LayoutObject}->Footer();
       return $Output;
     }
