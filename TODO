@@ -2,14 +2,12 @@
 # TODO - to do list of OpenTRS
 # Copyright (C) 2001 Martin Edenhofer
 # --
-# $Id: TODO,v 1.1 2001-12-02 11:28:05 martin Exp $
+# $Id: TODO,v 1.2 2001-12-02 11:49:58 martin Exp $
 # --
 
 immediately:
-- add indexes to the XML db scheme
-- add foreign-key to the XML db scheme
 - create code tree (directories)
 
 later:
-- ?
-
+- rework the db scheme indexes 
+- add foreign-key to the XML db scheme
