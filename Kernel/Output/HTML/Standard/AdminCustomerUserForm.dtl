@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.19 2004-08-16 07:40:28 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.20 2004-08-17 20:31:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,6 @@ function updateMessage(x)
 
 //-->
 </script>
-
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
@@ -133,7 +132,8 @@ function updateMessage(x)
   <tr>
     <td>
 
-    <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="data">
+
+    <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="ID" value="$QData{"UserID"}">
@@ -144,8 +144,10 @@ function updateMessage(x)
     $Data{"Preferences"}
 
 <!-- dtl:block:Generic -->
+<dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStart"} = "<font color="#aaaaaa">"; }>
+<dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStop"} = "</font>"; }>
     <tr>
-      <td width="40%">$Text{"$Data{"Item"}"}: <font color="red">$Data{"Required"}</font> <font color="blue">$Data{"ReadOnly"}</font></td>
+      <td width="40%">$Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStop"} <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font> <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font></td>
       <td width="60%"> $Data{"Value"}</td>
     </tr>
 <!-- dtl:block:Generic -->
@@ -213,3 +215,4 @@ function updateMessage(x)
 </tr>
 </table>
 <!-- end note -->
+
