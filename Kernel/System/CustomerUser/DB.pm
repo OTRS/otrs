@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.16 2003-05-21 22:45:56 martin Exp $
+# $Id: DB.pm,v 1.17 2003-05-23 09:11:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,6 +46,7 @@ sub new {
       || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
     $Self->{CustomerID} = $Self->{ConfigObject}->Get('CustomerUser')->{CustomerID} 
       || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
+    $Self->{ReadOnly} = $Self->{ConfigObject}->Get('CustomerUser')->{ReadOnly}; 
     # --
     # create new db connect if DSN is given
     # --
@@ -200,7 +201,7 @@ sub CustomerUserList {
     # get data
     # --
     my %Users = $Self->{DBObject}->GetTableData(
-        What => "$Self->{CustomerKey}, login, customer_id ",
+        What => "$Self->{CustomerKey}, $Self->{CustomerKey}, $Self->{CustomerID}",
         Table => $Self->{CustomerTable}, 
         Clamp => 1,
         Valid => $Valid,
@@ -276,6 +277,13 @@ sub CustomerUserAdd {
     my $Self = shift;
     my %Param = @_;
     # --
+    # check ro/rw
+    # --
+    if ($Self->{ReadOnly}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
+        return;
+    }
+    # --
     # check needed stuff
     # --
     foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
@@ -339,6 +347,13 @@ sub CustomerUserAdd {
 sub CustomerUserUpdate {
     my $Self = shift;
     my %Param = @_;
+    # --
+    # check ro/rw
+    # --
+    if ($Self->{ReadOnly}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
+        return;
+    }
     # --
     # check needed stuff
     # --
@@ -405,6 +420,13 @@ sub SetPassword {
     my $Self = shift;
     my %Param = @_;
     my $Pw = $Param{PW} || '';
+    # --
+    # check ro/rw
+    # --
+    if ($Self->{ReadOnly}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
+        return;
+    }
     # --
     # check needed stuff
     # --
