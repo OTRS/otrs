@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.117 2004-06-15 10:00:55 martin Exp $
+# $Id: Ticket.pm,v 1.118 2004-06-16 05:56:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.117 $';
+$VERSION = '$Revision: 1.118 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2661,7 +2661,7 @@ sub HistoryTicketStatusGet {
             $Ticket{$TicketID} = \%TicketData;
         }
         else {
-print STDERR "lala $TicketID\n";
+            $Ticket{$TicketID} = {};
         }
     }
     return %Ticket;
@@ -2692,7 +2692,7 @@ sub HistoryTicketGet {
                 }
             }
             close (DATA);
-#print STDERR "return cache!!!\n";
+#print STDERR "return cache ($Ticket{TicketID}/$Path/$File)!!!\n";
             return %Ticket;
         }
         else {
@@ -2740,6 +2740,7 @@ sub HistoryTicketGet {
         elsif ($Row[1] eq 'StateUpdate') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/) {
                 $Ticket{State} = $2;
+                $Ticket{StateTime} = $Row[2];
             }
         }
         elsif ($Row[1] eq 'TicketFreeTextUpdate') {
@@ -2764,7 +2765,8 @@ sub HistoryTicketGet {
 
     }
     if (!%Ticket) {
-      $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in this time area ($Param{TicketID})!");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No such TicketID in Ticket Hisotry till '$Param{StopTimeStamp} 23:59:59' ($Param{TicketID})!");
+        return;
     }
     else {
         # write cache
@@ -3286,6 +3288,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.117 $ $Date: 2004-06-15 10:00:55 $
+$Revision: 1.118 $ $Date: 2004-06-16 05:56:27 $
 
 =cut
