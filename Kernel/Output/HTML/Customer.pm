@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.37 2004-09-16 22:03:59 martin Exp $
+# $Id: Customer.pm,v 1.38 2004-12-04 10:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -28,7 +28,6 @@ sub CustomerLogin {
             $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
-    $Self->Output(TemplateFile => 'CustomerLogin', Data => \%Param);
     # get language options
     $Param{Language} = $Self->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
@@ -41,12 +40,18 @@ sub CustomerLogin {
     # get lost password output
     if ($Self->{ConfigObject}->Get('CustomerPanelLostPassword')
         && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
-        $Param{LostPassword} = $Self->Output(TemplateFile => 'CustomerLostPassword', Data => \%Param);
+        $Self->Block(
+            Name => 'LostPassword',
+            Data => \%Param,
+        );
     }
     # get lost password output
-    if ($Self->{ConfigObject}->Get('CustomerPanelCreateAccount') 
+    if ($Self->{ConfigObject}->Get('CustomerPanelCreateAccount')
         && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
-        $Param{CreateAccount} = $Self->Output(TemplateFile => 'CustomerCreateAccount', Data => \%Param);
+        $Self->Block(
+            Name => 'CreateAccount',
+            Data => \%Param,
+        );
     }
     # create & return output
     $Output .= $Self->Output(TemplateFile => 'CustomerLogin', Data => \%Param);

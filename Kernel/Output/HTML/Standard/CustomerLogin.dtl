@@ -2,7 +2,7 @@
 # Login.dtl - provides customer HTML login screen
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerLogin.dtl,v 1.9 2004-07-15 05:56:34 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.10 2004-12-04 10:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -46,7 +46,33 @@ $Include{"CustomerHeader"}
 </tr>
 </table>
 </p>
-$Data{"LostPassword"}
+<!-- dtl:block:LostPassword -->
+<p>
+<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<tr>
+  <td align="left" class="table0"><b>$Text{"Lost your password?"}</b></td>
+</tr>
+<tr>
+  <td align="left" class="table1">
+    <form action="$Env{"CGIHandle"}" method="get" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="Action" value="CustomerLostPassword">
+    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+    <table cellspacing="8" cellpadding="2">
+    <tr>
+      <td>$Text{"Username"}:</td>
+      <td><input type="text" name="User" value="" size="18"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><i class="small">($Text{"Request new password"})</i></td>
+    </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"submit"}">
+    </form>
+  </td>
+</tr>
+</table>
+</p>
+<!-- dtl:block:LostPassword -->
 # --
 # language
 # --
@@ -74,7 +100,50 @@ $Data{"LostPassword"}
 </form>
 </p>
 
-$Data{"CreateAccount"}
+<!-- dtl:block:CreateAccount -->
+<p>
+<table border="0" cellspacing="0" cellpadding="3" width="100%">
+<tr> 
+  <td align="left" class="table0"><b>$Text{"Create Account"}</b></td>
+</tr>
+<tr>
+  <td align="left" class="table1"> 
+    <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="Action" value="CustomerCreateAccount">
+    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+   <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td>$Text{"Salutation"}: </td>
+      <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Firstname"}: </td>
+      <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Lastname"}: </td>
+      <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="35" maxlength="50"></td>
+    </tr>
+#    <tr>
+#      <td>$Text{"Login"}: </td>
+#      <td> <input type="text" name="Login" value="$QData{"UserLogin"}" size="35" maxlength="50"></td>
+#    </tr>
+    <tr>
+      <td>$Text{"Email"}/$Text{"Login"}: </td>
+      <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="35" maxlength="50"></td>
+    </tr>
+#    <tr>
+#      <td>$Text{"CustomerID"}: </td>
+#      <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="35" maxlength="50"></td>
+#    </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"create"}">
+    </form>
+  </td>
+</tr>
+</table>
+</p>
+<!-- dtl:block:CreateAccount -->
 <!-- stop login -->
 
 $Include{"CustomerFooter"}
