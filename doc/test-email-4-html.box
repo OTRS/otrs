@@ -1,0 +1,51 @@
+From html@example.com  Wed Jun  5 10:44:50 2002
+Return-Path: <html@example.com>
+Received: from moutng1.kundenserver.de (moutng1.kundenserver.de [212.227.126.171])
+	by socrate.edenhofer.de (8.11.0/8.9.3) with ESMTP id g558iog13890
+	for <skywalker@otrs.org>; Wed, 5 Jun 2002 10:44:50 +0200
+Received: from [212.227.126.160] (helo=mrelayng0.kundenserver.de)
+	by moutng1.kundenserver.de with esmtp (Exim 3.22 #2)
+	id 17FWPR-0006fX-00
+	for skywalker@otrs.org; Wed, 05 Jun 2002 10:44:49 +0200
+Received: from p5086fb4c.dip.t-dialin.net ([80.134.251.76] helo=example.com)
+	by mrelayng0.kundenserver.de with asmtp (Exim 3.35 #1)
+	id 17FWPR-0007xX-00
+	for skywalker@otrs.org; Wed, 05 Jun 2002 10:44:49 +0200
+Message-ID: <3CFDCF81.5000409@gns-mbh.com>
+Date: Wed, 05 Jun 2002 10:44:49 +0200
+From: HTML email test <html@example.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.0rc3) Gecko/20020523
+X-Accept-Language: en-us, en
+MIME-Version: 1.0
+To: skywalker@otrs.org
+Subject: HTML Test
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title></title>
+</head>
+<body bgcolor=3D"#2d3851" text=3D"#ffffff" link=3D"#dddddd" alink=3D"#ddd=
+ddd"
+ vlink=3D"#551a8b">
+This is a html email!<br>
+<br>
+Just a <u>little bit</u> HTML coding.<br>
+<br>
+Christoph<br>
+<pre class=3D"moz-signature" cols=3D"$mailwrapcol">--=20
+Christoph                   Tel.: ++49 (0) xxx / x xxx xxx
+xxxxxxx                     Fax : ++49 (0) xxx / x xxx xxx
+xxxxxxxxxxxxxxx 3           <a class=3D"moz-txt-link-freetext" href=3D"ma=
+ilto:html@example.com">mailto:html@example.com</a>
+00000 Braunschweig          <a class=3D"moz-txt-link-freetext" href=3D"ht=
+tp://www.example.com">http://www.example.com</a>
+=20
+                       =20
+</pre>
+</body>
+</html>
+
+
