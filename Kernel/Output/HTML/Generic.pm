@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.51 2002-10-15 09:37:59 martin Exp $
+# $Id: Generic.pm,v 1.52 2002-10-20 15:42:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,10 +19,11 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Installer;
 use Kernel::Output::HTML::System;
+use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -30,6 +31,7 @@ $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
     'Kernel::Output::HTML::Admin',
     'Kernel::Output::HTML::Installer',
     'Kernel::Output::HTML::System',
+    'Kernel::Output::HTML::Customer',
 );
 
 sub new {
@@ -69,6 +71,7 @@ sub new {
     $Self->{CGIHandle} = $Self->{ConfigObject}->Get('CGIHandle');
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
+    $Self->{SessionName} = $Param{SessionName} || 'SessionID';
     # --
     # Baselink 
     # --
@@ -303,7 +306,6 @@ sub Output {
     # If not, add the SessinID to the links and forms!
     # --
     if (!$Self->{SessionIDCookie}) {
-        my $SessionName = $Self->{ConfigObject}->Get('SessionName') || 'SessionID';
         # rewrite a hrefs
         $Output =~ s{
             (<a.+?href=")(.+?)(">|".+?>)
@@ -316,7 +318,7 @@ sub Output {
                 "$AHref$Target$End"; 
             } 
             else {
-                "$AHref$Target&$SessionName=$Self->{SessionID}$End"; 
+                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End"; 
             }
         }iegx;
         # rewrite img src
@@ -327,11 +329,11 @@ sub Output {
             my $AHref = $1;
             my $Target = $2;
             my $End = $3;
-            if ($Target =~ /^(http:|https:)/i) {
+            if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID}) {
                 "$AHref$Target$End"; 
             } 
             else {
-                "$AHref$Target&$SessionName=$Self->{SessionID}$End"; 
+                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End"; 
             }
         }iegx;
         # rewrite forms: <form action="index.pl" method="get">
@@ -342,11 +344,11 @@ sub Output {
             my $Start = "$1";
             my $Target = $2;
             my $End = "$3";
-            if ($Target =~ /^(http:|https:)/i) {
+            if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID}) {
                 "$Start$Target$End"; 
             } 
             else {
-                "$Start$Target$End<input type=\"hidden\" name=\"".$SessionName."\" value=\"$Self->{SessionID}\">";
+                "$Start$Target$End<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$Self->{SessionID}\">";
             }
         }iegx;
     }
@@ -384,7 +386,6 @@ sub Redirect {
         $Param{Redirect} = $Self->{Baselink} . $Param{OP};
         $Output .= $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
         if (!$Self->{SessionIDCookie}) {
-            my $SessionName = $Self->{ConfigObject}->Get('SessionName') || 'SessionID';
             # rewrite location header 
             $Output =~ s{
                 (location: )(.*)
@@ -392,21 +393,21 @@ sub Redirect {
             { 
                 my $Start = "$1";
                 my $Target = $2;
-                if ($Target =~ /http/i) {
+                if ($Target =~ /http/i || !$Self->{SessionID}) {
                     "$Start$Target"; 
                 }
                 else {
                     if ($Target =~ /(\?|&)$/) {
-                        "$Start$Target$SessionName=$Self->{SessionID}";
+                        "$Start$Target$Self->{SessionName}=$Self->{SessionID}";
                     }
                     elsif ($Target !~ /\?/) {
-                        "$Start$Target?$SessionName=$Self->{SessionID}";
+                        "$Start$Target?$Self->{SessionName}=$Self->{SessionID}";
                     }
                     elsif ($Target =~ /\?/) {
-                        "$Start$Target&$SessionName=$Self->{SessionID}";
+                        "$Start$Target&$Self->{SessionName}=$Self->{SessionID}";
                     }
                     else {
-                        "$Start$Target?&$SessionName=$Self->{SessionID}";
+                        "$Start$Target?&$Self->{SessionName}=$Self->{SessionID}";
                     }
                 }
             }iegx;
@@ -438,11 +439,20 @@ sub Login {
     # --
     # get message of the day
     # --
-    $Param{"Motd"} = $Self->Output(TemplateFile => 'Motd', Data => \%Param);
+    if ($Self->{ConfigObject}->Get('ShowMotd')) {
+        $Param{"Motd"} = $Self->Output(TemplateFile => 'Motd', Data => \%Param);
+    }
     # --
     # create & return output
     # --
     $Output .= $Self->Output(TemplateFile => 'Login', Data => \%Param);
+    # --
+    # get lost password y
+    # --
+    if ($Self->{ConfigObject}->Get('LostPassword') 
+         && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB') {
+        $Output .= $Self->Output(TemplateFile => 'LostPassword', Data => \%Param);
+    }
     return $Output;
 }
 # --
@@ -513,7 +523,7 @@ sub Ascii2Html {
 
     # max width
     if ($Max) {
-        $Text =~ s/^(.{$Max}).*$/$1 [...]/gs;
+        $Text =~ s/^(.{$Max}).*$/$1\[\.\.\.\]/gs;
     }
     # newline
     if ($NewLine) {
@@ -720,7 +730,7 @@ sub CheckCharset {
             $Output = '<p><i class="small">'.
               '$Text{"This message was written in a character set other than your own."}'.
               '$Text{"If it is not displayed correctly,"} '.
-              "<a href=\"$Self->{Baselink}Action=AgentZoom&TicketID=$Param{TicketID}".
+              '<a href="'.$Self->{Baselink}.'Action=$Env{"Action"}&TicketID='.$Param{TicketID}.
               "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\">".
               '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
         }
@@ -740,7 +750,7 @@ sub CheckMimeType {
     if ($Param{MimeType} && $Param{MimeType} !~ /text\/plain/i) {
          $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
            ' $Text{"email"}, '. 
-           "<a href=\"$Self->{Baselink}Action=AgentZoom&TicketID=".
+           '<a href="'.$Self->{Baselink}.'Action=$Env{"Action"}&TicketID='.
            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
            'target="HTMLeMail">$Text{"click here"}</a> '.
            '$Text{"to open it in a new window."}</i></p>';
@@ -749,7 +759,7 @@ sub CheckMimeType {
     elsif ($Param{Text} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
          $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
            ' $Text{"email"}, '.
-           "<a href=\"$Self->{Baselink}Action=AgentZoom&TicketID=".
+           '<a href="'.$Self->{Baselink}.'Action=$Env{"Action"}&TicketID='.
            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
            'target="HTMLeMail">$Text{"click here"}</a> '.
            '$Text{"to open it in a new window."}</i></p>';
