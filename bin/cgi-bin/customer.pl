@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.4 2002-10-22 23:07:09 martin Exp $
+# $Id: customer.pl,v 1.5 2002-10-23 10:08:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -452,7 +452,7 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
     else {
         if ($CommonObject{UserObject}->CustomerUserAdd(
             %GetParams,
-            Comment => "Added via Customer Panel (".scalar time().")",
+            Comment => "Added via Customer Panel (".localtime().")",
             ValidID => 1,
             UserID => $CommonObject{ConfigObject}->Get('CustomerPanelUserID'),
         )) {
