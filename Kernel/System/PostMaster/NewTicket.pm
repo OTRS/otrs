@@ -2,7 +2,7 @@
 # NewTicket.pm - sub module of Postmaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.10 2002-06-04 23:07:09 martin Exp $
+# $Id: NewTicket.pm,v 1.11 2002-06-14 20:06:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -220,7 +220,11 @@ sub Run {
             my @Body = split(/\n/, $OldBody);
             my $NewOldBody = '';
             foreach (my $i = 0; $i < $Line; $i++) {
-              $NewOldBody .= "> $Body[$i]\n";
+                # 2002-06-14 patch of Pablo Ruiz Garcia
+                # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
+                if ($#Body >= $i) {
+                    $NewOldBody .= "> $Body[$i]\n";
+                }
             }
             $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
         }
@@ -318,7 +322,11 @@ sub Run {
             my @Body = split(/\n/, $OldBody);
             my $NewOldBody = '';
             foreach (my $i = 0; $i < $Line; $i++) {
-              $NewOldBody .= "> $Body[$i]\n";
+                # 2002-06-14 patch of Pablo Ruiz Garcia
+                # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
+                if($#Body >= $i) {
+                    $NewOldBody .= "> $Body[$i]\n";
+                }
             }
             $Body =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
         }
