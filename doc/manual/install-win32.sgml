@@ -3,7 +3,7 @@
 <para>This How-To installs the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink>, <emphasis>version 1.0</emphasis> on systems running <emphasis>Win32</emphasis>. I tested it on Windows 2000, it should run on Windows 98, 98SE, ME, NT4 and XP, too.</para>
 <section>
 <title>Installations</title>
-<para>You will need four main components on your system, a webserver (<emphasis>Sambar Server</emphasis>), a database (<emphasis>MySQL</emphasis>), an MTA  (=Mail Transfer Agent, <emphasis>exim</emphasis> from the UN*X emulation <emphasis>Cygwin</emphasis>) and a programming language (<emphasis>Perl</emphasis>).</para>
+<para>You will need four main components on your system, a webserver (<ulink url="http://www.sambar.com/">Sambar Server</ulink> or/and <ulink url="http://apache.org/">Apache</ulink>), a database (<emphasis>MySQL</emphasis>), an MTA  (=Mail Transfer Agent, <emphasis>exim</emphasis> from the UN*X emulation <emphasis>Cygwin</emphasis>) and a programming language (<emphasis>Perl</emphasis>).</para>
 <para>The whole installation will assumingly take place on drive D:, but you may install wherever you like, for sure.</para>
 
 <section>
@@ -30,6 +30,10 @@
 </section>
 
 <section>
+<title>Choosing And Installing The Webserver</title>
+<para>OTRS requires a minimum of one webserver to run ;) You may choose the one of your choice, it will probably run on every perl-enabled webserver. I tested it on <ulink url="http://www.sambar.org">Sambar</ulink> <ulink url="http://sambar.robertkehl.de">5.2 &amp; above</ulink> and on <ulink url="http://httpd.apache.org/">Apache</ulink>, both <ulink url="http://httpd.apache.org/docs/">1.3</ulink> and <ulink url="http://httpd.apache.org/docs-2.0/">2.0</ulink>. <computeroutput>mod_perl</computeroutput> is only availabe for Apache, but *not* working for OTRS by now.</para>
+
+<section>
 <title>Install Sambar Server</title>
 <para>Download Sambar Server from <ulink url="http://sambar.robertkehl.de">http://sambar.robertkehl.de</ulink>, the home page is <ulink url="http://www.sambar.com">http://www.sambar.com</ulink>. I recommend using version 5.2 Production, surely any later version will do, too. Do not use any version prior to 5.2 Production!</para>
 <para>Read the security notes on <ulink url="http://www.sambar.com/syshelp/security.htm">http://www.sambar.com/syshelp/security.htm</ulink> and install Sambar, where you like to, <emphasis>D:\Sambar</emphasis> is a good choice.</para>
@@ -44,9 +48,26 @@
 </section>
 
 <section>
+<title>Installing Apache</title>
+
+<para>Download the <ulink url="http://http://www.apache.org">Apache</ulink> of your choice (<ulink url="http://www.apache.org/dist/httpd/binaries/win32/apache_1.3.27-win32-x86-no_src.msi">1.3.27</ulink> and/or <ulink url="http://www.apache.org/dist/httpd/binaries/win32/apache_2.0.43-win32-x86-no_ssl.msi">2.0.43</ulink>) and install it/them. I recommend you choose <userinput>D:\Apache</userinput> as root for *both* versions. The resulting directory structure will be:</para>
+<para><screen>
+<computeroutput>D:\Apache\</computeroutput>           --- home of both
+<computeroutput>D:\Apache\Apache\</computeroutput>    --- home of Apache 1.3
+<computeroutput>D:\Apache\Apache2\</computeroutput>   --- home of Apache 2.0
+</screen></para>
+
+<tip>
+<para>You may install both 1.3 and 2.0 on the very same machine, they can both be running and may both be used at the same time, if you like to. All you have to do is to ensure they are not configured to run on the same port. The second installation willing to start on port 80 won't succeed in doing so. So configure Apache 1.3 to run on port 80, Apache 2.0 to run on port 81. You could even configure the Sambar webserver (see different section in this manual) to run on port 82, if you'd like to, or choose your own port configuration. Surely one webserver running one version would be enough - the rest is for geeks ;)</para>
+</tip>
+</section>
+
+</section>
+
+<section>
 <title>Install MySQL</title>
 <para>Download MySQL from <ulink url="http://www.mysql.com/downloads/mysql-3.23.html">http://www.mysql.com/downloads/mysql-3.23.html</ulink> and install it in <emphasis>D:\mysql</emphasis>, under Win 2000/XP as a service, too. Start it.</para>
-<para>For a more comfortable configuration interface I recommend installing phpMyAdmin from <ulink url="http://www.phpmyadmin.net">http://www.phpmyadmin.net</ulink>, too, location: <emphasis>D:\mysql\phpMyAdmin</emphasis>.</para>
+<para>For a more comfortable configuration interface I recommend installing phpMyAdmin from <ulink url="http://www.phpmyadmin.net">http://www.phpmyadmin.net</ulink>, too, location: <emphasis>D:\mysql\phpMyAdmin</emphasis>. This will require <ulink url="http://www.php.net">PHP</ulink> to be installed, which always is a very good idea.</para>
 <para>We change the passwort for root later.</para>
 </section>
 
@@ -149,6 +170,10 @@ Install package 'DBD-Mysql.ppd?' (y/N): y</screen></para>
 </section>
 
 <section>
+<title>Configuring The Webserver</title>
+<para>Again we differentiate between Sambar and Apache. Remeber you can have both running or switch around if you like.</para>
+
+<section>
 <title>Configuring Sambar</title>
 <para>We now configure our webserver <emphasis>Sambar</emphasis>. Open the file <emphasis>D:\Sambar\config\mappings.ini</emphasis> and create these entries:</para>
 <para><screen>[aliases]
@@ -234,6 +259,38 @@ ren htaccess.txt .htaccess
 </screen></para>
 <para>Now only users belonging to the group &quot;root&quot; and the system itself (CRON jobs f.e.) will be allowed to access the scripts in &quot;d:\otrs\bin&quot;.</para>
 </section>
+</section>
+
+<section>
+<title>Configuring Apache</title>
+
+<para>In the following, I will refer to 'Apache' only, the process is the same for both versions.</para>
+<para>Open Apache's configuration file <userinput>httpd.conf</userinput>, it is located in <userinput>d:\Apache\Apache\conf\</userinput>. Append these lines to the end of the file, adjust them to your needs:</para>
+<para><screen>
+### added for OTRS (http://otrs.org/)
+
+# agent, admin and customer frontend
+&lt;IfModule mod_alias.c&gt;
+
+  ScriptAlias /otrs/ "d:/otrs/bin/cgi-bin/"
+  &lt;Directory "d:/otrs/bin/cgi-bin">
+    ScriptInterpreterSource registry
+      Order allow,deny
+        Allow from all
+  &lt;/Directory&gt;
+
+&lt;/IfModule&gt;
+</screen></para>
+<para>Take a little time to configure the rest of <userinput>httpd.conf</userinput>, too.</para>
+
+<note>
+<title>What about mod_perl?</title>
+<para>At this moment, OTRS under mod_perl isn't running smoothly on Win32, so perl is used as a CGI process. We are fully aware that mod_perl should be used to efficiently speed things up, and we're in the process of getting it to work. Please be patient or try mod_perl yourself. <ulink url="mailto:otrs-win32@robertkehl.de?subject?mod_perl">Let us know</ulink> if you succeed :)</para>
+</note>
+
+<para>That's it for Apapche 1.3/2.0. (Re-)Start your installation(s) using the Apache monitor, proabably located in your task bar. Sometimes it's a good idea to restart the whole box.</para>
+</section>
+
 </section>
 
 <section>
@@ -369,6 +426,14 @@ copy Config.pm.dist Config.pm
 # unlock every hour old locked tickets
 35 * * * * perl d:/otrs/bin/UnlockTickets.pl --timeout &amp;
 </para></tip>
+
+<note>
+<title>No CRON Jobs on Apache</title>
+<para>Please note that Apache cannot CRON. You will have to execute the CRON Jobs manually from the command line or by using Windows Task Scheduler. Use the following command for each script to prevent windows popping up at you screen while executing the script.</para>
+<para><screen>
+cmd /c start /min perl d:\otrs\bin\NameOfCRONJob.pl
+</screen></para>
+</note>
 </section>
 
 </section>
