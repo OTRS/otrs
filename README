@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.9 2002-10-01 14:00:36 martin Exp $
+# $Id: README,v 1.10 2002-10-25 00:10:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -118,5 +118,66 @@ Software requirements?
     * Mandrake 8.2 server (i386) interfacing with Lotus Notes mail server via fetchmail and sendmail
     * FreeBSD (i386), Sendmail, Perl 5.6.1, MySQL and Apache. 
     ... and you? ;-)
+
+Directories & Files:
+====================
+$HOME (e. g. /opt/OpenTRS/)
+|
+|  (all executables)
+|--/bin/             (all system programs)
+|   |--/PostMaster.pl      (email2db)
+|   |--/cgi-bin/
+|   |   |----- /index.pl        (Global Agent & Admin handel)
+|   |   |----- /customer.pl     (Global Customer handel)
+|   |   |----- /installer.pl    (Global Installer handel)
+|    
+|  (all modules)
+|--/Kernel/
+|   |---- /Output/        (all output generating modules)
+|   |      |---- /html/
+|   |             |--- /Standard/*.dtl (all dtl files for Standard-Theme)
+|   |             |--- /Lite/*.dtl (all dtl files for Lite-Theme)
+|   |      |---- /wml/
+|   |      |---- /ascii/
+|   |      |---- /X11/
+|   |
+|   |---- /Languages/      (all translation modules)
+|   |
+|   |---- /Modules/        (all action modules e. g. QueueView, Move, ...) 
+|   |      |----- /Agent*      (all modules for the agent interface)
+|   |      |----- /Admin*      (all modules for the admin interface)
+|   |      |----- /Customer*   (all modules for the customer interface)
+|   |      |----- /System*     (all modules for the system views e.g. stats)
+|   |
+|   |---- /System/         (all backend modules)
+|           |--- /DB.pm         (central DB interface)
+|           |--- /Auth.pm       (authentification module)
+|           |--- /AuthSession.pm (session authentification module)
+|           |--- /EmailSend.pm      (create and send emails)
+|           |--- /EmailParser.pm (parsing emails)
+|           |--- /Log.pm        (log module)
+|           |--- /User.pm       (user module)
+|           |--- /Group.pm      (group module)
+|           |--- /WebTool.pm    (e. g. get param)
+|           |--- /Queue.pm      (informations about queues. e. g. responses, ...)
+|           |--- /Ticket.pm     (ticket and article funktions)
+|  
+|  (install stuff) 
+|--/install/                (all install tools)
+|   |----  /database/
+|           |--- /OpenTRS-schema.(mysql|postgrsql).sql (create database script)
+|           |--- /install/database/initial_insert.sql (all inital sql data - e. g. root user)
+|  
+|  (data stuff)
+|--/var/
+|   |--/log/                    (log files)
+|   |   |--/TicketCounter.log   (ticket counter)
+|   |
+|   |--/articles/               (all incoming emails, plain 1/1 and all attachments ...
+|   |                            ... separately (different files))
+|   |--/sessions/               (session infos)
+|
+|  (tools stuff)
+|--/scripts/
 
 EOF
