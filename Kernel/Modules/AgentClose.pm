@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.40 2004-09-28 15:05:05 martin Exp $
+# $Id: AgentClose.pm,v 1.41 2004-11-28 11:23:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -126,6 +126,28 @@ sub Run {
                 return $Output;
             }
         }
+        # print form
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+        # get free text config options
+        my %TicketFreeText = ();
+        foreach (1..8) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeKey$_",
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "TicketFreeText$_",
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+        }
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            Ticket => \%Ticket,
+            Config => \%TicketFreeText,
+        );
         # print form ...
         $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},
@@ -135,6 +157,7 @@ sub Run {
             NoteTypesStrg => \%NoteTypes,
             MoveQueues => \%MoveQueues,
             SelectedMoveQueue => $SelectedMoveQueue,
+            %TicketFreeTextHTML,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -173,6 +196,20 @@ sub Run {
               TimeUnit => $TimeUnits,
               UserID => $Self->{UserID},
             );
+          }
+          # update ticket free text
+          foreach (1..8) {
+            my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+            my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+            if (defined($FreeKey) && defined($FreeValue)) {
+                $Self->{TicketObject}->TicketFreeTextSet(
+                    Key => $FreeKey,
+                    Value => $FreeValue,
+                    Counter => $_,
+                    TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
           }
           # set state
           $Self->{TicketObject}->StateSet(

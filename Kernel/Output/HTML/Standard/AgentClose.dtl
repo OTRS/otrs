@@ -2,7 +2,7 @@
 # AgentClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.26 2004-10-06 19:49:10 martin Exp $
+# $Id: AgentClose.dtl,v 1.27 2004-11-28 11:23:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -72,39 +72,71 @@ function SpellCheckSubmit()
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
     <input type="hidden" name="Action" value="AgentClose">
     <input type="hidden" name="Subaction" value="Store">
-    <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
     <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
       <table border="0" width="100%">
       <tr>
-        <td width="20%">$Text{"Subject"}:</td>
-        <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="70"></td>
+        <td class="contentkey" width="20%">$Text{"Subject"}:</td>
+        <td class="contentvalue" width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="70"></td>
       </tr>
       <tr>
-        <td>$Text{"Options"}:</td>
-        <td>
+        <td class="contentkey">$Text{"Options"}:</td>
+        <td class="contentvalue">
            $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
         </td>
       </tr>
       <tr>
-        <td>$Text{"Note Text"}:</td>
-        <td>
+        <td class="contentkey">$Text{"Note Text"}:</td>
+        <td class="contentvalue">
         <textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"DefaultCloseNoteText"}"}</textarea>
         </td>
       </tr>
       <tr>
-        <td>$Text{"Note type"}:</td>
-        <td>$Data{"NoteTypesStrg"}</td>
+        <td class="contentkey">$Text{"Note type"}:</td>
+        <td class="contentvalue">$Data{"NoteTypesStrg"}</td>
       </tr>
       <tr>
-        <td>$Text{"Close type"}:</td>
-        <td>$Data{"NextStatesStrg"}</td>
+        <td class="contentkey">$Text{"Close type"}:</td>
+        <td class="contentvalue">$Data{"NextStatesStrg"}</td>
       </tr>
 #     <tr>
-#       <td>$Text{"Next Queue"}:</td><td>$Data{"MoveQueuesStrg"}</td>
+#       <td class="contentkey">$Text{"Next Queue"}:</td>
+#       <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
+#     </tr>
+#      <tr>
+#        <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#        <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#      </tr>
+#     <tr>
+#       <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#     </tr>
+#     <tr>
+#       <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
+#     </tr>
+#     <tr>
+#       <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
+#     </tr>
+#     <tr>
+#       <td class="contentkey">$Data{"TicketFreeKeyField5"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField5"}</td>
+#     </tr>
+#     <tr>
+#       <td class="contentkey">$Data{"TicketFreeKeyField6"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField6"}</td>
+#     </tr>
+#     <tr>
+#       <td class="contentkey">$Data{"TicketFreeKeyField7"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField7"}</td>
+#     </tr>
+#     <tr>
+#       <td class="contentkey">$Data{"TicketFreeKeyField8"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField8"}</td>
 #     </tr>
       <tr>
-        <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
-        <td><input type="text" name="TimeUnits" value="" size="3"></td>
+        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+        <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
       </tr>
       </table>
     <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
