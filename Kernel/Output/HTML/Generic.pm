@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.128 2004-07-13 06:20:48 martin Exp $
+# $Id: Generic.pm,v 1.129 2004-07-16 13:06:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.128 $';
+$VERSION = '$Revision: 1.129 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -298,7 +298,7 @@ sub Output {
               my $Type = $1 || '';
               my $TypeKey = $2 || '';
               my $Con = $3 || '';
-              my $ConVal = $4 || '';
+              my $ConVal = defined $4 ? $4 : '';
               my $IsType = $5 || '';
               my $IsKey = $6 || '';
               my $IsValue = $7 || '';
@@ -314,8 +314,8 @@ sub Output {
                 }
               }
               elsif ($Type eq 'Env' || $Type eq 'Data') {
-                  my $Tmp = $GlobalRef->{$Type.'Ref'}->{$TypeKey} || '';
-                  if (eval '($Tmp '.$Con.' $ConVal)') {
+                  my $Tmp = $GlobalRef->{$Type.'Ref'}->{$TypeKey};
+                  if (defined($Tmp) && eval '($Tmp '.$Con.' $ConVal)') {
                     $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
                     # output replace with nothing!
                     "";
@@ -326,8 +326,8 @@ sub Output {
                   }
               }
               elsif ($Type eq 'Config') {
-                  my $Tmp = $Self->{ConfigObject}->Get($TypeKey) || '';
-                  if (eval '($Tmp '.$Con.' $ConVal)') {
+                  my $Tmp = $Self->{ConfigObject}->Get($TypeKey);
+                  if (defined($Tmp) && eval '($Tmp '.$Con.' $ConVal)') {
                       $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
                       "";
                   }
@@ -372,7 +372,7 @@ sub Output {
                       else {
                         # output replace with nothing!
                         "";
-                      } 
+                      }
                   }
               }
               # replace with
@@ -388,7 +388,7 @@ sub Output {
               # include dtl files
               elsif ($1 eq "Include") {
                   $Param{TemplateFile} = $2;
-                  $Self->Output(%Param); 
+                  $Self->Output(%Param);
               }
             }egx;
         }
@@ -403,7 +403,7 @@ sub Output {
         $Output =~ s{
             \$TimeLong({"(.+?)"}|{""})
         }
-        { 
+        {
             $Self->{LanguageObject}->FormatTimeString($2);
         }egx;
     }
@@ -414,7 +414,7 @@ sub Output {
         $Output =~ s{
             \$Date({"(.+?)"}|{""})
         }
-        { 
+        {
             $Self->{LanguageObject}->FormatTimeString($2, 'DateFormatShort');
         }egx;
     }
@@ -425,7 +425,7 @@ sub Output {
         $Output =~ s{
             \$Text({"(.+?)"}|{""})
         }
-        { 
+        {
             $Self->{LanguageObject}->Get($2 || '', $Param{TemplateFile});
         }egx;
     }
@@ -436,7 +436,7 @@ sub Output {
         $Output =~ s{
             \$Quote({"(.+?)"}|{""})
         }
-        { 
+        {
             my $Text = $2;
 #print STDERR "---- $Text ---\n";
             if (!defined($Text) || $Text =~ /^","(.+?)$/) {
@@ -451,7 +451,7 @@ sub Output {
         }egx;
     }
     # --
-    # Check if the brwoser sends the SessionID cookie! 
+    # Check if the brwoser sends the SessionID cookie!
     # If not, add the SessinID to the links and forms!
     # --
     if (!$Self->{SessionIDCookie}) {
@@ -459,45 +459,45 @@ sub Output {
         $Output =~ s{
             (<a.+?href=")(.+?)(\#.+?|)(">|".+?>)
         }
-        { 
+        {
             my $AHref = $1;
             my $Target = $2;
             my $End = $3;
             my $RealEnd = $4;
             if ($Target =~ /^(http:|https:|#|ftp:)/i || $Target !~ /(\.pl|\.php|\.cgi)(\?|$)/) {
-                "$AHref$Target$End$RealEnd"; 
-            } 
+                "$AHref$Target$End$RealEnd";
+            }
             else {
-                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End$RealEnd"; 
+                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End$RealEnd";
             }
         }iegx;
         # rewrite img src
         $Output =~ s{
             (<img.+?src=")(.+?)(">|".+?>)
         }
-        { 
+        {
             my $AHref = $1;
             my $Target = $2;
             my $End = $3;
-            if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID} || 
+            if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID} ||
                  $Target !~ /(\.pl|\.php|\.cgi)(\?|$)/) {
-                "$AHref$Target$End"; 
-            } 
+                "$AHref$Target$End";
+            }
             else {
-                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End"; 
+                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End";
             }
         }iegx;
         # rewrite forms: <form action="index.pl" method="get">
         $Output =~ s{
-            (<form.+?action=")(.+?)(">|".+?>) 
+            (<form.+?action=")(.+?)(">|".+?>)
         }
-        { 
+        {
             my $Start = "$1";
             my $Target = $2;
             my $End = "$3";
             if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID}) {
-                "$Start$Target$End"; 
-            } 
+                "$Start$Target$End";
+            }
             else {
                 "$Start$Target$End<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$Self->{SessionID}\">";
             }
@@ -529,7 +529,7 @@ sub Output {
                         Message => "Module: $Filters{$Filter}->{Module} loaded!",
                     );
                 }
-                # run module 
+                # run module
                 $Object->Run(%{$Filters{$Filter}}, Data => \$Output);
             }
             else {
@@ -570,15 +570,15 @@ sub Redirect {
         $Param{Redirect} = $Self->{Baselink} . $Param{OP};
         $Output .= $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
         if (!$Self->{SessionIDCookie}) {
-            # rewrite location header 
+            # rewrite location header
             $Output =~ s{
                 (location: )(.*)
             }
-            { 
+            {
                 my $Start = "$1";
                 my $Target = $2;
                 if ($Target =~ /http/i || !$Self->{SessionID}) {
-                    "$Start$Target"; 
+                    "$Start$Target";
                 }
                 else {
                     if ($Target =~ /(\?|&)$/) {
@@ -635,7 +635,7 @@ sub Login {
     # --
     # get lost password y
     # --
-    if ($Self->{ConfigObject}->Get('LostPassword') 
+    if ($Self->{ConfigObject}->Get('LostPassword')
          && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB') {
         $Output .= $Self->Output(TemplateFile => 'LostPassword', Data => \%Param);
     }
@@ -652,13 +652,13 @@ sub Error {
           What => $_
       ) || '';
       $Param{'Backend'.$_} = $Self->Ascii2Html(
-          Text => $Param{'Backend'.$_}, 
+          Text => $Param{'Backend'.$_},
           HTMLResultMode => 1,
       );
     }
     if (!$Param{Message}) {
       $Param{Message} = $Param{BackendMessage};
-    } 
+    }
     # create & return output
     return $Self->Output(TemplateFile => 'Error', Data => \%Param);
 }
@@ -676,13 +676,13 @@ sub Warning {
           What => $_
       ) || '';
       $Param{'Backend'.$_} = $Self->Ascii2Html(
-          Text => $Param{'Backend'.$_}, 
+          Text => $Param{'Backend'.$_},
           HTMLResultMode => 1,
       );
     }
     if (!$Param{Message}) {
       $Param{Message} = $Param{BackendMessage};
-    } 
+    }
     # create & return output
     return $Self->Output(TemplateFile => 'Warning', Data => \%Param);
 }
@@ -826,7 +826,7 @@ sub LinkEncode {
     my $Link = shift;
     if (!defined($Link)) {
         return;
-    } 
+    }
     $Link =~ s/&/%26/g;
     $Link =~ s/=/%3D/g;
     $Link =~ s/\!/%21/g;
