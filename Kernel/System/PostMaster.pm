@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.33 2003-05-25 22:57:55 martin Exp $
+# $Id: PostMaster.pm,v 1.34 2003-06-22 18:37:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,7 +53,10 @@ sub new {
     # create common objects
     $Self->{DBObject} = Kernel::System::DB->new(%Param);
     $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
-    $Self->{ParseObject} = Kernel::System::EmailParser->new(Email => $Param{Email});
+    $Self->{ParseObject} = Kernel::System::EmailParser->new(
+        Email => $Param{Email}, 
+        LogObject => $Param{LogObject},
+    );
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(

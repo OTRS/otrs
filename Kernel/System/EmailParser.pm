@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.13 2003-04-14 19:48:48 martin Exp $
+# $Id: EmailParser.pm,v 1.14 2003-06-22 18:37:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,6 +33,11 @@ sub new {
 
     $Self->{Debug} = 0;
 
+    # check needed objects
+    foreach (qw(LogObject)) {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
+    # create Mail::Internet object
     $Self->{Email} = new Mail::Internet($Param{Email});
     return $Self;
 }
@@ -114,7 +119,7 @@ sub GetMessageBody {
     else {
         $Self->{MimeEmail} = 1;
         if ($Self->{Debug} > 0) {
-            print STDERR 'Mime Email' . "\n";
+            print STDERR "Mime Email\n";
         }
         my @Attachments = $Self->GetAttachments();
         my %Attachment = %{$Attachments[0]};
@@ -172,7 +177,19 @@ sub PartsAttachments {
             $Self->{ContentType} .= "charset=".
             $Part->head()->mime_attr('content-type.charset');
         }
-        $PartData{Content} = $Part->bodyhandle()->as_string();
+        # --
+        # log error 
+        # --
+        if ($Part->bodyhandle()) {
+            $PartData{Content} = $Part->bodyhandle()->as_string();
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
+            );
+            return; 
+        }
         # --
         # check if there is no recommended_filename -> add file-NoFilenamePartCounter
         # --
