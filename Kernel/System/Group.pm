@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.17 2004-01-22 19:31:02 martin Exp $
+# $Id: Group.pm,v 1.18 2004-02-02 23:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -184,7 +184,7 @@ sub GroupAdd {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    my $SQL = "INSERT INTO groups (name, comment, valid_id, ".
+    my $SQL = "INSERT INTO groups (name, comments, valid_id, ".
             " create_time, create_by, change_time, change_by)".
             " VALUES ".
             " ('$Param{Name}', '$Param{Comment}', ".
@@ -234,7 +234,7 @@ sub GroupGet {
         return;
     }
     # sql 
-    my $SQL = "SELECT name, valid_id, comment ".
+    my $SQL = "SELECT name, valid_id, comments ".
         " FROM ".
         " groups ".
         " WHERE ".
@@ -286,7 +286,7 @@ sub GroupUpdate {
     }
     # sql
     my $SQL = "UPDATE groups SET name = '$Param{Name}', ".
-          " comment = '$Param{Comment}', ".
+          " comments = '$Param{Comment}', ".
           " valid_id = $Param{ValidID}, ".
           " change_time = current_timestamp, change_by = $Param{UserID} ".
           " WHERE id = $Param{ID}";
@@ -432,6 +432,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2004-01-22 19:31:02 $
+$Revision: 1.18 $ $Date: 2004-02-02 23:27:23 $
 
 =cut

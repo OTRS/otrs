@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StdResponse.pm - lib for std responses
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdResponse.pm,v 1.8 2003-11-02 00:11:59 martin Exp $
+# $Id: StdResponse.pm,v 1.9 2004-02-02 23:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,7 +55,7 @@ sub StdResponseAdd {
     }
     # sql
     my $SQL = "INSERT INTO standard_response ".
-        " (name, valid_id, comment, text, ".
+        " (name, valid_id, comments, text, ".
         " create_time, create_by, change_time, change_by)".
         " VALUES ".
         " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', ".
@@ -84,8 +84,12 @@ sub StdResponseGet {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
     # sql 
-    my $SQL = "SELECT name, valid_id, comment, text ".
+    my $SQL = "SELECT name, valid_id, comments, text ".
         " FROM ".
         " standard_response ".
         " WHERE ".
@@ -128,28 +132,22 @@ sub StdResponseDelete {
 sub StdResponseUpdate {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ID Name ValidID Response UserID)) {
       if (!defined($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
     my $SQL = "UPDATE standard_response SET " .
         " name = '$Param{Name}', " .
         " text = '$Param{Response}', " .
-        " comment = '$Param{Comment}', " .
+        " comments = '$Param{Comment}', " .
         " valid_id = $Param{ValidID}, " . 
         " change_time = current_timestamp, " .
         " change_by = $Param{UserID} " .

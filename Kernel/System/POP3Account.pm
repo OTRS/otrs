@@ -1,8 +1,8 @@
 # --
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: POP3Account.pm,v 1.7 2003-07-06 12:36:43 martin Exp $
+# $Id: POP3Account.pm,v 1.8 2004-02-02 23:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::POP3Account;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -68,7 +68,7 @@ sub POP3AccountAdd {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql
-    my $SQL = "INSERT INTO pop3_account (login, pw, host, valid_id, comment, queue_id, " .
+    my $SQL = "INSERT INTO pop3_account (login, pw, host, valid_id, comments, queue_id, " .
         " trusted, create_time, create_by, change_time, change_by)" .
         " VALUES " .
         " ('$Param{Login}', '$Param{Password}', '$Param{Host}', $Param{ValidID}, " .
@@ -98,8 +98,12 @@ sub POP3AccountGet {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql 
-    my $SQL = "SELECT login, pw, host, queue_id, trusted, comment, valid_id " .
+    my $SQL = "SELECT login, pw, host, queue_id, trusted, comments, valid_id " .
         " FROM " .
         " pop3_account " .
         " WHERE " . 
@@ -154,7 +158,7 @@ sub POP3AccountUpdate {
     }
     # sql
     my $SQL = "UPDATE pop3_account SET login = '$Param{Login}', pw = '$Param{Password}', ".
-        " host = '$Param{Host}', comment = '$Param{Comment}', ".
+        " host = '$Param{Host}', comments = '$Param{Comment}', ".
         " trusted = $Param{Trusted}, valid_id = $Param{ValidID}, ".
         " change_time = current_timestamp, change_by = $Param{UserID}, queue_id = $Param{QueueID} " .
         " WHERE id = $Param{ID}";

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StdAttachment.pm - lib for std attachemnt 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.7 2003-11-02 00:11:59 martin Exp $
+# $Id: StdAttachment.pm,v 1.8 2004-02-02 23:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,17 +58,13 @@ sub StdAttachmentAdd {
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
         $Param{Content} = encode_base64($Param{Content});
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
     my $SQL = "INSERT INTO standard_attachment ".
-        " (name, content_type, content, filename, valid_id, comment, ".
+        " (name, content_type, content, filename, valid_id, comments, ".
         " create_time, create_by, change_time, change_by)".
         " VALUES ".
         " ('$Param{Name}', '$Param{ContentType}', '$Param{Content}', '$Param{Filename}', ".
@@ -93,17 +89,17 @@ sub StdAttachmentAdd {
 sub StdAttachmentGet {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
     # sql 
-    # --
-    my $SQL = "SELECT name, content_type, content, filename, valid_id, comment ".
+    my $SQL = "SELECT name, content_type, content, filename, valid_id, comments ".
         " FROM ".
         " standard_attachment ".
         " WHERE ".
@@ -137,35 +133,27 @@ sub StdAttachmentGet {
 sub StdAttachmentUpdate {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ID Name ValidID Content ContentType Filename UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # encode attachemnt if it's a postgresql backend!!!
-    # --
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
         $Param{Content} = encode_base64($Param{Content});
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
     my $SQL = "UPDATE standard_attachment SET " .
         " name = '$Param{Name}', " .
         " content = '$Param{Content}', " .
         " content_type = '$Param{ContentType}', " .
-        " comment = '$Param{Comment}', " .
+        " comments = '$Param{Comment}', " .
         " filename = '$Param{Filename}', " .
         " valid_id = $Param{ValidID}, " . 
         " change_time = current_timestamp, " .

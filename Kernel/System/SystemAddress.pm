@@ -1,8 +1,8 @@
 # --
 # Kernel/System/SystemAddress.pm - lib for system addresses
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemAddress.pm,v 1.5 2003-03-13 23:17:59 martin Exp $
+# $Id: SystemAddress.pm,v 1.6 2004-02-02 23:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::SystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,16 +51,12 @@ sub SystemAddressAdd {
         return;
       }
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
-    my $SQL = "INSERT INTO system_address (value0, value1, valid_id, comment, queue_id, " .
+    my $SQL = "INSERT INTO system_address (value0, value1, valid_id, comments, queue_id, " .
         " create_time, create_by, change_time, change_by)" .
         " VALUES " .
         " ('$Param{Name}', '$Param{Realname}', $Param{ValidID}, " .
@@ -85,17 +81,17 @@ sub SystemAddressAdd {
 sub SystemAddressGet {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
     # sql 
-    # --
-    my $SQL = "SELECT value0, value1, comment, valid_id, queue_id ".
+    my $SQL = "SELECT value0, value1, comments, valid_id, queue_id ".
         " FROM ".
         " system_address ".
         " WHERE ". 
@@ -130,17 +126,13 @@ sub SystemAddressUpdate {
         return;
       }
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
     my $SQL = "UPDATE system_address SET value0 = '$Param{Name}', value1 = '$Param{Realname}', " .
-        " comment = '$Param{Comment}', valid_id = $Param{ValidID}, " .
+        " comments = '$Param{Comment}', valid_id = $Param{ValidID}, " .
         " change_time = current_timestamp, change_by = $Param{UserID}, queue_id = $Param{QueueID} " .
         " WHERE id = $Param{ID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
@@ -154,19 +146,19 @@ sub SystemAddressUpdate {
 sub SystemAddressIsLocalAddress {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Address)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
     # sql 
-    # --
-    my $SQL = "SELECT value0, value1, comment, valid_id, queue_id ".
+    my $SQL = "SELECT value0, value1, comments, valid_id, queue_id ".
         " FROM ".
         " system_address ".
         " WHERE ". 

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AutoResponse.pm - lib for auto responses
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoResponse.pm,v 1.7 2004-01-25 23:54:57 martin Exp $
+# $Id: AutoResponse.pm,v 1.8 2004-02-02 23:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::AutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,26 +42,20 @@ sub new {
 sub AutoResponseAdd {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Name ValidID Response AddressID TypeID Charset UserID Subject)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
     my $SQL = "INSERT INTO auto_response " .
-        " (name, valid_id, comment, text0, text1, type_id, system_address_id, " .
+        " (name, valid_id, comments, text0, text1, type_id, system_address_id, " .
         " charset,  create_time, create_by, change_time, change_by)" .
         " VALUES " .
         " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', " .
@@ -78,17 +72,17 @@ sub AutoResponseAdd {
 sub AutoResponseGet {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
       return;
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
     # sql 
-    # --
-    my $SQL = "SELECT name, valid_id, comment, text0, text1, " .
+    my $SQL = "SELECT name, valid_id, comments, text0, text1, " .
         " type_id, system_address_id, charset " .
         " FROM " .
         " auto_response " .
@@ -119,28 +113,22 @@ sub AutoResponseGet {
 sub AutoResponseUpdate {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ID Name ValidID Response AddressID Charset UserID Subject)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # db quote
-    # --
     foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # --
     # sql
-    # --
     my $SQL = "UPDATE auto_response SET " .
         " name = '$Param{Name}', " .
         " text0 = '$Param{Response}', " .
-        " comment = '$Param{Comment}', " .
+        " comments = '$Param{Comment}', " .
         " text1 = '$Param{Subject}', " .
         " type_id = $Param{TypeID}, " .
         " system_address_id = $Param{AddressID}, " .
@@ -162,18 +150,18 @@ sub AutoResponseGetByTypeQueueID {
     my $Self = shift;
     my %Param = @_;
     my %Data;
-    # --
     # check needed stuff
-    # --
     foreach (qw(QueueID Type)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
     # SQL query
-    # --
     my $SQL = "SELECT ar.text0, sa.value0, sa.value1, ar.text1, ar.charset" .
     " FROM " .
     " auto_response_type art, auto_response ar, queue_auto_response qar, ".

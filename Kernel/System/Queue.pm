@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue funktions
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.39 2004-01-24 18:38:25 martin Exp $
+# $Id: Queue.pm,v 1.40 2004-02-02 23:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -638,7 +638,7 @@ sub QueueAdd {
        " lock_notify, ".
        " owner_notify, ".
        " valid_id, ".
-       " comment, ".
+       " comments, ".
        " create_time, ".
        " create_by, ".
        " change_time, ".
@@ -732,7 +732,7 @@ sub QueueGet {
     }
     # sql 
     my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, ".
-        " q.system_address_id, q.salutation_id, q.signature_id, q.comment, q.valid_id, ".
+        " q.system_address_id, q.salutation_id, q.signature_id, q.comments, q.valid_id, ".
         " q.escalation_time, q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, ".
         " q.move_notify, q.state_notify, q.lock_notify, q.owner_notify ".
         " FROM ".
@@ -847,7 +847,7 @@ sub QueueUpdate {
     }
     # sql
     my $SQL = "UPDATE queue SET name = '$DB{Name}', " .
-        " comment = '$DB{Comment}', " .
+        " comments = '$DB{Comment}', " .
         " group_id = $DB{GroupID}, " .
         " unlock_timeout = $DB{UnlockTimeout}, " .
         " escalation_time = $DB{EscalationTime}, " .
@@ -908,6 +908,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2004-01-24 18:38:25 $
+$Revision: 1.40 $ $Date: 2004-02-02 23:27:23 $
 
 =cut

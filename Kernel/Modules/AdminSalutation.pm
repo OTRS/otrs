@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutation.pm,v 1.11 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminSalutation.pm,v 1.12 2004-02-02 23:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Salutation');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        my $SQL = "SELECT name, valid_id, comment, text " .
+        my $SQL = "SELECT name, valid_id, comments, text " .
            " FROM " .
            " salutation " .
            " WHERE " .
@@ -76,7 +76,7 @@ sub Run {
             $GetParam{$_} = '' if (!exists $GetParam{$_});
         }
         my $SQL = "UPDATE salutation SET name = '$GetParam{Name}', text = '$GetParam{Salutation}', " .
-        " comment = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " . 
+        " comments = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " . 
   	" change_time = current_timestamp, change_by = $Self->{UserID} " .
 	" WHERE id = $GetParam{ID}";
         if ($Self->{DBObject}->Do(SQL => $SQL)) { 
@@ -98,7 +98,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
             $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
         }
-        my $SQL = "INSERT INTO salutation (name, valid_id, comment, text, create_time, create_by, change_time, change_by)" .
+        my $SQL = "INSERT INTO salutation (name, valid_id, comments, text, create_time, create_by, change_time, change_by)" .
 		" VALUES " .
 		" ('$GetParam{Name}', $GetParam{ValidID}, '$GetParam{Comment}', '$GetParam{Salutation}', " .
 		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";

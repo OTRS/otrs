@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.mysql.sql,v 1.11 2004-02-02 22:10:32 martin Exp $
+-- $Id: DBUpdate-to-1.2.mysql.sql,v 1.12 2004-02-02 23:31:17 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.mysql.sql | mysql -f -u root otrs
@@ -288,3 +288,26 @@ INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::PendingReminder', 'iso-8859-1', 'de', 'Ticket Erinnerung!', 'Hi <OTRS_OWNER_USERFIRSTNAME>,das Ticket "<OTRS_TICKET_NUMBER>" hat die Erinnerungszeit erreicht!Bitte um weitere Bearbeutung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichiguns-Master', current_timestamp, 1, current_timestamp, 1);
+
+--
+-- rename comment to comments column
+--
+ALTER TABLE groups CHANGE comment comments VARCHAR (250);
+ALTER TABLE charset CHANGE comment comments VARCHAR (250);
+ALTER TABLE ticket_state CHANGE comment comments VARCHAR (250);
+ALTER TABLE ticket_state_type CHANGE comment comments VARCHAR (250);
+ALTER TABLE salutation CHANGE comment comments VARCHAR (250);
+ALTER TABLE signature CHANGE comment comments VARCHAR (250);
+ALTER TABLE system_address CHANGE comment comments VARCHAR (200);
+ALTER TABLE follow_up_possible CHANGE comment comments VARCHAR (200);
+ALTER TABLE queue CHANGE comment comments VARCHAR (200);
+ALTER TABLE ticket_history_type CHANGE comment comments VARCHAR (250);
+ALTER TABLE article_type CHANGE comment comments VARCHAR (250);
+ALTER TABLE article_sender_type CHANGE comment comments VARCHAR (250);
+ALTER TABLE standard_response CHANGE comment comments VARCHAR (80);
+ALTER TABLE auto_response_type CHANGE comment comments VARCHAR (80);
+ALTER TABLE auto_response CHANGE comment comments VARCHAR (80);
+ALTER TABLE customer_user CHANGE comment comments VARCHAR (250);
+ALTER TABLE standard_attachment CHANGE comment comments VARCHAR (150);
+ALTER TABLE pop3_account CHANGE comment comments VARCHAR (250);
+
