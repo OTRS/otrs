@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.7 2004-09-28 17:46:52 martin Exp $
+# $Id: Email.pm,v 1.8 2004-10-11 11:51:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Entity;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -106,7 +106,22 @@ To send an email without already created header:
       Subject => 'Some words!',
       Type => 'text/plain',
       Charset => 'iso-8859-15',
-      Body => 'Some nice text',)) {
+      Body => 'Some nice text',
+      Attachment => [
+        {
+          Filename => "somefile.csv",
+          Data     => $ContentCSV,
+          Type     => "text/csv",
+          Encoding => "base64",
+        }
+        {
+          Filename => "somefile.png",
+          Data     => $ContentPNG,
+          Type     => "image/png",
+          Encoding => "base64",
+        }
+      ],
+    )) {
         print "Email sent!\n";
     }
     else {
@@ -169,10 +184,20 @@ sub Send {
 #            $Header{'Encoding'} = 'base64';
         }
         else {
-            $Header{'Encoding'} = '7bit';
+#            $Header{'Encoding'} = '7bit';
+            $Header{'Encoding'} = 'quoted-printable';
         }
         $Header{'Message-ID'} = "Message-ID: <".time().".".rand(999999)."\@$Self->{FQDN}>";
         my $Entity = MIME::Entity->build(%Header, Data => $Param{Body});
+        if ($Param{Attachment} && ref($Param{Attachment}) eq 'ARRAY') {
+            foreach my $Attachment (@{$Param{Attachment}}) {
+                # attach file to email
+                $Entity->attach(
+                    %{$Attachment},
+                );
+            }
+        }
+
         # get header
         my $head = $Entity->head;
         $Param{Header} = $head->as_string();
@@ -236,7 +261,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2004-09-28 17:46:52 $
+$Revision: 1.8 $ $Date: 2004-10-11 11:51:17 $
 
 =cut
 
