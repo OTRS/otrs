@@ -1,8 +1,8 @@
 # --
-# FAQArticleView.dtl - provides HTML view for faq articles
+# FAQArticlePrint.dtl - provides HTML print view for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticleView.dtl,v 1.3 2004-01-21 22:46:53 martin Exp $
+# $Id: CustomerFAQArticlePrint.dtl,v 1.1 2004-01-21 22:46:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,22 +10,9 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
-  <td align="left" colspan="2" class="table0">
-  <b>$Env{"Box0"}$Text{"FAQ Article"}: $Quote{"$Data{"Subject"}"}$Env{"Box1"}</b>
-  </td>
-</tr>
-<tr align="left" valign="top">
-  <td width="100%" class="table2">
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}Article&Subaction=Change&ID=$Data{"ID"}">$Text{"edit"}</a> -
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=History&ID=$Data{"ID"}">$Text{"history"}</a> -
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Print&ID=$Data{"ID"}" target="print">$Text{"print"}</a> -
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}Article&Subaction=Delete&ID=$Data{"ID"}">$Text{"delete"}</a>
-  </td>
-</tr>
 <tr align="left" valign="top">
   <td width="100%" class="table1">
-    <font size="+1">$Quote{"$Data{"Subject"}"}</font> 
+    <font size="+1">FAQ: $Quote{"$Data{"Subject"}"}</font> 
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td class="table1">$Text{"Category"}: </td>
@@ -42,6 +29,10 @@
     <tr>
       <td class="table1">$Text{"Keywords"}: </td>
       <td class="table1"> $Quote{"$Data{"Keywords"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Last update"}: </td>
+      <td class="table1"> $Quote{"$TimeLong{"$Data{"Changed"}"}"}</td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"Sympthom"}: </td>

@@ -1,8 +1,8 @@
 # --
-# FAQSearchResult.dtl - provides HTML form for faq articles
+# CustomerFAQSearchResult.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQSearchResult.dtl,v 1.4 2004-01-21 22:46:53 martin Exp $
+# $Id: CustomerFAQSearchResult.dtl,v 1.1 2004-01-21 22:46:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
