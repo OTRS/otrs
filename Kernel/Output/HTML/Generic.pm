@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.113 2004-04-13 17:08:42 martin Exp $
+# $Id: Generic.pm,v 1.114 2004-04-16 15:16:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.113 $';
+$VERSION = '$Revision: 1.114 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1032,7 +1032,7 @@ sub Attachment {
     # return attachment  
     my $Output = "Content-Disposition: ";
     if ($Param{Type}) {
-        $Output .= $Param{Type};
+        $Output .= $Param{Type}.'; ';
     }
     $Output .= "filename=$Param{Filename}\n".
       "Content-Type: $Param{ContentType}\n\n".
