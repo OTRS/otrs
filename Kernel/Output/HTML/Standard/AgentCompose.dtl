@@ -2,13 +2,40 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.6 2002-05-26 18:15:26 martin Exp $
+# $Id: AgentCompose.dtl,v 1.7 2002-06-15 10:33:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- start compose form -->
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.To.value == "") {
+        alert('$Text{"A message should have a To: recipient!"}');
+        document.compose.To.focus();
+        return false;
+    } 
+    else if (document.compose.To.value.indexOf('@') == -1) {
+        alert('$Text{"You need a email address (e. g. customer@example.com) in To:!"}');
+        document.compose.To.focus();
+        return false;
+    } 
+    else if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    } 
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left"> 
@@ -18,7 +45,7 @@
 <tr bgcolor="$Env{"BGTableColor1"}">
   <td align="left" valign="top">
 
-  <form action="$Env{"CGIHandle"}" method="post">
+  <form action="$Env{"CGIHandle"}" method="post" name="compose">
   <input type="hidden" name="Action" value="AgentCompose">
   <input type="hidden" name="Subaction" value="SendEmail">
   <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
@@ -63,11 +90,11 @@ $Data{"Signature"}
     </tr>
   </table>
   <br>
-  <input type="submit" value="$Text{"Send mail!"}">
+  <input type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
   </form>
 
   </td> 
 </tr>
 </table>
-<!-- end form -->
+<!-- end compose form -->
 
