@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.58 2004-08-11 15:05:41 martin Exp $
+# $Id: AgentUtilities.pm,v 1.59 2004-08-30 14:55:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -107,9 +107,10 @@ sub Run {
         # get search string params (get submitted params)
         else {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-            # remove white space on the end
+            # remove white space on the start and end
             if ($GetParam{$_}) {
-                $GetParam{$_} =~ s/\s$//g;
+                $GetParam{$_} =~ s/\s+$//g;
+                $GetParam{$_} =~ s/^\s+//g;
             }
         }
     }
@@ -134,10 +135,9 @@ sub Run {
         }
         # get search array params (get submitted params)
         else {
-            if ($Self->{ParamObject}->GetArray(Param => $_)) {
-                if ($Self->{ParamObject}->GetArray(Param => $_)) {
-                    @{$GetParam{$_}} = $Self->{ParamObject}->GetArray(Param => $_);
-                }
+            my @Array = $Self->{ParamObject}->GetArray(Param => $_);
+            if (@Array) {
+                $GetParam{$_} = \@Array;
             }
         }
     }
