@@ -131,6 +131,21 @@ mysql> optimize table article;
 </para>
 </section>
 
+<section id="performance-tuning-database-postgreql">
+<title>PostgrSQL</title>
+<para>
+PostgreSQL is best tuned by modifying the postgresql.conf file in your
+PostgreSQL data directory. For advice on how to do this, see these
+articles:
+http://www.varlena.com/varlena/GeneralBits/Tidbits/perf.html
+http://www.varlena.com/varlena/GeneralBits/Tidbits/annotated_conf_e.html
+If performance is still not satisfactory, we suggest that you join the
+PostgreSQL Performance mailing list and ask questions there. The folks on
+the PostgreSQL list are very friendly and can probably help.
+http://www.postgresql.org/lists.html.
+</para>
+</section>
+
 </section>
 
 
