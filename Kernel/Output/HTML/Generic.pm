@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.25 2002-05-14 02:20:54 martin Exp $
+# $Id: Generic.pm,v 1.26 2002-05-21 20:22:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -430,6 +430,10 @@ sub OptionStrgHashRef {
     $Size = "size=$Size" if ($Size);
     my $DataTmp = $Param{Data};
     my %Data = %$DataTmp;
+    my $OnChangeSubmit = $Param{OnChangeSubmit} || '';
+    if ($OnChangeSubmit) {
+        $OnChangeSubmit = 'onchange="submit()"';
+    }
 
     # --
     # set default value
@@ -469,7 +473,7 @@ sub OptionStrgHashRef {
     # --
     # build select string
     # --
-    $Output .= "<select name=\"$Name\" $Multiple $Size>\n";
+    $Output .= "<select name=\"$Name\" $Multiple $OnChangeSubmit $Size>\n";
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         if ((defined($_)) && ($Data{$_})) {
             if ($_ eq $SelectedID || $Data{$_} eq $Selected) {

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.25 2002-05-14 01:44:26 martin Exp $
+# $Id: Agent.pm,v 1.26 2002-05-21 20:21:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -117,6 +117,7 @@ sub TicketView {
         Name => 'DestQueueID',
         SelectedID => $Param{QueueID},
         Data => $Param{MoveQueues},
+        OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit') || 1,
     );
 
     # get StdResponsesStrg
@@ -147,6 +148,7 @@ sub TicketZoom {
         Name => 'DestQueueID',
         SelectedID => $Param{QueueID},
         Data => $Param{MoveQueues},
+        OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit') || 1,
     );
 
     # build article stuff
