@@ -1,11 +1,10 @@
-
-# -----------------------------------------------------------------------
-# valid
-# -----------------------------------------------------------------------
-drop table if exists valid;
-
-CREATE TABLE valid
-(
+# ----------------------------------------------------------
+#  database: mysql, generated: Thu Dec  2 10:28:25 2004
+# ----------------------------------------------------------
+# ----------------------------------------------------------
+#  create table valid
+# ----------------------------------------------------------
+CREATE TABLE valid (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     create_time DATETIME NOT NULL,
@@ -15,14 +14,10 @@ CREATE TABLE valid
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# ticket_priority
-# -----------------------------------------------------------------------
-drop table if exists ticket_priority;
-
-CREATE TABLE ticket_priority
-(
+# ----------------------------------------------------------
+#  create table ticket_priority
+# ----------------------------------------------------------
+CREATE TABLE ticket_priority (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     create_time DATETIME NOT NULL,
@@ -32,14 +27,10 @@ CREATE TABLE ticket_priority
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# ticket_lock_type
-# -----------------------------------------------------------------------
-drop table if exists ticket_lock_type;
-
-CREATE TABLE ticket_lock_type
-(
+# ----------------------------------------------------------
+#  create table ticket_lock_type
+# ----------------------------------------------------------
+CREATE TABLE ticket_lock_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -50,14 +41,10 @@ CREATE TABLE ticket_lock_type
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# system_user
-# -----------------------------------------------------------------------
-drop table if exists system_user;
-
-CREATE TABLE system_user
-(
+# ----------------------------------------------------------
+#  create table system_user
+# ----------------------------------------------------------
+CREATE TABLE system_user (
     id INTEGER NOT NULL AUTO_INCREMENT,
     login VARCHAR (100) NOT NULL,
     pw VARCHAR (50) NOT NULL,
@@ -72,27 +59,19 @@ CREATE TABLE system_user
     PRIMARY KEY(id),
     UNIQUE (login)
 );
-
-# -----------------------------------------------------------------------
-# user_preferences
-# -----------------------------------------------------------------------
-drop table if exists user_preferences;
-
-CREATE TABLE user_preferences
-(
+# ----------------------------------------------------------
+#  create table user_preferences
+# ----------------------------------------------------------
+CREATE TABLE user_preferences (
     user_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250),
     INDEX index_user_preferences_user_id (user_id)
 );
-
-# -----------------------------------------------------------------------
-# groups
-# -----------------------------------------------------------------------
-drop table if exists groups;
-
-CREATE TABLE groups
-(
+# ----------------------------------------------------------
+#  create table groups
+# ----------------------------------------------------------
+CREATE TABLE groups (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -104,65 +83,49 @@ CREATE TABLE groups
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# group_user
-# -----------------------------------------------------------------------
-drop table if exists group_user;
-
-CREATE TABLE group_user
-(
+# ----------------------------------------------------------
+#  create table group_user
+# ----------------------------------------------------------
+CREATE TABLE group_user (
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
-    permission_key VARCHAR (20),
+    permission_key VARCHAR (20) NOT NULL,
     permission_value SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# group_role
-# -----------------------------------------------------------------------
-drop table if exists group_role;
-
-CREATE TABLE group_role
-(
+# ----------------------------------------------------------
+#  create table group_role
+# ----------------------------------------------------------
+CREATE TABLE group_role (
     role_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
-    permission_key VARCHAR (20),
+    permission_key VARCHAR (20) NOT NULL,
     permission_value SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# group_customer_user
-# -----------------------------------------------------------------------
-drop table if exists group_customer_user;
-
-CREATE TABLE group_customer_user
-(
+# ----------------------------------------------------------
+#  create table group_customer_user
+# ----------------------------------------------------------
+CREATE TABLE group_customer_user (
     user_id VARCHAR (100) NOT NULL,
     group_id INTEGER NOT NULL,
-    permission_key VARCHAR (20),
+    permission_key VARCHAR (20) NOT NULL,
     permission_value SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# roles
-# -----------------------------------------------------------------------
-drop table if exists roles;
-
-CREATE TABLE roles
-(
+# ----------------------------------------------------------
+#  create table roles
+# ----------------------------------------------------------
+CREATE TABLE roles (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -174,40 +137,28 @@ CREATE TABLE roles
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# role_user
-# -----------------------------------------------------------------------
-drop table if exists role_user;
-
-CREATE TABLE role_user
-(
-    role_id INTEGER NOT NULL,
+# ----------------------------------------------------------
+#  create table role_user
+# ----------------------------------------------------------
+CREATE TABLE role_user (
     user_id INTEGER NOT NULL,
+    role_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# personal_queues
-# -----------------------------------------------------------------------
-drop table if exists personal_queues;
-
-CREATE TABLE personal_queues
-(
+# ----------------------------------------------------------
+#  create table personal_queues
+# ----------------------------------------------------------
+CREATE TABLE personal_queues (
     user_id INTEGER NOT NULL,
     queue_id INTEGER NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# theme
-# -----------------------------------------------------------------------
-drop table if exists theme;
-
-CREATE TABLE theme
-(
+# ----------------------------------------------------------
+#  create table theme
+# ----------------------------------------------------------
+CREATE TABLE theme (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     theme VARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -218,34 +169,10 @@ CREATE TABLE theme
     PRIMARY KEY(id),
     UNIQUE (theme)
 );
-
-# -----------------------------------------------------------------------
-# charset
-# -----------------------------------------------------------------------
-drop table if exists charset;
-
-CREATE TABLE charset
-(
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    charset VARCHAR (50) NOT NULL,
-    comments VARCHAR (250),
-    valid_id SMALLINT NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
-
-# -----------------------------------------------------------------------
-# ticket_state
-# -----------------------------------------------------------------------
-drop table if exists ticket_state;
-
-CREATE TABLE ticket_state
-(
+# ----------------------------------------------------------
+#  create table ticket_state
+# ----------------------------------------------------------
+CREATE TABLE ticket_state (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -258,14 +185,10 @@ CREATE TABLE ticket_state
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# ticket_state_type
-# -----------------------------------------------------------------------
-drop table if exists ticket_state_type;
-
-CREATE TABLE ticket_state_type
-(
+# ----------------------------------------------------------
+#  create table ticket_state_type
+# ----------------------------------------------------------
+CREATE TABLE ticket_state_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (120) NOT NULL,
     comments VARCHAR (250),
@@ -276,17 +199,13 @@ CREATE TABLE ticket_state_type
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# salutation
-# -----------------------------------------------------------------------
-drop table if exists salutation;
-
-CREATE TABLE salutation
-(
+# ----------------------------------------------------------
+#  create table salutation
+# ----------------------------------------------------------
+CREATE TABLE salutation (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
-    text MEDIUMTEXT NOT NULL,
+    text TEXT NOT NULL,
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -296,17 +215,13 @@ CREATE TABLE salutation
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# signature
-# -----------------------------------------------------------------------
-drop table if exists signature;
-
-CREATE TABLE signature
-(
+# ----------------------------------------------------------
+#  create table signature
+# ----------------------------------------------------------
+CREATE TABLE signature (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
-    text MEDIUMTEXT NOT NULL,
+    text TEXT NOT NULL,
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -316,14 +231,10 @@ CREATE TABLE signature
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# system_address
-# -----------------------------------------------------------------------
-drop table if exists system_address;
-
-CREATE TABLE system_address
-(
+# ----------------------------------------------------------
+#  create table system_address
+# ----------------------------------------------------------
+CREATE TABLE system_address (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     value0 VARCHAR (200) NOT NULL,
     value1 VARCHAR (200) NOT NULL,
@@ -338,17 +249,13 @@ CREATE TABLE system_address
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-
-# -----------------------------------------------------------------------
-# follow_up_possible
-# -----------------------------------------------------------------------
-drop table if exists follow_up_possible;
-
-CREATE TABLE follow_up_possible
-(
+# ----------------------------------------------------------
+#  create table follow_up_possible
+# ----------------------------------------------------------
+CREATE TABLE follow_up_possible (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (200),
+    name VARCHAR (100) NOT NULL,
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -357,14 +264,10 @@ CREATE TABLE follow_up_possible
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# queue
-# -----------------------------------------------------------------------
-drop table if exists queue;
-
-CREATE TABLE queue
-(
+# ----------------------------------------------------------
+#  create table queue
+# ----------------------------------------------------------
+CREATE TABLE queue (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     group_id INTEGER NOT NULL,
@@ -377,8 +280,8 @@ CREATE TABLE queue
     follow_up_id SMALLINT NOT NULL,
     follow_up_lock SMALLINT NOT NULL,
     move_notify SMALLINT NOT NULL,
-    lock_notify SMALLINT NOT NULL,
     state_notify SMALLINT NOT NULL,
+    lock_notify SMALLINT NOT NULL,
     owner_notify SMALLINT NOT NULL,
     comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
@@ -389,14 +292,10 @@ CREATE TABLE queue
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# ticket
-# -----------------------------------------------------------------------
-drop table if exists ticket;
-
-CREATE TABLE ticket
-(
+# ----------------------------------------------------------
+#  create table ticket
+# ----------------------------------------------------------
+CREATE TABLE ticket (
     id BIGINT NOT NULL AUTO_INCREMENT,
     tn VARCHAR (50) NOT NULL,
     title VARCHAR (255),
@@ -433,45 +332,37 @@ CREATE TABLE ticket
     freekey8 VARCHAR (80),
     freetext8 VARCHAR (150),
     valid_id SMALLINT NOT NULL,
-    create_time_unix INTEGER NOT NULL,
+    create_time_unix BIGINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (tn),
-    INDEX index_ticket_queue_view (ticket_state_id, ticket_lock_id, group_id)
-        ,INDEX index_ticket_user (user_id)
-        ,INDEX index_ticket_answered (ticket_answered)
+    INDEX index_ticket_user (user_id),
+    INDEX index_ticket_queue_view (ticket_state_id, ticket_lock_id, group_id),
+    INDEX index_ticket_answered (ticket_answered)
 );
-
-# -----------------------------------------------------------------------
-# object_link
-# -----------------------------------------------------------------------
-drop table if exists object_link;
-
-CREATE TABLE object_link
-(
+# ----------------------------------------------------------
+#  create table object_link
+# ----------------------------------------------------------
+CREATE TABLE object_link (
     object_link_a_id BIGINT NOT NULL,
     object_link_b_id BIGINT NOT NULL,
     object_link_a_object VARCHAR (200) NOT NULL,
     object_link_b_object VARCHAR (200) NOT NULL,
     object_link_type VARCHAR (200) NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# ticket_history
-# -----------------------------------------------------------------------
-drop table if exists ticket_history;
-
-CREATE TABLE ticket_history
-(
+# ----------------------------------------------------------
+#  create table ticket_history
+# ----------------------------------------------------------
+CREATE TABLE ticket_history (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     history_type_id SMALLINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
-    queue_id INTEGER,
+    queue_id INTEGER NOT NULL,
     owner_id INTEGER NOT NULL,
     priority_id SMALLINT NOT NULL,
     state_id SMALLINT NOT NULL,
@@ -484,14 +375,10 @@ CREATE TABLE ticket_history
     INDEX ticket_history_ticket_id (ticket_id),
     INDEX ticket_history_create_time (create_time)
 );
-
-# -----------------------------------------------------------------------
-# ticket_history_type
-# -----------------------------------------------------------------------
-drop table if exists ticket_history_type;
-
-CREATE TABLE ticket_history_type
-(
+# ----------------------------------------------------------
+#  create table ticket_history_type
+# ----------------------------------------------------------
+CREATE TABLE ticket_history_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -503,14 +390,10 @@ CREATE TABLE ticket_history_type
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# article_type
-# -----------------------------------------------------------------------
-drop table if exists article_type;
-
-CREATE TABLE article_type
-(
+# ----------------------------------------------------------
+#  create table article_type
+# ----------------------------------------------------------
+CREATE TABLE article_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -522,14 +405,10 @@ CREATE TABLE article_type
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# article_sender_type
-# -----------------------------------------------------------------------
-drop table if exists article_sender_type;
-
-CREATE TABLE article_sender_type
-(
+# ----------------------------------------------------------
+#  create table article_sender_type
+# ----------------------------------------------------------
+CREATE TABLE article_sender_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     comments VARCHAR (250),
@@ -541,24 +420,20 @@ CREATE TABLE article_sender_type
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# article
-# -----------------------------------------------------------------------
-drop table if exists article;
-
-CREATE TABLE article
-(
+# ----------------------------------------------------------
+#  create table article
+# ----------------------------------------------------------
+CREATE TABLE article (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
-    a_from MEDIUMTEXT,
-    a_reply_to VARCHAR (255),
-    a_to MEDIUMTEXT,
-    a_cc MEDIUMTEXT,
-    a_subject MEDIUMTEXT,
-    a_message_id MEDIUMTEXT,
+    a_from TEXT,
+    a_reply_to TEXT,
+    a_to TEXT,
+    a_cc TEXT,
+    a_subject TEXT,
+    a_message_id TEXT,
     a_content_type VARCHAR (250),
     a_body MEDIUMTEXT NOT NULL,
     incoming_time INTEGER NOT NULL,
@@ -578,58 +453,45 @@ CREATE TABLE article
     INDEX article_ticket_id (ticket_id),
     INDEX article_message_id (a_message_id(255))
 );
-
-# -----------------------------------------------------------------------
-# article_plain
-# -----------------------------------------------------------------------
-drop table if exists article_plain;
-
-CREATE TABLE article_plain
-(
+# ----------------------------------------------------------
+#  create table article_plain
+# ----------------------------------------------------------
+CREATE TABLE article_plain (
     id BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
-    body MEDIUMTEXT,
+    body LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    INDEX article_id (article_id)
+    INDEX article_plain_article_id (article_id)
 );
-
-# -----------------------------------------------------------------------
-# article_attachment
-# -----------------------------------------------------------------------
-drop table if exists article_attachment;
-
-CREATE TABLE article_attachment
-(
+# ----------------------------------------------------------
+#  create table article_attachment
+# ----------------------------------------------------------
+CREATE TABLE article_attachment (
     id BIGINT NOT NULL AUTO_INCREMENT,
     article_id BIGINT NOT NULL,
     filename VARCHAR (250),
-    content_type VARCHAR (250),
     content_size VARCHAR (30),
-    content LONGBLOB,
+    content_type VARCHAR (250),
+    content LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    INDEX article_id (article_id)
-   
+    INDEX article_attachment_article_id (article_id)
 );
-
-# -----------------------------------------------------------------------
-# standard_response
-# -----------------------------------------------------------------------
-drop table if exists standard_response;
-
-CREATE TABLE standard_response
-(
+# ----------------------------------------------------------
+#  create table standard_response
+# ----------------------------------------------------------
+CREATE TABLE standard_response (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (80) NOT NULL,
-    text MEDIUMTEXT NOT NULL,
-    comments VARCHAR (80),
+    text TEXT NOT NULL,
+    comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -638,14 +500,10 @@ CREATE TABLE standard_response
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# queue_standard_response
-# -----------------------------------------------------------------------
-drop table if exists queue_standard_response;
-
-CREATE TABLE queue_standard_response
-(
+# ----------------------------------------------------------
+#  create table queue_standard_response
+# ----------------------------------------------------------
+CREATE TABLE queue_standard_response (
     queue_id INTEGER NOT NULL,
     standard_response_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
@@ -653,14 +511,41 @@ CREATE TABLE queue_standard_response
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# auto_response_type
-# -----------------------------------------------------------------------
-drop table if exists auto_response_type;
-
-CREATE TABLE auto_response_type
-(
+# ----------------------------------------------------------
+#  create table standard_attachment
+# ----------------------------------------------------------
+CREATE TABLE standard_attachment (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (150) NOT NULL,
+    content_type VARCHAR (150) NOT NULL,
+    content LONGBLOB NOT NULL,
+    filename VARCHAR (250) NOT NULL,
+    comments VARCHAR (200),
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+# ----------------------------------------------------------
+#  create table standard_response_attachment
+# ----------------------------------------------------------
+CREATE TABLE standard_response_attachment (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    standard_attachment_id INTEGER NOT NULL,
+    standard_response_id INTEGER NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table auto_response_type
+# ----------------------------------------------------------
+CREATE TABLE auto_response_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     comments VARCHAR (80),
@@ -672,19 +557,15 @@ CREATE TABLE auto_response_type
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# auto_response
-# -----------------------------------------------------------------------
-drop table if exists auto_response;
-
-CREATE TABLE auto_response
-(
+# ----------------------------------------------------------
+#  create table auto_response
+# ----------------------------------------------------------
+CREATE TABLE auto_response (
     id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (80) NOT NULL,
-    text0 MEDIUMTEXT,
-    text1 MEDIUMTEXT,
-    text2 MEDIUMTEXT,
+    name VARCHAR (100) NOT NULL,
+    text0 TEXT,
+    text1 TEXT,
+    text2 TEXT,
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
     charset VARCHAR (80) NOT NULL,
@@ -697,14 +578,10 @@ CREATE TABLE auto_response
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# queue_auto_response
-# -----------------------------------------------------------------------
-drop table if exists queue_auto_response;
-
-CREATE TABLE queue_auto_response
-(
+# ----------------------------------------------------------
+#  create table queue_auto_response
+# ----------------------------------------------------------
+CREATE TABLE queue_auto_response (
     id INTEGER NOT NULL AUTO_INCREMENT,
     queue_id INTEGER NOT NULL,
     auto_response_id INTEGER NOT NULL,
@@ -714,14 +591,10 @@ CREATE TABLE queue_auto_response
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-
-# -----------------------------------------------------------------------
-# time_accounting
-# -----------------------------------------------------------------------
-drop table if exists time_accounting;
-
-CREATE TABLE time_accounting
-(
+# ----------------------------------------------------------
+#  create table time_accounting
+# ----------------------------------------------------------
+CREATE TABLE time_accounting (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
@@ -731,30 +604,21 @@ CREATE TABLE time_accounting
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    INDEX time_accouning_ticket_id(ticket_id)
-
+    INDEX index_time_accounting_ticket_id (ticket_id)
 );
-
-# -----------------------------------------------------------------------
-# session
-# -----------------------------------------------------------------------
-drop table if exists session;
-
-CREATE TABLE session
-(
-    session_id VARCHAR (120) NOT NULL,
-    value MEDIUMTEXT NOT NULL,
+# ----------------------------------------------------------
+#  create table sessions
+# ----------------------------------------------------------
+CREATE TABLE sessions (
+    session_id VARCHAR (150) NOT NULL,
+    session_value TEXT NOT NULL,
     UNIQUE (session_id),
     INDEX index_session_id (session_id)
 );
-
-# -----------------------------------------------------------------------
-# ticket_index 
-# -----------------------------------------------------------------------
-drop table if exists ticket_index;
-
-CREATE TABLE ticket_index
-(
+# ----------------------------------------------------------
+#  create table ticket_index
+# ----------------------------------------------------------
+CREATE TABLE ticket_index (
     ticket_id BIGINT NOT NULL,
     queue_id INTEGER NOT NULL,
     queue VARCHAR (70) NOT NULL,
@@ -762,27 +626,19 @@ CREATE TABLE ticket_index
     s_lock VARCHAR (70) NOT NULL,
     s_state VARCHAR (70) NOT NULL,
     create_time_unix BIGINT NOT NULL,
-    INDEX index_ticket_id (ticket_id)
-);  
-
-# -----------------------------------------------------------------------
-# ticket_lock_index 
-# -----------------------------------------------------------------------
-drop table if exists ticket_lock_index;
-
-CREATE TABLE ticket_lock_index
-(
+    INDEX index_ticket_index_ticket_id (ticket_id)
+);
+# ----------------------------------------------------------
+#  create table ticket_lock_index
+# ----------------------------------------------------------
+CREATE TABLE ticket_lock_index (
     ticket_id BIGINT NOT NULL,
-    INDEX index_lock_ticket_id (ticket_id)
-);  
-
-# -----------------------------------------------------------------------
-# customer_user
-# -----------------------------------------------------------------------
-drop table if exists customer_user;
-
-CREATE TABLE customer_user
-(
+    INDEX index_ticket_lock_ticket_id (ticket_id)
+);
+# ----------------------------------------------------------
+#  create table customer_user
+# ----------------------------------------------------------
+CREATE TABLE customer_user (
     id INTEGER NOT NULL AUTO_INCREMENT,
     login VARCHAR (100) NOT NULL,
     email VARCHAR (150) NOT NULL,
@@ -791,8 +647,8 @@ CREATE TABLE customer_user
     salutation VARCHAR (50),
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
-    valid_id SMALLINT NOT NULL,
     comments VARCHAR (250) NOT NULL,
+    valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -800,169 +656,109 @@ CREATE TABLE customer_user
     PRIMARY KEY(id),
     UNIQUE (login)
 );
-
-# -----------------------------------------------------------------------
-# customer_preferences
-# -----------------------------------------------------------------------
-drop table if exists customer_preferences;
-
-CREATE TABLE customer_preferences
-(
+# ----------------------------------------------------------
+#  create table customer_preferences
+# ----------------------------------------------------------
+CREATE TABLE customer_preferences (
     user_id VARCHAR (250) NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
     preferences_value VARCHAR (250),
     INDEX index_customer_preferences_user_id (user_id)
 );
-
-# -----------------------------------------------------------------------
-# ticket_loop_protection
-# -----------------------------------------------------------------------
-drop table if exists ticket_loop_protection;
-
-CREATE TABLE ticket_loop_protection
-(
+# ----------------------------------------------------------
+#  create table ticket_loop_protection
+# ----------------------------------------------------------
+CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR (250) NOT NULL,
     sent_date VARCHAR (150) NOT NULL,
     INDEX index_ticket_loop_protection_sent_to (sent_to),
     INDEX index_ticket_loop_protection_sent_date (sent_date)
 );
-# -----------------------------------------------------------------------
-# standard_attachment
-# -----------------------------------------------------------------------
-drop table if exists standard_attachment;
-
-CREATE TABLE standard_attachment
-(
+# ----------------------------------------------------------
+#  create table pop3_account
+# ----------------------------------------------------------
+CREATE TABLE pop3_account (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    name varchar (150) NOT NULL,
-    content_type varchar (150) NOT NULL,
-    content MEDIUMTEXT NOT NULL,
-    filename varchar (250) NOT NULL,
-    comments varchar (150),
-    valid_id smallint NOT NULL,
-    create_time DATETIME NOT NULL, 
-    create_by integer NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by integer NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);  
-# -----------------------------------------------------------------------
-# standard_response_attachment 
-# -----------------------------------------------------------------------
-drop table if exists standard_response_attachment;
-
-CREATE TABLE standard_response_attachment
-(   
-    id INTEGER NOT NULL AUTO_INCREMENT,
-    standard_attachment_id integer NOT NULL,
-    standard_response_id integer NOT NULL,
+    login VARCHAR (200) NOT NULL,
+    pw VARCHAR (200) NOT NULL,
+    host VARCHAR (200) NOT NULL,
+    queue_id INTEGER NOT NULL,
+    trusted SMALLINT NOT NULL,
+    comments VARCHAR (250),
+    valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
-    create_by integer NOT NULL,
+    create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
-    change_by integer NOT NULL,
+    change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-# -----------------------------------------------------------------------
-# pop3_account
-# -----------------------------------------------------------------------
-drop table if exists pop3_account;
-
-CREATE TABLE pop3_account
-(
-    id INTEGER NOT NULL AUTO_INCREMENT,
-    login varchar (200) NOT NULL,
-    pw varchar (200) NOT NULL,
-    host varchar (200) NOT NULL,
-    queue_id integer NOT NULL,
-    trusted smallint NOT NULL,
-    comments varchar (250),
-    valid_id smallint NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by integer NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by integer NOT NULL,
-    PRIMARY KEY(id)
+# ----------------------------------------------------------
+#  create table postmaster_filter
+# ----------------------------------------------------------
+CREATE TABLE postmaster_filter (
+    f_name VARCHAR (200) NOT NULL,
+    f_type VARCHAR (20) NOT NULL,
+    f_key VARCHAR (200) NOT NULL,
+    f_value VARCHAR (200) NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# postmaster_filter
-# -----------------------------------------------------------------------
-drop table if exists postmaster_filter;
-
-CREATE TABLE postmaster_filter
-(
-    f_name varchar (200) NOT NULL,
-    f_type varchar (20) NOT NULL,
-    f_key varchar (200) NOT NULL,
-    f_value varchar (200) NOT NULL
-);
-
-# -----------------------------------------------------------------------
-# generic_agent_jobs
-# -----------------------------------------------------------------------
-drop table if exists generic_agent_jobs;
-
+# ----------------------------------------------------------
+#  create table generic_agent_jobs
+# ----------------------------------------------------------
 CREATE TABLE generic_agent_jobs (
-  job_name varchar(200) NOT NULL,
-  job_key varchar(200) NOT NULL,
-  job_value varchar(200) NOT NULL
+    job_name VARCHAR (200) NOT NULL,
+    job_key VARCHAR (200) NOT NULL,
+    job_value VARCHAR (200) NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# search_profile
-# -----------------------------------------------------------------------
-drop table if exists search_profile;
-
-CREATE TABLE search_profile
-(
-    login varchar (200) NOT NULL,
-    profile_name varchar (200) NOT NULL,
-    profile_type varchar (30) NOT NULL,
-    profile_key varchar (200) NOT NULL,
-    profile_value varchar (200) NOT NULL
+# ----------------------------------------------------------
+#  create table search_profile
+# ----------------------------------------------------------
+CREATE TABLE search_profile (
+    login VARCHAR (200) NOT NULL,
+    profile_name VARCHAR (200) NOT NULL,
+    profile_type VARCHAR (30) NOT NULL,
+    profile_key VARCHAR (200) NOT NULL,
+    profile_value VARCHAR (200) NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# process_id
-# -----------------------------------------------------------------------
-drop table if exists process_id;
-
-CREATE TABLE process_id
-(
-    process_name varchar (200) NOT NULL,
-    process_id varchar (200) NOT NULL,
-    process_host varchar (200) NOT NULL,
-    process_create integer NOT NULL
+# ----------------------------------------------------------
+#  create table process_id
+# ----------------------------------------------------------
+CREATE TABLE process_id (
+    process_name VARCHAR (200) NOT NULL,
+    process_id VARCHAR (200) NOT NULL,
+    process_host VARCHAR (200) NOT NULL,
+    process_create INTEGER NOT NULL
 );
-
-# -----------------------------------------------------------------------
-# notifications
-# -----------------------------------------------------------------------
-drop table if exists notifications;
-
-CREATE TABLE notifications
-(
+# ----------------------------------------------------------
+#  create table web_upload_cache
+# ----------------------------------------------------------
+CREATE TABLE web_upload_cache (
+    form_id VARCHAR (250),
+    filename VARCHAR (250),
+    content_size VARCHAR (30),
+    content_type VARCHAR (250),
+    content LONGBLOB NOT NULL,
+    create_time_unix BIGINT NOT NULL
+);
+# ----------------------------------------------------------
+#  create table notifications
+# ----------------------------------------------------------
+CREATE TABLE notifications (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    notification_type varchar (200) NOT NULL,
-    notification_charset varchar (60) NOT NULL,
-    notification_language varchar (60) NOT NULL,
-    subject varchar (250) NOT NULL,
-    text MEDIUMTEXT NOT NULL,
+    notification_type VARCHAR (200) NOT NULL,
+    notification_charset VARCHAR (60) NOT NULL,
+    notification_language VARCHAR (60) NOT NULL,
+    subject VARCHAR (200) NOT NULL,
+    text TEXT NOT NULL,
     create_time DATETIME NOT NULL,
-    create_by integer NOT NULL,
+    create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
-    change_by integer NOT NULL,
+    change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-
-# -----------------------------------------------------------------------
-# faq_item
-# -----------------------------------------------------------------------
-drop table if exists faq_item;
-    
-CREATE TABLE faq_item
-(   
+# ----------------------------------------------------------
+#  create table faq_item
+# ----------------------------------------------------------
+CREATE TABLE faq_item (
     id INTEGER NOT NULL AUTO_INCREMENT,
     f_number VARCHAR (200) NOT NULL,
     f_subject VARCHAR (200),
@@ -970,13 +766,13 @@ CREATE TABLE faq_item
     f_language_id SMALLINT NOT NULL,
     state_id SMALLINT NOT NULL,
     category_id SMALLINT NOT NULL,
-    f_keywords MEDIUMTEXT,
-    f_field1 MEDIUMTEXT,
-    f_field2 MEDIUMTEXT,
-    f_field3 MEDIUMTEXT,
-    f_field4 MEDIUMTEXT,
-    f_field5 MEDIUMTEXT,
-    f_field6 MEDIUMTEXT,
+    f_keywords TEXT,
+    f_field1 TEXT,
+    f_field2 TEXT,
+    f_field3 TEXT,
+    f_field4 TEXT,
+    f_field5 TEXT,
+    f_field6 TEXT,
     free_key1 VARCHAR (80),
     free_value1 VARCHAR (200),
     free_key2 VARCHAR (80),
@@ -992,28 +788,20 @@ CREATE TABLE faq_item
     PRIMARY KEY(id),
     UNIQUE (f_name)
 );
-
-# -----------------------------------------------------------------------
-# faq_language
-# -----------------------------------------------------------------------
-drop table if exists faq_language;
-    
-CREATE TABLE faq_language
-(   
+# ----------------------------------------------------------
+#  create table faq_language
+# ----------------------------------------------------------
+CREATE TABLE faq_language (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# faq_history
-# -----------------------------------------------------------------------
-drop table if exists faq_history;
-    
-CREATE TABLE faq_history
-(   
-    id BIGINT NOT NULL AUTO_INCREMENT,
+# ----------------------------------------------------------
+#  create table faq_history
+# ----------------------------------------------------------
+CREATE TABLE faq_history (
+    id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     item_id INTEGER NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1022,17 +810,13 @@ CREATE TABLE faq_history
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-
-# -----------------------------------------------------------------------
-# faq_category
-# -----------------------------------------------------------------------
-drop table if exists faq_category;
-    
-CREATE TABLE faq_category
-(   
+# ----------------------------------------------------------
+#  create table faq_category
+# ----------------------------------------------------------
+CREATE TABLE faq_category (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    comments VARCHAR (220) NOT NULL,
+    comments VARCHAR (200) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1040,47 +824,35 @@ CREATE TABLE faq_category
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# faq_state
-# -----------------------------------------------------------------------
-drop table if exists faq_state;
-    
-CREATE TABLE faq_state
-(   
+# ----------------------------------------------------------
+#  create table faq_state
+# ----------------------------------------------------------
+CREATE TABLE faq_state (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    type_id SMALLINT NOT NULL, 
+    type_id INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# faq_state_type
-# -----------------------------------------------------------------------
-drop table if exists faq_state_type;
-    
-CREATE TABLE faq_state_type
-(   
+# ----------------------------------------------------------
+#  create table faq_state_type
+# ----------------------------------------------------------
+CREATE TABLE faq_state_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
 );
-
-# -----------------------------------------------------------------------
-# faq_attachment
-# -----------------------------------------------------------------------
-drop table if exists faq_attachment;
-
-CREATE TABLE faq_attachment
-(
+# ----------------------------------------------------------
+#  create table faq_attachment
+# ----------------------------------------------------------
+CREATE TABLE faq_attachment (
     id BIGINT NOT NULL AUTO_INCREMENT,
     faq_id BIGINT NOT NULL,
     filename VARCHAR (250),
-    content_type VARCHAR (250),
     content_size VARCHAR (30),
-    content LONGBLOB,
+    content_type VARCHAR (250),
+    content LONGBLOB NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1088,4 +860,22 @@ CREATE TABLE faq_attachment
     PRIMARY KEY(id),
     INDEX faq_id (faq_id)
 );
-
+# ----------------------------------------------------------
+#  create table package_repository
+# ----------------------------------------------------------
+CREATE TABLE package_repository (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (250) NOT NULL,
+    version VARCHAR (250) NOT NULL,
+    vendor VARCHAR (250) NOT NULL,
+    install_status VARCHAR (250) NOT NULL,
+    filename VARCHAR (250),
+    content_size VARCHAR (30),
+    content_type VARCHAR (250),
+    content LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
