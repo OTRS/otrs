@@ -32,6 +32,7 @@ use Kernel::Config::ModulesCustomerPanel;
 use Kernel::System::WebRequest;
 use Kernel::System::DB;
 use Kernel::System::Encode;
+use Kernel::System::Time;
 use Kernel::System::Auth;
 use Kernel::System::Auth::DB;
 #use Kernel::System::Auth::LDAP;
@@ -49,9 +50,9 @@ use Kernel::System::Log::SysLog;
 #use Kernel::System::Log::File;
 
 use Kernel::System::Ticket;
-use Kernel::System::Ticket::ArticleStorageDB;
+#use Kernel::System::Ticket::ArticleStorageDB;
 #use Kernel::System::Ticket::ArticleStorageFS;
-use Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
+#use Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 #use Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use Kernel::System::Ticket::Number::DateChecksum;
 #use Kernel::System::Ticket::Number::Date;
@@ -61,6 +62,7 @@ use Kernel::System::Ticket::Number::DateChecksum;
 use Kernel::System::Queue;
 use Kernel::System::Lock;
 use Kernel::System::State;
+use Kernel::System::Priority;
 use Kernel::System::CustomerUser;
 #use Kernel::System::CustomerUser::DB;
 #use Kernel::System::CustomerUser::LDAP;
@@ -102,6 +104,8 @@ use Kernel::Modules::AgentEmail;
 use Kernel::Modules::AgentBounce;
 use Kernel::Modules::AgentCustomer;
 use Kernel::Modules::AgentSpelling;
+use Kernel::Modules::AgentBook;
+use Kernel::Modules::AgentBulk;
 
 # web admin middle ware modules
 use Kernel::Modules::Admin;
@@ -126,6 +130,7 @@ use Kernel::Modules::AdminState;
 use Kernel::Modules::AdminNotification;
 use Kernel::Modules::AdminEmail;
 use Kernel::Modules::AdminCustomerUser;
+use Kernel::Modules::AdminCustomerUserGroup;
 
 # faq middle ware modules
 use Kernel::Modules::FAQ;
