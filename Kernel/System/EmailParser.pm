@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.26 2004-01-31 14:46:34 martin Exp $
+# $Id: EmailParser.pm,v 1.27 2004-02-03 18:42:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -498,7 +498,7 @@ sub GetContentTypeParams {
     my $ContentType = $Param{ContentType} || return;
     if ($Param{ContentType} =~ /charset=.+?/i) {
         $Param{Charset} = $Param{ContentType};
-        $Param{Charset} =~ s/.+?\scharset=("|'|)(\w+)/$2/gi;
+        $Param{Charset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
         $Param{Charset} =~ s/"|'//g ;
         $Param{Charset} =~ s/(.+?);.*/$1/g;
     }
@@ -521,6 +521,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2004-01-31 14:46:34 $
+$Revision: 1.27 $ $Date: 2004-02-03 18:42:16 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.47 2004-01-23 00:47:25 martin Exp $
+# $Id: Article.pm,v 1.48 2004-02-03 18:42:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -675,7 +675,7 @@ sub GetArticle {
         $Data{SenderTypeID} = $Row[15];
         if ($Row[12] && $Data{ContentType} =~ /charset=/i) {
             $Data{ContentCharset} = $Data{ContentType};
-            $Data{ContentCharset} =~ s/.+?\scharset=("|'|)(\w+)/$2/gi;
+            $Data{ContentCharset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
             $Data{ContentCharset} =~ s/"|'//g ;
             $Data{ContentCharset} =~ s/(.+?);.*/$1/g;
         }
