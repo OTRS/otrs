@@ -3,7 +3,7 @@
 # DeleteSessionIDs.pl - to delete all existing or expired session ids
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DeleteSessionIDs.pl,v 1.5 2002-08-27 23:37:11 martin Exp $
+# $Id: DeleteSessionIDs.pl,v 1.6 2002-10-29 11:25:46 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -49,6 +49,7 @@ $CommonObject{DBObject} = Kernel::System::DB->new(
 );
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(
     %CommonObject, 
+    CMD => 1,
 );
 
 # --
