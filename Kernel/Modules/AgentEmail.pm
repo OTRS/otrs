@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.32 2004-07-22 05:44:19 martin Exp $
+# $Id: AgentEmail.pm,v 1.33 2004-07-28 10:11:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -222,8 +222,15 @@ my %GetParam;
         }
         # get sender queue from
         my %Queue = ();
+        my $Signature = '';
         if ($NewQueueID) {
             %Queue = $Self->{QueueObject}->GetSystemAddress(QueueID => $NewQueueID);
+            # prepare signature
+            $Signature = $Self->{QueueObject}->GetSignature(QueueID => $NewQueueID);
+            $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+            $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+            $Signature =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
+            $Signature =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
         }
         my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
@@ -473,6 +480,7 @@ my %GetParam;
               Body => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Body}),
               Errors => \%Error,
               Attachments => \@Attachments,
+              Signature => $Signature,
               %GetParam,
               %TicketFreeTextHTML,
             );
@@ -583,13 +591,7 @@ my %GetParam;
         my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
         my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $TicketID);
         $GetParam{Subject} = "[$TicketHook: $Tn] $GetParam{Subject}";
-        # prepare body
-        my $Signature = $Self->{QueueObject}->GetSignature(QueueID => $NewQueueID);
-        $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-        $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-        $Signature =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
-        $Signature =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
-        $GetParam{Text} .= "\n".$Signature;
+        $GetParam{Body} .= "\n\n".$Signature;
         # send email
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
             Attach => \@Attachments,
