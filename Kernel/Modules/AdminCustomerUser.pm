@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.30 2005-01-06 09:48:25 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.31 2005-01-12 20:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $ ';
+$VERSION = '$Revision: 1.31 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,14 +87,14 @@ sub Run {
     }
     if ($Nav eq 'Admin') {
         $NavBar = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
-        $NavBar .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $NavBar .= $Self->{LayoutObject}->NavigationBar();
     }
     elsif ($Nav eq 'None') {
         $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User', Type => 'Small');
     }
     else {
         $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User');
-        $NavBar .= $Self->{LayoutObject}->NavigationBar();
+        $NavBar .= $Self->{LayoutObject}->NavigationBar(Type => $Self->{LastNavBarName});
     }
     # add notify
     if ($AddedUID) {
