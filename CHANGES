@@ -2,13 +2,16 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.36 2002-12-03 23:42:43 martin Exp $
+# $Id: CHANGES,v 1.37 2002-12-07 19:22:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 0.5 BETA9 (2002-??-??)
+ - (2002/12/07) added customer-user-backend Kernel/System/CustomerUser/DB.pm.
+ - (2002/12/07) added preferences-backend module for user and customer user
+    (Kernel/System/ (User/Preferences/DB.pm and CustomerUser/Preferences/DB.pm)
  - (2002/12/04) moved from Date::Calc (Perl and C) to Date::Pcalc (Perl only) 
     and added Date::Pcalc to Kernel/cpan-lib/ (OS independent!).
  - (2002/12/01) moved GenericAgent.pm to GenericAgent.pm.dist to have tarball 
