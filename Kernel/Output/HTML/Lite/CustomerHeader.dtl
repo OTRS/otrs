@@ -2,7 +2,7 @@
 # CustomerHeader.dtl - provides global HTML header
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerHeader.dtl,v 1.12 2005-03-11 09:59:03 martin Exp $
+# $Id: CustomerHeader.dtl,v 1.13 2005-03-11 10:01:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,39 +34,12 @@ $Include{"Copyright"}
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>$Config{"ProductName"} :: Customer Panel :: $Text{"$Data{"Title"}"}</title>
+    <title>$Config{"ProductName"} :: $Text{"Customer Panel"} :: $Text{"$Data{"Title"}"}</title>
 # include customer-css.dtl file
 $Include{"customer-css"}
 </head>
 <a name="top"></a>
-<body onLoad="Update();">
-
-<script language="JavaScript" type="text/javascript">
-<!--
-function Update()
-{
-    if ('$Quote{"$Env{"Action"}"}' == 'CustomerMessage'
-        && !'$Quote{"$Env{"Subaction"}"}') {
-        if ('$Env{"UserRegion"}') {
-            for(i=0; i<(document.compose.Region.length); i++) {
-                if (document.compose.Region.options[i].value == '$Env{"UserRegion"}') {
-                    document.compose.Region.options[i].selected = true;
-                }
-            }
-            to_selection('Region');
-        }
-        if ('$Env{"UserSite"}') {
-            for(i=0; i<(document.compose.Site.length); i++) {
-                if (document.compose.Site.options[i].value == '$Env{"UserRegion"}') {
-                    document.compose.Site.options[i].selected = true;
-                }
-            }
-            to_selection('Site');
-        }
-    }
-}
-//-->
-</script>
+<body>
 
 <!-- start CI layout -->
 <table border="0" width="100%" cellspacing="0" cellpadding="8">
