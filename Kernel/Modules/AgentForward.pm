@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.47 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentForward.pm,v 1.48 2005-02-10 22:25:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -263,7 +263,7 @@ sub Form {
             $Data{Body} = "$_: $Data{$_}\n".$Data{Body};
         }
     }
-    $Data{Body} = "---- Forwarded message from $Data{From} ---\n\n".$Data{Body};
+    $Data{Body} = "\n---- Forwarded message from $Data{From} ---\n\n".$Data{Body};
     $Data{Body} .= "\n---- End forwarded message ---\n";
     $Data{Body} = $Data{Signature}.$Data{Body};
     $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
