@@ -19,7 +19,7 @@ In case you prefer the command line rpm way (you have to have installed the need
 ernie:~ # rpm -ivh /tmp/otrs.rpm 
 otrs                        ##################################################
 Check OpenTRS user (/etc/passwd)... otrs added.
-SetPermissions.sh &lt;$Revision: 1.6 $> - set OpenTRS file permissions
+SetPermissions.sh &lt;$Revision: 1.7 $> - set OpenTRS file permissions
 Copyright (c) 2002 Martin Edenhofer &lt;martin@otrs.org>
 Setting file permissions... 
 chown -R root.root /opt/OpenTRS
@@ -116,7 +116,7 @@ It is not a good idea to use the default passwords. You install a very important
 And because we want to keep the system as secure as possible we change some permissions by using the following script:
 <screen>
 ernie:~ # /opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS otrs wwwrun
-SetPermissions.sh &lt;$Revision: 1.6 $> - set OpenTRS file permissions
+SetPermissions.sh &lt;$Revision: 1.7 $> - set OpenTRS file permissions
 Copyright (c) 2002 Martin Edenhofer &lt;martin@otrs.org>
 Setting file permissions... 
 chown -R root.root /opt/OpenTRS
@@ -171,4 +171,4 @@ Finish! Wasn't that a piece of cake? ;-)
 <para>
 Your can use the OTRS by opening the http://ernie.example.com/otrs/index.pl link.
 </para>
-
+</section>
