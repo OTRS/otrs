@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.28 2004-04-22 11:08:25 martin Exp $
+# $Id: DB.pm,v 1.29 2004-04-30 06:57:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -203,6 +203,25 @@ sub CustomerUserList {
         Valid => $Valid,
     ); 
     return %Users;
+}
+# --
+sub CustomerIDs {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{User}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
+        return;
+    }
+    my %Data = $Self->CustomerUserDataGet(
+        User => $Param{User},
+    );
+    if ($Data{UserCustomerID}) {
+        return ($Data{UserCustomerID});
+    }
+    else {
+        return;
+    }
 }
 # --
 sub CustomerUserDataGet {

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.18 2004-04-02 15:31:12 martin Exp $
+# $Id: CustomerUser.pm,v 1.19 2004-04-30 06:57:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -107,6 +107,20 @@ sub CustomerName {
             my $Name = $Self->{"CustomerUser$_"}->CustomerName(%Param);
             if ($Name) {
                 return $Name;
+            }
+        }
+    }
+    return;
+}
+# --
+sub CustomerIDs {
+    my $Self = shift;
+    my %Param = @_;
+    foreach ('', 1..10) {
+        if ($Self->{"CustomerUser$_"}) {
+            my @CustomerIDs = $Self->{"CustomerUser$_"}->CustomerIDs(%Param);
+            if (@CustomerIDs) {
+                return @CustomerIDs;
             }
         }
     }

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.20 2004-03-27 13:42:34 martin Exp $
+# $Id: LDAP.pm,v 1.21 2004-04-30 06:57:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -231,6 +231,25 @@ sub CustomerUserList {
         $Users{$Self->_Convert($entry->get_value($Self->{CustomerKey}))} = $CustomerString;
     }
     return %Users;
+}
+# --
+sub CustomerIDs {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{User}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
+        return;
+    }
+    my %Data = $Self->CustomerUserDataGet(
+        User => $Param{User},
+    );
+    if ($Data{UserCustomerID}) {
+        return ($Data{UserCustomerID});
+    }
+    else {
+        return;
+    }
 }
 # --
 sub CustomerUserDataGet {
