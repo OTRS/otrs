@@ -1,8 +1,8 @@
 # --
-# AgentPreferencesForm.dtl - provides HTML form for AgentPreferences 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferencesGeneric.dtl,v 1.6 2003-03-24 09:21:00 martin Exp $
+# $Id: AgentPreferencesGeneric.dtl,v 1.7 2004-09-27 14:07:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,13 +10,13 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr align="center"> 
-  <td class="table2">
-    <b>$Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}</b>
+<tr align="center">
+  <td class="contenthead">
+    $Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}
   </td>
 </tr>
-<tr align="center" valign="top">
-  <td class="table1">
+<tr align="center">
+  <td class="contentbody">
   <p>
   $Text{"$Data{"Desc"}"}
   </p>
