@@ -1,14 +1,14 @@
 # --
-# Kernel/System/Auth/DB.pm - provides the db authentification 
+# Kernel/System/Auth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.10 2004-04-07 17:26:30 martin Exp $
+# $Id: DB.pm,v 1.11 2004-08-10 10:37:32 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-# Note: 
+# Note:
 # available objects are: ConfigObject, LogObject and DBObject
 # --
 
@@ -17,7 +17,7 @@ package Kernel::System::Auth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,7 @@ sub new {
     foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
- 
+
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
 
@@ -57,7 +57,7 @@ sub GetOption {
     if (!$Param{What}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need What!");
         return;
-    } 
+    }
     # module options
     my %Option = (
         PreAuth => 0,
@@ -75,7 +75,7 @@ sub Auth {
         return;
     }
     # get params
-    my $User = $Param{User} || ''; 
+    my $User = $Param{User} || '';
     my $Pw = $Param{Pw} || '';
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     my $UserID = '';
@@ -84,24 +84,24 @@ sub Auth {
     my $SQL = "SELECT $Self->{UserTableUserPW}, $Self->{UserTableUserID} ".
       " FROM ".
       " $Self->{UserTable} ".
-      " WHERE ". 
+      " WHERE ".
       " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
       " AND ".
       " $Self->{UserTableUser} = '$User'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) { 
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $GetPw = $RowTmp[0];
         $UserID = $RowTmp[1];
     }
 
-    # crypt given pw 
+    # crypt given pw
     my $CryptedPw = '';
     my $Salt = $GetPw;
     # strip Salt only for (Extended) DES, not for any of Modular crypt's
     if ($Salt !~ /^\$\d\$/) {
         $Salt =~ s/^(..).*/$1/;
     }
-    # and do this check only in such case (unfortunately there is a mod_perl2 
+    # and do this check only in such case (unfortunately there is a mod_perl2
     # bug on RH8 - check if crypt() is working correctly) :-/
     if (($Salt =~ /^\$\d\$/) || (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM')) {
         $CryptedPw = crypt($Pw, $Salt);
@@ -125,7 +125,7 @@ sub Auth {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: '$User' tried to login with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+          Message => "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
     # just a note 
@@ -143,12 +143,12 @@ sub Auth {
 #           $Self->{LogObject}->Log(
 #               Priority => 'info',
 #               Message => "Password is expired!",
-#           ); 
+#           );
 #            return;
 #        }
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: $User logged in (REMOTE_ADDR: $RemoteAddr).",
+          Message => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
@@ -156,8 +156,8 @@ sub Auth {
     elsif (($UserID) && ($GetPw)) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: $User with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
-        ); 
+          Message => "User: $User authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+        );
         return;
     }
     # just a note
@@ -165,7 +165,7 @@ sub Auth {
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
-        ); 
+        );
         return;
     }
 }

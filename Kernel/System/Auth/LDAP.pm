@@ -1,14 +1,14 @@
 # --
-# Kernel/System/Auth/LDAP.pm - provides the ldap authentification 
+# Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.12 2004-04-07 17:26:30 martin Exp $
+# $Id: LDAP.pm,v 1.13 2004-08-10 10:37:32 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-# Note: 
+# Note:
 # available objects are: ConfigObject, LogObject and DBObject
 # --
 
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub new {
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
     $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
     $Self->{UserAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserAttr') || 'DN';
-   
+
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AlwaysFilter') || '';
     # Net::LDAP new params
@@ -60,7 +60,7 @@ sub new {
     else {
         $Self->{Params} = {};
     }
-    
+
     return $Self;
 }
 # --
@@ -97,7 +97,7 @@ sub Auth {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: '$Param{User}' tried to login with Pw: '$Param{Pw}' (REMOTE_ADDR: $RemoteAddr)",
+          Message => "User: '$Param{User}' tried to authenticate with Pw: '$Param{Pw}' (REMOTE_ADDR: $RemoteAddr)",
         );
     }
 
@@ -117,10 +117,10 @@ sub Auth {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
     }
     # perform user search
-    my $Result = $LDAP->search ( 
+    my $Result = $LDAP->search (
         base   => $Self->{BaseDN},
-        filter => $Filter, 
-    ); 
+        filter => $Filter,
+    );
     # get whole user dn
     my $UserDN = '';
     foreach my $Entry ($Result->all_entries) {
@@ -131,7 +131,7 @@ sub Auth {
         # failed login note
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: $Param{User} login failed, no LDAP entry found!". 
+          Message => "User: $Param{User} authentication failed, no LDAP entry found!".
             "BaseDN='$Self->{BaseDN}', Filter='$Filter', (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
@@ -147,11 +147,11 @@ sub Auth {
                 Priority => 'notice',
                 Message => "check for groupdn!",
             );
-        } 
+        }
         # search if we're allowed to
-        my $Filter2 = ''; 
+        my $Filter2 = '';
         if ($Self->{UserAttr} eq 'DN') {
-            $Filter2 = "($Self->{AccessAttr}=$UserDN)"; 
+            $Filter2 = "($Self->{AccessAttr}=$UserDN)";
         }
         else {
             $Filter2 = "($Self->{AccessAttr}=$Param{User})";
@@ -170,22 +170,22 @@ sub Auth {
             # failed login note
             $Self->{LogObject}->Log(
               Priority => 'notice',
-              Message => "User: $Param{User} login failed, no LDAP group entry found".
+              Message => "User: $Param{User} authentication failed, no LDAP group entry found".
                 "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
             );
-            # take down session 
+            # take down session
             $LDAP->unbind;
             return;
         }
-    }        
-    
+    }
+
     # bind with user data -> real user auth.
     $Result = $LDAP->bind(dn => $UserDN, password => $Param{Pw});
     if ($Result->code) {
         # failed login note
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: $Param{User} ($UserDN) login failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
+          Message => "User: $Param{User} ($UserDN) authentication failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
@@ -197,13 +197,13 @@ sub Auth {
 #           $Self->{LogObject}->Log(
 #               Priority => 'info',
 #               Message => "Password is expired!",
-#           ); 
+#           );
 #            return;
 #        }
         # login note
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: $Param{User} ($UserDN) logged in (REMOTE_ADDR: $RemoteAddr).",
+          Message => "User: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
