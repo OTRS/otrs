@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.5 2004-11-05 15:29:37 martin Exp $
+# $Id: hu.pm,v 1.6 2005-02-23 10:04:21 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -17,7 +17,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -122,6 +122,7 @@ sub Data {
       'History::TimeAccounting' => 'Történet::IdõElszámolás',
       'History::Unlock' => 'Történet::Feloldás',
       'History::WebRequestCustomer' => 'Történet::ÜgyfélWebKérés',
+      'History::SystemRequest' => 'System Request (%s).',
       'Hit' => 'Találat',
       'Hits' => 'Találat',
       'hour' => 'óra',

@@ -5,7 +5,7 @@
 # Copyright (C) 2003 A-NeT Internet Services bv
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # --
-# $Id: nl.pm,v 1.25 2005-02-15 10:35:40 martin Exp $
+# $Id: nl.pm,v 1.26 2005-02-23 10:04:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,7 +45,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -146,6 +146,7 @@ sub Data {
       'History::WebRequestCustomer' => 'Klant stelt vraag via web.',
       'History::TicketLinkAdd' => 'Link naar "%s" toegevoegd.',
       'History::TicketLinkDelete' => 'Link naar "%s" toegevoegd.',
+      'History::SystemRequest' => 'System Request (%s).',
       'Hit' => 'Gevonden',
       'Hits' => 'Hits',
       'hour' => 'uur',

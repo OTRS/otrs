@@ -6,7 +6,7 @@
 #		     Vadim Buzek 
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.13 2004-08-24 08:20:42 martin Exp $
+# $Id: cz.pm,v 1.14 2005-02-23 10:04:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -122,6 +122,7 @@ sub Data {
       'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
       'History::Unlock' => 'Unlocked ticket.',
       'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::SystemRequest' => 'System Request (%s).',
       'Hit' => 'Pøístup',
       'Hits' => 'Prístupù',
       'hour' => 'hodina',

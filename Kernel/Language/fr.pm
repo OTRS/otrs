@@ -4,7 +4,7 @@
 # Copyright (C) 2004 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.39 2004-09-21 19:01:36 martin Exp $
+# $Id: fr.pm,v 1.40 2005-02-23 10:04:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -119,6 +119,7 @@ sub Data {
       'History::TimeAccounting' => 'Temps passé sur l\'action: %s . Total du temps passé pour ce ticket: %s unité(s).',
       'History::Unlock' => 'Ticket dévérouillé.',
       'History::WebRequestCustomer' => 'Requête du client via le web.',
+      'History::SystemRequest' => 'System Request (%s).',
       'Hit' => 'Hit',
       'Hits' => 'Hits',
       'hour' => 'heure',

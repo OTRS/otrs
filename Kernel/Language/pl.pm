@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/pl.pm - provides pl language translation
-# Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.13 2004-08-24 08:20:42 martin Exp $
+# $Id: pl.pm,v 1.14 2005-02-23 10:04:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,6 +119,7 @@ sub Data {
       'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
       'History::Unlock' => 'Unlocked ticket.',
       'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::SystemRequest' => 'System Request (%s).',
       'Hit' => 'Ods³ona',
       'Hits' => 'Ods³on',
       'hour' => 'godzina',

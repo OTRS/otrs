@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -115,6 +115,7 @@ sub Data {
       'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
       'History::Unlock' => 'Unlocked ticket.',
       'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::SystemRequest' => 'System Request (%s).',
       'Hit' => 'Попадение',
       'Hits' => 'Попадения',
       'hour' => 'час',

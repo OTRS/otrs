@@ -2,7 +2,7 @@
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.6 2004-08-24 08:20:42 martin Exp $
+# $Id: nb_NO.pm,v 1.7 2005-02-23 10:04:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.6 $;
+$VERSION = q$Revision: 1.7 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -118,6 +118,7 @@ sub Data {
       'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
       'History::Unlock' => 'Unlocked ticket.',
       'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::SystemRequest' => 'System Request (%s).',
       'Hit' => 'Treff',
       'Hits' => 'Treff',
       'hour' => 'time',

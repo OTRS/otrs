@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/en.pm - provides en languag translation
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: en.pm,v 1.11 2004-06-15 09:16:34 martin Exp $
+# $Id: en.pm,v 1.12 2005-02-23 10:04:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::en;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,6 +66,7 @@ sub Data {
       'History::WebRequestCustomer' => 'Customer request via web.',
       'History::TicketLinkAdd' => 'Added link to ticket "%s".',
       'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
+      'History::SystemRequest' => 'System Request (%s).',
     );
 
     # $$STOP$$
