@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.6 2002-04-08 14:17:40 martin Exp $
+# $Id: suse-otrs.spec,v 1.7 2002-04-22 22:25:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,9 +20,9 @@ Group:        Applications/Mail
 Provides:     otrs 
 Requires:     perl perl-DBI perl-Date-Calc perl-GD perl-MIME-Base64 perl-MailTools perl-MIME-Lite perl-MIME-tools perl-Net-DNS perl-Syslog perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared
 Autoreqprov:  on
-Release:      BETA1
+Release:      BETA3
 Source0:      otrs-%{version}-%{release}.tar.gz
-BuildRoot:    /var/tmp/%{name}-buildroot
+BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 
 %description
@@ -33,14 +33,16 @@ Feedback: feedback@otrs.org
 
 Authors:
 --------
-    Stefan Wintermeyer <stefan+rpm@otrs.org>
+    Carsten Gross <carsten@siski.de>
+    Franz Breu <breu.franz@bogen.net>
+    Stefan Wintermeyer <stefan@wintermeyer.de>
     Martin Edenhofer <martin+rpm@otrs.org>
 
-SuSE series: n
+SuSE series: ap
 
 
 %prep
-%setup -n otrs
+%setup -n OpenTRS
 # remove CVS dirs
 find . -name CVS | xargs rm -rf
 # remove old sessions, articles and spool
@@ -66,7 +68,7 @@ cp -R . $RPM_BUILD_ROOT/$DESTROOT
 install -d -m 755 $RPM_BUILD_ROOT/etc/init.d
 install -d -m 755 $RPM_BUILD_ROOT/usr/sbin
 install -d -m 744 $RPM_BUILD_ROOT/var/adm/fillup-templates
-install -m 644 scripts/suse-fillup-template-rc.config.otrs $RPM_BUILD_ROOT/var/adm/fillup-templates/rc.config.otrs
+install -m 644 scripts/suse-fillup-template-rc.config.otrs $RPM_BUILD_ROOT/var/adm/fillup-templates/sysconfig.otrs
 install -m 755 scripts/suse-rcotrs $RPM_BUILD_ROOT/etc/init.d/otrs
 rm -f $RPM_BUILD_ROOT/sbin/otrs
 ln -s ../../etc/init.d/otrs $RPM_BUILD_ROOT/usr/sbin/rcotrs
@@ -88,17 +90,9 @@ fi
 chown wwwrun /opt/OpenTRS/Kernel/Config.pm
 
 # rc.config
-sbin/insserv etc/init.d/otrs
-echo "Updating etc/rc.config..."
-if [ -x bin/fillup ] ; then
-  bin/fillup -q -d = etc/rc.config var/adm/fillup-templates/rc.config.otrs
-else
-  echo "ERROR: fillup not found. This should not happen. Please compare"
-  echo "/etc/rc.config and /var/adm/fillup-templates/rc.config.mysql and update by hand."
-fi
-
+%{fillup_and_insserv -s otrs START_OTRS}
 # add suse-httpd.include.conf to apache.rc.config
-APACHERC=/etc/rc.config.d/apache.rc.config
+APACHERC=/etc/sysconfig/apache
 OTRSINCLUDE=/opt/OpenTRS/scripts/suse-httpd.include.conf
 sed 's+^HTTPD_CONF_INCLUDE_FILES=.*$+HTTPD_CONF_INCLUDE_FILES='$OTRSINCLUDE'+' \
 $APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC 
@@ -108,21 +102,10 @@ echo ""
 echo "Next steps: "
 echo ""
 echo "[SuSEconfig]"
-echo " To create the apache config start SuSEconfig. --> Restart the Webserver (rcapache restart)."
-echo ""
-echo "[Database Setup]"
-echo " Create a database:"
-echo "  Follow http://yourhost/otrs/installer.pl (for details see README.database)." 
-echo ""
-echo "[Finish Installation]"
-echo " Run the SetPermissions.sh script:"
-echo "  shell> /opt/OpenTRS/bin/SetPermissions.sh"
+echo " Execute SuSEconfig and restart the webserver (rcapache restart)."
 echo ""
 echo "[OpenTRS services]"
-echo " Use rcotrs {start|stop|status|restart} to manage your OpenTRS system."
-echo ""
-echo "[Start Page]"
-echo " Follow http://yourhost/otrs/index.pl"
+echo " Start OpenTRS 'rcotrs start' (rcotrs {start|stop|status|restart})."
 echo ""
 echo "Have fun!"
 echo ""
@@ -164,12 +147,14 @@ rm -rf $RPM_BUILD_ROOT
 /opt/OpenTRS/var/sessions/
 /opt/OpenTRS/var/spool/
 
-/var/adm/fillup-templates/rc.config.otrs
+/var/adm/fillup-templates/sysconfig.otrs
 
 %doc INSTALL TODO COPYING READM* doc/* install*
 
 
 %changelog 
+* Thu Apr 16 2002 - martin+rpm@otrs.org
+- moved to SuSE 8.0 support
 * Sun Feb 03 2002 - martin+rpm@otrs.org
 - added SuSE-Apache support
 * Wed Jan 30 2002 - martin+rpm@otrs.org
