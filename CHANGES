@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.79.2.4 2003-05-25 22:56:17 martin Exp $
+# $Id: CHANGES,v 1.79.2.5 2003-05-29 22:05:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-1.1.2 (2003-?-?)
+1.1.2 (2003-05-31)
+ - (2003/05/29) fixed create ticket (without priority selection) via 
+    customer panel and changed priority names.
  - (2003/05/26) fixed pic.pl bug - http://bugs.otrs.org/show_bug.cgi?id=149
  - (2003/05/19) improved text formatting of "long" messages in QueueView
     TicketZoom, TicketPlain and TicketSearch
