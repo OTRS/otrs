@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendStats.pl,v 1.3 2004-10-11 12:50:04 martin Exp $
+# $Id: SendStats.pl,v 1.4 2004-10-14 09:42:22 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -164,7 +164,7 @@ if (eval "require $Module") {
             Disposition => "attachment",
         );
     }
-    $CommonObject{EmailObject}->Send(
+    if ($CommonObject{EmailObject}->Send(
         From => $Opts{'s'},
         To => $Opts{'r'},
         Subject => "[Stats] $ConfigItem{Module} $Y-$M-$D $Time",
@@ -174,6 +174,8 @@ if (eval "require $Module") {
                %Attachment,
             },
         ],
-    );
+    )) {
+        print "NOTICE: Email sent to '$Opts{'r'}'.\n";
+    }
 
 }
