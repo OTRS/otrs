@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 1.1 to 1.2 
--- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+-- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.mysql.sql,v 1.6 2004-01-08 11:40:07 martin Exp $
+-- $Id: DBUpdate-to-1.2.mysql.sql,v 1.7 2004-01-22 19:29:09 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.mysql.sql | mysql -f -u root otrs
@@ -88,4 +88,117 @@ INSERT INTO groups
     VALUES 
     ('faq',  1, 1, current_timestamp, 1, current_timestamp);
 
+CREATE TABLE faq_item
+(
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    f_name VARCHAR (200) NOT NULL,
+    f_language_id SMALLINT NOT NULL,
+    f_subject VARCHAR (200),
+    state_id SMALLINT NOT NULL,
+    category_id SMALLINT NOT NULL,
+    f_keywords MEDIUMTEXT,
+    f_field1 MEDIUMTEXT,
+    f_field2 MEDIUMTEXT,
+    f_field3 MEDIUMTEXT,
+    f_field4 MEDIUMTEXT, 
+    f_field5 MEDIUMTEXT,
+    f_field6 MEDIUMTEXT, 
+    free_key1 VARCHAR (80),
+    free_value1 VARCHAR (200),
+    free_key2 VARCHAR (80),
+    free_value2 VARCHAR (200),
+    free_key3 VARCHAR (80),
+    free_value3 VARCHAR (200),
+    free_key4 VARCHAR (80),
+    free_value4 VARCHAR (200),
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (f_name)
+);
 
+CREATE TABLE faq_language
+(
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+CREATE TABLE faq_history
+(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    item_id INTEGER NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE faq_category
+(   
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    comments VARCHAR (220) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);  
+
+CREATE TABLE faq_state
+(
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    type_id SMALLINT NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+CREATE TABLE faq_state_type
+(
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+
+INSERT INTO faq_item
+  (f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
+  VALUES
+  ('welcome', 1, 'Welcome!', 1, 1, 'sympthom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
+
+INSERT INTO faq_history
+  (name, item_id, create_time, create_by, change_time, change_by)
+  VALUES
+  ('Created', 1, current_timestamp, 1, current_timestamp, 1);
+
+INSERT INTO faq_language (name) VALUES ('en');
+INSERT INTO faq_language (name) VALUES ('de');
+INSERT INTO faq_language (name) VALUES ('es');
+INSERT INTO faq_language (name) VALUES ('fr');
+
+INSERT INTO faq_category
+  (name, comments, create_time, create_by, change_time, change_by)
+  VALUES
+  ('all', 'default category', current_timestamp, 1, current_timestamp, 1);
+
+INSERT INTO faq_state (name, type_id) VALUES ('internal (agent)', 1);
+INSERT INTO faq_state (name, type_id) VALUES ('external (customer)', 2);
+INSERT INTO faq_state (name, type_id) VALUES ('public (all)', 3);
+
+INSERT INTO faq_state_type (name) VALUES ('internal');
+INSERT INTO faq_state_type (name) VALUES ('external');
+INSERT INTO faq_state_type (name) VALUES ('public');
+
+-- 
+-- auto_response update
+--
+ALTER TABLE auto_response ADD charset VARCHAR (80) NOT NULL;
+UPDATE auto_response SET charset = 'ISO-8859-1' WHERE charset = '';
