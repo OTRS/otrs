@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.28 2003-07-14 12:13:50 martin Exp $
+# $Id: AgentUtilities.pm,v 1.29 2003-08-22 12:02:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -566,15 +566,13 @@ sub MaskPreviewResult {
 #            Text => $Param{Body},
 #            From => $Param{ContentCharset},
 #        );
-        # do some strips
-        $Param{Body} =~ s/^\s*\n//mg;
         # do some text quoting
         $Param{Body} = $Self->{LayoutObject}->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Param{Body},
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
+            StripEmptyLines => 1,
         );
-        $Param{Body} =~ s/\n/<br>\n/g;
         # do charset check
         if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
             Action => 'AgentZoom',

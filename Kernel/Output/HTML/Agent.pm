@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.124 2003-07-14 12:29:16 martin Exp $
+# $Id: Agent.pm,v 1.125 2003-08-22 12:02:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.124 $';
+$VERSION = '$Revision: 1.125 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -750,7 +750,6 @@ sub AgentUtilSearchResult {
             Text => $Param{Body},
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
         );
-        $Param{Body} =~ s/\n/<br>\n/g;
         # --
         # do charset check
         # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.37 2003-07-12 08:23:09 martin Exp $
+# $Id: AgentZoom.pm,v 1.38 2003-08-22 12:02:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,7 +61,10 @@ sub Run {
     # --
     if (!$Self->{TicketID}) {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error();
+        $Output .= $Self->{LayoutObject}->Error(
+            Message => "No TicketID is given!",
+            Comment => 'Please contact the admin.',
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -396,7 +399,6 @@ sub MaskAgentZoom {
             $Article{"Body"} = $Self->{LayoutObject}->LinkQuote(
                 Text => $Article{"Body"},
             );
-            $Article{"Body"} =~ s/\n/<br>\n/g;
             # do charset check
             if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
                 ContentCharset => $Article{ContentCharset},
