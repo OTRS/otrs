@@ -2,7 +2,7 @@
 # EmailSend.pm - the global email send module
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: EmailSend.pm,v 1.2 2001-12-26 20:10:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -23,11 +23,21 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
+    # get common opjects
+    foreach (keys %Param) {
+        $Self->{$_} = $Param{$_};
+    }
+
+    # check all needed objects
+    foreach ('ConfigObject', 'LogObject', 'DBObject') {
+        die "Got no $_" if (!$Self->{$_});
+    }
+
     # get config data
-    $Self->{ConfigObject} = $Param{ConfigLogObject} || die "Got no ConfigObject!";
     $Self->{Sendmail} = $Self->{ConfigObject}->Get('Sendmail');
     $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
     $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
@@ -90,7 +100,10 @@ sub Send {
     # write article to fs
     # --
     if (($ArticleID) && ($DBObject)) {
-        my $ArticleObject = Kernel::System::Article->new(DBObject => $DBObject);
+        my $ArticleObject = Kernel::System::Article->new(
+          DBObject => $Self->{DBObject},
+          ConfigObject => $Self->{ConfigObject},
+        );
         $ArticleObject->WriteArticle(ArticleID => $ArticleID, Email => \@Mail);
     }
 
