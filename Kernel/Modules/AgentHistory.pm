@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.18 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentHistory.pm,v 1.19 2004-11-04 11:22:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -78,8 +78,14 @@ sub Run {
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     # get shown user info
     my @NewLines = ();
+    if ($Self->{ConfigObject}->Get('Agent::HistoryOrder') eq 'reverse') {
+        @NewLines = reverse (@Lines);
+    }
+    else {
+        @NewLines = @Lines;
+    }
     my $Table = '';
-    foreach my $DataTmp (@Lines) {
+    foreach my $DataTmp (@NewLines) {
         my %Data = %{$DataTmp};
         # replace text
         if ($Data{Name} && $Data{Name} =~ /^%%/) {
