@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.11 2003-01-03 00:30:28 martin Exp $
+# $Id: Log.pm,v 1.12 2003-01-03 21:10:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.12 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -53,7 +53,7 @@ sub new {
     # --
     $Self->{SystemID} = $Param{ConfigObject}->Get('SystemID');
     $Self->{IPCKey} = "444423$Self->{SystemID}";
-    $Self->{IPCSize} = 8*1024;
+    $Self->{IPCSize} = 4*1024;
     # init session data mem
     $Self->{Key} = shmget($Self->{IPCKey}, $Self->{IPCSize}, 0777 | 0001000) || die $!;
 
