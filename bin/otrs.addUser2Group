@@ -1,0 +1,82 @@
+#!/usr/bin/perl -w
+# --
+# otrs.addUser2Group - Add User to a Group
+# Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
+# $Id: otrs.addUser2Group,v 1.1 2002-06-08 23:01:36 atif Exp $
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+BEGIN{
+   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../");
+   unless ($ARGV[1]){
+      print "$FindBin::Script username groupname\n";
+      print "\n";
+      exit;
+   }
+}
+
+
+
+
+
+use lib '/opt/OpenTRS/';
+use strict;
+
+
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::DB;
+use Kernel::System::User;
+use Kernel::System::Group;
+
+# --
+# create common objects 
+# --
+
+my %CommonObject = ();
+$CommonObject{LogObject}    = Kernel::System::Log->new();
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
+$CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
+
+
+
+my %Param;
+undef %Param;
+
+#user id of the person adding the record?
+#root@loclhost? right?
+$Param{UserID}='1';
+
+
+#Validrecord
+$Param{ValidID}='1';
+
+$Param{User}=$ARGV[0];
+unless  ($Param{UID}=$CommonObject{UserObject}->GetUserIdByName(%Param)){
+   print "Failed to get User ID. Perhaps non-existent user..\n";
+   exit;
+}
+
+
+
+$Param{Group}=$ARGV[1];
+unless  ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
+   print "Failed to get Group ID. Perhaps non-existent group..\n";
+   exit;
+}
+
+
+
+
+print "GID $Param{GID} \n";
+print "UID $Param{UID} \n";
+
+$CommonObject{GroupObject}->MemberAdd(%Param);
+
+
+# --
+exit (0);
