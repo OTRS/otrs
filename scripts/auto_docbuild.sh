@@ -3,7 +3,7 @@
 # auto_docbuild.sh - build automatically OTRS docu 
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_docbuild.sh,v 1.2 2003-01-05 23:36:13 martin Exp $
+# $Id: auto_docbuild.sh,v 1.3 2004-01-05 09:51:15 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.2 $>"
+echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.3 $>"
 echo "Copyright (c) 2003 Martin Edenhofer <martin@otrs.org>"
 
 
@@ -36,69 +36,73 @@ if ! test $PATH_TO_CVS_SRC; then
     echo ""
     echo "Usage: auto_docbuild.sh <PATH_TO_CVS_SRC> <VERSION> <RELEASE>"
     echo ""
-    echo "  Try: auto_docbuild.sh /home/ernie/src/otrs "
+    echo "  Try: auto_docbuild.sh /home/ernie/src/otrs-doc "
     echo ""
     exit 1;
 else
-    # --
     # check dir 
-    # --
-    if ! test -e $PATH_TO_CVS_SRC/RELEASE; then
+    if ! test -e $PATH_TO_CVS_SRC/de; then
         echo "Error: $PATH_TO_CVS_SRC is not OTRS CVS directory!"
         exit 1;
     fi
 fi
 
-# --
 # cleanup build dir
-# --
 rm -rf $PACKAGE_DEST_DIR
-mkdir $PACKAGE_DEST_DIR
+mkdir -p $PACKAGE_DEST_DIR/
 
-# --
-# prepare build env
-# --
-rm -rf $PACKAGE_BUILD_DIR || exit 1;
-mkdir -p $PACKAGE_BUILD_DIR/ || exit 1;
-cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/ || exit 1;
 
-# remove CVS stuff
-find $PACKAGE_BUILD_DIR/ -name CVS | xargs rm -rf || exit 1;
-# remove swap stuff
-find -name ".#*" | xargs rm -rf
+for Language in en de; do
 
-# add READMEs
-cd $PACKAGE_BUILD_DIR/
-cp doc/manual/install-cli.sgml doc/manual/install-cli.sgml.tmp
-perl -e '$IN = ""; open (IN, "< INSTALL"); while (<IN>) { $IN .= $_ if ($_ !~ /^#/); } $IN =~ s/>/&gt;/g; $IN =~ s/</&lt;/g; $IN2 = ""; open (IN2, "< doc/manual/install-cli.sgml.tmp"); while (<IN2>) { $IN2 .= $_; } $IN2 =~ s/\$\$INSTALL\$\$/$IN/; print $IN2;' > doc/manual/install-cli.sgml
+    # prepare build env
+    rm -rf $PACKAGE_BUILD_DIR || exit 1;
+    mkdir -p $PACKAGE_BUILD_DIR/ || exit 1;
+    cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/ || exit 1;
 
-cp doc/manual/install-cli.sgml doc/manual/install-cli.sgml.tmp
-perl -e '$IN = ""; open (IN, "< README.database"); while (<IN>) { $IN .= $_ if ($_ !~ /^#/); } $IN =~ s/>/&gt;/g; $IN =~ s/</&lt;/g; $IN2 = ""; open (IN2, "< doc/manual/install-cli.sgml.tmp"); while (<IN2>) { $IN2 .= $_; } $IN2 =~ s/\$\$README.database\$\$/$IN/; print $IN2;' > doc/manual/install-cli.sgml
+    # remove CVS stuff
+    find $PACKAGE_BUILD_DIR/ -name CVS | xargs rm -rf || exit 1;
+    # remove swap stuff
+    find -name ".#*" | xargs rm -rf
 
-cp doc/manual/install-cli.sgml doc/manual/install-cli.sgml.tmp
-perl -e '$IN = ""; open (IN, "< README.webserver"); while (<IN>) { $IN .= $_ if ($_ !~ /^#/); } $IN =~ s/>/&gt;/g; $IN =~ s/</&lt;/g; $IN2 = ""; open (IN2, "< doc/manual/install-cli.sgml.tmp"); while (<IN2>) { $IN2 .= $_; } $IN2 =~ s/\$\$README.webserver\$\$/$IN/; print $IN2;' > doc/manual/install-cli.sgml
+    # build docu 
+    mkdir $PACKAGE_BUILD_DIR/$Language/
+    cd $PACKAGE_BUILD_DIR/$Language/
 
-# --
-# build docu 
-# --
-cd $PACKAGE_BUILD_DIR/doc/manual/
-db2x.sh --pdf manual.sgml
-mkdir $PACKAGE_DEST_DIR/pdf
-cp manual.pdf $PACKAGE_DEST_DIR/pdf/otrs.pdf
+    # add READMEs
+    cp install-cli.sgml install-cli.sgml.tmp
+    perl -e '$IN = ""; open (IN, "< INSTALL"); while (<IN>) { $IN .= $_ if ($_ !~ /^#/); } $IN =~ s/>/&gt;/g; $IN =~ s/</&lt;/g; $IN2 = ""; open (IN2, "< install-cli.sgml.tmp"); while (<IN2>) { $IN2 .= $_; } $IN2 =~ s/\$\$INSTALL\$\$/$IN/; print $IN2;' > install-cli.sgml
 
-db2x.sh --html manual.sgml
-mkdir $PACKAGE_DEST_DIR/html
-mkdir $PACKAGE_DEST_DIR/html/screenshots
-cp -R manual/* $PACKAGE_DEST_DIR/html/
-cp -R screenshots/* $PACKAGE_DEST_DIR/html/screenshots/
+    cp install-cli.sgml install-cli.sgml.tmp
+    perl -e '$IN = ""; open (IN, "< README.database"); while (<IN>) { $IN .= $_ if ($_ !~ /^#/); } $IN =~ s/>/&gt;/g; $IN =~ s/</&lt;/g; $IN2 = ""; open (IN2, "< install-cli.sgml.tmp"); while (<IN2>) { $IN2 .= $_; } $IN2 =~ s/\$\$README.database\$\$/$IN/; print $IN2;' > install-cli.sgml
 
-mkdir $PACKAGE_DEST_DIR/sgml
-cp -R *.sgml $PACKAGE_DEST_DIR/sgml/
+    cp install-cli.sgml install-cli.sgml.tmp
+    perl -e '$IN = ""; open (IN, "< README.webserver"); while (<IN>) { $IN .= $_ if ($_ !~ /^#/); } $IN =~ s/>/&gt;/g; $IN =~ s/</&lt;/g; $IN2 = ""; open (IN2, "< install-cli.sgml.tmp"); while (<IN2>) { $IN2 .= $_; } $IN2 =~ s/\$\$README.webserver\$\$/$IN/; print $IN2;' > install-cli.sgml
 
-du -sh $PACKAGE_DEST_DIR/sgml/
-du -sh $PACKAGE_DEST_DIR/html/
-ls -l $PACKAGE_DEST_DIR/pdf/otrs.pdf
-# --
-# cleanup
-# --
-rm -rf $PACKAGE_BUILD_DIR
+    # pdf
+    db2x.sh --pdf manual.sgml
+    mkdir -p $PACKAGE_DEST_DIR/$Language/pdf
+    cp manual.pdf $PACKAGE_DEST_DIR/$Language/pdf/otrs.pdf
+ 
+    # html
+    db2x.sh --html manual.sgml
+    mkdir -p $PACKAGE_DEST_DIR/$Language/html
+    mkdir -p $PACKAGE_DEST_DIR/$Language/html/screenshots
+    cp -R manual/* $PACKAGE_DEST_DIR/$Language/html/
+    cp -R screenshots/* $PACKAGE_DEST_DIR/$Language/html/screenshots/
+
+    # sgml
+    mkdir -p $PACKAGE_DEST_DIR/$Language/sgml
+    cp -R *.sgml $PACKAGE_DEST_DIR/$Language/sgml/
+ 
+    # cleanup
+    rm -rf $PACKAGE_BUILD_DIR
+ 
+done;
+
+# show result
+for Language in en de; do
+    du -sh $PACKAGE_DEST_DIR/$Language/sgml/;
+    du -sh $PACKAGE_DEST_DIR/$Language/html/;
+    du -sh $PACKAGE_DEST_DIR/$Language/pdf/;
+    ls -l $PACKAGE_DEST_DIR/$Language/pdf/otrs.pdf;
+done;
