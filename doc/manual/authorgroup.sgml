@@ -1,0 +1,34 @@
+<authorgroup>
+        <author>
+                <firstname>Martin</firstname>
+                <surname>Edenhofer</surname>
+                <affiliation>
+                        <orgname>OpenTRS core team</orgname>
+                        <address>
+                        <email>martin@otrs.org</email>
+                        </address>
+                </affiliation>
+        </author>
+
+        <author>
+                <firstname>Stefan</firstname>
+                <surname>Wintermeyer</surname>
+                <affiliation>
+                        <orgname>OpenTRS core team</orgname>
+                        <address>
+                        <email>stefan@otrs.org</email>
+                        </address>
+                </affiliation>
+        </author>
+
+        <author>
+                <firstname>Sebastian</firstname>
+                <surname>Wormser</surname>
+                <affiliation>
+                        <orgname>OpenTRS core team</orgname>
+                        <address>
+                        <email>sibbi@sibbi.org</email>
+                        </address>
+                </affiliation>
+        </author>
+</authorgroup>
