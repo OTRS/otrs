@@ -152,15 +152,18 @@ case "$1" in
       echo -n " Checking otrs spool dir... "
       for i in $OTRS_SPOOLDIR/* ; do
           # process old emails
-          echo $i | grep -v '*' >> /dev/null && \
-            echo "" && \
-            echo -n "   Starting otrs PostMaster... ($i) " && \
-            cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 && \
-            echo -n "remove email... " && \
-            (rm $i || echo "failed") 
+          if echo $i | grep -v '*' >> /dev/null ;then
+            echo ""
+            echo -n "   Starting otrs PostMaster... ($i) "
+            if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 ; then
+               echo -n "remove email... " && (rm $i || echo "failed.")
+            else
+               echo "failed."
+            fi
+          fi
       done
       echo " done."
-      
+
       # --
       # Cron stuff
       # -- 
@@ -221,18 +224,40 @@ case "$1" in
       # Remember status and be quiet
     ;;
     # ------------------------------------------------------
+    # cleanup
+    # ------------------------------------------------------
+    cleanup)
+      # --
+      # check otrs spool dir
+      # --
+      echo -n " Checking otrs spool dir... "
+      for i in $OTRS_SPOOLDIR/* ; do
+          # process old emails
+          if echo $i | grep -v '*' >> /dev/null ;then
+            echo "" 
+            echo -n "   Starting otrs PostMaster... ($i) " 
+            if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 ; then 
+               echo -n "remove email... " && (rm $i || echo "failed.")
+            else 
+               echo "failed."
+            fi
+          fi
+      done
+      echo " done."
+    ;;
+    # ------------------------------------------------------
     # status
     # ------------------------------------------------------
     status) 
       # --
       # httpd
       # --
-      service $USED_WEBSERVER status
+      /sbin/service $USED_WEBSERVER status
 
       # --
       # mysql
       # --
-      service $USED_DB status
+      /sbin/service $USED_DB status
       # --
       # db check
       # --
@@ -267,7 +292,7 @@ case "$1" in
       echo "done."
     ;;
     *)
-    echo "Usage: $0 {start|stop|status|restart}"
+    echo "Usage: $0 {start|stop|status|restart|cleanup}"
     exit 1
 esac
 
