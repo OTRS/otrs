@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.14 2003-06-22 18:37:31 martin Exp $
+# $Id: EmailParser.pm,v 1.15 2003-10-29 21:13:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -167,9 +167,7 @@ sub PartsAttachments {
 	    }
     }
     else {
-        # --
         # get attachment meta stuff
-        # --
         my %PartData = ();
         $PartData{ContentType} = $Part->effective_type();
         $PartData{ContentTypeLong} = $Part->head()->mime_type()."; ";
@@ -177,12 +175,18 @@ sub PartsAttachments {
             $Self->{ContentType} .= "charset=".
             $Part->head()->mime_attr('content-type.charset');
         }
-        # --
-        # log error 
-        # --
+        # get content (if possible)
         if ($Part->bodyhandle()) {
             $PartData{Content} = $Part->bodyhandle()->as_string();
+            if (!$PartData{Content}) {
+                $Self->{LogObject}->Log(
+                    Priority => 'notice',
+                    Message => "Totally empty attachment part ($PartCounter)",
+                );
+                return;
+            }
         }
+        # log error if there is an corrupt MIME email
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
@@ -190,9 +194,7 @@ sub PartsAttachments {
             );
             return; 
         }
-        # --
         # check if there is no recommended_filename -> add file-NoFilenamePartCounter
-        # --
         if (!$Part->head()->recommended_filename()) {
             $Self->{NoFilenamePartCounter}++;
             $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
@@ -200,9 +202,7 @@ sub PartsAttachments {
         else {
             $PartData{Filename} = decode_mimewords($Part->head()->recommended_filename());
         }
-        # --
         # debug
-        # --
         if ($Self->{Debug} > 0) {
             print STDERR "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}'\n";
         }
