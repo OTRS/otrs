@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.28 2004-06-22 14:12:56 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.29 2004-06-25 15:36:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -132,12 +132,11 @@ sub Run {
 
     my $AllTickets = @ViewableTickets;
     # show ticket's
-    my $OutputTable = "";
     my $Counter = 0;
     foreach my $TicketID (@ViewableTickets) {
         $Counter++;
         if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{PageShown}+$Self->{StartHit})) {
-            $OutputTable .= $Self->ShowTicketStatus(TicketID => $TicketID);
+            $Self->ShowTicketStatus(TicketID => $TicketID);
         }
     }
     # create & return output
@@ -153,7 +152,6 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerStatusView', 
         Data => {
-            StatusTable => $OutputTable,
             Type => $Self->{Type},
             ShowClosed => $ShowClosed,
             %PageNav,
@@ -190,15 +188,15 @@ sub ShowTicketStatus {
         );
         $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
     }
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerStatusViewTable', 
+    # add block
+    $Self->{LayoutObject}->Block(
+        Name => 'Record',
         Data => {
             %Article,
             Subject => $Subject,
             %Param,
         },
-    );
+    ); 
 }
 # --
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.3 2004-06-22 09:58:37 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.4 2004-06-25 15:36:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -286,15 +286,7 @@ sub Run {
                 Cached => 1
             );
             # generate ticket result
-            if ($GetParam{ResultForm} eq 'Print') {
-                $Param{StatusTable} .= $Self->MaskPrintResult(
-                    %Data, 
-                    %UserInfo,
-                    CustomerData => \%CustomerData,
-                    GetParam => \%GetParam,
-                );
-            }
-            elsif ($GetParam{ResultForm} eq 'CSV') {
+            if ($GetParam{ResultForm} eq 'CSV') {
                 # csv quote
                 foreach (keys %Data) {
                     $Data{$_} =~ s/"/""/g if ($Data{$_});
@@ -311,11 +303,23 @@ sub Run {
                 my $Subject = $Data{Subject};
                 $Subject =~ s/^RE://i;
                 $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
-
-                $Param{StatusTable} .= $Self->MaskShortResult(
-                    %Data,
-                    Subject => $Subject,
-                    %UserInfo,
+                $Data{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Data{Age}, Space => ' ');
+                # customer info string 
+                $Data{CustomerName} = '('.$Data{CustomerName}.')' if ($Data{CustomerName});
+                foreach (qw(From To Cc Subject)) {
+                    $Data{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+                        Text => $Data{$_},
+                        From => $Data{ContentCharset},
+                    ) || '-';
+                }
+                # add blocks to template
+                $Self->{LayoutObject}->Block(
+                    Name => 'Record',
+                    Data => {
+                        %Data,
+                        Subject => $Subject,
+                        %UserInfo,
+                    },
                 );
             }
           }
@@ -483,25 +487,6 @@ sub MaskForm {
     # html search mask output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketSearch', 
-        Data => \%Param,
-    );
-}
-# --
-sub MaskShortResult {
-    my $Self = shift;
-    my %Param = @_;
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # customer info string 
-    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
-    foreach (qw(From To Cc Subject)) {
-        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Param{$_},
-            From => $Param{ContentCharset},
-        ) || '-';
-    }
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerTicketSearchResultShortTable', 
         Data => \%Param,
     );
 }

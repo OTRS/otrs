@@ -2,7 +2,7 @@
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.2 2004-06-04 09:53:52 martin Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.3 2004-06-25 15:33:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,7 +42,29 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=CustomerID&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=CustomerID&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
 </tr>
-$Data{"StatusTable"}
+
+<!-- dtl:block:Record -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "2"; }>
+
+<tr valign="top">
+ <td class="table$Env{"Color"}"><a href="$Env{"Baselink"}Action=CustomerZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
+ <td class="table$Env{"Color"}">$Quote{"$Data{"Age"}"}</td>
+ <td class="table$Env{"Color"}">
+   <div title="$QData{"From"}">$QData{"From","30"}</div>
+   <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>&nbsp;
+ </td>
+ <td class="table$Env{"Color"}">
+   <div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>
+ </td>
+ <td class="table$Env{"Color"}">
+  <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+ </td>
+</tr>
+
+<dtl if ($Env{"Color"} eq "1") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "2") { $Env{"Color"} = "1"; }>
+<!-- dtl:block:Record -->
+
 </table>
 
  </td>

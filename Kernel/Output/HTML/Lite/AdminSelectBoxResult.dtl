@@ -2,7 +2,7 @@
 # AdminSelectBoxResult.dtl - provides HTML result for SelectBox
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBoxResult.dtl,v 1.10 2004-03-01 14:00:57 martin Exp $
+# $Id: AdminSelectBoxResult.dtl,v 1.11 2004-06-25 15:33:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,12 +18,16 @@
 
 <tr> 
   <td align="left" valign="top" class="table1">
-
-  <b>$Text{"SQL"}:</b> '$Data{"SQL"}' - <b>$Text{"Limit"}:</b> $Data{"Limit"}
-
-<hr>
-
+<table width="100%" cellspacing="0" cellpadding="3" border="0">
+<!-- dtl:block:Row -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "2"; }>
+<tr valign="top" class="table$Env{"Color"}">
 $Data{"Result"}
+</tr>
+<dtl if ($Env{"Color"} eq "1") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "2") { $Env{"Color"} = "1"; }>
+<!-- dtl:block:Row -->
+</table>
 
   </td> 
 </tr>

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerStatusView.dtl,v 1.16 2004-06-22 14:12:57 martin Exp $
+# $Id: CustomerStatusView.dtl,v 1.17 2004-06-25 15:33:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -53,7 +53,22 @@
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&SortBy=Owner&Order=Down&Limit=$Data{"Limit"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
 #   <th width="10%">$Text{"CustomerID"}</th>
 </tr>
-$Data{"StatusTable"}
+<!-- dtl:block:Record -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "2"; }>
+<tr>
+ <td align="center" class="table$Env{"Color"}"><a href="$Env{"Baselink"}Action=CustomerZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
+ <td class="table$Env{"Color"}">$QData{"Age","20"}</td>
+ <td class="table$Env{"Color"}"><div title="$QData{"Subject","80"}">$QData{"Subject","36"}</div></td>
+ <td class="table$Env{"Color"}"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></td>
+ <td class="table$Env{"Color"}"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","18"}</div></td>
+ <td class="table$Env{"Color"}"><div title="$Quote{"$Data{"Owner"}"}">$Quote{"$Data{"Owner"}","18"}</div></td>
+# <td class="table$Env{"Color"}"><div title="$Quote{"$Data{"CustomerID"}"}">$Quote{"$Data{"CustomerID"}","18"}</div>
+#    <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+# </td>
+</tr>
+<dtl if ($Env{"Color"} eq "1") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "2") { $Env{"Color"} = "1"; }>
+<!-- dtl:block:Record -->
 </table>
 
  </td>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.55 2004-06-04 09:53:52 martin Exp $
+# $Id: AgentUtilities.pm,v 1.56 2004-06-25 15:36:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -270,6 +270,12 @@ sub Run {
           if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
             # get first article data
             my %Data = $Self->{TicketObject}->ArticleFirstArticle(TicketID => $_);
+            foreach (qw(From To Cc Subject)) {
+                $Data{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+                    Text => $Data{$_},
+                    From => $Data{ContentCharset},
+                ) || '-';
+            }
             # get whole article (if configured!)
             if ($Self->{ConfigObject}->Get('AgentUtilArticleTreeCSV') && $GetParam{ResultForm} eq 'CSV') {
                 my @Article = $Self->{TicketObject}->ArticleGet(
@@ -304,27 +310,90 @@ sub Run {
                 User => $Data{Owner},
                 Cached => 1
             );
+            # get age
+            $Data{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Data{Age}, Space => ' ');
+            # customer info string 
+            $UserInfo{CustomerName} = '('.$UserInfo{CustomerName}.')' if ($UserInfo{CustomerName});
             # generate ticket result
             if ($GetParam{ResultForm} eq 'Preview') {
-                $Param{StatusTable} .= $Self->MaskPreviewResult(
-                    %Data, 
-                    CustomerData => \%CustomerData,
-                    GetParam => \%GetParam,
+                # check if just a only html email
+                if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
+                    %Data,
+                    Action => 'AgentZoom',
+                )) {
+                    $Data{TextNote} = $MimeTypeText;
+                    $Data{Body} = '';
+                }
+                else {
+                    # charset convert
+                    $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+                        Text => $Data{Body},
+                        From => $Data{ContentCharset},
+                    );
+                    # do some text quoting
+                    $Data{Body} = $Self->{LayoutObject}->Ascii2Html(
+                        NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+                        Text => $Data{Body},
+                        VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
+                        StripEmptyLines => 1,
+                        HTMLResultMode => 1,
+                    );
+                    # do charset check
+                    if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+                        Action => 'AgentZoom',
+                        ContentCharset => $Data{ContentCharset},
+                        TicketID => $Data{TicketID},
+                        ArticleID => $Data{ArticleID} )) {
+                        $Data{TextNote} = $CharsetText;
+                    }
+                }
+                # customer info string 
+                $UserInfo{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+                    Data => \%CustomerData,
+                    Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
+                );
+                # do some html highlighting
+                my $HighlightStart = '<font color="orange"><b><i>';
+                my $HighlightEnd = '</i></b></font>';
+                if (%GetParam) {
+                    foreach (qw(Body From To Subject)) {
+                        if ($GetParam{$_}) {
+                            $GetParam{$_} =~ s/(\*|\%)//g;
+                            my @Parts = split('%', $GetParam{$_});
+                            if ($Data{$_}) {
+                                foreach my $Part (@Parts) {
+                                    $Data{$_} =~ s/($Part)/$HighlightStart$1$HighlightEnd/gi;
+                                }
+                            }
+                        }
+                    }
+                }
+                foreach (qw(From To Subject)) {
+                    if (!$GetParam{$_}) {
+                        $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_}, Max => 80);
+                    }
+                }
+                # add ticket block
+                $Self->{LayoutObject}->Block(
+                    Name => 'Record',
+                    Data => {
+                        %Data, 
+                        %UserInfo,
+                    },
                 );
             }
             elsif ($GetParam{ResultForm} eq 'Print') {
-                $Param{StatusTable} .= $Self->MaskPrintResult(
-                    %Data, 
-                    %UserInfo,
-                    CustomerData => \%CustomerData,
-                    GetParam => \%GetParam,
+                # add table block
+                $Self->{LayoutObject}->Block(
+                    Name => 'Record',
+                    Data => {
+                        %Data, 
+                        %UserInfo,
+                    },
                 );
             }
             elsif ($GetParam{ResultForm} eq 'CSV') {
                 # merge row data
-                $Data{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Data{Age}, Space => ' ');
-                # customer info string 
-                $Data{CustomerName} = '('.$Data{CustomerName}.')' if ($Data{CustomerName});
                 my %Info = (
                     %Data, 
                     %UserInfo,
@@ -346,12 +415,29 @@ sub Run {
                 my $Subject = $Data{Subject};
                 $Subject =~ s/^RE://i;
                 $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
-
-                $Param{StatusTable} .= $Self->MaskShortResult(
-                    %Data,
-                    Subject => $Subject,
-                    %UserInfo,
-                );
+                # add table block
+                if (!$Data{Answered}) {
+                  $Self->{LayoutObject}->Block(
+                    Name => 'Record',
+                    Data => {
+                        StartFont => '<font color="red">',
+                        StopFont => '</font>',
+                        %Data, 
+                        Subject => $Subject,
+                        %UserInfo,
+                    },
+                  );
+                }
+                else {
+                  $Self->{LayoutObject}->Block(
+                    Name => 'Record',
+                    Data => {
+                        %Data, 
+                        Subject => $Subject,
+                        %UserInfo,
+                    },
+                  );
+                }
             }
           }
         }
@@ -372,10 +458,9 @@ sub Run {
         # build shown ticket
         if ($GetParam{ResultForm} eq 'Preview') {
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentUtilSearchNavBar',
+                TemplateFile => 'AgentUtilSearchResult',
                 Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
-            $Output .= $Param{StatusTable};
         }
         elsif ($GetParam{ResultForm} eq 'Print') {
             $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Agent', Title => 'Result', Width => 800);
@@ -594,113 +679,6 @@ sub MaskForm {
         Data => \%Param,
     );
     return $Output;
-}
-# --
-sub MaskPreviewResult {
-    my $Self = shift;
-    my %Param = @_;
-    # check if just a only html email
-    if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
-        %Param,
-        Action => 'AgentZoom',
-    )) {
-        $Param{TextNote} = $MimeTypeText;
-        $Param{Body} = '';
-    }
-    else {
-        # charset convert
-        $Param{Body} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Param{Body},
-            From => $Param{ContentCharset},
-        );
-        # do some text quoting
-        $Param{Body} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-            Text => $Param{Body},
-            VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
-            StripEmptyLines => 1,
-            HTMLResultMode => 1,
-        );
-        # do charset check
-        if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-            Action => 'AgentZoom',
-            ContentCharset => $Param{ContentCharset},
-            TicketID => $Param{TicketID},
-            ArticleID => $Param{ArticleID} )) {
-            $Param{TextNote} = $CharsetText;
-        }
-    }
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # customer info string 
-    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-        Data => $Param{CustomerData},
-        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
-    );
-    # do some html highlighting
-    my $HighlightStart = '<font color="orange"><b><i>';
-    my $HighlightEnd = '</i></b></font>';
-    if ($Param{GetParam}) {
-        foreach (qw(Body From To Subject)) {
-          if ($Param{GetParam}->{$_}) {
-            $Param{GetParam}->{$_} =~ s/(\*|\%)//g;
-            my @Parts = split('%', $Param{GetParam}->{$_});
-            if ($Param{$_}) {
-                foreach my $Part (@Parts) {
-                   $Param{$_} =~ s/($Part)/$HighlightStart$1$HighlightEnd/gi;
-                }
-            }
-          }
-        }
-    }
-    foreach (qw(From To Subject)) {
-        if (!$Param{GetParam}->{$_}) {
-            $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}, Max => 80);
-        } 
-    }
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentUtilSearchResult', 
-        Data => \%Param,
-    );
-}
-# --
-sub MaskShortResult {
-    my $Self = shift;
-    my %Param = @_;
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # customer info string 
-    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
-    foreach (qw(From To Cc Subject)) {
-        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Param{$_},
-            From => $Param{ContentCharset},
-        ) || '-';
-    }
-    # create & return output
-    if (!$Param{Answered}) {
-        return $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentUtilSearchResultShortTableNotAnswered', 
-            Data => \%Param,
-        );
-    } else {
-        return $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentUtilSearchResultShortTable', 
-            Data => \%Param,
-        );
-    }
-}
-# --
-sub MaskPrintResult {
-    my $Self = shift;
-    my %Param = @_;
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # customer info string 
-    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentUtilSearchResultPrintTable', 
-        Data => \%Param,
-    );
 }
 # --
 1;

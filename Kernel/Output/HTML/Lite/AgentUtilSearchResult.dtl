@@ -2,13 +2,30 @@
 # AgentUtilSearchResult.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResult.dtl,v 1.21 2004-02-12 00:26:18 martin Exp $
+# $Id: AgentUtilSearchResult.dtl,v 1.22 2004-06-25 15:38:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="left" valign="top" class="table0">
+  <b>$Env{"Box0"}$Text{"Search Result"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr>
+  <td align="left" valign="top" class="table2">
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">$Text{"Change search options"}</a> -
+$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
+- $Text{"Site"}: $Data{"SiteNavBar"}
+  </td>
+</tr>
+</table>
+<!-- end form -->
+
+<!-- dtl:block:Record -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" width="50%" class="table0">
@@ -78,4 +95,4 @@ $Data{"Body"}
   </td>
 </tr>
 </table>
-<!-- end form -->
+<!-- dtl:block:Record -->
