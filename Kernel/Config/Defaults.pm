@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.29 2003-02-09 02:00:31 martin Exp $
+# $Id: Defaults.pm,v 1.30 2003-02-09 21:07:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,11 +85,6 @@ sub LoadDefaults {
     # ChangeOwnerToEveryone -> useful for ASP
     # (Possible to change owner of ticket ot everyone) [0|1]
     $Self->{ChangeOwnerToEveryone} = 0;
-
-    # ShowCustomerSelection 
-    # (show customer selection in phone and change customer view
-    # - disable this for ASP!) [0|1]
-    $Self->{ShowCustomerSelection} = 1;
 
     # MaxFileUpload
     # (Max size for file uploads - default 5 MB)
@@ -193,6 +188,11 @@ sub LoadDefaults {
     # highlight age2 in min
     $Self->{HighlightAge2} = 2880;
     $Self->{HighlightColor2} = 'red';
+
+    # ----------------------------------------------------#
+    # AgentStatusView (shows all open tickets)            #
+    # ----------------------------------------------------#
+    $Self->{'AgentStatusView::ViewableTicketsPage'} = 75;
 
     # ----------------------------------------------------#
     # AgentUtil                                           #
@@ -574,7 +574,7 @@ sub LoadDefaults {
 
     # PostmasterDefaultPriority
     # (The default priority of new tickets.) [default: normal]
-    $Self->{PostmasterDefaultPriority} = 'normal';
+    $Self->{PostmasterDefaultPriority} = '3 normal';
 
     # PostmasterDefaultState
     # (The default state of new tickets.) [default: new]
@@ -602,6 +602,7 @@ sub LoadDefaults {
       'X-OTRS-Ignore',
       'X-OTRS-State',
       'X-OTRS-CustomerNo',
+      'X-OTRS-CustomerUser',
       'X-OTRS-ArticleKey1',
       'X-OTRS-ArticleKey2',
       'X-OTRS-ArticleKey3',
@@ -1149,8 +1150,8 @@ Your OTRS Notification Master
         CustomerID => 'customer_id',
         CustomerValid => 'valid_id',
         CustomerListFileds => ['customer_id', 'comment'],
-        CustomerUserListFileds => ['login', 'first_name', 'last_name', 'email'],
-#        CustomerUserListFileds => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
+#        CustomerUserListFileds => ['login', 'first_name', 'last_name', 'email'],
+        CustomerUserListFileds => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
 #        ReadOnly => 1,
         Map => [
             # note: Login, Email and CustomerID needed!
@@ -1160,9 +1161,9 @@ Your OTRS Notification Master
             [ 'UserLastname', 'Lastname', 'last_name', 1, 1, 'var' ],
             [ 'UserLogin', 'Login', 'login', 1, 1, 'var' ],
             [ 'UserPassword', 'Password', 'pw', 0, 1, 'var' ],
-#            [ 'UserEmail', 'Email', 'email', 1, 1, 'var' ],
+            [ 'UserEmail', 'Email', 'email', 0, 1, 'var' ],
 #            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}' ],
-#            [ 'UserCustomerID', 'CustomerID', 'customer_id', 1, 1, 'var' ],
+            [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var' ],
             [ 'UserComment', 'Comment', 'comment', 1, 0, 'var' ],
             [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int' ],
         ],
@@ -1198,7 +1199,7 @@ Your OTRS Notification Master
 #            [ 'UserLastname', 'Lastname', 'sn', 1, 1, 'var' ],
 #            [ 'UserLogin', 'Login', 'uid', 1, 1, 'var' ],
 #            [ 'UserEmail', 'Email', 'mail', 1, 1, 'var' ],
-#            [ 'UserCustomerID', 'CustomerID', 'mail', 1, 1, 'var' ],
+#            [ 'UserCustomerID', 'CustomerID', 'mail', 0, 1, 'var' ],
 #            [ 'UserPhone', 'Phone', 'telephonenumber', 1, 0, 'var' ],
 #            [ 'UserAddress', 'Address', 'postaladdress', 1, 0, 'var' ],
 #            [ 'UserComment', 'Comment', 'description', 1, 0, 'var' ],
