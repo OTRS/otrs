@@ -2,7 +2,7 @@
 # Kernel/System/Crypt.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Crypt.pm,v 1.2 2004-08-04 13:10:35 martin Exp $
+# $Id: Crypt.pm,v 1.3 2004-08-13 05:42:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION @ISA);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -33,6 +33,13 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject CryptType)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    # check if module is enabled
+    if (!$Self->ConfigObject}->Get($Param{CryptType})) {
+        return;
+    }
+
+    # create file template object
     $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
 
     # load generator crypt module
