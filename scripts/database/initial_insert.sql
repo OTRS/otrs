@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.32 2004-10-06 18:59:15 martin Exp $
+-- $Id: initial_insert.sql,v 1.33 2004-10-13 12:46:21 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.32  2004/10/06 18:59:15  martin
+-- updated notifications
+--
 -- Revision 1.31  2004/09/29 12:32:52  martin
 -- fixed english "New ticket notification!", replaced OTRS_CURRENT_USERFIRSTNAME with OTRS_USERFIRSTNAME
 --
@@ -742,9 +745,9 @@ INSERT INTO ticket_history
   ('New Ticket [1010001] created.',1,1,1,3,1,1,1, current_timestamp,1,current_timestamp,1);
 
 INSERT INTO faq_item
-  (f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
+  (f_number, f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
   VALUES
-  ('welcome', 1, 'Welcome!', 1, 1, 'symptom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
+  ('100001', 'welcome', 1, 'Welcome!', 1, 1, 'symptom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO faq_history
   (name, item_id, create_time, create_by, change_time, change_by)
