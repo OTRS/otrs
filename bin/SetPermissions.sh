@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.19 2003-06-01 18:06:19 martin Exp $
+# $Id: SetPermissions.sh,v 1.20 2003-09-28 15:50:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.19 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.20 $> - set OTRS file permissions"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 if ! test $1 || ! test $2 || ! test $3; then 
@@ -101,7 +101,7 @@ chown -R $WEBUSER:$WEBGROUP $OTRSDEST/var/sessions/
 echo "touch && chown $OTRSUSER:$WEBGROUP $OTRSDEST/var/log/TicketCounter.log"
 touch $OTRSDEST/var/log/TicketCounter.log
 chown $OTRSUSER:$WEBGROUP $OTRSDEST/var/log/TicketCounter.log
-chmod 775 $OTRSDEST/var/log/TicketCounter.log
+chmod 644 $OTRSDEST/var/log/TicketCounter.log
 
 # --
 # bin/*
