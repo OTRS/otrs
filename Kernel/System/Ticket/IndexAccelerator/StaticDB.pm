@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.4 2003-01-02 18:18:56 martin Exp $
+# $Id: StaticDB.pm,v 1.5 2003-01-09 20:41:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -43,7 +43,7 @@ sub TicketAcceleratorUpdate {
     }
     else {
         # --
-        # chekc if we need to update
+        # check if we need to update
         # --
         if ($TicketData{Lock} ne $IndexTicketData{Lock}) {
           $IndexUpdateNeeded = 1;
@@ -95,6 +95,20 @@ sub TicketAcceleratorUpdate {
         $Self->TicketAcceleratorDelete(%Param);
       }
     }
+    # --
+    # write lock index
+    # --
+    if (!$ViewableLocksHit) {
+        # check if there is already an lock index entry
+        if (!$Self->GetIndexTicketLock(%Param)) {
+            # add lock index entry
+            $Self->TicketLockAcceleratorAdd(%TicketData);
+        }
+    }
+    else {
+        # delete lock index entry if tickst is unlocked
+        $Self->TicketLockAcceleratorDelete(%Param);
+    }
     return 1;
 }
 # --
@@ -140,6 +154,54 @@ sub TicketAcceleratorAdd {
         " ($Param{TicketID}, $TicketData{QueueID}, '$TicketData{Queue}', ".
         " $TicketData{GroupID}, '$TicketData{Lock}', '$TicketData{State}', ".
         " $TicketData{CreateTimeUnix})";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    } 
+    else {
+        return;
+    }
+}
+# --
+sub TicketLockAcceleratorDelete {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my $SQL = "DELETE FROM ticket_lock_index WHERE ticket_id = $Param{TicketID} ";
+    $Self->{DBObject}->Do(SQL => $SQL);
+    return;
+}
+# --
+sub TicketLockAcceleratorAdd {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # get ticket data
+    # --
+    my %TicketData = $Self->GetTicket(%Param);
+    # --
+    # write/append index 
+    # --
+    my $SQL = "INSERT INTO ticket_lock_index ".
+        " (ticket_id)".
+        " VALUES ".
+        " ($Param{TicketID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     } 
@@ -308,6 +370,27 @@ sub TicketAcceleratorRebuild {
           " '$Data{Lock}', '$Data{State}', $Data{CreateTimeUnix})";
         $Self->{DBObject}->Do(SQL => $SQL)
     }
+    # --
+    # write lock index
+    # --
+    $Self->{DBObject}->Prepare(
+       SQL => "SELECT ti.id, ti.user_id ".
+         " FROM ".
+         " ticket ti, ticket_lock_type slt ".
+         " WHERE ".
+         " slt.id = ti.ticket_lock_id ".
+         " AND ".
+         " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) ",
+    );
+    my @LockRowBuffer = ();
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push (@LockRowBuffer, $Row[0]);
+    }
+    $Self->{DBObject}->Do(SQL => "DELETE FROM ticket_lock_index");
+    foreach (@LockRowBuffer) {
+        # add lock index entry
+        $Self->TicketLockAcceleratorAdd(TicketID => $_);
+    }
     return 1;
 }
 # --
@@ -341,6 +424,166 @@ sub GetIndexTicket {
         $Data{CreateTimeUnix} = $Row[6];
     }
     return %Data;
+}
+# --
+sub GetIndexTicketLock {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(TicketID)) {
+      if (!exists($Param{$_})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # sql query
+    # --
+    my $SQL = "SELECT ticket_id ".
+      " FROM ticket_lock_index ".
+      " WHERE ticket_id = $Param{TicketID}";
+    my $Hit = 0;
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Hit = 1;
+    }
+    return $Hit;
+}
+# --
+sub GetLockedCount {
+    my $Self = shift;
+    my %Param = @_;
+
+    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
+
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(UserID)) {
+      if (!exists($Param{$_})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    $Self->{DBObject}->Prepare(
+       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
+              " ti.until_time, ts.name ".
+              " FROM ".
+              " ticket ti, article ar, article_sender_type st, ".
+              " ticket_state ts, ticket_lock_index tli".
+              " WHERE ". 
+              " tli.ticket_id = ti.id".
+              " AND ".
+              " tli.ticket_id = ar.ticket_id".
+              " AND ".
+              " st.id = ar.article_sender_type_id ".
+              " AND ".
+              " ts.id = ti.ticket_state_id ".
+              " AND ".
+              " ti.user_id = $Param{UserID} ".
+              " ORDER BY ar.create_time DESC",
+    );
+    my %Data = ();
+    $Data{'Reminder'} = 0;
+    $Data{'Pending'} = 0;
+    $Data{'All'} = 0;
+    $Data{'New'} = 0;
+    $Data{'Open'} = 0;
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        if (!$Param{"ID$RowTmp[2]"}) {
+          $Data{'All'}++;
+          # --
+          # put all tickets to ToDo where last sender type is customer or ! UserID
+          # --
+          if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
+              $Data{'New'}++;
+          }
+          if ($RowTmp[5] && $RowTmp[6] =~ /^pending/i) {
+              $Data{'Pending'}++;
+              if ($RowTmp[6] !~ /^pending auto/i && $RowTmp[5] <= time()) {
+                  $Data{'Reminder'}++;
+              }
+          }
+        }
+        $Param{"ID$RowTmp[2]"} = 1;
+        $Data{"MaxAge"} = $RowTmp[4];
+    }
+    $Data{'Open'} = $Data{'All'} - $Data{'Pending'} + $Data{'Reminder'};
+    return %Data;
+}
+# --
+sub GetOverTimeTickets {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # get data (viewable tickets...)
+    # --
+    my @TicketIDsOverTime = ();
+    my %TicketIDs = ();
+    my @ViewableStats = @{$Self->{ConfigObject}->Get('ViewableStats')};
+    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
+    my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
+    " q.name, q.escalation_time, t.tn ".
+    " FROM ".
+    " article a, article_sender_type ast, queue q, ticket t, ".
+    " ticket_state tsd, ticket_lock_type slt, group_user as ug, ticket_index ti ".
+    " WHERE ".
+    " ti.ticket_id = t.id".
+    " AND ".
+    " tsd.id = t.ticket_state_id " .
+    " AND " .
+    " slt.id = t.ticket_lock_id " .
+    " AND " .
+    " ast.id = a.article_sender_type_id ".
+    " AND ".
+    " t.id = a.ticket_id ".
+    " AND ".
+    " q.id = t.queue_id ".
+    " AND ".
+    " q.group_id = ug.group_id ".
+    " AND ".
+    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) ".
+    " AND " .
+    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) ".
+    " AND ";
+    if ($Param{UserID}) {
+        $SQL .= " ug.user_id = $Param{UserID} ".
+          " AND ";
+    }
+    $SQL .= " ast.name = 'customer' ".
+    " AND " .
+    " t.ticket_answered != 1 ".
+    " AND " .
+    " q.escalation_time != 0 ".
+#    " GROUP BY t.id, t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
+#    " q.name, q.escalation_time, t.ticket_priority_id ".
+    " ORDER BY t.ticket_priority_id, a.incoming_time DESC";
+   $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+      if ($RowTmp[6] && !exists($TicketIDs{$RowTmp[1]})) {
+         $TicketIDs{$RowTmp[1]} = 1;
+         my $OverTime = (time() - ($RowTmp[4] + ($RowTmp[6]*60)));
+         my $Data = {
+              TicketID => $RowTmp[1],
+              TicketNumber => $RowTmp[7],
+              TicketQueueID => $RowTmp[0],
+              TicketOverTime => $OverTime,
+              ArticleSenderType => $RowTmp[3],
+              ArticleID => $RowTmp[2],
+              QueueID => $RowTmp[0],
+              Queue => $RowTmp[5],
+          };
+          if ($OverTime >= 0) {
+              push (@TicketIDsOverTime, $Data);
+          }
+      }
+    }
+    # --
+    # return overtime tickets
+    # --
+    return @TicketIDsOverTime;
 }
 # --
 

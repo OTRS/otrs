@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.40 2003-01-05 13:58:16 martin Exp $
+# $Id: Ticket.pm,v 1.41 2003-01-09 20:41:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -683,67 +683,6 @@ sub GetLockedTicketIDs {
     return @ViewableTickets;
 }
 # --
-sub GetLockedCount {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # check needed stuff
-    # --
-    if (!$Param{UserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
-        return;
-    }
-    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
-    my %Data;
-    $Data{'Reminder'} = 0;
-    $Data{'Pending'} = 0;
-    $Data{'All'} = 0;
-    $Data{'New'} = 0;
-    $Data{'Open'} = 0;
-    $Self->{DBObject}->Prepare(
-       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
-              " ti.until_time, ts.name " .
-              " FROM " .
-              " ticket ti, article ar, article_sender_type st, ticket_lock_type slt, " .
-              " ticket_state ts" .
-              " WHERE " .
-              " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) " .
-              " AND " .
-              " ti.user_id = $Param{UserID} " .
-              " AND " .
-              " slt.id = ti.ticket_lock_id " .
-              " AND " .
-              " ar.ticket_id = ti.id " .
-              " AND " .
-              " st.id = ar.article_sender_type_id " .
-              " AND " .
-              " ts.id = ti.ticket_state_id " .
-              " ORDER BY ar.create_time DESC",
-    );
-
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        if (!$Param{"ID$RowTmp[2]"}) {
-          $Data{'All'}++;
-          # --
-          # put all tickets to ToDo where last sender type is customer or ! UserID
-          # --
-          if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
-              $Data{'New'}++;
-          }
-          if ($RowTmp[5] && $RowTmp[6] =~ /^pending/i) {
-              $Data{'Pending'}++;
-              if ($RowTmp[6] !~ /^pending auto/i && $RowTmp[5] <= time()) {
-                  $Data{'Reminder'}++;
-              }
-          }
-        }
-        $Param{"ID$RowTmp[2]"} = 1;
-        $Data{"MaxAge"} = $RowTmp[4];
-    }
-    $Data{'Open'} = $Data{'All'} - $Data{'Pending'} + $Data{'Reminder'};
-    return %Data;
-}
-# --
 sub SetPendingTime {
     my $Self = shift;
     my %Param = @_;
@@ -780,76 +719,6 @@ sub SetPendingTime {
     else {
         return;
     }
-}
-# --
-sub GetOverTimeTickets {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # get data (viewable tickets...)
-    # --
-    my @TicketIDsOverTime = ();
-    my %TicketIDs = ();
-    my @ViewableStats = @{$Self->{ConfigObject}->Get('ViewableStats')};
-    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
-    my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
-    " q.name, q.escalation_time, t.tn ".
-    " FROM ".
-    " article a, article_sender_type ast, queue q, ticket t, ".
-    " ticket_state tsd, ticket_lock_type slt, group_user as ug ".
-    " WHERE ".
-    " tsd.id = t.ticket_state_id " .
-    " AND " .
-    " slt.id = t.ticket_lock_id " .
-    " AND " .
-    " ast.id = a.article_sender_type_id ".
-    " AND ".
-    " t.id = a.ticket_id ".
-    " AND ".
-    " q.id = t.queue_id ".
-    " AND ".
-    " q.group_id = ug.group_id ".
-    " AND ".
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) ".
-    " AND " .
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) ".
-    " AND ";
-    if ($Param{UserID}) {
-        $SQL .= " ug.user_id = $Param{UserID} ".
-          " AND ";
-    }
-    $SQL .= " ast.name = 'customer' ".
-    " AND " .
-    " t.ticket_answered != 1 ".
-    " AND " .
-    " q.escalation_time != 0 ".
-#    " GROUP BY t.id, t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
-#    " q.name, q.escalation_time, t.ticket_priority_id ".
-    " ORDER BY t.ticket_priority_id, a.incoming_time DESC";
-   $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-      if ($RowTmp[6] && !exists($TicketIDs{$RowTmp[1]})) {
-         $TicketIDs{$RowTmp[1]} = 1;
-         my $OverTime = (time() - ($RowTmp[4] + ($RowTmp[6]*60)));
-         my $Data = {
-              TicketID => $RowTmp[1],
-              TicketNumber => $RowTmp[7],
-              TicketQueueID => $RowTmp[0],
-              TicketOverTime => $OverTime,
-              ArticleSenderType => $RowTmp[3],
-              ArticleID => $RowTmp[2],
-              QueueID => $RowTmp[0],
-              Queue => $RowTmp[5],
-          };
-          if ($OverTime >= 0) {
-              push (@TicketIDsOverTime, $Data);
-          }
-      }
-    }
-    # --
-    # return overtime tickets
-    # --
-    return @TicketIDsOverTime;
 }
 # --
 
