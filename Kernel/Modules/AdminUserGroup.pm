@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroup.pm,v 1.14 2003-11-20 23:02:27 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.15 2003-11-26 01:06:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,11 +124,9 @@ sub Run {
                 foreach my $ID (@Array) {
                     if ($_ == $ID) {
                         $NewPermission{$Permission} = 1;
-print STDERR "$_: $Permission = 1\n";
                     }
                 }
             }
-print STDERR "$_:$ID \n";
             $Self->{GroupObject}->GroupMemberAdd(
                 UID => $_,
                 GID => $ID,
