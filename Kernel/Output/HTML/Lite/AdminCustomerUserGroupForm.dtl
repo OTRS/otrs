@@ -2,7 +2,7 @@
 # AdminCustomerUserGroupForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGroupForm.dtl,v 1.2 2005-02-15 13:44:02 martin Exp $
+# $Id: AdminCustomerUserGroupForm.dtl,v 1.3 2005-02-15 13:46:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,21 +20,21 @@
   $Text{"Change user <-> group settings"}
   </td>
 </tr>
-<tr valign="top">
- <td class="table1" align="center">
+<tr>
+ <td class="mainbody" align="center">
  <table border="0" cellspacing="0">
-  <th class="table1" width="50%">
+  <th class="contenthead" width="50%">
     <b>$Text{"User"}:$Text{"Group"} (1:n)</b>
   </th>
-  <th class="table1" width="50%">
+  <th class="contenthead" width="50%">
     <b>$Text{"User"}:$Text{"Group"} (n:1)</b>
   </th>
 </tr>
 <tr>
-  <td align="left" valign="top">
+  <td class="contentbody">
     $Data{"UserStrg"}
   </td>
-  <td align="left" valign="top">
+  <td class="contentbody">
     $Data{"GroupStrg"}
   </td>
  </table>
