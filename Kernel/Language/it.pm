@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.8 2004-02-10 00:18:37 martin Exp $
+# $Id: it.pm,v 1.9 2004-04-07 09:28:59 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -680,6 +680,7 @@ sub Data {
     # Template: AgentTicketLink
       'Link' => '',
       'Link to' => '',
+      'Delete Link' => '',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket già preso in gestione!',

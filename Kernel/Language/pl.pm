@@ -3,7 +3,7 @@
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.8 2004-03-25 11:16:25 martin Exp $
+# $Id: pl.pm,v 1.9 2004-04-07 09:28:59 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -680,6 +680,7 @@ sub Data {
     # Template: AgentTicketLink
       'Link' => 'Link',
       'Link to' => 'Link do',
+      'Delete Link' => '',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Zg³oszenie zablokowane!',

@@ -6,7 +6,7 @@
 #		     Vadim Buzek 
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.8 2004-02-15 21:49:35 martin Exp $
+# $Id: cz.pm,v 1.9 2004-04-07 09:28:58 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -684,6 +684,7 @@ sub Data {
     # Template: AgentTicketLink
       'Link' => 'Odkaz',
       'Link to' => 'Odkaz na',
+      'Delete Link' => '',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Tiket zamknut!',

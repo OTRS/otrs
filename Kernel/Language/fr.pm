@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Yann Richard <ze at nawak-online.org>
 # --
-# $Id: fr.pm,v 1.31 2004-02-26 17:43:52 martin Exp $
+# $Id: fr.pm,v 1.32 2004-04-07 09:28:59 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -680,6 +680,7 @@ sub Data {
     # Template: AgentTicketLink
       'Link' => 'Lien',
       'Link to' => 'Lien vers',
+      'Delete Link' => '',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket verrouillé !',

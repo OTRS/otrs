@@ -2,7 +2,7 @@
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.1 2004-02-15 21:34:37 martin Exp $
+# $Id: nb_NO.pm,v 1.2 2004-04-07 09:28:59 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.1 $;
+$VERSION = q$Revision: 1.2 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -680,6 +680,7 @@ sub Data {
     # Template: AgentTicketLink
       'Link' => 'Link',
       'Link to' => 'Link til',
+      'Delete Link' => '',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket låst',
