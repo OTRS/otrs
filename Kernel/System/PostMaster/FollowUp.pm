@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.7 2002-05-04 16:01:22 martin Exp $
+# $Id: FollowUp.pm,v 1.8 2002-05-14 01:37:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,9 +13,10 @@ package Kernel::System::PostMaster::FollowUp;
 
 use strict;
 use Kernel::System::PostMaster::AutoResponse;
+use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -27,6 +28,7 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
+    # 0=off 1=on
     $Self->{Debug} = 0;
 
     foreach (keys %Param) {
@@ -69,6 +71,13 @@ sub Run {
     my $LogObject = $Self->{LogObject};
 
     my $OldState = $TicketObject->GetState(TicketID => $TicketID) || '';
+
+    # create ob
+    my $EmailObject = Kernel::System::EmailSend->new(
+        ConfigObject => $Self->{ConfigObject},
+        LogObject => $Self->{LogObject} ,
+        DBObject => $Self->{DBObject},
+    );
 
     # do db insert
     my $ArticleID = $ArticleObject->CreateArticleDB(
@@ -136,6 +145,7 @@ sub Run {
 
     # --
     # send auto response?
+    # --
     my $AutoResponse = Kernel::System::PostMaster::AutoResponse->new(
         DBObject => $DBObject,
     );
@@ -193,43 +203,26 @@ sub Run {
         }
 
         # --
-        # do article db insert
-        # --
-        my $ArticleID = $ArticleObject->CreateArticleDB(
-            TicketID => $TicketID,
-            ArticleType => 'email-external',
-            SenderType => 'system',
-            From => "$Data{Realname} <$Data{Address}>",
-            To => $GetParam{From},
-            Subject => $Subject,
-            MessageID => time() .".". rand(999999),
-            Body => $Body,
-            CreateUserID => $InmailUserID,
-        );
-
-        # create ob
-        my $Email = Kernel::System::EmailSend->new(
-            ConfigObject => $Self->{ConfigObject}, 
-            LogObject => $Self->{LogObject} , 
-            DBObject => $Self->{DBObject},
-        );
-
         # send email
-        $Email->Send(
+        # --
+        $EmailObject->Send(
             DBObject => $DBObject,
+            ArticleObject => $ArticleObject,
+            ArticleType => 'email-external',
+            ArticleSenderType => 'system',
+            TicketID => $TicketID,
+            TicketObject => $TicketObject,
+            HistoryType => 'SendAutoFollowUp',
+
             From => "$Data{Realname} <$Data{Address}>",
             Email => $Data{Address},
             To => $GetParam{From},
             RealName => $Data{Realname},
             Subject => $Subject, 
             UserID => $InmailUserID,
-            TicketID => $TicketID,
-            TicketObject => $TicketObject,
-            ArticleID => $ArticleID,
             Body => $Body,
             InReplyTo => $GetParam{'Message-ID'},
             Loop => 1,
-            HistoryType => 'SendAutoFollowUp',
         );
 
         # do log
@@ -245,6 +238,70 @@ sub Run {
        );
     }
 
+    # --
+    # send agent notification!?
+    # --
+    # get owner
+    my ($OwnerID, $Owner) = $TicketObject->CheckOwner(TicketID => $TicketID);
+    # debug
+    if ($Self->{Debug} > 0) {
+       $LogObject->Log(
+            MSG => "OwnerID of ticket $Tn is $OwnerID.",
+       );
+    }
+    if ($OwnerID ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
+       my $UserObject = Kernel::System::User->new(
+           DBObject => $Self->{DBObject}, 
+           ConfigObject => $Self->{ConfigObject}, 
+           LogObject => $Self->{LogObject},
+       ); 
+       my %Preferences = $UserObject->GetUserData(UserID => $OwnerID);
+       # debug
+       if ($Self->{Debug} > 0) {
+         $LogObject->Log(
+            MSG => "UserSendFollowUpNotification is '$Preferences{UserSendFollowUpNotification}'.",
+         );
+       }
+       # check UserSendFollowUpNotification
+       if ($Preferences{UserSendFollowUpNotification}) {
+         my $From = $Self->{ConfigObject}->Get('NotificationSenderName').
+              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>';
+         my $Subject = '['.$Self->{ConfigObject}->Get('TicketHook').": $Tn] ". 
+              $Self->{ConfigObject}->Get('NotificationSubject');
+         my $Body = "
+Hi $Preferences{UserFirstname},
+
+you got a follow up!
+
+Your OpenTRS Notification Master
+";
+         # --
+         # send notification
+         # --
+         $EmailObject->Send(
+            DBObject => $DBObject,
+            ArticleObject => $ArticleObject,
+            ArticleType => 'email-internal',
+            ArticleSenderType => 'system',
+            TicketID => $TicketID,
+            TicketObject => $TicketObject,
+            HistoryType => 'SendAgentNotification',
+
+            From => $From,
+            Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
+            To => $Preferences{UserLogin},
+            RealName => $Data{Realname},
+            Subject => $Subject, 
+            UserID => $Self->{ConfigObject}->Get('PostmasterUserID'),
+            Body => $Body, 
+            Loop => 1,
+         );
+       }
+    }
+
+    # --
+    # debug
+    # --
     if ($Self->{Debug} > 0) {
        $LogObject->Log(
             MSG => "Debug($Self->{Debug}): AutoResponseType=$AutoResponseType, " .
