@@ -2,7 +2,7 @@
 # AdminStateForm.dtl - provides HTML form for AdminState
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminStateForm.dtl,v 1.11 2004-01-24 18:40:35 martin Exp $
+# $Id: AdminStateForm.dtl,v 1.11.2.1 2004-02-24 21:44:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -82,7 +82,7 @@
   $Text{"Attention"}: $Text{"Take care that you also updated the default states in you Kernel/Config.pm!"}
   </p>
   <p>
-  $Text{"See also"}: <a href="http://doc.otrs.org/cvs/html/state.html" target="doc">http://doc.otrs.org/cvs/html/state.html</a>
+  $Text{"See also"}: <a href="http://doc.otrs.org/cvs/en/html/state.html" target="doc">http://doc.otrs.org/cvs/en/html/state.html</a>
   </p>
   </td>
 </tr>
