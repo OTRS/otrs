@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.11 2002-10-21 13:08:19 martin Exp $
+# $Id: mkStats.pl,v 1.12 2002-10-21 21:38:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,13 @@
 use FindBin qw($Bin);
 use lib "$Bin/../";
 
+umask 022;
+
 use strict;
+
+use Getopt::Std;
+use File::Path;
+use File::Basename;
 use GD;
 use GD::Graph;
 use GD::Graph::lines;
@@ -33,16 +39,20 @@ use Kernel::System::DB;
 use Kernel::Config;
 use Kernel::System::Log;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+use vars qw($VERSION %Opts);
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-umask 022;
-
+# --
+# get opts
+# --
+getopt('hxyjmd',  \%Opts);
+# --
+# print head
+# --
 print "mkStats.pl <Revision $VERSION> - generate png pics\n";
 print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
-print "usage: mkStats.pl (for the current month) or mkStats.pl <YEAR> <MONTH> (for the past)\n";
-
+print "usage: mkStats.pl -x <width>, -y <height>, -j <year>, -m <month>, -d <debug>\n";
 # --
 # common objects
 # --
@@ -57,16 +67,25 @@ $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 my $PicDataDir = $CommonObject{ConfigObject}->Get('StatsPicDir') 
   || die 'No StatsPicDir in Kenrel::Config.pm!';
 
+# --
+# get date infos
+# --
 my ($Year, $Month) = Today_and_Now();
-$Year = shift || $Year;
-$Month = shift || $Month;
+if ($Opts{'j'}) {
+    $Year = $Opts{'j'};
+}
+if ($Opts{'m'}) {
+    $Month = $Opts{'m'};
+}
+if ($Month <= 9) {
+    $Month = '0'.$Month;
+}
 my $Day = Days_in_Month($Year,$Month);
+
 
 print "->> creating stats for $Year/$Month <<-\n";
 
-#my $graph = GD::Graph::lines->new(600, 400);
-my $graph = GD::Graph::lines->new(500, 300);
-#my $graph = GD::Graph::lines->new(800, 500);
+my $graph = GD::Graph::lines->new($Opts{'x'} || 500, $Opts{'y'} || 350);
 
 my $XLable = "Days";
 my $YLable = 'Actions';
@@ -77,7 +96,9 @@ my @PossibleStates;
 foreach (keys %States) {
     push (@PossibleStates, $States{$_});
 }
+# --
 # set graph
+# --
 $graph->set(
     x_label           => $XLable,
     y_label           => $YLable,
@@ -106,38 +127,64 @@ $graph->set(
     legend_placement => 'BC', legend_spacing => 4,
     legend_marker_width => 12, legend_marker_height => 8,
 );
-
+# --
 # set legend
+# --
 $graph->set_legend(@PossibleStates);
-
+# --
 # build x_lable
-my $DayCounter = 1; my @Days;
+# --
+my $DayCounter = 1; 
+my @Days;
 while ($Day >= $DayCounter) {
     my $Dow = Day_of_Week($Year, $Month, $DayCounter);
     $Dow = Day_of_Week_Abbreviation($Dow);
     my $Text = $DayCounter;
     $Text = "$Dow $DayCounter";
     push (@Days,$Text);
+    # --
+    # debug
+    # --
+    if ($Opts{'d'}) {
+        print "build x_lable: $Year, $Month, $DayCounter -=> $Dow\n";
+    }
     $DayCounter++;
 }
-
+# --
 # get data ...
-my @Data = (\@Days); my %AHash;
+# --
+my @Data = (\@Days); 
+my %AHash;
 foreach (keys %States) {
     my @TmpData = GetDBDataPerMonth($Day, $_);
     push (@Data, \@TmpData);
 }
 
+# --
 # plot graph
-$graph->plot(\@Data);
-my $ext = $graph->export_format;
+# --
+my $ext = '';
+if (!$graph->can('png')) { 
+    $ext = 'png';    
+}
+else {
+    $ext = $graph->export_format;
+    print "Can't write png! Write: $ext";
+}
+# --
+# check path
+# --
+if (! -d $PicDataDir) {
+    File::Path::mkpath([$PicDataDir], 0, 0775) || die $!;
+}
 print STDOUT " writing $PicDataDir/$Year-$Month.$ext\n";
 open (OUT, "> $PicDataDir/$Year-$Month.$ext") || die $!;
 binmode OUT;
-print OUT $graph->gd->$ext();
+print OUT $graph->plot(\@Data)->$ext();
 close();
-
+# --
 # GetDBDataPerMonth
+# --
 sub GetDBDataPerMonth {
     my $Days = shift;
     my $State = shift;
@@ -158,13 +205,20 @@ sub GetDBDataPerMonth {
         while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
             $DayData= $RowTmp[0];
         }
-#		print $State . " ($Year-$Month-$StartDate) " . $DayData . "\n";
+        # --
+        # debug
+        # --
+        if ($Opts{'d'}) {
+            print $State . " ($Year-$Month-$StartDate) " . $DayData . "\n";
+        }
         push (@Data, $DayData);
         $Counter++;
     }
     return @Data;
 }
+# --
 # GetHistoryTypes
+# --
 sub GetHistoryTypes {
     my %Stats;
     my $SQL = "SELECT id, name FROM ticket_history_type " .
@@ -176,6 +230,7 @@ sub GetHistoryTypes {
     }
     return %Stats;
 }
-
+# --
 # the end
+# --
 exit (0);
