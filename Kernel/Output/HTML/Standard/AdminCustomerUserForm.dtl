@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.21 2004-09-10 09:21:41 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.22 2004-09-30 23:44:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -40,23 +40,23 @@ function updateMessage(x)
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" colspan="2" class="table0">
-    <b>$Env{"Box0"}$Text{"Customer User Management"}$Env{"Box1"}</b>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"Customer User Management"}$Env{"Box1"}
   </td>
 </tr>
 # show back link if needed
 <dtl if ($Env{"CustomerEditReturn"} ne "") { $Data{"Back"} = "<tr><td align="left" colspan="2" class="table2"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Screen=Return" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Back"}">$Text{"Back"}</a></td></tr>"; }>
 $Data{"Back"}
 
-<tr align="center" valign="top">
-  <td width="40%" class="table1">
+<tr>
+  <td width="40%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">$Text{"Search"}:</td>
+    <td class="contenthead">$Text{"Search"}:</td>
   </tr>
   <tr>
-    <td>
+    <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -64,8 +64,8 @@ $Data{"Back"}
     <input type="hidden" name="Nav" value="$Data{"Nav"}">
     <table>
       <tr>
-        <td>$Text{"Search for"}:</td>
-        <td><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
+        <td class="contentkey">$Text{"Search for"}:</td>
+        <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
       </tr>
     </table>
     <input class="button" type="submit" value="$Text{"Search"}">
@@ -73,32 +73,37 @@ $Data{"Back"}
 
     </td>
   </tr>
+  </table>
+
+  <br>
+
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">$Text{"Result"}:</td>
+    <td class="contenthead">$Text{"Result"}:</td>
   </tr>
   <tr>
-    <td>
+    <td class="contentbody">
 
     <table border="0" width="100%">
     $Data{"UserLinkList"}
     </table>
-
+    -
     </td>
   </tr>
   </table>
 
   </td>
-  <td width="60%" class="table1">
+  <td width="60%" class="mainbody">
 
   <table width="100%" border="0" cellspacing="0" cellpadding="3">
   <tr>
-  <td align="center">
-<table width="100%" cellspacing="2" cellpadding="3">
-  <tr>
-    <td class="table3">$Text{"Select Source (for add)"}:</td>
-  </tr>
-  <tr>
-    <td>
+    <td align="center">
+    <table width="100%" cellspacing="0" cellpadding="4">
+      <tr>
+        <td class="contenthead">$Text{"Select Source (for add)"}:</td>
+      </tr>
+      <tr>
+        <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -108,16 +113,21 @@ $Data{"Back"}
 #    <input type="hidden" name="ID" value="$Data{"UserID"}">
     <table border="0" cellspacing="0" cellpadding="3" width="100%">
     <tr>
-      <td width="40%">$Text{"Source"}: </td>
-      <td width="60%"> $Data{"SourceOption"}</td>
+      <td width="40%" class="contentkey">$Text{"Source"}: </td>
+      <td width="60%" class="contentvalue"> $Data{"SourceOption"}</td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"Change"}">
     </form>
     </td>
   </tr>
+  </table>
+
+  <br>
+
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">
+    <td class="contenthead">
 # --
 # check subaction
 # --
@@ -134,7 +144,7 @@ $Data{"Back"}
     </td>
   </tr>
   <tr>
-    <td>
+    <td class="contentbody">
 
 
     <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post" name="compose">
@@ -145,40 +155,39 @@ $Data{"Back"}
     <input type="hidden" name="Nav" value="$QData{"Nav"}">
     <input type="hidden" name="Search" value="$QData{"Search"}">
     <table border="0" cellspacing="0" cellpadding="3" width="100%">
-    $Data{"Preferences"}
 
 <!-- dtl:block:Generic -->
 <dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStart"} = "<font color="#aaaaaa">"; }>
 <dtl if ($Data{"ReadOnly"} ne "") { $Data{"TableFontStop"} = "</font>"; }>
     <tr>
-      <td width="40%">$Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStop"} <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font> <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font></td>
-      <td width="60%"> $Data{"Value"}</td>
+      <td width="40%" class="contentkey">$Data{"TableFontStart"}$Text{"$Data{"Item"}"}:$Data{"TableFontStop"} <font color="red" title="$Text{"This values are required."}">$Data{"Required"}</font> <font color="blue" title="$Text{"This values are read only."}">$Data{"ReadOnly"}</font></td>
+      <td width="60%" class="contentvalue"> $Data{"Value"}</td>
     </tr>
 <!-- dtl:block:Generic -->
 
 <!-- dtl:block:PreferencesGeneric -->
     <tr>
-        <td>
-        $Text{"$Data{"Label"}"}:
-        <br>
-        <i class="small">($Text{"$Data{"Desc"}"})</i>
+        <td  class="contentkey">
+          $Text{"$Data{"Label"}"}:
+          <br>
+          <i class="small">($Text{"$Data{"Desc"}"})</i>
         </td>
-        <td>
-            $Data{"Option"}
+        <td class="contentvalue">
+          $Data{"Option"}
         </td>
     </tr>
 <!-- dtl:block:PreferencesGeneric -->
 <!-- dtl:block:PreferencesUpload -->
     <tr>
-        <td>
-        $Text{"$Data{"Label"}"}:
-        <br>
-        <i class="small">($Text{"$Data{"Desc"}"})</i>
-        </td>
-        <td>
-            <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
-            <br>
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&ID=$QData{"UserID"}&File=$QData{"PrefKey"}">$QData{"Filename"}</a>
+        <td class="contentkey">
+          $Text{"$Data{"Label"}"}:
+          <br>
+          <i class="small">($Text{"$Data{"Desc"}"})</i>
+          </td>
+        <td class="contentvalue">
+          <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
+          <br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&ID=$QData{"UserID"}&File=$QData{"PrefKey"}">$QData{"Filename"}</a>
         </td>
     </tr>
 <!-- dtl:block:PreferencesUpload -->
@@ -194,6 +203,7 @@ $Data{"Back"}
   </td>
 </tr>
 </table>
+
 </td>
 </tr>
 </table>
@@ -201,13 +211,13 @@ $Data{"Back"}
 
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr valign="top">
-  <td class="table3">
+<tr>
+  <td class="mainhead">
     $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
   </td>
 </tr>
-<tr valign="top">
-  <td class="table1">
+<tr>
+  <td class="mainbody">
   <p>
   <font color="red">*</font> $Text{"This values are required."}</font>
   <br>
