@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.169 2004-10-12 10:40:45 martin Exp $
+# $Id: Defaults.pm,v 1.170 2004-10-13 13:29:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.169 $';
+$VERSION = '$Revision: 1.170 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2195,6 +2195,7 @@ Your OTRS Notification Master
     # FAQ settings
     # --------------------------------------------------- #
 
+    $Self->{'FAQ::FAQHook'} = 'FAQ#';
     $Self->{'FAQ::Default::State'} = 'internal (agent)';
 
     $Self->{'FAQ::Field1'} = 'Symptom';
@@ -2438,11 +2439,20 @@ Your OTRS Notification Master
             Prio => 1700,
           },
           {
+            Group => 'faq',
+            Description => 'New Article',
+            Name => 'New Article',
+            Image => 'new.png',
+            Link => 'Action=FAQ&Subaction=Add',
+            NavBar => 'FAQ',
+            Prio => 1702,
+          },
+          {
             GroupRo => 'faq',
             Description => 'FAQ-Search',
             Name => 'Search',
             Image => 'search.png',
-            Link => 'Action=FAQ',
+            Link => 'Action=FAQ&Subaction=Search',
             NavBar => 'FAQ',
             Prio => 1701,
           },
@@ -2458,33 +2468,33 @@ Your OTRS Notification Master
         ],
     };
 
-    $Self->{'Frontend::Module'}->{'FAQArticle'} = {
-#        GroupRo => 'faq',
-        Group => 'faq',
-        Description => 'FAQ-Article',
-        NavBarName => 'FAQ',
-        NavBar => [
-          {
-            Description => 'New Article',
-            Name => 'New Article',
-            Image => 'new.png',
-            Link => 'Action=FAQArticle',
-            NavBar => 'FAQ',
-            Prio => 1702,
-          },
-        ],
-    };
-    $Self->{'Frontend::Module'}->{'FAQState'} = {
+#    $Self->{'Frontend::Module'}->{'FAQState'} = {
+#        GroupRo => '',
+#        Group => 'faq',
+#        Description => 'FAQ-State',
+#        NavBarName => 'FAQ',
+#        NavBar => [
+#          {
+#            Description => 'State',
+#            Name => 'State',
+#            Image => 'fileopen.png',
+#            Link => 'Action=FAQState',
+#            NavBar => 'FAQ',
+#            Prio => 1706,
+#          },
+#        ],
+#    };
+    $Self->{'Frontend::Module'}->{'FAQCategory'} = {
         GroupRo => '',
         Group => 'faq',
-        Description => 'FAQ-State',
+        Description => 'FAQ-Category',
         NavBarName => 'FAQ',
         NavBar => [
           {
-            Description => 'State',
-            Name => 'State',
+            Description => 'Category',
+            Name => 'Category',
             Image => 'fileopen.png',
-            Link => 'Action=FAQState',
+            Link => 'Action=FAQCategory',
             NavBar => 'FAQ',
             Prio => 1704,
           },
