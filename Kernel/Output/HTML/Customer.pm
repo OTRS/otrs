@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.35 2004-04-23 07:54:21 martin Exp $
+# $Id: Customer.pm,v 1.36 2004-06-22 11:44:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -125,41 +125,6 @@ sub CustomerNavigationBar {
     }
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerNavigationBar', Data => \%Param);
-}
-# --
-sub CustomerStatusView {
-    my $Self = shift;
-    my %Param = @_;
-    if ($Param{AllHits} >= ($Param{StartHit}+$Param{PageShown})) {
-        $Param{Result} = ($Param{StartHit}+1)." - ".($Param{StartHit}+$Param{PageShown});
-    }
-    else {
-        $Param{Result} = ($Param{StartHit}+1)." - $Param{AllHits}";
-    }
-    my $Pages = $Param{AllHits} / $Param{PageShown};
-    for (my $i = 1; $i < ($Pages+1); $i++) {
-        $Self->{UtilSearchResultCounter}++;
-        $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=CustomerTicketOverView".
-         "&StartHit=". (($i-1)*$Param{PageShown}) .= '&SortBy=$Data{"SortBy"}&Order=$Data{"Order"}&ShowClosedTickets=$Data{"ShowClosed"}&Type=$Data{"Type"}">';
-         if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{PageShown}) == ($i)) {
-             $Param{PageNavBar} .= '<b>'.($i).'</b>';
-         }
-         else {
-             $Param{PageNavBar} .= ($i);
-         }
-         $Param{PageNavBar} .= '</a> ';
-    }
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'CustomerStatusView', Data => \%Param);
-}
-# --  
-sub CustomerStatusViewTable {
-    my $Self = shift;
-    my %Param = @_;
-    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
-    # create & return output
-    return $Self->Output(TemplateFile => 'CustomerStatusViewTable', Data => \%Param);
 }
 # --
 sub CustomerError {
