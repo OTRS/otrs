@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.31 2004-07-16 22:56:01 martin Exp $
+# $Id: AgentEmail.pm,v 1.32 2004-07-22 05:44:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,6 +31,8 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
+
+    $Self->{Debug} = $Param{Debug} || 0;
 
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
@@ -102,7 +104,7 @@ sub Run {
                     Type => "TicketFreeKey$_",
                     Action => $Self->{Action},
                     UserID => $Self->{UserID},
-                ); 
+                );
                 $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "TicketFreeText$_",
@@ -119,13 +121,62 @@ sub Run {
                            ),
                 }
             );
+    # run compose modules
+    if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')};
+        foreach my $Job (sort keys %Jobs) {
+                # log try of load module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    );
+                }
+                if (eval "require $Jobs{$Job}->{Module}") {
+                    my $Object = $Jobs{$Job}->{Module}->new(
+                        ConfigObject => $Self->{ConfigObject},
+                        LogObject => $Self->{LogObject},
+                        DBObject => $Self->{DBObject},
+                        LayoutObject => $Self->{LayoutObject},
+                        TicketObject => $Self->{TicketObject},
+                        ParamObject => $Self->{ParamObject},
+                        UserID => $Self->{UserID},
+                        Debug => $Self->{Debug},
+                    );
+                    # log loaded module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                        );
+                    }
+                    # get params
+my %GetParam;
+                    foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
+                        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+                    }
+                    # run module
+                    $Object->Run(%GetParam, Config => $Jobs{$Job});
+                    # get errors
+#                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't load module $Jobs{$Job}->{Module}!",
+                    );
+                }
+        }
+    }
+
+
             # html output
             $Output .= $Self->_MaskEmailNew(
               QueueID => $Self->{QueueID},
               NextStates => $Self->_GetNextStates(),
               Priorities => $Self->_GetPriorities(),
               Users => $Self->_GetUsers(),
-              From => $Self->_GetTos(),
+              FromList => $Self->_GetTos(),
               To => '',
               Subject => '',
               Body => $Self->{ConfigObject}->Get('EmailDefaultNoteText'),
@@ -144,15 +195,11 @@ sub Run {
     # create new ticket and article
     elsif ($Self->{Subaction} eq 'StoreNew') {
         my %Error = ();
-        my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
             ID => $NextStateID,
         );
         my $NextState = $StateData{Name};
-        my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID') || '';
-        my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
         my $Lock = $Self->{ParamObject}->GetParam(Param => 'Lock') || '';
         if ($Lock) {
@@ -173,14 +220,24 @@ sub Run {
         if (!$NewQueueID) {
             $AllUsers = 1;
         }
-        my $To = $Self->{ParamObject}->GetParam(Param => 'To') || '';
-        my $Cc = $Self->{ParamObject}->GetParam(Param => 'Cc') || '';
-        my $Bcc = $Self->{ParamObject}->GetParam(Param => 'Bcc') || '';
-        my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || '';
-        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || '';
+        # get sender queue from
+        my %Queue = ();
+        if ($NewQueueID) {
+            %Queue = $Self->{QueueObject}->GetSystemAddress(QueueID => $NewQueueID);
+        }
+        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
+        my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
-        my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+        foreach (1..2) {
+            my $Item = $Self->{ParamObject}->GetParam(Param => "ExpandCustomerName$_") || 0;
+            if ($_ == 1 && $Item) {
+                $ExpandCustomerName = 1;
+            }
+            elsif ($_ == 2 && $Item) {
+                $ExpandCustomerName = 2;
+            }
+        }
         # get free text params
         my %TicketFree = ();
         foreach (1..8) {
@@ -209,8 +266,9 @@ sub Run {
         );
         # get params
         my %GetParam = ();
+        $GetParam{From} = $Queue{Email};
         foreach (qw(AttachmentUpload
-            Year Month Day Hour Minute
+            Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
             AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
             AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
             AttachmentDelete9 AttachmentDelete10 )) {
@@ -248,7 +306,7 @@ sub Run {
             # search customer
             my %CustomerUserList = ();
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                Search => $To,
+                Search => $GetParam{To},
             );
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
@@ -259,7 +317,7 @@ sub Run {
                 $Param{CustomerUserListLastUser} = $_;
             }
             if ($Param{CustomerUserListCount} == 1) {
-                $To = $Param{CustomerUserListLast};
+                $GetParam{To} = $Param{CustomerUserListLast};
                 $Error{"ExpandCustomerName"} = 1;
                 my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                     User => $Param{CustomerUserListLastUser},
@@ -280,7 +338,7 @@ sub Run {
                 $Param{"ToOptions"} = \%CustomerUserList;
                 # clear to if there is no customer found
                 if (!%CustomerUserList) {
-                    $To = '';
+                    $GetParam{To} = '';
                 }
                 $Error{"ExpandCustomerName"} = 1;
             }
@@ -294,7 +352,7 @@ sub Run {
                 UserLogin => $CustomerUser,
             );
             foreach (keys %CustomerUserList) {
-                $To = $CustomerUserList{$_};
+                $GetParam{To} = $CustomerUserList{$_};
             }
             if ($CustomerUserData{UserCustomerID}) {
                 $CustomerID = $CustomerUserData{UserCustomerID};
@@ -324,19 +382,68 @@ sub Run {
             }
         }
         # check some values
-        foreach my $Email (Mail::Address->parse($To)) {
+        foreach my $Email (Mail::Address->parse($GetParam{To})) {
             if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
                 $Error{"To invalid"} .= $Self->{CheckItemObject}->CheckError();
             }
         }
-        if (!$To && $ExpandCustomerName != 1 && $ExpandCustomerName == 0) {
+        if (!$GetParam{To} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0) {
             $Error{"To invalid"} = 'invalid';
         }
-        if (!$Subject && $ExpandCustomerName == 0) {
+        if (!$GetParam{Subject} && $ExpandCustomerName == 0) {
             $Error{"Subject invalid"} = 'invalid';
         }
         if (!$NewQueueID && $ExpandCustomerName == 0) {
             $Error{"Destination invalid"} = 'invalid';
+        }
+        # run compose modules
+        my %ArticleParam = ();
+        if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
+            my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')};
+            foreach my $Job (sort keys %Jobs) {
+                # log try of load module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    );
+                }
+                if (eval "require $Jobs{$Job}->{Module}") {
+                    my $Object = $Jobs{$Job}->{Module}->new(
+                        ConfigObject => $Self->{ConfigObject},
+                        LogObject => $Self->{LogObject},
+                        DBObject => $Self->{DBObject},
+                        LayoutObject => $Self->{LayoutObject},
+                        TicketObject => $Self->{TicketObject},
+                        ParamObject => $Self->{ParamObject},
+                        UserID => $Self->{UserID},
+                        Debug => $Self->{Debug},
+                    );
+                    # log loaded module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                        );
+                    }
+                    # get params
+                    foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
+                        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+                    }
+                    # run module
+                    $Object->Run(%GetParam, Config => $Jobs{$Job});
+                    # ticket params
+                    %ArticleParam = (%ArticleParam, $Object->ArticleOption(%GetParam, Config => $Jobs{$Job}));
+                    # get errors
+                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't load module $Jobs{$Job}->{Module}!",
+                    );
+                }
+            }
         }
         if (%Error) {
             # --
@@ -355,19 +462,15 @@ sub Run {
               NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
               NextState => $NextState,
               Priorities => $Self->_GetPriorities(QueueID => $NewQueueID),
-              PriorityID => $PriorityID,
               CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
               CustomerUser => $CustomerUser,
               CustomerData => \%CustomerData,
-              TimeUnits => $Self->{LayoutObject}->Ascii2Html(Text => $TimeUnits),
-              From => $Self->_GetTos(),
+              TimeUnits => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{TimeUnits} || ''),
+              FromList => $Self->_GetTos(),
               FromSelected => $Dest,
-              To => $To,
               ToOptions => $Param{"ToOptions"},
-              Cc => $Cc,
-              Bcc => $Bcc,
-              Subject => $Self->{LayoutObject}->Ascii2Html(Text => $Subject),
-              Body => $Self->{LayoutObject}->Ascii2Html(Text => $Text),
+              Subject => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Subject}),
+              Body => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Body}),
               Errors => \%Error,
               Attachments => \@Attachments,
               %GetParam,
@@ -387,9 +490,43 @@ sub Run {
             }
             foreach my $TicketID (@TicketIDs) {
                 my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
+                # get acl actions
+                $Self->{TicketObject}->TicketAcl(
+                    Data => '-',
+                    Action => $Self->{Action},
+                    TicketID => $Article{TicketID},
+                    ReturnType => 'Action',
+                    ReturnSubType => '-',
+                    UserID => $Self->{UserID},
+                );
+                my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+                foreach (qw(From To Cc Subject)) {
+                    if ($Article{$_}) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'Row',
+                            Data => {
+                                Key => $_,
+                                Value => $Article{$_},
+                            },
+                        );
+                    }
+                }
+                foreach (qw(1 2 3 4 5)) {
+                    if ($Article{"FreeText$_"}) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ArticleFreeText',
+                            Data => {
+                                Key => $Article{"FreeKey$_"},
+                                Value => $Article{"FreeText$_"},
+                            },
+                        );
+                    }
+                }
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'TicketViewLite',
                     Data => {
+                        %AclAction,
                         %Article,
                         Age => $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' '),
                     }
@@ -405,7 +542,7 @@ sub Run {
             # FIXME !!!
             GroupID => 1,
             StateID => $NextStateID,
-            PriorityID => $PriorityID,
+            PriorityID => $GetParam{PriorityID},
             UserID => $Self->{UserID},
             CustomerNo => $CustomerID,
             CustomerUser => $SelectedCustomerUser,
@@ -428,10 +565,9 @@ sub Run {
         if ($NewUserID) {
             $NoAgentNotify = 1;
         }
-        # get sender queue from
-        my %Queue = $Self->{QueueObject}->GetSystemAddress(QueueID => $NewQueueID);
+
           # get pre loaded attachment
-          my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+          @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesData(
               FormID => $Self->{FormID},
           );
           # get submit attachment
@@ -446,14 +582,14 @@ sub Run {
         # prepare subject
         my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
         my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $TicketID);
-        $Subject = "[$TicketHook: $Tn] $Subject";
+        $GetParam{Subject} = "[$TicketHook: $Tn] $GetParam{Subject}";
         # prepare body
         my $Signature = $Self->{QueueObject}->GetSignature(QueueID => $NewQueueID);
         $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
         $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
         $Signature =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
         $Signature =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
-        $Text .= "\n".$Signature;
+        $GetParam{Text} .= "\n".$Signature;
         # send email
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
             Attach => \@Attachments,
@@ -463,15 +599,16 @@ sub Run {
             ArticleType => $Self->{ConfigObject}->Get('EmailDefaultNewArticleType'),
             SenderType => $Self->{ConfigObject}->Get('EmailDefaultNewSenderType'),
             From => "$Queue{RealName} <$Queue{Email}>",
-            To => $To,
-            Cc => $Cc,
-            Bcc => $Bcc,
-            Subject => $Subject,
-            Body => $Text,
+            To => $GetParam{To},
+            Cc => $GetParam{Cc},
+            Bcc => $GetParam{Bcc},
+            Subject => $GetParam{Subject},
+            Body => $GetParam{Body},
             Charset => $Self->{LayoutObject}->{UserCharset},
             UserID => $Self->{UserID},
             HistoryType => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryComment') || "\%\%$To, $Cc, $Bcc",
+            HistoryComment => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryComment') || "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
+            %ArticleParam,
         );
         if ($ArticleID) {
           # remove pre submited attachments
@@ -491,11 +628,11 @@ sub Run {
               );
           }
           # time accounting
-          if ($TimeUnits) {
+          if ($GetParam{TimeUnits}) {
               $Self->{TicketObject}->TicketAccountTime(
                   TicketID => $TicketID,
                   ArticleID => $ArticleID,
-                  TimeUnit => $TimeUnits,
+                  TimeUnit => $GetParam{TimeUnits},
                   UserID => $Self->{UserID},
               );
           }
@@ -691,17 +828,17 @@ sub _MaskEmailNew {
     );
     # build from string
     if ($Param{ToOptions} && %{$Param{ToOptions}}) {
-      $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{ToOptions},
-        Name => 'CustomerUser',
-        Max => 70,
-      ).'<br>$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this Customer"}\'; return true;">$Text{"Take this Customer"}</a>$Env{"Box1"}';
+        $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Param{ToOptions},
+            Name => 'CustomerUser',
+            Max => 70,
+        );
     }
     # build so string
     my %NewTo = ();
-    if ($Param{From}) {
-        foreach (keys %{$Param{From}}) {
-             $NewTo{"$_||$Param{From}->{$_}"} = $Param{From}->{$_};
+    if ($Param{FromList}) {
+        foreach (keys %{$Param{FromList}}) {
+             $NewTo{"$_||$Param{FromList}->{$_}"} = $Param{FromList}->{$_};
         }
     }
     if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {

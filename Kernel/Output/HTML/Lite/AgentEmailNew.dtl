@@ -2,7 +2,7 @@
 # AgentEmailNew.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmailNew.dtl,v 1.6 2004-07-16 22:59:04 martin Exp $
+# $Id: AgentEmailNew.dtl,v 1.7 2004-07-22 05:44:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -84,8 +84,8 @@ function CustomerSubmit()
 <!--
 function clear_field()
 {
-    document.compose.From.value = "";
-    document.compose.From.focus();
+    document.compose.To.value = "";
+    document.compose.To.focus();
 }
 //-->
 </script>
@@ -131,8 +131,10 @@ function clear_field()
     <td valign="top">$Text{"To"}:</td>
     <td><input type="text" name="To" value="$Data{"To"}" size="70"> <font color="red" size="-2">$Text{"$Data{"To invalid"}"}</font><br>
     $Data{"CustomerUserStrg"}
-    $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Search Customer"}'; return true;">$Text{"Search Customer"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="javascript:clear_field();" onmouseout="window.status='';" onmouseover="window.status='$Text{"Clear From"}'; return true;">$Text{"Clear From"}</a>$Env{"Box1"}
+<dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br><input type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">"; }>
+    $Data{"TakeThisCustomer"}
+    <input type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
+    <input type="submit" name="" value="$Text{"Clear To"}" onclick="javascript:clear_field(); return false;">
   </td>
   </tr>
   <tr>
@@ -152,6 +154,14 @@ function clear_field()
 <dtl if ($Config{"PhoneViewOwnerSelection"} eq "1") { $Data{"OwnerSelection"} = "<tr><td>$Text{"Owner"}:</td><td>$Data{"OptionStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td></tr>"; }>
     $Data{"OwnerSelection"}
 # --
+<!-- dtl:block:Option -->
+  <tr>
+    <td>$Text{"$QData{"Key"}"}:</td>
+    <td>
+    $Data{"Value"} <font color="red" size="-2">$Data{"Invalid"}</font>
+    </td>
+  </tr>
+<!-- dtl:block:Option -->
   <tr>
     <td>$Text{"Options"}:</td>
     <td>
