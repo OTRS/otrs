@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQArticle.pm - to add/update/delete faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticle.pm,v 1.5 2004-02-17 23:43:32 martin Exp $
+# $Id: FAQArticle.pm,v 1.5.2.1 2004-04-01 11:58:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.5.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -115,7 +115,7 @@ sub Run {
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Article');
         $Output .= $Self->{LayoutObject}->FAQNavigationBar();
-        $Output .= $Self->_Mask();
+        $Output .= $Self->_Mask(State => $Self->{ConfigObject}->Get('FAQ::Default::State'));
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
@@ -129,13 +129,17 @@ sub _Mask {
         Data => { $Self->{FAQObject}->CategoryList(UserID => $Self->{UserID}) },
         Name => 'CategoryID',
         SelectedID => $Param{CategoryID},
-        HTMLQuote => 0,
+        Selected => $Param{Category},
+        HTMLQuote => 1,
+        LanguageTranslation => 0,
     );
     $Param{StateOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->StateList(UserID => $Self->{UserID}) },
         Name => 'StateID',
         SelectedID => $Param{StateID},
-        HTMLQuote => 0,
+        Selected => $Param{State},
+        HTMLQuote => 1,
+        LanguageTranslation => 1,
     );
     $Param{LanguageOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->LanguageList(UserID => $Self->{UserID}) },

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.138.2.1 2004-03-29 13:12:19 martin Exp $
+# $Id: Agent.pm,v 1.138.2.2 2004-04-01 11:57:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.138.2.1 $';
+$VERSION = '$Revision: 1.138.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -479,15 +479,30 @@ sub AgentFreeText {
     my %Data = ();
     foreach (1..20) {
         # key
-        if (ref($Self->{ConfigObject}->Get("TicketFreeKey$_")) eq 'HASH') {
-            $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
-                Data => { 
-                    %NullOption, 
-                    %{$Self->{ConfigObject}->Get("TicketFreeKey$_")},
-                },
-                Name => "TicketFreeKey$_",
-                SelectedID => $Param{"TicketFreeKey$_"},
-            );
+        if (ref($Self->{ConfigObject}->Get("TicketFreeKey$_")) eq 'HASH' && %{$Self->{ConfigObject}->Get("TicketFreeKey$_")}) {
+            my $Counter = 0;
+            my $LastKey = '';
+            foreach (keys %{$Self->{ConfigObject}->Get("TicketFreeKey$_")}) {
+                $Counter++;
+                $LastKey = $_;
+            }
+            if ($Counter > 1 || %NullOption) { 
+                $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
+                    Data => { 
+                        %NullOption, 
+                        %{$Self->{ConfigObject}->Get("TicketFreeKey$_")},
+                    },
+                    Name => "TicketFreeKey$_",
+                    SelectedID => $Param{"TicketFreeKey$_"},
+                    LanguageTranslation => 0,
+                );
+            }
+            else {
+                if ($LastKey) {
+                    $Data{"TicketFreeKeyField$_"} = $Self->{ConfigObject}->Get("TicketFreeKey$_")->{$LastKey}.
+                      '<input type="hidden" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $LastKey).'">';
+                }
+            }
         }
         else {
             if (defined($Param{"TicketFreeKey$_"})) {
@@ -506,6 +521,7 @@ sub AgentFreeText {
                 },
                 Name => "TicketFreeText$_",
                 SelectedID => $Param{"TicketFreeText$_"},
+                LanguageTranslation => 0,
             );
         }
         else {

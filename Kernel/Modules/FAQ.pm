@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.4.2.1 2004-02-27 21:07:24 martin Exp $
+# $Id: FAQ.pm,v 1.4.2.2 2004-04-01 11:58:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4.2.1 $';
+$VERSION = '$Revision: 1.4.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,40 +45,83 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
+    my $Output = $Self->{LayoutObject}->Header(Title => 'FAQ');
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+    my $Nav = $Self->{ParamObject}->GetParam(Param => 'Nav') || '';
+    my $NavBar = '';
+    my $HeaderType = $Self->{LastFAQNav} || '';
 
-    $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ');
-    $Output .= $Self->{LayoutObject}->FAQNavigationBar();
-
-    $Param{What} = $Self->{ParamObject}->GetParam(Param => 'What') || '';
-    $Param{Keyword} = $Self->{ParamObject}->GetParam(Param => 'Keyword') || '';
+    if ($Nav && $Nav eq 'None') {
+        $HeaderType = 'Small';
+        # store nav param
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'LastFAQNav',
+            Value => $HeaderType,
+        );
+    }
+    if ($Nav && $Nav ne 'None') {
+        $HeaderType = '';
+        # store nav param
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'LastFAQNav',
+            Value => $HeaderType,
+        );
+    }
+    if ($HeaderType ne 'Small') {
+        $NavBar = $Self->{LayoutObject}->FAQNavigationBar();
+    }
+   
+    $Param{What} = $Self->{ParamObject}->GetParam(Param => 'What');
+    if (!defined($Param{What})) {
+        $Param{What} = $Self->{LastFAQWhat} || '';
+    }
+    $Param{Keyword} = $Self->{ParamObject}->GetParam(Param => 'Keyword');
+    if (!defined($Param{Keyword})) {
+        $Param{Keyword} = $Self->{LastFAQKeyword} || '';
+    }
     my @LanguageIDs = $Self->{ParamObject}->GetArray(Param => 'LanguageIDs');
     my @CategoryIDs = $Self->{ParamObject}->GetArray(Param => 'CategoryIDs');
 
+    # store search params
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key => 'LastFAQWhat',
+        Value => $Param{What},
+    );
+    $Self->{SessionObject}->UpdateSessionID(
+        SessionID => $Self->{SessionID},
+        Key => 'LastFAQKeyword',
+        Value => $Param{Keyword},
+    );
+
+
     $Param{LanguageOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->LanguageList(UserID => $Self->{UserID}) },
-        Size => 6,
+        Size => 5,
         Name => 'LanguageIDs',
         Multiple => 1,
         SelectedIDRefArray => \@LanguageIDs,
-        HTMLQuote => 0,
+        HTMLQuote => 1,
+        LanguageTranslation => 0,
     );
 
     $Param{CategoryOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{FAQObject}->CategoryList(UserID => $Self->{UserID}) },
-        Size => 6,
+        Size => 5,
         Name => 'CategoryIDs',
         Multiple => 1,
         SelectedIDRefArray => \@CategoryIDs,
-        HTMLQuote => 0,
+        HTMLQuote => 1,
+        LanguageTranslation => 0,
     );
 
 
     # search
     if (!$ID && !$Self->{Subaction}) {
-        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Search');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Search', Type => $HeaderType);
+        $Output .= $NavBar;
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQSearch', 
             Data => { %Param },
@@ -86,7 +129,7 @@ sub Run {
         # build an overview
         my %Categories = $Self->{FAQObject}->CategoryList(UserID => $Self->{UserID});
         foreach (sort {$Categories{$a} cmp $Categories{$b}} keys %Categories) {
-            $Param{Overview} .= "<b>$Categories{$_}</b><br>";
+            $Param{Overview} .= "<b>".$Self->{LayoutObject}->Ascii2Html(Text => $Categories{$_})."</b><br>";
             my @FAQIDs = $Self->{FAQObject}->Search(
                 %Param,
 #            States => ['internal (agent)', 'external (customer)', 'public (all)'],
@@ -97,12 +140,23 @@ sub Run {
             my %AllArticle = ();
             foreach (@FAQIDs) {
                 my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
+                foreach (keys %Data) {
+                    $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+                }
                 $AllArticle{$Data{ID}} = "<a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>";
                 $AllArticle{$Data{ID}} .= "[$Data{Language}/$Data{Category}] $Data{Subject} (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})</a><br>";
+                $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}";
             }
+            $Param{Overview} .= '<table border="0" width="100%">';
             foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
-                $Param{Overview} .= $AllArticle{$_};
+                my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID});
+                foreach (keys %Data) {
+                    $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+                }
+#                $Param{Overview} .= $AllArticle{$_};
+                $Param{Overview} .= "<tr><td>[$Data{Language}]</td><td><a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>$Data{Subject}</a></td><td align='right'>(\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})</td></tr>\n";
             }
+            $Param{Overview} .= '</table>';
         }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQOverview', 
@@ -111,8 +165,8 @@ sub Run {
     }
     # search action
     elsif ($Self->{Subaction} eq 'Search') {
-        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Search');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Search', Type => $HeaderType);
+        $Output .= $NavBar;
         my @FAQIDs = $Self->{FAQObject}->Search(
             %Param,
             States => ['external (customer)', 'public (all)', 'internal (agent)'],
@@ -123,7 +177,10 @@ sub Run {
         my %AllArticle = ();
         foreach (@FAQIDs) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID});
-            $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}</td><td> (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})";
+            foreach (keys %Data) {
+                $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+            }
+            $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}</td><td align='right'> (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})";
         }
         foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
@@ -141,8 +198,8 @@ sub Run {
     }
     # history
     elsif ($Self->{Subaction} eq 'History') {
-        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'History');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'History', Type => $HeaderType);
+        $Output .= $NavBar;
         my @History = $Self->{FAQObject}->ArticleHistoryGet(
             ID => $ID,
             UserID => $Self->{UserID},
@@ -161,13 +218,16 @@ sub Run {
     }
     # system history
     elsif ($Self->{Subaction} eq 'SystemHistory') {
-        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'History');
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
+        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'History', Type => $HeaderType);
+        $Output .= $NavBar;
         my @History = $Self->{FAQObject}->HistoryGet(
             UserID => $Self->{UserID},
         );
         foreach my $Row (@History) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $Row->{ID}, UserID => $Self->{UserID}); 
+            foreach (keys %Data) {
+                $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+            }
             my %User = $Self->{UserObject}->GetUserData(
                 UserID => $Row->{CreatedBy},
                 Cached => 1,
@@ -186,7 +246,7 @@ sub Run {
     # view
     elsif ($ID && $Self->{Subaction} eq 'Print') {
         my %Data = $Self->{FAQObject}->ArticleGet(ID => $ID, UserID => $Self->{UserID});
-        $Output = $Self->{LayoutObject}->PrintHeader(Area => 'FAQ', Title => $Data{Subject});
+        $Output = $Self->{LayoutObject}->PrintHeader(Area => 'FAQ', Title => $Data{Subject}, Type => $HeaderType);
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQArticlePrint', 
@@ -197,15 +257,26 @@ sub Run {
     }
     elsif ($ID) {
         my %Data = $Self->{FAQObject}->ArticleGet(ID => $ID, UserID => $Self->{UserID});
-        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => $Data{Subject});
-        $Output .= $Self->{LayoutObject}->FAQNavigationBar();
-
+        $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => $Data{Subject}, Type => $HeaderType);
+        $Output .= $NavBar;
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'FAQArticleView', 
-            Data => { %Param, %Data },
+            TemplateFile => 'FAQSearch', 
+            Data => { %Param },
         );
+        if ($HeaderType eq 'Small') {
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'FAQArticleViewSmall', 
+                Data => { %Param, %Data },
+            );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'FAQArticleView', 
+                Data => { %Param, %Data },
+            );
+        }
     }
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Footer(Type => $HeaderType);
     return $Output;
 }
 # --

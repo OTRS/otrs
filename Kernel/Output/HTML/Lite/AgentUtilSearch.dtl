@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearch.dtl,v 1.5.2.1 2004-03-29 13:18:17 martin Exp $
+# $Id: AgentUtilSearch.dtl,v 1.5.2.2 2004-04-01 11:57:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -161,7 +161,7 @@ $Data{"UserStrg"}
   <td>$Data{"ResultFormStrg"}</td>
   <td>
   <input type="radio" name="SaveProfile" value="1"> $Text{"Yes, save it with name"}
-  <input type="text" name="Profile" size="10" value="$Data{"Profile"}">
+  <input type="text" name="Profile" size="10" value="$QData{"Profile"}">
   </td>
 </tr>
 </table>
