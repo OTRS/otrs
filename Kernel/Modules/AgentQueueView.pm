@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.54 2004-03-30 08:48:17 wiktor Exp $
+# $Id: AgentQueueView.pm,v 1.55 2004-04-01 09:00:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -203,8 +203,10 @@ sub Run {
     # --
     # show ticket's
     # --
+    my $Counter = 0;
     foreach (@ViewableTickets) {
-        print $Self->ShowTicket(TicketID => $_);
+        $Counter++;
+        print $Self->ShowTicket(TicketID => $_, Counter => $Counter);
     }
     # get page footer
     $Output .= $Self->{LayoutObject}->Footer();
@@ -220,7 +222,8 @@ sub ShowTicket {
     my $TicketID = $Param{TicketID} || return;
     my $Output = '';
     $Param{QueueViewQueueID} = $Self->{QueueID};
-    my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+    my %MoveQueues = $Self->{TicketObject}->MoveList(
+        TicketID => $TicketID,
         UserID => $Self->{UserID},
         Type => 'move_into',
     );
@@ -521,7 +524,7 @@ sub _MaskQueueView {
             $QueueStrg .= "<blink>";
         }
         # QueueStrg
-        $QueueStrg .= "$ShortQueueName ($Counter{$Queue{Queue}})";
+        $QueueStrg .= $Self->{LayoutObject}->Ascii2Html(Text => $ShortQueueName)." ($Counter{$Queue{Queue}})";
         # the oldest queue
         if ($Queue{QueueID} == $QueueIDOfMaxAge) {
             $QueueStrg .= "</blink>";

@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.29 2004-03-24 15:55:01 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.30 2004-04-01 09:02:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 <dtl if ($Env{"UserIsGroup[stats]"} eq "Yes") { $Data{"StatsLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}stats.png" alt="$Text{"Stats"}"><br>$Text{"Stats"}</a></td>"; }>
 
 <!-- start NavigationBar -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
   <td valign="top" align="left" width="70%" class="nav">
     <table cellspacing="1" cellpadding="3">
@@ -49,8 +49,12 @@
       </td>
       <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=AgentPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}prefer.png" alt="$Text{"Preferences"}"><br>$Text{"Preferences"}</a>
+      </td>
+#      <td valign="top" align="center" class="nav"> 
+#        <a href="$Env{"Baselink"}Action=AdminCustomerUser" onmouseover="window.status='$Text{"Customer User"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}folder_yellow.png" alt="$Text{"Customer User"}"><br>$Text{"CustomerUser"}</a>
+#      </td>
       <td valign="top" align="center" class="nav"> 
-        <a href="$Env{"Baselink"}Action=AdminCustomerUser" onmouseover="window.status='$Text{"Customer User"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}folder_yellow.png" alt="$Text{"Customer User"}"><br>$Text{"CustomerUser"}</a>
+        <a href="" onclick="BulkSubmit(); return false;" onmouseover="window.status='$Text{"Bulk Action"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}misc.png" alt="$Text{"Bulk Action"}"><br>$Text{"Bulk Action"}</a>
       </td>
       $Data{"StatsLink"}
       $Data{"FAQLink"}
@@ -72,4 +76,60 @@
   </td>
 </tr>
 </table>
+
+# for bulk actions
+<script language="JavaScript" type="text/javascript">
+<!--
+function BulkChangeSelected(x,c)
+{
+    if (!document.bulk.elements[c].value) {
+        document.bulk.elements[c].value = x;
+       alert('$Text{"Ticket selected for bulk action!"}');
+#        alert(document.bulk.elements[c].value);
+    }
+    else {
+        document.bulk.elements[c].value = '';
+#        alert(document.bulk.elements[c].value);
+    }
+}
+function BulkSubmit()
+{
+    document.bulk.submit()
+}
+//-->
+</script>
+
+<form action="$Env{"CGIHandle"}" method="post" name="bulk">
+  <input type="hidden" name="Action" value="AgentBulk">
+  <input type="hidden" name="TicketID1" value="">
+  <input type="hidden" name="TicketID2" value="">
+  <input type="hidden" name="TicketID3" value="">
+  <input type="hidden" name="TicketID4" value="">
+  <input type="hidden" name="TicketID5" value="">
+  <input type="hidden" name="TicketID6" value="">
+  <input type="hidden" name="TicketID7" value="">
+  <input type="hidden" name="TicketID8" value="">
+  <input type="hidden" name="TicketID9" value="">
+  <input type="hidden" name="TicketID10" value="">
+  <input type="hidden" name="TicketID11" value="">
+  <input type="hidden" name="TicketID12" value="">
+  <input type="hidden" name="TicketID13" value="">
+  <input type="hidden" name="TicketID14" value="">
+  <input type="hidden" name="TicketID15" value="">
+  <input type="hidden" name="TicketID16" value="">
+  <input type="hidden" name="TicketID17" value="">
+  <input type="hidden" name="TicketID18" value="">
+  <input type="hidden" name="TicketID19" value="">
+  <input type="hidden" name="TicketID20" value="">
+  <input type="hidden" name="TicketID21" value="">
+  <input type="hidden" name="TicketID22" value="">
+  <input type="hidden" name="TicketID23" value="">
+  <input type="hidden" name="TicketID24" value="">
+  <input type="hidden" name="TicketID25" value="">
+  <input type="hidden" name="TicketID26" value="">
+  <input type="hidden" name="TicketID27" value="">
+  <input type="hidden" name="TicketID28" value="">
+  <input type="hidden" name="TicketID29" value="">
+</form>
+
 <!-- end NavigationBar -->
