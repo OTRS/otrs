@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.28 2004-07-18 00:55:51 martin Exp $
+# $Id: GenericAgent.pl,v 1.29 2004-08-25 01:49:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ use Kernel::System::GenericAgent;
 
 BEGIN {
     # get file version
-    $VERSION = '$Revision: 1.28 $';
+    $VERSION = '$Revision: 1.29 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     getopt('hcdl', \%Opts);
@@ -140,31 +140,33 @@ if ($Opts{'c'} eq 'db') {
                 $False = 1;
             }
         }
-        if ($DBJobRaw{ScheduleMinutes}) {
-            my $Match = 0;
-            foreach (@{$DBJobRaw{ScheduleMinutes}}) {
-                if ($_ == $Month) {
-                    $Match = 1;
-                    $Run = 1;
-                }
-            }
-            if (!$Match) {
-#print STDERR "f:ScheduleM\n";
-                $False = 1;
+        if (defined($DBJobRaw{ScheduleMinutes})) {
+            @{$DBJobRaw{ScheduleMinutes}} = (0);
+        }
+        my $Match = 0;
+        foreach (@{$DBJobRaw{ScheduleMinutes}}) {
+            if ($_ == $Month) {
+                 $Match = 1;
+                 $Run = 1;
             }
         }
-        if ($DBJobRaw{ScheduleHours}) {
-            my $Match = 0;
-            foreach (@{$DBJobRaw{ScheduleHours}}) {
-                if ($_ == $Hour) {
-                    $Match = 1;
-                    $Run = 1;
-                }
+        if (!$Match) {
+#print STDERR "f:ScheduleM\n";
+            $False = 1;
+        }
+        if (defined($DBJobRaw{ScheduleHours})) {
+            @{$DBJobRaw{ScheduleHours}} = (0);
+        }
+        $Match = 0;
+        foreach (@{$DBJobRaw{ScheduleHours}}) {
+            if ($_ == $Hour) {
+                $Match = 1;
+                $Run = 1;
             }
-            if (!$Match) {
+        }
+        if (!$Match) {
 #print STDERR "f:ScheduleHours\n";
-                $False = 1;
-            }
+            $False = 1;
         }
         if (!$False) {
 #print "RUN: $Run\n";
