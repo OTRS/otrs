@@ -4,8 +4,6 @@
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Pablo Ruiz <pruiz@ip6seguridad.com>
 # --
-# $Id: redhat-rcotrs,v 1.1 2002-06-09 22:02:52 martin Exp $
-# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -18,39 +16,64 @@
 #
 test -r /etc/sysconfig/otrs && . /etc/sysconfig/otrs
 
-# 
+
+# --- All this shit will go on /etc/sysconfig/otrs when i'll got
+# --- time and make another rpm.. (maybe on beta7? ;)) [pruiz@ip6seguridad.com]
+ 
 # if one of this is false, it will not be checked at the startup!
 # Note: (may be the database isn't on the same host! --> DB_RUNNING=0) 
 # 
+OTRS_ROOT=/opt/OpenTRS
 DB_RUNNING=1
 HTTP_RUNNING=1
+CRON_RUNNING=1
 
+#
+# Used database [mysql|postgresql]
+# Note: Take care, that you have changed the Config.pm database settings!
+#
+
+HOST=`hostname -f`
+
+USED_DB=MySQL
+USED_DB_TEST="ps --pid $(cat /var/lib/mysql/$HOST.pid)"
+# --- The Wonderfull redhat's mysql init script does not have a status check.. sucks
+#USED_DB=PostgreSQL
+#USED_DB_RCSCRIPT="service postgresql status| grep 'is running' > /dev/null 2>&1"
+
+USED_WEBSERVER=httpd   #Redhat's default httpd is apache..
+USED_WEBSERVER_TEST="service httpd status | grep 'is running'"
+
+OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
+OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
+OTRS_CHECKDB=$OTRS_ROOT/bin/CheckDB.pl
+
+CRON_DIR=$OTRS_ROOT/var/cron
+CRON_TMP_FILE=$OTRS_ROOT/var/tmp/cron
+CRON_USER=" -u otrs "
+
+OTRS_HTTP_LOCATION="otrs"
+
+# --- END SHIT ;)
 # 
 # check needed files
 # 
-OTRS_POSTMASTER=/opt/OpenTRS/bin/PostMaster.pl
 if ! test -r $OTRS_POSTMASTER; then
     echo "Error: $OTRS_POSTMASTER not found!"
     exit 5
 fi
 
-OTRS_SPOOLDIR=/opt/OpenTRS/var/spool
 if ! test -d $OTRS_SPOOLDIR; then
     echo "Error: $OTRS_SPOOLDIR not found!"
     exit 5
 fi
 
-OTRS_CHECKDB=/opt/OpenTRS/bin/CheckDB.pl
 if ! test -r $OTRS_CHECKDB; then
     echo "Error: $OTRS_CHECKDB not found!"
     exit 5
 fi
  
 
-# 
-# get host name
-#
-HOST=`hostname -f`
 prog="OpenTRS"
 # 
 # main part
@@ -67,11 +90,11 @@ case "$1" in
       # --
       if test $HTTP_RUNNING -gt 0; then
 	echo -n " Checking httpd ..."	
-        if service httpd status|grep "is running" > /dev/null 2>&1 ; then
+        if $USED_WEBSERVER_TEST >/dev/null 2>&1; then
           echo " done."
         else
           echo "  failed!"
-          echo "  --> Please start the webserver at first! (service httpd start) <--"
+          echo "  --> Please start the webserver at first! (service $USED_WEBSERVER start) <--"
           exit 1
         fi
       else
@@ -83,7 +106,7 @@ case "$1" in
       # --
       if test $DB_RUNNING -gt 0; then
 	echo -n " Checking MySQL ..."
-        if ps x|grep safe_mysqld|grep -v grep |grep safe_mysqld > /dev/null 2>&1 ; then 
+        if $USED_DB_TEST >/dev/null 2>&1; then 
           echo " done."
         else 
           echo " failed."
@@ -104,7 +127,7 @@ case "$1" in
           echo ""
           echo " Try the web installer to configure your database: "
           echo ""
-          echo "     -->> http://$HOST/otrs/installer.pl <<-- "
+          echo "     -->> http://$HOST/$OTRS_HTTP_LOCATION/installer.pl <<-- "
           echo ""                               
           echo " or configure your database with README.database (DB - Setup Example)    "
           exit 1;
@@ -136,7 +159,22 @@ case "$1" in
             (rm $i || echo "failed") 
       done
       echo " done."
-     
+      
+      # --
+      # Cron stuff
+      # -- 
+      if test $CRON_RUNNING -gt 0; then
+	echo -e " Creating cronjobs (source $CRON_DIR/*) ..."
+        if mkdir -p $CRON_DIR; cat $CRON_DIR/* > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE ; then
+          echo " done."
+        else
+          echo " failed!"
+          exit 1
+        fi
+      else
+          echo " Disabled: cronjobs!"
+      fi
+ 
       echo ""
       echo "  -->> http://$HOST/otrs/index.pl <<-- "
       echo $"Final start of $prog.. done"
@@ -155,6 +193,20 @@ case "$1" in
           echo " done."
       else
           echo " failed."
+      fi
+      # --
+      # stop cron stuff
+      # --
+      if test $CRON_RUNNING -gt 0; then
+        echo -e " Shutting down cronjobs ..."
+	if crontab $CRON_USER -r ; then
+          echo " done."
+        else
+          echo " failed!"
+          exit 1
+        fi
+      else
+          echo " Disabled: cronjobs!"
       fi
 
       echo $"Final shutdown of $prog.. done"
@@ -214,9 +266,9 @@ case "$1" in
       echo "done."
     ;;
     *)
-    echo "Usage: $0 {start|stop|status|restart}"
+    echo "Usage: $0 {start|stop|stop-force|start-force|status|restart|restart-force}"
     exit 1
 esac
 
-#
+# Inform the caller not only verbosely and set an exit status.
 
