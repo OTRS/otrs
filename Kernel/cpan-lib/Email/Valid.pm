@@ -7,7 +7,7 @@ use vars qw( $VERSION $RFC822PAT %AUTOLOAD $AUTOLOAD $NSLOOKUP_PAT
 use Carp;
 use IO::File;
 use Mail::Address;
-$Debug = 1;
+
 $VERSION = '0.14';
 
 %AUTOLOAD = ( mxcheck => 1, fudge => 1, fqdn => 1, local_rules => 1 );
@@ -94,6 +94,9 @@ sub _find_nslookup {
   foreach my $path (@NSLOOKUP_PATHS) {
     return "$path/dig" if -x "$path/dig" and !-d _;
   }
+  foreach my $path (@NSLOOKUP_PATHS) {
+    return "$path/nslookup" if -x "$path/nslookup" and !-d _;
+  }
   return undef;
 }               
 
@@ -132,7 +135,7 @@ sub _nslookup_query {
 
   unless ($Nslookup_Path) {
     $Nslookup_Path = $self->_find_nslookup
-      or croak 'unable to locate dig or cpan module Net::DNS';
+      or croak 'unable to locate cpan module Net::DNS, dig or nslookup! Please install Net::DNS';
   }
 
   # Check for an A record
