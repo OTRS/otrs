@@ -1,8 +1,8 @@
 # --
-# Article.pm - global article module for OpenTRS kernel
+# Kernel/System/Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.10 2002-07-13 03:28:04 martin Exp $
+# $Id: Article.pm,v 1.11 2002-07-15 10:38:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -81,7 +81,11 @@ sub CreateArticle {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     if (!$Param{Body}) {
-         $Param{Body} = 'no body found!';
+        $Param{Body} = 'no body found!';
+    }
+    else {
+        # fix some bad stuff from browsers!
+        $Param{Body} =~ s/(\n\r|\r\n)/\n/g;
     }
     $ContentPath = $Self->{DBObject}->Quote($ContentPath) || '';
     # --
