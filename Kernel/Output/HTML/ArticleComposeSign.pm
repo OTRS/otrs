@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeSign.pm,v 1.3 2004-08-10 06:52:40 martin Exp $
+# $Id: ArticleComposeSign.pm,v 1.4 2004-08-11 07:59:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,6 +70,9 @@ sub Run {
     }
     if (%KeyList) {
         $KeyList{''} = '-none-';
+        if (!defined($Param{SignKeyID}) && $Self->{ConfigObject}->Get("DefaultSignKey::".$SearchAddress[0]->address())) {
+            $Param{SignKeyID} = $Self->{ConfigObject}->Get("DefaultSignKey::".$SearchAddress[0]->address());
+        }
         my $List = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%KeyList,
             Name => 'SignKeyID',
