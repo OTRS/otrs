@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentSpelling.pm - spelling module
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.pm,v 1.4 2003-02-14 13:45:46 martin Exp $
+# $Id: AgentSpelling.pm,v 1.5 2003-03-09 15:09:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,15 +33,8 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'TicketObject',
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject',
-    ) {
+    foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject 
+      ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -86,10 +79,24 @@ sub Run {
             $Param{Body} =~ s/(\s)$_(\s|:|;|<|>|\/|\|\.|\!|%|&|\?)/$1$Words{$_}$2/gs;
         }
     }
-    my %SpellCheck = $Self->{SpellingObject}->Ckeck(
+    # --
+    # do spell check
+    # --
+    my %SpellCheck = $Self->{SpellingObject}->Check(
         Text => $Param{Body},
         SpellLanguage => $Param{SpellLanguage},
     );
+    # --
+    # check error
+    # --
+    if ($Self->{SpellingObject}->Error()) {
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Spell Checker');
+        $Output .= $Self->{LayoutObject}->Error(
+                Comment => 'System Error!',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
     # -- 
     # start with page ...
     # --

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Spelling.pm - the global spellinf module
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.5 2003-02-14 13:45:16 martin Exp $
+# $Id: Spelling.pm,v 1.6 2003-03-09 15:09:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Spelling;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,7 +41,7 @@ sub new {
     return $Self;
 }
 # --
-sub Ckeck {
+sub Check {
     my $Self = shift;
     my %Param = @_;
     # --
@@ -81,7 +81,21 @@ sub Ckeck {
     # --
     # get spell output
     # --
-    if (open (SPELL, "echo '$Param{Text}' | $Self->{SpellChecker} |")) {
+    # write text to file and cat it throuh (i|a)spell
+    # - can't use IPC::Open* because it's not working with mod_perl* :-/
+    my $TmpFile = $Self->{ConfigObject}->Get('TempDir').'/spell.'.$$;
+    if (open(OUT, "> $TmpFile")) {
+        print OUT $Param{Text};
+        close (OUT);
+    }
+    else {
+        $Self->{Error} = 1;
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Can't write spell tmp text to $TmpFile: $!");
+        return;
+    }
+    if (open (SPELL, "cat $TmpFile | $Self->{SpellChecker} |")) {
         my $Output = '';
         my %Data = ();
         my $Lines = 1;
@@ -131,14 +145,24 @@ sub Ckeck {
             }
         }
         close (SPELL);
+        unlink $TmpFile;
         return %Data;
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't open spell: $!");
+        $Self->{Error} = 1;
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Can't open spell: $!",
+        );
         return;
     } 
 
 }
 # --
-
+sub Error {
+    my $Self = shift;
+    my %Param = @_;
+    return $Self->{Error};
+}
+# --
 1;
