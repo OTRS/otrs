@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.0.mysql.sql,v 1.2 2003-01-09 20:46:01 martin Exp $
+-- $Id: DBUpdate-to-1.0.mysql.sql,v 1.3 2003-01-20 13:03:31 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -66,6 +66,11 @@ CREATE TABLE pop3_account
     UNIQUE (login)
 );
 -- update states
+DELETE FROM ticket_state WHERE name = 'waiting_for_closed+';
+DELETE FROM ticket_state WHERE name = 'waiting_for_closed-';
+DELETE FROM ticket_state WHERE name = 'waiting_for_customer';
+DELETE FROM ticket_state WHERE name = 'waiting_for_info';
+DELETE FROM ticket_state WHERE name = 'waiting_for_reminder';
 DELETE FROM ticket_history_type WHERE name = 'WatingForClose-';
 DELETE FROM ticket_history_type WHERE name = 'WatingForClose+';
 DELETE FROM ticket_history_type WHERE name = 'WatingForReminder';
@@ -97,10 +102,10 @@ CREATE TABLE ticket_loop_protection
     INDEX index_ticket_loop_protection_sent_date (sent_date)
 );
 -- charset for bulgarian translation
-ALTER TABLE charset MODIFY 
-    name VARCHAR (200) NOT NULL, 
-    charset VARCHAR (50) NOT NULL, 
-    comment VARCHAR (250)
+ALTER TABLE charset 
+    MODIFY name VARCHAR (200) NOT NULL, 
+    MODIFY charset VARCHAR (50) NOT NULL, 
+    MODIFY comment VARCHAR (250)
 ;
 INSERT INTO charset
     (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
