@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.11 2003-04-08 21:43:46 martin Exp $
+# $Id: DB.pm,v 1.12 2003-05-01 21:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -29,7 +29,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+    foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -62,7 +62,6 @@ sub CheckSessionID {
     # set default message
     # --
     $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
-
     # --
     # session id check
     # --
@@ -144,7 +143,7 @@ sub GetSessionIDData {
     foreach (@StrgData) {
          my @PaarData = split(/:/, $_);
          if ($PaarData[1]) {
-              $Data{$PaarData[0]} = decode_base64($PaarData[1]) || '';
+              $Data{$PaarData[0]} = decode_base64($PaarData[1]);
          }
          else {
               $Data{$PaarData[0]} = '';
@@ -187,7 +186,7 @@ sub CreateSessionID {
     # --
     my $DataToStore = '';
     foreach (keys %Param) {
-      if ($Param{$_}) {
+      if (defined($Param{$_})) {
         $DataToStore .= "$_:".encode_base64($Param{$_}, '').":;";
       }
     }
@@ -232,14 +231,14 @@ sub UpdateSessionID {
     my $Self = shift;
     my %Param = @_;
     my $Key = $Param{Key} || die 'No Key!';
-    my $Value = $Param{Value} || '';
+    my $Value = defined($Param{Value}) ? $Param{Value} : '';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
     # --
     # check needed update! (no changes)
     # --
     if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value)
-      || (!exists $SessionData{$Key} && !$Value)) {
+      || (!exists $SessionData{$Key} && $Value eq '')) {
         return 1;
     }
     # --

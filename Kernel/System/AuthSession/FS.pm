@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FS.pm,v 1.9 2003-04-08 21:43:46 martin Exp $
+# $Id: FS.pm,v 1.10 2003-05-01 21:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -29,7 +29,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+    foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -53,7 +53,6 @@ sub CheckSessionID {
     # set default message
     # --
     $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
-
     # --
     # session id check
     # --
@@ -160,13 +159,12 @@ sub CreateSessionID {
         (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
     );
     $SessionID = $Self->{SystemID} . $md5->hexdigest;
-
     # --
     # data 2 strg
     # --
     my $DataToStore = '';
     foreach (keys %Param) {
-        if ($Param{$_}) {
+        if (defined($Param{$_})) {
             $Param{$_} = encode_base64($Param{$_}, '');
             $DataToStore .= "$_:". $Param{$_} ."\n";
         }
@@ -190,34 +188,38 @@ sub RemoveSessionID {
     my $Self = shift;
     my %Param = @_;
     my $SessionID = $Param{SessionID};
-
     # --
     # delete fs file
-    # FIXME!
     # --
-    system ("rm $Self->{SessionSpool}/$SessionID") || return 0;
-    # log event
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message => "Removed SessionID $Param{SessionID}."
-    );
-
-    return 1;
+    if (unlink("rm $Self->{SessionSpool}/$SessionID")) { 
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Removed SessionID $Param{SessionID}."
+        );
+        return 1;
+    }
+    else {
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't delete file $Self->{SessionSpool}/$SessionID: $!"
+        );
+        return 0;
+    }
 }
 # --
 sub UpdateSessionID {
     my $Self = shift;
     my %Param = @_;
     my $Key = $Param{Key} || die 'No Key!';
-    my $Value = $Param{Value} || '';
+    my $Value = defined($Param{Value}) ? $Param{Value} : '';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
-
     # --
     # update the value 
     # --
     $SessionData{$Key} = $Value; 
-   
     # --
     # set new data sting
     # -- 
@@ -233,7 +235,6 @@ sub UpdateSessionID {
             );
         }
     }
-
     # --
     # update fs file
     # --
