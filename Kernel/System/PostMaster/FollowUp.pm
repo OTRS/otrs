@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.3 2002-01-01 20:40:04 martin Exp $
+# $Id: FollowUp.pm,v 1.4 2002-02-05 20:25:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -168,8 +168,16 @@ sub Run {
             Body => $Data{Text},
             CreateUserID => $InmailUserID,
         );
-        my $Email = Kernel::System::Email->new();
-        $Email->SendMail(
+
+        # create ob
+        my $Email = Kernel::System::EmailSend->new(
+            ConfigObject=>$Self->{ConfigObjet}, 
+            LogObject => $Self->{LogObject} , 
+            DBObject => $Self->{DBObject},
+        );
+
+        # send email
+        $Email->Send(
             DBObject => $DBObject,
             From => "$Data{Realname} <$Data{Address}>",
             Email => $Data{Address},
