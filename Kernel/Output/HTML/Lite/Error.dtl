@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Error.dtl,v 1.2 2002-05-14 02:21:58 martin Exp $
+# $Id: Error.dtl,v 1.3 2002-07-13 03:30:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,28 +26,32 @@
             <td valign="top">$Data{"Comment"}</td>
         </tr>
         <tr>
+            <td valign="top"><b>$Text{"Bug Report"}:</b></td>
+            <td valign="top"><a href="http://bugs.otrs.org/" target="bugzilla">$Text{"Click here to report a bug!"}</a></TD>
+        </tr>
+        <tr>
             <td valign="top"><b>$Text{"Handle"}:</b></td>
             <td valign="top">$Data{"Filename2"}</td>
         </tr>
         <tr>
-            <td valign="top"><b>$Text{"Modulefile"}:</b></td>
-            <td valign="top">$Data{"Filename"}</td>
+            <td valign="top"><b>$Text{"Frontend"} $Text{"Subfunction"}:</b></td>
+            <td valign="top">$Data{"Subroutine1"} (v $Data{"Version"})</td>
         </tr>
         <tr>
-            <td valign="top"><b>$Text{"Module"}:</b></td>
-            <td valign="top">$Data{"Package"} (v $Data{"Version"})</td>
-        </tr>
-        <tr>
-            <td valign="top"><b>$Text{"Subfunction"}:</b></td>
-            <td valign="top">$Data{"Subroutine1"}</td>
-        </tr>
-        <tr>
-            <td valign="top"><b>$Text{"Line"}:</b></td>
+            <td valign="top"><b>$Text{"Frontend"} $Text{"Line"}:</b></td>
             <td valign="top">$Data{"Line"}</TD>
         </tr>
         <tr>
-            <td valign="top"><b>$Text{"Bug Report"}:</b></td>
-            <td valign="top"><a href="http://bugs.otrs.org/" target="bugzilla">$Text{"Click her to report a bug!"}</a></TD>
+            <td valign="top"><b>$Text{"Backend"} $Text{"Subfunction"}:</b></td>
+            <td valign="top">$Data{"BackendSubroutine"} (v $Data{"BackendVersion"})</TD>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Backend"} $Text{"Line"}:</b></td>
+            <td valign="top">$Data{"BackendLine"}</TD>
+        </tr>
+        <tr>
+            <td valign="top"><b>$Text{"Backend"} $Text{"BackendMessage"}:</b></td>
+            <td valign="top">$Data{"BackendMessage"}</TD>
         </tr>
     </table>
   </td>

@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.38 2002-07-10 18:22:02 martin Exp $
+# $Id: Generic.pm,v 1.39 2002-07-13 03:30:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -331,12 +331,19 @@ sub Error {
     my $Self = shift;
     my %Param = @_;
 
+    # get backend error messages
+    foreach (qw(Message Subroutine Line Version)) {
+      $Param{'Backend'.$_} = $Self->{LogObject}->Error($_) || '';
+    }
+    if (!$Param{Message}) {
+      $Param{Message} = $Param{BackendMessage};
+    } 
+
+    # get frontend error messages
     ($Param{Package}, $Param{Filename}, $Param{Line}, $Param{Subroutine}) = caller(0);
     ($Param{Package1}, $Param{Filename1}, $Param{Line1}, $Param{Subroutine1}) = caller(1);
     ($Param{Package2}, $Param{Filename2}, $Param{Line2}, $Param{Subroutine2}) = caller(2);
-
-    $Param{Version} = ("\$$Param{Package}". '::VERSION');
-    $Param{Version} =~ s/(.*)/$1/ee;
+    $Param{Version} = eval("\$$Param{Package}". '::VERSION');
 
     # create & return output
     return $Self->Output(TemplateFile => 'Error', Data => \%Param);
