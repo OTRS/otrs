@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.9 2002-01-10 20:08:41 martin Exp $
+# $Id: Config.pm,v 1.10 2002-01-20 22:20:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -117,6 +117,9 @@ sub Load {
     # --
     # global CGI handle
     $Self->{CGIHandle} = 'index.pl';
+    # max valid time of one session id
+    # in second (8h = 28800)
+    $Self->{MaxSessionTime} = 28800;
 
     # --
     # Ticket stuff
