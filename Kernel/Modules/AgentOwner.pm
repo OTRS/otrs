@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.21 2004-01-10 15:36:14 martin Exp $
+# $Id: AgentOwner.pm,v 1.22 2004-03-11 14:35:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,7 +84,7 @@ sub Run {
                 return $Output;
             }
         }
-		# lock ticket && set user id && send notify to new agent
+        # lock ticket && set user id && send notify to new agent
         if ($Self->{TicketObject}->SetLock(
           TicketID => $Self->{TicketID},
           Lock => 'lock',
@@ -124,7 +124,7 @@ sub Run {
     }
     else {
         # print form
-        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
         my $OwnerID = $Self->{TicketObject}->CheckOwner(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Owner');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
@@ -139,31 +139,25 @@ sub Run {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my %Groups = $Self->{GroupObject}->GroupMemberList(
-                UserID => $Self->{UserID},
+            my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $GID,
                 Type => 'rw',
                 Result => 'HASH',
             );
-            foreach (keys %Groups) {
-                my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                    GroupID => $_,
-                    Type => 'rw',
-                    Result => 'HASH',
-                );
-                foreach (keys %MemberList) {
-                    $ShownUsers{$_} = $AllGroupsMembers{$_};
-                }
+            foreach (keys %MemberList) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
             }
         }
         # get old owner
         my @OldUserInfo = $Self->{TicketObject}->GetOwnerList(TicketID => $Self->{TicketID});
         # print change form
         $Output .= $Self->MaskOwner(
+            %Ticket,
             OptionStrg => \%ShownUsers,
             OldUser => \@OldUserInfo,
             TicketID => $Self->{TicketID},
             OwnerID => $OwnerID,
-            TicketNumber => $Tn,
             QueueID => $Self->{QueueID},
         );
         $Output .= $Self->{LayoutObject}->Footer();
