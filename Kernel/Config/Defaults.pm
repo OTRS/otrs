@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.73 2003-05-21 22:43:28 martin Exp $
+# $Id: Defaults.pm,v 1.74 2003-05-29 11:24:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -454,11 +454,11 @@ sub LoadDefaults {
             en => 'English',
             de => 'Deutsch',
             nl => 'Nederlands',
-            fr => 'Français',
+            fr => 'Fran&ccedil;ais',
             bg => 'Bulgarian',
             fi => 'Suomi',
             es => 'Espaniol',
-            pt_BR => 'Português Brasileiro',
+            pt_BR => 'Portugu&ecirc;s Brasileiro',
             it => 'Italiano',
             ru => 'Russian',
 #            cs => 'Czech', 
@@ -1385,6 +1385,8 @@ Your OTRS Notification Master
     $Self->{CustomerUser} = {
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
+            # if you want to use an external database, add the
+            # required settings
 #            DSN => 'DBI:odbc:yourdsn',
 #            DSN => 'DBI:mysql:database=customerdb;host=customerdbhost',
 #            User => '',
