@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.14 2003-04-09 19:47:06 martin Exp $
+# $Id: AgentOwner.pm,v 1.15 2003-04-30 22:09:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,6 +91,7 @@ sub Run {
                 UserID => $Self->{UserID},
                 HistoryType => 'AddNote',
                 HistoryComment => 'Note added.',
+                NoAgentNotify => 1, # because of owner updated notify
               );
             }
           # --
