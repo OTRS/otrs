@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.24 2003-03-10 21:25:51 martin Exp $
+# $Id: Queue.pm,v 1.25 2003-03-11 18:35:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -460,6 +460,12 @@ sub QueueAdd {
    # --
    foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify LockNotify OwnerNotify ValidID)) {
       if (!defined($Param{$_})) { 
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+   }
+   foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID)) {
+      if (!$Param{$_}) { 
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
