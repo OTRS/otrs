@@ -1,0 +1,107 @@
+# --
+# AgentSpelling.dtl - provides HTML form for AgentSpelling
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentBook.dtl,v 1.1 2004-01-08 22:18:08 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start Spelling form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+
+function updateMessage()
+{
+    if (parent.opener.closed) {
+        alert('$Text{"The message being composed has been closed.  Exiting."}');
+        this.close();
+        return;
+    }
+
+    if (!parent.opener.document.compose) {
+        alert('$Text{"This window must be called from compose window"}');
+        this.close();
+        return;
+    }
+
+    parent.opener.document.compose.Cc.value = document.book.Cc.value 
+    parent.opener.document.compose.To.value = document.book.To.value 
+
+    this.close();
+}
+
+//-->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+
+function AddCcAddress(x)
+{
+    if (document.book.Cc.value) {
+        document.book.Cc.value = document.book.Cc.value + ', ';
+    }
+    document.book.Cc.value = document.book.Cc.value + x;
+}
+
+function AddToAddress(x)
+{
+    if (document.book.To.value) {
+        document.book.To.value = document.book.To.value + ', ';
+    }
+    document.book.To.value = document.book.To.value + x;
+}
+
+//-->
+</script>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <td align="left" class="table2"> 
+    <b>$Env{"Box0"}$Text{"Addressbook"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr>
+  <td align="left" valign="top" class="table1">
+
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="book">
+  <input type="hidden" name="Action" value="AgentBook">
+
+<table border="0" cellspacing="0" cellpadding="1">
+<tr>
+  <td>$Text{"To"}:</td><td> <input type="text" name="To" value="$Data{"To"}" size="80"></td>
+</tr>
+<tr>
+  <td>$Text{"Cc"}:</td><td> <input type="text" name="Cc" value="$Data{"Cc"}" size="80"></td>
+</tr>
+</table>
+
+<br>
+<input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"> 
+<i>($Text{"Return to the compose screen"})</i>
+
+<input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"> 
+<i>($Text{"Discard all changes and return to the compose screen"})</i>
+
+<hr>
+<table border="0" cellspacing="0" cellpadding="1">
+<tr>
+  <td>
+    <input type="text" name="Search" value="">
+    <input class="button" type="submit" value="$Text{"Search"}"> 
+    <input class="button" type="reset" value="$Text{"Reset"}"> 
+  </td>
+</tr>
+</table>
+
+<table border="0" cellspacing="2" cellpadding="2">
+$Data{"AddressList"}
+</table>
+
+<hr>
+  </td> 
+</tr>
+</table>
+<!-- end Spelling form -->
