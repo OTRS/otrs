@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.pm,v 1.4 2004-08-18 08:41:57 martin Exp $
+# $Id: Time.pm,v 1.5 2004-08-19 11:22:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -94,7 +94,7 @@ sub SystemTime {
 returns a time stamp in "yyyy-mm-dd 24:60:60" format.
 
     my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-        Unix => $UnixTime,
+        SystemTime => $SystenTime,
     );
 
 =cut
@@ -172,18 +172,76 @@ sub TimeStamp2SystemTime {
         return;
       }
     }
+    my $SytemTime = 0;
+    # match iso date format
     if ($Param{String} =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
-        my $SytemTime = eval {timelocal($6,$5,$4,$3,($2-1), $1)};
-        if ($SytemTime) {
-            return $SytemTime;
-        }
-        else {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Date '$Param{String}'!");
-            return;
-        }
+        $SytemTime = $Self->Date2SystemTime(
+            Year => $1,
+            Month => $2,
+            Day => $3,
+            Hour => $4,
+            Minute => $5,
+            Second => $6,
+        );
     }
+    # match europ time format
+    elsif ($Param{String} =~ /(\d\d|\d)\.(\d\d|\d)\.(\d\d\d\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
+        $SytemTime = $Self->Date2SystemTime(
+            Year => $3,
+            Month => $2,
+            Day => $1,
+            Hour => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+    # return system time
+    if ($SytemTime) {
+        return $SytemTime;
+    }
+    # return error
     else {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Date '$Param{String}'!");
+        return;
+    }
+}
+
+=item Date2SystemTime()
+
+returns the number of non-leap seconds since what ever time the
+system considers to be the epoch (that's 00:00:00, January 1, 1904
+for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
+
+    my $SystemTime = $TimeObject->Date2SystemTime(
+        Year => 2004,
+        Month => 8,
+        Day => 14,
+        Hour => 22,
+        Minute => 45,
+        Second => 0,
+    );
+
+=cut
+
+sub Date2SystemTime {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Year Month Day Hour Minute Second)) {
+      if (!defined($Param{$_})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my $SytemTime = eval {timelocal($Param{Second},$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year})};
+    if ($SytemTime) {
+        return $SytemTime;
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Invalid Date '$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:$Param{Second}'!",
+        );
         return;
     }
 }
@@ -201,6 +259,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2004-08-18 08:41:57 $
+$Revision: 1.5 $ $Date: 2004-08-19 11:22:55 $
 
 =cut
