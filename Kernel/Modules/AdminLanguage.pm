@@ -1,8 +1,8 @@
 # --
-# AdminLanguage.pm - to add/update/delete system language
+# Kernel/Modules/AdminLanguage.pm - to add/update/delete system language
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLanguage.pm,v 1.2 2002-05-14 00:23:52 martin Exp $
+# $Id: AdminLanguage.pm,v 1.3 2002-07-21 16:50:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminLanguage;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,14 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject',
-    ) {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject PermissionObject) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -51,14 +44,16 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $NextScreen = 'AdminLanguage';
-
+    # --
     # permission check
+    # --
     if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
         $Output .= $Self->{LayoutObject}->NoPermission();
         return $Output;
     }
-
-    # get queue data 2 form
+    # --
+    # get data
+    # --
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         $Output .= $Self->{LayoutObject}->Header(Title => 'System address change');
@@ -77,7 +72,9 @@ sub Run {
             );
         $Output .= $Self->{LayoutObject}->Footer();
     }
+    # --
     # update action
+    # --
     elsif ($Self->{Subaction} eq 'ChangeAction') {
         my %GetParam;
         my @Params = ('ID', 'Name', 'ValidID');
@@ -94,14 +91,16 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
         }
         else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+          $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
           $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin');
           $Output .= $Self->{LayoutObject}->Footer();
         }
     }
-    # add new queue
+    # --
+    # add new queue 
+    # --
     elsif ($Self->{Subaction} eq 'AddAction') {
         my %GetParam;
         my @Params = ('Name', 'ValidID');
@@ -126,7 +125,9 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         }
     }
+    # --
     # else ! print form 
+    # --
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'System language add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
