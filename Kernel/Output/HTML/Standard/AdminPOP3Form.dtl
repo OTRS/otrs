@@ -1,0 +1,146 @@
+# --
+# AdminPOP3Form.dtl - provides HTML form for AdminSystemAddess
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminPOP3Form.dtl,v 1.1 2002-12-15 23:18:32 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr bgcolor="$Env{"BGTableColor0"}">
+  <td align="left" width="30%">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"POP3 Account Management"}$Env{"Box1"}</font></b>
+  </td>
+  <td align="right" width="70%">
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
+  <td>
+    $Text{"Change POP3 Account setting"}:
+    <br>
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="Change">
+    $Data{"POP3AccountOption"}
+    <br>
+    <input type="submit" value="$Text{"change"}">
+    </form>
+  </td> 
+  <td>
+# --
+# check subaction
+# --
+<dtl set $Data{"Headline"} = "Add POP3 Account">
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update POP3 Account"; }>
+# set subaction!
+<dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
+# check add link
+<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add a POP3 Account)"; }>
+# --
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
+    <br>
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+    <input type="hidden" name="ID" value="$Data{"ID"}">
+    <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td>$Text{"Login"}: </td>
+      <td> <input type="text" name="Login" value="$Data{"Login"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Password"}: </td>
+      <td> <input type="password" name="Password" value="$Data{"Password"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Host"}: </td>
+      <td> <input type="text" name="Host" value="$Data{"Host"}" size="35" maxlength="50"></td>
+    </tr>
+    <tr>
+      <td>$Text{"Trusted"}: </td>
+      <td> $Data{"TrustedOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Queue"}: </td>
+      <td> $Data{"QueueOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Valid"}: </td>
+      <td> $Data{"ValidOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Comment"}: </td>
+      <td> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
+    </tr>
+    </table>
+    <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
+  </td>
+</tr>
+</table>
+<!-- end form -->
+<!-- start note -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr bgcolor="$Env{"BGTableColor2"}" valign="top">
+  <td>
+    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}" valign="top">
+  <td>
+  <p>
+  $Text{"All incoming emails with one account will be dispatched in the selected queue!"}
+  <br>
+  $Text{"If your account is trusted, the x-otrs header (for priority, ...) will be used!"}
+  </p>
+  <p>
+    $Text{"Example"}:
+    <hr>
+    <form action="/">
+      <table>
+      <tr>
+      <td>$Text{"Login"}: </td>
+      <td> <input type="text" name="Login" value="mail2" size="35" maxlength="50"></td>
+      </tr>
+      <tr>
+      <td>$Text{"Password"}: </td>
+      <td> <input type="password" name="Password" value="test" size="35" maxlength="50"></td>
+      </tr>
+      <tr>
+      <td>$Text{"Host"}: </td>
+      <td> <input type="text" name="Host" value="mail.example.com" size="35" maxlength="50"></td>
+      </tr>
+      <tr>
+      <td>$Text{"Trusted"}: </td>
+      <td> $Data{"TrustedOption"}</td>
+      </tr>
+      <tr>
+        <td>$Text{"Queue"}</td>
+        <td><select name="QueueID"  >
+<option VALUE="3">Tech (1)</option>
+<option VALUE="4">Misc (2)</option>
+<option VALUE="2">Raw (3)</option>
+</select>
+       </td>
+      </tr>
+      <tr>
+      <td>$Text{"Valid"}: </td>
+      <td> $Data{"ValidOption"}</td>
+      </tr>
+      <tr>
+      <td>$Text{"Comment"}: </td>
+      <td> <input type="text" name="Comment" value="$Text{"comment"}" size="50" maxlength="50"></td>
+      </tr>
+      </table>
+    </form>
+    <hr>
+    </p>
+  </td>
+</tr>
+</table>
+
+<!-- end note -->
+
