@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.5 2004-09-04 16:08:36 martin Exp $
+# $Id: Email.pm,v 1.6 2004-09-04 17:41:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Entity;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -59,7 +59,6 @@ create a object
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -91,7 +90,6 @@ sub new {
 
     return $Self;
 }
-# --
 
 =item Send()
 
@@ -122,6 +120,7 @@ To send an email with already created header:
     else {
         print "Email not sent!\n";
     }
+
 =cut
 
 sub Send {
@@ -215,7 +214,7 @@ sub Send {
         Body => \$Param{Body},
     );
 }
-# --
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -230,7 +229,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2004-09-04 16:08:36 $
+$Revision: 1.6 $ $Date: 2004-09-04 17:41:00 $
 
 =cut
 
