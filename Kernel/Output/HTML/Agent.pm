@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.127 2003-10-14 13:42:56 martin Exp $
+# $Id: Agent.pm,v 1.128 2003-12-01 00:30:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.127 $';
+$VERSION = '$Revision: 1.128 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,27 +22,45 @@ sub NavigationBar {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    # --
-    # check DisplayCharset
-    # --
-    if ($Self->{UserCharset} =~ /^utf-8$/i) {
-        $Param{CorrectDisplayCharset} = 1;
-    }
-    else {
-        foreach ($Self->{LanguageObject}->GetPossibleCharsets()) {
-            if ($Self->{UserCharset} =~ /^$_$/i) { 
-                $Param{CorrectDisplayCharset} = 1;
+    # run notification modules 
+    if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::NotifyModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                );
+            }
+            if (eval "require $Jobs{$Job}->{Module}") {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    LayoutObject => $Self, 
+                    UserID => $Self->{UserID},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                    );
+                }
+                # run module 
+                $Output .= $Object->Run(%Param, Config => $Jobs{$Job});
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Jobs{$Job}->{Module}!",
+                );
             }
         }
     }
-    if (!$Param{CorrectDisplayCharset} && $Self->{LanguageObject}->GetRecommendedCharset()) {
-        $Output .= $Self->Notify(
-          Info => $Self->{LanguageObject}->Get('The recommended charset for your language is %s!", "'.$Self->{LanguageObject}->GetRecommendedCharset()),
-        );
-    }
-    # --
     # check lock count
-    # --
     foreach (keys %{$Param{LockData}}) {
         $Param{$_} = $Param{LockData}->{$_} || 0; 
     }
@@ -57,12 +75,6 @@ sub NavigationBar {
           Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Reminder">'.
            $Self->{LanguageObject}->Get('You have %s reminder ticket(s)!", "'.
            $Param{Reminder}).'</a>',
-        );
-    }
-    if ($Self->{UserID} == 1) {
-        $Output .= $Self->Notify(
-          Info => '<a href="$Env{"Baselink"}Action=AdminUser">'.
-          $Self->{LanguageObject}->Get("Don't work with UserID 1 (System account)! Create new users!").'</a>',
         );
     }
     # create & return output

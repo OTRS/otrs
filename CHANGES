@@ -2,13 +2,27 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.99 2003-11-26 00:41:39 martin Exp $
+# $Id: CHANGES,v 1.100 2003-12-01 00:30:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-CVS HEAD
+CVS HEAD 
+ - (2003/11/27) added modules for agent notifications
+    Kernel/Output/HTML/NotificationCharsetCheck.pm
+    Kernel/Output/HTML/NotificationUIDCheck.pm
+    are default modules to configure over Kernel/Config.pm
+    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
+        Module => 'Kernel::Output::HTML::NotificationCharsetCheck',
+    };
+    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
+        Module => 'Kernel::Output::HTML::NotificationUIDCheck',
+    };
+    So it's alos possible to create your own agent notifications
+    like motd od escalation infos.
+ - (2003/11/26) added group <-> customer user support - so it's 
+    possible that you can define the customer queues for new tickets
  - (2003/11/26) added modules for ticket permission checks 
     Kernel/System/Ticket/Permission/OwnerCheck.pm
     Kernel/System/Ticket/Permission/GroupCheck.pm
