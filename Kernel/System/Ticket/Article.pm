@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.70 2004-09-08 11:34:51 martin Exp $
+# $Id: Article.pm,v 1.70.2.1 2004-09-16 07:39:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.70.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1197,9 +1197,14 @@ sub ArticleSend {
         Organization => $Self->{Organization},
         Type => 'text/plain',
         Charset=> $Charset,
-        Encoding => "7bit",
-#        Encoding => '8bit',
     };
+    if ($Charset && $Charset =~ /utf(8|-8)/i) {
+        $Header->{Encoding} = '8bit';
+#        $Header->{'Encoding'} = 'base64';
+    }
+    else {
+        $Header->{Encoding} = '7bit';
+    }
     if ($Loop) {
         $$Header{'Precedence:'} = 'bulk';
         $$Header{'X-Loop'} = 'bulk';
