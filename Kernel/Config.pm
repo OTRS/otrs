@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.37 2002-06-08 20:34:53 martin Exp $
+# $Id: Config.pm,v 1.38 2002-06-08 22:08:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -133,7 +133,7 @@ sub Load {
 
     $Self->{UserPreferences} = {
       # key => value
-      # key is usable with $Data{"UserCharset"} in dtl.
+      # key is usable with $Env{"UserCharset"} in dtl.
       UserCharset => 'Charset',
       UserTheme => 'Theme',
       UserLanguage => 'Language',
