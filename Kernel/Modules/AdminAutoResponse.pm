@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponse.pm,v 1.9 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.10 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,21 +64,17 @@ sub Run {
         'CharsetID',
     );
 
-    # -- 
     # get data 
-    # --
     if ($Param{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{AutoResponseObject}->AutoResponseGet(ID => $ID);
         $Output = $Self->{LayoutObject}->Header(Title => 'Auto response change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminAutoResponseForm(%Data);
+        $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
     # update action
-    # --
     elsif ($Param{Subaction} eq 'ChangeAction') {
         my %GetParam;
         foreach (@Params) {
@@ -98,9 +94,7 @@ sub Run {
             return $Output;
         }
     }
-    # --
     # add new auto response 
-    # --
     elsif ($Param{Subaction} eq 'AddAction') {
         my %GetParam;
         foreach (@Params) {
@@ -120,17 +114,87 @@ sub Run {
             return $Output;
         }
     }
-    # --
     # else ! print form
-    # --
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Auto response add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminAutoResponseForm();
+        $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
 
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+    
+    $Param{'CharsetOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, charset',
+            Table => 'charset',
+            Valid => 0,
+          )
+        },
+        Name => 'CharsetID',
+        SelectedID => $Param{CharsetID},
+    );
+
+    $Param{'AutoResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'auto_response',
+          )
+        },
+        Name => 'ID',
+        Size => 15,
+        SelectedID => $Param{ID},
+    );
+
+    $Param{'TypeOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Valid => 1,
+            Clamp => 1,
+            Table => 'auto_response_type',
+          )
+        },
+        Name => 'TypeID',
+        SelectedID => $Param{TypeID},
+    );
+
+    $Param{'SystemAddressOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, value0, value1',
+            Valid => 1,
+            Clamp => 1,
+            Table => 'system_address',
+          )
+        },
+        Name => 'AddressID',
+        SelectedID => $Param{AddressID},
+    );
+    $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
+
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminAutoResponseForm', Data => \%Param);
+}
+# --
 1;

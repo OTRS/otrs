@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.10 2003-04-12 23:41:47 martin Exp $
+# $Id: AdminEmail.pm,v 1.11 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminEmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -115,7 +115,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Admin-Email');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         if ($Self->{SendmailObject}->Send(%Param)) {
-            $Output .= $Self->{LayoutObject}->AdminEmailSent(%Param);
+            $Output .= $Self->_MaskSent(%Param);
         }
         else {
             $Output .= $Self->{LayoutObject}->Error();
@@ -127,7 +127,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my %Users = $Self->{UserObject}->UserList(Valid => 1);
         my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
-        $Output .= $Self->{LayoutObject}->AdminEmail(
+        $Output .= $Self->_Mask(
             UserList => \%Users, 
             GroupList => \%Groups,
             %Param,
@@ -137,5 +137,34 @@ sub Run {
     return $Output;
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
 
+    $Param{'UserOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{UserList},
+        Name => 'UserIDs',
+        Size => 8,
+        Multiple => 1,
+    );
+
+    $Param{'GroupOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{GroupList},
+        Size => 6,
+        Name => 'GroupIDs',
+        Multiple => 1,
+    );
+
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmail', Data => \%Param);
+}
+# --
+sub _MaskSent {
+    my $Self = shift;
+    my %Param = @_;
+
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmailSent', Data => \%Param);
+}
+# --
 1;

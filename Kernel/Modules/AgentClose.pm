@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.28 2003-11-19 01:32:03 martin Exp $
+# $Id: AgentClose.pm,v 1.29 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,7 +58,7 @@ sub Run {
     }
     # check permissions
     if (!$Self->{TicketObject}->Permission(
-        Type => 'rw',
+        Type => 'close',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
@@ -131,7 +131,7 @@ sub Run {
         # --
         # print form ...
         # --
-        $Output .= $Self->{LayoutObject}->AgentClose(
+        $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},
             TicketNumber => $Tn,
             QueueID => $QueueID,
@@ -225,6 +225,32 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+}
+# --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    
+    # build string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStatesStrg},
+        Name => 'CloseStateID'
+    );
+    # build string
+    $Param{'NoteTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NoteTypesStrg},
+        Name => 'CloseNoteID'
+    ); 
+    # get MoveQueuesStrg
+    $Param{MoveQueuesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Name => 'DestQueueID',
+        SelectedID => $Param{SelectedMoveQueue},
+        Data => $Param{MoveQueues},
+        OnChangeSubmit => 0,
+    );
+
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentClose', Data => \%Param);
 }
 # --
 1;

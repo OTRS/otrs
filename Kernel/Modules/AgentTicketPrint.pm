@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.6 2003-05-29 16:06:37 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.7 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPrint;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -196,11 +196,11 @@ sub Run {
     # genterate output
     # --
     $Output .= $Self->{LayoutObject}->PrintHeader(Title => $Ticket{TicketNumber});
-    $Output .= $Self->{LayoutObject}->AgentTicketPrintHeader(%Ticket, %UserInfo);
+    $Output .= $Self->_MaskHeader(%Ticket, %UserInfo);
     # --
     # show ticket
     # --
-    $Output .= $Self->{LayoutObject}->AgentTicketPrint(
+    $Output .= $Self->_Mask(
         TicketID => $Self->{TicketID},
         QueueID => $QueueID,
         ArticleBox => \@ArticleBox,
@@ -213,5 +213,110 @@ sub Run {
     return $Output;
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    # build article stuff
+    my $SelectedArticleID = $Param{ArticleID} || '';
+    my @ArticleBox = @{$Param{ArticleBox}};
+    # get last customer article
+    my $Output = '';
+    foreach my $ArticleTmp (@ArticleBox) {
+        my %Article = %{$ArticleTmp};
+        # get attacment string
+        my %AtmIndex = ();
+        if ($Article{Atms}) {
+            %AtmIndex = %{$Article{Atms}};
+        }
+        $Param{"Article::ATM"} = '';
+        foreach (keys %AtmIndex) {
+          $AtmIndex{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $AtmIndex{$_});
+          $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=AgentAttachment&'.
+            "ArticleID=$Article{ArticleID}&FileID=$_\" target=\"attachment\" ".
+            "onmouseover=\"window.status='\$Text{\"Download\"}: $AtmIndex{$_}';".
+             ' return true;" onmouseout="window.status=\'\';">'.
+             $AtmIndex{$_}.'</a><br> ';
+        }
+        # do some strips && quoting
+        $Article{CreateTime} = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString($Article{CreateTime});
+        foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 
+          FreeValue3 CreateTime SenderType ArticleType)) {
+            $Article{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+                Text => $Article{$_},
+                From => $Article{ContentCharset},
+            );
+            $Param{"Article::$_"} = $Self->{LayoutObject}->Ascii2Html(Text => $Article{$_}, Max => 300);
+        }
+        # check if just a only html email
+        if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article, Action => 'AgentZoom')) {
+            $Param{"Article::TextNote"} = $MimeTypeText;
+            $Param{"Article::Text"} = '';
+        }
+        else {
+            # charset quoting
+            $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+                Text => $Article{Body},
+                From => $Article{ContentCharset},
+            );
+            # html quoting
+            $Param{"Article::Text"} = $Self->{LayoutObject}->Ascii2Html(
+                NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+                Text => $Article{Body},
+                VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+            );
+            # do charset check
+            if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+                Action => 'AgentZoom',
+                ContentCharset => $Article{ContentCharset},
+                TicketID => $Param{TicketID},
+                ArticleID => $Article{ArticleID} )) {
+                $Param{"Article::TextNote"} = $CharsetText;
+            }
+        }
+        # get article id
+        $Param{"Article::ArticleID"} = $Article{ArticleID};
 
+        # select the output template
+        if ($Article{ArticleType} ne 'email-notification-int') {
+            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPrint', Data => \%Param);
+        }
+    }
+    # return output
+    return $Output;
+}
+# --
+sub _MaskHeader {
+    my $Self = shift;
+    my %Param = @_;
+    # do some html quoting
+    foreach (qw(State Priority Lock)) {
+        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->Get($Param{$_});
+    }
+    foreach (qw(Priority State Owner Queue CustomerID Lock)) {
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}, Max => 25) || '';
+    }
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Param{Created} = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString($Param{Created});
+    if ($Param{UntilTime}) {
+        $Param{PendingUntil} = $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => ' ');
+    }
+    else {
+        $Param{PendingUntil} = '-';
+    }
+    # prepare escalation time (if needed)
+    if ($Param{Answered}) {
+        $Param{TicketOverTime} = '$Text{"none - answered"}';
+    }
+    elsif ($Param{TicketOverTime}) {
+      $Param{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+          Age => $Param{TicketOverTime},
+          Space => ' ',
+      );
+    }
+    else {
+        $Param{TicketOverTime} = '-';
+    }
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPrintHeader', Data => \%Param);
+}
+# --
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.52 2003-11-19 01:35:27 martin Exp $
+# $Id: AgentCompose.pm,v 1.53 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -285,7 +285,7 @@ sub Form {
     # --
     # build view ...
     # --
-    $Output .= $Self->{LayoutObject}->AgentCompose(
+    $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID => $Self->{TicketID},
         QueueID => $Ticket{QueueID},
@@ -346,7 +346,7 @@ sub SendEmail {
             $Data{$_} = $Self->{$_};
         }
         $Data{StdResponse} = $Self->{Body};
-        $Output .= $Self->{LayoutObject}->AgentCompose(
+        $Output .= $Self->_Mask(
             TicketNumber => $Tn,
             TicketID => $Self->{TicketID},
             QueueID => $QueueID,
@@ -454,5 +454,62 @@ sub _GetNextStates {
     return \%NextStates;
 }
 # --
-
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'ComposeStateID',
+        Selected => $Param{NextState}
+    );
+    # build select string
+    if ($Param{StdAttachments} && %{$Param{StdAttachments}}) {
+      my %Data = %{$Param{StdAttachments}};
+      $Param{'StdAttachmentsStrg'} = "<select name=\"StdAttachmentID\" size=2 multiple>\n";
+      foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        if ((defined($_)) && ($Data{$_})) {
+            $Param{'StdAttachmentsStrg'} .= '    <option selected value="'.$Self->{LayoutObject}->Ascii2Html(Text => $_).'">'.
+                  $Self->{LayoutObject}->Ascii2Html(Text => $Self->{LayoutObject}->{LanguageObject}->Get($Data{$_})) ."</option>\n";
+        }
+      }
+      $Param{'StdAttachmentsStrg'} .= "</select>\n";
+    }
+    # answered strg
+    if ($Param{AnsweredID}) {
+        $Param{'AnsweredYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+            Name => 'Answered',
+            SelectedID => $Param{AnsweredID},
+        );
+    }
+    else {
+        $Param{'AnsweredYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+            Name => 'Answered',
+            Selected => 'Yes',
+        );
+    }
+    # create FromHTML (to show)
+    $Param{FromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{From}, Max => 70);
+    # do html quoting
+    foreach (qw(ReplyTo From To Cc Subject Body)) {
+        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+            Text => $Param{$_},
+            From => $Param{ContentCharset},
+        );
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
+    }
+    # prepare errors!
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
+    }
+    # pending data string
+    $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(%Param);
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentCompose', Data => \%Param);
+}
+# --
 1;

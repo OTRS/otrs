@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachment.pm,v 1.5 2003-11-02 00:00:55 martin Exp $
+# $Id: AdminAttachment.pm,v 1.6 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,7 +59,7 @@ sub Run {
         my %ResponseData = $Self->{StdAttachmentObject}->StdAttachmentGet(ID => $Param{ID});
         $Output = $Self->{LayoutObject}->Header(Title => 'Attachment change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminAttachmentForm(
+        $Output .= $Self->_Mask(
             %ResponseData,  
             %Param,
             AttachmentIndex => \%AttachmentIndex,
@@ -136,7 +136,7 @@ sub Run {
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Attachment add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminAttachmentForm(
+        $Output .= $Self->_Mask(
             AttachmentIndex => \%AttachmentIndex,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -144,5 +144,33 @@ sub Run {
     }
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
 
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { 
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          ) 
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+
+    # build ResponseOption string
+    $Param{'ResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{AttachmentIndex},
+        Name => 'ID',
+        Size => 15,
+        SelectedID => $Param{ID},
+    );
+    $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
+
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminAttachmentForm', Data => \%Param);
+}
+# --
 1;

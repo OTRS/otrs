@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCharset.pm - to add/update/delete system charsets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCharset.pm,v 1.6 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminCharset.pm,v 1.7 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminCharset;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,9 +44,7 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $NextScreen = 'AdminCharset';
-    # --
     # get queue data 2 form
-    # --
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         $Output .= $Self->{LayoutObject}->Header(Title => 'System address change');
@@ -58,7 +56,7 @@ sub Run {
            " id = $ID";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         my @Data = $Self->{DBObject}->FetchrowArray();
-        $Output .= $Self->{LayoutObject}->AdminCharsetForm(
+        $Output .= $Self->_Mask(
                 ID => $ID,
                 Name => $Data[0],
                 Charset => $Data[1],
@@ -67,9 +65,7 @@ sub Run {
             );
         $Output .= $Self->{LayoutObject}->Footer();
     }
-    # --
     # update action
-    # --
     elsif ($Self->{Subaction} eq 'ChangeAction') {
         my %GetParam;
         my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'Charset');
@@ -93,9 +89,7 @@ sub Run {
           $Output .= $Self->{LayoutObject}->Footer();
         }
     }
-    # --
     # add new queue
-    # --
     elsif ($Self->{Subaction} eq 'AddAction') {
         my %GetParam;
         my @Params = ('Name', 'Comment', 'ValidID', 'Charset');
@@ -121,18 +115,48 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         }
     }
-    # --
     # else ! print form 
-    # --
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'System charset add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminCharsetForm();
+        $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
 
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+    $Param{CharsetOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'charset',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        SelectedID => $Param{ID},
+    );
+
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminCharsetForm', Data => \%Param);
+}
+# --
 1;
 

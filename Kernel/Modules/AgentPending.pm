@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.11 2003-07-10 22:34:28 martin Exp $
+# $Id: AgentPending.pm,v 1.12 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,7 +57,7 @@ sub Run {
     }
     # check permissions
     if (!$Self->{TicketObject}->Permission(
-        Type => 'rw',
+        Type => 'pending',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
@@ -121,7 +121,7 @@ sub Run {
 
         }
         # print form ...
-        $Output .= $Self->{LayoutObject}->AgentPending(
+        $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},
             TicketNumber => $Tn,
             QueueID => $Self->{QueueID},
@@ -220,5 +220,33 @@ sub Run {
     }
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
 
+    # build string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStatesStrg},
+        Name => 'CloseStateID'
+    );
+    # build string
+    $Param{'NoteTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NoteTypesStrg},
+        Name => 'CloseNoteID'
+    );
+    # get MoveQueuesStrg
+    $Param{MoveQueuesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Name => 'DestQueueID',
+        SelectedID => $Param{SelectedMoveQueue},
+        Data => $Param{MoveQueues},
+        OnChangeSubmit => 0,
+    );
+    $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+        StartYear => 243
+    );
+
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentPending', Data => \%Param);
+}
+# --
 1;

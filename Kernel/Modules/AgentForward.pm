@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.26 2003-11-19 01:35:27 martin Exp $
+# $Id: AgentForward.pm,v 1.27 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,7 +76,7 @@ sub Run {
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
-        Type => 'rw',
+        Type => 'forward',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # --
@@ -202,7 +202,7 @@ sub Form {
     }
 
     # build view ...
-    $Output .= $Self->{LayoutObject}->AgentForward(
+    $Output .= $Self->_Mask(
         TicketNumber => $Tn,
         Salutation => $Self->{QueueObject}->GetSalutation(%Data),
         Signature => $Signature,
@@ -359,5 +359,31 @@ sub SendEmail {
     }
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'ComposeStateID'
+    );
 
+    $Param{'ArticleTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{ArticleTypes},
+        Name => 'ArticleTypeID'
+    );
+    # create html from
+    $Param{SystemFromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{SystemFrom}, Max => 70);
+    # do html quoting
+    foreach (qw(ReplyTo From To Cc Subject SystemFrom Body)) {
+        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+            Text => $Param{$_},
+            From => $Param{ContentCharset},
+        );
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
+    }
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentForward', Data => \%Param);
+}
+# --
 1;

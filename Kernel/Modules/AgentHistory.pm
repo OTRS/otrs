@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.12 2003-07-07 22:15:46 martin Exp $
+# $Id: AgentHistory.pm,v 1.13 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -108,6 +108,21 @@ sub Run {
     my $Table = '';
     foreach my $DataTmp (@Lines) {
         my %Data = %{$DataTmp};
+        # replace text 
+        if ($Data{Name} && $Data{Name} =~ /^%%/) {
+print STDERR "lll $Data{Name}\n";
+            my %Info = ();
+            my @Values = split(/\%\%/, $Data{Name});
+            foreach (@Values) {
+                my @Value = split(/\$\$/, $_);
+                $Info{$Value[0]} = $Value[1];
+print STDERR "rrrr $Value[0] - $Value[1]\n";
+            }
+            $Data{Name} = $Self->{LayoutObject}->Output(
+                Template => "\$Text{\"HistoryType::$Data{HistoryType}\"}",
+                Data => { %Info },
+            );
+        }
         my %UserInfo = $Self->{UserObject}->GetUserData(
             User => $Data{CreateBy}, 
             Cached => 1

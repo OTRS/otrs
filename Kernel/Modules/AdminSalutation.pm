@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutation.pm,v 1.9 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminSalutation.pm,v 1.10 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,13 +57,13 @@ sub Run {
            " id = $ID";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         my @Data = $Self->{DBObject}->FetchrowArray();
-        $Output .= $Self->{LayoutObject}->AdminSalutationForm(
-                ID => $ID,
-                Name => $Data[0],
-                Comment => $Data[2], 
-                Salutation => $Data[3],
-                ValidID => $Data[1],
-            );
+        $Output .= $Self->_Mask(
+            ID => $ID,
+            Name => $Data[0],
+            Comment => $Data[2], 
+            Salutation => $Data[3],
+            ValidID => $Data[1],
+        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     # update action
@@ -118,12 +118,44 @@ sub Run {
     else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Salutation add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminSalutationForm();
+        $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
 
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+    $Param{SalutationOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Valid => 0,
+            Clamp => 0,
+            Table => 'salutation',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        SelectedID => $Param{ID},
+    );
+
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminSalutationForm', Data => \%Param);
+}
+# --
 1;
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.23 2003-11-19 01:32:04 martin Exp $
+# $Id: AgentMove.pm,v 1.24 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,6 +43,7 @@ sub new {
     $Self->{QueueViewQueueID} = $Self->{ParamObject}->GetParam(Param => 'QueueViewQueueID');
     $Self->{TicketUnlock} = $Self->{ParamObject}->GetParam(Param => 'TicketUnlock');
     $Self->{ExpandQueueUsers} = $Self->{ParamObject}->GetParam(Param => 'ExpandQueueUsers') || 0;
+    $Self->{AllUsers} = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || 0;
     $Self->{Comment} = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
     $Self->{NewStateID} = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
 
@@ -73,7 +74,7 @@ sub Run {
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
-        Type => 'rw',
+        Type => 'move',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
@@ -126,7 +127,7 @@ sub Run {
         # --
         my %MoveQueues = $Self->{QueueObject}->GetAllQueues(
             UserID => $Self->{UserID},
-            Type => 'move',
+            Type => 'move_into',
         );
         # --
         # build header
@@ -349,7 +350,7 @@ sub AgentMove {
     # --
     $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
 #        Data => $Param{OwnerList},
-        Data => $Self->_GetUsers(QueueID => $Self->{DestQueueID}),
+        Data => $Self->_GetUsers(QueueID => $Self->{DestQueueID}, AllUsers => $Self->{AllUsers}),
 #        Selected => $Param{OwnerID},
         Name => 'NewUserID',
 #       Size => 5,
@@ -381,7 +382,7 @@ sub _GetUsers {
         Valid => 1,
     );
     # just show only users with selected custom queue
-    if ($Param{QueueID}) {
+    if ($Param{QueueID} && !$Param{AllUsers}) {
         my @UserIDs = $Self->{QueueObject}->GetAllUserIDsByQueueID(%Param);
         foreach (keys %AllGroupsMembers) {
             my $Hit = 0;
@@ -412,7 +413,7 @@ sub _GetUsers {
                     Result => 'HASH',
             );
             foreach (keys %MemberList) {
-                    $ShownUsers{$_} = $AllGroupsMembers{$_};
+                    $ShownUsers{$_} = $AllGroupsMembers{$_} if ($AllGroupsMembers{$_});
             }
         }
     }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.25 2003-06-26 19:07:50 martin Exp $
+# $Id: AgentNote.pm,v 1.26 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,7 +64,7 @@ sub Run {
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
-        Type => 'rw',
+        Type => 'note',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # --
@@ -100,7 +100,7 @@ sub Run {
             Result => 'HASH',
         );
         $NextStates{''} = '-';
-        $Output .= $Self->{LayoutObject}->AgentNote(
+        $Output .= $Self->_Mask(
             TicketID => $Self->{TicketID},
             QueueID => $Self->{QueueID},
             TicketNumber => $Tn,
@@ -188,5 +188,21 @@ sub Run {
     }
 }
 # --
-
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    # build ArticleTypeID string
+    $Param{'NoteStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NoteTypes},
+        Name => 'NoteID',
+    );
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'NewStateID',
+    );
+    # get output back
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentNote', Data => \%Param);
+}
+# --
 1;

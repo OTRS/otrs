@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.10 2003-11-02 00:11:59 martin Exp $
+# $Id: AdminResponse.pm,v 1.11 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,7 +73,7 @@ sub Run {
         my %ResponseData = $Self->{StdResponseObject}->StdResponseGet(ID => $Param{ID});
         $Output = $Self->{LayoutObject}->Header(Title => 'Response change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminResponseForm(
+        $Output .= $Self->_Mask(
             %ResponseData, 
             %Param,
             Attachments => \%AttachmentData,
@@ -149,7 +149,7 @@ sub Run {
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Response add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminResponseForm(
+        $Output .= $Self->_Mask(
             Subaction => 'Add',
             Attachments => \%AttachmentData,
             SelectedAttachments => \%SelectedAttachmentData,
@@ -159,5 +159,53 @@ sub Run {
     }
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { 
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
 
+    # build ResponseOption string
+    $Param{'ResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'standard_response',
+          )
+        },
+        Name => 'ID',
+        Size => 15,
+        SelectedID => $Param{ID},
+    );
+
+    my %SecondDataTmp = %{$Param{Attachments}};
+    my %DataTmp = %{$Param{SelectedAttachments}};
+    $Param{AttachmentOption} .= "<SELECT NAME=\"IDs\" SIZE=3 multiple>\n";
+    foreach my $ID (sort keys %SecondDataTmp){
+       $Param{AttachmentOption} .= "<OPTION ";
+       foreach (sort keys %DataTmp){
+         if ($_ eq $ID) {
+               $Param{AttachmentOption} .= 'selected';
+         }
+       }
+      $Param{AttachmentOption} .= " VALUE=\"$ID\">$SecondDataTmp{$ID}</OPTION>\n";
+    }
+    $Param{AttachmentOption} .= "</SELECT>\n";
+
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminResponseForm', Data => \%Param);
+}
+# --
 1;

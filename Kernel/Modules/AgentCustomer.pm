@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.20 2003-11-19 01:32:04 martin Exp $
+# $Id: AgentCustomer.pm,v 1.21 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,7 +54,7 @@ sub Run {
     # --
     if ($Self->{TicketID}) {
         if (!$Self->{TicketObject}->Permission(
-            Type => 'rw',
+            Type => 'customer',
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID})) {
             # --
@@ -181,7 +181,7 @@ sub Form {
         }
         $TicketCustomerID = $TicketData{CustomerID};
         # print change form
-        $Output .= $Self->{LayoutObject}->AgentCustomer(
+        $Output .= $Self->_Mask(
             %TicketData,
             %Param, 
         );
@@ -195,37 +195,19 @@ sub Form {
     # --
     my @TicketIDs = ();
     if ($TicketCustomerID) {
-        my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID},
-            Type => 'ro',
-            Result => 'ID',
+        @TicketIDs = $Self->{TicketObject}->GetCustomerTickets(
+            UserID => $Self->{UserID}, 
+            CustomerID => $TicketCustomerID,
         );
-        my $SQL = "SELECT st.id, st.tn ".
-          " FROM ".
-          " ticket st, queue q ".
-          " WHERE ".
-          " st.queue_id = q.id ".
-          " AND ".
-          " st.customer_id = '$TicketCustomerID' ".
-          " AND ".
-          " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-          " ORDER BY st.create_time_unix DESC ";
-        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 500);
-        while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            push(@TicketIDs, $Row[0]); 
-        }
     }
-
     my $OutputTables = '';
     foreach my $TicketID (@TicketIDs) {
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
         my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
         $OutputTables .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentCustomerHistoryTable',
+            TemplateFile => 'TicketViewLite',
             Data => {
-                %Ticket,
                 %Article,
-                Age => $Self->{LayoutObject}->CustomerAge(Age => $Ticket{Age}, Space => ' '),
+                Age => $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' '),
             }
         );
 
@@ -263,5 +245,23 @@ sub Form {
     return $Output;
 }
 # --
-
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    # do html quoting
+    foreach (qw(CustomerUser CustomerID)) {
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
+    }
+    # build from string
+    if ($Param{CustomerUserOptions} && %{$Param{CustomerUserOptions}}) {
+      $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{CustomerUserOptions},
+        Name => 'CustomerUserOption',
+        Max => 70,
+      ).'$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>$Env{"Box1"}';
+    }
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentCustomer', Data => \%Param);
+}
+# --
 1;

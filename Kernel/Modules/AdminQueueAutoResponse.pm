@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.8 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.9 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,15 +73,15 @@ sub Run {
                 Where => " art.id = $_ AND ar.type_id = art.id AND qar.queue_id = $Param{ID} " .
 					"AND qar.auto_response_id = ar.id",
             );
-            $Param{DataStrg} .= $Self->{LayoutObject}->AdminQueueAutoResponseChangeFormHits(
+            $Param{DataStrg} .= $Self->_MaskHits(
                 Type => $TypeResponsesData{$_},
-				TypeID => $_,
+		TypeID => $_,
                 Data => \%Data,
-				SelectedID => $SelectedID,
+		SelectedID => $SelectedID,
             );
         }
-		# end with form
-		$Output .= $Self->{LayoutObject}->AdminQueueAutoResponseChangeForm(
+	# end with form
+	$Output .= $Self->_Mask(
             Queue => $QueueData{$Param{ID}},
             QueueID => $Param{ID},
             %Param, 
@@ -92,10 +92,9 @@ sub Run {
     elsif ($Self->{Subaction} eq 'ChangeAction') {
 
         $Self->{DBObject}->Do(
-			SQL => "DELETE FROM queue_auto_response WHERE queue_id = $Param{ID}",
-		);
-
-		my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
+            SQL => "DELETE FROM queue_auto_response WHERE queue_id = $Param{ID}",
+        );
+        my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
         foreach (@NewIDs) {
           if ($_) {
             my $SQL = "INSERT INTO queue_auto_response (queue_id, auto_response_id, " .
@@ -119,7 +118,7 @@ sub Run {
             Valid => 1,
         );
         
-        foreach (keys %QueueData) {
+        foreach (sort {$QueueData{$a} cmp $QueueData{$b}} keys %QueueData) {
             my @Data;
             my $SQL = "SELECT ar.name, art.name, ar.id FROM " .
             " auto_response ar, auto_response_type art, queue_auto_response qar " .
@@ -138,7 +137,7 @@ sub Run {
                 $AutoResponseData{ID} = $RowTmp[2];
                 push (@Data, \%AutoResponseData);
             }
-            $Output .= $Self->{LayoutObject}->AdminQueueAutoResponseTable(
+            $Output .= $Self->_MaskQueueAutoResponseTable(
                 Queue => $QueueData{$_},
                 QueueID => $_,
                 Data => \@Data,
@@ -150,5 +149,58 @@ sub Run {
     return $Output;
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
 
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminQueueAutoResponseForm', Data => \%Param);
+}
+# --
+sub _MaskHits {
+    my $Self = shift;
+    my %Param = @_;
+    my $SessionID = $Self->{SessionID} || '';
+    my $Type = $Param{Type} || '?';
+    my $Data = $Param{Data};
+    my $SelectedID = $Param{SelectedID} || -1;
+    my $Output = '';
+($Output .= <<EOF);
+<BR>
+  <B>${\$Self->{LayoutObject}->{LanguageObject}->Get("Change")} 
+    "${\$Self->{LayoutObject}->{LanguageObject}->Get($Type)}" 
+    ${\$Self->{LayoutObject}->{LanguageObject}->Get("settings")}</B>: 
+  <BR>
+
+EOF
+
+    $Output .= $Self->{LayoutObject}->OptionStrgHashRef(
+        Name => 'IDs',
+        SelectedID => $SelectedID,
+        Data => $Data,
+        Size => 3,
+        PossibleNone => 1,
+    );
+
+    return $Output;
+}
+# --
+sub _MaskQueueAutoResponseTable {
+    my $Self = shift;
+    my %Param = @_;
+    my $DataTmp = $Param{Data};
+    my @Data = @$DataTmp;
+    my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminQueueAutoResponse&";
+    $Param{DataStrg} = '<br>';
+    
+    foreach (@Data){
+      my %ResponseData = %$_;
+      $Param{DataStrg} .= "<B>*</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=AdminAutoResponse&Subaction=" .
+        "Change&ID=$ResponseData{ID}\">$ResponseData{Name}</A> ($ResponseData{Type}) <BR>";
+    }
+    if (@Data == 0) {
+      $Param{DataStrg}.= '$Text{"Sorry"}, <FONT COLOR="RED">$Text{"no"}</FONT> $Text{"auto responses set"}!';
+    }
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminQueueAutoResponseTable', Data => \%Param);
+}
+# --
 1;

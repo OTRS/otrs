@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.27 2003-11-19 01:35:27 martin Exp $
+# $Id: AgentBounce.pm,v 1.28 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -69,7 +69,7 @@ sub Run {
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
-        Type => 'rw',
+        Type => 'bounce',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
@@ -209,7 +209,7 @@ sub Run {
             Result => 'HASH',
         );
         # print form ...
-        $Output .= $Self->{LayoutObject}->AgentBounce(
+        $Output .= $Self->_Mask(
             %Param,
             %Article,
             TicketID => $Self->{TicketID},
@@ -343,5 +343,23 @@ sub Run {
     return $Output;
 }
 # --
-
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'BounceStateID',
+        Selected => $Self->{ConfigObject}->Get('DefaultNextBounceType'),
+    );
+    # prepare 
+    foreach (qw(ReplyTo To Cc Subject)) {
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
+    }
+    # create FromHTML (to show)
+    $Param{FromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{From}, Max => 70);
+    # get output back
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBounce', Data => \%Param);
+}
+# --
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentSpelling.pm - spelling module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.pm,v 1.7 2003-04-12 20:31:30 martin Exp $
+# $Id: AgentSpelling.pm,v 1.8 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -103,7 +103,7 @@ sub Run {
     # start with page ...
     # --
     $Output .= $Self->{LayoutObject}->Header(Title => 'Spell Checker');
-    $Output .= $Self->{LayoutObject}->AgentSpelling(
+    $Output .= $Self->_Mask(
         SpellCheck => \%SpellCheck,
         %Param,
     );
@@ -111,5 +111,63 @@ sub Run {
     return $Output;
 }
 # --
-
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    # do html quoteing
+    foreach (qw(Body)) {
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_});
+    }
+    # spellcheck
+    if ($Param{SpellCheck}) {
+      $Param{SpellCheckString} = '<table border="0" width="580" cellspacing="0" cellpadding="1">'.
+        '<tr><th width="50">$Text{"Line"}</th><th width="100">$Text{"Word"}</th>'.
+        '<th width="330"colspan="2">$Text{"replace with"}</th>'.
+        '<th width="50">$Text{"Change"}</th><th width="50">$Text{"Ignore"}</th></tr>';
+      $Param{SpellCounter} = 0;
+      foreach (sort {$a <=> $b} keys %{$Param{SpellCheck}}) {
+        my $WrongWord = $Param{SpellCheck}->{$_}->{Word};
+        if ($WrongWord) {
+          $Param{SpellCounter} ++;
+          if ($Param{SpellCounter} <= 300) {
+            $Param{SpellCheckString} .= "<tr><td align='center'>$Param{SpellCheck}->{$_}->{Line}</td><td><font color='red'>$WrongWord</font></td><td>";
+            my %ReplaceWords = ();
+            if ($Param{SpellCheck}->{$_}->{Replace}) {
+              foreach my $ReplaceWord (@{$Param{SpellCheck}->{$_}->{Replace}}) {
+                $ReplaceWords{$WrongWord."::".$ReplaceWord} = $ReplaceWord;
+              }
+            }
+            else {
+                $ReplaceWords{$WrongWord.'::0'} = 'No suggestions';
+            }
+            $Param{SpellCheckString}  .= $Self->{LayoutObject}->OptionStrgHashRef(
+               Data => \%ReplaceWords,
+               Name => "SpellCheckReplace",
+               OnChange => "change_selected($Param{SpellCounter})"
+            ).
+              '</td><td> or '.
+              '<input type="text" name="SpellCheckOrReplace::'.$WrongWord.'" value="" size="16" onchange="change_selected('.$Param{SpellCounter}.')">'.
+              '</td><td align="center">'.
+              '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Replace">'.
+              '</td><td align="center">'.
+              '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Ignore" checked="checked">'.
+              '</td></tr>'."\n";
+          }
+        }
+      }
+      $Param{SpellCheckString} .= '</table>';
+      if ($Param{SpellCounter} == 0) {
+        $Param{SpellCheckString} = '';
+      }
+    }
+    # dict language selection
+    $Param{SpellLanguageString}  .= $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('PreferencesGroups')->{SpellDict}->{Data},
+        Name => "SpellLanguage",
+        SelectedID => $Param{SpellLanguage},
+    );
+    # create & return output
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentSpelling', Data => \%Param);
+}
+# --
 1;

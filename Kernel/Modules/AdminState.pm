@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete system states 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminState.pm,v 1.8 2003-03-23 21:34:18 martin Exp $
+# $Id: AdminState.pm,v 1.9 2003-12-07 23:56:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,21 +43,17 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $NextScreen = 'AdminState';
-    # --
     # get data 2 form
-    # --
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         $Output .= $Self->{LayoutObject}->Header(Title => 'System state change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my %Data = $Self->{StateObject}->StateGet(ID => $ID); 
-        $Output .= $Self->{LayoutObject}->AdminStateForm(%Data);
+        $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
     # update action
-    # --
     elsif ($Self->{Subaction} eq 'ChangeAction') {
         my %GetParam;
         my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'TypeID');
@@ -77,9 +73,7 @@ sub Run {
             return $Output;
         }
     }
-    # --
-    # add new queue
-    # --
+    # add new state 
     elsif ($Self->{Subaction} eq 'AddAction') {
         my %GetParam;
         my @Params = ('Name', 'Comment', 'ValidID', 'TypeID');
@@ -99,17 +93,58 @@ sub Run {
             return $Output;
         }
     }
-    # --
     # else ! print form 
-    # --
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'System state add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminStateForm();
+        $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 }
 # --
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
 
+    # build ValidID string
+    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'valid',
+            Valid => 0,
+          )
+        },
+        Name => 'ValidID',
+        SelectedID => $Param{ValidID},
+    );
+    $Param{StateOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name, id',
+            Valid => 0,
+            Clamp => 1,
+            Table => 'ticket_state',
+          )
+        },
+        Size => 15,
+        Name => 'ID',
+        SelectedID => $Param{ID},
+    );
+
+    $Param{StateTypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Valid => 0,
+            Table => 'ticket_state_type',
+          )
+        },
+        Name => 'TypeID',
+        SelectedID => $Param{TypeID},
+    );
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminStateForm', Data => \%Param);
+}
+# --
 1;
