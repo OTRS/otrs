@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PGP.pm,v 1.4 2004-08-10 06:44:22 martin Exp $
+# $Id: PGP.pm,v 1.5 2004-08-12 10:35:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Init {
     my %Param = @_;
 
 
-    $Self->{GPGBin} = $Self->{ConfigObject}->Get('PGP::Bin') || 'Uusr/bin/gpg';
+    $Self->{GPGBin} = $Self->{ConfigObject}->Get('PGP::Bin') || '/usr/bin/gpg';
     $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
 
     $Self->{GPGBin} = "$Self->{GPGBin} $Self->{Options} ";
@@ -92,6 +92,9 @@ sub Decrypt {
         if (defined($Pw)) {
             $Param{Password} = $Pw;
         }
+        else {
+            $Param{Password} = '';
+        }
     }
     open (SIGN, "echo ".quotemeta($Param{Password})." | $Self->{GPGBin} --passphrase-fd 0 --always-trust --yes -d -o $FilenameDecrypt $Filename 2>&1 | ");
     while (<SIGN>) {
@@ -99,6 +102,7 @@ sub Decrypt {
     }
     close (SIGN);
     if ($LogMessage =~ /failed/i) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$LogMessage!");
         return (
             Successful => 0,
             Message => $LogMessage,
