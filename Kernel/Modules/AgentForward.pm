@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.34 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentForward.pm,v 1.35 2004-05-24 20:46:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -374,7 +374,8 @@ sub _Mask {
 
     $Param{'ArticleTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{ArticleTypes},
-        Name => 'ArticleTypeID'
+        Name => 'ArticleTypeID',
+        Selected => $Self->{ConfigObject}->Get('DefaultForwardEmailTypeSelected'),
     );
     # create html from
     $Param{SystemFromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{SystemFrom}, Max => 70);
