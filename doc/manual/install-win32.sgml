@@ -31,7 +31,7 @@ There's no interactivity required by you in this step.
 Please be patient now for a little while, while the installer is unpacking its contents. Remember, the resulting installation will roughly be about fourth times the installer's size, so it might take a while for the next screen to appear.
 </para>
 <para>It will open in full-screen mode. We omitted the coloured background in this documentation, only the dialogue windows are shown.</para>
-<para>Feel yourself welcomed:
+<para>Please read the precautions carefully:
 <screenshot>
 <screeninfo>Welcome to otrs4win32</screeninfo>
 <graphic srccredit="Welcome to otrs4win32 - screenshot" scale="40" fileref="screenshots/otrs4win32-welcome.png"></graphic>
