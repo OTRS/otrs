@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.8 2003-04-12 21:34:12 martin Exp $
+-- $Id: initial_insert.sql,v 1.9 2003-04-22 21:23:23 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.8  2003/04/12 21:34:12  martin
+-- added log type for ticket free text update
+--
 -- Revision 1.7  2003/03/28 18:41:31  martin
 -- fixed queue inital insert
 --
@@ -494,6 +497,10 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('SetPending', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('StateUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
