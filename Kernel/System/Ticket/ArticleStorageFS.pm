@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.2 2003-01-03 00:34:22 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.3 2003-01-04 03:46:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ use File::Basename;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -125,11 +125,44 @@ sub WriteArticle {
         return;
       }
     }
+    if ($Self->WriteArticlePlain(%Param)) { 
+        # --
+        # write article parts
+        # --
+        my $Parser = new MIME::Parser;
+        $Parser->output_to_core("ALL");
+        my $Data = $Parser->parse_data($Param{Email});
+
+        foreach my $Part ($Data->parts()) {
+            $Self->WriteArticleParts(
+                Part => $Part,
+                ArticleID => $Param{ArticleID},
+                UserID => $Param{UserID},
+            );
+        }
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub WriteArticlePlain {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(ArticleID Email UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
     my $PlainString = '';
     foreach (@{$Param{Email}}) {
         $PlainString .= $_;
     }
-    my $CompressedPlainString = $Self->Encrypt($Self->Compress($PlainString));
 
     my $Path = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
     # --
@@ -141,33 +174,13 @@ sub WriteArticle {
     # --
     # write article to fs 1:1
     # --
-    # mk dir
-    # test for bert preiss!
-   #    File::Path::mkpath([$Path], 0, 0775);
-    if (! File::Path::mkpath([$Path], 0, 0775)) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Path: $!");
-        return;
-    }
+    File::Path::mkpath([$Path], 0, 0775);
     # --
     # write article to fs 
     # --
     if (open (DATA, "> $Path/plain.txt")) { 
-        print DATA $CompressedPlainString;
+        print DATA $PlainString;
         close (DATA);
-        # --
-        # write article parts
-        # --
-        my $Parser = new MIME::Parser;
-        $Parser->output_to_core("ALL");
-        my $Data = $Parser->parse_data($PlainString);
-
-        foreach my $Part ($Data->parts()) {
-            $Self->WriteArticleParts(
-                Part => $Part,
-                ArticleID => $Param{ArticleID},
-                UserID => $Param{UserID},
-            );
-        }
         return 1;
     }
     else {
@@ -212,10 +225,6 @@ sub WriteArticlePart {
         }
     }
     $Param{Filename} = $NewFileName;
-    # --
-    # compress and crypt content           
-    # --
-    $Param{Content} = $Self->Encrypt($Self->Compress($Param{Content}));
     # --
     # write attachment to backend           
     # --
@@ -275,7 +284,7 @@ sub GetArticlePlain {
             $Data .= $_;
         }
         close (DATA);
-        return $Self->Uncompress($Self->Decrypt($Data));
+        return $Data;
     }
 }
 # --
@@ -332,7 +341,6 @@ sub GetArticleAttachment {
             $Data{Data} .= $_ if ($Counter > 0);
             $Counter++;
         }
-        $Data{Data} = $Self->Uncompress($Self->Decrypt($Data{Data}));
         close (DATA);
         return %Data;
     }

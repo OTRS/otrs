@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.2 2003-01-03 00:34:22 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.3 2003-01-04 03:46:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -95,27 +95,13 @@ sub WriteArticle {
         return;
       }
     }
-    my $PlainString = '';
-    foreach (@{$Param{Email}}) {
-        $PlainString .= $_;
-    }
-    my $CompressedPlainString = $Self->Encrypt($Self->Compress($PlainString));
-
-    # --
-    # write article to db 1:1
-    # --
-    my $SQL = "INSERT INTO article_plain ".
-          " (article_id, body, create_time, create_by, change_time, change_by) " .
-          " VALUES ".
-          " ($Param{ArticleID}, '".$Self->{DBObject}->Quote($CompressedPlainString)."', ".
-          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    if ($Self->WriteArticlePlain(%Param)) {
         # --
         # write article parts
         # --
         my $Parser = new MIME::Parser;
         $Parser->output_to_core("ALL");
-        my $Data = $Parser->parse_data($PlainString);
+        my $Data = $Parser->parse_data($Param{Email});
         foreach my $Part ($Data->parts()) {
             $Self->WriteArticleParts(
                 Part => $Part, 
@@ -123,6 +109,41 @@ sub WriteArticle {
                 UserID => $Param{UserID},
             );
         }
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub WriteArticlePlain {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(ArticleID Email UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # --
+    # write plain article
+    # --
+    my $PlainString = '';
+    foreach (@{$Param{Email}}) {
+        $PlainString .= $_;
+    }
+    # --
+    # write article to db 1:1
+    # --
+    my $SQL = "INSERT INTO article_plain ".
+          " (article_id, body, create_time, create_by, change_time, change_by) " .
+          " VALUES ".
+          " ($Param{ArticleID}, '".$Self->{DBObject}->Quote($PlainString)."', ".
+          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
     else {
@@ -160,10 +181,6 @@ sub WriteArticlePart {
         }
     }
     $Param{Filename} = $NewFileName;
-    # --
-    # compress and crypt content           
-    # --
-    $Param{Content} = $Self->Encrypt($Self->Compress($Param{Content}));
     # --
     # encode attachemnt if it's a postgresql backend!!!
     # --
@@ -218,7 +235,7 @@ sub GetArticlePlain {
             $Data = $RowTmp[0];
         }
         if ($Data) {
-            return $Self->Uncompress($Self->Decrypt($Data));
+            return $Data;
         }
         else {
             $Self->{LogObject}->Log(
@@ -236,7 +253,7 @@ sub GetArticlePlain {
             $Data .= $_;
         }
         close (DATA);
-        return $Self->Uncompress($Self->Decrypt($Data));
+        return $Data;
     }
 }
 # --
@@ -310,7 +327,6 @@ sub GetArticleAttachment {
             $Data{Data} .= $_ if ($Counter > 0);
             $Counter++;
         }
-        $Data{Data} = $Self->Uncompress($Self->Decrypt($Data{Data}));
         close (DATA);
         return %Data;
     }
@@ -333,7 +349,6 @@ sub GetArticleAttachment {
             }
         }
         if ($Data{Data}) {
-            $Data{Data} = $Self->Uncompress($Self->Decrypt($Data{Data}));
             return %Data;
         }
         else {
