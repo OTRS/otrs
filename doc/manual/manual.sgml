@@ -10,6 +10,7 @@
 <!ENTITY coreteam SYSTEM "coreteam.sgml">
 <!ENTITY online-resources SYSTEM "online-resources.sgml">
 <!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
+<!ENTITY procmail SYSTEM "procmail.sgml">
 ]>
 
 <book id="index">
@@ -63,7 +64,14 @@ or implied warranty.
 <date>3rd Feb, 2002</date>
 <revremark>first draft</revremark>
 </revision>
+
+<revision>
+<revnumber>0.421</revnumber>
+<date>16th Feb, 2002</date>
+<revremark>i used my vacation to add some spice to the documentation</revremark>
+</revision>
 </revhistory>
+
 
 <keywordset>
 <keyword>otrs</keyword>
@@ -82,6 +90,8 @@ or implied warranty.
 &first-ticket;
 
 &basics_about_tt;
+
+&procmail;
 
 &troubleshooting;
 
