@@ -1,19 +1,19 @@
 # --
-# Kernel/Language/bg.pm - provides bg language translation
+# Kernel/Language/Bulgarian.pm - provides Bulgarian language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.1 2002-11-24 23:54:47 martin Exp $
+# $Id: bg.pm,v 1.2 2002-11-26 13:05:29 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::bg;
+package Kernel::Language::Bulgarian;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -22,10 +22,10 @@ sub Data {
     my %Hash = ();
 
     # possible charsets
-    $Self->{Charset} = ['koi8-r'];
+    $Self->{Charset} = ['cp1251'];
 
     # Template: AAABasics
-    $Hash{' 2 minutes'} = ' 2 Минуту';
+    $Hash{' 2 minutes'} = ' 2 Минути';
     $Hash{' 5 minutes'} = ' 5 Минути';
     $Hash{' 7 minutes'} = ' 7 Минути';
     $Hash{'10 minutes'} = '10 Минути';
@@ -36,7 +36,7 @@ sub Data {
     $Hash{'All'} = 'Всички';
     $Hash{'Attention'} = 'Внимание';
     $Hash{'Bug Report'} = 'Отчет за грешка';
-    $Hash{'Cancel'} = '';
+    $Hash{'Cancel'} = 'Отказ';
     $Hash{'change'} = 'променете';
     $Hash{'Change'} = 'Промяна';
     $Hash{'change!'} = 'променете!';
@@ -48,7 +48,7 @@ sub Data {
     $Hash{'days'} = 'дни';
     $Hash{'Description'} = 'Описание';
     $Hash{'description'} = 'описание';
-    $Hash{'Done'} = '';
+    $Hash{'Done'} = 'Направено';
     $Hash{'end'} = 'Край';
     $Hash{'Error'} = 'Грешка';
     $Hash{'Example'} = 'Пример';
@@ -57,10 +57,10 @@ sub Data {
     $Hash{'go!'} = 'ОК!';
     $Hash{'Group'} = 'Група';
     $Hash{'Hit'} = 'Попадение';
-    $Hash{'Hits'} = '';
+    $Hash{'Hits'} = 'Попадения';
     $Hash{'hour'} = 'час';
     $Hash{'hours'} = 'часове';
-    $Hash{'Ignore'} = '';
+    $Hash{'Ignore'} = 'Пренебрегване';
     $Hash{'Language'} = 'Език';
     $Hash{'Languages'} = 'Езици';
     $Hash{'Line'} = 'Линия';
@@ -75,7 +75,7 @@ sub Data {
     $Hash{'New message!'} = 'Ново съобщение!';
     $Hash{'no'} = 'не';
     $Hash{'No'} = 'Не';
-    $Hash{'No suggestions'} = '';
+    $Hash{'No suggestions'} = 'Няма предположения';
     $Hash{'none'} = 'няма';
     $Hash{'none - answered'} = 'няма - отговорен';
     $Hash{'none!'} = 'няма!';
@@ -87,46 +87,63 @@ sub Data {
     $Hash{'Please answer this ticket(s) to get back to the normal queue view!'} = 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!';
     $Hash{'please do not edit!'} = 'моля, не редактирайте!';
     $Hash{'QueueView'} = 'Преглед на опашката';
-    $Hash{'replace with'} = '';
-    $Hash{'Reset'} = '';
+    $Hash{'replace with'} = 'замести с';
+    $Hash{'Reset'} = 'Рестартирай';
     $Hash{'Salutation'} = 'Обръщение';
     $Hash{'Signature'} = 'Подпис';
     $Hash{'Sorry'} = 'Съжаляваме';
     $Hash{'Stats'} = 'Статистики';
     $Hash{'Subfunction'} = 'Подфункция';
-    $Hash{'submit'} = '';
+    $Hash{'submit'} = 'изпратете';
     $Hash{'submit!'} = 'изпратете!';
-    $Hash{'Text'} = '';
+    $Hash{'Text'} = 'Текст';
     $Hash{'The recommended charset for your language is %s!'} = '';
-    $Hash{'Theme'} = '';
+    $Hash{'Theme'} = 'Тема';
     $Hash{'top'} = 'към началото';
     $Hash{'update'} = 'обновяване';
     $Hash{'update!'} = 'обновяване!';
     $Hash{'User'} = 'Потребител';
     $Hash{'Username'} = 'Потребителско име';
     $Hash{'Valid'} = 'Валиден';
-    $Hash{'Warning'} = '';
-    $Hash{'Welcome to OTRS'} = '';
-    $Hash{'Word'} = '';
+    $Hash{'Warning'} = 'Предупреждение';
+    $Hash{'Welcome to OTRS'} = 'Добре дошли в OpenTRS';
+    $Hash{'Word'} = 'Дума';
     $Hash{'wrote'} = 'записано';
     $Hash{'yes'} = 'да';
     $Hash{'Yes'} = 'Да';
     $Hash{'You got new message!'} = 'Вие получихте ново съобщение!';
 
+    # Template: AAALanguage
+    $Hash{'Brazilian'} = 'Бразилски';
+    $Hash{'Chinese'} = 'Китайски';
+    $Hash{'Czech'} = 'Чешски';
+    $Hash{'Danish'} = 'Датски';
+    $Hash{'Dutch'} = 'Холандски';
+    $Hash{'English'} = 'Английски';
+    $Hash{'French'} = 'Френски';
+    $Hash{'German'} = 'Германски';
+    $Hash{'Greek'} = 'Гръцки';
+    $Hash{'Italian'} = 'Италиански';
+    $Hash{'Korean'} = 'Корейски';
+    $Hash{'Polish'} = 'Полски';
+    $Hash{'Russian'} = 'Руски';
+    $Hash{'Spanish'} = 'Испански';
+    $Hash{'Swedish'} = 'Шведски';
+
     # Template: AAAPreferences
-    $Hash{'Custom Queue'} = '';
+    $Hash{'Custom Queue'} = 'Потребителска опашка';
     $Hash{'Follow up notification'} = 'Известие за наличност на следене на отговорът';
-    $Hash{'Frontend'} = '';
-    $Hash{'Mail Management'} = '';
+    $Hash{'Frontend'} = 'Потребителски';
+    $Hash{'Mail Management'} = 'Управление на пощата';
     $Hash{'Move notification'} = 'Известие за преместване';
     $Hash{'New ticket notification'} = 'Напомняне за нов билет';
-    $Hash{'Other Options'} = '';
-    $Hash{'Preferences updated successfully!'} = '';
-    $Hash{'QueueView refresh time'} = '';
+    $Hash{'Other Options'} = 'Други настройки';
+    $Hash{'Preferences updated successfully!'} = 'Предпочитанията са обновени успешно';
+    $Hash{'QueueView refresh time'} = 'Време за обновяване на изгледът на опашката';
     $Hash{'Select your frontend Charset.'} = 'Изберете Вашият символен набор.';
     $Hash{'Select your frontend language.'} = 'Изберете Вашият език.';
     $Hash{'Select your frontend QueueView.'} = 'Изберете език за визуализация съдържанието на опашката.';
-    $Hash{'Select your frontend Theme.'} = '';
+    $Hash{'Select your frontend Theme.'} = 'Изберете Вашата потребителска тема';
     $Hash{'Select your QueueView refresh time.'} = 'Изберете Вашето време за обновяване за изгледа на опашката.';
     $Hash{'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.'} = 'Изпратете ми известие, ако клиентът изпрати заявка за следене на отговора и аз съм собственик на билета';
     $Hash{'Send me a notification if a ticket is moved into a custom queue.'} = 'Изпратете ми известие, ако билетът е преместен в някаква потребителска опашка.';
@@ -139,8 +156,8 @@ sub Data {
     $Hash{'Age'} = 'Възраст';
     $Hash{'Article'} = 'Клауза';
     $Hash{'Attachment'} = 'Прикачен файл';
-    $Hash{'Attachments'} = '';
-    $Hash{'Bcc'} = '';
+    $Hash{'Attachments'} = 'Прикачени файлове';
+    $Hash{'Bcc'} = 'Скрито копие';
     $Hash{'Bounce'} = 'Отхвърлени';
     $Hash{'Cc'} = 'Копие до';
     $Hash{'Close'} = 'Затваряне';
@@ -149,7 +166,7 @@ sub Data {
     $Hash{'Compose'} = 'Създаване';
     $Hash{'Created'} = 'Създаден';
     $Hash{'Createtime'} = 'време на създаване';
-    $Hash{'eMail'} = '';
+    $Hash{'eMail'} = 'еМейл';
     $Hash{'email'} = 'еМейл';
     $Hash{'email-external'} = 'външен еМейл';
     $Hash{'email-internal'} = 'вътрешен еМейл';
@@ -172,10 +189,10 @@ sub Data {
     $Hash{'phone'} = 'телефон';
     $Hash{'plain'} = 'обикновен';
     $Hash{'Priority'} = 'Приоритет';
-    $Hash{'Queue'} = '';
+    $Hash{'Queue'} = 'Опашка';
     $Hash{'removed'} = 'премахнат';
     $Hash{'Sender'} = 'Изпращач';
-    $Hash{'sms'} = '';
+    $Hash{'sms'} = 'sms';
     $Hash{'State'} = 'Статус';
     $Hash{'Subject'} = 'Относно';
     $Hash{'This is a'} = 'Това е';
@@ -188,20 +205,20 @@ sub Data {
     $Hash{'very high'} = 'много висок';
     $Hash{'very low'} = 'много нисък';
     $Hash{'View'} = 'Изглед';
-    $Hash{'webrequest'} = '';
+    $Hash{'webrequest'} = 'заявка по web';
     $Hash{'Zoom'} = 'Подробно';
 
     # Template: AdminAutoResponseForm
     $Hash{'Add auto response'} = 'Добавяне на автоматичен отговор';
-    $Hash{'Auto Response From'} = '';
+    $Hash{'Auto Response From'} = 'Автоматичен отговор от';
     $Hash{'Auto Response Management'} = 'Управление на автоматичният отговор';
     $Hash{'Change auto response settings'} = 'Промяна на настройките за автоматичният отговор';
-    $Hash{'Charset'} = '';
-    $Hash{'Note'} = '';
+    $Hash{'Charset'} = 'Символен набор';
+    $Hash{'Note'} = 'Бележка';
     $Hash{'Response'} = 'Отговор';
     $Hash{'to get the first 20 character of the subject'} = '';
     $Hash{'to get the first 5 lines of the email'} = '';
-    $Hash{'Type'} = '';
+    $Hash{'Type'} = 'Тип';
     $Hash{'Useable options'} = 'Използваеми опции';
 
     # Template: AdminCharsetForm
@@ -210,26 +227,26 @@ sub Data {
     $Hash{'System Charset Management'} = 'Управление на символният набор';
 
     # Template: AdminCustomerUserForm
-    $Hash{'Add customer user'} = '';
-    $Hash{'Change customer user settings'} = '';
-    $Hash{'Customer User Management'} = '';
-    $Hash{'Customer user will be needed to to login via customer panels.'} = '';
+    $Hash{'Add customer user'} = 'Добавете потребител';
+    $Hash{'Change customer user settings'} = 'Смяна на потребителските настройки';
+    $Hash{'Customer User Management'} = 'Управление на потребители';
+    $Hash{'Customer user will be needed to to login via customer panels.'} = 'Ще Ви е необходим предварително създаден потребител за достъп до потребителския панел';
     $Hash{'CustomerID'} = 'Потребителски индикатив';
     $Hash{'Email'} = 'еМейл';
     $Hash{'Firstname'} = 'Име';
     $Hash{'Lastname'} = 'Фамилия';
-    $Hash{'Login'} = '';
+    $Hash{'Login'} = 'Вход';
 
     # Template: AdminCustomerUserPreferencesGeneric
 
     # Template: AdminEmail
-    $Hash{'Admin-Email'} = '';
-    $Hash{'Body'} = '';
-    $Hash{'OTRS-Admin Info!'} = '';
-    $Hash{'Recipents'} = '';
+    $Hash{'Admin-Email'} = 'еМейл от Admin';
+    $Hash{'Body'} = 'Тяло на писмото';
+    $Hash{'OTRS-Admin Info!'} = 'Информация от OTRS-Admin';
+    $Hash{'Recipents'} = 'Получатели';
 
     # Template: AdminEmailSent
-    $Hash{'Message sent to'} = '';
+    $Hash{'Message sent to'} = 'Съобщението е изпратено до';
 
     # Template: AdminGroupForm
     $Hash{'Add group'} = 'Добавяне на група';
@@ -245,20 +262,20 @@ sub Data {
     $Hash{'System Language Management'} = 'Управление на езиковите настройки';
 
     # Template: AdminNavigationBar
-    $Hash{'AdminEmail'} = '';
+    $Hash{'AdminEmail'} = 'Admin еМейл';
     $Hash{'AgentFrontend'} = 'Зона-потребител';
     $Hash{'Auto Response <-> Queue'} = 'Автоматичен отговор <-> Опашки';
     $Hash{'Auto Responses'} = 'Автоматичен отговор';
-    $Hash{'Charsets'} = '';
-    $Hash{'CustomerUser'} = '';
+    $Hash{'Charsets'} = 'Символен набор';
+    $Hash{'CustomerUser'} = 'Потребител';
     $Hash{'Email Addresses'} = 'еМейл адреси';
     $Hash{'Groups'} = 'Групи';
     $Hash{'Logout'} = 'Изход';
     $Hash{'Responses'} = 'Отговори';
     $Hash{'Responses <-> Queue'} = 'Отговори <-> Опашки';
-    $Hash{'Select Box'} = '';
+    $Hash{'Select Box'} = 'Изберете кутия';
     $Hash{'Session Management'} = 'Управление на сесята';
-    $Hash{'Status defs'} = '';
+    $Hash{'Status defs'} = 'Дефиниции на състояния';
     $Hash{'User <-> Groups'} = 'Потребител <-> Групи';
 
     # Template: AdminQueueAutoResponseForm
@@ -267,30 +284,30 @@ sub Data {
     # Template: AdminQueueAutoResponseTable
 
     # Template: AdminQueueForm
-    $Hash{'0 = no escalation'} = '';
-    $Hash{'0 = no unlock'} = '';
+    $Hash{'0 = no escalation'} = '0 = без ескалация';
+    $Hash{'0 = no unlock'} = '0 = без отключване';
     $Hash{'Add queue'} = 'Добавяне на опашка';
     $Hash{'Change queue settings'} = 'Промяна на настройките на опашката';
     $Hash{'Escalation time'} = 'Време за ескалация (увеличаване на приоритетът)';
-    $Hash{'Follow up Option'} = '';
-    $Hash{'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.'} = '';
-    $Hash{'If a ticket will not be answered in thos time, just only this ticket will be shown.'} = '';
-    $Hash{'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.'} = '';
+    $Hash{'Follow up Option'} = 'Параметри за автоматично проследяване';
+    $Hash{'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.'} = 'Ако билетът е затворен и потребителя изпрати заявка за проследяване, билетът ще бъде заключен за стария потребител';
+    $Hash{'If a ticket will not be answered in thos time, just only this ticket will be shown.'} = 'Ако билетът не получи отговор в определеното време, ще се покаже само този билет';
+    $Hash{'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.'} = 'Ако агентът заключи билетът и той(или тя) не изпрати отговор в определеното време, билетър ще се отключи автоматично. Така билетър ще стане видим за всички други агенти';
     $Hash{'Key'} = 'Ключ';
     $Hash{'Queue Management'} = 'Управление на опашка';
-    $Hash{'Systemaddress'} = '';
-    $Hash{'The salutation for email answers.'} = '';
-    $Hash{'The signature for email answers.'} = '';
-    $Hash{'Ticket lock after a follow up'} = '';
+    $Hash{'Systemaddress'} = 'Системен адрес';
+    $Hash{'The salutation for email answers.'} = 'Обръщението за отговорите по еМейл';
+    $Hash{'The signature for email answers.'} = 'Подписът за отговорите по еМейл';
+    $Hash{'Ticket lock after a follow up'} = 'Заключване на билетът след автоматично известяване';
     $Hash{'Unlock timeout'} = 'Време за отключване';
-    $Hash{'Will be the sender address of this queue for email answers.'} = '';
+    $Hash{'Will be the sender address of this queue for email answers.'} = 'Ще бъде адресът на изпраща за тази опашка при еМейл отговорите';
 
     # Template: AdminQueueResponsesChangeForm
-    $Hash{'Change %s settings'} = '';
+    $Hash{'Change %s settings'} = 'Промяна на %s настройки';
     $Hash{'Std. Responses <-> Queue Management'} = 'Стандартни отговори <-> Управление на опашката';
 
     # Template: AdminQueueResponsesForm
-    $Hash{'Answer'} = '';
+    $Hash{'Answer'} = 'Отговор';
     $Hash{'Change answer <-> queue settings'} = 'Промяна на отговорът <-> Настройки на опашката';
 
     # Template: AdminResponseForm
@@ -310,16 +327,16 @@ sub Data {
     $Hash{'Max Rows'} = 'Максимален брой редове';
 
     # Template: AdminSelectBoxResult
-    $Hash{'Limit'} = '';
-    $Hash{'Select Box Result'} = '';
-    $Hash{'SQL'} = '';
+    $Hash{'Limit'} = 'Лимит';
+    $Hash{'Select Box Result'} = 'Кутия за избор на резултата';
+    $Hash{'SQL'} = 'SQL';
 
     # Template: AdminSession
     $Hash{'kill all sessions'} = 'Затваряне на всички текущи сесии';
 
     # Template: AdminSessionTable
     $Hash{'kill session'} = 'Затваряне на единична сесия';
-    $Hash{'SessionID'} = '';
+    $Hash{'SessionID'} = 'Идентификатор на сесия';
 
     # Template: AdminSignatureForm
     $Hash{'Add signature'} = 'Добавяне на подпис';
@@ -337,7 +354,7 @@ sub Data {
     $Hash{'Add system address'} = 'Добавяне на нов системен адрес';
     $Hash{'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!'} = 'Всички входящи адреси от този еМейл (До:) ще се разпределят в избраната опашка';
     $Hash{'Change system address setting'} = 'Промяна на настройките на системният адрес';
-    $Hash{'Realname'} = '';
+    $Hash{'Realname'} = 'Истинско име';
     $Hash{'System Email Addresses Management'} = 'Управление на системния еМейл адрес';
 
     # Template: AdminUserForm
@@ -348,7 +365,7 @@ sub Data {
     $Hash{'User will be needed to handle tickets.'} = 'Ще е необходим потребител, за да може билетът да се обработи';
 
     # Template: AdminUserGroupChangeForm
-    $Hash{'Change  settings'} = '';
+    $Hash{'Change  settings'} = 'Промяна на настройки';
     $Hash{'User <-> Group Management'} = 'Потребител <-> Управление на група';
 
     # Template: AdminUserGroupForm
@@ -358,58 +375,58 @@ sub Data {
 
     # Template: AgentBounce
     $Hash{'A message should have a To: recipient!'} = 'Съобщението трябва да има ДО: т.е. адресант!';
-    $Hash{'Bounce ticket'} = '';
-    $Hash{'Bounce to'} = '';
-    $Hash{'Inform sender'} = '';
+    $Hash{'Bounce ticket'} = 'Отказан билет';
+    $Hash{'Bounce to'} = 'Отказ на';
+    $Hash{'Inform sender'} = 'Да се информира изпращачът';
     $Hash{'Next ticket state'} = 'Следващо състояние за билетът';
     $Hash{'Send mail!'} = 'Изпратете еМейл!';
     $Hash{'You need a email address (e. g. customer@example.com) in To:!'} = 'Трябва да има валиден адрес в полето ДО: (примерно support@hebros.bg)!';
-    $Hash{'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.'} = '';
+    $Hash{'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.'} = 'еМеълът Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация';
 
     # Template: AgentClose
-    $Hash{' (work units)'} = '';
-    $Hash{'Close ticket'} = '';
-    $Hash{'Close type'} = '';
-    $Hash{'Close!'} = '';
-    $Hash{'Note Text'} = '';
+    $Hash{' (work units)'} = ' (работни единици)';
+    $Hash{'Close ticket'} = 'Затворете бълетът';
+    $Hash{'Close type'} = 'Тип затваряне';
+    $Hash{'Close!'} = 'Затворете!';
+    $Hash{'Note Text'} = 'Текст на билежката';
     $Hash{'Note type'} = 'Бележката е от тип';
     $Hash{'store'} = 'съхранение';
-    $Hash{'Time units'} = '';
+    $Hash{'Time units'} = 'Единици за времето';
 
     # Template: AgentCompose
     $Hash{'A message should have a subject!'} = 'Съобщението трябва да има текст в поле "относно"!';
-    $Hash{'Attach'} = '';
+    $Hash{'Attach'} = 'Прикачен файл';
     $Hash{'Compose answer for ticket'} = 'Създаване на отговор за този билет';
-    $Hash{'Is the ticket answered'} = '';
-    $Hash{'Options'} = '';
-    $Hash{'Spell Check'} = '';
+    $Hash{'Is the ticket answered'} = 'Дали билетът е получил отговор';
+    $Hash{'Options'} = 'Настройки';
+    $Hash{'Spell Check'} = 'Проверка на правописа';
 
     # Template: AgentCustomer
     $Hash{'Back'} = 'Назад';
-    $Hash{'Change customer of ticket'} = '';
+    $Hash{'Change customer of ticket'} = 'Промяна на потребителят на билета';
     $Hash{'Set customer id of a ticket'} = 'Задаване на потребителски индикатив на билета';
 
     # Template: AgentCustomerHistory
-    $Hash{'Customer history'} = '';
+    $Hash{'Customer history'} = 'Хроника на потребителят';
 
     # Template: AgentCustomerHistoryTable
 
     # Template: AgentForward
     $Hash{'Article type'} = 'Клауза тип';
-    $Hash{'Date'} = '';
-    $Hash{'End forwarded message'} = '';
+    $Hash{'Date'} = 'Дата';
+    $Hash{'End forwarded message'} = 'Край на препратеното съобщение';
     $Hash{'Forward article of ticket'} = 'Препрати клаузата за този билет';
-    $Hash{'Forwarded message from'} = '';
-    $Hash{'Reply-To'} = '';
+    $Hash{'Forwarded message from'} = 'Препратено съобщение от';
+    $Hash{'Reply-To'} = 'Отговор на';
 
     # Template: AgentHistoryForm
-    $Hash{'History of'} = '';
+    $Hash{'History of'} = 'Хроника на';
 
     # Template: AgentMailboxTicket
     $Hash{'Add Note'} = 'Добавяне на бележка';
 
     # Template: AgentNavigationBar
-    $Hash{'FAQ'} = '';
+    $Hash{'FAQ'} = 'Често задавани въпроси';
     $Hash{'Locked tickets'} = 'Заключени билети';
     $Hash{'new message'} = 'ново съобщение';
     $Hash{'PhoneView'} = 'Преглед на телефоните';
@@ -418,28 +435,28 @@ sub Data {
 
     # Template: AgentNote
     $Hash{'Add note to ticket'} = 'Добавяне на бележка към билета';
-    $Hash{'Note!'} = '';
+    $Hash{'Note!'} = 'Бележка!';
 
     # Template: AgentOwner
-    $Hash{'Change owner of ticket'} = '';
-    $Hash{'Message for new Owner'} = '';
-    $Hash{'New user'} = '';
+    $Hash{'Change owner of ticket'} = 'Промяна собственикън на билета';
+    $Hash{'Message for new Owner'} = 'Съобщение за нов собственик';
+    $Hash{'New user'} = 'Нов потребител';
 
     # Template: AgentPhone
-    $Hash{'Customer called'} = '';
+    $Hash{'Customer called'} = 'Извършено е тел.обаждане до потребителят';
     $Hash{'Phone call'} = 'Телефонно обаждане';
-    $Hash{'Phone call at %s'} = '';
+    $Hash{'Phone call at %s'} = 'Телефонно обаждане в %s';
 
     # Template: AgentPhoneNew
     $Hash{'A message should have a From: recipient!'} = 'Съобщението трябва да има попълнено поле ОТ:';
     $Hash{'new ticket'} = 'нов билет';
-    $Hash{'New ticket via call.'} = '';
+    $Hash{'New ticket via call.'} = 'Нов билет чрез обаждане';
     $Hash{'You need a email address (e. g. customer@example.com) in From:!'} = 'Трябва да имате еМейл адрес (примерно customer@example.com) в поле ОТ:';
 
     # Template: AgentPlain
-    $Hash{'ArticleID'} = '';
+    $Hash{'ArticleID'} = 'Идентификатор на клауза';
     $Hash{'Plain'} = 'Обикновен';
-    $Hash{'TicketID'} = '';
+    $Hash{'TicketID'} = 'Идентификатор на билет';
 
     # Template: AgentPreferencesCustomQueue
     $Hash{'Select your custom queues'} = 'Изберете Вашата потребителска опашка';
@@ -455,24 +472,24 @@ sub Data {
 
     # Template: AgentPriority
     $Hash{'Change priority of ticket'} = 'Промяна на приоритета на билета';
-    $Hash{'New state'} = '';
+    $Hash{'New state'} = 'Ново състояние';
 
     # Template: AgentSpelling
-    $Hash{'Apply these changes'} = '';
-    $Hash{'Discard all changes and return to the compose screen'} = '';
-    $Hash{'Return to the compose screen'} = '';
-    $Hash{'Spell Checker'} = '';
-    $Hash{'spelling error(s)'} = '';
-    $Hash{'The message being composed has been closed.  Exiting.'} = '';
-    $Hash{'This window must be called from compose window'} = '';
+    $Hash{'Apply these changes'} = 'Прилага се към тези промени';
+    $Hash{'Discard all changes and return to the compose screen'} = 'Отказвате се от всички промени и се връщате към екрана за създаване';
+    $Hash{'Return to the compose screen'} = 'Връщате се към екрана за създаване';
+    $Hash{'Spell Checker'} = 'Проверка на правописът';
+    $Hash{'spelling error(s)'} = 'Правописна грешка(грешки)';
+    $Hash{'The message being composed has been closed.  Exiting.'} = 'Съобщението, което създавахте е затворено. Изход.';
+    $Hash{'This window must be called from compose window'} = 'Този прозорец трябва да бъде извикан от прозореца за създаване';
 
     # Template: AgentStatusView
-    $Hash{'D'} = '';
-    $Hash{'sort downward'} = '';
-    $Hash{'sort upward'} = '';
-    $Hash{'Ticket limit:'} = '';
-    $Hash{'Ticket Status'} = '';
-    $Hash{'U'} = '';
+    $Hash{'D'} = 'D';
+    $Hash{'sort downward'} = 'низходящо сортиране';
+    $Hash{'sort upward'} = 'възходящо сортиране';
+    $Hash{'Ticket limit:'} = 'Ограничение по време:';
+    $Hash{'Ticket Status'} = 'Състояние на билетът';
+    $Hash{'U'} = 'U';
 
     # Template: AgentStatusViewTable
 
@@ -488,61 +505,61 @@ sub Data {
     $Hash{'No * possible!'} = 'Не е възможно използване на символ *!';
 
     # Template: AgentUtilSearchByText
-    $Hash{'Article free text'} = '';
+    $Hash{'Article free text'} = 'Клауза свободен текст';
     $Hash{'Fulltext search'} = 'Текстово търсене';
     $Hash{'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")'} = 'Текстово търсене (примерно "Mar*in" или "Baue*" или "martin+hallo")';
-    $Hash{'Search in'} = '';
-    $Hash{'Ticket free text'} = '';
+    $Hash{'Search in'} = 'Търсене в';
+    $Hash{'Ticket free text'} = 'Билет свободен текст';
 
     # Template: AgentUtilSearchByTicketNumber
     $Hash{'search'} = 'търсене';
     $Hash{'search (e. g. 10*5155 or 105658*)'} = 'търсене (примерно 10*5155 или 105658*)';
 
     # Template: AgentUtilSearchNavBar
-    $Hash{'Results'} = '';
-    $Hash{'Site'} = '';
+    $Hash{'Results'} = 'Резултат';
+    $Hash{'Site'} = 'Място';
     $Hash{'Total hits'} = 'Общ брой попадения';
 
     # Template: AgentUtilSearchResult
 
     # Template: AgentUtilTicketStatus
-    $Hash{'All open tickets'} = '';
-    $Hash{'open tickets'} = '';
-    $Hash{'Provides an overview of all'} = '';
+    $Hash{'All open tickets'} = 'Всички отворени билети';
+    $Hash{'open tickets'} = 'Отворени билети';
+    $Hash{'Provides an overview of all'} = 'Осигурява общ преглед на всички';
     $Hash{'So you see what is going on in your system.'} = '';
 
     # Template: CustomerCreateAccount
-    $Hash{'Create'} = '';
-    $Hash{'Create Account'} = '';
+    $Hash{'Create'} = 'Създаване';
+    $Hash{'Create Account'} = 'Създаване на акаунт';
 
     # Template: CustomerError
-    $Hash{'Backend'} = '';
-    $Hash{'BackendMessage'} = '';
+    $Hash{'Backend'} = 'Фонов';
+    $Hash{'BackendMessage'} = 'Фоново съобщение';
     $Hash{'Click here to report a bug!'} = 'Натиснете тук, за да изпратите отчет за грешката!';
-    $Hash{'Handle'} = '';
+    $Hash{'Handle'} = 'Манипулатор';
 
     # Template: CustomerFooter
-    $Hash{'Powered by'} = '';
+    $Hash{'Powered by'} = 'С помощта на';
 
     # Template: CustomerHeader
 
     # Template: CustomerLogin
 
     # Template: CustomerLostPassword
-    $Hash{'Lost your password?'} = '';
-    $Hash{'Request new password'} = '';
+    $Hash{'Lost your password?'} = 'Забравена парола';
+    $Hash{'Request new password'} = 'Завка за нова парола';
 
     # Template: CustomerMessage
-    $Hash{'Follow up'} = '';
+    $Hash{'Follow up'} = 'Заявка за отговор';
 
     # Template: CustomerMessageNew
 
     # Template: CustomerNavigationBar
-    $Hash{'Create new Ticket'} = '';
+    $Hash{'Create new Ticket'} = 'Създаване на нов билет';
     $Hash{'My Tickets'} = 'Моите билети';
     $Hash{'New Ticket'} = 'Нов билет';
-    $Hash{'Ticket-Overview'} = '';
-    $Hash{'Welcome %s'} = '';
+    $Hash{'Ticket-Overview'} = 'Билети-преглед';
+    $Hash{'Welcome %s'} = 'Привет %s';
 
     # Template: CustomerPreferencesForm
 
@@ -555,7 +572,7 @@ sub Data {
     # Template: CustomerStatusViewTable
 
     # Template: CustomerTicketZoom
-    $Hash{'Accounted time'} = '';
+    $Hash{'Accounted time'} = 'Отброено време';
 
     # Template: CustomerWarning
 
@@ -564,10 +581,10 @@ sub Data {
     # Template: Footer
 
     # Template: Header
-    $Hash{'Home'} = '';
+    $Hash{'Home'} = 'Начало';
 
     # Template: InstallerStart
-    $Hash{'next step'} = '';
+    $Hash{'next step'} = 'следваща стъпка';
 
     # Template: InstallerSystem
 
@@ -579,7 +596,7 @@ sub Data {
     $Hash{'No Permission'} = 'Нямате позволение';
 
     # Template: Notify
-    $Hash{'Info'} = '';
+    $Hash{'Info'} = 'Информация';
 
     # Template: QueueView
     $Hash{'All tickets'} = 'Всички билети';
@@ -591,10 +608,10 @@ sub Data {
 
     # Template: SystemStats
     $Hash{'Graphs'} = 'Графики';
-    $Hash{'Tickets'} = '';
+    $Hash{'Tickets'} = 'Билети';
 
     # Template: Test
-    $Hash{'OTRS Test Page'} = '';
+    $Hash{'OTRS Test Page'} = 'Тестова страница на OTRS';
 
     # Template: TicketEscalation
     $Hash{'Ticket escalation!'} = 'Ескалация (увеличаване на приоритета) на билета!';
