@@ -7,11 +7,12 @@ use vars qw( $VERSION $RFC822PAT %AUTOLOAD $AUTOLOAD $NSLOOKUP_PAT
 use Carp;
 use IO::File;
 use Mail::Address;
-
+$Debug = 1;
 $VERSION = '0.14';
 
 %AUTOLOAD = ( mxcheck => 1, fudge => 1, fqdn => 1, local_rules => 1 );
-$NSLOOKUP_PAT = 'preference|serial|expire|mail\s+exchanger';
+#$NSLOOKUP_PAT = 'preference|serial|expire|mail\s+exchanger';
+$NSLOOKUP_PAT = 'IN MX';
 @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin );
 $DNS_Method = '';
 
@@ -91,7 +92,7 @@ sub _find_nslookup {
   my $self = shift;
  
   foreach my $path (@NSLOOKUP_PATHS) {
-    return "$path/nslookup" if -x "$path/nslookup" and !-d _;
+    return "$path/dig" if -x "$path/dig" and !-d _;
   }
   return undef;
 }               
@@ -131,27 +132,27 @@ sub _nslookup_query {
 
   unless ($Nslookup_Path) {
     $Nslookup_Path = $self->_find_nslookup
-      or croak 'unable to locate nslookup';
+      or croak 'unable to locate dig or cpan module Net::DNS';
   }
 
   # Check for an A record
   return 1 if gethostbyname $host;
 
-  # Check for an MX record
+# Check for an MX record
   if (my $fh = new IO::File '-|') {
-    my $response = <$fh>;
-    print STDERR $response if $Debug;
-    close $fh;
-    $response =~ /$NSLOOKUP_PAT/io or return $self->details('mx');
-    return 1;
+	  my $response = <$fh>;
+	  print STDERR $response if $Debug;
+	  close $fh;
+	  $response =~ /$NSLOOKUP_PAT/io or return $self->details('mx');
+	  return 1;
   } else {
-    open OLDERR, '>&STDERR' or croak "cannot dup stderr: $!";
-    open STDERR, '>&STDOUT' or croak "cannot redirect stderr to stdout: $!";
-    {
-      exec $Nslookup_Path, '-query=mx', $host;
-    }
-    open STDERR, ">&OLDERR";
-    croak "unable to execute nslookup '$Nslookup_Path': $!";
+	  open OLDERR, '>&STDERR' or croak "cannot dup stderr: $!";
+	  open STDERR, '>&STDOUT' or croak "cannot redirect stderr to stdout: $!";
+	  {
+		  exec $Nslookup_Path, '-query=mx', $host;
+	  }
+	  open STDERR, ">&OLDERR";
+	  croak "unable to execute nslookup '$Nslookup_Path': $!";
   }                                                                             
 }
 
