@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.71 2005-04-01 08:37:03 martin Exp $
+# $Id: de.pm,v 1.72 2005-04-06 05:31:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.72 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -140,7 +140,6 @@ sub Data {
       'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => 'Sie haben %s Erinnerungs-Ticket(s)!',
       'The recommended charset for your language is %s!' => 'Der empfohlene Zeichensatz für Ihre Sprache ist %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
       'No suggestions' => 'Keine Vorschläge',
       'Word' => 'Wort',
       'Ignore' => 'Ignorieren',
@@ -1215,6 +1214,12 @@ sub Data {
     'Install' => 'installieren',
     'Do you really want to uninstall this package?' => 'Soll das Paket wirklich deinstalliert werden?',
     'Required Field' => 'Pflichtfeld',
+    'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
+    'Can\'t update password, invalid characters!' => 'Passwort konnte nicht aktuallisiert werden, Zeichen ungülig.',
+    'Can\'t update password, need min. 8 characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. 8 Zeichen.',
+    'Can\'t update password, need 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
+    'Can\'t update password, need min. 1 digit!' => 'Passwort konnte nicht aktuallisiert werden, Passwort muss mit eine Zahl enthalten!',
+    'Can\'t update password, need min. 2 characters!' => 'Passwort konnte nicht aktuallisiert werden, Passwort muss zwei Buchstaben enthalten!',
     '' => '',
     };
     # $$STOP$$
