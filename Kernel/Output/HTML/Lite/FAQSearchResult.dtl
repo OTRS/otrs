@@ -2,7 +2,7 @@
 # FAQArticleSearchResult.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQSearchResult.dtl,v 1.1 2004-01-05 20:05:07 martin Exp $
+# $Id: FAQSearchResult.dtl,v 1.2 2004-01-08 11:52:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,8 +26,12 @@
       <td class="table1"> <input type="text" name="What" value="$Data{"What"}" size="50" maxlength="50"></td>
     </tr>
     <tr>
+      <td class="table1">$Text{"Category"}: </td>
+      <td class="table1"> $Data{"CategoryOption"} </td>
+    </tr> 
+    <tr>
       <td class="table1">$Text{"Language"}: </td>
-      <td class="table1"> <input type="text" name="Language" value="$Data{"Language"}" size="2" maxlength="80"></td>
+      <td class="table1"> $Data{"LanguageOption"}</td>
     </tr>
     </table>
     <input class="button" type="submit" value="$Text{"Search"}"> 

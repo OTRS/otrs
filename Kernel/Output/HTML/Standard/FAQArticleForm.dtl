@@ -2,12 +2,18 @@
 # FAQArticleForm.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticleForm.dtl,v 1.1 2004-01-05 20:05:07 martin Exp $
+# $Id: FAQArticleForm.dtl,v 1.2 2004-01-08 11:52:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+# --
+# check subaction
+# --
+# set subaction!
+<dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
+# check add link
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr> 
@@ -36,7 +42,7 @@
     </tr>
     <tr>
       <td class="table1">$Text{"Language"}: </td>
-      <td class="table1"> <input type="text" name="Language" value="$Data{"Language"}" size="2" maxlength="80"></td>
+      <td class="table1"> $Data{"LanguageOption"} </td>
     </tr>
     <tr>
       <td class="table1">$Text{"Short Description"}: </td>
@@ -45,18 +51,18 @@
     <tr>
       <td class="table1" valign="top">$Text{"Sympthom"}: </td>
       <td class="table1">
-<textarea name="Field1" rows="12" cols="75">$Data{"Field1"}</textarea>
+<textarea name="Field1" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field1"}</textarea>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"Problem"}: </td>
       <td class="table1">
-<textarea name="Field2" rows="12" cols="75">$Data{"Field2"}</textarea>
+<textarea name="Field2" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field2"}</textarea>
       </td> 
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"Solution"}: </td>
       <td class="table1">
-<textarea name="Field3" rows="12" cols="75">$Data{"Field3"}</textarea>
+<textarea name="Field3" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field3"}</textarea>
       </td>
     </tr>
     </table>
