@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PendingJobs.pl - check pending tickets
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.8 2003-06-23 11:19:03 martin Exp $
+# $Id: PendingJobs.pl,v 1.9 2004-01-12 22:56:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,9 +29,10 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
+use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
@@ -58,7 +59,7 @@ $CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
 # --
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (c) 2002-2003 Martin Edenhofer <martin\@otrs.org>\n";
+print "Copyright (c) 2002-2004 Martin Edenhofer <martin\@otrs.org>\n";
 
 # --
 # do ticket auto jobs
@@ -107,10 +108,29 @@ if (@PendingAutoStateIDs) {
 # --
 # do ticket reminder notification jobs
 # --
+
+# check if notification should be send
+my ($Second, $Minute, $Hour, $Day, $Month, $Year) = localtime(time());
+$Year = $Year+1900;
+$Month++;
+my $Dow = Day_of_Week($Year,$Month,$Day);
+$Dow = Day_of_Week_Abbreviation($Dow);
+if ($CommonObject{ConfigObject}->Get('SendNoPendingNotificationTime')->{$Dow}) {
+    my @Hours = @{$CommonObject{ConfigObject}->Get('SendNoPendingNotificationTime')->{$Dow}};
+    foreach (@Hours) {
+        if ($_ eq $Hour) { 
+            print "Stoped because no pending notification should be send this time (NoPendingNotificationTime)!\n";
+            exit (0);
+        }
+    }
+}
+
+# get pending states
 my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
     Type => 'PendingReminder',
     Result => 'ID',
 );
+# check if pendig time has reached and send notification
 if (@PendingReminderStateIDs) {
     my @TicketIDs = ();
     my $SQL = "SELECT st.tn, st.id, st.user_id FROM " .

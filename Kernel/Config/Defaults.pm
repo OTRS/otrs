@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.95 2004-01-09 12:58:50 martin Exp $
+# $Id: Defaults.pm,v 1.96 2004-01-12 22:56:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.95 $';
+$VERSION = '$Revision: 1.96 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -420,6 +420,18 @@ sub LoadDefaults {
         Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
         Sun => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
         Mon => [ 0,1,2,3,4,5,6,7,8 ],
+    };
+
+    # SendNoPendingNotificationTime 
+    # (send no pending notification this times)
+    $Self->{SendNoPendingNotificationTime} = {
+        Mon => [ 0,1,2,3,4,5,6 ],
+        Tue => [ 0,1,2,3,4,5,6 ],
+        Wed => [ 0,1,2,3,4,5,6 ],
+        Thu => [ 0,1,2,3,4,5,6 ],
+        Fri => [ 0,1,2,3,4,5,6,21,22,23 ],
+        Sat => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
+        Sun => [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ],
     };
     # --------------------------------------------------- #
     # TicketNumberGenerator                               # 
