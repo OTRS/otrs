@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.62 2004-06-24 12:52:33 martin Exp $
+# $Id: Article.pm,v 1.63 2004-07-05 06:00:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -783,7 +783,7 @@ sub ArticleGet {
         " sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,".
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,". 
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,". 
-        " st.freekey7, st.freetext7, st.freekey8, st.freetext8". 
+        " st.freekey7, st.freetext7, st.freekey8, st.freetext8, st.ticket_lock_id". 
         " FROM ".
         " article sa, ticket st, ".
         " $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -881,6 +881,7 @@ sub ArticleGet {
         $Data{TicketFreeText8} = $Row[47];
         $Data{IncomingTime} = $Row[30];
         $Data{RealTillTimeNotUsed} = $Row[17];
+        $Ticket{LockID} = $Row[48];
         # strip not wanted stuff
         foreach (qw(From To Cc Subject)) {
             $Data{$_} =~ s/\n|\r//g if ($Data{$_});
@@ -891,6 +892,7 @@ sub ArticleGet {
 #    $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Ticket{CreateTimeUnix});
     # get priority name
     $Ticket{Priority} = $Self->PriorityLookup(ID => $Ticket{PriorityID});
+    $Ticket{Lock} = $Self->{LockObject}->LockLookup(ID => $Ticket{LockID});
     # get queue name and other stuff
     my %Queue = $Self->{QueueObject}->QueueGet(ID => $Ticket{QueueID}, Cache => 1);
     # get state info
@@ -909,6 +911,8 @@ sub ArticleGet {
         );
         # get priority name
         $Part->{Priority} = $Ticket{Priority};
+        $Part->{LockID} = $Ticket{LockID};
+        $Part->{Lock} = $Ticket{Lock};
         $Part->{Queue} = $Queue{Name};
         if (!$Part->{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i) {
             $Part->{UntilTime} = 0;
