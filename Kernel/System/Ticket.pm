@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.69 2004-02-13 00:50:36 martin Exp $
+# $Id: Ticket.pm,v 1.70 2004-02-17 14:37:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1219,6 +1219,7 @@ To find tickets in your system.
       States => ['new', 'open'],
       Priorities => ['1 very low', '2 low', '3 normal'],
       Locks => ['unlock'],
+      UserIDs => [1, 12, 455, 32]
       Owner => '123',
       CustomerID => '123',
       CustomerUserLogin => 'uid123',
@@ -1320,8 +1321,13 @@ sub SearchTicket {
             }
         }
     } 
+    # add lock ids
     if ($Param{LockIDs}) {
         $SQLExt .= " AND st.ticket_lock_id IN (${\(join ', ' , @{$Param{LockIDs}})})";
+    }
+    # add user ids
+    if ($Param{UserIDs}) {
+        $SQLExt .= " AND st.user_id IN (${\(join ', ' , @{$Param{UserIDs}})})";
     }
     # ticket queues
     if ($Param{Queues}) {
@@ -1471,6 +1477,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2004-02-13 00:50:36 $
+$Revision: 1.70 $ $Date: 2004-02-17 14:37:56 $
 
 =cut
