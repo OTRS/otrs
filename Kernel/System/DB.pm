@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.41 2004-11-04 11:03:31 martin Exp $
+# $Id: DB.pm,v 1.42 2004-11-16 17:21:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -106,103 +106,47 @@ sub new {
     elsif ($Self->{DSN} =~ /:pg/i) {
         $Self->{'DB::Type'} = 'postgresql';
     }
-    elsif ($Self->{DSN} =~ /:db2/i) {
-        $Self->{'DB::Type'} = 'db2';
-    }
     elsif ($Self->{DSN} =~ /:oracle/i) {
         $Self->{'DB::Type'} = 'oracle';
     }
-    elsif ($Self->{DSN} =~ /:odbc/i) {
-        $Self->{'DB::Type'} = 'odbc';
+    elsif ($Self->{DSN} =~ /:sapdb/i) {
+        $Self->{'DB::Type'} = 'maxdb';
     }
-    else {
-        $Self->{'DB::Type'} = 'generic';
+    elsif ($Self->{DSN} =~ /:maxdb/i) {
+        $Self->{'DB::Type'} = 'maxdb';
     }
+    elsif ($Self->{DSN} =~ /:db2/i) {
+        $Self->{'DB::Type'} = 'db2';
+    }
+
     # get database type (config option)
     if ($Self->{ConfigObject}->Get("Database::Type")) {
         $Self->{'DB::Type'} = $Self->{ConfigObject}->Get("Database::Type");
     }
+    # get database type (overwrite with params)
     if ($Param{Type}) {
         $Self->{'DB::Type'} = $Param{Type};
     }
-    # set database functions
-    if ($Self->{'DB::Type'} eq 'mysql') {
-        $Self->{'DB::Limit'} = 'limit';
-        $Self->{'DB::DirectBlob'} = 1;
-        $Self->{'DB::QuoteSignle'} = '\\';
-        $Self->{'DB::QuoteBack'} = '\\';
-        $Self->{'DB::QuoteSemicolon'} = '\\';
-        $Self->{'DB::Attribute'} = {};
-    }
-    elsif ($Self->{'DB::Type'} eq 'postgresql') {
-        $Self->{'DB::Limit'} = 'limit';
-        $Self->{'DB::DirectBlob'} = 0;
-        $Self->{'DB::QuoteSignle'} = '\\';
-        $Self->{'DB::QuoteBack'} = '\\';
-        $Self->{'DB::QuoteSemicolon'} = '\\';
-        $Self->{'DB::Attribute'} = {};
-    }
-    elsif ($Self->{'DB::Type'} eq 'oracle') {
-        $Self->{'DB::Limit'} = 0;
-        $Self->{'DB::DirectBlob'} = 0;
-        $Self->{'DB::QuoteSignle'} = '\'';
-        $Self->{'DB::QuoteBack'} = 0;
-        $Self->{'DB::QuoteSemicolon'} = '';
-        $Self->{'DB::Attribute'} = {
-            LongTruncOk => 1,
-            LongReadLen => 100*1024,
-        };
-    }
-    elsif ($Self->{'DB::Type'} eq 'db2') {
-        $Self->{'DB::Limit'} = 'fetch';
-        $Self->{'DB::DirectBlob'} = 0;
-        $Self->{'DB::QuoteSignle'} = '\\';
-        $Self->{'DB::QuoteBack'} = '\\';
-        $Self->{'DB::QuoteSemicolon'} = '\\';
-        $Self->{'DB::Attribute'} = {};
-    }
-    elsif ($Self->{'DB::Type'} eq 'sapdb') {
-        $Self->{'DB::Limit'} = 0;
-        $Self->{'DB::DirectBlob'} = 0;
-        $Self->{'DB::QuoteSignle'} = '\'';
-        $Self->{'DB::QuoteBack'} = 0;
-        $Self->{'DB::QuoteSemicolon'} = '\'';
-        $Self->{'DB::Attribute'} = {
-            LongTruncOk => 1,
-            LongReadLen => 100*1024,
-        };
-        $Self->{'DB::CurrentTimestamp'} = 'timestamp';
-    }
-    elsif ($Self->{'DB::Type'} eq 'mssql') {
-        $Self->{'DB::Limit'} = 0;
-        $Self->{'DB::DirectBlob'} = 0;
-        $Self->{'DB::QuoteSignle'} = '\'';
-        $Self->{'DB::QuoteBack'} = 0;
-        $Self->{'DB::QuoteSemicolon'} = '\'';
-        $Self->{'DB::Attribute'} = {
-            LongTruncOk => 1,
-            LongReadLen => 100*1024,
-        };
-    }
-    elsif ($Self->{'DB::Type'} eq 'generic') {
-        $Self->{'DB::Limit'} = 0;
-        $Self->{'DB::DirectBlob'} = 0;
-        $Self->{'DB::QuoteSignle'} = '\\';
-        $Self->{'DB::QuoteBack'} = '\\';
-        $Self->{'DB::QuoteSemicolon'} = '\\';
-        $Self->{'DB::Attribute'} = {
-            LongTruncOk => 1,
-            LongReadLen => 100*1024,
-        };
+
+    # load backend module
+    if ($Self->{'DB::Type'}) {
+        my $GenericModule = "Kernel::System::DB::$Self->{'DB::Type'}";
+        if (!eval "require $GenericModule") {
+            die "Can't load database backend module $GenericModule! $@";
+        }
+        @ISA = ($GenericModule);
+        # set database functions
+        $Self->LoadPreferences();
     }
     else {
         $Self->{LogObject}->Log(
-          Priority => 'Error',
-          Message => "Unknown database type $Self->{'DB::Type'}! Set ".
-              "option Database::Type to (mysql|postgresql|db2|sapdb|oracle|mssql|generic)."
+            Priority => 'Error',
+            Message => "Unknown database type! Set option Database::Type in ".
+              "Kernel/Config.pm to (mysql|postgresql|maxdb|oracle|db2|mssql).",
         );
         return;
     }
+
     # check/get extra database config options
     # (overwrite auto detection with config options)
     foreach (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack)) {
@@ -340,6 +284,11 @@ sub Do {
     my $SQL = $Param{SQL};
     my $BindArray = $Param{Bind};
     my @Array = ();
+    # check needed stuff
+    if (!$Param{SQL}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SQL!");
+        return;
+    }
     # check bind params
     if ($Param{Bind}) {
         foreach my $Data (@{$Param{Bind}}) {
@@ -397,6 +346,11 @@ sub Prepare {
     my %Param = @_;
     my $SQL = $Param{SQL};
     my $Limit = $Param{Limit} || '';
+    # check needed stuff
+    if (!$Param{SQL}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SQL!");
+        return;
+    }
     $Self->{Limit} = 0;
     $Self->{LimitCounter} = 0;
     # build finally select query
@@ -503,6 +457,104 @@ sub GetDatabaseFunction {
     return $Self->{'DB::'.$What};
 }
 
+=item SQLProcessor()
+
+generate database based sql syntax (e. g. CREATE TABLE ...)
+
+  my @SQL = $DBObject->SQLProcessor(
+    Database =>
+      [
+         Tag => 'TableCreate',
+         Name => 'table_name',
+      ],
+      [
+         Tag => 'Column',
+         Name => 'col_name',
+         Type => 'VARCHAR',
+         Size => 150.
+      ],
+      [
+         Tag => 'Column',
+         Name => 'col_name2',
+         Type => 'INTERGER',
+      ],
+      [
+         Tag => 'TableEnd',
+      ],
+  );
+
+=cut
+
+sub SQLProcessor {
+    my $Self = shift;
+    my %Param = @_;
+    my @SQL = ();
+    if ($Param{Database} && ref($Param{Database}) eq 'ARRAY') {
+        my @Table = ();
+        foreach my $Tag (@{$Param{Database}}) {
+#            print STDERR "$Tag->{Tag} $Tag->{TagType}------\n";
+            if (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'End') {
+                push (@Table, $Tag);
+                push (@SQL, $Self->TableCreate(@Table));
+                @Table = ();
+            }
+            elsif ($Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'Unique' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'Index' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'ForeignKey' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'Reference' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+                push (@SQL, $Self->TableDrop(@Table));
+                @Table = ();
+            }
+        }
+    }
+    return @SQL;
+}
+
+=item SQLProcessorPost()
+
+generate database based sql syntax, post data of SQLProcessor(),
+e. g. foreign keys
+
+  my @SQL = $DBObject->SQLProcessorPost();
+
+=cut
+
+sub SQLProcessorPost {
+    my $Self = shift;
+    my %Param = @_;
+    my @SQL = ();
+    if ($Self->{Post}) {
+        my @Return = @{$Self->{Post}};
+        undef $Self->{Post};
+        return @Return;
+    }
+    else {
+        return ();
+    }
+}
+
 =item GetTableData()
 
 to get table data back in a hash
@@ -550,7 +602,7 @@ sub GetTableData {
     }
     return %Data;
 }
-# --
+
 sub GetValidIDs {
     my $Self = shift;
     my %Param = @_;
@@ -568,12 +620,11 @@ sub GetValidIDs {
     }
     return @ValidIDs;
 }
-# --
+
 sub DESTROY {
     my $Self = shift;
     $Self->Disconnect();
 }
-# --
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -588,6 +639,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2004-11-04 11:03:31 $
+$Revision: 1.42 $ $Date: 2004-11-16 17:21:58 $
 
 =cut
