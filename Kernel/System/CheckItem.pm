@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CheckItem.pm - the global spellinf module
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckItem.pm,v 1.2 2002-12-19 23:57:40 martin Exp $
+# $Id: CheckItem.pm,v 1.3 2003-01-02 19:06:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Email::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -70,7 +70,7 @@ sub CkeckEmail {
                 -mxcheck => $Self->{ConfigObject}->Get('CheckMXRecord') || 0,
     )) {
         # check special stuff
-        if ($Param{Address} =~ /\@(test|teste.|user|demo|some|there|somewhere|nowhere|me|example|hello|hallo)\.(..|...)$/i) {
+        if ($Param{Address} =~ /\@(test|teste.|user|demo|some|there|somewhere|nowhere|me|example|hello|hallo|nospam)\.(..|...)$/i) {
             $Self->{Error} = "invalid $Param{Address}! ";
             return;
         }
