@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.16 2004-04-02 08:19:04 martin Exp $
+# $Id: Login.dtl,v 1.17 2004-09-25 13:29:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ $Include{"Copyright"}
 <html>
 <head>
     <title>OTRS :: $Text{"$Data{"Title"}"}</title>
-# include css.dtl file 
+# include css.dtl file
 $Include{"css"}
 </head>
 <!-- end header -->
@@ -42,18 +42,18 @@ $Include{"css"}
 
 <table border="0" cellspacing="0" cellpadding="3" width="250">
 <tr>
-  <td class="table0" align="center"><b>$Text{"Welcome to OTRS"}</b></td>
+  <td align="center" class="mainhead">$Text{"Welcome to OTRS"}</td>
 </tr>
 <tr>
-  <td class="table1" align="center">
+  <td align="center" class="mainbody">
     <table cellspacing="8" cellpadding="2">
     <tr>
-      <td class="table1">$Text{"Username"}:</td>
-      <td class="table1"><input type="text" name="User" value="$QData{"User"}" size="18"></td>
+      <td>$Text{"Username"}:</td>
+      <td><input type="text" name="User" value="$QData{"User"}" size="18"></td>
     </tr>
     <tr>
-      <td class="table1">$Text{"Password"}:</td>
-      <td class="table1"><input type="password" name="Password" size="18"></td>
+      <td>$Text{"Password"}:</td>
+      <td><input type="password" name="Password" size="18"></td>
     </tr>
     </table>
   <input class="button" type="submit" value="$Text{"Login"}">
@@ -72,14 +72,14 @@ $Include{"css"}
 
 <table border="0" cellspacing="0" cellpadding="3" width="250">
 <tr>
-  <td class="table0" align="center"><b>$Text{"Language"}</b></td>
+  <td align="center" class="mainhead">$Text{"Language"}</td>
 </tr>
 <tr>
-  <td align="center" class="table1">
+  <td align="center" class="mainbody">
     <table cellspacing="8" cellpadding="2">
     <tr>
-      <td class="table1">$Text{"Language"}:</td>
-      <td class="table1">$Data{"Language"}</td>
+      <td>$Text{"Language"}:</td>
+      <td>$Data{"Language"}</td>
     </tr>
     </table>
   <input class="button" type="submit" value="$Text{"submit"}">
