@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.61 2003-03-24 13:12:34 martin Exp $
+# $Id: Defaults.pm,v 1.62 2003-04-03 12:38:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -465,6 +465,10 @@ sub LoadDefaults {
     # TicketZoomExpand
     # (show article expanded int ticket zoom)
     $Self->{TicketZoomExpand} = 0;
+    # TicketZoomExpandSort
+    # (show article normal or in reverse order) [normal|reverse]
+#    $Self->{TicketZoomExpandSort} = 'reverse';
+    $Self->{TicketZoomExpandSort} = 'normal';
     # TimeUnits
     # (your choice of your used time units, minutes, hours, work units, ...)
 #    $Self->{TimeUnits} = ' (minutes)';

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.97 2003-04-02 09:43:35 martin Exp $
+# $Id: Agent.pm,v 1.98 2003-04-03 12:38:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.97 $';
+$VERSION = '$Revision: 1.98 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -520,7 +520,17 @@ sub AgentZoom {
         }
     }
     else {
-        @NewArticleBox = @ArticleBox;
+      # resort article order
+      if ($Self->{ConfigObject}->Get('TicketZoomExpandSort') eq 'reverse') {
+          @ArticleBox = sort {$b cmp $a} @ArticleBox;
+      }
+      # show no email-notification* article
+      foreach my $ArticleTmp (@ArticleBox) {
+          my %Article = %$ArticleTmp;
+          if ($Article{ArticleType} !~ /^email-notification/i) {
+              push (@NewArticleBox, $ArticleTmp);
+          }
+      }
     }
     # --
     # build shown article(s)
@@ -1758,6 +1768,15 @@ sub AgentMove {
         Data => $Param{NextStates},
         Name => 'NewStateID',
         Selected => $Param{State},
+    );
+    # --
+    # build owner string
+    # --
+    $Param{'OwnerStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{OwnerList},
+#        Selected => $Param{OwnerID},
+        Name => 'NewUserID',
+#       Size => 5,
     );
     return $Self->Output(TemplateFile => 'AgentMove', Data => \%Param);
 }
