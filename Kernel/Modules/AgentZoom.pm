@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentZoom.pm - to get a closer view
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.44 2004-01-15 00:32:44 martin Exp $
+# $Id: AgentZoom.pm,v 1.45 2004-02-02 22:11:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -97,6 +97,10 @@ sub Run {
     }
     # get content
     my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+    my %TicketLink = $Self->{TicketObject}->GetTicketLink(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID},
+    );
     my @ArticleBox = $Self->{TicketObject}->GetArticleContentIndex(TicketID => $Self->{TicketID});
     # --
     # return if HTML email
@@ -170,6 +174,7 @@ sub Run {
         ArticleBox => \@ArticleBox,
         CustomerData => \%CustomerData,
         %Ticket,
+        %TicketLink,
         %UserInfo,
     );
     # add footer 
