@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.15 2003-02-23 22:44:58 martin Exp $
+# $Id: de.pm,v 1.16 2003-03-02 17:34:39 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Sun Feb 23 23:32:25 2003 by 
+    # Last translation Sun Feb 23 23:32:25 2003 by
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -639,7 +639,10 @@ sub Data {
 
     # Template: AgentUtilTicketStatus
       'All open tickets' => 'Alle offenen Tickets',
-      'open tickets' => 'offene Tickets',
+      'open tickets' => 'offenen',
+      'or' => 'oder',
+      'All closed tickets' => 'Alle geschlossenen Tickets',
+      'closed tickets' => 'geschlossenen Tickets',
       'Provides an overview of all' => 'Bietet eine Übersicht von allen',
       'So you see what is going on in your system.' => 'Somit können Sie sehen, was in Ihrem System vorgeht.',
 
