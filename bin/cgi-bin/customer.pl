@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.7 2002-11-19 18:32:41 martin Exp $
+# $Id: customer.pl,v 1.8 2002-11-24 23:51:35 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,7 @@ my $Debug = 0;
 # --
 # check @INC for mod_perl (add lib path for "require module"!)
 # --
-$ENV{MOD_PERL} && push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
+push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
 # --
 # all framework needed  modules 
@@ -58,7 +58,7 @@ use Kernel::System::Permission;
 use Kernel::Output::HTML::Generic;
 
 # --
-# create common framework objects 1/3
+# create common framework objects 1/2
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
@@ -66,6 +66,19 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => $CommonObject{ConfigObject}->Get('CGILogPrefix'),
     %CommonObject,
 );
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+# --
+# check common db objects
+# --
+if (!$CommonObject{DBObject}) {
+    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
+    print $CommonObject{LayoutObject}->CustomerError(
+        Message => $DBI::errstr,
+        Comment => 'Please contact your admin'
+    );
+    print $CommonObject{LayoutObject}->CustomerFooter();
+    exit (1);
+}
 $CommonObject{ParamObject} = Kernel::System::WebRequest->new();
 # --
 # debug info
@@ -108,28 +121,12 @@ if ($CommonObject{ConfigObject}->Get('SessionUseCookie')) {
   }
 }
 # --
-# create common framework objects 2/3
+# create common framework objects 2/2
 # --
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
     %CommonObject, 
     Lang => $Param{Lang},
 );
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-# --
-# check common db objects
-# --
-if (!$CommonObject{DBObject}) {
-    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
-    print $CommonObject{LayoutObject}->CustomerError(
-        Message => $DBI::errstr,
-        Comment => 'Please contact your admin'
-    );
-    print $CommonObject{LayoutObject}->CustomerFooter();
-    exit (1);
-}
-# --
-# create common framework objects 3/3
-# --
 $CommonObject{UserObject} = Kernel::System::CustomerUser->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 # --
@@ -199,6 +196,14 @@ if ($Param{Action} eq "Login") {
               exit (0);
             }
         }
+        # --
+        # pref update 
+        # --
+        $CommonObject{UserObject}->SetPreferences(
+            UserID => $UserData{UserID},
+            Key => 'UserLastLogin',
+            Value => time(),
+        );
         # --
         # create new session id
         # --

@@ -3,7 +3,7 @@
 # instaler.pl - the OTRS Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.8 2002-11-10 23:02:18 martin Exp $
+# $Id: installer.pl,v 1.9 2002-11-24 23:51:35 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,10 +28,13 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-$Debug = 1;
+# --
+# check @INC for mod_perl (add lib path for "require module"!)
+# --
+push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
 # --
 # all OTRS Installer modules
