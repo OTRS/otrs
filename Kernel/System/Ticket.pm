@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.101 2004-04-22 18:04:39 martin Exp $
+# $Id: Ticket.pm,v 1.102 2004-04-27 12:28:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.101 $';
+$VERSION = '$Revision: 1.102 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -298,7 +298,7 @@ sub TicketCreate {
         $Param{State} = $State{Name}; 
     }
     if (!$Param{StateID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No StateID!!!");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No StateID for '$Param{State}'!!!");
         return;
     }
     # LockID lookup!
@@ -3095,6 +3095,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.101 $ $Date: 2004-04-22 18:04:39 $
+$Revision: 1.102 $ $Date: 2004-04-27 12:28:25 $
 
 =cut
