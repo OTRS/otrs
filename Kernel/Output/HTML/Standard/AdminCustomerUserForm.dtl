@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.15 2004-07-08 11:24:33 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.16 2004-07-08 11:42:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -169,7 +169,7 @@ function updateMessage(x)
         <td>
             <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
             <br>
-            <a href="">$QData{"Filename"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&ID=$QData{"UserID"}&File=$QData{"PrefKey"}">$QData{"Filename"}</a>
         </td>
     </tr>
 <!-- dtl:block:PreferencesUpload -->

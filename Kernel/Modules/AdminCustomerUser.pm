@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.23 2004-07-08 11:20:45 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.24 2004-07-08 11:42:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $ ';
+$VERSION = '$Revision: 1.24 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -123,6 +123,19 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
+    }
+    # download file preferences
+    elsif ($Self->{Subaction} eq 'Download') {
+        my $User = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+        my $File = $Self->{ParamObject}->GetParam(Param => 'File') || '';
+        # get user data
+        my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
+
+        return $Self->{LayoutObject}->Attachment(
+            Content => $UserData{"$File"},
+            ContentType => $UserData{$File."::ContentType"},
+            Filename => $UserData{$File."::Filename"},
+        );
     }
     # update action
     elsif ($Self->{Subaction} eq 'ChangeAction') {
