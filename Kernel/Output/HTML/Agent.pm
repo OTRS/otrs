@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.89 2003-03-02 08:32:26 martin Exp $
+# $Id: Agent.pm,v 1.90 2003-03-02 10:12:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.89 $';
+$VERSION = '$Revision: 1.90 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -895,6 +895,13 @@ sub AgentPhoneNew {
         SelectedID => $Param{ToSelected},
     );
     # --
+    # customer info string 
+    # --
+    $Param{CustomerTable} = $Self->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => 15,
+    );
+    # --
     # do html quoting
     # --
     foreach (qw(From To Cc)) {
@@ -981,7 +988,7 @@ sub AgentCustomerView {
 sub AgentCustomerViewTable {
     my $Self = shift;
     my %Param = @_;
-    if (%{$Param{Data}}) {
+    if (ref($Param{Data}) eq 'HASH' && %{$Param{Data}}) {
         # build html table
         $Param{Table} = '<table>';
         foreach my $Field (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
@@ -1189,21 +1196,9 @@ sub AgentUtilSearchAgain {
         Size => 5,
         Multiple => 1,
         Name => 'QueueID',
-#FIXME
         SelectedIDRefArray => $Param{SelectedQueueIDs},
         OnChangeSubmit => 0,
     );
-#    $Param{'QueuesStrg'} = $Self->OptionStrgHashRef(
-#        Data => { $Self->{DBObject}->GetTableData(
-#                      What => 'id, name',
-#                      Table => 'queue',
-#                      Valid => 1,
-#                    ) }, 
-#        Name => 'QueueID',
-#        Multiple => 1,
-#        Size => 5,
-#        SelectedIDRefArray => $Param{SelectedQueueIDs},
-#    );
     $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
         Data => { $Self->{DBObject}->GetTableData(
                       What => 'id, name',
