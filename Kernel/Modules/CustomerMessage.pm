@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.36 2004-09-23 21:50:50 martin Exp $
+# $Id: CustomerMessage.pm,v 1.37 2004-10-02 08:16:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -208,7 +208,7 @@ sub Run {
         );
         # get ticket state details
         my %State = $Self->{StateObject}->StateGet(
-            ID => $Ticket{StateID}, 
+            ID => $Ticket{StateID},
             Cache => 1,
         );
         if ($FollowUpPossible =~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i) {
@@ -247,7 +247,7 @@ sub Run {
           my %NextStateData = $Self->{StateObject}->StateGet(
               ID => $StateID,
           );
-          my $NextState = $NextStateData{Name} || 
+          my $NextState = $NextStateData{Name} ||
             $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType') || 'open';
           $Self->{TicketObject}->StateSet(
               TicketID => $Self->{TicketID},

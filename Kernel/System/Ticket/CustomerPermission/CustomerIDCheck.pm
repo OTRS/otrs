@@ -3,7 +3,7 @@
 # module of the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerIDCheck.pm,v 1.4 2004-06-19 10:20:55 martin Exp $
+# $Id: CustomerIDCheck.pm,v 1.5 2004-10-02 08:14:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::CustomerPermission::CustomerIDCheck;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,16 +24,16 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get needed objects
     foreach (qw(ConfigObject LogObject DBObject TicketObject CustomerUserObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    
+
     return $Self;
-}   
+}
 # --
 sub Run {
     my $Self = shift;
