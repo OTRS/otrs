@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.14 2004-05-01 15:01:13 martin Exp $
+# $Id: FAQ.pm,v 1.15 2004-05-01 15:05:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1063,7 +1063,7 @@ sub Search {
         else {
             $Ext .= ' (';
         }
-        if (defined($Param{What})) {
+        if ($Param{What}) {
             my @List = split(/;/, $Param{What});
             my $What = '';
             foreach my $Value (@List) {
@@ -1114,6 +1114,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2004-05-01 15:01:13 $
+$Revision: 1.15 $ $Date: 2004-05-01 15:05:07 $
 
 =cut
