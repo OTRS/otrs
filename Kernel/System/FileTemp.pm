@@ -2,7 +2,7 @@
 # Kernel/System/FileTemp.pm - tmp files
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FileTemp.pm,v 1.2 2004-08-10 07:16:50 martin Exp $
+# $Id: FileTemp.pm,v 1.3 2004-12-23 06:01:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use File::Temp qw/ tempfile tempdir /;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -75,7 +75,7 @@ sub new {
 
 returns a file handle and the file name
 
-    my ($fh, $Filename) = $TmpObject->TempFile();
+    my ($fh, $Filename) = $TempObject->TempFile();
 
 =cut
 
@@ -110,6 +110,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2004-08-10 07:16:50 $
+$Revision: 1.3 $ $Date: 2004-12-23 06:01:13 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.9 2004-12-04 18:27:10 martin Exp $
+# $Id: Email.pm,v 1.10 2004-12-23 06:02:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -111,16 +111,14 @@ To send an email without already created header:
       Loop => 1, # not required, removes smtp from
       Attachment => [
         {
-          Filename => "somefile.csv",
-          Data     => $ContentCSV,
-          Type     => "text/csv",
-          Encoding => "base64",
+          Filename    => "somefile.csv",
+          Content     => $ContentCSV,
+          ContentType => "text/csv",
         }
         {
-          Filename => "somefile.png",
-          Data     => $ContentPNG,
-          Type     => "image/png",
-          Encoding => "base64",
+          Filename    => "somefile.png",
+          Content     => $ContentPNG,
+          ContentType => "image/png",
         }
       ],
       Sign => {
@@ -253,7 +251,6 @@ sub Send {
     if ($Self->{Organization}) {
         $Header{'Organization'} = $Self->{Organization};
     }
-
     # build MIME::Entity
     my $Entity = MIME::Entity->build(%Header, Data => $Param{Body});
 
@@ -559,7 +556,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2004-12-04 18:27:10 $
+$Revision: 1.10 $ $Date: 2004-12-23 06:02:05 $
 
 =cut
 
