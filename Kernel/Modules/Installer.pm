@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.23 2003-04-12 20:30:17 martin Exp $
+# $Id: Installer.pm,v 1.24 2003-04-13 22:24:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -99,33 +99,17 @@ sub Run {
     # print form
     # --
     if (!$Self->{Subaction}) {
-        if (!open (IN, "< $Self->{Path}/../../COPYING")) {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Warning(
-               Message => "Can't open $Self->{Path}/../../COPYING: $!!",
-               Comment => 'Contact your Admin!',
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'License');
-            my $License;
-            while (<IN>) {
-                $License .= $_;
-            }
-            close (IN);
-            $Output .= $Self->{LayoutObject}->InstallerBody(
-                Item => 'License',
-                Step => '1/4',
-                Body => $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerLicense', 
-                    Data => {License => $License},
-                ),
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
+        $Output .= $Self->{LayoutObject}->Header(Title => 'License');
+        $Output .= $Self->{LayoutObject}->InstallerBody(
+            Item => 'License',
+            Step => '1/4',
+            Body => $Self->{LayoutObject}->Output(
+                TemplateFile => 'InstallerLicense', 
+                Data => {},
+            ),
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # do dem settings
