@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleComposeSign.pm,v 1.2 2004-08-06 06:16:22 martin Exp $
+# $Id: ArticleComposeSign.pm,v 1.3 2004-08-10 06:52:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,7 @@ sub Run {
     my @SearchAddress = Mail::Address->parse($Param{From});
     my $CryptObjectPGP = Kernel::System::Crypt->new(%{$Self}, CryptType => 'PGP');
     if ($CryptObjectPGP) {
-        my @PrivateKeys = $CryptObjectPGP->SearchPrivateKey(
+        my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch(
             Search => $SearchAddress[0]->address(),
         );
         foreach my $DataRef (@PrivateKeys) {
