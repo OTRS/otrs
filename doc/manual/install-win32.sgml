@@ -106,7 +106,7 @@ D:\sambar\bin><userinput>net start Sambar</userinput>
 <section>
 <title>Install OTRS</title>
 <para>Last but least - the beast!</para>
-<para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/pages/index.pl?Site=Download">http://otrs.org/pages/index.pl?Site=Download</ulink> and unzip it to <emphasis>d:\</emphasis>, preserving the directory structure. A directory called 'otrs' will be created on D:\</para>
+<para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/download">http://otrs.org/download</ulink> and unzip it to <emphasis>d:\</emphasis>, preserving the directory structure. A directory called 'otrs' will be created on D:\</para>
 </section>
 
 </section>
