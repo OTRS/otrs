@@ -2,7 +2,7 @@
 # TODO - to do list of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.11 2002-04-14 13:43:25 martin Exp $
+# $Id: TODO,v 1.12 2002-04-30 00:21:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,8 +19,6 @@ immediately:
 
 - KnowlageFAQ
 
-- SystemStats
-
 - Customer handle (bin/cgi-bin/extern/index.pl) and modules
 
 - check types of auto responses! 
@@ -34,10 +32,9 @@ immediately:
 
 - Deadlines for trouble tickets.
 
-- Different levels of permissions/access-rights.
-
 
 later:
+- rework of permissions/access-rights.
 - add ticket waiting_states and funktion (AgentPending).
 - rework the db scheme indexes 
 - add foreign-key to the XML db scheme
