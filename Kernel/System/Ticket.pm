@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.89 2004-04-18 12:25:34 martin Exp $
+# $Id: Ticket.pm,v 1.90 2004-04-18 12:53:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.89 $';
+$VERSION = '$Revision: 1.90 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2917,6 +2917,16 @@ sub TicketWorkflow {
             $Match = 1;
             $Match3 = 1;
         }
+        # debug log
+        if ($Match && $Match3) {
+            if ($Self->{Debug} > 2) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Matched Workflow '$StepT'->'$Param{Type}'",
+                );
+            }
+#print STDERR "Matched Workflow '$StepT'->'$Param{Type}'\n";
+        }
         # build new data hash 
 #        my %NewData = ();
 #        my $UseNewParams = 0;
@@ -2955,15 +2965,19 @@ sub TicketWorkflow {
             }
             # not possible list
             foreach my $ID (keys %Data) {
+                my $Match = 1;
                 foreach my $New (@{$Step{PossibleNot}->{Ticket}->{$Param{Type}}}) {
-                    if ($Data{$ID} ne $New) {
-                        $NewData{$ID} = $Data{$ID};
-                        if ($Self->{Debug} > 4) {
-                            $Self->{LogObject}->Log(
-                                Priority => 'debug',
-                                Message => "Workflow '$StepT' param '$Data{$ID}' not used with PossibleNot:'$Param{Type}'",
-                            );
-                        }
+                    if ($Data{$ID} eq $New) {
+                        $Match = 0;
+                    }
+                }
+                if ($Match) {
+                    $NewData{$ID} = $Data{$ID};
+                    if ($Self->{Debug} > 4) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Workflow '$StepT' param '$Data{$ID}' in not used with PossibleNot:'$Param{Type}'",
+                        );
                     }
                 }
             }
@@ -2976,7 +2990,7 @@ sub TicketWorkflow {
     }
     if ($UseNewParams) {
         $Self->{TicketWorkflowData} = \%NewData;
-        1;
+        return 1;
     }
     return;
 }
@@ -2999,6 +3013,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2004-04-18 12:25:34 $
+$Revision: 1.90 $ $Date: 2004-04-18 12:53:22 $
 
 =cut
