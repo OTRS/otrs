@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.13 2002-11-10 23:10:34 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.14 2002-12-27 18:41:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,8 +35,8 @@
     $Env{"Box0"}<a href="#end" onmouseover="window.status='$Text{"end"}'; return true;" onmouseout="window.status='';">$Text{"end"}</a>$Env{"Box1"}
     <br>
     <!--$Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentFAQ" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';">$Text{"FAQ"}</a>$Env{"Box1"}-->
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New" onmouseover="window.status='$Text{"new message"} ($Data{"LockToDo"})'; return true;" onmouseout="window.status='';">$Text{"new message"} ($Data{"LockToDo"})</a>$Env{"Box1"} 
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox" onmouseover="window.status='$Text{"Locked tickets"} ($Data{"LockCount"})'; return true;" onmouseout="window.status='';">$Text{"Locked tickets"} ($Data{"LockCount"})</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New" onmouseover="window.status='$Text{"new message"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"new message"} ($Data{"New"})</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox" onmouseover="window.status='$Text{"Locked tickets"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"Locked tickets"} ($Data{"All"})</a>$Env{"Box1"} 
   </td>
 </tr>
 </table>
