@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.9 2001-12-27 14:25:24 martin Exp $
+# $Id: index.pl,v 1.10 2001-12-30 00:37:48 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '/home/martin/src/otrs/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -59,6 +59,7 @@ use Kernel::Modules::AgentPriority;
 use Kernel::Modules::AgentClose;
 use Kernel::Modules::AgentUtilities;
 use Kernel::Modules::AgentCompose;
+use Kernel::Modules::AgentPreferences;
 use Kernel::Modules::Admin;
 use Kernel::Modules::AdminSession;
 use Kernel::Modules::AdminSelectBox;
@@ -72,6 +73,7 @@ use Kernel::Modules::AdminSignature;
 use Kernel::Modules::AdminUser;
 use Kernel::Modules::AdminGroup;
 use Kernel::Modules::AdminUserGroup;
+use Kernel::Modules::AdminSystemAddress;
 use Kernel::Output::HTML::Generic;
 
 # --
@@ -187,8 +189,10 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         print $CommonObject{LayoutObject}->Footer();
     }
     # run module
-    else {
+    else { 
+        # get session data
         my %Data = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $Param{SessionID});
+        # create new LayoutObject with new '%Param' and '%Data'
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject, %Param, %Data);
         GenericModules(%CommonObject, %Param, %Data);
     }
@@ -197,6 +201,8 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
 # else print an error screen
 # --
 else { 
+    # create new LayoutObject with '%Param'
+    $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject, %Param);
     print $CommonObject{LayoutObject}->Header();
     print $CommonObject{LayoutObject}->Error(
        Message => "Action '$Param{Action}' not found!",
