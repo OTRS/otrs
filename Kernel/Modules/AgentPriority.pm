@@ -2,7 +2,7 @@
 # AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: AgentPriority.pm,v 1.2 2002-02-03 20:05:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -76,7 +76,7 @@ sub Run {
         # print form
         my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
         my $Priority = $Self->{TicketObject}->GetPriorityState(TicketID => $TicketID);
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Set Priority');
         my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         # get priority states
