@@ -1,8 +1,8 @@
 # --
-# AgentUtilities.pm - Utilities for tickets
+# Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.6 2002-05-04 20:29:51 martin Exp $
+# $Id: AgentUtilities.pm,v 1.7 2002-07-14 23:54:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -152,7 +152,7 @@ sub SearchByTn {
 			Age => $Age,
         );
     }
-#    $Output .= $Self->{LayoutObject}->UtilSearchCouter(Limit => $Self->{SearchLimitTn});
+    $Output .= $Self->{LayoutObject}->AgentUtilSearchCouter(Limit => $Self->{SearchLimitTn});
     $Output .= $OutputTables;
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
@@ -164,6 +164,7 @@ sub SearchByText {
     my $Output;
     my $Want = $Self->{Want};
     my $UserID = $Self->{UserID};
+    my @WhatFields = $Self->{ParamObject}->GetArray(Param => 'What');
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
     my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
@@ -171,14 +172,49 @@ sub SearchByText {
         What => $Want,
         Kind => 'SearchByText',
         Limit => $Self->{SearchLimitTxt},
+        WhatFields => \@WhatFields,
     );
+    # --
     # modifier search string
+    # --
     $Want =~ s/\+/%/gi;
     $Want =~ s/\*//gi;
     my @SParts = split('%', $Want);
+    # --
     # building a spez. sql ext.
+    # --
     my $SqlExt = '';
-    my @SearchFields = ('sa.a_body', 'sa.a_subject', 'sa.a_from');
+    my %FieldSQLMap = (
+        From => 'sa.a_from',
+        To => 'sa.a_to',
+        Cc => 'sa.a_cc',
+        Subject => 'sa.a_subject',
+        Body => 'sa.a_body',
+        CustomerID => 'st.customer_id',
+        TicketFreeText => 'st.freetext',
+        ArticleFreeText => 'sa.a_freetext',
+    );
+    my @SearchFields = ();
+    foreach my $Field (@WhatFields) {
+        if ($FieldSQLMap{$Field}) {
+          if ($Field eq 'TicketFreeText') {
+            foreach (1..2) {
+              push (@SearchFields, "$FieldSQLMap{$Field}$_");
+            }
+          }
+          elsif ($Field eq 'ArticleFreeText') {
+            foreach (1..3) {
+              push (@SearchFields, "$FieldSQLMap{$Field}$_");
+            }
+          }
+          else {
+              push (@SearchFields, $FieldSQLMap{$Field});
+          }
+        }
+    }
+    # --
+    # create tricky sql part
+    # --
     my $CounterTmp = 0;
     foreach my $Field (@SearchFields) {
         if ($CounterTmp != 0) {
@@ -195,6 +231,24 @@ sub SearchByText {
             
         }
     }
+    # --
+    # if there is no search field selected!
+    # --
+    if (!@SearchFields) {
+      # --
+      # error page
+      # --
+      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't search! Select min. one search field!",
+          Comment => 'Please Select min. one search field.',
+      );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }
+    # --
+    # db query
+    # --
     my $OutputTables = '';
     my $Age = '?';
     my $SQL = "SELECT st.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, " .
