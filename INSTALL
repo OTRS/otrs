@@ -2,7 +2,7 @@
 # INSTALL description of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.8 2002-04-24 21:53:46 martin Exp $
+# $Id: INSTALL,v 1.9 2002-04-30 00:28:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,8 @@ Software requirements?
     * Database (e. g. MySQL, PostgreSQL)
     * Webpserver (mod_perl isn't required but very nice to have)
     * some CPAN-Module (CGI, MIME::Words, Mail::Internet, MIME::Parser, DBI,
-      DBD::mysql, Digest::MD5) and for stats (GD, GD::Graph, GD::Graph::lines, Date::Calc)
+      DBD::mysql, Digest::MD5) and for stats (GD, GD::Text, GD::Graph, 
+      GD::Graph::lines, Date::Calc)
 
 Installation:
 =============
@@ -27,6 +28,16 @@ Installation:
    ...
    install MIME::Words
    install MIME::Parser
+   install Digest::MD5
+   ...
+
+   and maybe the GD stuff
+   ...
+   install GD
+   install GD::Text
+   install GD::Graph
+   install GD::Graph::lines
+   install Date::Calc
    ...
 
 2. create user and install tar.gz 
