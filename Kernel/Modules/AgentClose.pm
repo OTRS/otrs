@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.7 2002-07-02 08:49:16 martin Exp $
+# $Id: AgentClose.pm,v 1.8 2002-07-12 23:01:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentClose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -101,7 +101,7 @@ sub Run {
             if ($Self->{TicketObject}->SetOwner(
                 TicketID => $TicketID,
                 UserID => $UserID,
-                UserLogin => $UserLogin,
+                NewUserID => $UserID,
             )) {
                 # show lock state
                 $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);

@@ -2,7 +2,7 @@
 # AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.4 2002-07-02 08:49:16 martin Exp $
+# $Id: AgentPhone.pm,v 1.5 2002-07-12 23:01:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPhone;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -120,7 +120,7 @@ sub Run {
           $Self->{TicketObject}->SetOwner(
             TicketID => $TicketID,
             UserID => $UserID,
-            UserLogin => $UserLogin,
+            NewUserID => $UserID,
           );
           # set lock
           if ($Self->{TicketObject}->SetLock(
