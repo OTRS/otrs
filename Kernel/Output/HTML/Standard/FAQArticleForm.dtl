@@ -2,7 +2,7 @@
 # FAQArticleForm.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticleForm.dtl,v 1.4 2004-01-24 18:34:29 martin Exp $
+# $Id: FAQArticleForm.dtl,v 1.5 2004-02-01 22:47:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -46,45 +46,45 @@
     </tr>
     <tr>
       <td class="table1">$Text{"Short Description"}: </td>
-      <td class="table1"> <input type="text" name="Subject" value="$Data{"Subject"}" size="75" maxlength="120"></td>
+      <td class="table1"> <input type="text" name="Subject" value="$Data{"Subject"}" size="65" maxlength="120"></td>
     </tr>
     <tr>
       <td class="table1">$Text{"Keywords"}: </td>
-      <td class="table1"> <input type="text" name="Keywords" value="$Data{"Keywords"}" size="75" maxlength="120"></td>
+      <td class="table1"> <input type="text" name="Keywords" value="$Data{"Keywords"}" size="65" maxlength="120"></td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field1"}"}: </td>
       <td class="table1">
-<textarea name="Field1" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field1"}</textarea>
+<textarea name="Field1" rows="12" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field1"}</textarea>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field2"}"}: </td>
       <td class="table1">
-<textarea name="Field2" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field2"}</textarea>
+<textarea name="Field2" rows="12" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field2"}</textarea>
       </td> 
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field3"}"}: </td>
       <td class="table1">
-<textarea name="Field3" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field3"}</textarea>
+<textarea name="Field3" rows="12" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field3"}</textarea>
       </td>
     </tr>
 #    <tr>
 #      <td class="table1" valign="top">$Text{"$Config{"FAQ::Field4"}"}: </td>
 #      <td class="table1">
-#<textarea name="Field4" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field4"}</textarea>
+#<textarea name="Field4" rows="12" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field4"}</textarea>
 #      </td>
 #    </tr>
 #    <tr>
 #      <td class="table1" valign="top">$Text{"$Config{"FAQ::Field5"}"}: </td>
 #      <td class="table1">
-#<textarea name="Field5" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field5"}</textarea>
+#<textarea name="Field5" rows="12" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field5"}</textarea>
 #      </td>
 #    </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field6"}"}: </td>
       <td class="table1">
-<textarea name="Field6" rows="4" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field3"}</textarea>
+<textarea name="Field6" rows="4" cols="65" wrap="$Env{"BrowserWrap"}">$Data{"Field3"}</textarea>
       </td>
     </tr>
     </table>
