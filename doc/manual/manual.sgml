@@ -3,6 +3,7 @@
 <!ENTITY preamble SYSTEM "preamble.sgml">
 <!ENTITY install SYSTEM "install.sgml">
 <!ENTITY install-cli SYSTEM "install-cli.sgml">
+<!ENTITY install-win32 SYSTEM "install-win32.sgml">
 <!ENTITY config-file SYSTEM "config-file.sgml">
 <!ENTITY first-steps SYSTEM "first-steps.sgml">
 <!ENTITY troubleshooting SYSTEM "troubleshooting.sgml">
@@ -89,6 +90,7 @@ or implied warranty.
 <chapter id="install">
 &install;
 &install-cli;
+&install-win32;
 </chapter>
 
 &basics_about_tt;
