@@ -2,7 +2,7 @@
 # Auth.pm - provides the authentification and user data
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.6 2002-04-13 11:09:18 martin Exp $
+# $Id: Auth.pm,v 1.7 2002-04-24 16:31:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -52,6 +52,7 @@ sub Auth {
     my %Param = @_;
     my $User = $Param{User} || return;
     my $Pw = $Param{Pw} || return;
+    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     my $UserID = '';
     my $GetPw = '';
     my $SQL = "SELECT $Self->{UserTableUserPW}, $Self->{UserTableUserID} ".
@@ -71,7 +72,7 @@ sub Auth {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: '$User' tried to login with Pw: '$Pw' ($UserID/$GetPw)",
+          MSG => "User: '$User' tried to login with Pw: '$Pw' ($UserID/$GetPw/$RemoteAddr)",
         );
     }
 
@@ -81,7 +82,7 @@ sub Auth {
     if (!$Pw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: $User without Pw!!!",
+          MSG => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -91,7 +92,7 @@ sub Auth {
     elsif ((($GetPw)&&($User)&&($UserID)) && crypt($Pw, $User) eq $GetPw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: $User logged in.",
+          MSG => "User: $User logged in (REMOTE_ADDR: $RemoteAddr).",
         );
         return 1;
     }
@@ -101,7 +102,7 @@ sub Auth {
     else {
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          MSG => "User: $User with wrong Pw!!!"
+          MSG => "User: $User with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         ); 
         return;
     }
