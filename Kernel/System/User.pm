@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.37 2003-11-17 00:08:16 martin Exp $
+# $Id: User.pm,v 1.38 2004-01-08 11:43:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,6 +101,14 @@ sub GetUserData {
             Message => "Panic! No UserData for user: '$User'!!!",
         );
         return;
+    }
+    # --
+    # check valid 
+    # --
+    if ($Param{Valid}) {
+        if ($Data{ValidID} ne 1) {
+            return;
+        }
     }
     # --
     # get preferences
