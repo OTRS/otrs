@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.20 2002-10-03 17:29:23 martin Exp $
+# $Id: AgentZoom.pm,v 1.21 2002-11-19 18:34:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -226,7 +226,7 @@ sub Run {
     # --
     # genterate output
     # --
-    $Output .= $Self->{LayoutObject}->Header(Title => "Zoom Ticket $Ticket{TicketNumber}");
+    $Output .= $Self->{LayoutObject}->Header(Title => "Zoom Ticket");
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
