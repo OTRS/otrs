@@ -2,7 +2,7 @@
 # Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.6 2002-04-14 13:29:02 martin Exp $
+# $Id: Article.pm,v 1.7 2002-05-26 22:43:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -79,14 +79,14 @@ sub CreateArticleDB {
     }
 
     # DB Quoting
-    $From = $Self->{DBObject}->Quote($From);
-    $To = $Self->{DBObject}->Quote($To);
-    $Cc = $Self->{DBObject}->Quote($Cc);
-    $ReplyTo = $Self->{DBObject}->Quote($ReplyTo);
-    $Subject = $Self->{DBObject}->Quote($Subject);
-    $Body = $Self->{DBObject}->Quote($Body);
-    $MessageID = $Self->{DBObject}->Quote($MessageID);
-    $ContentPath = $Self->{DBObject}->Quote($ContentPath);
+    $From = $Self->{DBObject}->Quote($From) || '';
+    $To = $Self->{DBObject}->Quote($To) || '';
+    $Cc = $Self->{DBObject}->Quote($Cc) || '';
+    $ReplyTo = $Self->{DBObject}->Quote($ReplyTo) || '';
+    $Subject = $Self->{DBObject}->Quote($Subject) || '';
+    $Body = $Self->{DBObject}->Quote($Body) || '';
+    $MessageID = $Self->{DBObject}->Quote($MessageID) || '';
+    $ContentPath = $Self->{DBObject}->Quote($ContentPath) || '';
 
     # do db insert
     my $SQL = "INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
