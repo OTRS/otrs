@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.1 2004-05-24 19:01:32 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.2 2004-05-24 20:27:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -266,25 +266,25 @@ $Data{"NewUserStrg"}
   <td valign="top">
    <table>
    <tr>
-     <td valign="top">$Text{"Module"}:</td><td><input type="text" name="NewModule" value="$QData{"NewModule"}" size="40"></td>
+     <td valign="top">$Text{"Module"}:</td><td><input type="text" name="NewModule" value="$QData{"NewModule"}" size="45"></td>
    </tr>
    <tr>
-     <td valign="top">$Text{"Param 1"}:</td><td><input type="text" name="NewParamKey1" value="$QData{"NewParamKey1"}" size="10">=&gt;<input type="text" name="NewParamValue1" value="$QData{"NewParamValue1"}" size="10"></td>
+     <td valign="top">$Text{"Param 1"}:</td><td><input type="text" name="NewParamKey1" value="$QData{"NewParamKey1"}" size="12">=&gt;<input type="text" name="NewParamValue1" value="$QData{"NewParamValue1"}" size="20"></td>
    </tr>
    <tr>
-     <td valign="top">$Text{"Param 2"}:</td><td><input type="text" name="NewParamKey2" value="$QData{"NewParamKey2"}" size="10">=&gt;<input type="text" name="NewParamValue2" value="$QData{"NewParamValue2"}" size="10"></td>
+     <td valign="top">$Text{"Param 2"}:</td><td><input type="text" name="NewParamKey2" value="$QData{"NewParamKey2"}" size="12">=&gt;<input type="text" name="NewParamValue2" value="$QData{"NewParamValue2"}" size="20"></td>
    </tr>
    <tr>
-     <td valign="top">$Text{"Param 3"}:</td><td><input type="text" name="NewParamKey3" value="$QData{"NewParamKey3"}" size="10">=&gt;<input type="text" name="NewParamValue3" value="$QData{"NewParamValue3"}" size="10"></td>
+     <td valign="top">$Text{"Param 3"}:</td><td><input type="text" name="NewParamKey3" value="$QData{"NewParamKey3"}" size="12">=&gt;<input type="text" name="NewParamValue3" value="$QData{"NewParamValue3"}" size="20"></td>
    </tr>
    <tr>
-     <td valign="top">$Text{"Param 4"}:</td><td><input type="text" name="NewParamKey4" value="$QData{"NewParamKey4"}" size="10">=&gt;<input type="text" name="NewParamValue4" value="$QData{"NewParamValue4"}" size="10"></td>
+     <td valign="top">$Text{"Param 4"}:</td><td><input type="text" name="NewParamKey4" value="$QData{"NewParamKey4"}" size="12">=&gt;<input type="text" name="NewParamValue4" value="$QData{"NewParamValue4"}" size="20"></td>
    </tr>
    <tr>
-     <td valign="top">$Text{"Param 5"}:</td><td><input type="text" name="NewParamKey5" value="$QData{"NewParamKey5"}" size="10">=&gt;<input type="text" name="NewParamValue5" value="$QData{"NewParamValue5"}" size="10"></td>
+     <td valign="top">$Text{"Param 5"}:</td><td><input type="text" name="NewParamKey5" value="$QData{"NewParamKey5"}" size="12">=&gt;<input type="text" name="NewParamValue5" value="$QData{"NewParamValue5"}" size="20"></td>
    </tr>
    <tr>
-     <td valign="top">$Text{"Param 5"}:</td><td><input type="text" name="NewParamKey5" value="$QData{"NewParamKey5"}" size="10">=&gt;<input type="text" name="NewParamValue5" value="$QData{"NewParamValue5"}" size="10"></td>
+     <td valign="top">$Text{"Param 6"}:</td><td><input type="text" name="NewParamKey6" value="$QData{"NewParamKey6"}" size="12">=&gt;<input type="text" name="NewParamValue6" value="$QData{"NewParamValue6"}" size="20"></td>
    </tr>
   </table>
   </td>
