@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # CheckDB.pl - to check the db access
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckDB.pl,v 1.6 2002-08-27 14:01:24 martin Exp $
+# $Id: CheckDB.pl,v 1.7 2002-08-27 23:37:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -36,7 +36,7 @@ use Kernel::System::DB;
 
 my $ConfigObject = Kernel::Config->new();
 my $LogObject = Kernel::System::Log->new(
-    LogPrefix => 'OpenTRS-CheckDB.pl',
+    LogPrefix => 'OTRS-CheckDB.pl',
     ConfigObject => $ConfigObject,
 );
 my $DBObject = Kernel::System::DB->new(

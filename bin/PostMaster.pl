@@ -3,7 +3,7 @@
 # PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.7 2002-08-13 15:20:35 martin Exp $
+# $Id: PostMaster.pl,v 1.8 2002-08-27 23:37:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 1;
@@ -48,14 +48,14 @@ use Kernel::System::PostMaster;
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OpenTRS-PM',
+    LogPrefix => 'OTRS-PM',
     %CommonObject,
 );
 # debug info
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => 'Global OpenTRS email handle (PostMaster.pl) started...',
+        MSG => 'Global OTRS email handle (PostMaster.pl) started...',
     );
 }
 # ... common objects ...
@@ -67,7 +67,7 @@ $CommonObject{PostMaster}->Run();
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
-        MSG => 'Global OpenTRS email handle (PostMaster.pl) stoped.',
+        MSG => 'Global OTRS email handle (PostMaster.pl) stoped.',
     );
 }
 # --

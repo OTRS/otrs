@@ -3,7 +3,7 @@
 # bin/RebuildTicketIndex.pl - rebuild ticket index for queue view
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RebuildTicketIndex.pl,v 1.2 2002-08-13 15:20:35 martin Exp $
+# $Id: RebuildTicketIndex.pl,v 1.3 2002-08-27 23:37:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -41,7 +41,7 @@ use Kernel::System::Ticket;
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OpenTRS-RebuildTicketIndex.pl',
+    LogPrefix => 'OTRS-RebuildTicketIndex.pl',
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);

@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.7 2002-08-13 15:06:58 martin Exp $
+# $Id: SetPermissions.sh,v 1.8 2002-08-27 23:37:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.7 $> - set OpenTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.8 $> - set OTRS file permissions"
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 if ! test $1 || ! test $2 || ! test $3; then 
@@ -55,11 +55,11 @@ echo "Setting file permissions... "
 echo "chown -R root.root $OTRSDEST"
 chown -R root.root $OTRSDEST
 
-# set the $HOME to the OpenTRS user
+# set the $HOME to the OTRS user
 echo "chown $OTRSUSER.$OTRSGROUP $OTRSDEST"
 chown $OTRSUSER.$OTRSGROUP $OTRSDEST
 
-# set the fetchmail rc to OpenTRS user
+# set the fetchmail rc to OTRS user
 echo "chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.fetchmailrc"
 chown $OTRSUSER.$OTRSGROUP $OTRSDEST/.fetchmailrc
 echo "chmod 0710 $OTRSDEST/.fetchmailrc"
@@ -75,16 +75,16 @@ chmod 0644 $OTRSDEST/.procmailrc
 # --
 # var/*
 # --
-# set the var directory to OpenTRS and webserver user
+# set the var directory to OTRS and webserver user
 echo "chown -R $OTRSUSER.$OTRSGROUP $OTRSDEST/var/" 
 chown -R $OTRSUSER.$OTRSGROUP $OTRSDEST/var/
 chmod -R 2775 $OTRSDEST/var/article/
 
-# set the var/sessions directory to OpenTRS and webserver user
+# set the var/sessions directory to OTRS and webserver user
 echo "chown -R $WEBUSER.$WEBGROUP $OTRSDEST/var/sessions/"
 chown -R $WEBUSER.$WEBGROUP $OTRSDEST/var/sessions/ 
 
-# set the var/log/TicketCounter.log file to OpenTRS and webserver user
+# set the var/log/TicketCounter.log file to OTRS and webserver user
 echo "$OTRSUSER.$WEBGROUP $OTRSDEST/var/log/TicketCounter.log"
 chown $OTRSUSER.$WEBGROUP $OTRSDEST/var/log/TicketCounter.log
 chmod 2775 $OTRSDEST/var/log/TicketCounter.log
@@ -96,17 +96,17 @@ chmod 2775 $OTRSDEST/var/log/TicketCounter.log
 echo "chmod -R 755 $OTRSDEST/bin/"
 chmod -R 755 $OTRSDEST/bin/
 
-# set the DeleteSessionIDs.pl just to OpenTRS user
+# set the DeleteSessionIDs.pl just to OTRS user
 echo "(chown && chmod 700) $OTRSUSER.root $OTRSDEST/bin/DeleteSessionIDs.pl"
 chmod 700 $OTRSUSER.root $OTRSDEST/bin/DeleteSessionIDs.pl
 chown $OTRSUSER.root $OTRSDEST/bin/DeleteSessionIDs.pl 
 
-# set the UnlockTickets.pl just to OpenTRS user
+# set the UnlockTickets.pl just to OTRS user
 echo "(chown && chmod 700) $OTRSUSER.root $OTRSDEST/bin/UnlockTickets.pl"
 chmod 700 $OTRSDEST/bin/UnlockTickets.pl
 chown $OTRSUSER.root $OTRSDEST/bin/UnlockTickets.pl
 
-# set the bin/otrs.getConfig just to OpenTRS user
+# set the bin/otrs.getConfig just to OTRS user
 echo "(chown && chmod 700) $OTRSUSER.root $OTRSDEST/bin/otrs.getConfig"
 chmod 700 $OTRSDEST/bin/otrs.getConfig
 chown $OTRSUSER.root $OTRSDEST/bin/otrs.getConfig

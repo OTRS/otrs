@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.5 2002-08-13 15:20:35 martin Exp $
+# $Id: mkStats.pl,v 1.6 2002-08-27 23:37:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ umask 022;
 
 my $ConfigObject = Kernel::Config->new();
 my $LogObject = Kernel::System::Log->new(
-    LogPrefix => 'OpenTRS-mkStats',
+    LogPrefix => 'OTRS-mkStats',
     ConfigObject => $ConfigObject,
 );
 my $DBObject = Kernel::System::DB->new(
@@ -59,7 +59,7 @@ my $graph = GD::Graph::lines->new(500, 300);
 
 my $XLable = "Days";
 my $YLable = 'Actions';
-my $Title  = "OpenTRS stats for $Month/$Year";
+my $Title  = "OTRS stats for $Month/$Year";
 
 my %States = GetHistoryTypes();
 my @PossibleStates;

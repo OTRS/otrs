@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.4 2002-08-27 23:24:29 martin Exp $
+# $Id: GenericAgent.pl,v 1.5 2002-08-27 23:37:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ use lib "$Bin/../";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -56,7 +56,7 @@ use Kernel::Config::GenericAgent qw(%Jobs);
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
-    LogPrefix => 'OpenTRS-GenericAgent.pl',
+    LogPrefix => 'OTRS-GenericAgent.pl',
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
