@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.7.2.1 2004-03-29 13:12:18 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.7.2.2 2004-04-02 08:38:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,7 +44,7 @@
 # --
 <dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>"; }>
 <dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>"; }>
-<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText"}</td></tr>"; }>
+<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>"; }>
      $Data{"ArticleFreeString1"}
      $Data{"ArticleFreeString2"}
      $Data{"ArticleFreeString3"}
