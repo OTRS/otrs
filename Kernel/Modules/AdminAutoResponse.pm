@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponse.pm,v 1.11 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.12 2004-01-10 15:36:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,9 +61,14 @@ sub Run {
         'Subject',
         'TypeID',
         'AddressID',
-        'CharsetID',
+        'Charset',
     );
-
+    my %GetParam;
+    foreach (@Params) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+    }
+    # get composed charset
+    $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
     # get data 
     if ($Param{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
@@ -76,10 +81,6 @@ sub Run {
     }
     # update action
     elsif ($Param{Subaction} eq 'ChangeAction') {
-        my %GetParam;
-        foreach (@Params) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-        }
         if ($Self->{AutoResponseObject}->AutoResponseUpdate(
             %GetParam,
             UserID => $Self->{UserID},
@@ -96,10 +97,6 @@ sub Run {
     }
     # add new auto response 
     elsif ($Param{Subaction} eq 'AddAction') {
-        my %GetParam;
-        foreach (@Params) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-        }
         if ($Self->{AutoResponseObject}->AutoResponseAdd(
             %GetParam,
             UserID => $Self->{UserID},
@@ -141,18 +138,6 @@ sub _Mask {
         SelectedID => $Param{ValidID},
     );
     
-    $Param{'CharsetOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name, charset',
-            Table => 'charset',
-            Valid => 0,
-          )
-        },
-        Name => 'CharsetID',
-        SelectedID => $Param{CharsetID},
-    );
-
     $Param{'AutoResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
@@ -193,7 +178,9 @@ sub _Mask {
         SelectedID => $Param{AddressID},
     );
     $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
-
+    if ($Param{Charset} && $Param{Charset} !~ /$Self->{LayoutObject}->{UserCharset}/i) {
+        $Param{Note} = '(<i>$Text{"This message was written in a character set other than your own."}</i>)';
+    }
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminAutoResponseForm', Data => \%Param);
 }
 # --

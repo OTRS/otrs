@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.4 2003-12-29 17:25:11 martin Exp $
+# $Id: AgentCustomerFollowUp.pm,v 1.5 2004-01-10 15:36:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -121,7 +121,7 @@ sub Run {
             To => $Self->{UserLogin},
             Subject => $Subject,
             Body => $Text,
-            ContentType => "text/plain; charset=$Self->{'UserCharset'}",
+            ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID}, 
             OrigHeader => {
                 From => $From,
