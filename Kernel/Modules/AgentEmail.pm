@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.13 2004-03-13 17:05:16 martin Exp $
+# $Id: AgentEmail.pm,v 1.14 2004-03-24 15:43:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -142,7 +142,7 @@ sub Run {
         my $Cc = $Self->{ParamObject}->GetParam(Param => 'Cc') || '';
         my $Bcc = $Self->{ParamObject}->GetParam(Param => 'Bcc') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || '';
-        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || '';
+        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
@@ -275,18 +275,18 @@ sub Run {
               NextState => $NextState,
               Priorities => $Self->_GetPriorities(),
               PriorityID => $PriorityID,
-              CustomerID => $CustomerID,
+              CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
               CustomerUser => $CustomerUser,
               CustomerData => \%CustomerData,
-              TimeUnits => $TimeUnits,
+              TimeUnits => $Self->{LayoutObject}->Ascii2Html(Text => $TimeUnits),
               From => $Self->_GetTos(),
               FromSelected => $Dest,
               To => $To,
               ToOptions => $Param{"ToOptions"},
               Cc => $Cc,
               Bcc => $Bcc,
-              Subject => $Subject,
-              Body => $Text,
+              Subject => $Self->{LayoutObject}->Ascii2Html(Text => $Subject),
+              Body => $Self->{LayoutObject}->Ascii2Html(Text => $Text),
               Errors => \%Error,
               %GetParam,
               %TicketFreeText,
@@ -644,6 +644,7 @@ sub _MaskEmailNew {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
     }
+
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentEmailNew', Data => \%Param);
 }

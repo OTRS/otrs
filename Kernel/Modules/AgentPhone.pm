@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.65 2004-03-13 17:05:16 martin Exp $
+# $Id: AgentPhone.pm,v 1.66 2004-03-24 15:43:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,7 +53,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    
+
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone call');
@@ -325,7 +325,7 @@ sub Run {
         }
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || '';
-        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || '';
+        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
@@ -463,16 +463,16 @@ sub Run {
               NextState => $NextState,
               Priorities => $Self->_GetPriorities(),
               PriorityID => $PriorityID,
-              CustomerID => $CustomerID,
+              CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
               CustomerUser => $CustomerUser,
               CustomerData => \%CustomerData,
-              TimeUnits => $TimeUnits,
+              TimeUnits => $Self->{LayoutObject}->Ascii2Html(Text => $TimeUnits),
               From => $From,
               FromOptions => $Param{"FromOptions"},
-              Body => $Text,
+              Body => $Self->{LayoutObject}->Ascii2Html(Text => $Text),
               To => $Self->_GetTos(),
               ToSelected => $Dest,
-              Subject => $Subject,
+              Subject => $Self->{LayoutObject}->Ascii2Html(Text => $Subject),
               Errors => \%Error,
               %GetParam,
               %TicketFreeText,
