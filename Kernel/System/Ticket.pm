@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.147 2004-10-08 07:29:50 martin Exp $
+# $Id: Ticket.pm,v 1.148 2004-10-25 08:38:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.147 $';
+$VERSION = '$Revision: 1.148 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -631,6 +631,49 @@ sub TicketTitleUpdate {
     }
 }
 
+=item TicketUnlockTimeoutUpdate()
+
+update ticket unlock time to now
+
+  $TicketObject->TicketUnlockTimeoutUpdate(
+      UnlockTimeout => $TimeObject->SystemTime(),
+      TicketID => 123,
+      UserID => 143,
+  );
+
+=cut
+
+sub TicketUnlockTimeoutUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(UnlockTimeout TicketID UserID)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # reset unlock time
+    my $SQL = "UPDATE ticket SET timeout = $Param{UnlockTimeout} ".
+        " WHERE id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'Misc',
+            Name => "Reset of unlock time.",
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
 =item TicketEscalationStartUpdate()
 
 update ticket escalation start time to now
@@ -646,7 +689,7 @@ sub TicketEscalationStartUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(EscalationStartTime TicketID)) {
+    foreach (qw(EscalationStartTime TicketID UserID)) {
         if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -660,6 +703,12 @@ sub TicketEscalationStartUpdate {
       " WHERE ".
       " id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'Misc',
+            Name => "Reset of escalation time.",
+        );
         return 1;
     }
     else {
@@ -1094,6 +1143,12 @@ sub TicketSetAnswered {
         return;
       }
     }
+    # reset unlock time
+    $Self->TicketUnlockTimeoutUpdate(
+        UnlockTimeout => $Self->{TimeObject}->SystemTime(),
+        TicketID => $Param{TicketID},
+        UserID => $Param{UserID},
+    );
     # check if we need to update the answered state
     my %Ticket = $Self->TicketGet(%Param);
     # no update needed
@@ -1109,13 +1164,15 @@ sub TicketSetAnswered {
     if ($Answered) {
         $Self->TicketEscalationStartUpdate(
             EscalationStartTime => 0,
-            TicketID => $Param{TicketID}
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
         );
     }
     else {
         $Self->TicketEscalationStartUpdate(
             EscalationStartTime => $Self->{TimeObject}->SystemTime(),
-            TicketID => $Param{TicketID}
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
         );
     }
     # db quote
@@ -1127,6 +1184,12 @@ sub TicketSetAnswered {
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID} ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'Misc',
+            Name => "Set Answered: $Answered",
+        );
         return 1;
     }
     else {
@@ -1953,47 +2016,48 @@ sub LockSet {
     }
     # db update
     my $SQL = "UPDATE ticket SET ticket_lock_id = $Param{LockID}, " .
-    " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " change_time = current_timestamp, change_by = $Param{UserID} " .
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # clear ticket cache
-      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-      # update ticket view index
-      $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
-      # set lock time it event is 'lock'
-      if ($Param{Lock} eq 'lock') {
-        $SQL = "UPDATE ticket SET timeout = ".$Self->{TimeObject}->SystemTime().
-          " WHERE id = $Param{TicketID} ";
-        $Self->{DBObject}->Do(SQL => $SQL);
-      }
-      # add history
-      my $HistoryType = '';
-      if ($Param{Lock} =~ /^unlock$/i) {
-        $HistoryType = 'Unlock';
-      }
-      elsif ($Param{Lock} =~ /^lock$/i) {
-        $HistoryType = 'Lock';
-      }
-      else {
-        $HistoryType = 'Misc';
-      }
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # update ticket view index
+        $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
+        # add history
+        my $HistoryType = '';
+        if ($Param{Lock} =~ /^unlock$/i) {
+            $HistoryType = 'Unlock';
+        }
+        elsif ($Param{Lock} =~ /^lock$/i) {
+            $HistoryType = 'Lock';
+        }
+        else {
+            $HistoryType = 'Misc';
+        }
+        if ($HistoryType) {
+            $Self->HistoryAdd(
+                TicketID => $Param{TicketID},
+                CreateUserID => $Param{UserID},
+                HistoryType => $HistoryType,
+                Name => "\%\%$Param{Lock}",
+            );
+        }
+        # set unlock time it event is 'lock'
+        if ($Param{Lock} eq 'lock') {
+            $Self->TicketUnlockTimeoutUpdate(
+                UnlockTimeout => $Self->{TimeObject}->SystemTime(),
+                TicketID => $Param{TicketID},
+                UserID => $Param{UserID},
+            );
+        }
 
-      if ($HistoryType) {
-        $Self->HistoryAdd(
-          TicketID => $Param{TicketID},
-          CreateUserID => $Param{UserID},
-          HistoryType => $HistoryType,
-          Name => "\%\%$Param{Lock}",
-        );
-      }
-
-      # send unlock notify
-      if ($Param{Lock} =~ /^unlock$/i) {
-          my %TicketData = $Self->TicketGet(%Param);
-          # check if the current user is the current owner, if not send a notify
-          my $To = '';
-          my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
-          if ($TicketData{UserID} ne $Param{UserID} && $Notification) {
+        # send unlock notify
+        if ($Param{Lock} =~ /^unlock$/i) {
+            my %TicketData = $Self->TicketGet(%Param);
+            # check if the current user is the current owner, if not send a notify
+            my $To = '';
+            my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
+            if ($TicketData{UserID} ne $Param{UserID} && $Notification) {
               # get user data of owner
               my %Preferences = $Self->{UserObject}->GetUserData(UserID => $TicketData{UserID});
               if ($Preferences{UserSendLockTimeoutNotification}) {
@@ -2006,10 +2070,10 @@ sub LockSet {
                       UserID => $Param{UserID},
                   );
               }
-          }
-      }
-      # should I unlock a ticket after move?
-      if ($Param{Lock} =~ /^lock$/i) {
+            }
+        }
+        # should I unlock a ticket after move?
+        if ($Param{Lock} =~ /^lock$/i) {
           if ($Self->{ConfigObject}->Get('Lock::ForceNewStateAfterLock')) {
             my %States = %{$Self->{ConfigObject}->Get('Lock::ForceNewStateAfterLock')};
             my %Ticket = $Self->TicketGet(%Param);
@@ -2019,11 +2083,11 @@ sub LockSet {
               }
             }
           }
-      }
-      return 1;
+        }
+        return 1;
     }
     else {
-      return;
+        return;
     }
 }
 
@@ -2048,6 +2112,7 @@ to set a ticket state
 sub StateSet {
     my $Self = shift;
     my %Param = @_;
+    my %State = ();
     my $ArticleID = $Param{ArticleID} || '';
     # check needed stuff
     foreach (qw(TicketID UserID)) {
@@ -2062,26 +2127,28 @@ sub StateSet {
     }
     # state id lookup
     if (!$Param{StateID}) {
-        my %State = $Self->{StateObject}->StateGet(Name => $Param{State}, Cache => 1);
-        $Param{StateID} = $State{ID} || return;
+        %State = $Self->{StateObject}->StateGet(Name => $Param{State}, Cache => 1);
     }
     # state lookup
     if (!$Param{State}) {
-        my %State = $Self->{StateObject}->StateGet(ID => $Param{StateID}, Cache => 1);
-        $Param{State} = $State{Name} || return;
+        %State = $Self->{StateObject}->StateGet(ID => $Param{StateID}, Cache => 1);
+    }
+    if (!%State) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need StateID or State!");
+        return;
     }
     # check if update is needed
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
-    if ($Param{State} eq $Ticket{State}) {
-      # update is not needed
-      return 1;
+    if ($State{Name} eq $Ticket{State}) {
+        # update is not needed
+        return 1;
     }
     # permission check
     my %StateList = $Self->StateList(%Param);
-    if (!$StateList{$Param{StateID}}) {
+    if (!$StateList{$State{ID}}) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Permission denied on TicketID: $Param{TicketID}!",
+            Message => "Permission denied on TicketID: $Param{TicketID} / StateID: $State{ID}!",
         );
         return;
     }
@@ -2090,35 +2157,43 @@ sub StateSet {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db update
-    my $SQL = "UPDATE ticket SET ticket_state_id = $Param{StateID}, " .
+    my $SQL = "UPDATE ticket SET ticket_state_id = $State{ID}, " .
     " change_time = current_timestamp, change_by = $Param{UserID} " .
     " WHERE id = $Param{TicketID} ";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # clear ticket cache
-      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-      # update ticket view index
-      $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
-      # add history
-      $Self->HistoryAdd(
-          TicketID => $Param{TicketID},
-          ArticleID => $ArticleID,
-          QueueID => $Ticket{QueueID},
-          Name => "\%\%$Ticket{State}\%\%$Param{State}",
-          HistoryType => 'StateUpdate',
-          CreateUserID => $Param{UserID},
-      );
-      # send customer notification email
-      $Self->SendCustomerNotification(
-          Type => 'StateUpdate',
-		  CustomerMessageParams => \%Param,
-          TicketID => $Param{TicketID},
-          UserID => $Param{UserID},
-      );
-      return 1;
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # update ticket view index
+        $Self->TicketAcceleratorUpdate(TicketID => $Param{TicketID});
+        # add history
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            ArticleID => $ArticleID,
+            QueueID => $Ticket{QueueID},
+            Name => "\%\%$Ticket{State}\%\%$State{Name}\%\%",
+            HistoryType => 'StateUpdate',
+            CreateUserID => $Param{UserID},
+        );
+        # reset escalation time if ticket will be reopend
+#        if ($State{TypeName} ne 'closed' && $Ticket{StateType} eq 'closed'){
+#            $Self->TicketEscalationStartUpdate(
+#                EscalationStartTime => $Self->{TimeObject}->SystemTime(),
+#                TicketID => $Param{TicketID},
+#                UserID => $Param{UserID},
+#            );
+#        }
+        # send customer notification email
+        $Self->SendCustomerNotification(
+            Type => 'StateUpdate',
+  	        CustomerMessageParams => \%Param,
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+        );
+        return 1;
     }
     else {
-      return;
+        return;
     }
 }
 
@@ -3418,6 +3493,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.147 $ $Date: 2004-10-08 07:29:50 $
+$Revision: 1.148 $ $Date: 2004-10-25 08:38:34 $
 
 =cut
