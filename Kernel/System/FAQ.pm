@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.7 2004-02-13 00:50:37 martin Exp $
+# $Id: FAQ.pm,v 1.8 2004-03-05 08:12:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -114,11 +114,15 @@ sub ArticleAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Name CategoryID StateID LanguageID Subject UserID)) {
+    foreach (qw(CategoryID StateID LanguageID Subject UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # check name
+    if (!$Param{Name}) {
+        $Param{Name} = time().'-'.rand(100);
     }
     # db quote
     foreach (keys %Param) {
@@ -177,11 +181,16 @@ sub ArticleUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ID Name CategoryID StateID LanguageID Subject UserID)) {
+    foreach (qw(ID CategoryID StateID LanguageID Subject UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # check name
+    if (!$Param{Name}) {
+        my %Article = $Self->ArticleGet(%Param);
+        $Param{Name} = $Article{Name};
     }
     # db quote
     foreach (keys %Param) {
@@ -580,7 +589,7 @@ sub StateGet {
     # sql 
     my %Data = ();
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name, comments FROM faq_category WHERE id = $Param{ID}",
+        SQL => "SELECT id, name, comments FROM faq_state WHERE id = $Param{ID}",
     );
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
         %Data = (
@@ -753,6 +762,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2004-02-13 00:50:37 $
+$Revision: 1.8 $ $Date: 2004-03-05 08:12:38 $
 
 =cut
