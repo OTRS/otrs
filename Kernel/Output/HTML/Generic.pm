@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.1 2001-12-05 19:01:50 martin Exp $
+# $Id: Generic.pm,v 1.2 2001-12-05 19:15:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Words qw(:all);
 use Kernel::Language;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub new {
@@ -65,6 +65,11 @@ sub Output {
     my $Self = shift;
     my %Param = @_;
     my %Data = ();
+    if ($Param{Data}) {
+        my $Tmp = $Param{Data};
+        %Data = %$Tmp;
+    }
+
     my %Env = %ENV;
     $Env{SessionID} = $Self->{SessionID};
     $Env{Time} = $Self->{Time};
@@ -131,13 +136,37 @@ sub Test {
     my $Self = shift;
     my %Param = @_;
 
-    my $Output = $Self->Output(TemplateFile => 'head.tmpl');
+    # get output 
+    my $Output = $Self->Output(TemplateFile => 'Test.tmpl', Data => \%Param);
 
     # return output
     return $Output;
 
 }
 # --
+sub Header {
+    my $Self = shift;
+    my %Param = @_;
+
+    # get output
+    my $Output = $Self->Output(TemplateFile => 'Head.tmpl', Data => \%Param);
+
+    # return output
+    return $Output;
+}
+# --
+sub Footer {
+    my $Self = shift;
+    my %Param = @_;
+
+    # get output
+    my $Output = $Self->Output(TemplateFile => 'Footer.tmpl', Data => \%Param);
+
+    # return output
+    return $Output;
+}
+# --
+
 
 1;
  
