@@ -2,7 +2,7 @@
 # AgentUtilSearchByTicketNumber.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchByTicketNumber.dtl,v 1.6 2003-02-08 15:40:43 martin Exp $
+# $Id: AgentUtilSearchByTicketNumber.dtl,v 1.7 2003-02-08 21:19:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,6 +26,7 @@ $Config{"TicketHook"}-$Text{"search (e. g. 10*5155 or 105658*)"}
 <input type="hidden" name="Action" value="AgentUtilities">
 <input type="hidden" name="Subaction" value="SearchByTn">
 <input type="text" name="Want" size="30" value="$Data{"What"}">
+<br>
 <input type="submit" value="$Text{"go"}">
 </form>
 

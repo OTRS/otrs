@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.82 2003-02-08 21:06:47 martin Exp $
+# $Id: Agent.pm,v 1.83 2003-02-08 21:20:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.82 $';
+$VERSION = '$Revision: 1.83 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1047,11 +1047,10 @@ sub AgentUtilForm {
         Size => 5,
         SelectedIDRefArray => [1, 2, 3, 4, 5, 6, 7, 8],
     );
-
+    $Output .= $Self->Output(TemplateFile => 'AgentUtilTicketStatus', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByTicketNumber', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByText', Data => \%Param);
     $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByCustomerID', Data => \%Param);
-    $Output .= $Self->Output(TemplateFile => 'AgentUtilTicketStatus', Data => \%Param);
     return $Output;
 }
 # --
