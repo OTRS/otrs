@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User/Preferences/DB.pm - some user functions
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.6 2004-02-13 00:50:36 martin Exp $
+# $Id: DB.pm,v 1.7 2005-01-01 12:06:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User::Preferences::DB;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,6 +104,30 @@ sub GetPreferences {
     }
     # return data
     return %Data;
+}
+# --
+sub SearchPreferences {
+    my $Self = shift;
+    my %Param = @_;
+    my %UserID = ();
+    my $Key = $Param{Key} || '';
+    my $Value = $Param{Value} || '';
+
+    # get preferences
+    my $SQL = "SELECT $Self->{PreferencesTableUserID}, $Self->{PreferencesTableValue} " .
+        " FROM " .
+        " $Self->{PreferencesTable} ".
+        " WHERE " .
+        " $Self->{PreferencesTableKey} = '".$Self->{DBObject}->Quote($Key)."'".
+        " AND ".
+        " LOWER($Self->{PreferencesTableValue}) LIKE LOWER('".$Self->{DBObject}->Quote($Value)."')";
+
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $UserID{$Row[0]} = $Row[1];
+    }
+    # return data
+    return %UserID;
 }
 # --
 
