@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.94 2003-08-22 15:19:12 martin Exp $
+# $Id: Generic.pm,v 1.95 2003-12-03 17:36:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.94 $';
+$VERSION = '$Revision: 1.95 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -32,32 +32,24 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 sub new {
     my $Type = shift;
     my %Param = @_;
-    # --
     # allocate new hash for object
-    # --
     my $Self = {}; 
     bless ($Self, $Type);
-    # --
     # get common objects 
-    # --
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-    # --
+    # set debug
+    $Self->{Debug} = 0;
     # check needed objects
-    # --
     foreach (qw(ConfigObject LogObject)) {
         die "Got no $_!" if (!$Self->{$_});
     } 
-    # --
     # get/set some common params
-    # --
     if (!$Self->{UserTheme}) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
     }
-    # --
     # get use language (from browser) if no language is there!
-    # --
     if (!$Self->{UserLanguage}) { 
         my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
         my %Data = %{$Self->{ConfigObject}->Get('DefaultUsedLanguages')}; 
@@ -67,9 +59,7 @@ sub new {
             }
         }
     }
-    # --
     # create language object
-    # --
     $Self->{LanguageObject} = Kernel::Language->new(
         UserLanguage => $Self->{UserLanguage},
         LogObject => $Self->{LogObject},
@@ -229,7 +219,7 @@ sub Output {
          @Template = @{$Param{Template}};
     }
     elsif ($Param{Template}) {
-         @Template = split(/\n/, $Param{Template});
+         @Template = join("\n", split(/\n/, $Param{Template}));
     }
     else {
         open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
@@ -380,11 +370,12 @@ sub Output {
         }
         { 
             my $Text = $2;
-            if ($Text =~ /^(.+?)","(.+?)$/) {
-                $Self->Ascii2Html(Text => $1, Max => $2);
-            }
-            elsif ($Text =~ /^","(.+?)$/) {
+#print STDERR "---- $Text ---\n";
+            if (!defined($Text) || $Text =~ /^","(.+?)$/) {
                 "";
+            }
+            elsif ($Text =~ /^(.+?)","(.+?)$/) {
+                $Self->Ascii2Html(Text => $1, Max => $2);
             }
             else {
                 $Self->Ascii2Html(Text => $Text);
@@ -653,7 +644,7 @@ sub Ascii2Html {
         $Text =~ s/^(.{$Max}).*$/$1\[\.\.\]/gs;
     }
     # newline
-    if ($NewLine) {
+    if ($NewLine && length($Text) < 8000) {
          $Text =~ s/\r/\n/g;
          $Text =~ s/(.{$NewLine}.+?\s)/$1\n/g;
     }
