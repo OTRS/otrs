@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.8 2002-09-23 20:32:34 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.9 2002-10-20 12:34:08 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -14,6 +14,36 @@
 -- --
 -- add ticket_index index
 ALTER TABLE ticket_index ADD INDEX index_ticket_id (ticket_id);
+-- customer_user
+CREATE TABLE customer_user
+(
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    login VARCHAR (80) NOT NULL,
+    email VARCHAR (120) NOT NULL,
+    customer_id VARCHAR (120) NOT NULL,
+    pw VARCHAR (20) NOT NULL,
+    salutation VARCHAR (20),
+    first_name VARCHAR (40) NOT NULL,
+    last_name VARCHAR (40) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    comment VARCHAR (120) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (login)
+);
+-- customer preferences
+CREATE TABLE customer_preferences
+(
+    user_id INTEGER NOT NULL,
+    preferences_key VARCHAR (100) NOT NULL,
+    preferences_value VARCHAR (250),
+    INDEX index_customer_preferences_user_id (user_id)
+);
+-- add ticket_history index
+ALTER TABLE ticket_history ADD INDEX ticket_history_create_time (create_time);
 
 -- --
 -- BETA 7 upgrate

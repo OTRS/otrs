@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.postgresql.sql,v 1.2 2002-09-23 20:32:34 martin Exp $
+-- $Id: DBUpdate.postgresql.sql,v 1.3 2002-10-20 12:34:08 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.postgresql.sql | psql otrs 
@@ -14,6 +14,36 @@
 -- --
 -- add ticket_index index
 create  INDEX index_ticket_id ON ticket_index (ticket_id);
+-- customer_user
+CREATE TABLE customer_user
+(
+    id serial,
+    login varchar (80) NOT NULL,
+    email varchar (120) NOT NULL,
+    pw varchar (20) NOT NULL,
+    salutation varchar (20),
+    first_name varchar (40) NOT NULL,
+    last_name varchar (40) NOT NULL,
+    comment varchar (120) NOT NULL,
+    valid_id smallint NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by integer NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by integer NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (login)
+);
+-- customer preferences
+CREATE TABLE customer_preferences
+(
+    user_id integer NOT NULL,
+    preferences_key varchar (100) NOT NULL,
+    preferences_value varchar (250)
+);
+create  INDEX index_user_id ON customer_preferences (user_id);
+-- add ticket_history index
+create  INDEX ticket_history_create_time ON ticket_history (create_time);
+
 
 -- --
 -- BETA 7 upgrate
