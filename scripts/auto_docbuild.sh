@@ -3,7 +3,7 @@
 # auto_docbuild.sh - build automatically OTRS docu 
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_docbuild.sh,v 1.1 2003-01-05 21:45:03 martin Exp $
+# $Id: auto_docbuild.sh,v 1.2 2003-01-05 23:36:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.1 $>"
+echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.2 $>"
 echo "Copyright (c) 2003 Martin Edenhofer <martin@otrs.org>"
 
 
@@ -92,6 +92,10 @@ mkdir $PACKAGE_DEST_DIR/html/screenshots
 cp -R manual/* $PACKAGE_DEST_DIR/html/
 cp -R screenshots/* $PACKAGE_DEST_DIR/html/screenshots/
 
+mkdir $PACKAGE_DEST_DIR/sgml
+cp -R *.sgml $PACKAGE_DEST_DIR/sgml/
+
+du -sh $PACKAGE_DEST_DIR/sgml/
 du -sh $PACKAGE_DEST_DIR/html/
 ls -l $PACKAGE_DEST_DIR/pdf/otrs.pdf
 # --
