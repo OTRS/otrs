@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-200 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.1 2003-01-06 22:08:20 martin Exp $
+-- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.2 2003-01-09 20:46:01 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.postgresql.sql | psql otrs 
@@ -10,8 +10,14 @@
 -- --
 
 -- --
--- 0.5 BETA 9 upgrate
+-- 1.0 upgrate
 -- --
+-- add ticket_index index
+CREATE TABLE ticket_lock_index
+(
+    ticket_id bigint NOT NULL
+);
+CREATE INDEX index_lock_ticket_id ON ticket_lock_index (ticket_id);
 -- standard_attachment
 CREATE TABLE standard_attachment
 (   
