@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.24 2002-05-14 00:22:56 martin Exp $
+# $Id: Generic.pm,v 1.25 2002-05-14 02:20:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -491,14 +491,15 @@ sub NoPermission {
     my $Self = shift;
     my %Param = @_;
     my $WithHeader = $Param{WithHeader} || 'yes';
-    my $Comment = $Param{Comment} || 'Please go away!';
     my $Output = '';
+    $Param{Message} = 'Please go away!' if (!$Param{Message});
+
+    # create output
     $Output = $Self->Header(Title => 'No Permission') if ($WithHeader eq 'yes');
-    $Output .= $Self->Error(
-        Message => 'No Permission!!',
-        Comment => $Comment,
-    );
+    $Output .= $Self->Output(TemplateFile => 'NoPermission', Data => \%Param);
     $Output .= $Self->Footer() if ($WithHeader eq 'yes');
+
+    # return output
     return $Output;
 }
 # --
