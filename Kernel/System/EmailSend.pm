@@ -2,7 +2,7 @@
 # EmailSend.pm - the global email send module
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.2 2001-12-26 20:10:05 martin Exp $
+# $Id: EmailSend.pm,v 1.3 2001-12-30 00:41:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -81,8 +81,8 @@ sub Send {
     push @Mail, "In-Reply-To: $InReplyTo\n" if ($InReplyTo);
     push @Mail, "Message-ID: <$Time.$Random.$TicketID.$ArticleID.$UserID\@$Self->{FQDN}>\n";
     push @Mail, "X-Mailer: Open-Ticket-Request-System Mail Service ($VERSION)\n";
-    push @Mail, "X-OTRS-Loop: $From\n";
-    push @Mail, "Precedence: bulk\nX-Loop: $From\n" if ($Loop);
+    push @Mail, "X-OTRS-Loop: $RetEmail\n";
+    push @Mail, "Precedence: bulk\nX-Loop: $RetEmail\n" if ($Loop);
     push @Mail, "Content-Type: TEXT/PLAIN; charset=$Charset\n";
     push @Mail, "Content-Transfer-Encoding: 8BIT\n";
     push @Mail, "Mime-Version: 1.0\n";
