@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.62 2003-04-03 12:38:08 martin Exp $
+# $Id: Defaults.pm,v 1.63 2003-04-12 09:02:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,7 +101,13 @@ sub LoadDefaults {
     $Self->{MoveType} = 'form';
     $Self->{MoveSetState} = 0;
     # default move next state
-    $Self->{DefaultNextMoveStateType} = ['new', 'open', 'closed', 'pending auto', 'pending reminder'];
+    $Self->{DefaultNextMoveStateType} = ['new', 'open', 'closed'];
+
+    # NoteSetState 
+    # (possible to set ticket state via AgentNote)
+    $Self->{NoteSetState} = 0;
+    # default note next state
+    $Self->{DefaultNextNoteStateType} = ['new', 'open', 'closed'];
 
     # ChangeOwnerToEveryone -> useful for ASP
     # (Possible to change owner of ticket ot everyone) [0|1]
@@ -665,6 +671,10 @@ $Data{"Signature"}
     # PostmasterDefaultState
     # (The default state of new tickets.) [default: new]
     $Self->{PostmasterDefaultState} = 'new';
+
+    # PostmasterFollowUpState
+    # (The state if a ticket got a follow up.) [default: open]
+    $Self->{PostmasterFollowUpState} = 'open';
 
     # X-Header
     # (All scanned x-headers.)
@@ -1531,11 +1541,11 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewSubject} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
     # default note text
     $Self->{PhoneDefaultNewNoteText} = 'New ticket via call.';
-    # default next state
+    # default next state [default: open]
     $Self->{PhoneDefaultNewNextState} = 'open';
-    # default lock
+    # default lock (lock|unlock) [default: lock] 
     $Self->{PhoneDefaultNewLock} = 'lock';
-    # default priority
+    # default priority [default: 3 normal]
     $Self->{PhoneDefaultPriority} = '3 normal';
     # default history type
     $Self->{PhoneDefaultNewHistoryType} = 'PhoneCallCustomer';
