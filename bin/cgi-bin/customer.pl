@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.1 2002-10-20 20:02:03 martin Exp $
+# $Id: customer.pl,v 1.2 2002-10-22 15:18:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -176,23 +176,23 @@ if ($Param{Action} eq "Login") {
         # --
         if (!$UserData{UserID} || !$UserData{UserLogin}) {
             if ($CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')) {
-                # --
-                # redirect to alternate login
-                # --
-                print $CommonObject{LayoutObject}->Redirect(
-                    ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')."?Reason=SystemError",
-                );
+		# --
+		# redirect to alternate login
+		# --
+		print $CommonObject{LayoutObject}->Redirect(
+			ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')."?Reason=SystemError",
+		);
             }
             else {
-                # --
-                # show login screen
-                # ---
-                print $CommonObject{LayoutObject}->CustomerLogin(
-                    Title => 'Panic!',
-                    Message => 'Panic! No UserData!!!',
-                    %Param,
-                );
-                exit (0);
+		# --
+		# show login screen
+		# ---
+		print $CommonObject{LayoutObject}->CustomerLogin(
+			Title => 'Panic!',
+			Message => 'Panic! No UserData!!!',
+			%Param,
+		);
+		exit (0);
             }
         }
         # --
@@ -207,10 +207,10 @@ if ($Param{Action} eq "Login") {
         # --
         my $LayoutObject = Kernel::Output::HTML::Generic->new(
           SetCookies => {
-              SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-                  Key => $Param{SessionName},
-                  Value => $NewSessionID,
-                  Expires => '+24h',
+	      SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
+		  Key => $Param{SessionName},
+		  Value => $NewSessionID,
+		  Expires => '+24h',
               ),
           },
           SessionID => $NewSessionID, 
@@ -240,8 +240,8 @@ if ($Param{Action} eq "Login") {
             # --
             $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $CommonObject{LayoutObject}->Redirect(
-                 ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
-                   "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+		 ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
+		   "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
             );
         }
         else {
@@ -249,10 +249,10 @@ if ($Param{Action} eq "Login") {
             # show normal login
             # --
             print $CommonObject{LayoutObject}->CustomerLogin(
-                Title => 'Login',          
-                Message => 'Login failed! Your username or password was entered incorrectly.',
-                User => $User,
-                %Param,
+		Title => 'Login',          
+		Message => 'Login failed! Your username or password was entered incorrectly.',
+		User => $User,
+		%Param,
             );
         }
     }
@@ -274,10 +274,10 @@ elsif ($Param{Action} eq "Logout"){
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-                  Key => $Param{SessionName},
-                  Value => '',
-                  Expires => '-24d',
-              ),
+		  Key => $Param{SessionName},
+		  Value => '',
+		  Expires => '-24d',
+	      ),
           },
           %CommonObject,
           %Param,
@@ -288,33 +288,33 @@ elsif ($Param{Action} eq "Logout"){
         # --
         if ( $CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID}) ) {
             if ($CommonObject{ConfigObject}->Get('CustomerPanelLogoutURL')) {
-                # --
-                # redirect to alternate login
-                # --
-                print $CommonObject{LayoutObject}->Redirect(
-                     ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLogoutURL')."?Reason=Logout",
-                );
+		# --
+		# redirect to alternate login
+		# --
+		print $CommonObject{LayoutObject}->Redirect(
+                    ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLogoutURL')."?Reason=Logout",
+		);
             }
             else {
-                # --
-                # show logout screen
-                # --
-                print $CommonObject{LayoutObject}->CustomerLogin(
-                    Title => 'Logout',
-                    Message => 'Logout successful. Thank you for using OTRS!',
-                    %Param,
-                );
+		# --
+		# show logout screen
+		# --
+		print $CommonObject{LayoutObject}->CustomerLogin(
+			Title => 'Logout',
+			Message => 'Logout successful. Thank you for using OTRS!',
+			%Param,
+		);
             }
         }  
         else {
             print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Logout');
             print $CommonObject{LayoutObject}->CustomerError(
-                Message => 'Can`t remove SessionID',
-                Comment => 'Please contact your admin!'
+		Message => 'Can`t remove SessionID',
+		Comment => 'Please contact your admin!'
             );
             $CommonObject{LogObject}->Log(
-                Message => 'Can`t remove SessionID',
-                Priority => 'error',
+		Message => 'Can`t remove SessionID',
+		Priority => 'error',
             );
             print $CommonObject{LayoutObject}->CustomerFooter();
         }
@@ -326,8 +326,8 @@ elsif ($Param{Action} eq "Logout"){
             # --
             $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $CommonObject{LayoutObject}->Redirect(
-                 ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
-                  "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+		 ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
+		  "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
             );
         }
         else {
@@ -335,9 +335,9 @@ elsif ($Param{Action} eq "Logout"){
             # show login screen
             # --
             print $CommonObject{LayoutObject}->CustomerLogin(
-                Title => 'Logout',
-                Message => 'Invalid SessionID!',
-                %Param,
+		Title => 'Logout',
+		Message => 'Invalid SessionID!',
+		%Param,
             );
         }
     }
@@ -368,10 +368,10 @@ elsif ($Param{Action} eq "CustomerLostPassword"){
     # --
     my %UserData = $CommonObject{UserObject}->CustomerUserDataGet(User => $User);
     if (! $UserData{UserID}) {
-       print $CommonObject{LayoutObject}->CustomerLogin(
+        print $CommonObject{LayoutObject}->CustomerLogin(
            Title => 'Login',
            Message => 'There is no account with that login name.',
-       );
+        );
     }
     else {
         # get new password
@@ -388,13 +388,13 @@ elsif ($Param{Action} eq "CustomerLostPassword"){
             $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
         }
         if ($EmailObject->SendNormal(
-              To => $UserData{UserEmail}, 
-              Subject => $Subject,
-              Body => $Body)) {
-            print $CommonObject{LayoutObject}->CustomerLogin(
-                Title => 'Login',
-                Message => "Sent new password to: ".$UserData{"UserEmail"},
-                User => $User,
+	  To => $UserData{UserEmail}, 
+	  Subject => $Subject,
+	  Body => $Body)) {
+	    print $CommonObject{LayoutObject}->CustomerLogin(
+		Title => 'Login',
+		Message => "Sent new password to: ".$UserData{"UserEmail"},
+		User => $User,
             );
         }
         else {
@@ -444,28 +444,28 @@ elsif ($Param{Action} eq "CustomerCreateAccount"){
     if ($UserData{UserID}) {
         print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
         print $CommonObject{LayoutObject}->CustomerWarning(
-                Message => 'This account exists.',
-                Comment => 'Please press Back and try again.'
+		Message => 'This account exists.',
+		Comment => 'Please press Back and try again.'
         );
         print $CommonObject{LayoutObject}->CustomerFooter();
     }
     else {
         if ($CommonObject{UserObject}->CustomerUserAdd(
             %GetParams,
-            Comment => "Added via Customer Panel (".time().")",
+            Comment => "Added via Customer Panel (".scalar time().")",
             ValidID => 1,
             UserID => $CommonObject{ConfigObject}->Get('CustomerPanelUserID'),
         )) {
             print $CommonObject{LayoutObject}->CustomerLogin(
-                Title => 'Login',
-                Message => "New account created. Login as '$GetParams{Login}'",
-                User => $GetParams{Login},
+		Title => 'Login',
+		Message => "New account created. Login as '$GetParams{Login}'",
+		User => $GetParams{Login},
             );
         }
         else {
             print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error');
             print $CommonObject{LayoutObject}->CustomerWarning(
-                Comment => 'Please press Back and try again.'
+		Comment => 'Please press Back and try again.'
             );
             print $CommonObject{LayoutObject}->CustomerFooter();
         }
@@ -498,7 +498,7 @@ elsif (!$Param{SessionID}) {
 # --
 # run modules if exists a version value
 # --
-elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
+elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && $Param{Action} =~ /^Customer.+?/){
     # --
     # check session id
     # --
@@ -509,8 +509,8 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
             # --
             $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
             print $CommonObject{LayoutObject}->Redirect(
-                 ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
-                   "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+		 ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL').
+		   "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
             );
         }
         else {
@@ -518,9 +518,9 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
             # show login
             # --
             print $CommonObject{LayoutObject}->CustomerLogin(
-                Title => 'Login',
-                Message => $Kernel::System::AuthSession::CheckSessionID,
-                %Param,
+		Title => 'Login',
+		Message => $Kernel::System::AuthSession::CheckSessionID,
+		%Param,
             );
         }
     }
@@ -539,23 +539,23 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         # --
         if (!$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'Customer') {
             if ($CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')) {
-                # --
-                # redirect to alternate login
-                # --
-                print $CommonObject{LayoutObject}->Redirect(
-                    ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')."?Reason=SystemError",
-                );
+		# --
+		# redirect to alternate login
+		# --
+		print $CommonObject{LayoutObject}->Redirect(
+			ExtURL => $CommonObject{ConfigObject}->Get('CustomerPanelLoginURL')."?Reason=SystemError",
+		);
             }
             else {
-                # --
-                # show login screen
-                # ---
-                print $CommonObject{LayoutObject}->CustomerLogin(
-                    Title => 'Panic!',
-                    Message => 'Panic! Invalid Session!!!',
-                    %Param,
-                );
-                exit (0);
+		# --
+		# show login screen
+		# ---
+		print $CommonObject{LayoutObject}->CustomerLogin(
+			Title => 'Panic!',
+			Message => 'Panic! Invalid Session!!!',
+			%Param,
+		);
+		exit (0);
             }
         }
         # --
@@ -570,8 +570,8 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         # debug info
         if ($Debug) {
             $CommonObject{LogObject}->Log(
-                Priority => 'debug',
-                Message => 'Kernel::Modules::' . $Param{Action} .'->new',
+		Priority => 'debug',
+		Message => 'Kernel::Modules::' . $Param{Action} .'->new',
             );
         }
         # --
@@ -586,8 +586,8 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         # debug info
         if ($Debug) {
             $CommonObject{LogObject}->Log(
-                Priority => 'debug',
-                Message => ''. 'Kernel::Modules::' . $Param{Action} .'->run',
+		Priority => 'debug',
+		Message => ''. 'Kernel::Modules::' . $Param{Action} .'->run',
             );
         }
         # --
@@ -628,8 +628,9 @@ if ($Debug) {
     );
 }
 # --
-# db disconnect && undef %CommonObject
+# db disconnect && undef %CommonObject %% undef %
 # --
 $CommonObject{DBObject}->Disconnect();
+undef %Param;
 undef %CommonObject;
 
