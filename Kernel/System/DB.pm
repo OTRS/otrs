@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.23 2003-02-08 15:09:38 martin Exp $
+# $Id: DB.pm,v 1.24 2003-03-10 17:13:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -230,17 +230,25 @@ sub GetTableData {
     $SQL .= " WHERE " . $Whare if ($Whare);
     $SQL .= " WHERE valid_id in ( ${\(join ', ', $Self->GetValidIDs())} )" if ((!$Whare) && ($Valid));
     $Self->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->FetchrowArray()) {
-        if ($RowTmp[2]) {
+    while (my @Row = $Self->FetchrowArray()) {
+        if ($Row[3]) {
             if ($Clamp) {
-                $Data{$RowTmp[0]} = $RowTmp[1] ." (". $RowTmp[2] . ")";
+                $Data{$Row[0]} = "$Row[1] $Row[2] ($Row[3])";
             }
             else {
-                $Data{$RowTmp[0]} = $RowTmp[1] ." ". $RowTmp[2];
+                $Data{$Row[0]} = "$Row[1] $Row[2] $Row[3]";
+            }
+        }
+        elsif ($Row[2]) {
+            if ($Clamp) {
+                $Data{$Row[0]} = "$Row[1] ( $Row[2] )";
+            }
+            else {
+                $Data{$Row[0]} = "$Row[1] $Row[2]";
             }
         }
         else {
-            $Data{$RowTmp[0]} = $RowTmp[1];
+            $Data{$Row[0]} = $Row[1];
         }
     }
     return %Data;
