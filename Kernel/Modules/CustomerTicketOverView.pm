@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.27 2004-06-22 11:50:55 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.28 2004-06-22 14:12:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::CustomerTicketOverView;
 
 use strict;
 use Kernel::System::State;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,8 +34,8 @@ sub new {
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
-    # state object
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # all static variables
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes')
@@ -134,10 +135,10 @@ sub Run {
     my $OutputTable = "";
     my $Counter = 0;
     foreach my $TicketID (@ViewableTickets) {
-      $Counter++;
-      if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{PageShown}+$Self->{StartHit})) {
-        $OutputTable .= $Self->ShowTicketStatus(TicketID => $TicketID);
-      }
+        $Counter++;
+        if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{PageShown}+$Self->{StartHit})) {
+            $OutputTable .= $Self->ShowTicketStatus(TicketID => $TicketID);
+        }
     }
     # create & return output
     my %PageNav = $Self->{LayoutObject}->PageNavBar(
@@ -182,6 +183,13 @@ sub ShowTicketStatus {
     $Subject =~ s/\[${TicketHook}:.*\]//;
     # return ticket
     $Article{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' ') || 0;
+    # customer info (customer name)
+    if ($Article{CustomerUserID}) { 
+        $Param{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+            UserLogin => $Article{CustomerUserID},
+        );
+        $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
+    }
     # create & return output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerStatusViewTable', 
