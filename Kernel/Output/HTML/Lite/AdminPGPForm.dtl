@@ -2,7 +2,7 @@
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGPForm.dtl,v 1.4 2004-08-11 10:13:40 martin Exp $
+# $Id: AdminPGPForm.dtl,v 1.5 2004-08-24 09:33:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -78,7 +78,7 @@
     <table border="0" width="100%">
     <tr>
         <td class="table3">$Text{"Type"}</td>
-        <td class="table3">$Text{"Identifer"}</td>
+        <td class="table3">$Text{"Identifier"}</td>
         <td class="table3">$Text{"Bit"}</td>
         <td class="table3">$Text{"Key"}/$Text{"Fingerprint"}</td>
         <td class="table3">$Text{"Created"}/$Text{"Expires"}</td>
@@ -87,7 +87,7 @@
 <!-- dtl:block:Row -->
     <tr>
         <td valign="top">$QData{"Type"}</td>
-        <td valign="top">$QData{"Identifer","80"}</td>
+        <td valign="top">$QData{"Identifier","80"}</td>
         <td valign="top">$QData{"Bit"}</td>
         <td valign="top"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Key=$QData{"Key"}">$QData{"Key"}</a>
         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$QData{"Type"}&Key=$QData{"Key"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</div></a></td>
