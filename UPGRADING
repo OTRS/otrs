@@ -1,0 +1,29 @@
+# --
+# UPGRADING - upgrading OpenTRS
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: UPGRADING,v 1.1 2002-08-06 20:28:19 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+These instructions are for people upgrading OpenTRS to a newer release.
+
+*) Stop all your services (e. g. rcotrs stop-force)
+
+*) Backup everything (database, Kernel/Config.pm, var/*)
+
+*) Make sure that you have backed up everything ,-)
+
+*) If possible try this install on a separate machine, althoug
+   I had always only production machines to upgrade
+
+*) Install the new release (tar or RPM)
+
+*) Update the new Kernel/Config.pm with your setting (use the newer 
+   Kernel/Config.pm - normally new releases have more config settings)
+
+*) Restart your services (e. g. rcotrs restart-force or each service manually)
+ 
