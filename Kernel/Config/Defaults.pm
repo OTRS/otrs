@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.68.2.1 2003-05-08 06:16:58 martin Exp $
+# $Id: Defaults.pm,v 1.68.2.2 2003-05-13 10:30:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.68.2.1 $';
+$VERSION = '$Revision: 1.68.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -205,6 +205,13 @@ sub LoadDefaults {
     # ViewableTicketLinesZoom
     # (Max viewable ticket lines in the QueueZoom.)
     $Self->{ViewableTicketLinesZoom} = 6000;
+
+    # ViewableTicketStatusMaxSize
+    # (max size of ticket status view, state, priority, customer id, 
+    # ... in QueueView and ZoomView)
+    $Self->{ViewableTicketStatusQueueMaxSize} = 15;
+    $Self->{ViewableTicketStatusZoomMaxSize} = 15;
+    $Self->{ViewableTicketStatusMailboxMaxSize} = 14;
 
     # MaxLimit
     # (Max viewable tickets a page.)
@@ -450,6 +457,7 @@ sub LoadDefaults {
             es => 'Espaniol',
             pt_BR => 'Português Brasileiro',
             it => 'Italiano',
+            ru => 'Russian',
 #            cs => 'Czech', 
 #            hu => 'Hungarian',
 #            pl => 'Polski',
@@ -1277,7 +1285,7 @@ Your OTRS Notification Master
     $Self->{CustomerNotificationBodyStateUpdate} = "
 *** THIS IS JUST A NOTE ***
 
-The state of your ticket '<OTRS_TICKET_NUMBER>' has been chaned by 
+The state of your ticket '<OTRS_TICKET_NUMBER>' has been changed by 
 '<OTRS_OWNER_UserFirstname> <OTRS_OWNER_UserLastname>' to '<OTRS_CUSTOMER_State>'.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
@@ -1362,6 +1370,12 @@ Your OTRS Notification Master
     $Self->{ShowCustomerInfoPhone} = 1;
     $Self->{ShowCustomerInfoZoom} = 1;
     $Self->{ShowCustomerInfoQueue} = 0;
+
+    # ShowCustomerInfo*MaxSize
+    # (max size (in characters) of customer info table)
+    $Self->{ShowCustomerInfoPhoneMaxSize} = 18;
+    $Self->{ShowCustomerInfoZoomMaxSize} = 18;
+    $Self->{ShowCustomerInfoQueueMaxSize} = 15;
 
     # CustomerUser 
     # (customer user database backend and settings)
