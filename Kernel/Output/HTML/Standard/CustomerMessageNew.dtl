@@ -2,7 +2,7 @@
 # CustomerMessageNew.dtl - provides HTML form for customer message
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessageNew.dtl,v 1.2 2002-10-25 13:37:36 martin Exp $
+# $Id: CustomerMessageNew.dtl,v 1.3 2002-11-21 22:48:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -61,6 +61,7 @@ function submit_compose()
 </textarea>
     </td>
   </tr>
+  $Data{"PriorityString"}
   </table>
 <br>
 <input type="submit" value="$Text{"store"}" onclick="return submit_compose();">
