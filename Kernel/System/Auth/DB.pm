@@ -2,7 +2,7 @@
 # Kernel/System/Auth/DB.pm - provides the db authentification 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.9 2004-02-13 00:50:36 martin Exp $
+# $Id: DB.pm,v 1.10 2004-04-07 17:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::System::Auth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -138,6 +138,14 @@ sub Auth {
     }
     # login note
     elsif ((($GetPw)&&($User)&&($UserID)) && $CryptedPw eq $GetPw) {
+        # maybe check if pw is expired
+        # if () {
+#           $Self->{LogObject}->Log(
+#               Priority => 'info',
+#               Message => "Password is expired!",
+#           ); 
+#            return;
+#        }
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "User: $User logged in (REMOTE_ADDR: $RemoteAddr).",

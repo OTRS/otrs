@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.11 2004-03-18 15:37:47 robert Exp $
+# $Id: LDAP.pm,v 1.12 2004-04-07 17:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -185,17 +185,25 @@ sub Auth {
         # failed login note
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: $Param{User} login failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
+          Message => "User: $Param{User} ($UserDN) login failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
         return;
     }
     else {
+        # maybe check if pw is expired
+        # if () {
+#           $Self->{LogObject}->Log(
+#               Priority => 'info',
+#               Message => "Password is expired!",
+#           ); 
+#            return;
+#        }
         # login note
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: $Param{User} logged in (REMOTE_ADDR: $RemoteAddr).",
+          Message => "User: $Param{User} ($UserDN) logged in (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
