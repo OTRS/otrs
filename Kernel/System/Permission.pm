@@ -2,7 +2,7 @@
 # Permission.pm - to control the access permissions 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Permission.pm,v 1.2 2002-04-13 15:47:16 martin Exp $
+# $Id: Permission.pm,v 1.3 2002-04-30 00:15:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Permission;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -40,6 +40,7 @@ sub new {
     # all sections <-> groups   
     $Self->{PermissionAdmin}   = 'admin';
     $Self->{PermissionAgent}   = 'users';
+    $Self->{PermissionStats}   = 'stats';
 
     return $Self;
 }
