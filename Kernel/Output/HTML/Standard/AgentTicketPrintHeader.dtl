@@ -1,0 +1,64 @@
+
+<table border="0" cellspacing="1" cellpadding="0" width="100%">
+  <tr>
+    <td align="right" valign="top"><font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"})</font></td>
+  </td>
+</table>
+
+<table border="0" cellspacing="1" cellpadding="0" width="100%">
+  <tr>
+    <td><font size="+2">$Config{"TicketHook"}: $Data{"TicketNumber"}</font></td>
+    <td align="right" valign="top"><font size="-2">$Env{"Time"}</font></td>
+  </td>
+</table>
+<table border="0" cellspacing="1" cellpadding="10" width="100%">
+<tr>
+  <td>
+<table border="0" cellspacing="1" cellpadding="0" width="100%">
+<tr>
+  <td width="20%"><b>$Text{"State"}:</b></td>
+  <td width="30%">$Data{"State"}</td>
+  <td width="20%"><b>$Text{"Age"}:</b></td>
+  <td width="30%">$Data{"Age"}</td>
+<tr>
+  <td><b>$Text{"Priority"}:</b></td>
+  <td>$Data{"Priority"}</td>
+  <td><b>$Text{"Created"}:</b></td>
+  <td>$Data{"Created"}</td>
+</tr>
+<tr>
+  <td><b>$Text{"Queue"}:</b></td>
+  <td>$Data{"Queue"}</td>
+  <td><b>$Text{"Accounted time"}:</b></td>
+  <td>$Data{"TicketTimeUnits"}</td>
+</tr>
+<tr>
+  <td><b>$Text{"Lock"}:</b></td>
+  <td>$Data{"Lock"}</td>
+  <td><b>$Text{"Escalation in"}:</b></td>
+  <td>$Data{"TicketOverTime"}</td>
+</tr>
+<tr>
+  <td><b>$Text{"CustomerID"}:</b></td>
+  <td>$Data{"CustomerID"}</a></td>
+  <td><b>$Text{"Pending till"}:</b></td>
+  <td>$Data{"PendingUntil"}</td>
+</tr>
+<tr>
+  <td><b>$Text{"Owner"}:</b></td>
+  <td>$Data{"Owner"}</td>
+  <td> </td>
+  <td> </td>
+</tr>
+# --
+# use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
+# --
+<dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>"; }>
+<dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>"; }>
+    $Data{"TicketFreeString1"}
+    $Data{"TicketFreeString2"}
+    </table>
+  </td>
+</tr>
+</table>
+
