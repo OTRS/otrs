@@ -25,7 +25,7 @@
 
 &authorgroup;
 
-<edition>Hurrican</edition>
+<edition>Sandy Beach</edition>
 <pubdate>2002</pubdate>
 <copyright>
 <year>2002</year>
@@ -76,9 +76,9 @@ or implied warranty.
 
 &preamble;
 
-&basics_about_tt;
-
 &install;
+
+&basics_about_tt;
 
 &first-steps;
 
