@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.21 2002-09-23 20:35:30 martin Exp $
+# $Id: Ticket.pm,v 1.22 2002-10-01 13:47:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::User;
 use Kernel::System::EmailSend;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -216,6 +216,28 @@ sub GetIdOfTN {
     return $Id;
 }
 # --
+sub GetTNOfId {
+    my $Self = shift;
+    my %Param = @_;
+    my $Tn = '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{ID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+      return;
+    }
+    # --
+    # db query
+    # --
+    my $SQL = "SELECT tn FROM ticket WHERE id = $Param{ID}";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $Tn = $RowTmp[0];
+    }
+    return $Tn;
+}
+# --
 sub GetTicket {
     my $Self = shift;
     my %Param = @_;
@@ -232,7 +254,7 @@ sub GetTicket {
     # --
     my $SQL = "SELECT st.id, st.queue_id, sq.name, tsd.id, tsd.name, slt.id, slt.name, ".
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
-        " st.customer_id ".
+        " st.customer_id, st.user_id ".
         " FROM ".
         " ticket st, ticket_state tsd, ticket_lock_type slt, ticket_priority sp, ".
         " queue sq ".
@@ -263,6 +285,7 @@ sub GetTicket {
         $Ticket{GroupID} = $Row[11];
         $Ticket{TicketNumber} = $Row[12];
         $Ticket{CustomerID} = $Row[13];
+        $Ticket{UserID} = $Row[14];
     }
     return %Ticket;
 }
@@ -328,76 +351,15 @@ sub MoveByTicketID {
             Name => "Ticket moved to Queue '$Queue'.",
             CreateUserID => $Param{UserID},
         );
+        # --
+        # send move notify to queue subscriber 
+        # --
+#FIXME
         return 1;
     }
     else {
         return;
     }
-}
-# --
-sub GetTNOfId {
-    my $Self = shift;
-    my %Param = @_;
-    my $Tn = '';
-    # --
-    # check needed stuff
-    # --
-    if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
-      return;
-    }
-    # --
-    # db query
-    # --
-    my $SQL = "SELECT tn FROM ticket WHERE id = $Param{ID}";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Tn = $RowTmp[0];
-    }
-    return $Tn;
-}
-# --
-sub GetLastCustomerArticle {
-    my $Self = shift;
-    my %Param = @_;
-    my %Data = ();
-    my $SenderType = 'customer';
-    # --
-    # check needed stuff
-    # --
-    if (!$Param{TicketID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
-      return;
-    }
-    # --
-    # db query
-    # --
-    my $SQL = "SELECT at.a_from, at.a_reply_to, at.a_to, at.a_cc, " .
-    " at.a_subject, at.a_message_id, at.a_body, at.ticket_id, at.create_time, at.id" .
-    " FROM " .
-    " article at, article_sender_type st" .
-    " WHERE " .
-    " at.ticket_id = $Param{TicketID} " .
-    " AND " .
-    " at.article_sender_type_id = st.id " .
-    " AND " .
-    " st.name = '$SenderType' " .
-    " ORDER BY at.incoming_time";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Data{From} = $RowTmp[0];
-        $Data{ReplyTo} = $RowTmp[1],
-        $Data{To} = $RowTmp[2];
-        $Data{Cc} = $RowTmp[3];
-        $Data{Subject} = $RowTmp[4];
-        $Data{InReplyTo} = $RowTmp[5];
-        $Data{Body} = $RowTmp[6];
-        $Data{TicketID} = $RowTmp[7];
-        $Data{Date} = $RowTmp[8];
-        $Data{ArticleID} = $RowTmp[9];
-    }
-
-    return %Data;
 }
 # --
 sub SetCustomerNo {
@@ -541,6 +503,73 @@ sub Permission {
         }
     }
     return;
+}
+# --
+sub GetLockedTicketIDs {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
+        return;
+    }
+    my @ViewableTickets;
+    my @ViewableLockIDs = (2);
+    my $SQL = "SELECT id " .
+      " FROM " .
+      " ticket " .
+      " WHERE " .
+      " user_id = $Param{UserID} " .
+      " AND ".
+      " ticket_lock_id in ( ${\(join ', ', @ViewableLockIDs)} ) " .
+      " ORDER BY create_time";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        push (@ViewableTickets, $RowTmp[0]);
+    }
+    return @ViewableTickets;
+}
+# --
+sub GetLockedCount {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
+        return;
+    }
+    my @LockIDs = (2);
+    my %Data;
+
+    $Self->{DBObject}->Prepare(
+       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by" .
+              " FROM " .
+              " ticket ti, article ar, article_sender_type st" .
+              " WHERE " .
+              " ti.user_id = $Param{UserID} " .
+              " AND " .
+              " ti.ticket_lock_id in ( ${\(join ', ', @LockIDs)} )" .
+              " AND " .
+              " ar.ticket_id = ti.id " .
+              " AND " .
+              " st.id = ar.article_sender_type_id " .
+              " ORDER BY ar.create_time DESC",
+    );
+
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        if (!$Data{"ID$RowTmp[2]"}) {
+          $Data{'Count'}++;
+          if ($RowTmp[1] ne 'agent' || $RowTmp[3] ne $Param{UserID}) {
+            $Data{'ToDo'}++;
+          }
+        }
+        $Data{"ID$RowTmp[2]"} = 1;
+    }
+    return %Data;
 }
 # --
 
