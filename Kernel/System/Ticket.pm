@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.32 2002-12-01 14:13:17 martin Exp $
+# $Id: Ticket.pm,v 1.33 2002-12-08 20:50:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -81,7 +81,22 @@ sub new {
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
     eval "require $GeneratorIndexModule";
     push(@ISA, $GeneratorIndexModule);
-
+    # --
+    # load ticket compress module 
+    # --
+    my $CompressModule = $Self->{ConfigObject}->Get('TicketCompressModule')
+      || 'Kernel::System::Ticket::Compress::Plain';
+    eval "require $CompressModule";
+    push(@ISA, $CompressModule);
+    $Self->CompressInit(%Param);
+    # --
+    # load ticket crypt module 
+    # --
+    my $CryptModule = $Self->{ConfigObject}->Get('TicketCryptModule')
+      || 'Kernel::System::Ticket::Crypt::Plain';
+    eval "require $CryptModule";
+    push(@ISA, $CryptModule);
+    $Self->CryptInit(%Param);
     # --
     # article init and check fs write permissions!
     # --

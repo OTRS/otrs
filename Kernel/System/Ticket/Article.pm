@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.9 2002-12-01 16:18:07 martin Exp $
+# $Id: Article.pm,v 1.10 2002-12-08 20:49:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -25,7 +25,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -57,7 +57,7 @@ sub ArticleInit {
         if (-d $Path) {
             File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
         }
-        if (mkdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
+        if (mkdir("$Self->{ArticleDataDir}/check_permissons_$$", 022)) {
             if (!rmdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
                 die "Can't remove $Self->{ArticleDataDir}/check_permissons_$$: $!\n";
             }
@@ -344,6 +344,8 @@ sub WriteArticle {
     foreach (@{$Param{Email}}) {
         $PlainString .= $_;
     }
+    my $CompressedPlainString = $Self->Encrypt($Self->Compress($PlainString));
+
     my $Path = $Self->{ArticleDataDir}.'/'.$Self->{ArticleContentPath}.'/'.$Param{ArticleID};
     # --
     # debug
@@ -372,7 +374,7 @@ sub WriteArticle {
         # write article to fs 
         # --
         if (open (DATA, "> $Path/plain.txt")) { 
-            print DATA $PlainString;
+            print DATA $CompressedPlainString;
             close (DATA);
             # store atms.
             my $Parser = new MIME::Parser;
@@ -404,7 +406,7 @@ sub WriteArticle {
         my $SQL = "INSERT INTO article_plain ".
           " (article_id, body, create_time, create_by, change_time, change_by) " .
           " VALUES ".
-          " ($Param{ArticleID}, '".$Self->{DBObject}->Quote($PlainString)."', ".
+          " ($Param{ArticleID}, '".$Self->{DBObject}->Quote($CompressedPlainString)."', ".
           " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {
             # store atms.
@@ -503,7 +505,15 @@ sub WriteArticleParts {
         # --
         # write attachment to backend           
         # --
+        $PartData{Content} = $Self->Encrypt($Self->Compress($PartData{Content}));
+         
         if ($Self->{ArticleAttachmentStorage} eq 'fs') {
+            if (! -d $Param{Path}) {
+              if (! File::Path::mkpath([$Param{Path}], 0, 0775)) {
+                $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Param{Path}: $!");
+                return;
+              }
+            }
             # --
             # write attachment to fs
             # --
@@ -617,7 +627,7 @@ sub GetArticlePlain {
             $Data = $RowTmp[0];
         }
         if ($Data) {
-            return $Data;
+            return $Self->Uncompress($Self->Decrypt($Data));
         }
         else {
             $Self->{LogObject}->Log(
@@ -635,7 +645,7 @@ sub GetArticlePlain {
             $Data .= $_;
         }
         close (DATA);
-        return $Data;
+        return $Self->Uncompress($Self->Decrypt($Data));
     }
 }
 # --
@@ -661,6 +671,7 @@ sub GetArticleAttachment {
             $Data{Data} .= $_ if ($Counter > 0);
             $Counter++;
         }
+        $Data{Data} = $Self->Uncompress($Self->Decrypt($Data{Data}));
         close (DATA);
         return %Data;
     }
@@ -685,6 +696,7 @@ sub GetArticleAttachment {
             }
         }
         if ($Data{Data}) {
+            $Data{Data} = $Self->Uncompress($Self->Decrypt($Data{Data}));
             return %Data;
         }
         else {
