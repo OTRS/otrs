@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.47 2004-02-03 23:07:05 martin Exp $
+# $Id: Admin.pm,v 1.48 2004-02-09 01:40:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,6 +30,13 @@ sub AdminCustomerUserForm {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+
+    # build source string
+    $Param{'SourceOption'} = $Self->OptionStrgHashRef(
+        Data => $Param{SourceList},
+        Name => 'Source',
+        SelectedID => $Param{Source},
+    );
 
     # build ValidID string
     $Param{'ValidOption'} = $Self->OptionStrgHashRef(
@@ -51,7 +58,7 @@ sub AdminCustomerUserForm {
         SelectedID => $Param{ID},
         Max => 55,
     );
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{ConfigObject}->Get($Param{Source})->{Map}}) {
       if ($Entry->[0]) {
           if ($Entry->[0] =~ /^UserPasswor/i) {
               $Param{Type} = 'password';

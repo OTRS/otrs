@@ -1,9 +1,9 @@
 # --
 # Kernel/System/CustomerUser/LDAPNew.pm - some customer user functions in LDAP (for AD with referals)
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAPNew.pm,v 1.1 2003-10-07 07:38:16 martin Exp $
+# $Id: LDAPNew.pm,v 1.2 2004-02-09 01:41:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP qw(:all);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -29,7 +29,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject PreferencesObject)) {
+    foreach (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -41,18 +41,18 @@ sub new {
     $Self->{UserSearchListLimit} = 200;
 
     # get ldap preferences
-    $Self->{Host} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'Host'}
+    $Self->{Host} = $Self->{CustomerUserMap}->{'Params'}->{'Host'}
      || die "Need CustomerUser->Params->Host in Kernel/Config.pm";
-    $Self->{BaseDN} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'BaseDN'}
+    $Self->{BaseDN} = $Self->{CustomerUserMap}->{'Params'}->{'BaseDN'}
      || die "Need CustomerUser->Params->BaseDN in Kernel/Config.pm";
-    $Self->{SScope} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'SSCOPE'}
+    $Self->{SScope} = $Self->{CustomerUserMap}->{'Params'}->{'SSCOPE'}
      || die "Need CustomerUser->Params->SSCOPE in Kernel/Config.pm";
-    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserDN'} || '';
-    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserPw'} || '';
+    $Self->{SearchUserDN} = $Self->{CustomerUserMap}->{'Params'}->{'UserDN'} || '';
+    $Self->{SearchUserPw} = $Self->{CustomerUserMap}->{'Params'}->{'UserPw'} || '';
 
-    $Self->{CustomerKey} = $Self->{ConfigObject}->Get('CustomerUser')->{'CustomerKey'}
+    $Self->{CustomerKey} = $Self->{CustomerUserMap}->{'CustomerKey'}
      || die "Need CustomerUser->CustomerKey in Kernel/Config.pm";
-    $Self->{CustomerID} = $Self->{ConfigObject}->Get('CustomerUser')->{'CustomerID'}
+    $Self->{CustomerID} = $Self->{CustomerUserMap}->{'CustomerID'}
      || die "Need CustomerUser->CustomerID in Kernel/Config.pm";
 
     # ldap connect 
@@ -108,7 +108,7 @@ sub CustomerName {
     );
     foreach my $Result (@Result) {
       foreach my $entry ($Result->all_entries) {
-        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserNameFields}}) {
+        foreach (@{$Self->{CustomerUserMap}->{CustomerUserNameFields}}) {
             if (!$Name) {
                 $Name = $entry->get_value($_);
             }
@@ -136,9 +136,9 @@ sub CustomerSearch {
     # --
     my $Filter = '';
     if ($Param{Search}) {
-        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}) {
+        if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
             $Filter = '(|';
-            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}}) {
+            foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
                 $Filter.= "($_=$Param{Search})";
             }
             $Filter .= ')';
@@ -148,9 +148,9 @@ sub CustomerSearch {
         }
     }
     elsif ($Param{PostMasterSearch}) {
-        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}) {
+        if ($Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields}) {
             $Filter = '(|';
-            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}}) {
+            foreach (@{$Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields}}) {
                 $Filter.= "($_=$Param{PostMasterSearch})";
             }
             $Filter .= ')';
@@ -175,7 +175,7 @@ sub CustomerSearch {
     foreach my $Result (@Result) {
         foreach my $entry ($Result->all_entries) {
             my $CustomerString = '';
-            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}}) {
+            foreach (@{$Self->{CustomerUserMap}->{CustomerUserListFields}}) {
                 my $Value = $entry->get_value($_);
                 if ($Value) {
                     if ($_ =~ /^targetaddress$/i) {
@@ -211,7 +211,7 @@ sub CustomerUserList {
       foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
         foreach (qw(CustomerKey CustomerID)) {
-            my $Value = $entry->get_value($Self->{ConfigObject}->Get('CustomerUser')->{$_});
+            my $Value = $entry->get_value($Self->{CustomerUserMap}->{$_});
             if ($Value) {
                 $CustomerString .= $Value.' ';
             }
@@ -237,7 +237,7 @@ sub CustomerUserDataGet {
     # perform user search
     # --
     my $attrs = '';
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         $attrs .= "\'$Entry->[2]\',";
     }
     $attrs = substr $attrs,0,-1;
@@ -267,7 +267,7 @@ sub CustomerUserDataGet {
     # --
     # get customer user info
     # --
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         my $Value = $Result2->get_value($Entry->[2]) || '';
         if ($Value && $Entry->[2] =~ /^targetaddress$/i) {
             $Value =~ s/SMTP:(.*)/$1/;
@@ -320,10 +320,6 @@ sub SetPassword {
     my $Self = shift;
     my %Param = @_;
     $Self->{LogObject}->Log(Priority => 'error', Message => "Not supported for this module!");
-    return;
-}
-# --
-sub GetGroups {
     return;
 }
 # --

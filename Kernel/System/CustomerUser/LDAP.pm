@@ -1,9 +1,9 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.14 2003-07-31 21:23:05 martin Exp $
+# $Id: LDAP.pm,v 1.15 2004-02-09 01:41:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,36 +27,28 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-    # --
     # check needed objects
-    # --
-    foreach (qw(DBObject ConfigObject LogObject PreferencesObject)) {
+    foreach (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    # --
     # max shown user a search list
-    # --
     $Self->{UserSearchListLimit} = 200;
-    # --
     # get ldap preferences
-    # --
-    $Self->{Host} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'Host'}
+    $Self->{Host} = $Self->{CustomerUserMap}->{'Params'}->{'Host'}
      || die "Need CustomerUser->Params->Host in Kernel/Config.pm";
-    $Self->{BaseDN} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'BaseDN'}
+    $Self->{BaseDN} = $Self->{CustomerUserMap}->{'Params'}->{'BaseDN'}
      || die "Need CustomerUser->Params->BaseDN in Kernel/Config.pm";
-    $Self->{SScope} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'SSCOPE'}
+    $Self->{SScope} = $Self->{CustomerUserMap}->{'Params'}->{'SSCOPE'}
      || die "Need CustomerUser->Params->SSCOPE in Kernel/Config.pm";
-    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserDN'} || '';
-    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('CustomerUser')->{'Params'}->{'UserPw'} || '';
+    $Self->{SearchUserDN} = $Self->{CustomerUserMap}->{'Params'}->{'UserDN'} || '';
+    $Self->{SearchUserPw} = $Self->{CustomerUserMap}->{'Params'}->{'UserPw'} || '';
 
-    $Self->{CustomerKey} = $Self->{ConfigObject}->Get('CustomerUser')->{'CustomerKey'}
+    $Self->{CustomerKey} = $Self->{CustomerUserMap}->{'CustomerKey'}
      || die "Need CustomerUser->CustomerKey in Kernel/Config.pm";
-    $Self->{CustomerID} = $Self->{ConfigObject}->Get('CustomerUser')->{'CustomerID'}
+    $Self->{CustomerID} = $Self->{CustomerUserMap}->{'CustomerID'}
      || die "Need CustomerUser->CustomerID in Kernel/Config.pm";
 
-    # --
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    # --
     $Self->{LDAP} = Net::LDAP->new($Self->{Host}) or die "$@";
     if (!$Self->{LDAP}->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
         $Self->{LogObject}->Log(
@@ -72,20 +64,14 @@ sub CustomerName {
     my $Self = shift;
     my %Param = @_;
     my $Name = '';
-    # --
     # check needed stuff
-    # --
     if (!$Param{UserLogin}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
         return;
     }
-    # --
     # build filter
-    # --
     my $Filter = "($Self->{CustomerKey}=$Param{UserLogin})";
-    # --
     # perform user search
-    # --
     my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
@@ -93,7 +79,7 @@ sub CustomerName {
         sizelimit => $Self->{UserSearchListLimit},
     );
     foreach my $entry ($Result->all_entries) {
-        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserNameFields}}) {
+        foreach (@{$Self->{CustomerUserMap}->{CustomerUserNameFields}}) {
             if (!$Name) {
                 $Name = $entry->get_value($_);
             }
@@ -108,21 +94,17 @@ sub CustomerName {
 sub CustomerSearch {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!");
         return;
     }
-    # --
     # build filter
-    # --
     my $Filter = '';
     if ($Param{Search}) {
-        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}) {
+        if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
             $Filter = '(|';
-            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}}) {
+            foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
                 $Filter.= "($_=$Param{Search})";
             }
             $Filter .= ')';
@@ -132,9 +114,9 @@ sub CustomerSearch {
         }
     }
     elsif ($Param{PostMasterSearch}) {
-        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}) {
+        if ($Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields}) {
             $Filter = '(|';
-            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}}) {
+            foreach (@{$Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields}}) {
                 $Filter.= "($_=$Param{PostMasterSearch})";
             }
             $Filter .= ')';
@@ -143,25 +125,21 @@ sub CustomerSearch {
     elsif ($Param{UserLogin}) {
         $Filter = "($Self->{CustomerKey}=$Param{UserLogin})";
     }
-    # --
     # perform user search
-    # --
     my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
         filter => $Filter, 
         sizelimit => $Self->{UserSearchListLimit},
     );
-    # --
     # log ldap errors 
-    # --
     if ($Result->code()) {
         $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
     }
     my %Users = ();
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
-        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}}) {
+        foreach (@{$Self->{CustomerUserMap}->{CustomerUserListFields}}) {
             my $Value = $entry->get_value($_);
             if ($Value) {
 				if ($_ =~ /^targetaddress$/i) {
@@ -180,18 +158,14 @@ sub CustomerUserList {
     my $Self = shift;
     my %Param = @_;
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
-    # --
     # perform user search
-    # --
     my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
         filter => "($Self->{CustomerKey}=*)",
         sizelimit => $Self->{UserSearchListLimit},
     );
-    # --
     # log ldap errors 
-    # --
     if ($Result->code()) {
         $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
     }
@@ -199,7 +173,7 @@ sub CustomerUserList {
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
         foreach (qw(CustomerKey CustomerID)) {
-            $CustomerString .= $entry->get_value($Self->{ConfigObject}->Get('CustomerUser')->{$_}).' ';
+            $CustomerString .= $entry->get_value($Self->{CustomerUserMap}->{$_}).' ';
         }
         $Users{$entry->get_value($Self->{CustomerKey})} = $CustomerString;
     }
@@ -210,18 +184,14 @@ sub CustomerUserDataGet {
     my $Self = shift;
     my %Param = @_;
     my %Data;
-    # --
     # check needed stuff
-    # --
     if (!$Param{User} && !$Param{CustomerID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or CustomerID!");
         return;
     }
-    # --
     # perform user search
-    # --
     my $attrs = '';
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         $attrs .= "\'$Entry->[2]\',";
     }
     $attrs = substr $attrs,0,-1;
@@ -238,33 +208,25 @@ sub CustomerUserDataGet {
         filter => $Filter, 
         attrs => $attrs,
     );
-    # --
     # log ldap errors 
-    # --
     if ($Result->code()) {
         $Self->{LogObject}->Log(Priority => 'error', Message => $Result->error());
         return;
     }
-    # --
     # get first entry
-    # --
     my $Result2 = $Result->entry(0);
     if (!$Result2) {
         return;
     }
-    # --
     # get customer user info
-    # --
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
 		my $Value = $Result2->get_value($Entry->[2]) || '';
         if ($Value && $Entry->[2] =~ /^targetaddress$/i) {
             $Value =~ s/SMTP:(.*)/$1/;
         }
         $Data{$Entry->[0]} = $Value;
     }
-    # --
     # check data
-    # --
     if (! exists $Data{UserLogin} && $Param{User}) {
 #        $Self->{LogObject}->Log(
 #          Priority => 'notice',
@@ -281,9 +243,7 @@ sub CustomerUserDataGet {
     }
     # compat!
     $Data{UserID} = $Data{UserLogin};
-    # --
     # get preferences
-    # --
     my %Preferences = $Self->{PreferencesObject}->GetPreferences(UserID => $Data{UserID});
 
     # return data
@@ -308,10 +268,6 @@ sub SetPassword {
     my $Self = shift;
     my %Param = @_;
     $Self->{LogObject}->Log(Priority => 'error', Message => "Not supported for this module!");
-    return;
-}
-# --
-sub GetGroups {
     return;
 }
 # --
@@ -341,9 +297,7 @@ sub GenerateRandomPassword {
 sub Destroy {
     my $Self = shift;
     my %Param = @_;
-    # --
     # take down session
-    # --
     $Self->{LDAP}->unbind;
     return 1;
 }

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.20 2003-12-14 22:15:00 martin Exp $
+# $Id: DB.pm,v 1.21 2004-02-09 01:41:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,44 +26,34 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-    # --
     # check needed objects
-    # --
-    foreach (qw(DBObject ConfigObject LogObject PreferencesObject)) {
+    foreach (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    # --
     # max shown user a search list
-    # --
     $Self->{UserSearchListLimit} = 250;
-    # --
     # config options
-    # --
-    $Self->{CustomerTable} = $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{Table} 
+    $Self->{CustomerTable} = $Self->{CustomerUserMap}->{Params}->{Table} 
       || die "Need CustomerUser->Params->Table in Kernel/Config.pm!";
-    $Self->{CustomerKey} = $Self->{ConfigObject}->Get('CustomerUser')->{CustomerKey} 
-      || $Self->{ConfigObject}->Get('CustomerUser')->{Key} 
+    $Self->{CustomerKey} = $Self->{CustomerUserMap}->{CustomerKey} 
+      || $Self->{CustomerUserMap}->{Key} 
       || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
-    $Self->{CustomerID} = $Self->{ConfigObject}->Get('CustomerUser')->{CustomerID} 
+    $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID} 
       || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
-    $Self->{ReadOnly} = $Self->{ConfigObject}->Get('CustomerUser')->{ReadOnly}; 
-    # --
+    $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly}; 
     # create new db connect if DSN is given
-    # --
-    if ($Self->{ConfigObject}->Get('CustomerUser')->{Params}->{DSN}) {
+    if ($Self->{CustomerUserMap}->{Params}->{DSN}) {
         $Self->{DBObject} = Kernel::System::DB->new(
             LogObject => $Param{LogObject},
             ConfigObject => $Param{ConfigObject},
-            DatabaseDSN => $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{DSN},
-            DatabaseUser => $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{User},
-            DatabasePw => $Self->{ConfigObject}->Get('CustomerUser')->{Params}->{Password},
+            DatabaseDSN => $Self->{CustomerUserMap}->{Params}->{DSN},
+            DatabaseUser => $Self->{CustomerUserMap}->{Params}->{User},
+            DatabasePw => $Self->{CustomerUserMap}->{Params}->{Password},
         ) || die $DBI::errstr;
         # remember that we have the DBObject not from parent call
         $Self->{NotParentDBObject} = 1;
     }
-    # --
     # create check item object
-    # --
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     return $Self;
 }
@@ -72,19 +62,15 @@ sub CustomerName {
     my $Self = shift;
     my %Param = @_;
     my $Name = ''; 
-    # --
     # check needed stuff
-    # --
     if (!$Param{UserLogin}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
         return;
     }
-    # --
     # build SQL string 1/2
-    # --
     my $SQL = "SELECT $Self->{CustomerKey} ";
-    if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserNameFields}) {
-        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserNameFields}}) {
+    if ($Self->{CustomerUserMap}->{CustomerUserNameFields}) {
+        foreach my $Entry (@{$Self->{CustomerUserMap}->{CustomerUserNameFields}}) {
             $SQL .= ", $Entry";
         }
     }
@@ -93,9 +79,7 @@ sub CustomerName {
     }
     $SQL .= " FROM $Self->{CustomerTable} WHERE ".
       " $Self->{CustomerKey} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
-    # --
     # get data
-    # --
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         foreach (1..8) {
@@ -116,36 +100,30 @@ sub CustomerSearch {
     my $Self = shift;
     my %Param = @_;
     my %Users = ();
-    # --
     # check needed stuff
-    # --
     if (!$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!");
         return;
     }
-    # --
     # build SQL string 1/2
-    # --
     my $SQL = "SELECT $Self->{CustomerKey} ";
-    if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}) {
-        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}}) {
+    if ($Self->{CustomerUserMap}->{CustomerUserListFields}) {
+        foreach my $Entry (@{$Self->{CustomerUserMap}->{CustomerUserListFields}}) {
             $SQL .= ", $Entry";
         }
     }
     else {
         $SQL .= " , first_name, last_name, email ";
     }
-    # --
     # build SQL string 2/2
-    # --
     $SQL .= " FROM " .
     " $Self->{CustomerTable} ".
     " WHERE ";
     if ($Param{Search}) { 
         $Param{Search} =~ s/\*/%/g;
-        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}) {
+        if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
             my $SQLExt = '';
-            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserSearchFields}}) {
+            foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
@@ -160,9 +138,9 @@ sub CustomerSearch {
         }
     }
     elsif ($Param{PostMasterSearch}) {
-        if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}) {
+        if ($Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields}) {
             my $SQLExt = '';
-            foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserPostMasterSearchFields}}) {
+            foreach (@{$Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields}}) {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
@@ -175,16 +153,12 @@ sub CustomerSearch {
         $Param{UserLogin} =~ s/\*/%/g;
         $SQL .= " $Self->{CustomerKey} LIKE '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
     }
-    # --
     # add valid option
-    # --
-    if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerValid}) {
-        $SQL .= "AND ".$Self->{ConfigObject}->Get('CustomerUser')->{CustomerValid}.
+    if ($Self->{CustomerUserMap}->{CustomerValid}) {
+        $SQL .= "AND ".$Self->{CustomerUserMap}->{CustomerValid}.
         " in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
     }
-    # --
     # get data
-    # --
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
          foreach (1..8) {
@@ -201,9 +175,7 @@ sub CustomerUserList {
     my $Self = shift;
     my %Param = @_;
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
-    # --
     # get data
-    # --
     my %Users = $Self->{DBObject}->GetTableData(
         What => "$Self->{CustomerKey}, $Self->{CustomerKey}, $Self->{CustomerID}",
         Table => $Self->{CustomerTable}, 
@@ -217,18 +189,14 @@ sub CustomerUserDataGet {
     my $Self = shift;
     my %Param = @_;
     my %Data;
-    # --
     # check needed stuff
-    # --
     if (!$Param{User} && !$Param{CustomerID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or CustomerID!");
         return;
     }
-    # --
     # build select
-    # --
     my $SQL = "SELECT ";
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         $SQL .= " $Entry->[2], ";
     }
     $SQL .= $Self->{CustomerKey}." FROM $Self->{CustomerTable} WHERE ";
@@ -238,20 +206,16 @@ sub CustomerUserDataGet {
     elsif ($Param{CustomerID}) {
         $SQL .= $Self->{CustomerID}." = '".$Self->{DBObject}->Quote($Param{CustomerID})."'";
     }
-    # --
     # get inital data
-    # --
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my $MapCounter = 0;
-        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+        foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
             $Data{$Entry->[0]} = $Row[$MapCounter];
             $MapCounter++;
         }
     }
-    # --
     # check data
-    # --
     if (! exists $Data{UserLogin} && $Param{User}) {
 #        $Self->{LogObject}->Log(
 #          Priority => 'notice',
@@ -268,9 +232,7 @@ sub CustomerUserDataGet {
     }
     # compat!
     $Data{UserID} = $Data{UserLogin};
-    # --
     # get preferences
-    # --
     my %Preferences = $Self->{PreferencesObject}->GetPreferences(UserID => $Data{UserID});
 
     # return data
@@ -280,17 +242,13 @@ sub CustomerUserDataGet {
 sub CustomerUserAdd {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check ro/rw
-    # --
     if ($Self->{ReadOnly}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
         return;
     }
-    # --
     # check needed stuff
-    # --
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
       if (!$Param{$Entry->[0]} && $Entry->[4]) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Entry->[0]!");
         return;
@@ -300,9 +258,7 @@ sub CustomerUserAdd {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return;
     }
-    # --
     # check email address
-    # --
     if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error', 
@@ -311,16 +267,14 @@ sub CustomerUserAdd {
         );
         return;
     }
-    # --
     # build insert
-    # --
     my $SQL = "INSERT INTO $Self->{CustomerTable} (";
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         $SQL .= " $Entry->[2], ";
     }
     $SQL .= "create_time, create_by, change_time, change_by)";
     $SQL .= " VALUES (";
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         if ($Entry->[5] =~ /^int$/i) {
             $SQL .= " $Param{$Entry->[0]}, ";
         }
@@ -330,16 +284,12 @@ sub CustomerUserAdd {
     }
     $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # --
       # log notice
-      # --
       $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "CustomerUser: '$Param{UserLogin}' created successfully ($Param{UserID})!",
       );
-      # --
       # set password
-      # --
       $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
       return $Param{UserLogin}; 
     }
@@ -351,25 +301,19 @@ sub CustomerUserAdd {
 sub CustomerUserUpdate {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check ro/rw
-    # --
     if ($Self->{ReadOnly}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
         return;
     }
-    # --
     # check needed stuff
-    # --
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
       if (!$Param{$Entry->[0]} && $Entry->[4]) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Entry->[0]!");
         return;
       }
     }
-    # --
     # check email address
-    # --
     if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
         $Self->{LogObject}->Log(
             Priority => 'error', 
@@ -378,15 +322,11 @@ sub CustomerUserUpdate {
         );
         return;
     }
-    # --
     # get old user data (pw)
-    # --
     my %UserData = $Self->CustomerUserDataGet(User => $Param{ID});
-    # -- 
     # update db
-    # --
     my $SQL = "UPDATE $Self->{CustomerTable} SET ";
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         if ($Entry->[5] =~ /^int$/i) {
             $SQL .= " $Entry->[2] = $Param{$Entry->[0]}, ";
         }
@@ -399,16 +339,12 @@ sub CustomerUserUpdate {
     $SQL .= " WHERE ".$Self->{CustomerKey}." = '".$Self->{DBObject}->Quote($Param{ID})."'";
   
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-        # --
         # log notice
-        # --
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message => "CustomerUser: '$Param{UserLogin}' updated successfully ($Param{UserID})!",
         );
-        # --
         # check pw
-        # --
         my $GetPw = $UserData{UserPassword} || '';
         if ($GetPw ne $Param{UserPassword}) {
             $Self->SetPassword(UserLogin => $Param{UserLogin}, PW => $Param{UserPassword});
@@ -424,24 +360,18 @@ sub SetPassword {
     my $Self = shift;
     my %Param = @_;
     my $Pw = $Param{PW} || '';
-    # --
     # check ro/rw
-    # --
     if ($Self->{ReadOnly}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Customer backend is ro!");
         return;
     }
-    # --
     # check needed stuff
-    # --
     if (!$Param{UserLogin}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
         return;
     }
-    # --
     # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if 
     # crypt() is working correctly) :-/
-    # --
     my $CryptedPw = '';
     if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
         $CryptedPw = crypt($Pw, $Param{UserLogin});
@@ -463,10 +393,8 @@ sub SetPassword {
         close (IO);
         chomp $CryptedPw;
     }
-    # --
     # update db
-    # --
-    foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+    foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
         if ($Entry->[0] =~ /^UserPassword$/i) {
             $Param{PasswordCol} = $Entry->[2];
         }
@@ -481,9 +409,7 @@ sub SetPassword {
                " WHERE ".
                " $Param{LoginCol} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'",
     )) {
-        # --
         # log notice
-        # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "CustomerUser: '$Param{UserLogin}' changed password successfully!",
@@ -493,10 +419,6 @@ sub SetPassword {
     else {
         return;
     }
-}
-# --
-sub GetGroups {
-    return;
 }
 # --
 sub GenerateRandomPassword {

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.8 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.9 2004-02-09 01:40:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $ ';
+$VERSION = '$Revision: 1.9 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,7 +45,27 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    $Param{NextScreen} = 'AdminCustomerUser';
+    my $NavBar = '';
+    my $Nav = $Self->{ParamObject}->GetParam(Param => 'Nav') || 0;
+    my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || 'CustomerUser';
+    # check nav bar
+    if (!$Nav) {
+        if ($ENV{HTTP_REFERER} && $ENV{HTTP_REFERER} !~ /Admin/) {
+            $Nav = 'Agent';
+        }
+        else {
+            $Nav = 'Admin';
+        }
+    }
+    if ($Nav eq 'Admin') {
+        $NavBar = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
+        $NavBar .= $Self->{LayoutObject}->AdminNavigationBar();
+    }
+    else {
+        $NavBar = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Customer User');
+        $NavBar .= $Self->{LayoutObject}->NavigationBar();
+    }
+
     # -- 
     # get user data 2 form
     # --
@@ -56,9 +76,13 @@ sub Run {
         # --
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(User => $User);
         my %UserList = $Self->{CustomerUserObject}->CustomerUserList(Valid => 0);
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminCustomerUserForm(%UserData, UserList => \%UserList);
+        my $Output = $NavBar.$Self->{LayoutObject}->AdminCustomerUserForm(
+            Nav => $Nav,
+            UserList => \%UserList,
+            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()},
+            Source => $Source,
+            %UserData,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -66,21 +90,15 @@ sub Run {
     # update action
     # --
     elsif ($Self->{Subaction} eq 'ChangeAction') {
-        # --
         # get params
-        # --
         my %GetParam;
-        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+        foreach my $Entry (@{$Self->{ConfigObject}->Get($Source)->{Map}}) {
             $GetParam{$Entry->[0]} = $Self->{ParamObject}->GetParam(Param => $Entry->[0]) || '';
         }
         $GetParam{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        # --
         # update user
-        # --
         if ($Self->{CustomerUserObject}->CustomerUserUpdate(%GetParam, UserID => $Self->{UserID})) {
-            # --
             # update preferences
-            # --
             foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
               foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
                 my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
@@ -92,23 +110,19 @@ sub Run {
                   Key => $PrefKey,
                   Value => $Value,
                 )) {
-                  my $Output = $Self->{LayoutObject}->Header();
-                  $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-                  $Output .= $Self->{LayoutObject}->Error();
+                  my $Output .= $NavBar.$Self->{LayoutObject}->Error();
                   $Output .= $Self->{LayoutObject}->Footer();
                   return $Output;
                 }
               }
             }
-            # --
             # redirect
-            # --
-            return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminCustomerUser&Nav=$Nav",
+            );
         }
         else {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
+            my $Output = $NavBar.$Self->{LayoutObject}->Error();
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
@@ -117,20 +131,14 @@ sub Run {
     # add new user
     # --
     elsif ($Self->{Subaction} eq 'AddAction') {
-        # --
         # get params
-        # --
         my %GetParam;
-        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+        foreach my $Entry (@{$Self->{ConfigObject}->Get($Source)->{Map}}) {
             $GetParam{$Entry->[0]} = $Self->{ParamObject}->GetParam(Param => $Entry->[0]) || '';
         }
-        # --
         # add user
-        # --
-        if (my $User = $Self->{CustomerUserObject}->CustomerUserAdd(%GetParam, UserID => $Self->{UserID})) {
-            # --
+        if (my $User = $Self->{CustomerUserObject}->CustomerUserAdd(%GetParam, UserID => $Self->{UserID}, Source => $Source)) {
             # update preferences
-            # --
             foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
               foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
                 my $PrefKey = $Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{PrefKey} || '';
@@ -142,25 +150,19 @@ sub Run {
                   Key => $PrefKey,
                   Value => $Value,
                 )) {
-                  my $Output = $Self->{LayoutObject}->Header();
-                  $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-                  $Output .= $Self->{LayoutObject}->Error();
+                  my $Output = $NavBar.$Self->{LayoutObject}->Error();
                   $Output .= $Self->{LayoutObject}->Footer();
                   return $Output;
                 }
               }
             }
-            # --
             # redirect
-            # --
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminCustomerUser",
+                OP => "Action=AdminCustomerUser&Nav=$Nav",
             );
         }
         else {
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error();
+            my $Output = $NavBar.$Self->{LayoutObject}->Error();
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
@@ -169,10 +171,13 @@ sub Run {
     # else ! print form
     # --
     else {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         my %UserList = $Self->{CustomerUserObject}->CustomerUserList(Valid => 0);
-        $Output .= $Self->{LayoutObject}->AdminCustomerUserForm(UserList => \%UserList);
+        my $Output .= $NavBar.$Self->{LayoutObject}->AdminCustomerUserForm(
+            Nav => $Nav,
+            UserList => { $Self->{CustomerUserObject}->CustomerUserList(Valid => 0) },
+            SourceList => {$Self->{CustomerUserObject}->CustomerSourceList()}, 
+            Source => $Source,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }

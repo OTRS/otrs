@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.135 2004-02-03 23:07:05 martin Exp $
+# $Id: Agent.pm,v 1.136 2004-02-09 01:39:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.135 $';
+$VERSION = '$Revision: 1.136 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -143,9 +143,10 @@ sub AgentCustomerViewTable {
     my $Self = shift;
     my %Param = @_;
     if (ref($Param{Data}) eq 'HASH' && %{$Param{Data}}) {
+        my $Map = $Param{Data}->{Config}->{Map};
         # build html table
         $Param{Table} = '<table>';
-        foreach my $Field (@{$Self->{ConfigObject}->Get('CustomerUser')->{Map}}) {
+        foreach my $Field (@{$Map}) {
             if ($Field->[3] && $Param{Data}->{$Field->[0]}) {
                 $Param{Table} .= "<tr><td><b>\$Text{\"$Field->[1]\"}:</b></td><td>";
                 if ($Field->[6]) {
