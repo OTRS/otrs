@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.89 2004-07-16 22:56:01 martin Exp $
+# $Id: AgentPhone.pm,v 1.90 2004-07-17 21:01:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.89 $';
+$VERSION = '$Revision: 1.90 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -144,7 +144,7 @@ sub Run {
                 Config => \%TicketFreeText,
                 Ticket => { %TicketFreeDefault,
                             $Self->{UserObject}->GetUserData(
-                                UserID => $Self->{UserID}, 
+                                UserID => $Self->{UserID},
                                 Cached => 1,
                             ),
                 },
@@ -153,7 +153,7 @@ sub Run {
             $Output .= $Self->_MaskPhoneNew(
               QueueID => $Self->{QueueID},
               NextStates => $Self->_GetNextStates(QueueID => $Self->{QueueID}),
-              Priorities => $Self->_GetPriorities(QueueID => $Self->{QueueID}), 
+              Priorities => $Self->_GetPriorities(QueueID => $Self->{QueueID}),
               Users => $Self->_GetUsers(QueueID => $Self->{QueueID}),
               To => $Self->_GetTos(QueueID => $Self->{QueueID}),
               From => $Article{From},
@@ -238,107 +238,183 @@ sub Run {
             TicketNumber => $Tn,
             NextStates => $Self->_GetNextStates(TicketID => $Self->{TicketID}),
             CustomerData => \%CustomerData,
+            Subject => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('PhoneDefaultSubject')) || '',
+            Body => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('PhoneDefaultNoteText')) || '',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
     # save new phone article to existing ticket
     elsif ($Self->{Subaction} eq 'Store') {
-        my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
-        my $Text = $Self->{ParamObject}->GetParam(Param => 'Body');
-        my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-            ID => $NextStateID,
-        );
-        my $NextState = $StateData{Name};
-        my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
-        my $Answered = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
-        my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
+        my %Error = ();
+        # get params
         my %GetParam = ();
-        foreach (qw(Year Month Day Hour Minute)) {
+        foreach (qw(AttachmentUpload
+            Body Subject Answered TimeUnits NextStateID
+            Year Month Day Hour Minute
+            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+            AttachmentDelete9 AttachmentDelete10 )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
-        if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+        # attachment delete
+        foreach (1..10) {
+            if ($GetParam{"AttachmentDelete$_"}) {
+                $Error{AttachmentDelete} = 1;
+                $Self->{UploadCachObject}->FormIDRemoveFile(
+                     FormID => $Self->{FormID},
+                    FileID => $_,
+                );
+            }
+        }
+        # attachment upload
+        if ($GetParam{AttachmentUpload}) {
+            $Error{AttachmentUpload} = 1;
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param => "file_upload",
+                Source => 'string',
+            );
+            $Self->{UploadCachObject}->FormIDAddFile(
+                FormID => $Self->{FormID},
+                %UploadStuff,
+            );
+        }
+        # get all attachments meta data
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
+        if (%Error) {
+            # get ticket info if ticket id is given
+            my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+            # check permissions if it's a existing ticket
+            if (!$Self->{TicketObject}->Permission(
+                Type => 'phone',
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID})) {
+                # error screen, don't show ticket
+                return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+            }
+            # get ticket info
+            my $Tn = $TicketData{TicketNumber};
+            my %CustomerData = ();
+            if ($Self->{ConfigObject}->Get('ShowCustomerInfoCompose')) {
+                if ($TicketData{CustomerUserID}) {
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $TicketData{CustomerUserID},
+                    );
+                }
+                elsif ($TicketData{CustomerID}) {
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                         CustomerID => $TicketData{CustomerID},
+                    );
+                }
+            }
+            # header
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone-Ticket');
+            # print form ...
+            $Output .= $Self->_MaskPhone(
+                TicketID => $Self->{TicketID},
+                QueueID => $Self->{QueueID},
+                TicketNumber => $Tn,
+                NextStates => $Self->_GetNextStates(TicketID => $Self->{TicketID}),
+                CustomerData => \%CustomerData,
+                Attachments => \@Attachments,
+                %GetParam,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        else {
+          if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $Self->{TicketID},
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultArticleType'),
             SenderType => $Self->{ConfigObject}->Get('PhoneDefaultSenderType'),
             From => $Self->{UserLogin},
-            To => $Self->{UserLogin},
-            Subject => $Subject,
-            Body => $Text,
+            Subject => $GetParam{Subject},
+            Body => $GetParam{Body},
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID},
             HistoryType => $Self->{ConfigObject}->Get('PhoneDefaultHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('PhoneDefaultHistoryComment') || '%%',
-        )) {
-          # time accounting
-          if ($TimeUnits) {
-            $Self->{TicketObject}->TicketAccountTime(
+          )) {
+            # time accounting
+            if ($GetParam{TimeUnits}) {
+              $Self->{TicketObject}->TicketAccountTime(
+                TicketID => $Self->{TicketID},
+                ArticleID => $ArticleID,
+                TimeUnit => $GetParam{TimeUnits},
+                UserID => $Self->{UserID},
+              );
+            }
+            # get pre loaded attachment
+            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
+            );
+            foreach my $Ref (@AttachmentData) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %{$Ref},
+                    ArticleID => $ArticleID,
+                    UserID => $Self->{UserID},
+                );
+            }
+            # get submit attachment
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param => 'file_upload',
+                Source => 'String',
+            );
+            if (%UploadStuff) {
+                $Self->{TicketObject}->ArticleWriteAttachment(
+                    %UploadStuff,
+                    ArticleID => $ArticleID,
+                    UserID => $Self->{UserID},
+                );
+            }
+            # set state
+            $Self->{TicketObject}->StateSet(
               TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
-              TimeUnit => $TimeUnits,
+              State => $GetParam{NextStateID},
               UserID => $Self->{UserID},
             );
-          }
-          # get attachment
-          foreach ('', 1..9) {
-              my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                  Param => "file_upload$_",
-                  Source => 'String',
-              );
-              if (%UploadStuff) {
-                  $Self->{TicketObject}->ArticleWriteAttachment(
-                      %UploadStuff,
-                      ArticleID => $ArticleID,
-                      UserID => $Self->{UserID},
-                  );
-              }
-          }
-          # set state
-          $Self->{TicketObject}->StateSet(
-            TicketID => $Self->{TicketID},
-            ArticleID => $ArticleID,
-            State => $NextState,
-            UserID => $Self->{UserID},
-          );
-          # set answerd
-          $Self->{TicketObject}->TicketSetAnswered(
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID},
-            Answered => $Answered,
-         );
-         # should i set an unlock? yes if the ticket is closed
-         my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
-         if ($StateData{TypeName} =~ /^close/i) {
-             $Self->{TicketObject}->LockSet(
-                 TicketID => $Self->{TicketID},
-                 Lock => 'unlock',
-                 UserID => $Self->{UserID},
-             );
-         }
-         # set pending time if next state is a pending state
-         elsif ($StateData{TypeName} =~ /^pending/i) {
-             $Self->{TicketObject}->TicketPendingTimeSet(
-                 UserID => $Self->{UserID},
-                 TicketID => $Self->{TicketID},
-                 %GetParam,
-             );
-         }
-         # redirect to last screen (e. g. zoom view) and to queue view if
-         # the ticket is closed (move to the next task).
-         if ($StateData{TypeName} =~ /^close/i) {
-             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
-         }
-         else {
-             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
-         }
-      }
-      else {
-        # show error of creating article
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error();
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+            # set answerd
+            $Self->{TicketObject}->TicketSetAnswered(
+              TicketID => $Self->{TicketID},
+              UserID => $Self->{UserID},
+              Answered => $GetParam{Answered} || 0,
+           );
+           # should i set an unlock? yes if the ticket is closed
+           my %StateData = $Self->{StateObject}->StateGet(ID => $GetParam{NextStateID});
+           if ($StateData{TypeName} =~ /^close/i) {
+               $Self->{TicketObject}->LockSet(
+                   TicketID => $Self->{TicketID},
+                   Lock => 'unlock',
+                   UserID => $Self->{UserID},
+               );
+           }
+           # set pending time if next state is a pending state
+           elsif ($StateData{TypeName} =~ /^pending/i) {
+               $Self->{TicketObject}->TicketPendingTimeSet(
+                   UserID => $Self->{UserID},
+                   TicketID => $Self->{TicketID},
+                   %GetParam,
+               );
+           }
+           # redirect to last screen (e. g. zoom view) and to queue view if
+           # the ticket is closed (move to the next task).
+           if ($StateData{TypeName} =~ /^close/i) {
+               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
+           }
+           else {
+               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+           }
+        }
+        else {
+          # show error of creating article
+          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+          $Output .= $Self->{LayoutObject}->Error();
+          $Output .= $Self->{LayoutObject}->Footer();
+          return $Output;
+        }
       }
     }
     # create new ticket and article
@@ -775,7 +851,7 @@ sub _GetNextStates {
 sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
-    # get users 
+    # get users
     my %ShownUsers = ();
     my %AllGroupsMembers = $Self->{UserObject}->UserList(
         Type => 'Long',
@@ -892,17 +968,32 @@ sub _GetTos {
 sub _MaskPhone {
     my $Self = shift;
     my %Param = @_;
+    $Param{FormID} = $Self->{FormID};
     # answered strg
+    my %Selected = ();
+    if (defined($Param{Answered})) {
+        $Selected{SelectedID} = $Param{Answered};
+    }
+    else {
+        $Selected{Selected} = 'Yes';
+    }
     $Param{'AnsweredYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name => 'Answered',
-        Selected => 'Yes',
+        %Selected,
     );
     # build next states string
+    %Selected = ();
+    if ($Param{NextStateID}) {
+        $Selected{SelectedID} = $Param{NextStateID};
+    }
+    else {
+        $Selected{Selected} = $Self->{ConfigObject}->Get('PhoneDefaultNextState'); 
+    }
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
-        Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
+        %Selected,
     );
     # customer info string
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
@@ -915,11 +1006,22 @@ sub _MaskPhone {
         Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('PendingDiffTime') || 0,
     );
+    # do html quoting
+    foreach (qw(From To Cc)) {
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
+    }
     # prepare errors!
     if ($Param{Errors}) {
         foreach (keys %{$Param{Errors}}) {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
+    }
+    # show attachments
+    foreach my $DataRef (@{$Param{Attachments}}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Attachment',
+            Data => $DataRef,
+        );
     }
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentPhone', Data => \%Param);

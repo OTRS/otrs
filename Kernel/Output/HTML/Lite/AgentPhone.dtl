@@ -1,8 +1,8 @@
 # --
 # AgentPhone.dtl - provides HTML form for phone
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.16 2004-02-09 23:50:40 martin Exp $
+# $Id: AgentPhone.dtl,v 1.17 2004-07-17 21:01:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,42 +33,42 @@ function submit_compose()
 <script language="JavaScript" type="text/javascript">
 <!--
 function SpellCheckSubmit()
-{ 
+{
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.spelling.submit() 
-} 
+    document.spelling.submit()
+}
 // -->
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
-  <td align="left" class="table2"> 
+<tr>
+  <td align="left" class="table2">
     <b>$Env{"Box0"}$Text{"Phone call"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
   <td align="right" class="table2">
     <b>-</b>
   </td>
 </tr>
-<tr> 
+<tr>
   <td align="left" valign="top" colspan="2" class="table1">
 
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post" name="compose">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Store">
+<input type="hidden" name="FormID" value="$QData{"FormID"}">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <table border="0" width="100%">
   <tr>
     <td width="20%">$Text{"Subject"}:</td>
-    <td width="50%"><input type="text" name="Subject" value="$Config{"PhoneDefaultSubject"}" size="60"></td>
+    <td width="50%"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
     <td width="30%" rowspan="7" valign="top">
 
 # --
-# show customer info table 
+# show customer info table
 # --
 <dtl if ($Config{"ShowCustomerInfoCompose"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>"; }>
     $Data{"CustomerInfo"}
@@ -78,17 +78,27 @@ function SpellCheckSubmit()
   </tr>
   <tr>
     <td>$Text{"Options"}:</td>
-    <td> 
+    <td>
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
-#      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
     <td valign="top">$Text{"Text"}:</td>
     <td>
-<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
-$Text{"$Config{"PhoneDefaultNoteText"}"}
-</textarea>
+<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">$Text{"Attachment"}:</td><td>
+     <table cellspacing="0" cellpadding="0" width="300">
+<!-- dtl:block:Attachment -->
+       <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
+<!-- dtl:block:Attachment -->
+      <tr><td colspan="2">
+       <input name="file_upload" type="file" size="30" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
+       </td></tr>
+       </table>
     </td>
   </tr>
   <tr>
@@ -105,7 +115,7 @@ $Text{"$Config{"PhoneDefaultNoteText"}"}
   </tr>
   <tr>
     <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
-    <td><input type="text" name="TimeUnits" value="" size="3"></td>
+    <td><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
   </tr>
   </table>
 <br>
@@ -120,7 +130,7 @@ $Text{"$Config{"PhoneDefaultNoteText"}"}
 
 </p>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->
