@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.6 2001-12-21 17:55:52 martin Exp $
+# $Id: Generic.pm,v 1.7 2001-12-23 13:28:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,13 +11,23 @@
 
 package Kernel::Output::HTML::Generic;
 
+use lib '../../../';
+
 use strict;
 use MIME::Words qw(:all);
 use Kernel::Language;
+use Kernel::Output::HTML::Agent;
+use Kernel::Output::HTML::Admin;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+use vars qw(@ISA $VERSION);
+
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+
+@ISA = (
+    'Kernel::Output::HTML::Agent',
+    'Kernel::Output::HTML::Admin',
+);
 
 sub new {
     my $Type = shift;
@@ -187,7 +197,7 @@ sub Output {
       }
       {
         if ($1 eq "Data") {
-          if ($Data{$2}) {
+          if (defined $Data{$2}) {
               $Data{$2};
           }
           else {
@@ -196,7 +206,7 @@ sub Output {
           }
         }
         elsif ($1 eq "Env") {
-          if ($Env{$2}) {
+          if (defined $Env{$2}) {
               $Env{$2};
           }
           else {
@@ -279,100 +289,6 @@ sub Error {
 
 }
 # --
-sub NavigationBar {
-    my $Self = shift;
-    my %Param = @_;
-
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'NavigationBar', Data => \%Param);
-
-    # return output
-    return $Output;
-}
-# --
-sub QueueView {
-    my $Self = shift;
-    my %Param = @_;
-    my $QueueStrg = '';
-    my $QueueID = $Param{QueueID} || 0;
-    my $QueuesTmp = $Param{Queues};
-    my @QueuesNew = @$QueuesTmp;
-    my $QueueIDOfMaxAge = $Param{QueueIDOfMaxAge} || '?';
-    $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
-    $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
-    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
-    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2'); 
- 
-    # build queue string
-    foreach my $QueueRef (@QueuesNew) {
-        my %Queue = %$QueueRef;
-        $Queue{MaxAge} = $Queue{MaxAge} / 60;
-        # should i highlight this queue
-        if ($QueueID eq $Queue{QueueID}) {
-           $QueueStrg .= '<B>';
-           $Param{SelectedQueue} = $Queue{Queue};
-        }
-        $QueueStrg .= "<A HREF=\"$Self->{Baselink}&Action=AgentQueueView&QueueID=$Queue{QueueID}\">";
-        # should i highlight this queue
-        if ($Queue{MaxAge} >= $Self->{HighlightAge2}) {
-            $QueueStrg .= "<FONT COLOR=$Self->{HighlightColor2}>";
-        }
-        elsif ($Queue{MaxAge} >= $Self->{HighlightAge1}) {
-            $QueueStrg .= "<FONT COLOR=$Self->{HighlightColor1}>";
-        }
-        # the oldest queue
-        if ($Queue{QueueID} == $QueueIDOfMaxAge) {
-            $QueueStrg .= "<BLINK>";
-        }
-        # QueueStrg
-        $QueueStrg .= "$Queue{Queue} ($Queue{Count})";
-        # the oldest queue
-        if ($Queue{QueueID} == $QueueIDOfMaxAge) {
-            $QueueStrg .= "</BLINK>";
-        }
-        # should i highlight this queue
-        if ($Queue{MaxAge} >= $Self->{HighlightAge1}
-              || $Queue{MaxAge} >= $Self->{HighlightAge2}) {
-            $QueueStrg .= "</FONT>";
-        }
-        $QueueStrg .= "</A>";
-        # should i highlight this queue
-        if ($QueueID eq $Queue{QueueID}) {
-           $QueueStrg .= '</B>';
-        }
-        $QueueStrg .= ' - ';
-    }
-    $Param{QueueStrg} = $QueueStrg;
-
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'QueueView', Data => \%Param);
-
-    # return output
-    return $Output;
-}
-# --
-sub TicketView {
-    my $Self = shift;
-    my %Param = @_;
-
-    # do some html quoting
-    foreach ('From', 'To', 'Cc', 'Subject', 'Priority', 'State') {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50, MIME => 1) || '';
-    }
-    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
-
-    # do some text quoting
-    $Param{Text} = $Self->Ascii2Html(Text => $Param{Text});
-    $Param{Text} = $Self->LinkQuote(Text => $Param{Text});
-
- 
-    my $Output = $Self->Output(TemplateFile => 'TicketView', Data => \%Param);
-
-    # return output
-    return $Output;
-}
-# --
-
 sub Header {
     my $Self = shift;
     my %Param = @_;
@@ -464,7 +380,47 @@ sub CustomerAge {
     return $AgeStrg;
 }
 # --
-
+sub OptionStrgHashRef {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    my $Name = $Param{Name} || '';
+    my $Multiple = $Param{Multiple} || '';
+    $Multiple = 'multiple' if ($Multiple);
+    my $Selected = $Param{Selected} || 0;
+    my $Size = $Param{Size} || '';
+    $Size = "size=$Size" if ($Size);
+    my $DataTmp = $Param{Data};
+    my %Data = %$DataTmp;
+    $Output .= "<select name=\"$Name\" $Multiple $Size>\n";
+    foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        if (($_) && ($Data{$_})) {
+            if ($_ eq $Selected) {
+              $Output .= "    <option selected value=\"$_\">".
+                     $Self->{LanguageObject}->Get($Data{$_}) ."</option>\n";
+            }
+            else {
+              $Output .= "    <option VALUE=\"$_\">".
+                      $Self->{LanguageObject}->Get($Data{$_}) ."</option>\n";
+            }
+        }
+    }
+    $Output .= "</select>\n";
+    return $Output;
+}
+# --
+sub NoPermission {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = $Self->Header();
+    $Output .= $Self->Error(
+                Message => 'No Permission!!',
+                Comment => 'Please go away!',
+    );
+    $Output .= $Self->Footer();
+    return $Output;
+}
+# --
 
 1;
  
