@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.55 2004-03-05 11:35:09 martin Exp $
+# $Id: TODO,v 1.56 2004-04-28 06:34:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,9 +10,9 @@
 # --
 
 1.3
-- support of time zones
+- Compose Email -> Signatur
+- disable form multi submit
 - prevent unauthorized person submit ticket via email via PostMaster*.pl
-- remove header/footer of spelling window
 - change time column format of time_accounting table from int to
    float(6,2) - http://lists.otrs.org/pipermail/otrs/2003-April/001480.html
 - Add TicketHookSpace -> e. g. ": " or ""
@@ -28,6 +28,7 @@
 - allow users to add or change stored replies for their queue without giving them full admin rights
 
 misc (not scheduled yet - nobody is working on it yet)
+- store ticket before sending
 - AdminQueueList with all config options on one screen
 - add foreign-key to the XML db scheme
 - Ticket print option for customer interface
@@ -39,7 +40,6 @@ misc (not scheduled yet - nobody is working on it yet)
 - add count of user/customer user to admin area (LDAP-performance!?)
    "You currently have 467 customers on the OTRS system"
 - enhance AdminEmail with customer user
-- add indicator of ticket/article size (maybe attachment size also)
 - ldap auth modules with multi group options (not just one)
 
 ideas (just ideas - nobody is working on it)
@@ -56,3 +56,11 @@ ideas (just ideas - nobody is working on it)
 - GenericAgent with forward full message tree to other email address
 - improve fulltext search with 'article-type'
 - drop html Content-Type: multipart/alternative parts if text/plain extists
+- have easy insertion into the reply of a response 'template'
+- allow admin to create response templates like this:
+  <SALUTATION>
+  <GENERIC_BRUSH_OFF_RESPONSE>
+  <SIGNATURE>
+  <QUOTED_MESSAGE>
+  
+

@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.119 2004-04-20 09:58:08 martin Exp $
+# $Id: CHANGES,v 1.120 2004-04-28 06:34:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,7 +10,9 @@
 # --
 
 CVS head 
-
+ 
+ - (2004/04/22) added notification module for customer panel 
+    (customer.pl) like for existing agent (index.pl)
  - (2004/04/20) added PreApplicationModule (index.pl) and 
     CustomerPanelPreApplicationModule (customer.pl) This interface 
     use useful to check some user options or to redirect not accept 
