@@ -3,18 +3,16 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.38 2004-07-16 13:07:30 martin Exp $
+# $Id: TicketView.dtl,v 1.38.2.1 2004-10-26 10:22:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start ticket -->
+<hr>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-# check if bulk feature is aktiv
-<dtl if ($Config{"FrontendBulkFeature"} eq "1") { $Data{"BulkLink"} = "<td align="left" width="1%" class="table0"><form name="abulk$Data{"Counter"}"><input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"></form></td>"; }>
-  $Data{"BulkLink"}
   <td align="left" width="50%" class="table0">
     <b>$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
   </td>
