@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerAttachment.pm - to get the attachments 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerAttachment.pm,v 1.1 2002-12-17 18:04:12 martin Exp $
+# $Id: CustomerAttachment.pm,v 1.2 2002-12-17 18:09:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -92,7 +92,7 @@ sub Run {
     # --
     # check permission
     # --
-    if ($ArticleData{CustomerID} && $ArticleData{CustomerID} eq $Self->{UserCustomerID}) {
+    if ($ArticleData{CustomerID} && $ArticleData{CustomerID} =~ /^$Self->{UserCustomerID}$/i) {
         # --
         # geta attachment & strip file path
         $Self->{File} =~ s/(\.\.\/||^\/)//g;
