@@ -1,0 +1,231 @@
+<sect1 id="install_on_any_linux">
+<title>Installing OTRS on any Linux plattform (using the tar.gz file)</title>
+<para>
+This section is a guide for installing OTRS on any Linux. Before starting the installation have a look at <ulink url="http://www.otrs.org/"><citetitle>http://otrs.org/</citetitle></ulink> and check if a newer and better version of the tar.gz file is available. If so please download it and use the newer documentation and the newer rpm.
+</para>
+
+<para>Software requirements?</para>
+<para>
+On all Perl-Platforms! You need:
+<itemizedlist>
+<listitem><para>min. Perl5</para></listitem>
+<listitem><para>Database (e. g. MySQL, PostgreSQL)</para></listitem>
+<listitem><para>Webpserver (mod_perl isn't required but very nice to have)</para></listitem>
+<listitem><para>some CPAN-Module (CGI, MIME::Words, Mail::Internet, MIME::Parser, DBI, DBD::mysql, Digest::MD5) and for stats (GD, GD::Text, GD::Graph, GD::Graph::lines, Date::Calc)</para></listitem>
+</itemizedlist>
+</para>
+
+<sect2>
+<title>Install CPAN Modules (if needed):</title>
+
+<para>
+<itemizedlist>
+<listitem><para>Install the RPMs if your distributions provides RPMs for the CPAN modules.</para></listitem>
+<listitem><para>Install the modules via CPAN (http://www.cpan.org/)
+<screen>
+      perl -MCPAN -e shell;
+      ...
+      install MIME::Words
+      install MIME::Parser
+      install Digest::MD5
+      ...
+</screen>
+and maybe the GD stuff (stats support, not required!)
+<screen>
+      ...
+      install GD
+      install GD::Text
+      install GD::Graph
+      install GD::Graph::lines
+      install Date::Calc
+      ...
+</screen>
+</para></listitem>
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2>
+<title>Create user and install tar.gz:</title>
+<para>
+<screen>
+   $shell: useradd -d /opt/OpenTRS/ otrs
+   $shell: cd /opt/
+   $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
+   $shell: chown -r /opt/OpenTRS/* otrs
+</screen>
+</para>
+</sect2>
+
+<sect2>
+<title>Database setup:</title>
+<sect3>
+<title>XML</title>
+<para>
+$HOME_OTRS/install/database/OpenTRS-schema.xml
+</para>
+<para>
+The XML description files for torque which generate the SQL for your
+target database e. g. MySQL, PostgreSQL, DB2, Oracle, ...)
+</para>
+<para>
+More Infos: http://jakarta.apache.org/turbine/turbine-2/howto/torque-howto.html
+</para>
+</sect3>
+
+<sect3>
+<title>MySQL</title>
+<para>
+$HOME_OTRS/install/database/OpenTRS-schema.mysql.sql
+</para>
+</sect3>
+
+<sect3>
+<title>PostgreSQL</title>
+<para>
+$HOME_OTRS/install/database/OpenTRS-schema.postgresql.sql
+</para>
+</sect3>
+
+<sect3>
+<title>Initial insert file</title>
+<para>
+$HOME_OTRS/install/database/initial_insert.sql contains all needed standard
+values. At first use the OpenTRS-schema.*.sql and the insert this file.
+</para>
+</sect3>
+
+<para>
+DB - Setup Example (with MySQL):
+</para>
+<para>
+Create OTRS database:
+<screen>
+shell> mysql -u root -p -e 'create database otrs'
+</screen>
+</para>
+
+<para>
+Create the OTRS tables:
+<screen>
+shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/OpenTRS-schema.mysql.sql
+</screen>
+</para>
+
+<para>
+Insert inital data:
+<screen>
+shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/initial_insert.sql
+</screen>
+</para>
+
+<para>
+Create an database user:
+<screen>
+shell> mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY "some-pass" WITH GRANT OPTION;'
+</screen>
+</para>
+
+<para>
+<screen>
+**************************************************************
+*                                                            *
+* Change the DB-Settings (host, database, user and password) *
+*                                                            *
+*   $OTRS_HOME/Kernel/Config.pm                              *
+*   [...]                                                    *
+*   # Database                                               *
+*   # (The database name.)                                   *
+*   $Self->{Database} = 'otrs';                              *
+*                                                            *
+*   # DatabaseUser                                           *
+*   # (The database user.)                                   *
+*   $Self->{DatabaseUser} = 'otrs';                          *
+*                                                            *
+*   # DatabasePw                                             *
+*   # (The password of database user.)                       *
+*   $Self->{DatabasePw} = 'some-pass';                       *
+*   [...]                                                    *
+*                                                            *
+**************************************************************
+</screen>
+</para>
+
+</sect2>
+
+<sect2>
+<title>Webserver:</title>
+<para>
+[follow README.webserver]
+</para>
+</sect2>
+
+<sect2>
+<title>Config file ($HOME/Kernel/Config.pm):</title>
+<para>
+Set some Kernel::Config Options (FQDN, SystemID, TicketHook, ...)
+</para>
+</sect2>
+
+<sect2>
+<title>File Permissions:</title>
+<para>
+Set the file permissions with
+<screen>
+$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]
+</screen>
+</para>
+<para>
+Webserver with otrs user: "SetPermissions.sh /opt/OpenTRS otrs otrs"
+</para>
+<para>
+Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/OpenTRS otrs wwwrun"
+</para>
+<para>
+Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/OpenTRS otrs apache"
+</para>
+</sect2>
+
+<sect2>
+<title>First Login:</title>
+<para>
+http://yourhost/otrs/index.pl
+</para>
+<para>
+Admin-User: root@localhost
+</para>
+<para>
+password: root
+</para>
+<para>
+--> goto AdminArea and set some config settings (UserAdd, Queues, ...).
+</para>
+<para>
+Finished. :-)
+</para>
+</sect2>
+
+<sect2>
+<title>First E-Mail:</title>
+<para>
+use the procmailrc of the OpenTRS-User --> /opt/OpenTRS/.procmailrc
+</para>
+<para>
+--> send emails to the otrs user (e. g. otrs@localhost)
+</para>
+<para>
+   or pipe an email directly into $OpenTRS_HOME/bin/Postmaster.pl
+    (e.
+ g. 'cat /opt/OpenTRS/doc/test-email-1.box | /opt/OpenTRS/bin/PostMaster.pl').
+</para>
+<para>
+Remark: For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
+</para>
+</sect2>
+
+<para>
+Have a lot of fun.
+</para>
+
+</sect1>
+
