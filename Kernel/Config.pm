@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.54 2002-08-06 20:11:04 martin Exp $
+# $Id: Config.pm,v 1.55 2002-08-13 15:08:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -266,9 +266,9 @@ sub Load {
     # (How should be the session-data stored? 
     # Advantage of DB is that you can split the 
     # Frontendserver from the DB-Server. fs is faster.)
-    $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
+#    $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
 #    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
-#    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
+    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
 
     # SessionCheckRemoteIP 
     # (If the application is used via a proxy-farm then the 
@@ -290,12 +290,42 @@ sub Load {
     $Self->{SessionDeleteIfTimeToOld} = 1;
 
     # SessionUseCookie
-    # (Sould the session management use html cookies?
+    # (Should the session management use html cookies?
     # It's more comfortable to send links -==> if you have a valid 
     # session, you don't have to login again.) [0|1]
     # Note: If the client browser disabled html cookies, the system
     # will work as usual, append SessionID to links!
-    $Self->{SessionUseCookie} = 0;
+    $Self->{SessionUseCookie} = 1;
+
+    # ----------------------------------------------------#
+    # URL login and logout settings                       #
+    # ----------------------------------------------------#
+
+    # LoginURL
+    # (If this is anything other than '', then it is assumed to be the
+    # URL of an alternate login screen which will be used in place of 
+    # the default one.)
+    $Self->{LoginURL} = '';
+#    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
+
+    # LogoutURL
+    # (If this is anything other than '', it is assumed to be the URL
+    # of an alternate logout page which users will be sent to when they
+    # logout.)
+    $Self->{LogoutURL} = '';
+#    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+
+    # ----------------------------------------------------#
+    # log settings                                        #
+    # ----------------------------------------------------#
+    
+    # LogModule
+    # (log backend module)
+    $Self->{LogModule} = 'Kernel::System::Log::SysLog';
+#    $Self->{LogModule} = 'Kernel::System::Log::File';
+
+    # param for LogModule Kernel::System::Log::File (required!)
+#    $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
 
     # ----------------------------------------------------#
     # web stuff                                           #
@@ -360,8 +390,8 @@ sub Load {
     #
     # Kernel::System::Ticket::Number::Random -->
     #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
-    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Date';
-#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
+#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Date';
+    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Random';
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
  
