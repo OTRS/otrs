@@ -307,6 +307,23 @@ We can not help you. Sorry.
 
 <qandaentry>
 <question>
+<para>I can't delete a user or a queue. Why?</para>
+</question>
+<answer>
+<para>
+OpenTRS is working with database id references. If you would delete a user 
+(or queue, ...) from the database, your delete the reference info. 
+Important infos like owner or queue.
+</para>
+<para>
+Set the data record to invalid and the record is still visible (e. g.
+for ticket history, ...) but not activ for the application.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
 <para>Do you support the RFC 1297?</para>
 </question>
 <answer>
