@@ -14,11 +14,15 @@ Your can configure the value of the TicketHook which is the first part of the su
 [...]
     # TicketHook
     # (To set the Ticket identifier. Some people want to  
-    # set this to e. g. 'Call#', 'MyTicket#' or 'TN'.)     
+    # set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.)     
     $Self->{TicketHook} = 'Ticket#',              
 [...]
 </programlisting>
 </example>
+<para>
+Note: Don't use 'TN', because MS Outlook is replacing "TN: 54968797" with "RE: 54968797" 
+and then you will run in trouble. 
+</para>
 </sect1>
 
 <sect1>
@@ -55,6 +59,41 @@ OpenTRS is able to send automatically email replay. So it's possibe to create an
 </programlisting>
 </example>
 </sect1>
+
+<sect1 id="ticketnumberformat">
+<title>Ticket number format</title>
+<para> 
+You can choose between three different OpenTRS formats. AutoIncrement is default. 
+</para>
+<example>
+<title>Kernel/Config.pm - TicketNumberGenerator</title>
+<programlisting>
+[...] 
+    # TicketNumberGenerator 
+    # 
+    # Kernel::System::Ticket::Number::AutoIncrement (default) --> auto increment 
+    #   ticket numbers "SystemID.Counter" like 1010138 and 1010139.
+    #
+    # Kernel::System::Ticket::Number::Date --> ticket numbers with date 
+    #   "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
+    #
+    # Kernel::System::Ticket::Number::Random -->
+    #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
+
+    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
+[...]
+</programlisting>
+</example>
+<para>
+You can also create a new (your own) module. The module needs just two funktions  
+(the whole abstraction). "CreateTicketNr()" to generate a new ticket number and  
+"GetTNByString()" to get a ticket number by string. 
+</para>
+<para>
+A nice example is the <ulink url="http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/System/Ticket/Number/Random.pm">Kernel::System::Ticket::Number::Random</ulink> module.
+</para>
+</sect1>
+
 
 <sect1 id="dbstuff">
 <title>Database settings</title>
