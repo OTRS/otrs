@@ -62,6 +62,7 @@ use Kernel::Modules::AgentStatusView;
 use Kernel::Modules::AgentMove;
 use Kernel::Modules::AgentZoom;
 use Kernel::Modules::AgentAttachment;
+use Kernel::Modules::AgentTicketPrint;
 use Kernel::Modules::AgentPlain;
 use Kernel::Modules::AgentNote;
 use Kernel::Modules::AgentLock;
