@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.2 2001-12-02 18:29:00 martin Exp $
+# $Id: index.pl,v 1.3 2001-12-05 18:44:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,10 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+# OpenTRS root directory
 use lib '/opt/OpenTRS/';
+# only for testing
+use lib '/home/martin/src/otrs/';
 use strict;
 
 #use Apache ();
@@ -36,33 +39,59 @@ use Kernel::System::WebRequest;
 use Kernel::System::DB;
 use Kernel::System::Auth;
 use Kernel::System::AuthSession;
+use Kernel::Modules::Test;
+use Kernel::Output::HTML::Generic;
 
 # --
 # create common objects 
 # --
-my $LogObject = Kernel::System::Syslog->new();
+my %CommonObject = ();
+$CommonObject{LogObject} = Kernel::System::Syslog->new();
 # debug info
-$LogObject->Log( Priority => 'debug', MSG => 'Global OpenTRS handle started...');
-
-my $ConfigObject = Kernel::Config->new( LogObject => $LogObject );
-my $WebObject = Kernel::System::WebRequest->new();
-my $DBObject = Kernel::System::DB->new(
-    LogObject => $LogObject, 
-    ConfigObject => $ConfigObject,
-);
-my $SessionObject = Kernel::System::AuthSession->new(
-    LogObject => $LogObject,
-    ConfigObject => $ConfigObject,
+$CommonObject{LogObject}->Log(
+    Priority => 'debug', 
+    MSG => 'Global OpenTRS handle started...',
 );
 
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{WebObject} = Kernel::System::WebRequest->new();
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
+$CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
 
 ### for later
-my $AuthObject = Kernel::System::Auth->new(DBObject => $DBObject, LogObject => $LogObject);
+my $AuthObject = Kernel::System::Auth->new(%CommonObject);
+
+# --
+# get common parameters
+# --
+my $SessionID = $CommonObject{WebObject}->GetParam(Param => 'SessionID') || 'empty';
+my $Action = $CommonObject{WebObject}->GetParam(Param => 'Action') || 'Test';
 
 
+
+# --
+# prove of concept
+# --
+my $GenericObject = ('Kernel::Modules::' . $Action)->new (%CommonObject);
+$CommonObject{LogObject}->Log(
+    Priority => 'debug', 
+    MSG => 'Kernel::Modules::' . $Action .'->new',
+);
+# --
+# ->Run $Action object
+# --
+print $GenericObject->Run();
+$CommonObject{LogObject}->Log(
+    Priority => 'debug', 
+    MSG => ''. 'Kernel::Modules::' . $Action .'->run',
+);
 
 
 
 # debug info
-$LogObject->Log(Priority => 'debug', MSG => 'Global OpenTRS handle stopped.');
+$CommonObject{LogObject}->Log(
+    Priority => 'debug', 
+    MSG => 'Global OpenTRS handle stopped.',
+);
 
