@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.4 2003-03-06 10:40:04 martin Exp $
+# $Id: SendArticle.pm,v 1.5 2003-03-10 14:21:32 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -208,7 +208,8 @@ sub SendArticle {
         # log
         # -- 
         $Self->{LogObject}->Log(
-            Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
+          Priority => 'notice',
+          Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
         );
         return $Param{ArticleID};
     }
