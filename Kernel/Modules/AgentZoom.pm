@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.78 2004-11-25 16:24:11 martin Exp $
+# $Id: AgentZoom.pm,v 1.79 2004-11-26 13:21:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.78 $';
+$VERSION = '$Revision: 1.79 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -501,7 +501,7 @@ sub MaskAgentZoom {
                         );
                         if (%Data) {
                             $Self->{LayoutObject}->Block(
-                                Name => 'ArticleAttachmentRowLink',
+                                Name => $Data{Name} || 'ArticleAttachmentRowLink',
                                 Data => { %Data },
                             );
                         }
