@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.13 2002-10-15 09:24:12 martin Exp $
+# $Id: PostMaster.pm,v 1.14 2002-10-21 22:39:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -43,8 +43,6 @@ sub new {
       'SystemID', 
       'TicketHook', 
       'PostmasterUserID', 
-      'PostmasterDefaultPriority', 
-      'PostmasterDefaultState', 
       'PostmasterX-Header',
     ) {
         $Self->{$_} = $Param{ConfigObject}->Get($_) || die "Found no '$_' option in Config.pm!";
@@ -263,12 +261,6 @@ sub GetEmailParams {
     }
     if ($GetParam{'Reply-To'}) {
         $GetParam{'ReplyTo'} = $GetParam{'Reply-To'};
-    }
-    if (!$GetParam{'X-OTRS-Priority'}) {
-        $GetParam{'X-OTRS-Priority'} = $Self->{PostmasterDefaultPriority};
-    }
-    if (!$GetParam{'X-OTRS-State'}) {
-        $GetParam{'X-OTRS-State'} = $Self->{PostmasterDefaultState};
     }
     if ($GetParam{'Mailing-List'} || $GetParam{'Precedence'} || $GetParam{'X-Loop'}
              || $GetParam{'X-No-Loop'} || $GetParam{'X-OTRS-Loop'}) {
