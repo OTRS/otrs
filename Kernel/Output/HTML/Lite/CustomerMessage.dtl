@@ -2,7 +2,7 @@
 # CustomerMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.dtl,v 1.5 2003-02-08 15:40:42 martin Exp $
+# $Id: CustomerMessage.dtl,v 1.6 2003-03-10 15:05:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,9 +26,10 @@
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-  <table border="0">
+  <table border="0" width="100%">
   <tr>
-    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="" size="60"></td>
+    <td width="15%">$Text{"Subject"}:</td>
+    <td width="85%"><input type="text" name="Subject" value="" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
@@ -39,9 +40,13 @@
   <tr>
     <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></td>
   </tr>
+# should the customer user change the ticket state!
+<dtl if ($Config{"CustomerPanelNextComposeState"} ne "0") { $Data{"NextStateString"} = "<tr><td>$Text{"Next state"}:</td><td> $Data{"NextStatesStrg"}</td></tr>"; }>
+  $Data{"NextStateString"}
+#
   </table>
 <br>
-<input type="submit" value="$Text{"store"}">
+<input type="submit" value="$Text{"submit"}">
 </form>
 
 </p>

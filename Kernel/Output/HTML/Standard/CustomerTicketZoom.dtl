@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.7 2003-03-02 08:53:41 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.8 2003-03-10 15:05:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -99,7 +99,7 @@ $Data{"Article::Text"}
 #
   </table>
 <br>
-<input type="submit" value="$Text{"store"}">
+<input type="submit" value="$Text{"submit"}">
 </form>
 
   </td> 

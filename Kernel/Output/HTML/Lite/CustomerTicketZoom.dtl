@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.4 2003-02-08 15:40:42 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.5 2003-03-10 15:05:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -77,10 +77,10 @@ $Data{"Article::Text"}
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-  <table border="0">
+  <table border="0" width="100%">
   <tr>
-    <td>$Text{"Subject"}:</td>
-    <td><input type="text" name="Subject" value="$Data{"Article::Subject"}" size="60"></td>
+    <td width="15%">$Text{"Subject"}:</td>
+    <td width="85%"><input type="text" name="Subject" value="$Data{"Article::Subject"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td>
@@ -93,9 +93,13 @@ $Data{"Article::Text"}
     <td>$Text{"Attachment"}:</td>
     <td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></td>
   </tr>
+# should the customer user change the ticket state!
+<dtl if ($Config{"CustomerPanelNextComposeState"} ne "0") { $Data{"NextStateString"} = "<tr><td>$Text{"Next state"}:</td><td> $Data{"NextStatesStrg"}</td></tr>"; }>
+  $Data{"NextStateString"}
+#
   </table>
 <br>
-<input type="submit" value="$Text{"store"}">
+<input type="submit" value="$Text{"submit"}">
 </form>
 
   </td> 
