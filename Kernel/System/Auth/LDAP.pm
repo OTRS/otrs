@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.2 2002-07-24 08:48:54 martin Exp $
+# $Id: LDAP.pm,v 1.3 2002-08-03 11:57:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,9 +18,44 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
+# --
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+
+    # --
+    # check needed objects
+    # --
+    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+        $Self->{$_} = $Param{$_} || die "No $_!";
+    }
+
+    # --
+    # Debug 0=off 1=on
+    # --
+    $Self->{Debug} = 0;
+
+    # --
+    # get ldap preferences
+    # --
+    $Self->{Host} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Host')
+     || die "Need AuthModule::LDAPHost in Kernel/Config.pm";
+    $Self->{BaseDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::BaseDN')
+     || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
+    $Self->{UID} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UID')
+     || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
+    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN') || '';
+    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
+   
+    return $Self;
+}
 # --
 sub Auth {
     my $Self = shift;
@@ -38,17 +73,6 @@ sub Auth {
     # get params
     # --
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
-    # --
-    # get ldap preferences
-    # --
-    my $Host = $Self->{ConfigObject}->Get('AuthModule::LDAP::Host') 
-     || die "Need AuthModule::LDAPHost in Kernel/Config.pm";
-    my $BaseDN = $Self->{ConfigObject}->Get('AuthModule::LDAP::BaseDN')
-     || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
-    my $UID = $Self->{ConfigObject}->Get('AuthModule::LDAP::UID')
-     || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
-    my $SearchUserDN = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN') || '';
-    my $SearchUserPw = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
 
     # --
     # just in case!
@@ -63,8 +87,8 @@ sub Auth {
     # --
     # ldap stuff
     # --
-    my $LDAP = Net::LDAP->new($Host) or die "$@";
-    if (!$LDAP->bind(dn => $SearchUserDN, password => $SearchUserPw)) {
+    my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
+    if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
         $Self->{LogObject}->Log(
           Priority => 'error',
           Message => "First bind failed!",
@@ -75,8 +99,8 @@ sub Auth {
     # perform a search
     # --
     my $Result = $LDAP->search ( 
-        base   => $BaseDN,
-        filter => "($UID=$Param{User})"
+        base   => $Self->{BaseDN},
+        filter => "($Self->{UID}=$Param{User})"
     ); 
     # --
     # get whole user dn

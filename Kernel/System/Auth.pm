@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.11 2002-07-31 23:28:26 martin Exp $
+# $Id: Auth.pm,v 1.12 2002-08-03 11:57:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -25,9 +25,6 @@ sub new {
     # allocate new hash for object
     my $Self = {}; 
     bless ($Self, $Type);
-
-    # 0=off; 1=on;
-    $Self->{Debug} = 0;
 
     # --
     # check needed objects
@@ -43,14 +40,15 @@ sub new {
       || 'Kernel::System::Auth::DB';
     eval "require $GeneratorModule";
 
+    $Self->{Backend} = $GeneratorModule->new(%Param);
+
     return $Self;
 }
 # --
 sub Auth {
     my $Self = shift;
     my %Param = @_;
-
-    return eval "$GeneratorModule::Auth(%Param)";
+    return $Self->{Backend}->Auth(%Param);
 }
 # --
 

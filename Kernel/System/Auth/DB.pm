@@ -2,7 +2,7 @@
 # Kernel/System/Auth/DB.pm - provides the db authentification 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.1 2002-07-23 22:12:22 martin Exp $
+# $Id: DB.pm,v 1.2 2002-08-03 11:57:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,9 +17,44 @@ package Kernel::System::Auth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
+# --
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+
+    # --
+    # check needed objects
+    # --
+    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+        $Self->{$_} = $Param{$_} || die "No $_!";
+    }
+ 
+    # --
+    # Debug 0=off 1=on
+    # --
+    $Self->{Debug} = 0;
+
+    # --
+    # get user table
+    # --
+    $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable')
+      || 'user';
+    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID')
+      || 'id';
+    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW')
+      || 'pw';
+    $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser')
+      || 'login';
+
+    return $Self;
+}
 # --
 sub Auth {
     my $Self = shift;
@@ -39,18 +74,6 @@ sub Auth {
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     my $UserID = '';
     my $GetPw = '';
-
-    # --
-    # get user table
-    # --
-    $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable')
-      || 'user';
-    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID')
-      || 'id';
-    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW')
-      || 'pw';
-    $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser')
-      || 'login';
 
     # --
     # sql query
