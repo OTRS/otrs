@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.5 2005-02-07 17:36:40 martin Exp $
+# $Id: XML.pm,v 1.6 2005-02-08 12:55:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -97,13 +97,16 @@ sub XMLHashAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Type Key Hash)) {
+    foreach (qw(Type Key XMLHash)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    my %ValueHASH = $Self->XMLHashValue(XMLStructur => $Param{Hash});
+    my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
+#use Data::Dumper;
+#print Data::Dumper->Dump([\%ValueHASH], [qw($Ref)]);
+#exit;
     if (%ValueHASH) {
         $Self->XMLHashDelete(%Param);
         # db quote
@@ -120,7 +123,7 @@ sub XMLHashAdd {
         return 1;
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no \%ValueHASH from XMLHashValue()");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no \%ValueHASH from XMLHash2D()");
         return;
     }
 }
@@ -129,7 +132,7 @@ sub XMLHashAdd {
 
 get a xml hash from database
 
-    my @XMLStructur = $XMLObject->XMLHashGet(
+    my @XMLHash = $XMLObject->XMLHashGet(
         Type => 'SomeType',
         Key => '123',
     );
@@ -140,7 +143,7 @@ sub XMLHashGet {
     my $Self = shift;
     my %Param = @_;
     my $Content = '';
-    my @XMLStructur = ();
+    my @XMLHash = ();
     # check needed stuff
     foreach (qw(Type Key)) {
       if (!$Param{$_}) {
@@ -164,13 +167,13 @@ sub XMLHashGet {
     }
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         $Data[1] =~ s/'/\\'/g;
-        $Content .= '$XMLStructur[0]'.$Data[0]." = '$Data[1]';\n";
+        $Content .= '$XMLHash'.$Data[0]." = '$Data[1]';\n";
     }
 #    print $Content;
     if (!eval $Content) {
         print STDERR "ERROR: $@\n";
     }
-    return @XMLStructur; 
+    return @XMLHash; 
 }
 
 =item XMLHashDelete()
@@ -248,18 +251,18 @@ sub XMLHashSearch {
 
 =item XMLHash2XML()
 
-generate a xml string 
+generate a xml string from a XMLHash 
 
-    my $XMLString = $XMLObject->XMLHash2XML(@XMLStructur);
+    my $XMLString = $XMLObject->XMLHash2XML(@XMLHash);
 
 =cut
 
 sub XMLHash2XML {
     my $Self = shift;
-    my @XMLStructur = @_;
+    my @XMLHash = @_;
     my $Output = '';
     $Self->{XMLHash2XMLLayer} = 0;
-    foreach my $Key (@XMLStructur) {
+    foreach my $Key (@XMLHash) {
         $Output .= $Self->_ElementBuild(%{$Key});
     }
     return $Output;
@@ -273,7 +276,7 @@ sub _ElementBuild {
     if ($Param{Key}) {
         $Self->{XMLHash2XMLLayer}++;
         foreach (2..$Self->{XMLHash2XMLLayer}) {
-            $Output .= "  ";
+#            $Output .= "  ";
         }
         $Output .= "<$Param{Key}";
     }
@@ -282,7 +285,7 @@ sub _ElementBuild {
             push (@Tag, $_);
             push (@Sub, $Param{$_});
         }
-        elsif ($_ ne 'Content' && $_ ne 'Key' && $_ ne 'TagKey') {
+        elsif ($_ ne 'Content' && $_ ne 'Key' && $_ !~ /^Tag/) {
             $Output .= " $_=\"$Param{$_}\"";
         }
     }
@@ -305,7 +308,7 @@ sub _ElementBuild {
     if ($Param{Key}) {
         if (!$Param{Content}) {
             foreach (2..$Self->{XMLHash2XMLLayer}) {
-                $Output .= "  ";
+#                $Output .= "  ";
             }
         }
         $Output .= "</$Param{Key}>\n";
@@ -318,13 +321,13 @@ sub _ElementBuild {
 
 parse a xml file and return a hash/array structur
 
-    my @XMLStructur = $XMLObject->XMLParse2XMLHash(String => $FileString);
+    my @XMLHash = $XMLObject->XMLParse2XMLHash(String => $FileString);
 
     XML: 
     <Contact role="admin" type="organization">
       <Name type="long">Example Inc.</Name>
       <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
-      <Email type"secundary">sales@example.com</Email>
+      <Email type="secundary">sales@example.com</Email>
       <Telephone country="germany">+49-999-99999</Telephone>
     </Contact>
 
@@ -343,6 +346,7 @@ parse a xml file and return a hash/array structur
             ]
             Email => [
               {
+                type => 'primary',
                 Content => 'info@exampe.com',
                 Domain => [
                   {
@@ -350,18 +354,28 @@ parse a xml file and return a hash/array structur
                   },
                 ],
               },
+              {
+                type => 'secundary',
+                Content => 'sales@exampe.com',
+              },
+            ],
+            Telephone => [
+              {
+                country => 'germany',
+                Content => '+49-999-99999',
+              },
             ],
           }
         ],
       }
     ]
 
-    $XMLStructur[0]{Contact}[0]{role} = 'admin';
-    $XMLStructur[0]{Contact}[0]{type} = 'organization';
-    $XMLStructur[0]{Contact}[0]{Name}[0]{Content} = 'Example Inc.';
-    $XMLStructur[0]{Contact}[0]{Name}[0]{type} = 'long';
-    $XMLStructur[0]{Contact}[0]{Email}[1]{Content} = 'info@exampe.com';
-    $XMLStructur[0]{Contact}[0]{Email}[1]{Domain}[0]{Content} = '1234.com';
+    $XMLHash[0]{Contact}[0]{role} = 'admin';
+    $XMLHash[0]{Contact}[0]{type} = 'organization';
+    $XMLHash[0]{Contact}[0]{Name}[0]{Content} = 'Example Inc.';
+    $XMLHash[0]{Contact}[0]{Name}[0]{type} = 'long';
+    $XMLHash[0]{Contact}[0]{Email}[1]{Content} = 'info@exampe.com';
+    $XMLHash[0]{Contact}[0]{Email}[1]{Domain}[0]{Content} = '1234.com';
 
 =cut
 
@@ -369,19 +383,19 @@ sub XMLParse2XMLHash {
     my $Self = shift;
     my %Param = @_;
     my @XMLStructur = $Self->XMLParse(%Param);
-    my @NewXMLStructur = $Self->XMLHashUpdate(XMLStructur => \@XMLStructur);
+    my @XMLHash = $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur);
 
-#    $NewXMLStructur[1]{'IODEF-Document'} = $NewXMLStructur[0]{'IODEF-Document'};
-#    $NewXMLStructur[0]{Meta}[0]{Created} = 'admin';
+#    $XMLHash[1]{'IODEF-Document'} = $XMLHash[1]{'otrs_package'};
+#    $XMLHash[0]{Meta}[0]{Created} = 'admin';
     
-    return @NewXMLStructur;
+    return @XMLHash;
 }
 
-=item XMLHashValue()
+=item XMLHash2D()
 
 return a hash with long hash key and content 
 
-    my %Hash = $XMLObject->XMLHashValue(XMLStructur => \@XMLStructur);
+    my %Hash = $XMLObject->XMLHash2D(XMLHash => \@XMLStructur);
 
     for example:
 
@@ -389,12 +403,12 @@ return a hash with long hash key and content
 
 =cut
 
-sub XMLHashValue {
+sub XMLHash2D {
     my $Self = shift;
     my %Param = @_;
     my @NewXMLStructur;
     # check needed stuff
-    foreach (qw(XMLStructur)) {
+    foreach (qw(XMLHash)) {
       if (!defined $Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
         return;
@@ -407,10 +421,12 @@ sub XMLHashValue {
     $Self->{XMLHashReturn} = 1;
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
-    foreach my $Item (@{$Param{XMLStructur}}) {
+    my $Count = 0;
+    foreach my $Item (@{$Param{XMLHash}}) {
+        $Count++;
         if (ref($Item) eq 'HASH') {
             foreach (keys %{$Item}) {
-                $Self->_TTT(Key => $Item->{Tag}, Item => $Item);
+                $Self->_XMLHash2D(Key => $Item->{Tag}, Item => $Item, Counter => $Count);
             }
         }
     }
@@ -418,19 +434,63 @@ sub XMLHashValue {
     return %{$Self->{XMLHash}};
 }
 
-=item XMLHashUpdate()
+sub _XMLHash2D {
+    my $Self = shift;
+    my %Param = @_;
 
-update a @XMLStructur with current TagKey param
+    if (!defined($Param{Item})) {
+        return '';
+    }
+    elsif (ref($Param{Item}) eq 'HASH') {
+        $S->{XMLLevel}++;
+        $S->{XMLTagCount}++;
+#        $S->{XMLLevelTag}->{$S->{XMLLevel}} = $Param{Key};
+        my $TagLevel = $Param{Item}->{TagLevel} || 0;
+        $S->{XMLLevelTag}->{$TagLevel} = $Param{Key};
+#print STDERR "++++++++ $S->{XMLLevel} $Param{Key}\n";
+        if ($S->{Tll} && $S->{Tll} > $S->{XMLLevel}) {
+            foreach (($S->{XMLLevel}+1)..30) {
+                undef $S->{XMLLevelCount}->{$_}; #->{$Element} = 0;
+            }
+        }
+        $S->{XMLLevelCount}->{$TagLevel}->{$Param{Key}}++;
+        # remember old level
+        $S->{Tll} = $S->{XMLLevel};
+    
+        my $Key = "[$Param{Counter}]";
+#        foreach (1..($S->{XMLLevel})) {
+        foreach (1..$TagLevel) {
+#print STDERR "############### $_ $Param{Item}->{TagLevel} $Param{Key}\n";
+            $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
+            $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
+        }
+        $Param{Item}->{TagKey} = $Key;
+        foreach (keys %{$Param{Item}}) {
+            if (defined($Param{Item}->{$_}) && ref($Param{Item}->{$_}) ne 'ARRAY') {
+                $Self->{XMLHash}->{$Key."{'$_'}"} = $Param{Item}->{$_};
+            }
+            $Self->_XMLHash2D(Key => $_, Item => $Param{Item}->{$_}, Counter => $Param{Counter});
+        }
+        if (!$Param{Type}) {
+            $S->{XMLLevel} = $S->{XMLLevel} - 1;
+        }
+    } 
+    elsif (ref($Param{Item}) eq 'ARRAY') {
+        foreach (@{$Param{Item}}) {
+            $Self->_XMLHash2D(Key => $Param{Key}, Item => $_, Counter => $Param{Counter});
+        }
+    } 
+}
 
-    my @XMLStructur = $XMLObject->XMLHashUpdate(XMLStructur => \@XMLStructur);
+=item XMLStructur2XMLHash()
 
-    for example:
+get a @XMLHash from a @XMLStructur with current TagKey param
 
-    $Hash{'{Planet}[0]{Content}'} = '{'Planet'}[0]';
+    my @XMLHash = $XMLObject->XMLStructur2XMLHash(XMLStructur => \@XMLStructur);
 
 =cut
 
-sub XMLHashUpdate {
+sub XMLStructur2XMLHash {
     my $Self = shift;
     my %Param = @_;
     my @NewXMLStructur;
@@ -444,28 +504,31 @@ sub XMLHashUpdate {
     $Self->{Tll} = 0;
     $Self->{XMLLevel} = 0;
     $Self->{XMLTagCount} = 0;
+    $Self->{XMLHash} = {};
+    $Self->{XMLHashReturn} = 1;
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
+    my $Output = '';
     foreach my $Item (@{$Param{XMLStructur}}) {
         if (ref($Item) eq 'HASH') {
-#            foreach (keys %{$Item}) {
-                $Self->_TTT(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
-#                $Self->_TTT(Key => $_, Item => $Item->{$_});
-#            }
+            $Output .= $Self->_XMLStructur2XMLHash(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
         }
     }
-    return @{$Param{XMLStructur}};
+    eval "$Output" || die $!;
+    $Self->{XMLHashReturn} = 0;
+    return (\%{$Self->{XMLHash}});
 }
-sub _TTT {
+sub _XMLStructur2XMLHash {
     my $Self = shift;
     my %Param = @_;
+    my $Output = '';
 
     if (!defined($Param{Item})) {
         return;
     }
     elsif (ref($Param{Item}) eq 'HASH') {
         if ($Param{Item}->{TagType} eq 'End') {
-            return;
+            return '';
         }
         $S->{XMLLevel}++;
         $S->{XMLTagCount}++;
@@ -490,20 +553,18 @@ sub _TTT {
         }
         $Param{Item}->{TagKey} = $Key;
         foreach (keys %{$Param{Item}}) {
+#            if (defined($Param{Item}->{$_}) && $_ !~ /^Tag/) {
             if (defined($Param{Item}->{$_})) {
-                $Self->{XMLHash}->{$Key."{'$_'}"} = $Param{Item}->{$_};
+                my $I = $Param{Item}->{$_};
+                $I =~ s/'/\\'/g;
+                $Output .= '$Self->{XMLHash}->'.$Key."{'$_'} = '$I';\n";
             }
-            $Self->_TTT(Key => $_, Item => $Param{Item}->{$_});
         }
         if (!$Param{Type}) {
             $S->{XMLLevel} = $S->{XMLLevel} - 1;
         }
     } 
-    elsif (ref($Param{Item}) eq 'ARRAY') {
-        foreach (@{$Param{Item}}) {
-            $Self->_TTT(Key => $Param{Key}, Item => $_);
-        }
-    } 
+    return $Output; 
 }
 
 =item XMLParse()
@@ -622,6 +683,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2005-02-07 17:36:40 $
+$Revision: 1.6 $ $Date: 2005-02-08 12:55:38 $
 
 =cut
